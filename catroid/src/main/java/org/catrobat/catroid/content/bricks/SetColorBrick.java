@@ -24,11 +24,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -77,18 +74,10 @@ public class SetColorBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_set_color_to, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_color_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 		TextView text = (TextView) view.findViewById(R.id.brick_set_color_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_color_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR).setTextFieldId(R.id.brick_set_color_edit_text);
@@ -105,24 +94,6 @@ public class SetColorBrick extends FormulaBrick {
 		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_color_prototype_text_view);
 		textSetSizeTo.setText(String.valueOf(BrickValues.SET_COLOR_TO));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_set_color_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textSize = (TextView) view.findViewById(R.id.brick_set_color_label);
-			TextView editSize = (TextView) view.findViewById(R.id.brick_set_color_edit_text);
-			textSize.setTextColor(textSize.getTextColors().withAlpha(alphaValue));
-			editSize.setTextColor(editSize.getTextColors().withAlpha(alphaValue));
-			editSize.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
 	}
 
 	@Override

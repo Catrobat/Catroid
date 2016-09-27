@@ -23,12 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -74,19 +71,9 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_bubble_edit_text : R.id.brick_think_bubble_edit_text;
 
 		view = View.inflate(context, layoutId, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(checkboxId);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView textHolder = (TextView) view.findViewById(prototypeTextViewId);
 		TextView textField = (TextView) view.findViewById(editTextId);
 		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(editTextId);
@@ -95,31 +82,6 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 		textHolder.setVisibility(View.GONE);
 		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-			int layoutId = type == Constants.SAY_BRICK ? R.id.brick_say_bubble_layout : R.id.brick_think_bubble_layout;
-			int textViewId = type == Constants.SAY_BRICK ? R.id.brick_say_bubble_text_view : R.id
-					.brick_think_bubble_text_view;
-			int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_bubble_edit_text : R.id.brick_think_bubble_edit_text;
-
-			View layout = view.findViewById(layoutId);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView thinkLabel = (TextView) view.findViewById(textViewId);
-			TextView thinkTextView = (TextView) view.findViewById(editTextId);
-			thinkLabel.setTextColor(thinkLabel.getTextColors().withAlpha(alphaValue));
-			thinkTextView.setTextColor(thinkTextView.getTextColors().withAlpha(alphaValue));
-			thinkTextView.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}

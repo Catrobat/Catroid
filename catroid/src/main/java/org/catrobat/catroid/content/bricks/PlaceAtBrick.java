@@ -23,11 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -87,19 +84,9 @@ public class PlaceAtBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_place_at, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_place_at_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
 		TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_x);
@@ -130,39 +117,14 @@ public class PlaceAtBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_place_at_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_place_at_label);
-			TextView placeAtX = (TextView) view.findViewById(R.id.brick_place_at_x_textview);
-			TextView placeAtY = (TextView) view.findViewById(R.id.brick_place_at_y_textview);
-			TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
-			TextView editY = (TextView) view.findViewById(R.id.brick_place_at_edit_text_y);
-			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
-			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
-			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite,
+				getFormulaWithBrickField(BrickField.X_POSITION),
+				getFormulaWithBrickField(BrickField.Y_POSITION)));
+		return null;
 	}
 
-	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.brick_place_at_edit_text_x:
 				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
@@ -172,18 +134,6 @@ public class PlaceAtBrick extends FormulaBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
 				break;
 		}
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION),
-				getFormulaWithBrickField(BrickField.Y_POSITION)));
-		return null;
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
 	}
 
 	@Override

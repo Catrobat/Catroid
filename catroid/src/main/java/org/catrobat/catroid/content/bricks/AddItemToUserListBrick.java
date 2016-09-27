@@ -24,15 +24,12 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -55,7 +52,6 @@ import java.util.List;
 public class AddItemToUserListBrick extends UserListBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient AdapterView<?> adapterView;
 
 	public AddItemToUserListBrick() {
 		addAllowedBrickField(BrickField.LIST_ADD_ITEM);
@@ -87,18 +83,8 @@ public class AddItemToUserListBrick extends UserListBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_add_item_to_userlist, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_add_item_to_userlist_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView prototypeText = (TextView) view.findViewById(R.id.brick_add_item_to_userlist_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_add_item_to_userlist_edit_text);
 		prototypeText.setVisibility(View.GONE);
@@ -114,14 +100,6 @@ public class AddItemToUserListBrick extends UserListBrick {
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		userListSpinner.setAdapter(userListAdapterWrapper);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			userListSpinner.setClickable(true);
-			userListSpinner.setEnabled(true);
-		} else {
-			userListSpinner.setClickable(false);
-			userListSpinner.setFocusable(false);
-		}
 
 		setSpinnerSelection(userListSpinner, null);
 
@@ -155,7 +133,6 @@ public class AddItemToUserListBrick extends UserListBrick {
 				}
 				((UserListAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userList = (UserList) parent.getItemAtPosition(position);
-				adapterView = parent;
 			}
 
 			@Override
@@ -171,9 +148,6 @@ public class AddItemToUserListBrick extends UserListBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_add_item_to_userlist, null);
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.add_item_to_userlist_spinner);
-		userListSpinner.setFocusableInTouchMode(false);
-		userListSpinner.setFocusable(false);
-		userListSpinner.setEnabled(false);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -189,32 +163,6 @@ public class AddItemToUserListBrick extends UserListBrick {
 		textAddItemToList.setText(String.valueOf(BrickValues.ADD_ITEM_TO_USERLIST));
 
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			TextView textAddItemToList = (TextView) view.findViewById(R.id.brick_add_item_to_userlist_label);
-			TextView textTo = (TextView) view.findViewById(R.id.brick_add_item_to_userlist_textview);
-			TextView editVariable = (TextView) view.findViewById(R.id.brick_add_item_to_userlist_edit_text);
-			Spinner userListSpinner = (Spinner) view.findViewById(R.id.add_item_to_userlist_spinner);
-
-			ColorStateList color = textAddItemToList.getTextColors().withAlpha(alphaValue);
-			userListSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			textAddItemToList.setTextColor(textAddItemToList.getTextColors().withAlpha(alphaValue));
-			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
-			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
-			editVariable.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

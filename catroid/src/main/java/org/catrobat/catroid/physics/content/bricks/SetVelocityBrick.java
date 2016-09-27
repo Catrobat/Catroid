@@ -23,11 +23,8 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.math.Vector2;
@@ -37,7 +34,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -81,19 +78,9 @@ public class SetVelocityBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_physics_set_velocity, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_velocity_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_velocity_prototype_text_view_x);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_velocity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X).setTextFieldId(R.id.brick_set_velocity_edit_text_x);
@@ -121,35 +108,6 @@ public class SetVelocityBrick extends FormulaBrick {
 		TextView textVelocityY = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_prototype_text_view_y);
 		textVelocityY.setText(String.valueOf(BrickValues.PHYSIC_VELOCITY.y));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_velocity_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_set_velocity_textview);
-			TextView placeAtX = (TextView) view.findViewById(R.id.brick_set_velocity_x_textview);
-			TextView placeAtY = (TextView) view.findViewById(R.id.brick_set_velocity_y_textview);
-			TextView setVelocityUnit = (TextView) view.findViewById(R.id.brick_set_velocity_unit);
-			TextView editX = (TextView) view.findViewById(R.id.brick_set_velocity_edit_text_x);
-			TextView editY = (TextView) view.findViewById(R.id.brick_set_velocity_edit_text_y);
-			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
-			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
-			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));
-			setVelocityUnit.setTextColor(setVelocityUnit.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

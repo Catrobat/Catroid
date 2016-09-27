@@ -25,12 +25,10 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -57,7 +55,6 @@ public class ShowVariableBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
 
 	public static final String TAG = ShowVariableBrick.class.getSimpleName();
 
@@ -91,7 +88,15 @@ public class ShowVariableBrick extends UserVariableBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
+		switch (view.getId()) {
+			case R.id.brick_show_variable_edit_text_x:
+				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
+				break;
+
+			case R.id.brick_show_variable_edit_text_y:
+				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
+				break;
+		}
 	}
 
 	@Override
@@ -105,23 +110,11 @@ public class ShowVariableBrick extends UserVariableBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_show_variable, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_show_variable_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		TextView textViewX = (TextView) view.findViewById(R.id.brick_show_variable_prototype_text_view_x);
 		TextView editTextX = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_x);
@@ -150,15 +143,6 @@ public class ShowVariableBrick extends UserVariableBrick {
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		showVariableSpinner.setAdapter(userVariableAdapterWrapper);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			showVariableSpinner.setClickable(true);
-			showVariableSpinner.setEnabled(true);
-		} else {
-			showVariableSpinner.setClickable(false);
-			showVariableSpinner.setFocusable(false);
-		}
-
 		setSpinnerSelection(showVariableSpinner, null);
 
 		showVariableSpinner.setOnTouchListener(new View.OnTouchListener() {
@@ -192,41 +176,14 @@ public class ShowVariableBrick extends UserVariableBrick {
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
-				adapterView = parent;
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				userVariable = (UserVariable) adapterView.getItemAtPosition(1);
+				userVariable = (UserVariable) arg0.getItemAtPosition(1);
 			}
 		});
 
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_show_variable_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_show_variable_label);
-			TextView placeAtX = (TextView) view.findViewById(R.id.brick_show_variable_x_textview);
-			TextView placeAtY = (TextView) view.findViewById(R.id.brick_show_variable_y_textview);
-			TextView editTextX = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_x);
-			TextView editTextY = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_y);
-
-			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
-			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
-			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));
-			editTextX.setTextColor(editTextX.getTextColors().withAlpha(alphaValue));
-			editTextX.getBackground().setAlpha(alphaValue);
-			editTextY.setTextColor(editTextY.getTextColors().withAlpha(alphaValue));
-			editTextY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
 		return view;
 	}
 
@@ -238,23 +195,6 @@ public class ShowVariableBrick extends UserVariableBrick {
 		TextView textViewY = (TextView) prototypeView.findViewById(R.id.brick_show_variable_prototype_text_view_y);
 		textViewY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
 		return prototypeView;
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
-		switch (view.getId()) {
-			case R.id.brick_show_variable_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
-				break;
-
-			case R.id.brick_show_variable_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
-				break;
-		}
 	}
 
 	@Override

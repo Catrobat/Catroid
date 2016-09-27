@@ -23,10 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -76,28 +74,6 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_when_condition_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView whenLabel = (TextView) view.findViewById(R.id.when_conditon_label);
-			TextView whenLabel2 = (TextView) view.findViewById(R.id.when_condition_label_second_part);
-			TextView conditionEditText = (TextView) view.findViewById(R.id.brick_when_condition_edit_text);
-			whenLabel.setTextColor(whenLabel.getTextColors().withAlpha(alphaValue));
-			whenLabel2.setTextColor(whenLabel2.getTextColors().withAlpha(alphaValue));
-			conditionEditText.setTextColor(conditionEditText.getTextColors().withAlpha(alphaValue));
-			conditionEditText.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
@@ -107,18 +83,9 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_when_condition_true, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_when_condition_checkbox);
-		final Brick brickInstance = this;
-
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_when_condition_prototype_text_view);
 		TextView conditionEditText = (TextView) view.findViewById(R.id.brick_when_condition_edit_text);

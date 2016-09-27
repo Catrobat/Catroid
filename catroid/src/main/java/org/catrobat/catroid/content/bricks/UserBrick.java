@@ -23,13 +23,10 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -211,16 +208,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		setUserBrickParametersParent();
 
 		view = View.inflate(context, R.layout.brick_user, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_user_checkbox);
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(UserBrick.this, isChecked);
-			}
-		});
 		onLayoutChanged(view);
 
 		return view;
@@ -239,36 +229,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_user, null);
 		onLayoutChanged(prototypeView);
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view == null) {
-			return null;
-		}
-		setUserBrickParametersParent();
-
-		onLayoutChanged(view);
-
-		BrickLayout layout = (BrickLayout) view.findViewById(R.id.brick_user_flow_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = alphaValue;
-
-		if (userBrickParameters == null) {
-			return view;
-		}
-
-		for (UserBrickParameter component : userBrickParameters) {
-			if (component != null && component.getTextView() != null) {
-				component.getTextView().setTextColor(component.getTextView().getTextColors().withAlpha(alphaValue));
-				if (component.getTextView().getBackground() != null) {
-					component.getTextView().getBackground().setAlpha(alphaValue);
-				}
-			}
-		}
-
-		return view;
 	}
 
 	public void onLayoutChanged(View currentView) {

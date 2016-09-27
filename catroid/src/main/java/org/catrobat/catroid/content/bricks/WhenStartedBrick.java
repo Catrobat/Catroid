@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 
@@ -72,25 +71,6 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 		view = View.inflate(context, R.layout.brick_when_started, null);
 
 		setCheckboxView(R.id.brick_when_started_checkbox);
-
-		//method moved to to DragAndDropListView since it is not working on 2.x
-		/*
-		 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		 * 
-		 * @Override
-		 * public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		 * checked = isChecked;
-		 * if (!checked) {
-		 * for (Brick currentBrick : adapter.getCheckedBricks()) {
-		 * currentBrick.setCheckedBoolean(false);
-		 * }
-		 * }
-		 * adapter.handleCheck(brickInstance, checked);
-		 * 
-		 * }
-		 * });
-		 */
-
 		return view;
 	}
 
@@ -111,20 +91,6 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 		}
 
 		return script;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_when_started_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

@@ -23,9 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -88,23 +86,9 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_repeat_until, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_repeat_until_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				checked = !checked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
-			}
-		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_repeat_until_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_until_edit_text);
@@ -124,27 +108,6 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_until_prototype_text_view);
 		textRepeat.setText(String.valueOf(BrickValues.IF_CONDITION));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_repeat_until_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView repeatLabel = (TextView) view.findViewById(R.id.brick_repeat_until_label);
-			TextView editRepeat = (TextView) view.findViewById(R.id.brick_repeat_until_edit_text);
-			repeatLabel.setTextColor(repeatLabel.getTextColors().withAlpha(alphaValue));
-			editRepeat.setTextColor(editRepeat.getTextColors().withAlpha(alphaValue));
-			editRepeat.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

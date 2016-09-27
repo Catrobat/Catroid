@@ -31,6 +31,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
@@ -72,7 +73,7 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 
 	public void setCheckboxVisibility(int visibility) {
 		for (Brick brick : brickList) {
-			brick.setCheckboxVisibility(visibility);
+			BrickViewProvider.setCheckboxVisibility(brick, visibility);
 		}
 	}
 
@@ -94,15 +95,6 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 		ProjectManager.getInstance().getCurrentSprite().removeUserBrick(deleteThisBrick);
 
 		notifyDataSetChanged();
-	}
-
-	public void checkAllItems() {
-		for (Brick brick : brickList) {
-			if (brick.getCheckBox() != null) {
-				brick.getCheckBox().setChecked(true);
-				brick.setCheckedBoolean(true);
-			}
-		}
 	}
 
 	public void backpackSingleUserBrick(UserBrick clickedBrick) {
@@ -148,28 +140,34 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 
 	public void clearCheckedItems() {
 		checkedBricks.clear();
-		setCheckboxVisibility(View.GONE);
 		uncheckAllItems();
 		enableAllBricks();
 		notifyDataSetChanged();
 	}
 
+	private void setCheckbox(Brick brick, boolean enabled) {
+		CheckBox checkBox = brick.getCheckBox();
+		if (checkBox != null) {
+			checkBox.setChecked(enabled);
+		}
+	}
+
 	private void enableAllBricks() {
 		for (Brick brick : brickList) {
-			if (brick.getCheckBox() != null) {
-				brick.getCheckBox().setEnabled(true);
-			}
-			brick.getViewWithAlpha(BrickAdapter.ALPHA_FULL);
+			BrickViewProvider.setCheckboxVisibility(brick, View.GONE);
+			BrickViewProvider.setAlphaForBrick(brick, BrickViewProvider.ALPHA_FULL);
 		}
-		notifyDataSetChanged();
+	}
+
+	public void checkAllItems() {
+		for (Brick brick : brickList) {
+			setCheckbox(brick, true);
+		}
 	}
 
 	private void uncheckAllItems() {
 		for (Brick brick : brickList) {
-			CheckBox checkbox = brick.getCheckBox();
-			if (checkbox != null) {
-				checkbox.setChecked(false);
-			}
+			setCheckbox(brick, false);
 		}
 	}
 
@@ -179,6 +177,7 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 		final Brick brick = brickList.get(position);
 
 		ViewGroup parentView = (ViewGroup) brick.getPrototypeView(context);
+		BrickViewProvider.setSpinnerClickability(parentView, false);
 		convertView = parentView;
 
 		CheckBox checkbox = null;

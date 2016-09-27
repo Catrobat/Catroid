@@ -23,9 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -34,11 +32,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -60,7 +55,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
 	private transient LookData oldSelectedLook;
-	private transient AdapterView<?> adapterView;
+
 	private WhenBackgroundChangesScript script;
 
 	public WhenBackgroundChangesBrick() {
@@ -115,29 +110,13 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		if (animationState) {
 			return view;
 		}
-		final Brick brickInstance = this;
+
 		view = View.inflate(context, R.layout.brick_when_background_changes_to, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_when_background_checkbox);
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_when_background_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			lookbrickSpinner.setClickable(true);
-			lookbrickSpinner.setEnabled(true);
-		} else {
-			lookbrickSpinner.setClickable(false);
-			lookbrickSpinner.setEnabled(false);
-		}
 
 		final ArrayAdapter<LookData> spinnerAdapter = createLookAdapter(context);
 		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
@@ -151,7 +130,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 				} else {
 					setLook((LookData) parent.getItemAtPosition(position));
 					oldSelectedLook = getLook();
-					adapterView = parent;
 				}
 			}
 
@@ -161,31 +139,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		});
 
 		setSpinnerSelection(lookbrickSpinner);
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_when_background_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			Spinner lookBrickSpinner = (Spinner) view.findViewById(R.id.brick_when_background_spinner);
-			TextView lookBrickTextView = (TextView) view.findViewById(R.id.brick_when_background_text_view);
-
-			ColorStateList color = lookBrickTextView.getTextColors().withAlpha(alphaValue);
-			lookBrickTextView.setTextColor(color);
-			lookBrickSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}
@@ -206,9 +159,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_when_background_changes_to, null);
 		Spinner setLookSpinner = (Spinner) prototypeView.findViewById(R.id.brick_when_background_spinner);
-		setLookSpinner.setFocusableInTouchMode(false);
-		setLookSpinner.setFocusable(false);
-		setLookSpinner.setEnabled(false);
 
 		SpinnerAdapter setLookSpinnerAdapter = createLookAdapter(context);
 		setLookSpinner.setAdapter(setLookSpinnerAdapter);

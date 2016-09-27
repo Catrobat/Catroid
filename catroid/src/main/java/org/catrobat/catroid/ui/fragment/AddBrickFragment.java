@@ -412,7 +412,7 @@ public class AddBrickFragment extends ListFragment implements DeleteModeListener
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
-			adapter.setCheckboxVisibility(0);
+			adapter.setCheckboxVisibility(View.VISIBLE);
 			return true;
 		}
 

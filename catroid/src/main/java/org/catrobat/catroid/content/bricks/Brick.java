@@ -100,8 +100,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	int getRequiredResources();
 
-	void setCheckboxVisibility(int visibility);
-
 	int getAlphaValue();
 
 	void setBrickAdapter(BrickAdapter adapter);
@@ -114,19 +112,13 @@ public interface Brick extends Serializable, Cloneable {
 
 	void setCommentedOut(boolean commentedOut);
 
-	void setCheckedBoolean(boolean newValue);
-
 	void setCheckboxView(int id);
 
 	void setCheckboxView(int id, View view);
 
-	View getViewWithAlpha(int alphaValue);
-
 	void setAnimationState(boolean animationState);
 
 	void setAlpha(int alphaFull);
-
-	void enableAllViews(View view, boolean enable);
 
 	boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current);
 
