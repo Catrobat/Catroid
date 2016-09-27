@@ -56,7 +56,6 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.ActionModeActivityAdapterInterface;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
@@ -181,7 +180,6 @@ public class ScriptActivity extends BaseActivity {
 
 	public void setupActionBar() {
 		final ActionBar actionBar = getActionBar();
-		//actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		try {
 			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -660,16 +658,6 @@ public class ScriptActivity extends BaseActivity {
 		if (formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
 			ListAdapter adapter = formulaEditorDataFragment.getListAdapter();
 			((ActionModeActivityAdapterInterface) adapter).clearCheckedItems();
-			return super.dispatchKeyEvent(event);
-		}
-
-		AddBrickFragment addBrickFragment = (AddBrickFragment) getFragmentManager()
-				.findFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
-
-		if (addBrickFragment != null && addBrickFragment.isVisible()
-				&& addBrickFragment.isActionModeActive()) {
-			ListAdapter adapter = addBrickFragment.getListAdapter();
-			((PrototypeBrickAdapter) adapter).clearCheckedItems();
 			return super.dispatchKeyEvent(event);
 		}
 

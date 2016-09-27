@@ -57,10 +57,6 @@
         </TextView >
 
         <TextView
-            android:id="@+id/brick_set_gravity_prototype_text_view_x"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
-        <TextView
             android:id="@+id/brick_set_gravity_edit_text_x"
             style="@style/BrickEditText"
             app:layout_inputType="number"
@@ -73,10 +69,6 @@
             android:text="@string/y_label" >
         </TextView >
 
-        <TextView
-            android:id="@+id/brick_set_gravity_prototype_text_view_y"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
         <TextView
             android:id="@+id/brick_set_gravity_edit_text_y"
             style="@style/BrickEditText"

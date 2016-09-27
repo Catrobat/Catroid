@@ -74,12 +74,12 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
-		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_text_view);
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_edit_text);
 
 		NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
 		nf.setMinimumFractionDigits(1);
 		textDuration.setText(nf.format(BrickValues.LEGO_DURATION));
-		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_text_view);
+		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_edit_text);
 
 		textFreq.setText(String.valueOf(BrickValues.LEGO_FREQUENCY));
 		return prototypeView;
@@ -97,24 +97,17 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
-		TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
+
 		TextView editDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)
 				.setTextFieldId(R.id.nxt_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).refreshTextField(view);
 
-		textDuration.setVisibility(View.GONE);
-		editDuration.setVisibility(View.VISIBLE);
-
 		editDuration.setOnClickListener(this);
 
-		TextView textFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_text_view);
 		editFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).setTextFieldId(R.id.nxt_tone_freq_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).refreshTextField(view);
-
-		textFreq.setVisibility(View.GONE);
-		editFreq.setVisibility(View.VISIBLE);
 
 		editFreq.setOnClickListener(this);
 

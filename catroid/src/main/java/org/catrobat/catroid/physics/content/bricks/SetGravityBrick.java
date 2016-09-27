@@ -81,21 +81,17 @@ public class SetGravityBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_gravity_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_gravity_prototype_text_view_x);
+
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X).setTextFieldId(R.id.brick_set_gravity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X).refreshTextField(view);
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_set_gravity_prototype_text_view_y);
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_y);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y).setTextFieldId(R.id.brick_set_gravity_edit_text_y);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y).refreshTextField(view);
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
+
 		editY.setOnClickListener(this);
 		return view;
 	}
@@ -103,9 +99,9 @@ public class SetGravityBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_gravity, null);
-		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_x);
+		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_x);
 		textGravityX.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.x));
-		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_y);
+		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_y);
 		textGravityY.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.y));
 		return prototypeView;
 	}

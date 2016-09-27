@@ -99,9 +99,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+
 		if (collisionScript == null) {
 			collisionScript = new CollisionScript(selectedMessage);
 			MessageContainer.addMessage(getBroadcastMessage());

@@ -85,12 +85,12 @@ public class AddItemToUserListBrick extends UserListBrick {
 		view = View.inflate(context, R.layout.brick_add_item_to_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_add_item_to_userlist_checkbox);
-		TextView prototypeText = (TextView) view.findViewById(R.id.brick_add_item_to_userlist_prototype_view);
+
 		TextView textField = (TextView) view.findViewById(R.id.brick_add_item_to_userlist_edit_text);
-		prototypeText.setVisibility(View.GONE);
+
 		getFormulaWithBrickField(BrickField.LIST_ADD_ITEM).setTextFieldId(R.id.brick_add_item_to_userlist_edit_text);
 		getFormulaWithBrickField(BrickField.LIST_ADD_ITEM).refreshTextField(view);
-		textField.setVisibility(View.VISIBLE);
+
 		textField.setOnClickListener(this);
 
 		Spinner userListSpinner = (Spinner) view.findViewById(R.id.add_item_to_userlist_spinner);
@@ -159,7 +159,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 		setSpinnerSelection(userListSpinner, null);
 
 		TextView textAddItemToList = (TextView) prototypeView
-				.findViewById(R.id.brick_add_item_to_userlist_prototype_view);
+				.findViewById(R.id.brick_add_item_to_userlist_edit_text);
 		textAddItemToList.setText(String.valueOf(BrickValues.ADD_ITEM_TO_USERLIST));
 
 		return prototypeView;

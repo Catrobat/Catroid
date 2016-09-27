@@ -51,11 +51,6 @@
         </TextView >
 
         <TextView
-            android:id="@+id/brick_change_volume_by_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
-
-        <TextView
             android:id="@+id/brick_change_volume_by_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"

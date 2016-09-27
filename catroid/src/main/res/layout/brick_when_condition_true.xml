@@ -58,10 +58,6 @@
             app:layout_textField="true" />
 
         <TextView
-            android:id="@+id/brick_when_condition_prototype_text_view"
-            style="@style/BrickPrototypeTextView" />
-
-        <TextView
             android:id="@+id/when_condition_label_second_part"
             style="@style/BrickText.Multiple"
             android:paddingLeft="5dip"

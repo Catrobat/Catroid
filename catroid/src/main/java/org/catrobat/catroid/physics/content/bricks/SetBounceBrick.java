@@ -78,14 +78,11 @@ public class SetBounceBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_set_bounce_factor_checkbox);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_set_bounce_factor_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_bounce_factor_edit_text);
 
 		getFormulaWithBrickField(BrickField.PHYSICS_BOUNCE_FACTOR).setTextFieldId(R.id.brick_set_bounce_factor_edit_text);
 		getFormulaWithBrickField(BrickField.PHYSICS_BOUNCE_FACTOR).refreshTextField(view);
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
 
 		return view;
@@ -95,7 +92,7 @@ public class SetBounceBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_bounce_factor, null);
 		TextView textBounceFactor = (TextView) prototypeView
-				.findViewById(R.id.brick_set_bounce_factor_prototype_text_view);
+				.findViewById(R.id.brick_set_bounce_factor_edit_text);
 		textBounceFactor.setText(String.valueOf(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
 		return prototypeView;
 	}
