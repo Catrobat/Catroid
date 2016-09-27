@@ -75,13 +75,9 @@ public class ChangeColorByNBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_change_color_by_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_color_by_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_color_by_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR_CHANGE).setTextFieldId(R.id.brick_change_color_by_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR_CHANGE).refreshTextField(view);
-
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
 
 		editX.setOnClickListener(this);
 		return view;
@@ -91,7 +87,7 @@ public class ChangeColorByNBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_color_by, null);
 		TextView textChangeColor = (TextView) prototypeView
-				.findViewById(R.id.brick_change_color_by_prototype_text_view);
+				.findViewById(R.id.brick_change_color_by_edit_text);
 		textChangeColor.setText(String.valueOf(BrickValues.CHANGE_COLOR_BY));
 		return prototypeView;
 	}

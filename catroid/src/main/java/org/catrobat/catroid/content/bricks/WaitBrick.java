@@ -87,7 +87,6 @@ public class WaitBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_wait_checkbox);
-		TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_wait_edit_text);
 		getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).setTextFieldId(R.id.brick_wait_edit_text);
 		getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).refreshTextField(view);
@@ -112,8 +111,6 @@ public class WaitBrick extends FormulaBrick {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
 		return view;
 	}
@@ -121,7 +118,7 @@ public class WaitBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_wait, null);
-		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_prototype_text_view);
+		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_edit_text);
 		textWait.setText(String.valueOf(BrickValues.WAIT / 1000));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,

@@ -90,17 +90,15 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		view = View.inflate(context, R.layout.brick_insert_item_into_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_insert_item_into_userlist_checkbox);
-		TextView prototypeTextValue = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_value_prototype_view);
+
 		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
-		prototypeTextValue.setVisibility(View.GONE);
+
 		getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).setTextFieldId(R.id.brick_insert_item_into_userlist_value_edit_text);
 		getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).refreshTextField(view);
 		textFieldValue.setVisibility(View.VISIBLE);
 		textFieldValue.setOnClickListener(this);
 
-		TextView prototypeTextIndex = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_at_index_prototype_view);
 		TextView textFieldIndex = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
-		prototypeTextIndex.setVisibility(View.GONE);
 		getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).setTextFieldId(R.id.brick_insert_item_into_userlist_at_index_edit_text);
 		getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).refreshTextField(view);
 		textFieldIndex.setVisibility(View.VISIBLE);
@@ -171,10 +169,10 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		setSpinnerSelection(userListSpinner, null);
 
 		TextView textViewValueToInsert = (TextView) prototypeView
-				.findViewById(R.id.brick_insert_item_into_userlist_value_prototype_view);
+				.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
 		textViewValueToInsert.setText(String.valueOf(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE));
 		TextView textViewInsertIndex = (TextView) prototypeView
-				.findViewById(R.id.brick_insert_item_into_userlist_at_index_prototype_view);
+				.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
 		textViewInsertIndex.setText(String.valueOf(BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 
 		return prototypeView;

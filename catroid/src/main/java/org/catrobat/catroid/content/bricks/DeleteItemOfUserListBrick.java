@@ -87,12 +87,10 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 		view = View.inflate(context, R.layout.brick_delete_item_of_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_delete_item_of_userlist_checkbox);
-		TextView prototypeText = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
-		prototypeText.setVisibility(View.GONE);
 		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).setTextFieldId(R.id.brick_delete_item_of_userlist_edit_text);
 		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).refreshTextField(view);
-		textField.setVisibility(View.VISIBLE);
+
 		textField.setOnClickListener(this);
 
 		Spinner userListSpinner = (Spinner) view.findViewById(R.id.delete_item_of_userlist_spinner);
@@ -161,7 +159,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 		setSpinnerSelection(userListSpinner, null);
 
 		TextView textAddItemToList = (TextView) prototypeView
-				.findViewById(R.id.brick_delete_item_of_userlist_prototype_view);
+				.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
 		textAddItemToList.setText(String.valueOf(BrickValues.DELETE_ITEM_OF_USERLIST));
 
 		return prototypeView;

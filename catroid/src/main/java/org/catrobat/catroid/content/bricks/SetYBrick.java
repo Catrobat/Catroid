@@ -75,12 +75,9 @@ public class SetYBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_y_checkbox);
-		TextView textY = (TextView) view.findViewById(R.id.brick_set_y_prototype_text_view);
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
 		return view;
 	}
@@ -88,7 +85,7 @@ public class SetYBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_y, null);
-		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_prototype_text_view);
+		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_edit_text);
 		textYPosition.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
 		return prototypeView;
 	}

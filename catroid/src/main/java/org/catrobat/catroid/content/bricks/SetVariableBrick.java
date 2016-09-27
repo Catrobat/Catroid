@@ -116,12 +116,9 @@ public class SetVariableBrick extends UserVariableBrick {
 		view = View.inflate(context, R.layout.brick_set_variable, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_set_variable_checkbox);
-		TextView prototypeText = (TextView) view.findViewById(R.id.brick_set_variable_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_set_variable_edit_text);
-		prototypeText.setVisibility(View.GONE);
 		getFormulaWithBrickField(BrickField.VARIABLE).setTextFieldId(R.id.brick_set_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE).refreshTextField(view);
-		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
@@ -195,7 +192,7 @@ public class SetVariableBrick extends UserVariableBrick {
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner, null);
 
-		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
+		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_edit_text);
 
 		if (defaultPrototypeToken != null) {
 			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);

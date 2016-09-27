@@ -78,9 +78,11 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_arduino_send_digital, null);
 
-		TextView textSetPinNumber = (TextView) prototypeView.findViewById(R.id.brick_arduino_set_digital_pin_prototype_text_view);
+		TextView textSetPinNumber = (TextView) prototypeView.findViewById(R.id
+				.brick_arduino_set_digital_pin_edit_text);
 		textSetPinNumber.setText(String.valueOf(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER));
-		TextView textSetPinValue = (TextView) prototypeView.findViewById(R.id.brick_arduino_set_digital_value_prototype_text_view);
+		TextView textSetPinValue = (TextView) prototypeView.findViewById(R.id
+				.brick_arduino_set_digital_value_edit_text);
 		textSetPinValue.setText(String.valueOf(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE));
 
 		return prototypeView;
@@ -99,22 +101,20 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_arduino_send_digital_checkbox);
-		TextView textPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_digital_pin_prototype_text_view);
+
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_digital_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_digital_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).refreshTextField(view);
 
-		textPinNumber.setVisibility(View.GONE);
-		editPinNumber.setVisibility(View.VISIBLE);
+
 		editPinNumber.setOnClickListener(this);
 
-		TextView textPinValue = (TextView) view.findViewById(R.id.brick_arduino_set_digital_value_prototype_text_view);
+
 		TextView editPinValue = (TextView) view.findViewById(R.id.brick_arduino_set_digital_value_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE).setTextFieldId(R.id.brick_arduino_set_digital_value_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE).refreshTextField(view);
 
-		textPinValue.setVisibility(View.GONE);
-		editPinValue.setVisibility(View.VISIBLE);
+
 		editPinValue.setOnClickListener(this);
 
 		return view;

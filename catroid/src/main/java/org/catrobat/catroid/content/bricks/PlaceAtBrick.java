@@ -87,21 +87,15 @@ public class PlaceAtBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_place_at_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
 		TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
 		TextView editY = (TextView) view.findViewById(R.id.brick_place_at_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
 		return view;
 	}
@@ -109,9 +103,9 @@ public class PlaceAtBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_place_at, null);
-		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_x);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_edit_text_x);
 		textX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
-		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_y);
+		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_edit_text_y);
 		textY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
 		return prototypeView;
 	}

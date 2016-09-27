@@ -89,12 +89,8 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 		int layoutId = type == Constants.SAY_BRICK ? R.layout.brick_say_for_bubble : R.layout.brick_think_for_bubble;
 		int checkboxId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_checkbox : R.id
 				.brick_think_for_bubble_checkbox;
-		int textTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_prototype_text_view_text : R.id
-				.brick_think_for_bubble_prototype_text_view_text;
 		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
 				.brick_think_for_bubble_edit_text_text;
-		int textDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_prototype_text_view_duration : R
-				.id.brick_think_for_bubble_prototype_text_view_duration;
 		int editDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_duration : R.id
 				.brick_think_for_bubble_edit_text_duration;
 		int thinkSaySecondsLabelId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_seconds_label : R.id
@@ -105,13 +101,11 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 
 		setCheckboxView(checkboxId);
 
-		TextView textText = (TextView) view.findViewById(textTextId);
 		TextView editText = (TextView) view.findViewById(editTextId);
 		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(editTextId);
 		getFormulaWithBrickField(BrickField.STRING).refreshTextField(view);
 		editText.setOnClickListener(this);
 
-		TextView textDuration = (TextView) view.findViewById(textDurationId);
 		TextView editDuration = (TextView) view.findViewById(editDurationId);
 		getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).setTextFieldId(editDurationId);
 		getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).refreshTextField(view);
@@ -135,11 +129,6 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		textDuration.setVisibility(View.GONE);
-		editDuration.setVisibility(View.VISIBLE);
-		textText.setVisibility(View.GONE);
-		editText.setVisibility(View.VISIBLE);
-
 		editDuration.setOnClickListener(this);
 		return view;
 	}
@@ -147,10 +136,10 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		int layoutId = type == Constants.SAY_BRICK ? R.layout.brick_say_for_bubble : R.layout.brick_think_for_bubble;
-		int textTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_prototype_text_view_text : R.id
-				.brick_think_for_bubble_prototype_text_view_text;
-		int textDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_prototype_text_view_duration : R
-				.id.brick_think_for_bubble_prototype_text_view_duration;
+		int textTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
+				.brick_think_for_bubble_edit_text_text;
+		int textDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_duration : R
+				.id.brick_think_for_bubble_edit_text_duration;
 		int defaultStringId = type == Constants.SAY_BRICK ? R.string.brick_say_bubble_default_value : R.string
 				.brick_think_bubble_default_value;
 		int thinkSaySecondsLabelId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_seconds_label : R.id

@@ -77,14 +77,11 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_change_transparency_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_transparency_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_transparency_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
 				.setTextFieldId(R.id.brick_change_transparency_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).refreshTextField(view);
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 		return view;
 	}
@@ -93,7 +90,7 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_transparency, null);
 		TextView textChangeGhostEffect = (TextView) prototypeView
-				.findViewById(R.id.brick_change_transparency_prototype_text_view);
+				.findViewById(R.id.brick_change_transparency_edit_text);
 		textChangeGhostEffect.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
 		return prototypeView;
 	}

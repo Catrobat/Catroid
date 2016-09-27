@@ -76,13 +76,10 @@ public class ChangeYByNBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_change_y_checkbox);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
 		TextView editY = (TextView) view.findViewById(R.id.brick_change_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).setTextFieldId(R.id.brick_change_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).refreshTextField(view);
 
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
 		return view;
 	}
@@ -90,7 +87,7 @@ public class ChangeYByNBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
-		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
+		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_edit_text);
 		textYMovement.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_Y_BY));
 		return prototypeView;
 	}

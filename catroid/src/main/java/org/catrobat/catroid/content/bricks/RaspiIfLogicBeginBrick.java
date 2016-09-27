@@ -77,14 +77,10 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 
 		setCheckboxView(R.id.brick_raspi_if_begin_checkbox);
 
-		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_raspi_if_begin_prototype_text_view);
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_raspi_if_begin_edit_text);
 
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_raspi_if_begin_edit_text);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
-
-		prototypeTextView.setVisibility(View.GONE);
-		ifBeginTextView.setVisibility(View.VISIBLE);
 
 		ifBeginTextView.setOnClickListener(this);
 
@@ -94,7 +90,7 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
-		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_raspi_if_begin_prototype_text_view);
+		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_raspi_if_begin_edit_text);
 		textIfBegin.setText(String.valueOf(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 		return prototypeView;
 	}
