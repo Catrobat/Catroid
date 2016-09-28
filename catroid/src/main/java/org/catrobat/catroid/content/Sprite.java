@@ -560,8 +560,8 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public Sprite cloneForBackPack() {
-		final Sprite cloneSprite = spriteFactory.newInstance(getClass().getSimpleName());
-		cloneSprite.setName(this.getName());
+		final Sprite cloneSprite = spriteFactory.newInstance(SpriteFactory.SPRITE_SINGLE);
+		cloneSprite.setName(name);
 		return cloneSprite;
 	}
 

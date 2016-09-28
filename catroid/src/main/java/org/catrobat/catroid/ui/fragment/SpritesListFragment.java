@@ -205,6 +205,17 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+
+		reExpandAllGroups();
+	}
+
+	private void reExpandAllGroups() {
+		for (int groupPosition : spriteAdapter.getGroupSpritePositions()) {
+			Sprite sprite = (Sprite) spriteAdapter.getGroup(groupPosition);
+			if (!listView.isGroupExpanded(groupPosition) && sprite instanceof GroupSprite && ((GroupSprite) sprite).shouldBeExpanded()) {
+				listView.expandGroup(groupPosition);
+			}
+		}
 	}
 
 	@Override
@@ -665,6 +676,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 				listView.expandGroup(groupPosition);
 			}
 		}
+		spriteAdapter.setExpandedIndicatorsForAllGroupSprites(true);
 	}
 
 	public void collapseAllGroups() {
@@ -673,6 +685,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 				listView.collapseGroup(groupPosition);
 			}
 		}
+		spriteAdapter.setExpandedIndicatorsForAllGroupSprites(false);
 	}
 
 	private class SpriteRenamedReceiver extends BroadcastReceiver {
@@ -900,8 +913,8 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 
 	private void initListeners() {
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-		((DynamicExpandableListView) getListView()).setDataList(spriteList);
-		((DynamicExpandableListView) getListView()).isForSpriteList();
+		getListView().setDataList(spriteList);
+		getListView().isForSpriteList();
 		spriteAdapter = new SpriteAdapter(getActivity(), spriteList);
 		spriteAdapter.setSpritesListFragment(this);
 
@@ -958,6 +971,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		int currentNumberOfGroups = spriteAdapter.getNumberOfGroups();
 		String text = getString(R.string.group) + " " + (currentNumberOfGroups + 1);
 		groupNameEditText.setText(text);
+		UtilUi.positionCursorForEditText(groupNameEditText);
 
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override

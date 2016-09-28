@@ -284,6 +284,9 @@ public class ScriptActivity extends BaseActivity {
 		if (currentFragment != null) {
 			handleShowDetails(currentFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		}
+		if (currentFragment == scriptFragment) {
+			menu.findItem(R.id.comment_in_out).setVisible(true);
+		}
 		return super.onPrepareOptionsMenu(menu);
 	}
 

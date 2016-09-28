@@ -23,6 +23,8 @@
 package org.catrobat.catroid.utils;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.Selection;
 import android.util.DisplayMetrics;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
@@ -76,5 +79,11 @@ public final class UtilUi {
 		} else {
 			selectAllActionModeButton.setVisibility(View.GONE);
 		}
+	}
+
+	public static void positionCursorForEditText(EditText groupNameEditText) {
+		int position = groupNameEditText.length();
+		Editable text = groupNameEditText.getText();
+		Selection.setSelection(text, position);
 	}
 }
