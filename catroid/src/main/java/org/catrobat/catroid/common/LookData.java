@@ -38,6 +38,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -59,6 +60,8 @@ public class LookData implements Serializable, Cloneable {
 	protected transient Pixmap pixmap = null;
 	protected transient Pixmap originalPixmap = null;
 	protected transient TextureRegion textureRegion = null;
+
+	protected transient CollisionInformation collisionInformation = null;
 	public transient boolean isBackpackLookData = false;
 
 	public LookData() {
@@ -250,5 +253,16 @@ public class LookData implements Serializable, Cloneable {
 
 	public int getRequiredResources() {
 		return Brick.NO_RESOURCES;
+	}
+
+	public CollisionInformation getCollisionInformation() {
+		if (collisionInformation == null) {
+			collisionInformation = new CollisionInformation(this);
+		}
+		return collisionInformation;
+	}
+
+	public void setCollisionInformation(CollisionInformation collisionInformation) {
+		this.collisionInformation = collisionInformation;
 	}
 }

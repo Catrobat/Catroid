@@ -29,6 +29,7 @@ import java.util.List;
 
 public class InternFormulaKeyboardAdapter {
 
+	public static final int FORMULA_EDITOR_COLLIDE_RESOURCE_ID = 2;
 	public static final int FORMULA_EDITOR_USER_LIST_RESOURCE_ID = 1;
 	public static final int FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID = 0;
 
@@ -36,6 +37,11 @@ public class InternFormulaKeyboardAdapter {
 		//USER VARIABLES
 		if ((resource == FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID) && !name.isEmpty()) {
 			return buildUserVariable(name);
+		}
+
+		//COLLISION FORMULA
+		if ((resource == FORMULA_EDITOR_COLLIDE_RESOURCE_ID) && !name.isEmpty()) {
+			return buildCollideWithFormula(name);
 		}
 
 		//USER LISTS
@@ -355,6 +361,12 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildUserVariable(String userVariableName) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.USER_VARIABLE, userVariableName));
+		return returnList;
+	}
+
+	private List<InternToken> buildCollideWithFormula(String formula) {
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(InternTokenType.COLLISION_FORMULA, formula));
 		return returnList;
 	}
 

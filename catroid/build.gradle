@@ -129,6 +129,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.android.support:multidex:1.0.1'
 
+    compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
     compile fileTree(include: '*.jar', dir: 'src/main/libs')
     compile fileTree(include: '*.jar', dir: 'src/main/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'src/androidTest/libs')

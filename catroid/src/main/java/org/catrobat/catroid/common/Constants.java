@@ -197,6 +197,12 @@ public final class Constants {
 	public static final String PROJECT_OPENED_FROM_PROJECTS_LIST = "projectList";
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
+	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
+
+	public static final int COLLISION_VERTEX_LIMIT = 100;
+	public static final float COLLISION_POLYGON_CREATION_EPSILON = 10.0f;
+	public static final String COLLISION_POLYGON_METADATA_PATTERN = "((((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+))\\|)*((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+)";
+
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
 	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";
