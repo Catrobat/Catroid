@@ -65,27 +65,10 @@ public class SetRotationStyleBrick extends BrickBaseType {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_set_rotation_style, null);
-		view = getViewWithAlpha(alphaValue);
+		BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_set_rotation_style_normal_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		spinner = (Spinner) view.findViewById(R.id.brick_set_rotation_style_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			spinner.setClickable(true);
-			spinner.setEnabled(true);
-		} else {
-			spinner.setClickable(false);
-			spinner.setEnabled(false);
-		}
 
 		final ArrayAdapter<String> spinnerAdapter = createSpinnerAdapter(context);
 		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
@@ -122,27 +105,10 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_set_rotation_style_normal_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			Spinner lookBrickSpinner = (Spinner) view.findViewById(R.id.brick_set_rotation_style_spinner);
-			lookBrickSpinner.getBackground().setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-		}
-		return view;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_rotation_style, null);
 
 		spinner = (Spinner) prototypeView.findViewById(R.id.brick_set_rotation_style_spinner);
-		spinner.setFocusableInTouchMode(false);
-		spinner.setFocusable(false);
-		spinner.setEnabled(false);
 
 		SpinnerAdapter setLookSpinnerAdapter = createSpinnerAdapter(context);
 		spinner.setAdapter(setLookSpinnerAdapter);
