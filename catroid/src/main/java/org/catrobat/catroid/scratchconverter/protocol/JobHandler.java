@@ -43,7 +43,7 @@ import org.catrobat.catroid.scratchconverter.protocol.message.job.JobReadyMessag
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobRunningMessage;
 import org.catrobat.catroid.utils.Utils;
 
-public class JobHandler implements Client.DownloadFinishedCallback {
+public class JobHandler implements Client.DownloadCallback {
 
 	private static final String TAG = JobHandler.class.getSimpleName();
 
@@ -69,21 +69,25 @@ public class JobHandler implements Client.DownloadFinishedCallback {
 	@Override
 	public void onDownloadStarted(final String url) {
 		Log.d(TAG, "Download started - Job ID is: " + job.getJobID());
-		job.setDownloading(true);
+		job.setDownloadState(Job.DownloadState.DOWNLOADING);
 		job.setState(State.FINISHED);
+	}
+
+	@Override
+	public void onDownloadProgress(short progress, String url) {
 	}
 
 	@Override
 	public void onDownloadFinished(final String programName, final String url) {
 		Log.d(TAG, "Download finished - Resetting job with ID: " + job.getJobID());
-		job.setDownloading(false);
+		job.setDownloadState(Job.DownloadState.DOWNLOADED);
 		job.setState(State.FINISHED);
 	}
 
 	@Override
 	public void onUserCanceledDownload(final String url) {
 		Log.d(TAG, "User canceled download - Resetting job with ID: " + job.getJobID());
-		job.setDownloading(false);
+		job.setDownloadState(Job.DownloadState.CANCELED);
 		job.setState(State.FINISHED);
 	}
 
@@ -211,7 +215,7 @@ public class JobHandler implements Client.DownloadFinishedCallback {
 		job.setState(State.FINISHED);
 		job.setDownloadURL(jobFinishedMessage.getDownloadURL());
 		callback.onConversionFinished(job, this, jobFinishedMessage.getDownloadURL(),
-				jobFinishedMessage.getCachedUTCDate());
+				jobFinishedMessage.getCachedDate());
 	}
 
 	private void handleJobFailedMessage(@NonNull final JobFailedMessage jobFailedMessage) {

@@ -98,6 +98,7 @@
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_logout">Logout</string>
     <string name="main_menu_login">Login</string>
+    <string name="main_menu_scratch_converter">Scratch Converter</string>
     <string name="logout_successful">Logout successful</string>
     <!--  -->
 
@@ -112,8 +113,6 @@
     <string name="preference_description_quadcopter_bricks">Allow to control ARDrone 2.0 quadcopters</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
-    <string name="preference_title_scratch_converter">Scratch Converter</string>
-    <string name="preference_description_scratch_converter">Convert your Scratch desktop projects into mobile Pocket Code programs</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
     <string name="preference_title_drone_config_properties">Drone configuration properties</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
@@ -147,6 +146,10 @@
     <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
         have canceled the conversion/download of the Scratch program or you have renamed/deleted the program in the
         meanwhile!</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">Cannot open this Scratch program
+        while it is downloading! Please try again later!</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Cannot open this Scratch program
+        since it has not been downloaded yet! Please try again later!</string>
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert "%1$s"! Older Scratch before %2$s
         programs are not supported!</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
@@ -155,9 +158,8 @@
     </plurals>
     <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
         failed!</string>
-    <string name="connection_established">Connection to server established!</string>
     <string name="search_failed">Search failed, please retry later!</string>
-    <string name="connection_closed">Connection to server closed!</string>
+    <string name="connection_lost_or_closed_by_server">Connection lost or closed by server!</string>
     <string name="connection_failed">Connection to server failed, please retry later!</string>
     <string name="authentication_failed">Authentication failed, please contact the Pocket Code team!</string>
     <plurals name="scratch_conversion_scheduled_x">

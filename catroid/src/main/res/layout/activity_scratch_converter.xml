@@ -31,7 +31,7 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     sothree:umanoFadeColor="@color/application_background_color"
-    sothree:umanoPanelHeight="48dp"
+    sothree:umanoPanelHeight="@dimen/scratch_project_search_list_view_margin_bottom"
     sothree:umanoShadowHeight="4dp"
     sothree:umanoParallaxOffset="100dp"
     sothree:umanoDragView="@+id/dragView"
