@@ -50,24 +50,25 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class ShowVariableBrick extends UserVariableBrick {
+public class ShowTextBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
+	public String userVariableName;
 
-	public static final String TAG = ShowVariableBrick.class.getSimpleName();
+	public static final String TAG = ShowTextBrick.class.getSimpleName();
 
-	public ShowVariableBrick() {
+	public ShowTextBrick() {
 		addAllowedBrickField(BrickField.X_POSITION);
 		addAllowedBrickField(BrickField.Y_POSITION);
 	}
 
-	public ShowVariableBrick(int xPosition, int yPosition) {
+	public ShowTextBrick(int xPosition, int yPosition) {
 		initializeBrickFields(new Formula(xPosition), new Formula(yPosition));
 	}
 
-	public ShowVariableBrick(Formula xPosition, Formula yPosition) {
+	public ShowTextBrick(Formula xPosition, Formula yPosition) {
 		initializeBrickFields(xPosition, yPosition);
 	}
 
@@ -153,7 +154,7 @@ public class ShowVariableBrick extends UserVariableBrick {
 						&& (((Spinner) view).getSelectedItemPosition() == 0
 						&& ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(ShowVariableBrick.this);
+					dialog.addVariableDialogListener(ShowTextBrick.this);
 					dialog.show(((Activity) view.getContext()).getFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
 				}
@@ -167,7 +168,7 @@ public class ShowVariableBrick extends UserVariableBrick {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(ShowVariableBrick.this);
+					dialog.addVariableDialogListener(ShowTextBrick.this);
 					int spinnerPos = ((UserVariableAdapterWrapper) parent.getAdapter())
 							.getPositionOfItem(userVariable);
 					dialog.setUserVariableIfCancel(spinnerPos);
@@ -206,6 +207,18 @@ public class ShowVariableBrick extends UserVariableBrick {
 		sequence.addAction(sprite.getActionFactory().createShowVariableAction(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION), userVariable));
 		return null;
+	}
+
+	void setUserVariableName(UserVariable userVariable) {
+		if (userVariable.getName() != null) {
+			userVariableName = userVariable.getName();
+		} else {
+			userVariableName = Constants.NO_VARIABLE_SELECTED;
+		}
+	}
+
+	void setUserVariableName(String userVariableName) {
+		this.userVariableName = userVariableName;
 	}
 
 	@Override

@@ -444,16 +444,16 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 					formula.updateVariableReferences(oldName, newName, context);
 				}
 			}
-			if (brick instanceof ShowVariableBrick) {
-				ShowVariableBrick showVariableBrick = (ShowVariableBrick) brick;
-				if (showVariableBrick.getUserVariable().getName().equals(oldName)) {
-					((ShowVariableBrick) brick).getUserVariable().setName(newName);
+			if (brick instanceof ShowTextBrick) {
+				ShowTextBrick showTextBrick = (ShowTextBrick) brick;
+				if (showTextBrick.getUserVariable().getName().equals(oldName)) {
+					((ShowTextBrick) brick).getUserVariable().setName(newName);
 				}
 			}
-			if (brick instanceof HideVariableBrick) {
-				HideVariableBrick showTextBrick = (HideVariableBrick) brick;
+			if (brick instanceof HideTextBrick) {
+				HideTextBrick showTextBrick = (HideTextBrick) brick;
 				if (showTextBrick.getUserVariable().getName().equals(oldName)) {
-					((HideVariableBrick) brick).getUserVariable().setName(newName);
+					((HideTextBrick) brick).getUserVariable().setName(newName);
 				}
 			}
 		}
