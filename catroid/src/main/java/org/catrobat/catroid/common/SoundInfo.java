@@ -27,10 +27,9 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable {
@@ -38,7 +37,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = SoundInfo.class.getSimpleName();
 	public transient boolean isPlaying;
-	public transient boolean isBackpackSoundInfo;
+	private transient boolean isBackpackSoundInfo;
 	private String name;
 	private String fileName;
 
@@ -75,18 +74,10 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		cloneSoundInfo.fileName = this.fileName;
 		cloneSoundInfo.isBackpackSoundInfo = false;
 
-		return cloneSoundInfo;
-	}
-
-	public SoundInfo copySoundInfoForSprite(Sprite sprite) {
-		SoundInfo cloneSoundInfo = new SoundInfo();
-
-		cloneSoundInfo.name = this.name;
-
 		try {
-			cloneSoundInfo.fileName = StorageHandler.getInstance().copySoundFile(Utils.buildPath(Utils.buildScenePath(ProjectManager.getInstance().getCurrentProject().getName(), getSceneNameBySoundInfo()), Constants.SOUND_DIRECTORY, fileName)).getName();
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
+			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(getAbsolutePath());
+		} catch (FileNotFoundException fileNotFoundexception) {
+			Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
 		}
 
 		return cloneSoundInfo;
@@ -176,5 +167,12 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 	public boolean isBackpackSoundInfo() {
 		return isBackpackSoundInfo;
+	}
+
+	public void setBackpackSoundInfo(boolean backpackSoundInfo) {
+		for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
+			Log.e(TAG, stackTraceElement.getMethodName() + " setting Backpack to " + backpackSoundInfo);
+		}
+		isBackpackSoundInfo = backpackSoundInfo;
 	}
 }

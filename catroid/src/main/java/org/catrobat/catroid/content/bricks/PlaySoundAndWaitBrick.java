@@ -70,14 +70,16 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 	public Brick copyBrickForSprite(Sprite sprite) {
 		PlaySoundAndWaitBrick copyBrick = (PlaySoundAndWaitBrick) clone();
 
-		if (sound != null && sound.isBackpackSoundInfo) {
+		if (sound != null && sound.isBackpackSoundInfo()) {
 			copyBrick.sound = sound;
+			copyBrick.sound.setBackpackSoundInfo(false);
 			return copyBrick;
 		}
 
 		for (SoundInfo soundInfo : sprite.getSoundList()) {
 			if (sound != null && soundInfo != null && soundInfo.getAbsolutePath().equals(sound.getAbsolutePath())) {
 				copyBrick.sound = soundInfo;
+				copyBrick.sound.setBackpackSoundInfo(false);
 				break;
 			}
 		}

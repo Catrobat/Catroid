@@ -325,7 +325,7 @@ public class MergeTask {
 
 		for (LookData look : sprite.getLookDataList()) {
 			if (!spriteInto.existLookDataByName(look) && !spriteInto.existLookDataByFileName(look)) {
-				spriteInto.addLookData(look);
+				spriteInto.getLookDataList().add(look.clone());
 			} else if (spriteInto.existLookDataByName(look) && !spriteInto.existLookDataByFileName(look)) {
 				for (int i = 2; i < 100; i++) {
 					look.setLookName(look.getLookName() + "_" + i);
@@ -333,13 +333,13 @@ public class MergeTask {
 						break;
 					}
 				}
-				spriteInto.addLookData(look);
+				spriteInto.getLookDataList().add(look.clone());
 			}
 		}
 
 		for (SoundInfo sound : sprite.getSoundList()) {
 			if (!spriteInto.existSoundInfoByName(sound) || !spriteInto.existSoundInfoByFileName(sound)) {
-				spriteInto.addSound(sound);
+				spriteInto.getSoundList().add(sound.clone());
 			}
 		}
 	}

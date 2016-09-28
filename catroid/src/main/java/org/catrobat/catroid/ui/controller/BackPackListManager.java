@@ -451,7 +451,7 @@ public final class BackPackListManager {
 				lookData.isBackpackLookData = true;
 			}
 			for (SoundInfo soundInfo : getAllBackPackedSounds()) {
-				soundInfo.isBackpackSoundInfo = true;
+				soundInfo.setBackpackSoundInfo(true);
 			}
 			for (Sprite sprite : getAllBackPackedSprites()) {
 				sprite.isBackpackObject = true;
@@ -459,7 +459,7 @@ public final class BackPackListManager {
 					lookData.isBackpackLookData = true;
 				}
 				for (SoundInfo soundInfo : sprite.getSoundList()) {
-					soundInfo.isBackpackSoundInfo = true;
+					soundInfo.setBackpackSoundInfo(true);
 				}
 			}
 			for (Scene scene : getBackPackedScenes()) {
