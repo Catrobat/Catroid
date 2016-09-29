@@ -625,6 +625,16 @@ public class CategoryBricksFactory {
 			}
 		}
 
+		if (brick instanceof AskBrick) {
+			category = res.getString(R.string.category_looks);
+		} else if (brick instanceof WhenClonedBrick) {
+			category = res.getString(R.string.category_control);
+		} else if (brick instanceof WhenBackgroundChangesBrick) {
+			category = res.getString(R.string.category_event);
+		} else if (brick instanceof SetVariableBrick) {
+			category = res.getString(R.string.category_data);
+		}
+
 		config.locale = savedLocale;
 		res.updateConfiguration(config, null);
 
