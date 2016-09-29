@@ -1017,9 +1017,9 @@ public final class UiTestUtils {
 	public static List<Brick> createOldTestProjectWithSprites(String oldSpriteProject) {
 		Project project = new Project(null, oldSpriteProject);
 		project.setCatrobatLanguageVersion(0.99f);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("testSprite1");
-		Sprite thirdSprite = new Sprite("third_sprite");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("testSprite1");
+		Sprite thirdSprite = new SingleSprite("third_sprite");
 
 		Script testScript = new StartScript();
 		projectManager.setProject(project);
@@ -1241,7 +1241,7 @@ public final class UiTestUtils {
 
 	public static List<Brick> createTestProjectWithUserVariables() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 
 		String globalVariableName = "global_var";
 		String spriteVariableName = "sprite_var";
