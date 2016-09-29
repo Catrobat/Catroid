@@ -49,6 +49,7 @@ android {
         javaMaxHeapSize "4g"
     }
     buildTypes {
+
         debug {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
@@ -59,6 +60,7 @@ android {
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -70,6 +72,7 @@ android {
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
     }
     productFlavors {
@@ -106,6 +109,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.github.johnpersano:supertoasts:2.0@aar'
+    compile 'com.github.mrengineer13:snackbar:1.2.0'
 
     compile 'com.koushikdutta.async:androidasync:2.+'
     compile 'com.sothree.slidinguppanel:library:3.3.0'

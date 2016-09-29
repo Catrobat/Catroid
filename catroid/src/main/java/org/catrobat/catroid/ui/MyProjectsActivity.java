@@ -34,6 +34,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.concurrent.locks.Lock;
 
@@ -54,6 +55,7 @@ public class MyProjectsActivity extends BaseActivity {
 
 		projectsListFragment = (ProjectsListFragment) getFragmentManager().findFragmentById(
 				R.id.fragment_container);
+		SnackbarUtil.showHintSnackbar(this, R.string.hint_merge);
 	}
 
 	@Override

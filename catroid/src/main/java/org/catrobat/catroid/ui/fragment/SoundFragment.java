@@ -82,6 +82,7 @@ import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
@@ -145,7 +146,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//setHandleAddbutton();
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_sounds);
+
 		return inflater.inflate(R.layout.fragment_sounds, container, false);
 	}
 
