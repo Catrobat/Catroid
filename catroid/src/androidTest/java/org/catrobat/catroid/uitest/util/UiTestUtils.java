@@ -149,9 +149,11 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -2219,13 +2221,13 @@ public final class UiTestUtils {
 	}
 
 	public static ListView getScriptListView(Solo solo) {
-		return getListView(solo, 0);
-	}
-
-	public static ListView getListView(Solo solo, int index) {
-		ArrayList<ListView> listOfListViews = solo.getCurrentViews(ListView.class);
-		assertTrue("no ListView found!", listOfListViews.size() > 0);
-		return listOfListViews.get(index);
+		for (ListView listView : solo.getCurrentViews(ListView.class)) {
+			if (listView instanceof DragAndDropListView && listView.getAdapter() instanceof BrickAdapter) {
+				return listView;
+			}
+		}
+		fail("Could not find a Script ListView");
+		return null;
 	}
 
 	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {
