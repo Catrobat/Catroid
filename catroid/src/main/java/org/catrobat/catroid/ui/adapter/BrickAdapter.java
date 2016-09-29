@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -60,6 +61,7 @@ import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 import java.util.ArrayList;
@@ -413,8 +415,11 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			scrollTo = getCount() - 1;
 		}
 		dragAndDropListView.smoothScrollToPosition(scrollTo);
+
 		setSpinnersEnabled(true);
 		isDragging = false;
+
+		SnackbarUtil.showHintSnackbar(((Activity) getContext()), R.string.hint_brick_added);
 	}
 
 	private void addScriptToProject(int position, ScriptBrick scriptBrick) {
