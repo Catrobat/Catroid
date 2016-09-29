@@ -74,6 +74,8 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String RASPI_PORT = "setting_raspi_port_preference";
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
+	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -327,6 +329,12 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
+	}
+
+	public static void setAutoCrashReportingEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_CRASH_REPORTS, value);
+		editor.commit();
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
