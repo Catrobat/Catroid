@@ -1425,4 +1425,24 @@
         You can also download your program as standalone app.</string>
      <string name="progress_upload_dialog_show_program">Show program</string>
     <!--  -->
+
+    <!-- Snackbar hints -->
+    <string name="got_it">Got it</string>
+    <string name="preference_description_hints">Enable to show hints</string>
+    <string name="preference_title_enable_hints">Show hints </string>
+    <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
+    <string name="hint_bricks">To add a brick to your script tap on the brick you want to use.</string>
+    <string name="hint_brick_added">Short tap on a brick opens the menu to move, copy, delete or add a brick to
+        the backpack. The help option will show you additional information. Drag and drop the brick with a long press.</string>
+    <string name="hint_scripts">The script defines the behaviour of your object. To add bricks to the script tap on the "+" symbol.</string>
+    <string name="hint_looks">Here you can find the different appearances of your object. To add a new look tap on the "+" symbol.</string>
+    <string name="hint_sounds">Here you can add new sounds to your object. Keep in mind to use a brick from the sound category.</string>
+    <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object tap on the "+" symbol.</string>
+    <string name="hint_merge">To merge two programs long press on one program to open the menu and tap on \'Merge
+        with\'.</string>
+    <string name="hint_stage">Hit the back-button to pause your program. To show axes and the screen size of your
+        phone tap "Axes on".</string>
+    <string name="hint_scenes">A program can consist of different independent scenes. To add a new scene tap on the "+"
+        symbol.</string>
+    <!--  -->
 </resources>

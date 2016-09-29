@@ -75,6 +75,7 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -258,6 +259,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		listView = (DragAndDropListView) rootView.findViewById(android.R.id.list);
 
 		setupUiForUserBricks();
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
 		return rootView;
 	}
 
@@ -425,6 +427,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		fragmentTransaction.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 		fragmentTransaction.commit();
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_category);
 
 		adapter.notifyDataSetChanged();
 	}
