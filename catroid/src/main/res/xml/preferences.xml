@@ -169,4 +169,10 @@
         android:summary="@string/preference_description_hints"
         android:title="@string/preference_title_enable_hints" />
 
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="setting_enable_crash_reports"
+        android:summary="@string/preference_description_crash_reports"
+        android:title="@string/preference_title_enable_crash_reports" />
+
 </PreferenceScreen>
