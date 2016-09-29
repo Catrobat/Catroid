@@ -28,6 +28,7 @@ import com.robotium.solo.Condition;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
@@ -85,7 +86,7 @@ public class PenBricksTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 	private void createProject() {
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		sprite = new Sprite("cat");
+		sprite = new SingleSprite("cat");
 		Script script = new StartScript();
 		PenDownBrick penDownBrick = new PenDownBrick();
 		PenUpBrick penUpBrick = new PenUpBrick();
