@@ -120,6 +120,8 @@
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
     <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
     <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
+    <string name="preference_description_crash_reports">Allow to send crash reports automatically</string>
+    <string name="preference_title_enable_crash_reports">Send anonymous crash reports</string>
     <!-- -->
     <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
     <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
@@ -1444,5 +1446,12 @@
         phone tap "Axes on".</string>
     <string name="hint_scenes">A program can consist of different independent scenes. To add a new scene tap on the "+"
         symbol.</string>
+    <!--  -->
+
+    <!-- Crash report dialog -->
+    <string name="pocket_code_has_crashed">Pocket Code has crashed!</string>
+    <string name="crash_dialog_text">Please help to improve Pocket Code by sending us anonymous crash reports!</string>
+    <string name="crash_dialog_always_send">Always send</string>
+    <string name="crash_dialog_send">Send</string>
     <!--  -->
 </resources>
