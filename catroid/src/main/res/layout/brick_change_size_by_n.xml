@@ -47,16 +47,14 @@
         <TextView
             android:id="@+id/brick_change_size_by_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_change_size_by" >
-        </TextView >>
+            android:text="@string/brick_change_size_by" />
 
         <TextView
             android:id="@+id/brick_change_size_by_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true"
-            android:maxEms="5" >
-        </TextView >
+            android:maxEms="5" />
 
     </org.catrobat.catroid.ui.BrickLayout >
 

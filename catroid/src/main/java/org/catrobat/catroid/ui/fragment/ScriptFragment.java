@@ -362,18 +362,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onCategorySelected(String category) {
-		String userBrickCategory = getActivity().getString(R.string.category_user_bricks);
-		if (category.equals(userBrickCategory)) {
-			backpackMenuIsVisible = true;
-			getActivity().invalidateOptionsMenu();
-		}
 		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(category, this);
 		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.add(R.id.fragment_container, addBrickFragment,
 				AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
+
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
+
 		adapter.notifyDataSetChanged();
 	}
 
