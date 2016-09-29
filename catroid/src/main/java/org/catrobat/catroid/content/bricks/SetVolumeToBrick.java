@@ -74,12 +74,9 @@ public class SetVolumeToBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_volume_to_checkbox);
-		TextView text = (TextView) view.findViewById(R.id.brick_set_volume_to_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME).setTextFieldId(R.id.brick_set_volume_to_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME).refreshTextField(view);
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 		return view;
@@ -88,7 +85,7 @@ public class SetVolumeToBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_volume_to, null);
-		TextView textSetVolumeTo = (TextView) prototypeView.findViewById(R.id.brick_set_volume_to_prototype_text_view);
+		TextView textSetVolumeTo = (TextView) prototypeView.findViewById(R.id.brick_set_volume_to_edit_text);
 		textSetVolumeTo.setText(String.valueOf(BrickValues.SET_VOLUME_TO));
 		return prototypeView;
 	}

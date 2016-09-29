@@ -77,14 +77,11 @@ public class SetXBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_set_x_checkbox);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
 
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_set_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 
 		return view;
@@ -93,7 +90,7 @@ public class SetXBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_x, null);
-		TextView textXPosition = (TextView) prototypeView.findViewById(R.id.brick_set_x_prototype_text_view);
+		TextView textXPosition = (TextView) prototypeView.findViewById(R.id.brick_set_x_edit_text);
 		textXPosition.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
 		return prototypeView;
 	}

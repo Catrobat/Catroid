@@ -91,23 +91,20 @@ public class GlideToBrick extends FormulaBrick {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_glide_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+		BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_glide_to_checkbox);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
 		TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).refreshTextField(view);
 		editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
 		TextView editY = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_DESTINATION).refreshTextField(view);
 		editY.setOnClickListener(this);
 
-		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		TextView editDuration = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_duration);
 		getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).setTextFieldId(R.id.brick_glide_to_edit_text_duration);
 		getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).refreshTextField(view);
@@ -131,13 +128,6 @@ public class GlideToBrick extends FormulaBrick {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		textDuration.setVisibility(View.GONE);
-		editDuration.setVisibility(View.VISIBLE);
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
-
 		editDuration.setOnClickListener(this);
 		return view;
 	}
@@ -145,9 +135,9 @@ public class GlideToBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
-		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_x);
-		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
-		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_x);
+		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_y);
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_duration);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
 		textX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
 		textY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));

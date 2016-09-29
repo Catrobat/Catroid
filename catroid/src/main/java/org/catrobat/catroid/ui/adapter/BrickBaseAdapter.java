@@ -42,7 +42,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.BackPackScriptController;
-import org.catrobat.catroid.ui.controller.BackPackUserBrickController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -74,11 +73,7 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 				if (backPackedItems.contains(groupName)) {
 					showScriptGroupNameAlreadyGivenDialog(backPackedItems, backPackUserBricks);
 				} else {
-					if (backPackUserBricks) {
-						backPackUserBrick(groupName);
-					} else {
-						backPackScript(groupName);
-					}
+					backPackScript(groupName);
 				}
 			}
 		});
@@ -151,17 +146,6 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 			showToast(scriptsBackPacked, R.plurals.scripts_plural);
 
 			startBackPackActivity(ScriptActivity.FRAGMENT_SCRIPTS);
-		}
-	}
-
-	private void backPackUserBrick(String groupName) {
-		if (!checkedBricks.isEmpty()) {
-			int userBricksBackPacked = BackPackUserBrickController.getInstance().backpack(
-					groupName, checkedBricks).size();
-			showToast(userBricksBackPacked, R.plurals.userbricks_plural);
-			addBrickFragment.clearCheckedBricksAndEnableButtons();
-
-			startBackPackActivity(ScriptActivity.USERBRICKS_PROTOTYPE_VIEW);
 		}
 	}
 

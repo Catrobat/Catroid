@@ -69,15 +69,15 @@ public class RaspiPwmBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_raspi_pwm, null);
 
-		TextView textPinNumber = (TextView) prototypeView.findViewById(R.id.brick_raspi_pwm_pin_prototype_text_view);
+		TextView textPinNumber = (TextView) prototypeView.findViewById(R.id.brick_raspi_pwm_pin_edit_text);
 		textPinNumber.setText(String.valueOf(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 
 		TextView textPwmPercentage = (TextView) prototypeView.findViewById(R.id
-				.brick_raspi_pwm_percentage_prototype_text_view);
+				.brick_raspi_pwm_percentage_edit_text);
 		textPwmPercentage.setText(String.valueOf(BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
 
 		TextView textPwmFrequency = (TextView) prototypeView.findViewById(R.id
-				.brick_raspi_pwm_frequency_prototype_text_view);
+				.brick_raspi_pwm_frequency_edit_text);
 		textPwmFrequency.setText(String.valueOf(BrickValues.RASPI_PWM_INITIAL_FREQUENCY));
 
 		return prototypeView;
@@ -96,31 +96,22 @@ public class RaspiPwmBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_raspi_pwm_checkbox);
-		TextView textPinNumber = (TextView) view.findViewById(R.id.brick_raspi_pwm_pin_prototype_text_view);
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_raspi_pwm_pin_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_raspi_pwm_pin_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER).refreshTextField(view);
 
-		textPinNumber.setVisibility(View.GONE);
-		editPinNumber.setVisibility(View.VISIBLE);
 		editPinNumber.setOnClickListener(this);
 
-		TextView textPwmFrequency = (TextView) view.findViewById(R.id.brick_raspi_pwm_frequency_prototype_text_view);
 		TextView editPwmFrequency = (TextView) view.findViewById(R.id.brick_raspi_pwm_frequency_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_PWM_FREQUENCY).setTextFieldId(R.id.brick_raspi_pwm_frequency_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_PWM_FREQUENCY).refreshTextField(view);
 
-		textPwmFrequency.setVisibility(View.GONE);
-		editPwmFrequency.setVisibility(View.VISIBLE);
 		editPwmFrequency.setOnClickListener(this);
 
-		TextView textPwmPercentage = (TextView) view.findViewById(R.id.brick_raspi_pwm_percentage_prototype_text_view);
 		TextView editPwmPercentage = (TextView) view.findViewById(R.id.brick_raspi_pwm_percentage_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_PWM_PERCENTAGE).setTextFieldId(R.id.brick_raspi_pwm_percentage_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_PWM_PERCENTAGE).refreshTextField(view);
 
-		textPwmPercentage.setVisibility(View.GONE);
-		editPwmPercentage.setVisibility(View.VISIBLE);
 		editPwmPercentage.setOnClickListener(this);
 
 		return view;

@@ -77,14 +77,11 @@ public class SetPenSizeBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_set_pen_size_checkbox);
 
-		TextView penSizeText = (TextView) view.findViewById(R.id.brick_set_pen_size_prototype_text_view);
 		TextView penSizeEdit = (TextView) view.findViewById(R.id.brick_set_pen_size_edit_text);
 
 		getFormulaWithBrickField(BrickField.PEN_SIZE).setTextFieldId(R.id.brick_set_pen_size_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_SIZE).refreshTextField(view);
 
-		penSizeText.setVisibility(View.GONE);
-		penSizeEdit.setVisibility(View.VISIBLE);
 		penSizeEdit.setOnClickListener(this);
 
 		return view;
@@ -93,7 +90,7 @@ public class SetPenSizeBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_pen_size, null);
-		TextView penSizeText = (TextView) prototypeView.findViewById(R.id.brick_set_pen_size_prototype_text_view);
+		TextView penSizeText = (TextView) prototypeView.findViewById(R.id.brick_set_pen_size_edit_text);
 		penSizeText.setText(Utils.getNumberStringForBricks(BrickValues.PEN_SIZE));
 		return prototypeView;
 	}

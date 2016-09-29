@@ -56,10 +56,6 @@
             app:layout_textField="true" />
 
         <TextView
-            android:id="@+id/brick_drone_move_prototype_text_view_second"
-            style="@style/BrickPrototypeTextView" />
-
-        <TextView
             android:id="@+id/brick_drone_move_text_view_second"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true" />
@@ -68,10 +64,6 @@
             android:id="@+id/brick_drone_move_text_view_power"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_drone_with" />
-
-        <TextView
-            android:id="@+id/brick_drone_move_prototype_text_view_power"
-            style="@style/BrickPrototypeTextView" />
 
         <TextView
             android:id="@+id/brick_drone_move_edit_text_power"

@@ -58,18 +58,10 @@
             app:layout_textField="true" />
 
         <TextView
-            android:id="@+id/brick_raspi_pwm_pin_prototype_text_view"
-            style="@style/BrickPrototypeTextView" />
-
-        <TextView
             android:id="@+id/brick_raspi_pwm_text_view_to"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:text="@string/brick_arduino_set_pin_value_to" />
-
-        <TextView
-            android:id="@+id/brick_raspi_pwm_percentage_prototype_text_view"
-            style="@style/BrickPrototypeTextView" />
 
         <TextView
             android:id="@+id/brick_raspi_pwm_percentage_edit_text"
@@ -88,10 +80,6 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" />
-
-        <TextView
-            android:id="@+id/brick_raspi_pwm_frequency_prototype_text_view"
-            style="@style/BrickPrototypeTextView" />
 
         <TextView
             android:id="@+id/brick_raspi_pwm_hertz_text"

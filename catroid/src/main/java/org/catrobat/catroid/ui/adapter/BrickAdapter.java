@@ -58,7 +58,6 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
-import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
@@ -967,9 +966,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				&& !(brickList.get(itemPosition) instanceof ScriptBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_move_brick));
 		}
-		if ((brickList.get(itemPosition) instanceof UserBrick)) {
-			items.add(context.getText(R.string.brick_context_dialog_show_source));
-		}
 		if (brickList.get(itemPosition) instanceof NestingBrick) {
 			items.add(context.getText(R.string.brick_context_dialog_animate_bricks));
 		}
@@ -1013,8 +1009,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				CharSequence clickedItemText = items.get(item);
 				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
 					view.performLongClick();
-				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_show_source))) {
-					launchAddBrickAndSelectBrickAt(context, itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_copy_brick))) {
 					copyBrickListAndProject(itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))
@@ -1137,24 +1131,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			multiFormulaValid = ((UserBrick) brick).getFormulas().size() > 0;
 		}
 		return (brick instanceof FormulaBrick || multiFormulaValid);
-	}
-
-	public void launchAddBrickAndSelectBrickAt(Context context, int index) {
-		int[] temp = getScriptAndBrickIndexFromProject(index);
-		Script script = ProjectManager.getInstance().getCurrentSprite().getScript(temp[0]);
-		if (script != null) {
-			Brick brick = script.getBrick(temp[1]);
-
-			if (!viewSwitchLock.tryLock()) {
-				return;
-			}
-
-			if (brick instanceof UserBrick) {
-				UserBrick selectedUserBrick = (UserBrick) brick;
-				selectedUserBrick.updateUserBrickParametersAndVariables();
-				AddBrickFragment.launchUserBrickScriptActivity(context, selectedUserBrick);
-			}
-		}
 	}
 
 	private void openHelpPageForBrick(Brick brick) {

@@ -362,18 +362,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onCategorySelected(String category) {
-		String userBrickCategory = getActivity().getString(R.string.category_user_bricks);
-		if (category.equals(userBrickCategory)) {
-			backpackMenuIsVisible = true;
-			getActivity().invalidateOptionsMenu();
-		}
 		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(category, this);
 		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.add(R.id.fragment_container, addBrickFragment,
 				AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
+
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
+
 		adapter.notifyDataSetChanged();
 	}
 
@@ -521,12 +518,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		backpackMenuIsVisible = false;
-
-		// addButtonHandler != null when the user brick category is open in the AddBrickFragment
-		if (isInUserBrickOverview()) {
-			AddBrickFragment.addButtonHandler.handleAddButton();
-			return;
-		}
 
 		if (listView.isCurrentlyDragging()) {
 			listView.animateHoveringBrick();
@@ -746,7 +737,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		int indexOfNumber = completeTitle.indexOf(' ') + 1;
 		Spannable completeSpannedTitle = new SpannableString(completeTitle);
-		if (!completeTitle.equals(getString(R.string.backpack))) {
+		if (!completeTitle.equals(getString(R.string.backpack)) && !completeTitle.equals(getString(R.string.comment_in_out))) {
 			completeSpannedTitle.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)),
 					indexOfNumber, indexOfNumber + String.valueOf(numberOfSelectedItems).length(),
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

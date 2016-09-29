@@ -83,14 +83,11 @@ public class SetFrictionBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_set_friction_checkbox);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_set_friction_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_friction_edit_text);
 
 		getFormulaWithBrickField(BrickField.PHYSICS_FRICTION).setTextFieldId(R.id.brick_set_friction_edit_text);
 		getFormulaWithBrickField(BrickField.PHYSICS_FRICTION).refreshTextField(view);
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
 
 		return view;
@@ -99,7 +96,7 @@ public class SetFrictionBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_friction, null);
-		TextView textFriction = (TextView) prototypeView.findViewById(R.id.brick_set_friction_prototype_text_view);
+		TextView textFriction = (TextView) prototypeView.findViewById(R.id.brick_set_friction_edit_text);
 		textFriction.setText(String.valueOf(BrickValues.PHYSIC_FRICTION * 100));
 		return prototypeView;
 	}

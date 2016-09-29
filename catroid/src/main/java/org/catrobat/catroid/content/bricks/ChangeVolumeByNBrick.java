@@ -76,13 +76,9 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_change_volume_by_checkbox);
-		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_change_volume_by_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME_CHANGE).setTextFieldId(R.id.brick_change_volume_by_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME_CHANGE).refreshTextField(view);
-
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 		return view;
@@ -92,7 +88,7 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
 		TextView textSetVolumenTo = (TextView) prototypeView
-				.findViewById(R.id.brick_change_volume_by_prototype_text_view);
+				.findViewById(R.id.brick_change_volume_by_edit_text);
 		textSetVolumenTo.setText(String.valueOf(BrickValues.CHANGE_VOLUME_BY));
 		return prototypeView;
 	}

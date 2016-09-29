@@ -92,7 +92,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_phiro_play_tone, null);
-		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_phiro_play_tone_duration_text_view);
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_phiro_play_tone_duration_edit_text);
 		textDuration.setText(String.valueOf(BrickValues.PHIRO_DURATION));
 
 		Spinner phiroProToneSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_select_tone_spinner);
@@ -121,13 +121,10 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_phiro_play_tone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_phiro_play_tone_checkbox);
-		TextView textDuration = (TextView) view.findViewById(R.id.brick_phiro_play_tone_duration_text_view);
+
 		editDuration = (TextView) view.findViewById(R.id.brick_phiro_play_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS).setTextFieldId(R.id.brick_phiro_play_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS).refreshTextField(view);
-
-		textDuration.setVisibility(View.GONE);
-		editDuration.setVisibility(View.VISIBLE);
 
 		editDuration.setOnClickListener(this);
 

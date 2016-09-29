@@ -215,7 +215,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 				continue;
 			} else if (element.isVariable()) {
 				currentTextView = new EditText(context);
-				currentTextView.setTextAppearance(context, R.style.BrickPrototypeTextView);
 				currentTextView.setText(String.valueOf(0d));
 				currentTextView.setVisibility(View.VISIBLE);
 			} else {

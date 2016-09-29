@@ -90,13 +90,9 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 
 		setCheckboxView(R.id.brick_repeat_until_checkbox);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_repeat_until_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_until_edit_text);
 		getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).setTextFieldId(R.id.brick_repeat_until_edit_text);
 		getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).refreshTextField(view);
-
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 		return view;
@@ -105,7 +101,7 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_repeat_until, null);
-		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_until_prototype_text_view);
+		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_until_edit_text);
 		textRepeat.setText(String.valueOf(BrickValues.IF_CONDITION));
 		return prototypeView;
 	}

@@ -79,7 +79,6 @@ public class GoNStepsBackBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_go_back_checkbox);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_go_back_edit_text);
 
 		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_go_back_edit_text);
@@ -105,8 +104,6 @@ public class GoNStepsBackBrick extends FormulaBrick {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
 		return view;
 	}
@@ -114,7 +111,7 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
-		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
+		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_edit_text);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
 		textSteps.setText(String.valueOf(BrickValues.GO_BACK));
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
