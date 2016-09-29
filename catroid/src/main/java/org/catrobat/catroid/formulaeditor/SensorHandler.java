@@ -145,7 +145,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		return instance.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
 
-	private static double startWeekWithMonday () {
+	private static double startWeekWithMonday() {
 		int weekdayOfAndroidCalendar = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 		int convertedWeekday;
 
