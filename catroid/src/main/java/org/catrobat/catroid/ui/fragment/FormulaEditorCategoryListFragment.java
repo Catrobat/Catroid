@@ -326,7 +326,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			} else {
 				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_LOOK);
 			}
-			header.put(itemsIds.length, getString(R.string.formula_editor_object_physical));
+			header.put(itemsIds.length, getString(R.string.formula_editor_object_movement));
 			itemsIds = concatAll(itemsIds, OBJECT_PHYSICAL_PROPERTIES_ITEMS);
 		} else if (tag.equals(FUNCTION_TAG)) {
 			header.put(0, getString(R.string.formula_editor_functions_maths));

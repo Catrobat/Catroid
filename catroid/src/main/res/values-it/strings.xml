@@ -906,7 +906,7 @@
   <string name="formula_editor_logic_boolean">operatori logici (booleani)</string>
   <string name="formula_editor_logic_comparison">operatori di confronto</string>
   <string name="formula_editor_object_general">proprietà generali</string>
-  <string name="formula_editor_object_physical">proprietà fisiche</string>
+  <string name="formula_editor_object_movement">proprietà fisiche</string>
   <string name="formula_editor_device_face_detection">Rilevamento volti</string>
   <string name="formula_editor_device_touch_detection">Rilevamento tocco</string>
   <string name="formula_editor_device_lego">Lego</string>
