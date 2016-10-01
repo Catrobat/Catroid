@@ -42,10 +42,11 @@ public class TrackView extends TableLayout {
 		super(context, attrs);
 		setStretchAllColumns(true);
 		initializeRows();
+		setWeightSum(ROW_COUNT);
 	}
 
 	private void initializeRows() {
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1.0f);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1.0f);
 		for (int i = 0; i < ROW_COUNT; i++) {
 			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
 			trackRowViews.add(new TrackRowView(getContext(), isBlackRow));
