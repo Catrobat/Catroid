@@ -917,7 +917,7 @@
   <string name="formula_editor_logic_boolean">логические операторы</string>
   <string name="formula_editor_logic_comparison">операторы сравнения</string>
   <string name="formula_editor_object_general">общие настройки</string>
-  <string name="formula_editor_object_physical">физические свойства</string>
+  <string name="formula_editor_object_movement">физические свойства</string>
   <string name="formula_editor_device_face_detection">Распознавание лица</string>
   <string name="formula_editor_device_touch_detection">Touch detection</string>
   <string name="formula_editor_device_lego">Lego</string>
