@@ -45,6 +45,7 @@ public class BrickTextView extends TextView {
 	public BrickTextView(Context context, AttributeSet attributeSet, int defStyle) {
 		super(context, attributeSet, defStyle);
 	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if (drawShadowBorder) {

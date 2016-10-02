@@ -40,7 +40,16 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.catrobat.catroid.utils.BrickEditText;
+import org.catrobat.catroid.utils.BrickSpinner;
+import org.catrobat.catroid.utils.BrickTextView;
+import org.catrobat.catroid.utils.DividerUtil;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -304,33 +313,35 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static void applyAccesibilitySettings(Context context) {
 		if (getAccessibilityLargeTextEnabled(context)) {
-			// Apply Settings
+			TextSizeUtil.enableTextSizeUtil();
 		}
 		if (getAccessibilityHighContrastEnabled(context)) {
-			// Apply Settings
+			BrickTextView.enableShadowBorder();
+			BrickEditText.enableShadowBorder();
+			BrickSpinner.enableShadowBorder();
 		}
 		if (getAccessibilityAdditionalIconsEnabled(context)) {
-			// Apply Settings
+			IconsUtil.setActivated(true);
 		}
 		if (getAccessibilityLargeIconsEnabled(context)) {
-			// Apply Settings
+			IconsUtil.setLargeSize(true);
 		}
 		if (getAccessibilityHighContrastIconsEnabled(context)) {
-			// Apply Settings
+			IconsUtil.setContrast(true);
 		}
 		if (getAccessibilityLargeElementSpacingEnabled(context)) {
-			// Apply Settings
+			DividerUtil.setActivated(true);
 		}
 		if (getAccessibilityStarterBricksEnabled(context)) {
-			/// Apply Settings
+			CategoryBricksFactory.enableStarterBricks();
 		}
 		if (getAccessibilityDragndropDelayEnabled(context)) {
-			// Apply Settings
+			DragAndDropListView.enableLongpressDelay();
 		}
 		if (getAccessibilityFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_SERIF)) {
-			// Apply Settings
+			Utils.setDefaultFont(context, "SANS_SERIF", "fonts/CrimsonText-Roman.ttf");
 		} else if (getAccessibilityFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
-			// Apply Settings
+			Utils.setDefaultFont(context, "SANS_SERIF", "fonts/OpenDyslexic-Regular.otf");
 		}
 	}
 

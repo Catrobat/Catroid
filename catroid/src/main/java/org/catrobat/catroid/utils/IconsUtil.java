@@ -227,7 +227,7 @@ public final class IconsUtil {
 								addIcon(viewGroup.getContext(), textView, category);
 							}
 						}
-					} else if (l.getChildAt(0) instanceof  LinearLayout) {
+					} else if (l.getChildAt(0) instanceof LinearLayout) {
 						LinearLayout ll = (LinearLayout) l.getChildAt(0);
 						if (ll.getChildAt(0) instanceof TableRow) {
 							TableRow tr = (TableRow) ll.getChildAt(0);

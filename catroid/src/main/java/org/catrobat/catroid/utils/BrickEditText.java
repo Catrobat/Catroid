@@ -45,6 +45,7 @@ public class BrickEditText extends EditText {
 	public BrickEditText(Context context, AttributeSet attributeSet, int defStyle) {
 		super(context, attributeSet, defStyle);
 	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if (drawShadowBorder) {

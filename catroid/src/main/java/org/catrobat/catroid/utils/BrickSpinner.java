@@ -46,6 +46,7 @@ public class BrickSpinner extends Spinner {
 	public BrickSpinner(Context context, AttributeSet attributeSet, int defStyle) {
 		super(context, attributeSet, defStyle);
 	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if (drawShadowBorder) {
