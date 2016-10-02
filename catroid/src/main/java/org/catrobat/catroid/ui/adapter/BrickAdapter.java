@@ -49,6 +49,11 @@ import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -989,7 +994,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		} else {
 			items.add(context.getText(R.string.brick_context_dialog_comment_out));
 		}
-		if (!(brickList.get(itemPosition) instanceof UserBrick)) {
+		if (!(brickList.get(itemPosition) instanceof UserBrick)
+				&& !isBrickWithoutDescription(brickList.get(itemPosition))) {
 			items.add(context.getText(R.string.brick_context_dialog_help));
 		}
 
@@ -1136,6 +1142,22 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			multiFormulaValid = ((UserBrick) brick).getFormulas().size() > 0;
 		}
 		return (brick instanceof FormulaBrick || multiFormulaValid);
+	}
+
+	private boolean isBrickWithoutDescription(Brick brick) {
+		String name = brick.getClass().getSimpleName();
+		if (name.equals(IfLogicElseBrick.class.getSimpleName())) {
+			return true;
+		} else if (name.equals(IfLogicEndBrick.class.getSimpleName())) {
+			return true;
+		} else if (name.equals(IfThenLogicEndBrick.class.getSimpleName())) {
+			return true;
+		} else if (name.equals(LoopEndlessBrick.class.getSimpleName())) {
+			return true;
+		} else if (name.equals(LoopEndBrick.class.getSimpleName())) {
+			return true;
+		}
+		return false;
 	}
 
 	private void openHelpPageForBrick(Brick brick) {
