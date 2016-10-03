@@ -826,7 +826,7 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>
-    <string name="default_scene_name">Scene "%1$s"</string>
+    <string name="default_scene_name">Scene "%1$d"</string>
     <string name="default_project_background_name">Background</string>
     <string name="default_project_cloud_name">Clouds</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>

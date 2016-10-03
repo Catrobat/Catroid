@@ -604,16 +604,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (location == null) {
 			return;
 		}
-		if (isGpsConnected && location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
+		if (location.getProvider().equals(LocationManager.GPS_PROVIDER) || !isGpsConnected) {
 			latitude = location.getLatitude();
 			longitude = location.getLongitude();
 			locationAccuracy = location.getAccuracy();
-			altitude = location.hasAltitude() ? location.getAltitude() : Double.NaN;
-		} else if (!isGpsConnected) {
-			latitude = location.getLatitude();
-			longitude = location.getLongitude();
-			locationAccuracy = location.getAccuracy();
-			altitude = location.hasAltitude() ? location.getAltitude() : Double.NaN;
+			altitude = location.hasAltitude() ? location.getAltitude() : 0;
 		}
 
 		if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {

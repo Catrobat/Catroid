@@ -113,9 +113,6 @@ public class MyProjectsActivity extends BaseActivity {
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (projectsListFragment.lockBackButtonForAsync) {
-			return false;
-		}
 		if (projectsListFragment.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_UP) {
 			ProjectAdapter adapter = (ProjectAdapter) projectsListFragment.getListAdapter();

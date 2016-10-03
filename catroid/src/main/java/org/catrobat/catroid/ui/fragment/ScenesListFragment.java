@@ -93,7 +93,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	private View selectAllActionModeButton;
 	private boolean isRenameActionMode;
 	private boolean selectAll = true;
-	public boolean lockBackButtonForAsync = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -180,6 +179,8 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 		IntentFilter intentFilterSceneTouchUp = new IntentFilter(ScriptActivity.ACTION_SCENE_TOUCH_ACTION_UP);
 		getActivity().registerReceiver(sceneListTouchActionUpReceiver, intentFilterSceneTouchUp);
+
+		ProjectManager.getInstance().setCurrentScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
 	}
 
 	@Override
@@ -502,7 +503,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 			switchToBackPack();
 		}
 		clearCheckedScenesAndEnableButtons();
-		lockBackButtonForAsync = false;
 	}
 
 	public void switchToBackPack() {
@@ -739,7 +739,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
-				lockBackButtonForAsync = true;
 				boolean success = true;
 				for (Scene scene : scenesToCopy) {
 					sceneToEdit = scene;
@@ -756,7 +755,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 						} else {
 							ProjectManager.getInstance().saveProject(getActivity());
 						}
-						lockBackButtonForAsync = false;
 					}
 				});
 			}
@@ -768,7 +766,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
-				lockBackButtonForAsync = true;
 				boolean success = BackPackSceneController.getInstance().backpackScenes(scenes);
 				final boolean finalSuccess = success;
 				activity.runOnUiThread(new Runnable() {

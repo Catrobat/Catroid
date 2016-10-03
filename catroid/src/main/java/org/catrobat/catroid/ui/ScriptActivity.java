@@ -185,7 +185,12 @@ public class ScriptActivity extends BaseActivity {
 			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 			Scene scene = ProjectManager.getInstance().getCurrentScene();
 			if (sprite != null && scene != null) {
-				String title = scene.getName() + ": " + sprite.getName();
+				String title;
+				if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
+					title = sprite.getName();
+				} else {
+					title = scene.getName() + ": " + sprite.getName();
+				}
 				actionBar.setTitle(title);
 			}
 		} catch (NullPointerException nullPointerException) {
