@@ -80,7 +80,7 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 		collisionInformation.loadOrCreateCollisionPolygon();
 
 		sprite.look.setLookData(lookData);
-		sprite.addLookData(lookData);
+		sprite.getLookDataList().add(lookData);
 		sprite.look.setHeight(sprite.look.getLookData().getPixmap().getHeight());
 		sprite.look.setWidth(sprite.look.getLookData().getPixmap().getWidth());
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
