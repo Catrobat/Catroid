@@ -956,7 +956,7 @@
   <string name="formula_editor_logic_boolean">logical (boolean) operators</string>
   <string name="formula_editor_logic_comparison">comparison operators</string>
   <string name="formula_editor_object_general">general properties</string>
-  <string name="formula_editor_object_physical">physical properties</string>
+  <string name="formula_editor_object_movement">physical properties</string>
   <string name="formula_editor_device_face_detection">Face detection</string>
   <string name="formula_editor_device_touch_detection">Touch detection</string>
   <string name="formula_editor_device_lego">Lego</string>

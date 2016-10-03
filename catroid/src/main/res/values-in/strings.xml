@@ -893,7 +893,7 @@
   <string name="formula_editor_logic_boolean">operator logika (boolean)</string>
   <string name="formula_editor_logic_comparison">operator perbandingan</string>
   <string name="formula_editor_object_general">properti umum</string>
-  <string name="formula_editor_object_physical">properti fisik</string>
+  <string name="formula_editor_object_movement">properti fisik</string>
   <string name="formula_editor_device_face_detection">Deteksi wajah</string>
   <string name="formula_editor_device_touch_detection">Deteksi sentuhan</string>
   <string name="formula_editor_device_lego">Lego</string>

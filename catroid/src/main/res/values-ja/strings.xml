@@ -897,7 +897,7 @@
   <string name="formula_editor_logic_boolean">論理 (ブール) 演算子</string>
   <string name="formula_editor_logic_comparison">比較演算子</string>
   <string name="formula_editor_object_general">全般プロパティ</string>
-  <string name="formula_editor_object_physical">物理プロパティ</string>
+  <string name="formula_editor_object_movement">物理プロパティ</string>
   <string name="formula_editor_device_face_detection">顔検出</string>
   <string name="formula_editor_device_touch_detection">タッチ検出</string>
   <string name="formula_editor_device_lego">レゴ</string>
