@@ -105,7 +105,7 @@ public final class TextSizeUtil {
 		item.setTitle(spanString);
 	}
 
-	public static TextAppearanceSpan getTextAppearanceSpanForMainMenue(Context context) {
+	public static TextAppearanceSpan getTextAppearanceSpanForMainMenu(Context context) {
 		ColorStateList color;
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

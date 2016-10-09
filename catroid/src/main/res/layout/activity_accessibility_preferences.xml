@@ -41,7 +41,7 @@
         <RelativeLayout
             android:id="@+id/access_scroll_view_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="30dp">
 
@@ -89,6 +89,7 @@
 
             <LinearLayout
                 android:id="@+id/access__active_profile"
+                android:baselineAligned="false"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -122,7 +123,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Active Profile Title"
                         android:layout_marginTop="15dp" />
 
                     <TextView
@@ -130,7 +130,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="This is the descirption of the active profile. At least there should be one here."
                         android:layout_marginTop="5dp"
                         android:layout_below="@+id/access_active_profile_title" />
 

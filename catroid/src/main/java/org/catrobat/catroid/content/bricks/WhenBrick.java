@@ -50,11 +50,7 @@ public class WhenBrick extends BrickBaseType implements ScriptBrick {
 		if (whenScript != null && whenScript.isCommentedOut()) {
 			setCommentedOut(true);
 
-			if (whenScript == null) {
-				changeTextSize = false;
-			} else {
-				changeTextSize = true;
-			}
+			changeTextSize = whenScript != null;
 		}
 	}
 

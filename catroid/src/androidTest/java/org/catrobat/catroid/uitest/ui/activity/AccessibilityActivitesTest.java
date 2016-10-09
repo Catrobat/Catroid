@@ -46,7 +46,7 @@ public class AccessibilityActivitesTest extends BaseActivityInstrumentationTestC
 		settings = solo.getString(R.string.settings);
 	}
 
-	public void testSettingsx() {
+	public void testSettings() {
 		solo.waitForActivity(MainMenuActivity.class);
 
 		solo.clickOnMenuItem(settings);
@@ -76,7 +76,7 @@ public class AccessibilityActivitesTest extends BaseActivityInstrumentationTestC
 
 		solo.clickOnText(solo.getString(R.string.close));
 		selectedProfile = (TextView) solo.getView(R.id.access_active_profile_title);
-		assertEquals("The slection did not change to My Profile.", selectedProfile.getText(),
+		assertEquals("The selection did not change to My Profile.", selectedProfile.getText(),
 				solo.getString(R.string.preference_access_title_profile_myprofile));
 	}
 }

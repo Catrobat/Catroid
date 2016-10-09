@@ -46,69 +46,69 @@ public final class IconsUtilTest extends AndroidTestCase {
 
 	public void testAddIcons() {
 		setUp();
-		assertNotNull(textView);
+		assertNotNull("Brick label not found.", textView);
 
 		IconsUtil.addIcon(getContext(), textView, getContext().getString(R.string.category_control));
 
 		Drawable[] drawables = textView.getCompoundDrawables();
-		assertNotNull(drawables);
+		assertNotNull("TextView has no CompoundDrables.", drawables);
 
 		Drawable correctDrawable = getContext().getResources().getDrawable(R.drawable.control_pos);
-		assertNotNull(correctDrawable);
+		assertNotNull("Control pos drawable not found.", correctDrawable);
 
 		Bitmap bitmap = ((BitmapDrawable) drawables[0]).getBitmap();
-		assertEquals(IconsUtil.smallIconSize, drawables[0].getBounds());
-		assertNotNull(bitmap);
+		assertEquals("Icon size did not match the expected size.", IconsUtil.smallIconSize, drawables[0].getBounds());
+		assertNotNull("No current bitmap.", bitmap);
 
 		Bitmap correctBitmap = ((BitmapDrawable) correctDrawable).getBitmap();
-		assertNotNull(correctBitmap);
+		assertNotNull("No current bitmap.", correctBitmap);
 
-		assertEquals(correctBitmap, bitmap);
+		assertEquals("Bitmap does not match expected bitmap", correctBitmap, bitmap);
 	}
 
 	public void testAddIconsLarge() {
 		setUp();
-		assertNotNull(textView);
+		assertNotNull("Brick label not found.", textView);
 
 		IconsUtil.setLargeSize(true);
 		IconsUtil.addIcon(getContext(), textView, getContext().getString(R.string.category_control));
 
 		Drawable[] drawables = textView.getCompoundDrawables();
-		assertNotNull(drawables);
+		assertNotNull("TextView has no CompoundDrables.", drawables);
 
 		Drawable correctDrawable = getContext().getResources().getDrawable(R.drawable.control_pos);
-		assertNotNull(correctDrawable);
+		assertNotNull("Control pos drawable not found.", correctDrawable);
 
 		Bitmap bitmap = ((BitmapDrawable) drawables[0]).getBitmap();
-		assertEquals(IconsUtil.largeIconSize, drawables[0].getBounds());
-		assertNotNull(bitmap);
+		assertEquals("Icon size did not match the expected size.", IconsUtil.largeIconSize, drawables[0].getBounds());
+		assertNotNull("No current bitmap.", bitmap);
 
 		Bitmap correctBitmap = ((BitmapDrawable) correctDrawable).getBitmap();
-		assertNotNull(correctBitmap);
+		assertNotNull("No current bitmap.", correctBitmap);
 
-		assertEquals(correctBitmap, bitmap);
+		assertEquals("Bitmap does not match expected bitmap", correctBitmap, bitmap);
 	}
 
 	public void testAddIconsContrast() {
 		setUp();
-		assertNotNull(textView);
+		assertNotNull("Brick label not found.", textView);
 
 		IconsUtil.setContrast(true);
 		IconsUtil.addIcon(getContext(), textView, getContext().getString(R.string.category_control));
 
 		Drawable[] drawables = textView.getCompoundDrawables();
-		assertNotNull(drawables);
+		assertNotNull("TextView has no CompoundDrables.", drawables);
 
 		Drawable correctDrawable = getContext().getResources().getDrawable(R.drawable.control_neg);
-		assertNotNull(correctDrawable);
+		assertNotNull("Control pos drawable not found.", correctDrawable);
 
 		Bitmap bitmap = ((BitmapDrawable) drawables[0]).getBitmap();
-		assertEquals(IconsUtil.smallIconSize, drawables[0].getBounds());
-		assertNotNull(bitmap);
+		assertEquals("Icon size did not match the expected size.", IconsUtil.smallIconSize, drawables[0].getBounds());
+		assertNotNull("No current bitmap.", bitmap);
 
 		Bitmap correctBitmap = ((BitmapDrawable) correctDrawable).getBitmap();
-		assertNotNull(correctBitmap);
+		assertNotNull("No current bitmap.", correctBitmap);
 
-		assertEquals(bitmap, correctBitmap);
+		assertEquals("Bitmap does not match expected bitmap", bitmap, correctBitmap);
 	}
 }

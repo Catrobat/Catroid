@@ -131,8 +131,10 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 					receiveScript.setBroadcastMessage(selectedMessage);
 					broadcastMessage = selectedMessage;
 				}
-				TextView spinnerText = (TextView) parent.getChildAt(0);
-				TextSizeUtil.enlargeTextView(spinnerText);
+				if (parent != null) {
+					TextView spinnerText = (TextView) parent.getChildAt(0);
+					TextSizeUtil.enlargeTextView(spinnerText);
+				}
 			}
 
 			@Override

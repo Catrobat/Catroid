@@ -51,7 +51,7 @@ public class CatroidApplication extends MultiDexApplication {
 		Log.d(TAG, "CatroidApplication onCreate");
 		settings = new ApplicationSettings(this);
 		CatroidApplication.context = getApplicationContext();
-		SettingsActivity.applyAccesibilitySettings(context);
+		SettingsActivity.applyAccessibilitySettings(context);
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class CatroidApplication extends MultiDexApplication {
 	public static void restartApplication(Context context) {
 		int delay = 100;
 		Intent restartIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-		PendingIntent intent = PendingIntent.getActivity(context, 0, restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		PendingIntent intent = PendingIntent.getActivity(context, 0, restartIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent);
 		System.exit(2);

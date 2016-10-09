@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -84,25 +85,19 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 
 		Intent intent = getIntent();
 		int selectedProfileId = intent.getIntExtra(AccessibilityProfilesActivity.PROFILE_ID, -1);
-		if (selectedProfileId == -1) {
-			inSelectedProfile = false;
-		} else {
-			inSelectedProfile = true;
-		}
+		inSelectedProfile = selectedProfileId != -1;
 
 		if (inSelectedProfile) {
 			Button switchProfilesButton = (Button) findViewById(R.id.access_switch_to_predefined_profiles_button);
-			View seperationLine = (View) findViewById(R.id.access_separation_line_switch_profiles);
+			View separationLine = (View) findViewById(R.id.access_separation_line_switch_profiles);
 			TextView activeProfileTextView = (TextView) findViewById(R.id.access_label_active_profile);
 
 			switchProfilesButton.setVisibility(View.GONE);
-			seperationLine.setVisibility(View.GONE);
+			separationLine.setVisibility(View.GONE);
 			activeProfileTextView.setText(getResources().getString(R.string.preference_access_selected_profile));
 
 			loadProfile(selectedProfileId);
-		}
-
-		if (!inSelectedProfile) {
+		} else {
 			if (SettingsActivity.getActiveAccessibilityProfile(getApplicationContext()).equals(SettingsActivity.ACCESS_PROFILE_NONE)) {
 				SettingsActivity.setActiveAccessibilityProfile(getApplicationContext(), SettingsActivity.ACCESS_PROFILE_STANDARD);
 				parseAccessibilityPredefinedProfile(SettingsActivity.ACCESS_PROFILE_STANDARD);
@@ -226,7 +221,6 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 		builder.setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				return;
 			}
 		});
 		builder.show();
@@ -513,9 +507,9 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 				event = parser.next();
 			}
 		} catch (XmlPullParserException ex) {
-			ex.printStackTrace();
+			Log.e(TAG, Log.getStackTraceString(ex));
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			Log.e(TAG, Log.getStackTraceString(ex));
 		}
 	}
 

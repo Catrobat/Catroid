@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -84,6 +85,10 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String RASPI_PORT = "setting_raspi_port_preference";
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
+	public static final String ACCESS_APPLICATION_FONT = "SANS_SERIF";
+	public static final String ACCESS_PATH_FONT_SERIF = "fonts/CrimsonText-Roman.ttf";
+	public static final String ACCESS_PATH_FONT_DYSLEXIC = "fonts/OpenDyslexic-Regular.otf";
+	public static final String ACCESS_BUTTON = "preference_button_access";
 	public static final String ACCESS_PROFILE_NONE = "setting_access_profile_none";
 	public static final String ACCESS_PROFILE_ACTIVE = "setting_access_profile_active";
 	public static final String ACCESS_PROFILE_STANDARD = "setting_access_profile_standard";
@@ -126,6 +131,7 @@ public class SettingsActivity extends PreferenceActivity {
 		setNXTSensors();
 		setDronePreferences();
 		setHintPreferences();
+		setAccessibilityMenuButtonListener();
 		updateActionBar();
 
 		screen = getPreferenceScreen();
@@ -311,7 +317,19 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 	}
 
-	public static void applyAccesibilitySettings(Context context) {
+	private void setAccessibilityMenuButtonListener() {
+		PreferenceScreen accessButton = (PreferenceScreen) findPreference(ACCESS_BUTTON);
+		accessButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent intent = new Intent(SettingsActivity.this, AccessibilityPreferencesActivity.class);
+				startActivity(intent);
+				return true;
+			}
+		});
+	}
+
+	public static void applyAccessibilitySettings(Context context) {
 		if (getAccessibilityLargeTextEnabled(context)) {
 			TextSizeUtil.enableTextSizeUtil();
 		}
@@ -339,9 +357,9 @@ public class SettingsActivity extends PreferenceActivity {
 			DragAndDropListView.enableLongpressDelay();
 		}
 		if (getAccessibilityFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_SERIF)) {
-			Utils.setDefaultFont(context, "SANS_SERIF", "fonts/CrimsonText-Roman.ttf");
+			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_SERIF);
 		} else if (getAccessibilityFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
-			Utils.setDefaultFont(context, "SANS_SERIF", "fonts/OpenDyslexic-Regular.otf");
+			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_DYSLEXIC);
 		}
 	}
 

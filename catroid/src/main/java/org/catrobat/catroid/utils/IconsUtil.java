@@ -47,8 +47,8 @@ public final class IconsUtil {
 	private static boolean contrast = false;
 	private static boolean largeSize = false;
 
-	private static Rect smallIconSize = new Rect(0, 0, 64, 64);
-	private static Rect largeIconSize = new Rect(0, 0, 128, 128);
+	public static Rect smallIconSize = new Rect(0, 0, 64, 64);
+	public static Rect largeIconSize = new Rect(0, 0, 128, 128);
 	private static Rect smallIconSizeCategory = new Rect(-20, 0, 75, 95);
 	private static Rect largeIconSizeCategory = new Rect(-20, 0, 145, 160);
 	private static Rect largeIconSizeMainMenu = new Rect(0, 0, 150, 150);
@@ -130,8 +130,9 @@ public final class IconsUtil {
 				} else {
 					drawable.setBounds(smallIconSize);
 				}
-				textView.setText(uglySpacingString + textView.getText());
-				textView.setGravity(Gravity.CENTER);
+				String textWithSpacing = uglySpacingString + textView.getText();
+				textView.setText(textWithSpacing);
+				textView.setGravity(Gravity.FILL_VERTICAL);
 				textView.setCompoundDrawables(drawable, null, null, null);
 			}
 		}
@@ -211,30 +212,31 @@ public final class IconsUtil {
 	}
 
 	public static void addIcons(ViewGroup viewGroup, String category) {
-		if (isActivated()) {
-			for (int i = 0; i < viewGroup.getChildCount(); i++) {
-				if (viewGroup.getChildAt(i) instanceof BrickLayout) {
-					BrickLayout l = (BrickLayout) viewGroup.getChildAt(i);
-					if (l.getChildAt(0) instanceof TextView) {
-						TextView textView = (TextView) l.getChildAt(0);
-						addIcon(viewGroup.getContext(), textView, category);
-					} else if (l.getChildAt(0) instanceof RelativeLayout) {
-						RelativeLayout rl = (RelativeLayout) l.getChildAt(0);
-						if (rl.getChildAt(0) instanceof LinearLayout) {
-							LinearLayout ll = (LinearLayout) rl.getChildAt(0);
-							if (ll.getChildAt(0) instanceof TextView) {
-								TextView textView = (TextView) ll.getChildAt(0);
-								addIcon(viewGroup.getContext(), textView, category);
-							}
+		if (!isActivated()) {
+			return;
+		}
+		for (int i = 0; i < viewGroup.getChildCount(); i++) {
+			if (viewGroup.getChildAt(i) instanceof BrickLayout) {
+				BrickLayout l = (BrickLayout) viewGroup.getChildAt(i);
+				if (l.getChildAt(0) instanceof TextView) {
+					TextView textView = (TextView) l.getChildAt(0);
+					addIcon(viewGroup.getContext(), textView, category);
+				} else if (l.getChildAt(0) instanceof RelativeLayout) {
+					RelativeLayout rl = (RelativeLayout) l.getChildAt(0);
+					if (rl.getChildAt(0) instanceof LinearLayout) {
+						LinearLayout ll = (LinearLayout) rl.getChildAt(0);
+						if (ll.getChildAt(0) instanceof TextView) {
+							TextView textView = (TextView) ll.getChildAt(0);
+							addIcon(viewGroup.getContext(), textView, category);
 						}
-					} else if (l.getChildAt(0) instanceof LinearLayout) {
-						LinearLayout ll = (LinearLayout) l.getChildAt(0);
-						if (ll.getChildAt(0) instanceof TableRow) {
-							TableRow tr = (TableRow) ll.getChildAt(0);
-							if (tr.getChildAt(0) instanceof TextView) {
-								TextView textView = (TextView) tr.getChildAt(0);
-								addIcon(viewGroup.getContext(), textView, category);
-							}
+					}
+				} else if (l.getChildAt(0) instanceof LinearLayout) {
+					LinearLayout ll = (LinearLayout) l.getChildAt(0);
+					if (ll.getChildAt(0) instanceof TableRow) {
+						TableRow tr = (TableRow) ll.getChildAt(0);
+						if (tr.getChildAt(0) instanceof TextView) {
+							TextView textView = (TextView) tr.getChildAt(0);
+							addIcon(viewGroup.getContext(), textView, category);
 						}
 					}
 				}
@@ -247,38 +249,18 @@ public final class IconsUtil {
 			return;
 		}
 
-		Drawable drawable = null;
-		Button button = null;
-
-		drawable = context.getResources().getDrawable(R.drawable.ic_main_menu_continue);
-		drawable.setBounds(largeIconSizeMainMenu);
-		button = (Button) contentView.findViewById(R.id.main_menu_button_continue);
-		button.setCompoundDrawables(drawable, null, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.ic_main_menu_new);
-		drawable.setBounds(largeIconSizeMainMenu);
-		button = (Button) contentView.findViewById(R.id.main_menu_button_new);
-		button.setCompoundDrawables(drawable, null, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.ic_main_menu_programs);
-		drawable.setBounds(largeIconSizeMainMenu);
-		button = (Button) contentView.findViewById(R.id.main_menu_button_programs);
-		button.setCompoundDrawables(drawable, null, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.ic_main_menu_help);
-		drawable.setBounds(largeIconSizeMainMenu);
-		button = (Button) contentView.findViewById(R.id.main_menu_button_help);
-		button.setCompoundDrawables(drawable, null, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.ic_main_menu_community);
-		drawable.setBounds(largeIconSizeMainMenu);
-		button = (Button) contentView.findViewById(R.id.main_menu_button_web);
-		button.setCompoundDrawables(drawable, null, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.ic_main_menu_upload);
-		drawable.setBounds(largeIconSizeMainMenu);
-		button = (Button) contentView.findViewById(R.id.main_menu_button_upload);
-		button.setCompoundDrawables(drawable, null, null, null);
+		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_continue,
+				R.drawable.ic_main_menu_continue);
+		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_new,
+				R.drawable.ic_main_menu_new);
+		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_programs,
+				R.drawable.ic_main_menu_programs);
+		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_help,
+				R.drawable.ic_main_menu_help);
+		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_web,
+				R.drawable.ic_main_menu_community);
+		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_upload,
+				R.drawable.ic_main_menu_upload);
 	}
 
 	public static void setProgramMenuIconSize(Context context, View contentView) {
@@ -286,30 +268,24 @@ public final class IconsUtil {
 			return;
 		}
 
-		Drawable drawable = null;
-		Button button = null;
-
-		drawable = context.getResources().getDrawable(R.drawable.ic_program_menu_scripts);
-		drawable.setBounds(largeIconSizeProgramMenu);
-		button = (Button) contentView.findViewById(R.id.program_menu_button_scripts);
-		button.setCompoundDrawables(drawable, null, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.ic_program_menu_looks);
-		drawable.setBounds(largeIconSizeProgramMenu);
-		button = (Button) contentView.findViewById(R.id.program_menu_button_looks);
-		button.setCompoundDrawables(drawable, null, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.ic_program_menu_sounds);
-		drawable.setBounds(largeIconSizeProgramMenu);
-		button = (Button) contentView.findViewById(R.id.program_menu_button_sounds);
-		button.setCompoundDrawables(drawable, null, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.ic_program_menu_nfc);
-		drawable.setBounds(largeIconSizeProgramMenu);
-		button = (Button) contentView.findViewById(R.id.program_menu_button_nfctags);
-		button.setCompoundDrawables(drawable, null, null, null);
+		setLeftDrawableSize(context, contentView, largeIconSizeProgramMenu, R.id.program_menu_button_scripts,
+				R.drawable.ic_program_menu_scripts);
+		setLeftDrawableSize(context, contentView, largeIconSizeProgramMenu, R.id.program_menu_button_looks,
+				R.drawable.ic_program_menu_looks);
+		setLeftDrawableSize(context, contentView, largeIconSizeProgramMenu, R.id.program_menu_button_sounds,
+				R.drawable.ic_program_menu_sounds);
+		setLeftDrawableSize(context, contentView, largeIconSizeProgramMenu, R.id.program_menu_button_nfctags,
+				R.drawable.ic_program_menu_nfc);
 
 		setBottomBarIconSize(context, contentView);
+	}
+
+	private static void setLeftDrawableSize(Context context, View contentView, Rect bounds, int viewId, int
+			drawableId) {
+		Drawable drawable = context.getResources().getDrawable(drawableId);
+		drawable.setBounds(bounds);
+		Button button = (Button) contentView.findViewById(viewId);
+		button.setCompoundDrawables(drawable, null, null, null);
 	}
 
 	public static void setStageDialogIconSize(Context context, View contentView) {
@@ -317,32 +293,23 @@ public final class IconsUtil {
 			return;
 		}
 
-		Drawable drawable = null;
-		Button button = null;
+		setTopDrawableSize(context, contentView, largeIconSizeStageDialog, R.id.stage_dialog_button_back,
+				R.drawable.stage_dialog_button_back_selector);
+		setTopDrawableSize(context, contentView, largeIconSizeStageDialog, R.id.stage_dialog_button_restart,
+				R.drawable.stage_dialog_button_restart_selector);
+		setTopDrawableSize(context, contentView, largeIconSizeStageDialog, R.id.stage_dialog_button_screenshot,
+				R.drawable.stage_dialog_button_screenshot_selector);
+		setTopDrawableSize(context, contentView, largeIconSizeStageDialog, R.id.stage_dialog_button_toggle_axes,
+				R.drawable.stage_dialog_button_toggle_axis_selector);
+		setTopDrawableSize(context, contentView, largeIconSizeStageDialogContinue, R.id.stage_dialog_button_continue,
+				R.drawable.stage_dialog_button_continue_selector);
+	}
 
-		drawable = context.getResources().getDrawable(R.drawable.stage_dialog_button_back_selector);
-		drawable.setBounds(largeIconSizeStageDialog);
-		button = (Button) contentView.findViewById(R.id.stage_dialog_button_back);
-		button.setCompoundDrawables(null, drawable, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.stage_dialog_button_restart_selector);
-		drawable.setBounds(largeIconSizeStageDialog);
-		button = (Button) contentView.findViewById(R.id.stage_dialog_button_restart);
-		button.setCompoundDrawables(null, drawable, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.stage_dialog_button_screenshot_selector);
-		drawable.setBounds(largeIconSizeStageDialog);
-		button = (Button) contentView.findViewById(R.id.stage_dialog_button_screenshot);
-		button.setCompoundDrawables(null, drawable, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.stage_dialog_button_toggle_axis_selector);
-		drawable.setBounds(largeIconSizeStageDialog);
-		button = (Button) contentView.findViewById(R.id.stage_dialog_button_toggle_axes);
-		button.setCompoundDrawables(null, drawable, null, null);
-
-		drawable = context.getResources().getDrawable(R.drawable.stage_dialog_button_continue_selector);
-		drawable.setBounds(largeIconSizeStageDialogContinue);
-		button = (Button) contentView.findViewById(R.id.stage_dialog_button_continue);
+	private static void setTopDrawableSize(Context context, View contentView, Rect bounds, int viewId, int
+			drawableId) {
+		Drawable drawable = context.getResources().getDrawable(drawableId);
+		drawable.setBounds(bounds);
+		Button button = (Button) contentView.findViewById(viewId);
 		button.setCompoundDrawables(null, drawable, null, null);
 	}
 
@@ -351,13 +318,14 @@ public final class IconsUtil {
 			return;
 		}
 
-		ImageButton playButton = (ImageButton) contentView.findViewById(R.id.button_play);
-		Bitmap playBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_play);
-		playButton.setImageBitmap(Bitmap.createScaledBitmap(playBitmap, largeIconBottomBar, largeIconBottomBar, false));
+		setBitmapSize(context, contentView, largeIconBottomBar, R.id.button_play, R.drawable.ic_play);
+		setBitmapSize(context, contentView, largeIconBottomBar, R.id.button_add, R.drawable.ic_plus);
+	}
 
-		ImageButton addButton = (ImageButton) contentView.findViewById(R.id.button_add);
-		Bitmap plusBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_plus);
-		addButton.setImageBitmap(Bitmap.createScaledBitmap(plusBitmap, largeIconBottomBar, largeIconBottomBar, false));
+	private static void setBitmapSize(Context context, View contentView, int size, int buttonId, int drawableId) {
+		ImageButton button = (ImageButton) contentView.findViewById(buttonId);
+		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
+		button.setImageBitmap(Bitmap.createScaledBitmap(bitmap, size, size, false));
 	}
 
 	public static boolean isActivated() {

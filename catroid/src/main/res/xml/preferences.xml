@@ -169,7 +169,6 @@
         android:summary="@string/preference_description_access"
         android:id="@+id/preference_button_access"
         android:key="preference_button_access">
-        <intent android:action=".ui.AccessibilityPreferencesActivity" />
     </PreferenceScreen>
 
     <CheckBoxPreference

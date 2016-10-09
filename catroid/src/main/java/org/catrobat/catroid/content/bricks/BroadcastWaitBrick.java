@@ -90,8 +90,10 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 				} else {
 					broadcastMessage = selectedMessage;
 				}
-				TextView spinnerText = (TextView) adapterView.getChildAt(0);
-				TextSizeUtil.enlargeTextView(spinnerText);
+				if (adapterView != null) {
+					TextView spinnerText = (TextView) adapterView.getChildAt(0);
+					TextSizeUtil.enlargeTextView(spinnerText);
+				}
 			}
 
 			@Override

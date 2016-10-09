@@ -50,9 +50,9 @@ public final class DividerUtilTest extends ActivityInstrumentationTestCase2<Main
 
 	public void testAddIcons() {
 		setUp();
-		assertNotNull(mainMenuActivity);
-		assertNotNull(context);
-		assertNotNull(linearLayout);
+		assertNotNull("No current activity.", mainMenuActivity);
+		assertNotNull("No current context.", context);
+		assertNotNull("Container layout not found.", linearLayout);
 
 		mainMenuActivity.runOnUiThread(new Runnable() {
 			@Override
@@ -62,7 +62,7 @@ public final class DividerUtilTest extends ActivityInstrumentationTestCase2<Main
 		});
 
 		int drawable = linearLayout.getDividerPadding();
-		assertNotNull(drawable);
-		assertEquals(DividerUtil.dividerHeight, drawable);
+		assertNotNull("No current DividerPadding drawable.", drawable);
+		assertEquals("Divider height did not match the expected height.", DividerUtil.dividerHeight, drawable);
 	}
 }

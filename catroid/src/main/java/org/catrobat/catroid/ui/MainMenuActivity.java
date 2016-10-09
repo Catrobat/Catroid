@@ -130,7 +130,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 				setContentView(R.layout.activity_main_menu);
 			} else {
 				setContentView(R.layout.activity_main_menu_with_dividers);
-				System.out.println("DIVIDER LAYOUT ACTIVE2:::::::::::::::::::::::::::::::");
 			}
 
 			IconsUtil.setMainMenuIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
@@ -366,7 +365,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	private void setMainMenuButtonContinueText() {
 		Button mainMenuButtonContinue = (Button) this.findViewById(R.id.main_menu_button_continue);
-		TextAppearanceSpan textAppearanceSpan = TextSizeUtil.getTextAppearanceSpanForMainMenue(this);
+		TextAppearanceSpan textAppearanceSpan = TextSizeUtil.getTextAppearanceSpanForMainMenu(this);
 		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 		String mainMenuContinue = this.getString(R.string.main_menu_continue);
 

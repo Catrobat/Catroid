@@ -36,7 +36,6 @@ import org.catrobat.catroid.R;
 import java.util.List;
 
 public class AccessibilityCheckboxAdapter extends ArrayAdapter<AccessibilityCheckboxAdapter.AccessibilityCheckbox> {
-	private static final String TAG = AccessibilityCheckboxAdapter.class.getSimpleName();
 
 	private static LayoutInflater inflater;
 

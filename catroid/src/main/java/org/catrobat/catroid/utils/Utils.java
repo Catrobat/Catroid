@@ -1039,9 +1039,9 @@ public final class Utils {
 			staticField.setAccessible(true);
 			staticField.set(null, newTypeface);
 		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
+			Log.e(TAG, Log.getStackTraceString(e));
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			Log.e(TAG, Log.getStackTraceString(e));
 		}
 	}
 }

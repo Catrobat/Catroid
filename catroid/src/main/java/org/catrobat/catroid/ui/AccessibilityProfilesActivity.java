@@ -64,10 +64,10 @@ public class AccessibilityProfilesActivity extends BaseActivity {
 		actionBar.setHomeButtonEnabled(true);
 	}
 
-	public void doMyBidding(View view) {
+	public void openProfile(View view) {
 		Intent intent = new Intent(AccessibilityProfilesActivity.this, AccessibilityPreferencesActivity.class);
 		intent.putExtra(PROFILE_ID, view.getId());
-		AccessibilityProfilesActivity.this.startActivity(intent);
+		startActivity(intent);
 	}
 
 	private void updateAccessibilityActiveProfile() {
