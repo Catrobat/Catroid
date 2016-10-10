@@ -35,7 +35,6 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,7 +99,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private CallbackManager callbackManager;
 	private SignInDialog signInDialog;
-	private boolean lockBackButtonForAsync = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -238,7 +236,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
-		lockBackButtonForAsync = true;
 		loadProjectTask.execute();
 	}
 
@@ -249,7 +246,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
-		lockBackButtonForAsync = true;
 		loadProjectTask.execute();
 	}
 
@@ -262,7 +258,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
-		lockBackButtonForAsync = false;
 	}
 
 	public void handleNewButton(View view) {
@@ -366,14 +361,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		return (keyCode == KeyEvent.KEYCODE_BACK && !lockBackButtonForAsync);
-	}
-
-	@Override
 	public void onLoadProjectFailure() {
 		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
-		lockBackButtonForAsync = false;
 	}
 
 	public void initializeFacebookSdk() {

@@ -314,6 +314,10 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.scene_checkbox)).isChecked());
 	}
 
+	public SceneAdapter getAdapter() {
+		return sceneAdapter;
+	}
+
 	public boolean copyScene() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -375,6 +379,12 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
+			}
+		});
+
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialogInterface) {
 				clearCheckedScenesAndEnableButtons();
 			}
 		});
