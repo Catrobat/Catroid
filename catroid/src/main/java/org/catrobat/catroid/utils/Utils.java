@@ -133,10 +133,9 @@ public final class Utils {
 	public static boolean checkIfCrashRecoveryAndFinishActivity(final Activity context) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (preferences.getBoolean(BaseExceptionHandler.RECOVERED_FROM_CRASH, false)) {
-			if (BuildConfig.FIREBASE_CRASH_REPORT_ENABLED) {
-				if (preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false)) {
-					sendCaughtException(context);
-				}
+			if (BuildConfig.FIREBASE_CRASH_REPORT_ENABLED
+					&& preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false)) {
+				sendCaughtException(context);
 			}
 			if (!(context instanceof MainMenuActivity)) {
 				context.finish();
