@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
@@ -98,8 +99,8 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.createTestProject();
 
 		project = ProjectManager.getInstance().getCurrentProject();
-		sprite = new Sprite(SPRITE_NAME);
-		Sprite sprite2 = new Sprite(SPRITE_NAME2);
+		sprite = new SingleSprite(SPRITE_NAME);
+		Sprite sprite2 = new SingleSprite(SPRITE_NAME2);
 		project.getDefaultScene().rename(SCENE_NAME, getActivity(), false);
 		project.getDefaultScene().addSprite(sprite);
 		project.getDefaultScene().addSprite(sprite2);
