@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -44,7 +42,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.GroupItemSprite;
@@ -52,7 +49,6 @@ import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 
 import java.util.ArrayList;
@@ -262,7 +258,6 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 		holder.background.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View view) {
-				openBackPackMenuFromBackground();
 				return selectMode != ListView.CHOICE_MODE_NONE;
 			}
 		});
@@ -290,7 +285,7 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 		});
 	}
 
-	public void setCheckboxListener(ViewHolder holder, boolean enableCheckboxesForCopyMode, boolean
+	private void setCheckboxListener(ViewHolder holder, boolean enableCheckboxesForCopyMode, boolean
 			enableCheckboxesForBackpackMode, boolean forGroup) {
 		RelativeLayout layout = forGroup ? holder.groupBackground : holder.background;
 		if (selectMode == ListView.CHOICE_MODE_NONE) {
@@ -400,28 +395,6 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 		return holder;
 	}
 
-	private void openBackPackMenuFromBackground() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		CharSequence[] items = new CharSequence[] { context.getString(R.string.backpack_add) };
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				if (which == 0) {
-					BackPackSpriteController.getInstance().backpackVisibleSprite((Sprite) getGroup(0));
-					spritesListFragment.switchToBackPack();
-				}
-				dialog.dismiss();
-			}
-		});
-		String title = context.getString(R.string.background);
-		if (ProjectManager.getInstance().getCurrentSprite() != null) {
-			title = ProjectManager.getInstance().getCurrentSprite().getName();
-		}
-		builder.setTitle(title);
-		builder.setCancelable(true);
-		builder.show();
-	}
-
 	public void setSpritesListFragment(SpritesListFragment spritesListFragment) {
 		this.spritesListFragment = spritesListFragment;
 	}
@@ -465,7 +438,7 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 		this.showDetails = showDetails;
 	}
 
-	public void handleHolderViews(int groupPosition, final int childPosition, ViewHolder holder) {
+	private void handleHolderViews(int groupPosition, final int childPosition, ViewHolder holder) {
 		handleCheckedSprites(groupPosition, childPosition, holder);
 
 		Sprite sprite = (Sprite) getChild(groupPosition, childPosition - 1);
@@ -522,7 +495,7 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 		}
 	}
 
-	protected void setImage(ViewHolder holder, Sprite sprite) {
+	private void setImage(ViewHolder holder, Sprite sprite) {
 		LookData firstLookData = null;
 		if (sprite.getLookDataList().size() > 0) {
 			firstLookData = sprite.getLookDataList().get(0);
@@ -650,7 +623,7 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 		return getGroupNames().size();
 	}
 
-	public boolean isGroupSpritePosition(int groupPosition) {
+	private boolean isGroupSpritePosition(int groupPosition) {
 		return getGroup(groupPosition) instanceof GroupSprite;
 	}
 
@@ -706,7 +679,7 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 		return nonGroupNames;
 	}
 
-	public int getFlatPositionByGroupAndChildPosition(int groupPosition, int childPosition) {
+	private int getFlatPositionByGroupAndChildPosition(int groupPosition, int childPosition) {
 		Sprite sprite = (Sprite) getGroup(groupPosition);
 		int groupSpriteIndex = spriteList.indexOf(sprite);
 		return groupSpriteIndex + childPosition;
@@ -803,16 +776,16 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 	}
 
 	protected static class ViewHolder {
-		protected LinearLayout spritelistParent;
+		LinearLayout spritelistParent;
 		protected RelativeLayout background;
-		protected RelativeLayout groupBackground;
+		RelativeLayout groupBackground;
 		protected CheckBox checkbox;
 		protected TextView text;
-		protected TextView groupText;
-		protected LinearLayout backgroundHeadline;
-		protected LinearLayout objectsHeadline;
+		TextView groupText;
+		LinearLayout backgroundHeadline;
+		LinearLayout objectsHeadline;
 		protected ImageView image;
-		protected ImageView indicator;
+		ImageView indicator;
 		protected TextView scripts;
 		protected TextView bricks;
 		protected TextView looks;
