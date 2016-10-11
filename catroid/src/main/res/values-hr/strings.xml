@@ -33,20 +33,21 @@
   <string name="yes">Da</string>
   <string name="no">Ne</string>
   <string name="copy">Kopirati</string>
-  <string name="cut">Izrezati</string>
+  <string name="cut">Cut</string>
   <string name="move">Premjestiti</string>
   <string name="backpack_add">Add to backpack</string>
-  <string name="backpack">Ostava</string>
+  <string name="backpack">Backpack</string>
   <string name="packing">Pack</string>
   <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="unpack_bg">Unpack as background</string>
   <string name="unpack_object">Unpack as object</string>
-  <string name="copy_addition">kopija</string>
+  <string name="copy_addition">copy</string>
   <string name="close">Zatvoriti</string>
   <string name="error">Pogreška</string>
-  <string name="please_wait">Molimo pričekaj</string>
+  <string name="please_wait">Please wait</string>
   <string name="loading">Učitavanje&#8230;</string>
+  <string name="search_hint">Search&#8230;</string>
   <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
@@ -59,8 +60,9 @@
   <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
   <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
   <string name="background">Pozadina</string>
-  <string name="stage">Faza</string>
+  <string name="stage">Stage</string>
   <string name="ok">OK</string>
+  <string name="play">Pokreni</string>
   <string name="settings">Postavke</string>
   <string name="redo">Vrati poništeno</string>
   <string name="undo">Poništi</string>
@@ -77,6 +79,9 @@
   <string name="nothing_to_rename">Nothing to rename</string>
   <string name="unpack_background">Program\'s background will be replaced</string>
   <string name="degrees">degrees</string>
+  <string name="landscape">Landscape</string>
+  <string name="portrait">Portrait</string>
+  <string name="unknown">unknown</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Novi</string>
   <string name="main_menu_continue">Nastavi</string>
@@ -86,15 +91,20 @@
   <string name="main_menu_upload">Upload</string>
   <string name="main_menu_about_pocketcode">O Pocket Code-u</string>
   <string name="main_menu_terms_of_use">Uvjeti korištenja</string>
-  <string name="main_menu_rate_app">Ocijenite nas!</string>
-  <string name="main_menu_play_store_not_installed">Play Store aplikacija nije pronađena</string>
+  <string name="main_menu_rate_app">Rate us!</string>
+  <string name="main_menu_play_store_not_installed">Play Store app not found</string>
   <string name="main_menu_logout">Odjava</string>
   <string name="main_menu_login">Prijava</string>
+  <string name="main_menu_scratch_converter">Scratch Converter</string>
   <string name="logout_successful">Logout successful</string>
+  <!-- Marketing activity -->
+  <string name="marketing_created_with">Created with</string>
+  <string name="marketing_app_details">Details about this app</string>
+  <string name="marketing_more_on_google_play">More apps on Google Play</string>
   <!-- Settings activity -->
   <string name="preference_title">Postavke</string>
-  <string name="preference_title_enable_quadcopter_bricks">AR.Drone 2.0 blokovi</string>
-  <string name="preference_description_quadcopter_bricks">Omogući kontrolu quadcoptera ARDrone 2.0</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
+  <string name="preference_description_quadcopter_bricks">Allow to control ARDrone 2.0 quadcopters</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
   <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
@@ -104,6 +114,8 @@
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
   <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
   <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
+  <string name="preference_description_crash_reports">Allow to send crash reports automatically</string>
+  <string name="preference_title_enable_crash_reports">Send anonymous crash reports</string>
   <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
   <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
@@ -112,14 +124,107 @@
   <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <!-- Scratch Converter activity -->
+  <string name="beta">beta</string>
+  <string name="title_activity_scratch_converter">Convert Scratch program</string>
+  <string name="error_scratch_program_not_accessible_any_more">Whoops! Data of this program is not accessible any
+        more!</string>
+  <string name="error_scratch_project_data_not_available">Whoops! Some data could not be loaded from this Scratch
+        program. Please try again later!</string>
+  <string name="error_request_timeout">Whoops! Our server is not reachable at the moment, please try later!</string>
+  <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert Scratch program, please try again
+        later!</string>
+  <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert \"%1$s\", please try
+        again later!</string>
+  <string name="error_scratch_converter_outdated_pocketcode_version">Your Pocket Code app is outdated. Our Scratch
+        converter only supports the latest Pocket Code version. Please update it on the Google Play Store!</string>
+  <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
+        have canceled the conversion/download of the Scratch program or you have renamed/deleted the program in the
+        meanwhile!</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">Cannot open this Scratch program
+        while it is downloading! Please try again later!</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">Cannot open this Scratch program
+        since it has not been downloaded yet! Please try again later!</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert \"%1$s\"! Older Scratch before %2$s
+        programs are not supported!</string>
+  <plurals name="error_cannot_convert_more_than_x_programs">
+    <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
+    <item quantity="few">Cannot convert more than %d programs simultaneously!</item>
+    <item quantity="other">Cannot convert more than %d programs simultaneously!</item>
+  </plurals>
+  <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
+        failed!</string>
+  <string name="search_failed">Search failed, please retry later!</string>
+  <string name="connection_lost_or_closed_by_server">Connection lost or closed by server!</string>
+  <string name="connection_failed">Connection to server failed, please retry later!</string>
+  <string name="authentication_failed">Authentication failed, please contact the Pocket Code team!</string>
+  <plurals name="scratch_conversion_scheduled_x">
+    <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
+    <item quantity="few">Scheduled %d Scratch programs&#8230;</item>
+    <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
+  </plurals>
+  <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
+  <string name="convert">Convert</string>
+  <string name="converting">Converting&#8230;</string>
+  <string name="status_scheduled">Scheduled</string>
+  <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
+  <string name="status_started">Started&#8230;</string>
+  <string name="status_conversion_finished">Conversion finished</string>
+  <plurals name="status_in_progress_x_jobs">
+    <item quantity="one">In progress: 1 job</item>
+    <item quantity="few">In progress: %d jobs</item>
+    <item quantity="other">In progress: %d jobs</item>
+  </plurals>
+  <plurals name="status_completed_x_jobs">
+    <item quantity="one">Completed: 1 job</item>
+    <item quantity="few">Completed: %d jobs</item>
+    <item quantity="other">Completed: %d jobs</item>
+  </plurals>
+  <string name="status_conversion_failed">Conversion failed!</string>
+  <string name="status_conversion_canceled">Conversion canceled!</string>
+  <string name="status_downloading">Downloading&#8230;</string>
+  <string name="status_download_finished">Download finished!</string>
+  <string name="status_download_canceled">Download canceled!</string>
+  <string name="list_view_section_title_in_progress">In progress</string>
+  <string name="list_view_section_title_converted_programs">Converted programs</string>
+  <string name="status">Status</string>
+  <string name="title">Title</string>
+  <string name="by_x">by %1$s</string>
+  <string name="by_author">by Author</string>
+  <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. Converting it may
+        fail!</string>
+  <string name="instructions">Instructions</string>
+  <string name="notes_and_credits">Notes and Credits</string>
+  <string name="shared_at_x">Shared: %1$s</string>
+  <string name="modified_at_x">Modified: %1$s</string>
+  <string name="remixes">Remixes</string>
+  <!-- ScratchReconvertDialog Strings -->
+  <string name="reconvert_text">This program has been converted %1$s ago.</string>
+  <plurals name="minutes">
+    <item quantity="one">1 minute</item>
+    <item quantity="few">%d minutes</item>
+    <item quantity="other">%d minutes</item>
+  </plurals>
+  <plurals name="hours">
+    <item quantity="one">1 hour</item>
+    <item quantity="few">%d hours</item>
+    <item quantity="other">%d hours</item>
+  </plurals>
+  <plurals name="days">
+    <item quantity="one">1 day</item>
+    <item quantity="few">%d days</item>
+    <item quantity="other">%d days</item>
+  </plurals>
+  <string name="reconvert_dialog_download">Download already converted program</string>
+  <string name="reconvert_dialog_reconvert">Reconvert this program</string>
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Nacrtaj sliku</string>
   <string name="dialog_new_object_gallery">Odaberi sliku</string>
-  <string name="dialog_new_object_camera">Napravi sliku</string>
+  <string name="dialog_new_object_camera">Take picture</string>
   <string name="dialog_new_object_look_preview">pregled izgleda</string>
   <string name="dialog_new_object_name">Naziv objekta</string>
-  <string name="dialog_new_object_switch_title">Novi objekt napravljen</string>
-  <string name="dialog_new_object_switch_message">Prebaciti na novi objekt?</string>
+  <string name="dialog_new_object_switch_title">New object created</string>
+  <string name="dialog_new_object_switch_message">Switch to new object?</string>
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Uvjeti korištenja</string>
   <string name="dialog_terms_of_use_info">In order to 
@@ -145,23 +250,39 @@
   <!-- Project activity view -->
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programi</string>
+  <string name="number_of_objects">Objects:</string>
+  <string name="start_scene_name">\"%1$s\" (First Scene)</string>
   <string name="number_of_scripts">Skripte:</string>
   <string name="number_of_bricks">Blokovi:</string>
   <string name="number_of_looks">Izgledi:</string>
   <string name="number_of_sounds">Zvuci:</string>
-  <string name="show_details">Prikaži detalje</string>
-  <string name="hide_details">Sakrij detalje</string>
-  <string name="insert_below">Umetni ispod</string>
+  <string name="show_details">Show details</string>
+  <string name="hide_details">Hide details</string>
+  <string name="insert_below">Insert below</string>
   <string name="sprite">Objekt</string>
   <string name="sprites">Objekti</string>
   <string name="spritelist_background_headline">Pozadina</string>
   <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
   <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
-  <string name="dialog_confirm_delete_object_message">Ovo se ne može povratiti!</string>
+  <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
   <string name="select_all">Odaberi sve</string>
   <string name="deselect_all">Deselect all</string>
   <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_scene">The scene \"%1$s\" already exists in the backpack. Do you want to replace
+        it?</string>
   <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
+  <string name="groups_create">Create group</string>
+  <string name="group_created">Group successfully created!</string>
+  <string name="ungroup">Ungroup</string>
+  <string name="group_objects_delete">Delete group and objects</string>
+  <string name="group">Group</string>
+  <string name="backpack_replace_scene_multiple">Scenes already exist in the backpack. Do you want to replace
+        them?</string>
+  <!-- Project overview -->
+  <string name="author">Author:</string>
+  <string name="screen_size">Screen Size:</string>
+  <string name="mode">Mode:</string>
+  <string name="remix_of">Remix of:</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Kopiraj</string>
   <!-- Script activity -->
@@ -176,6 +297,8 @@
   <string name="userbrick_group">Brick Group</string>
   <string name="userbrick_groups">Brick Groups</string>
   <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
+  <string name="group_or_object_name_given">A Group or object with this name already exists. Please choose a
+        different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Pritisni \"+\" za dodavanje skripti</string>
   <string name="dialog_confirm_delete_brick_title">Izbrisati ovaj blok?</string>
@@ -183,7 +306,7 @@
   <string name="dialog_confirm_delete_multiple_bricks_title">Izbrisati ove blokove?</string>
   <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
   <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
-  <string name="dialog_confirm_delete_brick_message">Ovo se ne može povratiti!</string>
+  <string name="dialog_confirm_delete_brick_message">This cannot be undone!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete %d Brick</item>
     <item quantity="few">Delete %d Bricks</item>
@@ -203,36 +326,36 @@
   <string name="fragment_look_text_description">Pritisni \"+\" za dodavanje izgleda</string>
   <string name="fragment_background_text_description">Pritisni \"+\" za dodavanje pozadine</string>
   <string name="rename_look_dialog">Preimenovati izgled</string>
-  <string name="lookname_invalid">Ovaj naziv izgleda nije valjan</string>
+  <string name="lookname_invalid">This Look\'s name is invalid</string>
   <string name="pocket_paint_not_installed_title">Pocket Paint nije instaliran!</string>
   <string name="pocket_paint_not_installed">Želiš li ga instalirati?</string>
   <string name="default_look_name">izgled</string>
-  <string name="delete_look_dialog">Obrisati izgled?</string>
+  <string name="delete_look_dialog">Delete Look?</string>
   <string name="select_look_from_gallery">Odaberi sliku</string>
   <string name="select_look_from_camera">Odaberi fotografiju</string>
   <string name="look_measure">Mjera:</string>
   <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
-  <string name="dialog_confirm_delete_look_message">Ovo se ne može povratiti!</string>
-  <string name="lookname">Ime izgleda:</string>
+  <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
+  <string name="lookname">Look name:</string>
   <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Pritisni \"+\" za dodavanje zvukova</string>
   <string name="rename_sound_dialog">Preimenuj zvuk</string>
-  <string name="backpack_title">Ostava</string>
+  <string name="backpack_title">Your Backpack</string>
   <string name="soundname_invalid">Ovaj naziv zvuka nije valjan</string>
   <string name="sound_play">pokreni</string>
   <string name="sound_stop">zaustavi</string>
-  <string name="sound_select_source">Odaberi zvuk</string>
+  <string name="sound_select_source">Select a Sound</string>
   <string name="sound_time_seperator">/</string>
-  <string name="delete_sound_dialog">Izbriši zvuk?</string>
+  <string name="delete_sound_dialog">Delete Sound?</string>
   <string name="length">Dužina:</string>
-  <string name="dialog_confirm_delete_sound_title">Izbrisati ovaj zvuk?</string>
-  <string name="dialog_confirm_delete_multiple_sounds_title">Obrisati ove zvukove?</string>
-  <string name="dialog_confirm_delete_sound_message">Ovo se ne može poništiti!</string>
-  <string name="sound_name">ime zvuka:</string>
-  <string name="new_sound_name">ime zvuka:</string>
+  <string name="dialog_confirm_delete_sound_title">Delete this Sound?</string>
+  <string name="dialog_confirm_delete_multiple_sounds_title">Delete these Sounds?</string>
+  <string name="dialog_confirm_delete_sound_message">This cannot be undone!</string>
+  <string name="sound_name">Sound name:</string>
+  <string name="new_sound_name">Sound name:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
   <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
@@ -271,11 +394,6 @@ su otpakovani!</item>
     <item quantity="few">Scripts</item>
     <item quantity="other">Scripts</item>
   </plurals>
-  <plurals name="userbricks_plural">
-    <item quantity="one">Brick</item>
-    <item quantity="few">Bricks</item>
-    <item quantity="other">Bricks</item>
-  </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Posljednji pristup:</string>
   <string name="description">Opis:</string>
@@ -284,12 +402,16 @@ su otpakovani!</item>
   <string name="copy_project_finished"> kopirano.</string>
   <string name="program">Program</string>
   <string name="programs">Programi</string>
-  <string name="dialog_confirm_delete_program_title">Obrisati ovaj program?</string>
-  <string name="dialog_confirm_delete_multiple_programs_title">Obrisati ove programe?</string>
-  <string name="dialog_confirm_delete_program_message">Ovo se ne može poništiti!</string>
+  <string name="scene">Scene</string>
+  <string name="scenes">Scenes</string>
+  <string name="dialog_confirm_delete_program_title">Delete this Program?</string>
+  <string name="dialog_confirm_delete_multiple_programs_title">Delete these Programs?</string>
+  <string name="dialog_confirm_delete_scene_title">Delete this Scene?</string>
+  <string name="dialog_confirm_delete_multiple_scenes_title">Delete these Scenes?</string>
+  <string name="dialog_confirm_delete_program_message">This cannot be undone!</string>
   <string name="details_date_today">Danas</string>
   <string name="details_date_yesterday">Jučer</string>
-  <string name="dialog_copy_project_title">Kopiraj program</string>
+  <string name="dialog_copy_project_title">Copy Program</string>
   <!-- Soundrecorder activity -->
   <string name="soundrecorder_name">Pocket Code snimač</string>
   <string name="soundrecorder_error">Snimanje zvuka nije uspjelo</string>
@@ -305,6 +427,7 @@ su otpakovani!</item>
   <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
   <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
   <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+  <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
   <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
   <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
@@ -320,13 +443,17 @@ su otpakovani!</item>
   <string name="brick_context_dialog_delete_brick">Izbriši blok</string>
   <string name="brick_context_dialog_copy_brick">Kopiraj blok</string>
   <string name="brick_context_dialog_animate_bricks">Animiraj dijelove blokova</string>
-  <string name="brick_context_dialog_add_to_script">Dodaj u skriptu</string>
-  <string name="brick_context_dialog_edit_brick">Uredi blok</string>
+  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">Uredi formulu</string>
   <string name="brick_context_dialog_delete_script">Izbriši skriptu</string>
+  <string name="brick_context_dialog_comment_in">Enable Brick</string>
+  <string name="brick_context_dialog_comment_out">Disable Brick</string>
+  <string name="brick_context_dialog_help">Pomoć</string>
+  <string name="comment_in_out">Disable/Enable</string>
+  <string name="comment_in_out_impossible">Nothing to Disable/Enable</string>
   <!-- New look dialog -->
   <string name="new_look_dialog_title">Dodaj izgled</string>
-  <string name="add_look_from_camera">Napravi sliku</string>
+  <string name="add_look_from_camera">Take picture</string>
   <string name="add_look_draw_new_image">Nacrtaj sliku</string>
   <string name="add_look_choose_image">Odaberi sliku</string>
   <string name="add_look_media_library">Media Library</string>
@@ -342,16 +469,32 @@ su otpakovani!</item>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Novi program</string>
   <string name="new_project_dialog_hint">Moj program</string>
-  <string name="new_project_description_dialog_hint">Moj opis</string>
-  <string name="new_project_name">Naziv programa:</string>
-  <string name="new_project_empty">Započni novi projekt</string>
+  <string name="new_project_description_dialog_hint">My description</string>
+  <string name="new_project_name">Naziv programa</string>
+  <string name="new_project_empty">Create empty Program</string>
   <string name="new_project_default">Create example Program</string>
   <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Orientation:</string>
+  <!-- New scene dialog -->
+  <string name="new_scene_dialog_hint">My Scene</string>
+  <string name="new_scene_name">Scene name</string>
+  <string name="new_scene_dialog_default_scene_name">My Scene</string>
+  <string name="new_scene_dialog_title">New Scene</string>
+  <string name="scenename_already_exists">Please choose another Scene name.</string>
+  <string name="rename_scene_dialog">Rename Scene</string>
+  <string name="scenename_invalid">This scene name is invalid</string>
+  <string name="scene_name">Scene name:</string>
+  <!-- Merge Scene Dialog -->
+  <string name="merge_scene_option">Merge Scenes</string>
+  <string name="merge_scene_label_one">Merge</string>
+  <!-- Play scene dialog -->
+  <string name="play_scene_dialog_title">Play Scene:</string>
+  <string name="play_scene_dialog_default">First Scene (\"%1$s\")</string>
+  <string name="play_scene_dialog_current">Current (\"%1$s\")</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Moj objekt</string>
   <string name="new_sprite_dialog_title">Novi objekt</string>
-  <string name="spritename_already_exists">Naziv objekta već postoji</string>
+  <string name="spritename_already_exists">Please choose another Object name.</string>
   <string name="rename_sprite_dialog">Preimenuj objekt</string>
   <string name="spritename_invalid">Naziv objekta nije valjan</string>
   <string name="no_spritename_entered">Please enter an object name.</string>
@@ -380,9 +523,10 @@ su otpakovani!</item>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">Program s istim nazivom već postoji!</string>
-  <string name="overwrite_replace">Zamjeni postojeći program</string>
-  <string name="overwrite_rename">Preimenuj preuzeti program</string>
+  <string name="overwrite_text">Program with this name already exists. Please choose a different one
+        !</string>
+  <string name="overwrite_replace">Replace existing Program</string>
+  <string name="overwrite_rename">Rename downloaded Program</string>
   <!-- OverwriteRenameMediaDialog -->
   <string name="overwrite_replace_look">Replace existing Look</string>
   <string name="overwrite_rename_look">Rename downloaded Look</string>
@@ -394,10 +538,10 @@ su otpakovani!</item>
   <string name="stage_dialog_back">Natrag</string>
   <string name="stage_dialog_resume">Nastavi</string>
   <string name="stage_dialog_restart">Ponovno pokreni</string>
-  <string name="stage_dialog_axes_on">Prikaži ose</string>
-  <string name="stage_dialog_axes_off">Isključi ose</string>
+  <string name="stage_dialog_axes_on">Axes on</string>
+  <string name="stage_dialog_axes_off">Axes off</string>
   <string name="stage_dialog_maximize">Maximize/\nStretch</string>
-  <string name="stage_dialog_screenshot">Snimka zaslona</string>
+  <string name="stage_dialog_screenshot">Preview</string>
   <!-- Broadcast spinner -->
   <string name="new_broadcast_message">Novi&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Nova poruka</string>
@@ -409,8 +553,10 @@ su otpakovani!</item>
   <string name="categories">Kategorije</string>
   <string name="category_motion">Kretanje</string>
   <string name="category_looks">Izgledi</string>
+  <string name="category_pen">Pen</string>
   <string name="category_sound">Zvuk</string>
   <string name="category_control">Kontrola</string>
+  <string name="category_event">Event</string>
   <string name="category_user_bricks">Moji blokovi</string>
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -427,6 +573,10 @@ su otpakovani!</item>
   <string name="brick_change_x_by">"Promjeni X sa "</string>
   <string name="brick_change_y_by">"Promjeni Y sa "</string>
   <string name="brick_go_back">vrati se</string>
+  <string name="brick_set_rotation_style">"Set rotation style "</string>
+  <string name="brick_set_rotation_style_lr">left-right only</string>
+  <string name="brick_set_rotation_style_normal">all-around</string>
+  <string name="brick_set_rotation_style_no">don\'t rotate</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">sloj</item>
     <item quantity="few">layers</item>
@@ -446,6 +596,9 @@ su otpakovani!</item>
   <string name="brick_point_to">Pokazati prema</string>
   <string name="brick_glide">Klizati</string>
   <string name="brick_glide_to_x">na X:</string>
+  <string name="brick_go_to">Go to</string>
+  <string name="brick_go_to_touch_position">Touch position</string>
+  <string name="brick_go_to_random_position">Random position</string>
   <!-- Physics -->
   <string name="default_project_name_physics">My first physics program</string>
   <string name="brick_set_physics_object_type">Set motion type to</string>
@@ -466,6 +619,8 @@ su otpakovani!</item>
   <!-- Looks bricks -->
   <string name="brick_set_look">Prebaciti na izgled</string>
   <string name="brick_set_background">Postavi pozadinu</string>
+  <string name="brick_and_wait">and wait</string>
+  <string name="brick_when_background">When background changes to</string>
   <string name="brick_set_size_to">Postavi veličinu na</string>
   <string name="brick_change_size_by">Promjeni veličinu za</string>
   <string name="brick_hide">Sakrij</string>
@@ -481,22 +636,44 @@ su otpakovani!</item>
   <string name="brick_clear_graphic_effect">Ukloni grafičke efekte</string>
   <string name="brick_next_look">Sljedeći izgled</string>
   <string name="brick_next_background">Sljedeća pozadina</string>
+  <string name="brick_previous_look">Previous look</string>
+  <string name="brick_previous_background">Previous background</string>
   <string name="brick_flash">Turn flashlight</string>
   <string name="brick_flash_on">on</string>
   <string name="brick_flash_off">off</string>
   <string name="brick_vibration">Vibrate for</string>
+  <string name="brick_ask_label">Ask</string>
+  <string name="brick_ask_store">and store written answer in</string>
+  <string name="brick_ask_default_question">\'What\'s your name?\'</string>
+  <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
+  <string name="brick_ask_dialog_submit">Submit answer</string>
+  <!-- Pen bricks -->
+  <string name="brick_pen_down">Pen down</string>
+  <string name="brick_pen_up">Pen up</string>
+  <string name="brick_pen_size">Set pen size to</string>
+  <string name="brick_pen_color">Set pen color to</string>
+  <string name="brick_clear_background">Clear</string>
+  <string name="brick_stamp">Pečat</string>
   <!-- Sound bricks -->
   <string name="brick_play_sound">Pokreni zvuk</string>
+  <string name="brick_play_sound_and_wait">Start sound and wait</string>
   <string name="brick_stop_all_sounds">Zaustavi sve zvukove</string>
   <string name="brick_set_volume_to">Podesi glasnoću na</string>
   <string name="brick_change_volume_by">Promjeni glasnoću za</string>
   <string name="brick_speak">Govori</string>
   <string name="brick_speak_default_value">"Pozdrav!"</string>
+  <string name="brick_speak_and_wait">and wait</string>
   <!-- Control bricks -->
   <string name="brick_when_started">Kad program počne</string>
   <string name="brick_when">Kad dodirneš</string>
+  <string name="brick_when_condition_when">When</string>
+  <string name="brick_when_becomes_true">becomes true</string>
   <string name="brick_wait">Čekaj</string>
   <string name="brick_when_nfc">When NFC</string>
+  <string name="brick_stop_script">Stop script/s</string>
+  <string name="brick_stop_this_script">Stop this script</string>
+  <string name="brick_stop_all_scripts">Stop all scripts</string>
+  <string name="brick_stop_other_scripts">Stop other scripts of this object</string>
   <plurals name="second_plural">
     <item quantity="one">"sekunda "</item>
     <item quantity="few">"seconds "</item>
@@ -507,11 +684,20 @@ su otpakovani!</item>
   <string name="brick_broadcast_receive">Kada primim</string>
   <string name="brick_broadcast">Razglasi</string>
   <string name="brick_broadcast_wait">Razglasi i čekaj</string>
+  <string name="brick_scene_transition">Continue scene</string>
+  <string name="brick_scene_start">Start scene</string>
   <string name="brick_note">Bilješka</string>
+  <string name="brick_think_bubble">Think</string>
+  <string name="brick_say_bubble">Say</string>
+  <string name="brick_think_say_for_text">for</string>
   <string name="brick_forever">Ponavljaj</string>
   <string name="brick_repeat">Ponovi</string>
   <string name="brick_repeat_until">Repeat until</string>
   <string name="brick_when_touched">When screen is touched</string>
+  <string name="brick_clone">Create clone of</string>
+  <string name="brick_clone_this">myself</string>
+  <string name="brick_when_cloned">When I start as a clone</string>
+  <string name="brick_delete_this_clone">Delete this clone</string>
   <plurals name="time_plural">
     <item quantity="one">time</item>
     <item quantity="few">times</item>
@@ -527,6 +713,8 @@ su otpakovani!</item>
   <string name="brick_change_variable">Promjeni varijablu</string>
   <string name="brick_variable_spinner_create_new_variable">Novi&#8230;</string>
   <string name="brick_note_default_value">"dodati komentar ovdje…"</string>
+  <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
+  <string name="brick_say_bubble_default_value">"Pozdrav!"</string>
   <string name="brick_broadcast_default_value">"poruka 1"</string>
   <string name="brick_add_item_to_userlist_add">Add</string>
   <string name="brick_add_item_to_userlist">to list</string>
@@ -540,6 +728,7 @@ su otpakovani!</item>
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <!-- defaultValues -->
   <string name="default_project_name">Moj prvi program</string>
+  <string name="default_scene_name">Scene \"%1$d\"</string>
   <string name="default_project_background_name">Pozadina</string>
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>
@@ -592,8 +781,9 @@ su otpakovani!</item>
   <string name="drone_set_tilt_max">30 degrees</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">Unesite vrijednost</string>
-  <string name="notification_screenshot_ok">Snimka zaslona spremljena</string>
+  <string name="notification_screenshot_ok">Preview image saved</string>
   <string name="notification_download_project_cancel">Preuzimanje programa otkazano</string>
+  <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting program</string>
   <string name="notification_copy_title_pending">"Kopiranje "</string>
   <string name="notification_copy_pending">Kopiranje u tijeku</string>
   <string name="notification_copy_finished">Kopiranje dovršeno</string>
@@ -609,7 +799,7 @@ su otpakovani!</item>
   <string name="notification_download_finished">Uspješno preuzimanje</string>
   <string name="notification_title_open">"Otvori "</string>
   <string name="notification_low_battery">Attention. Battery is low. Current status =</string>
-  <string name="project_rename">(Vaš program će biti preimenovan.)</string>
+  <string name="project_rename">(Your Program will be renamed.)</string>
   <string name="size_of_project">Veličina:</string>
   <string name="upload_button">Upload</string>
   <string name="upload_project_dialog_title">Upload program</string>
@@ -628,15 +818,20 @@ su otpakovani!</item>
   <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like a SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting a SD card, then try again.</string>
   <string name="error_no_program_name_entered">Please enter a program name.</string>
   <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
-  <string name="error_project_exists">Program s istim nazivom već postoji.\nMolim Vas odaberite drugi naziv.</string>
+  <string name="error_project_exists">Please choose another program name.</string>
+  <string name="error_scene_exists">Please choose another scene name.</string>
+  <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
+  <string name="error_scene_not_copied">An error occurred while copying a scene.</string>
+  <string name="error_scene_backpack">An error occurred in scene backpack.</string>
   <string name="error_delete_project">An error while deleting the program occurred</string>
   <string name="error_unknown_project">A program with that name does not exist.</string>
   <string name="error_project_upload">An error occurred while uploading the program.</string>
   <string name="error_project_download">Došlo je do pogreške tijekom preuzimanja programa.</string>
   <string name="error_new_project">Došlo je do pogreške pri stvaranju novog programa.</string>
   <string name="error_rename_project">An error occurred while renaming the program before upload.</string>
+  <string name="error_rename_scene">An error occurred while renaming the scene.</string>
   <string name="error_load_project">Došlo je do pogreške tijekom učitavanja programa.</string>
-  <string name="error_screenshot_failed">Došlo je pogreške tijekom spremanja snimke zaslona.</string>
+  <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
   <string name="error_load_image">Došlo je do pogreške tijekom učitavanja slike.</string>
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
@@ -644,7 +839,7 @@ su otpakovani!</item>
   <string name="error_internet_connection">Dogodila se nepoznata pogreška. Provjerite vezu s internetom.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Program nije kompatibilan s ovom verzijom Pocket Code-a.</string>
-  <string name="error_outdated_pocketcode_version">Pocket Code verzija je prestara. Ažurirati?</string>
+  <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>
   <string name="error_copy_project">Došlo je do pogreške tijekom kopiranja programa.</string>
   <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
   <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
@@ -655,10 +850,13 @@ su otpakovani!</item>
   <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
   <string name="error_drone_low_battery">Umetnite napunjenu bateriju i pokušajte ponovno.</string>
   <string name="error_drone_wrong_platform_title">No ARDrone support</string>
-  <string name="error_drone_wrong_platform">Nije moguće pokrenuti AR.Drone projekt na tvom uređaju.</string>
-  <string name="error_rename_incompatible_project">Preimenovanje nekompatibilnog projekta nije moguće.</string>
-  <string name="error_changing_description_of_incompatible_project">Promjena opisa nekompatibilnog projekta nije moguća.</string>
+  <string name="error_drone_wrong_platform">We cannot run a ARDrone project on your device.</string>
+  <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
+  <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible
+        project is not possible.</string>
+  <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
+  <string name="error_gps_not_available">Error, GPS was not available.</string>
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
   <string name="title_paired_devices">Upareni uređaji</string>
@@ -808,7 +1006,7 @@ su otpakovani!</item>
   <string name="formula_editor_title">Uređivač za formule</string>
   <string name="formula_editor_changes_saved">Promjene spremljene!</string>
   <string name="formula_editor_changes_discarded">Promjene odbačene!</string>
-  <string name="formula_editor_parse_fail">Pogreška u sintaksi!</string>
+  <string name="formula_editor_parse_fail">Formula is not valid!</string>
   <string name="formula_nothing_selected">Definiraj ulaznu vrijednost</string>
   <string name="formula_editor_parse_fail_formula_too_long">Formula je preduga!</string>
   <string name="formula_editor_choose_object_variable">Svojstva ovog objekta</string>
@@ -879,13 +1077,25 @@ su otpakovani!</item>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>
   <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
+  <string name="formula_editor_function_collision">touches</string>
   <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
   <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
   <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
   <string name="formula_editor_sensor_compass_direction">compass_direction</string>
+  <string name="formula_editor_sensor_latitude">latitude</string>
+  <string name="formula_editor_sensor_longitude">longitude</string>
+  <string name="formula_editor_sensor_location_accuracy">location_accuracy</string>
+  <string name="formula_editor_sensor_altitude">altitude</string>
   <string name="formula_editor_sensor_x_inclination">inclination_x</string>
   <string name="formula_editor_sensor_y_inclination">inclination_y</string>
   <string name="formula_editor_sensor_loudness">loudness</string>
+  <string name="formula_editor_sensor_date_year">year</string>
+  <string name="formula_editor_sensor_date_month">month</string>
+  <string name="formula_editor_sensor_date_day">day</string>
+  <string name="formula_editor_sensor_date_weekday">weekday</string>
+  <string name="formula_editor_sensor_time_hour">hour</string>
+  <string name="formula_editor_sensor_time_minute">minute</string>
+  <string name="formula_editor_sensor_time_second">second</string>
   <string name="formula_editor_sensor_drone_battery_status">drone_battery_status</string>
   <string name="formula_editor_sensor_drone_emergency_state">drone_emergency_state</string>
   <string name="formula_editor_sensor_drone_flying">drone_flying</string>
@@ -922,6 +1132,11 @@ su otpakovani!</item>
   <string name="formula_editor_object_x_velocity">x_velocity</string>
   <string name="formula_editor_object_y_velocity">y_velocity</string>
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
+  <string name="formula_editor_object_look_number">look_number</string>
+  <string name="formula_editor_object_look_name">look_name</string>
+  <string name="formula_editor_object_background_number">background_number</string>
+  <string name="formula_editor_object_background_name">background_name</string>
+  <string name="formula_editor_object_distance_to">distance to</string>
   <string name="formula_editor_compute">Izračunati</string>
   <string name="formula_editor_object">Objekt</string>
   <string name="formula_editor_functions">Functions</string>
@@ -934,8 +1149,9 @@ su otpakovani!</item>
   <string name="formula_editor_logic_boolean">logical (boolean) operators</string>
   <string name="formula_editor_logic_comparison">comparison operators</string>
   <string name="formula_editor_object_general">general properties</string>
-  <string name="formula_editor_object_movement">physical properties</string>
+  <string name="formula_editor_object_movement">movement properties</string>
   <string name="formula_editor_device_face_detection">Face detection</string>
+  <string name="formula_editor_device_date_and_time">Date and Time</string>
   <string name="formula_editor_device_touch_detection">Touch detection</string>
   <string name="formula_editor_device_lego">Lego</string>
   <string name="formula_editor_device_arduino">Arduino</string>
@@ -987,32 +1203,32 @@ su otpakovani!</item>
     <item quantity="other">Items selected!</item>
   </plurals>
   <!-- Brick Data Editor Strings -->
-  <string name="brick_data_editor_title">Editor blokova</string>
+  <string name="brick_data_editor_title">Brick editor</string>
   <string name="separator">|</string>
-  <string name="add_text">Dodaj tekst</string>
-  <string name="edit_text">Uredi tekst</string>
-  <string name="text_hint">Tekstualni blok</string>
-  <string name="add_variable">Dodaj varijablu</string>
+  <string name="add_text">Add text</string>
+  <string name="edit_text">Edit text</string>
+  <string name="text_hint">Brick text</string>
+  <string name="add_variable">Add variable</string>
   <string name="add_line_break">Add line break</string>
-  <string name="edit_variable">Uredi varijablu</string>
-  <string name="variable_hint">Ime varijable</string>
+  <string name="edit_variable">Edit variable</string>
+  <string name="variable_hint">Variable name</string>
   <string name="brick_show_variable">Show variable</string>
   <string name="brick_show_variable_position">"at "</string>
   <string name="brick_hide_variable">Hide variable</string>
   <!-- User Bricks strings -->
-  <string name="define">definirati</string>
+  <string name="define">Define</string>
   <string name="new_user_brick">Novi blok</string>
-  <string name="new_user_brick_variable">Varijabla 1</string>
+  <string name="new_user_brick_variable">Variable</string>
   <string name="new_user_brick_name">Please choose a brick name:</string>
   <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
-  <string name="brick_single">Blok</string>
-  <string name="brick_multiple">Blokovi</string>
   <!-- Merge strings -->
   <string name="merge_button">Merge with</string>
   <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">successfully merged into</string>
   <string name="warning">Warning</string>
-  <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
+  <string name="error_merge_with_self">Current project and selected project are the same!</string>
+  <string name="error_merge_with_self_scene">Current scene and selected scene are the same!</string>
+  <string name="error_merge_scene_not_found">Scene not found!</string>
   <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
         has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Abort</string>
@@ -1048,4 +1264,27 @@ su otpakovani!</item>
         and download it.
         You can also download your program as standalone app.</string>
   <string name="progress_upload_dialog_show_program">Show program</string>
+  <!-- Snackbar hints -->
+  <string name="got_it">Got it</string>
+  <string name="preference_description_hints">Enable to show hints</string>
+  <string name="preference_title_enable_hints">Show hints </string>
+  <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
+  <string name="hint_bricks">To add a brick to your script tap on the brick you want to use.</string>
+  <string name="hint_brick_added">Short tap on a brick opens the menu to move, copy, delete or add a brick to
+        the backpack. The help option will show you additional information. Drag and drop the brick with a long press.</string>
+  <string name="hint_scripts">The script defines the behaviour of your object. To add bricks to the script tap on the \"+\" symbol.</string>
+  <string name="hint_looks">Here you can find the different appearances of your object. To add a new look tap on the \"+\" symbol.</string>
+  <string name="hint_sounds">Here you can add new sounds to your object. Keep in mind to use a brick from the sound category.</string>
+  <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object tap on the \"+\" symbol.</string>
+  <string name="hint_merge">To merge two programs long press on one program to open the menu and tap on \'Merge
+        with\'.</string>
+  <string name="hint_stage">Hit the back-button to pause your program. To show axes and the screen size of your
+        phone tap \"Axes on\".</string>
+  <string name="hint_scenes">A program can consist of different independent scenes. To add a new scene tap on the \"+\"
+        symbol.</string>
+  <!-- Crash report dialog -->
+  <string name="pocket_code_has_crashed">Pocket Code has crashed!</string>
+  <string name="crash_dialog_text">Please help to improve Pocket Code by sending us anonymous crash reports!</string>
+  <string name="crash_dialog_always_send">Always send</string>
+  <string name="crash_dialog_send">Send</string>
 </resources>
