@@ -227,6 +227,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (project.getCatrobatLanguageVersion() == 0.991f) {
 				//With the introduction of grouping there are several Sprite-classes
 				convertSpritesToSingleSprites();
+				project.setCatrobatLanguageVersion(0.992f);
+			}
+			if (project.getCatrobatLanguageVersion() == 0.992f) {
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
 //			insert further conversions here
