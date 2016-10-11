@@ -138,6 +138,8 @@
     <string name="title_activity_scratch_converter">Convert Scratch program</string>
     <string name="error_scratch_program_not_accessible_any_more">Whoops! Data of this program is not accessible any
         more!</string>
+    <string name="error_scratch_project_data_not_available">Whoops! Some data could not be loaded from this Scratch
+        program. Please try again later!</string>
     <string name="error_request_timeout">Whoops! Our server is not reachable at the moment, please try later!</string>
     <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert Scratch program, please try again
         later!</string>
