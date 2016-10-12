@@ -238,6 +238,8 @@ public final class Constants {
 
 	public static final String TRANSLATION_SCENE = "_scene_";
 	public static final String TRANSLATION_SPRITE = "_sprite_";
+	public static final String TRANSLATION_SOUND = "_sound_";
+	public static final String TRANSLATION_LOOK = "_look_";
 	public static final String TRANSLATION_SPRITE_VARIABLE = "_sprite_variable_";
 	public static final String TRANSLATION_SPRITE_LIST = "_sprite_list_";
 	public static final String TRANSLATION_NOTE = "_note_";

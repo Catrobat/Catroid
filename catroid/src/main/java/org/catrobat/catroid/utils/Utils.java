@@ -1082,6 +1082,22 @@ public final class Utils {
 					sprite.setName(getStringResourceByName(getStringResourceName(key, sprite.getName()), context));
 				}
 
+				for (SoundInfo soundInfo : sprite.getSoundList()) {
+					key = templateName + Constants.TRANSLATION_SOUND;
+					addIfNotInList(stringEntriesList, createStringEntry(key, soundInfo.getTitle()));
+					if (replaceStrings) {
+						soundInfo.setTitle(getStringResourceByName(getStringResourceName(key, soundInfo.getTitle()), context));
+					}
+				}
+
+				for (LookData lookData : sprite.getLookDataList()) {
+					key = templateName + Constants.TRANSLATION_LOOK;
+					addIfNotInList(stringEntriesList, createStringEntry(key, lookData.getLookName()));
+					if (replaceStrings) {
+						lookData.setLookName(getStringResourceByName(getStringResourceName(key, lookData.getLookName()), context));
+					}
+				}
+
 				for (UserVariable variable : dataContainer.getVariableListForSprite(sprite)) {
 					key = templateName + Constants.TRANSLATION_SPRITE_VARIABLE;
 					addIfNotInList(stringEntriesList, createStringEntry(key, variable.getName()));
