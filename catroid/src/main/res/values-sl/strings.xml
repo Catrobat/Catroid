@@ -255,7 +255,7 @@
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programi</string>
   <string name="number_of_objects">Objects:</string>
-  <string name="start_scene_name">\"%1$s\" (First Scene)</string>
+  <string name="start_scene_name">"%1$s" (First Scene)</string>
   <string name="number_of_scripts">Skripti:</string>
   <string name="number_of_bricks">Bloki:</string>
   <string name="number_of_looks">Izgledi:</string>
@@ -736,7 +736,7 @@
   <string name="brick_replace_item_in_userlist_with_value">z</string>
   <!-- defaultValues -->
   <string name="default_project_name">Moj prvi program</string>
-  <string name="default_scene_name">Scene \"%1$d\"</string>
+  <string name="default_scene_name">Scene "%1$d"</string>
   <string name="default_project_background_name">Ozadje</string>
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>

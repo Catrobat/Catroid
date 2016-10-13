@@ -697,7 +697,7 @@ Lisenziya haqda əlavə məlumat almaq üçün aşağıdakı keçidə baxın.\n<
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <!-- defaultValues -->
   <string name="default_project_name">My first program</string>
-  <string name="default_scene_name">Scene \"%1$d\"</string>
+  <string name="default_scene_name">Scene "%1$d"</string>
   <string name="default_project_background_name">Background</string>
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>
