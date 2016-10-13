@@ -248,7 +248,7 @@
   <string name="project_name">Проект:</string>
   <string name="my_projects_activity_title">Программы</string>
   <string name="number_of_objects">Objects:</string>
-  <string name="start_scene_name">\"%1$s\" (First Scene)</string>
+  <string name="start_scene_name">"%1$s" (First Scene)</string>
   <string name="number_of_scripts">Скрипты:</string>
   <string name="number_of_bricks">Блоки:</string>
   <string name="number_of_looks">Внешний вид:</string>
@@ -719,7 +719,7 @@
   <string name="brick_replace_item_in_userlist_with_value">С</string>
   <!-- defaultValues -->
   <string name="default_project_name">проектПоУмолчанию</string>
-  <string name="default_scene_name">Scene \"%1$d\"</string>
+  <string name="default_scene_name">Scene "%1$d"</string>
   <string name="default_project_background_name">Фон</string>
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>

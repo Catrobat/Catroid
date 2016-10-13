@@ -74,7 +74,8 @@ public class NewSceneDialog extends DialogFragment {
 
 		newSceneEditText = (EditText) dialogView.findViewById(R.id.scene_name_edittext);
 
-		String sceneName = Utils.searchForNonExistingSceneName(String.format(getString(R.string.default_scene_name), 0), 1, false);
+		String sceneDefaultString = getString(R.string.default_scene_name);
+		String sceneName = Utils.searchForNonExistingSceneName(sceneDefaultString.replace(" %1$d", " "), 1, false);
 		newSceneEditText.setHint(sceneName);
 
 		newSceneDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
@@ -150,8 +151,8 @@ public class NewSceneDialog extends DialogFragment {
 		}
 
 		if (sceneName.isEmpty()) {
-			sceneName = Utils.searchForNonExistingSceneName(String.format(getString(R.string.default_scene_name), 0), 1,
-					false);
+			String sceneDefaultString = getString(R.string.default_scene_name);
+			sceneName = Utils.searchForNonExistingSceneName(sceneDefaultString.replace(" %1$d", " "), 1, false);
 		}
 
 		if (currentProject.getSceneOrder().contains(sceneName)) {

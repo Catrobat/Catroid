@@ -244,7 +244,7 @@
   <string name="project_name">پروگرام:</string>
   <string name="my_projects_activity_title">پروگرامات</string>
   <string name="number_of_objects">Objects:</string>
-  <string name="start_scene_name">\"%1$s\" (First Scene)</string>
+  <string name="start_scene_name">"%1$s" (First Scene)</string>
   <string name="number_of_scripts">نوشتہ جات:</string>
   <string name="number_of_bricks">اینٹیں:</string>
   <string name="number_of_looks">Looks:</string>
@@ -705,7 +705,7 @@
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <!-- defaultValues -->
   <string name="default_project_name">My first program</string>
-  <string name="default_scene_name">Scene \"%1$d\"</string>
+  <string name="default_scene_name">Scene "%1$d"</string>
   <string name="default_project_background_name">پس منظر</string>
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>
