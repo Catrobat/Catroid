@@ -42,8 +42,8 @@ import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.ScenesListFragment;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 

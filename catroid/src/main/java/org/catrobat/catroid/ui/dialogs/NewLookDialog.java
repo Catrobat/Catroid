@@ -30,6 +30,7 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,10 +40,8 @@ import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.utils.TrackingUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 
 public class NewLookDialog extends DialogFragment {
 

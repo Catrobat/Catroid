@@ -68,11 +68,8 @@ import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.SnackBarUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 import java.util.ArrayList;

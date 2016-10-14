@@ -44,6 +44,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.AccessibilityCheckboxAdapter;
 import org.catrobat.catroid.ui.adapter.AccessibilityCheckboxAdapter.AccessibilityCheckbox;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -89,7 +91,7 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 
 		if (inSelectedProfile) {
 			Button switchProfilesButton = (Button) findViewById(R.id.access_switch_to_predefined_profiles_button);
-			View separationLine = (View) findViewById(R.id.access_separation_line_switch_profiles);
+			View separationLine = findViewById(R.id.access_separation_line_switch_profiles);
 			TextView activeProfileTextView = (TextView) findViewById(R.id.access_label_active_profile);
 
 			switchProfilesButton.setVisibility(View.GONE);
@@ -117,6 +119,7 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 			public void onGlobalLayout() {
 				contentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				Utils.setListViewHeightBasedOnItemsAndTheirWidth(listView);
+				SnackBarUtil.showHintSnackBar(AccessibilityPreferencesActivity.this, R.string.hint_accessibility);
 			}
 		});
 	}
@@ -142,7 +145,7 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 	}
 
 	private List<AccessibilityCheckbox> createPreferences() {
-		List<AccessibilityCheckbox> list = new ArrayList<AccessibilityCheckbox>();
+		List<AccessibilityCheckbox> list = new ArrayList<>();
 
 		AccessibilityCheckbox largeText = new AccessibilityCheckbox();
 		largeText.title = getResources().getString(R.string.preference_access_title_large_text);
@@ -280,6 +283,52 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 		builder.setMessage(R.string.preference_access_summary_restart);
 		builder.setNeutralButton(R.string.ok, dialogClickListener);
 		builder.show();
+
+		String preferences = getActivePreferences();
+		TrackingUtil.trackApplyAccessibilityPreferences(selectedProfileName, preferences);
+	}
+
+	private String getActivePreferences() {
+		String activePreferences = "";
+		String largeText = getResources().getString(R.string.preference_access_title_large_text);
+		String highContrast = getResources().getString(R.string.preference_access_title_high_contrast);
+		String additionalIcons = getResources().getString(R.string.preference_access_title_additional_icons);
+		String largeIcons = getResources().getString(R.string.preference_access_title_large_icons);
+		String iconContrast = getResources().getString(R.string.preference_access_title_high_contrast_icons);
+		String largeElementSpacing = getResources().getString(R.string.preference_access_title_largeelementspacing);
+		String starterBricks = getResources().getString(R.string.preference_access_title_starter_bricks);
+		String dragDropDelay = getResources().getString(R.string.preference_access_title_dragndrop_delay);
+
+		for (int i = 0; i < adapter.getCount(); i++) {
+			AccessibilityCheckbox checkbox = adapter.getItem(i);
+			if (!checkbox.value) {
+				continue;
+			}
+
+			if (checkbox.title.equals(largeText)) {
+				activePreferences += largeText + ",";
+			} else if (checkbox.title.equals(highContrast)) {
+				activePreferences += highContrast + ",";
+			} else if (checkbox.title.equals(additionalIcons)) {
+				activePreferences += additionalIcons + ",";
+			} else if (checkbox.title.equals(largeIcons)) {
+				activePreferences += largeIcons + ",";
+			} else if (checkbox.title.equals(iconContrast)) {
+				activePreferences += iconContrast + ",";
+			} else if (checkbox.title.equals(largeElementSpacing)) {
+				activePreferences += largeElementSpacing + ",";
+			} else if (checkbox.title.equals(starterBricks)) {
+				activePreferences += starterBricks + ",";
+			} else if (checkbox.title.equals(dragDropDelay)) {
+				activePreferences += dragDropDelay + ",";
+			}
+		}
+
+		if (activePreferences.endsWith(",")) {
+			activePreferences = activePreferences.substring(0, activePreferences.length() - 1);
+		}
+
+		return activePreferences;
 	}
 
 	public void applyProfile(View view) {

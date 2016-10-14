@@ -164,8 +164,8 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
 
-		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null &&
-				!CategoryBricksFactory.getStarterBricksEnabled()) {
+		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null
+				&& !CategoryBricksFactory.getStarterBricksEnabled()) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}
 

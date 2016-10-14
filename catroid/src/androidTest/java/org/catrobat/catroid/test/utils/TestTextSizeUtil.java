@@ -70,7 +70,7 @@ public class TestTextSizeUtil extends AndroidTestCase {
 
 	private void checkTextSizes(List<Float> normalSize, List<Float> doubledSize) {
 		for (int i = 0; i < normalSize.size(); i++) {
-			assertEquals(normalSize.get(i) * 1.5f, doubledSize.get(i));
+			assertEquals("Wrong Size!", normalSize.get(i) * 1.5f, doubledSize.get(i));
 		}
 	}
 

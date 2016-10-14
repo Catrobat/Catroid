@@ -24,11 +24,14 @@ package org.catrobat.catroid.createatschool.ui;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class TemplatesActivity extends CreateAtSchoolBaseActivity {
 
@@ -43,6 +46,14 @@ public class TemplatesActivity extends CreateAtSchoolBaseActivity {
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_TEMPLATES_LIST)) {
 			setReturnToTemplatesList(true);
 		}
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		TextSizeUtil.enlargeOptionsMenu(menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override

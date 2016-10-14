@@ -62,8 +62,8 @@ import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
 
@@ -90,7 +90,6 @@ public class NewSpriteDialog extends DialogFragment {
 	private boolean isDroneVideo = false;
 	public static String spriteSource = "NOT SET";
 	private SpriteFactory spriteFactory = new SpriteFactory();
-	private static long currentTime = 0;
 	private AlertDialog dialog = null;
 
 	public NewSpriteDialog() {

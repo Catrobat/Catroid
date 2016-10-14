@@ -41,7 +41,6 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.utils.BrickEditText;
@@ -49,6 +48,7 @@ import org.catrobat.catroid.utils.BrickSpinner;
 import org.catrobat.catroid.utils.BrickTextView;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 

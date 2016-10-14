@@ -71,6 +71,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -1147,6 +1148,15 @@ public final class Utils {
 						if (replaceStrings) {
 							sceneStartBrick.setSceneToStart(getStringResourceByName(
 									getStringResourceName(key, sceneStartBrick.getSceneToStart()), context));
+						}
+					} else if (brick instanceof ShowTextBrick) {
+						ShowTextBrick showTextBrick = (ShowTextBrick) brick;
+						if (replaceStrings) {
+							key = dataContainer.getTypeOfUserVariable(showTextBrick.userVariableName, sprite) == DataContainer.USER_VARIABLE_SPRITE
+									? templateName + Constants.TRANSLATION_SPRITE_VARIABLE
+									: templateName + Constants.TRANSLATION_PROJECT_VARIABLE;
+							showTextBrick.setUserVariableName(getStringResourceByName(
+									getStringResourceName(key, showTextBrick.userVariableName), context));
 						}
 					}
 				}

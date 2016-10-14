@@ -45,8 +45,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.web.ServerCalls;
 
 public class LogInDialog extends DialogFragment implements LoginTask.OnLoginCompleteListener {

@@ -30,10 +30,6 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-import com.parrot.freeflight.settings.ApplicationSettings;
-import com.zed.bdsclient.controller.BDSClientController;
-import com.zed.bdsclient.environments.BDSClientEnvironments;
-
 import org.catrobat.catroid.ui.SettingsActivity;
 
 public class CatroidApplication extends MultiDexApplication {
@@ -51,8 +47,6 @@ public class CatroidApplication extends MultiDexApplication {
 		super.onCreate();
 		Log.d(TAG, "CatroidApplication onCreate");
 		CatroidApplication.context = getApplicationContext();
-		BDSClientController controller = BDSClientController.init(context,
-				BDSClientEnvironments.PRO, appId, appPassword, 1, 0);
 		SettingsActivity.applyAccessibilitySettings(context);
 	}
 

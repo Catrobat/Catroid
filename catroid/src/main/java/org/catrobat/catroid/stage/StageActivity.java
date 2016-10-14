@@ -64,8 +64,8 @@ import org.catrobat.catroid.ui.MarketingActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.VibratorUtil;
 

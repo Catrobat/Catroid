@@ -1502,6 +1502,8 @@
         phone tap "Axes on".</string>
     <string name="hint_scenes">A program can consist of different independent scenes. To add a new scene tap on the "+"
         symbol.</string>
+    <string name="hint_accessibility">Change the listed settings as you wish or switch to predefined profiles to choose a good to help you with these settings.</string>
+    <string name="hint_accessibility_profiles">Choose a guide to help you with Create@School. Which one fits to you?</string>
     <!--  -->
 
     <!-- Crash report dialog -->

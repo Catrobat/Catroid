@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.createatschool.ui.adapter.TemplateAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackBarUtil;
 
 public class TemplatesFragment extends ListFragment implements TemplateAdapter.OnTemplateEditListener {
@@ -71,6 +72,7 @@ public class TemplatesFragment extends ListFragment implements TemplateAdapter.O
 		}
 
 		initAdapter();
+		DividerUtil.setDivider(getActivity(), getListView());
 	}
 
 	@Override

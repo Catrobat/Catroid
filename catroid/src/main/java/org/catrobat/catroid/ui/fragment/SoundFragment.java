@@ -83,11 +83,10 @@ import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
-import org.catrobat.catroid.utils.SnackBarUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 

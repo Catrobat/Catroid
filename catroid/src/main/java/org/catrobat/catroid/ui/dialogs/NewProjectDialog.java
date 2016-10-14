@@ -52,7 +52,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 

@@ -38,6 +38,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
@@ -48,6 +49,9 @@ public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPreferences.edit().putBoolean(Constants.FORCE_SIGNIN, true).commit();
+
+		IconsUtil.setLeftDrawableSize(getApplicationContext(), this.findViewById(android.R.id.content),
+				IconsUtil.getLargeIconSizeMainMenu(), R.id.main_menu_button_templates, R.drawable.ic_main_menu_templates);
 	}
 
 	@Override

@@ -47,8 +47,8 @@ import android.widget.Spinner;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.merge.MergeManager;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class MergeSceneDialog extends DialogFragment {

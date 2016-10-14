@@ -430,6 +430,17 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(TrackingConstants.USE_TEMPLATE, trackingData);
 	}
 
+	public static void trackApplyAccessibilityPreferences(String profileName, String settingName) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.ACTIVE_PROFILE, profileName));
+		trackingData.add(new Pair<>(TrackingConstants.ACTIVE_SETTINGS, settingName));
+		createJsonAndLogCustomEvent(TrackingConstants.APPLY_ACCESSIBILITY_SETTINGS, trackingData);
+	}
+
 	public static void trackUseBrickHelp(Brick brick) {
 		if (!BuildConfig.CREATE_AT_SCHOOL) {
 			return;

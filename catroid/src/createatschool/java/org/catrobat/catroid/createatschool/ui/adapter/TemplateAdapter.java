@@ -23,6 +23,7 @@
 package org.catrobat.catroid.createatschool.ui.adapter;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +38,7 @@ import com.squareup.picasso.Picasso;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.createatschool.common.TemplateConstants;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class TemplateAdapter extends ArrayAdapter<TemplateData> {
 	private final Context context;
@@ -79,6 +81,8 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> {
 			holder.templateName = (TextView) projectView.findViewById(R.id.my_projects_activity_project_title);
 			holder.image = (ImageView) projectView.findViewById(R.id.my_projects_activity_project_image);
 			projectView.setTag(holder);
+
+			holder.templateName.setTextSize(TypedValue.COMPLEX_UNIT_PX, holder.templateName.getTextSize() * TextSizeUtil.getModifier());
 		} else {
 			holder = (ViewHolder) projectView.getTag();
 		}

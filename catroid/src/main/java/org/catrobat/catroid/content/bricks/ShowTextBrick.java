@@ -220,8 +220,9 @@ public class ShowTextBrick extends UserVariableBrick {
 		}
 	}
 
-	void setUserVariableName(String userVariableName) {
+	public void setUserVariableName(String userVariableName) {
 		this.userVariableName = userVariableName;
+		this.userVariable.setName(userVariableName);
 	}
 
 	@Override

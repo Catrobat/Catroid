@@ -147,6 +147,10 @@ public final class TrackingConstants {
 
 	public static final String MAIN_MENU_CONTINUE = "ContinueButton";
 
+	public static final String APPLY_ACCESSIBILITY_SETTINGS = "applyAccessibilitySetting";
+	public static final String ACTIVE_PROFILE = "activeProfile";
+	public static final String ACTIVE_SETTINGS = "activeSettings";
+
 	//Shared preferences
 	public static final String LOGIN_TIME = "login";
 }

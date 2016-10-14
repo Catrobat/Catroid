@@ -67,8 +67,8 @@ import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 

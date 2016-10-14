@@ -44,9 +44,9 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;

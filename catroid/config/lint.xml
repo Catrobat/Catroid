@@ -76,7 +76,7 @@
     </issue>
 
     <issue id="InconsistentLayout">
-        <ignore path="*activity_main_menu.xml"/>
+        <ignore path="*activity_main_menu*.xml"/>
     </issue>
 
     <issue id="TypographyDashes">
