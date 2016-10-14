@@ -24,7 +24,9 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -32,6 +34,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -70,7 +74,12 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 		}
 		view = View.inflate(context, R.layout.brick_when_started, null);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_when_started_textview),
+				context.getString(R.string.category_event));
+
 		setCheckboxView(R.id.brick_when_started_checkbox);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
 	}
 

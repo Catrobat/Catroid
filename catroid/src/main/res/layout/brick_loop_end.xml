@@ -38,7 +38,7 @@
         android:id="@+id/brick_loop_end_layout"
         style="@style/BrickContainer.Control.Small" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_loop_end_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_loop_end" />

@@ -24,10 +24,12 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class CustomAlertDialogBuilder extends AlertDialog.Builder {
 
@@ -37,6 +39,7 @@ public class CustomAlertDialogBuilder extends AlertDialog.Builder {
 		super(context);
 		View dialogView = View.inflate(context, R.layout.dialog_custom_alert_dialog, null);
 		textView = (TextView) dialogView.findViewById(R.id.dialog_text_text_view);
+		textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textView.getTextSize() * TextSizeUtil.getModifier());
 		setView(dialogView);
 	}
 

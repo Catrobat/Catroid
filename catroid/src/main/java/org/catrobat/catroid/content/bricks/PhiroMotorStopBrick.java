@@ -24,16 +24,20 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -97,6 +101,9 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 		view = View.inflate(context, R.layout.brick_phiro_motor_stop, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.ValueTextView),
+				context.getString(R.string.category_phiro));
+
 		setCheckboxView(R.id.brick_phiro_motor_stop_checkbox);
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
@@ -107,6 +114,9 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setSelection(motorEnum.ordinal());
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
+
 		return view;
 	}
 
@@ -114,6 +124,9 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		motorEnum = Motor.values()[position];
 		motor = motorEnum.name();
+
+		TextView spinnerText = (TextView) parent.getChildAt(0);
+		TextSizeUtil.enlargeTextView(spinnerText);
 	}
 
 	@Override

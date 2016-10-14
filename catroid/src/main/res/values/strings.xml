@@ -132,6 +132,65 @@
     <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
     <string name="preference_raspi_port">Raspberry Pi Port</string>
     <!--  -->
+    <!-- -->
+    <string name="preference_title_access">Accessibility</string>
+    <string name="preference_description_access">Choose a profile and configurate your personal
+        settings for the Pocket-Code-UI</string>
+    <string name="preference_access_title_activity_access">Accessibility preferences</string>
+    <string name="preference_access_profiles">Profiles</string>
+    <string name="preference_access_predefined_profiles">Predefined profiles</string>
+    <string name="preference_access_active_profile">Active profile</string>
+    <string name="preference_access_selected_profile">Selected profile</string>
+    <string name="preference_access_change_profile">Switch to predefined profiles</string>
+    <string name="preference_access_apply_profile">Apply this profile</string>
+    <string name="preference_access_settings">Settings</string>
+    <string name="preference_access_title_large_text">Large text</string>
+    <string name="preference_access_summary_large_text">The large text setting increases the text size.</string>
+    <string name="preference_access_choose_fontface">Choose a fontface</string>
+    <string name="preference_access_title_fontface">Fontface</string>
+    <string name="preference_access_summary_fontface">Fontface allows you to choose a font style you
+        prefer.</string>
+    <string name="preference_access_title_fontface_standard">Standard</string>
+    <string name="preference_access_title_fontface_serif">Serif</string>
+    <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
+    <string name="preference_access_title_high_contrast">High contrast</string>
+    <string name="preference_access_summary_high_contrast">Increases the contrast and makes the text on bricks easier
+        to read.</string>
+    <string name="preference_access_title_additional_icons">Additional icons</string>
+    <string name="preference_access_summary_additional_icons">Adds icons to categories and bricks to improve
+        recognizability.</string>
+    <string name="preference_access_title_large_icons">Large icons</string>
+    <string name="preference_access_summary_large_icons">Increases the size of icons.</string>
+    <string name="preference_access_title_high_contrast_icons">Icon contrast</string>
+    <string name="preference_access_summary_high_contrast_icons">Changes the brick icons to high contrast icons.
+        </string>
+    <string name="preference_access_title_largeelementspacing">Large element spacing</string>
+    <string name="preference_access_summary_largeelementspacing">The large element spacing increase the space
+        between touchable elements.</string>
+    <string name="preference_access_title_starter_bricks">Starter bricks</string>
+    <string name="preference_access_summary_starter_bricks">Shows only starter bricks for ease of learning.</string>
+    <string name="preference_access_title_dragndrop_delay">Drag\'n\'drop delay</string>
+    <string name="preference_access_summary_dragndrop_delay">Adds delay to the drag\'n\'drop of bricks.</string>
+    <string name="preference_access_title_profile_standard">Standard</string>
+    <string name="preference_access_summary_profile_standard">The standard settings</string>
+    <string name="preference_access_title_profile_myprofile">My Profile</string>
+    <string name="preference_access_summary_profile_myprofile">My personal settings</string>
+    <string name="preference_access_title_profile_1">Argus</string>
+    <string name="preference_access_summary_profile_1">Visual improvement: High contrast, additional icons</string>
+    <string name="preference_access_title_profile_2">Odin</string>
+    <string name="preference_access_summary_profile_2">Visual improvement: Large text, large icons, large element
+        spacing, high contrast</string>
+    <string name="preference_access_title_profile_3">Fenrir</string>
+    <string name="preference_access_summary_profile_3">Input improvement: Large element spacing, drag\'n\'drop
+        delay</string>
+    <string name="preference_access_title_profile_4">Tiro</string>
+    <string name="preference_access_summary_profile_4">Learning: Starter bricks</string>
+    <string name="preference_access_title_created_profile">Created profile</string>
+    <string name="preference_access_summary_created_profile">You have created a new profile! The changes you
+        make can be found in \'My Profile\'</string>
+    <string name="preference_access_title_restart">Profile applied</string>
+    <string name="preference_access_summary_restart">Pocket Code will be restarted to apply the changes you
+        made.</string>
 
     <!-- Scratch Converter activity -->
     <string name="beta">beta</string>
@@ -1052,7 +1111,6 @@
     <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the Sensor on the chosen port?</string>
     <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
     <!--  -->
-
 
     <!-- Drone Bricks -->
     <string name="brick_drone_takeoff_land">Take off / Land</string>

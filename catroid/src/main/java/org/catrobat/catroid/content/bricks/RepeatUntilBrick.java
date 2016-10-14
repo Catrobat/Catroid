@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -36,6 +37,8 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -88,6 +91,9 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 		view = View.inflate(context, R.layout.brick_repeat_until, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_repeat_until_label),
+				context.getString(R.string.category_control));
+
 		setCheckboxView(R.id.brick_repeat_until_checkbox);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_until_edit_text);
@@ -95,6 +101,9 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 		getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).refreshTextField(view);
 
 		edit.setOnClickListener(this);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
+
 		return view;
 	}
 

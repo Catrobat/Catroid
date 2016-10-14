@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -40,6 +41,7 @@ import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.ScenesListFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -87,7 +89,7 @@ public final class BackPackSceneController {
 			replaceSceneMessage = resources.getString(R.string.backpack_replace_scene_multiple);
 		}
 
-		AlertDialog dialog = new CustomAlertDialogBuilder(context)
+		final AlertDialog dialog = new CustomAlertDialogBuilder(context)
 				.setTitle(R.string.backpack)
 				.setMessage(replaceSceneMessage)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -104,6 +106,12 @@ public final class BackPackSceneController {
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(true);
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+			}
+		});
 		dialog.show();
 	}
 

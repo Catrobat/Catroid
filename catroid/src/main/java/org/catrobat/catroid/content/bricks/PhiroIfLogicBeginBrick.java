@@ -24,17 +24,21 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -94,6 +98,9 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		view = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_phiro_sensor_label),
+				context.getString(R.string.category_phiro));
+
 		setCheckboxView(R.id.brick_phiro_sensor_checkbox);
 
 		Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_sensor_action_spinner);
@@ -110,12 +117,17 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				sensorSpinnerPosition = position;
+
+				TextView spinnerText = (TextView) parent.getChildAt(0);
+				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

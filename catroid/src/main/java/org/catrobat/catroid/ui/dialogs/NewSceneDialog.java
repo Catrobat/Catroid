@@ -34,6 +34,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -49,6 +50,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class NewSceneDialog extends DialogFragment {
@@ -115,6 +117,7 @@ public class NewSceneDialog extends DialogFragment {
 						handleOkButtonClick();
 					}
 				});
+				TextSizeUtil.enlargeViewGroup((ViewGroup) newSceneDialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

@@ -29,12 +29,16 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
+import org.catrobat.catroid.utils.DividerUtil;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.concurrent.locks.Lock;
 
@@ -51,11 +55,18 @@ public class MyProjectsActivity extends BaseActivity {
 		setContentView(R.layout.activity_my_projects);
 		setUpActionBar();
 
+		IconsUtil.setBottomBarIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
+
 		BottomBar.hidePlayButton(this);
 
 		projectsListFragment = (ProjectsListFragment) getFragmentManager().findFragmentById(
 				R.id.fragment_container);
+
+		DividerUtil.setDivider(this, projectsListFragment.getListView());
+
 		SnackbarUtil.showHintSnackbar(this, R.string.hint_merge);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 
 	@Override
@@ -69,6 +80,7 @@ public class MyProjectsActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_myprojects, menu);
+		TextSizeUtil.enlargeOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -135,5 +147,7 @@ public class MyProjectsActivity extends BaseActivity {
 		projectsListFragment.setShowDetails(showDetails);
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
+
+		TextSizeUtil.enlargeOptionsItem(item);
 	}
 }

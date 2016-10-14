@@ -74,6 +74,8 @@ import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.concurrent.locks.Lock;
 
@@ -146,6 +148,9 @@ public class ScriptActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+		IconsUtil.setBottomBarIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
+
 		currentFragmentPosition = FRAGMENT_SCRIPTS;
 
 		if (savedInstanceState == null) {
@@ -169,6 +174,8 @@ public class ScriptActivity extends BaseActivity {
 			LookController.getInstance().switchToScriptFragment(lookFragment, this);
 			switchToScriptFragment = false;
 		}
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 
 	private void setupBottomBar() {
@@ -297,6 +304,7 @@ public class ScriptActivity extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.clear();
 		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
+		TextSizeUtil.enlargeOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -464,7 +472,15 @@ public class ScriptActivity extends BaseActivity {
 			});
 			builder.setTitle(R.string.backpack_title);
 			builder.setCancelable(true);
-			builder.show();
+
+			final AlertDialog alertDialog = builder.create();
+			alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+				@Override
+				public void onShow(DialogInterface dialog) {
+					TextSizeUtil.enlargeViewGroup((ViewGroup) alertDialog.getWindow().getDecorView().getRootView());
+				}
+			});
+			alertDialog.show();
 		}
 	}
 
@@ -690,6 +706,8 @@ public class ScriptActivity extends BaseActivity {
 		currentFragment.setShowDetails(showDetails);
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
+
+		TextSizeUtil.enlargeOptionsItem(item);
 	}
 
 	public void setDeleteModeListener(DeleteModeListener listener) {
@@ -881,7 +899,7 @@ public class ScriptActivity extends BaseActivity {
 			actionModeEmptyText.setText(getString(R.string.comment_in_out_impossible));
 		}
 
-		AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)
+		final AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)
 				.setTitle(actionMode)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
@@ -892,6 +910,13 @@ public class ScriptActivity extends BaseActivity {
 		actionModeEmptyDialog.setCanceledOnTouchOutside(true);
 		actionModeEmptyDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		actionModeEmptyDialog.show();
+
+		actionModeEmptyDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) actionModeEmptyDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 	}
 }
 

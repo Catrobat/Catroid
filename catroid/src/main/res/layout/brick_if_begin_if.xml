@@ -45,37 +45,37 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/if_label"
             style="@style/BrickText.Multiple"
             android:text="@string/brick_if_begin" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_if_begin_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/if_label_second_part"
             style="@style/BrickText.Multiple"
             android:paddingLeft="5dip"
             android:text="@string/brick_if_begin_second_part" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/if_else_prototype_punctuation"
             style="@style/BrickText.Multiple"
             app:layout_newLine="true"
             android:paddingLeft="5dip"
             android:text="@string/punctuation_mark" />
 
-         <TextView
+         <org.catrobat.catroid.utils.BrickTextView
              android:id="@+id/if_prototype_else"
              style="@style/BrickText.Multiple"
              android:paddingLeft="5dip"
              android:text="@string/brick_if_else" />
 
-       <TextView
+       <org.catrobat.catroid.utils.BrickTextView
            android:id="@+id/if_else_prototype_punctuation2"
            style="@style/BrickText.Multiple"
            android:paddingLeft="5dip"

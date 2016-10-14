@@ -34,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -45,6 +46,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -126,6 +129,9 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 		view = View.inflate(context, R.layout.brick_when_nfc, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_when_nfc_label),
+				context.getString(R.string.category_control));
+
 		final Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
 
 		final ArrayAdapter<NfcTagData> spinnerAdapter = createNfcTagAdapter(context);
@@ -161,6 +167,9 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 					}
 					whenNfcScript.setMatchAll(false);
 					oldSelectedNfcTag = nfcTag;
+
+					TextView spinnerText = (TextView) parent.getChildAt(0);
+					TextSizeUtil.enlargeTextView(spinnerText);
 				}
 			}
 
@@ -170,6 +179,8 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 		});
 
 		setSpinnerSelection(nfcSpinner);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

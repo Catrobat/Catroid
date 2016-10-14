@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -35,6 +36,8 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -66,6 +69,9 @@ public class WaitUntilBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_wait_until, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.wait_until_label),
+				context.getString(R.string.category_control));
+
 		setCheckboxView(R.id.brick_wait_until_checkbox);
 
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_wait_until_edit_text);
@@ -74,6 +80,8 @@ public class WaitUntilBrick extends FormulaBrick {
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
 
 		ifBeginTextView.setOnClickListener(this);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

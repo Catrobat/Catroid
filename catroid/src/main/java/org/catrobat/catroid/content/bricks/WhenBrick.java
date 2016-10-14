@@ -24,7 +24,9 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -32,18 +34,23 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
 public class WhenBrick extends BrickBaseType implements ScriptBrick {
 	protected WhenScript whenScript;
 	private static final long serialVersionUID = 1L;
+	private boolean changeTextSize = true;
 
 	public WhenBrick(WhenScript whenScript) {
 		this.whenScript = whenScript;
 
 		if (whenScript != null && whenScript.isCommentedOut()) {
 			setCommentedOut(true);
+
+			changeTextSize = whenScript != null;
 		}
 	}
 
@@ -70,7 +77,14 @@ public class WhenBrick extends BrickBaseType implements ScriptBrick {
 
 		view = View.inflate(context, R.layout.brick_when, null);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_when_label),
+				context.getString(R.string.category_event));
+
 		setCheckboxView(R.id.brick_when_checkbox);
+
+		if (changeTextSize) {
+			TextSizeUtil.enlargeViewGroup((ViewGroup) view);
+		}
 		return view;
 	}
 

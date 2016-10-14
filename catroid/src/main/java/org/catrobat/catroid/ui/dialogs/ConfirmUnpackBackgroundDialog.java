@@ -33,6 +33,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -41,14 +42,13 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class ConfirmUnpackBackgroundDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_unpack_background";
 
 	private static final String TAG = ConfirmUnpackBackgroundDialog.class.getSimpleName();
-
-	private Dialog confirmUnpackBackgroundDialog;
 
 	private Sprite selectedSprite;
 	private boolean delete;
@@ -68,7 +68,7 @@ public class ConfirmUnpackBackgroundDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_unpack_background, null);
 
-		confirmUnpackBackgroundDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+		final Dialog confirmUnpackBackgroundDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.unpack)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
@@ -99,6 +99,7 @@ public class ConfirmUnpackBackgroundDialog extends DialogFragment {
 						handleOkButtonClick();
 					}
 				});
+				TextSizeUtil.enlargeViewGroup((ViewGroup) confirmUnpackBackgroundDialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

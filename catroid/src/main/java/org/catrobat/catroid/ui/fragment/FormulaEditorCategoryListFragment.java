@@ -41,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -51,6 +52,7 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorChooseSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorPortConfigDialog;
+import org.catrobat.catroid.utils.DividerUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -474,7 +476,15 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_formula_editor_list, container, false);
+		View view = inflater.inflate(R.layout.fragment_formula_editor_list, container, false);
+		container.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				getListView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				DividerUtil.setDivider(getActivity(), getListView());
+			}
+		});
+		return view;
 	}
 
 	public void showFragment(Context context) {

@@ -35,6 +35,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -44,6 +45,7 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class UserBrickNameDialog extends DialogFragment {
@@ -53,7 +55,6 @@ public class UserBrickNameDialog extends DialogFragment {
 	private static final String TAG = UserBrickNameDialog.class.getSimpleName();
 
 	private EditText newUserBrickEditText;
-	private Dialog newUserBrickDialog;
 	private UserBrickNameDialogInterface userBrickNameDialogInterface;
 
 	@Override
@@ -66,7 +67,7 @@ public class UserBrickNameDialog extends DialogFragment {
 		String text = getActivity().getString(R.string.new_user_brick) + " " + currentSprite.getNextNewUserBrickId();
 		newUserBrickEditText.setText(text);
 
-		newUserBrickDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+		final Dialog newUserBrickDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.new_user_brick)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
@@ -122,6 +123,8 @@ public class UserBrickNameDialog extends DialogFragment {
 						handleOkButtonClick();
 					}
 				});
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) newUserBrickDialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

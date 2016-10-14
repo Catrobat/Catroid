@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<profiles>
+    <profile name="setting_access_profile_standard">
+        <parameter name="setting_access_large_text" value="false"/>
+        <parameter name="setting_access_fontface" value="standard"/>
+        <parameter name="setting_access_high_contrast" value="false"/>
+        <parameter name="setting_access_additional_icons" value="false"/>
+        <parameter name="setting_access_large_icons" value="false"/>
+        <parameter name="setting_access_high_contrast_icons" value="false"/>
+        <parameter name="setting_access_large_element_spacing" value="false"/>
+        <parameter name="setting_access_starter_bricks" value="false"/>
+        <parameter name="setting_access_dragndrop_delay" value="false"/>
+    </profile>
+
+    <profile name="setting_access_profile_1">
+        <parameter name="setting_access_large_text" value="false"/>
+        <parameter name="setting_access_fontface" value="standard"/>
+        <parameter name="setting_access_high_contrast" value="true"/>
+        <parameter name="setting_access_additional_icons" value="true"/>
+        <parameter name="setting_access_large_icons" value="false"/>
+        <parameter name="setting_access_high_contrast_icons" value="true"/>
+        <parameter name="setting_access_large_element_spacing" value="false"/>
+        <parameter name="setting_access_starter_bricks" value="false"/>
+        <parameter name="setting_access_dragndrop_delay" value="false"/>
+    </profile>
+
+    <profile name="setting_access_profile_2">
+        <parameter name="setting_access_large_text" value="true"/>
+        <parameter name="setting_access_fontface" value="serif"/>
+        <parameter name="setting_access_high_contrast" value="true"/>
+        <parameter name="setting_access_additional_icons" value="false"/>
+        <parameter name="setting_access_large_icons" value="true"/>
+        <parameter name="setting_access_high_contrast_icons" value="false"/>
+        <parameter name="setting_access_large_element_spacing" value="true"/>
+        <parameter name="setting_access_starter_bricks" value="false"/>
+        <parameter name="setting_access_dragndrop_delay" value="false"/>
+    </profile>
+
+     <profile name="setting_access_profile_3">
+        <parameter name="setting_access_large_text" value="false"/>
+        <parameter name="setting_access_fontface" value="standard"/>
+        <parameter name="setting_access_high_contrast" value="false"/>
+        <parameter name="setting_access_additional_icons" value="false"/>
+        <parameter name="setting_access_large_icons" value="false"/>
+        <parameter name="setting_access_high_contrast_icons" value="false"/>
+        <parameter name="setting_access_large_element_spacing" value="true"/>
+        <parameter name="setting_access_starter_bricks" value="false"/>
+        <parameter name="setting_access_dragndrop_delay" value="true"/>
+    </profile>
+
+     <profile name="setting_access_profile_4">
+        <parameter name="setting_access_large_text" value="false"/>
+        <parameter name="setting_access_fontface" value="standard"/>
+        <parameter name="setting_access_high_contrast" value="false"/>
+        <parameter name="setting_access_additional_icons" value="false"/>
+        <parameter name="setting_access_large_icons" value="false"/>
+        <parameter name="setting_access_high_contrast_icons" value="false"/>
+        <parameter name="setting_access_large_element_spacing" value="false"/>
+        <parameter name="setting_access_starter_bricks" value="true"/>
+        <parameter name="setting_access_dragndrop_delay" value="false"/>
+    </profile>
+</profiles>

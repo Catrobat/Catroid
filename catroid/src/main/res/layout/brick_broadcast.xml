@@ -45,12 +45,13 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_broadcast_label"
+            android:layout_width="wrap_content"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_broadcast" />
 
-        <Spinner
+        <org.catrobat.catroid.utils.BrickSpinner
             android:id="@+id/brick_broadcast_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -172,6 +172,8 @@ import java.util.Locale;
 
 public class CategoryBricksFactory {
 
+	private static boolean starterBricksEnabled;
+
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
 
 		boolean isUserScriptMode = context instanceof UserBrickScriptActivity;
@@ -220,21 +222,30 @@ public class CategoryBricksFactory {
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
 
 		List<Brick> eventBrickList = new ArrayList<>();
-		eventBrickList.add(new WhenStartedBrick(null));
-		eventBrickList.add(new WhenBrick(null));
-		eventBrickList.add(new WhenTouchDownBrick());
-		final String broadcastMessage = MessageContainer.getFirst(context);
-		eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
-		eventBrickList.add(new BroadcastBrick(broadcastMessage));
-		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
-		eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));
-		eventBrickList.add(new CollisionReceiverBrick("object"));
-		eventBrickList.add(new WhenBackgroundChangesBrick());
-		eventBrickList.add(new WhenClonedBrick());
+		if (!starterBricksEnabled) {
+			eventBrickList.add(new WhenStartedBrick(null));
+			eventBrickList.add(new WhenBrick(null));
+			eventBrickList.add(new WhenTouchDownBrick());
+			final String broadcastMessage = MessageContainer.getFirst(context);
+			eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
+			eventBrickList.add(new BroadcastBrick(broadcastMessage));
+			eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
+			eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));
+			eventBrickList.add(new CollisionReceiverBrick("object"));
+			eventBrickList.add(new WhenBackgroundChangesBrick());
+			eventBrickList.add(new WhenClonedBrick());
 
-		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
-			eventBrickList.add(new WhenNfcBrick());
+			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+				eventBrickList.add(new WhenNfcBrick());
+			}
+		} else {
+			eventBrickList.add(new WhenStartedBrick(null));
+			eventBrickList.add(new WhenTouchDownBrick());
+			final String broadcastMessage = MessageContainer.getFirst(context);
+			eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
+			eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		}
+
 		return eventBrickList;
 	}
 
@@ -244,26 +255,34 @@ public class CategoryBricksFactory {
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
 
 		List<Brick> controlBrickList = new ArrayList<>();
-		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
-		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
-		controlBrickList.add(new ForeverBrick());
-		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
-		controlBrickList.add(new IfThenLogicBeginBrick(new Formula(defaultIf)));
-		controlBrickList.add(new WaitUntilBrick(new Formula(defaultIf)));
-		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
-		controlBrickList.add(new RepeatUntilBrick(new Formula(defaultIf)));
-		controlBrickList.add(new SceneTransitionBrick(null));
-		controlBrickList.add(new SceneStartBrick(null));
+		if (!starterBricksEnabled) {
+			controlBrickList.add(new WaitBrick(BrickValues.WAIT));
+			controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
+			controlBrickList.add(new ForeverBrick());
+			controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
+			controlBrickList.add(new IfThenLogicBeginBrick(new Formula(defaultIf)));
+			controlBrickList.add(new WaitUntilBrick(new Formula(defaultIf)));
+			controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
+			controlBrickList.add(new RepeatUntilBrick(new Formula(defaultIf)));
+			controlBrickList.add(new SceneTransitionBrick(null));
+			controlBrickList.add(new SceneStartBrick(null));
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
-			controlBrickList.add(new PhiroIfLogicBeginBrick());
+			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+				controlBrickList.add(new PhiroIfLogicBeginBrick());
+			}
+			controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
+
+			controlBrickList.add(new CloneBrick());
+			controlBrickList.add(new DeleteThisCloneBrick());
+			controlBrickList.add(new WhenClonedBrick());
+		} else {
+			controlBrickList.add(new WaitBrick(BrickValues.WAIT));
+			controlBrickList.add(new ForeverBrick());
+
+			controlBrickList.add(new CloneBrick());
+			controlBrickList.add(new DeleteThisCloneBrick());
+			controlBrickList.add(new WhenClonedBrick());
 		}
-
-		controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
-
-		controlBrickList.add(new CloneBrick());
-		controlBrickList.add(new DeleteThisCloneBrick());
-		controlBrickList.add(new WhenClonedBrick());
 
 		return controlBrickList;
 	}
@@ -307,48 +326,63 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
 		List<Brick> motionBrickList = new ArrayList<>();
-		motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
-		motionBrickList.add(new SetXBrick(BrickValues.X_POSITION));
-		motionBrickList.add(new SetYBrick(BrickValues.Y_POSITION));
-		motionBrickList.add(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
-		motionBrickList.add(new ChangeYByNBrick(BrickValues.CHANGE_Y_BY));
-		motionBrickList.add(new GoToBrick(null));
+		if (!starterBricksEnabled) {
+			motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
+			motionBrickList.add(new SetXBrick(BrickValues.X_POSITION));
+			motionBrickList.add(new SetYBrick(BrickValues.Y_POSITION));
+			motionBrickList.add(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
+			motionBrickList.add(new ChangeYByNBrick(BrickValues.CHANGE_Y_BY));
+			motionBrickList.add(new GoToBrick(null));
 
-		if (!isBackground(sprite)) {
-			motionBrickList.add(new IfOnEdgeBounceBrick());
-		}
+			if (!isBackground(sprite)) {
+				motionBrickList.add(new IfOnEdgeBounceBrick());
+			}
 
-		motionBrickList.add(new MoveNStepsBrick(BrickValues.MOVE_STEPS));
-		motionBrickList.add(new TurnLeftBrick(BrickValues.TURN_DEGREES));
-		motionBrickList.add(new TurnRightBrick(BrickValues.TURN_DEGREES));
-		motionBrickList.add(new PointInDirectionBrick(Direction.RIGHT));
-		motionBrickList.add(new PointToBrick(null));
-		motionBrickList.add(new SetRotationStyleBrick());
-		motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
-				BrickValues.GLIDE_SECONDS));
+			motionBrickList.add(new MoveNStepsBrick(BrickValues.MOVE_STEPS));
+			motionBrickList.add(new TurnLeftBrick(BrickValues.TURN_DEGREES));
+			motionBrickList.add(new TurnRightBrick(BrickValues.TURN_DEGREES));
+			motionBrickList.add(new PointInDirectionBrick(Direction.RIGHT));
+			motionBrickList.add(new PointToBrick(null));
+			motionBrickList.add(new SetRotationStyleBrick());
+			motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
+					BrickValues.GLIDE_SECONDS));
 
-		if (!isBackground(sprite)) {
-			motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
-			motionBrickList.add(new ComeToFrontBrick());
-		}
+			if (!isBackground(sprite)) {
+				motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
+				motionBrickList.add(new ComeToFrontBrick());
+			}
 
-		motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
+			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
 
-		motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
-		motionBrickList.add(new SetVelocityBrick(BrickValues.PHYSIC_VELOCITY));
-		motionBrickList.add(new TurnLeftSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
-		motionBrickList.add(new TurnRightSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
-		motionBrickList.add(new SetGravityBrick(BrickValues.PHYSIC_GRAVITY));
-		motionBrickList.add(new SetMassBrick(BrickValues.PHYSIC_MASS));
-		motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
-		motionBrickList.add(new SetFrictionBrick(BrickValues.PHYSIC_FRICTION * 100));
+			motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
+			motionBrickList.add(new SetVelocityBrick(BrickValues.PHYSIC_VELOCITY));
+			motionBrickList.add(new TurnLeftSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
+			motionBrickList.add(new TurnRightSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
+			motionBrickList.add(new SetGravityBrick(BrickValues.PHYSIC_GRAVITY));
+			motionBrickList.add(new SetMassBrick(BrickValues.PHYSIC_MASS));
+			motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
+			motionBrickList.add(new SetFrictionBrick(BrickValues.PHYSIC_FRICTION * 100));
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
-			motionBrickList.add(new PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
-					BrickValues.PHIRO_SPEED));
-			motionBrickList.add(new PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
-					BrickValues.PHIRO_SPEED));
-			motionBrickList.add(new PhiroMotorStopBrick(PhiroMotorStopBrick.Motor.MOTOR_BOTH));
+			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+				motionBrickList.add(new PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
+						BrickValues.PHIRO_SPEED));
+				motionBrickList.add(new PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
+						BrickValues.PHIRO_SPEED));
+				motionBrickList.add(new PhiroMotorStopBrick(PhiroMotorStopBrick.Motor.MOTOR_BOTH));
+			}
+		} else {
+			motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
+			motionBrickList.add(new GoToBrick(null));
+
+			if (!isBackground(sprite)) {
+				motionBrickList.add(new IfOnEdgeBounceBrick());
+			}
+
+			motionBrickList.add(new MoveNStepsBrick(BrickValues.MOVE_STEPS));
+			motionBrickList.add(new TurnLeftBrick(BrickValues.TURN_DEGREES));
+			motionBrickList.add(new TurnRightBrick(BrickValues.TURN_DEGREES));
+			motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
+					BrickValues.GLIDE_SECONDS));
 		}
 
 		return motionBrickList;
@@ -356,25 +390,31 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupSoundCategoryList(Context context) {
 		List<Brick> soundBrickList = new ArrayList<>();
-		soundBrickList.add(new PlaySoundBrick());
-		soundBrickList.add(new PlaySoundAndWaitBrick());
-		soundBrickList.add(new StopAllSoundsBrick());
-		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
+		if (!starterBricksEnabled) {
+			soundBrickList.add(new PlaySoundBrick());
+			soundBrickList.add(new PlaySoundAndWaitBrick());
+			soundBrickList.add(new StopAllSoundsBrick());
+			soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
 
-		// workaround to set a negative default value for a Brick
-		float positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
-		FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
-				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
-				null)
-		);
-		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(defaultValueChangeVolumeBy)));
+			// workaround to set a negative default value for a Brick
+			float positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
+			FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
+					null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
+					null)
+			);
+			soundBrickList.add(new ChangeVolumeByNBrick(new Formula(defaultValueChangeVolumeBy)));
 
-		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
-		soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
+			soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
+			soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
-			soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
-					BrickValues.PHIRO_DURATION));
+			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+				soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
+						BrickValues.PHIRO_DURATION));
+			}
+		} else {
+			soundBrickList.add(new PlaySoundBrick());
+			soundBrickList.add(new StopAllSoundsBrick());
+			soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 		}
 
 		return soundBrickList;
@@ -382,39 +422,59 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupLooksCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> looksBrickList = new ArrayList<>();
+		if (!starterBricksEnabled) {
+			if (!isBackgroundSprite) {
+				looksBrickList.add(new SetLookBrick());
+			}
+			looksBrickList.add(new NextLookBrick());
+			looksBrickList.add(new PreviousLookBrick());
+			looksBrickList.add(new SetSizeToBrick(BrickValues.SET_SIZE_TO));
+			looksBrickList.add(new ChangeSizeByNBrick(BrickValues.CHANGE_SIZE_BY));
+			looksBrickList.add(new HideBrick());
+			looksBrickList.add(new ShowBrick());
+			looksBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+			if (!isBackgroundSprite) {
+				looksBrickList.add(new SayBubbleBrick(context.getString(R.string.brick_say_bubble_default_value)));
+				looksBrickList.add(new SayForBubbleBrick(context.getString(R.string.brick_say_bubble_default_value), 1.0f));
+				looksBrickList.add(new ThinkBubbleBrick(context.getString(R.string.brick_think_bubble_default_value)));
+				looksBrickList.add(new ThinkForBubbleBrick(context.getString(R.string.brick_think_bubble_default_value), 1.0f));
+			}
+			looksBrickList.add(new SetTransparencyBrick(BrickValues.SET_TRANSPARENCY));
+			looksBrickList.add(new ChangeTransparencyByNBrick(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
+			looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
+			looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
+			looksBrickList.add(new SetColorBrick(BrickValues.SET_COLOR_TO));
+			looksBrickList.add(new ChangeColorByNBrick(BrickValues.CHANGE_COLOR_BY));
+			looksBrickList.add(new ClearGraphicEffectBrick());
+			looksBrickList.add(new WhenBackgroundChangesBrick());
+			looksBrickList.add(new SetBackgroundBrick());
+			looksBrickList.add(new SetBackgroundAndWaitBrick());
+			looksBrickList.add(new CameraBrick());
+			looksBrickList.add(new ChooseCameraBrick());
+			looksBrickList.add(new FlashBrick());
 
-		if (!isBackgroundSprite) {
-			looksBrickList.add(new SetLookBrick());
-		}
-		looksBrickList.add(new NextLookBrick());
-		looksBrickList.add(new PreviousLookBrick());
-		looksBrickList.add(new SetSizeToBrick(BrickValues.SET_SIZE_TO));
-		looksBrickList.add(new ChangeSizeByNBrick(BrickValues.CHANGE_SIZE_BY));
-		looksBrickList.add(new HideBrick());
-		looksBrickList.add(new ShowBrick());
-		looksBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
-		if (!isBackgroundSprite) {
-			looksBrickList.add(new SayBubbleBrick(context.getString(R.string.brick_say_bubble_default_value)));
-			looksBrickList.add(new SayForBubbleBrick(context.getString(R.string.brick_say_bubble_default_value), 1.0f));
-			looksBrickList.add(new ThinkBubbleBrick(context.getString(R.string.brick_think_bubble_default_value)));
-			looksBrickList.add(new ThinkForBubbleBrick(context.getString(R.string.brick_think_bubble_default_value), 1.0f));
-		}
-		looksBrickList.add(new SetTransparencyBrick(BrickValues.SET_TRANSPARENCY));
-		looksBrickList.add(new ChangeTransparencyByNBrick(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
-		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
-		looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
-		looksBrickList.add(new SetColorBrick(BrickValues.SET_COLOR_TO));
-		looksBrickList.add(new ChangeColorByNBrick(BrickValues.CHANGE_COLOR_BY));
-		looksBrickList.add(new ClearGraphicEffectBrick());
-		looksBrickList.add(new WhenBackgroundChangesBrick());
-		looksBrickList.add(new SetBackgroundBrick());
-		looksBrickList.add(new SetBackgroundAndWaitBrick());
-		looksBrickList.add(new CameraBrick());
-		looksBrickList.add(new ChooseCameraBrick());
-		looksBrickList.add(new FlashBrick());
-
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
-			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
+			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+				looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
+			}
+		} else {
+			if (!isBackgroundSprite) {
+				looksBrickList.add(new SetLookBrick());
+			}
+			looksBrickList.add(new NextLookBrick());
+			looksBrickList.add(new PreviousLookBrick());
+			looksBrickList.add(new SetSizeToBrick(BrickValues.SET_SIZE_TO));
+			looksBrickList.add(new ChangeSizeByNBrick(BrickValues.CHANGE_SIZE_BY));
+			looksBrickList.add(new HideBrick());
+			looksBrickList.add(new ShowBrick());
+			looksBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+			if (!isBackgroundSprite) {
+				looksBrickList.add(new SayBubbleBrick(context.getString(R.string.brick_say_bubble_default_value)));
+				looksBrickList.add(new SayForBubbleBrick(context.getString(R.string.brick_say_bubble_default_value), 1.0f));
+				looksBrickList.add(new ThinkBubbleBrick(context.getString(R.string.brick_think_bubble_default_value)));
+				looksBrickList.add(new ThinkForBubbleBrick(context.getString(R.string.brick_think_bubble_default_value), 1.0f));
+			}
+			looksBrickList.add(new SetColorBrick(BrickValues.SET_COLOR_TO));
+			looksBrickList.add(new ChangeColorByNBrick(BrickValues.CHANGE_COLOR_BY));
 		}
 
 		return looksBrickList;
@@ -422,7 +482,6 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupPenCategoryList(Sprite sprite) {
 		List<Brick> penBrickList = new ArrayList<>();
-
 		if (!isBackground(sprite)) {
 			penBrickList.add(new PenDownBrick());
 			penBrickList.add(new PenUpBrick());
@@ -432,20 +491,29 @@ public class CategoryBricksFactory {
 		}
 
 		penBrickList.add(new ClearBackgroundBrick());
+
 		return penBrickList;
 	}
 
 	private List<Brick> setupDataCategoryList(Context context) {
 		List<Brick> dataBrickList = new ArrayList<>();
-		dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
-		dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
-		dataBrickList.add(new ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
-		dataBrickList.add(new HideTextBrick());
-		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
-		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
-		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
-		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
-		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+		if (!starterBricksEnabled) {
+			dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
+			dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
+			dataBrickList.add(new ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
+			dataBrickList.add(new HideTextBrick());
+			dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
+			dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
+			dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
+			dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
+			dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+		} else {
+			dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
+			dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
+			dataBrickList.add(new ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
+			dataBrickList.add(new HideTextBrick());
+		}
+
 		return dataBrickList;
 	}
 
@@ -639,5 +707,13 @@ public class CategoryBricksFactory {
 		res.updateConfiguration(config, null);
 
 		return category;
+	}
+
+	public static void enableStarterBricks() {
+		starterBricksEnabled = true;
+	}
+
+	public static boolean getStarterBricksEnabled() {
+		return starterBricksEnabled;
 	}
 }

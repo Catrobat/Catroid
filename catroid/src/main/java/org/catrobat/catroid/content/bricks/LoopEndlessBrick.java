@@ -24,10 +24,14 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
@@ -50,8 +54,14 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_checkbox);
 
+			IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_loop_endless_label),
+					context.getString(R.string.category_control));
+
 			setCheckboxView(R.id.brick_loop_endless_checkbox);
 		}
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
+
 		return view;
 	}
 

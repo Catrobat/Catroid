@@ -55,19 +55,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <org.catrobat.catroid.utils.BrickTextView
                     android:id="@+id/brick_nxt_motor_turn_label"
                     style="@style/BrickText.Multiple"
                     android:text="@string/nxt_brick_motor_turn_angle" >
-                </TextView >
+                </org.catrobat.catroid.utils.BrickTextView >
 
-                <Spinner
+                <org.catrobat.catroid.utils.BrickSpinner
                     android:id="@+id/lego_motor_turn_angle_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:focusable="false" >
-                </Spinner >
+                </org.catrobat.catroid.utils.BrickSpinner >
             </LinearLayout>
 
             <LinearLayout
@@ -76,26 +76,26 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <org.catrobat.catroid.utils.BrickTextView
                     android:id="@+id/brick_nxt_motor_turn_angle"
                     style="@style/BrickText.Multiple"
                     android:text="@string/nxt_motor_move_by" >
-                </TextView >
+                </org.catrobat.catroid.utils.BrickTextView >
 
-                <TextView
+                <org.catrobat.catroid.utils.BrickTextView
                     android:id="@+id/motor_turn_angle_edit_text"
                     style="@style/BrickEditText"
                     app:layout_inputType="number"
                     app:layout_textField="true"
                     android:clickable="false"
                     android:visibility="gone" >
-                </TextView >
+                </org.catrobat.catroid.utils.BrickTextView >
 
-                <TextView
+                <org.catrobat.catroid.utils.BrickTextView
                     android:id="@+id/brick_nxt_motor_turn_degree"
                     style="@style/BrickText"
                     android:text="@string/degree_symbol" >
-                </TextView >
+                </org.catrobat.catroid.utils.BrickTextView >
             </LinearLayout>
         </RelativeLayout>
     </org.catrobat.catroid.ui.BrickLayout >

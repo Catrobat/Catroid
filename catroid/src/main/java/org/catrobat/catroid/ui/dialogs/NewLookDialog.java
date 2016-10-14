@@ -30,13 +30,16 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class NewLookDialog extends DialogFragment {
 
@@ -67,12 +70,24 @@ public class NewLookDialog extends DialogFragment {
 		setupMediaLibraryButton(dialogView);
 		setupDroneVideoButton(dialogView);
 
-		AlertDialog dialog;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
 				R.string.new_look_dialog_title);
 
-		dialog = createDialog(dialogBuilder);
+		final AlertDialog dialog = createDialog(dialogBuilder);
 		dialog.setCanceledOnTouchOutside(true);
+
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				if (getActivity() == null) {
+					Log.e(TAG, "onShow() Activity was null!");
+					return;
+				}
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+			}
+		});
+
 		return dialog;
 	}
 

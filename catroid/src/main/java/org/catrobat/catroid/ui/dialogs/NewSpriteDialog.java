@@ -37,6 +37,7 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +62,7 @@ import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
 
@@ -86,6 +88,7 @@ public class NewSpriteDialog extends DialogFragment {
 	private SpinnerAdapterWrapper spinnerAdapter;
 	private boolean isDroneVideo = false;
 	private SpriteFactory spriteFactory = new SpriteFactory();
+	private AlertDialog dialog = null;
 
 	public NewSpriteDialog() {
 		this.requestedAction = ActionAfterFinished.NONE;
@@ -130,7 +133,6 @@ public class NewSpriteDialog extends DialogFragment {
 			setupDroneVideoButton(dialogView);
 		}
 
-		AlertDialog dialog = null;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
 				R.string.new_sprite_dialog_title);
 		if (wizardStep == DialogWizardStep.STEP_1) {
@@ -138,11 +140,12 @@ public class NewSpriteDialog extends DialogFragment {
 		} else if (wizardStep == DialogWizardStep.STEP_2) {
 			dialog = createDialogStepTwo(dialogBuilder);
 		}
+
 		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
 			@Override
-			public void onShow(final DialogInterface dialog) {
-				Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+			public void onShow(final DialogInterface dialogInterface) {
+				Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
 				button.setOnClickListener(new View.OnClickListener() {
 
 					@Override
@@ -152,6 +155,7 @@ public class NewSpriteDialog extends DialogFragment {
 						}
 					}
 				});
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
 			}
 		});
 		dialog.setCanceledOnTouchOutside(true);

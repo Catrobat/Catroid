@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
+import android.view.ViewGroup;
 
 import com.github.mrengineer13.snackbar.SnackBar;
 
@@ -49,7 +50,7 @@ public final class SnackbarUtil {
 		final String message = activity.getString(resourceId);
 
 		if (!wasHintAlreadyShown(activity, messageId) && areHintsEnabled(activity)) {
-			new SnackBar.Builder(activity)
+			SnackBar.Builder snackBarBuilder = new SnackBar.Builder(activity)
 					.withMessage(message)
 					.withActionMessage(activity.getResources().getString(R.string.got_it))
 					.withTextColorId(R.color.solid_black)
@@ -60,8 +61,9 @@ public final class SnackbarUtil {
 							setHintShown(activity, messageId);
 						}
 					})
-					.withDuration(SnackBar.PERMANENT_SNACK)
-					.show();
+					.withDuration(SnackBar.PERMANENT_SNACK);
+			ViewGroup viewGroup = (ViewGroup) snackBarBuilder.show().getContainerView();
+			TextSizeUtil.enlargeViewGroup(viewGroup);
 		}
 	}
 

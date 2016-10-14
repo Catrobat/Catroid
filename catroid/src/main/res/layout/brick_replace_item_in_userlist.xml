@@ -45,12 +45,12 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_replace_item_in_userlist_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_replace_item_in_userlist_replace_in_list" />
         
-        <Spinner
+        <org.catrobat.catroid.utils.BrickSpinner
             app:layout_newLine="true"
             android:id="@+id/replace_item_in_userlist_spinner"
             android:layout_width="match_parent"
@@ -58,23 +58,23 @@
             android:clickable="false"
             android:focusable="false" />
          
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_replace_item_in_userlist_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_replace_item_in_userlist_item_at_index" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_replace_item_in_userlist_at_index_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_replace_item_in_userlist_with_value_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_replace_item_in_userlist_with_value" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_replace_item_in_userlist_value_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"

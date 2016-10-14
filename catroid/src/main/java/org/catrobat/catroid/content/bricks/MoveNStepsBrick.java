@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -38,6 +39,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -78,6 +81,9 @@ public class MoveNStepsBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_move_n_steps, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_loop_endless_label),
+				context.getString(R.string.category_motion));
+
 		setCheckboxView(R.id.brick_move_n_steps_checkbox);
 		TextView edit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
@@ -105,6 +111,9 @@ public class MoveNStepsBrick extends FormulaBrick {
 		}
 
 		edit.setOnClickListener(this);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
+
 		return view;
 	}
 

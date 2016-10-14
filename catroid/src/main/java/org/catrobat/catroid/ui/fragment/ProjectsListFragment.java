@@ -71,6 +71,8 @@ import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
+import org.catrobat.catroid.utils.DividerUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilUi;
@@ -282,6 +284,8 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		}
 
 		initAdapter();
+
+		DividerUtil.setDivider(getActivity(), getListView());
 	}
 
 	@Override
@@ -382,8 +386,8 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 
 		menu.add(0, R.string.merge_button, 1, getString(R.string.merge_button) + ": " + ProjectManager.getInstance().getCurrentProject().getName());
 		menu.setHeaderTitle(projectToEdit.projectName);
-
 		getActivity().getMenuInflater().inflate(R.menu.context_menu_my_projects, menu);
+		TextSizeUtil.enlargeOptionsMenu(menu);
 	}
 
 	@Override

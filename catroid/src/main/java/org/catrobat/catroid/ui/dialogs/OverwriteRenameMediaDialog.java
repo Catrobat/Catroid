@@ -34,6 +34,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +50,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -141,7 +143,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 		renameButton.setText(renameText);
 		mediaTextView.setText(renameHeaderText);
 
-		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(header)
+		final Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(header)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -157,7 +159,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
-			public void onShow(final DialogInterface dialog) {
+			public void onShow(final DialogInterface dialogInterface) {
 				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
 				positiveButton.setOnClickListener(new OnClickListener() {
 					@Override
@@ -165,6 +167,8 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 						handleOkButton();
 					}
 				});
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

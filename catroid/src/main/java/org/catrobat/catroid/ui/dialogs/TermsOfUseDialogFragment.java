@@ -33,6 +33,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class TermsOfUseDialogFragment extends DialogFragment {
 	private static final String TAG = TermsOfUseDialogFragment.class.getSimpleName();
@@ -114,13 +116,24 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 
 		termsOfUseUrlTextView.setText(Html.fromHtml(termsOfUseUrl));
 
-		AlertDialog termsOfUseDialog = termsOfUseDialogBuilder.create();
+		final AlertDialog termsOfUseDialog = termsOfUseDialogBuilder.create();
 		if (!isOnPreStageActivity) {
 			termsOfUseDialog.setCanceledOnTouchOutside(true);
 		} else {
 			termsOfUseDialog.setCancelable(false);
 			termsOfUseDialog.setCanceledOnTouchOutside(false);
 		}
+
+		termsOfUseDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				if (getActivity() == null) {
+					Log.e(DIALOG_FRAGMENT_TAG, "onShow() Activity was null!");
+					return;
+				}
+				TextSizeUtil.enlargeViewGroup((ViewGroup) termsOfUseDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 
 		return termsOfUseDialog;
 	}

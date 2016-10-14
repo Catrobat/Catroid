@@ -35,6 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -45,6 +46,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +84,10 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 		}
 		view = View.inflate(context, R.layout.brick_scene_transition, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_scene_transition_label),
+				context.getString(R.string.category_control));
+
 		setCheckboxView(R.id.brick_scene_transition_checkbox);
 
 		final Spinner sceneSpinner = (Spinner) view.findViewById(R.id.brick_scene_transition_spinner);
@@ -109,6 +116,7 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 		});
 
 		setSpinnerSelection(sceneSpinner);
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
 	}
 

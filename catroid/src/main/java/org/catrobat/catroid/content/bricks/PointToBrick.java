@@ -37,6 +37,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -50,6 +51,8 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +96,9 @@ public class PointToBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_point_to, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_point_to_label),
+				context.getString(R.string.category_motion));
+
 		setCheckboxView(R.id.brick_point_to_checkbox);
 		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
 
@@ -121,6 +127,8 @@ public class PointToBrick extends BrickBaseType {
 						}
 					}
 				}
+				TextView spinnerText = (TextView) parent.getChildAt(0);
+				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -129,6 +137,8 @@ public class PointToBrick extends BrickBaseType {
 		});
 
 		setSpinnerSelection(spinner);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

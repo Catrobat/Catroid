@@ -44,43 +44,43 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_set_velocity_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_set_velocity_to" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_set_velocity_x_textview"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:text="@string/x_label" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_set_velocity_edit_text_x"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_set_velocity_y_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/y_label" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_set_velocity_edit_text_y"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >
-        </TextView >
-        <TextView
+        </org.catrobat.catroid.utils.BrickTextView >
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_set_velocity_unit"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_set_velocity_unit" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
 	</org.catrobat.catroid.ui.BrickLayout >
 

@@ -69,6 +69,8 @@ import org.catrobat.catroid.ui.adapter.BackPackSoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.utils.DividerUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
 
@@ -191,6 +193,8 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 		checkEmptyBackgroundBackPack();
+
+		DividerUtil.setDivider(getActivity(), listView);
 	}
 
 	@Override
@@ -326,6 +330,8 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 					.findViewById(R.id.fragment_sound_item_time_played_chronometer);
 
 			convertView.setTag(holder);
+
+			TextSizeUtil.enlargeViewGroup(holder.soundFragmentButtonLayout);
 		} else {
 			holder = (SoundViewHolder) convertView.getTag();
 		}

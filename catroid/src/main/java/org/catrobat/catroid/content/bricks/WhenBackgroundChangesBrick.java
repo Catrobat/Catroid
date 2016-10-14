@@ -34,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -47,6 +48,8 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -114,6 +117,9 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		view = View.inflate(context, R.layout.brick_when_background_changes_to, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_when_background_text_view),
+				context.getString(R.string.category_event));
+
 		setCheckboxView(R.id.brick_when_background_checkbox);
 
 		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_when_background_spinner);
@@ -139,6 +145,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		});
 
 		setSpinnerSelection(lookbrickSpinner);
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

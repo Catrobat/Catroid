@@ -33,6 +33,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
@@ -307,6 +308,35 @@ public final class Utils {
 			for (int itemPos = 0; itemPos < numberOfItems; ++itemPos) {
 				View item = listAdapter.getView(itemPos, null, listView);
 				item.measure(0, 0);
+				totalItemsHeight += item.getMeasuredHeight();
+			}
+
+			// Get total height of all item dividers.
+			int totalDividersHeight = listView.getDividerHeight() * (numberOfItems - 1);
+
+			// Set list height.
+			ViewGroup.LayoutParams params = listView.getLayoutParams();
+			params.height = totalItemsHeight + totalDividersHeight;
+			listView.setLayoutParams(params);
+			listView.requestLayout();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// Has to be called after listView has already been measured.
+	public static boolean setListViewHeightBasedOnItemsAndTheirWidth(ListView listView) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter != null) {
+			int numberOfItems = listAdapter.getCount();
+			// Get total height of all items.
+			int totalItemsHeight = 0;
+			final int maxHeight = 1000;
+			for (int itemPos = 0; itemPos < numberOfItems; ++itemPos) {
+				View item = listAdapter.getView(itemPos, null, listView);
+				item.measure(View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY),
+						View.MeasureSpec.makeMeasureSpec(maxHeight, View.MeasureSpec.AT_MOST));
 				totalItemsHeight += item.getMeasuredHeight();
 			}
 
@@ -991,5 +1021,27 @@ public final class Utils {
 
 	public static String getNumberStringForBricks(float value) {
 		return (int) value == value ? "" + (int) value : "" + value;
+	}
+
+	// http://stackoverflow.com/questions/2711858/is-it-possible-to-set-font-for-entire-application/16883281#16883281
+	public static void setDefaultFont(Context context,
+			String staticTypefaceFieldName, String fontAssetName) {
+		final Typeface regular = Typeface.createFromAsset(context.getAssets(),
+				fontAssetName);
+		replaceFont(staticTypefaceFieldName, regular);
+	}
+
+	private static void replaceFont(String staticTypefaceFieldName,
+			final Typeface newTypeface) {
+		try {
+			final Field staticField = Typeface.class
+					.getDeclaredField(staticTypefaceFieldName);
+			staticField.setAccessible(true);
+			staticField.set(null, newTypeface);
+		} catch (NoSuchFieldException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		} catch (IllegalAccessException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
 	}
 }

@@ -46,17 +46,17 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_phiro_play_tone_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/phiro_play_tone" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-         <TextView
+         <org.catrobat.catroid.utils.BrickTextView
              android:id="@+id/brick_phiro_select_tone_text_view"
              style="@style/BrickText.SingleLine"
              android:text="@string/brick_phiro_select_tone" />
-        <Spinner
+        <org.catrobat.catroid.utils.BrickSpinner
             android:id="@+id/brick_phiro_select_tone_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,14 +64,14 @@
             android:focusable="false" />
         <!-- do not add spinner items here! -->
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_phiro_play_tone_duration"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:text="@string/phiro_tone_duration" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_phiro_play_tone_duration_edit_text"
             style="@style/BrickEditText"
             android:layout_width="wrap_content"
@@ -80,13 +80,13 @@
             app:layout_textField="true"
             android:clickable="false"
             android:maxEms="5" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_phiro_play_tone_seconds_text_view"
             style="@style/BrickText.SingleLine"
             android:text="@string/phiro_seconds" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
     </org.catrobat.catroid.ui.BrickLayout >
 

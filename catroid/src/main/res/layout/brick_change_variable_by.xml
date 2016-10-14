@@ -45,24 +45,24 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_change_variable_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_change_variable" />
 
-        <Spinner
+        <org.catrobat.catroid.utils.BrickSpinner
             android:id="@+id/change_variable_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_change_variable_by"
             style="@style/BrickText.SingleLine"
             android:text="@string/by_label" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_change_variable_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"

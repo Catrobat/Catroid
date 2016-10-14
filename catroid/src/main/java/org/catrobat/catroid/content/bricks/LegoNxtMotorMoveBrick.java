@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -40,6 +41,8 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -125,6 +128,10 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.lego_motor_action_label),
+				context.getString(R.string.category_lego_nxt));
+
 		setCheckboxView(R.id.brick_nxt_motor_action_checkbox);
 
 		editSpeed = (TextView) view.findViewById(R.id.motor_action_speed_edit_text);
@@ -145,6 +152,9 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
+
+				TextView spinnerText = (TextView) arg0.getChildAt(0);
+				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -156,6 +166,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 		motorSpinner.setSelection(motorEnum.ordinal());
 		motorSpinner.setGravity(Gravity.CENTER);
 
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
 	}
 

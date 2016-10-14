@@ -29,11 +29,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class AboutDialogFragment extends DialogFragment {
@@ -63,7 +66,7 @@ public class AboutDialogFragment extends DialogFragment {
 		String versionName = this.getString(R.string.android_version_prefix) + Utils.getVersionName(getActivity());
 		aboutVersionNameTextView.setText(versionName);
 
-		Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.dialog_about_title)
+		final Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.dialog_about_title)
 				.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
@@ -71,6 +74,18 @@ public class AboutDialogFragment extends DialogFragment {
 					}
 				}).create();
 		aboutDialog.setCanceledOnTouchOutside(true);
+
+		aboutDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				if (getActivity() == null) {
+					Log.e(DIALOG_FRAGMENT_TAG, "onShow() Activity was null!");
+					return;
+				}
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) aboutDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 
 		return aboutDialog;
 	}

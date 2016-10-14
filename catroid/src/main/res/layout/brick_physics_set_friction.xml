@@ -44,24 +44,24 @@
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_set_friction_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_set_friction" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_set_friction_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true"
             android:maxEms="5" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_set_friction_text_view"
             style="@style/BrickText.SingleLine"
             android:text="@string/percent_symbol" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
     </org.catrobat.catroid.ui.BrickLayout >
 </LinearLayout >

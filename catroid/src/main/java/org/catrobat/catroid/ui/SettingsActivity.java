@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -40,13 +41,23 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.catrobat.catroid.utils.BrickEditText;
+import org.catrobat.catroid.utils.BrickSpinner;
+import org.catrobat.catroid.utils.BrickTextView;
+import org.catrobat.catroid.utils.DividerUtil;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class SettingsActivity extends PreferenceActivity {
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_ACCESSIBILITY_SETTINGS = "preference_button_access";
 	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
@@ -74,6 +85,40 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String RASPI_PORT = "setting_raspi_port_preference";
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
+	public static final String ACCESS_APPLICATION_FONT = "SANS_SERIF";
+	public static final String ACCESS_PATH_FONT_SERIF = "fonts/CrimsonText-Roman.ttf";
+	public static final String ACCESS_PATH_FONT_DYSLEXIC = "fonts/OpenDyslexic-Regular.otf";
+	public static final String ACCESS_BUTTON = "preference_button_access";
+	public static final String ACCESS_PROFILE_NONE = "setting_access_profile_none";
+	public static final String ACCESS_PROFILE_ACTIVE = "setting_access_profile_active";
+	public static final String ACCESS_PROFILE_STANDARD = "setting_access_profile_standard";
+	public static final String ACCESS_PROFILE_MYPROFILE = "setting_access_profile_myprofile";
+	public static final String ACCESS_PROFILE_1 = "setting_access_profile_1";
+	public static final String ACCESS_PROFILE_2 = "setting_access_profile_2";
+	public static final String ACCESS_PROFILE_3 = "setting_access_profile_3";
+	public static final String ACCESS_PROFILE_4 = "setting_access_profile_4";
+	public static final String ACCESS_LARGE_TEXT = "setting_access_large_text";
+	public static final String ACCESS_FONTFACE = "setting_access_fontface";
+	public static final String ACCESS_FONTFACE_VALUE_STANDARD = "standard";
+	public static final String ACCESS_FONTFACE_VALUE_SERIF = "serif";
+	public static final String ACCESS_FONTFACE_VALUE_DYSLEXIC = "dyslexic";
+	public static final String ACCESS_HIGH_CONTRAST = "setting_access_high_contrast";
+	public static final String ACCESS_ADDITIONAL_ICONS = "setting_access_additional_icons";
+	public static final String ACCESS_LARGE_ICONS = "setting_access_large_icons";
+	public static final String ACCESS_HIGH_CONTRAST_ICONS = "setting_access_high_contrast_icons";
+	public static final String ACCESS_LARGE_ELEMENT_SPACING = "setting_access_large_element_spacing";
+	public static final String ACCESS_STARTER_BRICKS = "setting_access_starter_bricks";
+	public static final String ACCESS_DRAGNDROP_DELAY = "setting_access_dragndrop_delay";
+	public static final String ACCESS_MYPROFILE_LARGE_TEXT = "setting_access_myprofile_large_text";
+	public static final String ACCESS_MYPROFILE_FONTFACE = "setting_myprofile_access_fontface";
+	public static final String ACCESS_MYPROFILE_HIGH_CONTRAST = "setting_myprofile_access_high_contrast";
+	public static final String ACCESS_MYPROFILE_ADDITIONAL_ICONS = "setting_access_myprofile_additional_icons";
+	public static final String ACCESS_MYPROFILE_LARGE_ICONS = "setting_access_myprofile_large_icons";
+	public static final String ACCESS_MYPROFILE_HIGH_CONTRAST_ICONS = "setting_access_myprofile_high_contrast_icons";
+	public static final String ACCESS_MYPROFILE_LARGE_ELEMENT_SPACING = "setting_access_myprofile_large_element_spacing";
+	public static final String ACCESS_MYPROFILE_STARTER_BRICKS = "setting_access_myprofile_starter_bricks";
+	public static final String ACCESS_MYPROFILE_DRAGNDROP_DELAY = "setting_access_myprofile_dragndrop_delay";
+
 	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
 
 	@SuppressWarnings("deprecation")
@@ -86,6 +131,7 @@ public class SettingsActivity extends PreferenceActivity {
 		setNXTSensors();
 		setDronePreferences();
 		setHintPreferences();
+		setAccessibilityMenuButtonListener();
 		updateActionBar();
 
 		screen = getPreferenceScreen();
@@ -94,6 +140,12 @@ public class SettingsActivity extends PreferenceActivity {
 			PreferenceScreen legoNxtPreference = (PreferenceScreen) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
 			legoNxtPreference.setEnabled(false);
 			screen.removePreference(legoNxtPreference);
+		}
+
+		if (!BuildConfig.FEATURE_ACCESSIBILITY_SETTINGS_ENABLED) {
+			PreferenceScreen accessPreference = (PreferenceScreen) findPreference(SETTINGS_ACCESSIBILITY_SETTINGS);
+			accessPreference.setEnabled(false);
+			screen.removePreference(accessPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
@@ -263,6 +315,52 @@ public class SettingsActivity extends PreferenceActivity {
 				return true;
 			}
 		});
+	}
+
+	private void setAccessibilityMenuButtonListener() {
+		PreferenceScreen accessButton = (PreferenceScreen) findPreference(ACCESS_BUTTON);
+		accessButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent intent = new Intent(SettingsActivity.this, AccessibilityPreferencesActivity.class);
+				startActivity(intent);
+				return true;
+			}
+		});
+	}
+
+	public static void applyAccessibilitySettings(Context context) {
+		if (getAccessibilityLargeTextEnabled(context)) {
+			TextSizeUtil.enableTextSizeUtil();
+		}
+		if (getAccessibilityHighContrastEnabled(context)) {
+			BrickTextView.enableShadowBorder();
+			BrickEditText.enableShadowBorder();
+			BrickSpinner.enableShadowBorder();
+		}
+		if (getAccessibilityAdditionalIconsEnabled(context)) {
+			IconsUtil.setActivated(true);
+		}
+		if (getAccessibilityLargeIconsEnabled(context)) {
+			IconsUtil.setLargeSize(true);
+		}
+		if (getAccessibilityHighContrastIconsEnabled(context)) {
+			IconsUtil.setContrast(true);
+		}
+		if (getAccessibilityLargeElementSpacingEnabled(context)) {
+			DividerUtil.setActivated(true);
+		}
+		if (getAccessibilityStarterBricksEnabled(context)) {
+			CategoryBricksFactory.enableStarterBricks();
+		}
+		if (getAccessibilityDragndropDelayEnabled(context)) {
+			DragAndDropListView.enableLongpressDelay();
+		}
+		if (getAccessibilityFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_SERIF)) {
+			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_SERIF);
+		} else if (getAccessibilityFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
+			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_DYSLEXIC);
+		}
 	}
 
 	private void updateActionBar() {
@@ -466,6 +564,215 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static void resetSharedPreferences(Context context) {
 		getSharedPreferences(context).edit().clear().commit();
+	}
+
+	public static void setActiveAccessibilityProfile(Context context, String key) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putString(ACCESS_PROFILE_ACTIVE, key);
+		editor.commit();
+	}
+
+	public static String getActiveAccessibilityProfile(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getString(ACCESS_PROFILE_ACTIVE, ACCESS_PROFILE_NONE);
+	}
+
+	public static void setAccessibilityLargeTextEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_LARGE_TEXT, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityLargeTextEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_LARGE_TEXT, false);
+	}
+
+	public static void setAccessibilityFontFace(Context context, String fontface) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putString(ACCESS_FONTFACE, fontface);
+		editor.commit();
+	}
+
+	public static String getAccessibilityFontFace(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getString(ACCESS_FONTFACE, ACCESS_FONTFACE_VALUE_STANDARD);
+	}
+
+	public static void setAccessibilityHighContrastEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_HIGH_CONTRAST, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityHighContrastEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_HIGH_CONTRAST, false);
+	}
+
+	public static void setAccessibilityAdditionalIconsEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_ADDITIONAL_ICONS, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityAdditionalIconsEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_ADDITIONAL_ICONS, false);
+	}
+
+	public static void setAccessibilityLargeIconsEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_LARGE_ICONS, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityLargeIconsEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_LARGE_ICONS, false);
+	}
+
+	public static void setAccessibilityHighContrastIconsEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_HIGH_CONTRAST_ICONS, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityHighContrastIconsEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_HIGH_CONTRAST_ICONS, false);
+	}
+
+	public static void setAccessibilityLargeElementSpacingEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_LARGE_ELEMENT_SPACING, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityLargeElementSpacingEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_LARGE_ELEMENT_SPACING, false);
+	}
+
+	public static void setAccessibilityStarterBricksEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_STARTER_BRICKS, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityStarterBricksEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_STARTER_BRICKS, false);
+	}
+
+	public static void setAccessibilityDragndropDelayEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_DRAGNDROP_DELAY, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityDragndropDelayEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_DRAGNDROP_DELAY, false);
+	}
+
+	public static void setAccessibilityMyProfileLargeTextEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_MYPROFILE_LARGE_TEXT, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityMyProfileLargeTextEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_MYPROFILE_LARGE_TEXT, false);
+	}
+
+	public static void setAccessibilityMyProfileFontFace(Context context, String fontface) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putString(ACCESS_MYPROFILE_FONTFACE, fontface);
+		editor.commit();
+	}
+
+	public static String getAccessibilityMyProfileFontFace(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getString(ACCESS_MYPROFILE_FONTFACE, ACCESS_FONTFACE_VALUE_STANDARD);
+	}
+
+	public static void setAccessibilityMyProfileHighContrastEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_MYPROFILE_HIGH_CONTRAST, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityMyProfileHighContrastEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_MYPROFILE_HIGH_CONTRAST, false);
+	}
+
+	public static void setAccessibilityMyProfileAdditionalIconsEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_MYPROFILE_ADDITIONAL_ICONS, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityMyProfileAdditionalIconsEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_MYPROFILE_ADDITIONAL_ICONS, false);
+	}
+
+	public static void setAccessibilityMyProfileLargeIconsEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_MYPROFILE_LARGE_ICONS, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityMyProfileLargeIconsEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_MYPROFILE_LARGE_ICONS, false);
+	}
+
+	public static void setAccessibilityMyProfileHighContrastIconsEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_MYPROFILE_HIGH_CONTRAST_ICONS, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityMyProfileHighContrastIconsEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_MYPROFILE_HIGH_CONTRAST_ICONS, false);
+	}
+
+	public static void setAccessibilityMyProfileLargeElementSpacingEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_MYPROFILE_LARGE_ELEMENT_SPACING, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityMyProfileLargeElementSpacingEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_MYPROFILE_LARGE_ELEMENT_SPACING, false);
+	}
+
+	public static void setAccessibilityMyProfileStarterBricksEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_MYPROFILE_STARTER_BRICKS, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityMyProfileStarterBricksEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_MYPROFILE_STARTER_BRICKS, false);
+	}
+
+	public static void setAccessibilityMyProfileDragndropDelayEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_MYPROFILE_DRAGNDROP_DELAY, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityMyProfileDragndropDelayEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_MYPROFILE_DRAGNDROP_DELAY, false);
 	}
 
 	@Override

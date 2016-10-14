@@ -67,6 +67,7 @@ import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 import java.util.ArrayList;
@@ -875,7 +876,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		currentBrickView.setOnClickListener(this);
 
 		if (!(brick instanceof ScriptBrick)) {
-			currentBrickView.setOnLongClickListener(dragAndDropListView);
+			currentBrickView.setOnTouchListener(dragAndDropListView);
 		}
 
 		boolean enableSpinners = !isDragging && actionMode == ActionModeEnum.NO_ACTION;
@@ -887,7 +888,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			dragAndDropListView.setInsertedBrick(position);
 
 			dragAndDropListView.setDraggingNewBrick();
-			dragAndDropListView.onLongClick(currentBrickView);
+			dragAndDropListView.longClick(currentBrickView);
 
 			return insertionView;
 		}
@@ -1019,7 +1020,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			public void onClick(DialogInterface dialog, int item) {
 				CharSequence clickedItemText = items.get(item);
 				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
-					view.performLongClick();
+					dragAndDropListView.longClick(view);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_copy_brick))) {
 					copyBrickListAndProject(itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))
@@ -1058,6 +1059,12 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			}
 		});
 		alertDialog = builder.create();
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(final DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) alertDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 
 		if ((selectMode == ListView.CHOICE_MODE_NONE)) {
 			alertDialog.show();

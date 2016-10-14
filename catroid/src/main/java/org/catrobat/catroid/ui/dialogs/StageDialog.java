@@ -36,6 +36,7 @@ import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 public class StageDialog extends Dialog implements View.OnClickListener {
@@ -75,6 +76,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		} else {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
 		}
+		IconsUtil.setStageDialogIconSize(getContext(), this.findViewById(android.R.id.content));
 	}
 
 	@Override

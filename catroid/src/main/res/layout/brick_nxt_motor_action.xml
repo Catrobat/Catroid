@@ -55,13 +55,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <org.catrobat.catroid.utils.BrickTextView
                     android:id="@+id/lego_motor_action_label"
                     style="@style/BrickText.Multiple"
                     android:text="@string/nxt_brick_motor_move" >
-                </TextView >
+                </org.catrobat.catroid.utils.BrickTextView >
 
-                <Spinner
+                <org.catrobat.catroid.utils.BrickSpinner
                     android:id="@+id/lego_motor_action_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                     android:focusable="false" >
 
                     <!-- do not add spinner items here! -->
-                </Spinner >
+                </org.catrobat.catroid.utils.BrickSpinner >
             </LinearLayout>
 
             <LinearLayout
@@ -78,32 +78,32 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <org.catrobat.catroid.utils.BrickTextView
                     android:id="@+id/lego_motor_action_to_text"
                     style="@style/BrickText.Multiple"
                     android:text="@string/nxt_motor_speed_to" >
-                </TextView >
+                </org.catrobat.catroid.utils.BrickTextView >
 
-                <TextView
+                <org.catrobat.catroid.utils.BrickTextView
                     android:id="@+id/motor_action_speed_edit_text"
                     style="@style/BrickEditText"
                     app:layout_inputType="number"
                     app:layout_textField="true"
                     android:clickable="false" >
-                </TextView >
+                </org.catrobat.catroid.utils.BrickTextView >
 
-                <TextView
+                <org.catrobat.catroid.utils.BrickTextView
                     android:id="@+id/lego_motor_action_percent"
                     style="@style/BrickText"
                     android:text="@string/percent_symbol" >
-                </TextView >
+                </org.catrobat.catroid.utils.BrickTextView >
 
-                <TextView
+                <org.catrobat.catroid.utils.BrickTextView
                     android:id="@+id/lego_motor_action_speed_text"
                     style="@style/BrickText"
                     android:layout_marginLeft="3sp"
                     android:text="@string/nxt_motor_speed" >
-                </TextView >
+                </org.catrobat.catroid.utils.BrickTextView >
             </LinearLayout>
         </RelativeLayout>
 

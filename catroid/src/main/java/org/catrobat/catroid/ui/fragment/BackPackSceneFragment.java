@@ -56,6 +56,7 @@ import org.catrobat.catroid.ui.controller.BackPackSceneController;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -170,6 +171,8 @@ public class BackPackSceneFragment extends BackPackActivityFragment implements D
 				.activity_scenes_list_item_text_view, BackPackListManager.getInstance().getBackPackedScenes());
 		setListAdapter(adapter);
 		checkEmptyBackgroundBackPack();
+
+		DividerUtil.setDivider(getActivity(), listView);
 	}
 
 	@Override

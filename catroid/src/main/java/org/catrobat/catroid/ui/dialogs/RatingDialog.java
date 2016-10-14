@@ -31,10 +31,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class RatingDialog extends DialogFragment {
 	public static final String TAG = "dialog_rate_pocketcode";
@@ -43,7 +46,7 @@ public class RatingDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle bundle) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_rate_pocketcode, null);
 
-		Dialog rateUsDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(getString(R.string.rating_dialog_title))
+		final Dialog rateUsDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(getString(R.string.rating_dialog_title))
 				.setPositiveButton(R.string.rating_dialog_rate_now, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
@@ -72,6 +75,18 @@ public class RatingDialog extends DialogFragment {
 				}).create();
 
 		rateUsDialog.setCanceledOnTouchOutside(false);
+
+		rateUsDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				if (getActivity() == null) {
+					Log.e(TAG, "onShow() Activity was null!");
+					return;
+				}
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) rateUsDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 
 		return rateUsDialog;
 	}

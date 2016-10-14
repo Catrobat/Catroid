@@ -45,6 +45,7 @@ import org.catrobat.catroid.ui.controller.BackPackScriptController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 	protected Button okButtonDelete;
 	protected List<Brick> checkedBricks = new ArrayList<>();
 	protected List<Brick> brickList;
+	protected String selectedCategory;
 
 	protected void showNewGroupBackPackDialog(final List<String> backPackedItems, final boolean backPackUserBricks) {
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(context);
@@ -85,7 +87,7 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 			}
 		});
 
-		AlertDialog alertDialog = builder.create();
+		final AlertDialog alertDialog = builder.create();
 
 		groupNameEditText.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -109,10 +111,16 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) alertDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 
-		alertDialog.show();
 		okButtonDelete = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
 		okButtonDelete.setEnabled(false);
+		alertDialog.show();
 	}
 
 	private void showScriptGroupNameAlreadyGivenDialog(final List<String> backPackedItems, final boolean backPackUserBricks) {
@@ -129,11 +137,16 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 			}
 		});
 
-		AlertDialog alertDialog = builder.create();
+		final AlertDialog alertDialog = builder.create();
 
 		alertDialog.setCanceledOnTouchOutside(true);
 		alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) alertDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 		alertDialog.show();
 	}
 

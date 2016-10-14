@@ -24,10 +24,13 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public abstract class DroneBasicBrick extends BrickBaseType {
 
@@ -42,9 +45,14 @@ public abstract class DroneBasicBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_drone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.ValueTextView),
+				context.getString(R.string.category_drone));
+
 		setCheckboxView(R.id.brick_drone_basic_checkbox);
 		TextView label = (TextView) view.findViewById(R.id.ValueTextView);
 		label.setText(getBrickLabel(view));
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

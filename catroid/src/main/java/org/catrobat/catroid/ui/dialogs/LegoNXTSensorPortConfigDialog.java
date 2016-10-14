@@ -29,14 +29,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class LegoNXTSensorPortConfigDialog extends DialogFragment {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_nxt_sensor_port_config";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_port_config";
 	public static final String TAG = LegoNXTSensorPortConfigDialog.class.getSimpleName();
 	private int clickedItem = 0;
 	private String title;
@@ -63,7 +65,7 @@ public class LegoNXTSensorPortConfigDialog extends DialogFragment {
 
 		getAttributes(clickedItem);
 
-		Dialog dialog = new AlertDialog.Builder(getActivity())
+		final Dialog dialog = new AlertDialog.Builder(getActivity())
 				.setTitle(title)
 				.setItems(sensorMappings, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
@@ -72,6 +74,18 @@ public class LegoNXTSensorPortConfigDialog extends DialogFragment {
 				}).create();
 
 		dialog.setCanceledOnTouchOutside(true);
+
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				if (getActivity() == null) {
+					Log.e(DIALOG_FRAGMENT_TAG, "onShow() Activity was null!");
+					return;
+				}
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+			}
+		});
 
 		return dialog;
 	}

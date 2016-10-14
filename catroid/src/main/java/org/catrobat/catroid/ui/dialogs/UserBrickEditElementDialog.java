@@ -42,6 +42,7 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -133,6 +134,7 @@ public class UserBrickEditElementDialog extends DialogFragment {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				handleOnShow(dialogNewVariable);
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogNewVariable.getWindow().getDecorView().getRootView());
 			}
 		});
 

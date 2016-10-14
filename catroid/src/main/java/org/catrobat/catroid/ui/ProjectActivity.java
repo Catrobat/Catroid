@@ -31,7 +31,11 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,6 +74,8 @@ import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.fragment.ListItemActionsInterface;
 import org.catrobat.catroid.ui.fragment.ScenesListFragment;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -105,6 +111,8 @@ public class ProjectActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_project);
 
+		IconsUtil.setBottomBarIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
+
 		currentFragmentPosition = FRAGMENT_SCENES;
 
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
@@ -127,6 +135,8 @@ public class ProjectActivity extends BaseActivity {
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 		fragmentTransaction.commit();
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 
 	@Override
@@ -228,6 +238,7 @@ public class ProjectActivity extends BaseActivity {
 				menu.findItem(R.id.backpack).setVisible(true);
 			}
 		}
+		TextSizeUtil.enlargeOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -298,6 +309,10 @@ public class ProjectActivity extends BaseActivity {
 				mergeSceneDialog.show(fragmentTransaction, MergeSceneDialog.DIALOG_FRAGMENT_TAG);
 				break;
 		}
+		SpannableString spanString = new SpannableString(item.getTitle().toString());
+		int end = spanString.length();
+		spanString.setSpan(new RelativeSizeSpan(1.5f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -332,7 +347,15 @@ public class ProjectActivity extends BaseActivity {
 			});
 			builder.setTitle(R.string.backpack_title);
 			builder.setCancelable(true);
-			builder.show();
+
+			final AlertDialog alertDialog = builder.create();
+			alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+				@Override
+				public void onShow(DialogInterface dialog) {
+					TextSizeUtil.enlargeViewGroup((ViewGroup) alertDialog.getWindow().getDecorView().getRootView());
+				}
+			});
+			alertDialog.show();
 		}
 	}
 
@@ -457,12 +480,14 @@ public class ProjectActivity extends BaseActivity {
 		spritesListFragment.setShowDetails(showDetails);
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
+		TextSizeUtil.enlargeOptionsItem(item);
 	}
 
 	public void showEmptyActionModeDialog(String actionMode) {
 		@SuppressLint("InflateParams")
 		View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_action_mode_empty, null);
 		TextView actionModeEmptyText = (TextView) dialogView.findViewById(R.id.dialog_action_mode_emtpy_text);
+		actionModeEmptyText.setTextSize(TypedValue.COMPLEX_UNIT_PX, actionModeEmptyText.getTextSize() * TextSizeUtil.getModifier());
 
 		if (actionMode.equals(getString(R.string.backpack))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_backpack_and_unpack));
@@ -476,7 +501,7 @@ public class ProjectActivity extends BaseActivity {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_rename));
 		}
 
-		AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)
+		final AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)
 				.setTitle(actionMode)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
@@ -487,6 +512,13 @@ public class ProjectActivity extends BaseActivity {
 		actionModeEmptyDialog.setCanceledOnTouchOutside(true);
 		actionModeEmptyDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		actionModeEmptyDialog.show();
+
+		actionModeEmptyDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) actionModeEmptyDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 	}
 
 	public SpritesListFragment getSpritesListFragment() {

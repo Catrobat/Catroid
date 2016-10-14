@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/access_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+         <TextView
+             android:id="@+id/access_label_active_profile"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textAppearance="?android:attr/textAppearanceSmall"
+             android:textColor="@color/white"
+             android:textAllCaps="true"
+             android:layout_marginLeft="25dp"
+             android:layout_marginRight="25dp"
+             android:layout_marginTop="15dp"
+             android:layout_marginBottom="5dp"
+             android:text="@string/preference_access_active_profile" />
+
+         <View
+             android:id="@+id/access_separation_line_active_profile"
+             android:layout_width="fill_parent"
+             android:layout_height="1.0dp"
+             android:layout_marginLeft="15dp"
+             android:layout_marginRight="15dp"
+             android:background="@color/holo_blue_bright" />
+
+         <LinearLayout
+             android:id="@+id/access__active_profile"
+             android:baselineAligned="false"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:weightSum="10"
+             android:layout_marginBottom="10dp"
+             android:layout_marginLeft="25dp">
+
+             <LinearLayout
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="2">
+
+                 <ImageView
+                     android:id="@+id/access_active_profile_image"
+                     android:layout_width="56dp"
+                     android:layout_height="56dp"
+                     android:layout_marginTop="20dp"
+                     android:src="@drawable/nolb_standard_myprofile" />
+
+             </LinearLayout>
+
+
+             <RelativeLayout
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="8"
+                 android:layout_marginRight="15dp">
+
+                 <TextView
+                     android:id="@+id/access_active_profile_title"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textAppearance="?android:attr/textAppearanceMedium"
+                     android:layout_marginTop="15dp" />
+
+                 <TextView
+                     android:id="@+id/access_active_profile_summary"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textAppearance="?android:attr/textAppearanceSmall"
+                     android:layout_marginTop="5dp"
+                     android:layout_below="@+id/access_active_profile_title" />
+
+             </RelativeLayout>
+
+         </LinearLayout>
+
+        <TextView
+            android:id="@+id/access_label_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/preference_access_profiles" />
+
+        <View
+            android:id="@+id/access_separation_line_profiles"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/holo_blue_bright" />
+
+        <LinearLayout
+            android:id="@+id/access_profilestandard"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:onClick="openProfile"
+            android:background="@drawable/button_background_selector" >
+
+            <ImageView
+                android:id="@+id/access_profilestandard_image"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/nolb_standard_myprofile"
+                android:background="@drawable/my_projects_activity_list_item_thumbnail_border"
+                android:cropToPadding="true"
+                android:padding="1.5dp"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/access_title_profilestandard"
+                    android:text="@string/preference_access_title_profile_standard"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/list_item_thumbnail_border_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/access_summary_profilestandard"
+                    android:text="@string/preference_access_summary_profile_standard"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/access_title_profilestandard" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/access_profilemyprofile"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:onClick="openProfile"
+            android:background="@drawable/button_background_selector" >
+
+            <ImageView
+                android:id="@+id/access_profilemyprofile_image"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/nolb_standard_myprofile"
+                android:background="@drawable/my_projects_activity_list_item_thumbnail_border"
+                android:cropToPadding="true"
+                android:padding="1.5dp"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/access_title_profilemyprofile"
+                    android:text="@string/preference_access_title_profile_myprofile"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/list_item_thumbnail_border_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/access_summary_profilemyprofile"
+                    android:text="@string/preference_access_summary_profile_myprofile"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/access_title_profilemyprofile" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/access_label_predefined_profiles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/preference_access_predefined_profiles" />
+
+        <View
+            android:id="@+id/access_separation_line_predefined_profiles"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/holo_blue_bright" />
+
+        <LinearLayout
+            android:id="@+id/access_profile1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:onClick="openProfile"
+            android:background="@drawable/button_background_selector" >
+
+            <ImageView
+                android:id="@+id/access_profile1_image"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/nolb_argus"
+                android:background="@drawable/my_projects_activity_list_item_thumbnail_border"
+                android:cropToPadding="true"
+                android:padding="1.5dp"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/access_title_profile1"
+                    android:text="@string/preference_access_title_profile_1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/list_item_thumbnail_border_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/access_summary_profile1"
+                    android:text="@string/preference_access_summary_profile_1"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/access_title_profile1" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/access_profile2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:onClick="openProfile"
+            android:background="@drawable/button_background_selector" >
+
+            <ImageView
+                android:id="@+id/access_profile2_image"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/nolb_odin"
+                android:background="@drawable/my_projects_activity_list_item_thumbnail_border"
+                android:cropToPadding="true"
+                android:padding="1.5dp"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/access_title_profile2"
+                    android:text="@string/preference_access_title_profile_2"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/list_item_thumbnail_border_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/access_summary_profile2"
+                    android:text="@string/preference_access_summary_profile_2"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/access_title_profile2" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/access_profile3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:onClick="openProfile"
+            android:background="@drawable/button_background_selector" >
+
+            <ImageView
+                android:id="@+id/access_profile3_image"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/nolb_fenrir"
+                android:background="@drawable/my_projects_activity_list_item_thumbnail_border"
+                android:cropToPadding="true"
+                android:padding="1.5dp"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/access_title_profile3"
+                    android:text="@string/preference_access_title_profile_3"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/list_item_thumbnail_border_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/access_summary_profile3"
+                    android:text="@string/preference_access_summary_profile_3"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/access_title_profile3" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/access_profile4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:onClick="openProfile"
+            android:background="@drawable/button_background_selector" >
+
+            <ImageView
+                android:id="@+id/access_profile4_image"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/nolb_tiro"
+                android:background="@drawable/my_projects_activity_list_item_thumbnail_border"
+                android:cropToPadding="true"
+                android:padding="1.5dp"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/access_title_profile4"
+                    android:text="@string/preference_access_title_profile_4"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/list_item_thumbnail_border_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/access_summary_profile4"
+                    android:text="@string/preference_access_summary_profile_4"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/access_title_profile4" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

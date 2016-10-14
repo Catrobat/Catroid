@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -98,6 +99,7 @@ public class BrickCategoryFragment extends ListFragment {
 				}
 			}
 		});
+		DividerUtil.setDivider(getActivity(), getListView());
 	}
 
 	@Override
@@ -153,14 +155,17 @@ public class BrickCategoryFragment extends ListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
-		categories.add(inflater.inflate(R.layout.brick_category_pen, null));
+		if (!CategoryBricksFactory.getStarterBricksEnabled()) {
+			categories.add(inflater.inflate(R.layout.brick_category_pen, null));
+		}
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 
 		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
 
-		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null) {
+		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null &&
+				!CategoryBricksFactory.getStarterBricksEnabled()) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}
 

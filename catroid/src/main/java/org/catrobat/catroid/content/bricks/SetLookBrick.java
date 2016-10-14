@@ -46,6 +46,8 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -101,6 +103,9 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		view = View.inflate(context, R.layout.brick_set_look, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view),
+				context.getString(R.string.category_looks));
+
 		setCheckboxView(R.id.brick_set_look_checkbox);
 
 		final Spinner lookBrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
@@ -121,6 +126,8 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 					look = (LookData) parent.getItemAtPosition(position);
 					oldSelectedLook = look;
 				}
+				TextView spinnerText = (TextView) parent.getChildAt(0);
+				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -138,6 +145,8 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		if (!wait) {
 			view.findViewById(R.id.brick_set_look_and_wait).setVisibility(View.GONE);
 		}
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

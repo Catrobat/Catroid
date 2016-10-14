@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +45,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.fragment.BackPackSpriteFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,6 +177,14 @@ public class BackPackSpriteAdapter extends ArrayAdapter<Sprite> implements Actio
 			holder.sounds = (TextView) spriteView.findViewById(R.id.textView_number_of_sounds);
 			holder.details = spriteView.findViewById(R.id.project_activity_sprite_details);
 			spriteView.setTag(holder);
+
+			holder.text.setTextSize(TypedValue.COMPLEX_UNIT_PX, holder.text.getTextSize() * TextSizeUtil.getModifier());
+			holder.scripts.setTextSize(TypedValue.COMPLEX_UNIT_PX, holder.scripts.getTextSize() * TextSizeUtil.getModifier());
+			holder.bricks.setTextSize(TypedValue.COMPLEX_UNIT_PX, holder.bricks.getTextSize() * TextSizeUtil.getModifier());
+			holder.looks.setTextSize(TypedValue.COMPLEX_UNIT_PX, holder.looks.getTextSize() * TextSizeUtil.getModifier());
+			holder.sounds.setTextSize(TypedValue.COMPLEX_UNIT_PX, holder.sounds.getTextSize() * TextSizeUtil.getModifier());
+			TextSizeUtil.enlargeViewGroup(holder.backgroundHeadline);
+			TextSizeUtil.enlargeViewGroup(holder.objectsHeadline);
 		} else {
 			holder = (ViewHolder) spriteView.getTag();
 		}

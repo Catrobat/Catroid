@@ -25,9 +25,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BrickCategory" >
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         style="@style/BrickCategoryText.UserBricks"
         android:text="@string/category_user_bricks" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
 </LinearLayout>

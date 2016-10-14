@@ -24,9 +24,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BrickCategory" >
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         style="@style/BrickCategoryText.Arduino"
         android:text="@string/category_arduino" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
 </LinearLayout>

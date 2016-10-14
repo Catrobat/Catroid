@@ -50,6 +50,7 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -392,6 +393,15 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 		holder.looks = (TextView) spriteView.findViewById(R.id.textView_number_of_looks);
 		holder.sounds = (TextView) spriteView.findViewById(R.id.textView_number_of_sounds);
 		holder.details = spriteView.findViewById(R.id.project_activity_sprite_details);
+
+		TextSizeUtil.enlargeTextView(holder.text);
+		TextSizeUtil.enlargeTextView(holder.scripts);
+		TextSizeUtil.enlargeTextView(holder.bricks);
+		TextSizeUtil.enlargeTextView(holder.looks);
+		TextSizeUtil.enlargeTextView(holder.sounds);
+		TextSizeUtil.enlargeViewGroup(holder.backgroundHeadline);
+		TextSizeUtil.enlargeViewGroup(holder.objectsHeadline);
+		TextSizeUtil.enlargeTextView(holder.groupText);
 		return holder;
 	}
 

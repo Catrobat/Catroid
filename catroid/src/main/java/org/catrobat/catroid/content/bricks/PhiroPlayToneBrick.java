@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -39,6 +40,8 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -120,6 +123,10 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_phiro_play_tone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_phiro_play_tone_label),
+				context.getString(R.string.category_phiro));
+
 		setCheckboxView(R.id.brick_phiro_play_tone_checkbox);
 
 		editDuration = (TextView) view.findViewById(R.id.brick_phiro_play_tone_duration_edit_text);
@@ -140,6 +147,9 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				toneEnum = Tone.values()[position];
 				tone = toneEnum.name();
+
+				TextView spinnerText = (TextView) arg0.getChildAt(0);
+				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -148,6 +158,8 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		});
 
 		toneSpinner.setSelection(toneEnum.ordinal());
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

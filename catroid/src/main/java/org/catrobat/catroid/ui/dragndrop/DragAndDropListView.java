@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.dragndrop;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
@@ -35,7 +36,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -45,11 +47,17 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.utils.Utils;
 
-public class DragAndDropListView extends ListView implements OnLongClickListener {
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class DragAndDropListView extends ListView implements OnTouchListener {
 
 	private static final int SCROLL_SPEED = 25;
 	public static final int WIDTH_OF_BRICK_PREVIEW_IMAGE = 400;
 	private static final int DRAG_BACKGROUND_COLOR = Color.TRANSPARENT;
+
+	private static int longpressTime = ViewConfiguration.getLongPressTimeout();
+	Timer longpressTimer;
 
 	private int maximumDragViewHeight;
 
@@ -111,7 +119,40 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	}
 
 	@Override
+	public boolean onTouch(final View view, MotionEvent event) {
+		switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				longpressTimer = new Timer();
+				TimerTask longPressTask = new TimerTask() {
+					@Override
+					public void run() {
+						((Activity) getContext()).runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								longClick(view);
+							}
+						});
+					}
+				};
+				longpressTimer.schedule(longPressTask, longpressTime);
+				return true;
+			case MotionEvent.ACTION_MOVE:
+				break;
+			case MotionEvent.ACTION_UP:
+				longpressTimer.cancel();
+				view.performClick();
+				break;
+			default:
+				break;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if (longpressTimer != null) {
+			longpressTimer.cancel();
+		}
 
 		int x = (int) event.getX();
 		int y = (int) event.getY();
@@ -181,8 +222,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		return bitmap;
 	}
 
-	@Override
-	public boolean onLongClick(View view) {
+	public boolean longClick(View view) {
 		if (((BrickAdapter) getAdapter()).getActionMode() != BrickAdapter.ActionModeEnum.NO_ACTION) {
 			return true;
 		}
@@ -421,5 +461,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	public void setIsScrolling() {
 		isScrolling = true;
+	}
+
+	public static void enableLongpressDelay() {
+		longpressTime = ViewConfiguration.getLongPressTimeout() * 2;
 	}
 }
