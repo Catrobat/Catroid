@@ -124,6 +124,64 @@
   <string name="preference_raspi_help_summary">Uzyskaj pomoc na temat konfigurowania ustawień połączenia</string>
   <string name="preference_raspi_host">Raspberry Pi – IP / adres hosta</string>
   <string name="preference_raspi_port">Port Raspberry Pi</string>
+  <string name="preference_title_access">Accessibility</string>
+  <string name="preference_description_access">Choose a profile and configurate your personal
+        settings for the Pocket-Code-UI</string>
+  <string name="preference_access_title_activity_access">Accessibility preferences</string>
+  <string name="preference_access_profiles">Profiles</string>
+  <string name="preference_access_predefined_profiles">Predefined profiles</string>
+  <string name="preference_access_active_profile">Active profile</string>
+  <string name="preference_access_selected_profile">Selected profile</string>
+  <string name="preference_access_change_profile">Switch to predefined profiles</string>
+  <string name="preference_access_apply_profile">Apply this profile</string>
+  <string name="preference_access_settings">Ustawienia</string>
+  <string name="preference_access_title_large_text">Large text</string>
+  <string name="preference_access_summary_large_text">The large text setting increases the text size.</string>
+  <string name="preference_access_choose_fontface">Choose a fontface</string>
+  <string name="preference_access_title_fontface">Fontface</string>
+  <string name="preference_access_summary_fontface">Fontface allows you to choose a font style you
+        prefer.</string>
+  <string name="preference_access_title_fontface_standard">Standard</string>
+  <string name="preference_access_title_fontface_serif">Serif</string>
+  <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
+  <string name="preference_access_title_high_contrast">High contrast</string>
+  <string name="preference_access_summary_high_contrast">Increases the contrast and makes the text on bricks easier
+        to read.</string>
+  <string name="preference_access_title_additional_icons">Additional icons</string>
+  <string name="preference_access_summary_additional_icons">Adds icons to categories and bricks to improve
+        recognizability.</string>
+  <string name="preference_access_title_large_icons">Large icons</string>
+  <string name="preference_access_summary_large_icons">Increases the size of icons.</string>
+  <string name="preference_access_title_high_contrast_icons">Icon contrast</string>
+  <string name="preference_access_summary_high_contrast_icons">Changes the brick icons to high contrast icons.
+        </string>
+  <string name="preference_access_title_largeelementspacing">Large element spacing</string>
+  <string name="preference_access_summary_largeelementspacing">The large element spacing increase the space
+        between touchable elements.</string>
+  <string name="preference_access_title_starter_bricks">Starter bricks</string>
+  <string name="preference_access_summary_starter_bricks">Shows only starter bricks for ease of learning.</string>
+  <string name="preference_access_title_dragndrop_delay">Drag\'n\'drop delay</string>
+  <string name="preference_access_summary_dragndrop_delay">Adds delay to the drag\'n\'drop of bricks.</string>
+  <string name="preference_access_title_profile_standard">Standard</string>
+  <string name="preference_access_summary_profile_standard">The standard settings</string>
+  <string name="preference_access_title_profile_myprofile">Mój profil</string>
+  <string name="preference_access_summary_profile_myprofile">My personal settings</string>
+  <string name="preference_access_title_profile_1">Argus</string>
+  <string name="preference_access_summary_profile_1">Visual improvement: High contrast, additional icons</string>
+  <string name="preference_access_title_profile_2">Odin</string>
+  <string name="preference_access_summary_profile_2">Visual improvement: Large text, large icons, large element
+        spacing, high contrast</string>
+  <string name="preference_access_title_profile_3">Fenrir</string>
+  <string name="preference_access_summary_profile_3">Input improvement: Large element spacing, drag\'n\'drop
+        delay</string>
+  <string name="preference_access_title_profile_4">Tiro</string>
+  <string name="preference_access_summary_profile_4">Learning: Starter bricks</string>
+  <string name="preference_access_title_created_profile">Created profile</string>
+  <string name="preference_access_summary_created_profile">You have created a new profile! The changes you
+        make can be found in \'My Profile\'</string>
+  <string name="preference_access_title_restart">Profile applied</string>
+  <string name="preference_access_summary_restart">Pocket Code will be restarted to apply the changes you
+        made.</string>
   <!-- Scratch Converter activity -->
   <string name="beta">beta</string>
   <string name="title_activity_scratch_converter">Przekonwertuj program Scratch</string>
@@ -132,12 +190,12 @@
         program. Please try again later!</string>
   <string name="error_request_timeout">Upss! Nasz serwer nie jest dostępny w tej chwili, Proszę spróbować później!</string>
   <string name="error_scratch_program_conversion_failed">Upss! Nie można przekonwertować programu Scratch, spróbuj ponownie później!</string>
-  <string name="error_specific_scratch_program_conversion_failed_x">Upss! Nie można przekonwertować \"%1$s\", spróbuj ponownie później!</string>
+  <string name="error_specific_scratch_program_conversion_failed_x">Upss! Nie można przekonwertować %1$s, spróbuj ponownie później!</string>
   <string name="error_scratch_converter_outdated_pocketcode_version">Twoja aplikacja Pocket Code jest przestarzała. Nasz konwerter Scratcha obsługuje tylko najnowsza wersja Pocket Code. Proszę zaktualizować go w sklepie Google Play!</string>
   <string name="error_cannot_open_not_existing_scratch_program">Nie można otworzyć tego programu Scratch. Wydaje się, że anulowano konwersję/pobieranie programu Scratch lub w międzyczasie zmieniłeś nazwę/usunąłeś program!</string>
   <string name="error_cannot_open_currently_downloading_scratch_program">Nie można otworzyć tego programu Scratch podczas jego pobierania! Spróbuj ponownie później!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">Nie można otworzyć ten program podstaw, ponieważ nie został jeszcze pobrany! Spróbuj ponownie później!</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Nie można przekonwertować \"%1$s\"! Starsze programy Scratch przed %2$s nie są obsługiwane!</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Nie można przekonwertować %1$s! Starsze programy Scratch przed %2$s nie są obsługiwane!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
     <item quantity="one">Nie można przekonwertować jednocześnie więcej niż 1 programu!</item>
     <item quantity="few">Nie można przekonwertować jednocześnie więcej niż %d programów!</item>
@@ -233,7 +291,7 @@
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programy</string>
   <string name="number_of_objects">Obiekty:</string>
-  <string name="start_scene_name">\"%1$s\" (pierwsza scena)</string>
+  <string name="start_scene_name">%1$s (pierwsza scena)</string>
   <string name="number_of_scripts">Skrypty:</string>
   <string name="number_of_bricks">Bloki:</string>
   <string name="number_of_looks">Wygląd:</string>
@@ -249,8 +307,8 @@
   <string name="dialog_confirm_delete_object_message">Tego nie można cofnąć!</string>
   <string name="select_all">Zaznacz wszystko</string>
   <string name="deselect_all">Odznacz wszystko</string>
-  <string name="backpack_replace_object">Obiekt \"%1$s\" już istnieje w plecaku. Czy chcesz go zastąpić?</string>
-  <string name="backpack_replace_scene">Scena \"%1$s\" już istnieje w plecaku. Czy chcesz ją zastąpić?</string>
+  <string name="backpack_replace_object">Obiekt %1$s już istnieje w plecaku. Czy chcesz go zastąpić?</string>
+  <string name="backpack_replace_scene">Scena %1$s już istnieje w plecaku. Czy chcesz ją zastąpić?</string>
   <string name="backpack_replace_object_multiple">Obiekty już istnieją w plecaku. Czy chcesz je zastąpić?</string>
   <string name="groups_create">Stwórz grupę</string>
   <string name="group_created">Grupa została pomyślnie utworzona!</string>
@@ -317,7 +375,7 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Usunąć te wyglądy?</string>
   <string name="dialog_confirm_delete_look_message">Tego nie można cofnąć!</string>
   <string name="lookname">Nazwa wyglądu:</string>
-  <string name="backpack_replace_look">Wygląd \"%1$s\" już istnieje w plecaku. Czy chcesz go zastąpić?</string>
+  <string name="backpack_replace_look">Wygląd %1$s już istnieje w plecaku. Czy chcesz go zastąpić?</string>
   <string name="backpack_replace_look_multiple">Wyglądy już istnieją w plecaku. Czy chcesz je zastąpić?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Naciśnij \"+\", aby dodać dźwięki</string>
@@ -336,7 +394,7 @@
   <string name="sound_name">Nazwa dźwięku:</string>
   <string name="new_sound_name">Nazwa dźwięku:</string>
   <string name="rename_sound_overwrite">Dźwięk o tej nazwie już istnieje. Proszę wybrać inną nazwę!</string>
-  <string name="backpack_replace_sound">Dźwięk \"%1$s\" już istnieje w plecaku. Czy chcesz go zastąpić?</string>
+  <string name="backpack_replace_sound">Dźwięk %1$s już istnieje w plecaku. Czy chcesz go zastąpić?</string>
   <string name="backpack_replace_sound_multiple">Dźwięki już istnieją w plecaku. Czy chcesz je zastąpić?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Zeskanuj tagi, aby dodać</string>
@@ -459,8 +517,8 @@
   <string name="merge_scene_label_one">Scal</string>
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">Odtwórz scenę:</string>
-  <string name="play_scene_dialog_default">Pierwsza scena (\"%1$s\")</string>
-  <string name="play_scene_dialog_current">Bieżąca (\"%1$s\")</string>
+  <string name="play_scene_dialog_default">Pierwsza scena (%1$s)</string>
+  <string name="play_scene_dialog_current">Bieżąca (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Mój obiekt</string>
   <string name="new_sprite_dialog_title">Nowy obiekt</string>
@@ -697,7 +755,7 @@
   <string name="brick_replace_item_in_userlist_with_value">z</string>
   <!-- defaultValues -->
   <string name="default_project_name">Mój pierwszy program</string>
-  <string name="default_scene_name">Scena \"%1$d\"</string>
+  <string name="default_scene_name">Scena %1$d</string>
   <string name="default_project_background_name">Tło</string>
   <string name="default_project_cloud_name">Chmury</string>
   <string name="default_project_cloud_sprite_name_1">Chmura1</string>
@@ -1199,8 +1257,8 @@
   <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Uwaga! Wykryto różne rozdzielczości. %1$s ma rozdzielczość %2$dx%3$d, a %4$s ma rozdzielczość %5$dx%6$d. Użyj rozdzielczości %1$s.</string>
   <string name="abort">Przerwij</string>
   <string name="merge_conflict">Scalanie nie jest możliwe</string>
-  <string name="merge_conflict_variable">Zmienna \"%1$s\" jest używana w obu programach. Jeśli programy używają tej samej nazwy zmiennej nie można ich scalić. Proszę zmienić nazwę zmiennej w jednym z programów i spróbuj ponownie.</string>
-  <string name="merge_conflict_list">Lista \"%1$s\" jest używana w obu programach. Jeśli programy używają tej samej nazwy listy nie można ich scalić. Proszę zmienić nazwę listy w jednym z programów i spróbuj ponownie.</string>
+  <string name="merge_conflict_variable">Zmienna %1$s jest używana w obu programach. Jeśli programy używają tej samej nazwy zmiennej nie można ich scalić. Proszę zmienić nazwę zmiennej w jednym z programów i spróbuj ponownie.</string>
+  <string name="merge_conflict_list">Lista %1$s jest używana w obu programach. Jeśli programy używają tej samej nazwy listy nie można ich scalić. Proszę zmienić nazwę listy w jednym z programów i spróbuj ponownie.</string>
   <!-- Camera related strings -->
   <string name="brick_video">Aparat</string>
   <string name="video_brick_camera_on">włącz</string>

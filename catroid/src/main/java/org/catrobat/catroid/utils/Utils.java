@@ -599,7 +599,7 @@ public final class Utils {
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
-			newName = name + nextNumber;
+			newName = name + "_" + nextNumber;
 		}
 
 		if (ProjectManager.getInstance().getCurrentScene().containsSpriteBySpriteName(newName)) {
@@ -619,7 +619,7 @@ public final class Utils {
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
-			newName = name + nextNumber;
+			newName = name + "_" + nextNumber;
 		}
 		for (NfcTagData nfcTagData : nfcTagDataList) {
 			if (nfcTagData.getNfcTagName().equals(newName)) {
@@ -646,7 +646,7 @@ public final class Utils {
 		if (nextNumber == 0) {
 			newName = originalLookData.getLookName();
 		} else {
-			newName = originalLookData.getLookName() + nextNumber;
+			newName = originalLookData.getLookName() + "_" + nextNumber;
 		}
 		for (LookData lookData : lookDataList) {
 			if (lookData.getLookName().equals(newName)) {
@@ -672,7 +672,7 @@ public final class Utils {
 		if (nextNumber == 0) {
 			newName = sprite.getName();
 		} else {
-			newName = sprite.getName() + nextNumber;
+			newName = sprite.getName() + "_" + nextNumber;
 		}
 		for (Sprite spriteListItem : spriteList) {
 			if (spriteListItem.getName().equals(newName)) {
@@ -693,29 +693,50 @@ public final class Utils {
 	}
 
 	public static String getUniqueSceneName(String sceneName, boolean forBackPack) {
-		return searchForNonExistingSceneName(sceneName, 0, forBackPack);
-	}
-
-	public static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
-		String newName;
 		List<Scene> sceneList;
+
 		if (forBackPack) {
 			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
 		} else {
 			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
 		}
 
-		if (nextNumber == 0) {
-			newName = sceneName;
-		} else {
-			newName = sceneName + nextNumber;
+		String possibleNewName = sceneName;
+		Boolean check = true;
+		int nextNumber = 1;
+		while (check) {
+
+			check = false;
+			possibleNewName = sceneName + "_" + nextNumber;
+			for (Scene sceneListItem : sceneList) {
+				if (sceneListItem.getName().equals(possibleNewName)) {
+					check = true;
+					break;
+				}
+			}
+			nextNumber += 1;
 		}
+
+		return possibleNewName;
+	}
+
+	public static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
+		List<Scene> sceneList;
+
+		if (forBackPack) {
+			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
+		} else {
+			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
+		}
+
+		String possibleNewName = String.format(sceneName, nextNumber);
 		for (Scene sceneListItem : sceneList) {
-			if (sceneListItem.getName().equals(newName)) {
+			if (sceneListItem.getName().equals(possibleNewName)) {
 				return searchForNonExistingSceneName(sceneName, ++nextNumber, forBackPack);
 			}
 		}
-		return newName;
+
+		return possibleNewName;
 	}
 
 	public static String getUniqueSoundName(SoundInfo soundInfo, boolean forBackPack) {
@@ -751,7 +772,7 @@ public final class Utils {
 			}
 		} else {
 			if (soundInfo != null) {
-				newTitle = soundInfo.getTitle() + nextNumber;
+				newTitle = soundInfo.getTitle() + "_" + nextNumber;
 			}
 		}
 		for (SoundInfo soundInfoFromList : soundInfoList) {

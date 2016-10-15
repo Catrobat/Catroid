@@ -124,6 +124,64 @@
   <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <string name="preference_title_access">Accessibility</string>
+  <string name="preference_description_access">Choose a profile and configurate your personal
+        settings for the Pocket-Code-UI</string>
+  <string name="preference_access_title_activity_access">Accessibility preferences</string>
+  <string name="preference_access_profiles">Profiles</string>
+  <string name="preference_access_predefined_profiles">Predefined profiles</string>
+  <string name="preference_access_active_profile">Active profile</string>
+  <string name="preference_access_selected_profile">Selected profile</string>
+  <string name="preference_access_change_profile">Switch to predefined profiles</string>
+  <string name="preference_access_apply_profile">Apply this profile</string>
+  <string name="preference_access_settings">Settings</string>
+  <string name="preference_access_title_large_text">Large text</string>
+  <string name="preference_access_summary_large_text">The large text setting increases the text size.</string>
+  <string name="preference_access_choose_fontface">Choose a fontface</string>
+  <string name="preference_access_title_fontface">Fontface</string>
+  <string name="preference_access_summary_fontface">Fontface allows you to choose a font style you
+        prefer.</string>
+  <string name="preference_access_title_fontface_standard">Standard</string>
+  <string name="preference_access_title_fontface_serif">Serif</string>
+  <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
+  <string name="preference_access_title_high_contrast">High contrast</string>
+  <string name="preference_access_summary_high_contrast">Increases the contrast and makes the text on bricks easier
+        to read.</string>
+  <string name="preference_access_title_additional_icons">Additional icons</string>
+  <string name="preference_access_summary_additional_icons">Adds icons to categories and bricks to improve
+        recognizability.</string>
+  <string name="preference_access_title_large_icons">Large icons</string>
+  <string name="preference_access_summary_large_icons">Increases the size of icons.</string>
+  <string name="preference_access_title_high_contrast_icons">Icon contrast</string>
+  <string name="preference_access_summary_high_contrast_icons">Changes the brick icons to high contrast icons.
+        </string>
+  <string name="preference_access_title_largeelementspacing">Large element spacing</string>
+  <string name="preference_access_summary_largeelementspacing">The large element spacing increase the space
+        between touchable elements.</string>
+  <string name="preference_access_title_starter_bricks">Starter bricks</string>
+  <string name="preference_access_summary_starter_bricks">Shows only starter bricks for ease of learning.</string>
+  <string name="preference_access_title_dragndrop_delay">Drag\'n\'drop delay</string>
+  <string name="preference_access_summary_dragndrop_delay">Adds delay to the drag\'n\'drop of bricks.</string>
+  <string name="preference_access_title_profile_standard">Standard</string>
+  <string name="preference_access_summary_profile_standard">The standard settings</string>
+  <string name="preference_access_title_profile_myprofile">Profili im</string>
+  <string name="preference_access_summary_profile_myprofile">My personal settings</string>
+  <string name="preference_access_title_profile_1">Argus</string>
+  <string name="preference_access_summary_profile_1">Visual improvement: High contrast, additional icons</string>
+  <string name="preference_access_title_profile_2">Odin</string>
+  <string name="preference_access_summary_profile_2">Visual improvement: Large text, large icons, large element
+        spacing, high contrast</string>
+  <string name="preference_access_title_profile_3">Fenrir</string>
+  <string name="preference_access_summary_profile_3">Input improvement: Large element spacing, drag\'n\'drop
+        delay</string>
+  <string name="preference_access_title_profile_4">Tiro</string>
+  <string name="preference_access_summary_profile_4">Learning: Starter bricks</string>
+  <string name="preference_access_title_created_profile">Created profile</string>
+  <string name="preference_access_summary_created_profile">You have created a new profile! The changes you
+        make can be found in \'My Profile\'</string>
+  <string name="preference_access_title_restart">Profile applied</string>
+  <string name="preference_access_summary_restart">Pocket Code will be restarted to apply the changes you
+        made.</string>
   <!-- Scratch Converter activity -->
   <string name="beta">beta</string>
   <string name="title_activity_scratch_converter">Convert Scratch program</string>
@@ -134,7 +192,7 @@
   <string name="error_request_timeout">Whoops! Our server is not reachable at the moment, please try later!</string>
   <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert Scratch program, please try again
         later!</string>
-  <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert \"%1$s\", please try
+  <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
         again later!</string>
   <string name="error_scratch_converter_outdated_pocketcode_version">Your Pocket Code app is outdated. Our Scratch
         converter only supports the latest Pocket Code version. Please update it on the Google Play Store!</string>
@@ -145,7 +203,7 @@
         while it is downloading! Please try again later!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">Cannot open this Scratch program
         since it has not been downloaded yet! Please try again later!</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert \"%1$s\"! Older Scratch before %2$s
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s! Older Scratch before %2$s
         programs are not supported!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
     <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
@@ -220,9 +278,9 @@
   <string name="dialog_new_object_switch_message">Switch to new object?</string>
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Terms of use</string>
-  <string name="dialog_terms_of_use_info">In order to 
-    be allowed to use Pocket Code and other executables offered by the Catrobat project, you 
-    must agree to our Terms of Use and strictly follow them when you use Pocket 
+  <string name="dialog_terms_of_use_info">In order to
+    be allowed to use Pocket Code and other executables offered by the Catrobat project, you
+    must agree to our Terms of Use and strictly follow them when you use Pocket
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
   <string name="dialog_terms_of_use_link_text">Terms of Use</string>
   <!-- Terms of Use Dialog Parrot ARDrone-->
@@ -233,10 +291,10 @@
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
   <!-- About Dialog -->
   <string name="dialog_about_title">About Pocket Code</string>
-  <string name="dialog_about_license_info">Pocket Code is a programming 
-        environment and interpreter for Android devices for the visual 
+  <string name="dialog_about_license_info">Pocket Code is a programming
+        environment and interpreter for Android devices for the visual
         programming language Catrobat.\n\n
-        The source code of Pocket Code is mainly licensed under the GNU AGPL v3 License. 
+        The source code of Pocket Code is mainly licensed under the GNU AGPL v3 License.
         For further details on the license see the link below.\n</string>
   <string name="dialog_about_pocketcode_license_link_text">Pocket Code Source Code License</string>
   <string name="dialog_about_catrobat_link_text">About Catrobat</string>
@@ -244,7 +302,7 @@
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programs</string>
   <string name="number_of_objects">Objects:</string>
-  <string name="start_scene_name">\"%1$s\" (First Scene)</string>
+  <string name="start_scene_name">%1$s (First Scene)</string>
   <string name="number_of_scripts">Scripts:</string>
   <string name="number_of_bricks">Bricks:</string>
   <string name="number_of_looks">Looks:</string>
@@ -260,8 +318,8 @@
   <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
   <string name="select_all">Select all</string>
   <string name="deselect_all">Deselect all</string>
-  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
-  <string name="backpack_replace_scene">The scene \"%1$s\" already exists in the backpack. Do you want to replace
+  <string name="backpack_replace_object">The object %1$s already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_scene">The scene %1$s already exists in the backpack. Do you want to replace
         it?</string>
   <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <string name="groups_create">Create group</string>
@@ -328,7 +386,7 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
   <string name="lookname">Look name:</string>
-  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look">The look %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
@@ -347,7 +405,7 @@
   <string name="sound_name">Sound name:</string>
   <string name="new_sound_name">Sound name:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
-  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound">The sound %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Scan tags to add</string>
@@ -470,8 +528,8 @@
   <string name="merge_scene_label_one">Merge</string>
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">Play Scene:</string>
-  <string name="play_scene_dialog_default">First Scene (\"%1$s\")</string>
-  <string name="play_scene_dialog_current">Current (\"%1$s\")</string>
+  <string name="play_scene_dialog_default">First Scene (%1$s)</string>
+  <string name="play_scene_dialog_current">Current (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">My Object</string>
   <string name="new_sprite_dialog_title">New Object</string>
@@ -705,7 +763,7 @@
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <!-- defaultValues -->
   <string name="default_project_name">My first program</string>
-  <string name="default_scene_name">Scene \"%1$d\"</string>
+  <string name="default_scene_name">Scene %1$d</string>
   <string name="default_project_background_name">Background</string>
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>
@@ -1209,9 +1267,9 @@
         has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Abort</string>
   <string name="merge_conflict">Merging not possible</string>
-  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+  <string name="merge_conflict_variable">Variable %1$s is used in both programs. If programs use the same
     variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
-  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+  <string name="merge_conflict_list">List %1$s is used in both programs. If programs use the same
     name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <!-- Camera related strings -->
   <string name="brick_video">Turn camera</string>
