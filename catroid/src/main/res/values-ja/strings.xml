@@ -125,6 +125,54 @@
   <string name="preference_raspi_help_summary">接続を設定する方法についてヘルプを表示します</string>
   <string name="preference_raspi_host">Raspberry Pi IP/ホスト アドレス</string>
   <string name="preference_raspi_port">Raspberry Pi ポート</string>
+  <string name="preference_title_access">アクセシビリティ</string>
+  <string name="preference_description_access">プロファイルを選択して、ポケットコード UI の個人設定を構成します</string>
+  <string name="preference_access_title_activity_access">アクセシビリティの設定</string>
+  <string name="preference_access_profiles">プロファイル</string>
+  <string name="preference_access_predefined_profiles">定義済みのプロファイル</string>
+  <string name="preference_access_active_profile">有効なプロファイル</string>
+  <string name="preference_access_selected_profile">選択したプロファイル</string>
+  <string name="preference_access_change_profile">定義済みのプロファイルに切り替える</string>
+  <string name="preference_access_apply_profile">このプロファイルを適用</string>
+  <string name="preference_access_settings">設定</string>
+  <string name="preference_access_title_large_text">大きな文字</string>
+  <string name="preference_access_summary_large_text">大きな文字の設定は、文字のサイズを大きくします。</string>
+  <string name="preference_access_choose_fontface">フォントフェイスを選択</string>
+  <string name="preference_access_title_fontface">フォントフェイス</string>
+  <string name="preference_access_summary_fontface">フォントフェイスで、お好みのフォントのスタイルを選択することができます。</string>
+  <string name="preference_access_title_fontface_standard">標準</string>
+  <string name="preference_access_title_fontface_serif">セリフ</string>
+  <string name="preference_access_title_fontface_dyslexic">ディスレクシア</string>
+  <string name="preference_access_title_high_contrast">高コントラスト</string>
+  <string name="preference_access_summary_high_contrast">コントラストを高くして、ブロック上の文字を読みやすくします。</string>
+  <string name="preference_access_title_additional_icons">追加アイコン</string>
+  <string name="preference_access_summary_additional_icons">カテゴリとブロックにアイコンを追加して、認知性を改善します。</string>
+  <string name="preference_access_title_large_icons">大きいアイコン</string>
+  <string name="preference_access_summary_large_icons">アイコンのサイズを大きくします。</string>
+  <string name="preference_access_title_high_contrast_icons">アイコンのコントラスト</string>
+  <string name="preference_access_summary_high_contrast_icons">ブロックのアイコンを高いコントラストのアイコンに変更します。        </string>
+  <string name="preference_access_title_largeelementspacing">大きな要素の間隔</string>
+  <string name="preference_access_summary_largeelementspacing">大きな要素の間隔は、タッチすることができる要素間の領域を増やします。</string>
+  <string name="preference_access_title_starter_bricks">開始ブロック</string>
+  <string name="preference_access_summary_starter_bricks">学習を容易にするため、開始ブロックのみを表示します。</string>
+  <string name="preference_access_title_dragndrop_delay">ドラッグ＆ドロップの遅延</string>
+  <string name="preference_access_summary_dragndrop_delay">ブロックのドラッグ＆ドロップを遅らせます。</string>
+  <string name="preference_access_title_profile_standard">標準</string>
+  <string name="preference_access_summary_profile_standard">標準の設定</string>
+  <string name="preference_access_title_profile_myprofile">&amp;#x30D7;&amp;#x30ED;&amp;#x30B8;&amp;#x30A7;&amp;#x30AF;&amp;#x30C8;</string>
+  <string name="preference_access_summary_profile_myprofile">個人用の設定</string>
+  <string name="preference_access_title_profile_1">アーガス</string>
+  <string name="preference_access_summary_profile_1">視覚改善: 高コントラスト、追加アイコン</string>
+  <string name="preference_access_title_profile_2">オーディン</string>
+  <string name="preference_access_summary_profile_2">視覚改善: 大きなテキスト、大きいアイコン、大きな要素間隔、高コントラスト</string>
+  <string name="preference_access_title_profile_3">フェンリル</string>
+  <string name="preference_access_summary_profile_3">入力の改善: 大きな要素の間隔、ドラッグ＆ドロップの遅延</string>
+  <string name="preference_access_title_profile_4">ティロ</string>
+  <string name="preference_access_summary_profile_4">学習: 開始ブロック</string>
+  <string name="preference_access_title_created_profile">作成されたプロファイル</string>
+  <string name="preference_access_summary_created_profile">新しいプロファイルを作成しました! \'私のプロファイル\' で変更を見ることができます。</string>
+  <string name="preference_access_title_restart">プロファイルの適用</string>
+  <string name="preference_access_summary_restart">ポケットコードは、変更内容を適用するために再起動されます。</string>
   <!-- Scratch Converter activity -->
   <string name="beta">ベータ</string>
   <string name="title_activity_scratch_converter">スクラッチ プログラムを変換</string>
@@ -132,12 +180,12 @@
   <string name="error_scratch_project_data_not_available">このスクラッチ プログラムから一部のデータを読み込めませんでした。後でもう一度やり直してください!</string>
   <string name="error_request_timeout">現時点ではサーバーに到達不能です。後でやり直してください!</string>
   <string name="error_scratch_program_conversion_failed">スクラッチ プログラムの変換に失敗しました。もう一度やり直してください!</string>
-  <string name="error_specific_scratch_program_conversion_failed_x">\"%1$s\" の変換に失敗しました。後でもう一度やり直してください!</string>
+  <string name="error_specific_scratch_program_conversion_failed_x">%1$s の変換に失敗しました。後でもう一度やり直してください!</string>
   <string name="error_scratch_converter_outdated_pocketcode_version">ポケットコード アプリが古いです。スクラッチ コンバーターはポケットコードの最新バージョンのみをサポートしています。Google Play ストアで更新してください!</string>
   <string name="error_cannot_open_not_existing_scratch_program">このスクラッチ プログラムを開くことができません。スクラッチ プログラムの変換/ダウンロードをキャンセルしたか、プログラムの名前を変更/削除した可能性があります!</string>
   <string name="error_cannot_open_currently_downloading_scratch_program">ダウンロード中はこのスクラッチ プログラムを開くことができません! 後でもう一度試してください!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">ダウンロードされるまではこのスクラッチ プログラムを開くことができません! 後でもう一度試してください!</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">\"%1$s\" を変換できません! %2$s 前の古いスクラッチ プログラムはサポートされていません!</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">%1$s を変換できません! %2$s 前の古いスクラッチ プログラムはサポートされていません!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
     <item quantity="other">同時に %d 以上のプログラムを変換できません!</item>
   </plurals>
@@ -219,7 +267,7 @@
   <string name="project_name">プログラム：</string>
   <string name="my_projects_activity_title">プログラム</string>
   <string name="number_of_objects">オブジェクト:</string>
-  <string name="start_scene_name">\"%1$s\" (最初のシーン)</string>
+  <string name="start_scene_name">%1$s (最初のシーン)</string>
   <string name="number_of_scripts">スクリプト：</string>
   <string name="number_of_bricks">ブロック：</string>
   <string name="number_of_looks">外見：</string>
@@ -235,8 +283,8 @@
   <string name="dialog_confirm_delete_object_message">この操作は元に戻せません!</string>
   <string name="select_all">すべてを選択します。</string>
   <string name="deselect_all">すべて選択解除</string>
-  <string name="backpack_replace_object">オブジェクト \"%1$s\" は、既にバックパックに存在します。置き換えますか?</string>
-  <string name="backpack_replace_scene">シーン \"%1$s\" は、既にバックパックに存在します。置き換えますか?</string>
+  <string name="backpack_replace_object">オブジェクト %1$s は、既にバックパックに存在します。置き換えますか?</string>
+  <string name="backpack_replace_scene">シーン %1$s は、既にバックパックに存在します。置き換えますか?</string>
   <string name="backpack_replace_object_multiple">オブジェクトは、既にバックパックに存在します。置き換えますか?</string>
   <string name="groups_create">グループを作成</string>
   <string name="group_created">グループが正常に作成されました!</string>
@@ -297,7 +345,7 @@
   <string name="dialog_confirm_delete_multiple_looks_title">これらの外見を削除しますか?</string>
   <string name="dialog_confirm_delete_look_message">この操作は元に戻せません!</string>
   <string name="lookname">外見名:</string>
-  <string name="backpack_replace_look">外見 \"%1$s\" は、既にバックパックに存在します。置き換えますか?</string>
+  <string name="backpack_replace_look">外見 %1$s は、既にバックパックに存在します。置き換えますか?</string>
   <string name="backpack_replace_look_multiple">外見は、既にバックパックに存在します。置き換えますか?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">「+」をタップしてのサウンドを追加するには</string>
@@ -316,7 +364,7 @@
   <string name="sound_name">サウンド名:</string>
   <string name="new_sound_name">サウンド名:</string>
   <string name="rename_sound_overwrite">この名前のサウンドがすでに存在します。別のものを選択してください!</string>
-  <string name="backpack_replace_sound">サウンド \"%1$s\" は、既にバックパックに存在します。置き換えますか?</string>
+  <string name="backpack_replace_sound">サウンド %1$s は、既にバックパックに存在します。置き換えますか?</string>
   <string name="backpack_replace_sound_multiple">サウンドは、既にバックパックに存在します。置き換えますか?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">追加するタグをスキャン</string>
@@ -434,8 +482,8 @@
   <string name="merge_scene_label_one">統合</string>
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">再生シーン:</string>
-  <string name="play_scene_dialog_default">最初のシーン (\"%1$s\")</string>
-  <string name="play_scene_dialog_current">現在 (\"%1$s\")</string>
+  <string name="play_scene_dialog_default">最初のシーン (%1$s)</string>
+  <string name="play_scene_dialog_current">現在 (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">私のオブジェクト</string>
   <string name="new_sprite_dialog_title">新しいオブジェクトの名前</string>
@@ -664,7 +712,7 @@
   <string name="brick_replace_item_in_userlist_with_value">で</string>
   <!-- defaultValues -->
   <string name="default_project_name">私の最初のプログラム</string>
-  <string name="default_scene_name">シーン \"%1$d\"</string>
+  <string name="default_scene_name">シーン %1$d</string>
   <string name="default_project_background_name">背景</string>
   <string name="default_project_cloud_name">雲</string>
   <string name="default_project_cloud_sprite_name_1">雲1</string>
@@ -1165,9 +1213,9 @@
   <string name="error_different_resolutions" tools:ignore="PluralsCandidate">注意! 異なる解像度を検出しました。%1$s は解像度が %2$dx%3$d 、%4$s は解像度が %5$dx%6$d です。%1$s の解像度を使用します。</string>
   <string name="abort">中止</string>
   <string name="merge_conflict">マージできません</string>
-  <string name="merge_conflict_variable">変数 \"%1$s\" は両方のプログラムで使用されます。プログラムが同じ変数名を
+  <string name="merge_conflict_variable">変数 %1$s は両方のプログラムで使用されます。プログラムが同じ変数名を
 使用している場合は、結合できません。いずれかのプログラムで変数の名前を変更して、もう一度やり直してください。</string>
-  <string name="merge_conflict_list">リスト \"%1$s\" は両方のプログラムで使用されます。プログラムが同じ名前のリストを
+  <string name="merge_conflict_list">リスト %1$s は両方のプログラムで使用されます。プログラムが同じ名前のリストを
 使用している場合は、結合できません。いずれかのプログラムでリストの名前を変更して、もう一度やり直してください。</string>
   <!-- Camera related strings -->
   <string name="brick_video">カメラを</string>

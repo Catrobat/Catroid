@@ -396,7 +396,8 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	private void checkSceneCountAfterDeletion() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject().getSceneList().size() == 0) {
-			Scene emptyScene = new Scene(getActivity(), String.format(getString(R.string.default_scene_name), 1), projectManager.getCurrentProject());
+			Scene emptyScene = new Scene(getActivity(), getString(R.string.default_scene_name, 1), projectManager
+					.getCurrentProject());
 			projectManager.getCurrentProject().addScene(emptyScene);
 			projectManager.setCurrentScene(emptyScene);
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
@@ -825,11 +826,13 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 	private static String getSceneName(String name, int nextNumber) {
 		String newName;
+
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
 			newName = name + nextNumber;
 		}
+
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			if (scene.getName().equals(newName)) {
 				return getSceneName(name, ++nextNumber);

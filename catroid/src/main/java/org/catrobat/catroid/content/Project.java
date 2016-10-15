@@ -94,13 +94,13 @@ public class Project implements Serializable {
 		setDeviceData(context);
 
 		MessageContainer.clear();
-
 		//This is used for tests
 		if (context == null) {
+
+			//Because in test project we can't find the string
 			sceneList.add(new Scene(context, "Scene 1", this));
 		} else {
-			sceneList.add(new Scene(context, String.format(context.getString(R.string.default_scene_name), 1),
-					this));
+			sceneList.add(new Scene(context, context.getString(R.string.default_scene_name, 1), this));
 		}
 		xmlHeader.scenesEnabled = true;
 	}
@@ -115,8 +115,9 @@ public class Project implements Serializable {
 		projectVariables = oldProject.dataContainer.projectVariables;
 		projectLists = oldProject.dataContainer.projectLists;
 		Scene scene;
+
 		try {
-			scene = new Scene(context, String.format(context.getString(R.string.default_scene_name), 1), this);
+			scene = new Scene(context, context.getString(R.string.default_scene_name, 1), this);
 		} catch (Resources.NotFoundException e) {
 			//Because in test project we can't find the string
 			scene = new Scene(context, "Scene 1", this);

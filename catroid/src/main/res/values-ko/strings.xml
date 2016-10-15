@@ -124,19 +124,78 @@
   <string name="preference_raspi_help_summary">연결 설정을 구성하는 방법에 대해 도움을 받으세요</string>
   <string name="preference_raspi_host">Raspberry Pi의 IP-/ 호스트 주소</string>
   <string name="preference_raspi_port">Raspberry Pi 포트</string>
+  <string name="preference_title_access">Accessibility</string>
+  <string name="preference_description_access">Choose a profile and configurate your personal
+        settings for the Pocket-Code-UI</string>
+  <string name="preference_access_title_activity_access">Accessibility preferences</string>
+  <string name="preference_access_profiles">Profiles</string>
+  <string name="preference_access_predefined_profiles">Predefined profiles</string>
+  <string name="preference_access_active_profile">Active profile</string>
+  <string name="preference_access_selected_profile">Selected profile</string>
+  <string name="preference_access_change_profile">Switch to predefined profiles</string>
+  <string name="preference_access_apply_profile">Apply this profile</string>
+  <string name="preference_access_settings">설정</string>
+  <string name="preference_access_title_large_text">Large text</string>
+  <string name="preference_access_summary_large_text">The large text setting increases the text size.</string>
+  <string name="preference_access_choose_fontface">Choose a fontface</string>
+  <string name="preference_access_title_fontface">Fontface</string>
+  <string name="preference_access_summary_fontface">Fontface allows you to choose a font style you
+        prefer.</string>
+  <string name="preference_access_title_fontface_standard">Standard</string>
+  <string name="preference_access_title_fontface_serif">Serif</string>
+  <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
+  <string name="preference_access_title_high_contrast">High contrast</string>
+  <string name="preference_access_summary_high_contrast">Increases the contrast and makes the text on bricks easier
+        to read.</string>
+  <string name="preference_access_title_additional_icons">Additional icons</string>
+  <string name="preference_access_summary_additional_icons">Adds icons to categories and bricks to improve
+        recognizability.</string>
+  <string name="preference_access_title_large_icons">Large icons</string>
+  <string name="preference_access_summary_large_icons">Increases the size of icons.</string>
+  <string name="preference_access_title_high_contrast_icons">Icon contrast</string>
+  <string name="preference_access_summary_high_contrast_icons">Changes the brick icons to high contrast icons.
+        </string>
+  <string name="preference_access_title_largeelementspacing">Large element spacing</string>
+  <string name="preference_access_summary_largeelementspacing">The large element spacing increase the space
+        between touchable elements.</string>
+  <string name="preference_access_title_starter_bricks">Starter bricks</string>
+  <string name="preference_access_summary_starter_bricks">Shows only starter bricks for ease of learning.</string>
+  <string name="preference_access_title_dragndrop_delay">Drag\'n\'drop delay</string>
+  <string name="preference_access_summary_dragndrop_delay">Adds delay to the drag\'n\'drop of bricks.</string>
+  <string name="preference_access_title_profile_standard">Standard</string>
+  <string name="preference_access_summary_profile_standard">The standard settings</string>
+  <string name="preference_access_title_profile_myprofile">나의 프로필</string>
+  <string name="preference_access_summary_profile_myprofile">My personal settings</string>
+  <string name="preference_access_title_profile_1">Argus</string>
+  <string name="preference_access_summary_profile_1">Visual improvement: High contrast, additional icons</string>
+  <string name="preference_access_title_profile_2">Odin</string>
+  <string name="preference_access_summary_profile_2">Visual improvement: Large text, large icons, large element
+        spacing, high contrast</string>
+  <string name="preference_access_title_profile_3">Fenrir</string>
+  <string name="preference_access_summary_profile_3">Input improvement: Large element spacing, drag\'n\'drop
+        delay</string>
+  <string name="preference_access_title_profile_4">Tiro</string>
+  <string name="preference_access_summary_profile_4">Learning: Starter bricks</string>
+  <string name="preference_access_title_created_profile">Created profile</string>
+  <string name="preference_access_summary_created_profile">You have created a new profile! The changes you
+        make can be found in \'My Profile\'</string>
+  <string name="preference_access_title_restart">Profile applied</string>
+  <string name="preference_access_summary_restart">Pocket Code will be restarted to apply the changes you
+        made.</string>
   <!-- Scratch Converter activity -->
   <string name="beta">베타</string>
   <string name="title_activity_scratch_converter">스크래치 프로그램 변환</string>
   <string name="error_scratch_program_not_accessible_any_more">으악! 이 프로그램의 데이터는 더 이상 액세스할 수 없습니다!</string>
-  <string name="error_scratch_project_data_not_available">앗! 이 스크래치 프로그램에서 일부 데이터를 로드할 수 없습니다. 나중에 다시 시도하세요!</string>
+  <string name="error_scratch_project_data_not_available">Whoops! Some data could not be loaded from this Scratch
+        program. Please try again later!</string>
   <string name="error_request_timeout">으악! 우리의 서버는 연결할 수 없습니다, 나중에 시도하십시오!</string>
   <string name="error_scratch_program_conversion_failed">으악! 스크래치 프로그램 변환하지 못했습니다!, 나중에 다시 시도하십시오 </string>
-  <string name="error_specific_scratch_program_conversion_failed_x">으악! 나중에 다시 하십시오 \"%1$s\"를 변환하지 못했습니다!</string>
+  <string name="error_specific_scratch_program_conversion_failed_x">으악! 나중에 다시 하십시오 %1$s를 변환하지 못했습니다!</string>
   <string name="error_scratch_converter_outdated_pocketcode_version">포켓 코드 앱이 구형입니다. 우리의 처음 최신 포켓 코드 버전을 지원합니다. 구글 플레이 스토어에서 업데이트하십시오!</string>
   <string name="error_cannot_open_not_existing_scratch_program">이 스크래치 프로그램을 열 수 없습니다. 스크래치 프로그램의 변환/다운로드를 취소 또는 변경/삭제 한 것으로 보입니다!</string>
   <string name="error_cannot_open_currently_downloading_scratch_program">다운로드하는 동안 스크래치 프로그램을 열 수 없습니다! 나중에 다시 시도하십시오!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">다운로드하는 동안 스크래치 프로그램을 열 수 없습니다! 나중에 다시 시도하십시오!</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">\"%1$s\"을 변환할 수 없습니다! 이전 스크래치 %2$s 프로그램은 지원되지 않습니다!</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">%1$s을 변환할 수 없습니다! 이전 스크래치 %2$s 프로그램은 지원되지 않습니다!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
     <item quantity="other">동시에 %d 프로그램 이상으로 변환할 수 없습니다!</item>
   </plurals>
@@ -217,7 +276,7 @@
   <string name="project_name">프로그램:</string>
   <string name="my_projects_activity_title">프로그램</string>
   <string name="number_of_objects">스프라이트:</string>
-  <string name="start_scene_name">\"%1$s\" (첫 장면)</string>
+  <string name="start_scene_name">%1$s (첫 장면)</string>
   <string name="number_of_scripts">스크립트</string>
   <string name="number_of_bricks">블럭:</string>
   <string name="number_of_looks">모양:</string>
@@ -233,8 +292,8 @@
   <string name="dialog_confirm_delete_object_message">이 작업은 되돌릴 수 없습니다!</string>
   <string name="select_all">모두 선택</string>
   <string name="deselect_all">모든 선택 취소</string>
-  <string name="backpack_replace_object"> \"%1$s\" 스프라이트는 스프라이트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
-  <string name="backpack_replace_scene">모양 \"%1$s\"는 스프라이트 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
+  <string name="backpack_replace_object"> %1$s 스프라이트는 스프라이트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
+  <string name="backpack_replace_scene">모양 %1$s는 스프라이트 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
   <string name="backpack_replace_object_multiple">스프라이트는 스프라이트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
   <string name="groups_create">그룹 만들기</string>
   <string name="group_created">그룹이 만들어 졌습니다.</string>
@@ -295,7 +354,7 @@
   <string name="dialog_confirm_delete_multiple_looks_title">이 모양들을 삭제하시겠습니까?</string>
   <string name="dialog_confirm_delete_look_message">이 작업은 되돌릴 수 없습니다!</string>
   <string name="lookname">모양 이름:</string>
-  <string name="backpack_replace_look"> \"%1$s\" 는 스프라이트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
+  <string name="backpack_replace_look"> %1$s 는 스프라이트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
   <string name="backpack_replace_look_multiple">이미 있습니다. 그것을 대체하시겠습니까?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">소리를 추가하려면 \"+\"를 터치하세요</string>
@@ -314,7 +373,7 @@
   <string name="sound_name">소리 이름:</string>
   <string name="new_sound_name">소리 이름:</string>
   <string name="rename_sound_overwrite">이 이름을 가진 소리가 이미 존재합니다. 다른 하나를 선택하십시오!</string>
-  <string name="backpack_replace_sound">소리 \"%1$s\"는 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
+  <string name="backpack_replace_sound">소리 %1$s는 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
   <string name="backpack_replace_sound_multiple">소리는 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">추가할 태그를 검사합니다</string>
@@ -431,8 +490,8 @@
   <string name="merge_scene_label_one">병합</string>
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">플레이 장면:</string>
-  <string name="play_scene_dialog_default">첫 번째 장면 (\"%1$s\")</string>
-  <string name="play_scene_dialog_current">현재 (\"%1$s\")</string>
+  <string name="play_scene_dialog_default">첫 번째 장면 (%1$s)</string>
+  <string name="play_scene_dialog_current">현재 (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">내 스프라이트</string>
   <string name="new_sprite_dialog_title">새 스프라이트</string>
@@ -661,7 +720,7 @@
   <string name="brick_replace_item_in_userlist_with_value">으로</string>
   <!-- defaultValues -->
   <string name="default_project_name">내 첫 프로그램</string>
-  <string name="default_scene_name">장면 \"%1$d\"</string>
+  <string name="default_scene_name">장면 %1$d</string>
   <string name="default_project_background_name">배경</string>
   <string name="default_project_cloud_name">클라우드</string>
   <string name="default_project_cloud_sprite_name_1">클라우드1</string>
@@ -1161,8 +1220,8 @@
   <string name="error_different_resolutions" tools:ignore="PluralsCandidate">주의! 다른 해상도 감지입니다. %1$s는 해상도 %2$dx%3$d 그리고 %4$s는 해상도 %5$dx%6$d입니다. %1$s의 해상도를 사용하세요.</string>
   <string name="abort">취소</string>
   <string name="merge_conflict">병합 불가능</string>
-  <string name="merge_conflict_variable">변수 \"%1$s\"는 두 프로그램 모두에 사용됩니다. 프로그램 같은 변수 이름을 사용하는 경우 그들은 병합할 수 없습니다. 프로그램 중 하나에 변수 이름을 변경하고 다시 시도하십시오.</string>
-  <string name="merge_conflict_list">리스트 \"%1$s\"는 두 프로그램 모두에 사용됩니다. 프로그램의 리스트에 대한 동일한 이름을 사용 하는 경우 병합할 수 없습니다. 프로그램 중 하나에서 리스트 이름을 변경하고 다시 시도하십시오.</string>
+  <string name="merge_conflict_variable">변수 %1$s는 두 프로그램 모두에 사용됩니다. 프로그램 같은 변수 이름을 사용하는 경우 그들은 병합할 수 없습니다. 프로그램 중 하나에 변수 이름을 변경하고 다시 시도하십시오.</string>
+  <string name="merge_conflict_list">리스트 %1$s는 두 프로그램 모두에 사용됩니다. 프로그램의 리스트에 대한 동일한 이름을 사용 하는 경우 병합할 수 없습니다. 프로그램 중 하나에서 리스트 이름을 변경하고 다시 시도하십시오.</string>
   <!-- Camera related strings -->
   <string name="brick_video">카메라 켜기</string>
   <string name="video_brick_camera_on">켜기</string>
