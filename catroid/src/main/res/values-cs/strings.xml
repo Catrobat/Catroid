@@ -124,14 +124,73 @@
   <string name="preference_raspi_help_summary">Nápověda ke konfiguraci připojení</string>
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Adresa</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <string name="preference_title_access">Accessibility</string>
+  <string name="preference_description_access">Choose a profile and configurate your personal
+        settings for the Pocket-Code-UI</string>
+  <string name="preference_access_title_activity_access">Accessibility preferences</string>
+  <string name="preference_access_profiles">Profiles</string>
+  <string name="preference_access_predefined_profiles">Predefined profiles</string>
+  <string name="preference_access_active_profile">Active profile</string>
+  <string name="preference_access_selected_profile">Selected profile</string>
+  <string name="preference_access_change_profile">Switch to predefined profiles</string>
+  <string name="preference_access_apply_profile">Apply this profile</string>
+  <string name="preference_access_settings">Nastavení</string>
+  <string name="preference_access_title_large_text">Large text</string>
+  <string name="preference_access_summary_large_text">The large text setting increases the text size.</string>
+  <string name="preference_access_choose_fontface">Choose a fontface</string>
+  <string name="preference_access_title_fontface">Fontface</string>
+  <string name="preference_access_summary_fontface">Fontface allows you to choose a font style you
+        prefer.</string>
+  <string name="preference_access_title_fontface_standard">Standard</string>
+  <string name="preference_access_title_fontface_serif">Serif</string>
+  <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
+  <string name="preference_access_title_high_contrast">High contrast</string>
+  <string name="preference_access_summary_high_contrast">Increases the contrast and makes the text on bricks easier
+        to read.</string>
+  <string name="preference_access_title_additional_icons">Additional icons</string>
+  <string name="preference_access_summary_additional_icons">Adds icons to categories and bricks to improve
+        recognizability.</string>
+  <string name="preference_access_title_large_icons">Large icons</string>
+  <string name="preference_access_summary_large_icons">Increases the size of icons.</string>
+  <string name="preference_access_title_high_contrast_icons">Icon contrast</string>
+  <string name="preference_access_summary_high_contrast_icons">Changes the brick icons to high contrast icons.
+        </string>
+  <string name="preference_access_title_largeelementspacing">Large element spacing</string>
+  <string name="preference_access_summary_largeelementspacing">The large element spacing increase the space
+        between touchable elements.</string>
+  <string name="preference_access_title_starter_bricks">Starter bricks</string>
+  <string name="preference_access_summary_starter_bricks">Shows only starter bricks for ease of learning.</string>
+  <string name="preference_access_title_dragndrop_delay">Drag\'n\'drop delay</string>
+  <string name="preference_access_summary_dragndrop_delay">Adds delay to the drag\'n\'drop of bricks.</string>
+  <string name="preference_access_title_profile_standard">Standard</string>
+  <string name="preference_access_summary_profile_standard">The standard settings</string>
+  <string name="preference_access_title_profile_myprofile">My Profile</string>
+  <string name="preference_access_summary_profile_myprofile">My personal settings</string>
+  <string name="preference_access_title_profile_1">Argus</string>
+  <string name="preference_access_summary_profile_1">Visual improvement: High contrast, additional icons</string>
+  <string name="preference_access_title_profile_2">Odin</string>
+  <string name="preference_access_summary_profile_2">Visual improvement: Large text, large icons, large element
+        spacing, high contrast</string>
+  <string name="preference_access_title_profile_3">Fenrir</string>
+  <string name="preference_access_summary_profile_3">Input improvement: Large element spacing, drag\'n\'drop
+        delay</string>
+  <string name="preference_access_title_profile_4">Tiro</string>
+  <string name="preference_access_summary_profile_4">Learning: Starter bricks</string>
+  <string name="preference_access_title_created_profile">Created profile</string>
+  <string name="preference_access_summary_created_profile">You have created a new profile! The changes you
+        make can be found in \'My Profile\'</string>
+  <string name="preference_access_title_restart">Profile applied</string>
+  <string name="preference_access_summary_restart">Pocket Code will be restarted to apply the changes you
+        made.</string>
   <!-- Scratch Converter activity -->
   <string name="beta">beta</string>
   <string name="title_activity_scratch_converter">Převod Scratch programu</string>
   <string name="error_scratch_program_not_accessible_any_more">Jejda! Data tohoto programu již nejsou přístupná!</string>
-  <string name="error_scratch_project_data_not_available">Jejda! Některá data nebylo možné načíst z tohoto Scratch programu. Opakujte akci později!</string>
+  <string name="error_scratch_project_data_not_available">Whoops! Some data could not be loaded from this Scratch
+        program. Please try again later!</string>
   <string name="error_request_timeout">Jejda! Náš server není momentálně dostupný, zkus to prosím později!</string>
   <string name="error_scratch_program_conversion_failed">Jejda! Nepodařilo se převést Scratch program, opakujte akci později!</string>
-  <string name="error_specific_scratch_program_conversion_failed_x">Jejda! Převod \"%1$s\" se nezdařil, opakujte akci později!</string>
+  <string name="error_specific_scratch_program_conversion_failed_x">Jejda! Převod %1$s se nezdařil, opakujte akci později!</string>
   <string name="error_scratch_converter_outdated_pocketcode_version">Your Pocket Code app is outdated. Our Scratch
         converter only supports the latest Pocket Code version. Please update it on the Google Play Store!</string>
   <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
@@ -141,7 +200,7 @@
         while it is downloading! Please try again later!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">Cannot open this Scratch program
         since it has not been downloaded yet! Please try again later!</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert \"%1$s\"! Older Scratch before %2$s
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s! Older Scratch before %2$s
         programs are not supported!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
     <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
@@ -238,7 +297,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programy</string>
   <string name="number_of_objects">Objekty:</string>
-  <string name="start_scene_name">\"%1$s\" (první scéna)</string>
+  <string name="start_scene_name">%1$s (první scéna)</string>
   <string name="number_of_scripts">Skripty:</string>
   <string name="number_of_bricks">Bloky:</string>
   <string name="number_of_looks">Vzhledy:</string>
@@ -254,8 +313,8 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="dialog_confirm_delete_object_message">Tuto operaci nelze vrátit!</string>
   <string name="select_all">Vyber vše</string>
   <string name="deselect_all">Zrušit výběr všech</string>
-  <string name="backpack_replace_object">Objekt \"%1$s\" již je v batohu. Chceš jej nahradit?</string>
-  <string name="backpack_replace_scene">Scéna \"%1$s\" již je v batohu. Chceš ji nahradit?</string>
+  <string name="backpack_replace_object">Objekt %1$s již je v batohu. Chceš jej nahradit?</string>
+  <string name="backpack_replace_scene">Scéna %1$s již je v batohu. Chceš ji nahradit?</string>
   <string name="backpack_replace_object_multiple">Objekty už jsou v batohu. Chceš je nahradit?</string>
   <string name="groups_create">Vytvořit skupinu</string>
   <string name="group_created">Skupina byla úspěšně vytvořena!</string>
@@ -323,7 +382,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">Tuto operaci nelze vrátit!</string>
   <string name="lookname">Look name:</string>
-  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look">The look %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Klepni na \"+\" pro přidání zvuků</string>
@@ -342,7 +401,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="sound_name">Sound name:</string>
   <string name="new_sound_name">Sound name:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
-  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound">The sound %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Scan tags to add</string>
@@ -466,8 +525,8 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="merge_scene_label_one">Sloučit</string>
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">Přehrát scénu:</string>
-  <string name="play_scene_dialog_default">První scéna (\"%1$s\")</string>
-  <string name="play_scene_dialog_current">Současný (\"%1$s\")</string>
+  <string name="play_scene_dialog_default">První scéna (%1$s)</string>
+  <string name="play_scene_dialog_current">Současný (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Můj Objekt</string>
   <string name="new_sprite_dialog_title">Nový Objekt</string>
@@ -705,7 +764,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="brick_replace_item_in_userlist_with_value">s</string>
   <!-- defaultValues -->
   <string name="default_project_name">Můj první program</string>
-  <string name="default_scene_name">Scéna \"%1$d\"</string>
+  <string name="default_scene_name">Scéna %1$d</string>
   <string name="default_project_background_name">Pozadí</string>
   <string name="default_project_cloud_name">Mraky</string>
   <string name="default_project_cloud_sprite_name_1">Mraky1</string>
@@ -1210,9 +1269,9 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
         has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Abort</string>
   <string name="merge_conflict">Merging not possible</string>
-  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+  <string name="merge_conflict_variable">Variable %1$s is used in both programs. If programs use the same
     variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
-  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+  <string name="merge_conflict_list">List %1$s is used in both programs. If programs use the same
     name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <!-- Camera related strings -->
   <string name="brick_video">Turn camera</string>

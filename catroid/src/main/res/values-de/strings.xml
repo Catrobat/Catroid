@@ -124,17 +124,65 @@
   <string name="preference_raspi_help_summary">Hilfe zur Konfiguration der Verbindungseinstellungen</string>
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Adresse</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <string name="preference_title_access">Bedienungshilfe</string>
+  <string name="preference_description_access">Wähle ein Profil und konfiguriere deine eigenen Einstellungen für die Benutzeroberfläche der App.</string>
+  <string name="preference_access_title_activity_access">Präferenzen für die Bedienungshilfe</string>
+  <string name="preference_access_profiles">Profile</string>
+  <string name="preference_access_predefined_profiles">Vordefinierte Profile</string>
+  <string name="preference_access_active_profile">Aktives Profil</string>
+  <string name="preference_access_selected_profile">Ausgewähltes Profil</string>
+  <string name="preference_access_change_profile">Zu den vordefinierten Profilen</string>
+  <string name="preference_access_apply_profile">Profil anwenden</string>
+  <string name="preference_access_settings">Einstellungen</string>
+  <string name="preference_access_title_large_text">Große Schrift</string>
+  <string name="preference_access_summary_large_text">Diese Option vergrößert die Schriftgröße.</string>
+  <string name="preference_access_choose_fontface">Schriftart auswählen</string>
+  <string name="preference_access_title_fontface">Schriftart</string>
+  <string name="preference_access_summary_fontface">Auswählen einer bevorzugten Schriftart.</string>
+  <string name="preference_access_title_fontface_standard">Standard</string>
+  <string name="preference_access_title_fontface_serif">Serif</string>
+  <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
+  <string name="preference_access_title_high_contrast">Hoher Kontrast</string>
+  <string name="preference_access_summary_high_contrast">Erhöht den Kontrast der Schrift auf den Bausteinen um diese besser lesbar zu machen.</string>
+  <string name="preference_access_title_additional_icons">Zusätzliche Symbole</string>
+  <string name="preference_access_summary_additional_icons">Fügt zusätzliche Symbole zu Kategorien und Bausteinen hinzu um die Erkennbarkeit zusammengehöriger Bausteine zu verbessern.</string>
+  <string name="preference_access_title_large_icons">Große Symbole</string>
+  <string name="preference_access_summary_large_icons">Erhöht die Größe der Symbole.</string>
+  <string name="preference_access_title_high_contrast_icons">Symbol-Kontrast</string>
+  <string name="preference_access_summary_high_contrast_icons">Kehrt die Symbolfarben um und erhöht somit den Kontrast der Symbole  (negative Symbole).</string>
+  <string name="preference_access_title_largeelementspacing">Größerer Abstand der Elemente</string>
+  <string name="preference_access_summary_largeelementspacing">Diese Einstellung erhöht den Abstand zwischen interaktiven Elementen.</string>
+  <string name="preference_access_title_starter_bricks">Start-Bausteine</string>
+  <string name="preference_access_summary_starter_bricks">Zeigt Start-Bausteine um schnell einfache Programme zu entwickeln. </string>
+  <string name="preference_access_title_dragndrop_delay">Drag\'n\'Drop Verzögerung</string>
+  <string name="preference_access_summary_dragndrop_delay">Fügt eine Verzögerung zu den Drag\'n\'Drop Bausteinen hinzu.</string>
+  <string name="preference_access_title_profile_standard">Standard</string>
+  <string name="preference_access_summary_profile_standard">Die Standard-Einstellungen</string>
+  <string name="preference_access_title_profile_myprofile">Mein Profil</string>
+  <string name="preference_access_summary_profile_myprofile">Meine eigenen Einstellungen</string>
+  <string name="preference_access_title_profile_1">Argus</string>
+  <string name="preference_access_summary_profile_1">Visuelle Verbesserung: Hoher Kontrast, zusätzliche Symbole</string>
+  <string name="preference_access_title_profile_2">Odin</string>
+  <string name="preference_access_summary_profile_2">Visuelle Verbesserung: Große Text, große Symbole, großer Abstand der Elemente, hoher Kontrast</string>
+  <string name="preference_access_title_profile_3">Fenrir</string>
+  <string name="preference_access_summary_profile_3">Eingabe Verbesserung: Größerer Abstand der Elemente, Drag\'n\'Drop Verzögerung</string>
+  <string name="preference_access_title_profile_4">Tiro</string>
+  <string name="preference_access_summary_profile_4">Lernen: Start-Bausteine</string>
+  <string name="preference_access_title_created_profile">Profil wurde erstellt</string>
+  <string name="preference_access_summary_created_profile">Ein neues Profil wurde erstellt! Die vorgenommenen Änderungen können in  \"Mein Profil\" gefunden werden.</string>
+  <string name="preference_access_title_restart">Profil übernommen</string>
+  <string name="preference_access_summary_restart">Pocket Code wird neu gestartet um die Änderungen zu übernehmen.</string>
   <!-- Scratch Converter activity -->
   <string name="beta">beta</string>
   <string name="title_activity_scratch_converter">Konvertiere Scratch Programm</string>
   <string name="error_scratch_program_not_accessible_any_more">Hoppla! DiesesScratch Programm ist leider nicht mehr
       verfügbar!</string>
-  <string name="error_scratch_project_data_not_available">Hoppla! Weitere Daten dieses Scratch Programms können derzeit leider nicht abgerufen werden. Bitte probiere es etwas später noch einmal!</string>
+  <string name="error_scratch_project_data_not_available">Hoppla! Einige Daten dieses Scratch Programms können derzeit leider nicht abgerufen werden. Bitte probiere es etwas später noch einmal!</string>
   <string name="error_request_timeout">Hoppla! Unser Server ist derzeit nicht erreichbar. Bitte probiere es etwas
       später noch einmal!</string>
   <string name="error_scratch_program_conversion_failed">Hoppla! Konvertierung des Scratch Programms
       fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
-  <string name="error_specific_scratch_program_conversion_failed_x">Hoppla! Konvertierung von \"%1$s\" fehlgeschlagen.
+  <string name="error_specific_scratch_program_conversion_failed_x">Hoppla! Konvertierung von %1$s fehlgeschlagen.
       Bitte probiere es etwas später noch einmal!</string>
   <string name="error_scratch_converter_outdated_pocketcode_version">Deine Pocket Code App ist nicht mehr aktuell.
         Unser Scratch Konverter unterstützt nur die aktuellste Pocket Code Version. Bitte lade die aktuelle Pocket Code
@@ -146,7 +194,7 @@
     werden, da es gerade heruntergeladen wird. Bitte probiere es etwas später noch einmal!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">Dieses Scratch Programm kann nicht geöffnet
     werden, da es noch nicht heruntergeladen wurde. Bitte probiere es etwas später noch einmal!</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Das Scratch Programm \"%1$s\" kann nicht konvertiert
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Das Scratch Programm %1$s kann nicht konvertiert
     werden! Alte Programme die vor %2$s erstellt wurden, werden vom Konverter leider nicht unterstützt!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
     <item quantity="one">Es kann nicht mehr als 1 Programm gleichzeitig konvertiert werden!</item>
@@ -244,7 +292,7 @@
   <string name="project_name">Programm:</string>
   <string name="my_projects_activity_title">Programme</string>
   <string name="number_of_objects">Objekte:</string>
-  <string name="start_scene_name">\"%1$s\" (erste Szene)</string>
+  <string name="start_scene_name">%1$s (erste Szene)</string>
   <string name="number_of_scripts">Skripte:</string>
   <string name="number_of_bricks">Bausteine:</string>
   <string name="number_of_looks">Aussehen:</string>
@@ -260,8 +308,8 @@
   <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
   <string name="select_all">Alle auswählen</string>
   <string name="deselect_all">Nichts auswählen</string>
-  <string name="backpack_replace_object">Das Objekt \"%1$s\" befindet sich bereits im Rucksack. Möchtest du es ersetzen?</string>
-  <string name="backpack_replace_scene">Die Szene \"%1$s\" existiert bereits im Rucksack. Möchtest du es ersetzen?</string>
+  <string name="backpack_replace_object">Das Objekt %1$s befindet sich bereits im Rucksack. Möchtest du es ersetzen?</string>
+  <string name="backpack_replace_scene">Die Szene %1$s existiert bereits im Rucksack. Möchtest du es ersetzen?</string>
   <string name="backpack_replace_object_multiple">Im Rucksack sind bereits Objekte vorhanden. Möchtest du diese ersetzen?</string>
   <string name="groups_create">Gruppe hinzufügen</string>
   <string name="group_created">Gruppe erfolgreich angelegt!</string>
@@ -325,7 +373,7 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Diese Aussehen löschen?</string>
   <string name="dialog_confirm_delete_look_message">Kann nicht rückgängig gemacht werden!</string>
   <string name="lookname">Name:</string>
-  <string name="backpack_replace_look">Das Aussehen\"%1$s\" befindet sich bereits im Rucksack. Möchtest du es ersetzen?</string>
+  <string name="backpack_replace_look">Das Aussehen%1$s befindet sich bereits im Rucksack. Möchtest du es ersetzen?</string>
   <string name="backpack_replace_look_multiple">Im Rucksack sind bereits Aussehen vorhanden. Möchtest du diese ersetzen?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Tippe auf \"+\" um Klänge hinzuzufügen</string>
@@ -344,7 +392,7 @@
   <string name="sound_name">Name:</string>
   <string name="new_sound_name">Klangname:</string>
   <string name="rename_sound_overwrite">Klang mit demselben Namen existiert bereits. Bitte wähle einen anderen!</string>
-  <string name="backpack_replace_sound">Der Klang \"%1$s\" befindet sich bereits im Rucksack. Möchtest du ihn ersetzen?</string>
+  <string name="backpack_replace_sound">Der Klang %1$s befindet sich bereits im Rucksack. Möchtest du ihn ersetzen?</string>
   <string name="backpack_replace_sound_multiple">Im Rucksack sind bereits Klänge vorhanden. Möchtest du diese ersetzen?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Zum Hinzufügen Tags scannen</string>
@@ -464,8 +512,8 @@
   <string name="merge_scene_label_one">Zusammenfügen</string>
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">Spiele Szene:</string>
-  <string name="play_scene_dialog_default">Erste Szene (\"%1$s\")</string>
-  <string name="play_scene_dialog_current">Aktuell (\"%1$s\")</string>
+  <string name="play_scene_dialog_default">Erste Szene (%1$s)</string>
+  <string name="play_scene_dialog_current">Aktuell (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
   <string name="new_sprite_dialog_title">Neues Objekt</string>
@@ -527,10 +575,10 @@
   <string name="categories">Kategorien</string>
   <string name="category_motion">Bewegung</string>
   <string name="category_looks">Aussehen</string>
-  <string name="category_pen">Stift</string>
+  <string name="category_pen">Malstift</string>
   <string name="category_sound">Klang</string>
   <string name="category_control">Steuerung</string>
-  <string name="category_event">Event</string>
+  <string name="category_event">Ereignisse</string>
   <string name="category_user_bricks">Meine Bausteine</string>
   <string name="category_data">Daten</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -570,7 +618,7 @@
   <string name="brick_glide_to_x">zu X:</string>
   <string name="brick_go_to">Gehe zu</string>
   <string name="brick_go_to_touch_position">Berührungsposition</string>
-  <string name="brick_go_to_random_position">Zufällige Position</string>
+  <string name="brick_go_to_random_position">Zufallsposition</string>
   <!-- Physics -->
   <string name="default_project_name_physics">Mein erstes Physics-Programm</string>
   <string name="brick_set_physics_object_type">Setze Bewegungstyp auf</string>
@@ -592,7 +640,7 @@
   <string name="brick_set_look">Setze Aussehen</string>
   <string name="brick_set_background">Setze Hintergrund</string>
   <string name="brick_and_wait">und warte</string>
-  <string name="brick_when_background">Wenn Hintergrund geändert auf</string>
+  <string name="brick_when_background">Wenn der Hintergrund wechselt zu</string>
   <string name="brick_set_size_to">Setze Größe auf</string>
   <string name="brick_change_size_by">Ändere Größe um</string>
   <string name="brick_hide">Verbergen</string>
@@ -615,16 +663,16 @@
   <string name="brick_flash_off">aus</string>
   <string name="brick_vibration">Vibrieren für</string>
   <string name="brick_ask_label">Frage</string>
-  <string name="brick_ask_store">und speichere geschriebene Antwort in</string>
+  <string name="brick_ask_store">und speichere die eingegebene Antwort in</string>
   <string name="brick_ask_default_question">\'Wie ist dein Name?\'</string>
   <string name="brick_ask_dialog_hint">"Gib deine Antwort ein:"</string>
   <string name="brick_ask_dialog_submit">Antwort senden</string>
   <!-- Pen bricks -->
-  <string name="brick_pen_down">Stift nach unten</string>
-  <string name="brick_pen_up">Stift nach oben</string>
-  <string name="brick_pen_size">Setze Stift-Größe auf</string>
-  <string name="brick_pen_color">Setze Stift-Farbe auf</string>
-  <string name="brick_clear_background">Bereinigen</string>
+  <string name="brick_pen_down">Schalte Stift ein</string>
+  <string name="brick_pen_up">Schalte Stift aus</string>
+  <string name="brick_pen_size">Setze Stiftdicke auf</string>
+  <string name="brick_pen_color">Setze Stiftfarbe auf</string>
+  <string name="brick_clear_background">Wische Malspuren weg</string>
   <string name="brick_stamp">Stempel</string>
   <!-- Sound bricks -->
   <string name="brick_play_sound">Klang starten</string>
@@ -642,10 +690,10 @@
   <string name="brick_when_becomes_true">wahr wird</string>
   <string name="brick_wait">Warte</string>
   <string name="brick_when_nfc">Bei NFC</string>
-  <string name="brick_stop_script">Script/e stoppen</string>
-  <string name="brick_stop_this_script">Dieses Script stoppen</string>
-  <string name="brick_stop_all_scripts">Alle Skripte stoppen</string>
-  <string name="brick_stop_other_scripts">Stoppe andere Skripte von diesem Objekt</string>
+  <string name="brick_stop_script">Stoppe</string>
+  <string name="brick_stop_this_script">dieses Skript</string>
+  <string name="brick_stop_all_scripts">alles</string>
+  <string name="brick_stop_other_scripts">andere Skripte in diesem Objekt</string>
   <plurals name="second_plural">
     <item quantity="one">"Sekunde "</item>
     <item quantity="other">"Sekunden "</item>
@@ -656,7 +704,7 @@
   <string name="brick_broadcast">Verschicke an alle:</string>
   <string name="brick_broadcast_wait">Verschicke und warte:</string>
   <string name="brick_scene_transition">Szene fortsetzen</string>
-  <string name="brick_scene_start">Szene starten</string>
+  <string name="brick_scene_start">Beginne Szene</string>
   <string name="brick_note">Notiz</string>
   <string name="brick_think_bubble">Denke</string>
   <string name="brick_say_bubble">Sage</string>
@@ -664,11 +712,11 @@
   <string name="brick_forever">Wiederhole fortlaufend</string>
   <string name="brick_repeat">Wiederhole</string>
   <string name="brick_repeat_until">Wiederholen bis</string>
-  <string name="brick_when_touched">Wenn Bildschirm berührt wird</string>
-  <string name="brick_clone">Erstelle Klon von</string>
+  <string name="brick_when_touched">Wenn der Bildschirm berührt wird</string>
+  <string name="brick_clone">Erzeuge Klon von</string>
   <string name="brick_clone_this">mir</string>
-  <string name="brick_when_cloned">Wenn ich als Klon starte</string>
-  <string name="brick_delete_this_clone">Diesen Klon löschen</string>
+  <string name="brick_when_cloned">Wenn ich als Klon entstehe</string>
+  <string name="brick_delete_this_clone">Lösche diesen Klon</string>
   <plurals name="time_plural">
     <item quantity="one">mal</item>
     <item quantity="other">mal</item>
@@ -698,7 +746,7 @@
   <string name="brick_replace_item_in_userlist_with_value">mit</string>
   <!-- defaultValues -->
   <string name="default_project_name">Mein erstes Programm</string>
-  <string name="default_scene_name">Szene \"%1$d\"</string>
+  <string name="default_scene_name">Szene %1$d</string>
   <string name="default_project_background_name">Hintergrund</string>
   <string name="default_project_cloud_name">Wolken</string>
   <string name="default_project_cloud_sprite_name_1">Wolken1</string>
@@ -1199,8 +1247,8 @@
   <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Vorsicht! Unterschiedliche Auflösungen erkannt. %1$s hat Auflösung %2$dx%3$d und %4$s hat Auflösung %5$dx%6$d. Auflösung von %1$s wird verwendet.</string>
   <string name="abort">Abbruch</string>
   <string name="merge_conflict">Zusammenfügen nicht möglich</string>
-  <string name="merge_conflict_variable">Variable \"%1$s\" wird in beiden Programmen verwendet. Wenn Programme den gleichen Variablennamen verwenden, können nicht sie zusammengeführt werden. Bitte benenne die Variable in einem der Programme um und versuche es erneut.</string>
-  <string name="merge_conflict_list">Liste \"%1$s\" wird in beiden Programmen verwendet. Wenn Programme den gleichen Listennamen verwenden, können nicht sie zusammengeführt werden. Bitte benenne die Liste in einem der Programme um und versuche es erneut.</string>
+  <string name="merge_conflict_variable">Variable %1$s wird in beiden Programmen verwendet. Wenn Programme den gleichen Variablennamen verwenden, können nicht sie zusammengeführt werden. Bitte benenne die Variable in einem der Programme um und versuche es erneut.</string>
+  <string name="merge_conflict_list">Liste %1$s wird in beiden Programmen verwendet. Wenn Programme den gleichen Listennamen verwenden, können nicht sie zusammengeführt werden. Bitte benenne die Liste in einem der Programme um und versuche es erneut.</string>
   <!-- Camera related strings -->
   <string name="brick_video">Schalte Kamera</string>
   <string name="video_brick_camera_on">ein</string>
