@@ -38,12 +38,12 @@ public final class ScreenValues {
 
 	public static float getAspectRatio() {
 		if (SCREEN_WIDTH == 0 || SCREEN_HEIGHT == 0) {
-			setToDefaultSreenSize();
+			setToDefaultScreenSize();
 		}
 		return (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
 	}
 
-	public static void setToDefaultSreenSize() {
+	public static void setToDefaultScreenSize() {
 		SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
 		SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
 	}

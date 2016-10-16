@@ -63,6 +63,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
@@ -81,9 +82,10 @@ import org.catrobat.catroid.ui.dialogs.NewLookDialog;
 import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -121,6 +123,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	private OnLookDataListChangedAfterNewListener lookDataListChangedAfterNewListener;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private Activity activity;
+	private String lookSource = null;
+	private String lookName = null;
 	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -270,7 +274,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_looks);
+		SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_looks);
 
 		return inflater.inflate(R.layout.fragment_look, container, false);
 	}
@@ -478,37 +482,56 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		lastReceivedIntent = data;
+
 		if (resultCode == Activity.RESULT_OK) {
+
+			String customEventMessageStop = TrackingConstants.SESSION_STOP_POCKET_PAINT_CREATE_LOOK;
+			String customEventMessage = TrackingConstants.CREATE_LOOK;
+			String timerId = TrackingConstants.SESSION_POCKET_PAINT_CREATE_LOOK;
+
 			switch (requestCode) {
 				case LookController.REQUEST_SELECT_OR_DRAW_IMAGE:
 					if (data != null) {
 						LookController.getInstance().loadImageIntoCatroid(data, activity, lookDataList, this);
 					}
+					lookName = lookDataList.get(lookDataList.size() - 1).getLookName();
+
 					break;
 				case LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE:
 					if (data != null) {
 						LookController.getInstance().loadPocketPaintImageIntoCatroid(data, activity,
 								selectedLookData);
+						lookName = selectedLookData.getLookName();
+						customEventMessage = TrackingConstants.EDIT_LOOK;
+						customEventMessageStop = TrackingConstants.SESSION_STOP_POCKET_PAINT_EDIT_LOOK;
+						lookSource = TrackingConstants.POCKET_PAINT;
+						timerId = TrackingConstants.SESSION_POCKET_PAINT_EDIT_LOOK;
 					}
 					break;
 				case LookController.REQUEST_TAKE_PICTURE:
 					String defLookName = getString(R.string.default_look_name);
+					lookSource = TrackingConstants.CAMERA;
+					lookName = defLookName;
 					lookFromCameraUri = UtilCamera.rotatePictureIfNecessary(lookFromCameraUri, defLookName);
 					LookController.getInstance().loadPictureFromCameraIntoCatroid(lookFromCameraUri, activity,
 							lookDataList, this);
+
 					break;
 				case LookController.REQUEST_MEDIA_LIBRARY:
+					lookSource = TrackingConstants.MEDIA_LIBRARY;
 					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
 					LookController.getInstance().loadPictureFromLibraryIntoCatroid(filePath, activity,
 							lookDataList, this);
+					lookName = lookDataList.get(lookDataList.size() - 1).getLookName();
 					break;
 				case LookController.REQUEST_DRONE_VIDEO:
 					String droneFilePath = getString(R.string.add_look_drone_video);
 					LookController.getInstance().loadDroneVideoImageToProject(droneFilePath,
 							R.drawable.ic_video, this.getActivity(), lookDataList, this);
 			}
-			isResultHandled = true;
+			TrackingUtil.trackCreateLook(lookName, lookSource, customEventMessage, customEventMessageStop, timerId);
 		}
+		isResultHandled = true;
 
 		if (requestCode == LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE) {
 			StorageHandler.getInstance().deleteTempImageCopy();
@@ -546,6 +569,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	}
 
 	public void addLookDrawNewImage() {
+		lookSource = "PocketPaint";
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
@@ -575,6 +599,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		intent.putExtras(bundleForPocketCode);
 
 		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_gallery));
+		lookSource = "device";
 		startActivityForResult(chooser, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 	}
 
@@ -776,6 +801,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
+
+		TrackingUtil.trackPocketPaintSessionLook(TrackingConstants.SESSION_POCKET_PAINT_EDIT_LOOK, TrackingConstants.SESSION_START_POCKET_PAINT_EDIT_LOOK);
 
 		sendPocketPaintIntent(position, intent);
 	}

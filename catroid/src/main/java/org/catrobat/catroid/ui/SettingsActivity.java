@@ -48,7 +48,7 @@ import org.catrobat.catroid.utils.BrickSpinner;
 import org.catrobat.catroid.utils.BrickTextView;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -311,7 +311,7 @@ public class SettingsActivity extends PreferenceActivity {
 		hintCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				preference.getEditor().remove(SnackbarUtil.SHOWN_HINT_LIST).commit();
+				preference.getEditor().remove(SnackBarUtil.SHOWN_HINT_LIST).commit();
 				return true;
 			}
 		});

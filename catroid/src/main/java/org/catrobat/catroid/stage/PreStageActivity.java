@@ -59,6 +59,7 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
@@ -322,6 +323,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		}
 
 		RaspberryPiService.getInstance().disconnect();
+
+		TrackingUtil.trackStopExecution();
 	}
 
 	//all resources that should not have to be reinitialized every stage start
@@ -436,6 +439,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	}
 
 	public void startStage() {
+		TrackingUtil.trackStartExecution();
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
 			scene.getDataContainer().resetAllDataObjects();

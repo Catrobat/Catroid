@@ -24,6 +24,8 @@ package org.catrobat.catroid.io;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -48,6 +50,7 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.GroupItemSprite;
@@ -211,8 +214,11 @@ import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
+import org.rauschig.jarchivelib.Archiver;
+import org.rauschig.jarchivelib.ArchiverFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -223,6 +229,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.HashSet;
 import java.util.List;
@@ -394,7 +402,7 @@ public final class StorageHandler {
 		xstream.alias("brick", IfLogicElseBrick.class);
 		xstream.alias("brick", IfLogicEndBrick.class);
 		xstream.alias("brick", IfThenLogicBeginBrick.class);
-		xstream.alias("brick", IfThenLogicEndBrick .class);
+		xstream.alias("brick", IfThenLogicEndBrick.class);
 		xstream.alias("brick", IfOnEdgeBounceBrick.class);
 		xstream.alias("brick", InsertItemIntoUserListBrick.class);
 		xstream.alias("brick", FlashBrick.class);
@@ -574,13 +582,15 @@ public final class StorageHandler {
 		}
 
 		assertTrue(codeFileSanityCheck(projectName));
-		Log.d(TAG, "loadProject " + projectName);
+
+		TrackingUtil.trackMenuButtonProject(projectName, TrackingConstants.OPEN_PROGRAM);
+
 		if (!projectExists(projectName)) {
 			return null;
 		}
 
 		loadSaveLock.lock();
-		Project project = null;
+		Project project;
 		try {
 			project = (Project) xstream.getProjectFromXML(new File(buildProjectPath(projectName), PROJECTCODE_NAME));
 			for (String sceneName : project.getSceneOrder()) {
@@ -1357,5 +1367,64 @@ public final class StorageHandler {
 	public void updateCodefileOnDownload(String projectName) {
 		File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
 		xstream.updateCollisionReceiverBrickMessage(projectCodeFile);
+	}
+
+	public void copyProgramZip(Resources resources, String zipFileName) {
+		AssetManager assetManager = resources.getAssets();
+		String[] files = null;
+		try {
+			files = assetManager.list("");
+		} catch (IOException e) {
+			Log.e("STANDALONE", "Failed to get asset file list.", e);
+		}
+		for (String filename : files) {
+			if (filename.contains(zipFileName)) {
+				InputStream in;
+				OutputStream out;
+				try {
+					in = assetManager.open(filename);
+					File outFile = new File(Constants.DEFAULT_ROOT, filename);
+					out = new FileOutputStream(outFile);
+					copyFile(in, out);
+					out.flush();
+					out.close();
+					in.close();
+				} catch (IOException e) {
+					Log.e("STANDALONE", "Failed to copy asset file: " + filename, e);
+				}
+			}
+		}
+	}
+
+	private void copyFile(InputStream in, OutputStream out) throws IOException {
+		byte[] buffer = new byte[1024];
+		int read;
+		while ((read = in.read(buffer)) != -1) {
+			out.write(buffer, 0, read);
+		}
+	}
+
+	public void unzipTemplate(String projectName, String templateName, String zipFileName, Activity activity) {
+		String zipFileString = Constants.DEFAULT_ROOT + "/" + zipFileName;
+		StorageHandler.getInstance().copyProgramZip(activity.getResources(), zipFileName);
+		Log.d(StorageHandler.TAG, "default root " + Constants.DEFAULT_ROOT);
+		Log.d(StorageHandler.TAG, "zip file name:" + zipFileName);
+		Archiver archiver = ArchiverFactory.createArchiver("zip");
+		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + templateName);
+		try {
+			archiver.extract(new File(zipFileString), unpackedDirectory);
+		} catch (IOException e) {
+			Log.d(StorageHandler.TAG, "Can't extract program", e);
+		}
+
+		File destination = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+		if (unpackedDirectory.isDirectory()) {
+			unpackedDirectory.renameTo(destination);
+		}
+
+		File zipFile = new File(zipFileString);
+		if (zipFile.exists()) {
+			zipFile.delete();
+		}
 	}
 }

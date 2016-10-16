@@ -23,9 +23,11 @@
 
 package org.catrobat.catroid.ui.dialogs;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,13 +41,17 @@ import android.widget.RadioButton;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.TemplateData;
+import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
 
-public class OrientationDialog extends DialogFragment {
+public class OrientationDialog extends DialogFragment implements LoadProjectTask.OnLoadProjectCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_orientation_project";
 
@@ -57,6 +63,10 @@ public class OrientationDialog extends DialogFragment {
 	private boolean createLandscapeProject = false;
 
 	private boolean openedFromProjectList = false;
+	private boolean openedFromTemplatesList = false;
+
+	private TemplateData templateData;
+	private Context context;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -97,32 +107,43 @@ public class OrientationDialog extends DialogFragment {
 		return orientationDialog;
 	}
 
+	@Override
+	public void onAttach(Activity context) {
+		super.onAttach(context);
+		this.context = context;
+	}
+
 	protected void handleOkButtonClick() {
 		createLandscapeProject = landscapeMode.isChecked();
 
-		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
-			return;
-		} catch (IOException ioException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			dismiss();
-			return;
+		if (isOpenedFromTemplatesList()) {
+			loadStageProject();
+		} else {
+			try {
+				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject);
+			} catch (IllegalArgumentException illegalArgumentException) {
+				Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+				return;
+			} catch (IOException ioException) {
+				Utils.showErrorDialog(getActivity(), R.string.error_new_project);
+				Log.e(TAG, Log.getStackTraceString(ioException));
+				dismiss();
+				return;
+			}
+			startProjectActivity();
 		}
-
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
-
-		if (isOpenedFromProjectList()) {
-			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-		}
-
-		getActivity().startActivity(intent);
-
 		dismiss();
+	}
+
+	private void loadStageProject() {
+		String templateZipFileName =
+				createLandscapeProject ? templateData.landscapeZipFileName : templateData.portraitZipFileName;
+
+		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), projectName, templateData.templateName,
+				templateZipFileName, false, false);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		Log.e("STANDALONE", "going to execute standalone project");
+		loadProjectTask.execute();
 	}
 
 	public boolean isOpenedFromProjectList() {
@@ -133,11 +154,47 @@ public class OrientationDialog extends DialogFragment {
 		this.openedFromProjectList = openedFromProjectList;
 	}
 
+	public boolean isOpenedFromTemplatesList() {
+		return openedFromTemplatesList;
+	}
+
+	public void setOpenedFromTemplatesList(boolean openedFromTemplatesList) {
+		this.openedFromTemplatesList = openedFromTemplatesList;
+	}
+
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
 
 	public void setCreateEmptyProject(boolean isChecked) {
 		this.createEmptyProject = isChecked;
+	}
+
+	@Override
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
+		ProjectManager.getInstance().initializeTemplateProject(projectName, createLandscapeProject, context);
+		Utils.replaceTranslatableStringsInProject(templateData.templateName, true, context);
+		TrackingUtil.trackUseTemplate(templateData.templateName, createLandscapeProject);
+		startProjectActivity();
+	}
+
+	@Override
+	public void onLoadProjectFailure() {
+		ToastUtil.showError(getActivity(), context.getString(R.string.error_load_project));
+	}
+
+	private void startProjectActivity() {
+		Intent intent = new Intent(context, ProjectActivity.class);
+		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+		if (isOpenedFromProjectList()) {
+			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+		} else if (isOpenedFromTemplatesList()) {
+			intent.putExtra(Constants.PROJECT_OPENED_FROM_TEMPLATES_LIST, true);
+		}
+		context.startActivity(intent);
+	}
+
+	public void setTemplateData(TemplateData templateData) {
+		this.templateData = templateData;
 	}
 }

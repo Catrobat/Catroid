@@ -63,11 +63,21 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.SceneStartBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.BaseExceptionHandler;
@@ -138,6 +148,10 @@ public final class Utils {
 					&& preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false)) {
 				sendCaughtException(context);
 			}
+			if (BuildConfig.CREATE_AT_SCHOOL) {
+				ProjectManager.getInstance().setUserID(context);
+			}
+
 			if (!(context instanceof MainMenuActivity)) {
 				context.finish();
 			} else {
@@ -184,7 +198,7 @@ public final class Utils {
 
 	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
 			boolean userSignedIn) {
-		return (!success && exception != null) || context == null || !userSignedIn;
+		return (!success && exception != null) || context == null || (!BuildConfig.CREATE_AT_SCHOOL && !userSignedIn);
 	}
 
 	public static boolean checkForNetworkError(WebconnectionException exception) {
@@ -983,6 +997,9 @@ public final class Utils {
 
 	@SuppressWarnings("unused")
 	public static void logoutUser(Context context) {
+
+		TrackingUtil.trackLogoutEndSessionEvent(context);
+
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		LogoutTask logoutTask = new LogoutTask(context, userName);
@@ -1008,6 +1025,10 @@ public final class Utils {
 		WebViewActivity.clearCookies(context);
 
 		ToastUtil.showSuccess(context, R.string.logout_successful);
+
+		if (BuildConfig.CREATE_AT_SCHOOL) {
+			ProjectManager.getInstance().showLogInDialog((Activity) context, false);
+		}
 	}
 
 	public static boolean isUserLoggedIn(Context context) {
@@ -1021,6 +1042,212 @@ public final class Utils {
 
 	public static String getNumberStringForBricks(float value) {
 		return (int) value == value ? "" + (int) value : "" + value;
+	}
+
+	public static void replaceTranslatableStringsInProject(String templateName, boolean replaceStrings, Context context) {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		List<String> stringEntriesList = new ArrayList<>();
+		String key;
+
+		List<String> spriteVariablesToReplaceInFormulas = new ArrayList<>();
+		List<String> spriteListsToReplaceInFormulas = new ArrayList<>();
+		List<String> projectVariablesToReplaceInFormulas = new ArrayList<>();
+		List<String> projectListsToReplaceInFormulas = new ArrayList<>();
+
+		for (UserVariable variable : project.getProjectVariables()) {
+			key = templateName + Constants.TRANSLATION_PROJECT_VARIABLE;
+			addIfNotInList(stringEntriesList, createStringEntry(key, variable.getName()));
+			projectVariablesToReplaceInFormulas.add(variable.getName());
+		}
+		for (UserList list : project.getProjectLists()) {
+			key = templateName + Constants.TRANSLATION_PROJECT_LIST;
+			addIfNotInList(stringEntriesList, createStringEntry(key, list.getName()));
+			projectListsToReplaceInFormulas.add(list.getName());
+		}
+
+		for (Scene scene : project.getSceneList()) {
+			key = templateName + Constants.TRANSLATION_SCENE;
+			String oldSceneName = scene.getName();
+			addIfNotInList(stringEntriesList, createStringEntry(key, oldSceneName));
+			if (replaceStrings) {
+				scene.setSceneName(getStringResourceByName(getStringResourceName(key, oldSceneName), context));
+				UtilFile.renameSceneDirectory(oldSceneName, scene.getName());
+			}
+
+			DataContainer dataContainer = scene.getDataContainer();
+
+			for (Sprite sprite : scene.getSpriteList()) {
+				key = templateName + Constants.TRANSLATION_SPRITE;
+				addIfNotInList(stringEntriesList, createStringEntry(key, sprite.getName()));
+				if (replaceStrings) {
+					sprite.setName(getStringResourceByName(getStringResourceName(key, sprite.getName()), context));
+				}
+
+				for (SoundInfo soundInfo : sprite.getSoundList()) {
+					key = templateName + Constants.TRANSLATION_SOUND;
+					addIfNotInList(stringEntriesList, createStringEntry(key, soundInfo.getTitle()));
+					if (replaceStrings) {
+						soundInfo.setTitle(getStringResourceByName(getStringResourceName(key, soundInfo.getTitle()), context));
+					}
+				}
+
+				for (LookData lookData : sprite.getLookDataList()) {
+					key = templateName + Constants.TRANSLATION_LOOK;
+					addIfNotInList(stringEntriesList, createStringEntry(key, lookData.getLookName()));
+					if (replaceStrings) {
+						lookData.setLookName(getStringResourceByName(getStringResourceName(key, lookData.getLookName()), context));
+					}
+				}
+
+				for (UserVariable variable : dataContainer.getVariableListForSprite(sprite)) {
+					key = templateName + Constants.TRANSLATION_SPRITE_VARIABLE;
+					addIfNotInList(stringEntriesList, createStringEntry(key, variable.getName()));
+					spriteVariablesToReplaceInFormulas.add(variable.getName());
+				}
+				for (UserList list : dataContainer.getUserListListForSprite(sprite)) {
+					key = templateName + Constants.TRANSLATION_SPRITE_LIST;
+					addIfNotInList(stringEntriesList, createStringEntry(key, list.getName()));
+					spriteListsToReplaceInFormulas.add(list.getName());
+				}
+
+				for (Brick brick : sprite.getListWithAllBricks()) {
+					if (replaceStrings) {
+						replaceFormulaDataStrings(projectVariablesToReplaceInFormulas, brick,
+								templateName + Constants.TRANSLATION_PROJECT_VARIABLE, context);
+						replaceFormulaDataStrings(spriteVariablesToReplaceInFormulas, brick,
+								templateName + Constants.TRANSLATION_SPRITE_VARIABLE, context);
+						replaceFormulaDataStrings(projectListsToReplaceInFormulas, brick,
+								templateName + Constants.TRANSLATION_PROJECT_LIST, context);
+						replaceFormulaDataStrings(spriteListsToReplaceInFormulas, brick,
+								templateName + Constants.TRANSLATION_SPRITE_LIST, context);
+					}
+
+					if (brick instanceof NoteBrick) {
+						try {
+							key = templateName + Constants.TRANSLATION_NOTE;
+							String value = ((NoteBrick) brick).getFormulaWithBrickField(Brick.BrickField.NOTE).interpretString(sprite);
+							addIfNotInList(stringEntriesList, createStringEntry(key, value));
+							if (replaceStrings) {
+								((NoteBrick) brick).setFormulaWithBrickField(Brick.BrickField.NOTE,
+										new Formula(getStringResourceByName(getStringResourceName(key, value), context)));
+							}
+						} catch (InterpretationException e) {
+							Log.e(TAG, "Could not log note: " + e.getMessage());
+						}
+					} else if (brick instanceof BroadcastMessage) {
+						key = templateName + Constants.TRANSLATION_BROADCAST_MESSAGE;
+						String value = ((BroadcastMessage) brick).getBroadcastMessage();
+						addIfNotInList(stringEntriesList, createStringEntry(key, value));
+						if (replaceStrings) {
+							((BroadcastMessage) brick).setMessage(getStringResourceByName(getStringResourceName(key,
+									value), context));
+						}
+					} else if (brick instanceof SceneStartBrick) {
+						SceneStartBrick sceneStartBrick = (SceneStartBrick) brick;
+						key = templateName + Constants.TRANSLATION_SCENE;
+						if (replaceStrings) {
+							sceneStartBrick.setSceneToStart(getStringResourceByName(
+									getStringResourceName(key, sceneStartBrick.getSceneToStart()), context));
+						}
+					} else if (brick instanceof ShowTextBrick) {
+						ShowTextBrick showTextBrick = (ShowTextBrick) brick;
+						if (replaceStrings) {
+							key = dataContainer.getTypeOfUserVariable(showTextBrick.userVariableName, sprite) == DataContainer.USER_VARIABLE_SPRITE
+									? templateName + Constants.TRANSLATION_SPRITE_VARIABLE
+									: templateName + Constants.TRANSLATION_PROJECT_VARIABLE;
+							showTextBrick.setUserVariableName(getStringResourceByName(
+									getStringResourceName(key, showTextBrick.userVariableName), context));
+						}
+					}
+				}
+
+				if (replaceStrings) {
+					for (UserVariable variable : dataContainer.getVariableListForSprite(sprite)) {
+						key = templateName + Constants.TRANSLATION_SPRITE_VARIABLE;
+						variable.setName(getStringResourceByName(getStringResourceName(key, variable.getName()), context));
+					}
+					for (UserList list : dataContainer.getUserListListForSprite(sprite)) {
+						key = templateName + Constants.TRANSLATION_SPRITE_LIST;
+						list.setName(getStringResourceByName(getStringResourceName(key, list.getName()), context));
+					}
+				}
+
+				spriteListsToReplaceInFormulas.clear();
+				spriteVariablesToReplaceInFormulas.clear();
+			}
+		}
+
+		if (replaceStrings) {
+			for (UserVariable variable : project.getProjectVariables()) {
+				key = templateName + Constants.TRANSLATION_PROJECT_VARIABLE;
+				variable.setName(getStringResourceByName(getStringResourceName(key, variable.getName()), context));
+			}
+			for (UserList list : project.getProjectLists()) {
+				key = templateName + Constants.TRANSLATION_PROJECT_LIST;
+				list.setName(getStringResourceByName(getStringResourceName(key, list.getName()), context));
+			}
+		}
+
+		String entries = "";
+		for (String entry : stringEntriesList) {
+			entries += entry;
+		}
+
+		logLargeString(entries);
+	}
+
+	private static void replaceFormulaDataStrings(List<String> dataToReplaceInFormulas, Brick brick, String key,
+			Context context) {
+		if (!(brick instanceof FormulaBrick)) {
+			return;
+		}
+
+		for (String variable : dataToReplaceInFormulas) {
+			String newName = getStringResourceByName(getStringResourceName(key, variable), context);
+			for (Formula formula : ((FormulaBrick) brick).getFormulas()) {
+				formula.updateVariableReferences(variable, newName, context);
+			}
+		}
+	}
+
+	private static String getStringResourceByName(String key, Context context) {
+		String packageName = context.getPackageName();
+		int resId = context.getResources().getIdentifier(key, "string", packageName);
+		Log.d(TAG, "Loading resId:" + resId + " for key: " + key);
+		if (resId != 0) {
+			return context.getString(resId);
+		}
+		return key;
+	}
+
+	private static void addIfNotInList(List<String> stringEntriesList, String stringEntry) {
+		if (!stringEntriesList.contains(stringEntry)) {
+			stringEntriesList.add(stringEntry);
+		}
+	}
+
+	//This method prints valid strings.xml output as log message.
+	//Intended to use when new templates are added - simply copy and paste the auto-generated xml content.
+	private static void logLargeString(String stringEntries) {
+		if (stringEntries.length() > Constants.MAX_LOGCAT_OUTPUT_CHARS) {
+			Log.i(TAG, stringEntries.substring(0, Constants.MAX_LOGCAT_OUTPUT_CHARS));
+			logLargeString(stringEntries.substring(Constants.MAX_LOGCAT_OUTPUT_CHARS));
+		} else {
+			Log.i(TAG, stringEntries);
+		}
+	}
+
+	private static String createStringEntry(String key, String value) {
+		return "<string name=\"" + getStringResourceName(key, value) + "\">" + value + "</string>\n";
+	}
+
+	private static String getStringResourceName(String key, String value) {
+		return replaceInvalidChars(key + value).toLowerCase(Locale.US);
+	}
+
+	private static String replaceInvalidChars(String string) {
+		return string.replace(" ", "_").replace(":", "").replace("-", "").replace("(", "").replace(")", "")
+				.replace(",", "").replace("/", "").replace("'", "");
 	}
 
 	// http://stackoverflow.com/questions/2711858/is-it-possible-to-set-font-for-entire-application/16883281#16883281

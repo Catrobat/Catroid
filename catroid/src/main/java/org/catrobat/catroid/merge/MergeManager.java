@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.MergeNameDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public final class MergeManager {
@@ -52,6 +53,8 @@ public final class MergeManager {
 			Utils.showErrorDialog(activity, R.string.error_load_project);
 			return;
 		}
+
+		TrackingUtil.trackMerge(firstProject.getName(), secondProject.getName());
 
 		if (firstProject.getName().equals(secondProject.getName())) {
 			Utils.showErrorDialog(activity, R.string.error_merge_with_self);

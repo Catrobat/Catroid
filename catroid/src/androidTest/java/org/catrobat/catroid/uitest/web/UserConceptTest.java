@@ -222,7 +222,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		navigateToNativeLoginDialog();
 
 		username = username.toLowerCase(Locale.ENGLISH);
-		fillNativeLoginDialog(username, "topsecret");
+		UiTestUtils.fillNativeLoginDialog(solo, username, "topsecret");
 		solo.waitForText(uploadDialogTitle);
 
 		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
@@ -352,7 +352,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		prefs.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
 
 		navigateToNativeLoginDialog();
-		fillNativeLoginDialog(testUser, testPassword);
+		UiTestUtils.fillNativeLoginDialog(solo, testUser, testPassword);
 
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
@@ -369,7 +369,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		prefs.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
 
 		navigateToMenuLoginDialog();
-		fillNativeLoginDialog(testUser, testPassword);
+		UiTestUtils.fillNativeLoginDialog(solo, testUser, testPassword);
 
 		assertTrue("Not logged in!", solo.searchText(solo.getString(R.string
 				.user_logged_in)));
@@ -460,7 +460,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		prefs.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
 
 		navigateToNativeLoginDialog();
-		fillNativeLoginDialog(getTestUserName(), "testpassword");
+		UiTestUtils.fillNativeLoginDialog(solo, getTestUserName(), "testpassword");
 
 		assertTrue("No username does not exist error appeared", solo.searchText("This username does not exist"));
 	}
@@ -669,24 +669,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		int buttonId = android.R.id.button1;
 		solo.clickOnView(solo.getView(buttonId));
-	}
-
-	private void fillNativeLoginDialog(String username, String password) {
-		assertNotNull("Login Dialog is not shown.", solo.getText(login));
-		solo.sendKey(Solo.ENTER);
-		// enter a username
-		EditText userNameEditText = (EditText) solo.getView(R.id.dialog_login_username);
-		solo.clearEditText(userNameEditText);
-		solo.enterText(userNameEditText, username);
-		solo.sendKey(Solo.ENTER);
-
-		// enter a password
-		EditText passwordEditText = (EditText) solo.getView(R.id.dialog_login_password);
-		solo.clearEditText(passwordEditText);
-		solo.clickOnView(passwordEditText);
-		solo.enterText(passwordEditText, password);
-		solo.sendKey(Solo.ENTER);
-		solo.clickOnButton(login);
 	}
 
 	private void fillOAuthUsernameDialog(String username, boolean proceed) {

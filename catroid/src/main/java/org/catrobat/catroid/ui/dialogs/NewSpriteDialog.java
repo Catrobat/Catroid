@@ -63,6 +63,7 @@ import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
 
@@ -87,6 +88,7 @@ public class NewSpriteDialog extends DialogFragment {
 	private String newObjectName = null;
 	private SpinnerAdapterWrapper spinnerAdapter;
 	private boolean isDroneVideo = false;
+	public static String spriteSource = "NOT SET";
 	private SpriteFactory spriteFactory = new SpriteFactory();
 	private AlertDialog dialog = null;
 
@@ -221,16 +223,20 @@ public class NewSpriteDialog extends DialogFragment {
 			try {
 				switch (requestCode) {
 					case REQUEST_CREATE_POCKET_PAINT_IMAGE:
+						spriteSource = "PocketPaint";
 						lookUri = Uri.parse(data.getExtras().getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT));
 						break;
 					case REQUEST_SELECT_IMAGE:
+						spriteSource = "device";
 						lookUri = decodeUri(data.getData());
 						newObjectName = new File(lookUri.toString()).getName();
 						break;
 					case REQUEST_TAKE_PICTURE:
+						spriteSource = "camera";
 						lookUri = UtilCamera.rotatePictureIfNecessary(lookUri, getString(R.string.default_look_name));
 						break;
 					case REQUEST_MEDIA_LIBRARY:
+						spriteSource = "MediaLibrary";
 						lookUri = Uri.parse(data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH));
 						newObjectName = Files.getNameWithoutExtension(lookUri.toString());
 						break;
@@ -241,7 +247,6 @@ public class NewSpriteDialog extends DialogFragment {
 					default:
 						return;
 				}
-
 				NewSpriteDialog dialog = new NewSpriteDialog(DialogWizardStep.STEP_2, lookUri, newObjectName,
 						requestedAction, spinnerAdapter, isDroneVideo);
 				dialog.show(getActivity().getFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
@@ -288,6 +293,9 @@ public class NewSpriteDialog extends DialogFragment {
 			@Override
 			public void onClick(View view) {
 				if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
+
+					TrackingUtil.trackStartPocketPaintSessionCreateObject();
+
 					Intent intent = new Intent("android.intent.action.MAIN");
 					intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 							Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
@@ -416,6 +424,8 @@ public class NewSpriteDialog extends DialogFragment {
 
 			String imageFileName = newLookFile.getName();
 			Utils.rewriteImageFileForStage(getActivity(), newLookFile);
+
+			TrackingUtil.trackCreateObject(newSpriteName, spriteSource);
 
 			lookData.setLookName(newSpriteName);
 			lookData.setLookFilename(imageFileName);

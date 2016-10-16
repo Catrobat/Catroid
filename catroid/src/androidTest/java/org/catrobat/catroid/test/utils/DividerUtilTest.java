@@ -58,11 +58,10 @@ public final class DividerUtilTest extends ActivityInstrumentationTestCase2<Main
 			@Override
 			public void run() {
 				DividerUtil.setDivider(context, linearLayout);
+				int drawable = linearLayout.getDividerPadding();
+				assertNotNull("No current DividerPadding drawable.", drawable);
+				assertEquals("Divider height did not match the expected height.", DividerUtil.dividerHeight, drawable);
 			}
 		});
-
-		int drawable = linearLayout.getDividerPadding();
-		assertNotNull("No current DividerPadding drawable.", drawable);
-		assertEquals("Divider height did not match the expected height.", DividerUtil.dividerHeight, drawable);
 	}
 }

@@ -43,9 +43,11 @@ import android.widget.ProgressBar;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -83,6 +85,8 @@ public class UploadProgressDialog extends DialogFragment {
 				.OnClickListener) null);
 		progressBarDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.progress_upload_dialog_show_program), (DialogInterface
 				.OnClickListener) null);
+
+		TrackingUtil.trackMenuButtonProject(currentProjectName, TrackingConstants.UPLOAD_PROGRAM);
 
 		return progressBarDialog;
 	}

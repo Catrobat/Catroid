@@ -65,7 +65,7 @@ public class AccessibilityActivitesTest extends BaseActivityInstrumentationTestC
 		solo.clickOnView(solo.getView(R.id.access_profilestandard));
 		solo.waitForActivity(AccessibilityPreferencesActivity.class.getSimpleName());
 		TextView activeProfileLabel = (TextView) solo.getView(R.id.access_label_active_profile);
-		assertEquals(activeProfileLabel.getText(), solo.getString(R.string.preference_access_selected_profile));
+		assertEquals("Wrong profile!", activeProfileLabel.getText(), solo.getString(R.string.preference_access_selected_profile));
 		TextView selectedProfile = (TextView) solo.getView(R.id.access_active_profile_title);
 		assertEquals("The expected profile did not open.", selectedProfile.getText(),
 				solo.getString(R.string.preference_access_title_profile_standard));

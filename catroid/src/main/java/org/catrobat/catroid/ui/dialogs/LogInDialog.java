@@ -39,12 +39,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.web.ServerCalls;
 
 public class LogInDialog extends DialogFragment implements LoginTask.OnLoginCompleteListener {
@@ -80,10 +82,16 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 			}
 		});
 
-		final AlertDialog loginDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
-				.setTitle(R.string.login).setPositiveButton(R.string.login, null)
-				.setNeutralButton(R.string.password_forgotten, null).create();
-		loginDialog.setCanceledOnTouchOutside(true);
+		final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity()).setView(rootView)
+				.setTitle(R.string.login).setPositiveButton(R.string.login, null);
+		boolean canceledOnTouchOutside = false;
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			dialogBuilder.setNeutralButton(R.string.password_forgotten, null);
+			canceledOnTouchOutside = true;
+		}
+		final AlertDialog loginDialog = dialogBuilder.create();
+
+		loginDialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
 		loginDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 		loginDialog.setOnShowListener(new OnShowListener() {
@@ -117,11 +125,28 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+			@Override
+			public boolean onKey(android.content.DialogInterface dialog, int keyCode, android.view.KeyEvent event) {
+				if (keyCode == android.view.KeyEvent.KEYCODE_BACK && BuildConfig.CREATE_AT_SCHOOL) {
+					return true;
+				}
+				return false;
+			}
+		});
+	}
+
+	@Override
 	public void onLoginComplete() {
 		dismiss();
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
 		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
+		ProjectManager.getInstance().setUserID(getActivity());
+
+		TrackingUtil.trackLoginInitSessionEvent(getActivity());
 	}
 
 	private void handleLoginButtonClick() {

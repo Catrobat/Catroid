@@ -37,7 +37,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,6 +53,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Scene;
@@ -79,9 +79,10 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicExpandableListView;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
@@ -130,7 +131,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		super.onCreateView(inflater, container, savedInstanceState);
 		View spriteListFragment = inflater.inflate(R.layout.fragment_sprites_list, container, false);
 		TextSizeUtil.enlargeViewGroup((ViewGroup) spriteListFragment);
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
+		SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_objects);
 		return spriteListFragment;
 	}
 
@@ -402,8 +403,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		spriteToEdit.setConvertToSingleSprite(false);
 
 		String oldName = copiedSprite.getName();
-		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
-				0));
+		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0));
 		String newName = copiedSprite.getName();
 		copiedSprite.renameCopiedSpriteInCollisionFormulas(oldName, newName, getActivity());
 		copiedSprite.updateCollisionBroadcastMessages(oldName, newName);
@@ -413,7 +413,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		projectManager.setCurrentSprite(copiedSprite);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
-		Log.d(TAG, copiedSprite.toString());
+		TrackingUtil.trackSprite(copiedSprite.getName(), TrackingConstants.COPY_SPRITE);
 	}
 
 	@Override
@@ -575,6 +575,8 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
 			currentLookData.getCollisionInformation().cancelCalculation();
 		}
+
+		TrackingUtil.trackDeleteSprite(spriteToEdit);
 
 		deleteSpriteFiles();
 		dataContainer.cleanVariableListForSprite(spriteToEdit);
@@ -1071,6 +1073,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 	}
 
 	private void createGroup(String groupName) {
+		TrackingUtil.trackSprite(groupName, TrackingConstants.CREATE_GROUP);
 		GroupSprite groupSprite = new GroupSprite(groupName);
 		getSpriteList().add(groupSprite);
 		spriteAdapter.notifyDataSetChanged();

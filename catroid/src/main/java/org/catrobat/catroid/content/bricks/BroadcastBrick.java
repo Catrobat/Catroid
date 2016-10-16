@@ -86,6 +86,11 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	}
 
 	@Override
+	public void setMessage(String broadcastMessage) {
+		this.broadcastMessage = broadcastMessage;
+	}
+
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;

@@ -72,11 +72,11 @@
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid"/>
+        android:targetPackage="${applicationIdForTests}"/>
     <!-- this instrumentation is needed to run the tests from jenkins -->
     <instrumentation
         tools:replace="android:targetPackage"
         android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid"/>
+        android:targetPackage="${applicationIdForTests}"/>
 
 </manifest>

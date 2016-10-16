@@ -52,6 +52,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
@@ -74,6 +75,7 @@ import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescr
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -569,11 +571,15 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		int numDeleted = 0;
 		for (int position : adapter.getCheckedProjects()) {
 			projectToEdit = (ProjectData) getListView().getItemAtPosition(position - numDeleted);
+
+			TrackingUtil.trackProject(projectToEdit.projectName, TrackingConstants.DELETE_PROGRAM);
+
 			deleteProject(projectToEdit);
 			numDeleted++;
 		}
 
 		if (projectList.isEmpty()) {
+			initializeDefaultProjectAfterDelete();
 			initializeDefaultProjectAfterDelete();
 			return;
 		} else if (ProjectManager.getInstance().getCurrentProject() == null) {

@@ -24,4 +24,5 @@ package org.catrobat.catroid.content;
 
 public interface BroadcastMessage {
 	String getBroadcastMessage();
+	void setMessage(String broadcastMessage);
 }

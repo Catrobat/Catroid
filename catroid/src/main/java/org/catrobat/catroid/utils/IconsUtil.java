@@ -280,7 +280,7 @@ public final class IconsUtil {
 		setBottomBarIconSize(context, contentView);
 	}
 
-	private static void setLeftDrawableSize(Context context, View contentView, Rect bounds, int viewId, int
+	public static void setLeftDrawableSize(Context context, View contentView, Rect bounds, int viewId, int
 			drawableId) {
 		Drawable drawable = context.getResources().getDrawable(drawableId);
 		drawable.setBounds(bounds);
@@ -350,5 +350,9 @@ public final class IconsUtil {
 
 	public static void setLargeSize(boolean value) {
 		largeSize = value;
+	}
+
+	public static Rect getLargeIconSizeMainMenu() {
+		return largeIconSizeMainMenu;
 	}
 }

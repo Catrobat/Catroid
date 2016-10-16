@@ -151,7 +151,6 @@
   <string name="dialog_confirm_delete_object_message">Perintah ini tidak dapat dibatalkan!</string>
   <string name="select_all">Pilih Semua</string>
   <string name="deselect_all">Batalkan semua</string>
-  <string name="backpack_replace_object">Objek \"%1$s\" sudah ada di ransel. Apakah Anda ingin menggantinya?</string>
   <string name="backpack_replace_object_multiple">Objek sudah ada di ransel. Apakah Anda ingin menggantinya?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Copy</string>
@@ -200,7 +199,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Hapus Tampilan ini?</string>
   <string name="dialog_confirm_delete_look_message">Perintah ini tidak dapat dibatalkan!</string>
   <string name="lookname">Nama tampilan:</string>
-  <string name="backpack_replace_look">Tampilan \"%1$s\" sudah ada di ransel. Apakah Anda ingin menggantinya?</string>
   <string name="backpack_replace_look_multiple">Tampilan sudah ada di ransel. Apakah Anda ingin menggantinya?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Tekan \"+\" untuk menambah suara</string>

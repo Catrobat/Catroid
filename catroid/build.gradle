@@ -80,13 +80,21 @@ android {
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
     }
+
+    defaultConfig {
+        manifestPlaceholders = [ launchActivity:"org.catrobat.catroid.ui.MainMenuActivity",
+                                 applicationIdForTests:"org.catrobat.catroid"]
+
+        buildConfigField "boolean", "CREATE_AT_SCHOOL", "false"
+        buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "true"
+    }
+
     productFlavors {
         catroid {
             applicationId 'org.catrobat.catroid'
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "true"
         }
 
         standalone {
@@ -95,9 +103,23 @@ android {
             versionName '1.0'
 
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
-            buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true) }\""
+            buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true)}\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
             buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "false"
+        }
+
+        createatschool {
+            applicationId 'org.catrobat.catroid.createatschool'
+            versionCode 1
+            versionName '1.0'
+
+            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
+
+            manifestPlaceholders = [ launchActivity:"org.catrobat.catroid.createatschool" +
+                    ".ui.CreateAtSchoolMainMenuActivity", applicationIdForTests:"org.catrobat.catroid.createatschool" ]
         }
     }
 }

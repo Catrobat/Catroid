@@ -40,7 +40,7 @@ import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.SnackBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +95,7 @@ public class BrickCategoryFragment extends ListFragment {
 
 				if (scriptFragment != null) {
 					scriptFragment.onCategorySelected(adapter.getItem(position));
-					SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
+					SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_bricks);
 				}
 			}
 		});
@@ -164,8 +164,8 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
 
-		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null &&
-				!CategoryBricksFactory.getStarterBricksEnabled()) {
+		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null
+				&& !CategoryBricksFactory.getStarterBricksEnabled()) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}
 

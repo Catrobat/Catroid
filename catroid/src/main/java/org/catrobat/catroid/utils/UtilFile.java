@@ -25,6 +25,8 @@ package org.catrobat.catroid.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.common.io.Files;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
@@ -111,7 +113,7 @@ public final class UtilFile {
 			sb.append('-');
 		}
 
-		boolean success = true;
+		boolean success;
 		if (fileOrDirectory.exists() && fileOrDirectory.isDirectory()) {
 			// Please note: especially with MyProjectsActivityTest.testAddNewProjectMixedCase(), it happens that listFiles
 			// returns null (although fileOrDirectory exists and is a directory). This should definitely not happen
@@ -198,7 +200,7 @@ public final class UtilFile {
 	 * returns a list of strings of all projectnames in the catroid folder
 	 */
 	public static List<String> getProjectNames(File directory) {
-		List<String> projectList = new ArrayList<String>();
+		List<String> projectList = new ArrayList<>();
 		File[] fileList = directory.listFiles();
 		if (fileList != null) {
 			FilenameFilter filenameFilter = new FilenameFilter() {
@@ -354,6 +356,25 @@ public final class UtilFile {
 		projectName = projectName.replace("%22", "\"");
 		projectName = projectName.replace("%25", "%");
 		return projectName;
+	}
+
+	static boolean renameSceneDirectory(String oldSceneName, String newSceneName) {
+		if (oldSceneName.equals(newSceneName)) {
+			return false;
+		}
+
+		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		File oldSceneDirectory = new File(Utils.buildPath(Utils.buildProjectPath(projectName), oldSceneName));
+		File newSceneDirectory = new File(Utils.buildPath(Utils.buildProjectPath(projectName), newSceneName));
+
+		if (!newSceneDirectory.exists()) {
+			try {
+				Files.move(oldSceneDirectory, newSceneDirectory);
+			} catch (IOException e) {
+				Log.e(TAG, "Could not rename scene directory: " + e.getMessage());
+			}
+		}
+		return true;
 	}
 
 	public enum FileType {

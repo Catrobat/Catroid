@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.SnackBarUtil;
 
 public class AccessibilityProfilesActivity extends BaseActivity {
 
@@ -45,6 +46,7 @@ public class AccessibilityProfilesActivity extends BaseActivity {
 		setContentView(R.layout.activity_accessibility_profiles);
 		setUpActionBar();
 		setReturnByPressingBackButton(true);
+		SnackBarUtil.showHintSnackBar(this, R.string.hint_accessibility_profiles);
 	}
 
 	@Override

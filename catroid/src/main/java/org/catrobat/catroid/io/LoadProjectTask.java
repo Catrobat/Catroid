@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -46,6 +47,8 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	private String projectName;
 	private boolean showErrorMessage;
 	private String errorMessage;
+	private String templateName;
+	private String templateZipFileName;
 	private boolean startProjectActivity;
 	private LinearLayout linearLayoutProgressCircle;
 
@@ -56,6 +59,17 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 		this.projectName = projectName;
 		this.showErrorMessage = showErrorMessage;
 		this.startProjectActivity = startProjectActivity;
+		this.errorMessage = activity.getString(R.string.error_load_project);
+	}
+
+	public LoadProjectTask(Activity activity, String projectName, String templateName, String templateZipFileName,
+			boolean showErrorMessage, boolean startProjectActivity) {
+		this.activity = activity;
+		this.projectName = projectName;
+		this.showErrorMessage = showErrorMessage;
+		this.startProjectActivity = startProjectActivity;
+		this.templateName = templateName;
+		this.templateZipFileName = templateZipFileName;
 		this.errorMessage = activity.getString(R.string.error_load_project);
 	}
 
@@ -76,6 +90,10 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
+		if (BuildConfig.CREATE_AT_SCHOOL && templateZipFileName != null) {
+			StorageHandler.getInstance().unzipTemplate(projectName, templateName, templateZipFileName, activity);
+		}
+
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null || !currentProject.getName().equals(projectName)) {
 			try {

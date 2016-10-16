@@ -46,6 +46,7 @@
             android:selectAllOnFocus="true" />
 
         <RadioGroup
+            android:id="@+id/project_radio_group"
             style="@style/DefaultDialog.Item"
             android:layout_below="@+id/project_name_edittext"
             android:checkedButton="@+id/project_empty_radio_button">

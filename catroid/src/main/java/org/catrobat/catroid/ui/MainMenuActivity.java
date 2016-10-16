@@ -26,7 +26,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,7 +34,6 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +54,7 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.LoadProjectTask;
@@ -73,6 +72,7 @@ import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.UtilZip;
@@ -81,15 +81,12 @@ import org.rauschig.jarchivelib.Archiver;
 import org.rauschig.jarchivelib.ArchiverFactory;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.concurrent.locks.Lock;
 
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
 
-	private static final String TAG = ProjectActivity.class.getSimpleName();
+	private static final String TAG = MainMenuActivity.class.getSimpleName();
 
 	private static final String START_PROJECT = BuildConfig.START_PROJECT;
 	private static final Boolean STANDALONE_MODE = BuildConfig.FEATURE_APK_GENERATOR_ENABLED;
@@ -102,10 +99,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private static final String TYPE_FILE = "file";
 	private static final String TYPE_HTTP = "http";
 
-	private Lock viewSwitchLock = new ViewSwitchLock();
+	protected Lock viewSwitchLock = new ViewSwitchLock();
 	private CallbackManager callbackManager;
 	private SignInDialog signInDialog;
-	private boolean lockBackButtonForAsync = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +109,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
-		initializeFacebookSdk();
+
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			initializeFacebookSdk();
+		}
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		UtilUi.updateScreenWidthAndHeight(this);
@@ -170,6 +169,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 		final Activity activity = this;
+
+		TrackingUtil.trackStopWebSessionTutorial();
+		TrackingUtil.trackStopWebSessionExplore();
+
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
@@ -234,7 +237,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			loadProjectInBackground(projectName);
 		}
 		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
-
 		if (ProjectManager.getInstance().getHandleNewSceneFromScriptActivity()) {
 			Intent intent = new Intent(this, ProjectActivity.class);
 			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
@@ -243,8 +245,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 	}
 
-	// needed because of android:onClick in activity_main_menu.xml
 	public void handleContinueButton(View view) {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		String projectName = project != null ? project.getName() : TrackingConstants.NO_PROGRAM;
+		TrackingUtil.trackMenuButtonProject(projectName, TrackingConstants.MAIN_MENU_CONTINUE);
 		handleContinueButton();
 	}
 
@@ -252,7 +256,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
-		lockBackButtonForAsync = true;
 		loadProjectTask.execute();
 	}
 
@@ -262,21 +265,18 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
-		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
-		lockBackButtonForAsync = true;
 		loadProjectTask.execute();
 	}
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
 		if (STANDALONE_MODE) {
-			Log.d("STANDALONE", "onLoadProjectSucess -> startStage");
+			Log.d("STANDALONE", "onLoadProjectSuccess -> startStage");
 			startStageProject();
 		} else if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
-		lockBackButtonForAsync = false;
 	}
 
 	public void handleNewButton(View view) {
@@ -304,7 +304,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-
+		TrackingUtil.trackStartWebSessionTutorial();
 		startWebViewActivity(Constants.CATROBAT_HELP_URL);
 	}
 
@@ -316,7 +316,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-
+		TrackingUtil.trackStartWebSessionExplore();
 		if (Utils.isUserLoggedIn(this)) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
@@ -380,14 +380,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		return (keyCode == KeyEvent.KEYCODE_BACK && !lockBackButtonForAsync);
-	}
-
-	@Override
 	public void onLoadProjectFailure() {
-		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
-		lockBackButtonForAsync = false;
 	}
 
 	public void initializeFacebookSdk() {
@@ -449,7 +442,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private void unzipProgram() {
 		StorageHandler.getInstance();
 		String zipFileString = Constants.DEFAULT_ROOT + "/" + ZIP_FILE_NAME;
-		copyProgramZip();
+		StorageHandler.getInstance().copyProgramZip(getResources(), ZIP_FILE_NAME);
 		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);
 		Log.d("STANDALONE", "zip file name:" + ZIP_FILE_NAME);
 		Archiver archiver = ArchiverFactory.createArchiver("zip");
@@ -470,41 +463,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		File zipFile = new File(zipFileString);
 		if (zipFile.exists()) {
 			zipFile.delete();
-		}
-	}
-
-	private void copyProgramZip() {
-		AssetManager assetManager = getResources().getAssets();
-		String[] files = null;
-		try {
-			files = assetManager.list("");
-		} catch (IOException e) {
-			Log.e("STANDALONE", "Failed to get asset file list.", e);
-		}
-		for (String filename : files) {
-			if (filename.contains(ZIP_FILE_NAME)) {
-				InputStream in;
-				OutputStream out;
-				try {
-					in = assetManager.open(filename);
-					File outFile = new File(Constants.DEFAULT_ROOT, filename);
-					out = new FileOutputStream(outFile);
-					copyFile(in, out);
-					out.flush();
-					out.close();
-					in.close();
-				} catch (IOException e) {
-					Log.e("STANDALONE", "Failed to copy asset file: " + filename, e);
-				}
-			}
-		}
-	}
-
-	private void copyFile(InputStream in, OutputStream out) throws IOException {
-		byte[] buffer = new byte[1024];
-		int read;
-		while ((read = in.read(buffer)) != -1) {
-			out.write(buffer, 0, read);
 		}
 	}
 

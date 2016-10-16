@@ -45,12 +45,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 
 import java.util.List;
 
 public class AddBrickFragment extends ListFragment {
 
-	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
+	public static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	public static final String ADD_BRICK_FRAGMENT_TAG = AddBrickFragment.class.getSimpleName();
 	private ScriptFragment scriptFragment;
 	private CharSequence previousActionBarTitle;
@@ -173,6 +174,9 @@ public class AddBrickFragment extends ListFragment {
 				fragmentTransaction.remove(addBrickFragment);
 				getFragmentManager().popBackStack();
 			}
+
+			TrackingUtil.trackAddBrick(addBrickFragment, brickToBeAdded);
+
 			fragmentTransaction.commit();
 		} catch (CloneNotSupportedException exception) {
 			Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed",

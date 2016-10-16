@@ -30,16 +30,13 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-import com.parrot.freeflight.settings.ApplicationSettings;
-
 import org.catrobat.catroid.ui.SettingsActivity;
 
 public class CatroidApplication extends MultiDexApplication {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
-	private ApplicationSettings settings;
-	private static Context context;
+	protected static Context context;
 
 	public static final String OS_ARCH = System.getProperty("os.arch");
 
@@ -49,7 +46,6 @@ public class CatroidApplication extends MultiDexApplication {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "CatroidApplication onCreate");
-		settings = new ApplicationSettings(this);
 		CatroidApplication.context = getApplicationContext();
 		SettingsActivity.applyAccessibilitySettings(context);
 	}
@@ -58,10 +54,6 @@ public class CatroidApplication extends MultiDexApplication {
 	protected void attachBaseContext(Context base) {
 		super.attachBaseContext(base);
 		MultiDex.install(this);
-	}
-
-	public ApplicationSettings getParrotApplicationSettings() {
-		return settings;
 	}
 
 	public static synchronized boolean loadNativeLibs() {

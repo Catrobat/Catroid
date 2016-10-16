@@ -97,6 +97,11 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
+	public void setMessage(String broadcastMessage) {
+		collisionScript.setBroadcastMessage(broadcastMessage);
+	}
+
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;

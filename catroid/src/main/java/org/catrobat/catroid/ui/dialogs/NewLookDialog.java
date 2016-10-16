@@ -36,10 +36,12 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 
 public class NewLookDialog extends DialogFragment {
 
@@ -124,11 +126,13 @@ public class NewLookDialog extends DialogFragment {
 		final Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-
 		paintroidButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
+					TrackingUtil.trackPocketPaintSessionLook(TrackingConstants.SESSION_POCKET_PAINT_CREATE_LOOK,
+							TrackingConstants.SESSION_START_POCKET_PAINT_CREATE_LOOK);
+
 					fragment.addLookDrawNewImage();
 					NewLookDialog.this.dismiss();
 				}

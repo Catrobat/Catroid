@@ -32,6 +32,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -39,6 +40,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -103,42 +105,13 @@ public final class BackPackSpriteController {
 		dialog.show();
 	}
 
-	public void showBackPackReplaceDialog(final Sprite currentSprite, final Context context) {
-		Resources resources = context.getResources();
-		String replaceLookMessage = resources.getString(R.string.backpack_replace_object, currentSprite.getName());
-
-		final AlertDialog dialog = new CustomAlertDialogBuilder(context)
-				.setTitle(R.string.backpack)
-				.setMessage(replaceLookMessage)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						backpackVisibleSprite(currentSprite);
-						onBackpackSpriteCompleteListener.onBackpackSpriteComplete(true);
-						dialog.dismiss();
-					}
-				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				}).create();
-		dialog.setCanceledOnTouchOutside(true);
-		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialogInterface) {
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
-			}
-		});
-		dialog.show();
-	}
-
 	public void backpackVisibleSprite(Sprite spriteToEdit) {
 		String spriteName = spriteToEdit.getName();
 		BackPackListManager.getInstance().removeItemFromSpriteBackPackByName(spriteName);
 
 		Sprite backPackSprite = backpack(spriteToEdit);
 		BackPackListManager.getInstance().addSpriteToBackPack(backPackSprite);
+		TrackingUtil.trackBackpackSprite(backPackSprite.getName(), TrackingConstants.BACKPACK_OBJECT);
 	}
 
 	public Sprite backpackHiddenSprite(Sprite spriteToEdit) {
@@ -175,6 +148,7 @@ public final class BackPackSpriteController {
 		if (backPackedScripts != null && !backPackedScripts.isEmpty()) {
 			backPackSprite.getScriptList().addAll(backPackedScripts);
 		}
+
 		return backPackSprite;
 	}
 
@@ -225,6 +199,10 @@ public final class BackPackSpriteController {
 			} else {
 				BackPackListManager.getInstance().removeItemFromSpriteBackPack(selectedSprite);
 			}
+		}
+
+		if (!fromHiddenBackPack) {
+			TrackingUtil.trackBackpackSprite(selectedSprite.getName(), TrackingConstants.UNPACK_OBJECT);
 		}
 		return unpackedSprite;
 	}

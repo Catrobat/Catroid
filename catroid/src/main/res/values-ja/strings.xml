@@ -153,7 +153,6 @@
   <string name="dialog_confirm_delete_object_message">元に戻すことができない ！</string>
   <string name="select_all">すべてを選択します。</string>
   <string name="deselect_all">すべて選択解除</string>
-  <string name="backpack_replace_object">オブジェクト \"%1$s\" は、既にバックパックに存在します。置き換えますか?</string>
   <string name="backpack_replace_object_multiple">オブジェクトは、既にバックパックに存在します。置き換えますか?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_コピー</string>
@@ -202,7 +201,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">これらの外見を削除しますか？</string>
   <string name="dialog_confirm_delete_look_message">元に戻すことができない ！</string>
   <string name="lookname">外見の名:</string>
-  <string name="backpack_replace_look">外見 \"%1$s\" は、既にバックパックに存在します。置き換えますか?</string>
   <string name="backpack_replace_look_multiple">外見は、既にバックパックに存在します。置き換えますか?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">「+」をタップしてのサウンドを追加するには</string>

@@ -95,16 +95,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		super.tearDown();
 	}
 
-	private void setServerURLToTestUrl() throws Throwable {
-		runTestOnUiThread(new Runnable() {
-			public void run() {
-				ServerCalls.useTestUrl = true;
-			}
-		});
-	}
-
-	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() throws Throwable {
-		setServerURLToTestUrl();
+	public void testUploadProjectSuccessAndTokenReplacementAfterUpload() {
+		UiTestUtils.setServerURLToTestUrl(this);
 		UiTestUtils.createTestProject(testProject);
 
 		UiTestUtils.createValidUser(getActivity());
@@ -122,8 +114,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		downloadProject(newTestProject, testProject);
 	}
 
-	public void testUploadProjectOldCatrobatLanguageVersion() throws Throwable {
-		setServerURLToTestUrl();
+	public void testUploadProjectOldCatrobatLanguageVersion() {
+		UiTestUtils.setServerURLToTestUrl(this);
 
 		UiTestUtils.createTestProject(testProject);
 		solo.waitForFragmentById(R.id.fragment_container);
@@ -134,7 +126,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.createValidUser(getActivity());
 
 		// change catrobatLanguage to a version that is not supported by web
-		// should lead to an errormessage after upload
+		// should lead to an error message after upload
 		Project testProject = ProjectManager.getInstance().getCurrentProject();
 		Reflection.setPrivateField(Constants.class, "CURRENT_CATROBAT_LANGUAGE_VERSION", 0.3f);
 
@@ -159,8 +151,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
-	public void testUploadProjectOffensiveLanguageUsed() throws Throwable {
-		setServerURLToTestUrl();
+	public void testUploadProjectOffensiveLanguageUsed() {
+		UiTestUtils.setServerURLToTestUrl(this);
 
 		UiTestUtils.createTestProject(testProject);
 		solo.waitForFragmentById(R.id.fragment_container);
@@ -191,8 +183,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
-	public void testRenameProjectNameAndDescriptionWhenUploading() throws Throwable {
-		setServerURLToTestUrl();
+	public void testRenameProjectNameAndDescriptionWhenUploading() {
+		UiTestUtils.setServerURLToTestUrl(this);
 
 		String originalProjectName = testProject;
 		String originalProjectDescription = testDescription;
@@ -230,8 +222,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
-	public void testRenameProjectDescriptionWhenUploading() throws Throwable {
-		setServerURLToTestUrl();
+	public void testRenameProjectDescriptionWhenUploading() {
+		UiTestUtils.setServerURLToTestUrl(this);
 
 		UiTestUtils.createTestProject(testProject);
 		ProjectManager.getInstance().getCurrentProject().setDescription(testDescription);
@@ -245,8 +237,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		checkProjectNameAndDescriptionBeforAndAfterDownload(testProject, newTestDescription);
 	}
 
-	public void testUploadingFromProgrammList() throws Throwable {
-		setServerURLToTestUrl();
+	public void testUploadingFromProgrammList() {
+		UiTestUtils.setServerURLToTestUrl(this);
 
 		UiTestUtils.createTestProject(testProject);
 		ProjectManager.getInstance().getCurrentProject().setDescription(testDescription);
@@ -259,8 +251,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		checkProjectNameAndDescriptionBeforAndAfterDownload(testProject, newTestDescription);
 	}
 
-	public void testUploadFromProgramm() throws Throwable {
-		setServerURLToTestUrl();
+	public void testUploadFromProgramm() {
+		UiTestUtils.setServerURLToTestUrl(this);
 
 		UiTestUtils.createTestProject(testProject);
 		ProjectManager.getInstance().getCurrentProject().setDescription(testDescription);
@@ -273,8 +265,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		checkProjectNameAndDescriptionBeforAndAfterDownload(testProject, newTestDescription);
 	}
 
-	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
-		setServerURLToTestUrl();
+	public void testUpAndDownloadJapaneseUnicodeProject() {
+		UiTestUtils.setServerURLToTestUrl(this);
 
 		String testProject = UiTestUtils.JAPANESE_PROJECT_NAME;
 		UiTestUtils.createTestProject(testProject);
@@ -300,8 +292,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(testProject));
 	}
 
-	public void testDownload() throws Throwable {
-		setServerURLToTestUrl();
+	public void testDownload() {
+		UiTestUtils.setServerURLToTestUrl(this);
 
 		String projectName = UiTestUtils.DEFAULT_TEST_PROJECT_NAME;
 		UiTestUtils.createTestProject();
@@ -340,10 +332,10 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
 	}
 
-	public void testUploadStandardProject() throws Throwable {
+	public void testUploadStandardProject() {
 		deleteOldAndCreateAndSaveCleanStandardProject();
 
-		setServerURLToTestUrl();
+		UiTestUtils.setServerURLToTestUrl(this);
 		UiTestUtils.createValidUser(getActivity());
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
@@ -374,10 +366,10 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				solo.searchText(solo.getString(R.string.error_upload_default_project)));
 	}
 
-	public void testUploadModifiedStandardProject() throws Throwable {
+	public void testUploadModifiedStandardProject() {
 		deleteOldAndCreateAndSaveCleanStandardProject();
 
-		setServerURLToTestUrl();
+		UiTestUtils.setServerURLToTestUrl(this);
 		UiTestUtils.createValidUser(getActivity());
 
 		solo.waitForText(solo.getString(R.string.main_menu_continue));
@@ -410,8 +402,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				solo.waitForText(solo.getString(R.string.notification_upload_finished), 0, 15000));
 	}
 
-	public void testDownloadProjectAfterModification() throws Throwable {
-		setServerURLToTestUrl();
+	public void testDownloadProjectAfterModification() {
+		UiTestUtils.setServerURLToTestUrl(this);
 
 		String projectName = UiTestUtils.DEFAULT_TEST_PROJECT_NAME;
 		UiTestUtils.createTestProject();

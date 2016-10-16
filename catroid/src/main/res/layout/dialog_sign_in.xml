@@ -50,6 +50,7 @@
             android:paddingTop="@dimen/dialog_button_padding_top" />
 
         <View
+            android:id="@+id/dialog_sign_in_left_line_or"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/dialog_view_layout_margin_top"
@@ -72,6 +73,7 @@
             android:layout_centerHorizontal="true" />
 
         <View
+            android:id="@+id/dialog_sign_in_right_line_or"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/dialog_view_layout_margin_top"

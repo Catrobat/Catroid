@@ -54,6 +54,7 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -68,6 +69,7 @@ import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.dialogs.RenameVariableDialog;
 import org.catrobat.catroid.utils.DividerUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
 
 public class FormulaEditorDataFragment extends ListFragment implements Dialog.OnKeyListener,
@@ -415,11 +417,23 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 				alertDialog.setPositiveButton(R.string.deletion_alert_yes,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
-								for (UserList var : adapter.getCheckedUserLists()) {
-									dataContainer.deleteUserListByName(var.getName());
+								for (UserList list : adapter.getCheckedUserLists()) {
+									int type = dataContainer.getTypeOfUserVariable(list.getName(),
+											ProjectManager.getInstance().getCurrentSprite());
+									String typeString = type == DataContainer.USER_VARIABLE_PROJECT
+											? TrackingConstants.GLOBAL : TrackingConstants.LOCAL;
+
+									TrackingUtil.trackData(list.getName(), typeString, TrackingConstants.DELETE_LIST);
+									dataContainer.deleteUserListByName(list.getName());
 								}
-								for (UserVariable var : adapter.getCheckedUserVariables()) {
-									dataContainer.deleteUserVariableByName(var.getName());
+								for (UserVariable variable : adapter.getCheckedUserVariables()) {
+									int type = dataContainer.getTypeOfUserVariable(variable.getName(),
+											ProjectManager.getInstance().getCurrentSprite());
+									String typeString = type == DataContainer.USER_VARIABLE_PROJECT
+											? TrackingConstants.GLOBAL : TrackingConstants.LOCAL;
+
+									TrackingUtil.trackData(variable.getName(), typeString, TrackingConstants.DELETE_VARIABLE);
+									dataContainer.deleteUserVariableByName(variable.getName());
 								}
 
 								adapter.notifyDataSetChanged();

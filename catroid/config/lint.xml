@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<lint >
+<lint>
     <issue id="IconDensities" >
         <ignore path="src/main/res/drawable-mdpi" />
         <ignore path="src/main/res/drawable-hdpi" />
@@ -42,13 +42,14 @@
     </issue >
 
     <issue id="UnusedResources" >
-        <ignore regexp=".*/values-(?!de).*/strings.xml$"></ignore>
+        <ignore regexp=".*/values-(?!de).*/strings.xml$"/>
         <ignore path="src/main/res/drawable-nodpi/icon.png" />
         <ignore path="**/google-services/**" />
+        <ignore regexp=".*/createatschool/res/values*/strings.xml$"/>
     </issue>
 
     <issue id="ImpliedQuantity" >
-        <ignore regexp=".*/values-(?!de).*/strings.xml$"></ignore>
+        <ignore regexp=".*/values-(?!de).*/strings.xml$"/>
     </issue >
 
     <issue id="MissingQuantity" >
@@ -59,4 +60,27 @@
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
 
-</lint >
+    <issue id="Registered">
+        <ignore path="src/main/java/org/catrobat/catroid/ui/MainMenuActivity.java"/>
+        <ignore
+            path="src/createatschool/java/org/catrobat/catroid/createatschool/ui/CreateAtSchoolMainMenuActivity.java"/>
+    </issue>
+
+    <issue id="IconDuplicates">
+        <ignore path="*ic_launcher.png"/>
+        <ignore path="*ic_recorder.png"/>
+    </issue>
+
+    <issue id="GoogleAppIndexingWarning">
+        <ignore path="src/createatschool/AndroidManifest.xml"/>
+    </issue>
+
+    <issue id="InconsistentLayout">
+        <ignore path="*activity_main_menu*.xml"/>
+    </issue>
+
+    <issue id="TypographyDashes">
+        <ignore regexp=".*/createatschool/res/values.*/strings.xml$"/>
+    </issue>
+
+</lint>

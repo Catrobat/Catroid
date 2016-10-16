@@ -40,6 +40,7 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -66,8 +67,9 @@ import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 import java.util.ArrayList;
@@ -393,6 +395,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				((UserBrick) draggedBrick).updateUserBrickParametersAndVariables();
 			}
 
+			TrackingUtil.trackDropBrick(draggedBrick);
 			addingNewBrick = false;
 		} else {
 			if (script != null) {
@@ -425,7 +428,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		setSpinnersEnabled(true);
 		isDragging = false;
 
-		SnackbarUtil.showHintSnackbar(((Activity) getContext()), R.string.hint_brick_added);
+		SnackBarUtil.showHintSnackBar(((Activity) getContext()), R.string.hint_brick_added);
 	}
 
 	private void addScriptToProject(int position, ScriptBrick scriptBrick) {
@@ -1074,6 +1077,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	protected void copyBrickListAndProject(int itemPosition) {
 		Brick origin = (Brick) (dragAndDropListView.getItemAtPosition(itemPosition));
 		Brick copy;
+		TrackingUtil.trackBrick(origin.getClass().getSimpleName(), TrackingConstants.COPY_BRICK);
+
 		try {
 			copy = origin.clone();
 			copy.setCommentedOut(origin.isCommentedOut());
@@ -1100,6 +1105,10 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
+
+				String brickName = getItem(clickItemPosition).getClass().getSimpleName();
+				TrackingUtil.trackBrick(brickName, TrackingConstants.DELETE_BRICK);
+
 				if (getItem(clickItemPosition) instanceof ScriptBrick) {
 					scriptToDelete = ((ScriptBrick) getItem(clickItemPosition)).getScriptSafe();
 					handleScriptDelete(sprite, scriptToDelete);
@@ -1179,6 +1188,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wiki.catrob.at/index"
 				+ ".php?title=" + category + "_Bricks/" + language + "#" + name));
 		getContext().startActivity(browserIntent);
+
+		TrackingUtil.trackUseBrickHelp(brick);
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {

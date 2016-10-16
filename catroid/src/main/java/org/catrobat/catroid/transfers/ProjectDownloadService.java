@@ -30,10 +30,12 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -88,6 +90,9 @@ public class ProjectDownloadService extends IntentService {
 					StorageHandler.getInstance().saveProject(projectTBRenamed);
 				}
 			}
+
+			TrackingUtil.trackMenuButtonProject(projectName, TrackingConstants.DOWNLOAD_PROGRAM);
+
 			StorageHandler.getInstance().updateCodefileOnDownload(projectName);
 			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
 		} catch (IOException ioException) {
