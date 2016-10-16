@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+  <string name="app_name">Create@School</string>
+  <string name="templates_activity_title">Plantilla</string>
+  <!-- Snackbar hints -->
+  <string name="hint_templates">Elije una de las plantillas predefinidas y modifícala.</string>
+  <!-- Action Template Strings -->
+  <string name="action_project_variable_timer">temporizador</string>
+  <string name="action_project_variable_score">puntuación</string>
+  <string name="action_project_variable_hiscore">puntuación máxima</string>
+  <string name="action_scene_start">Empezar</string>
+  <string name="action_sprite_background">Fondo</string>
+  <string name="action_look_title">título</string>
+  <string name="action_look_instruction">instrucción</string>
+  <string name="action_broadcast_message_title">título</string>
+  <string name="action_broadcast_message_instruction">instrucción</string>
+  <string name="action_broadcast_message_start">inicio</string>
+  <string name="action_sprite_initial_game_variables">Variables Iniciales del Juego</string>
+  <string name="action_sprite_start">Inicio</string>
+  <string name="action_sprite_button_play_game">Botón Jugar</string>
+  <string name="action_look_button_play_game">Botón Jugar</string>
+  <string name="action_sprite_button_instruction">Botón Instrucción</string>
+  <string name="action_look_button_instruction">botón instrucción</string>
+  <string name="action_sprite_button_back">Botón Atrás</string>
+  <string name="action_look_button_back">Botón Atrás</string>
+  <string name="action_scene_question_add_a_game_question">Pregunta (añade una pregunta al juego)</string>
+  <string name="action_look_game">juego</string>
+  <string name="action_sprite_sample_question_change_question">Ejemplo de Pregunta (cambia la pregunta)</string>
+  <string name="action_look_sample_question">Ejemplo de Pregunta</string>
+  <string name="action_look_template_question">Plantilla de Pregunta</string>
+  <string name="action_scene_action_add_looks_to_tap_on">Acción (añadir las apariencias que se pueden pulsar)</string>
+  <string name="action_sprite_items_copy_for_more">Elementos (copiar para obtener más)</string>
+  <string name="action_sprite_item_to_tap">Elemento para pulsar</string>
+  <string name="action_sound_waterdrop">GotaAgua</string>
+  <string name="action_look_blood_cell_oxygenated">glóbulos oxigenados</string>
+  <string name="action_look_blood_cell_deoxygenated">glóbulos desoxigenados</string>
+  <string name="action_sprite_variable_tapped_correct">pulsado correcto</string>
+  <string name="action_note_movement_of_the_item">movimiento del elemento</string>
+  <string name="action_note_when_tapped_play_sound_increase_score_switch_look_place_somewhere_else">Cuando pulse: reproducir un sonido, aumentar la puntuación, cambiar la apariencia, colocar en otro lugar</string>
+  <string name="action_sprite_item_to_avoid">Elemento a evitar</string>
+  <string name="action_sound_beep">bip</string>
+  <string name="action_look_virus_cell">células de virus</string>
+  <string name="action_sprite_variable_tapped_wrong">pulsado incorrecto</string>
+  <string name="action_note_when_tapped_play_sound_reduce_score_get_bigger_place_somewhere_else_">Cuando pulse: reproducir un sonido, disminuir la puntuación, aumentar el tamaño, colocar en otro lugar </string>
+  <string name="action_sprite_hud_elements">Elementos HUD</string>
+  <string name="action_look_hud_elements">Elementos HUD</string>
+  <string name="action_note_if_the_timer_reaches_zero_the_game_ends._">Si el temporizador llega a cero el juego termina. </string>
+  <string name="action_scene_end_last_scene">Fin (Última Escena)</string>
+  <string name="action_look_end">Fin</string>
+  <string name="action_sprite_button_play_again">Botón Jugar de Nuevo</string>
+  <string name="action_look_button_play_again2">Botón Jugar de Nuevo2</string>
+  <string name="action_note_sets_a_new_highscore_if_the_current_score_is_greater_than_the_last_highscore.">Establece una nueva puntuación máxima si la puntuación actual es mayor que la última puntuación máxima.</string>
+  <!-- Adventure Template Strings -->
+  <string name="adventure_project_variable_amount_of_levels">cantidad de niveles</string>
+  <string name="adventure_project_variable_answer">respuesta</string>
+  <string name="adventure_project_variable_level_number">nivel número</string>
+  <string name="adventure_scene_start">Inicio</string>
+  <string name="adventure_sprite_background">Fondo</string>
+  <string name="adventure_look_title">título</string>
+  <string name="adventure_look_instruction">instrucción</string>
+  <string name="adventure_broadcast_message_title">título</string>
+  <string name="adventure_broadcast_message_game">juego</string>
+  <string name="adventure_broadcast_message_instruction">instrucción</string>
+  <string name="adventure_sprite_initial_game_variables">Variables Iniciales del Juego</string>
+  <string name="adventure_note_todo_set_amount_of_levels_">Paso: establecer la cantidad de niveles </string>
+  <string name="adventure_sprite_start">Inicio</string>
+  <string name="adventure_sprite_button_play">Botón Jugar</string>
+  <string name="adventure_look_button_play">botón jugar</string>
+  <string name="adventure_look_button_play_2">botón jugar_2</string>
+  <string name="adventure_sprite_button_instruction">Botón Instrucción</string>
+  <string name="adventure_look_button_instruction">botón instrucción</string>
+  <string name="adventure_look_button_instruction_2">botón instrucción_2</string>
+  <string name="adventure_sprite_button_back">Botón Atrás</string>
+  <string name="adventure_look_button_back">Botón Atrás</string>
+  <string name="adventure_scene_example_level_1">Ejemplo del Nivel 1</string>
+  <string name="adventure_look_game">juego</string>
+  <string name="adventure_sprite_sample_level_1_change_looks_and_records">Ejemplo nivel 1 (cambiar las apariencias y los registros)</string>
+  <string name="adventure_sound_record_level_1">registro nivel 1</string>
+  <string name="adventure_sound_explosion">explosión</string>
+  <string name="adventure_look_look_level_1___1">Apariencia nivel 1 - 1</string>
+  <string name="adventure_look_look_level_1___2">Apariencia nivel 1 - 2</string>
+  <string name="adventure_note_todo_define_the_correct_answer_for_each_level._allowed_values_are_yes_and_no.">Paso: Definir la respuesta correcta para cada nivel. Los valores permitidos son \'sí\' y \'no\'.</string>
+  <string name="adventure_broadcast_message_boost">impulso</string>
+  <string name="adventure_sprite_game_elements">Elementos del Juego</string>
+  <string name="adventure_sprite_answer_yes">Respuesta si</string>
+  <string name="adventure_sound_record">registro</string>
+  <string name="adventure_look_answer_yes">Respuesta si</string>
+  <string name="adventure_sprite_answer_no">Respuesta no</string>
+  <string name="adventure_sound_record1">registro1</string>
+  <string name="adventure_look_answer_no">Respuesta no</string>
+  <string name="adventure_scene_example_level_2">Ejemplo nivel 2</string>
+  <string name="adventure_sprite_sample_level_2___1">Ejemplo nivel 2 - 1</string>
+  <string name="adventure_sound_record_level_2">registro nivel 2</string>
+  <string name="adventure_look_look_level_2">Apariencia Nivel 2</string>
+  <string name="adventure_look_look_level_2__1">Apariencia nivel 2 - 1</string>
+  <string name="adventure_sprite_sample_level_2__2">Ejemplo nivel 2 - 2</string>
+  <string name="adventure_look_look_level_2__2">Apariencia nivel 2 - 2</string>
+  <string name="adventure_scene_template_level">Plantilla de Nivel</string>
+  <string name="adventure_sprite_template_level">Plantilla de Nivel</string>
+  <string name="adventure_look_template_look">Plantilla de Apariencia</string>
+  <string name="adventure_scene_end_last_scene">Fin (Última Escena)</string>
+  <string name="adventure_look_end">fin</string>
+  <string name="adventure_sprite_end_screens">Pantallas finales</string>
+  <string name="adventure_look_level_1_end">FIn Nivel 1</string>
+  <string name="adventure_look_level_2_end">FIn Nivel 2</string>
+  <string name="adventure_look_template_end">Plantilla Fin</string>
+  <string name="adventure_note_todo_define_an_end_screen_per_level">Paso: Definir una pantalla final por nivel</string>
+  <string name="adventure_sprite_button_play_again">Botón Jugar de Nuevo</string>
+  <string name="adventure_look_restart">reiniciar</string>
+  <!-- Puzzle Template Strings -->
+  <string name="puzzle_project_variable_score">puntuación</string>
+  <string name="puzzle_project_variable_shuffle_answers">respuestas aleatorias</string>
+  <string name="puzzle_project_variable_position_a">posición A</string>
+  <string name="puzzle_project_variable_position_b">posición B</string>
+  <string name="puzzle_project_variable_position_c">posición C</string>
+  <string name="puzzle_project_variable_timer">temporizador</string>
+  <string name="puzzle_project_variable_curtain_open">cortina abierta</string>
+  <string name="puzzle_project_variable_amount_of_looks">cantidad de apariencias</string>
+  <string name="puzzle_project_variable_look_number">apariencia número</string>
+  <string name="puzzle_project_variable_image_nr_2">imagen nº2</string>
+  <string name="puzzle_project_variable_image_nr_3">imagen nº3</string>
+  <string name="puzzle_scene_start">Inicio</string>
+  <string name="puzzle_sprite_background">Fondo</string>
+  <string name="puzzle_look_title">título</string>
+  <string name="puzzle_look_instruction">instrucción</string>
+  <string name="puzzle_broadcast_message_title">título</string>
+  <string name="puzzle_broadcast_message_game">juego</string>
+  <string name="puzzle_broadcast_message_instruction">instrucción</string>
+  <string name="puzzle_sprite_initial_game_variables">Variables Iniciales del Juego</string>
+  <string name="puzzle_note_3_positions_for_the_looks">3 posiciones para las apariencias</string>
+  <string name="puzzle_note_todo_change_to_the_amount_of_looks_within_the_figures">Paso: cambiar a la cantidad de apariencias en las figuras</string>
+  <string name="puzzle_note_current_look_number">Apariencia actual número</string>
+  <string name="puzzle_sprite_start">Inicio</string>
+  <string name="puzzle_sprite_button_play">Botón Jugar</string>
+  <string name="puzzle_look_button_play">botón jugar</string>
+  <string name="puzzle_sprite_button_instruction">Botón Instrucción</string>
+  <string name="puzzle_look_button_instruction">botón instrucción</string>
+  <string name="puzzle_sprite_button_back">Botón Atrás</string>
+  <string name="puzzle_look_button_back">Botón Atrás</string>
+  <string name="puzzle_scene_puzzle_add_looks">Puzzle (añadir apariencias)</string>
+  <string name="puzzle_look_game">juego</string>
+  <string name="puzzle_sprite_images_includes_different_looks_to_oddor_not_odd_out">Imágenes (incluye diferentes apariencias para descartar o no)</string>
+  <string name="puzzle_sprite_image_1_add_looks_to_odd_out">Imagen 1 (añadir apariencias para descartar)</string>
+  <string name="puzzle_look_look_1_to_odd_out">Apariencia 1 para descartar</string>
+  <string name="puzzle_look_look_2_to_odd_out">Apariencia 2 para descartar</string>
+  <string name="puzzle_look_look_3_template_to_odd_out">Plantilla de apariencia 3 para descartar</string>
+  <string name="puzzle_note_this_object_holds__the_looks_to_odd_out">Este objeto contiene las apariencias para descartar</string>
+  <string name="puzzle_note_this_object_holds_the_looks_to_odd_out">Este objeto contiene las apariencias para descartar</string>
+  <string name="puzzle_broadcast_message_answer_correct">respuesta correcta</string>
+  <string name="puzzle_broadcast_message_switch_to_next_round_of_looks">Cambiar al siguiente turno de apariencias</string>
+  <string name="puzzle_note_sets_the_position_of_the_looks_according_to_the_random_variable_shuffle_answers._allowed_values_are_1_2_and_3.">Establece la posición de las apariencias según la variable aleatoria \'respuestas aleatorias\'. Los alores permitidos son 1, 2 y 3.</string>
+  <string name="puzzle_sprite_image_2_add_looks_with_connection_to_image_3_looks">Imagen 2 (añadir las apariencias con conexión a las apariencias de la imagen 3)</string>
+  <string name="puzzle_look_look_round_1">Apariencia turno 1</string>
+  <string name="puzzle_look_look_round_2">Apariencia turno 2</string>
+  <string name="puzzle_look_look_round_3_template">Plantilla de apariencia turno 3</string>
+  <string name="puzzle_note_this_object_holds_the_looks_to_not_odd_out">Este objeto contiene las apariencias para no descartar</string>
+  <string name="puzzle_broadcast_message_answer_wrong">respuesta incorrecta</string>
+  <string name="puzzle_sprite_image_3_add_looks_with_connection_to_image_2_looks">Imagen 3 (añadir las apariencias con conexión a las apariencias de la imagen 2)</string>
+  <string name="puzzle_look_look__round_3_template">Plantilla de apariencia turno 3</string>
+  <string name="puzzle_sprite_image__3_add_looks_with_connection_to_image_2_looks">Imagen 3 (añadir las apariencias con conexión a las apariencias de la imagen 2)</string>
+  <string name="puzzle_look_look__round__3_template">Plantilla de apariencia turno 3</string>
+  <string name="puzzle_note_this_object_holds_tge_looks_to_not_odd_out">Este objeto contiene las apariencias para no descartar</string>
+  <string name="puzzle_sprite_game_elements">Elementos del Juego</string>
+  <string name="puzzle_sprite_check_answer">Comprobar respuesta</string>
+  <string name="puzzle_sound_record_correct">Registro correcto</string>
+  <string name="puzzle_sound_record_wrong">Registro incorrecto</string>
+  <string name="puzzle_look_answer_correct">Respuesta correcta</string>
+  <string name="puzzle_look_answer_wrong">Respuesta incorrecta</string>
+  <string name="puzzle_broadcast_message_close_curtains">cerrar cortinas</string>
+  <string name="puzzle_broadcast_message_define_shuffle">definir aleatorio</string>
+  <string name="puzzle_sprite_hud_elements">Elementos HUD</string>
+  <string name="puzzle_look_hud_elements">Elementos HUD</string>
+  <string name="puzzle_note_random_variable_to_set_the_position_of_the_looks">Variable aleatoria para establecer la posición de las apariencias</string>
+  <string name="puzzle_broadcast_message_show_timer">mostrar temporizador</string>
+  <string name="puzzle_sprite_curtain_left">Cortina izquierda</string>
+  <string name="puzzle_look_curtain_left">Cortina izquierda</string>
+  <string name="puzzle_broadcast_message_open_curtains">abrir cortinas</string>
+  <string name="puzzle_note_you_have_3_seconds_to_choose_a_look">Tienes 3 segundos para elegir una apariencia</string>
+  <string name="puzzle_sprite_curtain_right">Cortina derecha</string>
+  <string name="puzzle_look_curtain_right">Cortina derecha</string>
+  <string name="puzzle_scene_end_last_scene">Fin (Última Escena)</string>
+  <string name="puzzle_look_end">fin</string>
+  <string name="puzzle_sprite_button_play_again">Botón Jugar de Nuevo</string>
+  <string name="puzzle_look_button_play_again1">Botón Jugar de Nuevo1</string>
+  <!-- Quiz Template Strings -->
+  <string name="quiz_project_variable_score">puntuación</string>
+  <string name="quiz_project_variable_amount_of_questions">cantidad de preguntas</string>
+  <string name="quiz_project_variable_question_number">pregunta número</string>
+  <string name="quiz_project_variable_display_answer">mostrar respuesta</string>
+  <string name="quiz_project_variable_correct_answer">respuesta correcta</string>
+  <string name="quiz_scene_start">Inicio</string>
+  <string name="quiz_sprite_background">Fondo</string>
+  <string name="quiz_look_title">Título</string>
+  <string name="quiz_look_instruction">Instrucción</string>
+  <string name="quiz_broadcast_message_title">título</string>
+  <string name="quiz_broadcast_message_game">juego</string>
+  <string name="quiz_broadcast_message_instruction">instrucción</string>
+  <string name="quiz_sprite_initial_game_variables">Variables Iniciales del Juego</string>
+  <string name="quiz_note_todo_set_amount_of_questions">Paso: establecer la cantidad de preguntas</string>
+  <string name="quiz_note_todo_set_the_right_amount_of_questions">Paso: establecer la cantidad correcta de preguntas</string>
+  <string name="quiz_sprite_start">Inicio</string>
+  <string name="quiz_sprite_button_play_game">Botón Jugar</string>
+  <string name="quiz_look_button_play_game">Botón Jugar</string>
+  <string name="quiz_sprite_button_instruction">Botón Instrucción</string>
+  <string name="quiz_look_button_instruction">Botón Instrucción</string>
+  <string name="quiz_sprite_button_back">Botón Atrás</string>
+  <string name="quiz_look_button_back">Botón Atrás</string>
+  <string name="quiz_scene_example_question">Ejemplo de pregunta</string>
+  <string name="quiz_look_game">Juegos</string>
+  <string name="quiz_sprite_example_question">Ejemplo de Pregunta</string>
+  <string name="quiz_look_example_question">Ejemplo de pregunta</string>
+  <string name="quiz_look_example_answer">Ejemplo de respuesta</string>
+  <string name="quiz_note_todo_this_variable_defines_the_right_answer_for_the_question._accepted_values_are_1_2_or_3.">Paso: Esta variable define la respuesta correcta para la pregunta. Los valores aceptados son 1, 2 o 3.</string>
+  <string name="quiz_note_switches_to_the_answer_look_after_validating_your_answer.">Cambiar a la apariencia de la respuesta después de validar tu respuesta.</string>
+  <string name="quiz_sprite_answers">Respuestas</string>
+  <string name="quiz_sprite_answer_1">Respuesta 1</string>
+  <string name="quiz_look_a1">a1</string>
+  <string name="quiz_broadcast_message_correct">correcto</string>
+  <string name="quiz_broadcast_message_wrong">incorrecto</string>
+  <string name="quiz_sprite_answer_2">Respuesta 2</string>
+  <string name="quiz_look_a2">a2</string>
+  <string name="quiz_sprite_answer_3">Respuesta 3</string>
+  <string name="quiz_look_a3">a3</string>
+  <string name="quiz_sound_record_correct">Registro correcto</string>
+  <string name="quiz_sound_record_wrong">Registro incorrecto</string>
+  <string name="quiz_look_a_correct">un correcto</string>
+  <string name="quiz_look_a_wrong">un incorrecto</string>
+  <string name="quiz_broadcast_message_show_next_question_button">mostrar el botón siguiente pregunta</string>
+  <string name="quiz_sprite_game_elements">Elementos del Juego</string>
+  <string name="quiz_sprite_score_hud">Puntuación HUD</string>
+  <string name="quiz_look_score">puntuación</string>
+  <string name="quiz_note_show_score">Mostrar puntuación</string>
+  <string name="quiz_sprite_button_speaker">Botón Altavoz</string>
+  <string name="quiz_sound_question_11">Pregunta 11</string>
+  <string name="quiz_look_speaker">altavoz</string>
+  <string name="quiz_note_record_your_questions.">Registra tus preguntas.</string>
+  <string name="quiz_sprite_button_next_question">Botón Siguiente Pregunta</string>
+  <string name="quiz_look_next">siguiente</string>
+  <string name="quiz_note_the_condition_checks_if_all_questions_have_been_shown.">La condición comprueba si se han mostrado todas las preguntas.</string>
+  <string name="quiz_note_todo_set_the_right_scene_name_if_new_questions_were_added">Paso: Establecer el nombre correcto de la escena si se añadieron nuevas preguntas</string>
+  <string name="quiz_scene_question_template_copy_before_adding_questions">Plantilla de Pregunta (copiar ANTES de añadir preguntas)</string>
+  <string name="quiz_scene_question_template_copy_scene_before_adding_questions">Plantilla de Pregunta (copiar la escena ANTES de añadir preguntas)</string>
+  <string name="quiz_look_template_question">Plantilla de Pregunta</string>
+  <string name="quiz_look_template_answer">Plantilla de Respuesta</string>
+  <string name="quiz_sprite_question_template">Plantilla de Pregunta</string>
+  <string name="quiz_look_question_template">Plantilla de Pregunta</string>
+  <string name="quiz_look_answer_template">Plantilla de Respuesta</string>
+  <string name="quiz_sprite_check_answer">Comprobar Respuesta</string>
+  <string name="quiz_scene_end_last_scene">Fin (Última Escena)</string>
+  <string name="quiz_look_end">Fin</string>
+  <string name="quiz_sprite_button_play_again">Botón Jugar de Nuevo</string>
+  <string name="quiz_look_button_play_again">Botón Jugar de Nuevo</string>
+</resources>
