@@ -37,17 +37,18 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 public class ShowTextActionTest extends AndroidTestCase {
 
 	private static final String SPRITE_NAME = "Cat";
+	private static final String SECOND_SPRITE_NAME = "Dog";
 	private static final UserVariable USER_VARIABLE = new UserVariable("var");
-	private Project project;
 
 	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
 		Sprite sprite = new Sprite(SPRITE_NAME);
-		project = new Project(null, "testProject");
+		Project project = new Project(null, "testProject");
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		Sprite secondSprite = sprite.clone();
+		secondSprite.setName(SECOND_SPRITE_NAME);
 		project.getDefaultScene().addSprite(secondSprite);
 
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
@@ -68,7 +69,7 @@ public class ShowTextActionTest extends AndroidTestCase {
 				.getVariableListForSprite(sprite));
 		UserVariable variableOfSecondSprite = dataContainer.findUserVariable(USER_VARIABLE.getName(), dataContainer
 				.getVariableListForSprite(secondSprite));
-		assertTrue("Uservariable not set visible", variableOfFirstSprite.getVisible());
-		assertTrue("Uservariable not set visible", variableOfSecondSprite.getVisible());
+		assertTrue("UserVariable not set visible", variableOfFirstSprite.getVisible());
+		assertTrue("UserVariable not set visible", variableOfSecondSprite.getVisible());
 	}
 }

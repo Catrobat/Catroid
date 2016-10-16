@@ -119,13 +119,6 @@ public class Scene implements Serializable {
 		spriteList.add(sprite);
 	}
 
-	private synchronized void addSprite(int index, Sprite sprite) {
-		if (spriteList.contains(sprite)) {
-			return;
-		}
-		spriteList.add(index, sprite);
-	}
-
 	public synchronized boolean removeSprite(Sprite sprite) {
 		return spriteList.remove(sprite);
 	}
@@ -517,16 +510,5 @@ public class Scene implements Serializable {
 			result.addAll(sprite.getAllBricks());
 		}
 		return result;
-	}
-
-	public void convertSpritesToSingleSprites() {
-		for (int index = 0; index < spriteList.size(); index++) {
-			Sprite sprite = spriteList.get(index);
-			sprite.setConvertToSingleSprite(true);
-			Sprite convertedSprite = sprite.shallowClone();
-			removeSprite(sprite);
-			addSprite(index, convertedSprite);
-		}
-		project.refreshSpriteReferences();
 	}
 }
