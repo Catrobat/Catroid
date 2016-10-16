@@ -24,15 +24,18 @@ package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -40,6 +43,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -81,6 +85,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.locks.Lock;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.TourGuide;
+
+
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
 
 	private static final String TAG = ProjectActivity.class.getSimpleName();
@@ -101,9 +109,15 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private SignInDialog signInDialog;
 	private boolean lockBackButtonForAsync = false;
 
+	private SharedPreferences sharedpreferences = null;
+
+	public TourGuide mTourGuideHandler;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
@@ -136,6 +150,45 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 			if (loadExternalProjectUri != null) {
 				loadProgramFromExternalSource(loadExternalProjectUri);
+			}
+
+			sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+				if (sharedpreferences.getBoolean("firstRun", true)) {
+					sharedpreferences.edit().putBoolean("firstRun", false).commit();
+
+					TextView textView = (TextView) findViewById(R.id.cast_text);
+
+					SpannableStringBuilder builder = new SpannableStringBuilder();
+					builder.append("Tap the Cast Icon (").append(" ");
+					builder.setSpan(new ImageSpan(getApplicationContext(), R.drawable.ic_cast_white),
+							builder.length() - 1, builder.length(), 0);
+					builder.append(") to stream media to your TV");
+
+					textView.setText(builder);
+
+					Button button = (Button) findViewById(R.id.cast_introduction_button);
+
+					Overlay overlay = new Overlay()
+							.disableClick(false)
+							.setStyle(Overlay.Style.Circle);
+
+					mTourGuideHandler = TourGuide.init(this).with(TourGuide.Technique.Click)
+							.setOverlay(overlay)
+							.playOn(button);
+
+					button.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View v) {
+							View cast_view = findViewById(R.id.cast_view);
+							cast_view.setVisibility(View.GONE);
+							mTourGuideHandler.cleanUp();
+						}
+					});
+				} else {
+					findViewById(R.id.cast_view).setVisibility(View.GONE);
+				}
+			} else {
+				findViewById(R.id.cast_view).setVisibility(View.GONE);
 			}
 		}
 	}

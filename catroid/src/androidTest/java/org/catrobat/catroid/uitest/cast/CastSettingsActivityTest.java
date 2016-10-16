@@ -30,6 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -37,12 +38,15 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
 public class CastSettingsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+
+	private static SpriteFactory spriteFactory = new SpriteFactory();
 
 	public CastSettingsActivityTest() {
 		super(MainMenuActivity.class);
@@ -108,7 +112,8 @@ public class CastSettingsActivityTest extends BaseActivityInstrumentationTestCas
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME, true, true);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "cat");
+		//Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript();
 
 		firstSprite.addScript(testScript);
