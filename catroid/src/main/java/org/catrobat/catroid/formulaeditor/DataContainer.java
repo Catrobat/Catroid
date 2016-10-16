@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -338,8 +339,23 @@ public class DataContainer implements Serializable {
 		if (variables == null) {
 			variables = new ArrayList<>();
 			spriteVariables.put(sprite, variables);
+			removeSpriteVariableWithSameSpriteName(sprite);
 		}
 		return variables;
+	}
+
+	private void removeSpriteVariableWithSameSpriteName(Sprite spriteToKeep) {
+		if (spriteVariables == null || spriteToKeep == null) {
+			return;
+		}
+
+		Iterator iterator = spriteVariables.keySet().iterator();
+		while (iterator.hasNext()) {
+			Sprite sprite = (Sprite) iterator.next();
+			if (sprite == null || !(sprite == spriteToKeep) && sprite.getName().equals(spriteToKeep.getName())) {
+				iterator.remove();
+			}
+		}
 	}
 
 	public void removeVariableListForSprite(Sprite sprite) {
