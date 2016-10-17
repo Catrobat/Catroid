@@ -60,7 +60,6 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
-import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.MergeSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
@@ -120,8 +119,7 @@ public class ProjectActivity extends BaseActivity {
 		}
 
 		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
-			currentFragmentPosition =
-					FRAGMENT_SPRITES;
+			currentFragmentPosition = FRAGMENT_SPRITES;
 		}
 
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -302,7 +300,7 @@ public class ProjectActivity extends BaseActivity {
 	}
 
 	private void showBackPackChooser() {
-
+		updateFragmentPosition();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		CharSequence[] items;
 		int numberOfItemsInBackpack = 0;
@@ -337,6 +335,7 @@ public class ProjectActivity extends BaseActivity {
 	}
 
 	private void openBackPack() {
+		updateFragmentPosition();
 		Intent intent = new Intent(this, BackPackActivity.class);
 		int fragmentPos = 0;
 		switch (currentFragmentPosition) {
@@ -394,6 +393,7 @@ public class ProjectActivity extends BaseActivity {
 			fragmentTransaction.remove(previousFragment);
 		}
 
+		updateFragmentPosition();
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCENES:
 				NewSceneDialog newSceneFragment = new NewSceneDialog(false, false);
@@ -412,6 +412,8 @@ public class ProjectActivity extends BaseActivity {
 		}
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+
+		updateFragmentPosition();
 
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCENES:
@@ -446,8 +448,15 @@ public class ProjectActivity extends BaseActivity {
 		// Dismiss ActionMode without effecting sounds
 		if (actionListener.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_UP) {
-			SpriteAdapter adapter = spritesListFragment.getSpriteAdapter();
-			adapter.clearCheckedItems();
+			updateFragmentPosition();
+			switch (currentFragmentPosition) {
+				case FRAGMENT_SCENES:
+					scenesListFragment.getAdapter().clearCheckedItems();
+					break;
+				case FRAGMENT_SPRITES:
+					spritesListFragment.getSpriteAdapter().clearCheckedItems();
+					break;
+			}
 		}
 
 		return super.dispatchKeyEvent(event);
@@ -528,5 +537,14 @@ public class ProjectActivity extends BaseActivity {
 
 	public void setSignInDialog(SignInDialog signInDialog) {
 		this.signInDialog = signInDialog;
+	}
+
+	private void updateFragmentPosition() {
+		//TODO: Just a quickfix, we need to investigate why the position is sometimes not correct
+		if (currentFragment instanceof ScenesListFragment) {
+			currentFragmentPosition = FRAGMENT_SCENES;
+		} else if (currentFragment instanceof SpritesListFragment) {
+			currentFragmentPosition = FRAGMENT_SPRITES;
+		}
 	}
 }

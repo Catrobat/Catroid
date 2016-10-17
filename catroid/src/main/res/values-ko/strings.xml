@@ -34,91 +34,229 @@
   <string name="no">아니오</string>
   <string name="copy">복사하기</string>
   <string name="cut">자르기</string>
-  <string name="move">이동하기</string>
-  <string name="backpack_add">backpack에 추가</string>
-  <string name="backpack">배낭</string>
-  <string name="packing">Pack</string>
-  <string name="unpack">Unpack</string>
-  <string name="unpack_keep">Unpack 후 유지</string>
-  <string name="unpack_bg">바탕 화면으로 설정</string>
-  <string name="unpack_object">스프라이트로 설정하기</string>
-  <string name="copy_addition">복사하기</string>
+  <string name="move">움직이기</string>
+  <string name="backpack_add">스크립트 모음에 추가</string>
+  <string name="backpack">스크립트 모음</string>
+  <string name="packing">묶기</string>
+  <string name="unpack">풀기</string>
+  <string name="unpack_keep">풀고 계속</string>
+  <string name="unpack_bg">배경으로 모음 풀기</string>
+  <string name="unpack_object">스프라이트로 모음 풀기</string>
+  <string name="copy_addition">복사</string>
   <string name="close">닫기</string>
   <string name="error">오류</string>
-  <string name="please_wait">잠시만 기다려주세요</string>
+  <string name="please_wait">잠시 기다려 주세요</string>
   <string name="loading">로드중입니다&#8230;</string>
+  <string name="search_hint">검색&#8230;</string>
   <string name="no_internet">인터넷에 연결되지 않음</string>
-  <string name="loading_check_token">토큰은 우리 서버에서 확인&#8230;</string>
+  <string name="loading_check_token">확인중&#8230;</string>
   <string name="loading_check_facebook_data">페이스북의 데이터를 검색하고&#8230;</string>
-  <string name="loading_check_email">우리의 서버에서 전자 메일 유효성 체크&#8230;</string>
-  <string name="loading_check_oauth_token">우리의 서버에서 OAuth 토큰 체크&#8230;</string>
-  <string name="loading_check_facebook_token_validity">페이스북의 토큰 유효성 체크&#8230;</string>
-  <string name="loading_check_oauth_username">우리의 서버에서 사용자명 유효성 체크&#8230;</string>
+  <string name="loading_check_email">서버에서 전자 메일 유효성 체크&#8230;</string>
+  <string name="loading_check_oauth_token">확인중&#8230;</string>
+  <string name="loading_check_facebook_token_validity">페이스북의 유효성 체크&#8230;</string>
+  <string name="loading_check_oauth_username">서버에서 사용자명 유효성 체크&#8230;</string>
   <string name="loading_facebook_exchange_token">페이스북의 토큰 유효성 체크&#8230;</string>
   <string name="loading_facebook_login">페이스북의 로그인 유효성 체크완료&#8230;</string>
-  <string name="loading_google_exchange_code">Google+ code 가 서버에서 교환&#8230;</string>
+  <string name="loading_google_exchange_code">Google+ code 가 서버에서 변환&#8230;</string>
   <string name="loading_google_login">Google+ 로그인 완료&#8230;</string>
   <string name="background">배경</string>
   <string name="stage">무대</string>
   <string name="ok">확인</string>
+  <string name="play">실행</string>
   <string name="settings">설정</string>
-  <string name="redo">다시 실행하기</string>
-  <string name="undo">실행 취소하기</string>
-  <string name="name_exists">이미 존재 하는 이름입니다</string>
+  <string name="redo">다시 실행</string>
+  <string name="undo">취소</string>
+  <string name="name_exists">이미 존재하는 이름입니다</string>
   <string name="no_name">이름 없음</string>
   <string name="is_empty">비어있음</string>
   <string name="new_group">새 그룹</string>
   <string name="my_group">내 그룹</string>
   <string name="name">이름:</string>
-  <string name="nothing_to_copy">가져올 것이 없음</string>
-  <string name="nothing_to_backpack_and_unpack">backpack and unpack 할 것이 없음</string>
-  <string name="nothing_to_unpack">Unpack 할 것이 없음</string>
+  <string name="nothing_to_copy">복사할 것이 없음</string>
+  <string name="nothing_to_backpack_and_unpack">스크립트 모음 할 것이 없음</string>
+  <string name="nothing_to_unpack">모음 풀기할 것이 없음</string>
   <string name="nothing_to_delete">삭제할 것이 없음</string>
   <string name="nothing_to_rename">다시 이름붙일 것이 없음</string>
-  <string name="unpack_background">프로그램의 배경이 교체 될 것이다</string>
+  <string name="unpack_background">프로그램의 배경이 교체될 것이다</string>
   <string name="degrees">도</string>
+  <string name="landscape">가로 보기</string>
+  <string name="portrait">세로 보기</string>
+  <string name="unknown">알 수 없음</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">새로운</string>
   <string name="main_menu_continue">계속하기</string>
   <string name="main_menu_programs">프로그램</string>
   <string name="main_menu_help">도움말</string>
   <string name="main_menu_web">탐색하기</string>
-  <string name="main_menu_upload">업로드하기</string>
+  <string name="main_menu_upload">업로드</string>
   <string name="main_menu_about_pocketcode">포켓 코드에 대하여</string>
   <string name="main_menu_terms_of_use">이용 약관</string>
-  <string name="main_menu_rate_app">앱을 평가하세요!</string>
+  <string name="main_menu_rate_app">평가하기</string>
   <string name="main_menu_play_store_not_installed">플레이 스토어 앱을 찾을 수 없음</string>
   <string name="main_menu_logout">로그아웃</string>
   <string name="main_menu_login">로그인</string>
+  <string name="main_menu_scratch_converter">스크래치 컨버터</string>
   <string name="logout_successful">로그아웃 성공</string>
+  <!-- Marketing activity -->
+  <string name="marketing_created_with">제작</string>
+  <string name="marketing_app_details">세부 정보</string>
+  <string name="marketing_more_on_google_play">구글 플레이에서 앱 열기</string>
   <!-- Settings activity -->
   <string name="preference_title">설정</string>
-  <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 블록</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 블럭</string>
   <string name="preference_description_quadcopter_bricks">ARDrone 2.0 quadcopter 제어 허용하기</string>
-  <string name="preference_title_enable_mindstorms_nxt_bricks">레고 마인드스톰 NXT 블록</string>
+  <string name="preference_title_enable_mindstorms_nxt_bricks">레고 마인드스톰 NXT 블럭</string>
   <string name="preference_description_mindstorms_nxt_bricks">레고 마인드스톰 NXT 로봇 제어 가능 허용하기</string>
   <string name="preference_title_mindstorms_nxt_sensors">레고 NXT 센서</string>
   <string name="preference_title_drone_config_properties">드론 확인 속성</string>
-  <string name="preference_title_enable_phiro_bricks">Phiro 블록</string>
-  <string name="preference_description_phiro_bricks">Phiro 로봇 제어 허용하기</string>
-  <string name="preference_title_enable_arduino_bricks">아두이노 블록</string>
-  <string name="preference_title_enable_nfc_bricks">Near Field 통신</string>
-  <string name="preference_description_nfc_bricks">NFC 태그 를 사용할 수 있게 승인하라</string>
-  <string name="preference_description_arduino_bricks">아두이노 제어 가능 허용하기</string>
-  <string name="preference_title_enable_raspi_bricks">Raspberry Pi 블록</string>
-  <string name="preference_description_raspi_bricks">Raspberry Pi 컴퓨터를 제어하게 허용하라</string>
-  <string name="preference_raspi_enable_bricks">Raspberry Pi 블록을 유효하게 하라</string>
+  <string name="preference_title_enable_phiro_bricks">Phiro 블럭</string>
+  <string name="preference_description_phiro_bricks">Phiro 로봇 제어 허용</string>
+  <string name="preference_title_enable_arduino_bricks">아두이노 블럭</string>
+  <string name="preference_title_enable_nfc_bricks">NFC(Near Field Communication)</string>
+  <string name="preference_description_nfc_bricks">NFC 태그를 사용할 수 있게 승인</string>
+  <string name="preference_description_crash_reports">충돌 보고서를 자동으로 보내도록 허용</string>
+  <string name="preference_title_enable_crash_reports">익명 충돌 보고서 보내기</string>
+  <string name="preference_description_arduino_bricks">아두이노 제어 가능 허용</string>
+  <string name="preference_title_enable_raspi_bricks">Raspberry Pi 블럭</string>
+  <string name="preference_description_raspi_bricks">Raspberry Pi 컴퓨터 제어 허용</string>
+  <string name="preference_raspi_enable_bricks">Raspberry Pi 블럭 사용</string>
   <string name="preference_raspi_help">도움말 / 시작하기</string>
   <string name="preference_raspi_help_summary">연결 설정을 구성하는 방법에 대해 도움을 받으세요</string>
   <string name="preference_raspi_host">Raspberry Pi의 IP-/ 호스트 주소</string>
   <string name="preference_raspi_port">Raspberry Pi 포트</string>
+  <string name="preference_title_access">Accessibility</string>
+  <string name="preference_description_access">Choose a profile and configurate your personal
+        settings for the Pocket-Code-UI</string>
+  <string name="preference_access_title_activity_access">Accessibility preferences</string>
+  <string name="preference_access_profiles">Profiles</string>
+  <string name="preference_access_predefined_profiles">Predefined profiles</string>
+  <string name="preference_access_active_profile">Active profile</string>
+  <string name="preference_access_selected_profile">Selected profile</string>
+  <string name="preference_access_change_profile">Switch to predefined profiles</string>
+  <string name="preference_access_apply_profile">Apply this profile</string>
+  <string name="preference_access_settings">설정</string>
+  <string name="preference_access_title_large_text">Large text</string>
+  <string name="preference_access_summary_large_text">The large text setting increases the text size.</string>
+  <string name="preference_access_choose_fontface">Choose a fontface</string>
+  <string name="preference_access_title_fontface">Fontface</string>
+  <string name="preference_access_summary_fontface">Fontface allows you to choose a font style you
+        prefer.</string>
+  <string name="preference_access_title_fontface_standard">Standard</string>
+  <string name="preference_access_title_fontface_serif">Serif</string>
+  <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
+  <string name="preference_access_title_high_contrast">High contrast</string>
+  <string name="preference_access_summary_high_contrast">Increases the contrast and makes the text on bricks easier
+        to read.</string>
+  <string name="preference_access_title_additional_icons">Additional icons</string>
+  <string name="preference_access_summary_additional_icons">Adds icons to categories and bricks to improve
+        recognizability.</string>
+  <string name="preference_access_title_large_icons">Large icons</string>
+  <string name="preference_access_summary_large_icons">Increases the size of icons.</string>
+  <string name="preference_access_title_high_contrast_icons">Icon contrast</string>
+  <string name="preference_access_summary_high_contrast_icons">Changes the brick icons to high contrast icons.
+        </string>
+  <string name="preference_access_title_largeelementspacing">Large element spacing</string>
+  <string name="preference_access_summary_largeelementspacing">The large element spacing increase the space
+        between touchable elements.</string>
+  <string name="preference_access_title_starter_bricks">Starter bricks</string>
+  <string name="preference_access_summary_starter_bricks">Shows only starter bricks for ease of learning.</string>
+  <string name="preference_access_title_dragndrop_delay">Drag\'n\'drop delay</string>
+  <string name="preference_access_summary_dragndrop_delay">Adds delay to the drag\'n\'drop of bricks.</string>
+  <string name="preference_access_title_profile_standard">Standard</string>
+  <string name="preference_access_summary_profile_standard">The standard settings</string>
+  <string name="preference_access_title_profile_myprofile">나의 프로필</string>
+  <string name="preference_access_summary_profile_myprofile">My personal settings</string>
+  <string name="preference_access_title_profile_1">Argus</string>
+  <string name="preference_access_summary_profile_1">Visual improvement: High contrast, additional icons</string>
+  <string name="preference_access_title_profile_2">Odin</string>
+  <string name="preference_access_summary_profile_2">Visual improvement: Large text, large icons, large element
+        spacing, high contrast</string>
+  <string name="preference_access_title_profile_3">Fenrir</string>
+  <string name="preference_access_summary_profile_3">Input improvement: Large element spacing, drag\'n\'drop
+        delay</string>
+  <string name="preference_access_title_profile_4">Tiro</string>
+  <string name="preference_access_summary_profile_4">Learning: Starter bricks</string>
+  <string name="preference_access_title_created_profile">Created profile</string>
+  <string name="preference_access_summary_created_profile">You have created a new profile! The changes you
+        make can be found in \'My Profile\'</string>
+  <string name="preference_access_title_restart">Profile applied</string>
+  <string name="preference_access_summary_restart">Pocket Code will be restarted to apply the changes you
+        made.</string>
+  <!-- Scratch Converter activity -->
+  <string name="beta">베타</string>
+  <string name="title_activity_scratch_converter">스크래치 프로그램 변환</string>
+  <string name="error_scratch_program_not_accessible_any_more">으악! 이 프로그램의 데이터는 더 이상 액세스할 수 없습니다!</string>
+  <string name="error_scratch_project_data_not_available">Whoops! Some data could not be loaded from this Scratch
+        program. Please try again later!</string>
+  <string name="error_request_timeout">으악! 우리의 서버는 연결할 수 없습니다, 나중에 시도하십시오!</string>
+  <string name="error_scratch_program_conversion_failed">으악! 스크래치 프로그램 변환하지 못했습니다!, 나중에 다시 시도하십시오 </string>
+  <string name="error_specific_scratch_program_conversion_failed_x">으악! 나중에 다시 하십시오 %1$s를 변환하지 못했습니다!</string>
+  <string name="error_scratch_converter_outdated_pocketcode_version">포켓 코드 앱이 구형입니다. 우리의 처음 최신 포켓 코드 버전을 지원합니다. 구글 플레이 스토어에서 업데이트하십시오!</string>
+  <string name="error_cannot_open_not_existing_scratch_program">이 스크래치 프로그램을 열 수 없습니다. 스크래치 프로그램의 변환/다운로드를 취소 또는 변경/삭제 한 것으로 보입니다!</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">다운로드하는 동안 스크래치 프로그램을 열 수 없습니다! 나중에 다시 시도하십시오!</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">다운로드하는 동안 스크래치 프로그램을 열 수 없습니다! 나중에 다시 시도하십시오!</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">%1$s을 변환할 수 없습니다! 이전 스크래치 %2$s 프로그램은 지원되지 않습니다!</string>
+  <plurals name="error_cannot_convert_more_than_x_programs">
+    <item quantity="other">동시에 %d 프로그램 이상으로 변환할 수 없습니다!</item>
+  </plurals>
+  <string name="error_cannot_open_failed_scratch_program">변환이 실패하였기 때문에 스크래치 프로그램을 열 수 없습니다!</string>
+  <string name="search_failed">검색 실패, 나중에 다시 시도하시기 바랍니다!</string>
+  <string name="connection_lost_or_closed_by_server">연결이 안되거나 서버에 의해 폐쇄!</string>
+  <string name="connection_failed">서버에 연결 실패,  나중에 다시 시도!</string>
+  <string name="authentication_failed">인증 실패, 포켓 코드 팀에 문의하십시오!</string>
+  <plurals name="scratch_conversion_scheduled_x">
+    <item quantity="other">예정된 %d 스크래치 프로그램&#8230;</item>
+  </plurals>
+  <string name="scratch_conversion_started">스크래치 프로그램을 변환하기 시작&#8230;</string>
+  <string name="convert">변환</string>
+  <string name="converting">변환중</string>
+  <string name="status_scheduled">예정</string>
+  <string name="status_waiting_for_worker">무료 작업자를 찾고&#8230; 잠시만 기다려 주십시오&#8230;</string>
+  <string name="status_started">시작&#8230;</string>
+  <string name="status_conversion_finished">변환 완료</string>
+  <plurals name="status_in_progress_x_jobs">
+    <item quantity="other">진행중: %d 작업</item>
+  </plurals>
+  <plurals name="status_completed_x_jobs">
+    <item quantity="other">%d 작업 완료:</item>
+  </plurals>
+  <string name="status_conversion_failed">변환 실패!</string>
+  <string name="status_conversion_canceled">변환 취소!</string>
+  <string name="status_downloading">다운로드중&#8230;</string>
+  <string name="status_download_finished">다운로드 완료.</string>
+  <string name="status_download_canceled">다운로드 취소!</string>
+  <string name="list_view_section_title_in_progress">진행중</string>
+  <string name="list_view_section_title_converted_programs">프로그램 변환</string>
+  <string name="status">상태</string>
+  <string name="title">제목</string>
+  <string name="by_x">%1$s에 의해</string>
+  <string name="by_author">작성자</string>
+  <string name="warning_program_visibility">경고: \nThis 전용 프로그램이 될 것으로 보인다. 변환에 실패할 수 있습니다!</string>
+  <string name="instructions">설명</string>
+  <string name="notes_and_credits">노트와 크레딧</string>
+  <string name="shared_at_x">공유: %1$s</string>
+  <string name="modified_at_x">수정: %1$s</string>
+  <string name="remixes">변환</string>
+  <!-- ScratchReconvertDialog Strings -->
+  <string name="reconvert_text">이 프로그램은 %1$s 변환되었습니다.</string>
+  <plurals name="minutes">
+    <item quantity="other">%d분</item>
+  </plurals>
+  <plurals name="hours">
+    <item quantity="other">%d 시간</item>
+  </plurals>
+  <plurals name="days">
+    <item quantity="other">%d일</item>
+  </plurals>
+  <string name="reconvert_dialog_download">이미 변환된 프로그램 다운로드</string>
+  <string name="reconvert_dialog_reconvert">프로그램 다시 변환</string>
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">그림 그리기</string>
   <string name="dialog_new_object_gallery">그림 선택하기</string>
-  <string name="dialog_new_object_camera">카메라에서 가져오기</string>
+  <string name="dialog_new_object_camera">사진 촬영</string>
   <string name="dialog_new_object_look_preview">미리 보기</string>
   <string name="dialog_new_object_name">스프라이트 이름</string>
-  <string name="dialog_new_object_switch_title">새 스프라이트 제작하기</string>
+  <string name="dialog_new_object_switch_title">새 스프라이트 제작</string>
   <string name="dialog_new_object_switch_message">새 스프라이트로 바꿀까요?</string>
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">이용 약관</string>
@@ -137,23 +275,37 @@
   <!-- Project activity view -->
   <string name="project_name">프로그램:</string>
   <string name="my_projects_activity_title">프로그램</string>
+  <string name="number_of_objects">스프라이트:</string>
+  <string name="start_scene_name">%1$s (첫 장면)</string>
   <string name="number_of_scripts">스크립트</string>
-  <string name="number_of_bricks">블록 :</string>
+  <string name="number_of_bricks">블럭:</string>
   <string name="number_of_looks">모양:</string>
   <string name="number_of_sounds">소리:</string>
-  <string name="show_details">세부 정보 보기</string>
+  <string name="show_details">세부 정보 표시</string>
   <string name="hide_details">세부 사항 숨기기</string>
-  <string name="insert_below">아래에 추가하기</string>
+  <string name="insert_below">아래에 추가</string>
   <string name="sprite">스프라이트</string>
   <string name="sprites">스프라이트</string>
   <string name="spritelist_background_headline">배경</string>
   <string name="dialog_confirm_delete_object_title">삭제하시겠습니까?</string>
   <string name="dialog_confirm_delete_multiple_objects_title">삭제하시겠습니까?</string>
-  <string name="dialog_confirm_delete_object_message">이 작업은 되돌릴 수 없습니다</string>
+  <string name="dialog_confirm_delete_object_message">이 작업은 되돌릴 수 없습니다!</string>
   <string name="select_all">모두 선택</string>
   <string name="deselect_all">모든 선택 취소</string>
-  <string name="backpack_replace_object"> \"%1$s\" 스프라이트는 backpack에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
-  <string name="backpack_replace_object_multiple">스프라이트는 backpack에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
+  <string name="backpack_replace_object"> %1$s 스프라이트는 스프라이트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
+  <string name="backpack_replace_scene">모양 %1$s는 스프라이트 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
+  <string name="backpack_replace_object_multiple">스프라이트는 스프라이트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
+  <string name="groups_create">그룹 만들기</string>
+  <string name="group_created">그룹이 만들어 졌습니다.</string>
+  <string name="ungroup">그룹 해제</string>
+  <string name="group_objects_delete">그룹과 스프라이트 삭제</string>
+  <string name="group">그룹</string>
+  <string name="backpack_replace_scene_multiple">스프라이트 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
+  <!-- Project overview -->
+  <string name="author">작성자: </string>
+  <string name="screen_size">화면 크기:</string>
+  <string name="mode">모드:</string>
+  <string name="remix_of">리믹스:</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">복사하기</string>
   <!-- Script activity -->
@@ -165,25 +317,26 @@
   <string name="size">프로젝트 크기 :</string>
   <string name="script_group">스크립트 그룹</string>
   <string name="script_groups">스크립트 그룹</string>
-  <string name="userbrick_group">Userbrick 그룹</string>
-  <string name="userbrick_groups">Userbrick 그룹</string>
-  <string name="script_group_name_given">이 이름 가진 스크립트 그룹은 이미 존재합니다. 다른 하나를 선택하십시오!</string>
+  <string name="userbrick_group">블럭 그룹</string>
+  <string name="userbrick_groups">블럭 그룹</string>
+  <string name="script_group_name_given">해당 이름을 가진 그룹이 이미 존재합니다. 다른 이름을 지정하십시오!</string>
+  <string name="group_or_object_name_given">해당 이름을 가진 그룹이 이미 존재합니다. 다른 이름을 지정하십시오!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">스크립트를 추가하려면 \"+\"를 터치</string>
-  <string name="dialog_confirm_delete_brick_title">이 블록 삭제?</string>
-  <string name="dialog_confirm_delete_script_title">이 스크립트 삭제?</string>
-  <string name="dialog_confirm_delete_multiple_bricks_title">이 블록들을 삭제?</string>
+  <string name="dialog_confirm_delete_brick_title">이 블럭을 삭제하시겠습니까?</string>
+  <string name="dialog_confirm_delete_script_title">이 스크립트를 삭제하시겠습니까?</string>
+  <string name="dialog_confirm_delete_multiple_bricks_title">이 블럭들을 삭제하시겠습니까?</string>
   <string name="dialog_confirm_delete_backpack_group_title">이 그룹을 삭제할까요?</string>
   <string name="dialog_confirm_delete_multiple_backpack_groups_title">이 그룹을 삭제할까요?</string>
-  <string name="dialog_confirm_delete_brick_message">이 작업은 되돌릴 수 없습니다</string>
+  <string name="dialog_confirm_delete_brick_message">이 작업은 되돌릴 수 없습니다!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="other">%d 블록 삭제</item>
+    <item quantity="other">블럭 삭제</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="other">%d 블록 복사</item>
+    <item quantity="other">%d 블럭 복사</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
-    <item quantity="other">Backpack %d 블록</item>
+    <item quantity="other"> %d 스크립트 모음</item>
   </plurals>
   <!-- Look fragment -->
   <string name="fragment_look_text_description">모양을 추가하려면 \"+\"를 터치하세요</string>
@@ -193,7 +346,7 @@
   <string name="pocket_paint_not_installed_title">포켓 페인트가 설치되어 있지 않습니다!</string>
   <string name="pocket_paint_not_installed">그림판이 설치되어 있지 않습니다! \n그림판을 설치하겠습니까?</string>
   <string name="default_look_name">모양</string>
-  <string name="delete_look_dialog">형태를 삭제하겠습니까?</string>
+  <string name="delete_look_dialog">이 모양을 삭제하시겠습니까?</string>
   <string name="select_look_from_gallery">그림 선택하기</string>
   <string name="select_look_from_camera">사진 선택하기</string>
   <string name="look_measure">측정:</string>
@@ -201,27 +354,27 @@
   <string name="dialog_confirm_delete_multiple_looks_title">이 모양들을 삭제하시겠습니까?</string>
   <string name="dialog_confirm_delete_look_message">이 작업은 되돌릴 수 없습니다!</string>
   <string name="lookname">모양 이름:</string>
-  <string name="backpack_replace_look">모양 \"%1$s\"는 backpack에 이미 있습니다. 그것을 대체하시겠습니까?</string>
-  <string name="backpack_replace_look_multiple">모양 는 backpack에 이미 있습니다. 그것을 대체하시겠습니까?</string>
+  <string name="backpack_replace_look"> %1$s 는 스프라이트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
+  <string name="backpack_replace_look_multiple">이미 있습니다. 그것을 대체하시겠습니까?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">소리를 추가하려면 \"+\"를 터치하세요</string>
   <string name="rename_sound_dialog">소리 이름 바꾸기</string>
-  <string name="backpack_title">배낭</string>
+  <string name="backpack_title">당신의 스크립트 모음</string>
   <string name="soundname_invalid">소리의 이름이 잘못되었습니다</string>
   <string name="sound_play">재생</string>
   <string name="sound_stop">중지</string>
   <string name="sound_select_source">소리 선택</string>
   <string name="sound_time_seperator">/</string>
-  <string name="delete_sound_dialog">소리를 삭제 하시겠습니까?</string>
+  <string name="delete_sound_dialog">소리를 삭제하시겠습니까?</string>
   <string name="length">길이:</string>
   <string name="dialog_confirm_delete_sound_title">이 소리를 삭제할까요?</string>
   <string name="dialog_confirm_delete_multiple_sounds_title">이 소리들을 삭제할까요?</string>
-  <string name="dialog_confirm_delete_sound_message">이 작업은 되돌릴 수 없습니다</string>
+  <string name="dialog_confirm_delete_sound_message">이 작업은 되돌릴 수 없습니다!</string>
   <string name="sound_name">소리 이름:</string>
   <string name="new_sound_name">소리 이름:</string>
-  <string name="rename_sound_overwrite">이미 같은 이름의 소리파일이 있습니다!</string>
-  <string name="backpack_replace_sound">소리 \"%1$s\"는 backpack에 이미 있습니다. 그것을 대체하시겠습니까?</string>
-  <string name="backpack_replace_sound_multiple">소리 는 backpack에 이미 있습니다. 그것을 대체하시겠습니까?</string>
+  <string name="rename_sound_overwrite">이 이름을 가진 소리가 이미 존재합니다. 다른 하나를 선택하십시오!</string>
+  <string name="backpack_replace_sound">소리 %1$s는 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
+  <string name="backpack_replace_sound_multiple">소리는 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">추가할 태그를 검사합니다</string>
   <string name="rename_nfctag_dialog">Nfctag 이름 바꾸기</string>
@@ -237,16 +390,13 @@
   <string name="uid">ID</string>
   <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
-    <item quantity="other">해제되었습니다!</item>
+    <item quantity="other">모음이 풀렸습니다!</item>
   </plurals>
   <plurals name="packing_items_plural">
-    <item quantity="other">backpack되었습니다!</item>
+    <item quantity="other">모음이 묶였습니다!</item>
   </plurals>
   <plurals name="scripts_plural">
     <item quantity="other">스크립트</item>
-  </plurals>
-  <plurals name="userbricks_plural">
-    <item quantity="other">Userbricks</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">최종 사용 :</string>
@@ -256,12 +406,16 @@
   <string name="copy_project_finished">복사됨</string>
   <string name="program">프로젝트:</string>
   <string name="programs">프로그램</string>
+  <string name="scene">장면</string>
+  <string name="scenes">장면</string>
   <string name="dialog_confirm_delete_program_title">이 프로그램을 삭제할까요?</string>
   <string name="dialog_confirm_delete_multiple_programs_title">이 프로그램들을 삭제할까요?</string>
-  <string name="dialog_confirm_delete_program_message">이 작업은 되돌릴 수 없습니다</string>
+  <string name="dialog_confirm_delete_scene_title">이 장면을 삭제할까요?</string>
+  <string name="dialog_confirm_delete_multiple_scenes_title">이 장면을 삭제할까요?</string>
+  <string name="dialog_confirm_delete_program_message">이 작업은 되돌릴 수 없습니다!</string>
   <string name="details_date_today">오늘</string>
   <string name="details_date_yesterday">어제</string>
-  <string name="dialog_copy_project_title">프로그램 복사하기</string>
+  <string name="dialog_copy_project_title">프로그램 복사</string>
   <!-- Soundrecorder activity -->
   <string name="soundrecorder_name">Catroid 녹음기</string>
   <string name="soundrecorder_error">녹음 실패</string>
@@ -276,7 +430,8 @@
   <string name="prestage_no_acceleration_sensor_available">\u2022 가속센서\n</string>
   <string name="prestage_no_inclination_sensor_available">\u2022 기울기센서\n</string>
   <string name="prestage_no_compass_sensor_available">\u2022 컴퍼스\n</string>
-  <string name="prestage_text_to_speech_error">\u2022 텍스트 음성 변환 engine\n</string>
+  <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 텍스트 음성 변환 엔진\n</string>
   <string name="prestage_no_back_camera_available">\u2022 후면 카메라\n</string>
   <string name="prestage_no_camera_available">\u2022 얼굴인식\n</string>
   <string name="prestage_no_front_camera_available">\u2022 전면 카메라\n</string>
@@ -285,23 +440,27 @@
   <string name="nfc_not_activated">NFC를 활성화하고 다시 응용 프로그램으로 돌아가세요!</string>
   <string name="nfc_facedetection_support">NFC와 얼굴인식의 결합은 문제가 발생할 수 있습니다!</string>
   <!-- Brick context dialog -->
-  <string name="brick_context_dialog_move_brick">블록 이동</string>
-  <string name="brick_context_dialog_show_source">소스 블록을 보여라</string>
-  <string name="brick_context_dialog_delete_brick">블록 삭제</string>
-  <string name="brick_context_dialog_copy_brick">블록 복사하기</string>
-  <string name="brick_context_dialog_animate_bricks">블록 애니메이션</string>
+  <string name="brick_context_dialog_move_brick">블럭 이동</string>
+  <string name="brick_context_dialog_show_source">소스 블럭 표시</string>
+  <string name="brick_context_dialog_delete_brick">블럭 삭제</string>
+  <string name="brick_context_dialog_copy_brick">블럭 복사</string>
+  <string name="brick_context_dialog_animate_bricks">블럭 애니메이션</string>
   <string name="brick_context_dialog_add_to_script">스크립트 추가</string>
-  <string name="brick_context_dialog_edit_brick">블록 편집</string>
   <string name="brick_context_dialog_formula_edit_brick">수식 편집</string>
   <string name="brick_context_dialog_delete_script">스크립트 삭제</string>
+  <string name="brick_context_dialog_comment_in">활성화 블럭</string>
+  <string name="brick_context_dialog_comment_out">비활성화 블럭</string>
+  <string name="brick_context_dialog_help">도움말</string>
+  <string name="comment_in_out">사용/사용 안함</string>
+  <string name="comment_in_out_impossible">사용/사용 안함 할 것이 없음</string>
   <!-- New look dialog -->
   <string name="new_look_dialog_title">모양 추가</string>
-  <string name="add_look_from_camera">카메라에서 가져오기</string>
+  <string name="add_look_from_camera">사진 촬영</string>
   <string name="add_look_draw_new_image">그림 그리기</string>
   <string name="add_look_choose_image">그림 선택하기</string>
   <string name="add_look_media_library">미디어 라이브러리</string>
-  <string name="new_look_name">모양 이름</string>
-  <string name="look_rename_overwrite">모양 이름이 이미 있습니다!</string>
+  <string name="new_look_name">모양 이름:</string>
+  <string name="look_rename_overwrite">이 이름을 가진 스크립트 그룹은 이미 존재합니다. 다른 하나를 선택하십시오!</string>
   <string name="add_look_drone_video">드론 비디오</string>
   <!-- New Sound dialog -->
   <string name="new_sound_dialog_title">소리 추가</string>
@@ -309,7 +468,7 @@
   <string name="add_sound_choose_file">파일 선택</string>
   <string name="add_sound_pocketmusic">포켓뮤직</string>
   <!-- New project dialog -->
-  <string name="new_project_dialog_title">새 프로그램</string>
+  <string name="new_project_dialog_title">새로운 프로그램</string>
   <string name="new_project_dialog_hint">내 프로그램</string>
   <string name="new_project_description_dialog_hint">내 설명</string>
   <string name="new_project_name">프로그램 이름</string>
@@ -317,13 +476,29 @@
   <string name="new_project_default">예제 프로그램 작성</string>
   <string name="new_project_default_drone">예제 드론 프로그램 만들기</string>
   <string name="project_orientation_title">방향:</string>
+  <!-- New scene dialog -->
+  <string name="new_scene_dialog_hint">내 장면</string>
+  <string name="new_scene_name">장면 이름:</string>
+  <string name="new_scene_dialog_default_scene_name">내 장면</string>
+  <string name="new_scene_dialog_title">새로운 장면</string>
+  <string name="scenename_already_exists">다른 장면 이름을 선택하십시오.</string>
+  <string name="rename_scene_dialog">장면 이름 바꾸기</string>
+  <string name="scenename_invalid">이 장면 이름은 사용할 수 없습니다.</string>
+  <string name="scene_name">장면 이름:</string>
+  <!-- Merge Scene Dialog -->
+  <string name="merge_scene_option">장면 병합</string>
+  <string name="merge_scene_label_one">병합</string>
+  <!-- Play scene dialog -->
+  <string name="play_scene_dialog_title">플레이 장면:</string>
+  <string name="play_scene_dialog_default">첫 번째 장면 (%1$s)</string>
+  <string name="play_scene_dialog_current">현재 (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">내 스프라이트</string>
   <string name="new_sprite_dialog_title">새 스프라이트</string>
-  <string name="spritename_already_exists">다른 이름을 선택하세요</string>
+  <string name="spritename_already_exists">다른 이름을 선택하세요.</string>
   <string name="rename_sprite_dialog">스프라이트 이름 바꾸기</string>
   <string name="spritename_invalid">스프라이트 이름이 잘못되었습니다</string>
-  <string name="no_spritename_entered">스프라이트 이름을 입력 하세요.</string>
+  <string name="no_spritename_entered">스프라이트 이름을 입력하세요.</string>
   <string name="sprite_name">스프라이트 이름:</string>
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">로그인</string>
@@ -332,8 +507,8 @@
   <string name="password_forgotten">비밀번호를 분실하셨습니까?</string>
   <string name="new_user_registered">새 계정이 만들어졌습니다.</string>
   <string name="user_logged_in">로그인 성공</string>
-  <string name="register_error">유효하지 않은 로그인</string>
-  <string name="register_terms">등록 함으로써, 우리에게 동의하는 것입니다</string>
+  <string name="register_error">로그인할 수 없음</string>
+  <string name="register_terms">등록함으로써, 우리에게 동의하는 것입니다</string>
   <string name="register_pocketcode_terms_of_use_text">이용 약관</string>
   <string name="login">로그인</string>
   <string name="register">등록</string>
@@ -349,16 +524,16 @@
   <string name="register_password_mismatch">비밀번호가 일치하지 않습니다</string>
   <string name="sign_in_error">로그인 중 오류가 발생했습니다</string>
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">같은 이름의 프로그램이 이미 존재합니다!</string>
+  <string name="overwrite_text">이 이름 가진 프로그램은 이미 존재합니다. 다른 하나를 선택하십시오!</string>
   <string name="overwrite_replace">이전 프로그램을 교체하기</string>
-  <string name="overwrite_rename">다운로드 프로그램의 이름 변경하기</string>
+  <string name="overwrite_rename">다운로드한 프로그램 이름 바꾸기</string>
   <!-- OverwriteRenameMediaDialog -->
   <string name="overwrite_replace_look">현재 모양 교체</string>
   <string name="overwrite_rename_look">다운로드한 모양 이름 바꾸기</string>
   <string name="overwrite_replace_sound">현재 소리 교체</string>
   <string name="overwrite_rename_sound">다운로드한 소리 이름 바꾸기</string>
   <string name="overwrite_replace_default">현재 미디어 교체</string>
-  <string name="overwrite_rename_default">현재 미디어 이름 바꾸기</string>
+  <string name="overwrite_rename_default">현재 미디어 교체</string>
   <!-- Stage menu dialog -->
   <string name="stage_dialog_back">돌아가기</string>
   <string name="stage_dialog_resume">이어서 실행</string>
@@ -366,29 +541,31 @@
   <string name="stage_dialog_axes_on">축 보이기</string>
   <string name="stage_dialog_axes_off">축 감추기</string>
   <string name="stage_dialog_maximize">최대화</string>
-  <string name="stage_dialog_screenshot">캡처 하기</string>
+  <string name="stage_dialog_screenshot">캡처하기</string>
   <!-- Broadcast spinner -->
   <string name="new_broadcast_message">새로운</string>
   <string name="dialog_new_broadcast_message_title">새 메시지</string>
   <string name="dialog_new_broadcast_message_name">메시지:</string>
   <!-- NFC spinner -->
   <string name="new_nfc_tag">새로운</string>
-  <string name="brick_when_nfc_default_all">모든</string>
+  <string name="brick_when_nfc_default_all">전체</string>
   <!-- Brick categories -->
   <string name="categories">카테고리</string>
-  <string name="category_motion">움직임</string>
+  <string name="category_motion">동작</string>
   <string name="category_looks">모양</string>
+  <string name="category_pen">펜</string>
   <string name="category_sound">소리</string>
   <string name="category_control">제어</string>
-  <string name="category_user_bricks">내 블록</string>
+  <string name="category_event">이벤트</string>
+  <string name="category_user_bricks">내 블럭</string>
   <string name="category_data">변수</string>
   <string name="category_lego_nxt">레고 NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">아두이노</string>
-  <string name="category_raspi">Raspberry Pi 포트</string>
+  <string name="category_raspi">Raspberry Pi</string>
   <!-- Motion bricks -->
-  <string name="brick_place_at">"위치 시키기  "</string>
+  <string name="brick_place_at">"위치 설정"</string>
   <string name="x_label">"X:"</string>
   <string name="y_label">"Y:"</string>
   <string name="brick_set_x">"X좌표 정하기 :"</string>
@@ -396,6 +573,10 @@
   <string name="brick_change_x_by">"X좌표 바꾸기 :"</string>
   <string name="brick_change_y_by">"Y좌표 바꾸기 :"</string>
   <string name="brick_go_back">돌아가기</string>
+  <string name="brick_set_rotation_style">"회전 스타일 설정하기"</string>
+  <string name="brick_set_rotation_style_lr">왼쪽-오른쪽만</string>
+  <string name="brick_set_rotation_style_normal">모두</string>
+  <string name="brick_set_rotation_style_no">회전 정지</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="other">레이어</item>
   </plurals>
@@ -411,26 +592,31 @@
   <string name="brick_point_to">지정한 방향 보기</string>
   <string name="brick_glide">움직이기</string>
   <string name="brick_glide_to_x">X:</string>
+  <string name="brick_go_to">이동</string>
+  <string name="brick_go_to_touch_position">터치 위치</string>
+  <string name="brick_go_to_random_position">랜덤 위치</string>
   <!-- Physics -->
-  <string name="default_project_name_physics">나의 첫번째 프로그램</string>
-  <string name="brick_set_physics_object_type">움직임 형태 설정하기</string>
+  <string name="default_project_name_physics">내 첫 번째 물리 프로그램</string>
+  <string name="brick_set_physics_object_type">동작 형태 설정</string>
   <string name="brick_set_physics_object_type_dynamic">중력에 따라 튕기기</string>
   <string name="brick_set_physics_object_type_fixed">다른 스프라이트 튕기기</string>
   <string name="brick_set_physics_object_type_no">튕기기 없음</string>
   <string name="brick_set_mass">"무게 설정하기"</string>
-  <string name="brick_set_mass_unit">킬로그램</string>
-  <string name="brick_set_gravity_to">"모든 스프라이트에 중력 설정하기"</string>
+  <string name="brick_set_mass_unit">kg</string>
+  <string name="brick_set_gravity_to">"모든 스프라이트에 중력 설정"</string>
   <string name="brick_set_gravity_unit">단계/초²</string>
-  <string name="brick_set_velocity_to">"속력 설정하기"</string>
+  <string name="brick_set_velocity_to">"속력 설정"</string>
   <string name="brick_set_velocity_unit">단계/초</string>
   <string name="brick_turn_speed_unit">도/초</string>
-  <string name="brick_set_friction">"마찰력 설정하기"</string>
-  <string name="brick_set_bounce_factor">"튕기기 계수 설정하기"</string>
-  <string name="brick_rotate_left">"왼쪽으로 회전"</string>
+  <string name="brick_set_friction">"마찰력 설정"</string>
+  <string name="brick_set_bounce_factor">"튕기기 계수 설정"</string>
+  <string name="brick_rotate_left">"왼쪽으로 돌기"</string>
   <string name="brick_rotate_right">"오른쪽으로 돌기"</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">모양 바꾸기</string>
   <string name="brick_set_background">배경 설정</string>
+  <string name="brick_and_wait">그리고 대기</string>
+  <string name="brick_when_background">배경이 바뀔 때</string>
   <string name="brick_set_size_to">크기 설정하기</string>
   <string name="brick_change_size_by">다음 크기로 바꾸기</string>
   <string name="brick_hide">숨기기</string>
@@ -446,35 +632,66 @@
   <string name="brick_clear_graphic_effect">그래픽 효과 지우기</string>
   <string name="brick_next_look">다음 모양으로 바꾸기</string>
   <string name="brick_next_background">다음 배경</string>
+  <string name="brick_previous_look">이전 모양</string>
+  <string name="brick_previous_background">이전 배경</string>
   <string name="brick_flash">플래시 켜기</string>
-  <string name="brick_flash_on">On</string>
+  <string name="brick_flash_on">켜기</string>
   <string name="brick_flash_off">끄기</string>
   <string name="brick_vibration">진동하기</string>
+  <string name="brick_ask_label">질문</string>
+  <string name="brick_ask_store">답변 저장</string>
+  <string name="brick_ask_default_question">\' 당신의 이름은 무엇입니까 \'?</string>
+  <string name="brick_ask_dialog_hint">"대답을 입력하세요."</string>
+  <string name="brick_ask_dialog_submit">답변 제출</string>
+  <!-- Pen bricks -->
+  <string name="brick_pen_down">펜 내리기</string>
+  <string name="brick_pen_up">펜 올리기</string>
+  <string name="brick_pen_size">펜 굵기 정하기</string>
+  <string name="brick_pen_color">펜 색깔 정하기</string>
+  <string name="brick_clear_background">지우기</string>
+  <string name="brick_stamp">스탬프</string>
   <!-- Sound bricks -->
   <string name="brick_play_sound">소리 재생</string>
+  <string name="brick_play_sound_and_wait">소리 재생하고 기다리기</string>
   <string name="brick_stop_all_sounds">모든 소리 멈추기</string>
   <string name="brick_set_volume_to">음량 설정하기</string>
   <string name="brick_change_volume_by">음량 바꾸기</string>
   <string name="brick_speak">소리내기</string>
   <string name="brick_speak_default_value">"안녕하세요!"</string>
+  <string name="brick_speak_and_wait">그리고 대기</string>
   <!-- Control bricks -->
   <string name="brick_when_started">프로그램을 시작할 때</string>
   <string name="brick_when">터치할 때</string>
+  <string name="brick_when_condition_when">언제</string>
+  <string name="brick_when_becomes_true">참이 된다</string>
   <string name="brick_wait">기다리기</string>
   <string name="brick_when_nfc">NFC 사용시</string>
+  <string name="brick_stop_script">스크립트 중지</string>
+  <string name="brick_stop_this_script">이 스크립트 중지</string>
+  <string name="brick_stop_all_scripts">모든 스크립트 중지</string>
+  <string name="brick_stop_other_scripts">이 스프라이트의 다른 스크립트 중지</string>
   <plurals name="second_plural">
     <item quantity="other">"초"</item>
   </plurals>
   <string name="brick_collision_receive">물리적 충돌이 발생할 때</string>
-  <string name="collision_with_anything">아무것도</string>
+  <string name="collision_with_anything">아무거나</string>
   <string name="brick_broadcast_receive">방송받을 때</string>
   <string name="brick_broadcast">방송하기</string>
   <string name="brick_broadcast_wait">방송하고 기다리기</string>
+  <string name="brick_scene_transition">장면 계속</string>
+  <string name="brick_scene_start">장면 시작</string>
   <string name="brick_note">알리기</string>
+  <string name="brick_think_bubble">생각</string>
+  <string name="brick_say_bubble">말</string>
+  <string name="brick_think_say_for_text">동안</string>
   <string name="brick_forever">무한 반복</string>
   <string name="brick_repeat">반복</string>
   <string name="brick_repeat_until">반복 때까지</string>
   <string name="brick_when_touched">화면을 터치할 때</string>
+  <string name="brick_clone">복사하기</string>
+  <string name="brick_clone_this">스스로</string>
+  <string name="brick_when_cloned">복사로 시작할 때</string>
+  <string name="brick_delete_this_clone">이 형태를 삭제</string>
   <plurals name="time_plural">
     <item quantity="other">번</item>
   </plurals>
@@ -483,11 +700,13 @@
   <string name="brick_if_begin_second_part">참이라면</string>
   <string name="brick_if_else">아니면</string>
   <string name="brick_if_end">조건문 끝</string>
-  <string name="brick_broadcast_invalid_symbol">" \n \"물리적으로 충돌했을 때\"-블록에 대한 메시지: \n 다시 시도하세요!"</string>
+  <string name="brick_broadcast_invalid_symbol">" \n \"물리적으로 충돌했을 때\"-블럭에 대한 메시지: \n 다시 시도하세요!"</string>
   <string name="brick_set_variable">변수 정하기</string>
   <string name="brick_change_variable">변수 바꾸기</string>
   <string name="brick_variable_spinner_create_new_variable">새로운&#8230;</string>
   <string name="brick_note_default_value">"여기에 코멘트를 추가…"</string>
+  <string name="brick_think_bubble_default_value">"흠!"</string>
+  <string name="brick_say_bubble_default_value">"안녕하세요!"</string>
   <string name="brick_broadcast_default_value">"메시지 1"</string>
   <string name="brick_add_item_to_userlist_add">추가하기</string>
   <string name="brick_add_item_to_userlist">리스트에</string>
@@ -501,6 +720,7 @@
   <string name="brick_replace_item_in_userlist_with_value">으로</string>
   <!-- defaultValues -->
   <string name="default_project_name">내 첫 프로그램</string>
+  <string name="default_scene_name">장면 %1$d</string>
   <string name="default_project_background_name">배경</string>
   <string name="default_project_cloud_name">클라우드</string>
   <string name="default_project_cloud_sprite_name_1">클라우드1</string>
@@ -530,17 +750,17 @@
   <string name="drone_config_indoor_with_hull">구조 있는 내부</string>
   <string name="drone_config_indoor_without_hull">구조 없는 내부</string>
   <string name="drone_config_outdoor_with_hull">구조 있는 외부</string>
-  <string name="drone_config_outdoor_without_hull">구조 없는 외부</string>
+  <string name="drone_config_outdoor_without_hull">구조 없는 내부</string>
   <!-- Drone altitude limit values  -->
   <string name="drone_set_altitude_max_3m">3 미터</string>
   <string name="drone_set_altitude_max_5m">5 미터</string>
   <string name="drone_set_altitude_max_10m">10 미터</string>
   <string name="drone_set_altitude_max_100m">100 미터</string>
   <!-- Drone max vertical speed limit values  -->
-  <string name="drone_set_vertical_min">200 mm/s</string>
-  <string name="drone_set_vertical_indoor">700 mm/s</string>
-  <string name="drone_set_vertical_outdoor">1000 mm/s</string>
-  <string name="drone_set_vertical_max">2000 mm/s</string>
+  <string name="drone_set_vertical_min">200 mm/초</string>
+  <string name="drone_set_vertical_indoor">700 mm/초</string>
+  <string name="drone_set_vertical_outdoor">1000 mm/초</string>
+  <string name="drone_set_vertical_max">2000 mm/초</string>
   <!-- Drone max rotation speed limit values  -->
   <string name="drone_set_rotation_min">40 도/초</string>
   <string name="drone_set_rotation_indoor">100 도/초</string>
@@ -553,8 +773,9 @@
   <string name="drone_set_tilt_max">30 도</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">값을 입력하십시오</string>
-  <string name="notification_screenshot_ok">캡처 완료</string>
+  <string name="notification_screenshot_ok">캡쳐 하기 이미지 저장</string>
   <string name="notification_download_project_cancel">다운로드 프로그램 취소</string>
+  <string name="notification_reconvert_download_program_cancel">프로그램 다운로드/변환 취소</string>
   <string name="notification_copy_title_pending">"복사 중"</string>
   <string name="notification_copy_pending">복사 진행 중</string>
   <string name="notification_copy_finished">복사 완료</string>
@@ -569,7 +790,7 @@
   <string name="notification_download_pending">다운로드 진행 중</string>
   <string name="notification_download_finished">다운로드 성공</string>
   <string name="notification_title_open">"열기"</string>
-  <string name="notification_low_battery">주의입니다. 배터리가 부족합니다. 현재 상태 =</string>
+  <string name="notification_low_battery">주의. 배터리가 부족합니다. 현재 상태 =</string>
   <string name="project_rename">(프로그램 이름이 변경됩니다.)</string>
   <string name="size_of_project">크기:</string>
   <string name="upload_button">업로드</string>
@@ -588,63 +809,70 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">포켓 코드는 SD 카드같은 쓰기 가능한 외장형 스토리지가 필요하지만 아무것도 찾을 수 없습니다. \n 외부 저장장치 쓰기 또는 SD 카드를 삽입하여 이 문제를 해결할 수 있습니다. 다시 시도하십시오.</string>
   <string name="error_no_program_name_entered">프로그램 이름을 입력하십시오.</string>
-  <string name="error_no_userbrick_name_entered">Userbrick 이름을 입력 하십시오.</string>
-  <string name="error_project_exists">같은 이름의 프로그램이 이미 존재합니다. \n 다른 이름을 넣으세요.</string>
+  <string name="error_no_userbrick_name_entered">블럭 이름을 입력하세요.</string>
+  <string name="error_project_exists">다른 이름을 넣으세요.</string>
+  <string name="error_scene_exists">다른 장면 이름을 선택하십시오.</string>
+  <string name="error_scene_not_deleted">개체를 삭제하는 중 오류가 발생했습니다.</string>
+  <string name="error_scene_not_copied">장면을 복사하는 동안 오류가 발생했습니다.</string>
+  <string name="error_scene_backpack">모음에 오류가 발생했습니다.</string>
   <string name="error_delete_project">프로그램을 삭제하는 동안 오류가 발생했습니다.</string>
   <string name="error_unknown_project">그 이름으로 프로그램이 존재하지 않습니다.</string>
   <string name="error_project_upload">프로그램을 업로드하는 중에 오류가 발생했습니다.</string>
   <string name="error_project_download">프로그램을 다운로드하는 동안 오류가 발생했습니다.</string>
   <string name="error_new_project">새로운 프로그램을 생성하는 동안 오류가 발생했습니다.</string>
   <string name="error_rename_project">업로드하기 전에 프로그램의 이름에서 오류가 발생했습니다.</string>
+  <string name="error_rename_scene">장면 이름 변경하는 동안 오류가 발생했습니다.</string>
   <string name="error_load_project">프로그램을 로드하는 동안 오류가 발생했습니다.</string>
-  <string name="error_screenshot_failed">캡쳐화면을 저장하는 중에 오류가 발생했습니다.</string>
+  <string name="error_screenshot_failed">캡쳐 하기 이미지를 저장하는 동안 오류가 발생했습니다.</string>
   <string name="error_load_image">이미지를 로드하는 동안 오류가 발생했습니다.</string>
   <string name="error_load_image_special_chars">이미지를 로드할 수 없습니다. 파일 이름에 특수 문자 (예: $, %, &amp;,&#8230;)가 있습니까? </string>
   <string name="error_load_sound">소리를 로드하는 동안 오류가 발생했습니다. </string>
   <string name="error_internet_connection">알 수 없는 오류가 발생했습니다. 인터넷 연결을 확인하십시오.</string>
   <string name="error_no_internet">인터넷 연결을 설정하십시오.</string>
   <string name="error_project_compatability">프로그램이 이 catroid 버전과 호환되지 않습니다.</string>
-  <string name="error_outdated_pocketcode_version">포켓 코드 버전이 너무 오래 되었습니다. 지금 업데이트 하시겠습니까?</string>
+  <string name="error_outdated_pocketcode_version">포켓 코드 버전이 너무 오래 되었습니다. 지금 업데이트하시겠습니까?</string>
   <string name="error_copy_project">프로그램을 복사하는 동안 오류가 발생했습니다.</string>
   <string name="error_upload_project_with_default_name">\'나의 첫 번째 프로그램\' 이름으로 프로그램을 업로드할 수 없습니다. 프로그램 이름을 바꾸시기 바랍니다.</string>
   <string name="error_upload_default_project">그것은 \'나의 첫 번째 프로그램\'으로 동일하기 때문에 이 프로그램을 업로드할 수 없습니다. 수정하고 다시 시도하십시오.</string>
-  <string name="error_adding_brick">이 블록을 추가하는 동안 오류가 발생했습니다.</string>
-  <string name="error_copying_brick">이 블록을 복사하는 동안 오류가 발생했습니다.</string>
+  <string name="error_adding_brick">이 블럭을 추가하는 동안 오류가 발생했습니다.</string>
+  <string name="error_copying_brick">이 블럭을 복사하는 동안 오류가 발생했습니다.</string>
   <string name="error_no_drone_connected_title">ARDrone를 찾을 수 없습니다.</string>
   <string name="error_no_drone_connected">ARDrone에 당신의 wifi를 연결하고 다시 시도하십시오.</string>
   <string name="error_drone_low_battery_title">드론의 배터리가 약합니다: %d%%</string>
   <string name="error_drone_low_battery">충전된 배터리를 삽입하고 다시 시도하십시오.</string>
   <string name="error_drone_wrong_platform_title">ARDrone을 지원하지 않습니다</string>
-  <string name="error_drone_wrong_platform">이 장치에서 ARDrone 프로젝트를 실행할 수 없습니다.</string>
-  <string name="error_rename_incompatible_project">호환 되지 않는 프로젝트의 이름을 바꿀 수 없습니다.</string>
-  <string name="error_changing_description_of_incompatible_project">호환되지 않는 프로젝트의 설명을 변경할 수 없습니다.</string>
+  <string name="error_drone_wrong_platform">이 장치에서 ARDrone 프로그램을 실행할 수 없습니다.</string>
+  <string name="error_rename_incompatible_project">호환 되지 않는 프로그램의 이름을 바꿀 수 없습니다.</string>
+  <string name="error_changing_description_of_incompatible_project">호환되지 않는 프로그램의 설명을 변경할 수 없습니다.</string>
+  <string name="error_unpack_scene_with_different_resolution">주의! 해상도가 다릅니다.</string>
   <string name="error_unknown_error">알 수 없는 오류가 발생했습니다.</string>
+  <string name="error_gps_not_available">오류, GPS가 활성화되지 않았습니다.</string>
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">블루투스를 이용할 수 없습니다. 단계를 취소합니다.</string>
   <string name="title_paired_devices">페어링 된 장치</string>
   <string name="title_other_devices">새 장치</string>
   <string name="searching_devices">장치를 찾고 있는 중&#8230;</string>
   <string name="button_scan">블루투스 장치 검색</string>
-  <string name="select_device">장치를 선택 합니다:</string>
+  <string name="select_device">장치 선택</string>
   <string name="connecting_please_wait">장치에 연결중입니다. \n 기다려 주세요 &#8230;</string>
   <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">장치 연결에 실패했습니다!</string>
   <string name="none_found">패어링 안된 장치를 찾을 수 없습니다.</string>
   <string name="none_paired">페어링 된 장치를 찾을 수 없습니다</string>
   <!-- Arduino Bricks -->
-  <string name="brick_arduino_select_digital_value">아두이노 디지털 핀 설정하기</string>
-  <string name="brick_arduino_select_analog_value">아두이노 PWM~ 핀 설정하기</string>
+  <string name="brick_arduino_select_digital_value">아두이노 디지털 핀 설정</string>
+  <string name="brick_arduino_select_analog_value">아두이노 PWM~ 핀 설정</string>
   <string name="brick_arduino_set_pin_value_to">to</string>
   <!-- Raspi Bricks -->
-  <string name="brick_raspi_select_digital_value">Raspberry Pi 핀번호를 설정하라</string>
+  <string name="brick_raspi_select_digital_value">Raspberry Pi 핀 설정</string>
   <string name="brick_raspi_set_pin_value_to">to</string>
   <string name="brick_raspi_if_begin">Raspberry Pi 핀번호가 있다면</string>
   <string name="brick_raspi_if_begin_second_part">참이라면</string>
   <string name="brick_raspi_when_begin">Raspberry Pi 핀번호 이면</string>
   <string name="brick_raspi_when_equals">변경</string>
   <string name="brick_raspi_pressed_text">높게</string>
-  <string name="brick_raspi_released_text">낮음</string>
-  <string name="brick_raspi_set_pwm">Raspberry Pi 핀번호를 설정하라</string>
+  <string name="brick_raspi_released_text">낮게</string>
+  <string name="brick_raspi_set_pwm">Raspberry Pi PWM 핀 설정</string>
   <!-- Raspi Settings -->
   <string name="raspi_settings_title_name">Raspberry Pi 설정</string>
   <string name="raspi_settings_gpio_version">GPIO 버전</string>
@@ -677,11 +905,11 @@
   <string name="nxt_sensor_ultrasonic">NXT 초음파 센서</string>
   <string name="nxt_sensor_not_found">센서를 찾을 수 없습니다!</string>
   <string name="lego_nxt_sensor_config_info_title">NXT 센서 구성</string>
-  <string name="preference_disable_nxt_info_dialog">정보 대화 상자를 사용 안함</string>
+  <string name="preference_disable_nxt_info_dialog">정보 대화 상자 사용 안함</string>
   <string name="preference_disable_nxt_info_dialog_description">프로그램 특정 NXT 설정을 프로그램을 열 때 표시되지 않습니다.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">NXT 센서와 포트의 설정은 특정하며 열린 프로그램에 대해서만 구성할 수 있습니다!</string>
   <string name="preference_title_drone_properties_setting_description">드론 속성의 선택은 특정 프로그램이며, 프로그램내에서만 구성할 수 있습니다.</string>
-  <string name="lego_nxt_sensor_config_info_text">현재 프로그램은 레고 마인드 스톰 NXT 블록 또는 센서를 사용합니다. 적절한 기능을 하려면 센서를 로봇에 다음과 같이 연결하세요</string>
+  <string name="lego_nxt_sensor_config_info_text">현재 프로그램은 레고 마인드 스톰 NXT 블럭 또는 센서를 사용합니다. 적절한 기능을 하려면 센서를 로봇에 다음과 같이 연결하세요</string>
   <string name="nxt_port_1">포트 1</string>
   <string name="nxt_port_2">포트 2</string>
   <string name="nxt_port_3">포트 3</string>
@@ -691,7 +919,7 @@
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">센서를 덮어쓸까요?</string>
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">이륙/착륙</string>
-  <string name="brick_drone_play_led_animation">LED 애니메이션 실행</string>
+  <string name="brick_drone_play_led_animation">플래시 애니메이션 재생</string>
   <string name="brick_drone_move_left">왼쪽으로 이동</string>
   <string name="brick_drone_move_right">오른쪽을 이동</string>
   <string name="brick_drone_move_forward">앞으로 이동</string>
@@ -720,15 +948,15 @@
   <string name="brick_phiro_motor_backward_action">Phiro 모터 뒤로 이동</string>
   <string name="phiro_motor_speed">속도</string>
   <!-- sensor -->
-  <string name="brick_phiro_sensor_begin">Phiro의 센서가</string>
+  <string name="brick_phiro_sensor_begin">Phiro의 센서</string>
   <string name="brick_phiro_sensor_second_part">활성화되면</string>
   <!-- tone -->
   <string name="phiro_play_tone">Phiro에서 소리 실행 \n</string>
-  <string name="phiro_tone_duration">지속 시간</string>
+  <string name="phiro_tone_duration">동안</string>
   <string name="brick_phiro_select_tone">톤</string>
-  <string name="phiro_seconds">초 동안</string>
+  <string name="phiro_seconds">초</string>
   <!-- light -->
-  <string name="brick_phiro_rgb_led_action">Phiro 빛을 정하기</string>
+  <string name="brick_phiro_rgb_led_action">Phiro 빛 정하기</string>
   <string name="phiro_rgb_led_red">빨강</string>
   <string name="phiro_rgb_led_green">초록</string>
   <string name="phiro_rgb_led_blue">파랑</string>
@@ -741,12 +969,12 @@
   <string name="phiro_tone_la">라</string>
   <string name="phiro_tone_ti">시</string>
   <!-- Phiro motor strings -->
-  <string name="phiro_motor_left">왼쪽</string>
-  <string name="phiro_motor_right">오른쪽</string>
+  <string name="phiro_motor_left">왼쪽으로</string>
+  <string name="phiro_motor_right">오른쪽으로</string>
   <string name="phiro_motor_both">양쪽 모두</string>
   <!-- Phiro light strings -->
-  <string name="phiro_light_left">왼쪽</string>
-  <string name="phiro_light_right">오른쪽</string>
+  <string name="phiro_light_left">왼쪽으로</string>
+  <string name="phiro_light_right">오른쪽으로</string>
   <string name="phiro_light_both">양쪽 모두</string>
   <!-- Phiro sensor strings -->
   <string name="phiro_sensor_front_left">앞 왼쪽 센서</string>
@@ -757,8 +985,8 @@
   <string name="phiro_sensor_bottom_right">아래 오른쪽 센서</string>
   <!-- Phiro RGBColor Chooser strings -->
   <string name="color_red">빨강</string>
-  <string name="color_green">초록색</string>
-  <string name="color_blue">파랑색</string>
+  <string name="color_green">초록</string>
+  <string name="color_blue">파랑</string>
   <string name="color_preview">색상 미리 보기</string>
   <!-- Formula Editor Strings -->
   <string name="formula_editor_data">변수</string>
@@ -768,7 +996,7 @@
   <string name="formula_editor_title">수식 편집기</string>
   <string name="formula_editor_changes_saved">변경 내용이 저장되었습니다.</string>
   <string name="formula_editor_changes_discarded">변경 내용이 취소되었습니다.</string>
-  <string name="formula_editor_parse_fail">입력에 오류가 있습니다! 해결하거나 취소하려면 다시 누르십시오.</string>
+  <string name="formula_editor_parse_fail">수식이 바르지 않습니다!</string>
   <string name="formula_nothing_selected">블록의 입력 값을 정의</string>
   <string name="formula_editor_parse_fail_formula_too_long">수식이 너무 깁니다! 해결하거나 취소하려면 다시 누르십시오.</string>
   <string name="formula_editor_choose_object_variable">이 스프라이트의 속성</string>
@@ -789,7 +1017,7 @@
   <string name="formula_editor_object_color">색</string>
   <string name="formula_editor_function_sqrt">제곱근</string>
   <string name="formula_editor_function_sqrt_parameter">(0)</string>
-  <string name="formula_editor_function_rand">rand</string>
+  <string name="formula_editor_function_rand">랜덤</string>
   <string name="formula_editor_function_rand_parameter">(0,1)</string>
   <string name="formula_editor_function_abs">abs</string>
   <string name="formula_editor_function_abs_parameter">(0)</string>
@@ -812,9 +1040,9 @@
   <string name="formula_editor_function_ceil">위</string>
   <string name="formula_editor_function_ceil_parameter">(0.3)</string>
   <string name="formula_editor_function_max">최대값</string>
-  <string name="formula_editor_function_max_parameter">(0,1)</string>
+  <string name="formula_editor_function_max_parameter">(0, 1)</string>
   <string name="formula_editor_function_min">최소값</string>
-  <string name="formula_editor_function_min_parameter">(0,1)</string>
+  <string name="formula_editor_function_min_parameter">(0, 1)</string>
   <string name="formula_editor_function_true">참</string>
   <string name="formula_editor_function_false">거짓</string>
   <string name="formula_editor_function_length">길이</string>
@@ -833,19 +1061,31 @@
   <string name="formula_editor_function_multi_finger_x">터치한 x 좌표</string>
   <string name="formula_editor_function_multi_finger_y">터치한 y 좌표</string>
   <string name="formula_editor_function_is_multi_finger_touching">화면을 터치할 때</string>
-  <string name="formula_editor_function_index_of_last_finger">마지막 터치</string>
+  <string name="formula_editor_function_index_of_last_finger">마지막 터치 번호</string>
   <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">항목</string>
   <string name="formula_editor_function_list_item_parameter">(1, *리스트 이름*)</string>
   <string name="formula_editor_function_contains">포함</string>
   <string name="formula_editor_function_contains_parameter">(*리스트 이름*, 1)</string>
+  <string name="formula_editor_function_collision">터치</string>
   <string name="formula_editor_sensor_x_acceleration">x축방향 가속도</string>
   <string name="formula_editor_sensor_y_acceleration">y축방향 가속도</string>
   <string name="formula_editor_sensor_z_acceleration">z축방향 가속도</string>
   <string name="formula_editor_sensor_compass_direction">나침반 방향</string>
+  <string name="formula_editor_sensor_latitude">위도</string>
+  <string name="formula_editor_sensor_longitude">경도</string>
+  <string name="formula_editor_sensor_location_accuracy">위치 정확도</string>
+  <string name="formula_editor_sensor_altitude">고도</string>
   <string name="formula_editor_sensor_x_inclination">x축방향 기울기</string>
   <string name="formula_editor_sensor_y_inclination">y축방향 기울기</string>
   <string name="formula_editor_sensor_loudness">소리 크기</string>
+  <string name="formula_editor_sensor_date_year">년</string>
+  <string name="formula_editor_sensor_date_month">월</string>
+  <string name="formula_editor_sensor_date_day">일</string>
+  <string name="formula_editor_sensor_date_weekday">주중</string>
+  <string name="formula_editor_sensor_time_hour">시간</string>
+  <string name="formula_editor_sensor_time_minute">분</string>
+  <string name="formula_editor_sensor_time_second">초</string>
   <string name="formula_editor_sensor_drone_battery_status">드론_배터리_상태</string>
   <string name="formula_editor_sensor_drone_emergency_state">드론_비상_상태</string>
   <string name="formula_editor_sensor_drone_flying">드론_비행중</string>
@@ -882,10 +1122,15 @@
   <string name="formula_editor_object_x_velocity">x축 속도</string>
   <string name="formula_editor_object_y_velocity">y축 속도</string>
   <string name="formula_editor_object_angular_velocity">각속도</string>
+  <string name="formula_editor_object_look_number">모양 번호</string>
+  <string name="formula_editor_object_look_name">모양 이름</string>
+  <string name="formula_editor_object_background_number">배경 번호</string>
+  <string name="formula_editor_object_background_name">배경 이름</string>
+  <string name="formula_editor_object_distance_to">거리</string>
   <string name="formula_editor_compute">계산하기</string>
   <string name="formula_editor_object">스프라이트</string>
   <string name="formula_editor_functions">함수</string>
-  <string name="formula_editor_logic">로직</string>
+  <string name="formula_editor_logic">논리 연산</string>
   <string name="formula_editor_device">장치</string>
   <string name="formula_editor_variables">변수</string>
   <string name="formula_editor_functions_maths">수학</string>
@@ -894,13 +1139,14 @@
   <string name="formula_editor_logic_boolean">논리 연산</string>
   <string name="formula_editor_logic_comparison">비교 연산</string>
   <string name="formula_editor_object_general">일반 속성</string>
-  <string name="formula_editor_object_movement">물리적 특성</string>
+  <string name="formula_editor_object_movement">운동 속성</string>
   <string name="formula_editor_device_face_detection">얼굴 인식</string>
+  <string name="formula_editor_device_date_and_time">날짜와 시간</string>
   <string name="formula_editor_device_touch_detection">터치 감지</string>
   <string name="formula_editor_device_lego">레고</string>
   <string name="formula_editor_device_arduino">아두이노</string>
   <string name="formula_editor_device_phiro">Phiro</string>
-  <string name="formula_editor_device_raspberry">Raspberry Pi 포트</string>
+  <string name="formula_editor_device_raspberry">Raspberry Pi</string>
   <string name="formula_editor_device_drone">드론</string>
   <string name="formula_editor_string">글자</string>
   <string name="formula_editor_logic_notequal">≠</string>
@@ -934,7 +1180,7 @@
   <string name="formula_editor_fragment_data_current_items">현재 항목</string>
   <string name="formula_editor_data_dialog_is_list">리스트 만들기</string>
   <string name="formula_editor_lists">리스트</string>
-  <string name="formula_editor_variable_dialog_for_this_brick">이 블록에 대해서만</string>
+  <string name="formula_editor_variable_dialog_for_this_brick">이 블럭에 대해서만</string>
   <string name="formula_editor_sensor_face_detected">얼굴이 인식되면</string>
   <string name="formula_editor_sensor_face_size">얼굴의 크기</string>
   <string name="formula_editor_sensor_face_x_position">얼굴의 x 좌표</string>
@@ -945,50 +1191,50 @@
     <item quantity="other">항목이 선택되었음!</item>
   </plurals>
   <!-- Brick Data Editor Strings -->
-  <string name="brick_data_editor_title">블록 편집기</string>
+  <string name="brick_data_editor_title">블럭 편집기</string>
   <string name="separator">|</string>
   <string name="add_text">텍스트 추가</string>
   <string name="edit_text">텍스트 편집</string>
-  <string name="text_hint">블록 텍스트</string>
-  <string name="add_variable">변수 추가하기</string>
+  <string name="text_hint">블럭 텍스트</string>
+  <string name="add_variable">변수 추가</string>
   <string name="add_line_break">줄 바꿈 추가</string>
-  <string name="edit_variable">변수 바꾸기</string>
+  <string name="edit_variable">변수 편집</string>
   <string name="variable_hint">변수 이름</string>
   <string name="brick_show_variable">변수 보이기</string>
-  <string name="brick_show_variable_position">"에서"</string>
+  <string name="brick_show_variable_position">"  "</string>
   <string name="brick_hide_variable">변수 숨기기</string>
   <!-- User Bricks strings -->
-  <string name="define">정의하기</string>
-  <string name="new_user_brick">새 블록</string>
+  <string name="define">정의</string>
+  <string name="new_user_brick">새 블럭</string>
   <string name="new_user_brick_variable">변수</string>
-  <string name="new_user_brick_name">Userbrick 이름을 선택하십시오.</string>
-  <string name="recursive_user_brick_forbidden">사용자 블록 추가하기가 아직 되지 않음!</string>
-  <string name="brick_single">블록</string>
-  <string name="brick_multiple">블록들</string>
+  <string name="new_user_brick_name">블럭 이름을 입력하세요:</string>
+  <string name="recursive_user_brick_forbidden">사용자 블럭 추가하기가 아직 되지 않음!</string>
   <!-- Merge strings -->
   <string name="merge_button">병합</string>
   <string name="name_merge_result">결과를 위해 이름을 입력하세요</string>
-  <string name="merge_info">추출 성공</string>
+  <string name="merge_info">성공적으로 병합</string>
   <string name="warning">경고</string>
-  <string name="error_merge_with_self">주의! 현재 프로그램과 선택 프로그램이 같습니다!</string>
+  <string name="error_merge_with_self">현재 프로그램과 선택한 프로그램이 같습니다!</string>
+  <string name="error_merge_with_self_scene">현재 장면과 선택한 장면이 같습니다!</string>
+  <string name="error_merge_scene_not_found">장면을 찾을 수 없습니다!</string>
   <string name="error_different_resolutions" tools:ignore="PluralsCandidate">주의! 다른 해상도 감지입니다. %1$s는 해상도 %2$dx%3$d 그리고 %4$s는 해상도 %5$dx%6$d입니다. %1$s의 해상도를 사용하세요.</string>
-  <string name="abort">중지</string>
-  <string name="merge_conflict">프로그램으로 추출하기가 불가능</string>
-  <string name="merge_conflict_variable">변수 \"%1$s\"는 두 프로그램 모두에 사용됩니다. 프로그램 같은 변수 이름을 사용하는 경우 그들은 병합할 수 없습니다. 프로그램 중 하나에 변수 이름을 변경하고 다시 시도하십시오.</string>
-  <string name="merge_conflict_list">리스트 \"%1$s\"는 두 프로그램 모두에 사용됩니다. 프로그램의 리스트에 대한 동일한 이름을 사용 하는 경우 병합할 수 없습니다. 프로그램 중 하나에서 리스트 이름을 변경하고 다시 시도하십시오.</string>
+  <string name="abort">취소</string>
+  <string name="merge_conflict">병합 불가능</string>
+  <string name="merge_conflict_variable">변수 %1$s는 두 프로그램 모두에 사용됩니다. 프로그램 같은 변수 이름을 사용하는 경우 그들은 병합할 수 없습니다. 프로그램 중 하나에 변수 이름을 변경하고 다시 시도하십시오.</string>
+  <string name="merge_conflict_list">리스트 %1$s는 두 프로그램 모두에 사용됩니다. 프로그램의 리스트에 대한 동일한 이름을 사용 하는 경우 병합할 수 없습니다. 프로그램 중 하나에서 리스트 이름을 변경하고 다시 시도하십시오.</string>
   <!-- Camera related strings -->
   <string name="brick_video">카메라 켜기</string>
-  <string name="video_brick_camera_on">On</string>
+  <string name="video_brick_camera_on">켜기</string>
   <string name="video_brick_camera_off">끄기</string>
   <string name="brick_choose_camera">카메라 사용하기</string>
   <string name="choose_camera_front">전면</string>
   <string name="choose_camera_back">후면</string>
-  <string name="error_flash_front_camera">"플래시는 후면 카메라와 함께 사용할 수 있습니다.  \"카메라\" 블록을 추가하고 장치의 후면 카메라로 변경하세요. "</string>
-  <string name="brick_wait_until">기다리기 때까지</string>
-  <string name="brick_wait_until_second_part">사실이다</string>
+  <string name="error_flash_front_camera">"플래시는 후면 카메라와 함께 사용할 수 있습니다.  \"카메라\" 블럭을 추가하고 후면 카메라로 변경하세요. "</string>
+  <string name="brick_wait_until">대기 조건</string>
+  <string name="brick_wait_until_second_part">참이다</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Pocket Code를 평가하세요</string>
-  <string name="rating_dialog_text">Pocket Code가 재미있다면, 구글 플레이에서 우리을 평가해 주세요!</string>
+  <string name="rating_dialog_text">Pocket Code가 재미있다면, 구글 플레이에서 평가해 주세요!</string>
   <string name="rating_dialog_rate_now">지금</string>
   <string name="rating_dialog_rate_later">다음에</string>
   <string name="rating_dialog_rate_never">사용 안 함</string>
@@ -998,6 +1244,25 @@
   <string name="deletion_alert_yes">예, 삭제합니다!</string>
   <string name="deletion_alert_no">아니오</string>
   <!-- Upload progress dialog -->
-  <string name="progress_upload_dialog_message">프로그램을 우리의 커뮤니티 페이지에 업로드하면 여러 사람이 사용하고 다운로드 할 수 있습니다. 또한 독립 실행형 응용 프로그램으로 당신의 프로그램을 다운로드할 수도 있습니다.</string>
+  <string name="progress_upload_dialog_message">프로그램을 우리의 커뮤니티 페이지에 업로드하면 여러 사람이 사용하고 다운로드할 수 있습니다. 또한 독립 실행형 응용 프로그램으로 당신의 프로그램을 다운로드할 수도 있습니다.</string>
   <string name="progress_upload_dialog_show_program">프로그램 보이기</string>
+  <!-- Snackbar hints -->
+  <string name="got_it">확인</string>
+  <string name="preference_description_hints">힌트 표시 사용</string>
+  <string name="preference_title_enable_hints">힌트 보기</string>
+  <string name="hint_category">카테고리의 모든 블럭이 정렬됩니다. 찾고 있는 카테고리를 선택하세요.</string>
+  <string name="hint_bricks">사용할 블럭을 터치하여 추가하세요.</string>
+  <string name="hint_brick_added">블럭을 터치하여 이동, 복사, 삭제하거나 또는 블럭모음에 블럭 추가 메뉴를 엽니다. 도움말 옵션 추가 정보가 표시됩니다. 길게 터치하여 설정하면 됩니다.</string>
+  <string name="hint_scripts">스프라이트의 동작을 정의합니다. 추가하려면  \"+\" 기호를 터치하세요.</string>
+  <string name="hint_looks">여기서 개체의 다른 모양을 찾을 수 있습니다. 추가 하려면 \"+\"를 터치하세요.</string>
+  <string name="hint_sounds">여기 새로운 소리를 추가할 수 있습니다. 소리 카테고리를 활용하세요.</string>
+  <string name="hint_objects">서로 작용할 수 있는 개체를 다른 프로그램에 의하여 이루어져 있다. 추가하려면  \"+\"를 터치하세요.</string>
+  <string name="hint_merge">두 프로그램을 병합하려면 한 프로그램에서 메뉴를 열고 \'병합\'에 탭을 누릅니다.</string>
+  <string name="hint_stage">프로그램을 일시 중지 하려면 취소버튼을 터치하세요. 축을 보거나 화면 크기를 보려면 \"축 보이기\"를 터치하세요.</string>
+  <string name="hint_scenes">프로그램은 다른 독립적인 장면 구성할 수 있습니다. 추가 하려면 \"+\" 를 터치하세요.</string>
+  <!-- Crash report dialog -->
+  <string name="pocket_code_has_crashed">포켓코드가 정지했습니다!</string>
+  <string name="crash_dialog_text">우리에게 충돌 보고서를 전송하여 포켓코드를 개선하기 위해 도와 주세요!</string>
+  <string name="crash_dialog_always_send">항상 보내기</string>
+  <string name="crash_dialog_send">보내기</string>
 </resources>
