@@ -226,7 +226,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 			if (project.getCatrobatLanguageVersion() == 0.991f) {
 				//With the introduction of grouping there are several Sprite-classes
-				convertSpritesToSingleSprites();
+				//This is simply done in XStreamSpriteConverter
 				project.setCatrobatLanguageVersion(0.992f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.992f) {
@@ -264,12 +264,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 			currentScene = project.getDefaultScene();
 			sceneToPlay = currentScene;
-		}
-	}
-
-	private void convertSpritesToSingleSprites() {
-		for (Scene scene : project.getSceneList()) {
-			scene.convertSpritesToSingleSprites();
 		}
 	}
 

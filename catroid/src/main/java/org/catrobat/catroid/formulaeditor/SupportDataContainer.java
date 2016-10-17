@@ -41,7 +41,7 @@ public class SupportDataContainer implements Serializable {
 	public Map<Sprite, List<UserVariable>> spriteVariables;
 
 	@XStreamAlias("userBrickVariableList")
-	public Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
+	Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
 
 	@XStreamAlias("programListOfLists")
 	public List<UserList> projectLists;

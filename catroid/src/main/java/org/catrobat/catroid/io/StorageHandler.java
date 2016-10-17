@@ -580,7 +580,7 @@ public final class StorageHandler {
 		}
 
 		loadSaveLock.lock();
-		Project project = null;
+		Project project;
 		try {
 			project = (Project) xstream.getProjectFromXML(new File(buildProjectPath(projectName), PROJECTCODE_NAME));
 			for (String sceneName : project.getSceneOrder()) {
