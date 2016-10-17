@@ -261,16 +261,7 @@ public class MergeTask {
 		mergeHeader.setVirtualScreenWidth(mainHeader.virtualScreenWidth);
 		mergeHeader.setVirtualScreenHeight(mainHeader.virtualScreenHeight);
 
-		String name = mainHeader.getProgramName();
-		if (!mainHeader.getRemixOf().equals("")) {
-			name += "[" + mainHeader.getRemixOf() + "]";
-		}
-
-		name += ", " + subHeader.getProgramName();
-		if (!subHeader.getRemixOf().equals("")) {
-			name += "[" + subHeader.getRemixOf() + "]";
-		}
-		mergeHeader.setRemixOf(name);
+		mergeHeader.setRemixParentsUrlString(Utils.generateRemixUrlsStringForMergedProgram(mainHeader, subHeader));
 		mergedProject.setXmlHeader(mergeHeader);
 	}
 
