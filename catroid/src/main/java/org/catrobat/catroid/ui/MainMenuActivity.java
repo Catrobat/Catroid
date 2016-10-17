@@ -30,8 +30,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.Menu;
@@ -82,6 +85,7 @@ import org.rauschig.jarchivelib.ArchiverFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
@@ -102,6 +106,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	protected Lock viewSwitchLock = new ViewSwitchLock();
 	private CallbackManager callbackManager;
 	private SignInDialog signInDialog;
+	private Menu mainMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -207,8 +212,34 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		mainMenu = menu;
+
+		final MenuItem scratchConverterMenuItem = menu.findItem(R.id.menu_scratch_converter);
+		if (scratchConverterMenuItem != null) {
+			final String title = getString(R.string.main_menu_scratch_converter);
+			final String beta = getString(R.string.beta).toUpperCase(Locale.getDefault());
+			final SpannableString spanTitle = new SpannableString(title + " " + beta);
+			final int begin = title.length() + 1;
+			final int end = begin + beta.length();
+			final int betaLabelColor = ContextCompat.getColor(this, R.color.beta_label_color);
+			spanTitle.setSpan(new ForegroundColorSpan(betaLabelColor), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			scratchConverterMenuItem.setTitle(spanTitle);
+		}
 		TextSizeUtil.enlargeOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem logout = mainMenu.findItem(R.id.menu_logout);
+		MenuItem login = mainMenu.findItem(R.id.menu_login);
+		logout.setVisible(Utils.isUserLoggedIn(this));
+		login.setVisible(!Utils.isUserLoggedIn(this));
+
+		if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
+			mainMenu.removeItem(R.id.menu_scratch_converter);
+		}
+		return true;
 	}
 
 	@Override
@@ -265,13 +296,14 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
 		loadProjectTask.execute();
 	}
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
 		if (STANDALONE_MODE) {
-			Log.d("STANDALONE", "onLoadProjectSuccess -> startStage");
+			Log.d("STANDALONE", "onLoadProjectSucess -> startStage");
 			startStageProject();
 		} else if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);

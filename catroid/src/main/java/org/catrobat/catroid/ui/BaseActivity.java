@@ -27,11 +27,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,13 +42,10 @@ import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.Locale;
-
 public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
-	private Menu baseMenu;
 	private boolean returnByPressingBackButton;
 
 	@Override
@@ -70,7 +62,6 @@ public abstract class BaseActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		// Partly from http://stackoverflow.com/a/5069354
-		Log.d("TAG", "destroy");
 		unbindDrawables(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
 		System.gc();
 
@@ -88,25 +79,6 @@ public abstract class BaseActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		baseMenu = menu;
-		getMenuInflater().inflate(R.menu.menu_base_menu, menu);
-
-		final MenuItem scratchConverterMenuItem = menu.findItem(R.id.menu_scratch_converter);
-		if (scratchConverterMenuItem != null) {
-			if (!(this instanceof MainMenuActivity)) {
-				scratchConverterMenuItem.setVisible(false);
-			} else {
-				final String title = getString(R.string.main_menu_scratch_converter);
-				final String beta = getString(R.string.beta).toUpperCase(Locale.getDefault());
-				final SpannableString spanTitle = new SpannableString(title + " " + beta);
-				final int begin = title.length() + 1;
-				final int end = begin + beta.length();
-				final int betaLabelColor = ContextCompat.getColor(this, R.color.beta_label_color);
-				spanTitle.setSpan(new ForegroundColorSpan(betaLabelColor), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				scratchConverterMenuItem.setTitle(spanTitle);
-			}
-		}
-
 		if (BuildConfig.CREATE_AT_SCHOOL) {
 			MenuItem rateAppMenuItem = menu.findItem(R.id.menu_rate_app);
 			if (rateAppMenuItem != null) {
@@ -213,15 +185,7 @@ public abstract class BaseActivity extends Activity {
 		return titleActionBar;
 	}
 
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuItem logout = baseMenu.findItem(R.id.menu_logout);
-		MenuItem login = baseMenu.findItem(R.id.menu_login);
-		logout.setVisible(Utils.isUserLoggedIn(this));
-		login.setVisible(!Utils.isUserLoggedIn(this));
-
-		if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
-			baseMenu.removeItem(R.id.menu_scratch_converter);
-		}
-		return true;
+	public void setTitleActionBar(String titleActionBar) {
+		this.titleActionBar = titleActionBar;
 	}
 }

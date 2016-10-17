@@ -36,6 +36,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.SupportDataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
@@ -48,6 +49,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @XStreamAlias("program")
@@ -83,13 +85,13 @@ public class Project implements Serializable {
 		setDeviceData(context);
 
 		MessageContainer.clear();
-
 		//This is used for tests
 		if (context == null) {
+
+			//Because in test project we can't find the string
 			sceneList.add(new Scene(context, "Scene 1", this));
 		} else {
-			sceneList.add(new Scene(context, String.format(context.getString(R.string.default_scene_name), 1),
-					this));
+			sceneList.add(new Scene(context, context.getString(R.string.default_scene_name, 1), this));
 		}
 		xmlHeader.scenesEnabled = true;
 	}
@@ -119,17 +121,45 @@ public class Project implements Serializable {
 		projectVariables = oldProject.dataContainer.projectVariables;
 		projectLists = oldProject.dataContainer.projectLists;
 		Scene scene;
+
 		try {
-			scene = new Scene(context, String.format(context.getString(R.string.default_scene_name), 1), this);
+			scene = new Scene(context, context.getString(R.string.default_scene_name, 1), this);
 		} catch (Resources.NotFoundException e) {
 			//Because in test project we can't find the string
 			scene = new Scene(context, "Scene 1", this);
 		}
 		DataContainer container = new DataContainer(this);
+		removeInvalidVariablesAndLists(oldProject.dataContainer);
 		container.setSpriteVariablesForSupportContainer(oldProject.dataContainer);
 		scene.setDataContainer(container);
 		scene.setSpriteList(oldProject.spriteList);
 		sceneList.add(scene);
+	}
+
+	private void removeInvalidVariablesAndLists(SupportDataContainer dataContainer) {
+		if (dataContainer == null) {
+			return;
+		}
+
+		if (dataContainer.spriteListOfLists != null) {
+			Iterator listIterator = dataContainer.spriteListOfLists.keySet().iterator();
+			while (listIterator.hasNext()) {
+				Sprite sprite = (Sprite) listIterator.next();
+				if (sprite == null) {
+					listIterator.remove();
+				}
+			}
+		}
+
+		if (dataContainer.spriteVariables != null) {
+			Iterator variablesIterator = dataContainer.spriteVariables.keySet().iterator();
+			while (variablesIterator.hasNext()) {
+				Sprite sprite = (Sprite) variablesIterator.next();
+				if (sprite == null) {
+					variablesIterator.remove();
+				}
+			}
+		}
 	}
 
 	public List<Scene> getSceneList() {
