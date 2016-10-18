@@ -77,12 +77,12 @@ public class ProjectDownloadService extends IntentService {
 
 		receiver = intent.getParcelableExtra(RECEIVER_TAG);
 		try {
-			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
+			ServerCalls.getInstance().downloadProject(url, zipFileString, projectName, receiver, notificationId);
 			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 
 			boolean renameProject = intent.getBooleanExtra(RENAME_AFTER_DOWNLOAD, false);
 			if (renameProject) {
-				Project projectTBRenamed = StorageHandler.getInstance().loadProject(projectName);
+				Project projectTBRenamed = StorageHandler.getInstance().loadProject(projectName, getBaseContext());
 				if (projectTBRenamed != null) {
 					projectTBRenamed.setName(projectName);
 					StorageHandler.getInstance().saveProject(projectTBRenamed);
@@ -95,7 +95,7 @@ public class ProjectDownloadService extends IntentService {
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 		} finally {
-			DownloadUtil.getInstance().downloadFinished(projectName);
+			DownloadUtil.getInstance().downloadFinished(projectName, url);
 		}
 
 		if (!result) {

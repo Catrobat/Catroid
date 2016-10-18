@@ -27,7 +27,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -45,7 +44,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -60,7 +59,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickListener {
+public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBrick, OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = UserScriptDefinitionBrick.class.getSimpleName();
@@ -216,7 +215,6 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 				continue;
 			} else if (element.isVariable()) {
 				currentTextView = new EditText(context);
-				currentTextView.setTextAppearance(context, R.style.BrickPrototypeTextView);
 				currentTextView.setText(String.valueOf(0d));
 				currentTextView.setVisibility(View.VISIBLE);
 			} else {
@@ -312,15 +310,6 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = alphaValue;
-		return view;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		return getView(context, 0, null);
 	}
@@ -383,9 +372,9 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		if (element.getText().equals(oldName)) {
 			element.setText(newName);
 			if (element.isVariable()) {
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-				DataContainer dataContainer = currentProject.getDataContainer();
+				DataContainer dataContainer = currentScene.getDataContainer();
 				if (dataContainer != null) {
 					List<UserBrick> matchingBricks = currentSprite.getUserBricksByDefinitionBrick(this, true, true);
 					for (UserBrick userBrick : matchingBricks) {
@@ -457,13 +446,13 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 			if (brick instanceof ShowTextBrick) {
 				ShowTextBrick showTextBrick = (ShowTextBrick) brick;
 				if (showTextBrick.getUserVariable().getName().equals(oldName)) {
-					((ShowTextBrick) brick).setUserVariableName(newName);
+					((ShowTextBrick) brick).getUserVariable().setName(newName);
 				}
 			}
 			if (brick instanceof HideTextBrick) {
 				HideTextBrick showTextBrick = (HideTextBrick) brick;
 				if (showTextBrick.getUserVariable().getName().equals(oldName)) {
-					((HideTextBrick) brick).setUserVariableName(newName);
+					((HideTextBrick) brick).getUserVariable().setName(newName);
 				}
 			}
 		}
@@ -488,5 +477,11 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 				}
 			}
 		}
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }

@@ -35,6 +35,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -140,7 +141,7 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		ScreenValues.SCREEN_WIDTH = SCREEN_WIDTH;
 
 		project = new Project(getActivity(), projectName);
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		Script script = new StartScript();
 		setSizeToBrick = new SetSizeToBrick(100);
 		setLookBrick = new SetLookBrick();
@@ -149,14 +150,14 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		script.addBrick(setLookBrick);
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 		StorageHandler.getInstance().saveProject(project);
 
-		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
+		File image = UiTestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
 		Log.v(TAG, image.getName());
 		LookData lookData = new LookData();

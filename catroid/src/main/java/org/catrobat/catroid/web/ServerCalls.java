@@ -24,12 +24,16 @@ package org.catrobat.catroid.web;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.login.LoginBehavior;
+import com.google.android.gms.common.images.WebImage;
 import com.google.common.base.Preconditions;
+import com.google.common.io.Closeables;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.squareup.okhttp.ConnectionSpec;
@@ -43,16 +47,32 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ScratchProgramData;
+import org.catrobat.catroid.common.ScratchSearchResult;
+import org.catrobat.catroid.common.ScratchVisibilityState;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.Utils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InterruptedIOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okio.BufferedSink;
@@ -60,7 +80,7 @@ import okio.Okio;
 
 //web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
 
-public final class ServerCalls {
+public final class ServerCalls implements ScratchDataFetcher {
 
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json";
@@ -169,6 +189,219 @@ public final class ServerCalls {
 		return INSTANCE;
 	}
 
+	public ScratchProgramData fetchScratchProgramDetails(final long programID) throws WebconnectionException,
+			WebScratchProgramException, InterruptedIOException {
+
+		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+		try {
+			final String url = Constants.SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL + programID;
+
+			Log.d(TAG, "URL to use: " + url);
+			resultString = getRequestInterruptable(url);
+			Log.d(TAG, "Result string: " + resultString);
+
+			final JSONObject jsonObject = new JSONObject(resultString);
+			if (jsonObject.length() == 0) {
+				return null;
+			}
+
+			if (!jsonObject.getBoolean("accessible")) {
+				throw new WebScratchProgramException(WebScratchProgramException.ERROR_PROGRAM_NOT_ACCESSIBLE,
+						"Program not accessible!");
+			}
+
+			final JSONObject jsonData = jsonObject.getJSONObject("projectData");
+			final String title = jsonData.getString("title");
+			final String owner = jsonData.getString("owner");
+			final String imageURL = jsonData.isNull("image_url") ? null : jsonData.getString("image_url");
+			final String instructions = jsonData.isNull("instructions") ? null : jsonData.getString("instructions");
+			final String notesAndCredits = jsonData.isNull("notes_and_credits") ? null : jsonData.getString("notes_and_credits");
+			final String sharedDateString = jsonData.getString("shared_date");
+			final String modifiedDateString = jsonData.getString("modified_date");
+			final int views = jsonData.getInt("views");
+			final int favorites = jsonData.getInt("favorites");
+			final int loves = jsonData.getInt("loves");
+			final ScratchVisibilityState visibilityState = ScratchVisibilityState.valueOf(jsonObject.getInt("visibility"));
+			final JSONArray jsonTags = jsonData.getJSONArray("tags");
+
+			Date sharedDate;
+			try {
+				sharedDate = formatter.parse(sharedDateString);
+			} catch (ParseException ex) {
+				sharedDate = null;
+			}
+
+			Date modifiedDate;
+			try {
+				modifiedDate = formatter.parse(modifiedDateString);
+			} catch (ParseException ex) {
+				modifiedDate = null;
+			}
+
+			WebImage image = null;
+			if (imageURL != null) {
+				int[] imageSize = Utils.extractImageSizeFromScratchImageURL(imageURL);
+				image = new WebImage(Uri.parse(imageURL), imageSize[0], imageSize[1]);
+			}
+
+			final ScratchProgramData programData = new ScratchProgramData(programID, title, owner, image);
+			programData.setInstructions(instructions);
+			programData.setNotesAndCredits(notesAndCredits);
+			programData.setModifiedDate(modifiedDate);
+			programData.setSharedDate(sharedDate);
+			programData.setViews(views);
+			programData.setLoves(loves);
+			programData.setFavorites(favorites);
+			programData.setVisibilityState(visibilityState);
+
+			for (int i = 0; i < jsonTags.length(); i++) {
+				programData.addTag(jsonTags.getString(i));
+			}
+
+			JSONArray remixes = jsonData.getJSONArray("remixes");
+			for (int i = 0; i < remixes.length(); ++i) {
+				JSONObject remixJson = remixes.getJSONObject(i);
+				long remixId = remixJson.getLong("id");
+				String remixTitle = remixJson.getString("title");
+				String remixOwner = remixJson.getString("owner");
+				String remixImageURL = remixJson.isNull("image") ? null : remixJson.getString("image");
+
+				WebImage remixImage = null;
+				if (remixImageURL != null) {
+					int[] remixImageSize = Utils.extractImageSizeFromScratchImageURL(remixImageURL);
+					remixImage = new WebImage(Uri.parse(remixImageURL), remixImageSize[0], remixImageSize[1]);
+				}
+
+				programData.addRemixProgram(new ScratchProgramData(remixId, remixTitle, remixOwner, remixImage));
+			}
+			return programData;
+		} catch (WebScratchProgramException exception) {
+			throw exception;
+		} catch (InterruptedIOException exception) {
+			Log.d(TAG, "OK! Request cancelled");
+			throw exception;
+		} catch (Exception exception) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		}
+	}
+
+	public ScratchSearchResult fetchDefaultScratchPrograms() throws WebconnectionException, InterruptedIOException {
+		try {
+			final String url = Constants.SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL;
+			Log.d(TAG, "URL to use: " + url);
+			resultString = getRequestInterruptable(url);
+			Log.d(TAG, "Result string: " + resultString);
+
+			final JSONObject jsonObject = new JSONObject(resultString);
+			final JSONArray results = jsonObject.getJSONArray("results");
+			final List<ScratchProgramData> programDataList = extractScratchProgramDataListFromJson(results);
+
+			return new ScratchSearchResult(programDataList, null, 0);
+		} catch (InterruptedIOException exception) {
+			Log.d(TAG, "OK! Request cancelled");
+			throw exception;
+		} catch (Exception exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		}
+	}
+
+	public ScratchSearchResult scratchSearch(final String query, final int numberOfItems, final int pageNumber)
+			throws WebconnectionException, InterruptedIOException {
+		Preconditions.checkNotNull(query, "Parameter query cannot be null!");
+		Preconditions.checkArgument(numberOfItems > 0, "Parameter numberOfItems must be greater than 0");
+		Preconditions.checkArgument(pageNumber >= 0, "Parameter page must be greater or equal than 0");
+
+		try {
+			final HashMap<String, String> httpGetParams = new HashMap<String, String>() {
+				{
+					put("limit", Integer.toString(numberOfItems));
+					put("offset", Integer.toString(pageNumber * numberOfItems));
+					put("language", Locale.getDefault().getLanguage());
+					put("q", URLEncoder.encode(query, "UTF-8"));
+				}
+			};
+
+			StringBuilder urlStringBuilder = new StringBuilder(Constants.SCRATCH_SEARCH_URL);
+			urlStringBuilder.append('?');
+			for (Map.Entry<String, String> entry : httpGetParams.entrySet()) {
+				urlStringBuilder.append(entry.getKey());
+				urlStringBuilder.append('=');
+				urlStringBuilder.append(entry.getValue());
+				urlStringBuilder.append('&');
+			}
+			urlStringBuilder.setLength(urlStringBuilder.length() - 1); // removes trailing "&" or "?" character
+
+			final String url = urlStringBuilder.toString();
+			Log.d(TAG, "URL to use: " + url);
+			resultString = getRequestInterruptable(url);
+			Log.d(TAG, "Result string: " + resultString);
+
+			final JSONArray results = new JSONArray(resultString);
+			final List<ScratchProgramData> programDataList = extractScratchProgramDataListFromJson(results);
+
+			return new ScratchSearchResult(programDataList, query, pageNumber);
+		} catch (InterruptedIOException exception) {
+			Log.d(TAG, "OK! Request cancelled");
+			throw exception;
+		} catch (Exception exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		}
+	}
+
+	private List<ScratchProgramData> extractScratchProgramDataListFromJson(final JSONArray jsonArray)
+			throws JSONException, ParseException {
+		final DateFormat iso8601LocalDateFormat = new SimpleDateFormat(Constants.DATE_FORMAT_ISO_8601, Locale.US);
+		ArrayList<ScratchProgramData> programDataList = new ArrayList<>();
+
+		for (int i = 0; i < jsonArray.length(); ++i) {
+			JSONObject programJsonData = jsonArray.getJSONObject(i);
+			final long id = programJsonData.getLong("id");
+			final String title = programJsonData.getString("title");
+			final String notesAndCredits = programJsonData.getString("description");
+			final String instructions = programJsonData.getString("instructions");
+			final String imageURL = programJsonData.isNull("image") ? null : programJsonData.getString("image");
+
+			final JSONObject authorJsonData = programJsonData.getJSONObject("author");
+			// final String ownerUserID = authorJsonData.getString("id"); // reserved for later use!
+			final String ownerUserName = authorJsonData.getString("username");
+
+			final JSONObject historyJsonData = programJsonData.getJSONObject("history");
+			final String createdDateString = historyJsonData.getString("created");
+			final String modifiedDateString = historyJsonData.getString("modified");
+			final String sharedDateString = historyJsonData.getString("shared");
+			final Date createdDate = iso8601LocalDateFormat.parse(createdDateString);
+			final Date modifiedDate = iso8601LocalDateFormat.parse(modifiedDateString);
+			final Date sharedDate = iso8601LocalDateFormat.parse(sharedDateString);
+
+			final JSONObject statisticsJsonData = programJsonData.getJSONObject("stats");
+			final int views = statisticsJsonData.getInt("views");
+			final int loves = statisticsJsonData.getInt("loves");
+			final int favorites = statisticsJsonData.getInt("favorites");
+			// final long comments = statisticsJsonData.getLong("comments"); // reserved for later use!
+
+			WebImage image = null;
+			if (imageURL != null) {
+				int[] imageSize = Utils.extractImageSizeFromScratchImageURL(imageURL);
+				image = new WebImage(Uri.parse(imageURL), imageSize[0], imageSize[1]);
+			}
+
+			final ScratchProgramData programData = new ScratchProgramData(id, title, ownerUserName, image);
+			programData.setInstructions(instructions);
+			programData.setNotesAndCredits(notesAndCredits);
+			programData.setCreatedDate(createdDate);
+			programData.setModifiedDate(modifiedDate);
+			programData.setSharedDate(sharedDate);
+			programData.setViews(views);
+			programData.setLoves(loves);
+			programData.setFavorites(favorites);
+			programDataList.add(programData);
+		}
+		return programDataList;
+	}
+
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
 			String language, String token, String username, ResultReceiver receiver, Integer notificationId,
 			Context context) throws WebconnectionException {
@@ -256,8 +489,8 @@ public final class ServerCalls {
 		}
 	}
 
-	public void downloadProject(String url, String filePath, final ResultReceiver receiver,
-			final int notificationId) throws IOException, WebconnectionException {
+	public void downloadProject(final String url, final String filePath, final String programName,
+			final ResultReceiver receiver, final int notificationId) throws IOException, WebconnectionException {
 
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
@@ -268,7 +501,15 @@ public final class ServerCalls {
 				.url(url)
 				.build();
 
-		okHttpClient.networkInterceptors().add(new Interceptor() {
+		// do not use default client for NON-HTTPS requests!
+		OkHttpClient httpClient = okHttpClient;
+		if (url.startsWith("http://")) {
+			httpClient = new OkHttpClient();
+			// allow HTTP instead of HTTPS!
+			httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
+		}
+
+		httpClient.networkInterceptors().add(new Interceptor() {
 			@Override
 			public Response intercept(Chain chain) throws IOException {
 				Response originalResponse = chain.proceed(chain.request());
@@ -279,7 +520,9 @@ public final class ServerCalls {
 							.body(new ProgressResponseBody(
 									originalResponse.body(),
 									receiver,
-									notificationId))
+									notificationId,
+									programName,
+									url))
 							.build();
 				} else {
 					return originalResponse;
@@ -288,7 +531,7 @@ public final class ServerCalls {
 		});
 
 		try {
-			Response response = okHttpClient.newCall(request).execute();
+			Response response = httpClient.newCall(request).execute();
 			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
 			bufferedSink.writeAll(response.body().source());
 			bufferedSink.close();
@@ -299,7 +542,7 @@ public final class ServerCalls {
 		}
 	}
 
-	public void downloadMedia(String url, String filePath, final ResultReceiver receiver)
+	public void downloadMedia(final String url, final String filePath, final ResultReceiver receiver)
 			throws IOException, WebconnectionException {
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
@@ -318,7 +561,9 @@ public final class ServerCalls {
 						.body(new ProgressResponseBody(
 								originalResponse.body(),
 								receiver,
-								0))
+								0,
+								null,
+								url))
 						.build();
 			}
 		});
@@ -332,6 +577,29 @@ public final class ServerCalls {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
+		}
+	}
+
+	@Nullable
+	public byte[] downloadFile(final String url) throws Throwable {
+		InputStream inputStream = null;
+		try {
+			Log.d(TAG, "Downloading file from URL: " + url);
+			URL imageUrl = new URL(url);
+			HttpURLConnection connection = (HttpURLConnection) imageUrl.openConnection();
+			connection.setConnectTimeout(Constants.DOWNLOAD_FILE_HTTP_TIMEOUT);
+			connection.setReadTimeout(Constants.DOWNLOAD_FILE_HTTP_TIMEOUT);
+			connection.setInstanceFollowRedirects(true);
+			inputStream = connection.getInputStream();
+			if (inputStream == null) {
+				return null;
+			}
+			return Utils.convertInputStreamToByteArray(inputStream);
+		} catch (Throwable ex) {
+			Log.e(TAG, ex.getMessage());
+			throw ex;
+		} finally {
+			Closeables.closeQuietly(inputStream);
 		}
 	}
 
@@ -396,6 +664,33 @@ public final class ServerCalls {
 		try {
 			Response response = okHttpClient.newCall(request).execute();
 			return response.body().string();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
+					"Connection could not be established!");
+		}
+	}
+
+	public String getRequestInterruptable(String url) throws InterruptedIOException, WebconnectionException {
+		Request request = new Request.Builder()
+				.url(url)
+				.build();
+
+		try {
+			OkHttpClient httpClient = okHttpClient;
+
+			// do not use default client for NON-HTTPS requests!
+			if (url.startsWith("http://")) {
+				httpClient = new OkHttpClient();
+				// allows HTTP instead of HTTPS!
+				httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
+			}
+
+			Response response = httpClient.newCall(request).execute();
+			return response.body().string();
+		} catch (InterruptedIOException interruptedException) {
+			Log.d(TAG, "Request cancelled");
+			throw interruptedException;
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,

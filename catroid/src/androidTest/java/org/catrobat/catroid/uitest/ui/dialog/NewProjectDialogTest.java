@@ -212,8 +212,8 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		assertNotNull("Empty project shouldn't be null", project);
-		assertEquals("Just background object should exist", 1, project.getSpriteList().size());
-		assertEquals("Just background object should exist", solo.getString(R.string.background), project
+		assertEquals("Just background object should exist", 1, project.getDefaultScene().getSpriteList().size());
+		assertEquals("Just background object should exist", solo.getString(R.string.background), project.getDefaultScene()
 				.getSpriteList().get(0).getName());
 	}
 }

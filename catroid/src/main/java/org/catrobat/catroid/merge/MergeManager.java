@@ -27,8 +27,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
@@ -43,31 +45,62 @@ public final class MergeManager {
 	}
 
 	public static void merge(String firstProjectName, String secondProjectName, Activity activity, ProjectAdapter adapter) {
-		Project firstProject = StorageHandler.getInstance().loadProject(firstProjectName);
-		Project secondProject = StorageHandler.getInstance().loadProject(secondProjectName);
+		Project firstProject = StorageHandler.getInstance().loadProject(firstProjectName, activity);
+		Project secondProject = StorageHandler.getInstance().loadProject(secondProjectName, activity);
+
+		if (firstProject == null || secondProject == null) {
+			Utils.showErrorDialog(activity, R.string.error_load_project);
+			return;
+		}
 
 		if (firstProject.getName().equals(secondProject.getName())) {
 			Utils.showErrorDialog(activity, R.string.error_merge_with_self);
 			return;
 		}
+		boolean justAddAsScene = firstProject.getSceneList().size() == 1 ^ secondProject.getSceneList().size() == 1;
+		showMergeDialog(firstProject, secondProject, activity, adapter, justAddAsScene);
+	}
 
+	private static void showMergeDialog(Project firstProject, Project secondProject, Activity activity, ProjectAdapter adapter, boolean addScene) {
 		XmlHeader firstHeader = firstProject.getXmlHeader();
 		XmlHeader secondHeader = secondProject.getXmlHeader();
 		boolean areScreenSizesDifferent = firstHeader.getVirtualScreenHeight() != secondHeader.getVirtualScreenHeight()
 				|| firstHeader.getVirtualScreenWidth() != secondHeader.getVirtualScreenWidth();
 
 		if (areScreenSizesDifferent) {
-			showDifferentResolutionDialog(firstProject, secondProject, activity, adapter);
+			showDifferentResolutionDialog(firstProject, secondProject, activity, adapter, addScene);
 		} else {
-			MergeTask merge = new MergeTask(firstProject, secondProject, activity, adapter);
+			MergeTask merge = new MergeTask(firstProject, secondProject, activity, adapter, addScene);
 			MergeNameDialog mergeDialog = new MergeNameDialog(merge);
 
 			mergeDialog.show(activity.getFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 		}
 	}
 
+	public static boolean mergeScene(String firstSceneName, String secondSceneName, String resultName, Activity activity) {
+		Scene firstScene = ProjectManager.getInstance().getCurrentProject().getSceneByName(firstSceneName);
+		Scene secondScene = ProjectManager.getInstance().getCurrentProject().getSceneByName(secondSceneName);
+
+		if (firstScene == null || secondScene == null) {
+			Utils.showErrorDialog(activity, R.string.error_merge_scene_not_found);
+			return false;
+		}
+
+		if (firstScene.getName().equals(secondScene.getName())) {
+			Utils.showErrorDialog(activity, R.string.error_merge_with_self_scene);
+			return false;
+		}
+
+		MergeTask merge = new MergeTask(firstScene, secondScene, activity);
+		if (!merge.mergeScenes(resultName)) {
+			Utils.showErrorDialog(activity, R.string.merge_conflict);
+		}
+
+		return true;
+	}
+
 	private static void showDifferentResolutionDialog(final Project firstProject, final Project secondProject,
-			final Activity activity, final ProjectAdapter adapter) {
+			final Activity activity, final ProjectAdapter adapter, final boolean addScene) {
 
 		XmlHeader currentProject = firstProject.getXmlHeader();
 		XmlHeader headerFrom = secondProject.getXmlHeader();
@@ -78,7 +111,7 @@ public final class MergeManager {
 			public void onClick(DialogInterface dialog, int which) {
 				switch (which) {
 					case DialogInterface.BUTTON_POSITIVE:
-						MergeTask merge = new MergeTask(firstProject, secondProject, activity, adapter);
+						MergeTask merge = new MergeTask(firstProject, secondProject, activity, adapter, addScene);
 						MergeNameDialog mergeDialog = new MergeNameDialog(merge);
 
 						mergeDialog.show(activity.getFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);

@@ -34,6 +34,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -83,7 +84,7 @@ public class ShowTextBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 		assertEquals("Incorrect number of bricks.", 5, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
@@ -92,9 +93,9 @@ public class ShowTextBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_set_variable)));
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_show_text_edit_text_x, 10, Brick.BrickField.X_POSITION, showTextBrick);
+				R.id.brick_show_variable_edit_text_x, 10, Brick.BrickField.X_POSITION, showTextBrick);
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_show_text_edit_text_y, 10, Brick.BrickField.Y_POSITION, showTextBrick);
+				R.id.brick_show_variable_edit_text_y, 10, Brick.BrickField.Y_POSITION, showTextBrick);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
@@ -120,7 +121,7 @@ public class ShowTextBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		Script script = new StartScript();
 
 		setVariableBrick = new SetVariableBrick();
@@ -136,7 +137,7 @@ public class ShowTextBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 		script.addBrick(hideTextBrick);
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

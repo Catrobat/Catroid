@@ -31,7 +31,7 @@ public class ConcurrentFormulaHashMap extends ConcurrentHashMap<Brick.BrickField
 	private static final long serialVersionUID = 9030965461744658052L;
 
 	@Override
-	protected ConcurrentFormulaHashMap clone() throws CloneNotSupportedException {
+	public ConcurrentFormulaHashMap clone() throws CloneNotSupportedException {
 		ConcurrentFormulaHashMap copiedMap = new ConcurrentFormulaHashMap();
 		for (Brick.BrickField key : keySet()) {
 			Formula value = get(key);

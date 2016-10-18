@@ -28,6 +28,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -69,7 +70,7 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		assertEquals("Incorrect number of bricks.", 4, dragDropListView.getCount());
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 
@@ -153,14 +154,14 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	private void createProject() {
 
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		Script script = new StartScript();
 		script.addBrick(new PlaceAtBrick(100, 100));
 		script.addBrick(new PlaceAtBrick(100, 100));
 		script.addBrick(new PlaceAtBrick(100, 100));
 		sprite.addScript(script);
 
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

@@ -216,7 +216,7 @@
         <item name="android:maxLines" >1</item >
     </style >
 
-    <style name="BrickPrototypeTextView" parent="android:style/Widget.EditText" >
+    <style name="BrickEditText" parent="android:style/Widget.EditText" >
         <item name="android:focusable" >false</item >
         <item name="android:focusableInTouchMode" >false</item >
         <item name="android:clickable" >false</item >
@@ -242,11 +242,6 @@
         <item name="android:layout_height" >wrap_content</item >
         <item name="android:singleLine" >true</item >
         <item name="android:ellipsize" >end</item >
-    </style >
-
-
-    <style name="BrickEditText" parent="@style/BrickPrototypeTextView" >
-        <item name="android:visibility" >gone</item >
     </style >
 
     <style name="BrickContainer" >
@@ -301,6 +296,23 @@
     </style >
 
     <style name="BrickContainer.Look.Big" >
+        <item name="android:minHeight" >@dimen/brick_height_big</item >
+        <item name="android:background" >@drawable/brick_green_3h</item >
+    </style >
+
+    <style name="BrickContainer.Pen" ></style >
+
+    <style name="BrickContainer.Pen.Small" >
+        <item name="android:minHeight" >@dimen/brick_height_small</item >
+        <item name="android:background" >@drawable/brick_darkgreen_1h</item >
+    </style >
+
+    <style name="BrickContainer.Pen.Medium" >
+        <item name="android:minHeight" >@dimen/brick_height_medium</item >
+        <item name="android:background" >@drawable/brick_darkgreen_2h</item >
+    </style >
+
+    <style name="BrickContainer.Pen.Big" >
         <item name="android:minHeight" >@dimen/brick_height_big</item >
         <item name="android:background" >@drawable/brick_green_3h</item >
     </style >
@@ -451,6 +463,23 @@
         <item name="android:background" >@drawable/brick_orange_3h</item >
     </style >
 
+    <style name="BrickContainer.Event" ></style >
+
+    <style name="BrickContainer.Event.Small" >
+        <item name="android:minHeight" >@dimen/brick_height_small</item >
+        <item name="android:background" >@drawable/brick_brown_1h_when_9</item >
+    </style >
+
+    <style name="BrickContainer.Event.MediumWhen" >
+        <item name="android:minHeight" >@dimen/brick_height_medium</item >
+        <item name="android:background" >@drawable/brick_brown_2h_when_9</item >
+    </style >
+
+    <style name="BrickContainer.Event.Medium" >
+        <item name="android:minHeight" >@dimen/brick_height_medium</item >
+        <item name="android:background" >@drawable/brick_brown_2h_9</item >
+</style >
+
     <style name="BrickContainer.Script" ></style >
 
     <style name="BrickContainer.Script.Small" >
@@ -570,6 +599,11 @@
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_control</item >
     </style >
 
+    <style name="BrickCategoryText.Event" >
+        <item name="android:background" >@drawable/brick_selection_background_event</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_event</item >
+    </style >
+
     <style name="BrickCategoryText.Motion" >
         <item name="android:background" >@drawable/brick_selection_background_motion</item >
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_motion</item >
@@ -582,6 +616,11 @@
 
     <style name="BrickCategoryText.Looks" >
         <item name="android:background" >@drawable/brick_selection_background_looks</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_looks</item >
+    </style >
+
+    <style name="BrickCategoryText.Pen" >
+        <item name="android:background" >@drawable/brick_selection_background_pen</item >
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_looks</item >
     </style >
 
@@ -707,6 +746,17 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:textColor">@color/holo_blue_bright</item>
         <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="SpriteGroupIndicatorImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">12dp</item >
+        <item name="android:layout_marginBottom">15dp</item >
+        <item name="android:cropToPadding">true</item >
+        <item name="android:padding">1.5dp</item >
+        <item name="android:scaleType">centerCrop</item >
+        <item name="android:visibility">gone</item >
     </style>
 
 </resources>

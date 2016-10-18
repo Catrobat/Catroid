@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -85,8 +86,8 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite = new Sprite("TestSprite");
-		project.addSprite(sprite);
+		sprite = new SingleSprite("TestSprite");
+		project.getDefaultScene().addSprite(sprite);
 	}
 
 	@Override
@@ -186,14 +187,14 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		startScript.addBrick(setPhysicsObjectTypeBrick);
 		sprite.addScript(startScript);
 
-		PhysicsWorld physicsWorld = project.getPhysicsWorld();
+		PhysicsWorld physicsWorld = project.getDefaultScene().getPhysicsWorld();
 		sprite.look = new Look(sprite);
 
 		String rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
 		File rectangle125x125File = null;
 		LookData lookdata;
 		try {
-			rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+			rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
 					rectangle125x125FileName, RECTANGLE125X125_RES_ID, getInstrumentation().getContext(),
 					TestUtils.TYPE_IMAGE_FILE);
 			lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);

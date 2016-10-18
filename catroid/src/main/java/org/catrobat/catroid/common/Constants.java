@@ -24,20 +24,22 @@ package org.catrobat.catroid.common;
 
 import android.os.Environment;
 
+import java.util.Calendar;
+
 public final class Constants {
 
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.991f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.992f);
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
 	public static final String PROJECTCODE_NAME = "code.xml";
 	public static final String PROJECTPERMISSIONS_NAME = "permissions.txt";
-	public static final String PROJECTPERMISSIONS_NAME_TMP = "tmp_" + PROJECTPERMISSIONS_NAME;
 	public static final String PROJECTCODE_NAME_TMP = "tmp_" + PROJECTCODE_NAME;
+	public static final String SCENES_ENABLED_TAG = "<scenesEnabled>";
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String IMAGE_STANDARD_EXTENSION = ".png";
@@ -54,6 +56,7 @@ public final class Constants {
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String SOUND_DIRECTORY = "sounds";
+	public static final String SCENES_DIRECTORY = "scenes";
 	public static final String BACKPACK_DIRECTORY = "backpack";
 	public static final String TMP_LOOKS_PATH = TMP_PATH + "/looks";
 	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";
@@ -150,6 +153,35 @@ public final class Constants {
 
 	public static final String WHATSAPP_URI = "whatsapp://";
 
+	// Scratch Converter
+	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
+	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
+	public static final String SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME = "scratchconverter.clientID";
+	public static final String SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME = "scratchconverter"
+			+ ".downloadStatePref";
+	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
+	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
+	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
+	public static final String SCRATCH_CONVERTER_WEB_SOCKET = "ws://" + SCRATCH_CONVERTER_HOST + "/convertersocket";
+	public static final String SCRATCH_CONVERTER_BASE_URL = "http://" + SCRATCH_CONVERTER_HOST + "/";
+	public static final String SCRATCH_CONVERTER_API_BASE_URL = SCRATCH_CONVERTER_BASE_URL + "api/v1/";
+	public static final String SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL = SCRATCH_CONVERTER_API_BASE_URL + "projects/";
+	public static final int SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_YEAR = 2013;
+	public static final int SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_MONTH = Calendar.MAY;
+	public static final int SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_DAY = 9;
+	public static final int SCRATCH_HTTP_REQUEST_MIN_TIMEOUT = 1_000; // in ms
+	public static final int SCRATCH_HTTP_REQUEST_MAX_NUM_OF_RETRIES = 2;
+	public static final int SCRATCH_IMAGE_DEFAULT_WIDTH = 150;
+	public static final int SCRATCH_IMAGE_DEFAULT_HEIGHT = 150;
+	public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
+	public static final String DATE_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+	public static final long MEMORY_OBJECT_CACHE_EXPIRE_TIME = 120_000;                          // 2 minutes (in ms)
+	public static final int MEMORY_OBJECT_CACHE_MAX_SIZE = 10_000;
+	public static final String INTENT_SCRATCH_PROGRAM_DATA = "scratchProgramData";
+	public static final int INTENT_REQUEST_CODE_SPEECH = 0;
+	public static final int INTENT_REQUEST_CODE_CONVERT = 1;
+
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
 	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
@@ -165,9 +197,24 @@ public final class Constants {
 	public static final String PROJECT_OPENED_FROM_PROJECTS_LIST = "projectList";
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
+	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
+
+	public static final int COLLISION_VERTEX_LIMIT = 100;
+	public static final float COLLISION_POLYGON_CREATION_EPSILON = 10.0f;
+	public static final String COLLISION_POLYGON_METADATA_PATTERN = "((((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+))\\|)*((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+)";
+
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
 	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";
+	public static final int SAY_BRICK = 0;
+	public static final int THINK_BRICK = 1;
+	public static final int MAX_STRING_LENGTH_BUBBLES = 16;
+	public static final int BORDER_THICKNESS_BUBBLES = 5;
+	public static final int TEXT_SIZE_BUBBLE = 30;
+	public static final int LINE_SPACING_BUBBLES = 3;
+	public static final int PADDING_TOP = 40;
+	public static final int PADDING_LEFT = 30;
+	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
 
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;

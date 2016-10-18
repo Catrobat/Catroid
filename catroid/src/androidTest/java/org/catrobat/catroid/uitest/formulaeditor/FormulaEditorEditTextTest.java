@@ -29,12 +29,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.github.johnpersano.supertoasts.SuperToast;
+import com.github.johnpersano.supertoasts.library.Style;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -82,7 +83,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	private void createProject(String projectName) throws InterruptedException {
 		Project project = new Project(null, projectName);
-		Sprite firstSprite = new Sprite("nom nom nom");
+		Sprite firstSprite = new SingleSprite("nom nom nom");
 		Script startScript = new StartScript();
 		Brick changeBrick = new ChangeSizeByNBrick(0);
 		Formula longFormula = createVeryLongFormula();
@@ -90,7 +91,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		startScript.addBrick(waitBrick);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
@@ -486,13 +487,13 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
 
-		solo.sleep(SuperToast.Duration.SHORT);
+		solo.sleep(Style.DURATION_SHORT);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
 
-		solo.sleep(SuperToast.Duration.SHORT);
+		solo.sleep(Style.DURATION_SHORT);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));

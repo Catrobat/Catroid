@@ -26,6 +26,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
@@ -46,13 +47,13 @@ public class WaitUntilActionTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		testSprite = new Sprite("testSprite");
+		testSprite = new SingleSprite("testSprite");
 		project = new Project(null, "testProject");
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
+		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
 	}
 
 	public void testWaitUntilBrick() {
@@ -81,7 +82,7 @@ public class WaitUntilActionTest extends AndroidTestCase {
 		WaitUntilBrick waitUntilBrick = new WaitUntilBrick(validFormula);
 		testScript.addBrick(waitUntilBrick);
 		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
+		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());

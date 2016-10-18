@@ -127,13 +127,13 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		projectManager = ProjectManager.getInstance();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(FIRST_TEST_SOUND_NAME);
 
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "testsoundui.mp3",
 				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		soundInfo2 = new SoundInfo();
 		soundInfo2.setSoundFileName(soundFile.getName());
@@ -275,7 +275,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		int numberOfSoundsBeforeCopy = getCurrentNumberOfSounds();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 		solo.clickOnCheckBox(0);
 
 		solo.clickOnText(SECOND_TEST_SOUND_NAME);
@@ -291,7 +291,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testCopySelectAll() {
 		int numberOfSoundsBeforeCopy = getCurrentNumberOfSounds();
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(TIME_TO_WAIT);
@@ -643,7 +643,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testRenameActionModeChecking() {
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -664,7 +664,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testRenameActionModeIfNothingSelected() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -751,7 +751,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.goBack();
 		deleteSound(FIRST_TEST_SOUND_NAME);
 		solo.sleep(200);
-		UiTestUtils.openBackPack(solo, getActivity());
+		UiTestUtils.openBackPack(solo);
 
 		clickOnContextMenuItem(firstTestSoundNamePacked, unpack);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
@@ -788,10 +788,10 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertNotNull("Could not get Adapter", adapter);
 		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
 		solo.clickOnText(solo.getString(R.string.sounds));
 
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(firstTestSoundNamePacked, unpack);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
@@ -819,7 +819,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.clickOnText(SECOND_SPRITE_NAME);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.clickOnText(solo.getString(R.string.sounds));
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(firstTestSoundNamePacked, unpack);
 		solo.waitForDialogToClose(1000);
@@ -828,7 +828,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testBackPackActionModeCheckingAndTitle() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -874,7 +874,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testBackPackActionModeIfNothingSelected() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		int expectedNumberOfSounds = soundInfoList.size();
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -882,7 +882,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 0, TIME_TO_WAIT));
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		solo.goBack();
@@ -891,7 +891,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testBackPackActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -905,7 +905,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testBackPackSelectAll() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		solo.waitForActivity("ScriptActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -955,7 +955,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Backpack sound file doesn't exist", UiTestUtils.fileExists(pathOfFirstBackPackedSound));
 		assertTrue("Backpack sound file doesn't exist", UiTestUtils.fileExists(pathOfSecondBackPackedSound));
 
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 
 		int newCount = adapter.getCount();
 		solo.sleep(500);
@@ -971,12 +971,12 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testBackPackSoundActionModeDifferentProgrammes() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
-		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
 		solo.clickOnText(solo.getString(R.string.sounds));
 
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 
-		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -985,17 +985,17 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.waitForFragmentByTag(SoundFragment.TAG);
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(FIRST_TEST_SOUND_NAME, 1, 1000));
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(SECOND_TEST_SOUND_NAME, 1, 1000));
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 		assertFalse("Sound wasn't deleted!", solo.waitForText(FIRST_TEST_SOUND_NAME, 1, 1000));
 		assertFalse("Sound wasn't deleted!", solo.waitForText(SECOND_TEST_SOUND_NAME, 1, 1000));
 
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		assertTrue("Backpack items were cleared!", solo.waitForText(backpackTitle, 1, 1000));
 	}
 
 	public void testBackPackDeleteActionModeCheckingAndTitle() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1042,7 +1042,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testBackPackDeleteActionModeIfNothingSelected() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		int expectedNumberOfSounds = BackPackListManager.getInstance().getBackPackedSounds().size();
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
@@ -1051,7 +1051,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		solo.goBack();
@@ -1061,7 +1061,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testBackPackDeleteActionModeIfSomethingSelectedAndPressingBack() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1075,7 +1075,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testBackPackDeleteSelectAll() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		solo.waitForActivity("BackPackActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
@@ -1114,7 +1114,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		// Test if showDetails is remembered after pressing back
 		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		UiTestUtils.openBackPack(solo, getActivity());
+		UiTestUtils.openBackPack(solo);
 		solo.waitForActivity(BackPackActivity.class.getSimpleName());
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
@@ -1148,7 +1148,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		UiTestUtils.openBackPackActionMode(solo, getActivity());
+		UiTestUtils.openBackPackActionMode(solo);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -1166,7 +1166,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1180,7 +1180,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testRenameActionModeEqualSoundNames() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1217,7 +1217,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		String addDialogTitle = solo.getString(R.string.sound_select_source);
 
 		// Test on rename ActionMode
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1234,7 +1234,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(500);
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1267,7 +1267,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testDeleteSelectAll() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(TIME_TO_WAIT);
@@ -1284,7 +1284,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1333,7 +1333,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1348,7 +1348,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testDeleteActionModeIfSelectedAndPressingBack() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1366,7 +1366,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testDeleteActionMode() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds() - 2;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1422,7 +1422,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int currentNumberOfSounds = soundInfoList.size();
 		assertEquals("Wrong number of sounds", 5, currentNumberOfSounds);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.sleep(800);
 
 		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
@@ -1468,7 +1468,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		solo.clickOnView(playAndStopImageButton);
 		solo.sleep(timeToWait);
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if rename action has been opened", soundInfo.isPlaying);
 		solo.goBack();
@@ -1477,14 +1477,14 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		solo.clickOnView(playAndStopImageButton);
 		solo.sleep(timeToWait);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if delete action has been opened", soundInfo.isPlaying);
 		solo.goBack();
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnView(playAndStopImageButton);
 		solo.clickOnCheckBox(0);
 		solo.sleep(timeToWait);
@@ -1512,7 +1512,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("Empty View shown although there are items in the list!", View.GONE,
 				solo.getView(android.R.id.empty).getVisibility());
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 
@@ -1536,7 +1536,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testSelectAllActionModeButton() {
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -1554,7 +1554,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		solo.goBack();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -1577,28 +1577,28 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		soundInfoList.clear();
 		UiTestUtils.createEmptyProject();
 
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to backpack dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_backpack_and_unpack)));
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to delete dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_delete)));
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to backpack dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_copy)));
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
+		UiTestUtils.openActionMode(solo, rename, R.id.rename);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to backpack dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_rename)));
@@ -1606,16 +1606,16 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testEmptyActionModeDialogsInBackPack() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to delete dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_delete)));
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_unpack)));
@@ -1625,16 +1625,16 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
 
 		solo.goBack();
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 
-		UiTestUtils.openActionMode(solo, backpack, R.id.backpack, getActivity());
+		UiTestUtils.openActionMode(solo, backpack, R.id.backpack);
 		solo.waitForActivity(BackPackActivity.class);
 		assertTrue("Backpack wasn't opened", solo.waitForText(backpackTitle));
 	}
 
 	public void testOpenDeleteDialogAndGoBack() {
 		int viewAmountBeforeDeleteMode = solo.getCurrentViews().size();
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1654,7 +1654,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	private void addNewSound(String title, String fileName, int resource) {
-		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, fileName,
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), fileName,
 				resource, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
@@ -1737,7 +1737,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	private void packSingleItem(String soundName, boolean backPackEmpty) {
-		UiTestUtils.openActionMode(solo, backpack, R.id.backpack, getActivity());
+		UiTestUtils.openActionMode(solo, backpack, R.id.backpack);
 		if (!backPackEmpty) {
 			solo.waitForDialogToOpen();
 			solo.clickOnText(backpackAdd);
@@ -1749,7 +1749,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	private void clickSingleItemActionMode(String soundName, int menuItem, String itemName) {
-		UiTestUtils.openActionMode(solo, itemName, menuItem, getActivity());
+		UiTestUtils.openActionMode(solo, itemName, menuItem);
 		solo.clickOnText(soundName);
 		solo.sleep(TIME_TO_WAIT);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -1778,12 +1778,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		int startIndex = 0;
-		if (solo.getCurrentViews(CheckBox.class).size() > projectManager.getCurrentSprite().getSoundList().size()) {
-			startIndex = 1;
-		}
-		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex);
-		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex + 1);
+		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
+		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}

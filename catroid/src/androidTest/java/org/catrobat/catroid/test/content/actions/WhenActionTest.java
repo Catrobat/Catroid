@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -34,7 +35,7 @@ public class WhenActionTest extends AndroidTestCase {
 	public void testWhenBrick() throws InterruptedException {
 		int testPosition = 100;
 
-		Sprite sprite = new Sprite("new sprite");
+		Sprite sprite = new SingleSprite("new SingleSprite");
 		WhenScript whenScript = new WhenScript();
 		whenScript.setAction(1);
 		Brick placeAtBrick = new PlaceAtBrick(testPosition, testPosition);

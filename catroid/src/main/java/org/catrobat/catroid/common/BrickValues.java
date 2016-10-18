@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.common;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 import org.catrobat.catroid.physics.PhysicsObject;
@@ -61,6 +62,13 @@ public final class BrickValues {
 	public static final Float SET_COLOR_TO = 0f;
 	public static final Float CHANGE_COLOR_BY = 25f;
 	public static final Float VIBRATE_SECONDS = 1f;
+	public static final int GO_TO_TOUCH_POSITION = 80;
+	public static final int GO_TO_RANDOM_POSITION = 81;
+	public static final int GO_TO_OTHER_SPRITE_POSITION = 82;
+
+	//constants Pen
+	public static final Float PEN_SIZE = 4f;
+	public static final Color PEN_COLOR = Color.BLUE;
 
 	//constants Sounds
 	public static final Float SET_VOLUME_TO = 60f;
@@ -71,6 +79,9 @@ public final class BrickValues {
 	public static final int REPEAT = 10;
 	public static final String IF_CONDITION = "1 < 2";
 	public static final String NOTE = "add comment here…";
+	public static final int STOP_THIS_SCRIPT = 0;
+	public static final int STOP_ALL_SCRIPTS = 1;
+	public static final int STOP_OTHER_SCRIPTS = 2;
 
 	//Constants Lego
 	public static final String LEGO_MOTOR = "A";

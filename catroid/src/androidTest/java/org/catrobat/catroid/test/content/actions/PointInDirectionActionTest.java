@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,7 +36,7 @@ public class PointInDirectionActionTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		sprite = new Sprite("testSprite");
+		sprite = new SingleSprite("testSprite");
 		super.setUp();
 	}
 
@@ -64,7 +65,7 @@ public class PointInDirectionActionTest extends AndroidTestCase {
 	}
 
 	public void testRotateAndPoint() {
-		Sprite sprite = new Sprite("test");
+		Sprite sprite = new SingleSprite("test");
 		sprite.look.setRotation(-42);
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(Direction.RIGHT.getDegrees()))
 				.act(1.0f);

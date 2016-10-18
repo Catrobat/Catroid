@@ -43,17 +43,24 @@ public class ProgressResponseBody extends ResponseBody {
 	public static final String TAG_PROGRESS = "currentDownloadProgress";
 	public static final String TAG_ENDOFFILE = "endOfFileReached";
 	public static final String TAG_NOTIFICATION_ID = "notificationId";
+	public static final String TAG_PROGRAM_NAME = "programName";
+	public static final String TAG_REQUEST_URL = "requestUrl";
 
 	private final ResponseBody responseBody;
 	private final ResultReceiver receiver;
 	private final int notificationId;
+	private final String programName;
+	private final String requestUrl;
 
 	private BufferedSource bufferedSource;
 
-	public ProgressResponseBody(ResponseBody responseBody, ResultReceiver receiver, int notificationId) throws IOException {
+	public ProgressResponseBody(ResponseBody responseBody, ResultReceiver receiver, int notificationId,
+			String programName, String requestUrl) throws IOException {
 		this.responseBody = responseBody;
 		this.receiver = receiver;
 		this.notificationId = notificationId;
+		this.programName = programName;
+		this.requestUrl = requestUrl;
 	}
 
 	@Override
@@ -77,7 +84,7 @@ public class ProgressResponseBody extends ResponseBody {
 	private Source source(Source source) {
 		return new ForwardingSource(source) {
 			long totalBytesRead = 0L;
-			long lastProgess = -1L;
+			long lastProgress = -1L;
 
 			@Override
 			public long read(Buffer sink, long byteCount) throws IOException {
@@ -85,9 +92,9 @@ public class ProgressResponseBody extends ResponseBody {
 				totalBytesRead += bytesRead != -1 ? bytesRead : 0;
 				long progress = (100 * totalBytesRead) / contentLength();
 				boolean endOfFile = bytesRead == -1;
-				if (progress > lastProgess || endOfFile) {
+				if (progress > lastProgress || endOfFile) {
 					sendUpdateIntent(progress, endOfFile);
-					lastProgess = progress;
+					lastProgress = progress;
 				}
 				return bytesRead;
 			}
@@ -99,6 +106,8 @@ public class ProgressResponseBody extends ResponseBody {
 		progressBundle.putLong(TAG_PROGRESS, progress);
 		progressBundle.putBoolean(TAG_ENDOFFILE, endOfFileReached);
 		progressBundle.putInt(TAG_NOTIFICATION_ID, notificationId);
+		progressBundle.putString(TAG_PROGRAM_NAME, programName);
+		progressBundle.putString(TAG_REQUEST_URL, requestUrl);
 		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
 	}
 }

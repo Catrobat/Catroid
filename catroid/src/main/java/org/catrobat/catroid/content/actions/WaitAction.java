@@ -32,7 +32,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class WaitAction extends TemporalAction {
 
-	private Sprite sprite;
+	protected Sprite sprite;
 	private Formula duration;
 
 	@Override

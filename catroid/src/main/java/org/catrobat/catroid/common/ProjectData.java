@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.common;
 
+import org.catrobat.catroid.content.Project;
+
 import java.io.Serializable;
 
 public class ProjectData implements Serializable {
@@ -30,6 +32,8 @@ public class ProjectData implements Serializable {
 
 	public String projectName;
 	public long lastUsed;
+	public boolean overviewVisible = false;
+	public Project project = null;
 
 	public ProjectData(String projectName, long lastUsed) {
 		this.projectName = projectName;

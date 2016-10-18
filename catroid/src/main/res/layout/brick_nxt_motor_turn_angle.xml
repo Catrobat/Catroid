@@ -83,10 +83,6 @@
                 </TextView >
 
                 <TextView
-                    android:id="@+id/motor_turn_angle_text_view"
-                    style="@style/BrickPrototypeTextView" />
-
-                <TextView
                     android:id="@+id/motor_turn_angle_edit_text"
                     style="@style/BrickEditText"
                     app:layout_inputType="number"

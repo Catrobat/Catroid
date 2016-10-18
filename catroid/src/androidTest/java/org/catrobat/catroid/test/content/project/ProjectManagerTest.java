@@ -31,6 +31,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -93,13 +94,13 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
 
-		int spriteCount = projectManager.getCurrentProject().getSpriteList().size();
+		int spriteCount = projectManager.getCurrentScene().getSpriteList().size();
 		assertEquals("New project has wrong number of sprites", 4, spriteCount);
-		Sprite bird = projectManager.getCurrentProject().getSpriteList().get(projectManager.getCurrentProject()
+		Sprite bird = projectManager.getCurrentScene().getSpriteList().get(projectManager.getCurrentScene()
 				.getSpriteList().size() - 1);
 		assertEquals("Catroid sprite has wrong number of scripts", 3, bird.getNumberOfScripts());
 
-		Sprite sprite = new Sprite(spriteNameOne);
+		Sprite sprite = new SingleSprite(spriteNameOne);
 		projectManager.addSprite(sprite);
 		projectManager.setCurrentSprite(sprite);
 
@@ -125,9 +126,9 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
 
-		Sprite sprite2 = new Sprite(spriteNameTwo);
+		Sprite sprite2 = new SingleSprite(spriteNameTwo);
 		projectManager.addSprite(sprite2);
-		assertTrue("Sprite not in current Project", projectManager.getCurrentProject().getSpriteList()
+		assertTrue("Sprite not in current Project", projectManager.getCurrentScene().getSpriteList()
 				.contains(sprite2));
 
 		projectManager.setCurrentSprite(sprite2);
@@ -152,13 +153,12 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNotNull("no current project set", currentProject);
 
 		assertEquals("Wrong project name", projectNameOne, currentProject.getName());
-		assertEquals("Wrong number of sprites", 1, currentProject.getSpriteList().size());
+		assertEquals("Wrong number of sprites", 1, currentProject.getDefaultScene().getSpriteList().size());
 
-		DataContainer variablesContainer = currentProject.getDataContainer();
+		DataContainer variablesContainer = currentProject.getDefaultScene().getDataContainer();
 
 		@SuppressWarnings("unchecked")
-		List<UserVariable> userVariableList = (List<UserVariable>) Reflection.getPrivateField(
-				DataContainer.class, variablesContainer, "projectVariables");
+		List<UserVariable> userVariableList = variablesContainer.getProjectVariables();
 		@SuppressWarnings("unchecked")
 		Map<Sprite, List<UserVariable>> spriteVariablesMap = (Map<Sprite, List<UserVariable>>) Reflection
 				.getPrivateField(DataContainer.class, variablesContainer, "spriteVariables");
@@ -166,7 +166,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertEquals("Wrong number of variables", 0, userVariableList.size());
 		assertEquals("Wrong number of variables", 0, spriteVariablesMap.size());
 
-		Sprite background = currentProject.getSpriteList().get(0);
+		Sprite background = currentProject.getDefaultScene().getSpriteList().get(0);
 		assertEquals("Wrong sprite name", context.getString(R.string.background), background.getName());
 		assertEquals("Script list not empty", 0, background.getNumberOfScripts());
 		assertEquals("Brick list not empty", 0, background.getNumberOfBricks());
@@ -180,7 +180,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		projectManager.checkNestingBrickReferences(true, false);
 
-		List<Brick> newBrickList = projectManager.getCurrentProject().getSpriteList().get(0).getScript(0)
+		List<Brick> newBrickList = projectManager.getCurrentScene().getSpriteList().get(0).getScript(0)
 				.getBrickList();
 
 		assertEquals("Wrong reference", newBrickList.get(2), ((IfLogicBeginBrick) newBrickList.get(0)).getIfElseBrick());
@@ -212,16 +212,16 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		storageHandler.saveProject(project);
 		ProjectManager.getInstance().setProject(project);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("dog");
-		Sprite thirdSprite = new Sprite("horse");
-		Sprite fourthSprite = new Sprite("pig");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("dog");
+		Sprite thirdSprite = new SingleSprite("horse");
+		Sprite fourthSprite = new SingleSprite("pig");
 		testScript = new StartScript();
 		otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
 		ShowBrick showBrick = new ShowBrick();
 		SetLookBrick lookBrick = new SetLookBrick();
-		File image = TestUtils.saveFileToProject(projectName, "image.png", org.catrobat.catroid.test.R.raw.icon,
+		File image = TestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), "image.png", org.catrobat.catroid.test.R.raw.icon,
 				getInstrumentation().getContext(), 0);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
@@ -242,10 +242,10 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		firstSprite.addScript(testScript);
 		secondSprite.addScript(otherScript);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
-		project.addSprite(thirdSprite);
-		project.addSprite(fourthSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(fourthSprite);
 
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(Utils.md5Checksum(image), image.getAbsolutePath());

@@ -51,7 +51,6 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!-- bluetooth -->
     <uses-feature
@@ -60,6 +59,13 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <!-- gps -->
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- nfc -->
     <uses-feature
@@ -79,7 +85,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Catroid">
+        android:theme="@style/Theme.Catroid"
+        android:supportsRtl="true">
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -163,21 +170,17 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ProjectActivity"
-
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
          <activity
              android:name=".ui.BaseActivity"
-
              android:screenOrientation="portrait"
              android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.ProgramMenuActivity"
-
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ScriptActivity"
-
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -194,12 +197,23 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:noHistory="true"
-
             android:screenOrientation="portrait" />
-
         <activity
-            android:name=".bluetooth.ConnectBluetoothDeviceActivity"
-            android:theme="@android:style/Theme.Holo.Dialog" />
+            android:name=".ui.ScratchConverterActivity"
+            android:label="@string/title_activity_scratch_converter"
+            android:noHistory="false"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name=".ui.ScratchConverterActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.ScratchProgramDetailsActivity"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".bluetooth.ConnectBluetoothDeviceActivity" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="true"

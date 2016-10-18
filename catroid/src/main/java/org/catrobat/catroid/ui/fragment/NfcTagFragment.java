@@ -60,7 +60,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.DynamicListView;
 import org.catrobat.catroid.ui.NfcTagViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.NfcTagAdapter;
@@ -69,7 +68,9 @@ import org.catrobat.catroid.ui.controller.NfcTagController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteNfcTagDialog;
 import org.catrobat.catroid.ui.dialogs.RenameNfcTagDialog;
+import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -349,6 +350,11 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	}
 
 	@Override
+	public void startCommentOutActionMode() {
+		// Comment out not supported
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getActivity().startActionMode(renameModeCallBack);
@@ -387,7 +393,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		}
 
 		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
 				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
 	}
 
@@ -455,7 +461,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	}
 
 	@Override
-	protected void showDeleteDialog() {
+	public void showDeleteDialog() {
 		DeleteNfcTagDialog deleteNfcTagDialog = DeleteNfcTagDialog.newInstance(selectedNfcTagPosition);
 		deleteNfcTagDialog.show(getFragmentManager(), DeleteNfcTagDialog.DIALOG_FRAGMENT_TAG);
 	}
@@ -496,7 +502,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
+		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
 				menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
@@ -751,5 +757,9 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 				((DynamicListView) getListView()).notifyListItemTouchActionUp();
 			}
 		}
+	}
+
+	@Override
+	public void handleCheckBoxClick(View view) {
 	}
 }

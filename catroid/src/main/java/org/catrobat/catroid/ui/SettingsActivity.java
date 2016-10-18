@@ -40,6 +40,7 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -52,6 +53,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_SHOW_RASPI_BRICKS = "setting_raspi_bricks";
 	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
+	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
 	PreferenceScreen screen = null;
 
 	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
@@ -72,6 +74,8 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String RASPI_PORT = "setting_raspi_port_preference";
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
+	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		setNXTSensors();
 		setDronePreferences();
-
+		setHintPreferences();
 		updateActionBar();
 
 		screen = getPreferenceScreen();
@@ -249,6 +253,18 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
+	private void setHintPreferences() {
+		CheckBoxPreference hintCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_HINTS);
+		hintCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				preference.getEditor().remove(SnackbarUtil.SHOWN_HINT_LIST).commit();
+				return true;
+			}
+		});
+	}
+
 	private void updateActionBar() {
 		ActionBar actionBar = getActionBar();
 
@@ -313,6 +329,12 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
+	}
+
+	public static void setAutoCrashReportingEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_CRASH_REPORTS, value);
+		editor.commit();
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {

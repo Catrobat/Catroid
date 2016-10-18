@@ -32,6 +32,8 @@ import android.os.ResultReceiver;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.scratchconverter.Client;
+import org.catrobat.catroid.scratchconverter.Client.DownloadCallback;
 import org.catrobat.catroid.transfers.MediaDownloadService;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -55,15 +57,21 @@ public final class DownloadUtil {
 	private static final String FILENAME_TAG = "fname=";
 
 	private Set<String> programDownloadQueue;
+	private Client.DownloadCallback programDownloadCallback;
 
 	private WebViewActivity webViewActivity = null;
 
 	private DownloadUtil() {
 		programDownloadQueue = Collections.synchronizedSet(new HashSet<String>());
+		programDownloadCallback = null;
 	}
 
 	public static DownloadUtil getInstance() {
 		return INSTANCE;
+	}
+
+	public void setDownloadCallback(DownloadCallback callback) {
+		programDownloadCallback = callback;
 	}
 
 	public void prepareDownloadAndStartIfPossible(Activity activity, String url) {
@@ -83,7 +91,7 @@ public final class DownloadUtil {
 
 			renameDialog.show(activity.getFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
 		} else {
-			startDownload(activity, url, programName);
+			startDownload(activity, url, programName, false);
 		}
 	}
 
@@ -139,12 +147,13 @@ public final class DownloadUtil {
 		context.startService(downloadIntent);
 	}
 
-	public void startDownload(Context context, String url, String programName) {
-		startDownload(context, url, programName, false);
-	}
-
 	public void startDownload(Context context, String url, String programName, boolean renameProject) {
-		programDownloadQueue.add(programName.toLowerCase(Locale.getDefault()));
+		final String programNameKey = programName.toLowerCase(Locale.getDefault());
+		programDownloadQueue.add(programNameKey);
+
+		if (programDownloadCallback != null) {
+			programDownloadCallback.onDownloadStarted(url);
+		}
 		Intent downloadIntent = new Intent(context, ProjectDownloadService.class);
 		downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadProjectReceiver(new Handler()));
 		downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, programName);
@@ -156,8 +165,12 @@ public final class DownloadUtil {
 		context.startService(downloadIntent);
 	}
 
-	public void downloadFinished(String programName) {
-		programDownloadQueue.remove(programName.toLowerCase(Locale.getDefault()));
+	public void downloadFinished(String programName, String url) {
+		final String programNameKey = programName.toLowerCase(Locale.getDefault());
+		programDownloadQueue.remove(programNameKey);
+		if (programDownloadCallback != null) {
+			programDownloadCallback.onDownloadFinished(programName, url);
+		}
 	}
 
 	public boolean isProgramNameInDownloadQueueIgnoreCase(String programName) {
@@ -165,6 +178,12 @@ public final class DownloadUtil {
 	}
 
 	ArrayList<Integer> notificationIdArray = new ArrayList<Integer>();
+
+	public void downloadCanceled(String url) {
+		if (programDownloadCallback != null) {
+			programDownloadCallback.onUserCanceledDownload(url);
+		}
+	}
 
 	@SuppressLint("ParcelCreator")
 	private class DownloadProjectReceiver extends ResultReceiver {
@@ -186,6 +205,12 @@ public final class DownloadUtil {
 					if (endOfFileReached) {
 						progress = 100;
 					}
+
+					final String requestUrl = resultData.getString(ProgressResponseBody.TAG_REQUEST_URL);
+					if (programDownloadCallback != null) {
+						programDownloadCallback.onDownloadProgress((short) progress, requestUrl);
+					}
+
 					StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId,
 							Long.valueOf(progress).intValue());
 				}

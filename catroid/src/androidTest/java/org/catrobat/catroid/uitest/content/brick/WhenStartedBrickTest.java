@@ -26,6 +26,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -63,7 +64,7 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 
 		assertEquals("Incorrect number of bricks.", 4, UiTestUtils.getScriptListView(solo).getCount());
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_when)));
 
@@ -139,14 +140,14 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 	private void createProject() {
 
 		project = new Project(null, "testProject");
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		Script script = new WhenScript();
 		script.addBrick(new PlaceAtBrick(100, 100));
 		script.addBrick(new PlaceAtBrick(100, 100));
 		script.addBrick(new PlaceAtBrick(100, 100));
 		sprite.addScript(script);
 
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

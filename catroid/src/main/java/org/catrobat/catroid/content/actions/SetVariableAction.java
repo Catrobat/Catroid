@@ -56,7 +56,6 @@ public class SetVariableAction extends TemporalAction {
 		} catch (NumberFormatException numberFormatException) {
 			Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
 		}
-
 		userVariable.setValue(value);
 	}
 

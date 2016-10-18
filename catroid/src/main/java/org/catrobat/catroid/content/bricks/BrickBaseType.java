@@ -25,13 +25,12 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
@@ -40,15 +39,26 @@ import java.util.List;
 public abstract class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = BrickBaseType.class.getSimpleName();
-	protected transient View view;
+	public transient View view;
 	protected transient CheckBox checkbox;
-	protected transient boolean checked = false;
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
 
+	protected boolean commentedOut;
+
 	@Override
-	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
+	public boolean isCommentedOut() {
+		return commentedOut;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		this.commentedOut = commentedOut;
+	}
+
+	@Override
+	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
 		if (this.getClass().equals(brick.getClass())) {
 			return true;
 		}
@@ -57,7 +67,7 @@ public abstract class BrickBaseType implements Brick {
 
 	@Override
 	public boolean isChecked() {
-		return checked;
+		return checkbox.isChecked();
 	}
 
 	@Override
@@ -71,16 +81,6 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-			if (visibility == View.GONE) {
-				checked = false;
-			}
-		}
-	}
-
-	@Override
 	public void setBrickAdapter(BrickAdapter adapter) {
 		this.adapter = adapter;
 	}
@@ -88,11 +88,6 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public CheckBox getCheckBox() {
 		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 
 	@Override
@@ -114,6 +109,14 @@ public abstract class BrickBaseType implements Brick {
 		checkbox.setChecked(isChecked);
 		checkbox.setVisibility(checkboxVisibility);
 		checkbox.setEnabled(enabled);
+
+		final Brick instance = this;
+		checkbox.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				adapter.handleCheck(instance, ((CheckBox) view).isChecked());
+			}
+		});
 	}
 
 	@Override
@@ -138,30 +141,9 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public void enableAllViews(View recursiveView, boolean enable) {
-		View viewToDisable = recursiveView == null ? view : recursiveView;
-
-		if (viewToDisable != null) {
-			if (!(viewToDisable instanceof CheckBox)) {
-				viewToDisable.setEnabled(enable);
-			}
-			if (viewToDisable instanceof ViewGroup) {
-				ViewGroup viewGroup = (ViewGroup) viewToDisable;
-				for (int i = 0; i < viewGroup.getChildCount(); i++) {
-					View child = viewGroup.getChildAt(i);
-					enableAllViews(child, enable);
-				}
-			}
-		}
-	}
-
-	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
-
-	@Override
-	public abstract View getViewWithAlpha(int alphaValue);
 
 	@Override
 	public abstract View getView(Context context, int brickId, BaseAdapter adapter);

@@ -23,20 +23,15 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient boolean isPuzzleView = true;
 
 	public LoopEndlessBrick() {
 	}
@@ -50,72 +45,18 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null || !isPuzzleView) {
-			isPuzzleView = true;
+		if (view == null) {
 			view = View.inflate(context, R.layout.brick_loop_endless, null);
-			view = getViewWithAlpha(alphaValue);
+			view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_checkbox);
 
 			setCheckboxView(R.id.brick_loop_endless_checkbox);
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
 		}
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = null;
-			if (isPuzzleView) {
-				layout = view.findViewById(R.id.brick_loop_endless_layout);
-				TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_label);
-				endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
-			} else {
-				layout = view.findViewById(R.id.brick_loop_endless_nopuzzle_layout);
-				TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_nopuzzle_label);
-				endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
-			}
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-		}
-
 		return view;
 	}
 
 	@Override
 	public Brick clone() {
 		return new LoopEndlessBrick(getLoopBeginBrick());
-	}
-
-	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null || isPuzzleView) {
-			isPuzzleView = false;
-			view = View.inflate(context, R.layout.brick_loop_endless_no_puzzle, null);
-			view = getViewWithAlpha(alphaValue);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_no_puzzle_checkbox);
-
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
-		}
-		return view;
 	}
 }

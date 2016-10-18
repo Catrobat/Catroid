@@ -27,23 +27,29 @@ import android.util.AttributeSet;
 import android.widget.TableLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TrackView extends TableLayout {
 
 	public static final int ROW_COUNT = 13;
 	private List<TrackRowView> trackRowViews = new ArrayList<>(ROW_COUNT);
+	private static final int[] BLACK_KEY_INDICES = {
+			1, 3, 6, 8, 10
+	};
 
 	public TrackView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setStretchAllColumns(true);
 		initializeRows();
+		setWeightSum(ROW_COUNT);
 	}
 
 	private void initializeRows() {
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1.0f);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1.0f);
 		for (int i = 0; i < ROW_COUNT; i++) {
-			trackRowViews.add(new TrackRowView(getContext()));
+			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
+			trackRowViews.add(new TrackRowView(getContext(), isBlackRow));
 			addView(trackRowViews.get(i), params);
 		}
 	}

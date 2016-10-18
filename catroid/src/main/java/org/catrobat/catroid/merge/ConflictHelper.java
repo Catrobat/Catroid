@@ -26,7 +26,7 @@ package org.catrobat.catroid.merge;
 import android.app.Activity;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -39,12 +39,12 @@ public final class ConflictHelper {
 	private ConflictHelper() {
 	}
 
-	public static boolean checkMergeConflict(Activity activity, Project mergeResult) {
+	public static boolean checkMergeConflict(Activity activity, Scene mergeResult) {
 		return checkVariableMergeConflict(activity, mergeResult)
 				&& checkListMergeConflict(activity, mergeResult);
 	}
 
-	private static boolean checkVariableMergeConflict(Activity activity, Project mergeResult) {
+	private static boolean checkVariableMergeConflict(Activity activity, Scene mergeResult) {
 		List<UserVariable> globalValues = mergeResult.getDataContainer().getProjectVariables();
 
 		for (Sprite sprite : mergeResult.getSpriteList()) {
@@ -66,7 +66,7 @@ public final class ConflictHelper {
 		return true;
 	}
 
-	private static boolean checkListMergeConflict(Activity activity, Project mergeResult) {
+	private static boolean checkListMergeConflict(Activity activity, Scene mergeResult) {
 		List<UserList> globalLists = mergeResult.getDataContainer().getProjectLists();
 
 		for (Sprite sprite : mergeResult.getSpriteList()) {

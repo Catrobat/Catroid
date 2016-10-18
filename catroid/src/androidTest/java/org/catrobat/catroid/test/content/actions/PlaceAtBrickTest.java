@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
@@ -39,7 +40,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		sprite = new Sprite("testSprite");
+		sprite = new SingleSprite("testSprite");
 		super.setUp();
 	}
 
@@ -63,7 +64,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	}
 
 	public void testBoundaryPositions() {
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE),
 				new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,

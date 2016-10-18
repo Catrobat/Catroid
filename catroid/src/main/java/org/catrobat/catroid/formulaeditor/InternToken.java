@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.R;
+
 import java.util.List;
 
 public class InternToken {
@@ -49,6 +52,29 @@ public class InternToken {
 	public void updateVariableReferences(String oldName, String newName) {
 		if (internTokenType == InternTokenType.USER_VARIABLE && tokenStringValue.equals(oldName)) {
 			tokenStringValue = newName;
+		}
+	}
+
+	public void getVariableAndListNames(List<String> variables, List<String> lists) {
+		if (internTokenType == InternTokenType.USER_VARIABLE && !variables.contains(tokenStringValue)) {
+			variables.add(tokenStringValue);
+		}
+		if (internTokenType == InternTokenType.USER_LIST && !lists.contains(tokenStringValue)) {
+			lists.add(tokenStringValue);
+		}
+	}
+
+	public void updateCollisionFormula(String oldName, String newName) {
+		if (internTokenType == InternTokenType.COLLISION_FORMULA && tokenStringValue.contains(oldName)) {
+			String collisionTag = CatroidApplication.getAppContext().getString(R.string
+					.formula_editor_function_collision);
+			String firstSprite = tokenStringValue.substring(0, tokenStringValue.indexOf(collisionTag) - 1);
+			String secondSprite = tokenStringValue.substring(tokenStringValue.indexOf(collisionTag) + collisionTag.length() + 1, tokenStringValue.length());
+			if (firstSprite.equals(oldName)) {
+				tokenStringValue = newName + " " + collisionTag + " " + secondSprite;
+			} else if (secondSprite.equals(oldName)) {
+				tokenStringValue = firstSprite + " " + collisionTag + " " + newName;
+			}
 		}
 	}
 

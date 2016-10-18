@@ -36,6 +36,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -57,6 +58,7 @@ import java.util.List;
 public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private String backgroundName = "BackgroundSprite";
+	private String objectName = "ObjectSprite";
 	private File lookFile;
 
 	public ProgramMenuActivityTest() {
@@ -138,7 +140,9 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(spriteName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		assertTrue("Text on look button is not 'Looks'", solo.searchText(solo.getString(R.string.looks)));
-		UiTestUtils.clickOnHomeActionBarButton(solo);
+		solo.goBack();
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText(backgroundName);
 		solo.waitForText(solo.getString(R.string.backgrounds));
@@ -172,6 +176,11 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
 		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
 		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_login), 1,
+				1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_logout), 1, 1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.settings), 1,
+				1000, false));
 	}
 
 	public void testMainMenuItemsNotVisibleInProgramActivity() {
@@ -182,6 +191,11 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
 		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
 		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_login), 1,
+				1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_logout), 1, 1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.settings), 1,
+				1000, false));
 	}
 
 	public void testMenuItemSettings() {
@@ -192,21 +206,28 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
-	public void testMainMenuButton() {
+	public void testRename() {
+		String rename = solo.getString(R.string.rename);
+		String newName = "new object name";
+
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickOnText(backgroundName);
-		UiTestUtils.clickOnHomeActionBarButton(solo);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnText(objectName);
 
-		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
-				solo.getCurrentActivity() instanceof MainMenuActivity);
+		UiTestUtils.openActionMode(solo, rename, R.id.rename);
+		solo.waitForDialogToOpen();
+		solo.clearEditText(0);
+		solo.enterText(0, newName);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForDialogToClose();
+		assertTrue("Group was not renamed", solo.searchText(newName, 0, false, true));
 	}
 
 	private void createProject() {
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 
-		Sprite spriteCat = new Sprite(backgroundName);
+		Sprite spriteCat = new SingleSprite(backgroundName);
+		Sprite secondSprite = new SingleSprite(objectName);
 		Script startScriptCat = new StartScript();
 		Script scriptTappedCat = new WhenScript();
 		Brick setXBrick = new SetXBrick(50);
@@ -218,13 +239,14 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 
 		spriteCat.addScript(startScriptCat);
 		spriteCat.addScript(scriptTappedCat);
-		project.addSprite(spriteCat);
+		project.getDefaultScene().addSprite(spriteCat);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(spriteCat);
 		ProjectManager.getInstance().setCurrentScript(startScriptCat);
 
-		File imageFile = UiTestUtils.saveFileToProject(project.getName(), "catroid_sunglasses.png",
+		File imageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), "catroid_sunglasses.png",
 				org.catrobat.catroid.test.R.drawable.catroid_sunglasses, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -235,7 +257,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		lookDataList.add(lookData);
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 
-		File soundFile = UiTestUtils.saveFileToProject(project.getName(), "longsound.mp3",
+		File soundFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), "longsound.mp3",
 				org.catrobat.catroid.test.R.raw.longsound, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();

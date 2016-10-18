@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
@@ -61,7 +62,7 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+		testImage = TestUtils.saveFileToProject(this.projectName, project.getDefaultScene().getName(), "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
@@ -87,8 +88,8 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ScreenValues.SCREEN_HEIGHT = 200;
 		ScreenValues.SCREEN_WIDTH = 200;
 
-		Sprite sprite = new Sprite("new sprite");
-		project.addSprite(sprite);
+		Sprite sprite = new SingleSprite("new sprite");
+		project.getDefaultScene().addSprite(sprite);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(testImage.getName());
 		lookData.setLookName("testImage");
@@ -97,6 +98,6 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createSetLookAction(sprite, lookData);
 		action.act(1.0f);
-		assertNotNull("current Look is null", sprite.look);
+		assertEquals("Action didn't set the LookData", lookData, sprite.look.getLookData());
 	}
 }

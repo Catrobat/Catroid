@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -30,8 +31,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.Menu;
@@ -56,6 +60,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
@@ -66,6 +71,7 @@ import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.rauschig.jarchivelib.Archiver;
@@ -76,6 +82,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
@@ -96,6 +103,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private CallbackManager callbackManager;
 	private SignInDialog signInDialog;
+	private Menu mainMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +114,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		initializeFacebookSdk();
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
-		Utils.updateScreenWidthAndHeight(this);
+		UtilUi.updateScreenWidthAndHeight(this);
 
 		if (STANDALONE_MODE) {
 			/*requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -150,22 +158,21 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		SettingsActivity.setDroneChooserEnabled(this, false);
 
-		findViewById(R.id.progress_circle).setVisibility(View.GONE);
-
-		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
-
-		PreStageActivity.shutdownPersistentResources();
-		if (!STANDALONE_MODE) {
-			setMainMenuButtonContinueText();
-			findViewById(R.id.main_menu_button_continue).setEnabled(true);
-		} else {
-			FlashUtil.initializeFlash();
-		}
-		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
-		if (projectName != null) {
-			loadProjectInBackground(projectName);
-		}
-		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
+		final Activity activity = this;
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				UtilFile.createStandardProjectIfRootDirectoryIsEmpty(activity);
+				activity.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						finishOnCreateAfterRunnable();
+					}
+				});
+			}
+		};
+		(new Thread(r)).start();
 	}
 
 	@Override
@@ -187,7 +194,33 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		mainMenu = menu;
+
+		final MenuItem scratchConverterMenuItem = menu.findItem(R.id.menu_scratch_converter);
+		if (scratchConverterMenuItem != null) {
+			final String title = getString(R.string.main_menu_scratch_converter);
+			final String beta = getString(R.string.beta).toUpperCase(Locale.getDefault());
+			final SpannableString spanTitle = new SpannableString(title + " " + beta);
+			final int begin = title.length() + 1;
+			final int end = begin + beta.length();
+			final int betaLabelColor = ContextCompat.getColor(this, R.color.beta_label_color);
+			spanTitle.setSpan(new ForegroundColorSpan(betaLabelColor), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			scratchConverterMenuItem.setTitle(spanTitle);
+		}
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem logout = mainMenu.findItem(R.id.menu_logout);
+		MenuItem login = mainMenu.findItem(R.id.menu_login);
+		logout.setVisible(Utils.isUserLoggedIn(this));
+		login.setVisible(!Utils.isUserLoggedIn(this));
+
+		if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
+			mainMenu.removeItem(R.id.menu_scratch_converter);
+		}
+		return true;
 	}
 
 	@Override
@@ -199,15 +232,42 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void finishOnCreateAfterRunnable() {
+		if (!STANDALONE_MODE) {
+			findViewById(R.id.progress_circle).setVisibility(View.GONE);
+			findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
+		}
+		PreStageActivity.shutdownPersistentResources();
+		if (!STANDALONE_MODE) {
+			setMainMenuButtonContinueText();
+			findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		} else {
+			FlashUtil.initializeFlash();
+		}
+		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+		if (projectName != null) {
+			loadProjectInBackground(projectName);
+		}
+		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+
+		if (ProjectManager.getInstance().getHandleNewSceneFromScriptActivity()) {
+			Intent intent = new Intent(this, ProjectActivity.class);
+			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			startActivity(intent);
+		}
+	}
+
 	// needed because of android:onClick in activity_main_menu.xml
 	public void handleContinueButton(View view) {
 		handleContinueButton();
 	}
 
 	public void handleContinueButton() {
-		Intent intent = new Intent(this, ProjectActivity.class);
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, Utils.getCurrentProjectName(this));
-		startActivity(intent);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), true, true);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
+		loadProjectTask.execute();
 	}
 
 	private void loadProjectInBackground(String projectName) {
@@ -216,6 +276,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
 		loadProjectTask.execute();
 	}
 
@@ -332,6 +393,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	@Override
 	public void onLoadProjectFailure() {
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
 	}
 
 	public void initializeFacebookSdk() {
@@ -391,6 +453,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	private void unzipProgram() {
+		StorageHandler.getInstance();
 		String zipFileString = Constants.DEFAULT_ROOT + "/" + ZIP_FILE_NAME;
 		copyProgramZip();
 		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);

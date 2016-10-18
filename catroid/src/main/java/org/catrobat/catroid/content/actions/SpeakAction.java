@@ -51,6 +51,9 @@ public class SpeakAction extends TemporalAction {
 	private File speechFile;
 	private OnUtteranceCompletedListener listener;
 
+	private boolean determineLength = false;
+	private float lengthOfText;
+
 	@Override
 	protected void begin() {
 		try {
@@ -86,7 +89,11 @@ public class SpeakAction extends TemporalAction {
 		listener = new OnUtteranceCompletedListener() {
 			@Override
 			public void onUtteranceCompleted(String utteranceId) {
-				SoundManager.getInstance().playSoundFile(speechFile.getAbsolutePath());
+				if (determineLength) {
+					lengthOfText = SoundManager.getInstance().getDurationOfSoundFile(speechFile.getAbsolutePath());
+				} else {
+					SoundManager.getInstance().playSoundFile(speechFile.getAbsolutePath());
+				}
 			}
 		};
 		super.begin();
@@ -105,5 +112,13 @@ public class SpeakAction extends TemporalAction {
 
 	public void setText(Formula text) {
 		this.text = text;
+	}
+
+	public float getLengthOfText() {
+		return lengthOfText;
+	}
+
+	public void setDetermineLength(boolean getDurationOfText) {
+		this.determineLength = getDurationOfText;
 	}
 }

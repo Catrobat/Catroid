@@ -141,6 +141,19 @@ public class InternFormula {
 		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
+	public void getVariableAndListNames(List<String> variables, List<String> lists) {
+		for (InternToken internToken : internTokenFormulaList) {
+			internToken.getVariableAndListNames(variables, lists);
+		}
+	}
+
+	public void updateCollisionFormula(String oldName, String newName, Context context) {
+		for (InternToken internToken : internTokenFormulaList) {
+			internToken.updateCollisionFormula(oldName, newName);
+		}
+		generateExternFormulaStringAndInternExternMapping(context);
+	}
+
 	public void removeVariableReferences(String name, Context context) {
 		LinkedList<InternToken> toRemove = new LinkedList<InternToken>();
 		for (InternToken internToken : internTokenFormulaList) {

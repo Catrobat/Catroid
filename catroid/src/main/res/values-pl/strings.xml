@@ -26,7 +26,7 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Anuluj</string>
-  <string name="next_button">Next</string>
+  <string name="next_button">Dalej</string>
   <string name="done_button">Zrobione</string>
   <string name="rename">Zmień nazwę</string>
   <string name="delete">Usuń</string>
@@ -37,46 +37,51 @@
   <string name="move">Przenieś</string>
   <string name="backpack_add">Dodaj do plecaka</string>
   <string name="backpack">Plecak</string>
-  <string name="packing">Pack</string>
-  <string name="unpack">Unpack</string>
-  <string name="unpack_keep">Unpack and keep</string>
-  <string name="unpack_bg">Unpack as background</string>
-  <string name="unpack_object">Unpack as object</string>
-  <string name="copy_addition">kopia</string>
+  <string name="packing">Zapakuj</string>
+  <string name="unpack">Rozpakuj</string>
+  <string name="unpack_keep">Rozpakuj i zachowaj</string>
+  <string name="unpack_bg">Rozpakuj jako tło</string>
+  <string name="unpack_object">Rozpakuj jako obiekt</string>
+  <string name="copy_addition">kopiuj</string>
   <string name="close">Zamknij</string>
   <string name="error">Błąd</string>
   <string name="please_wait">Proszę czekać</string>
   <string name="loading">Ładowanie&#8230;</string>
-  <string name="no_internet">No Internet</string>
-  <string name="loading_check_token">Token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
-  <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
-  <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#8230;</string>
-  <string name="loading_facebook_login">Facebook login is completed on our server&#8230;</string>
-  <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
-  <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
+  <string name="search_hint">Szukaj&#8230;</string>
+  <string name="no_internet">Brak Internetu</string>
+  <string name="loading_check_token">Token jest sprawdzany na naszym serwerze&#8230;</string>
+  <string name="loading_check_facebook_data">Pobieranie danych z Facebooka&#8230;</string>
+  <string name="loading_check_email">Na naszym serwerze jest sprawdzana dostępność adresu e-mail&#8230;</string>
+  <string name="loading_check_oauth_token">OAuth token jest sprawdzany na naszym serwerze&#8230;</string>
+  <string name="loading_check_facebook_token_validity">Token ważności Facebooka jest sprawdzany na naszym serwerze&#8230;</string>
+  <string name="loading_check_oauth_username">Dostępność nazwy użytkownika jest sprawdzana na naszym serwerze&#8230;</string>
+  <string name="loading_facebook_exchange_token">Token Facebooka jest wymieniany na naszym serwerze&#8230;</string>
+  <string name="loading_facebook_login">Logowanie przez Facebooka zakończono na naszym serwerze&#8230;</string>
+  <string name="loading_google_exchange_code">Kod Google+ jest wymieniany na naszym serwerze&#8230;</string>
+  <string name="loading_google_login">Logowanie przez Google+ zakończono na naszym serwerze&#8230;</string>
   <string name="background">Tło</string>
   <string name="stage">Scena</string>
   <string name="ok">OK</string>
+  <string name="play">Graj</string>
   <string name="settings">Ustawienia</string>
   <string name="redo">Ponów</string>
   <string name="undo">Cofnij</string>
   <string name="name_exists">Nazwa już istnieje</string>
-  <string name="no_name">No name</string>
-  <string name="is_empty">is empty</string>
-  <string name="new_group">New group</string>
-  <string name="my_group">My group</string>
-  <string name="name">Name:</string>
-  <string name="nothing_to_copy">Nothing to copy</string>
-  <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
-  <string name="nothing_to_unpack">Nothing to unpack</string>
-  <string name="nothing_to_delete">Nothing to delete</string>
-  <string name="nothing_to_rename">Nothing to rename</string>
+  <string name="no_name">Brak nazwy</string>
+  <string name="is_empty">jest pusty</string>
+  <string name="new_group">Nowa grupa</string>
+  <string name="my_group">Moja grupa</string>
+  <string name="name">Nazwa:</string>
+  <string name="nothing_to_copy">Nie ma niczego do skopiowania</string>
+  <string name="nothing_to_backpack_and_unpack">Nie ma niczego do spakowania ani rozpakowania</string>
+  <string name="nothing_to_unpack">Nie ma niczego do rozpakowania</string>
+  <string name="nothing_to_delete">Nie ma niczego do usunięcia</string>
+  <string name="nothing_to_rename">Nie ma niczego do zmiany nazwy</string>
   <string name="unpack_background">Program\'s background will be replaced</string>
   <string name="degrees">stopni</string>
+  <string name="landscape">Pozioma</string>
+  <string name="portrait">Pionowa</string>
+  <string name="unknown">nieznana</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Nowy</string>
   <string name="main_menu_continue">Kontynuuj</string>
@@ -87,31 +92,178 @@
   <string name="main_menu_about_pocketcode">O Pocket Code</string>
   <string name="main_menu_terms_of_use">Warunki użytkowania</string>
   <string name="main_menu_rate_app">Oceń nas!</string>
-  <string name="main_menu_play_store_not_installed">Aplikacja Play Store nie znaleziona</string>
+  <string name="main_menu_play_store_not_installed">Nie znaleziono aplikacji Sklep Play</string>
   <string name="main_menu_logout">Wyloguj się</string>
   <string name="main_menu_login">Logowanie</string>
-  <string name="logout_successful">Logout successful</string>
+  <string name="main_menu_scratch_converter">Konwerter Scratcha</string>
+  <string name="logout_successful">Wylogowanie powiodło się</string>
+  <!-- Marketing activity -->
+  <string name="marketing_created_with">Utworzone z</string>
+  <string name="marketing_app_details">Szczegółowe informacje o tej aplikacji</string>
+  <string name="marketing_more_on_google_play">Więcej aplikacji w Google Play</string>
   <!-- Settings activity -->
   <string name="preference_title">Ustawienia</string>
-  <string name="preference_title_enable_quadcopter_bricks">Bloki ARDrone 2.0</string>
-  <string name="preference_description_quadcopter_bricks">Umożliwia kontrolę drona ARDrone 2.0</string>
-  <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
+  <string name="preference_title_enable_quadcopter_bricks">Bloki Parrot AR.Drone</string>
+  <string name="preference_description_quadcopter_bricks">Umożliwia kontrolę dronów ARDrone 2.0</string>
+  <string name="preference_title_enable_mindstorms_nxt_bricks">Bloki LEGO Mindstorms NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">Pozwala na kontrolowanie robotów Lego Mindstorms NXT</string>
-  <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
-  <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
+  <string name="preference_title_mindstorms_nxt_sensors">Czujniki Lego NXT</string>
+  <string name="preference_title_drone_config_properties">Właściwości konfiguracji drona</string>
+  <string name="preference_title_enable_phiro_bricks">Bloki Phiro</string>
   <string name="preference_description_phiro_bricks">Pozwala na kontrolowanie robota Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Bloki Arduino</string>
   <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
-  <string name="preference_description_nfc_bricks">Pozwoli na używanie tagów NFC w programach</string>
+  <string name="preference_description_nfc_bricks">Pozwala na używanie tagów NFC w programach</string>
+  <string name="preference_description_crash_reports">Pozwól na automatyczne wysyłanie raportów o awariach</string>
+  <string name="preference_title_enable_crash_reports">Wyślij anonimowe raporty o awariach</string>
   <string name="preference_description_arduino_bricks">Pozwala na sterowanie płytką Arduino</string>
-  <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
+  <string name="preference_title_enable_raspi_bricks">Bloki Raspberry Pi</string>
   <string name="preference_description_raspi_bricks">Pozwala na kontrolowanie komputerów Raspberry Pi</string>
-  <string name="preference_raspi_enable_bricks">Enable Raspberry Pi bricks</string>
-  <string name="preference_raspi_help">Help / Getting started</string>
-  <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
-  <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
-  <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <string name="preference_raspi_enable_bricks">Włącz bloki Raspberry Pi</string>
+  <string name="preference_raspi_help">Pomoc / wprowadzenie</string>
+  <string name="preference_raspi_help_summary">Uzyskaj pomoc na temat konfigurowania ustawień połączenia</string>
+  <string name="preference_raspi_host">Raspberry Pi – IP / adres hosta</string>
+  <string name="preference_raspi_port">Port Raspberry Pi</string>
+  <string name="preference_title_access">Accessibility</string>
+  <string name="preference_description_access">Choose a profile and configurate your personal
+        settings for the Pocket-Code-UI</string>
+  <string name="preference_access_title_activity_access">Accessibility preferences</string>
+  <string name="preference_access_profiles">Profiles</string>
+  <string name="preference_access_predefined_profiles">Predefined profiles</string>
+  <string name="preference_access_active_profile">Active profile</string>
+  <string name="preference_access_selected_profile">Selected profile</string>
+  <string name="preference_access_change_profile">Switch to predefined profiles</string>
+  <string name="preference_access_apply_profile">Apply this profile</string>
+  <string name="preference_access_settings">Ustawienia</string>
+  <string name="preference_access_title_large_text">Large text</string>
+  <string name="preference_access_summary_large_text">The large text setting increases the text size.</string>
+  <string name="preference_access_choose_fontface">Choose a fontface</string>
+  <string name="preference_access_title_fontface">Fontface</string>
+  <string name="preference_access_summary_fontface">Fontface allows you to choose a font style you
+        prefer.</string>
+  <string name="preference_access_title_fontface_standard">Standard</string>
+  <string name="preference_access_title_fontface_serif">Serif</string>
+  <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
+  <string name="preference_access_title_high_contrast">High contrast</string>
+  <string name="preference_access_summary_high_contrast">Increases the contrast and makes the text on bricks easier
+        to read.</string>
+  <string name="preference_access_title_additional_icons">Additional icons</string>
+  <string name="preference_access_summary_additional_icons">Adds icons to categories and bricks to improve
+        recognizability.</string>
+  <string name="preference_access_title_large_icons">Large icons</string>
+  <string name="preference_access_summary_large_icons">Increases the size of icons.</string>
+  <string name="preference_access_title_high_contrast_icons">Icon contrast</string>
+  <string name="preference_access_summary_high_contrast_icons">Changes the brick icons to high contrast icons.
+        </string>
+  <string name="preference_access_title_largeelementspacing">Large element spacing</string>
+  <string name="preference_access_summary_largeelementspacing">The large element spacing increase the space
+        between touchable elements.</string>
+  <string name="preference_access_title_starter_bricks">Starter bricks</string>
+  <string name="preference_access_summary_starter_bricks">Shows only starter bricks for ease of learning.</string>
+  <string name="preference_access_title_dragndrop_delay">Drag\'n\'drop delay</string>
+  <string name="preference_access_summary_dragndrop_delay">Adds delay to the drag\'n\'drop of bricks.</string>
+  <string name="preference_access_title_profile_standard">Standard</string>
+  <string name="preference_access_summary_profile_standard">The standard settings</string>
+  <string name="preference_access_title_profile_myprofile">Mój profil</string>
+  <string name="preference_access_summary_profile_myprofile">My personal settings</string>
+  <string name="preference_access_title_profile_1">Argus</string>
+  <string name="preference_access_summary_profile_1">Visual improvement: High contrast, additional icons</string>
+  <string name="preference_access_title_profile_2">Odin</string>
+  <string name="preference_access_summary_profile_2">Visual improvement: Large text, large icons, large element
+        spacing, high contrast</string>
+  <string name="preference_access_title_profile_3">Fenrir</string>
+  <string name="preference_access_summary_profile_3">Input improvement: Large element spacing, drag\'n\'drop
+        delay</string>
+  <string name="preference_access_title_profile_4">Tiro</string>
+  <string name="preference_access_summary_profile_4">Learning: Starter bricks</string>
+  <string name="preference_access_title_created_profile">Created profile</string>
+  <string name="preference_access_summary_created_profile">You have created a new profile! The changes you
+        make can be found in \'My Profile\'</string>
+  <string name="preference_access_title_restart">Profile applied</string>
+  <string name="preference_access_summary_restart">Pocket Code will be restarted to apply the changes you
+        made.</string>
+  <!-- Scratch Converter activity -->
+  <string name="beta">beta</string>
+  <string name="title_activity_scratch_converter">Przekonwertuj program Scratch</string>
+  <string name="error_scratch_program_not_accessible_any_more">Upss! Dane tego programu nie są już dostępne!</string>
+  <string name="error_scratch_project_data_not_available">Whoops! Some data could not be loaded from this Scratch
+        program. Please try again later!</string>
+  <string name="error_request_timeout">Upss! Nasz serwer nie jest dostępny w tej chwili, Proszę spróbować później!</string>
+  <string name="error_scratch_program_conversion_failed">Upss! Nie można przekonwertować programu Scratch, spróbuj ponownie później!</string>
+  <string name="error_specific_scratch_program_conversion_failed_x">Upss! Nie można przekonwertować %1$s, spróbuj ponownie później!</string>
+  <string name="error_scratch_converter_outdated_pocketcode_version">Twoja aplikacja Pocket Code jest przestarzała. Nasz konwerter Scratcha obsługuje tylko najnowsza wersja Pocket Code. Proszę zaktualizować go w sklepie Google Play!</string>
+  <string name="error_cannot_open_not_existing_scratch_program">Nie można otworzyć tego programu Scratch. Wydaje się, że anulowano konwersję/pobieranie programu Scratch lub w międzyczasie zmieniłeś nazwę/usunąłeś program!</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">Nie można otworzyć tego programu Scratch podczas jego pobierania! Spróbuj ponownie później!</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">Nie można otworzyć ten program podstaw, ponieważ nie został jeszcze pobrany! Spróbuj ponownie później!</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Nie można przekonwertować %1$s! Starsze programy Scratch przed %2$s nie są obsługiwane!</string>
+  <plurals name="error_cannot_convert_more_than_x_programs">
+    <item quantity="one">Nie można przekonwertować jednocześnie więcej niż 1 programu!</item>
+    <item quantity="few">Nie można przekonwertować jednocześnie więcej niż %d programów!</item>
+    <item quantity="other">Nie można przekonwertować jednocześnie więcej niż %d programów!</item>
+  </plurals>
+  <string name="error_cannot_open_failed_scratch_program">Nie można otworzyć programu Scratch, ponieważ konwersja nie powiodła się!</string>
+  <string name="search_failed">Wyszukiwanie nie powiodło się, spróbuj ponownie później!</string>
+  <string name="connection_lost_or_closed_by_server">Połączenie utracone lub zakończone przez serwer!</string>
+  <string name="connection_failed">Połączenie z serwerem nie powiodło się, spróbuj ponownie później!</string>
+  <string name="authentication_failed">Uwierzytelnianie nie powiodło się. Prosimy o kontakt z zespołem Pocket Code!</string>
+  <plurals name="scratch_conversion_scheduled_x">
+    <item quantity="one">Zaplanowano konwersję 1 programu Scratch&#8230;</item>
+    <item quantity="few">Zaplanowano konwersję %d programów Scratch&#8230;</item>
+    <item quantity="other">Zaplanowano konwersję %d programów Scratch&#8230;</item>
+  </plurals>
+  <string name="scratch_conversion_started">Rozpoczęto konwersję programu Scratch&#8230;</string>
+  <string name="convert">Konwertuj</string>
+  <string name="converting">Konwersja&#8230;</string>
+  <string name="status_scheduled">Zaplanowane</string>
+  <string name="status_waiting_for_worker">Szukam wolnego pracownika&#8230; Proszę czekać&#8230;</string>
+  <string name="status_started">Rozpoczynam&#8230;</string>
+  <string name="status_conversion_finished">Konwersja zakończona</string>
+  <plurals name="status_in_progress_x_jobs">
+    <item quantity="one">W toku: 1 zadanie</item>
+    <item quantity="few">W toku: %d zadań</item>
+    <item quantity="other">W toku: %d zadań</item>
+  </plurals>
+  <plurals name="status_completed_x_jobs">
+    <item quantity="one">Zakończone: 1 zadanie</item>
+    <item quantity="few">Ukończone: %d zadań</item>
+    <item quantity="other">Ukończone: %d zadań</item>
+  </plurals>
+  <string name="status_conversion_failed">Konwersja nie powiodła się!</string>
+  <string name="status_conversion_canceled">Konwersja anulowana!</string>
+  <string name="status_downloading">Pobieranie&#8230;</string>
+  <string name="status_download_finished">Pobieranie zakończone!</string>
+  <string name="status_download_canceled">Pobieranie anulowane!</string>
+  <string name="list_view_section_title_in_progress">W toku</string>
+  <string name="list_view_section_title_converted_programs">Programy po konwersji</string>
+  <string name="status">Stan</string>
+  <string name="title">Tytuł</string>
+  <string name="by_x">przez %1$s</string>
+  <string name="by_author">według autora</string>
+  <string name="warning_program_visibility">Uwaga: \nTo jest chyba program prywatny. Konwersja może się nie powieść!</string>
+  <string name="instructions">Instrukcja</string>
+  <string name="notes_and_credits">Notatki i kredyty</string>
+  <string name="shared_at_x">Udostępniono: %1$s</string>
+  <string name="modified_at_x">Zmodyfikowano: %1$s</string>
+  <string name="remixes">Remiksy</string>
+  <!-- ScratchReconvertDialog Strings -->
+  <string name="reconvert_text">Ten program został przekonwertowany %1$s temu.</string>
+  <plurals name="minutes">
+    <item quantity="one">1 minuta</item>
+    <item quantity="few">%d min.</item>
+    <item quantity="other">%d minut</item>
+  </plurals>
+  <plurals name="hours">
+    <item quantity="one">1 godzina</item>
+    <item quantity="few">%d godziny</item>
+    <item quantity="other">%d godziny</item>
+  </plurals>
+  <plurals name="days">
+    <item quantity="one">1 dzień</item>
+    <item quantity="few">%d dni</item>
+    <item quantity="other">%d dni</item>
+  </plurals>
+  <string name="reconvert_dialog_download">Pobierz przekonwertowany program</string>
+  <string name="reconvert_dialog_reconvert">Konwertuj ponownie ten program</string>
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Rysuj obraz</string>
   <string name="dialog_new_object_gallery">Wybierz obraz</string>
@@ -125,11 +277,11 @@
   <string name="dialog_terms_of_use_info">Aby móc korzystać z Pocket Code i innych plików wykonywalnych, oferowanych w ramach projektu Catrobat, musisz zgodzić się na nasze warunki korzystania z serwisu i ściśle ich przestrzegać, gdy korzystasz z Pocket Code i innych naszych plików wykonywalnych. Link poniżej prowadzi do ich precyzyjnego sformułowania. \n</string>
   <string name="dialog_terms_of_use_link_text">Warunki użytkowania</string>
   <!-- Terms of Use Dialog Parrot ARDrone-->
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">Warunki użytkowania Pocket Code</string>
   <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
         AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
         use for Pocket Code.</string>
-  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Nie przypominaj mi ponownie.</string>
   <!-- About Dialog -->
   <string name="dialog_about_title">O Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code to środowisko programowania i interpreter dla urządzeń z systemem Android z wizualnym językiem programowania Catrobat.\n\n Kod źródłowy Pocket Code jest głównie na licencji GNU AGPL v3. Dokładne szczegóły licencji - patrz poniższy link. \n</string>
@@ -138,6 +290,8 @@
   <!-- Project activity view -->
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programy</string>
+  <string name="number_of_objects">Obiekty:</string>
+  <string name="start_scene_name">%1$s (pierwsza scena)</string>
   <string name="number_of_scripts">Skrypty:</string>
   <string name="number_of_bricks">Bloki:</string>
   <string name="number_of_looks">Wygląd:</string>
@@ -152,9 +306,21 @@
   <string name="dialog_confirm_delete_multiple_objects_title">Usunąć te obiekty?</string>
   <string name="dialog_confirm_delete_object_message">Tego nie można cofnąć!</string>
   <string name="select_all">Zaznacz wszystko</string>
-  <string name="deselect_all">Deselect all</string>
-  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
-  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
+  <string name="deselect_all">Odznacz wszystko</string>
+  <string name="backpack_replace_object">Obiekt %1$s już istnieje w plecaku. Czy chcesz go zastąpić?</string>
+  <string name="backpack_replace_scene">Scena %1$s już istnieje w plecaku. Czy chcesz ją zastąpić?</string>
+  <string name="backpack_replace_object_multiple">Obiekty już istnieją w plecaku. Czy chcesz je zastąpić?</string>
+  <string name="groups_create">Stwórz grupę</string>
+  <string name="group_created">Grupa została pomyślnie utworzona!</string>
+  <string name="ungroup">Rozgrupuj</string>
+  <string name="group_objects_delete">Usuń grupę i obiekty</string>
+  <string name="group">Grupa</string>
+  <string name="backpack_replace_scene_multiple">Sceny już istnieją w plecaku. Czy chcesz je zastąpić?</string>
+  <!-- Project overview -->
+  <string name="author">Autor:</string>
+  <string name="screen_size">Rozmiar ekranu:</string>
+  <string name="mode">Tryb:</string>
+  <string name="remix_of">Remiks:</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Kopia</string>
   <!-- Script activity -->
@@ -164,11 +330,12 @@
   <string name="sounds">Dźwięki</string>
   <string name="backgrounds">Tła</string>
   <string name="size">Rozmiar:</string>
-  <string name="script_group">Script Group</string>
-  <string name="script_groups">Script Groups</string>
-  <string name="userbrick_group">Brick Group</string>
-  <string name="userbrick_groups">Brick Groups</string>
-  <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
+  <string name="script_group">Grupa skryptów</string>
+  <string name="script_groups">Grupy skryptów</string>
+  <string name="userbrick_group">Grupę bloków</string>
+  <string name="userbrick_groups">Grupy bloków</string>
+  <string name="script_group_name_given">Grupa o tej nazwie już istnieje. Proszę wybrać inną!</string>
+  <string name="group_or_object_name_given">Grupa lub obiekt o tej nazwie już istnieje. Proszę wybrać inną!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Naciśnij \"+\", aby dodać skrypty</string>
   <string name="dialog_confirm_delete_brick_title">Usunąć ten blok?</string>
@@ -178,19 +345,19 @@
   <string name="dialog_confirm_delete_multiple_backpack_groups_title">Usunąć te grupy?</string>
   <string name="dialog_confirm_delete_brick_message">Tego nie można cofnąć!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Delete %d Brick</item>
-    <item quantity="few">Delete %d Bricks</item>
-    <item quantity="other">Delete %d Bricks</item>
+    <item quantity="one">Usuń %d blok</item>
+    <item quantity="few">Usuń %d bloków</item>
+    <item quantity="other">Usuń %d bloków</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copy %d Brick</item>
-    <item quantity="few">Copy %d Bricks</item>
-    <item quantity="other">Copy %d Bricks</item>
+    <item quantity="one">Kopiuj %d blok</item>
+    <item quantity="few">Kopiuj %d bloków</item>
+    <item quantity="other">Kopiuj %d bloków</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Backpack %d Brick</item>
-    <item quantity="few">Backpack %d Bricks</item>
-    <item quantity="other">Backpack %d Bricks</item>
+    <item quantity="one">Spakuj %d blok</item>
+    <item quantity="few">Spakuj %d bloków</item>
+    <item quantity="other">Spakuj %d bloków</item>
   </plurals>
   <!-- Look fragment -->
   <string name="fragment_look_text_description">Naciśnij \"+\", aby dodać wyglądy</string>
@@ -204,16 +371,16 @@
   <string name="select_look_from_gallery">Wybierz obraz</string>
   <string name="select_look_from_camera">Wybierz zdjęcie</string>
   <string name="look_measure">Pomiary:</string>
-  <string name="dialog_confirm_delete_look_title">Usunąć ten kostium?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Usunąć te kostiumy?</string>
+  <string name="dialog_confirm_delete_look_title">Usunąć ten wygląd?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Usunąć te wyglądy?</string>
   <string name="dialog_confirm_delete_look_message">Tego nie można cofnąć!</string>
-  <string name="lookname">nazwa wyglądu:</string>
-  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
-  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
+  <string name="lookname">Nazwa wyglądu:</string>
+  <string name="backpack_replace_look">Wygląd %1$s już istnieje w plecaku. Czy chcesz go zastąpić?</string>
+  <string name="backpack_replace_look_multiple">Wyglądy już istnieją w plecaku. Czy chcesz je zastąpić?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Naciśnij \"+\", aby dodać dźwięki</string>
   <string name="rename_sound_dialog">Zmień nazwę dźwięku</string>
-  <string name="backpack_title">Plecak</string>
+  <string name="backpack_title">Twój plecak</string>
   <string name="soundname_invalid">To nazwa dźwięku jest nieprawidłowa</string>
   <string name="sound_play">zagraj</string>
   <string name="sound_stop">stop</string>
@@ -224,44 +391,39 @@
   <string name="dialog_confirm_delete_sound_title">Usunąć ten dźwięk?</string>
   <string name="dialog_confirm_delete_multiple_sounds_title">Usunąć te dźwięki?</string>
   <string name="dialog_confirm_delete_sound_message">Tego nie można cofnąć!</string>
-  <string name="sound_name">nazwa dźwięku:</string>
-  <string name="new_sound_name">nazwa dźwięku:</string>
-  <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
-  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
-  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
+  <string name="sound_name">Nazwa dźwięku:</string>
+  <string name="new_sound_name">Nazwa dźwięku:</string>
+  <string name="rename_sound_overwrite">Dźwięk o tej nazwie już istnieje. Proszę wybrać inną nazwę!</string>
+  <string name="backpack_replace_sound">Dźwięk %1$s już istnieje w plecaku. Czy chcesz go zastąpić?</string>
+  <string name="backpack_replace_sound_multiple">Dźwięki już istnieją w plecaku. Czy chcesz je zastąpić?</string>
   <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Scan tags to add</string>
-  <string name="rename_nfctag_dialog">Rename nfctag</string>
-  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
-  <string name="nfctag_scan">scan</string>
-  <string name="delete_nfctag_dialog">Delete nfctag?</string>
-  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
-  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
-  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
-  <string name="nfctag_name">nfctag name:</string>
-  <string name="nfctag">NFC Tag</string>
-  <string name="nfctags">NFC Tags</string>
-  <string name="uid">ID</string>
-  <string name="default_tag_name">nfc_tag</string>
+  <string name="fragment_nfctag_text_description">Zeskanuj tagi, aby dodać</string>
+  <string name="rename_nfctag_dialog">Zmień nazwę nfctag</string>
+  <string name="nfctagname_invalid">Ta nazwa taga nfc jest nieprawidłowa</string>
+  <string name="nfctag_scan">zeskanuj</string>
+  <string name="delete_nfctag_dialog">Usunąć tag NFC?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Usunąć ten tag NFC?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Usunąć te tagi NFC?</string>
+  <string name="dialog_confirm_delete_nfctag_message">Tego nie można cofnąć!</string>
+  <string name="nfctag_name">nazwa nfctag:</string>
+  <string name="nfctag">Tag NFC</string>
+  <string name="nfctags">Tagi NFC</string>
+  <string name="uid">Numer ID</string>
+  <string name="default_tag_name">tag_nfc</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">zostało rozpakowane!</item>
     <item quantity="few">zostało rozpakowane!</item>
     <item quantity="other">zostało rozpakowane!</item>
   </plurals>
   <plurals name="packing_items_plural">
-    <item quantity="one">was backpacked!</item>
-    <item quantity="few">were backpacked!</item>
-    <item quantity="other">were backpacked!</item>
+    <item quantity="one">został spakowany!</item>
+    <item quantity="few">zostały spakowane!</item>
+    <item quantity="other">zostały spakowane!</item>
   </plurals>
   <plurals name="scripts_plural">
-    <item quantity="one">Script</item>
-    <item quantity="few">Scripts</item>
-    <item quantity="other">Scripts</item>
-  </plurals>
-  <plurals name="userbricks_plural">
-    <item quantity="one">Brick</item>
-    <item quantity="few">Bricks</item>
-    <item quantity="other">Bricks</item>
+    <item quantity="one">Skrypt</item>
+    <item quantity="few">Skrypty</item>
+    <item quantity="other">Skrypty</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Ostatni dostęp:</string>
@@ -271,8 +433,12 @@
   <string name="copy_project_finished"> skopiowane.</string>
   <string name="program">Program</string>
   <string name="programs">Programy</string>
+  <string name="scene">Scena</string>
+  <string name="scenes">Sceny</string>
   <string name="dialog_confirm_delete_program_title">Usunąć ten program?</string>
   <string name="dialog_confirm_delete_multiple_programs_title">Usunąć te programy?</string>
+  <string name="dialog_confirm_delete_scene_title">Usunąć tę scenę?</string>
+  <string name="dialog_confirm_delete_multiple_scenes_title">Usuń te sceny?</string>
   <string name="dialog_confirm_delete_program_message">Tego nie można cofnąć!</string>
   <string name="details_date_today">Dzisiaj</string>
   <string name="details_date_yesterday">Wczoraj</string>
@@ -283,24 +449,23 @@
   <string name="soundrecorder_recorded_filename">nagranie</string>
   <string name="soundrecorder_text_view">Puknij obrazek mikrofonu, aby rozpocząć i zakończyć nagrywanie.</string>
   <!-- PreStage activity -->
-  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
-  <string name="prestage_resource_not_available_title">Component not available</string>
-  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
-        components are unavailable:\n\n</string>
-  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
-  <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
-  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
-  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
-  <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
-  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
-  <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
-  <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
-  <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
-  <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
-  <string name="no_nfc_available">NFC not available</string>
-  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
-  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
-        issues!</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Zamiana tekstu na głos nie zainstalowana!\nCzy chcesz ją zainstalować?</string>
+  <string name="prestage_resource_not_available_title">Składnik niedostępny</string>
+  <string name="prestage_resource_not_available_text">Ta gra nie może działać na Twoim urządzeniu. Następujące składniki są niedostępne: \n\n</string>
+  <string name="prestage_no_flash_available">\u2022 Błysk\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 Wibrator\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 Czujnik przyspieszenia\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 Czujnik nachylenia\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 Kompas\n</string>
+  <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 Zamiana tekstu na mowę\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Aparat z tyłu\n</string>
+  <string name="prestage_no_camera_available">\u2022 Wykrywanie twarzy\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Aparat z przodu\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 Nieznany komponent\n</string>
+  <string name="no_nfc_available">NFC niedostępny</string>
+  <string name="nfc_not_activated">Prosimy aktywować NFC i nacisnąć Back, aby powrócić do aplikacji!</string>
+  <string name="nfc_facedetection_support">Jednoczesne włączenie NFC i wykrywania twarzy może prowadzić do problemów z wydajnością!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Przenieś blok</string>
   <string name="brick_context_dialog_show_source">Pokaż blok źródła</string>
@@ -308,37 +473,56 @@
   <string name="brick_context_dialog_copy_brick">Kopiuj blok</string>
   <string name="brick_context_dialog_animate_bricks">Animuj bloki</string>
   <string name="brick_context_dialog_add_to_script">Dodaj do skryptu</string>
-  <string name="brick_context_dialog_edit_brick">Edytuj blok</string>
   <string name="brick_context_dialog_formula_edit_brick">Edytuj formułę</string>
   <string name="brick_context_dialog_delete_script">Usuń skrypt</string>
+  <string name="brick_context_dialog_comment_in">Włącz bloczek</string>
+  <string name="brick_context_dialog_comment_out">Wyłącz bloczek</string>
+  <string name="brick_context_dialog_help">Pomoc</string>
+  <string name="comment_in_out">Włącz/wyłącz</string>
+  <string name="comment_in_out_impossible">Nie ma nic do włączenia/wyłączenia</string>
   <!-- New look dialog -->
   <string name="new_look_dialog_title">Dodaj wygląd</string>
   <string name="add_look_from_camera">Zrób zdjęcie</string>
   <string name="add_look_draw_new_image">Rysuj obraz</string>
   <string name="add_look_choose_image">Wybierz obraz</string>
-  <string name="add_look_media_library">Media Library</string>
-  <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look with this name already exists. Please choose a different one
-        !</string>
-  <string name="add_look_drone_video">Drone Video</string>
+  <string name="add_look_media_library">Biblioteka</string>
+  <string name="new_look_name">Nazwa wyglądu:</string>
+  <string name="look_rename_overwrite">Wygląd o tej nazwie już istnieje. Proszę wybrać inną nazwę!</string>
+  <string name="add_look_drone_video">Dron - wideo</string>
   <!-- New Sound dialog -->
-  <string name="new_sound_dialog_title">Add Sound</string>
-  <string name="add_sound_from_recorder">Record Sound</string>
-  <string name="add_sound_choose_file">Select File</string>
-  <string name="add_sound_pocketmusic">Pocketmusic</string>
+  <string name="new_sound_dialog_title">Dodaj dźwięk</string>
+  <string name="add_sound_from_recorder">Nagraj dźwięk</string>
+  <string name="add_sound_choose_file">Wybierz plik</string>
+  <string name="add_sound_pocketmusic">PocketMuzyka</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nowy program</string>
   <string name="new_project_dialog_hint">Mój program</string>
   <string name="new_project_description_dialog_hint">Mój opis</string>
-  <string name="new_project_name">Nazwa programu:</string>
+  <string name="new_project_name">Nazwa programu</string>
   <string name="new_project_empty">Utwórz pusty program</string>
   <string name="new_project_default">Stwórz przykładowy Program</string>
-  <string name="new_project_default_drone">Create example Drone Program</string>
+  <string name="new_project_default_drone">Stwórz przykładowy Program dla drona</string>
   <string name="project_orientation_title">Orientacja ekranu:</string>
+  <!-- New scene dialog -->
+  <string name="new_scene_dialog_hint">Moja scena</string>
+  <string name="new_scene_name">Nazwa sceny</string>
+  <string name="new_scene_dialog_default_scene_name">Moja scena</string>
+  <string name="new_scene_dialog_title">Nowa scena</string>
+  <string name="scenename_already_exists">Proszę wybrać inną nazwę sceny.</string>
+  <string name="rename_scene_dialog">Zmień nazwę sceny</string>
+  <string name="scenename_invalid">To nazwa sceny jest nieprawidłowa</string>
+  <string name="scene_name">Nazwa sceny:</string>
+  <!-- Merge Scene Dialog -->
+  <string name="merge_scene_option">Scal sceny</string>
+  <string name="merge_scene_label_one">Scal</string>
+  <!-- Play scene dialog -->
+  <string name="play_scene_dialog_title">Odtwórz scenę:</string>
+  <string name="play_scene_dialog_default">Pierwsza scena (%1$s)</string>
+  <string name="play_scene_dialog_current">Bieżąca (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Mój obiekt</string>
   <string name="new_sprite_dialog_title">Nowy obiekt</string>
-  <string name="spritename_already_exists">Ta nazwa obiektu już istnieje</string>
+  <string name="spritename_already_exists">Proszę wybrać inną nazwę obiektu.</string>
   <string name="rename_sprite_dialog">Zmień nazwę obiektu</string>
   <string name="spritename_invalid">Ta nazwa obiektu jest nieprawidłowa</string>
   <string name="no_spritename_entered">Wpisz nazwę obiektu.</string>
@@ -364,19 +548,19 @@
   <string name="signin_choose_username_hint">Nazwa użytkownika nie powinna być prawdziwym nazwiskiem.</string>
   <string name="oauth_username_taken">Nazwa użytkownika zajęta, proszę wybrać inną!</string>
   <string name="show_password">Pokaż hasło</string>
-  <string name="register_password_mismatch">Passwords do not match</string>
-  <string name="sign_in_error">Error during Sign In</string>
+  <string name="register_password_mismatch">Hasła nie pasują</string>
+  <string name="sign_in_error">Wystąpił błąd podczas logowania</string>
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">Program o tej samej nazwie już istnieje!</string>
+  <string name="overwrite_text">Program o tej samej nazwie już istnieje. Proszę wybierz inną nazwę!</string>
   <string name="overwrite_replace">Zastąp istniejący program</string>
   <string name="overwrite_rename">Zmień nazwę załadowanego programu</string>
   <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Replace existing Look</string>
-  <string name="overwrite_rename_look">Rename downloaded Look</string>
-  <string name="overwrite_replace_sound">Replace existing Sound</string>
-  <string name="overwrite_rename_sound">Rename downloaded Sound</string>
-  <string name="overwrite_replace_default">Replace existing media</string>
-  <string name="overwrite_rename_default">Rename existing media</string>
+  <string name="overwrite_replace_look">Zastąp istniejący wygląd</string>
+  <string name="overwrite_rename_look">Zmień nazwę pobranego wyglądu</string>
+  <string name="overwrite_replace_sound">Zastąp istniejący dźwięk</string>
+  <string name="overwrite_rename_sound">Zmień nazwę pobranego dźwięku</string>
+  <string name="overwrite_replace_default">Zastąp istniejące nośniki</string>
+  <string name="overwrite_rename_default">Zmień nazwę istniejącego nośnika</string>
   <!-- Stage menu dialog -->
   <string name="stage_dialog_back">Wstecz</string>
   <string name="stage_dialog_resume">Wznów</string>
@@ -384,20 +568,22 @@
   <string name="stage_dialog_axes_on">Pokaż osie</string>
   <string name="stage_dialog_axes_off">Ukryj osie</string>
   <string name="stage_dialog_maximize">Maksymalizuj/\nRozciągnij</string>
-  <string name="stage_dialog_screenshot">Zrzut ekranu</string>
+  <string name="stage_dialog_screenshot">Podgląd</string>
   <!-- Broadcast spinner -->
   <string name="new_broadcast_message">Nowy&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Nowy komunikat</string>
   <string name="dialog_new_broadcast_message_name">Komunikat:</string>
   <!-- NFC spinner -->
   <string name="new_nfc_tag">Nowy&#8230;</string>
-  <string name="brick_when_nfc_default_all">all</string>
+  <string name="brick_when_nfc_default_all">wszystko</string>
   <!-- Brick categories -->
   <string name="categories">Kategorie</string>
   <string name="category_motion">Ruch</string>
   <string name="category_looks">Wygląd</string>
+  <string name="category_pen">Pisak</string>
   <string name="category_sound">Dźwięk</string>
   <string name="category_control">Kontrola</string>
+  <string name="category_event">Wydarzenie</string>
   <string name="category_user_bricks">Moje bloki</string>
   <string name="category_data">Dane</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -414,6 +600,10 @@
   <string name="brick_change_x_by">"Zmień X o "</string>
   <string name="brick_change_y_by">"Zmień Y o "</string>
   <string name="brick_go_back">Wstecz</string>
+  <string name="brick_set_rotation_style">"Ustaw styl obrotów "</string>
+  <string name="brick_set_rotation_style_lr">tylko lewo-prawo</string>
+  <string name="brick_set_rotation_style_normal">dookoła</string>
+  <string name="brick_set_rotation_style_no">nie obracaj</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">warstwa</item>
     <item quantity="few">warstwy</item>
@@ -425,7 +615,7 @@
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">krok</item>
     <item quantity="few">kroki</item>
-    <item quantity="other">kroki</item>
+    <item quantity="other">kroków</item>
   </plurals>
   <string name="brick_turn_left">Obróć w lewo o</string>
   <string name="brick_turn_right">Obróć w prawo o</string>
@@ -433,6 +623,9 @@
   <string name="brick_point_to">Ustaw w stronę</string>
   <string name="brick_glide">Leć</string>
   <string name="brick_glide_to_x">do X:</string>
+  <string name="brick_go_to">Idź do</string>
+  <string name="brick_go_to_touch_position">Dotknięta pozycja</string>
+  <string name="brick_go_to_random_position">Losowa pozycja</string>
   <!-- Physics -->
   <string name="default_project_name_physics">Mój pierwszy program z fizyki</string>
   <string name="brick_set_physics_object_type">Ustaw typ ruchu na</string>
@@ -452,7 +645,9 @@
   <string name="brick_rotate_right">"Obracaj w prawo o "</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">Zmień wygląd na</string>
-  <string name="brick_set_background">Ustal tło</string>
+  <string name="brick_set_background">Ustaw tło</string>
+  <string name="brick_and_wait">i czekaj</string>
+  <string name="brick_when_background">Kiedy tło zmieni się na</string>
   <string name="brick_set_size_to">Ustaw rozmiar na</string>
   <string name="brick_change_size_by">Zmień rozmiar o</string>
   <string name="brick_hide">Ukryj</string>
@@ -468,22 +663,44 @@
   <string name="brick_clear_graphic_effect">Wyczyść efekty graficzne</string>
   <string name="brick_next_look">Następny wygląd</string>
   <string name="brick_next_background">Następne tło</string>
+  <string name="brick_previous_look">Poprzedni wygląd</string>
+  <string name="brick_previous_background">Poprzednie tło</string>
   <string name="brick_flash">Latarka</string>
   <string name="brick_flash_on">włącz</string>
   <string name="brick_flash_off">wyłącz</string>
   <string name="brick_vibration">Wibruj przez</string>
+  <string name="brick_ask_label">Zapytaj</string>
+  <string name="brick_ask_store">i przechowaj zapisaną odpowiedź w</string>
+  <string name="brick_ask_default_question">\'Jak masz na imię?\'</string>
+  <string name="brick_ask_dialog_hint">"Wpisz swoją odpowiedź:"</string>
+  <string name="brick_ask_dialog_submit">Prześlij odpowiedź</string>
+  <!-- Pen bricks -->
+  <string name="brick_pen_down">Opuść pisak</string>
+  <string name="brick_pen_up">Podnieś pisak</string>
+  <string name="brick_pen_size">Ustaw rozmiar pisaka na</string>
+  <string name="brick_pen_color">Ustaw kolor pisaka na</string>
+  <string name="brick_clear_background">Wyczyść</string>
+  <string name="brick_stamp">Stempluj</string>
   <!-- Sound bricks -->
   <string name="brick_play_sound">Zagraj dźwięk</string>
+  <string name="brick_play_sound_and_wait">Uruchom dźwięk i czekaj</string>
   <string name="brick_stop_all_sounds">Zatrzymaj wszystkie dźwięki</string>
   <string name="brick_set_volume_to">Ustaw głośność na</string>
   <string name="brick_change_volume_by">Zmień głośność o</string>
   <string name="brick_speak">Powiedz</string>
   <string name="brick_speak_default_value">"Cześć!"</string>
+  <string name="brick_speak_and_wait">i czekaj</string>
   <!-- Control bricks -->
   <string name="brick_when_started">Kiedy program startuje</string>
   <string name="brick_when">Kiedy naciśnięto</string>
+  <string name="brick_when_condition_when">Kiedy</string>
+  <string name="brick_when_becomes_true">staje się prawdą</string>
   <string name="brick_wait">Czekaj</string>
-  <string name="brick_when_nfc">When NFC</string>
+  <string name="brick_when_nfc">Kiedy NFC</string>
+  <string name="brick_stop_script">Zatrzymaj skrypt/y</string>
+  <string name="brick_stop_this_script">Zatrzymaj ten skrypt</string>
+  <string name="brick_stop_all_scripts">Zatrzymaj wszystkie skrypty</string>
+  <string name="brick_stop_other_scripts">Zatrzymaj inne skrypty tego obiektu</string>
   <plurals name="second_plural">
     <item quantity="one">"sek. "</item>
     <item quantity="few">"sek. "</item>
@@ -494,11 +711,20 @@
   <string name="brick_broadcast_receive">Kiedy otrzymam</string>
   <string name="brick_broadcast">Nadaj</string>
   <string name="brick_broadcast_wait">Nadaj i czekaj</string>
+  <string name="brick_scene_transition">Kontynuuj sceny</string>
+  <string name="brick_scene_start">Start sceny</string>
   <string name="brick_note">Komentarz</string>
+  <string name="brick_think_bubble">Pomyśl</string>
+  <string name="brick_say_bubble">Powiedz</string>
+  <string name="brick_think_say_for_text">dla</string>
   <string name="brick_forever">Zawsze</string>
   <string name="brick_repeat">Powtórz</string>
-  <string name="brick_repeat_until">Repeat until</string>
-  <string name="brick_when_touched">When screen is touched</string>
+  <string name="brick_repeat_until">Powtarzaj aż</string>
+  <string name="brick_when_touched">Kiedy dotknięto ekran</string>
+  <string name="brick_clone">Stwórz klona</string>
+  <string name="brick_clone_this">mnie</string>
+  <string name="brick_when_cloned">Kiedy zaczynam jako klon</string>
+  <string name="brick_delete_this_clone">Usuń tego klona</string>
   <plurals name="time_plural">
     <item quantity="one">czas</item>
     <item quantity="few">czas</item>
@@ -509,11 +735,13 @@
   <string name="brick_if_begin_second_part">to</string>
   <string name="brick_if_else">W przeciwnym razie</string>
   <string name="brick_if_end">Koniec Jeżeli</string>
-  <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
+  <string name="brick_broadcast_invalid_symbol">"Wiadomość zastrzeżona dla bloku: \n \"Kiedy fizyczna kolizja\"\nProszę spróbować ponownie!"</string>
   <string name="brick_set_variable">Ustaw zmienną</string>
   <string name="brick_change_variable">Zmień zmienną</string>
   <string name="brick_variable_spinner_create_new_variable">Nowy&#8230;</string>
   <string name="brick_note_default_value">"tutaj dodaj komentarz…"</string>
+  <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
+  <string name="brick_say_bubble_default_value">"Cześć!"</string>
   <string name="brick_broadcast_default_value">"komunikat 1"</string>
   <string name="brick_add_item_to_userlist_add">Dodaj</string>
   <string name="brick_add_item_to_userlist">do listy</string>
@@ -527,13 +755,14 @@
   <string name="brick_replace_item_in_userlist_with_value">z</string>
   <!-- defaultValues -->
   <string name="default_project_name">Mój pierwszy program</string>
+  <string name="default_scene_name">Scena %1$d</string>
   <string name="default_project_background_name">Tło</string>
   <string name="default_project_cloud_name">Chmury</string>
   <string name="default_project_cloud_sprite_name_1">Chmura1</string>
   <string name="default_project_cloud_sprite_name_2">Chmura2</string>
   <string name="default_project_sprites_bird_name">Ptak</string>
-  <string name="default_project_sprites_bird_name_wing_up">Bird Wings up</string>
-  <string name="default_project_sprites_bird_name_wing_down">Bird Wings down</string>
+  <string name="default_project_sprites_bird_name_wing_up">Ptak ze skrzydłami do góry</string>
+  <string name="default_project_sprites_bird_name_wing_down">Ptak ze skrzydłami na dole</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
   <!-- defaultDroneValues -->
@@ -549,14 +778,14 @@
   <string name="default_drone_project_sprites_back">Wstecz</string>
   <string name="default_drone_project_sprites_turn_left">Obróć w lewo</string>
   <string name="default_drone_project_sprites_turn_right">Obróć w prawo</string>
-  <string name="default_drone_project_sprites_emergency">Emergency</string>
+  <string name="default_drone_project_sprites_emergency">Tryb awaryjny</string>
   <string name="drone_brick_set_text">Tekst</string>
   <string name="drone_brick_set_x">X:</string>
   <!-- Drone config spinner values  -->
-  <string name="drone_config_indoor_with_hull">indoor with hull</string>
-  <string name="drone_config_indoor_without_hull">indoor without hull</string>
-  <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
-  <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
+  <string name="drone_config_indoor_with_hull">wewnątrz z kadłubem</string>
+  <string name="drone_config_indoor_without_hull">wewnątrz bez kadłuba</string>
+  <string name="drone_config_outdoor_with_hull">na zewnątrz z kadłubem</string>
+  <string name="drone_config_outdoor_without_hull">na zewnątrz bez kadłuba</string>
   <!-- Drone altitude limit values  -->
   <string name="drone_set_altitude_max_3m">3 metry</string>
   <string name="drone_set_altitude_max_5m">5 metrów</string>
@@ -579,8 +808,9 @@
   <string name="drone_set_tilt_max">30 stopni</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">Proszę, wprowadź wartość</string>
-  <string name="notification_screenshot_ok">Zrzut ekranu zapisany</string>
+  <string name="notification_screenshot_ok">Podgląd zapisanego obrazu</string>
   <string name="notification_download_project_cancel">Anulowane pobieranie programu</string>
+  <string name="notification_reconvert_download_program_cancel">Anulowano pobieranie/ponowną konwersję programu</string>
   <string name="notification_copy_title_pending">"Kopiowanie "</string>
   <string name="notification_copy_pending">Trwa kopiowanie</string>
   <string name="notification_copy_finished">Kopiowanie zakończone</string>
@@ -589,7 +819,7 @@
   <string name="notification_upload_pending">Trwa wysyłanie</string>
   <string name="notification_upload_finished">Wysyłanie zakończone powodzeniem</string>
   <string name="notification_upload_rejected">Przesłanie programu odrzucone</string>
-  <string name="notification_upload_retry">Retry</string>
+  <string name="notification_upload_retry">Spróbuj ponownie</string>
   <string name="notification_open_play_store">Otwórz Sklep Play</string>
   <string name="notification_download_title_pending">"Pobieranie "</string>
   <string name="notification_download_pending">Trwa pobieranie</string>
@@ -601,37 +831,41 @@
   <string name="upload_button">Wyślij</string>
   <string name="upload_project_dialog_title">Wyślij program</string>
   <string name="upload_description">Opis:</string>
-  <string name="upload_tag_dialog_title">Choose up to three categories</string>
-  <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
-  <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
-  <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
+  <string name="upload_tag_dialog_title">Wybierz maksymalnie trzy kategorie</string>
+  <string name="drone_emergency_battery_low">Bateria jest słaba (automatyczne lądowanie).</string>
+  <string name="drone_emergency_camera">Jedna lub więcej kamer nie odpowiada.</string>
+  <string name="drone_emergency_ultrasound">Czujnik ultradźwięków nie odpowiada.</string>
   <string name="drone_emergency_angle">AR.Drone euler angles went too high. Motors shutdown to prevent bad behaviors.</string>
   <string name="drone_emergency_cutout">One or more motor(s) was stopped by environment.</string>
-  <string name="drone_alert_battery_low">Battery is too low to take-off again.</string>
-  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
+  <string name="drone_alert_battery_low">Bateria jest zbyt słaba, aby startować ponownie.</string>
+  <string name="drone_alert_ultrasound">Czujnik ultradźwiękowy nie może określić wysokości AR.Drone.</string>
   <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
-  <string name="drone_emergency_title">Emergency</string>
+  <string name="drone_emergency_title">Tryb awaryjny</string>
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Aby działać, Pocket Code potrzebuje zewnętrznej pamięci do zapisu, np. karty SD, ale nie została ona znaleziona.\nMożesz rozwiązać ten problem poprzez zapis w zewnętrznej pamięci lub włożyć kartę SD i spróbować ponownie.</string>
-  <string name="error_no_program_name_entered">Please enter a program name.</string>
-  <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
-  <string name="error_project_exists">Program o tej samej nazwie już istnieje. \nProszę wybierz inną nazwę.</string>
-  <string name="error_delete_project">An error while deleting the program occurred</string>
-  <string name="error_unknown_project">A program with that name does not exist.</string>
+  <string name="error_no_program_name_entered">Wprowadź nazwę programu.</string>
+  <string name="error_no_userbrick_name_entered">Wprowadź nazwę bloku.</string>
+  <string name="error_project_exists">Proszę wybrać inną nazwę programu.</string>
+  <string name="error_scene_exists">Proszę wybrać inną nazwę sceny.</string>
+  <string name="error_scene_not_deleted">Wystąpił błąd podczas usuwania sceny.</string>
+  <string name="error_scene_not_copied">Wystąpił błąd podczas kopiowania sceny.</string>
+  <string name="error_scene_backpack">Wystąpił błąd w scenie plecaka.</string>
+  <string name="error_delete_project">Wystąpił błąd podczas usuwania programu</string>
+  <string name="error_unknown_project">Program o tej nazwie nie istnieje.</string>
   <string name="error_project_upload">Podczas wysyłania programu wystąpił błąd.</string>
   <string name="error_project_download">Podczas pobierania programu wystąpił błąd.</string>
   <string name="error_new_project">Podczas tworzenia nowego programu wystąpił błąd.</string>
   <string name="error_rename_project">Podczas zmiany nazwy programu przed wysłaniem wystąpił błąd.</string>
+  <string name="error_rename_scene">Wystąpił błąd podczas zmiany nazwy sceny.</string>
   <string name="error_load_project">Podczas ładowania programu wystąpił błąd.</string>
-  <string name="error_screenshot_failed">Podczas zapisu zrzutu ekranowego wystąpił błąd.</string>
+  <string name="error_screenshot_failed">Wystąpił błąd podczas zapisywania podglądu obrazu.</string>
   <string name="error_load_image">Podczas ładowania obrazu wystąpił błąd.</string>
-  <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
-        characters (e.g. $, %, &amp;, &#8230;)? </string>
+  <string name="error_load_image_special_chars">Nie można załadować obrazu. Czy nazwa pliku zawiera znaki specjalne (np. $, % &amp; ,&#8230;)? </string>
   <string name="error_load_sound">Podczas ładowania dźwięku wystąpił błąd.</string>
   <string name="error_internet_connection">Wystąpił nieznany błąd. Sprawdź połączenie z Internetem.</string>
-  <string name="error_no_internet">Please establish an Internet connection.</string>
+  <string name="error_no_internet">Sprawdź swoje połączenie internetowe.</string>
   <string name="error_project_compatability">Program nie jest zgodny z tą wersją Pocket Code.</string>
-  <string name="error_outdated_pocketcode_version">Wersja Pocket Code jest za stara. Zaktualizować teraz?</string>
+  <string name="error_outdated_pocketcode_version">Masz starą wersję Pocket Code. Zaktualizować teraz?</string>
   <string name="error_copy_project">Podczas kopiowania programu wystąpił błąd.</string>
   <string name="error_upload_project_with_default_name">Nie można wysłać programu o nazwie \"Mój pierwszy program\". Zmień nazwę programu.</string>
   <string name="error_upload_default_project">Nie można wysłać tego programu, bo to jest taki sam jak \"Mój pierwszy program\". Proszę zmodyfikuj go i spróbuj ponownie.</string>
@@ -642,17 +876,19 @@
   <string name="error_drone_low_battery_title">Bateria drona wyczerpuje się: %d %%</string>
   <string name="error_drone_low_battery">Włóż naładowaną baterię i spróbuj ponownie.</string>
   <string name="error_drone_wrong_platform_title">Brak obsługi ARDrone</string>
-  <string name="error_drone_wrong_platform">Nie można uruchomić projektu ARDrone na tym urządzeniu.</string>
+  <string name="error_drone_wrong_platform">Nie możemy uruchomić projektu ARDrone na tym urządzeniu.</string>
   <string name="error_rename_incompatible_project">Zmiana nazwy projektu niezgodnego z tą wersją nie jest możliwa.</string>
   <string name="error_changing_description_of_incompatible_project">Zmiana opisu projektu niezgodnego z tą wersją nie jest możliwa.</string>
-  <string name="error_unknown_error">An unknown error occurred.</string>
+  <string name="error_unpack_scene_with_different_resolution">Uwaga! Wykryto różne rozdzielczości.</string>
+  <string name="error_unknown_error">Wystąpił nieznany błąd.</string>
+  <string name="error_gps_not_available">Błąd, GPS nie był dostępny.</string>
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetooth nie może zostać włączony, zamykam scenę</string>
   <string name="title_paired_devices">Urządzenia sparowane</string>
   <string name="title_other_devices">Nowe urządzenia</string>
-  <string name="searching_devices">Looking for devices&#8230;</string>
+  <string name="searching_devices">Szukam urządzeń&#8230;</string>
   <string name="button_scan">Wyszukiwanie urządzeń Bluetooth</string>
-  <string name="select_device">Select Device:</string>
+  <string name="select_device">Wybierz urządzenie:</string>
   <string name="connecting_please_wait">Łączenie z Twoim urządzeniem. \nProszę, czekaj&#8230;</string>
   <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">Podłączenie urządzenia nie powiodło się!</string>
@@ -663,62 +899,62 @@
   <string name="brick_arduino_select_analog_value">Ustaw analogowe wyjście</string>
   <string name="brick_arduino_set_pin_value_to">na</string>
   <!-- Raspi Bricks -->
-  <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
+  <string name="brick_raspi_select_digital_value">Ustaw w Raspberry Pi wyjście cyfrowe</string>
   <string name="brick_raspi_set_pin_value_to">na</string>
-  <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
+  <string name="brick_raspi_if_begin">Jeśli w Raspberry Pi wyjście</string>
   <string name="brick_raspi_if_begin_second_part">to</string>
-  <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
+  <string name="brick_raspi_when_begin">Kiedy w Raspberry Pi wyjście</string>
   <string name="brick_raspi_when_equals">changes to</string>
   <string name="brick_raspi_pressed_text">Wysoki</string>
   <string name="brick_raspi_released_text">Niski</string>
-  <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
+  <string name="brick_raspi_set_pwm">Ustaw w Raspberry Pi wyjście analogowe</string>
   <!-- Raspi Settings -->
-  <string name="raspi_settings_title_name">Raspberry Pi Settings</string>
-  <string name="raspi_settings_gpio_version">GPIO Version</string>
+  <string name="raspi_settings_title_name">Ustawienia Raspberry Pi</string>
+  <string name="raspi_settings_gpio_version">Wersja GPIO</string>
   <!-- Lego Mindstorms Strings -->
-  <string name="nxt_brick_motor_move">Set NXT motor</string>
+  <string name="nxt_brick_motor_move">Ustawienia silnika NXT</string>
   <string name="nxt_motor_speed_to">na</string>
-  <string name="nxt_motor_speed">speed</string>
-  <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
+  <string name="nxt_motor_speed">szybkość</string>
+  <string name="nxt_brick_motor_turn_angle">Włącz silnik NXT</string>
   <string name="nxt_motor_move_by">o</string>
-  <string name="nxt_motor_stop">Stop NXT motor</string>
+  <string name="nxt_motor_stop">Zatrzymaj silnik NXT</string>
   <string name="nxt_play_tone">NXT zagraj dźwięk</string>
-  <string name="nxt_tone_duration">Duration</string>
+  <string name="nxt_tone_duration">Czas trwania</string>
   <string name="nxt_tone_frequency">Częstotliwość</string>
   <string name="nxt_tone_hundred_hz">x100Hz</string>
-  <string name="nxt_seconds">seconds</string>
+  <string name="nxt_seconds">sekund</string>
   <string name="nxt_motor_a">A</string>
   <string name="nxt_motor_b">B</string>
   <string name="nxt_motor_c">C</string>
-  <string name="nxt_motor_b_and_c">B+C</string>
+  <string name="nxt_motor_b_and_c">B + C</string>
   <string name="nxt_motor_all">Wszystkie</string>
-  <string name="nxt_choose_sensor_1">Sensor connected on port 1</string>
-  <string name="nxt_choose_sensor_2">Sensor connected on port 2</string>
-  <string name="nxt_choose_sensor_3">Sensor connected on port 3</string>
-  <string name="nxt_choose_sensor_4">Sensor connected on port 4</string>
-  <string name="nxt_no_sensor">none</string>
-  <string name="nxt_sensor_touch">NXT touch sensor</string>
-  <string name="nxt_sensor_sound">NXT sound sensor</string>
-  <string name="nxt_sensor_light">NXT light sensor</string>
-  <string name="nxt_sensor_light_active">NXT light sensor active</string>
-  <string name="nxt_sensor_ultrasonic">NXT ultrasonic sensor</string>
-  <string name="nxt_sensor_not_found">Sensor not found!</string>
-  <string name="lego_nxt_sensor_config_info_title">NXT Sensor Configuration</string>
-  <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
-  <string name="preference_disable_nxt_info_dialog_description">Program specific NXT settings are not shown when opening a program.</string>
-  <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is program specific and can only be configured for opened programs!</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
-  <string name="lego_nxt_sensor_config_info_text">The current program uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
+  <string name="nxt_choose_sensor_1">Czujnik podłączony do portu 1</string>
+  <string name="nxt_choose_sensor_2">Czujnik podłączony do portu 2</string>
+  <string name="nxt_choose_sensor_3">Czujnik podłączony do portu 3</string>
+  <string name="nxt_choose_sensor_4">Czujnik podłączony do portu 4</string>
+  <string name="nxt_no_sensor">brak</string>
+  <string name="nxt_sensor_touch">Czujnik dotyku NXT</string>
+  <string name="nxt_sensor_sound">Czujnik dźwięku NXT</string>
+  <string name="nxt_sensor_light">Czujnik światła NXT</string>
+  <string name="nxt_sensor_light_active">Aktywny czujnik światła NXT</string>
+  <string name="nxt_sensor_ultrasonic">Czujnik ultradźwiękowy NXT</string>
+  <string name="nxt_sensor_not_found">Nie znaleziono czujnika!</string>
+  <string name="lego_nxt_sensor_config_info_title">Konfiguracja czujników NXT</string>
+  <string name="preference_disable_nxt_info_dialog">Wyłącz okno dialogowe Informacji</string>
+  <string name="preference_disable_nxt_info_dialog_description">Konkretne ustawienia programu NXT nie są wyświetlane, gdy program jest otwierany.</string>
+  <string name="preference_title_mindstorms_nxt_sensors_description">Mapowanie czujników NXT do portów jest specyficzne dla programu i może być konfigurowane tylko dla otwieranych programów!</string>
+  <string name="preference_title_drone_properties_setting_description">Wybór właściwości konfiguracji drona jest specyficzny dla programu i może być skonfigurowany tylko w ramach programu.</string>
+  <string name="lego_nxt_sensor_config_info_text">Bieżący program korzysta z klocków Lego Mindstorms NXT lub czujników. Dla pełnej funkcjonalności proszę podłączyć czujniki do robota w następujący sposób</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
-  <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the Sensor on the chosen port?</string>
-  <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
+  <string name="lego_nxt_sensor_config_dont_show_again">Nie pokazuj ponownie tego komunikatu.</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_message">Czy chcesz zastąpić czujnik na wybranym porcie?</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_title">Zastąpić czujnik?</string>
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Take off / Land</string>
-  <string name="brick_drone_play_led_animation">Odtwórz animację LED</string>
+  <string name="brick_drone_play_led_animation">Odtwórz animację flash</string>
   <string name="brick_drone_move_left">W lewo</string>
   <string name="brick_drone_move_right">W prawo</string>
   <string name="brick_drone_move_forward">Do przodu</string>
@@ -726,36 +962,36 @@
   <string name="brick_drone_move_up">Do góry</string>
   <string name="brick_drone_move_down">W dół</string>
   <string name="brick_drone_flip">Kręć</string>
-  <string name="brick_drone_emergency">Emergency</string>
+  <string name="brick_drone_emergency">Tryb awaryjny</string>
   <string name="brick_drone_turn_right">Obróć w prawo</string>
   <string name="brick_drone_turn_left">Obróć w lewo</string>
   <string name="brick_drone_turn_left_magneto">Obróć w lewo o [angle]</string>
   <string name="brick_drone_turn_right_magneto">Obróć w prawo o [angle]</string>
   <string name="brick_drone_angle">Kąt</string>
-  <string name="brick_drone_set_config">Set config</string>
-  <string name="brick_drone_switch_camera">Switch drone camera</string>
-  <string name="brick_drone_set_altitude">Altitude limit</string>
-  <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
-  <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
-  <string name="brick_drone_set_tilt_limit">Tilt limit</string>
+  <string name="brick_drone_set_config">Skonfiguruj</string>
+  <string name="brick_drone_switch_camera">Przełączenie kamery drona</string>
+  <string name="brick_drone_set_altitude">Ograniczenie wysokości</string>
+  <string name="brick_drone_set_vertical_speed">Ograniczenie prędkości w pionie</string>
+  <string name="brick_drone_set_rotation_speed">Ograniczenie prędkości obrotów</string>
+  <string name="brick_drone_set_tilt_limit">Ograniczenie nachylenia</string>
   <string name="brick_drone_with">z</string>
   <string name="brick_drone_percent_power">zasilanie</string>
   <!-- Phiro bricks -->
   <!-- motor -->
-  <string name="phiro_motor_stop">Stop Phiro motor</string>
-  <string name="brick_phiro_motor_forward_action">Move Phiro motor forward</string>
-  <string name="brick_phiro_motor_backward_action">Move Phiro motor backward</string>
+  <string name="phiro_motor_stop">Zatrzymaj silnik Phiro</string>
+  <string name="brick_phiro_motor_forward_action">Phiro silnik do przodu</string>
+  <string name="brick_phiro_motor_backward_action">Phiro silnik do tyłu</string>
   <string name="phiro_motor_speed">Szybkość</string>
   <!-- sensor -->
-  <string name="brick_phiro_sensor_begin">If Phiro</string>
-  <string name="brick_phiro_sensor_second_part">is activated</string>
+  <string name="brick_phiro_sensor_begin">Jeśli Phiro</string>
+  <string name="brick_phiro_sensor_second_part">jest aktywowany</string>
   <!-- tone -->
-  <string name="phiro_play_tone">Play Phiro music\n</string>
-  <string name="phiro_tone_duration">Duration</string>
-  <string name="brick_phiro_select_tone">tone</string>
-  <string name="phiro_seconds">seconds</string>
+  <string name="phiro_play_tone">Graj muzykę Phiro\n</string>
+  <string name="phiro_tone_duration">Czas trwania</string>
+  <string name="brick_phiro_select_tone">dźwięk</string>
+  <string name="phiro_seconds">sekund</string>
   <!-- light -->
-  <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
+  <string name="brick_phiro_rgb_led_action">Ustaw światło Phiro</string>
   <string name="phiro_rgb_led_red">Czerwony (Red)</string>
   <string name="phiro_rgb_led_green">Zielony (Green)</string>
   <string name="phiro_rgb_led_blue">Niebieski (Blue)</string>
@@ -770,18 +1006,18 @@
   <!-- Phiro motor strings -->
   <string name="phiro_motor_left">Lewo</string>
   <string name="phiro_motor_right">Prawo</string>
-  <string name="phiro_motor_both">Both</string>
+  <string name="phiro_motor_both">Obydwa</string>
   <!-- Phiro light strings -->
   <string name="phiro_light_left">Lewo</string>
   <string name="phiro_light_right">Prawo</string>
-  <string name="phiro_light_both">Both</string>
+  <string name="phiro_light_both">Obydwa</string>
   <!-- Phiro sensor strings -->
-  <string name="phiro_sensor_front_left">Front Left Sensor</string>
-  <string name="phiro_sensor_front_right">Front Right Sensor</string>
-  <string name="phiro_sensor_side_left">Side Left Sensor</string>
-  <string name="phiro_sensor_side_right">Side Right Sensor</string>
-  <string name="phiro_sensor_bottom_left">Bottom Left Sensor</string>
-  <string name="phiro_sensor_bottom_right">Bottom Right Sensor</string>
+  <string name="phiro_sensor_front_left">Przedni lewy czujnik</string>
+  <string name="phiro_sensor_front_right">Przedni prawy czujnik</string>
+  <string name="phiro_sensor_side_left">Boczny lewy czujnik</string>
+  <string name="phiro_sensor_side_right">Boczny prawy czujnik</string>
+  <string name="phiro_sensor_bottom_left">Dolny lewy czujnik</string>
+  <string name="phiro_sensor_bottom_right">Dolny prawy czujnik</string>
   <!-- Phiro RGBColor Chooser strings -->
   <string name="color_red">Czerwony (Red)</string>
   <string name="color_green">Zielony (Green)</string>
@@ -795,7 +1031,7 @@
   <string name="formula_editor_title">Edytor formuł</string>
   <string name="formula_editor_changes_saved">Zmiany zapisane!</string>
   <string name="formula_editor_changes_discarded">Zmiany odrzucone!</string>
-  <string name="formula_editor_parse_fail">Błąd składni!</string>
+  <string name="formula_editor_parse_fail">Formuła jest nieprawidłowa!</string>
   <string name="formula_nothing_selected">Określ wartości wejściowe</string>
   <string name="formula_editor_parse_fail_formula_too_long">Formuła zbyt długa!</string>
   <string name="formula_editor_choose_object_variable">Właściwości tego obiektu</string>
@@ -832,12 +1068,12 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
-  <string name="formula_editor_function_power">zasilanie</string>
+  <string name="formula_editor_function_power">potęga</string>
   <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">podłoga</string>
-  <string name="formula_editor_function_floor_parameter">(0.7)</string>
+  <string name="formula_editor_function_floor_parameter">(0,7)</string>
   <string name="formula_editor_function_ceil">sufit</string>
-  <string name="formula_editor_function_ceil_parameter">(0.3)</string>
+  <string name="formula_editor_function_ceil_parameter">(0,3)</string>
   <string name="formula_editor_function_max">maks</string>
   <string name="formula_editor_function_max_parameter">(0,1)</string>
   <string name="formula_editor_function_min">min</string>
@@ -854,26 +1090,38 @@
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analogowe_wyjście</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
   <string name="formula_editor_function_pin_default_parameter">(3)</string>
-  <string name="formula_editor_function_finger_x">screen_touch_x</string>
-  <string name="formula_editor_function_finger_y">screen_touch_y</string>
-  <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
-  <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
-  <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
-  <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
-  <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+  <string name="formula_editor_function_finger_x">x_dotknięcia_ekranu</string>
+  <string name="formula_editor_function_finger_y">y_dotknięcia_ekranu</string>
+  <string name="formula_editor_function_is_finger_touching">dotknięto_ekran</string>
+  <string name="formula_editor_function_multi_finger_x">x_dotknięcia_ekranu</string>
+  <string name="formula_editor_function_multi_finger_y">y_dotknięcia_ekranu</string>
+  <string name="formula_editor_function_is_multi_finger_touching">dotknięto_ekran</string>
+  <string name="formula_editor_function_index_of_last_finger">indeks_ostatniego_dotknięcia_ekranu</string>
   <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*nazwa listy*)</string>
   <string name="formula_editor_function_contains">zawiera</string>
   <string name="formula_editor_function_contains_parameter">(*nazwa listy*,1)</string>
+  <string name="formula_editor_function_collision">dotyka</string>
   <string name="formula_editor_sensor_x_acceleration">przyspieszenie_x</string>
   <string name="formula_editor_sensor_y_acceleration">przyspieszenie_y</string>
   <string name="formula_editor_sensor_z_acceleration">przyspieszenie_z</string>
   <string name="formula_editor_sensor_compass_direction">kierunek_kompasu</string>
-  <string name="formula_editor_sensor_x_inclination">inklinacja_x</string>
-  <string name="formula_editor_sensor_y_inclination">inklinacja_y</string>
+  <string name="formula_editor_sensor_latitude">szerokość geograficzna</string>
+  <string name="formula_editor_sensor_longitude">długość geograficzna</string>
+  <string name="formula_editor_sensor_location_accuracy">dokładność_lokalizacji</string>
+  <string name="formula_editor_sensor_altitude">wysokość npm</string>
+  <string name="formula_editor_sensor_x_inclination">nachylenie_x</string>
+  <string name="formula_editor_sensor_y_inclination">nachylenie_y</string>
   <string name="formula_editor_sensor_loudness">głośność</string>
-  <string name="formula_editor_sensor_drone_battery_status">drone_battery_status</string>
+  <string name="formula_editor_sensor_date_year">rok</string>
+  <string name="formula_editor_sensor_date_month">miesiąc</string>
+  <string name="formula_editor_sensor_date_day">dzień</string>
+  <string name="formula_editor_sensor_date_weekday">dzień tygodnia</string>
+  <string name="formula_editor_sensor_time_hour">godzina</string>
+  <string name="formula_editor_sensor_time_minute">minuta</string>
+  <string name="formula_editor_sensor_time_second">sekunda</string>
+  <string name="formula_editor_sensor_drone_battery_status">stan_baterii_drona</string>
   <string name="formula_editor_sensor_drone_emergency_state">drone_emergency_state</string>
   <string name="formula_editor_sensor_drone_flying">drone_flying</string>
   <string name="formula_editor_sensor_drone_initialized">drone_initialized</string>
@@ -883,21 +1131,21 @@
   <string name="formula_editor_sensor_drone_record_ready">drone_record_ready</string>
   <string name="formula_editor_sensor_drone_recording">drone_recording</string>
   <string name="formula_editor_sensor_drone_num_frames">drone_num_frames</string>
-  <string name="formula_editor_sensor_lego_nxt_1">NXT_sensor_1</string>
-  <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
-  <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
-  <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
-  <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
-  <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
-  <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
-  <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
-  <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
-  <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
-  <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
-  <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
-  <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
-  <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
-  <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
+  <string name="formula_editor_sensor_lego_nxt_1">NXT_czujnik_1</string>
+  <string name="formula_editor_sensor_lego_nxt_2">NXT_czujnik_2</string>
+  <string name="formula_editor_sensor_lego_nxt_3">NXT_czujnik_3</string>
+  <string name="formula_editor_sensor_lego_nxt_4">NXT_czujnik_4</string>
+  <string name="formula_editor_sensor_lego_nxt_touch">NXT_dotyk</string>
+  <string name="formula_editor_sensor_lego_nxt_sound">NXT_dźwięk</string>
+  <string name="formula_editor_sensor_lego_nxt_light">NXT_światło</string>
+  <string name="formula_editor_sensor_lego_nxt_light_active">NXT_aktywne_światło</string>
+  <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultradźwięki</string>
+  <string name="formula_editor_phiro_sensor_front_left">phiro_przedni_lewy_czujnik</string>
+  <string name="formula_editor_phiro_sensor_front_right">phiro_przedni_prawy_czujnik</string>
+  <string name="formula_editor_phiro_sensor_side_left">phiro_boczny_lewy_czujnik</string>
+  <string name="formula_editor_phiro_sensor_side_right">phiro_boczny_prawy_czujnik</string>
+  <string name="formula_editor_phiro_sensor_bottom_left">phiro_dolny_lewy_czujnik</string>
+  <string name="formula_editor_phiro_sensor_bottom_right">phiro_dolny_prawy_czujnik</string>
   <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">pozycja_x</string>
   <string name="formula_editor_object_y">pozycja_y</string>
@@ -909,26 +1157,32 @@
   <string name="formula_editor_object_x_velocity">szybkość w osi X</string>
   <string name="formula_editor_object_y_velocity">szybkość w osi Y</string>
   <string name="formula_editor_object_angular_velocity">szybkość kątowa</string>
+  <string name="formula_editor_object_look_number">numer_wyglądu</string>
+  <string name="formula_editor_object_look_name">nazwa_wyglądu</string>
+  <string name="formula_editor_object_background_number">numer_tła</string>
+  <string name="formula_editor_object_background_name">nazwa_tła</string>
+  <string name="formula_editor_object_distance_to">odległość do</string>
   <string name="formula_editor_compute">Oblicz</string>
   <string name="formula_editor_object">Obiekt</string>
-  <string name="formula_editor_functions">Functions</string>
+  <string name="formula_editor_functions">Funkcje</string>
   <string name="formula_editor_logic">Logika</string>
-  <string name="formula_editor_device">Device</string>
-  <string name="formula_editor_variables">Wybrano zmienną</string>
-  <string name="formula_editor_functions_maths">Maths</string>
-  <string name="formula_editor_functions_strings">Strings</string>
+  <string name="formula_editor_device">Urządzenie</string>
+  <string name="formula_editor_variables">Zmienne</string>
+  <string name="formula_editor_functions_maths">Matematyka</string>
+  <string name="formula_editor_functions_strings">Tekst</string>
   <string name="formula_editor_functions_lists">Listy</string>
-  <string name="formula_editor_logic_boolean">logical (boolean) operators</string>
+  <string name="formula_editor_logic_boolean">operatory logiczne (Boole\'a)</string>
   <string name="formula_editor_logic_comparison">operatory porównania</string>
-  <string name="formula_editor_object_general">general properties</string>
-  <string name="formula_editor_object_physical">physical properties</string>
+  <string name="formula_editor_object_general">ustawienia ogólne</string>
+  <string name="formula_editor_object_movement">właściwości ruchu</string>
   <string name="formula_editor_device_face_detection">Wykrywanie twarzy</string>
-  <string name="formula_editor_device_touch_detection">Touch detection</string>
+  <string name="formula_editor_device_date_and_time">Data i czas</string>
+  <string name="formula_editor_device_touch_detection">Wykrywanie dotyku</string>
   <string name="formula_editor_device_lego">Lego</string>
   <string name="formula_editor_device_arduino">Arduino</string>
   <string name="formula_editor_device_phiro">Phiro</string>
   <string name="formula_editor_device_raspberry">Raspberry Pi</string>
-  <string name="formula_editor_device_drone">Drone</string>
+  <string name="formula_editor_device_drone">Dron</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -949,7 +1203,7 @@
   <string name="formula_editor_list_dialog_title">Nowa lista</string>
   <string name="formula_editor_dialog_for_all_sprites">Dla wszystkich obiektów</string>
   <string name="formula_editor_dialog_for_this_sprite_only">Tylko dla tego obiektu</string>
-  <string name="formula_editor_dialog_change_text">Change text</string>
+  <string name="formula_editor_dialog_change_text">Zmień tekst</string>
   <string name="formula_editor_data_dialog_hint">Wprowadź nazwę</string>
   <string name="formula_editor_discard_changes_dialog_message">Czy chcesz zapisać zmiany?</string>
   <string name="formula_editor_discard_changes_dialog_title">Zapisać zmiany?</string>
@@ -983,31 +1237,28 @@
   <string name="add_line_break">Dodaj podział wiersza</string>
   <string name="edit_variable">Edytuj zmienną</string>
   <string name="variable_hint">Nazwa zmiennej</string>
-  <string name="brick_show_text_var">Pokaż zmienną</string>
-  <string name="brick_show_text_pos">"at "</string>
-  <string name="brick_hide_text_var">Ukryj zmienną</string>
+  <string name="brick_show_variable">Pokaż zmienną</string>
+  <string name="brick_show_variable_position">"w "</string>
+  <string name="brick_hide_variable">Ukryj zmienną</string>
   <!-- User Bricks strings -->
-  <string name="define">definiuj</string>
+  <string name="define">Zdefiniuj</string>
   <string name="new_user_brick">Nowy blok</string>
-  <string name="new_user_brick_variable">Zmienna 1</string>
-  <string name="new_user_brick_name">Please choose a brick name:</string>
+  <string name="new_user_brick_variable">Zmienna</string>
+  <string name="new_user_brick_name">Wybierz nazwę użytkownika:</string>
   <string name="recursive_user_brick_forbidden">Dodawanie Bloku użytkownika do Bloku użytkownika nie jest jeszcze możliwe!</string>
-  <string name="brick_single">Blok</string>
-  <string name="brick_multiple">Bloki</string>
   <!-- Merge strings -->
-  <string name="merge_button">Merge with</string>
-  <string name="name_merge_result">Enter name for result</string>
-  <string name="merge_info">successfully merged into</string>
-  <string name="warning">Warning</string>
-  <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
-  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
-        has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
-  <string name="abort">Abort</string>
-  <string name="merge_conflict">Merging not possible</string>
-  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
-    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
-  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
-    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
+  <string name="merge_button">Scal z</string>
+  <string name="name_merge_result">Wprowadź nazwę wyniku</string>
+  <string name="merge_info">pomyślnie scalono</string>
+  <string name="warning">Ostrzeżenie</string>
+  <string name="error_merge_with_self">Bieżący projekt i wybrany projekt są takie same!</string>
+  <string name="error_merge_with_self_scene">Bieżąca scena i wybrana scena są takie same!</string>
+  <string name="error_merge_scene_not_found">Nie znaleziono sceny!</string>
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Uwaga! Wykryto różne rozdzielczości. %1$s ma rozdzielczość %2$dx%3$d, a %4$s ma rozdzielczość %5$dx%6$d. Użyj rozdzielczości %1$s.</string>
+  <string name="abort">Przerwij</string>
+  <string name="merge_conflict">Scalanie nie jest możliwe</string>
+  <string name="merge_conflict_variable">Zmienna %1$s jest używana w obu programach. Jeśli programy używają tej samej nazwy zmiennej nie można ich scalić. Proszę zmienić nazwę zmiennej w jednym z programów i spróbuj ponownie.</string>
+  <string name="merge_conflict_list">Lista %1$s jest używana w obu programach. Jeśli programy używają tej samej nazwy listy nie można ich scalić. Proszę zmienić nazwę listy w jednym z programów i spróbuj ponownie.</string>
   <!-- Camera related strings -->
   <string name="brick_video">Aparat</string>
   <string name="video_brick_camera_on">włącz</string>
@@ -1015,24 +1266,40 @@
   <string name="brick_choose_camera">Użyj aparatu</string>
   <string name="choose_camera_front">z przodu</string>
   <string name="choose_camera_back">z tyłu</string>
-  <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
-        camera\" brick and change to your device\'s back camera. "</string>
-  <string name="brick_wait_until">Wait until</string>
-  <string name="brick_wait_until_second_part">is true</string>
+  <string name="error_flash_front_camera">"Lampę błyskową można użyć tylko z tyłu aparatu. Proszę dodać blok \"Użyj aparatu\" i zmienić na \"z tyłu\". "</string>
+  <string name="brick_wait_until">Poczekaj, aż</string>
+  <string name="brick_wait_until_second_part">jest prawdą</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
-  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
-  <string name="rating_dialog_rate_now">Now</string>
-  <string name="rating_dialog_rate_later">Later</string>
-  <string name="rating_dialog_rate_never">Never</string>
+  <string name="rating_dialog_title">Oceń Pocket Code</string>
+  <string name="rating_dialog_text">Jeśli lubisz Pocket Code, oceń nas w Google Play!</string>
+  <string name="rating_dialog_rate_now">Teraz</string>
+  <string name="rating_dialog_rate_later">Później</string>
+  <string name="rating_dialog_rate_never">Nigdy</string>
   <!-- Delete User Variable Alert Dialog -->
   <string name="deletion_alert_title">Uwaga!</string>
   <string name="deletion_alert_text">Usunięcie zmiennej, która jest używana jest niebezpieczne! Na pewno usunąć?</string>
-  <string name="deletion_alert_yes">Yes, delete anyway!</string>
-  <string name="deletion_alert_no">No.</string>
+  <string name="deletion_alert_yes">Tak, usuń!</string>
+  <string name="deletion_alert_no">Nr</string>
   <!-- Upload progress dialog -->
-  <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
-        and download it.
-        You can also download your program as standalone app.</string>
+  <string name="progress_upload_dialog_message">Program zostanie przesłany do strony naszej społeczności, gdzie inni mogą z niego korzystać i go pobrać. Można również pobrać program jako samodzielną aplikację.</string>
   <string name="progress_upload_dialog_show_program">Pokaż program</string>
+  <!-- Snackbar hints -->
+  <string name="got_it">Zrozumiałem</string>
+  <string name="preference_description_hints">Włącz podpowiedzi</string>
+  <string name="preference_title_enable_hints">Pokaż wskazówki </string>
+  <string name="hint_category">Wszystkie klocki są podzielone na kategorie. Wybierz kategorię, której szukasz.</string>
+  <string name="hint_bricks">Aby dodać bloczek do skryptu, naciśnij bloczek, który chcesz użyć.</string>
+  <string name="hint_brick_added">Krótkie dotknięcie bloczka otwiera menu przenoszenia, kopiowania, usuwania lub dodawania bloczka do plecaka. Opcja pomocy pokaże Ci dodatkowe informacje. Dzięki długiemu naciśnięciu, możesz przeciągnąć i upuścić bloczek.</string>
+  <string name="hint_scripts">Skrypt zdefiniuje zachowanie Twojego obiektu. Aby dodać bloczek do skryptu naciśnij symbol \"+\".</string>
+  <string name="hint_looks">Tutaj możesz znaleźć różne typy wyglądu danego obiektu. Aby dodać nowy wygląd naciśnij symbol \"+\".</string>
+  <string name="hint_sounds">Tutaj możesz dodać nowe dźwięki do obiektu. Należy pamiętać, aby używać bloczku z kategorii dźwięku.</string>
+  <string name="hint_objects">Program składa się z różnych obiektów, które mogą oddziaływać na siebie nawzajem. Aby dodać nowy obiekt naciśnij symbol \"+\".</string>
+  <string name="hint_merge">Aby scalić dwa programy, naciśnij długo na jeden program, otwórz menu i naciśnij na \'Scal z\'.</string>
+  <string name="hint_stage">Naciśnij przycisk Wstecz, aby wstrzymać program. Aby pokazać osie i rozmiar ekranu Twojego telefonu, naciśnij \"Pokaż osie\".</string>
+  <string name="hint_scenes">Program może składać się z różnych niezależnych scen. Aby dodać nową scenę, naciśnij symbol \"+\".</string>
+  <!-- Crash report dialog -->
+  <string name="pocket_code_has_crashed">Pocket Code zawiesił się!</string>
+  <string name="crash_dialog_text">Pomóż poprawić Pocket Code wysyłając anonimowe raporty o awariach!</string>
+  <string name="crash_dialog_always_send">Zawsze wysyłaj</string>
+  <string name="crash_dialog_send">Wyślij</string>
 </resources>

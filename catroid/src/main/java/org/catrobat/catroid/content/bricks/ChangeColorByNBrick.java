@@ -23,18 +23,15 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -75,25 +72,12 @@ public class ChangeColorByNBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_change_color_by, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_change_color_by_checkbox);
-		final Brick brickInstance = this;
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_color_by_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_color_by_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR_CHANGE).setTextFieldId(R.id.brick_change_color_by_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR_CHANGE).refreshTextField(view);
-
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
 
 		editX.setOnClickListener(this);
 		return view;
@@ -103,32 +87,9 @@ public class ChangeColorByNBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_color_by, null);
 		TextView textChangeColor = (TextView) prototypeView
-				.findViewById(R.id.brick_change_color_by_prototype_text_view);
+				.findViewById(R.id.brick_change_color_by_edit_text);
 		textChangeColor.setText(String.valueOf(BrickValues.CHANGE_COLOR_BY));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_change_color_by_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textColor = (TextView) view.findViewById(R.id.brick_change_color_by_label);
-			TextView textBy = (TextView) view.findViewById(R.id.brick_change_color_by_by_textview);
-			TextView editColor = (TextView) view.findViewById(R.id.brick_change_color_by_edit_text);
-			textColor.setTextColor(textColor.getTextColors().withAlpha(alphaValue));
-			textBy.setTextColor(textBy.getTextColors().withAlpha(alphaValue));
-			editColor.setTextColor(editColor.getTextColors().withAlpha(alphaValue));
-			editColor.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override
@@ -144,6 +105,6 @@ public class ChangeColorByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

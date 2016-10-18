@@ -98,7 +98,11 @@ public class WebViewActivity extends BaseActivity {
 					progressCircle = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
 					progressCircle.setCancelable(true);
 					progressCircle.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
-					progressCircle.show();
+					try {
+						progressCircle.show();
+					} catch (Exception e) {
+						Log.e(TAG, "Exception while showing progress circle", e);
+					}
 				}
 
 				if (progress == 100) {
@@ -124,12 +128,12 @@ public class WebViewActivity extends BaseActivity {
 					long contentLength) {
 				Log.d(WebViewActivity.class.getSimpleName(), "contentDisposition: " + contentDisposition + "   " + mimetype);
 
-				if (getExtentionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
+				if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
 					DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
 				} else if (url.contains(Constants.LIBRARY_BASE_URL)) {
 					String name = getMediaNameFromUrl(url);
 					String mediaType = getMediaTypeFromContentDisposition(contentDisposition);
-					String fileName = name + getExtentionFromContentDisposition(contentDisposition);
+					String fileName = name + getExtensionFromContentDisposition(contentDisposition);
 					String tempPath = null;
 					switch (mediaType) {
 						case Constants.MEDIA_TYPE_LOOK:
@@ -289,24 +293,24 @@ public class WebViewActivity extends BaseActivity {
 	private String getMediaTypeFromContentDisposition(String contentDisposition) {
 		String mediaType = null;
 		for (String extension : Constants.IMAGE_EXTENSIONS) {
-			if (getExtentionFromContentDisposition(contentDisposition).compareTo(extension) == 0) {
+			if (getExtensionFromContentDisposition(contentDisposition).compareTo(extension) == 0) {
 				mediaType = Constants.MEDIA_TYPE_LOOK;
 			}
 		}
 
 		for (String extention : Constants.SOUND_EXTENSIONS) {
-			if (getExtentionFromContentDisposition(contentDisposition).compareTo(extention) == 0) {
+			if (getExtensionFromContentDisposition(contentDisposition).compareTo(extention) == 0) {
 				mediaType = Constants.MEDIA_TYPE_SOUND;
 			}
 		}
 		return mediaType;
 	}
 
-	private String getExtentionFromContentDisposition(String contentDisposition) {
-		int extentionIndex = contentDisposition.lastIndexOf('.');
-		String extention = contentDisposition.substring(extentionIndex);
-		extention = extention.substring(0, extention.length() - 1);
-		return extention;
+	private String getExtensionFromContentDisposition(String contentDisposition) {
+		int extensionIndex = contentDisposition.lastIndexOf('.');
+		String extension = contentDisposition.substring(extensionIndex);
+		extension = extension.substring(0, extension.length() - 1);
+		return extension;
 	}
 
 	//taken from http://stackoverflow.com/a/28998241/

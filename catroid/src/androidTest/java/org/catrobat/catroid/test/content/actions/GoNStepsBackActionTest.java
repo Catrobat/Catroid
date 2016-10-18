@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
@@ -50,14 +51,14 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		project = new Project(getContext(), "testProject");
 		Group parentGroup = new Group();
 
-		background = new Sprite("background");
+		background = new SingleSprite("background");
 		parentGroup.addActor(background.look);
-		sprite = new Sprite("testSprite");
+		sprite = new SingleSprite("testSprite");
 		parentGroup.addActor(sprite.look);
-		project.addSprite(sprite);
-		sprite2 = new Sprite("testSprite2");
+		project.getDefaultScene().addSprite(sprite);
+		sprite2 = new SingleSprite("testSprite2");
 		parentGroup.addActor(sprite2.look);
-		project.addSprite(sprite2);
+		project.getDefaultScene().addSprite(sprite2);
 
 		ProjectManager.getInstance().setProject(project);
 		super.setUp();
@@ -68,16 +69,16 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		Group parentGroup = new Group();
 
 		for (int i = 0; i < 20; i++) {
-			Sprite spriteBefore = new Sprite("before" + i);
+			Sprite spriteBefore = new SingleSprite("before" + i);
 			parentGroup.addActor(spriteBefore.look);
-			project.addSprite(spriteBefore);
+			project.getDefaultScene().addSprite(spriteBefore);
 		}
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		parentGroup.addActor(sprite.look);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		assertEquals("Unexpected initial sprite Z position", 20, sprite.look.getZIndex());
 
-		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getSpriteList());
+		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getDefaultScene().getSpriteList());
 
 		int oldPosition = sprite.look.getZIndex();
 
@@ -85,13 +86,13 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed",
 				(oldPosition - STEPS), sprite.look.getZIndex());
 
-		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getSpriteList());
+		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getDefaultScene().getSpriteList());
 		oldPosition = sprite.look.getZIndex();
 
 		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(-STEPS)).act(1.0f);
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed",
 				(oldPosition + STEPS), sprite.look.getZIndex());
-		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getSpriteList());
+		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getDefaultScene().getSpriteList());
 	}
 
 	private void checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(List<Sprite> spriteList) {
@@ -126,20 +127,20 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 	public void testBoundarySteps() {
 		Group parentGroup = new Group();
 
-		Sprite background = new Sprite("background");
+		Sprite background = new SingleSprite("background");
 		parentGroup.addActor(background.look);
 		assertEquals("Unexpected initial sprite Z position", 0, background.look.getZIndex());
 
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		parentGroup.addActor(sprite.look);
 		assertEquals("Unexpected initial sprite Z position", 1, sprite.look.getZIndex());
 
-		Sprite sprite2 = new Sprite("testSprite2");
+		Sprite sprite2 = new SingleSprite("testSprite2");
 		parentGroup.addActor(sprite2.look);
 		assertEquals("Unexpected initial sprite Z position", 2, sprite2.look.getZIndex());
 
-		project.addSprite(sprite);
-		project.addSprite(sprite2);
+		project.getDefaultScene().addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite2);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);

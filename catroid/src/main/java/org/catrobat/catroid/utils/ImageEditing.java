@@ -28,12 +28,24 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
 import com.badlogic.gdx.math.Vector2;
+import com.google.common.io.Closeables;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.io.StorageHandler;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+import ar.com.hjg.pngj.IImageLine;
+import ar.com.hjg.pngj.PngReader;
+import ar.com.hjg.pngj.PngWriter;
+import ar.com.hjg.pngj.PngjException;
+import ar.com.hjg.pngj.chunks.ChunkCopyBehaviour;
+import ar.com.hjg.pngj.chunks.ChunkHelper;
+import ar.com.hjg.pngj.chunks.PngChunk;
+import ar.com.hjg.pngj.chunks.PngChunkTextVar;
 
 public final class ImageEditing {
 
@@ -105,6 +117,64 @@ public final class ImageEditing {
 		Bitmap tempBitmap = BitmapFactory.decodeFile(imagePath, bitmapOptions);
 
 		return scaleBitmap(tempBitmap, newWidth, newHeight);
+	}
+
+	public static Bitmap getScaledBitmapOfLoadedBitmap(byte[] byteArray, int outputRectangleWidth,
+			int outputRectangleHeight, ResizeType resizeType,
+			boolean justScaleDown) {
+		if (byteArray == null) {
+			return null;
+		}
+
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
+		int[] imageDimensions = getImageDimensionsForLoadedImage(inputStream);
+		Closeables.closeQuietly(inputStream);
+
+		int originalWidth = imageDimensions[0];
+		int originalHeight = imageDimensions[1];
+		int newWidth = originalHeight;
+		int newHeight = originalWidth;
+		int loadingSampleSize = 1;
+
+		double sampleSizeWidth = ((double) originalWidth) / (double) outputRectangleWidth;
+		double sampleSizeHeight = ((double) originalHeight) / (double) outputRectangleHeight;
+		double sampleSizeMinimum = Math.min(sampleSizeWidth, sampleSizeHeight);
+		double sampleSizeMaximum = Math.max(sampleSizeWidth, sampleSizeHeight);
+
+		if (resizeType == ResizeType.STRETCH_TO_RECTANGLE) {
+			newWidth = outputRectangleWidth;
+			newHeight = outputRectangleHeight;
+		} else if (resizeType == ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
+			newWidth = (int) Math.floor(originalWidth / sampleSizeMaximum);
+			newHeight = (int) Math.floor(originalHeight / sampleSizeMaximum);
+		} else if (resizeType == ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
+			newWidth = (int) Math.floor(originalWidth / sampleSizeMinimum);
+			newHeight = (int) Math.floor(originalHeight / sampleSizeMinimum);
+		}
+
+		loadingSampleSize = calculateInSampleSize(originalWidth, originalHeight, outputRectangleWidth, outputRectangleHeight);
+
+		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		bitmapOptions.inSampleSize = loadingSampleSize;
+		bitmapOptions.inJustDecodeBounds = false;
+
+		inputStream = new ByteArrayInputStream(byteArray);
+		Bitmap tempBitmap = BitmapFactory.decodeStream(inputStream, null, bitmapOptions);
+		Closeables.closeQuietly(inputStream);
+		return scaleBitmap(tempBitmap, newWidth, newHeight);
+	}
+
+	public static int[] getImageDimensionsForLoadedImage(InputStream inputStream) {
+		int[] imageDimensions = new int[2];
+
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeStream(inputStream, null, options);
+
+		imageDimensions[0] = options.outWidth;
+		imageDimensions[1] = options.outHeight;
+
+		return imageDimensions;
 	}
 
 	public static int[] getImageDimensions(String imagePath) {
@@ -222,5 +292,46 @@ public final class ImageEditing {
 		}
 
 		return inSampleSize;
+	}
+
+	public static String readMetaDataStringFromPNG(String absolutePath, String key) throws PngjException {
+		File image = new File(absolutePath);
+		PngReader pngr = new PngReader(image);
+		pngr.readSkippingAllRows();
+		for (PngChunk c : pngr.getChunksList().getChunks()) {
+			if (!ChunkHelper.isText(c)) {
+				continue;
+			}
+			PngChunkTextVar ct = (PngChunkTextVar) c;
+			String k = ct.getKey();
+			String val = ct.getVal();
+			if (key.equals(k)) {
+				pngr.close();
+				return val;
+			}
+		}
+		pngr.close();
+		return "";
+	}
+
+	public static void writeMetaDataStringToPNG(String absolutePath, String key, String value) {
+		String tempFilename = absolutePath.substring(0, absolutePath.length() - 4) + "___temp.png";
+
+		File oldFile = new File(absolutePath);
+		File newFile = new File(tempFilename);
+
+		PngReader pngr = new PngReader(oldFile);
+		PngWriter pngw = new PngWriter(newFile, pngr.imgInfo, true);
+		pngw.copyChunksFrom(pngr.getChunksList(), ChunkCopyBehaviour.COPY_ALL);
+		pngw.getMetadata().setText(key, value);
+		for (int row = 0; row < pngr.imgInfo.rows; row++) {
+			IImageLine l1 = pngr.readRow();
+			pngw.writeRow(l1);
+		}
+		pngr.end();
+		pngw.end();
+
+		oldFile.delete();
+		newFile.renameTo(new File(absolutePath));
 	}
 }

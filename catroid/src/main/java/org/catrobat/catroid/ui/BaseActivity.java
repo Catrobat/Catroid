@@ -27,7 +27,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +43,14 @@ public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
-	private Menu baseMenu;
+	private boolean returnByPressingBackButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
+		returnByPressingBackButton = false;
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		Utils.checkIfCrashRecoveryAndFinishActivity(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -75,13 +75,6 @@ public abstract class BaseActivity extends Activity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		baseMenu = menu;
-		getMenuInflater().inflate(R.menu.menu_base_menu, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
@@ -89,6 +82,8 @@ public abstract class BaseActivity extends Activity {
 					Intent intent = new Intent(this, MyProjectsActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+				} else if (returnByPressingBackButton) {
+					onBackPressed();
 				} else {
 					return false;
 				}
@@ -96,6 +91,14 @@ public abstract class BaseActivity extends Activity {
 			case R.id.settings:
 				Intent settingsIntent = new Intent(this, SettingsActivity.class);
 				startActivity(settingsIntent);
+				break;
+			case R.id.menu_scratch_converter:
+				if (Utils.isNetworkAvailable(this)) {
+					final Intent scratchConverterIntent = new Intent(this, ScratchConverterActivity.class);
+					startActivity(scratchConverterIntent);
+				} else {
+					ToastUtil.showError(this, R.string.error_internet_connection);
+				}
 				break;
 			case R.id.menu_rate_app:
 				launchMarket();
@@ -158,19 +161,15 @@ public abstract class BaseActivity extends Activity {
 		this.returnToProjectsList = returnToProjectsList;
 	}
 
+	public void setReturnByPressingBackButton(boolean returnByPressingBackButton) {
+		this.returnByPressingBackButton = returnByPressingBackButton;
+	}
+
 	public String getTitleActionBar() {
 		return titleActionBar;
 	}
 
 	public void setTitleActionBar(String titleActionBar) {
 		this.titleActionBar = titleActionBar;
-	}
-
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuItem logout = baseMenu.findItem(R.id.menu_logout);
-		MenuItem login = baseMenu.findItem(R.id.menu_login);
-		logout.setVisible(Utils.isUserLoggedIn(this));
-		login.setVisible(!Utils.isUserLoggedIn(this));
-		return true;
 	}
 }

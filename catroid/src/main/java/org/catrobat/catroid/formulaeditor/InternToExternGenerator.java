@@ -110,6 +110,10 @@ public class InternToExternGenerator {
 				R.string.formula_editor_sensor_z_acceleration);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.COMPASS_DIRECTION.name(),
 				R.string.formula_editor_sensor_compass_direction);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LATITUDE.name(), R.string.formula_editor_sensor_latitude);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LONGITUDE.name(), R.string.formula_editor_sensor_longitude);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOCATION_ACCURACY.name(), R.string.formula_editor_sensor_location_accuracy);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ALTITUDE.name(), R.string.formula_editor_sensor_altitude);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_INCLINATION.name(),
 				R.string.formula_editor_sensor_x_inclination);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_INCLINATION.name(),
@@ -134,6 +138,13 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_BOTTOM_RIGHT.name(), R.string.formula_editor_phiro_sensor_bottom_right);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NFC_TAG_ID.name(), R.string.formula_editor_nfc_tag_id);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_YEAR.name(), R.string.formula_editor_sensor_date_year);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_MONTH.name(), R.string.formula_editor_sensor_date_month);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_DAY.name(), R.string.formula_editor_sensor_date_day);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_WEEKDAY.name(), R.string.formula_editor_sensor_date_weekday);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TIME_HOUR.name(), R.string.formula_editor_sensor_time_hour);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TIME_MINUTE.name(), R.string.formula_editor_sensor_time_minute);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TIME_SECOND.name(), R.string.formula_editor_sensor_time_second);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X.name(), R.string.formula_editor_object_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y.name(), R.string.formula_editor_object_y);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_TRANSPARENCY.name(),
@@ -145,13 +156,22 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_ROTATION.name(),
 				R.string.formula_editor_object_rotation);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_LAYER.name(), R.string.formula_editor_object_layer);
-
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X_VELOCITY.name(),
 				R.string.formula_editor_object_x_velocity);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y_VELOCITY.name(),
 				R.string.formula_editor_object_y_velocity);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_ANGULAR_VELOCITY.name(),
 				R.string.formula_editor_object_angular_velocity);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_LOOK_NUMBER.name(), R.string
+				.formula_editor_object_look_number);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_LOOK_NAME.name(), R.string
+				.formula_editor_object_look_name);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_BACKGROUND_NUMBER.name(), R.string
+				.formula_editor_object_background_number);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_BACKGROUND_NAME.name(), R.string
+				.formula_editor_object_background_name);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_DISTANCE_TO.name(),
+				R.string.formula_editor_object_distance_to);
 
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.LOGICAL_NOT.name(), R.string.formula_editor_logic_not);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.NOT_EQUAL.name(), R.string.formula_editor_logic_notequal);
@@ -267,6 +287,8 @@ public class InternToExternGenerator {
 				return "*" + internToken.getTokenStringValue() + "*";
 			case STRING:
 				return "\'" + internToken.getTokenStringValue() + "\'";
+			case COLLISION_FORMULA:
+				return internToken.getTokenStringValue();
 
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);

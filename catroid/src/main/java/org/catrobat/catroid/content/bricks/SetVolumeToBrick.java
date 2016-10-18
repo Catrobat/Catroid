@@ -23,18 +23,15 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -74,25 +71,12 @@ public class SetVolumeToBrick extends FormulaBrick {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_set_volume_to, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_volume_to_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView text = (TextView) view.findViewById(R.id.brick_set_volume_to_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME).setTextFieldId(R.id.brick_set_volume_to_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME).refreshTextField(view);
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 		return view;
@@ -101,32 +85,9 @@ public class SetVolumeToBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_volume_to, null);
-		TextView textSetVolumeTo = (TextView) prototypeView.findViewById(R.id.brick_set_volume_to_prototype_text_view);
+		TextView textSetVolumeTo = (TextView) prototypeView.findViewById(R.id.brick_set_volume_to_edit_text);
 		textSetVolumeTo.setText(String.valueOf(BrickValues.SET_VOLUME_TO));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_volume_to_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textVolume = (TextView) view.findViewById(R.id.brick_set_volume_to_text_view);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_volume_to_percent);
-			TextView editVolume = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
-			textVolume.setTextColor(textVolume.getTextColors().withAlpha(alphaValue));
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
-			editVolume.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override
@@ -142,6 +103,6 @@ public class SetVolumeToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

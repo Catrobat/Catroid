@@ -35,7 +35,10 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -57,6 +60,8 @@ public class LookData implements Serializable, Cloneable {
 	protected transient Pixmap pixmap = null;
 	protected transient Pixmap originalPixmap = null;
 	protected transient TextureRegion textureRegion = null;
+
+	protected transient CollisionInformation collisionInformation = null;
 	public transient boolean isBackpackLookData = false;
 
 	public LookData() {
@@ -200,7 +205,18 @@ public class LookData implements Serializable, Cloneable {
 
 	protected String getPathToImageDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				Constants.IMAGE_DIRECTORY);
+				getSceneNameByLookData(), Constants.IMAGE_DIRECTORY);
+	}
+
+	protected String getSceneNameByLookData() {
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				if (sprite.getLookDataList().contains(this)) {
+					return scene.getName();
+				}
+			}
+		}
+		return ProjectManager.getInstance().getCurrentScene().getName();
 	}
 
 	private String getPathToBackPackImageDirectory() {
@@ -237,5 +253,16 @@ public class LookData implements Serializable, Cloneable {
 
 	public int getRequiredResources() {
 		return Brick.NO_RESOURCES;
+	}
+
+	public CollisionInformation getCollisionInformation() {
+		if (collisionInformation == null) {
+			collisionInformation = new CollisionInformation(this);
+		}
+		return collisionInformation;
+	}
+
+	public void setCollisionInformation(CollisionInformation collisionInformation) {
+		this.collisionInformation = collisionInformation;
 	}
 }

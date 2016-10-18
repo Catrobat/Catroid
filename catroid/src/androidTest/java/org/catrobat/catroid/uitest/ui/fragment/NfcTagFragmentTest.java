@@ -35,6 +35,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -44,7 +45,7 @@ import org.catrobat.catroid.ui.adapter.NfcTagAdapter;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +112,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		tagData3.setNfcTagUid(THIRD_TEST_TAG_ID);
 		tagDataList.add(tagData3);
 
-		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
+		UtilUi.updateScreenWidthAndHeight(solo.getCurrentActivity());
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 
@@ -165,7 +166,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Empty View shown although there are items in the list!", View.GONE,
 				solo.getView(android.R.id.empty).getVisibility());
 
-		projectManager.addSprite(new Sprite("test"));
+		projectManager.addSprite(new SingleSprite("test"));
 		solo.goBack();
 		solo.goBack();
 		solo.clickInList(2);
@@ -207,7 +208,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testDeleteTagContextMenu() {
-		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(0);
+		Sprite firstSprite = projectManager.getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		NfcTagData tagToDelete = firstSprite.getNfcTagList().get(1);
 
 		Log.d("TEST", "Tag to delete: " + tagToDelete.getNfcTagName());
@@ -322,7 +323,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("ID prefix not visible", solo.searchText(tagIdPrefixText, true));
 
 		// Test on rename ActionMode
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -338,7 +339,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("ID prefix not visible after ActionMode", solo.searchText(tagIdPrefixText, true));
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -354,7 +355,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("ID prefix not visible after ActionMode", solo.searchText(tagIdPrefixText, true));
 
 		// Test on copy ActionMode
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -372,7 +373,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 	public void testRenameActionModeChecking() {
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -392,7 +393,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testRenameActionModeIfNothingSelected() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -404,7 +405,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -418,7 +419,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testRenameActionModeEqualTagNames() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -448,7 +449,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -496,7 +497,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfTags = tagDataList.size();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -512,7 +513,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testDeleteActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfTags = tagDataList.size();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -532,7 +533,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		int currentNumberOfTags = tagDataList.size();
 		int expectedNumberOfTags = currentNumberOfTags - 1;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -554,7 +555,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testDeleteSelectAll() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.waitForActivity("ScriptActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -572,7 +573,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testItemClick() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickInList(2);
 		solo.sleep(TIME_TO_WAIT);
 
@@ -588,7 +589,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testDeleteAndCopyActionMode() {
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -609,7 +610,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		int currentNumberOfTags = tagDataList.size();
 		assertEquals("Wrong number of tags", 6, currentNumberOfTags);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -633,7 +634,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testCopyActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -681,7 +682,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testCopyActionModeIfNothingSelected() {
 		int expectedNumberOfTags = tagDataList.size();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -696,7 +697,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testCopyActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfTags = tagDataList.size();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -718,7 +719,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		String copiedTagAddition = "1";
 		solo.sleep(500);
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -744,7 +745,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 	public void testCopySelectAll() {
 		int currentNumberOfTags = tagDataList.size();
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		solo.waitForActivity("ScriptActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -768,7 +769,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testSelectAllActionModeButton() {
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		solo.waitForActivity("ScriptActivity");
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
@@ -787,7 +788,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.goBack();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		solo.waitForActivity("ScriptActivity");
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
@@ -898,7 +899,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	private void clickOnContextMenuItem(String tagName, String menuItemName, int menuItem) {
-		UiTestUtils.openActionMode(solo, menuItemName, menuItem, getActivity());
+		UiTestUtils.openActionMode(solo, menuItemName, menuItem);
 		solo.clickOnText(tagName);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.sleep(TIME_TO_WAIT);

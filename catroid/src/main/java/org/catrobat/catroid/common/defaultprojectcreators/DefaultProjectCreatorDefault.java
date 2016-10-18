@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -50,6 +51,7 @@ import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -59,12 +61,15 @@ import java.io.IOException;
 public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 	private static final String TAG = DefaultProjectCreatorDefault.class.getSimpleName();
 
+	private static SpriteFactory spriteFactory = new SpriteFactory();
+
 	public DefaultProjectCreatorDefault() {
 		standardProjectNameID = R.string.default_project_name;
 	}
 
 	@Override
-	public Project createDefaultProject(String projectName, Context context, boolean landscapeMode) throws
+	public Project createDefaultProject(String projectName, Context context, boolean landscapeMode)
+			throws
 			IOException,
 			IllegalArgumentException {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
@@ -85,6 +90,7 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 		String tweet2 = context.getString(R.string.default_project_sprites_tweet_2);
 
 		Project defaultProject = new Project(context, projectName, landscapeMode);
+		String sceneName = defaultProject.getDefaultScene().getName();
 		defaultProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
@@ -95,38 +101,39 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 		if (landscapeMode) {
 			backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 					R.drawable.default_project_background_landscape, context);
-			cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+			cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backgroundName
 							+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_clouds_landscape,
 					context, true,
 					backgroundImageScaleFactor);
-			backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+			backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backgroundName
 							+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_background_landscape,
 					context, true,
 					backgroundImageScaleFactor);
 		} else {
 			backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 					R.drawable.default_project_background_portrait, context);
-			backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+			backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backgroundName
 							+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_background_portrait,
 					context, true,
 					backgroundImageScaleFactor);
-			cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+			cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backgroundName
 							+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_clouds_portrait,
 					context, true,
 					backgroundImageScaleFactor);
 		}
-		File birdWingUpFile = UtilFile.copyImageFromResourceIntoProject(projectName, birdWingUpLookName
+		File birdWingUpFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, birdWingUpLookName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_up, context, true,
 				backgroundImageScaleFactor);
-		File birdWingDownFile = UtilFile.copyImageFromResourceIntoProject(projectName, birdWingDownLookName
+		File birdWingDownFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, birdWingDownLookName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_down, context, true,
 				backgroundImageScaleFactor);
 		try {
-			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, tweet1
+			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, sceneName, tweet1
 					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_tweet_1, context, true);
-			File soundFile2 = UtilFile.copySoundFromResourceIntoProject(projectName, tweet2
+			File soundFile2 = UtilFile.copySoundFromResourceIntoProject(projectName, sceneName, tweet2
 					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_tweet_2, context, true);
-			UtilFile.copyFromResourceIntoProject(projectName, ".", StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
+			UtilFile.copyFromResourceIntoProject(projectName, sceneName, ".", StageListener
+							.SCREENSHOT_AUTOMATIC_FILE_NAME,
 					R.drawable.default_project_screenshot, context, false);
 
 			Log.i(TAG, String.format("createAndSaveDefaultProject(%s) %s created%n %s created%n %s created%n %s "
@@ -138,7 +145,7 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			backgroundLookData.setLookName(backgroundName);
 			backgroundLookData.setLookFilename(backgroundFile.getName());
 
-			Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
+			Sprite backgroundSprite = defaultProject.getDefaultScene().getSpriteList().get(0);
 			backgroundSprite.getLookDataList().add(backgroundLookData);
 
 			LookData birdWingUpLookData = new LookData();
@@ -163,11 +170,14 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo1.getChecksum(), soundInfo1.getAbsolutePath());
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingUpLookData.getChecksum(), birdWingUpLookData.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingDownLookData.getChecksum(), birdWingDownLookData.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(cloudLookData.getChecksum(), cloudLookData.getAbsolutePath());
 
-			Sprite cloudSprite1 = new Sprite(cloudSpriteName1);
-			Sprite cloudSprite2 = new Sprite(cloudSpriteName2);
+			Sprite cloudSprite1 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName1);
+			Sprite cloudSprite2 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName2);
 			cloudSprite1.getLookDataList().add(cloudLookData);
-			cloudSprite2.getLookDataList().add(cloudLookData);
+			cloudSprite2.getLookDataList().add(cloudLookData.clone());
 
 			Script cloudSpriteScript1 = new StartScript();
 			Script cloudSpriteScript2 = new StartScript();
@@ -204,10 +214,10 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			cloudSpriteScript2.addBrick(loopEndlessBrick);
 			cloudSprite2.addScript(cloudSpriteScript2);
 
-			defaultProject.addSprite(cloudSprite1);
-			defaultProject.addSprite(cloudSprite2);
+			defaultProject.getDefaultScene().addSprite(cloudSprite1);
+			defaultProject.getDefaultScene().addSprite(cloudSprite2);
 
-			Sprite birdSprite = new Sprite(birdLookName);
+			Sprite birdSprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), birdLookName);
 			birdSprite.getLookDataList().add(birdWingUpLookData);
 			birdSprite.getLookDataList().add(birdWingDownLookData);
 			birdSprite.getSoundList().add(soundInfo1);
@@ -245,13 +255,7 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			playSoundBrickBird.setSoundInfo(soundInfo1);
 			whenScriptBird.addBrick(playSoundBrickBird);
 			birdSprite.addScript(whenScriptBird);
-			defaultProject.addSprite(birdSprite);
-
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingUpLookData.getChecksum(), birdWingUpLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingDownLookData.getChecksum(), birdWingDownLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(cloudLookData.getChecksum(), cloudLookData.getAbsolutePath());
-
-			StorageHandler.getInstance().fillChecksumContainer();
+			defaultProject.getDefaultScene().addSprite(birdSprite);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new IOException(TAG, illegalArgumentException);
 		}
