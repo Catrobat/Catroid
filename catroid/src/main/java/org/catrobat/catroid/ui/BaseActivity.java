@@ -27,6 +27,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +41,13 @@ import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.Locale;
+
 public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
+	//private Menu mainMenu;
 	private boolean returnByPressingBackButton;
 
 	@Override
@@ -85,12 +89,13 @@ public abstract class BaseActivity extends Activity {
 		invalidateOptionsMenu(); // TODO Any other way to ensure the cast button is presented correctly?
 	}
 
+	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		baseMenu = menu;
+		mainMenu = menu;
 		//CAST
 		//getMenuInflater().inflate(R.menu.menu_main_menu, menu);
-		getMenuInflater().inflate(R.menu.menu_base_menu, menu);
+		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
 		}
@@ -110,7 +115,7 @@ public abstract class BaseActivity extends Activity {
 			}
 		}
 		return super.onCreateOptionsMenu(menu);
-	}
+	}*/
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
