@@ -106,7 +106,6 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 	private ActionMode actionMode;
 	private View selectAllActionModeButton;
 	private boolean selectAll = true;
-	public boolean lockBackButtonForAsync = false;
 
 	private boolean actionModeActive = false;
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
@@ -343,8 +342,10 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 			}
 		});
 
+		boolean showDetailsEnabled = adapter != null && adapter.getShowDetails();
 		adapter = new ProjectAdapter(getActivity(), R.layout.activity_my_projects_list_item,
 				R.id.my_projects_activity_project_title, projectList);
+		adapter.setShowDetails(showDetailsEnabled);
 		setListAdapter(adapter);
 		initClickListener();
 	}
@@ -458,7 +459,6 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				true, false);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
-		lockBackButtonForAsync = true;
 		loadProjectTask.execute();
 	}
 
@@ -644,13 +644,11 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
 		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
 		getActivity().startActivity(intent);
-		lockBackButtonForAsync = false;
 	}
 
 	@Override
 	public void onLoadProjectFailure() {
 		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-		lockBackButtonForAsync = false;
 	}
 
 	private class ProjectListInitReceiver extends BroadcastReceiver {

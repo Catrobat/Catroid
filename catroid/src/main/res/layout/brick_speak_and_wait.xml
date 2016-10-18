@@ -49,14 +49,7 @@
         <TextView
             android:id="@+id/brick_speak_and_wait_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_speak_and_wait" >
-        </TextView >
-
-        <TextView
-            android:id="@+id/brick_speak_and_wait_prototype_text_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent"
-            android:gravity="left" >
+            android:text="@string/brick_speak" >
         </TextView >
 
         <TextView
@@ -67,6 +60,13 @@
             app:layout_textField="true"
             android:gravity="left" >
         </TextView >
+
+        <TextView
+            android:id="@+id/brick_speak_and_wait"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_speak_and_wait" >
+        </TextView >
+
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

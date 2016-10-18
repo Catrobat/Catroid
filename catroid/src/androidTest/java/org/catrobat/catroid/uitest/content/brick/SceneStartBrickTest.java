@@ -27,6 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
@@ -164,7 +165,7 @@ public class SceneStartBrickTest extends BaseActivityInstrumentationTestCase<Mai
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Scene scene = new Scene(null, sceneName2, project);
 		project.addScene(scene);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 		Script testScript = new StartScript();
 
 		SceneStartBrick sceneStartBrick = new SceneStartBrick(sceneName2);

@@ -30,6 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
@@ -154,7 +155,7 @@ public class PlaySoundAndWaitBrickTest extends BaseActivityInstrumentationTestCa
 	private void createProject() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("sprite");
+		Sprite firstSprite = new SingleSprite("sprite");
 		Script testScript = new StartScript();
 
 		PlaySoundAndWaitBrick playSoundAndWaitBrick = new PlaySoundAndWaitBrick();

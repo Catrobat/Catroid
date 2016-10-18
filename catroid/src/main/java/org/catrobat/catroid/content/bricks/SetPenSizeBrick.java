@@ -23,11 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -76,48 +73,16 @@ public class SetPenSizeBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_set_pen_size, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_pen_size_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-		TextView penSizeText = (TextView) view.findViewById(R.id.brick_set_pen_size_prototype_text_view);
 		TextView penSizeEdit = (TextView) view.findViewById(R.id.brick_set_pen_size_edit_text);
 
 		getFormulaWithBrickField(BrickField.PEN_SIZE).setTextFieldId(R.id.brick_set_pen_size_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_SIZE).refreshTextField(view);
 
-		penSizeText.setVisibility(View.GONE);
-		penSizeEdit.setVisibility(View.VISIBLE);
 		penSizeEdit.setOnClickListener(this);
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_pen_size_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView penSizeText = (TextView) view.findViewById(R.id.brick_set_pen_size_label);
-			TextView penSizeEdit = (TextView) view.findViewById(R.id.brick_set_pen_size_edit_text);
-			penSizeText.setTextColor(penSizeText.getTextColors().withAlpha(alphaValue));
-			penSizeEdit.setTextColor(penSizeEdit.getTextColors().withAlpha(alphaValue));
-			penSizeEdit.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}
@@ -125,7 +90,7 @@ public class SetPenSizeBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_pen_size, null);
-		TextView penSizeText = (TextView) prototypeView.findViewById(R.id.brick_set_pen_size_prototype_text_view);
+		TextView penSizeText = (TextView) prototypeView.findViewById(R.id.brick_set_pen_size_edit_text);
 		penSizeText.setText(Utils.getNumberStringForBricks(BrickValues.PEN_SIZE));
 		return prototypeView;
 	}

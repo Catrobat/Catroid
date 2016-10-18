@@ -84,7 +84,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json";
-	public static final String TEST_FILE_TAG_URL_HTTP = BASE_URL_TEST_HTTPS + "api/tags/getTags.json";
+	public static final String FILE_TAG_URL_HTTP = Constants.BASE_URL_HTTPS + "api/tags/getTags.json";
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
 	private static final String TAG = ServerCalls.class.getSimpleName();
@@ -489,8 +489,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 	}
 
-	public void downloadProject(String url, String filePath, final ResultReceiver receiver,
-			final int notificationId) throws IOException, WebconnectionException {
+	public void downloadProject(final String url, final String filePath, final String programName,
+			final ResultReceiver receiver, final int notificationId) throws IOException, WebconnectionException {
 
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
@@ -520,7 +520,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 							.body(new ProgressResponseBody(
 									originalResponse.body(),
 									receiver,
-									notificationId))
+									notificationId,
+									programName,
+									url))
 							.build();
 				} else {
 					return originalResponse;
@@ -540,7 +542,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 	}
 
-	public void downloadMedia(String url, String filePath, final ResultReceiver receiver)
+	public void downloadMedia(final String url, final String filePath, final ResultReceiver receiver)
 			throws IOException, WebconnectionException {
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
@@ -559,7 +561,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 						.body(new ProgressResponseBody(
 								originalResponse.body(),
 								receiver,
-								0))
+								0,
+								null,
+								url))
 						.build();
 			}
 		});
@@ -696,7 +700,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 	public String getTags(String language) {
 		try {
-			String serverUrl = TEST_FILE_TAG_URL_HTTP;
+			String serverUrl = FILE_TAG_URL_HTTP;
 			if (language != null) {
 				serverUrl = serverUrl.concat("?language=" + language);
 			}

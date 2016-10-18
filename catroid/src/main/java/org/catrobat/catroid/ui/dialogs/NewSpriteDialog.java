@@ -413,7 +413,6 @@ public class NewSpriteDialog extends DialogFragment {
 			String imageFileName = newLookFile.getName();
 			Utils.rewriteImageFileForStage(getActivity(), newLookFile);
 
-			lookData.setLookFilename(imageFileName);
 			lookData.setLookName(newSpriteName);
 			lookData.setLookFilename(imageFileName);
 		} catch (IOException ioException) {

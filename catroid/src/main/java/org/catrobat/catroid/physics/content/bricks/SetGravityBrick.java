@@ -23,11 +23,8 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.math.Vector2;
@@ -37,7 +34,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -81,34 +78,20 @@ public class SetGravityBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_physics_set_gravity, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_gravity_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_gravity_prototype_text_view_x);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X).setTextFieldId(R.id.brick_set_gravity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X).refreshTextField(view);
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_set_gravity_prototype_text_view_y);
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_y);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y).setTextFieldId(R.id.brick_set_gravity_edit_text_y);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y).refreshTextField(view);
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
+
 		editY.setOnClickListener(this);
 		return view;
 	}
@@ -116,39 +99,11 @@ public class SetGravityBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_gravity, null);
-		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_x);
+		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_x);
 		textGravityX.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.x));
-		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_y);
+		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_y);
 		textGravityY.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.y));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_set_gravity_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView setGravityLabel = (TextView) view.findViewById(R.id.brick_set_gravity_label);
-			TextView setGravityX = (TextView) view.findViewById(R.id.brick_set_gravity_x_textview);
-			TextView setGravityY = (TextView) view.findViewById(R.id.brick_set_gravity_y_textview);
-			TextView setGravityUnit = (TextView) view.findViewById(R.id.brick_set_gravity_unit);
-			TextView editX = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_x);
-			TextView editY = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_y);
-			setGravityLabel.setTextColor(setGravityLabel.getTextColors().withAlpha(alphaValue));
-			setGravityX.setTextColor(setGravityX.getTextColors().withAlpha(alphaValue));
-			setGravityY.setTextColor(setGravityY.getTextColors().withAlpha(alphaValue));
-			setGravityUnit.setTextColor(setGravityUnit.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
 	}
 
 	@Override

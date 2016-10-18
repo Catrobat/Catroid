@@ -73,10 +73,6 @@
         </TextView >
 
         <TextView
-            android:id="@+id/brick_show_variable_prototype_text_view_x"
-            style="@style/BrickPrototypeTextView" />
-
-        <TextView
             android:id="@+id/brick_show_variable_edit_text_x"
             style="@style/BrickEditText"
             app:layout_inputType="number"
@@ -88,10 +84,6 @@
             style="@style/BrickText.SingleLine"
             android:text="@string/y_label" >
         </TextView >
-
-        <TextView
-            android:id="@+id/brick_show_variable_prototype_text_view_y"
-            style="@style/BrickPrototypeTextView" />
 
         <TextView
             android:id="@+id/brick_show_variable_edit_text_y"

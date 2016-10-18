@@ -114,7 +114,7 @@ import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.HideVariableBrick;
+import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -163,6 +163,7 @@ import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
+import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -170,7 +171,7 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.content.bricks.ShowVariableBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
@@ -255,7 +256,7 @@ public final class StorageHandler {
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	public static final String BACKPACK_FILENAME = "backpack.json";
 
-	private XStreamToSupportCatrobatLanguageVersion0991AndBefore xstream;
+	private XStreamToSupportCatrobatLanguageVersion0992AndBefore xstream;
 	private Gson backpackGson;
 
 	private FileInputStream fileInputStream;
@@ -288,7 +289,7 @@ public final class StorageHandler {
 	}
 
 	private void prepareProgramXstream(boolean forSupportProject) {
-		xstream = new XStreamToSupportCatrobatLanguageVersion0991AndBefore(new PureJavaReflectionProvider(new
+		xstream = new XStreamToSupportCatrobatLanguageVersion0992AndBefore(new PureJavaReflectionProvider(new
 				FieldDictionary(new CatroidFieldKeySorter())));
 		if (forSupportProject) {
 			xstream.processAnnotations(SupportProject.class);
@@ -388,7 +389,7 @@ public final class StorageHandler {
 		xstream.alias("brick", GlideToBrick.class);
 		xstream.alias("brick", GoNStepsBackBrick.class);
 		xstream.alias("brick", HideBrick.class);
-		xstream.alias("brick", HideVariableBrick.class);
+		xstream.alias("brick", HideTextBrick.class);
 		xstream.alias("brick", IfLogicBeginBrick.class);
 		xstream.alias("brick", IfLogicElseBrick.class);
 		xstream.alias("brick", IfLogicEndBrick.class);
@@ -431,13 +432,14 @@ public final class StorageHandler {
 		xstream.alias("brick", SetBackgroundAndWaitBrick.class);
 		xstream.alias("brick", SetPenColorBrick.class);
 		xstream.alias("brick", SetPenSizeBrick.class);
+		xstream.alias("brick", SetRotationStyleBrick.class);
 		xstream.alias("brick", SetSizeToBrick.class);
 		xstream.alias("brick", SetVariableBrick.class);
 		xstream.alias("brick", SetVolumeToBrick.class);
 		xstream.alias("brick", SetXBrick.class);
 		xstream.alias("brick", SetYBrick.class);
 		xstream.alias("brick", ShowBrick.class);
-		xstream.alias("brick", ShowVariableBrick.class);
+		xstream.alias("brick", ShowTextBrick.class);
 		xstream.alias("brick", SpeakBrick.class);
 		xstream.alias("brick", SpeakAndWaitBrick.class);
 		xstream.alias("brick", StampBrick.class);
@@ -578,7 +580,7 @@ public final class StorageHandler {
 		}
 
 		loadSaveLock.lock();
-		Project project = null;
+		Project project;
 		try {
 			project = (Project) xstream.getProjectFromXML(new File(buildProjectPath(projectName), PROJECTCODE_NAME));
 			for (String sceneName : project.getSceneOrder()) {
@@ -1007,11 +1009,6 @@ public final class StorageHandler {
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
-			fileChecksumContainer.addChecksum(inputFileChecksum, null);
-			return new File(fileChecksumContainer.getPath(inputFileChecksum));
-		}
 		File outputFile = new File(buildPath(soundDirectory.getAbsolutePath(),
 				inputFileChecksum + "_" + inputFile.getName()));
 
@@ -1247,14 +1244,15 @@ public final class StorageHandler {
 	}
 
 	public void fillChecksumContainer() {
-		//FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-		//if (container == null) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject == null) {
+			return;
+		}
+
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
-		//}
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 
 		Project newProject = ProjectManager.getInstance().getCurrentProject();
-
 		for (Scene scene : newProject.getSceneList()) {
 			for (Sprite currentSprite : scene.getSpriteList()) {
 				for (SoundInfo soundInfo : currentSprite.getSoundList()) {

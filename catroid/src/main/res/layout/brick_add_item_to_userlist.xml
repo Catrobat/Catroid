@@ -51,11 +51,6 @@
             android:id="@+id/brick_add_item_to_userlist_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_add_item_to_userlist_add" />
-        
-         <TextView
-            android:id="@+id/brick_add_item_to_userlist_prototype_view"
-            style="@style/BrickPrototypeTextView" 
-            android:layout_width="match_parent"/>
 
         <TextView
             android:id="@+id/brick_add_item_to_userlist_edit_text"

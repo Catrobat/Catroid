@@ -53,6 +53,7 @@ import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -69,7 +70,7 @@ import java.util.Locale;
 import java.util.Set;
 
 @SuppressWarnings("deprecation")
-public class PreStageActivity extends BaseActivity {
+public class PreStageActivity extends BaseActivity implements GatherCollisionInformationTask.OnPolygonLoadedListener {
 
 	private static final String TAG = PreStageActivity.class.getSimpleName();
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
@@ -246,6 +247,11 @@ public class PreStageActivity extends BaseActivity {
 				}
 				resourceFailed();
 			}
+		}
+
+		if ((requiredResources & Brick.COLLISION) > 0) {
+			GatherCollisionInformationTask task = new GatherCollisionInformationTask(this);
+			task.execute();
 		}
 
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
@@ -568,6 +574,11 @@ public class PreStageActivity extends BaseActivity {
 			ToastUtil.showError(PreStageActivity.this, R.string.no_nfc_available);
 			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
 		}
+		resourceInitialized();
+	}
+
+	@Override
+	public void onFinished() {
 		resourceInitialized();
 	}
 }

@@ -59,10 +59,6 @@
     </TextView>
 
     <TextView
-        android:id="@+id/brick_set_pen_color_red_prototype_text_view"
-        style="@style/BrickPrototypeTextView" />
-
-    <TextView
         android:id="@+id/brick_set_pen_color_action_red_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
@@ -76,9 +72,6 @@
     </TextView>
 
     <TextView
-        android:id="@+id/brick_set_pen_color_green_prototype_text_view"
-        style="@style/BrickPrototypeTextView" />
-    <TextView
         android:id="@+id/brick_set_pen_color_action_green_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
@@ -90,10 +83,6 @@
         style="@style/BrickText"
         android:text="@string/phiro_rgb_led_blue" >
     </TextView>
-
-    <TextView
-        android:id="@+id/brick_set_pen_color_blue_prototype_text_view"
-        style="@style/BrickPrototypeTextView" />
 
     <TextView
         android:id="@+id/brick_set_pen_color_action_blue_edit_text"

@@ -56,7 +56,6 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.ActionModeActivityAdapterInterface;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
@@ -181,13 +180,17 @@ public class ScriptActivity extends BaseActivity {
 
 	public void setupActionBar() {
 		final ActionBar actionBar = getActionBar();
-		//actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		try {
 			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 			Scene scene = ProjectManager.getInstance().getCurrentScene();
 			if (sprite != null && scene != null) {
-				String title = scene.getName() + ": " + sprite.getName();
+				String title;
+				if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
+					title = sprite.getName();
+				} else {
+					title = scene.getName() + ": " + sprite.getName();
+				}
 				actionBar.setTitle(title);
 			}
 		} catch (NullPointerException nullPointerException) {
@@ -283,6 +286,9 @@ public class ScriptActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (currentFragment != null) {
 			handleShowDetails(currentFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		}
+		if (currentFragment == scriptFragment) {
+			menu.findItem(R.id.comment_in_out).setVisible(true);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -537,8 +543,8 @@ public class ScriptActivity extends BaseActivity {
 		}
 
 		if (keyCode == KeyEvent.KEYCODE_BACK && currentFragmentPosition == FRAGMENT_SCRIPTS) {
-			if (scriptFragment.getAdapter().isBackPackActionMode()) {
-				scriptFragment.getAdapter().setIsBackPackActionMode(false);
+			if (scriptFragment.getAdapter().getActionMode() == BrickAdapter.ActionModeEnum.BACKPACK) {
+				scriptFragment.getAdapter().setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 			}
 			AddBrickFragment addBrickFragment = (AddBrickFragment) getFragmentManager().findFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
 			if (addBrickFragment == null || !addBrickFragment.isVisible()) {
@@ -655,20 +661,11 @@ public class ScriptActivity extends BaseActivity {
 			return super.dispatchKeyEvent(event);
 		}
 
-		AddBrickFragment addBrickFragment = (AddBrickFragment) getFragmentManager()
-				.findFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
-
-		if (addBrickFragment != null && addBrickFragment.isVisible()
-				&& addBrickFragment.isActionModeActive()) {
-			ListAdapter adapter = addBrickFragment.getListAdapter();
-			((PrototypeBrickAdapter) adapter).clearCheckedItems();
-			return super.dispatchKeyEvent(event);
-		}
-
 		if (currentFragment != null && currentFragment.getActionModeActive()
 				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-			if (scriptFragment != null && scriptFragment.getAdapter() != null && scriptFragment.getAdapter().isBackPackActionMode()) {
-				scriptFragment.getAdapter().setIsBackPackActionMode(false);
+			if (scriptFragment != null && scriptFragment.getAdapter() != null && scriptFragment.getAdapter()
+					.getActionMode() == BrickAdapter.ActionModeEnum.BACKPACK) {
+				scriptFragment.getAdapter().setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 			}
 			ListAdapter adapter;
 			if (currentFragment instanceof ScriptFragment) {

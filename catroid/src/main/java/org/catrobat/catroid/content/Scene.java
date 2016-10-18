@@ -43,6 +43,7 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -53,6 +54,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XStreamAlias("scene")
+// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+// CHECKSTYLE DISABLE IndentationCheck FOR 7 LINES
+@XStreamFieldKeyOrder({
+		"name",
+		"objectList",
+		"data",
+		"originalWidth",
+		"originalHeight"
+})
 public class Scene implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -107,13 +117,6 @@ public class Scene implements Serializable {
 			return;
 		}
 		spriteList.add(sprite);
-	}
-
-	private synchronized void addSprite(int index, Sprite sprite) {
-		if (spriteList.contains(sprite)) {
-			return;
-		}
-		spriteList.add(index, sprite);
 	}
 
 	public synchronized boolean removeSprite(Sprite sprite) {
@@ -507,16 +510,5 @@ public class Scene implements Serializable {
 			result.addAll(sprite.getAllBricks());
 		}
 		return result;
-	}
-
-	public void convertSpritesToSingleSprites() {
-		for (int index = 0; index < spriteList.size(); index++) {
-			Sprite sprite = spriteList.get(index);
-			sprite.setConvertToSingleSprite(true);
-			Sprite convertedSprite = sprite.shallowClone();
-			removeSprite(sprite);
-			addSprite(index, convertedSprite);
-		}
-		project.refreshSpriteReferences();
 	}
 }

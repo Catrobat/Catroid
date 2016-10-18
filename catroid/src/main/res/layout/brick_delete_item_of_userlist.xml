@@ -61,11 +61,6 @@
             android:id="@+id/brick_delete_item_of_userlist_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_delete_item_from_userlist" />
-        
-        <TextView
-            android:id="@+id/brick_delete_item_of_userlist_prototype_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent" />
 
         <TextView
             android:id="@+id/brick_delete_item_of_userlist_edit_text"

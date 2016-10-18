@@ -52,11 +52,6 @@
         </TextView >
 
         <TextView
-            android:id="@+id/brick_think_for_bubble_prototype_text_view_text"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
-
-        <TextView
             android:id="@+id/brick_think_for_bubble_edit_text_text"
             style="@style/BrickEditText"
             app:layout_inputType="string"
@@ -68,12 +63,6 @@
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:text="@string/brick_think_say_for_text" >
-        </TextView >
-
-        <TextView
-            android:id="@+id/brick_think_for_bubble_prototype_text_view_duration"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent" >
         </TextView >
 
         <TextView

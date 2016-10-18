@@ -28,19 +28,19 @@ import java.util.Date;
 public class JobFinishedMessage extends JobMessage {
 
 	private final String downloadURL;
-	private final Date cachedUTCDate;
+	private final Date cachedDate;
 
-	public JobFinishedMessage(final long jobID, final String downloadURL, final Date cachedUTCDate) {
+	public JobFinishedMessage(final long jobID, final String downloadURL, final Date cachedDate) {
 		super(jobID);
 		this.downloadURL = downloadURL;
-		this.cachedUTCDate = cachedUTCDate;
+		this.cachedDate = cachedDate;
 	}
 
 	public String getDownloadURL() {
 		return downloadURL;
 	}
 
-	public Date getCachedUTCDate() {
-		return cachedUTCDate;
+	public Date getCachedDate() {
+		return cachedDate;
 	}
 }

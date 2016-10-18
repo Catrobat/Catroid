@@ -70,13 +70,41 @@ public class Job {
 		}
 	}
 
+	public enum DownloadState {
+		NOT_READY(0),
+		READY(1),
+		DOWNLOADING(2),
+		DOWNLOADED(3),
+		CANCELED(4);
+
+		private int downloadState;
+
+		private static Map<Integer, DownloadState> map = new HashMap<>();
+		static {
+			for (DownloadState legEnum : DownloadState.values()) {
+				map.put(legEnum.downloadState, legEnum);
+			}
+		}
+		DownloadState(final int downloadState) {
+			this.downloadState = downloadState;
+		}
+
+		public static DownloadState valueOf(int downloadState) {
+			return map.get(downloadState);
+		}
+
+		public int getDownloadStateID() {
+			return downloadState;
+		}
+	}
+
 	private State state;
 	private long jobID;
 	private String title;
 	private WebImage image;
 	private short progress;
-	private boolean alreadyDownloaded;
-	private boolean downloading;
+	private short downloadProgress;
+	private DownloadState downloadState;
 	private String downloadURL;
 
 	public Job(long jobID, String title, WebImage image) {
@@ -85,8 +113,7 @@ public class Job {
 		this.title = title;
 		this.image = image;
 		this.progress = 0;
-		this.downloading = false;
-		this.alreadyDownloaded = false;
+		this.downloadState = DownloadState.NOT_READY;
 		this.downloadURL = null;
 	}
 
@@ -94,19 +121,18 @@ public class Job {
 		final State state = State.valueOf(data.getInt(JsonJobDataKeys.STATE.toString()));
 		final long jobID = data.getLong(JsonJobDataKeys.JOB_ID.toString());
 		final String title = data.getString(JsonJobDataKeys.TITLE.toString());
-		final String imageURL = data.isNull(JsonJobDataKeys.IMAGE_URL.toString()) ? null : data.getString(JsonJobDataKeys.IMAGE_URL.toString());
+		final String imageURL = data.isNull(JsonJobDataKeys.IMAGE_URL.toString()) ? null
+				: data.getString(JsonJobDataKeys.IMAGE_URL.toString());
 		WebImage image = null;
 		if (imageURL != null) {
 			final int[] imageSize = Utils.extractImageSizeFromScratchImageURL(imageURL);
 			image = new WebImage(Uri.parse(imageURL), imageSize[0], imageSize[1]);
 		}
 		final short progress = (short) data.getInt(JsonJobDataKeys.PROGRESS.toString());
-		final boolean alreadyDownloaded = data.getBoolean(JsonJobDataKeys.ALREADY_DOWNLOADED.toString());
 		final String downloadURL = data.getString(JsonJobDataKeys.DOWNLOAD_URL.toString());
 		final Job job = new Job(jobID, title, image);
 		job.state = state;
 		job.progress = progress;
-		job.alreadyDownloaded = alreadyDownloaded;
 		job.downloadURL = downloadURL;
 		return job;
 	}
@@ -143,6 +169,14 @@ public class Job {
 		this.progress = progress;
 	}
 
+	public short getDownloadProgress() {
+		return downloadProgress;
+	}
+
+	public void setDownloadProgress(short downloadProgress) {
+		this.downloadProgress = downloadProgress;
+	}
+
 	public WebImage getImage() {
 		return image;
 	}
@@ -151,20 +185,12 @@ public class Job {
 		this.image = image;
 	}
 
-	public void setDownloading(boolean downloading) {
-		this.downloading = downloading;
+	public DownloadState getDownloadState() {
+		return downloadState;
 	}
 
-	public boolean isDownloading() {
-		return downloading;
-	}
-
-	public boolean isAlreadyDownloaded() {
-		return alreadyDownloaded;
-	}
-
-	public void setAlreadyDownloaded(boolean alreadyDownloaded) {
-		this.alreadyDownloaded = alreadyDownloaded;
+	public void setDownloadState(DownloadState downloadState) {
+		this.downloadState = downloadState;
 	}
 
 	public String getDownloadURL() {

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
+import android.content.Context;
 import android.graphics.PointF;
 import android.util.Log;
 
@@ -35,11 +36,11 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
@@ -47,9 +48,11 @@ import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.stage.StageActivity;
@@ -60,6 +63,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+// CHECKSTYLE DISABLE IndentationCheck FOR 8 LINES
+@XStreamFieldKeyOrder({
+		"name",
+		"lookList",
+		"soundList",
+		"scriptList",
+		"userBricks",
+		"nfcTagList"
+})
 public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Sprite.class.getSimpleName();
@@ -72,7 +85,6 @@ public class Sprite implements Serializable, Cloneable {
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
-	public transient boolean cloneForScene = false;
 
 	@XStreamAsAttribute
 	private String name;
@@ -108,20 +120,6 @@ public class Sprite implements Serializable, Cloneable {
 	@Override
 	public int hashCode() {
 		return super.hashCode() * TAG.hashCode();
-	}
-
-	private Object readResolve() {
-		//filling FileChecksumContainer:
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
-			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-			for (SoundInfo soundInfo : soundList) {
-				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-			}
-			for (LookData lookData : lookList) {
-				container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
-			}
-		}
-		return this;
 	}
 
 	public List<Script> getScriptList() {
@@ -317,7 +315,6 @@ public class Sprite implements Serializable, Cloneable {
 	@Override
 	public Sprite clone() {
 		final Sprite cloneSprite = createSpriteInstance();
-		cloneSprite.cloneForScene = cloneForScene;
 
 		cloneSprite.setName(this.getName());
 		cloneSprite.isBackpackObject = false;
@@ -345,8 +342,6 @@ public class Sprite implements Serializable, Cloneable {
 
 		projectManager.checkCurrentSprite(cloneSprite, false);
 		projectManager.setCurrentSprite(originalSprite);
-
-		cloneSprite.cloneForScene = false;
 
 		return cloneSprite;
 	}
@@ -376,9 +371,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public Sprite cloneForScene() {
-		cloneForScene = true;
 		Sprite clone = clone();
-		cloneForScene = false;
 		return clone;
 	}
 
@@ -510,11 +503,7 @@ public class Sprite implements Serializable, Cloneable {
 	private void cloneSounds(Sprite cloneSprite) {
 		List<SoundInfo> cloneSoundList = new ArrayList<>();
 		for (SoundInfo element : this.soundList) {
-			if (cloneForScene) {
-				cloneSoundList.add(element.clone());
-			} else {
-				cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
-			}
+			cloneSoundList.add(element.clone());
 		}
 		cloneSprite.soundList = cloneSoundList;
 	}
@@ -562,8 +551,8 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public Sprite cloneForBackPack() {
-		final Sprite cloneSprite = spriteFactory.newInstance(getClass().getSimpleName());
-		cloneSprite.setName(this.getName());
+		final Sprite cloneSprite = spriteFactory.newInstance(SpriteFactory.SPRITE_SINGLE);
+		cloneSprite.setName(name);
 		return cloneSprite;
 	}
 
@@ -746,10 +735,6 @@ public class Sprite implements Serializable, Cloneable {
 		return false;
 	}
 
-	public void addLookData(LookData data) {
-		lookList.add(data);
-	}
-
 	public List<SoundInfo> getSoundList() {
 		return soundList;
 	}
@@ -839,10 +824,6 @@ public class Sprite implements Serializable, Cloneable {
 		return false;
 	}
 
-	public void addSound(SoundInfo sound) {
-		soundList.add(sound);
-	}
-
 	public void updateUserVariableReferencesInUserVariableBricks(List<UserVariable> variables) {
 		for (Brick brick : getListWithAllBricks()) {
 			if (brick instanceof UserVariableBrick) {
@@ -856,6 +837,74 @@ public class Sprite implements Serializable, Cloneable {
 					}
 				}
 			}
+		}
+	}
+
+	public void renameCopiedSpriteInCollisionFormulas(String oldName, String newName, Context context) {
+
+		for (Script currentScript : getScriptList()) {
+			if (currentScript == null) {
+				return;
+			}
+			List<Brick> brickList = currentScript.getBrickList();
+			for (Brick brick : brickList) {
+				if (brick instanceof UserBrick) {
+					List<Formula> formulaList = ((UserBrick) brick).getFormulas();
+					for (Formula formula : formulaList) {
+						formula.updateCollisionFormulas(oldName, newName, context);
+					}
+				}
+				if (brick instanceof FormulaBrick) {
+					List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
+					for (Formula formula : formulaList) {
+						formula.updateCollisionFormulas(oldName, newName, context);
+					}
+				}
+			}
+		}
+	}
+
+	public boolean hasCollision() {
+		for (Script script : getScriptList()) {
+			for (Brick brick : script.brickList) {
+				if (brick instanceof FormulaBrick) {
+					FormulaBrick formulaBrick = (FormulaBrick) brick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						if (formula.containsElement(FormulaElement.ElementType.COLLISION_FORMULA)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		Scene scene = ProjectManager.getInstance().getCurrentScene();
+		for (Sprite sprite : scene.getSpriteList()) {
+			if (sprite.hasToCollideWith(this)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasToCollideWith(Sprite other) {
+		for (Script script : getScriptList()) {
+			for (Brick brick : script.brickList) {
+				if (brick instanceof FormulaBrick) {
+					FormulaBrick formulaBrick = (FormulaBrick) brick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						if (formula.containsSpriteInCollision(other.getName())) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public void createCollisionPolygons() {
+		for (LookData lookData : getLookDataList()) {
+			lookData.getCollisionInformation().calculate();
 		}
 	}
 

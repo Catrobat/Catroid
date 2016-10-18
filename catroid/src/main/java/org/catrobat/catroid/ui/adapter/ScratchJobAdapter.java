@@ -100,27 +100,40 @@ public class ScratchJobAdapter extends ArrayAdapter<Job> {
 
 		// set status of project:
 		holder.status.setTextColor(Color.WHITE);
+
+		boolean showProgressBar = false;
+		short progress = 0;
+
 		switch (job.getState()) {
 			case UNSCHEDULED:
 				holder.status.setText("-");
 				break;
 			case SCHEDULED:
 				holder.status.setText(getContext().getString(R.string.status_scheduled));
+				showProgressBar = true;
 				break;
 			case READY:
 				holder.status.setText(getContext().getString(R.string.status_waiting_for_worker));
+				showProgressBar = true;
 				break;
 			case RUNNING:
 				holder.status.setText(getContext().getString(R.string.status_started));
+				showProgressBar = true;
+				progress = job.getProgress();
 				break;
 			case FINISHED:
 				int messageID;
-				if (job.isDownloading()) {
-					messageID = R.string.status_downloading;
-				} else if (job.isAlreadyDownloaded()) {
-					messageID = R.string.status_download_finished;
-				} else {
-					messageID = R.string.status_conversion_finished;
+				switch (job.getDownloadState()) {
+					case DOWNLOADING:
+						messageID = R.string.status_downloading;
+						progress = job.getDownloadProgress();
+						showProgressBar = true;
+						break;
+					case DOWNLOADED:
+						messageID = R.string.status_download_finished;
+						break;
+					default:
+						messageID = R.string.status_conversion_finished;
 				}
 				holder.status.setText(getContext().getString(messageID));
 				break;
@@ -130,14 +143,13 @@ public class ScratchJobAdapter extends ArrayAdapter<Job> {
 				break;
 		}
 
-		if (job.getState() == Job.State.FINISHED || job.getState() == Job.State.FAILED) {
-			holder.progressLayout.setVisibility(View.GONE);
-		} else {
+		if (showProgressBar) {
 			// update progress state of project:
-			final Double progress = Double.valueOf(job.getProgress());
-			holder.progress.setText(String.format(Locale.getDefault(), "%1$d%%", progress.intValue()));
-			holder.progressBar.setProgress(progress.intValue());
+			holder.progress.setText(String.format(Locale.getDefault(), "%1$d%%", progress));
+			holder.progressBar.setProgress(progress);
 			holder.progressLayout.setVisibility(View.VISIBLE);
+		} else {
+			holder.progressLayout.setVisibility(View.GONE);
 		}
 
 		// set project image (threaded):

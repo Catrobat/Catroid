@@ -25,19 +25,13 @@ package org.catrobat.catroid.ui;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
@@ -46,13 +40,10 @@ import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.Locale;
-
 public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
-	private Menu baseMenu;
 	private boolean returnByPressingBackButton;
 
 	@Override
@@ -221,17 +212,5 @@ public abstract class BaseActivity extends Activity {
 
 	public void setTitleActionBar(String titleActionBar) {
 		this.titleActionBar = titleActionBar;
-	}
-
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuItem logout = baseMenu.findItem(R.id.menu_logout);
-		MenuItem login = baseMenu.findItem(R.id.menu_login);
-		logout.setVisible(Utils.isUserLoggedIn(this));
-		login.setVisible(!Utils.isUserLoggedIn(this));
-
-		if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
-			baseMenu.removeItem(R.id.menu_scratch_converter);
-		}
-		return true;
 	}
 }

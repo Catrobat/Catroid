@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -322,9 +323,8 @@ public class DataContainer implements Serializable {
 					List<UserScriptDefinitionBrickElement> currentElements = userBrick.getUserScriptDefinitionBrickElements();
 					for (int id = 0; id < currentElements.size(); id++) {
 						if (currentElements.get(id).getText().equals(userVariableName) && currentElements.get(id).isVariable()) {
-							int alpha = userBrick.getAlphaValue();
-							Context alphaView = userBrick.getDefinitionBrick().getViewWithAlpha(alpha).getContext();
-							userBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.get(id).getText(), alphaView);
+							Context brickContext = userBrick.getDefinitionBrick().view.getContext();
+							userBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.get(id).getText(), brickContext);
 							currentElements.remove(id);
 						}
 					}
@@ -339,8 +339,23 @@ public class DataContainer implements Serializable {
 		if (variables == null) {
 			variables = new ArrayList<>();
 			spriteVariables.put(sprite, variables);
+			removeSpriteVariableWithSameSpriteName(sprite);
 		}
 		return variables;
+	}
+
+	private void removeSpriteVariableWithSameSpriteName(Sprite spriteToKeep) {
+		if (spriteVariables == null || spriteToKeep == null) {
+			return;
+		}
+
+		Iterator iterator = spriteVariables.keySet().iterator();
+		while (iterator.hasNext()) {
+			Sprite sprite = (Sprite) iterator.next();
+			if (sprite == null || !(sprite == spriteToKeep) && sprite.getName().equals(spriteToKeep.getName())) {
+				iterator.remove();
+			}
+		}
 	}
 
 	public void removeVariableListForSprite(Sprite sprite) {
