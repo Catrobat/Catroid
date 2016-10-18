@@ -24,11 +24,9 @@ package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -111,7 +109,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	private SharedPreferences sharedpreferences = null;
 
-	public TourGuide mTourGuideHandler;
+	public TourGuide tourGuideHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -173,15 +171,15 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 							.disableClick(false)
 							.setStyle(Overlay.Style.Circle);
 
-					mTourGuideHandler = TourGuide.init(this).with(TourGuide.Technique.Click)
+					tourGuideHandler = TourGuide.init(this).with(TourGuide.Technique.Click)
 							.setOverlay(overlay)
 							.playOn(button);
 
 					button.setOnClickListener(new View.OnClickListener() {
 						public void onClick(View v) {
-							View cast_view = findViewById(R.id.cast_view);
-							cast_view.setVisibility(View.GONE);
-							mTourGuideHandler.cleanUp();
+							View castView = findViewById(R.id.cast_view);
+							castView.setVisibility(View.GONE);
+							tourGuideHandler.cleanUp();
 						}
 					});
 				} else {
