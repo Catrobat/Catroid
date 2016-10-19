@@ -26,14 +26,25 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TableLayout;
 
+import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
+import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.catroid.pocketmusic.note.MusicalKey;
+import org.catrobat.catroid.pocketmusic.note.NoteName;
+import org.catrobat.catroid.pocketmusic.note.Track;
+import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
+import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
+import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackToTrackGridConverter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class TrackView extends TableLayout {
 
 	public static final int ROW_COUNT = 13;
 	private List<TrackRowView> trackRowViews = new ArrayList<>(ROW_COUNT);
+	private TrackGrid trackGrid;
 	private static final int[] BLACK_KEY_INDICES = {
 			1, 3, 6, 8, 10
 	};
@@ -41,6 +52,8 @@ public class TrackView extends TableLayout {
 	public TrackView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setStretchAllColumns(true);
+		trackGrid = new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION, MusicalBeat.BEAT_4_4, new
+				ArrayList<GridRow>());
 		initializeRows();
 		setWeightSum(ROW_COUNT);
 	}
@@ -48,13 +61,33 @@ public class TrackView extends TableLayout {
 	private void initializeRows() {
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1.0f);
 		for (int i = 0; i < ROW_COUNT; i++) {
-			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
-			trackRowViews.add(new TrackRowView(getContext(), isBlackRow));
-			addView(trackRowViews.get(i), params);
+			GridRow gridRow = null;
+			Iterator<GridRow> it = trackGrid.getGridRows().iterator();
+			while (it.hasNext()) {
+				GridRow gr = it.next();
+				if (gr.getNoteName().ordinal() - NoteName.C1.ordinal() == i) {
+					gridRow = gr;
+					it.remove();
+					break;
+				}
+			}
+
+			if (trackRowViews.size() == ROW_COUNT) {
+				trackRowViews.get(i).updateGridRow(gridRow);
+			} else {
+				boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
+				trackRowViews.add(new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, gridRow));
+				addView(trackRowViews.get(i), params);
+			}
 		}
 	}
 
 	public List<TrackRowView> getTrackRowViews() {
 		return trackRowViews;
+	}
+
+	public void setTrack(Track track, int beatsPerMinute) {
+		trackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4, beatsPerMinute);
+		initializeRows();
 	}
 }

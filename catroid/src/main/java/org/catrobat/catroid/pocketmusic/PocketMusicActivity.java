@@ -34,20 +34,24 @@ import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
-import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackToTrackGridConverter;
+import org.catrobat.catroid.pocketmusic.ui.TrackView;
 import org.catrobat.catroid.ui.BaseActivity;
 
 public class PocketMusicActivity extends BaseActivity {
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Project project = createDummyProject();
+
 		setContentView(R.layout.activity_pocketmusic);
 
-		createDummySong();
+		TrackView trackView = (TrackView) findViewById(R.id.musicdroid_note_grid);
+		trackView.setTrack(project.getTrack("Track 1"), project.getBeatsPerMinute());
 	}
 
-	private void createDummySong() {
+	private Project createDummyProject() {
 		int bpm = 60;
 
 		Project project = new Project("Dummy Project", MusicalBeat.BEAT_4_4, bpm);
@@ -57,13 +61,31 @@ public class PocketMusicActivity extends BaseActivity {
 		NoteEvent c1On = new NoteEvent(c1, true);
 		NoteEvent c1Off = new NoteEvent(c1, false);
 
+		NoteName e1 = NoteName.E1;
+		NoteEvent e1On = new NoteEvent(e1, true);
+		NoteEvent e1Off = new NoteEvent(e1, false);
+
+		NoteName g1 = NoteName.G1;
+		NoteEvent g1On = new NoteEvent(g1, true);
+		NoteEvent g1Off = new NoteEvent(g1, false);
+
 		track.addNoteEvent(0, c1On);
 		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm), c1Off);
 		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 2, c1On);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 3, c1Off);
+		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 4, c1Off);
+
+		track.addNoteEvent(0, e1On);
+		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm), e1Off);
+		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 2, e1On);
+		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 3, e1Off);
+
+		track.addNoteEvent(0, g1On);
+		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm), g1Off);
+		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm), g1On);
+		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 2, g1Off);
 
 		project.addTrack("Track 1", track);
 
-		TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4, bpm);
+		return project;
 	}
 }
