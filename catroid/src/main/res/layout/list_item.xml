@@ -22,12 +22,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="@dimen/activity_linear_layout_height"
-              android:orientation="horizontal" >
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/activity_linear_layout_height"
+    android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/checkbox"
+        android:id="@+id/list_item_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -36,7 +36,7 @@
         android:visibility="gone" />
 
     <RelativeLayout
-        android:id="@+id/list_item_layout"
+        android:id="@+id/list_item_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/button_background_selector"

@@ -23,39 +23,162 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import org.catrobat.catroid.ui.listitems.CheckBoxListItem;
+import org.catrobat.catroid.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public abstract class CheckBoxListAdapter extends ArrayAdapter<CheckBoxListItem> {
+public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
+
+	protected static class ListItemViewHolder {
+		protected RelativeLayout background;
+		protected CheckBox checkBox;
+		protected TextView name;
+		protected ImageView image;
+
+	}
 
 	public static final String TAG = CheckBoxListAdapter.class.getSimpleName();
 
-	private List<CheckBoxListItem> itemList;
+	protected int selectMode;
+	protected LayoutInflater inflater;
+	protected ListItemClickHandler listItemClickHandler;
+	protected ListItemLongClickHandler listItemLongClickHandler;
+	protected ListItemCheckHandler listItemCheckHandler;
 
-	CheckBoxListAdapter(Context context, int resource, List<CheckBoxListItem> listItems) {
+	protected List<T> itemList;
+	protected List<T> checkedItems = new ArrayList<>();
+
+	public CheckBoxListAdapter(Context context, int resource, List<T> listItems) {
 		super(context, resource, listItems);
+		itemList = listItems;
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	private void setCheckBoxVisibility(boolean visible) {
-		for (CheckBoxListItem listItem : itemList) {
-			listItem.getCheckbox().setVisibility(visible ? View.VISIBLE : View.GONE);
+	public void setSelectMode(int selectMode) {
+		this.selectMode = selectMode;
+	}
+
+	public int getSelectMode() {
+		return selectMode;
+	}
+
+	public void setListItemClickHandler(ListItemClickHandler listItemClickHandler) {
+		this.listItemClickHandler = listItemClickHandler;
+	}
+
+	public void setListItemLongClickHandler(ListItemLongClickHandler listItemLongClickHandler) {
+		this.listItemLongClickHandler = listItemLongClickHandler;
+	}
+
+	public void setListItemCheckHandler(ListItemCheckHandler listItemCheckHandler) {
+		this.listItemCheckHandler = listItemCheckHandler;
+	}
+
+	public void setAllItemsCheckedTo(boolean checked) {
+		checkedItems.clear();
+		if (checked) {
+			checkedItems.addAll(itemList);
 		}
+		notifyDataSetChanged();
+	}
+
+	public List<T> getCheckedItems() {
+		return checkedItems;
+	}
+
+	public int swapItems(int position1, int position2) {
+		Collections.swap(itemList, position1, position2);
+		notifyDataSetChanged();
+		return position2;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (convertView == null) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		final T listItem = getItem(position);
+		final ListItemViewHolder viewHolder;
 
+		View listItemView = convertView;
+
+		if (listItemView == null) {
+			listItemView = inflater.inflate(R.layout.list_item, parent, false);
+			viewHolder = new ListItemViewHolder();
+			viewHolder.background = (RelativeLayout) listItemView.findViewById(R.id.list_item_background);
+			viewHolder.checkBox = (CheckBox) listItemView.findViewById(R.id.list_item_checkbox);
+			viewHolder.name = (TextView) listItemView.findViewById(R.id.list_item_text_view);
+			viewHolder.image = (ImageView) listItemView.findViewById(R.id.list_item_image_view);
+			listItemView.setTag(viewHolder);
+		} else {
+			viewHolder = (ListItemViewHolder) listItemView.getTag();
 		}
-		return convertView;
+
+		viewHolder.background.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				listItemClickHandler.handleOnItemClick(listItem);
+			}
+		});
+
+		final View view = listItemView;
+		viewHolder.background.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				listItemLongClickHandler.handleOnItemLongClick(view, position);
+				return true;
+			}
+		});
+
+		viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				if (b) {
+					if (selectMode == ListView.CHOICE_MODE_SINGLE) {
+						setAllItemsCheckedTo(false);
+					}
+					if (!checkedItems.contains(listItem)) {
+						checkedItems.add(listItem);
+					}
+				} else {
+					checkedItems.remove(listItem);
+				}
+				onCheckBoxChanged();
+			}
+		});
+
+		viewHolder.checkBox.setVisibility(selectMode == ListView.CHOICE_MODE_NONE ? View.GONE : View.VISIBLE);
+		viewHolder.checkBox.setChecked(checkedItems.contains(listItem));
+
+		return listItemView;
 	}
 
-	abstract void deleteCheckedItems();
+	private void onCheckBoxChanged() {
+		listItemCheckHandler.onItemChecked();
+	}
 
+	public interface ListItemClickHandler<D> {
+
+		void handleOnItemClick(D listItem);
+	}
+
+	public interface ListItemLongClickHandler {
+
+		void handleOnItemLongClick(View view, int position);
+	}
+
+	public interface  ListItemCheckHandler {
+
+		void onItemChecked();
+	}
 }

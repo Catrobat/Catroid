@@ -451,7 +451,7 @@ public class ProjectActivity extends BaseActivity {
 			updateFragmentPosition();
 			switch (currentFragmentPosition) {
 				case FRAGMENT_SCENES:
-					scenesListFragment.getAdapter().clearCheckedItems();
+					scenesListFragment.getAdapter().setAllItemsCheckedTo(false);
 					break;
 				case FRAGMENT_SPRITES:
 					spritesListFragment.getSpriteAdapter().clearCheckedItems();

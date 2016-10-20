@@ -167,7 +167,7 @@ public class BackPackSceneFragment extends BackPackActivityFragment implements D
 		registerForContextMenu(listView);
 
 		adapter = new SceneAdapter(getActivity(), R.layout.activity_scenes_list_item, R.id
-				.activity_scenes_list_item_text_view, BackPackListManager.getInstance().getBackPackedScenes());
+				.list_item_text_view, BackPackListManager.getInstance().getBackPackedScenes());
 		setListAdapter(adapter);
 		checkEmptyBackgroundBackPack();
 	}

@@ -20,14 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.listitems;
+package org.catrobat.catroid.ui.dragndrop;
 
-import android.view.View;
-import android.widget.CheckBox;
 
-public interface CheckBoxListItem {
+public interface DragAndDropAdapterInterface<D> {
 
-	CheckBox getCheckbox();
-
-	View getView();
+	int swapItems(int position1, int position2);
 }

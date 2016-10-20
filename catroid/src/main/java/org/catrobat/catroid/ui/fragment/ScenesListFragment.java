@@ -30,18 +30,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -52,59 +47,43 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.SceneAdapter;
+import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
+import org.catrobat.catroid.ui.adapter.SceneListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSceneController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSceneDialog;
-import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.utils.SnackbarUtil;
-import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-public class ScenesListFragment extends ScriptActivityFragment implements SceneAdapter.OnSceneEditListener,
-		BackPackSceneController.OnBackpackSceneCompleteListener {
+public class ScenesListFragment extends CheckBoxListFragment implements CheckBoxListAdapter.ListItemClickHandler<Scene>,
+		BackPackSceneController.OnBackpackSceneCompleteListener, ListItemActionsInterface{
 
 	public static final String TAG = ScenesListFragment.class.getSimpleName();
 	private static final String BUNDLE_ARGUMENTS_SCENE_TO_EDIT = "scene_to_edit";
 
-	private static String multiSelectActionModeTitle;
-	private static String singleItemAppendixMultiSelectActionMode;
-	private static String multipleItemAppendixMultiSelectActionMode;
-	private SceneAdapter sceneAdapter;
-	private ArrayList<Scene> sceneList;
+	private SceneListAdapter sceneAdapter;
+	private DragAndDropListView listView;
+
 	private Scene sceneToEdit;
+
 	private SceneRenamedReceiver sceneRenamedReceiver;
-	private SceneListChangedReceiver sceneListChangedReceiver;
-	private SceneListInitReceiver sceneListInitReceiver;
-	private SceneListTouchActionUpReceiver sceneListTouchActionUpReceiver;
-
-	private ActionMode actionMode;
-	private View selectAllActionModeButton;
-	private boolean isRenameActionMode;
-	private boolean selectAll = true;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View sceneListFragment = inflater.inflate(R.layout.fragment_scenes_list, container, false);
+		listView = (DragAndDropListView) sceneListFragment.findViewById(android.R.id.list);
 		sceneListFragment.findViewById(R.id.sceneList_headline).setVisibility(View.VISIBLE);
+
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scenes);
+
 		return sceneListFragment;
 	}
 
@@ -113,6 +92,10 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		super.onActivityCreated(savedInstanceState);
 
 		registerForContextMenu(getListView());
+
+		singleItemTitle = getString(R.string.scene);
+		multipleItemsTitle = getString(R.string.scenes);
+
 		if (savedInstanceState != null) {
 			sceneToEdit = (Scene) savedInstanceState.get(BUNDLE_ARGUMENTS_SCENE_TO_EDIT);
 		}
@@ -127,7 +110,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	@Override
 	public void onStart() {
 		super.onStart();
-		initListeners();
+		initializeList();
 	}
 
 	@Override
@@ -156,29 +139,8 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 			sceneRenamedReceiver = new SceneRenamedReceiver();
 		}
 
-		if (sceneListChangedReceiver == null) {
-			sceneListChangedReceiver = new SceneListChangedReceiver();
-		}
-
-		if (sceneListInitReceiver == null) {
-			sceneListInitReceiver = new SceneListInitReceiver();
-		}
-
-		if (sceneListTouchActionUpReceiver == null) {
-			sceneListTouchActionUpReceiver = new SceneListTouchActionUpReceiver();
-		}
-
 		IntentFilter intentFilterSceneRenamed = new IntentFilter(ScriptActivity.ACTION_SCENE_RENAMED);
 		getActivity().registerReceiver(sceneRenamedReceiver, intentFilterSceneRenamed);
-
-		IntentFilter intentFilterSceneListChanged = new IntentFilter(ScriptActivity.ACTION_SCENE_LIST_CHANGED);
-		getActivity().registerReceiver(sceneListChangedReceiver, intentFilterSceneListChanged);
-
-		IntentFilter intentFilterSceneListInit = new IntentFilter(ScriptActivity.ACTION_SCENE_LIST_INIT);
-		getActivity().registerReceiver(sceneListInitReceiver, intentFilterSceneListInit);
-
-		IntentFilter intentFilterSceneTouchUp = new IntentFilter(ScriptActivity.ACTION_SCENE_TOUCH_ACTION_UP);
-		getActivity().registerReceiver(sceneListTouchActionUpReceiver, intentFilterSceneTouchUp);
 
 		ProjectManager.getInstance().setCurrentScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
 	}
@@ -197,92 +159,51 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		if (sceneRenamedReceiver != null) {
 			getActivity().unregisterReceiver(sceneRenamedReceiver);
 		}
+	}
 
-		if (sceneListChangedReceiver != null) {
-			getActivity().unregisterReceiver(sceneListChangedReceiver);
-		}
+	private void initializeList() {
+		List<Scene> sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
 
-		if (sceneListInitReceiver != null) {
-			getActivity().unregisterReceiver(sceneListInitReceiver);
-		}
+		sceneAdapter = new SceneListAdapter(getActivity(), R.layout.activity_scenes_list_item, sceneList);
 
-		if (sceneListTouchActionUpReceiver != null) {
-			getActivity().unregisterReceiver(sceneListTouchActionUpReceiver);
-		}
+		setListAdapter(sceneAdapter);
+		sceneAdapter.setListItemClickHandler(this);
+		sceneAdapter.setListItemLongClickHandler(listView);
+		sceneAdapter.setListItemCheckHandler(this);
+		listView.setAdapterInterface(sceneAdapter);
 	}
 
 	@Override
-	public void onSceneChecked() {
-		if (isRenameActionMode || actionMode == null) {
+	public void handleOnItemClick(Scene scene) {
+		if (isActionModeActive()) {
 			return;
 		}
+		ProjectManager.getInstance().setCurrentScene(scene);
 
-		updateActionModeTitle();
+		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+		intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+		startActivity(intent);
 	}
 
-	private void updateActionModeTitle() {
-		int numberOfSelectedItems = sceneAdapter.getAmountOfCheckedScenes();
-
-		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(multiSelectActionModeTitle);
-		} else {
-			String appendix = multipleItemAppendixMultiSelectActionMode;
-
-			if (numberOfSelectedItems == 1) {
-				appendix = singleItemAppendixMultiSelectActionMode;
-			}
-
-			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = multiSelectActionModeTitle + " " + numberOfItems + " " + appendix;
-
-			int titleLength = multiSelectActionModeTitle.length();
-
-			Spannable completeSpannedTitle = new SpannableString(completeTitle);
-			completeSpannedTitle.setSpan(
-					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
-					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			actionMode.setTitle(completeSpannedTitle);
-		}
-	}
-
-	@Override
-	public void onSceneEdit(int position, View view) {
-		if (isRenameActionMode) {
-			sceneToEdit = sceneAdapter.getItem(position);
-			showRenameDialog();
-		} else {
-			ProjectManager.getInstance().setCurrentScene(sceneAdapter.getItem(position));
-
-			Intent intent = new Intent(getActivity(), ProjectActivity.class);
-			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
-			startActivity(intent);
-		}
-	}
-
-	@Override
 	public void startCopyActionMode() {
 		startActionMode(copyModeCallBack, false);
 	}
 
-	@Override
-	public void startCommentOutActionMode() {
-		// not possible here
-	}
-
-	@Override
 	public void startRenameActionMode() {
 		startActionMode(renameModeCallBack, true);
 	}
 
-	@Override
 	public void startDeleteActionMode() {
 		startActionMode(deleteModeCallBack, false);
 	}
 
-	@Override
 	public void startBackPackActionMode() {
 		startActionMode(backPackModeCallBack, false);
+	}
+
+	@Override
+	public void handleAddButton() {
+
 	}
 
 	private void startActionMode(ActionMode.Callback actionModeCallback, boolean isRenameMode) {
@@ -303,62 +224,18 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		}
 	}
 
-	@Override
-	public void handleAddButton() {
-		//handled in ProjectActivity
-	}
-
-	@Override
-	public void handleCheckBoxClick(View view) {
-		int position = getListView().getPositionForView(view);
-		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.scene_checkbox)).isChecked());
-	}
-
-	public SceneAdapter getAdapter() {
-		return sceneAdapter;
-	}
-
-	public boolean copyScene() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-
-		String sceneName = getSceneName(sceneToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0);
-		File sourceScene = new File(Utils.buildScenePath(projectManager.getCurrentProject().getName(), sceneToEdit.getName()));
-		File targetScene = new File(Utils.buildScenePath(projectManager.getCurrentProject().getName(), sceneName));
-		try {
-			StorageHandler.copyDirectory(targetScene, sourceScene);
-		} catch (IOException e) {
-			Log.e(TAG, "Error while copying Scene files!", e);
-			return false;
-		}
-		Scene copiedScene = sceneToEdit.clone();
-		if (copiedScene == null) {
-			return false;
-		}
-
-		copiedScene.setSceneName(sceneName);
-		copiedScene.setProject(projectManager.getCurrentProject());
-
-		projectManager.addScene(copiedScene);
-		projectManager.setCurrentScene(copiedScene);
-
-		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SCENE_LIST_CHANGED));
-		Log.d(TAG, "copiedScene: " + copiedScene.getName());
-		return true;
-	}
-
-	@Override
 	public void showRenameDialog() {
 		RenameSceneDialog dialog = RenameSceneDialog.newInstance(sceneToEdit.getName());
 		dialog.show(getFragmentManager(), RenameSceneDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	@Override
-	public void showDeleteDialog() {
+	public SceneListAdapter getAdapter() {
+		return sceneAdapter;
 	}
 
-	private void showConfirmDeleteDialog() {
+	public void showDeleteDialog() {
 		int titleId;
-		if (sceneAdapter.getAmountOfCheckedScenes() == 1) {
+		if (sceneAdapter.getCheckedItems().size() == 1) {
 			titleId = R.string.dialog_confirm_delete_scene_title;
 		} else {
 			titleId = R.string.dialog_confirm_delete_multiple_scenes_title;
@@ -371,7 +248,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				deleteCheckedScenes();
-				clearCheckedScenesAndEnableButtons();
+				clearCheckedItems();
 				checkSceneCountAfterDeletion();
 			}
 		});
@@ -385,7 +262,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialogInterface) {
-				clearCheckedScenesAndEnableButtons();
+				clearCheckedItems();
 			}
 		});
 
@@ -412,6 +289,20 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		}
 	}
 
+	private void deleteCheckedScenes() {
+		boolean success = true;
+		for (Scene scene : sceneAdapter.getCheckedItems()) {
+			sceneToEdit = scene;
+			success &= deleteScene();
+		}
+
+		if (!success) {
+			showError(R.string.error_scene_not_deleted);
+		} else {
+			ProjectManager.getInstance().saveProject(getActivity());
+		}
+	}
+
 	public boolean deleteScene() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		try {
@@ -430,90 +321,40 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		return true;
 	}
 
-	private void deleteCheckedScenes() {
-		int numDeleted = 0;
-		boolean success = true;
-		for (int position : sceneAdapter.getCheckedScenes()) {
-			sceneToEdit = (Scene) getListView().getItemAtPosition(position - numDeleted);
-			success &= deleteScene();
-			numDeleted++;
-		}
-
-		if (!success) {
-			showError(R.string.error_scene_not_deleted);
-		} else {
-			ProjectManager.getInstance().saveProject(getActivity());
-		}
-	}
-
-	private void clearCheckedScenesAndEnableButtons() {
-		setSelectMode(ListView.CHOICE_MODE_NONE);
-		sceneAdapter.clearCheckedScenes();
-
-		actionMode = null;
-		actionModeActive = false;
-
-		BottomBar.showBottomBar(getActivity());
-	}
-
-	@Override
 	public int getSelectMode() {
 		return sceneAdapter.getSelectMode();
 	}
 
-	@Override
 	public void setSelectMode(int selectMode) {
 		sceneAdapter.setSelectMode(selectMode);
 		sceneAdapter.notifyDataSetChanged();
 	}
 
 	@Override
+	public boolean getActionModeActive() {
+		return isActionModeActive();
+	}
+
+	@Override
+	public void setActionModeActive(boolean actionModeActive) {
+		throw new UnsupportedOperationException("REfactor INTERFACE!");
+	}
+
 	public boolean getShowDetails() {
 		return false;
 	}
 
-	@Override
 	public void setShowDetails(boolean showDetails) {
-	}
-
-	private void addSelectAllActionModeButton(final ActionMode mode, Menu menu) {
-		selectAll = true;
-		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
-		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
-
-			CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
-
-			@Override
-			public void onClick(View view) {
-				if (selectAll) {
-					int startPosition = 0;
-					while (startPosition < sceneList.size()) {
-						sceneAdapter.addCheckedScene(startPosition);
-						startPosition++;
-					}
-					sceneAdapter.notifyDataSetChanged();
-					onSceneChecked();
-					selectAll = false;
-					selectAllView.setText(R.string.deselect_all);
-				} else {
-					sceneAdapter.clearCheckedScenes();
-					sceneAdapter.notifyDataSetChanged();
-					onSceneChecked();
-					selectAll = true;
-					selectAllView.setText(R.string.select_all);
-				}
-			}
-		});
 	}
 
 	@Override
 	public void onBackpackSceneComplete(boolean startBackpackActivity, boolean success) {
 		if (!success) {
 			showError(R.string.error_scene_backpack);
-		} else if (!sceneAdapter.getCheckedScenes().isEmpty() && startBackpackActivity) {
+		} else if (!sceneAdapter.getCheckedItems().isEmpty() && startBackpackActivity) {
 			switchToBackPack();
 		}
-		clearCheckedScenesAndEnableButtons();
+		clearCheckedItems();
 	}
 
 	public void switchToBackPack() {
@@ -536,31 +377,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		}
 	}
 
-	private class SceneListChangedReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_SCENE_LIST_CHANGED)) {
-				sceneAdapter.notifyDataSetChanged();
-				final ListView listView = getListView();
-				listView.post(new Runnable() {
-					@Override
-					public void run() {
-						listView.setSelection(listView.getCount() - 1);
-					}
-				});
-			}
-		}
-	}
-
-	private class SceneListInitReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_SCENE_LIST_INIT)) {
-				sceneAdapter.notifyDataSetChanged();
-			}
-		}
-	}
-
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -571,13 +387,9 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
-			actionModeActive = true;
+			actionModeTitle = getString(R.string.delete);
 
-			multiSelectActionModeTitle = getString(R.string.delete);
-			singleItemAppendixMultiSelectActionMode = getString(R.string.scene);
-			multipleItemAppendixMultiSelectActionMode = getString(R.string.scenes);
-
-			mode.setTitle(multiSelectActionModeTitle);
+			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
 			return true;
@@ -590,10 +402,10 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			if (sceneAdapter.getAmountOfCheckedScenes() == 0) {
-				clearCheckedScenesAndEnableButtons();
+			if (sceneAdapter.getCheckedItems().size() == 0) {
+				clearCheckedItems();
 			} else {
-				showConfirmDeleteDialog();
+				showDeleteDialog();
 			}
 		}
 	};
@@ -610,7 +422,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 			setSelectMode(ListView.CHOICE_MODE_SINGLE);
 
 			mode.setTitle(R.string.rename);
-			actionModeActive = true;
+
 			isRenameActionMode = true;
 			return true;
 		}
@@ -623,14 +435,11 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			isRenameActionMode = false;
-			Set<Integer> checkedScenes = sceneAdapter.getCheckedScenes();
-			Iterator<Integer> iterator = checkedScenes.iterator();
-			if (iterator.hasNext()) {
-				int position = iterator.next();
-				sceneToEdit = (Scene) getListView().getItemAtPosition(position);
+			if(!sceneAdapter.getCheckedItems().isEmpty()) {
+				sceneToEdit = sceneAdapter.getCheckedItems().get(0);
 				showRenameDialog();
 			}
-			clearCheckedScenesAndEnableButtons();
+			clearCheckedItems();
 		}
 	};
 
@@ -644,13 +453,9 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
-			actionModeActive = true;
+			actionModeTitle = getString(R.string.copy);
 
-			multiSelectActionModeTitle = getString(R.string.copy);
-			singleItemAppendixMultiSelectActionMode = getString(R.string.scene);
-			multipleItemAppendixMultiSelectActionMode = getString(R.string.scenes);
-
-			mode.setTitle(multiSelectActionModeTitle);
+			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
 			return true;
@@ -663,12 +468,8 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			List<Scene> toCopy = new ArrayList<>();
-			for (int position : sceneAdapter.getCheckedScenes()) {
-				toCopy.add((Scene) getListView().getItemAtPosition(position));
-			}
-			copySceneAsynchronous(toCopy, getActivity());
-			clearCheckedScenesAndEnableButtons();
+			copySceneAsynchronous(sceneAdapter.getCheckedItems(), getActivity());
+			clearCheckedItems();
 		}
 	};
 
@@ -683,13 +484,10 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-			setActionModeActive(true);
 
-			multiSelectActionModeTitle = getString(R.string.backpack);
-			singleItemAppendixMultiSelectActionMode = getString(R.string.scene);
-			multipleItemAppendixMultiSelectActionMode = getString(R.string.scenes);
+			actionModeTitle = getString(R.string.backpack);
 
-			mode.setTitle(multiSelectActionModeTitle);
+			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
 			return true;
@@ -702,11 +500,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			List<Scene> sceneListToBackpack = new ArrayList<>();
-			for (Integer position : sceneAdapter.getCheckedItems()) {
-				sceneToEdit = (Scene) getListView().getItemAtPosition(position);
-				sceneListToBackpack.add(sceneToEdit);
-			}
+			List<Scene> sceneListToBackpack = sceneAdapter.getCheckedItems();
 
 			boolean sceneAlreadyInBackpack = BackPackSceneController.getInstance().checkScenesReplaceInBackpack(sceneListToBackpack);
 
@@ -720,24 +514,15 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 					BackPackSceneController.getInstance().showBackPackReplaceDialog(sceneListToBackpack, fragment);
 				}
 			} else {
-				clearCheckedScenesAndEnableButtons();
+				clearCheckedItems();
 			}
 		}
 	};
 
-	private class SceneListTouchActionUpReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_SCENE_TOUCH_ACTION_UP)) {
-				((DynamicListView) getListView()).notifyListItemTouchActionUp();
-			}
-		}
-	}
-
 	private void copySceneAsynchronous(final List<Scene> scenesToCopy, final Activity activity) {
 		final View footerView = View.inflate(activity, R.layout.activity_scenes_list_item, null);
-		footerView.findViewById(R.id.activity_scenes_list_item_image_view).setVisibility(View.GONE);
-		footerView.findViewById(R.id.activity_scenes_list_item_text_view).setVisibility(View.GONE);
+		footerView.findViewById(R.id.list_item_image_view).setVisibility(View.GONE);
+		footerView.findViewById(R.id.list_item_text_view).setVisibility(View.GONE);
 		footerView.findViewById(R.id.activity_scenes_list_item_spinner).setVisibility(View.VISIBLE);
 		getListView().addFooterView(footerView);
 		final ListView listView = getListView();
@@ -760,7 +545,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 					@Override
 					public void run() {
 						getListView().removeFooterView(footerView);
-						sceneAdapter.notifyDataSetChanged();
+
 						if (!finalSuccess) {
 							showError(R.string.error_scene_not_copied);
 						} else {
@@ -771,6 +556,32 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 			}
 		};
 		(new Thread(r)).start();
+	}
+
+	public boolean copyScene() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		String sceneName = getSceneName(sceneToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0);
+		File sourceScene = new File(Utils.buildScenePath(projectManager.getCurrentProject().getName(), sceneToEdit.getName()));
+		File targetScene = new File(Utils.buildScenePath(projectManager.getCurrentProject().getName(), sceneName));
+		try {
+			StorageHandler.copyDirectory(targetScene, sourceScene);
+		} catch (IOException e) {
+			Log.e(TAG, "Error while copying Scene files!", e);
+			return false;
+		}
+		Scene copiedScene = sceneToEdit.clone();
+		if (copiedScene == null) {
+			return false;
+		}
+
+		copiedScene.setSceneName(sceneName);
+		copiedScene.setProject(projectManager.getCurrentProject());
+
+		projectManager.addScene(copiedScene);
+		projectManager.setCurrentScene(copiedScene);
+
+		return true;
 	}
 
 	private void backPackAsynchronous(final List<Scene> scenes, final Activity activity) {
@@ -788,19 +599,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 			}
 		};
 		(new Thread(r)).start();
-	}
-
-	private void initListeners() {
-		sceneList = (ArrayList<Scene>) ProjectManager.getInstance().getCurrentProject().getSceneList();
-		((DynamicListView) getListView()).setDataList(sceneList);
-		sceneAdapter = new SceneAdapter(getActivity(), R.layout.activity_scenes_list_item,
-				R.id.activity_scenes_list_item_text_view, sceneList);
-
-		sceneAdapter.setOnSceneEditListener(this);
-		setListAdapter(sceneAdapter);
-		getListView().setTextFilterEnabled(true);
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);
 	}
 
 	private void showError(int messageID) {
@@ -826,13 +624,11 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 	private static String getSceneName(String name, int nextNumber) {
 		String newName;
-
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
 			newName = name + nextNumber;
 		}
-
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			if (scene.getName().equals(newName)) {
 				return getSceneName(name, ++nextNumber);

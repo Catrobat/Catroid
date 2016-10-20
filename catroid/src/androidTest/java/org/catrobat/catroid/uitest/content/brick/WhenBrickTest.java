@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -58,7 +58,7 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	}
 
 	public void testWhenBrick() {
-		if (!solo.waitForView(DragAndDropListView.class, 0, 5000, false)) {
+		if (!solo.waitForView(BrickDragAndDropListView.class, 0, 5000, false)) {
 			fail("DragAndDropListView not shown in 5 secs!");
 		}
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);

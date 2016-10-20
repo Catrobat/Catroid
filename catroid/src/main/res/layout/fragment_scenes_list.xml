@@ -59,7 +59,7 @@
 
         <include layout="@layout/activity_project_scenes_headline" />
 
-        <org.catrobat.catroid.ui.dynamiclistview.DynamicListView
+        <org.catrobat.catroid.ui.dragndrop.DragAndDropListView
             android:id="@android:id/list"
             style="@style/ListViewShadowed"
             android:layout_width="match_parent"

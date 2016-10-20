@@ -148,10 +148,10 @@ public class SceneAdapter extends ArrayAdapter<Scene> implements ActionModeActiv
 		if (sceneView == null) {
 			sceneView = inflater.inflate(R.layout.activity_scenes_list_item, parent, false);
 			holder = new ViewHolder();
-			holder.background = (RelativeLayout) sceneView.findViewById(R.id.activity_scenes_list_item_relative_layout);
-			holder.checkbox = (CheckBox) sceneView.findViewById(R.id.scene_checkbox);
-			holder.sceneName = (TextView) sceneView.findViewById(R.id.activity_scenes_list_item_text_view);
-			holder.image = (ImageView) sceneView.findViewById(R.id.activity_scenes_list_item_image_view);
+			holder.background = (RelativeLayout) sceneView.findViewById(R.id.list_item_layout);
+			holder.checkbox = (CheckBox) sceneView.findViewById(R.id.checkbox);
+			holder.sceneName = (TextView) sceneView.findViewById(R.id.list_item_text_view);
+			//holder.image = (ImageView) sceneView.findViewById(R.id.activity_scenes_list_item_image_view);
 			sceneView.setTag(holder);
 		} else {
 			holder = (ViewHolder) sceneView.getTag();
@@ -186,9 +186,9 @@ public class SceneAdapter extends ArrayAdapter<Scene> implements ActionModeActiv
 				}
 				notifyDataSetChanged();
 
-				if (onSceneEditListener != null) {
+				/*if (onSceneEditListener != null) {
 					onSceneEditListener.onSceneChecked();
-				}
+				}*/
 			}
 		});
 
@@ -196,12 +196,12 @@ public class SceneAdapter extends ArrayAdapter<Scene> implements ActionModeActiv
 
 			@Override
 			public boolean onLongClick(View view) {
-				if (scene.isBackPackScene && onSceneEditListener != null) {
+		/*		if (scene.isBackPackScene && onSceneEditListener != null) {
 					return false;
 				}
 				if (selectMode != ListView.CHOICE_MODE_NONE) {
 					return true;
-				}
+				}*/
 				return false;
 			}
 		});
@@ -210,11 +210,11 @@ public class SceneAdapter extends ArrayAdapter<Scene> implements ActionModeActiv
 
 			@Override
 			public void onClick(View view) {
-				if (selectMode != ListView.CHOICE_MODE_NONE) {
+/*				if (selectMode != ListView.CHOICE_MODE_NONE) {
 					holder.checkbox.setChecked(!holder.checkbox.isChecked());
 				} else if (onSceneEditListener != null) {
 					onSceneEditListener.onSceneEdit(position, view);
-				}
+				}*/
 			}
 		});
 

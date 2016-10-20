@@ -23,15 +23,130 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.ListFragment;
+import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
+import org.catrobat.catroid.utils.UtilUi;
 
-public class CheckBoxListFragment extends ListFragment{
+public abstract class CheckBoxListFragment extends ListFragment implements CheckBoxListAdapter.ListItemCheckHandler {
 
 	public static final String TAG = CheckBoxListFragment.class.getSimpleName();
 
-	private CheckBoxListAdapter listAdapter = null;
-	private ListView listView;
+	protected CheckBoxListAdapter adapter;
 
+	protected ActionMode actionMode;
+
+	protected String actionModeTitle;
+	protected String singleItemTitle;
+	protected String multipleItemsTitle;
+
+	protected boolean isRenameActionMode = false;
+
+	protected CapitalizedTextView selectAllView;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
+
+	@Override
+	public void setListAdapter(ListAdapter adapter) {
+		super.setListAdapter(adapter);
+		this.adapter = (CheckBoxListAdapter) adapter;
+	}
+
+	protected boolean isActionModeActive() {
+		return actionMode != null;
+	}
+
+	public void setSelectMode(int selectMode) {
+		adapter.setSelectMode(selectMode);
+		adapter.notifyDataSetChanged();
+	}
+
+	protected void clearCheckedItems() {
+		setSelectMode(ListView.CHOICE_MODE_NONE);
+		adapter.setAllItemsCheckedTo(false);
+
+		actionMode = null;
+		BottomBar.showBottomBar(getActivity());
+	}
+
+	@Override
+	public void onItemChecked() {
+		if (isRenameActionMode || actionMode == null) {
+			return;
+		}
+		updateActionModeTitle();
+		updateSelectAllView();
+	}
+
+	protected void updateActionModeTitle() {
+		int numberOfSelectedItems = adapter.getCheckedItems().size();
+
+		if (numberOfSelectedItems == 0) {
+			actionMode.setTitle(actionModeTitle);
+			return;
+		}
+
+		String itemCount = Integer.toString(numberOfSelectedItems);
+		ForegroundColorSpan colorSpan = new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color));
+
+		String completeTitle = actionModeTitle + " " + itemCount + " ";
+
+		if (numberOfSelectedItems == 1) {
+			completeTitle += singleItemTitle;
+		} else {
+			completeTitle += multipleItemsTitle;
+		}
+
+		Spannable completeSpannedTitle = new SpannableString(completeTitle);
+		completeSpannedTitle.setSpan(colorSpan, actionModeTitle.length() + 1,
+				actionModeTitle.length() + (1 + itemCount.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		actionMode.setTitle(completeSpannedTitle);
+	}
+
+	protected void addSelectAllActionModeButton(final ActionMode mode, Menu menu) {
+		final View selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(),
+				mode, menu);
+		selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
+
+		selectAllActionModeButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				if (areAllItemsChecked()) {
+					adapter.setAllItemsCheckedTo(false);
+				} else {
+					adapter.setAllItemsCheckedTo(true);
+				}
+				updateSelectAllView();
+			}
+		});
+	}
+
+	protected void updateSelectAllView() {
+		if (areAllItemsChecked()) {
+			selectAllView.setText(R.string.deselect_all);
+		} else {
+			selectAllView.setText(R.string.select_all);
+		}
+	}
+
+	private boolean areAllItemsChecked() {
+		return adapter.getCheckedItems().size() == adapter.getCount();
+	}
 }

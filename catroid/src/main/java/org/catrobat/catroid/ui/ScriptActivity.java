@@ -60,7 +60,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
 import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
@@ -551,7 +551,7 @@ public class ScriptActivity extends BaseActivity {
 				scriptFragment.setBackpackMenuIsVisible(true);
 			}
 
-			DragAndDropListView listView = scriptFragment.getListView();
+			BrickDragAndDropListView listView = scriptFragment.getListView();
 			if (listView.isCurrentlyDragging()) {
 				listView.resetDraggingScreen();
 
