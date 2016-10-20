@@ -1,203 +1,21 @@
-/*
- * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
- * (<http://developer.catrobat.org/credits>)
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * An additional term exception under section 7 of the GNU Affero
- * General Public License, version 3, is available at
- * http://developer.catrobat.org/license_additional_term
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.1.3'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
-apply plugin: 'com.android.application'
-apply plugin: 'checkstyle'
-apply plugin: 'pmd'
-apply from: 'gradle/code_quality_tasks.gradle'
-apply from: 'gradle/intellij_config_tasks.gradle'
-
-check.dependsOn 'checkstyle'
-check.dependsOn 'pmd'
-
-android {
-    dexOptions {
-        javaMaxHeapSize "4g"
-    }
-    buildTypes {
-        debug {
-            buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
-        }
-        release {
-            buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
-        }
-    }
-}
-
-ext {
-    projectVersion = "0.9"
-}
-
-configurations {
-    compile.exclude group: 'xpp3' //compile problem with xstream
-    natives
-}
-
-dependencies {
-    compile 'com.google.guava:guava:18.0'
-    compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.4'
-    compile 'com.github.johnpersano:supertoasts:1.3.4@aar'
-    compile 'com.thoughtworks.xstream:xstream:1.4.7'
-    def gdxVersion = '1.6.2'
-    compile 'com.badlogicgames.gdx:gdx:' + gdxVersion
-    compile 'com.badlogicgames.gdx:gdx-backend-android:' + gdxVersion
-    natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
-    natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
-    natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
-    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
-    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
-    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
-    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support:percent:23.4.0'
-    compile 'com.google.android.gms:play-services-auth:9.0.0'
-    compile 'com.android.support:multidex:1.0.1'
-    compile fileTree(include: '*.jar', dir: 'catroid/libs')
-    compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
-    androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
-    pmd 'net.sourceforge.pmd:pmd:5.1.1'
-    checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
-}
-
-def getCurrentGitBranch() {
-    try {
-        return 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
-}
-
-android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
-    defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 22
-        applicationId 'org.catrobat.catroid'
-        testApplicationId "org.catrobat.catroid.test"
-        testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 30
-        println "VersionCode is " + versionCode
-        versionName "0.9.23"
-        println "VersionName is " + versionName
-        buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
-        buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
-        multiDexEnabled true
-    }
-
-    sourceSets {
-        main {
-            manifest.srcFile 'catroid/AndroidManifest.xml'
-            java.srcDirs = ['catroid/src']
-            resources.srcDirs = ['catroid/src']
-            aidl.srcDirs = ['catroid/src']
-            renderscript.srcDirs = ['catroid/src']
-            res.srcDirs = ['catroid/res']
-            assets.srcDirs = ['catroid/assets']
-            jniLibs.srcDirs = ['catroid/jniLibs']
-        }
-
-        androidTest {
-            manifest.srcFile 'catroidTest/AndroidManifest.xml'
-            java.srcDirs = ['catroidTest/src']
-            resources.srcDirs = ['catroidTest/src']
-            aidl.srcDirs = ['catroidTest/src']
-            renderscript.srcDirs = ['catroidTest/src']
-            res.srcDirs = ['catroidTest/res']
-            assets.srcDirs = ['catroidTest/assets']
-        }
-    }
-    lintOptions {
-        // specific ignores should be defined via lint.xml file, all general ignores should be added here
-        lintConfig file('config/lint.xml')
-        // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
-        // RtlSymmetry/RtlHardcoded should be reviewed
-        // GradleDynamicVersion ignored - e.g. according to sdkmanager:gradle-plugin it should be imported this way
-        // IconMissingDensityFolder - currently no xxxhdpi icons available
-        // TODO ticket for HandlerLeak
-        // TODO don't know if WrongRegion warning is a false-positive one
-        ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
-                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
-                'RtlSymmetry', 'GradleDynamicVersion', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
-                'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation', 'ExtraTranslation'
-
-        textReport true
-        xmlReport true
-        htmlReport true
-        xmlOutput file("build/reports/lint.xml")
-        htmlOutput file("build/reports/lint.html")
-    }
-}
-
-task copyAndroidNatives() {
-    file("catroid/jniLibs/armeabi/").mkdirs();
-    file("catroid/jniLibs/armeabi-v7a/").mkdirs();
-    file("catroid/jniLibs/x86/").mkdirs();
-    configurations.natives.files.each { jar ->
-        def outputDir = null
-        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
-        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
-        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
-        if (outputDir != null) {
-            copy {
-                from zipTree(jar)
-                into outputDir
-                include "*.so"
-            }
-        }
+allprojects {
+    repositories {
+        jcenter()
     }
 }

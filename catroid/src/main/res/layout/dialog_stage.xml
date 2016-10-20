@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<!-- Menu buttons -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/stage_layout_relative" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom|center"
+    android:orientation="horizontal" >
+    
+    <ImageView
+        android:id="@+id/stage_dialog_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/stage_dialog_background_middle" />       
+
+    <LinearLayout
+        android:id="@+id/stage_layout_linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_alignLeft="@+id/stage_dialog_menu"
+        android:layout_alignRight="@+id/stage_dialog_menu"
+        android:layout_alignTop="@+id/stage_dialog_menu"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/stage_dialog_button_back"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_button_back_selector"
+            android:text="@string/stage_dialog_back"
+            android:textColor="@color/stage_dialog_text_color" />
+
+        <Button
+            android:id="@+id/stage_dialog_button_restart"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_button_restart_selector"
+            android:text="@string/stage_dialog_restart"
+            android:textColor="@color/stage_dialog_text_color" />
+
+        <Button
+            android:id="@+id/stage_dialog_button_continue"
+            style="@style/StageButton"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:drawableTop="@drawable/stage_dialog_button_continue_selector"
+            android:text="@string/stage_dialog_resume"
+            android:textColor="@color/stage_dialog_text_color" />
+
+        <Button
+            android:id="@+id/stage_dialog_button_screenshot"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_button_screenshot_selector"
+            android:text="@string/stage_dialog_screenshot"
+            android:textColor="@color/stage_dialog_text_color" />
+
+        <Button
+            android:id="@+id/stage_dialog_button_toggle_axes"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_button_toggle_axis_selector"
+            android:text="@string/stage_dialog_axes_on"
+            android:textColor="@color/stage_dialog_text_color" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/stage_dialog_menu_side_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/stage_dialog_menu"
+        android:layout_toLeftOf="@+id/stage_dialog_menu"
+        android:background="@drawable/stage_dialog_background_side" />
+
+    <ImageView
+        android:id="@+id/stage_dialog_menu_side_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/stage_dialog_menu"
+        android:layout_toRightOf="@+id/stage_dialog_menu"
+        android:background="@drawable/stage_dialog_background_side" />
+
+    <ImageButton
+        android:id="@+id/stage_dialog_button_maximize"
+        style="@style/StageButton"
+        android:layout_width="@dimen/dialog_image_button_layout_width_height"
+        android:layout_height="@dimen/dialog_image_button_layout_width_height"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/stage_dialog_background_color"
+        android:layout_margin="20dp"
+        android:contentDescription="@string/stage_dialog_maximize"
+        android:src="@drawable/stage_dialog_button_stretch_selector" />
+
+</RelativeLayout>
