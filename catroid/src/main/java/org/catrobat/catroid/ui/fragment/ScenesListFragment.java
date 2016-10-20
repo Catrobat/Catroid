@@ -164,7 +164,7 @@ public class ScenesListFragment extends CheckBoxListFragment implements CheckBox
 	private void initializeList() {
 		List<Scene> sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
 
-		sceneAdapter = new SceneListAdapter(getActivity(), R.layout.activity_scenes_list_item, sceneList);
+		sceneAdapter = new SceneListAdapter(getActivity(), R.layout.list_item, sceneList);
 
 		setListAdapter(sceneAdapter);
 		sceneAdapter.setListItemClickHandler(this);
@@ -289,38 +289,6 @@ public class ScenesListFragment extends CheckBoxListFragment implements CheckBox
 		}
 	}
 
-	private void deleteCheckedScenes() {
-		boolean success = true;
-		for (Scene scene : sceneAdapter.getCheckedItems()) {
-			sceneToEdit = scene;
-			success &= deleteScene();
-		}
-
-		if (!success) {
-			showError(R.string.error_scene_not_deleted);
-		} else {
-			ProjectManager.getInstance().saveProject(getActivity());
-		}
-	}
-
-	public boolean deleteScene() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		try {
-			projectManager.deleteScene(sceneToEdit.getProject().getName(), sceneToEdit.getName());
-		} catch (IOException e) {
-			Log.e(TAG, "Delete scene Exception: ", e);
-			return false;
-		}
-
-		if (projectManager.getCurrentScene() != null && projectManager.getCurrentScene().equals(sceneToEdit)) {
-			projectManager.setCurrentScene(projectManager.getCurrentProject().getDefaultScene());
-		}
-		projectManager.getCurrentProject().getSceneList().remove(sceneToEdit);
-		projectManager.getCurrentProject().getSceneOrder().remove(sceneToEdit.getName());
-
-		return true;
-	}
-
 	public int getSelectMode() {
 		return sceneAdapter.getSelectMode();
 	}
@@ -337,7 +305,7 @@ public class ScenesListFragment extends CheckBoxListFragment implements CheckBox
 
 	@Override
 	public void setActionModeActive(boolean actionModeActive) {
-		throw new UnsupportedOperationException("REfactor INTERFACE!");
+		throw new UnsupportedOperationException("Refactor INTERFACE!");
 	}
 
 	public boolean getShowDetails() {
@@ -402,11 +370,41 @@ public class ScenesListFragment extends CheckBoxListFragment implements CheckBox
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			if (sceneAdapter.getCheckedItems().size() == 0) {
-				clearCheckedItems();
-			} else {
+			if (sceneAdapter.getCheckedItems().size() != 0) {
 				showDeleteDialog();
+			} else {
+				clearCheckedItems();
 			}
+		}
+	};
+
+	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+
+			actionModeTitle = getString(R.string.copy);
+
+			mode.setTitle(actionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			copyCheckedScenes();
+			clearCheckedItems();
 		}
 	};
 
@@ -439,36 +437,6 @@ public class ScenesListFragment extends CheckBoxListFragment implements CheckBox
 				sceneToEdit = sceneAdapter.getCheckedItems().get(0);
 				showRenameDialog();
 			}
-			clearCheckedItems();
-		}
-	};
-
-	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-
-			actionModeTitle = getString(R.string.copy);
-
-			mode.setTitle(actionModeTitle);
-			addSelectAllActionModeButton(mode, menu);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			copySceneAsynchronous(sceneAdapter.getCheckedItems(), getActivity());
 			clearCheckedItems();
 		}
 	};
@@ -519,67 +487,76 @@ public class ScenesListFragment extends CheckBoxListFragment implements CheckBox
 		}
 	};
 
-	private void copySceneAsynchronous(final List<Scene> scenesToCopy, final Activity activity) {
-		final View footerView = View.inflate(activity, R.layout.activity_scenes_list_item, null);
-		footerView.findViewById(R.id.list_item_image_view).setVisibility(View.GONE);
-		footerView.findViewById(R.id.list_item_text_view).setVisibility(View.GONE);
-		footerView.findViewById(R.id.activity_scenes_list_item_spinner).setVisibility(View.VISIBLE);
-		getListView().addFooterView(footerView);
-		final ListView listView = getListView();
-		listView.post(new Runnable() {
-			@Override
-			public void run() {
-				listView.setSelection(listView.getCount() - 1);
-			}
-		});
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				boolean success = true;
-				for (Scene scene : scenesToCopy) {
-					sceneToEdit = scene;
-					success &= copyScene();
-				}
-				final boolean finalSuccess = success;
-				activity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						getListView().removeFooterView(footerView);
+	private void deleteCheckedScenes() {
+		boolean success = true;
+		for (Scene scene : sceneAdapter.getCheckedItems()) {
+			sceneToEdit = scene;
+			success &= deleteScene();
+		}
 
-						if (!finalSuccess) {
-							showError(R.string.error_scene_not_copied);
-						} else {
-							ProjectManager.getInstance().saveProject(getActivity());
-						}
-					}
-				});
-			}
-		};
-		(new Thread(r)).start();
+		if (success) {
+			ProjectManager.getInstance().saveProject(getActivity());
+		} else {
+			showError(R.string.error_scene_not_deleted);
+		}
 	}
 
-	public boolean copyScene() {
+	private boolean deleteScene() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		try {
+			projectManager.deleteScene(sceneToEdit.getProject().getName(), sceneToEdit.getName());
+		} catch (IOException e) {
+			Log.e(TAG, "Error while deleting Scene: ", e);
+			return false;
+		}
+
+		if (projectManager.getCurrentScene() != null && projectManager.getCurrentScene().equals(sceneToEdit)) {
+			projectManager.setCurrentScene(projectManager.getCurrentProject().getDefaultScene());
+		}
+		projectManager.getCurrentProject().getSceneList().remove(sceneToEdit);
+		projectManager.getCurrentProject().getSceneOrder().remove(sceneToEdit.getName());
+
+		return true;
+	}
+
+	private void copyCheckedScenes() {
+		boolean success = true;
+		for (Scene scene : sceneAdapter.getCheckedItems()) {
+			sceneToEdit = scene;
+			success &= copyScene();
+		}
+
+		if (success) {
+			ProjectManager.getInstance().saveProject(getActivity());
+		} else {
+			showError(R.string.error_scene_not_copied);
+		}
+	}
+
+	private boolean copyScene() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		String sceneName = getSceneName(sceneToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0);
-		File sourceScene = new File(Utils.buildScenePath(projectManager.getCurrentProject().getName(), sceneToEdit.getName()));
-		File targetScene = new File(Utils.buildScenePath(projectManager.getCurrentProject().getName(), sceneName));
+		String sceneName = getNewValidSceneName(sceneToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)), 0);
+		String projectName = projectManager.getCurrentProject().getName();
+		File sourceScene = new File(Utils.buildScenePath(projectName, sceneToEdit.getName()));
+		File targetScene = new File(Utils.buildScenePath(projectName, sceneName));
+
 		try {
 			StorageHandler.copyDirectory(targetScene, sourceScene);
 		} catch (IOException e) {
-			Log.e(TAG, "Error while copying Scene files!", e);
+			Log.e(TAG, "Error while copying Scene: ", e);
 			return false;
 		}
+
 		Scene copiedScene = sceneToEdit.clone();
+
 		if (copiedScene == null) {
 			return false;
 		}
 
 		copiedScene.setSceneName(sceneName);
 		copiedScene.setProject(projectManager.getCurrentProject());
-
 		projectManager.addScene(copiedScene);
-		projectManager.setCurrentScene(copiedScene);
 
 		return true;
 	}
@@ -622,7 +599,7 @@ public class ScenesListFragment extends CheckBoxListFragment implements CheckBox
 		BottomBar.showBottomBar(getActivity());
 	}
 
-	private static String getSceneName(String name, int nextNumber) {
+	private static String getNewValidSceneName(String name, int nextNumber) {
 		String newName;
 		if (nextNumber == 0) {
 			newName = name;
@@ -631,7 +608,7 @@ public class ScenesListFragment extends CheckBoxListFragment implements CheckBox
 		}
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			if (scene.getName().equals(newName)) {
-				return getSceneName(name, ++nextNumber);
+				return getNewValidSceneName(name, ++nextNumber);
 			}
 		}
 		return newName;
