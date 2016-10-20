@@ -117,6 +117,8 @@ android {
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
+            buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
 
             manifestPlaceholders = [ launchActivity:"org.catrobat.catroid.createatschool" +
                     ".ui.CreateAtSchoolMainMenuActivity", applicationIdForTests:"org.catrobat.catroid.createatschool" ]

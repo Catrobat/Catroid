@@ -278,4 +278,8 @@
     <string name="quiz_look_end">End</string>
     <string name="quiz_sprite_button_play_again">Button Play Again</string>
     <string name="quiz_look_button_play_again">Button Play Again</string>
+
+    <string name="hint_accessibility">Change the listed settings as you wish or switch to predefined profiles to choose a god to help you with these settings.</string>
+    <string name="hint_accessibility_profiles">Choose a guide to help you with Create@School. Which one fits to you?</string>
+    <string name="error_no_nolb_user">This is a beta-version. You can only use it with a predefined school account.</string>
 </resources>

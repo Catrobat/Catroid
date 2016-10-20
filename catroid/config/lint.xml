@@ -27,6 +27,7 @@
         <ignore path="src/main/res/drawable-hdpi" />
         <ignore path="src/main/res/drawable-xhdpi" />
         <ignore path="src/main/res/drawable-xxhdpi" />
+        <ignore path="src/createatschool/res/drawable-xxhdpi" />
     </issue >
 
     <issue id="InflateParams" >
