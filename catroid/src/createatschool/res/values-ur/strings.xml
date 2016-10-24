@@ -31,15 +31,15 @@
   <string name="action_project_variable_timer">timer</string>
   <string name="action_project_variable_score">score</string>
   <string name="action_project_variable_hiscore">hi-score</string>
-  <string name="action_scene_start">Start</string>
-  <string name="action_sprite_background">Background</string>
+  <string name="action_scene_start">شروع کریں</string>
+  <string name="action_sprite_background">پس منظر</string>
   <string name="action_look_title">title</string>
   <string name="action_look_instruction">instruction</string>
   <string name="action_broadcast_message_title">title</string>
   <string name="action_broadcast_message_instruction">instruction</string>
   <string name="action_broadcast_message_start">start</string>
   <string name="action_sprite_initial_game_variables">Initial game variables</string>
-  <string name="action_sprite_start">Start</string>
+  <string name="action_sprite_start">شروع کریں</string>
   <string name="action_sprite_button_play_game">Button Play Game</string>
   <string name="action_look_button_play_game">Button Play Game</string>
   <string name="action_sprite_button_instruction">Button Instruction</string>
@@ -77,8 +77,8 @@
   <string name="adventure_project_variable_amount_of_levels">amount of levels</string>
   <string name="adventure_project_variable_answer">answer</string>
   <string name="adventure_project_variable_level_number">level number</string>
-  <string name="adventure_scene_start">Start</string>
-  <string name="adventure_sprite_background">Background</string>
+  <string name="adventure_scene_start">شروع کریں</string>
+  <string name="adventure_sprite_background">پس منظر</string>
   <string name="adventure_look_title">title</string>
   <string name="adventure_look_instruction">instruction</string>
   <string name="adventure_broadcast_message_title">title</string>
@@ -86,7 +86,7 @@
   <string name="adventure_broadcast_message_instruction">instruction</string>
   <string name="adventure_sprite_initial_game_variables">Initial game variables</string>
   <string name="adventure_note_todo_set_amount_of_levels_">ToDo: set amount of levels </string>
-  <string name="adventure_sprite_start">Start</string>
+  <string name="adventure_sprite_start">شروع کریں</string>
   <string name="adventure_sprite_button_play">Button Play</string>
   <string name="adventure_look_button_play">button play</string>
   <string name="adventure_look_button_play_2">button play_2</string>
@@ -106,7 +106,7 @@
   <string name="adventure_broadcast_message_boost">boost</string>
   <string name="adventure_sprite_game_elements">Game elements</string>
   <string name="adventure_sprite_answer_yes">Answer yes</string>
-  <string name="adventure_sound_record">record</string>
+  <string name="adventure_sound_record">ریکارڈ</string>
   <string name="adventure_look_answer_yes">Answer yes</string>
   <string name="adventure_sprite_answer_no">Answer no</string>
   <string name="adventure_sound_record1">record1</string>
@@ -142,8 +142,8 @@
   <string name="puzzle_project_variable_look_number">look number</string>
   <string name="puzzle_project_variable_image_nr_2">image nr 2</string>
   <string name="puzzle_project_variable_image_nr_3">image nr 3</string>
-  <string name="puzzle_scene_start">Start</string>
-  <string name="puzzle_sprite_background">Background</string>
+  <string name="puzzle_scene_start">شروع کریں</string>
+  <string name="puzzle_sprite_background">پس منظر</string>
   <string name="puzzle_look_title">title</string>
   <string name="puzzle_look_instruction">instruction</string>
   <string name="puzzle_broadcast_message_title">title</string>
@@ -153,7 +153,7 @@
   <string name="puzzle_note_3_positions_for_the_looks">3 positions for the looks</string>
   <string name="puzzle_note_todo_change_to_the_amount_of_looks_within_the_figures">ToDo: change to the amount of looks within the figures</string>
   <string name="puzzle_note_current_look_number">Current look number</string>
-  <string name="puzzle_sprite_start">Start</string>
+  <string name="puzzle_sprite_start">شروع کریں</string>
   <string name="puzzle_sprite_button_play">Button Play</string>
   <string name="puzzle_look_button_play">button play</string>
   <string name="puzzle_sprite_button_instruction">Button Instruction</string>
@@ -211,8 +211,8 @@
   <string name="quiz_project_variable_question_number">question number</string>
   <string name="quiz_project_variable_display_answer">display answer</string>
   <string name="quiz_project_variable_correct_answer">correct answer</string>
-  <string name="quiz_scene_start">Start</string>
-  <string name="quiz_sprite_background">Background</string>
+  <string name="quiz_scene_start">شروع کریں</string>
+  <string name="quiz_sprite_background">پس منظر</string>
   <string name="quiz_look_title">Title</string>
   <string name="quiz_look_instruction">Instruction</string>
   <string name="quiz_broadcast_message_title">title</string>
@@ -221,7 +221,7 @@
   <string name="quiz_sprite_initial_game_variables">Initial game variables</string>
   <string name="quiz_note_todo_set_amount_of_questions">ToDo: Set amount of questions</string>
   <string name="quiz_note_todo_set_the_right_amount_of_questions">ToDo: Set the right amount of questions</string>
-  <string name="quiz_sprite_start">Start</string>
+  <string name="quiz_sprite_start">شروع کریں</string>
   <string name="quiz_sprite_button_play_game">Button Play Game</string>
   <string name="quiz_look_button_play_game">Button Play Game</string>
   <string name="quiz_sprite_button_instruction">Button Instruction</string>
@@ -229,7 +229,7 @@
   <string name="quiz_sprite_button_back">Button Back</string>
   <string name="quiz_look_button_back">Button Back</string>
   <string name="quiz_scene_example_question">Example question</string>
-  <string name="quiz_look_game">Games</string>
+  <string name="quiz_look_game">کھیل</string>
   <string name="quiz_sprite_example_question">Example Question</string>
   <string name="quiz_look_example_question">Example question</string>
   <string name="quiz_look_example_answer">Example answer</string>
