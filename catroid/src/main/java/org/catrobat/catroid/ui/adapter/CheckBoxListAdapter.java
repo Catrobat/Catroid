@@ -124,18 +124,18 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 			viewHolder = (ListItemViewHolder) listItemView.getTag();
 		}
 
+		final View itemView = listItemView;
 		viewHolder.background.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				listItemClickHandler.handleOnItemClick(listItem);
+				listItemClickHandler.handleOnItemClick(position, itemView, listItem);
 			}
 		});
 
-		final View view = listItemView;
 		viewHolder.background.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				listItemLongClickHandler.handleOnItemLongClick(view, position);
+				listItemLongClickHandler.handleOnItemLongClick(position, itemView);
 				return true;
 			}
 		});
@@ -169,12 +169,12 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 
 	public interface ListItemClickHandler<D> {
 
-		void handleOnItemClick(D listItem);
+		void handleOnItemClick(int position, View view, D listItem);
 	}
 
 	public interface ListItemLongClickHandler {
 
-		void handleOnItemLongClick(View view, int position);
+		void handleOnItemLongClick(int position, View view);
 	}
 
 	public interface  ListItemCheckHandler {

@@ -98,7 +98,7 @@ public class DragAndDropListView extends ListView implements CheckBoxListAdapter
 	}
 
 	@Override
-	public void handleOnItemLongClick(View view, int position) {
+	public void handleOnItemLongClick(int position, View view) {
 		upperScrollBound = getHeight() / 6;
 		lowerScrollBound = getHeight() / 6 * 4;
 
@@ -143,11 +143,11 @@ public class DragAndDropListView extends ListView implements CheckBoxListAdapter
 		View itemAbove = null;
 
 		if (isPositionValid(itemPositionAbove)) {
-			itemAbove = getChildAt(itemPositionAbove);
+			itemAbove = getChildAt(getVisiblePosition(itemPositionAbove));
 		}
 
 		if (isPositionValid(itemPositionBelow)) {
-			itemBelow = getChildAt(itemPositionBelow);
+			itemBelow = getChildAt(getVisiblePosition(itemPositionBelow));
 		}
 
 		boolean isAbove = (itemBelow != null) && (downY > itemBelow.getY());
@@ -158,7 +158,7 @@ public class DragAndDropListView extends ListView implements CheckBoxListAdapter
 			position = adapterInterface.swapItems(position, swapWith);
 
 			view.setVisibility(VISIBLE);
-			view = getChildAt(position);
+			view = getChildAt(getVisiblePosition(position));
 			view.setVisibility(INVISIBLE);
 
 			invalidateViews();
@@ -171,6 +171,10 @@ public class DragAndDropListView extends ListView implements CheckBoxListAdapter
 		} else if (downY < upperScrollBound) {
 			smoothScrollBy(-SMOOTH_SCROLL_BY, 0);
 		}
+	}
+
+	private int getVisiblePosition(int positionInAdapter) {
+		return positionInAdapter - getFirstVisiblePosition();
 	}
 
 	private boolean isPositionValid(int position) {
