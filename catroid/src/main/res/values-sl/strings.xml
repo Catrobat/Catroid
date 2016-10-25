@@ -329,7 +329,6 @@
   <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
   <string name="select_all">Izberi vse</string>
   <string name="deselect_all">Deselect all</string>
-  <string name="backpack_replace_object">The object %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_scene">The scene %1$s already exists in the backpack. Do you want to replace
         it?</string>
   <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
@@ -403,7 +402,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
   <string name="lookname">Look name:</string>
-  <string name="backpack_replace_look">The look %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Tapnite \"+\" da dodate zvok</string>

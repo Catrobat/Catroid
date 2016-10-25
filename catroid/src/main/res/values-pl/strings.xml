@@ -307,7 +307,6 @@
   <string name="dialog_confirm_delete_object_message">Tego nie można cofnąć!</string>
   <string name="select_all">Zaznacz wszystko</string>
   <string name="deselect_all">Odznacz wszystko</string>
-  <string name="backpack_replace_object">Obiekt %1$s już istnieje w plecaku. Czy chcesz go zastąpić?</string>
   <string name="backpack_replace_scene">Scena %1$s już istnieje w plecaku. Czy chcesz ją zastąpić?</string>
   <string name="backpack_replace_object_multiple">Obiekty już istnieją w plecaku. Czy chcesz je zastąpić?</string>
   <string name="groups_create">Stwórz grupę</string>
@@ -375,7 +374,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Usunąć te wyglądy?</string>
   <string name="dialog_confirm_delete_look_message">Tego nie można cofnąć!</string>
   <string name="lookname">Nazwa wyglądu:</string>
-  <string name="backpack_replace_look">Wygląd %1$s już istnieje w plecaku. Czy chcesz go zastąpić?</string>
   <string name="backpack_replace_look_multiple">Wyglądy już istnieją w plecaku. Czy chcesz je zastąpić?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Naciśnij \"+\", aby dodać dźwięki</string>
