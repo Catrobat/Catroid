@@ -243,7 +243,7 @@
   <string name="quiz_look_a2">a2</string>
   <string name="quiz_sprite_answer_3">Antwort 3</string>
   <string name="quiz_look_a3">a3</string>
-  <string name="quiz_sound_record_correct">Aufnahme richtig</string>
+  <string name="quiz_sound_record_correct">Auffnahme richtig</string>
   <string name="quiz_sound_record_wrong">Aufnahme falsch</string>
   <string name="quiz_look_a_correct">a richtig</string>
   <string name="quiz_look_a_wrong">a falsch</string>
@@ -262,7 +262,7 @@
   <string name="quiz_note_todo_set_the_right_scene_name_if_new_questions_were_added">ToDo: Setze den richten Szenennamen wenn neue Fragen hinzugefügt wurden.</string>
   <string name="quiz_scene_question_template_copy_before_adding_questions">Fragen-Vorlage (Kopiere diese BEVOR Fragen hinzugefügt werden)</string>
   <string name="quiz_scene_question_template_copy_scene_before_adding_questions">Fragen-Vorlage (Kopiere diese BEVOR Fragen hinzugefügt werden)</string>
-  <string name="quiz_look_template_question">Fragenvorlage</string>
+  <string name="quiz_look_template_question">Antwortvorlage</string>
   <string name="quiz_look_template_answer">Antwortvorlage</string>
   <string name="quiz_sprite_question_template">Fragenvorlage</string>
   <string name="quiz_look_question_template">Fragenvorlage</string>

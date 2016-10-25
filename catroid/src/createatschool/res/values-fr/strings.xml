@@ -32,7 +32,7 @@
   <string name="action_project_variable_score">score</string>
   <string name="action_project_variable_hiscore">hi-score</string>
   <string name="action_scene_start">Start</string>
-  <string name="action_sprite_background">Background</string>
+  <string name="action_sprite_background">Arrière plan</string>
   <string name="action_look_title">title</string>
   <string name="action_look_instruction">instruction</string>
   <string name="action_broadcast_message_title">title</string>
@@ -78,7 +78,7 @@
   <string name="adventure_project_variable_answer">answer</string>
   <string name="adventure_project_variable_level_number">level number</string>
   <string name="adventure_scene_start">Start</string>
-  <string name="adventure_sprite_background">Background</string>
+  <string name="adventure_sprite_background">Arrière plan</string>
   <string name="adventure_look_title">title</string>
   <string name="adventure_look_instruction">instruction</string>
   <string name="adventure_broadcast_message_title">title</string>
@@ -106,7 +106,7 @@
   <string name="adventure_broadcast_message_boost">boost</string>
   <string name="adventure_sprite_game_elements">Game elements</string>
   <string name="adventure_sprite_answer_yes">Answer yes</string>
-  <string name="adventure_sound_record">record</string>
+  <string name="adventure_sound_record">enregistrer</string>
   <string name="adventure_look_answer_yes">Answer yes</string>
   <string name="adventure_sprite_answer_no">Answer no</string>
   <string name="adventure_sound_record1">record1</string>
@@ -143,7 +143,7 @@
   <string name="puzzle_project_variable_image_nr_2">image nr 2</string>
   <string name="puzzle_project_variable_image_nr_3">image nr 3</string>
   <string name="puzzle_scene_start">Start</string>
-  <string name="puzzle_sprite_background">Background</string>
+  <string name="puzzle_sprite_background">Arrière plan</string>
   <string name="puzzle_look_title">title</string>
   <string name="puzzle_look_instruction">instruction</string>
   <string name="puzzle_broadcast_message_title">title</string>
@@ -212,7 +212,7 @@
   <string name="quiz_project_variable_display_answer">display answer</string>
   <string name="quiz_project_variable_correct_answer">correct answer</string>
   <string name="quiz_scene_start">Start</string>
-  <string name="quiz_sprite_background">Background</string>
+  <string name="quiz_sprite_background">Arrière plan</string>
   <string name="quiz_look_title">Title</string>
   <string name="quiz_look_instruction">Instruction</string>
   <string name="quiz_broadcast_message_title">title</string>
@@ -229,7 +229,7 @@
   <string name="quiz_sprite_button_back">Button Back</string>
   <string name="quiz_look_button_back">Button Back</string>
   <string name="quiz_scene_example_question">Example question</string>
-  <string name="quiz_look_game">Games</string>
+  <string name="quiz_look_game">Jeux</string>
   <string name="quiz_sprite_example_question">Example Question</string>
   <string name="quiz_look_example_question">Example question</string>
   <string name="quiz_look_example_answer">Example answer</string>
