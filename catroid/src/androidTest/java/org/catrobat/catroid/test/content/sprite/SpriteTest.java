@@ -36,8 +36,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
-import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
@@ -48,7 +46,6 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -186,37 +183,6 @@ public class SpriteTest extends AndroidTestCase {
 		sprite.addScript(secondScript);
 
 		assertEquals("Wrong number of Bricks and Scripts", 3, sprite.getNumberOfScriptsAndBricks());
-	}
-
-	public void testPauseResume() throws InterruptedException {
-		Sprite testSprite = new SingleSprite("testSprite");
-		Script testScript = new StartScript();
-		HideBrick hideBrick = new HideBrick();
-		ShowBrick showBrick = new ShowBrick();
-
-		for (int i = 0; i < 10000; i++) {
-			testScript.addBrick(hideBrick);
-			testScript.addBrick(showBrick);
-		}
-
-		testSprite.addScript(testScript);
-
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-
-		testSprite.look.act(1.0f);
-
-		testSprite.pause();
-		assertTrue("Sprite isn't paused", testSprite.isPaused);
-		assertTrue("Script isn't paused", testScript.isPaused());
-
-		testSprite.resume();
-
-		assertFalse("Sprite is paused", testSprite.isPaused);
-		assertFalse("Script is paused", testScript.isPaused());
-
-		while (!testSprite.look.getAllActionsAreFinished()) {
-			testSprite.look.act(1.0f);
-		}
 	}
 
 	public void testSpriteCloneWithLocalVariable() {

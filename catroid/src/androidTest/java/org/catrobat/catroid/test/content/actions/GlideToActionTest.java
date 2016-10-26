@@ -95,29 +95,6 @@ public class GlideToActionTest extends AndroidTestCase {
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
-	public void testPauseResume() throws InterruptedException {
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		sprite.look.setWidth(100.0f);
-		sprite.look.setHeight(50.0f);
-
-		Action action = sprite.getActionFactory().createGlideToAction(sprite, xPosition, yPosition, duration);
-		long currentTimeDelta = System.currentTimeMillis();
-		do {
-			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
-			if (currentTimeDelta > 400) {
-				sprite.pause();
-				Thread.sleep(200);
-				sprite.resume();
-			}
-		} while (!action.act(currentTimeDelta));
-
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", X_POSITION,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", Y_POSITION,
-				sprite.look.getYInUserInterfaceDimensionUnit());
-	}
-
 	public void testBrickWithStringFormula() {
 		Action action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(String.valueOf(Y_POSITION)),
 				new Formula(String.valueOf(DURATION)), new Formula(String.valueOf(X_POSITION)));
