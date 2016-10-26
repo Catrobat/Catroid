@@ -894,7 +894,7 @@
   <string name="formula_editor_logic_boolean">논리 연산</string>
   <string name="formula_editor_logic_comparison">비교 연산</string>
   <string name="formula_editor_object_general">일반 속성</string>
-  <string name="formula_editor_object_physical">물리적 특성</string>
+  <string name="formula_editor_object_movement">물리적 특성</string>
   <string name="formula_editor_device_face_detection">얼굴 인식</string>
   <string name="formula_editor_device_touch_detection">터치 감지</string>
   <string name="formula_editor_device_lego">레고</string>

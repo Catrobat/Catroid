@@ -77,7 +77,7 @@ public class ProjectDownloadService extends IntentService {
 
 		receiver = intent.getParcelableExtra(RECEIVER_TAG);
 		try {
-			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
+			ServerCalls.getInstance().downloadProject(url, zipFileString, projectName, receiver, notificationId);
 			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 
 			boolean renameProject = intent.getBooleanExtra(RENAME_AFTER_DOWNLOAD, false);

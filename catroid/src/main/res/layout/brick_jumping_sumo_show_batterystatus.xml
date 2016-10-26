@@ -67,7 +67,7 @@
 
         <TextView
             android:id="@+id/brick_show_variable_prototype_text_view_x"
-            style="@style/BrickPrototypeTextView" />
+            style="@style/BrickText.SingleLine" />
 
         <TextView
             android:id="@+id/brick_show_variable_edit_text_x"
@@ -84,7 +84,7 @@
 
         <TextView
             android:id="@+id/brick_show_variable_prototype_text_view_y"
-            style="@style/BrickPrototypeTextView" />
+            style="@style/BrickText.SingleLine" />
 
         <TextView
             android:id="@+id/brick_show_variable_edit_text_y"

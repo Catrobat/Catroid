@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -76,7 +75,7 @@ public abstract class JumpingSumoRotateBrick extends FormulaBrick {
 		textDegree.setText(String.valueOf(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
 		return prototypeView;
 	}
-
+/*
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
@@ -97,7 +96,7 @@ public abstract class JumpingSumoRotateBrick extends FormulaBrick {
 		}
 		return view;
 	}
-
+*/
 	@Override
 	public void onClick(View view) {
 		if (checkbox.getVisibility() == View.VISIBLE) {

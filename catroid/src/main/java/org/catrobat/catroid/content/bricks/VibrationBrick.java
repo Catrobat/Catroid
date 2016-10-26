@@ -23,11 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -78,20 +76,10 @@ public class VibrationBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_vibration, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_vibration_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView textVibrate = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view);
 		TextView editVibrate = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
 		TextView secondTextVibrate = (TextView) view.findViewById(R.id.brick_vibration_second_label);
 
@@ -112,8 +100,6 @@ public class VibrationBrick extends FormulaBrick {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		textVibrate.setVisibility(View.GONE);
-		editVibrate.setVisibility(View.VISIBLE);
 		editVibrate.setOnClickListener(this);
 
 		return view;
@@ -122,34 +108,12 @@ public class VibrationBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
-		TextView textVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view);
+		TextView textVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_edit_text);
 		textVibrate.setText(Utils.getNumberStringForBricks(BrickValues.VIBRATE_SECONDS));
 		TextView secondTextVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_label);
 		secondTextVibrate.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.VIBRATE_SECONDS)));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_vibration_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textVibrationLabel = (TextView) view.findViewById(R.id.brick_vibration_label);
-			TextView textVibrationSeconds = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view);
-			TextView editSeconds = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
-
-			textVibrationLabel.setTextColor(textVibrationLabel.getTextColors().withAlpha(alphaValue));
-			textVibrationSeconds.setTextColor(textVibrationSeconds.getTextColors().withAlpha(alphaValue));
-
-			editSeconds.setTextColor(editSeconds.getTextColors().withAlpha(alphaValue));
-			editSeconds.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
 	}
 
 	@Override

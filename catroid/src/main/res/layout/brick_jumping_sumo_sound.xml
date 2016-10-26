@@ -68,7 +68,7 @@
 
         <TextView
             android:id="@+id/brick_jumping_sumo_sound_text_view"
-            style="@style/BrickPrototypeTextView" >
+            style="@style/BrickText.SingleLine" >
         </TextView >
 
         <TextView

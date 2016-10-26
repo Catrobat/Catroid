@@ -31,6 +31,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -40,6 +41,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -170,6 +173,9 @@ public class StageListener implements ApplicationListener {
 
 	private InputListener inputListener = null;
 
+	private ShapeRenderer collisionPolygonDebugRenderer;
+	private boolean drawDebugCollisionPolygons = false;
+
 	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
 
 	StageListener() {
@@ -235,7 +241,6 @@ public class StageListener implements ApplicationListener {
 		} else {
 			Gdx.input.setInputProcessor(stage);
 		}
-
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		skipFirstFrameForAutomaticScreenshot = true;
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
@@ -285,6 +290,11 @@ public class StageListener implements ApplicationListener {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.removeAllClones();
 		}
+		if (drawDebugCollisionPolygons) {
+			collisionPolygonDebugRenderer.setProjectionMatrix(camera.combined);
+			collisionPolygonDebugRenderer.setAutoShapeType(true);
+			collisionPolygonDebugRenderer.setColor(Color.MAGENTA);
+		}
 	}
 
 	private void initStageInputListener() {
@@ -309,6 +319,7 @@ public class StageListener implements ApplicationListener {
 			};
 		}
 		stage.addListener(inputListener);
+		collisionPolygonDebugRenderer = new ShapeRenderer();
 	}
 
 	void menuResume() {
@@ -428,13 +439,13 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void finish() {
-		finished = true;
 		SoundManager.getInstance().clear();
 		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
 		PhysicsShapeBuilder.getInstance().reset();
 		CameraManager.getInstance().setToDefaultCamera();
+		finished = true;
 	}
 
 	@Override
@@ -581,6 +592,10 @@ public class StageListener implements ApplicationListener {
 		if (makeTestPixels) {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
+		}
+
+		if (drawDebugCollisionPolygons) {
+			drawDebugCollisionPolygons();
 		}
 	}
 
@@ -939,5 +954,32 @@ public class StageListener implements ApplicationListener {
 		}
 		bubbleActorMap = backup.bubbleActorMap;
 		penActor = backup.penActor;
+	}
+
+	public void drawDebugCollisionPolygons() {
+		collisionPolygonDebugRenderer.setAutoShapeType(true);
+		collisionPolygonDebugRenderer.begin();
+		int lineWidth = 5;
+		Gdx.gl20.glLineWidth(lineWidth / camera.zoom);
+		for (Sprite sprite : sprites.subList(1, sprites.size())) {
+
+			Polygon[] polygonsForSprite = sprite.look.getCurrentCollisionPolygon();
+
+			if (polygonsForSprite != null) {
+				for (Polygon polygonToDraw : polygonsForSprite) {
+					collisionPolygonDebugRenderer.polygon(polygonToDraw.getTransformedVertices());
+					Rectangle r = polygonToDraw.getBoundingRectangle();
+
+					collisionPolygonDebugRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight(), Color.CYAN, Color
+							.CYAN, Color.CYAN, Color.CYAN);
+
+					float[] points = polygonToDraw.getTransformedVertices();
+					for (int i = 0; i < points.length; i += 2) {
+						collisionPolygonDebugRenderer.circle(points[i], points[i + 1], 10);
+					}
+				}
+			}
+		}
+		collisionPolygonDebugRenderer.end();
 	}
 }

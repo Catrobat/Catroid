@@ -85,10 +85,6 @@
                 </TextView >
 
                 <TextView
-                    android:id="@+id/motor_action_speed_text_view"
-                    style="@style/BrickPrototypeTextView" />
-
-                <TextView
                     android:id="@+id/motor_action_speed_edit_text"
                     style="@style/BrickEditText"
                     app:layout_inputType="number"

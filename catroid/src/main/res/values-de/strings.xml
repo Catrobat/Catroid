@@ -132,6 +132,10 @@
   <string name="error_cannot_open_not_existing_scratch_program">Dieses Scratch Programm kann nicht geöffnet werden. Es
     scheint so als hättest du die Konvertierung/Download abgebrochen oder das Programm in der Zwischenzeit
     gelöscht oder umbenannt!</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">Dieses Scratch Programm kann nicht geöffnet
+    werden, da es gerade heruntergeladen wird. Bitte probiere es etwas später noch einmal!</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">Dieses Scratch Programm kann nicht geöffnet
+    werden, da es noch nicht heruntergeladen wurde. Bitte probiere es etwas später noch einmal!</string>
   <string name="error_cannot_convert_deprecated_scratch_program_x_x">Das Scratch Programm "%1$s" kann nicht konvertiert
     werden! Alte Programme die vor %2$s erstellt wurden, werden vom Konverter leider nicht unterstützt!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
@@ -140,9 +144,8 @@
   </plurals>
   <string name="error_cannot_open_failed_scratch_program">Dieses Scratch Programm kann nicht geöffnet werden,
     da die Konvertierung fehlgeschlagen ist!</string>
-  <string name="connection_established">Verbindung zum Server hergestellt!</string>
   <string name="search_failed">Suche fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
-  <string name="connection_closed">Verbindung zum Server getrennt!</string>
+  <string name="connection_lost_or_closed_by_server">Verbindung verloren oder wurde vom Server getrennt!</string>
   <string name="connection_failed">Verbindung zum Server fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
   <string name="authentication_failed">Authentifizierung fehlgeschlagen. Bitte kontaktiere das Pocket Code Team!</string>
   <plurals name="scratch_conversion_scheduled_x">
@@ -991,7 +994,7 @@
   <string name="formula_editor_logic_boolean">Logische (boolesche) Operatoren</string>
   <string name="formula_editor_logic_comparison">Vergleichsoperatoren</string>
   <string name="formula_editor_object_general">Allgemeine Eigenschaften</string>
-  <string name="formula_editor_object_physical">Physikalische Eigenschaften</string>
+  <string name="formula_editor_object_movement">Physikalische Eigenschaften</string>
   <string name="formula_editor_device_face_detection">Gesichtserkennung</string>
   <string name="formula_editor_device_touch_detection">Berührungserkennung</string>
   <string name="formula_editor_device_lego">Lego</string>

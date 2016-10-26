@@ -49,11 +49,14 @@ import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -64,8 +67,9 @@ public class ScratchConversionManager implements ConversionManager {
 	private Activity currentActivity;
 	private final Client client;
 	private final boolean verbose;
-	private Set<Client.DownloadFinishedCallback> delegateCallbackSet;
-	private Map<Long, Set<JobViewListener>> jobConsoleViewListeners;
+	private Map<String, Client.DownloadCallback> downloadCallbacks;
+	private Set<Client.DownloadCallback> globalDownloadCallbacks;
+	private Map<Long, Set<JobViewListener>> jobViewListeners;
 	private Set<JobViewListener> globalJobViewListeners;
 	private Set<BaseInfoViewListener> baseInfoViewListeners;
 	private boolean shutdown;
@@ -75,20 +79,29 @@ public class ScratchConversionManager implements ConversionManager {
 		this.currentActivity = rootActivity;
 		this.client = client;
 		this.verbose = verbose;
-		this.delegateCallbackSet = new HashSet<>();
+		this.downloadCallbacks = new HashMap<>();
+		this.globalDownloadCallbacks = Collections.synchronizedSet(new HashSet<Client.DownloadCallback>());
 		client.setConvertCallback(this);
-		this.jobConsoleViewListeners = Collections.synchronizedMap(new HashMap<Long, Set<JobViewListener>>());
+		this.jobViewListeners = Collections.synchronizedMap(new HashMap<Long, Set<JobViewListener>>());
 		this.globalJobViewListeners = Collections.synchronizedSet(new HashSet<JobViewListener>());
 		this.baseInfoViewListeners = Collections.synchronizedSet(new HashSet<BaseInfoViewListener>());
 		this.shutdown = false;
+		DownloadUtil.getInstance().setDownloadCallback(this);
 	}
 
+	@Override
 	public void setCurrentActivity(final Activity activity) {
 		currentActivity = activity;
 	}
 
-	public void addDownloadFinishedCallback(final Client.DownloadFinishedCallback callback) {
-		delegateCallbackSet.add(callback);
+	@Override
+	public void addGlobalDownloadCallback(final Client.DownloadCallback callback) {
+		globalDownloadCallbacks.add(callback);
+	}
+
+	@Override
+	public boolean removeGlobalDownloadCallback(final Client.DownloadCallback callback) {
+		return globalDownloadCallbacks.remove(callback);
 	}
 
 	@Override
@@ -97,26 +110,32 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
+	public boolean isJobDownloading(long jobID) {
+		return readDownloadStateFromDisk(jobID) == Job.DownloadState.DOWNLOADING;
+	}
+
+	@Override
 	public int getNumberOfJobsInProgress() {
 		return client.getNumberOfJobsInProgress();
 	}
 
-	public void removeDownloadFinishedCallback(final Client.DownloadFinishedCallback callback) {
-		delegateCallbackSet.remove(callback);
-	}
-
+	@Override
 	public void connectAndAuthenticate() {
 		client.connectAndAuthenticate(this);
 	}
 
+	@Override
 	public void shutdown() {
 		shutdown = true;
+		DownloadUtil.getInstance().setDownloadCallback(null);
 		if (!client.isClosed()) {
 			client.close();
 		}
 	}
 
+	@Override
 	public void convertProgram(final long jobID, final String title, final WebImage image, final boolean force) {
+		updateDownloadStateOnDisk(jobID, Job.DownloadState.NOT_READY);
 		client.convertProgram(jobID, title, image, verbose, force);
 	}
 
@@ -138,12 +157,6 @@ public class ScratchConversionManager implements ConversionManager {
 		editor.putLong(Constants.SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME, clientID);
 		editor.commit();
 		Log.i(TAG, "Connection established (clientID: " + clientID + ")");
-		currentActivity.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtil.showSuccess(currentActivity, R.string.connection_established);
-			}
-		});
 		Preconditions.checkState(client.isAuthenticated());
 		client.retrieveInfo();
 	}
@@ -157,10 +170,12 @@ public class ScratchConversionManager implements ConversionManager {
 			public void run() {
 				if (exceptionMessage != null) {
 					Log.e(TAG, exceptionMessage);
-					ToastUtil.showError(currentActivity, R.string.connection_closed);
-				} else {
-					ToastUtil.showSuccess(currentActivity, R.string.connection_closed);
 				}
+
+				if (!shutdown) {
+					ToastUtil.showError(currentActivity, R.string.connection_lost_or_closed_by_server);
+				}
+
 				closeAllActivities();
 			}
 		});
@@ -199,30 +214,40 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void addGlobalJobConsoleViewListener(JobViewListener jobViewListener) {
+	public boolean removeBaseInfoViewListener(BaseInfoViewListener baseInfoViewListener) {
+		return baseInfoViewListeners.remove(baseInfoViewListener);
+	}
+
+	@Override
+	public void addGlobalJobViewListener(JobViewListener jobViewListener) {
 		globalJobViewListeners.add(jobViewListener);
 	}
 
 	@Override
-	public void addJobConsoleViewListener(long jobID, JobViewListener jobViewListener) {
-		Set<JobViewListener> listeners = jobConsoleViewListeners.get(jobID);
+	public boolean removeGlobalJobViewListener(JobViewListener jobViewListener) {
+		return globalJobViewListeners.remove(jobViewListener);
+	}
+
+	@Override
+	public void addJobViewListener(long jobID, JobViewListener jobViewListener) {
+		Set<JobViewListener> listeners = jobViewListeners.get(jobID);
 		if (listeners == null) {
 			listeners = new HashSet<>();
 		}
 		listeners.add(jobViewListener);
-		jobConsoleViewListeners.put(jobID, listeners);
+		jobViewListeners.put(jobID, listeners);
 	}
 
 	@Override
-	public boolean removeJobConsoleViewListener(long jobID, JobViewListener jobViewListener) {
-		Set<JobViewListener> listeners = jobConsoleViewListeners.get(jobID);
+	public boolean removeJobViewListener(long jobID, JobViewListener jobViewListener) {
+		Set<JobViewListener> listeners = jobViewListeners.get(jobID);
 		return listeners != null && listeners.remove(jobViewListener);
 	}
 
 	@NonNull
-	private JobViewListener[] getJobConsoleViewListeners(long jobID) {
+	private JobViewListener[] getJobViewListeners(long jobID) {
 		final Set<JobViewListener> mergedListenersList = new HashSet<>();
-		final Set<JobViewListener> listenersList = jobConsoleViewListeners.get(jobID);
+		final Set<JobViewListener> listenersList = jobViewListeners.get(jobID);
 		if (listenersList != null) {
 			mergedListenersList.addAll(listenersList);
 		}
@@ -235,6 +260,10 @@ public class ScratchConversionManager implements ConversionManager {
 	// -----------------------------------------------------------------------------------------------------------------
 	@Override
 	public void onInfo(final float supportedCatrobatLanguageVersion, final Job[] jobs) {
+		for (Job job : jobs) {
+			job.setDownloadState(readDownloadStateFromDisk(job.getJobID()));
+		}
+
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -261,7 +290,7 @@ public class ScratchConversionManager implements ConversionManager {
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				for (JobViewListener viewListener : getJobConsoleViewListeners(job.getJobID())) {
+				for (JobViewListener viewListener : getJobViewListeners(job.getJobID())) {
 					viewListener.onJobScheduled(job);
 				}
 			}
@@ -274,7 +303,7 @@ public class ScratchConversionManager implements ConversionManager {
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				for (JobViewListener viewListener : getJobConsoleViewListeners(job.getJobID())) {
+				for (JobViewListener viewListener : getJobViewListeners(job.getJobID())) {
 					viewListener.onJobReady(job);
 				}
 			}
@@ -289,7 +318,7 @@ public class ScratchConversionManager implements ConversionManager {
 			@Override
 			public void run() {
 				ToastUtil.showSuccess(currentActivity, currentActivity.getString(R.string.scratch_conversion_started));
-				for (JobViewListener viewListener : getJobConsoleViewListeners(job.getJobID())) {
+				for (JobViewListener viewListener : getJobViewListeners(job.getJobID())) {
 					viewListener.onJobStarted(job);
 				}
 			}
@@ -297,20 +326,49 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void onConversionFinished(final Job job, final Client.DownloadFinishedCallback downloadFinishedCallback,
+	public void onConversionFinished(final Job job, final Client.DownloadCallback downloadCallback,
 			final String downloadURL, final Date cachedUTCDate) {
 		Log.i(TAG, "Conversion finished!");
-		final ScratchConversionManager conversionManager = this;
+		updateDownloadStateOnDisk(job.getJobID(), Job.DownloadState.READY);
+		conversionFinished(job, downloadCallback, downloadURL, cachedUTCDate);
+	}
+
+	@Override
+	public void onConversionAlreadyFinished(Job job, Client.DownloadCallback downloadCallback, String downloadURL) {
+		if (readDownloadStateFromDisk(job.getJobID()) == Job.DownloadState.NOT_READY) {
+			updateDownloadStateOnDisk(job.getJobID(), Job.DownloadState.READY);
+		}
+		conversionFinished(job, downloadCallback, downloadURL, null);
+	}
+
+	private void conversionFinished(final Job job, final Client.DownloadCallback downloadCallback,
+			final String downloadURL, final Date cachedUTCDate) {
+		final String baseUrl = Constants.SCRATCH_CONVERTER_BASE_URL;
+		final String fullDownloadURL = baseUrl.substring(0, baseUrl.length() - 1) + downloadURL;
+		Job.DownloadState localDownloadState = readDownloadStateFromDisk(job.getJobID());
+
+		if (localDownloadState != Job.DownloadState.READY && localDownloadState != Job.DownloadState.DOWNLOADING) {
+			return;
+		}
+
+		final Job.DownloadState finalLocalDownloadState = localDownloadState;
+
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				for (JobViewListener viewListener : getJobConsoleViewListeners(job.getJobID())) {
+				for (JobViewListener viewListener : getJobViewListeners(job.getJobID())) {
 					viewListener.onJobFinished(job);
 				}
 
-				final Client.DownloadFinishedCallback[] callbacks;
-				callbacks = new Client.DownloadFinishedCallback[] { downloadFinishedCallback, conversionManager };
+				downloadCallbacks.put(downloadURL, downloadCallback);
 
+				if (finalLocalDownloadState == Job.DownloadState.DOWNLOADING) {
+					Log.i(TAG, "Download of converted project is already RUNNNING!!");
+					onDownloadStarted(fullDownloadURL);
+					return;
+				}
+
+				Log.i(TAG, "Downloading missed converted project...");
 				if (cachedUTCDate != null) {
 					final ScratchReconvertDialog reconvertDialog = new ScratchReconvertDialog();
 					reconvertDialog.setContext(currentActivity);
@@ -318,18 +376,18 @@ public class ScratchConversionManager implements ConversionManager {
 					reconvertDialog.setReconvertDialogCallback(new ScratchReconvertDialog.ReconvertDialogCallback() {
 						@Override
 						public void onDownloadExistingProgram() {
-							downloadProgram(downloadURL, callbacks);
+							downloadProgram(fullDownloadURL);
 						}
 
 						@Override
 						public void onReconvertProgram() {
-							client.convertProgram(job.getJobID(), job.getTitle(), job.getImage(), verbose, true);
+							convertProgram(job.getJobID(), job.getTitle(), job.getImage(), true);
 						}
 
 						@Override
 						public void onUserCanceledConversion() {
 							client.onUserCanceledConversion(job.getJobID());
-							for (final JobViewListener viewListener : getJobConsoleViewListeners(job.getJobID())) {
+							for (final JobViewListener viewListener : getJobViewListeners(job.getJobID())) {
 								viewListener.onUserCanceledJob(job);
 							}
 						}
@@ -337,9 +395,15 @@ public class ScratchConversionManager implements ConversionManager {
 					reconvertDialog.show(currentActivity.getFragmentManager(), ScratchReconvertDialog.DIALOG_FRAGMENT_TAG);
 					return;
 				}
-				downloadProgram(downloadURL, callbacks);
+
+				downloadProgram(fullDownloadURL);
 			}
 		});
+	}
+
+	private void downloadProgram(final String fullDownloadURL) {
+		Log.d(TAG, "Start download: " + fullDownloadURL);
+		DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(currentActivity, fullDownloadURL);
 	}
 
 	@Override
@@ -349,7 +413,7 @@ public class ScratchConversionManager implements ConversionManager {
 			@Override
 			public void run() {
 				if (job != null) {
-					for (JobViewListener viewListener : getJobConsoleViewListeners(job.getJobID())) {
+					for (JobViewListener viewListener : getJobViewListeners(job.getJobID())) {
 						viewListener.onJobFailed(job);
 					}
 					final Resources resources = currentActivity.getResources();
@@ -379,7 +443,7 @@ public class ScratchConversionManager implements ConversionManager {
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				for (JobViewListener viewListener : getJobConsoleViewListeners(job.getJobID())) {
+				for (JobViewListener viewListener : getJobViewListeners(job.getJobID())) {
 					viewListener.onJobOutput(job, lines);
 				}
 			}
@@ -391,32 +455,109 @@ public class ScratchConversionManager implements ConversionManager {
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				for (JobViewListener viewListener : getJobConsoleViewListeners(job.getJobID())) {
+				for (JobViewListener viewListener : getJobViewListeners(job.getJobID())) {
 					viewListener.onJobProgress(job, progress);
 				}
 			}
 		});
 	}
 
-	private void downloadProgram(final String downloadURL, final Client.DownloadFinishedCallback[] callbacks) {
-		// Note: this callback-method is not called on UI-thread
-		final String baseUrl = Constants.SCRATCH_CONVERTER_BASE_URL;
-		final String fullDownloadUrl = baseUrl.substring(0, baseUrl.length() - 1) + downloadURL;
-		Log.d(TAG, "Start download: " + fullDownloadUrl);
-		DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(currentActivity, fullDownloadUrl, callbacks);
+	private void updateDownloadStateOnDisk(final long jobID, final Job.DownloadState downloadState) {
+		Log.d(TAG, "Update download-state of program on disk");
+		try {
+			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(currentActivity
+					.getApplicationContext());
+			SharedPreferences.Editor editor = sharedPref.edit();
+
+			String data = sharedPref.getString(Constants.SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME, null);
+			HashMap<String, String> downloadStates = new HashMap<>();
+			if (data != null) {
+				JSONObject jsonObject = new JSONObject(data);
+				Iterator<String> keysItr = jsonObject.keys();
+				while (keysItr.hasNext()) {
+					String key = keysItr.next();
+					String value = jsonObject.getString(key);
+					downloadStates.put(key, value);
+				}
+			}
+
+			downloadStates.put(Long.toString(jobID), Integer.toString(downloadState.getDownloadStateID()));
+			Log.d(TAG, downloadStates.toString());
+			editor.putString(Constants.SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME,
+					new JSONObject(downloadStates).toString());
+			editor.commit();
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage());
+		}
+	}
+
+	private Job.DownloadState readDownloadStateFromDisk(final long jobID) {
+		Log.d(TAG, "Read download-state of program from disk");
+
+		try {
+			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(currentActivity
+					.getApplicationContext());
+
+			String data = sharedPref.getString(Constants.SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME, null);
+			HashMap<String, String> downloadStates = new HashMap<>();
+			if (data != null) {
+				JSONObject jsonObject = new JSONObject(data);
+				Iterator<String> keysItr = jsonObject.keys();
+				while (keysItr.hasNext()) {
+					String key = keysItr.next();
+					String value = jsonObject.getString(key);
+					downloadStates.put(key, value);
+				}
+			}
+
+			String result = downloadStates.get(Long.toString(jobID));
+			if (result == null) {
+				return Job.DownloadState.NOT_READY;
+			}
+			return Job.DownloadState.valueOf(Integer.parseInt(result));
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage());
+		}
+		return Job.DownloadState.NOT_READY;
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
-	// DownloadFinishedCallback
+	// DownloadCallback
 	// -----------------------------------------------------------------------------------------------------------------
 	@Override
 	public void onDownloadStarted(final String url) {
+		final long jobID = Utils.extractScratchJobIDFromURL(url);
+		updateDownloadStateOnDisk(jobID, Job.DownloadState.DOWNLOADING);
+
 		// Note: this callback-method may not be called on UI-thread
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				for (final Client.DownloadFinishedCallback callback : delegateCallbackSet) {
+				final Client.DownloadCallback callback = downloadCallbacks.get(url);
+				if (callback != null) {
 					callback.onDownloadStarted(url);
+				}
+
+				for (final Client.DownloadCallback cb : globalDownloadCallbacks) {
+					cb.onDownloadStarted(url);
+				}
+			}
+		});
+	}
+
+	@Override
+	public void onDownloadProgress(final short progress, final String url) {
+		// Note: this callback-method is not called on UI-thread
+		currentActivity.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				final Client.DownloadCallback callback = downloadCallbacks.get(url);
+				if (callback != null) {
+					callback.onDownloadProgress(progress, url);
+				}
+
+				for (final Client.DownloadCallback cb : globalDownloadCallbacks) {
+					cb.onDownloadProgress(progress, url);
 				}
 			}
 		});
@@ -424,12 +565,20 @@ public class ScratchConversionManager implements ConversionManager {
 
 	@Override
 	public void onDownloadFinished(final String catrobatProgramName, final String url) {
+		final long jobID = Utils.extractScratchJobIDFromURL(url);
+		updateDownloadStateOnDisk(jobID, Job.DownloadState.DOWNLOADED);
+
 		// Note: this callback-method is not called on UI-thread
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				for (final Client.DownloadFinishedCallback callback : delegateCallbackSet) {
+				final Client.DownloadCallback callback = downloadCallbacks.get(url);
+				if (callback != null) {
 					callback.onDownloadFinished(catrobatProgramName, url);
+				}
+
+				for (final Client.DownloadCallback cb : globalDownloadCallbacks) {
+					cb.onDownloadFinished(catrobatProgramName, url);
 				}
 			}
 		});
@@ -438,10 +587,15 @@ public class ScratchConversionManager implements ConversionManager {
 	@Override
 	public void onUserCanceledDownload(String url) {
 		final long jobID = Utils.extractScratchJobIDFromURL(url);
-		client.cancelDownload(jobID);
+		updateDownloadStateOnDisk(jobID, Job.DownloadState.CANCELED);
 
-		for (final Client.DownloadFinishedCallback callback : delegateCallbackSet) {
+		final Client.DownloadCallback callback = downloadCallbacks.get(url);
+		if (callback != null) {
 			callback.onUserCanceledDownload(url);
+		}
+
+		for (final Client.DownloadCallback cb : globalDownloadCallbacks) {
+			cb.onUserCanceledDownload(url);
 		}
 	}
 }

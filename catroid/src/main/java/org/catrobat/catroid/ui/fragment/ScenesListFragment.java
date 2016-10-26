@@ -61,6 +61,7 @@ import org.catrobat.catroid.ui.controller.BackPackSceneController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSceneDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
@@ -92,7 +93,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	private View selectAllActionModeButton;
 	private boolean isRenameActionMode;
 	private boolean selectAll = true;
-	public boolean lockBackButtonForAsync = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +104,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View sceneListFragment = inflater.inflate(R.layout.fragment_scenes_list, container, false);
 		sceneListFragment.findViewById(R.id.sceneList_headline).setVisibility(View.VISIBLE);
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scenes);
 		return sceneListFragment;
 	}
 
@@ -178,6 +179,8 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 		IntentFilter intentFilterSceneTouchUp = new IntentFilter(ScriptActivity.ACTION_SCENE_TOUCH_ACTION_UP);
 		getActivity().registerReceiver(sceneListTouchActionUpReceiver, intentFilterSceneTouchUp);
+
+		ProjectManager.getInstance().setCurrentScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
 	}
 
 	@Override
@@ -500,7 +503,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 			switchToBackPack();
 		}
 		clearCheckedScenesAndEnableButtons();
-		lockBackButtonForAsync = false;
 	}
 
 	public void switchToBackPack() {
@@ -737,7 +739,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
-				lockBackButtonForAsync = true;
 				boolean success = true;
 				for (Scene scene : scenesToCopy) {
 					sceneToEdit = scene;
@@ -754,7 +755,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 						} else {
 							ProjectManager.getInstance().saveProject(getActivity());
 						}
-						lockBackButtonForAsync = false;
 					}
 				});
 			}
@@ -766,7 +766,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
-				lockBackButtonForAsync = true;
 				boolean success = BackPackSceneController.getInstance().backpackScenes(scenes);
 				final boolean finalSuccess = success;
 				activity.runOnUiThread(new Runnable() {

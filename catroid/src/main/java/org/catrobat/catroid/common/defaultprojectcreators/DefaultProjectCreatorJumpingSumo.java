@@ -208,7 +208,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				0, (int) (325 / landscapePortraitFactor), animationFile));
 
 		//battery brick
-		String batteryName = context.getString(R.string.user_variable_name_battery_status);
+		String batteryName = context.getString(R.string.default_jumping_sumo_project_sprites_battery_status);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoBatterySprite(batteryName,
 				JumpingSumoBrickFactory.JumpingSumoBricks

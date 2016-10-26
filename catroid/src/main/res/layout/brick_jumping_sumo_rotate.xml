@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/brick_jumping_sumo_rotate_value"
-            style="@style/BrickPrototypeTextView" />
+            style="@style/BrickText.SingleLine" />
 
         <TextView
             android:id="@+id/brick_jumping_sumo_rotate_text"

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -44,14 +43,14 @@ public abstract class JumpingSumoBasicBrick extends BrickBaseType {
 			alphaValue = 255;
 		}
 		view = View.inflate(context, R.layout.brick_jumping_sumo, null);
-		view = getViewWithAlpha(alphaValue);
+		//view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_jumping_sumo_basic_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
+				//checked = isChecked;
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
@@ -71,7 +70,7 @@ public abstract class JumpingSumoBasicBrick extends BrickBaseType {
 
 		return prototypeView;
 	}
-
+/*
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
@@ -86,7 +85,7 @@ public abstract class JumpingSumoBasicBrick extends BrickBaseType {
 
 		return view;
 	}
-
+*/
 	@Override
 	public int getRequiredResources() {
 		return super.getRequiredResources() | Brick.JUMPING_SUMO;

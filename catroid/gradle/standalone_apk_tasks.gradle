@@ -25,38 +25,19 @@ ext {
     projectName = "WHACK A MOLE"
     id = "1"
 
-    assetsPath = "catroid/src/main/assets/"
-    standaloneZipPath = assetsPath + "/project.zip"
+    assetsPath = "src/main/assets/"
+    standaloneZipPath = assetsPath + "project.zip"
     standaloneTmpPath = assetsPath + "standalone/"
 
-    manifestPath = "catroid/src/main/AndroidManifest.xml"
-    resPath = "catroid/res/drawable-nodpi"
+    manifestPath = "src/main/AndroidManifest.xml"
+    resPath = "src/main/res/drawable-nodpi"
+    googleServicesJsonPath = "google-services.json"
 
     buildStandaloneInfoTmpPath = "buildStandaloneInfoTmp"
 }
 
-task buildStandalone(dependsOn: ':downloadProject') << {
-    println "buildStandalone task triggered"
-    def manifestFile = new File(project.ext.manifestPath)
-    def manifestText = manifestFile.text
-
-    manifestText = manifestText.replaceAll("@string/app_name", getProjectName());
-    manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
-    manifestFile.write(manifestText)
-
-    removeUnecessaryPermissions()
-
-    def standaloneInfoTmpFile = new File(project.ext.buildStandaloneInfoTmpPath)
-    standaloneInfoTmpFile.write(project.ext.id + "\n")
-    standaloneInfoTmpFile.append(project.ext.projectName)
-
-    copyScreenshotAsIcon()
-
-    delete project.ext.standaloneTmpPath
-}
-
-task downloadProject() << {
-    def id = 6760; //debugging purpose only
+task buildStandalone() << {
+    def id = 824; //debugging purpose only
     def downloadUrl = "";
 
     if (project.hasProperty("download")) {
@@ -72,12 +53,17 @@ task downloadProject() << {
 
     project.ext.standaloneZipPath = project.ext.assetsPath + project.ext.id + ".zip"
 
-    File programZip = new File(project.ext.standaloneZipPath)
+    File programZip = file(project.ext.standaloneZipPath)
+    println "programZip: " + programZip.absolutePath
+
     programZip.withOutputStream {
         it << new URL(downloadUrl).content
     }
 
-    def zipOutDir = new File(project.ext.standaloneTmpPath)
+    File zipOutDir = file(project.ext.standaloneTmpPath)
+    zipOutDir.mkdirs()
+
+    println "zipOutDir: " + zipOutDir.absolutePath
 
     copy {
         from zipTree(programZip)
@@ -85,6 +71,32 @@ task downloadProject() << {
     }
 
     project.ext.projectName = getProjectName()
+
+    println "buildStandalone task triggered"
+    File manifestFile = file(project.ext.manifestPath)
+    println "manifestFile: " + manifestFile.absolutePath
+    def manifestText = manifestFile.text
+
+    manifestText = manifestText.replaceAll("@string/app_name", getProjectName());
+    manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
+    manifestFile.write(manifestText)
+
+    removeUnecessaryPermissions()
+
+    File googleServicesJsonFile = file(project.ext.googleServicesJsonPath)
+    def googleServicesJsonText = googleServicesJsonFile.text
+
+    googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", "org.catrobat.catroid." + getPackageNameSuffix())
+    googleServicesJsonFile.write(googleServicesJsonText)
+
+    File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
+    println "standaloneInfoTmpFile: " + standaloneInfoTmpFile.absolutePath
+    standaloneInfoTmpFile.write(project.ext.id + "\n")
+    standaloneInfoTmpFile.append(project.ext.projectName)
+
+    copyScreenshotAsIcon()
+
+    delete project.ext.standaloneTmpPath
 }
 
 task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
@@ -96,8 +108,8 @@ task testremoveIntentFilters() << {
 }
 
 ext.getProjectName = {
-    def xmlFile = new File(project.ext.standaloneTmpPath + "code.xml")
-    def standaloneInfoTmpFile = new File(project.ext.buildStandaloneInfoTmpPath)
+    File xmlFile = file(project.ext.standaloneTmpPath + "code.xml")
+    File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
 
     if (xmlFile.exists()) {
         String sanitizedXml = xmlFile.text.replaceAll("&#x0;", "")
@@ -123,7 +135,7 @@ ext.getPackageNameSuffix = {
 }
 
 ext.getProgramId = { boolean deleteInfoFile ->
-    def standaloneInfoTmpFile = new File(project.ext.buildStandaloneInfoTmpPath)
+    File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
     if (standaloneInfoTmpFile.exists()) {
         def lines = standaloneInfoTmpFile.readLines()
         assert 2 == lines.size()
@@ -140,8 +152,8 @@ ext.getProgramId = { boolean deleteInfoFile ->
 
 def removeUnecessaryPermissions() {
     println "managing Permissions"
-    def permissionsFile = new File(project.ext.standaloneTmpPath + "permissions.txt")
-    def manifestFile = new File(project.ext.manifestPath);
+    File permissionsFile = file(project.ext.standaloneTmpPath + "permissions.txt")
+    File manifestFile = file(project.ext.manifestPath);
     def manifestText = manifestFile.text;
 
     if(!permissionsFile.exists()) {
@@ -170,9 +182,9 @@ def removeUnecessaryPermissions() {
 }
 
 def copyScreenshotAsIcon() {
-    def screenshot = new File(project.ext.standaloneTmpPath, "manual_screenshot.png")
+    File screenshot = file(project.ext.standaloneTmpPath + "manual_screenshot.png")
     if(!screenshot.exists()){
-        screenshot = new File(project.ext.standaloneTmpPath, "automatic_screenshot.png")
+        screenshot = file(project.ext.standaloneTmpPath + "automatic_screenshot.png")
     }
     copy {
         from screenshot.getPath()
@@ -192,11 +204,10 @@ def copyScreenshotAsIcon() {
 }
 
 def messUpIntentFilters() {
-    def manifestFile = new File(project.ext.manifestPath);
+    File manifestFile = file(project.ext.manifestPath);
     def manifestText = manifestFile.text
 
     String regex = "<intent-filter>\\n.+?<action android:name=\"android.intent.action.(VIEW|GET_CONTENT)(.|\\n)+?</intent-filter>"
     String noIntentManifest = manifestText.replaceAll(regex, "")
     manifestFile.write(noIntentManifest)
 }
-

@@ -21,11 +21,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.scratchconverter.protocol.command;
+package org.catrobat.catroid.sensing;
 
-public class CancelDownloadCommand extends Command {
-	public CancelDownloadCommand(final long jobID) {
-		super(Command.Type.CANCEL_DOWNLOAD);
-		addArgument(Command.ArgumentType.JOB_ID, jobID);
+import android.os.Process;
+import android.util.Log;
+
+import org.catrobat.catroid.common.LookData;
+
+public class CollisionPolygonCreationTask implements Runnable {
+
+	private static final String TAG = CollisionPolygonCreationTask.class.getSimpleName();
+	private LookData lookdata;
+
+	public CollisionPolygonCreationTask(LookData lookdata) {
+		this.lookdata = lookdata;
+	}
+
+	@Override
+	public void run() {
+		android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+		long startTime = System.currentTimeMillis();
+		Log.i(TAG, "Creating polygon in runnable for " + lookdata.getLookFileName());
+		lookdata.getCollisionInformation().loadOrCreateCollisionPolygon();
+		if (lookdata.getCollisionInformation().isCalculationCancelled()) {
+			return;
+		}
+		long stopTime = System.currentTimeMillis();
+		long time = (stopTime - startTime) / 1000;
+		Log.i(TAG, "Finished Creating polygon in runnable for " + lookdata.getLookFileName() + " in "
+				+ "" + time + " seconds.");
 	}
 }

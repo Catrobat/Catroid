@@ -24,14 +24,12 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -99,14 +97,14 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_animations, null);
-		view = getViewWithAlpha(alphaValue);
+		//view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_jumping_sumo_animation_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
+				//checked = isChecked;
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
@@ -143,7 +141,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 		return view;
 	}
-
+/*
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 
@@ -163,7 +161,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 		}
 		return view;
 	}
-
+*/
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createJumpingSumoAnimationAction(sprite, animationenum));

@@ -24,8 +24,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -56,8 +54,6 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	private String sound;
 	private transient Sounds soundenum;
 	private transient TextView editVolume;
-
-
 	private transient SingleSeekbar volumeSeekbar =
 			new SingleSeekbar(this, BrickField.JUMPING_SUMO_VOLUME, R.string.jumping_sumo_volume);
 
@@ -141,14 +137,14 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_sound, null);
-		view = getViewWithAlpha(alphaValue);
+		//view = getViewWithAlpha(alphaValue);
 		setCheckboxView(R.id.brick_jumping_sumo_sound_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
+				//checked = isChecked;
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
@@ -209,7 +205,7 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 		return getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME).getRoot().getElementType()
 				== FormulaElement.ElementType.NUMBER;
 	}
-
+/*
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 
@@ -244,7 +240,7 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 		}
 
 		return view;
-	}
+	}*/
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

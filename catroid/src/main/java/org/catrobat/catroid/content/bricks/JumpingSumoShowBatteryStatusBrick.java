@@ -24,7 +24,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -106,7 +105,7 @@ public class JumpingSumoShowBatteryStatusBrick extends UserVariableBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_show_batterystatus, null);
-		view = getViewWithAlpha(alphaValue);
+		//view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_show_variable_checkbox);
 
@@ -114,7 +113,7 @@ public class JumpingSumoShowBatteryStatusBrick extends UserVariableBrick {
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
+				//checked = isChecked;
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
@@ -145,7 +144,7 @@ public class JumpingSumoShowBatteryStatusBrick extends UserVariableBrick {
 
 		return view;
 	}
-
+/*
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
@@ -171,7 +170,7 @@ public class JumpingSumoShowBatteryStatusBrick extends UserVariableBrick {
 		}
 		return view;
 	}
-
+*/
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_show_batterystatus, null);

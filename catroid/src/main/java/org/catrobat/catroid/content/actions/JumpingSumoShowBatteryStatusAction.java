@@ -38,7 +38,7 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.stage.ShowVariableActor;
+import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
 
 import java.util.List;
@@ -55,7 +55,7 @@ public class JumpingSumoShowBatteryStatusAction extends TemporalAction {
 
 	private Sprite sprite;
 	private UserBrick userBrick;
-	private ShowVariableActor actor;
+	private ShowTextActor actor;
 	JumpingSumoDataContainer batteryStatus = JumpingSumoDataContainer.getInstance();
 
 	@Override
@@ -84,11 +84,11 @@ public class JumpingSumoShowBatteryStatusAction extends TemporalAction {
 
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-				ShowVariableActor dummyActor = new ShowVariableActor(new UserVariable("dummyActor"), 0, 0, sprite, userBrick);
+				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, sprite, userBrick);
 
 				for (Actor actor : stageActors) {
 					if (actor.getClass().equals(dummyActor.getClass())) {
-						ShowVariableActor showVariableActor = (ShowVariableActor) actor;
+						ShowTextActor showVariableActor = (ShowTextActor) actor;
 						if (showVariableActor.getVariableNameToCompare().equals(variableToShow.getName())
 								&& showVariableActor.getSprite().equals(sprite)
 								&& (userBrick != null ? showVariableActor.getUserBrick().equals(userBrick) : true)) {
@@ -97,7 +97,7 @@ public class JumpingSumoShowBatteryStatusAction extends TemporalAction {
 					}
 				}
 
-				actor = new ShowVariableActor(variableToShow, xPosition, yPosition, sprite, userBrick);
+				actor = new ShowTextActor(variableToShow, xPosition, yPosition, sprite, userBrick);
 				StageActivity.stageListener.addActor(actor);
 			}
 			setVariablesVisible();

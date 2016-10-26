@@ -27,10 +27,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -67,39 +64,10 @@ public class CloneBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_clone, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_clone_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		setupValueSpinner(context);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_clone_layout);
-			layout.getBackground().setAlpha(alphaValue);
-
-			TextView textLabel = (TextView) view.findViewById(R.id.brick_clone_label);
-			textLabel.setTextColor(textLabel.getTextColors().withAlpha(alphaValue));
-			Spinner objectSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
-			objectSpinner.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
 		return view;
 	}
 
@@ -107,9 +75,7 @@ public class CloneBrick extends BrickBaseType {
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_clone, null);
 		Spinner cloneSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
-		cloneSpinner.setFocusableInTouchMode(false);
-		cloneSpinner.setFocusable(false);
-		cloneSpinner.setEnabled(false);
+
 		cloneSpinner.setAdapter(getSpinnerArrayAdapter(context));
 
 		return view;
@@ -140,12 +106,7 @@ public class CloneBrick extends BrickBaseType {
 	}
 
 	private void setupValueSpinner(final Context context) {
-
 		final Spinner valueSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
-		valueSpinner.setFocusableInTouchMode(false);
-		valueSpinner.setFocusable(false);
-		valueSpinner.setClickable(true);
-		valueSpinner.setEnabled(true);
 
 		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene()
 				.getSpriteList();

@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
@@ -203,8 +204,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	private void finishOnCreateAfterRunnable() {
-		findViewById(R.id.progress_circle).setVisibility(View.GONE);
-		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
+		if (!STANDALONE_MODE) {
+			findViewById(R.id.progress_circle).setVisibility(View.GONE);
+			findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
+		}
 		PreStageActivity.shutdownPersistentResources();
 		if (!STANDALONE_MODE) {
 			setMainMenuButtonContinueText();
@@ -430,6 +433,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	private void unzipProgram() {
+		StorageHandler.getInstance();
 		String zipFileString = Constants.DEFAULT_ROOT + "/" + ZIP_FILE_NAME;
 		copyProgramZip();
 		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);

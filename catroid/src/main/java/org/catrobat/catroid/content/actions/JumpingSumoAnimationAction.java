@@ -58,8 +58,6 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 	protected void animation() {
 
 		if (deviceController != null) {
-
-
 			switch (animationEnum) {
 				case SPIN:
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SPIN);

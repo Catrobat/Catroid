@@ -37,6 +37,7 @@ repositories {
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
+
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
@@ -49,6 +50,7 @@ android {
         javaMaxHeapSize "4g"
     }
     buildTypes {
+
         debug {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
@@ -60,6 +62,8 @@ android {
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
+            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "false"
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -72,6 +76,8 @@ android {
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
+            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "true"
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
     }
     productFlavors {
@@ -80,6 +86,7 @@ android {
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "true"
         }
 
         standalone {
@@ -90,7 +97,11 @@ android {
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true) }\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
+            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "false"
         }
+    }
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'  //compile problem with parrot arsdk
     }
 }
 
@@ -110,6 +121,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.github.johnpersano:supertoasts:2.0@aar'
+    compile 'com.github.mrengineer13:snackbar:1.2.0'
 
     compile 'com.koushikdutta.async:androidasync:2.+'
     compile 'com.sothree.slidinguppanel:library:3.3.0'
@@ -117,7 +129,7 @@ dependencies {
 
     compile 'com.thoughtworks.xstream:xstream:1.4.7'
 
-    def gdxVersion = '1.9.3'
+    def gdxVersion = '1.6.2'
     compile 'com.badlogicgames.gdx:gdx:' + gdxVersion
     compile 'com.badlogicgames.gdx:gdx-backend-android:' + gdxVersion
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
@@ -131,7 +143,9 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.14.1'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile 'com.google.firebase:firebase-crash:9.4.0'
     compile 'com.android.support:multidex:1.0.1'
+    compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
 
     compile fileTree(include: '*.jar', dir: 'src/main/libs')
     compile fileTree(include: '*.jar', dir: 'src/main/libs-natives')
@@ -164,9 +178,9 @@ android {
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 31
+        versionCode 33
         println "VersionCode is " + versionCode
-        versionName "0.9.24"
+        versionName "0.9.26"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
@@ -213,3 +227,4 @@ task copyAndroidNatives() {
         }
     }
 }
+apply plugin: 'com.google.gms.google-services'

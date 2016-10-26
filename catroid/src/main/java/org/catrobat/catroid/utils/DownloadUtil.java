@@ -32,7 +32,8 @@ import android.os.ResultReceiver;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.scratchconverter.Client.DownloadFinishedCallback;
+import org.catrobat.catroid.scratchconverter.Client;
+import org.catrobat.catroid.scratchconverter.Client.DownloadCallback;
 import org.catrobat.catroid.transfers.MediaDownloadService;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -46,10 +47,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 public final class DownloadUtil {
@@ -58,24 +57,24 @@ public final class DownloadUtil {
 	private static final String FILENAME_TAG = "fname=";
 
 	private Set<String> programDownloadQueue;
-	private Map<String, DownloadFinishedCallback[]> programDownloadCallbackMap;
+	private Client.DownloadCallback programDownloadCallback;
 
 	private WebViewActivity webViewActivity = null;
 
 	private DownloadUtil() {
 		programDownloadQueue = Collections.synchronizedSet(new HashSet<String>());
-		programDownloadCallbackMap = Collections.synchronizedMap(new HashMap<String, DownloadFinishedCallback[]>());
+		programDownloadCallback = null;
 	}
 
 	public static DownloadUtil getInstance() {
 		return INSTANCE;
 	}
 
-	public void prepareDownloadAndStartIfPossible(Activity activity, String url) {
-		prepareDownloadAndStartIfPossible(activity, url, null);
+	public void setDownloadCallback(DownloadCallback callback) {
+		programDownloadCallback = callback;
 	}
 
-	public void prepareDownloadAndStartIfPossible(Activity activity, String url, DownloadFinishedCallback[] callbacks) {
+	public void prepareDownloadAndStartIfPossible(Activity activity, String url) {
 		String programName = getProjectNameFromUrl(url);
 		if (programName == null) {
 			return;
@@ -88,12 +87,11 @@ public final class DownloadUtil {
 
 			renameDialog.setContext(activity);
 			renameDialog.setProgramName(programName);
-			renameDialog.setCallbacks(callbacks);
 			renameDialog.setURL(url);
 
 			renameDialog.show(activity.getFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
 		} else {
-			startDownload(activity, url, programName, callbacks, false);
+			startDownload(activity, url, programName, false);
 		}
 	}
 
@@ -149,15 +147,12 @@ public final class DownloadUtil {
 		context.startService(downloadIntent);
 	}
 
-	public void startDownload(Context context, String url, String programName, DownloadFinishedCallback[] callbacks,
-			boolean renameProject) {
+	public void startDownload(Context context, String url, String programName, boolean renameProject) {
 		final String programNameKey = programName.toLowerCase(Locale.getDefault());
 		programDownloadQueue.add(programNameKey);
-		if (callbacks != null) {
-			for (DownloadFinishedCallback callback : callbacks) {
-				callback.onDownloadStarted(url);
-			}
-			programDownloadCallbackMap.put(programNameKey, callbacks);
+
+		if (programDownloadCallback != null) {
+			programDownloadCallback.onDownloadStarted(url);
 		}
 		Intent downloadIntent = new Intent(context, ProjectDownloadService.class);
 		downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadProjectReceiver(new Handler()));
@@ -173,11 +168,8 @@ public final class DownloadUtil {
 	public void downloadFinished(String programName, String url) {
 		final String programNameKey = programName.toLowerCase(Locale.getDefault());
 		programDownloadQueue.remove(programNameKey);
-		final DownloadFinishedCallback[] callbacks = programDownloadCallbackMap.get(programNameKey);
-		if (callbacks != null) {
-			for (DownloadFinishedCallback callback : callbacks) {
-				callback.onDownloadFinished(programName, url);
-			}
+		if (programDownloadCallback != null) {
+			programDownloadCallback.onDownloadFinished(programName, url);
 		}
 	}
 
@@ -186,6 +178,12 @@ public final class DownloadUtil {
 	}
 
 	ArrayList<Integer> notificationIdArray = new ArrayList<Integer>();
+
+	public void downloadCanceled(String url) {
+		if (programDownloadCallback != null) {
+			programDownloadCallback.onUserCanceledDownload(url);
+		}
+	}
 
 	@SuppressLint("ParcelCreator")
 	private class DownloadProjectReceiver extends ResultReceiver {
@@ -207,6 +205,12 @@ public final class DownloadUtil {
 					if (endOfFileReached) {
 						progress = 100;
 					}
+
+					final String requestUrl = resultData.getString(ProgressResponseBody.TAG_REQUEST_URL);
+					if (programDownloadCallback != null) {
+						programDownloadCallback.onDownloadProgress((short) progress, requestUrl);
+					}
+
 					StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId,
 							Long.valueOf(progress).intValue());
 				}

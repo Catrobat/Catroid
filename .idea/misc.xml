@@ -43,4 +43,7 @@
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
+  <component name="TaskProjectConfiguration">
+    <server type="JIRA" url="https://jira.catrob.at" />
+  </component>
 </project>

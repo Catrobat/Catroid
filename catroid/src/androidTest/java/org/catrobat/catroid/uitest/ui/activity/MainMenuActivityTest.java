@@ -366,7 +366,8 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 	public void testScratchConverterMenuExists() {
 		solo.sendKey(Solo.MENU);
-		assertTrue("Scratch Converter menu item not found in overflow menu!", solo.searchText(solo.getString(R.string.preference_title_scratch_converter)));
+		assertTrue("Scratch Converter menu item not found in overflow menu!",
+				solo.searchText(solo.getString(R.string.main_menu_scratch_converter)));
 		solo.goBack();
 	}
 

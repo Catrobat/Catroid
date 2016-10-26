@@ -47,7 +47,6 @@ public interface Client {
 	boolean isJobInProgress(long jobID);
 	int getNumberOfJobsInProgress();
 	void convertProgram(long jobID, String title, WebImage image, boolean verbose, boolean force);
-	void cancelDownload(long jobID);
 	void onUserCanceledConversion(long jobID);
 	void close();
 
@@ -66,14 +65,15 @@ public interface Client {
 		void onConversionStart(Job job);
 		void onJobProgress(Job job, short progress);
 		void onJobOutput(Job job, String[] lines);
-		void onConversionFinished(Job job, DownloadFinishedCallback downloadFinishedCallback, String downloadURL,
-				Date cachedDate);
+		void onConversionFinished(Job job, DownloadCallback downloadCallback, String downloadURL, Date cachedDate);
+		void onConversionAlreadyFinished(Job job, DownloadCallback downloadCallback, String downloadURL);
 		void onConversionFailure(@Nullable Job job, ClientException ex);
 		void onError(String errorMessage);
 	}
 
-	interface DownloadFinishedCallback {
+	interface DownloadCallback {
 		void onDownloadStarted(String url);
+		void onDownloadProgress(short progress, String url);
 		void onDownloadFinished(String catrobatProgramName, String url);
 		void onUserCanceledDownload(String url);
 	}

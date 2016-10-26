@@ -72,7 +72,7 @@ public class JumpingSumoRotateLeftBrick extends JumpingSumoRotateBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_rotate, null);
-		view = getViewWithAlpha(alphaValue);
+		//view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_jumping_sumo_rotate_checkbox);
 
@@ -80,7 +80,7 @@ public class JumpingSumoRotateLeftBrick extends JumpingSumoRotateBrick {
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
+				//checked = isChecked;
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});

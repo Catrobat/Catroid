@@ -23,11 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -45,18 +42,9 @@ public abstract class DroneBasicLookBrick extends BrickBaseType {
 			alphaValue = 255;
 		}
 		view = View.inflate(context, R.layout.brick_drone_look, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_drone_basic_look_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView label = (TextView) view.findViewById(R.id.ValueTextViewLook);
 		label.setText(getBrickLabel(view));
 
@@ -74,22 +62,7 @@ public abstract class DroneBasicLookBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_basic_look_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-
-			TextView label = (TextView) view.findViewById(R.id.ValueTextViewLook);
-			label.setText(getBrickLabel(view));
-		}
-		return view;
-	}
-
-	@Override
 	public int getRequiredResources() {
-		Log.i(TAG, "getRequiredResources"); //not called
 		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
 	}
 

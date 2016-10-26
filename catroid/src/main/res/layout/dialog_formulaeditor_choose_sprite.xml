@@ -21,28 +21,20 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
+              style="@style/DefaultDialog"
+              android:layout_margin="0dp"
+              android:orientation="vertical"
+              android:padding="0dp" >
 
-    <CheckBox
-        android:id="@+id/brick_loop_endless_no_puzzle_checkbox"
-        android:layout_width="wrap_content"
+    <org.catrobat.catroid.ui.CapitalizedTextView
+        android:id="@+id/string_name"
+        style="@style/DefaultDialog.TextView"
+        android:text="@string/formula_editor_function_collision" />
+
+    <Spinner
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:visibility="gone" />
-
-    <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_loop_endless_nopuzzle_layout"
-        style="@style/BrickContainer.Control.Small"
-        android:background="@drawable/brick_orange_1h_no_plug_slot" >
-
-        <TextView
-            android:id="@+id/brick_loop_endless_nopuzzle_label"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_loop_end" />
-    </org.catrobat.catroid.ui.BrickLayout>
-
+        android:id="@+id/formula_editor_choose_sprite_spinner_one"/>
 </LinearLayout>
