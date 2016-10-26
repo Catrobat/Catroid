@@ -161,9 +161,6 @@ public class Look extends Image {
 	}
 
 	public boolean doTouchDown(float x, float y, int pointer) {
-		if (sprite.isPaused) {
-			return true;
-		}
 		if (!isLookVisible()) {
 			return false;
 		}

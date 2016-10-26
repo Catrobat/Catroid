@@ -30,15 +30,13 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.content.bricks.WaitBrick;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class StartResumeSpriteTest extends AndroidTestCase {
+public class StartScriptTest extends AndroidTestCase {
 
-	public void testStartThreads() throws InterruptedException {
+	public void testStartScript() throws InterruptedException {
 		double size = 300;
 		Sprite testSprite = new SingleSprite("testSprite");
 		Script testScript = new StartScript();
@@ -58,38 +56,5 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 		assertFalse("Look is not hidden", testSprite.look.isLookVisible());
 		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleX());
 		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleY());
-	}
-
-	public void testResumeThreads() throws InterruptedException {
-		Sprite testSprite = new SingleSprite("testSprite");
-		Script testScript = new StartScript();
-		HideBrick hideBrick = new HideBrick();
-		WaitBrick waitBrick = new WaitBrick(500);
-		ShowBrick showBrick = new ShowBrick();
-
-		testScript.addBrick(hideBrick);
-		testScript.addBrick(waitBrick);
-		testScript.addBrick(showBrick);
-		testSprite.addScript(testScript);
-
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-
-		testSprite.look.act(1.0f);
-		testSprite.look.act(1.0f);
-
-		testSprite.pause();
-		assertFalse("Look is not hidden", testSprite.look.isLookVisible());
-		testSprite.resume();
-
-		testSprite.look.act(1.0f);
-		testSprite.look.act(1.0f);
-
-		assertTrue("Look is hidden", testSprite.look.isLookVisible());
-
-		testScript.getBrickList().clear();
-		testScript.addBrick(hideBrick);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-
-		assertTrue("Look is hidden - this script shall not be execute", testSprite.look.isLookVisible());
 	}
 }
