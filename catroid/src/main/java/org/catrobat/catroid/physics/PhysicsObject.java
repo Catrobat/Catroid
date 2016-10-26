@@ -88,6 +88,17 @@ public class PhysicsObject {
 		tmpVertice = new Vector2();
 	}
 
+	public void copyTo(PhysicsObject destination) {
+		destination.setType(this.getType());
+		destination.setPosition(this.getPosition());
+		destination.setDirection(this.getDirection());
+		destination.setMass(this.getMass());
+		destination.setRotationSpeed(this.getRotationSpeed());
+		destination.setBounceFactor(this.getBounceFactor());
+		destination.setFriction(this.getFriction());
+		destination.setVelocity(this.getVelocity());
+	}
+
 	public void setShape(Shape[] shapes) {
 		if (Arrays.equals(this.shapes, shapes)) {
 			return;
@@ -218,6 +229,10 @@ public class PhysicsObject {
 	public void setVelocity(float x, float y) {
 		body.setLinearVelocity(PhysicsWorldConverter.convertNormalToBox2dCoordinate(x),
 				PhysicsWorldConverter.convertNormalToBox2dCoordinate(y));
+	}
+
+	public void setVelocity(Vector2 velocity) {
+		setVelocity(velocity.x, velocity.y);
 	}
 
 	public float getMass() {

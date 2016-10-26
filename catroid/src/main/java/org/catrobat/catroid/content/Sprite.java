@@ -494,7 +494,7 @@ public class Sprite implements Serializable, Cloneable {
 		if (currentLookDataIndex != -1) {
 			cloneSprite.look.setLookData(cloneSprite.lookList.get(currentLookDataIndex));
 		}
-		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
+		this.look.copyTo(cloneSprite.look);
 	}
 
 	private void cloneLooks(Sprite cloneSprite) {

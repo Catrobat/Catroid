@@ -363,4 +363,28 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 						+ look.getBrightnessInUserInterfaceDimensionUnit() + ".",
 				physicsLook.getBrightnessInUserInterfaceDimensionUnit(), look.getBrightnessInUserInterfaceDimensionUnit());
 	}
+
+	public void testCloneValues() {
+		PhysicsWorld world = new PhysicsWorld();
+
+		Sprite originSprite = new Sprite("Origin");
+		PhysicsLook originLook = new PhysicsLook(originSprite, world);
+		PhysicsObject originPhysicsObject = world.getPhysicsObject(originSprite);
+
+		Sprite cloneSprite = new Sprite("Clone");
+		PhysicsLook cloneLook = new PhysicsLook(cloneSprite, world);
+		PhysicsObject clonePhysicsObject = world.getPhysicsObject(cloneSprite);
+
+		originLook.setXInUserInterfaceDimensionUnit(10);
+		originLook.setBrightnessInUserInterfaceDimensionUnit(32);
+		originPhysicsObject.setMass(10);
+
+		originLook.copyTo(cloneLook);
+
+		assertEquals("X position differs", originLook.getXInUserInterfaceDimensionUnit(),
+				cloneLook.getXInUserInterfaceDimensionUnit());
+		assertEquals("Brightness differs", originLook.getBrightnessInUserInterfaceDimensionUnit(),
+				cloneLook.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals("Mass differs", originPhysicsObject.getMass(), clonePhysicsObject.getMass());
+	}
 }

@@ -45,6 +45,14 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
+	public void copyTo(final Look destination) {
+		super.copyTo(destination);
+		if (destination instanceof PhysicsLook) {
+			this.physicsObject.copyTo(((PhysicsLook) destination).physicsObject);
+		}
+	}
+
+	@Override
 	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
 		super.setTransparencyInUserInterfaceDimensionUnit(percent);
 		updatePhysicsObjectState(true);
