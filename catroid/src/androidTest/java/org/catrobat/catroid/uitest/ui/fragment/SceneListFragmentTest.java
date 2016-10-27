@@ -38,10 +38,10 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.SceneAdapter;
+import org.catrobat.catroid.ui.adapter.SceneListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.fragment.BackPackSceneFragment;
-import org.catrobat.catroid.ui.fragment.ScenesListFragment;
+import org.catrobat.catroid.ui.fragment.BackPackSceneListFragment;
+import org.catrobat.catroid.ui.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -57,9 +57,9 @@ import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT;
 import static org.catrobat.catroid.utils.Utils.buildPath;
 
-public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+public class SceneListFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	public ScenesListFragmentTest() {
+	public SceneListFragmentTest() {
 		super(MainMenuActivity.class);
 	}
 
@@ -382,7 +382,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 
 	public void testBackPackSceneSimpleUnpackingAndDelete() {
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		SceneAdapter adapter = getSceneAdapter(false);
+		SceneListAdapter adapter = getSceneListAdapter(false);
 		assertNotNull("Could not get Adapter", adapter);
 		int oldCount = adapter.getCount();
 
@@ -405,7 +405,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 
 	public void testBackPackSceneMultipleUnpacking() {
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		SceneAdapter adapter = getSceneAdapter(false);
+		SceneListAdapter adapter = getSceneListAdapter(false);
 		int oldCount = adapter.getCount();
 
 		assertNotNull("Could not get Adapter", adapter);
@@ -429,7 +429,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 
 	public void testBackPackAndUnPackFromDifferentProgrammes() {
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		SceneAdapter adapter = getSceneAdapter(false);
+		SceneListAdapter adapter = getSceneListAdapter(false);
 		assertNotNull("Could not get Adapter", adapter);
 		backPackItem(SCENE_NAME);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
@@ -552,7 +552,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 	public void testBackPackSceneDeleteContextMenu() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), SCENE_NAME, SCENE_NAME2);
 
-		SceneAdapter adapter = getSceneAdapter(true);
+		SceneListAdapter adapter = getSceneListAdapter(true);
 		int oldCount = adapter.getCount();
 		List<Scene> backPackSceneList = BackPackListManager.getInstance().getBackPackedScenes();
 
@@ -569,7 +569,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 	public void testBackPackSceneDeleteActionMode() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), SCENE_NAME, SCENE_NAME2);
 
-		SceneAdapter adapter = getSceneAdapter(true);
+		SceneListAdapter adapter = getSceneListAdapter(true);
 		int oldCount = adapter.getCount();
 		List<Scene> backPackSceneList = BackPackListManager.getInstance().getBackPackedScenes();
 
@@ -729,7 +729,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(ScenesListFragment.TAG);
+		solo.waitForFragmentByTag(SceneListFragment.TAG);
 		solo.sleep(200);
 
 		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
@@ -755,7 +755,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(ScenesListFragment.TAG);
+		solo.waitForFragmentByTag(SceneListFragment.TAG);
 		solo.sleep(200);
 
 		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
@@ -808,20 +808,21 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(menuItemName);
 	}
 
-	private BackPackSceneFragment getBackPackSceneFragment() {
+	private BackPackSceneListFragment getBackPackSceneFragment() {
 		BackPackActivity activity = (BackPackActivity) solo.getCurrentActivity();
-		return (BackPackSceneFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_SCENES);
+		return (BackPackSceneListFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_SCENES);
 	}
 
-	private ScenesListFragment getScenesListFragment() {
+	private SceneListFragment getScenesListFragment() {
 		ProjectActivity activity = (ProjectActivity) solo.getCurrentActivity();
-		return activity.getScenesListFragment();
+		return activity.getSceneListFragment();
 	}
 
-	private SceneAdapter getSceneAdapter(boolean forBackpack) {
+	private SceneListAdapter getSceneListAdapter(boolean forBackpack) {
 		solo.waitForActivity(ProjectActivity.class);
-		solo.waitForFragmentByTag(ScenesListFragment.TAG);
-		SceneAdapter adapter = (SceneAdapter) (forBackpack ? getBackPackSceneFragment().getListAdapter() : getScenesListFragment().getListAdapter());
+		solo.waitForFragmentByTag(SceneListFragment.TAG);
+		SceneListAdapter adapter = (SceneListAdapter) (forBackpack ? getBackPackSceneFragment().getListAdapter() : 
+				getScenesListFragment().getListAdapter());
 		return adapter;
 	}
 

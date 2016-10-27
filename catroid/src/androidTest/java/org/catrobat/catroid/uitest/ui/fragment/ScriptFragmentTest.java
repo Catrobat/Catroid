@@ -59,9 +59,9 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.adapter.BackPackScriptAdapter;
+import org.catrobat.catroid.ui.adapter.BackPackScriptListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
+import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -1129,7 +1129,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
 
-		BackPackScriptAdapter adapter = getBackPackScriptAdapter();
+		BackPackScriptListAdapter adapter = getBackPackScriptListAdapter();
 		int oldCount = adapter.getCount();
 
 		clickOnContextMenuItem(DEFAULT_SCRIPT_GROUP_NAME, delete);
@@ -1153,8 +1153,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		backPackFirstScriptWithContextMenu(SECOND_SCRIPT_GROUP_NAME);
 
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(BackPackScriptFragment.TAG);
-		BackPackScriptAdapter adapter = getBackPackScriptAdapter();
+		solo.waitForFragmentByTag(BackPackScriptListFragment.TAG);
+		BackPackScriptListAdapter adapter = getBackPackScriptListAdapter();
 		int oldCount = adapter.getCount();
 
 		UiTestUtils.deleteAllItems(solo);
@@ -1551,13 +1551,13 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Backpack wasn't opened", solo.waitForText(backpackTitle));
 	}
 
-	private BackPackScriptFragment getBackPackScriptFragment() {
+	private BackPackScriptListFragment getBackPackScriptFragment() {
 		BackPackActivity activity = (BackPackActivity) solo.getCurrentActivity();
-		return (BackPackScriptFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_SCRIPTS);
+		return (BackPackScriptListFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_SCRIPTS);
 	}
 
-	private BackPackScriptAdapter getBackPackScriptAdapter() {
-		return (BackPackScriptAdapter) getBackPackScriptFragment().getListAdapter();
+	private BackPackScriptListAdapter getBackPackScriptListAdapter() {
+		return (BackPackScriptListAdapter) getBackPackScriptFragment().getListAdapter();
 	}
 
 	private void backPackFirstScriptWithContextMenu(String scriptGroupName) {
@@ -1675,10 +1675,10 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	private void hideDetails() {
-		if (getBackPackScriptAdapter().getShowDetails()) {
-			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
-			solo.sleep(200);
-		}
+//		if (getBackPackScriptListAdapter().getShowDetails()) {
+//			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
+//			solo.sleep(200);
+//		}
 	}
 
 	private void checkNumberOfElementsInDataContainer() {

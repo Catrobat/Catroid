@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.AlertDialog;
 import android.app.ListFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -37,6 +39,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.UtilUi;
 
 public abstract class CheckBoxListFragment extends ListFragment implements CheckBoxListAdapter.ListItemCheckHandler {
@@ -62,6 +65,15 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		if (isActionModeActive()) {
+			actionMode.finish();
+			actionMode = null;
+		}
+	}
+
+	@Override
 	public void setListAdapter(ListAdapter adapter) {
 		super.setListAdapter(adapter);
 		this.adapter = (CheckBoxListAdapter) adapter;
@@ -76,7 +88,11 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 		adapter.notifyDataSetChanged();
 	}
 
-	protected void clearCheckedItems() {
+	public int getSelectMode() {
+		return adapter.getSelectMode();
+	}
+
+	public void clearCheckedItems() {
 		setSelectMode(ListView.CHOICE_MODE_NONE);
 		adapter.setAllItemsCheckedTo(false);
 
@@ -92,6 +108,42 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 		updateActionModeTitle();
 		updateSelectAllView();
 	}
+
+	protected void showDeleteDialog(int titleId) {
+		showDeleteDialog(titleId, false);
+	}
+
+	protected void showDeleteDialog (int titleId, final boolean singleItem) {
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_object_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				deleteCheckedItems(singleItem);
+				clearCheckedItems();
+			}
+		});
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				clearCheckedItems();
+			}
+		});
+
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialogInterface) {
+				clearCheckedItems();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+	}
+
+	protected abstract void deleteCheckedItems(boolean singleItem);
 
 	protected void updateActionModeTitle() {
 		int numberOfSelectedItems = adapter.getCheckedItems().size();
@@ -148,5 +200,18 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 
 	private boolean areAllItemsChecked() {
 		return adapter.getCheckedItems().size() == adapter.getCount();
+	}
+
+	protected void showError(int messageId) {
+		new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.error)
+				.setMessage(messageId)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int id) {
+					}
+				})
+				.setCancelable(false)
+				.show();
 	}
 }

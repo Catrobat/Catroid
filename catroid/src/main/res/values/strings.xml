@@ -39,7 +39,6 @@
     <string name="backpack">Backpack</string>
     <string name="packing">Pack</string>
     <string name="unpack">Unpack</string>
-    <string name="unpack_keep">Unpack and keep</string>
     <string name="unpack_bg">Unpack as background</string>
     <string name="unpack_object">Unpack as object</string>
     <string name="copy_addition">copy</string>

@@ -39,7 +39,7 @@ import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.fragment.ScenesListFragment;
+import org.catrobat.catroid.ui.fragment.SceneListFragment;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -76,7 +76,7 @@ public final class BackPackSceneController {
 		return BackPackListManager.getInstance().backPackedScenesContains(currentScene, true);
 	}
 
-	public void showBackPackReplaceDialog(final List<Scene> currentSceneList, final ScenesListFragment fragment) {
+	public void showBackPackReplaceDialog(final List<Scene> currentSceneList, final SceneListFragment fragment) {
 		final Context context = fragment.getActivity();
 		Resources resources = context.getResources();
 		String replaceSceneMessage;

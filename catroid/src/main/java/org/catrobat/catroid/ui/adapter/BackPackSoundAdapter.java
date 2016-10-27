@@ -59,11 +59,11 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ActionMode
 			soundsToUnpack.add(getItem(checkedPosition));
 		}
 		for (SoundInfo soundInfo : soundsToUnpack) {
-			SoundController.getInstance().unpack(soundInfo, backPackSoundFragment.isDeleteUnpackedItems(), false);
+			SoundController.getInstance().unpack(soundInfo, false, false);
 		}
 
 		boolean returnToScriptActivity = checkedSounds.size() > 0;
-		backPackSoundFragment.clearCheckedSoundsAndEnableButtons();
+		backPackSoundFragment.clearCheckedItems();
 
 		if (returnToScriptActivity) {
 			((BackPackActivity) backPackSoundFragment.getActivity()).returnToScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);

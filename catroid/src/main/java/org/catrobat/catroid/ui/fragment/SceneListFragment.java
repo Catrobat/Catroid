@@ -23,10 +23,8 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -53,7 +51,6 @@ import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
 import org.catrobat.catroid.ui.adapter.SceneListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSceneController;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSceneDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -134,7 +131,7 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			copyCheckedScenes();
+			copyCheckedItems();
 			clearCheckedItems();
 		}
 	};
@@ -410,20 +407,6 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 		startActivity(intent);
 	}
 
-	private class SceneRenamedReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_SCENE_RENAMED)) {
-				String newSceneName = intent.getExtras().getString(RenameSceneDialog.EXTRA_NEW_SCENE_NAME);
-				List<String> sceneOrder = ProjectManager.getInstance().getCurrentProject().getSceneOrder();
-				int pos = sceneOrder.indexOf(sceneToEdit.getName());
-				ProjectManager.getInstance().getCurrentProject().getSceneOrder().set(pos, newSceneName);
-				sceneToEdit.rename(newSceneName, getActivity(), true);
-				sceneAdapter.notifyDataSetChanged();
-			}
-		}
-	}
-
 	public void showDeleteDialog() {
 		int titleId;
 		if (sceneAdapter.getCheckedItems().size() == 1) {
@@ -434,7 +417,7 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 		showDeleteDialog(titleId);
 	}
 
-	protected void deleteCheckedItems() {
+	protected void deleteCheckedItems(boolean singleItem) {
 		boolean success = true;
 		for (Scene scene : sceneAdapter.getCheckedItems()) {
 			sceneToEdit = scene;
@@ -467,7 +450,7 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 		return true;
 	}
 
-	private void copyCheckedScenes() {
+	private void copyCheckedItems() {
 		boolean success = true;
 		for (Scene scene : sceneAdapter.getCheckedItems()) {
 			sceneToEdit = scene;
@@ -512,6 +495,20 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 	public void showRenameDialog() {
 		RenameSceneDialog dialog = RenameSceneDialog.newInstance(sceneToEdit.getName());
 		dialog.show(getFragmentManager(), RenameSceneDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private class SceneRenamedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SCENE_RENAMED)) {
+				String newSceneName = intent.getExtras().getString(RenameSceneDialog.EXTRA_NEW_SCENE_NAME);
+				List<String> sceneOrder = ProjectManager.getInstance().getCurrentProject().getSceneOrder();
+				int pos = sceneOrder.indexOf(sceneToEdit.getName());
+				ProjectManager.getInstance().getCurrentProject().getSceneOrder().set(pos, newSceneName);
+				sceneToEdit.rename(newSceneName, getActivity(), true);
+				sceneAdapter.notifyDataSetChanged();
+			}
+		}
 	}
 
 	private void backPackAsynchronous(final List<Scene> scenes, final Activity activity) {

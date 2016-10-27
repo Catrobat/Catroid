@@ -67,7 +67,7 @@ import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.fragment.ListItemActionsInterface;
-import org.catrobat.catroid.ui.fragment.ScenesListFragment;
+import org.catrobat.catroid.ui.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -87,7 +87,7 @@ public class ProjectActivity extends BaseActivity {
 
 	private Fragment currentFragment;
 	private SpritesListFragment spritesListFragment;
-	private ScenesListFragment scenesListFragment;
+	private SceneListFragment sceneListFragment;
 	private static int currentFragmentPosition;
 	private FragmentManager fragmentManager = getFragmentManager();
 	private String currentFragmentTag;
@@ -176,13 +176,13 @@ public class ProjectActivity extends BaseActivity {
 
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCENES:
-				if (scenesListFragment == null) {
-					scenesListFragment = new ScenesListFragment();
+				if (sceneListFragment == null) {
+					sceneListFragment = new SceneListFragment();
 					fragmentExists = false;
 				}
-				currentFragmentTag = ScenesListFragment.TAG;
-				currentFragment = scenesListFragment;
-				actionListener = scenesListFragment;
+				currentFragmentTag = SceneListFragment.TAG;
+				currentFragment = sceneListFragment;
+				actionListener = sceneListFragment;
 				break;
 			case FRAGMENT_SPRITES:
 				if (spritesListFragment == null) {
@@ -451,7 +451,7 @@ public class ProjectActivity extends BaseActivity {
 			updateFragmentPosition();
 			switch (currentFragmentPosition) {
 				case FRAGMENT_SCENES:
-					scenesListFragment.getAdapter().setAllItemsCheckedTo(false);
+					sceneListFragment.clearCheckedItems();
 					break;
 				case FRAGMENT_SPRITES:
 					spritesListFragment.getSpriteAdapter().clearCheckedItems();
@@ -502,8 +502,8 @@ public class ProjectActivity extends BaseActivity {
 		return spritesListFragment;
 	}
 
-	public ScenesListFragment getScenesListFragment() {
-		return scenesListFragment;
+	public SceneListFragment getSceneListFragment() {
+		return sceneListFragment;
 	}
 
 	public void initializeFacebookSdk() {
@@ -541,7 +541,7 @@ public class ProjectActivity extends BaseActivity {
 
 	private void updateFragmentPosition() {
 		//TODO: Just a quickfix, we need to investigate why the position is sometimes not correct
-		if (currentFragment instanceof ScenesListFragment) {
+		if (currentFragment instanceof SceneListFragment) {
 			currentFragmentPosition = FRAGMENT_SCENES;
 		} else if (currentFragment instanceof SpritesListFragment) {
 			currentFragmentPosition = FRAGMENT_SPRITES;

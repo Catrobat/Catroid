@@ -22,23 +22,15 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.ContextMenu;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,7 +47,6 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BackPackGroupViewHolder;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -63,13 +54,11 @@ import org.catrobat.catroid.ui.adapter.BackPackUserBrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackUserBrickController;
 import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
-public class BackPackUserBrickFragment extends BackPackActivityFragment implements Dialog.OnKeyListener {
+public class BackPackUserBrickFragment extends BackPackActivityFragment{
 
 	public static final String TAG = BackPackUserBrickFragment.class.getSimpleName();
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsUserBricks";
@@ -79,20 +68,11 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 	private int selectedUserBrickGroupPosition;
 
 	private ListView listView;
-	private ActionMode actionMode;
-	private View selectAllActionModeButton;
 
-	private static String actionModeTitle;
 	protected String singleItemAppendixActionMode;
 	protected String multipleItemAppendixActionMode;
 
 	private UserBrickGroupDeletedReceiver userBrickGroupDeletedReceiver;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -126,7 +106,7 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 		if (!BackPackListManager.getInstance().getBackPackedUserBricks().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
 		}
-		menu.findItem(R.id.unpacking_keep).setVisible(false);
+
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -145,10 +125,6 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-
-			case R.id.context_menu_unpacking_keep:
-				BackPackUserBrickController.getInstance().unpack(selectedUserBrickGroupBackPack, false, getActivity());
-				break;
 			case R.id.context_menu_unpacking:
 				BackPackUserBrickController.getInstance().unpack(selectedUserBrickGroupBackPack, false, getActivity());
 				break;
@@ -166,29 +142,7 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 		} else {
 			titleId = R.string.dialog_confirm_delete_multiple_backpack_groups_title;
 		}
-
-		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
-		builder.setTitle(titleId);
-		builder.setMessage(R.string.dialog_confirm_delete_brick_message);
-		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				adapter.deleteCheckedUserBrickGroups();
-				checkEmptyBackgroundBackPack();
-				clearCheckedItemsAndEnableButtons();
-				adapter.notifyDataSetChanged();
-			}
-		});
-		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-				clearCheckedItemsAndEnableButtons();
-			}
-		});
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
+		showDeleteDialog(titleId);
 	}
 
 	public void clearCheckedItemsAndEnableButtons() {
@@ -196,7 +150,6 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 		adapter.clearCheckedItems();
 
 		actionMode = null;
-		setActionModeActive(false);
 
 		registerForContextMenu(listView);
 		listView.setLongClickable(false);
@@ -247,94 +200,19 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 	}
 
 	@Override
-	public void startUnPackingActionMode(boolean deleteUnpackedItems) {
-		startActionMode(unpackingModeCallBack, deleteUnpackedItems);
+	protected void deleteCheckedItems(boolean singleItem) {
+
 	}
 
 	@Override
-	public void startDeleteActionMode() {
-		startActionMode(deleteModeCallBack, true);
-	}
+	protected void unpackCheckedItems(boolean singleItem) {
 
-	private void startActionMode(ActionMode.Callback actionModeCallback, boolean deleteUnpackedItems) {
-		if (actionMode == null) {
-			if (adapter.isEmpty()) {
-				if (actionModeCallback.equals(unpackingModeCallBack)) {
-					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpack));
-				} else if (actionModeCallback.equals(deleteModeCallBack)) {
-					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
-				}
-			} else {
-				if (actionModeCallback.equals(unpackingModeCallBack)) {
-					this.deleteUnpackedItems = deleteUnpackedItems;
-				}
-				actionMode = getActivity().startActionMode(actionModeCallback);
-				unregisterForContextMenu(listView);
-				BottomBar.hideBottomBar(getActivity());
-			}
-		}
-	}
-
-	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-			setActionModeActive(true);
-
-			actionModeTitle = getString(R.string.delete);
-
-			mode.setTitle(actionModeTitle);
-			addSelectAllActionModeButton(mode, menu);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			if (adapter.getAmountOfCheckedItems() == 0) {
-				clearCheckedItemsAndEnableButtons();
-			} else {
-				showConfirmDeleteDialog();
-			}
-		}
-	};
-
-	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
-
-		selectAllActionModeButton.setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						for (int position = 0; position < adapter.getCount(); position++) {
-							adapter.addCheckedItem(position);
-						}
-						adapter.notifyDataSetChanged();
-						onUserBrickGroupChecked();
-					}
-				});
 	}
 
 	@Override
-	protected void showDeleteDialog() {
+	protected void showDeleteDialog(boolean singleItem) {
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedUserBrickGroupPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	@Override
-	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-		return false;
 	}
 
 	private ActionMode.Callback unpackingModeCallBack = new ActionMode.Callback() {
@@ -347,7 +225,6 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-			setActionModeActive(true);
 
 			mode.setTitle(R.string.unpack);
 
@@ -479,51 +356,5 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 		}
 
 		updateActionModeTitle();
-		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
-				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
-	}
-
-	private void updateActionModeTitle() {
-		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
-
-		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(actionModeTitle);
-		} else {
-			String appendix = multipleItemAppendixActionMode;
-
-			if (numberOfSelectedItems == 1) {
-				appendix = singleItemAppendixActionMode;
-			}
-
-			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
-
-			int titleLength = actionModeTitle.length();
-
-			Spannable completeSpannedTitle = new SpannableString(completeTitle);
-			completeSpannedTitle.setSpan(
-					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
-					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			actionMode.setTitle(completeSpannedTitle);
-		}
-	}
-
-	public ActionMode getActionMode() {
-		return actionMode;
-	}
-
-	public void setActionMode(ActionMode actionMode) {
-		this.actionMode = actionMode;
-	}
-
-	private void checkEmptyBackgroundBackPack() {
-		if (BackPackListManager.getInstance().getBackPackedUserBricks().isEmpty()) {
-			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.fragment_groups_backpack_text_heading);
-			emptyViewHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
-			emptyViewHeading.setText(R.string.backpack);
-			TextView emptyViewDescription = (TextView) getActivity().findViewById(R.id.fragment_groups_backpack_text_description);
-			emptyViewDescription.setText(R.string.is_empty);
-		}
 	}
 }

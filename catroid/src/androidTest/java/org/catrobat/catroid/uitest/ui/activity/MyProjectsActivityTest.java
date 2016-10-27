@@ -247,7 +247,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("click on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list_backpack_text_heading);
+		solo.waitForFragmentById(R.id.backpack_text_heading);
 		UiTestUtils.addNewSprite(solo, "testSprite", lookFile, null);
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());

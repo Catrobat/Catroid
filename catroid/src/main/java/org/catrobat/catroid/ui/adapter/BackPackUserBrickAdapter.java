@@ -67,7 +67,7 @@ public class BackPackUserBrickAdapter extends ArrayAdapter<String> implements Ac
 	}
 
 	public void onDestroyActionModeUnpacking() {
-		Boolean deleteUnpackedItems = backPackUserBrickFragment.isDeleteUnpackedItems();
+		Boolean deleteUnpackedItems = false;
 
 		List<String> userBrickGroupsToUnpack = new ArrayList<>();
 		for (Integer userBrickPosition : checkedUserBrickGroups) {

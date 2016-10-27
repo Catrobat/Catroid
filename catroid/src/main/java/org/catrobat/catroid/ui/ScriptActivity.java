@@ -62,8 +62,8 @@ import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
-import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
-import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
+import org.catrobat.catroid.ui.fragment.BackPackLookListFragment;
+import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorCategoryListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
@@ -534,7 +534,7 @@ public class ScriptActivity extends BaseActivity {
 			String backStackEntryName = fragmentManager.getBackStackEntryAt(i - 1).getName();
 			if (backStackEntryName != null
 					&& (backStackEntryName.equals(LookFragment.TAG) || backStackEntryName.equals(SoundFragment.TAG)
-					|| backStackEntryName.equals(BackPackScriptFragment.TAG) || backStackEntryName.equals(BackPackLookFragment
+					|| backStackEntryName.equals(BackPackScriptListFragment.TAG) || backStackEntryName.equals(BackPackLookListFragment
 					.TAG) || backStackEntryName.equals(BackPackSoundFragment.TAG) || backStackEntryName.equals(NfcTagFragment.TAG))) {
 				fragmentManager.popBackStack();
 			} else {
