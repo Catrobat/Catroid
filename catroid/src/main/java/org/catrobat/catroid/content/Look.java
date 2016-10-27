@@ -138,6 +138,25 @@ public class Look extends Image {
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
 
+		cloneLook.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
+				this.getYInUserInterfaceDimensionUnit());
+		cloneLook.setTransparencyInUserInterfaceDimensionUnit(this.getTransparencyInUserInterfaceDimensionUnit());
+		cloneLook.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
+
+		int rotationMode = this.getRotationMode();
+		cloneLook.setRotationMode(rotationMode);
+		if (rotationMode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && this.isFlipped()) {
+			cloneLook.getLookData().getTextureRegion().flip(true, false);
+			cloneLook.setFlipped(false);
+		}
+		boolean orientedLeft = this.getDirectionInUserInterfaceDimensionUnit() < 0;
+		if (rotationMode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft) {
+			cloneLook.getLookData().getTextureRegion().flip(true, false);
+			cloneLook.setFlipped(true);
+		}
+		cloneLook.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
+		cloneLook.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
+
 		return cloneLook;
 	}
 

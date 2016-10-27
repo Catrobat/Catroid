@@ -179,10 +179,10 @@ public class CategoryBricksFactory {
 		boolean isUserScriptMode = context instanceof UserBrickScriptActivity;
 		List<Brick> tempList = new LinkedList<>();
 		List<Brick> toReturn = new ArrayList<>();
-		if (category.equals(context.getString(R.string.category_control))) {
-			tempList = setupControlCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_event))) {
+		if (category.equals(context.getString(R.string.category_event))) {
 			tempList = setupEventCategoryList(context);
+		} else if (category.equals(context.getString(R.string.category_control))) {
+			tempList = setupControlCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_motion))) {
 			tempList = setupMotionCategoryList(sprite, context);
 		} else if (category.equals(context.getString(R.string.category_sound))) {

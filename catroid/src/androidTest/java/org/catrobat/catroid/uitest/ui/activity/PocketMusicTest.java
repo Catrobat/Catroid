@@ -93,20 +93,37 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
 
 		TrackView trackView = (TrackView) solo.getCurrentActivity().findViewById(R.id.musicdroid_note_grid);
+
+		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(0)
+				.isToggled());
+		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(2)
+				.isToggled());
+		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(3)
+				.isToggled());
+		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(4).getNoteViews().get(0)
+				.isToggled());
+		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(4).getNoteViews().get(2)
+				.isToggled());
+		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(7).getNoteViews().get(0)
+				.isToggled());
+		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(7).getNoteViews().get(1)
+				.isToggled());
+
 		Random random = new Random();
 		int randomRow = random.nextInt(TrackView.ROW_COUNT);
 		int randomCol = random.nextInt(TrackRowView.QUARTER_COUNT);
-		clickRandomButton(trackView, true, randomRow, randomCol, "Button not toggled");
-		clickRandomButton(trackView, false, randomRow, randomCol, "Button toggled");
+		clickRandomButton(trackView, randomRow, randomCol, "Button not toggled");
+		clickRandomButton(trackView, randomRow, randomCol, "Button toggled");
 	}
 
-	private void clickRandomButton(TrackView trackView, boolean expectedState, int randomRow, int randomCol, String
+	private void clickRandomButton(TrackView trackView, int randomRow, int randomCol, String
 			assertionText) {
 		TrackRowView randomRowView = trackView.getTrackRowViews().get(randomRow);
 		NoteView randomNoteView = randomRowView.getNoteViews().get(randomCol);
+		boolean toggled = randomNoteView.isToggled();
 		solo.clickOnView(randomNoteView);
 		solo.sleep(200);
-		assertEquals(assertionText, randomNoteView.isToggled(), expectedState);
+		assertEquals(assertionText, randomNoteView.isToggled(), !toggled);
 	}
 
 	public void testButtonCount() {

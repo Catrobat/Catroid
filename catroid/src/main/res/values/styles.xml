@@ -475,7 +475,7 @@
     <style name="BrickContainer.Event.Medium" >
         <item name="android:minHeight" >@dimen/brick_height_medium</item >
         <item name="android:background" >@drawable/brick_brown_2h_9</item >
-</style >
+    </style >
 
     <style name="BrickContainer.Script" ></style >
 

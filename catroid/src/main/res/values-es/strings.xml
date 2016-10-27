@@ -724,7 +724,7 @@
   <string name="brick_replace_item_in_userlist_with_value">con</string>
   <!-- defaultValues -->
   <string name="default_project_name">Mi primer programa</string>
-  <string name="default_scene_name">Escena \"%1$d\"</string>
+  <string name="default_scene_name">Escena %1$d</string>
   <string name="default_project_background_name">Fondo</string>
   <string name="default_project_cloud_name">Nubes</string>
   <string name="default_project_cloud_sprite_name_1">Nubes1</string>

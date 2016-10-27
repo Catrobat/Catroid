@@ -46,6 +46,7 @@ import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GoToBrick extends BrickBaseType {
@@ -54,8 +55,6 @@ public class GoToBrick extends BrickBaseType {
 
 	private Sprite destinationSprite;
 	private transient String oldSelectedObject;
-	private String touchPositionLabel;
-	private String randomPositionLabel;
 
 	private transient SpinnerAdapterWrapper spinnerAdapterWrapper;
 	private int spinnerSelection;
@@ -92,9 +91,6 @@ public class GoToBrick extends BrickBaseType {
 
 		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_go_to_label),
 				context.getString(R.string.category_motion));
-
-		this.touchPositionLabel = context.getString(R.string.brick_go_to_touch_position);
-		this.randomPositionLabel = context.getString(R.string.brick_go_to_random_position);
 
 		setCheckboxView(R.id.brick_go_to_checkbox);
 
@@ -135,7 +131,7 @@ public class GoToBrick extends BrickBaseType {
 			}
 		});
 
-		setSpinnerSelection(goToSpinner);
+		setSpinnerSelection(goToSpinner, context);
 		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
@@ -150,7 +146,7 @@ public class GoToBrick extends BrickBaseType {
 		SpinnerAdapter goToSpinnerAdapter = createArrayAdapter(context);
 
 		goToSpinner.setAdapter(goToSpinnerAdapter);
-		setSpinnerSelection(goToSpinner);
+		setSpinnerSelection(goToSpinner, context);
 
 		return prototypeView;
 	}
@@ -159,19 +155,19 @@ public class GoToBrick extends BrickBaseType {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createGoToAction(sprite, destinationSprite, spinnerSelection));
 
-		return null;
+		return Collections.emptyList();
 	}
 
-	private void setSpinnerSelection(Spinner spinner) {
+	private void setSpinnerSelection(Spinner spinner, Context context) {
 		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentScene()
 				.getSpriteList();
 
 		if (spinnerSelection == BrickValues.GO_TO_TOUCH_POSITION) {
 			spinner.setSelection(0, true);
-			oldSelectedObject = touchPositionLabel;
+			oldSelectedObject = context.getString(R.string.brick_go_to_touch_position);
 		} else if (spinnerSelection == BrickValues.GO_TO_RANDOM_POSITION) {
 			spinner.setSelection(1, true);
-			oldSelectedObject = randomPositionLabel;
+			oldSelectedObject = context.getString(R.string.brick_go_to_random_position);
 		} else if (spriteList.contains(destinationSprite)) {
 			oldSelectedObject = destinationSprite.getName();
 			spinner.setSelection(
@@ -312,7 +308,9 @@ public class GoToBrick extends BrickBaseType {
 
 	@Override
 	public Brick clone() {
-		return new GoToBrick(destinationSprite);
+		GoToBrick copy = new GoToBrick(destinationSprite);
+		copy.spinnerSelection = spinnerSelection;
+		return copy;
 	}
 
 	public Sprite getDestinationSprite() {

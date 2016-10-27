@@ -623,8 +623,6 @@ public final class StorageHandler {
 	}
 
 	private void fixFolderStructureForSupportProject(String projectName, String sceneName) throws IOException {
-		projectName = UtilFile.encodeSpecialCharsForFileSystem(projectName);
-		sceneName = UtilFile.encodeSpecialCharsForFileSystem(sceneName);
 		String projectPath = buildProjectPath(projectName);
 		String scenePath = buildScenePath(projectName, sceneName);
 		File looksDirectory = new File(buildPath(projectPath, IMAGE_DIRECTORY));
