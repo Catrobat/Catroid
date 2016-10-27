@@ -715,35 +715,28 @@ public class InternFormula {
 	private CursorTokenPropertiesAfterModification setCursorPositionAndSelectionAfterInput(int insertedInternTokenIndex) {
 		InternToken insertedInternToken = internTokenFormulaList.get(insertedInternTokenIndex);
 
-		switch (insertedInternToken.getInternTokenType()) {
-			case FUNCTION_NAME:
-				List<InternToken> functionInternTokenList = InternFormulaUtils.getFunctionByName(
-						internTokenFormulaList, insertedInternTokenIndex);
+		if (insertedInternToken.getInternTokenType() == InternTokenType.FUNCTION_NAME) {
+			List<InternToken> functionInternTokenList = InternFormulaUtils.getFunctionByName(
+					internTokenFormulaList, insertedInternTokenIndex);
 
-				if (functionInternTokenList.size() < 4) {
-					cursorPositionInternTokenIndex = insertedInternTokenIndex + functionInternTokenList.size() - 1;
-					cursorPositionInternToken = null;
-					return CursorTokenPropertiesAfterModification.RIGHT;
-				}
-
+			if (functionInternTokenList.size() >= 4) {
 				List<List<InternToken>> functionParameters = InternFormulaUtils
 						.getFunctionParameterInternTokensAsLists(functionInternTokenList);
-
 				List<InternToken> functionFirstParameter = functionParameters.get(0);
 
+				cursorPositionInternTokenIndex = internFormulaTokenSelection.getEndIndex();
 				internFormulaTokenSelection = new InternFormulaTokenSelection(TokenSelectionType.USER_SELECTION,
 						insertedInternTokenIndex + 2, insertedInternTokenIndex + functionFirstParameter.size() + 1);
-
-				cursorPositionInternTokenIndex = internFormulaTokenSelection.getEndIndex();
-				cursorPositionInternToken = null;
-				return CursorTokenPropertiesAfterModification.RIGHT;
-
-			default:
-				cursorPositionInternTokenIndex = insertedInternTokenIndex;
-				cursorPositionInternToken = null;
+			} else {
+				cursorPositionInternTokenIndex = insertedInternTokenIndex + functionInternTokenList.size() - 1;
 				internFormulaTokenSelection = null;
-				return CursorTokenPropertiesAfterModification.RIGHT;
+			}
+		} else {
+			cursorPositionInternTokenIndex = insertedInternTokenIndex;
+			internFormulaTokenSelection = null;
 		}
+		cursorPositionInternToken = null;
+		return CursorTokenPropertiesAfterModification.RIGHT;
 	}
 
 	private CursorTokenPropertiesAfterModification replaceCursorPositionInternTokenByTokenList(
