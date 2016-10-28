@@ -30,11 +30,14 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.dialogs.TextDialog;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +50,11 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 		protected CheckBox checkBox;
 		protected TextView name;
 		protected ImageView image;
-
+		protected LinearLayout details;
+		protected TextView leftTopDetails;
+		protected TextView leftBottomDetails;
+		protected TextView rightTopDetails;
+		protected TextView rightBottomDetails;
 	}
 
 	public static final String TAG = CheckBoxListAdapter.class.getSimpleName();
@@ -119,6 +126,13 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 			viewHolder.checkBox = (CheckBox) listItemView.findViewById(R.id.list_item_checkbox);
 			viewHolder.name = (TextView) listItemView.findViewById(R.id.list_item_text_view);
 			viewHolder.image = (ImageView) listItemView.findViewById(R.id.list_item_image_view);
+
+			viewHolder.details = (LinearLayout) listItemView.findViewById(R.id.list_item_details);
+			viewHolder.leftTopDetails = (TextView) listItemView.findViewById(R.id.details_left_top);
+			viewHolder.leftBottomDetails = (TextView) listItemView.findViewById(R.id.details_left_bottom);
+			viewHolder.rightTopDetails = (TextView) listItemView.findViewById(R.id.details_right_top);
+			viewHolder.rightBottomDetails = (TextView) listItemView.findViewById(R.id.details_right_bottom);
+
 			listItemView.setTag(viewHolder);
 		} else {
 			viewHolder = (ListItemViewHolder) listItemView.getTag();
