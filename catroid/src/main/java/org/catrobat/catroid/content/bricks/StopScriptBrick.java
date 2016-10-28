@@ -42,15 +42,12 @@ public class StopScriptBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	private String[] spinnerValue;
 	private int spinnerSelection;
 
 	public StopScriptBrick() {
-		this.spinnerValue = new String[3];
 	}
 
 	public StopScriptBrick(int spinnerSelection) {
-		this.spinnerValue = new String[3];
 		this.spinnerSelection = spinnerSelection;
 	}
 
@@ -110,6 +107,7 @@ public class StopScriptBrick extends BrickBaseType {
 	}
 
 	private ArrayAdapter<String> createArrayAdapter(Context context) {
+		String[] spinnerValue = new String[3];
 		spinnerValue[BrickValues.STOP_THIS_SCRIPT] = context.getString(R.string.brick_stop_this_script);
 		spinnerValue[BrickValues.STOP_ALL_SCRIPTS] = context.getString(R.string.brick_stop_all_scripts);
 		spinnerValue[BrickValues.STOP_OTHER_SCRIPTS] = context.getString(R.string.brick_stop_other_scripts);
