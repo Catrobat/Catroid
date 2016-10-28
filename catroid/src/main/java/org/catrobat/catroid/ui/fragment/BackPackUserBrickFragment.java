@@ -58,7 +58,7 @@ import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-public class BackPackUserBrickFragment extends BackPackActivityFragment{
+public class BackPackUserBrickFragment extends BackPackActivityFragment {
 
 	public static final String TAG = BackPackUserBrickFragment.class.getSimpleName();
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsUserBricks";
@@ -129,31 +129,20 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment{
 				BackPackUserBrickController.getInstance().unpack(selectedUserBrickGroupBackPack, false, getActivity());
 				break;
 			case R.id.context_menu_delete:
-				showConfirmDeleteDialog();
+				showDeleteDialog(true);
 				break;
 		}
 		return super.onContextItemSelected(item);
 	}
 
-	private void showConfirmDeleteDialog() {
+	protected void showDeleteDialog(boolean singleItem) {
 		int titleId;
 		if (adapter.getAmountOfCheckedItems() == 1) {
 			titleId = R.string.dialog_confirm_delete_backpack_group_title;
 		} else {
 			titleId = R.string.dialog_confirm_delete_multiple_backpack_groups_title;
 		}
-		showDeleteDialog(titleId);
-	}
-
-	public void clearCheckedItemsAndEnableButtons() {
-		setSelectMode(ListView.CHOICE_MODE_NONE);
-		adapter.clearCheckedItems();
-
-		actionMode = null;
-
-		registerForContextMenu(listView);
-		listView.setLongClickable(false);
-		BottomBar.hideBottomBar(getActivity());
+		showDeleteDialog(titleId, singleItem);
 	}
 
 	private void initClickListener() {
@@ -207,51 +196,6 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment{
 	@Override
 	protected void unpackCheckedItems(boolean singleItem) {
 
-	}
-
-	@Override
-	protected void showDeleteDialog(boolean singleItem) {
-		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedUserBrickGroupPosition);
-		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	private ActionMode.Callback unpackingModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-
-			mode.setTitle(R.string.unpack);
-
-			actionModeTitle = getString(R.string.unpack);
-			addSelectAllActionModeButton(mode, menu);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			if (adapter.getAmountOfCheckedItems() > 0) {
-				showUnpackingConfirmationMessage();
-			}
-			adapter.onDestroyActionModeUnpacking();
-		}
-	};
-
-	private void showUnpackingConfirmationMessage() {
-		String messageForUser = getResources().getQuantityString(R.plurals.unpacking_items_plural,
-				adapter.getAmountOfCheckedItems());
-		ToastUtil.showSuccess(getActivity(), messageForUser);
 	}
 
 	public View getView(final int position, View convertView) {

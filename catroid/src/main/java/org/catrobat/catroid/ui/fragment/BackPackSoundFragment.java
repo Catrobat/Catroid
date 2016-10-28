@@ -86,8 +86,8 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements C
 
 		registerForContextMenu(listView);
 
-		singleItemTitle = null;
-		multipleItemsTitle = null;
+		singleItemTitle = getString(R.string.sound);
+		multipleItemsTitle = getString(R.string.sounds);
 
 		if (savedInstanceState != null) {
 			soundInfoToEdit = (SoundInfo) savedInstanceState
@@ -182,7 +182,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements C
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-
 			case R.id.context_menu_unpacking:
 				unpackCheckedItems(true);
 				break;

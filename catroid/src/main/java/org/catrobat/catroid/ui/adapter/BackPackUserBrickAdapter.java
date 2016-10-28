@@ -77,7 +77,7 @@ public class BackPackUserBrickAdapter extends ArrayAdapter<String> implements Ac
 			BackPackUserBrickController.getInstance().unpack(userBrickGroup, deleteUnpackedItems, backPackUserBrickFragment.getActivity());
 		}
 
-		backPackUserBrickFragment.clearCheckedItemsAndEnableButtons();
+		backPackUserBrickFragment.clearCheckedItems();
 	}
 
 	@Override

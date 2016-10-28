@@ -160,6 +160,7 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 
 	}
 
+@Override
 	public void showDeleteDialog(boolean singleItem) {
 		int titleId;
 		if (sceneAdapter.getCheckedItems().size() == 1 || singleItem) {

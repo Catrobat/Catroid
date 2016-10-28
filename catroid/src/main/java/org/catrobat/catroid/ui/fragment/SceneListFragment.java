@@ -60,8 +60,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class SceneListFragment extends CheckBoxListFragment implements CheckBoxListAdapter.ListItemClickHandler<Scene>,
-		BackPackSceneController.OnBackpackSceneCompleteListener, ListItemActionsInterface {
+public class SceneListFragment extends ListActivityFragment implements CheckBoxListAdapter.ListItemClickHandler<Scene>,
+		BackPackSceneController.OnBackpackSceneCompleteListener {
 
 	public static final String TAG = SceneListFragment.class.getSimpleName();
 	private static final String BUNDLE_ARGUMENTS_SCENE_TO_EDIT = "scene_to_edit";
@@ -72,148 +72,6 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 	private Scene sceneToEdit;
 
 	private SceneRenamedReceiver sceneRenamedReceiver;
-
-	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-
-			actionModeTitle = getString(R.string.delete);
-
-			mode.setTitle(actionModeTitle);
-			addSelectAllActionModeButton(mode, menu);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			if (!sceneAdapter.getCheckedItems().isEmpty()) {
-				showDeleteDialog();
-			} else {
-				clearCheckedItems();
-			}
-		}
-	};
-
-	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-
-			actionModeTitle = getString(R.string.copy);
-
-			mode.setTitle(actionModeTitle);
-			addSelectAllActionModeButton(mode, menu);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			copyCheckedItems();
-			clearCheckedItems();
-		}
-	};
-
-	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_SINGLE);
-
-			mode.setTitle(R.string.rename);
-
-			isRenameActionMode = true;
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			isRenameActionMode = false;
-			if(!sceneAdapter.getCheckedItems().isEmpty()) {
-				sceneToEdit = sceneAdapter.getCheckedItems().get(0);
-				showRenameDialog();
-			}
-			clearCheckedItems();
-		}
-	};
-
-	private ActionMode.Callback backPackModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-
-			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-
-			actionModeTitle = getString(R.string.backpack);
-
-			mode.setTitle(actionModeTitle);
-			addSelectAllActionModeButton(mode, menu);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			List<Scene> sceneListToBackpack = sceneAdapter.getCheckedItems();
-
-			boolean sceneAlreadyInBackpack = BackPackSceneController.getInstance().checkScenesReplaceInBackpack(sceneListToBackpack);
-
-			if (!sceneListToBackpack.isEmpty()) {
-				if (!sceneAlreadyInBackpack) {
-					showProgressCircle();
-					backPackAsynchronous(sceneListToBackpack, getActivity());
-				} else {
-					BackPackSceneController.getInstance().setOnBackpackSceneCompleteListener(SceneListFragment.this);
-					SceneListFragment fragment = ((ProjectActivity) getActivity()).getSceneListFragment();
-					BackPackSceneController.getInstance().showBackPackReplaceDialog(sceneListToBackpack, fragment);
-				}
-			} else {
-				clearCheckedItems();
-			}
-		}
-	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -316,37 +174,23 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 		startActivity(intent);
 	}
 
-	public void startCopyActionMode() {
-		startActionMode(copyModeCallBack, false);
-	}
-
-	public void startRenameActionMode() {
-		startActionMode(renameModeCallBack, true);
-	}
-
-	public void startDeleteActionMode() {
-		startActionMode(deleteModeCallBack, false);
-	}
-
-	public void startBackPackActionMode() {
-		startActionMode(backPackModeCallBack, false);
-	}
-
-	private void startActionMode(ActionMode.Callback actionModeCallback, boolean isRenameMode) {
-		if (actionMode == null) {
-			if (sceneAdapter.getCount() == 1) {
-				if (actionModeCallback.equals(copyModeCallBack)) {
-					((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.copy));
-				} else if (actionModeCallback.equals(deleteModeCallBack)) {
-					((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
-				} else if (actionModeCallback.equals(renameModeCallBack)) {
-					((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.rename));
-				}
-			} else {
-				actionMode = getActivity().startActionMode(actionModeCallback);
-				BottomBar.hideBottomBar(getActivity());
-				isRenameActionMode = isRenameMode;
+	@Override
+	protected void startActionMode(ActionMode.Callback actionModeCallback) {
+		if (isActionModeActive()) {
+			return;
+		}
+		if (sceneAdapter.getCount() == 1) {
+			if (actionModeCallback.equals(copyModeCallBack)) {
+				((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.copy));
+			} else if (actionModeCallback.equals(deleteModeCallBack)) {
+				((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
+			} else if (actionModeCallback.equals(renameModeCallBack)) {
+				((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.rename));
 			}
+		} else {
+			actionMode = getActivity().startActionMode(actionModeCallback);
+			BottomBar.hideBottomBar(getActivity());
+			isRenameActionMode = actionModeCallback.equals(renameModeCallBack);
 		}
 	}
 
@@ -367,28 +211,6 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 			getActivity().finish();
 			startActivity(intent);
 		}
-	}
-
-	@Override
-	public boolean getActionModeActive() {
-		return isActionModeActive();
-	}
-
-	@Override
-	public void setActionModeActive(boolean actionModeActive) {
-		throw new UnsupportedOperationException("Refactor INTERFACE!");
-	}
-
-	@Override
-	public void handleAddButton() {
-		throw new UnsupportedOperationException("Refactor INTERFACE!");
-	}
-
-	public boolean getShowDetails() {
-		return false;
-	}
-
-	public void setShowDetails(boolean showDetails) {
 	}
 
 	@Override
@@ -417,7 +239,7 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 		showDeleteDialog(titleId);
 	}
 
-	protected void deleteCheckedItems(boolean singleItem) {
+	protected void deleteCheckedItems() {
 		boolean success = true;
 		for (Scene scene : sceneAdapter.getCheckedItems()) {
 			sceneToEdit = scene;
@@ -450,7 +272,7 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 		return true;
 	}
 
-	private void copyCheckedItems() {
+	protected void copyCheckedItems() {
 		boolean success = true;
 		for (Scene scene : sceneAdapter.getCheckedItems()) {
 			sceneToEdit = scene;
@@ -493,6 +315,7 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 	}
 
 	public void showRenameDialog() {
+		sceneToEdit = sceneAdapter.getCheckedItems().get(0);
 		RenameSceneDialog dialog = RenameSceneDialog.newInstance(sceneToEdit.getName());
 		dialog.show(getFragmentManager(), RenameSceneDialog.DIALOG_FRAGMENT_TAG);
 	}
@@ -508,6 +331,20 @@ public class SceneListFragment extends CheckBoxListFragment implements CheckBoxL
 				sceneToEdit.rename(newSceneName, getActivity(), true);
 				sceneAdapter.notifyDataSetChanged();
 			}
+		}
+	}
+
+	protected void packCheckedItems() {
+		List<Scene> sceneListToBackpack = sceneAdapter.getCheckedItems();
+		boolean sceneAlreadyInBackpack = BackPackSceneController.getInstance().checkScenesReplaceInBackpack(sceneListToBackpack);
+
+		if (!sceneAlreadyInBackpack) {
+			showProgressCircle();
+			backPackAsynchronous(sceneListToBackpack, getActivity());
+		} else {
+			BackPackSceneController.getInstance().setOnBackpackSceneCompleteListener(SceneListFragment.this);
+			SceneListFragment fragment = ((ProjectActivity) getActivity()).getSceneListFragment();
+			BackPackSceneController.getInstance().showBackPackReplaceDialog(sceneListToBackpack, fragment);
 		}
 	}
 

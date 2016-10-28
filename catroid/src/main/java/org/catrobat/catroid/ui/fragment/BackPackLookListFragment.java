@@ -155,8 +155,7 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.context_menu_unpacking:
-				unpackLook();
-				showUnpackingCompleteToast(1);
+				unpackCheckedItems(true);
 				break;
 			case R.id.context_menu_delete:
 				showDeleteDialog(true);
@@ -202,6 +201,7 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 	protected void deleteCheckedItems(boolean singleItem) {
 		if (singleItem) {
 			List<LookData> lookList = new ArrayList<>();
+			lookList.add(lookToEdit);
 			deleteLook(lookList);
 			return;
 		}
@@ -217,6 +217,11 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {
+		if (singleItem) {
+			unpackLook();
+			showUnpackingCompleteToast(1);
+			return;
+		}
 		for (LookData lookData : lookAdapter.getCheckedItems()) {
 			lookToEdit = lookData;
 			unpackLook();

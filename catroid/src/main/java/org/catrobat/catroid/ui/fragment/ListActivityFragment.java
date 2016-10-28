@@ -24,57 +24,21 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.ToastUtil;
 
-public abstract class BackPackActivityFragment extends CheckBoxListFragment {
+public abstract class ListActivityFragment extends CheckBoxListFragment implements ListItemActionsInterface{
 
-	protected ActionMode.Callback unpackModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-
-			mode.setTitle(R.string.unpack);
-
-			actionModeTitle = getString(R.string.unpack);
-			addSelectAllActionModeButton(mode, menu);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			if (adapter.getCheckedItems().isEmpty()) {
-				clearCheckedItems();
-			} else {
-				unpackCheckedItems(false);
-			}
-		}
-	};
+	public static final String TAG = ListActivityFragment.class.getSimpleName();
 
 	protected ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
-
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
 			return false;
@@ -102,63 +66,189 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 			if (adapter.getCheckedItems().isEmpty()) {
 				clearCheckedItems();
 			} else {
-				showDeleteDialog(false);
+				showDeleteDialog();
 			}
 		}
 	};
 
-	public abstract boolean getShowDetails();
+	protected ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
 
-	public abstract void setShowDetails(boolean showDetails);
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
-	public int getSelectMode() {
-		return super.getSelectMode();
-	}
+			actionModeTitle = getString(R.string.copy);
 
-	public void setSelectMode(int selectMode) {
-		super.setSelectMode(selectMode);
-	}
+			mode.setTitle(actionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
 
-	public void startUnpackActionMode() {
-		startActionMode(unpackModeCallBack);
-	}
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			if (adapter.getCheckedItems().isEmpty()) {
+				clearCheckedItems();
+			} else {
+				copyCheckedItems();
+			}
+		}
+	};
+
+	protected ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(ListView.CHOICE_MODE_SINGLE);
+
+			mode.setTitle(R.string.rename);
+
+			isRenameActionMode = true;
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			isRenameActionMode = false;
+			if(adapter.getCheckedItems().isEmpty()) {
+				clearCheckedItems();
+			} else {
+				showRenameDialog();
+			}
+		}
+	};
+
+	protected ActionMode.Callback backPackModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+
+			actionModeTitle = getString(R.string.backpack);
+
+			mode.setTitle(actionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			if (adapter.getCheckedItems().isEmpty()) {
+				clearCheckedItems();
+			} else {
+				packCheckedItems();
+			}
+		}
+	};
 
 	public void startDeleteActionMode() {
 		startActionMode(deleteModeCallBack);
+	}
+
+	public void startCopyActionMode() {
+		startActionMode(copyModeCallBack);
+	}
+
+	public void startRenameActionMode() {
+		startActionMode(renameModeCallBack);
+	}
+
+	public void startBackPackActionMode() {
+		startActionMode(backPackModeCallBack);
 	}
 
 	protected void startActionMode(ActionMode.Callback actionModeCallback) {
 		if (isActionModeActive()) {
 			return;
 		}
-
 		if (adapter.isEmpty()) {
-			if (actionModeCallback.equals(unpackModeCallBack)) {
-				((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpack));
+			if (actionModeCallback.equals(copyModeCallBack)) {
+				((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.copy));
 			} else if (actionModeCallback.equals(deleteModeCallBack)) {
-				((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
+				((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
+			} else if (actionModeCallback.equals(renameModeCallBack)) {
+				((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.rename));
 			}
 		} else {
 			actionMode = getActivity().startActionMode(actionModeCallback);
-			unregisterForContextMenu(getListView());
 			BottomBar.hideBottomBar(getActivity());
+			isRenameActionMode = actionModeCallback.equals(renameModeCallBack);
 		}
 	}
 
-	protected abstract void unpackCheckedItems(boolean singleItem);
+	public abstract void showDeleteDialog();
 
-	protected abstract void showDeleteDialog(boolean singleItem);
+	protected abstract void deleteCheckedItems();
 
-	protected abstract void deleteCheckedItems(boolean singleItem);
+	protected abstract void copyCheckedItems();
 
-	protected void showDeleteDialog (int titleId, final boolean singleItem) {
+	public abstract void showRenameDialog();
+
+	protected abstract void packCheckedItems();
+
+	@Override
+	public boolean getActionModeActive() {
+		return isActionModeActive();
+	}
+
+	@Override
+	public void setActionModeActive(boolean actionModeActive) {
+		throw new UnsupportedOperationException("Refactor INTERFACE!");
+	}
+
+	@Override
+	public void handleAddButton() {
+		throw new UnsupportedOperationException("Refactor INTERFACE!");
+	}
+
+	@Override
+	public boolean getShowDetails() {
+		return false;
+	}
+
+	@Override
+	public void setShowDetails(boolean showDetails) {
+	}
+
+	protected void showDeleteDialog (int titleId) {
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
 		builder.setTitle(titleId);
 		builder.setMessage(R.string.dialog_confirm_delete_object_message);
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				deleteCheckedItems(singleItem);
+				deleteCheckedItems();
 				clearCheckedItems();
 			}
 		});
@@ -179,27 +269,5 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 
 		AlertDialog alertDialog = builder.create();
 		alertDialog.show();
-	}
-
-	protected void checkEmptyBackgroundBackPack() {
-		if (adapter.isEmpty()) {
-			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.backpack_text_heading);
-			emptyViewHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
-			emptyViewHeading.setText(R.string.backpack);
-			TextView emptyViewDescription = (TextView) getActivity().findViewById(R.id.backpack_text_description);
-			emptyViewDescription.setText(R.string.is_empty);
-		}
-	};
-
-	@Override
-	public void clearCheckedItems() {
-		super.clearCheckedItems();
-		registerForContextMenu(getListView());
-	}
-
-	protected void showUnpackingCompleteToast(int itemCount) {
-		String message = itemCount == 1 ? singleItemTitle : multipleItemsTitle;
-		message += " " + getResources().getQuantityString(R.plurals.unpacking_items_plural, itemCount);
-		ToastUtil.showSuccess(getActivity(), message);
 	}
 }
