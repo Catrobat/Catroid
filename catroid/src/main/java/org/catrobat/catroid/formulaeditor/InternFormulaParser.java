@@ -287,7 +287,7 @@ public class InternFormulaParser {
 		boolean formulaOk;
 		int spriteCount = 0;
 
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getSceneToPlay().getSpriteList()) {
 			if (sprite.getName().compareTo(firstSpriteName) == 0 || sprite.getName().compareTo(secondSpriteName) == 0) {
 				spriteCount++;
 			}
