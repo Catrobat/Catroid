@@ -39,7 +39,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.UtilUi;
 
 public abstract class CheckBoxListFragment extends ListFragment implements CheckBoxListAdapter.ListItemCheckHandler {
@@ -90,6 +89,14 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 
 	public int getSelectMode() {
 		return adapter.getSelectMode();
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		adapter.setShowDetails(showDetails);
+	}
+
+	public boolean getShowDetails() {
+		return adapter.getShowDetails();
 	}
 
 	public void clearCheckedItems() {

@@ -34,7 +34,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
-public abstract class ListActivityFragment extends CheckBoxListFragment implements ListItemActionsInterface{
+public abstract class ListActivityFragment extends CheckBoxListFragment implements ListItemActionsInterface {
 
 	public static final String TAG = ListActivityFragment.class.getSimpleName();
 
@@ -129,7 +129,7 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			isRenameActionMode = false;
-			if(adapter.getCheckedItems().isEmpty()) {
+			if (adapter.getCheckedItems().isEmpty()) {
 				clearCheckedItems();
 			} else {
 				showRenameDialog();
@@ -232,16 +232,7 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 		throw new UnsupportedOperationException("Refactor INTERFACE!");
 	}
 
-	@Override
-	public boolean getShowDetails() {
-		return false;
-	}
-
-	@Override
-	public void setShowDetails(boolean showDetails) {
-	}
-
-	protected void showDeleteDialog (int titleId) {
+	protected void showDeleteDialog(int titleId) {
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
 		builder.setTitle(titleId);
 		builder.setMessage(R.string.dialog_confirm_delete_object_message);

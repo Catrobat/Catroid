@@ -177,16 +177,6 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 	}
 
 	@Override
-	public boolean getShowDetails() {
-		return false;
-	}
-
-	@Override
-	public void setShowDetails(boolean showDetails) {
-
-	}
-
-	@Override
 	protected void showDeleteDialog(boolean singleItem) {
 		int titleId;
 		if (lookAdapter.getCheckedItems().size() == 1 || singleItem) {

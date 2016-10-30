@@ -53,8 +53,8 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.adapter.SpriteListAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
+import org.catrobat.catroid.ui.adapter.SpriteListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.fragment.BackPackSpriteListFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -1042,10 +1042,10 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 				.getAmountOfCheckedItems());
 		UiTestUtils.backpackAllCheckedItems(solo, firstTestItemNamePacked, secondTestItemNamePacked);
 
-		SpriteListAdapter SpriteListAdapter = getSpriteListAdapter();
-		assertNotNull("Could not get Adapter", SpriteListAdapter);
+		SpriteListAdapter spriteListAdapter = getSpriteListAdapter();
+		assertNotNull("Could not get Adapter", spriteListAdapter);
 
-		assertEquals("Wrong number of items in backpack", 6, SpriteListAdapter.getCount());
+		assertEquals("Wrong number of items in backpack", 6, spriteListAdapter.getCount());
 		clickOnBackPackItem(firstTestItemNamePacked, unpackAsObject);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		assertEquals("Item was not unpacked from backpack", 5, adapter.getGroupCount());

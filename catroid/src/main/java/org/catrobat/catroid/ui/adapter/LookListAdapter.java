@@ -51,15 +51,17 @@ public class LookListAdapter extends CheckBoxListAdapter<LookData> {
 		listItemViewHolder.name.setText(lookData.getLookName());
 		listItemViewHolder.image.setImageBitmap(lookData.getThumbnailBitmap());
 
-		listItemViewHolder.details.setVisibility(View.VISIBLE);
+		if (showDetails) {
+			listItemViewHolder.details.setVisibility(View.VISIBLE);
 
-		listItemViewHolder.leftBottomDetails.setText(R.string.look_measure);
-		int[] measure = lookData.getMeasure();
-		String measureString = measure[0] + " x " + measure[1];
-		listItemViewHolder.rightBottomDetails.setText(measureString);
+			listItemViewHolder.leftBottomDetails.setText(R.string.look_measure);
+			int[] measure = lookData.getMeasure();
+			String measureString = measure[0] + " x " + measure[1];
+			listItemViewHolder.rightBottomDetails.setText(measureString);
 
-		listItemViewHolder.leftTopDetails.setText(R.string.size);
-		listItemViewHolder.rightTopDetails.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
+			listItemViewHolder.leftTopDetails.setText(R.string.size);
+			listItemViewHolder.rightTopDetails.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
+		}
 
 		return listItemView;
 	}

@@ -36,8 +36,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.dialogs.TextDialog;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +58,7 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 	public static final String TAG = CheckBoxListAdapter.class.getSimpleName();
 
 	protected int selectMode;
+	protected boolean showDetails;
 	protected LayoutInflater inflater;
 	protected ListItemClickHandler listItemClickHandler;
 	protected ListItemLongClickHandler listItemLongClickHandler;
@@ -80,6 +79,15 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 
 	public int getSelectMode() {
 		return selectMode;
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+		notifyDataSetChanged();
+	}
+
+	public boolean getShowDetails() {
+		return showDetails;
 	}
 
 	public void setListItemClickHandler(ListItemClickHandler listItemClickHandler) {

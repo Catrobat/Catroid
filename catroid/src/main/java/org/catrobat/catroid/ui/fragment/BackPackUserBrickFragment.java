@@ -29,7 +29,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,8 +53,6 @@ import org.catrobat.catroid.ui.adapter.BackPackUserBrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackUserBrickController;
 import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class BackPackUserBrickFragment extends BackPackActivityFragment {
@@ -162,40 +159,11 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment {
 	}
 
 	@Override
-	public boolean getShowDetails() {
-		if (adapter != null) {
-			return adapter.getShowDetails();
-		}
-		return false;
-	}
-
-	@Override
-	public void setShowDetails(boolean showDetails) {
-		if (adapter != null) {
-			adapter.setShowDetails(showDetails);
-			adapter.notifyDataSetChanged();
-		}
-	}
-
-	@Override
-	public void setSelectMode(int selectMode) {
-		adapter.setSelectMode(selectMode);
-		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public int getSelectMode() {
-		return adapter.getSelectMode();
-	}
-
-	@Override
 	protected void deleteCheckedItems(boolean singleItem) {
-
 	}
 
 	@Override
 	protected void unpackCheckedItems(boolean singleItem) {
-
 	}
 
 	public View getView(final int position, View convertView) {

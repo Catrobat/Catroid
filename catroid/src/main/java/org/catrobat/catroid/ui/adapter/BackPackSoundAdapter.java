@@ -30,27 +30,27 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
+import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BackPackSoundAdapter extends SoundBaseAdapter implements ActionModeActivityAdapterInterface {
 
-	private BackPackSoundFragment backPackSoundFragment;
+	private BackPackSoundListFragment backPackSoundListFragment;
 
 	public BackPackSoundAdapter(Context context, int resource, int textViewResourceId, List<SoundInfo> items,
-			boolean showDetails, BackPackSoundFragment backPackSoundFragment) {
+			boolean showDetails, BackPackSoundListFragment backPackSoundListFragment) {
 		super(context, resource, textViewResourceId, items, showDetails, true);
-		this.backPackSoundFragment = backPackSoundFragment;
+		this.backPackSoundListFragment = backPackSoundListFragment;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (this.backPackSoundFragment == null) {
+		if (this.backPackSoundListFragment == null) {
 			return convertView;
 		}
-		return this.backPackSoundFragment.getView(position, convertView);
+		return this.backPackSoundListFragment.getView(position, convertView);
 	}
 
 	public void onDestroyActionModeUnpacking() {
@@ -63,10 +63,10 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ActionMode
 		}
 
 		boolean returnToScriptActivity = checkedSounds.size() > 0;
-		backPackSoundFragment.clearCheckedItems();
+		backPackSoundListFragment.clearCheckedItems();
 
 		if (returnToScriptActivity) {
-			((BackPackActivity) backPackSoundFragment.getActivity()).returnToScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
+			((BackPackActivity) backPackSoundListFragment.getActivity()).returnToScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
 		}
 	}
 }

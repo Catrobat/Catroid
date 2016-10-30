@@ -52,7 +52,7 @@ import org.catrobat.catroid.ui.adapter.BackPackSoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
+import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
@@ -682,7 +682,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		packSingleItem(SECOND_TEST_SOUND_NAME, true);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
+		solo.waitForFragmentByTag(BackPackSoundListFragment.TAG);
 		solo.sleep(TIME_TO_WAIT);
 
 		assertTrue("BackPack title didn't show up",
@@ -697,7 +697,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
+		solo.waitForFragmentByTag(BackPackSoundListFragment.TAG);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("BackPack title didn't show up", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK));
@@ -718,7 +718,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		packSingleItem(FIRST_TEST_SOUND_NAME, false);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
+		solo.waitForFragmentByTag(BackPackSoundListFragment.TAG);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("BackPack title didn't show up", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK));
@@ -731,7 +731,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertNotNull("Could not get Adapter", adapter);
 		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
+		solo.waitForFragmentByTag(BackPackSoundListFragment.TAG);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Sound wasn't backpacked!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
 
@@ -1691,9 +1691,9 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		return (SoundFragment) activity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
 	}
 
-	private BackPackSoundFragment getBackPackSoundFragment() {
+	private BackPackSoundListFragment getBackPackSoundFragment() {
 		BackPackActivity activity = (BackPackActivity) solo.getCurrentActivity();
-		return (BackPackSoundFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_SOUNDS);
+		return (BackPackSoundListFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_SOUNDS);
 	}
 
 	private SoundAdapter getSoundAdapter() {

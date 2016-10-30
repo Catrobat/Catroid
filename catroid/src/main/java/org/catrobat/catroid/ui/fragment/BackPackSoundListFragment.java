@@ -59,10 +59,10 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
 
-public class BackPackSoundFragment extends BackPackActivityFragment implements CheckBoxListAdapter
+public class BackPackSoundListFragment extends BackPackActivityFragment implements CheckBoxListAdapter
 		.ListItemClickHandler, CheckBoxListAdapter.ListItemLongClickHandler, LoaderManager.LoaderCallbacks<Cursor> {
 
-	public static final String TAG = BackPackSoundFragment.class.getSimpleName();
+	public static final String TAG = BackPackSoundListFragment.class.getSimpleName();
 
 	private SoundListAdapter soundAdapter;
 	private ListView listView;
@@ -192,8 +192,8 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements C
 		return super.onContextItemSelected(item);
 	}
 
-	private void contextMenuUnpacking(boolean delete) {
-		SoundController.getInstance().unpack(soundInfoToEdit, delete, false);
+	private void contextMenuUnpacking() {
+		SoundController.getInstance().unpack(soundInfoToEdit, false, false);
 		String textForUnPacking = getResources().getQuantityString(R.plurals.unpacking_items_plural, 1);
 		ToastUtil.showSuccess(getActivity(), soundInfoToEdit.getTitle() + " " + textForUnPacking);
 		((BackPackActivity) getActivity()).returnToScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
@@ -241,7 +241,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements C
 			}
 		});
 
-		SoundController controller = SoundController.getInstance();
+		//SoundController controller = SoundController.getInstance();
 		//controller.updateSoundLogic(getActivity(), position, holder, soundAdapter);
 
 		return convertView;
@@ -266,22 +266,13 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements C
 	}
 
 	@Override
-	public boolean getShowDetails() {
-		return false;
-	}
-
-	@Override
-	public void setShowDetails(boolean showDetails) {
-
-	}
-
-	@Override
 	protected void deleteCheckedItems(boolean singleItem) {
-
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {
-
+		if (singleItem) {
+			contextMenuUnpacking();
+		}
 	}
 
 	@Override

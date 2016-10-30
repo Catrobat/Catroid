@@ -47,7 +47,7 @@ import org.catrobat.catroid.ui.fragment.BackPackActivityFragment;
 import org.catrobat.catroid.ui.fragment.BackPackLookListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSceneListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
+import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSpriteListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackUserBrickFragment;
 
@@ -62,7 +62,7 @@ public class BackPackActivity extends BaseActivity {
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 	private static int currentFragmentPosition;
 	private FragmentManager fragmentManager = getFragmentManager();
-	private BackPackSoundFragment backPackSoundFragment = null;
+	private BackPackSoundListFragment backPackSoundListFragment = null;
 	private BackPackLookListFragment backPackLookListFragment = null;
 	private BackPackScriptListFragment backPackScriptListFragment = null;
 	private BackPackSpriteListFragment backPackSpriteListFragment = null;
@@ -168,7 +168,7 @@ public class BackPackActivity extends BaseActivity {
 				fragment = backPackLookListFragment;
 				break;
 			case FRAGMENT_BACKPACK_SOUNDS:
-				fragment = backPackSoundFragment;
+				fragment = backPackSoundListFragment;
 				break;
 			case FRAGMENT_BACKPACK_SPRITES:
 				fragment = backPackSpriteListFragment;
@@ -202,12 +202,12 @@ public class BackPackActivity extends BaseActivity {
 				currentFragmentTag = BackPackLookListFragment.TAG;
 				break;
 			case FRAGMENT_BACKPACK_SOUNDS:
-				if (backPackSoundFragment == null) {
-					backPackSoundFragment = new BackPackSoundFragment();
+				if (backPackSoundListFragment == null) {
+					backPackSoundListFragment = new BackPackSoundListFragment();
 				}
-				currentFragment = backPackSoundFragment;
+				currentFragment = backPackSoundListFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_SOUNDS;
-				currentFragmentTag = BackPackSoundFragment.TAG;
+				currentFragmentTag = BackPackSoundListFragment.TAG;
 				break;
 			case FRAGMENT_BACKPACK_SPRITES:
 				if (backPackSpriteListFragment == null) {

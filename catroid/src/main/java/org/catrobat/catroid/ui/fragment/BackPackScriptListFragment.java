@@ -46,7 +46,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 
 public class BackPackScriptListFragment extends BackPackActivityFragment implements CheckBoxListAdapter
-		.ListItemClickHandler, CheckBoxListAdapter.ListItemLongClickHandler{
+		.ListItemClickHandler, CheckBoxListAdapter.ListItemLongClickHandler {
 
 	public static final String TAG = BackPackScriptListFragment.class.getSimpleName();
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsScripts";
@@ -120,7 +120,6 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 
 		BackPackListManager.getInstance().saveBackpack();
 
-
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
@@ -173,16 +172,6 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 	}
 
 	@Override
-	public boolean getShowDetails() {
-		return false;
-	}
-
-	@Override
-	public void setShowDetails(boolean showDetails) {
-
-	}
-
-	@Override
 	protected void showDeleteDialog(boolean singleItem) {
 		int titleId;
 		if (scriptAdapter.getCheckedItems().size() == 1  || singleItem) {
@@ -196,7 +185,6 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 
 	@Override
 	protected void deleteCheckedItems(boolean singleItem) {
-
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {

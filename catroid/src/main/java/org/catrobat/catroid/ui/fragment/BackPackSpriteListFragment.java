@@ -56,7 +56,7 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 		.ListItemClickHandler<Sprite>, CheckBoxListAdapter.ListItemLongClickHandler {
 
 	public static final String TAG = BackPackSpriteListFragment.class.getSimpleName();
-	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit" ;
+	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 
 	private SpriteListAdapter spriteAdapter;
 	private ListView listView;
@@ -169,7 +169,6 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 		return super.onContextItemSelected(item);
 	}
 
-
 	@Override
 	public void handleOnItemClick(int position, View view, Sprite listItem) {
 		selectedSpritePosition = position;
@@ -180,16 +179,6 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 	public void handleOnItemLongClick(int position, View view) {
 		selectedSpritePosition = position;
 		listView.showContextMenuForChild(view);
-	}
-
-	@Override
-	public boolean getShowDetails() {
-		return false;
-	}
-
-	@Override
-	public void setShowDetails(boolean showDetails) {
-
 	}
 
 	public void showDeleteDialog(boolean singleItem) {

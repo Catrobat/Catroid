@@ -821,8 +821,8 @@ public class SceneListFragmentTest extends BaseActivityInstrumentationTestCase<M
 	private SceneListAdapter getSceneListAdapter(boolean forBackpack) {
 		solo.waitForActivity(ProjectActivity.class);
 		solo.waitForFragmentByTag(SceneListFragment.TAG);
-		SceneListAdapter adapter = (SceneListAdapter) (forBackpack ? getBackPackSceneFragment().getListAdapter() : 
-				getScenesListFragment().getListAdapter());
+		SceneListAdapter adapter = (SceneListAdapter) (forBackpack ? getBackPackSceneFragment().getListAdapter()
+				: getScenesListFragment().getListAdapter());
 		return adapter;
 	}
 

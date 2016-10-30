@@ -26,6 +26,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropAdapterInterface;
@@ -54,7 +55,12 @@ public class SceneListAdapter extends CheckBoxListAdapter<Scene> implements Drag
 			projectName = scene.getProject().getName();
 		}
 
-		listItemViewHolder.name.setText(scene.getName());
+		String name = scene.getName();
+		if (scene == getItem(0)) {
+			name = getContext().getString(R.string.start_scene_name, name);
+		}
+
+		listItemViewHolder.name.setText(name);
 		screenshotLoader.loadAndShowScreenshot(projectName, scene.getName(), scene.isBackPackScene, listItemViewHolder
 				.image);
 		return listItemView;

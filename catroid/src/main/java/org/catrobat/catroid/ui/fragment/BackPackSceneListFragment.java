@@ -151,16 +151,6 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 	}
 
 	@Override
-	public boolean getShowDetails() {
-		return false;
-	}
-
-	@Override
-	public void setShowDetails(boolean showDetails) {
-
-	}
-
-@Override
 	public void showDeleteDialog(boolean singleItem) {
 		int titleId;
 		if (sceneAdapter.getCheckedItems().size() == 1 || singleItem) {

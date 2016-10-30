@@ -107,18 +107,6 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 		}
 	};
 
-	public abstract boolean getShowDetails();
-
-	public abstract void setShowDetails(boolean showDetails);
-
-	public int getSelectMode() {
-		return super.getSelectMode();
-	}
-
-	public void setSelectMode(int selectMode) {
-		super.setSelectMode(selectMode);
-	}
-
 	public void startUnpackActionMode() {
 		startActionMode(unpackModeCallBack);
 	}
@@ -151,7 +139,7 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 
 	protected abstract void deleteCheckedItems(boolean singleItem);
 
-	protected void showDeleteDialog (int titleId, final boolean singleItem) {
+	protected void showDeleteDialog(int titleId, final boolean singleItem) {
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
 		builder.setTitle(titleId);
 		builder.setMessage(R.string.dialog_confirm_delete_object_message);
@@ -189,7 +177,7 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 			TextView emptyViewDescription = (TextView) getActivity().findViewById(R.id.backpack_text_description);
 			emptyViewDescription.setText(R.string.is_empty);
 		}
-	};
+	}
 
 	@Override
 	public void clearCheckedItems() {

@@ -132,7 +132,7 @@ public class DragAndDropListView extends ListView implements CheckBoxListAdapter
 	}
 
 	private void setOffsetToCenter(Rect viewBounds) {
-		offsetToCenter = (viewBounds.height()/2);
+		offsetToCenter = (viewBounds.height() / 2);
 	}
 
 	private void swapListItems() {

@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.ui.dragndrop;
 
-
-public interface DragAndDropAdapterInterface<D> {
+public interface DragAndDropAdapterInterface {
 
 	int swapItems(int position1, int position2);
 }
