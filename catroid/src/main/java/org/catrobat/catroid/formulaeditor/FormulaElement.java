@@ -283,8 +283,8 @@ public class FormulaElement implements Serializable {
 		Look firstLook;
 		Look secondLook;
 		try {
-			firstLook = ProjectManager.getInstance().getCurrentScene().getSpriteBySpriteName(firstSpriteName).look;
-			secondLook = ProjectManager.getInstance().getCurrentScene().getSpriteBySpriteName(secondSpriteName).look;
+			firstLook = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(firstSpriteName).look;
+			secondLook = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(secondSpriteName).look;
 		} catch (Resources.NotFoundException exception) {
 			return 0d;
 		}
