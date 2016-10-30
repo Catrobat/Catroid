@@ -207,6 +207,7 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 		BackPackListManager.getInstance().removeItemFromSpriteBackPack(spriteToEdit);
 		removeLooksAndSounds();
 		checkEmptyBackgroundBackPack();
+		spriteAdapter.notifyDataSetChanged();
 	}
 
 	private void removeLooksAndSounds() {

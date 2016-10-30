@@ -27,6 +27,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropAdapterInterface;
 
@@ -54,6 +55,21 @@ public class SpriteListAdapter extends CheckBoxListAdapter<Sprite> implements Dr
 
 		listItemViewHolder.name.setText(sprite.getName());
 		listItemViewHolder.image.setImageBitmap(lookData);
+
+		if (showDetails) {
+			listItemViewHolder.details.setVisibility(View.VISIBLE);
+
+			listItemViewHolder.leftBottomDetails.setText(getContext().getResources().getString(R.string.number_of_scripts)
+					.concat(" ").concat(Integer.toString(sprite.getNumberOfScripts())));
+			listItemViewHolder.rightBottomDetails.setText(getContext().getResources().getString(R.string.number_of_bricks)
+					.concat(" ").concat(Integer.toString(sprite.getNumberOfBricks())));
+
+			listItemViewHolder.leftTopDetails.setText(getContext().getResources().getString(R.string.number_of_looks)
+					.concat(" ").concat(Integer.toString(sprite.getLookDataList().size())));
+			listItemViewHolder.rightTopDetails.setText(getContext().getResources().getString(R.string.number_of_sounds)
+					.concat(" ").concat(Integer.toString(sprite.getSoundList().size())));
+		}
+
 		return listItemView;
 	}
 }

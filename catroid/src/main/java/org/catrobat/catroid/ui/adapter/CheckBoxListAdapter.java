@@ -146,6 +146,8 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 			viewHolder = (ListItemViewHolder) listItemView.getTag();
 		}
 
+		viewHolder.details.setVisibility(View.GONE);
+
 		final View itemView = listItemView;
 		viewHolder.background.setOnClickListener(new View.OnClickListener() {
 			@Override

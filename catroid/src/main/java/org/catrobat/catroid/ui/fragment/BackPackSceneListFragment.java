@@ -195,6 +195,7 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 
 		if (conflictingResolutionsDetected(sceneList)) {
 			showDifferentResolutionDialog(sceneList);
+			return;
 		}
 
 		unpackScenes(sceneList);

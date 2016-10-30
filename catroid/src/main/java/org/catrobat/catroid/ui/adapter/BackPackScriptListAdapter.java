@@ -23,6 +23,8 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -32,5 +34,17 @@ public class BackPackScriptListAdapter extends CheckBoxListAdapter<String> {
 
 	public BackPackScriptListAdapter(Context context, int resource, List<String> listItems) {
 		super(context, resource, listItems);
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		View listItemView = super.getView(position, convertView, parent);
+
+		ListItemViewHolder listItemViewHolder = (ListItemViewHolder) listItemView.getTag();
+		String scriptName = getItem(position);
+
+		listItemViewHolder.name.setText(scriptName);
+
+		return listItemView;
 	}
 }

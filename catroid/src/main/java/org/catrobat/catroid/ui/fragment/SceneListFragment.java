@@ -315,6 +315,7 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 		sceneToEdit = sceneAdapter.getCheckedItems().get(0);
 		RenameSceneDialog dialog = RenameSceneDialog.newInstance(sceneToEdit.getName());
 		dialog.show(getFragmentManager(), RenameSceneDialog.DIALOG_FRAGMENT_TAG);
+		clearCheckedItems();
 	}
 
 	private class SceneRenamedReceiver extends BroadcastReceiver {

@@ -59,7 +59,7 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View backPackScriptListFragment = inflater.inflate(R.layout.fragment_groups_backpack, container, false);
+		View backPackScriptListFragment = inflater.inflate(R.layout.fragment_backpack, container, false);
 		listView = (ListView) backPackScriptListFragment.findViewById(android.R.id.list);
 
 		return backPackScriptListFragment;
@@ -185,15 +185,32 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 
 	@Override
 	protected void deleteCheckedItems(boolean singleItem) {
+		if (singleItem) {
+			deleteScript();
+			return;
+		}
+		for (String scene : scriptAdapter.getCheckedItems()) {
+			scriptToEdit = scene;
+			deleteScript();
+		}
+	}
+
+	private void deleteScript() {
+		BackPackListManager.getInstance().removeItemFromScriptBackPack(scriptToEdit);
+		checkEmptyBackgroundBackPack();
+		scriptAdapter.notifyDataSetChanged();
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {
 		if (singleItem) {
 			BackPackScriptController.getInstance().unpack(scriptToEdit, false, true, getActivity(), false);
+			showUnpackingCompleteToast(1);
 			return;
 		}
 		for (String script : scriptAdapter.getCheckedItems()) {
 			BackPackScriptController.getInstance().unpack(script, false, true, getActivity(), false);
 		}
+		showUnpackingCompleteToast(scriptAdapter.getCheckedItems().size());
+		clearCheckedItems();
 	}
 }

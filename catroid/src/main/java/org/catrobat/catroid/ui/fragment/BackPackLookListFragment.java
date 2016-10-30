@@ -44,7 +44,6 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BackPackLookListFragment extends BackPackActivityFragment implements CheckBoxListAdapter
@@ -60,7 +59,7 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View backPackLookListFragment = inflater.inflate(R.layout.fragment_backpack_look, container, false);
+		View backPackLookListFragment = inflater.inflate(R.layout.fragment_backpack, container, false);
 		listView = (ListView) backPackLookListFragment.findViewById(android.R.id.list);
 
 		return backPackLookListFragment;
@@ -190,20 +189,19 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 	@Override
 	protected void deleteCheckedItems(boolean singleItem) {
 		if (singleItem) {
-			List<LookData> lookList = new ArrayList<>();
-			lookList.add(lookToEdit);
-			deleteLook(lookList);
+			deleteLook();
 			return;
 		}
-		deleteLook(lookAdapter.getCheckedItems());
+		for (LookData look : lookAdapter.getCheckedItems()) {
+			lookToEdit = look;
+			deleteLook();
+		}
 	}
 
-	private void deleteLook(List<LookData> lookList) {
-		for (int position = 0; position < lookList.size(); position++) {
-			LookController.getInstance().deleteLook(position, lookList, getActivity());
-		}
-		clearCheckedItems();
+	private void deleteLook() {
+		BackPackListManager.getInstance().removeItemFromLookBackPack(lookToEdit);
 		checkEmptyBackgroundBackPack();
+		lookAdapter.notifyDataSetChanged();
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {
