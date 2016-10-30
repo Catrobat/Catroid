@@ -205,6 +205,7 @@
   <string name="puzzle_look_end">fin</string>
   <string name="puzzle_sprite_button_play_again">Botón Jugar de Nuevo</string>
   <string name="puzzle_look_button_play_again1">Botón Jugar de Nuevo1</string>
+  <string name="puzzle_project_variable_punkte">Puntos</string>
   <!-- Quiz Template Strings -->
   <string name="quiz_project_variable_score">puntuación</string>
   <string name="quiz_project_variable_amount_of_questions">cantidad de preguntas</string>
