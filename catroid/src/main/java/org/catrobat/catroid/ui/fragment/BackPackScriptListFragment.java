@@ -80,7 +80,7 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 	}
 
 	private void initializeList() {
-		List<String> groupList = BackPackListManager.getInstance().getAllBackPackedScriptGroups();
+		List<String> groupList = BackPackListManager.getInstance().getBackPackedScriptGroups();
 
 		scriptAdapter = new BackPackScriptListAdapter(getActivity(), R.layout.list_item, groupList);
 		setListAdapter(scriptAdapter);
@@ -189,8 +189,8 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 			deleteScript();
 			return;
 		}
-		for (String scene : scriptAdapter.getCheckedItems()) {
-			scriptToEdit = scene;
+		for (String script : scriptAdapter.getCheckedItems()) {
+			scriptToEdit = script;
 			deleteScript();
 		}
 	}
@@ -198,7 +198,7 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 	private void deleteScript() {
 		BackPackListManager.getInstance().removeItemFromScriptBackPack(scriptToEdit);
 		checkEmptyBackgroundBackPack();
-		scriptAdapter.notifyDataSetChanged();
+		scriptAdapter.remove(scriptToEdit);
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {

@@ -26,7 +26,12 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
+
 import java.util.List;
+
+import static org.catrobat.catroid.R.drawable.ic_program_menu_scripts;
 
 public class BackPackScriptListAdapter extends CheckBoxListAdapter<String> {
 
@@ -44,6 +49,15 @@ public class BackPackScriptListAdapter extends CheckBoxListAdapter<String> {
 		String scriptName = getItem(position);
 
 		listItemViewHolder.name.setText(scriptName);
+		listItemViewHolder.image.setImageResource(ic_program_menu_scripts);
+
+		if (showDetails) {
+			listItemViewHolder.details.setVisibility(View.VISIBLE);
+			int brickCount = BackPackListManager.getInstance().getBackPackedScripts().get(scriptName).size();
+			listItemViewHolder.leftTopDetails.setText(getContext().getResources().getString(R.string.number_of_bricks)
+					.concat(" ").concat(Integer.toString(brickCount)));
+			listItemViewHolder.leftBottomDetails.setVisibility(View.GONE);
+		}
 
 		return listItemView;
 	}
