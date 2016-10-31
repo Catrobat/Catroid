@@ -197,7 +197,7 @@ def copyScreenshotAsIcon() {
         }
     }
 
-    if (screenshot != null && !automaticScreenshots.isEmpty() && automaticScreenshots.get(0).exists()) {
+    if (screenshot == null && !automaticScreenshots.isEmpty() && automaticScreenshots.get(0).exists()) {
         screenshot = automaticScreenshots.get(0)
     }
 
