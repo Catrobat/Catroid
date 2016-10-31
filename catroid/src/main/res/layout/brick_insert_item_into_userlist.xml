@@ -51,11 +51,6 @@
             android:text="@string/brick_insert_item_into_userlist_insert_into" />
 
         <TextView
-            android:id="@+id/brick_insert_item_into_userlist_value_prototype_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent" />
-
-        <TextView
             android:id="@+id/brick_insert_item_into_userlist_value_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
@@ -77,11 +72,6 @@
             android:id="@+id/brick_insert_item_into_userlist_at_index_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_insert_item_into_userlist_at_position" />
-
-        <TextView
-            android:id="@+id/brick_insert_item_into_userlist_at_index_prototype_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent" />
 
         <TextView
             android:id="@+id/brick_insert_item_into_userlist_at_index_edit_text"

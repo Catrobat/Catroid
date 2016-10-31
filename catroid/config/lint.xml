@@ -44,6 +44,7 @@
     <issue id="UnusedResources" >
         <ignore regexp=".*/values-(?!de).*/strings.xml$"></ignore>
         <ignore path="src/main/res/drawable-nodpi/icon.png" />
+        <ignore path="**/google-services/**" />
     </issue>
 
     <issue id="ImpliedQuantity" >

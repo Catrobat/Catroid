@@ -183,11 +183,11 @@ public class NewDataDialog extends DialogFragment {
 			if (!isListNameValid(name)) {
 				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_data_item);
 			} else {
-				newUserList = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				newUserList = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.addProjectUserList(name);
 			}
 		} else if (local.isChecked()) {
-			newUserList = ProjectManager.getInstance().getCurrentProject().getDataContainer().addSpriteUserList(name);
+			newUserList = ProjectManager.getInstance().getCurrentScene().getDataContainer().addSpriteUserList(name);
 		}
 		userListDialogListenerListFinishNewUserListDialog(newUserList);
 	}
@@ -198,11 +198,11 @@ public class NewDataDialog extends DialogFragment {
 			if (!isVariableNameValid(name)) {
 				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 			} else {
-				newUserVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				newUserVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.addProjectUserVariable(name);
 			}
 		} else if (local.isChecked()) {
-			newUserVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer().addSpriteUserVariable(name);
+			newUserVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer().addSpriteUserVariable(name);
 		}
 		variableDialogListenerListFinishNewVariableDialog(newUserVariable);
 	}
@@ -303,12 +303,12 @@ public class NewDataDialog extends DialogFragment {
 	}
 
 	private boolean isListNameValid(String name) {
-		DataContainer currentData = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer currentData = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		RadioButton global = (RadioButton) getDialog()
 				.findViewById(R.id.dialog_formula_editor_data_name_global_variable_radio_button);
 
 		if (global.isChecked()) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 			return !currentData.existListInAnySprite(name, sprites) && !currentData.existProjectListWithName(name);
 		} else {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
@@ -317,12 +317,12 @@ public class NewDataDialog extends DialogFragment {
 	}
 
 	private boolean isVariableNameValid(String name) {
-		DataContainer currentData = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer currentData = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		RadioButton global = (RadioButton) getDialog()
 				.findViewById(R.id.dialog_formula_editor_data_name_global_variable_radio_button);
 
 		if (global.isChecked()) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 			return !currentData.existVariableInAnySprite(name, sprites) && !currentData.existProjectVariableWithName(name);
 		} else {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();

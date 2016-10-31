@@ -26,6 +26,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -57,17 +58,17 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	@Override
 	protected void setUp() {
 		Project project = new Project(null, "testProject");
-		firstSprite = new Sprite("firstSprite");
+		firstSprite = new SingleSprite("firstSprite");
 		StartScript startScript = new StartScript();
 		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		UserBrick userBrick = new UserBrick(new UserScriptDefinitionBrick());
 		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
-		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentScene()
 				.getDataContainer();
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE).setValue(USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addSpriteUserVariableToSprite(firstSprite, SPRITE_USER_VARIABLE).setValue(
@@ -90,7 +91,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	}
 
 	public void testUserVariableResetting() {
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().resetAllDataObjects();
 
 		assertEquals("ProjectUserVariable did not reset", USER_VARIABLE_RESET,
 				interpretUserVariable(PROJECT_USER_VARIABLE));

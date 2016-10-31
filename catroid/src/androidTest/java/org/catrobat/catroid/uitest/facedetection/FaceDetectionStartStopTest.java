@@ -27,6 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
@@ -103,13 +104,13 @@ public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestC
 		ScreenValues.SCREEN_WIDTH = SCREEN_WIDTH;
 
 		Project projectFaceDetection = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("fdSprite");
+		Sprite sprite = new SingleSprite("fdSprite");
 		StartScript startScript = new StartScript();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(ElementType.SENSOR,
 				Sensors.FACE_SIZE.name(), null)));
 		startScript.addBrick(setSizeToBrick);
 		sprite.addScript(startScript);
-		projectFaceDetection.addSprite(sprite);
+		projectFaceDetection.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 		ProjectManager.getInstance().setProject(projectFaceDetection);

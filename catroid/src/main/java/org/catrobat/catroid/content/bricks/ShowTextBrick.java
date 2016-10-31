@@ -25,13 +25,10 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -41,7 +38,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -54,10 +51,12 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 
 public class ShowTextBrick extends UserVariableBrick {
+
 	private static final long serialVersionUID = 1L;
+
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
 	public String userVariableName;
+
 	public static final String TAG = ShowTextBrick.class.getSimpleName();
 
 	public ShowTextBrick() {
@@ -65,8 +64,8 @@ public class ShowTextBrick extends UserVariableBrick {
 		addAllowedBrickField(BrickField.Y_POSITION);
 	}
 
-	public ShowTextBrick(int x, int y) {
-		initializeBrickFields(new Formula(x), new Formula(y));
+	public ShowTextBrick(int xPosition, int yPosition) {
+		initializeBrickFields(new Formula(xPosition), new Formula(yPosition));
 	}
 
 	public ShowTextBrick(Formula xPosition, Formula yPosition) {
@@ -90,7 +89,15 @@ public class ShowTextBrick extends UserVariableBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
+		switch (view.getId()) {
+			case R.id.brick_show_variable_edit_text_x:
+				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
+				break;
+
+			case R.id.brick_show_variable_edit_text_y:
+				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
+				break;
+		}
 	}
 
 	@Override
@@ -104,62 +111,38 @@ public class ShowTextBrick extends UserVariableBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
-		view = View.inflate(context, R.layout.brick_show_text, null);
-		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_show_text_checkbox);
+		view = View.inflate(context, R.layout.brick_show_variable, null);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
+		setCheckboxView(R.id.brick_show_variable_checkbox);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_show_text_prototype_text_view_x);
-		TextView editX = (TextView) view.findViewById(R.id.brick_show_text_edit_text_x);
-		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_show_text_edit_text_x);
+		TextView editTextX = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_x);
+		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_show_variable_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_show_text_prototype_text_view_y);
-		TextView editY = (TextView) view.findViewById(R.id.brick_show_text_edit_text_y);
-		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_show_text_edit_text_y);
+		editTextX.setOnClickListener(this);
+
+		TextView editTextY = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_y);
+		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_show_variable_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
-		editY.setOnClickListener(this);
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.show_text_spinner);
+		editTextY.setOnClickListener(this);
+
+		Spinner showVariableSpinner = (Spinner) view.findViewById(R.id.show_variable_spinner);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
-		variableSpinner.setAdapter(userVariableAdapterWrapper);
+		showVariableSpinner.setAdapter(userVariableAdapterWrapper);
+		setSpinnerSelection(showVariableSpinner, null);
 
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			variableSpinner.setClickable(true);
-			variableSpinner.setEnabled(true);
-		} else {
-			variableSpinner.setClickable(false);
-			variableSpinner.setFocusable(false);
-		}
-
-		setSpinnerSelection(variableSpinner, null);
-
-		variableSpinner.setOnTouchListener(new View.OnTouchListener() {
+		showVariableSpinner.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
@@ -175,7 +158,8 @@ public class ShowTextBrick extends UserVariableBrick {
 				return false;
 			}
 		});
-		variableSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+		showVariableSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
@@ -189,28 +173,43 @@ public class ShowTextBrick extends UserVariableBrick {
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
-				adapterView = parent;
-				setUserVariableName(userVariable);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				userVariable = (UserVariable) adapterView.getItemAtPosition(1);
-				setUserVariableName(userVariable);
+				userVariable = (UserVariable) arg0.getItemAtPosition(1);
 			}
 		});
-
-		setUserVariableName(userVariable);
 
 		return view;
 	}
 
+	@Override
+	public View getPrototypeView(Context context) {
+		prototypeView = View.inflate(context, R.layout.brick_show_variable, null);
+		TextView textViewX = (TextView) prototypeView.findViewById(R.id.brick_show_variable_edit_text_x);
+		textViewX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
+		TextView textViewY = (TextView) prototypeView.findViewById(R.id.brick_show_variable_edit_text_y);
+		textViewY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
+		return prototypeView;
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		if (userVariable == null || userVariable.getName() == null) {
+			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
+			userVariable.setDummy(true);
+		}
+		sequence.addAction(sprite.getActionFactory().createShowVariableAction(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
+				getFormulaWithBrickField(BrickField.Y_POSITION), userVariable));
+		return null;
+	}
+
 	void setUserVariableName(UserVariable userVariable) {
-		userVariableName = Constants.NO_VARIABLE_SELECTED;
-		try {
+		if (userVariable.getName() != null) {
 			userVariableName = userVariable.getName();
-		} catch (NullPointerException e) {
-			Log.d(TAG, "Nothing selected yet.");
+		} else {
+			userVariableName = Constants.NO_VARIABLE_SELECTED;
 		}
 	}
 
@@ -219,69 +218,7 @@ public class ShowTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_show_text, null);
-		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_show_text_prototype_text_view_x);
-		textX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
-		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_show_text_prototype_text_view_y);
-		textY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
-		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_show_text_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_show_text_label);
-			TextView placeAtX = (TextView) view.findViewById(R.id.brick_show_text_x_textview);
-			TextView placeAtY = (TextView) view.findViewById(R.id.brick_show_text_y_textview);
-			TextView editX = (TextView) view.findViewById(R.id.brick_show_text_edit_text_x);
-			TextView editY = (TextView) view.findViewById(R.id.brick_show_text_edit_text_y);
-			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
-			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
-			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
-		switch (view.getId()) {
-			case R.id.brick_show_text_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
-				break;
-
-			case R.id.brick_show_text_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
-				break;
-		}
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		if (userVariableName == null) {
-			userVariableName = Constants.NO_VARIABLE_SELECTED;
-		}
-		sequence.addAction(sprite.getActionFactory().createShowTextAction(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
-				getFormulaWithBrickField(BrickField.Y_POSITION), userVariableName));
-		return null;
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 		super.updateUserVariableReference(into, from);
 	}
 }

@@ -35,12 +35,13 @@ import java.util.List;
 import java.util.Map;
 
 public class HideTextAction extends TemporalAction {
-	private String variableName;
+
+	private UserVariable variableToHide;
 	private UserBrick userBrick;
 
 	@Override
 	protected void begin() {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		List<UserVariable> variableList = dataContainer.getProjectVariables();
@@ -63,7 +64,7 @@ public class HideTextAction extends TemporalAction {
 			return;
 		}
 		for (UserVariable userVariable : variableList) {
-			if (userVariable.getName().equals(variableName)) {
+			if (userVariable.getName().equals(variableToHide.getName())) {
 				userVariable.setVisible(false);
 				break;
 			}
@@ -74,8 +75,8 @@ public class HideTextAction extends TemporalAction {
 	protected void update(float percent) {
 	}
 
-	public void setVariableName(String variableName) {
-		this.variableName = variableName;
+	public void setVariableToHide(UserVariable userVariable) {
+		this.variableToHide = userVariable;
 	}
 
 	public void setUserBrick(UserBrick userBrick) {

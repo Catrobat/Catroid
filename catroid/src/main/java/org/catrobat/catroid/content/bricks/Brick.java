@@ -29,7 +29,7 @@ import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
@@ -42,8 +42,8 @@ public interface Brick extends Serializable, Cloneable {
 		COLOR, COLOR_CHANGE, BRIGHTNESS, BRIGHTNESS_CHANGE, X_POSITION, Y_POSITION, X_POSITION_CHANGE, Y_POSITION_CHANGE,
 		TRANSPARENCY, TRANSPARENCY_CHANGE, SIZE, SIZE_CHANGE, VOLUME, VOLUME_CHANGE, X_DESTINATION, Y_DESTINATION, STEPS,
 		DURATION_IN_SECONDS, DEGREES, TURN_RIGHT_DEGREES, TURN_LEFT_DEGREES, TIME_TO_WAIT_IN_SECONDS, VARIABLE,
-		VARIABLE_CHANGE, IF_CONDITION, TIMES_TO_REPEAT, VIBRATE_DURATION_IN_SECONDS, USER_BRICK, NOTE, SPEAK,
-		SHOWTEXT, HIDETEXT, STRING, REPEAT_UNTIL_CONDITION,
+		VARIABLE_CHANGE, PEN_SIZE, IF_CONDITION, TIMES_TO_REPEAT, VIBRATE_DURATION_IN_SECONDS, USER_BRICK, NOTE, SPEAK,
+		SHOWTEXT, HIDETEXT, STRING, ROTATION_STYLE, REPEAT_UNTIL_CONDITION, ASK_QUESTION,
 
 		LEGO_NXT_SPEED, LEGO_NXT_DEGREES, LEGO_NXT_FREQUENCY, LEGO_NXT_DURATION_IN_SECONDS,
 
@@ -83,6 +83,9 @@ public interface Brick extends Serializable, Cloneable {
 	int SENSOR_COMPASS = 0x8000;
 	int NFC_ADAPTER = 0x10000;
 	int VIDEO = 0x20000;
+	int SENSOR_GPS = 0x40000;
+	int COLLISION = 0x80000;
+
 	//	public static final int BLUETOOTH_ARDUINO = 0x20000;
 
 	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
@@ -98,8 +101,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	int getRequiredResources();
 
-	void setCheckboxVisibility(int visibility);
-
 	int getAlphaValue();
 
 	void setBrickAdapter(BrickAdapter adapter);
@@ -108,21 +109,19 @@ public interface Brick extends Serializable, Cloneable {
 
 	boolean isChecked();
 
-	void setCheckedBoolean(boolean newValue);
+	boolean isCommentedOut();
+
+	void setCommentedOut(boolean commentedOut);
 
 	void setCheckboxView(int id);
 
 	void setCheckboxView(int id, View view);
 
-	View getViewWithAlpha(int alphaValue);
-
 	void setAnimationState(boolean animationState);
 
 	void setAlpha(int alphaFull);
 
-	void enableAllViews(View view, boolean enable);
-
-	boolean isEqualBrick(Brick brick, Project mergeResult, Project current);
+	boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current);
 
 	void storeDataForBackPack(Sprite sprite);
 }

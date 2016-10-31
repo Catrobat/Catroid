@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.sprite;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -39,7 +40,7 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 
 	public void testStartThreads() throws InterruptedException {
 		double size = 300;
-		Sprite testSprite = new Sprite("testSprite");
+		Sprite testSprite = new SingleSprite("testSprite");
 		Script testScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(size);
@@ -60,7 +61,7 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 	}
 
 	public void testResumeThreads() throws InterruptedException {
-		Sprite testSprite = new Sprite("testSprite");
+		Sprite testSprite = new SingleSprite("testSprite");
 		Script testScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
 		WaitBrick waitBrick = new WaitBrick(500);

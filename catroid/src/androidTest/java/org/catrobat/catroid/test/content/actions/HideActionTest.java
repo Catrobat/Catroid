@@ -27,12 +27,13 @@ import android.test.AndroidTestCase;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 
 public class HideActionTest extends AndroidTestCase {
 
 	public void testHide() {
-		Sprite sprite = new Sprite("new sprite");
+		Sprite sprite = new SingleSprite("new SingleSprite");
 		assertTrue("Unexpected default visibility", sprite.look.isVisible());
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createHideAction(sprite);

@@ -23,7 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,8 +32,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ActionMode;
@@ -43,36 +45,42 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.GroupItemSprite;
+import org.catrobat.catroid.content.GroupSprite;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
-import org.catrobat.catroid.io.LoadProjectTask;
-import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.CapitalizedTextView;
-import org.catrobat.catroid.ui.DynamicListView;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
-import org.catrobat.catroid.ui.adapter.SpriteBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
+import org.catrobat.catroid.ui.dynamiclistview.DynamicExpandableListView;
+import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -80,8 +88,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class SpritesListFragment extends ScriptActivityFragment implements SpriteBaseAdapter.OnSpriteEditListener,
-		OnLoadProjectCompleteListener, BackPackSpriteController.OnBackpackSpriteCompleteListener {
+public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpriteEditListener,
+		BackPackSpriteController.OnBackpackSpriteCompleteListener, ListItemActionsInterface {
 
 	public static final String TAG = SpritesListFragment.class.getSimpleName();
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
@@ -90,9 +98,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	private static String multiSelectActionModeTitle;
 	private static String singleItemAppendixMultiSelectActionMode;
 	private static String multipleItemAppendixMultiSelectActionMode;
-	public boolean isLoading = false;
 	private SpriteAdapter spriteAdapter;
-	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
@@ -103,22 +109,24 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	private View selectAllActionModeButton;
 	private boolean isRenameActionMode;
 	private boolean isBackPackActionMode;
-	private String programName;
+	private boolean isCopyActionMode;
+	private boolean isDeleteActionMode;
 	private boolean selectAll = true;
+	private boolean actionModeActive = false;
 
-	private LoadProjectTask loadProjectTask;
-	private boolean fragmentStartedFirstTime = true;
+	private Button okButton;
+	private DynamicExpandableListView listView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
-
-		programName = getActivity().getIntent().getStringExtra(Constants.PROJECTNAME_TO_LOAD);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
 		return inflater.inflate(R.layout.fragment_sprites_list, container, false);
 	}
 
@@ -126,15 +134,13 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		listView = (DynamicExpandableListView) getActivity().findViewById(R.id.fragment_sprites_list_listview);
+		listView.setAdapter(spriteAdapter);
+		listView.getUtilDynamicListView().setSpritesListFragment(this);
+
 		registerForContextMenu(getListView());
 		if (savedInstanceState != null) {
 			spriteToEdit = (Sprite) savedInstanceState.get(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT);
-		}
-
-		try {
-			Utils.loadProjectIfNeeded(getActivity());
-		} catch (ClassCastException exception) {
-			Log.e(TAG, getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
 	}
 
@@ -148,33 +154,17 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	public void onStart() {
 		super.onStart();
 		initListeners();
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (programName != null
-				&& ((projectManager.getCurrentProject() != null && !projectManager.getCurrentProject().getName()
-				.equals(programName)) || projectManager.getCurrentProject() == null)) {
-
-			getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
-			getActivity().findViewById(R.id.progress_circle).bringToFront();
-			getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
-			getActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
-
-			isLoading = true;
-
-			loadProjectTask = new LoadProjectTask(getActivity(), programName, true, true);
-			loadProjectTask.setOnLoadProjectCompleteListener(this);
-			loadProjectTask.execute();
-		} else if (projectManager.getCurrentProject() != null && projectManager.getCurrentProject().getName()
-				.equals(programName) && fragmentStartedFirstTime) {
-			showInfoFragmentIfNeeded();
-		}
-
-		fragmentStartedFirstTime = false;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		if (ProjectManager.getInstance().getCurrentProject().isScenesEnabled()) {
+			getActivity().getActionBar().setTitle(ProjectManager.getInstance().getCurrentScene().getName());
+		} else {
+			getActivity().getActionBar().setTitle(ProjectManager.getInstance().getCurrentProject().getName());
+		}
+
 		if (actionMode != null) {
 			actionMode.finish();
 			actionMode = null;
@@ -186,8 +176,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		if (BackPackListManager.getInstance().isBackpackEmpty()) {
 			BackPackListManager.getInstance().loadBackpack();
 		}
-
-		StorageHandler.getInstance().fillChecksumContainer();
 
 		if (spriteRenamedReceiver == null) {
 			spriteRenamedReceiver = new SpriteRenamedReceiver();
@@ -222,19 +210,22 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+
+		reExpandAllGroups();
+	}
+
+	private void reExpandAllGroups() {
+		for (int groupPosition : spriteAdapter.getGroupSpritePositions()) {
+			Sprite sprite = (Sprite) spriteAdapter.getGroup(groupPosition);
+			if (!listView.isGroupExpanded(groupPosition) && sprite instanceof GroupSprite && ((GroupSprite) sprite).shouldBeExpanded()) {
+				listView.expandGroup(groupPosition);
+			}
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		getActivity().getIntent().removeExtra(Constants.PROJECTNAME_TO_LOAD);
-		programName = Utils.getCurrentProjectName(getActivity());
-
-		if (loadProjectTask != null) {
-			loadProjectTask.cancel(true);
-			ProjectManager.getInstance().cancelLoadProject();
-		}
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
@@ -278,6 +269,26 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		}
 
 		updateActionModeTitle();
+		updateSelectAllView();
+	}
+
+	private void updateSelectAllView() {
+		CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
+
+		Scene scene = ProjectManager.getInstance().getCurrentScene();
+		int numberOfNonGroupItems = scene.getSpriteList().size() - spriteAdapter.getNumberOfGroups();
+		int numberOfCheckedItems = spriteAdapter.getCheckedItems().size();
+
+		if ((isBackPackActionMode && numberOfCheckedItems < numberOfNonGroupItems)
+				|| (!isBackPackActionMode && numberOfCheckedItems < (numberOfNonGroupItems - 1))) {
+			selectAll = true;
+			selectAllView.setVisibility(View.VISIBLE);
+			selectAllView.setText(R.string.select_all);
+		} else if (numberOfCheckedItems > 0) {
+			selectAll = false;
+			selectAllView.setVisibility(View.VISIBLE);
+			selectAllView.setText(R.string.deselect_all);
+		}
 	}
 
 	private void updateActionModeTitle() {
@@ -307,12 +318,28 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	}
 
 	@Override
-	public void onSpriteEdit(int position) {
+	public void onSpriteEdit(int groupPosition, int childPosition) {
+
 		if (isRenameActionMode) {
-			spriteToEdit = spriteAdapter.getItem(position);
+			spriteToEdit = (Sprite) spriteAdapter.getChild(groupPosition, childPosition);
 			showRenameDialog();
 		} else {
-			ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+			Sprite currentSprite = (Sprite) spriteAdapter.getChild(groupPosition, childPosition);
+			ProjectManager.getInstance().setCurrentSprite(currentSprite);
+			Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
+			startActivity(intent);
+		}
+	}
+
+	@Override
+	public void onSpriteEdit(int groupPosition) {
+
+		if (isRenameActionMode) {
+			spriteToEdit = (Sprite) spriteAdapter.getGroup(groupPosition);
+			showRenameDialog();
+		} else {
+			Sprite currentSprite = (Sprite) spriteAdapter.getGroup(groupPosition);
+			ProjectManager.getInstance().setCurrentSprite(currentSprite);
 			Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
 			startActivity(intent);
 		}
@@ -340,7 +367,8 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 	private void startActionMode(ActionMode.Callback actionModeCallback, boolean isRenameMode, boolean isBackPackMode) {
 		if (actionMode == null) {
-			if (spriteAdapter.getCount() == 1 && !actionModeCallback.equals(backPackModeCallBack)) {
+			List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+			if (spriteList.size() == 1 && !actionModeCallback.equals(backPackModeCallBack)) {
 				if (actionModeCallback.equals(copyModeCallBack)) {
 					((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.copy));
 				} else if (actionModeCallback.equals(deleteModeCallBack)) {
@@ -349,6 +377,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 					((ProjectActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.rename));
 				}
 			} else {
+				expandAllGroups();
 				actionMode = getActivity().startActionMode(actionModeCallback);
 				BottomBar.hideBottomBar(getActivity());
 				isRenameActionMode = isRenameMode;
@@ -362,23 +391,19 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		//handled in ProjectActivity
 	}
 
-	public void handleCheckBoxClick(View view) {
-		int position = getListView().getPositionForView(view);
-		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.sprite_checkbox)).isChecked());
-	}
-
 	public void copySprite() {
+		spriteToEdit.setConvertToSingleSprite(true);
 		Sprite copiedSprite = spriteToEdit.clone();
-		String oldName = copiedSprite.getName();
+		spriteToEdit.setConvertToSingleSprite(false);
 
+		String oldName = copiedSprite.getName();
 		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
 				0));
 		String newName = copiedSprite.getName();
-
+		copiedSprite.renameCopiedSpriteInCollisionFormulas(oldName, newName, getActivity());
 		copiedSprite.updateCollisionBroadcastMessages(oldName, newName);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
-
 		projectManager.addSprite(copiedSprite);
 		projectManager.setCurrentSprite(copiedSprite);
 
@@ -393,11 +418,93 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	}
 
 	@Override
-	protected void showDeleteDialog() {
+	public void showDeleteDialog() {
+		final Context context = getActivity();
+
+		final CharSequence deleteGroupSpriteOnly = context.getText(R.string.ungroup);
+		final CharSequence deleteGroupAndSprites = context.getText(R.string.group_objects_delete);
+		final List<CharSequence> items = new ArrayList<>();
+		items.add(deleteGroupSpriteOnly);
+		items.add(deleteGroupAndSprites);
+		String title = context.getText(R.string.delete).toString();
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(title);
+		builder.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				CharSequence clickedItemText = items.get(which);
+				if (clickedItemText.equals(deleteGroupSpriteOnly)) {
+					deleteCheckedSprites(false);
+				} else if (clickedItemText.equals(deleteGroupAndSprites)) {
+					deleteCheckedSprites(true);
+				}
+				clearCheckedSpritesAndEnableButtons();
+			}
+		});
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				clearCheckedSpritesAndEnableButtons();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+	}
+
+	private void deleteCheckedSprites(boolean deleteGroupItemSprites) {
+		int numDeleted = 0;
+		for (int position : spriteAdapter.getCheckedItems()) {
+			spriteToEdit = getSpriteList().get(position - numDeleted);
+			if (spriteToEdit instanceof GroupSprite) {
+				if (!deleteGroupItemSprites) {
+					convertGroupItemsToSingleSprites(position - numDeleted);
+				} else {
+					numDeleted += spriteAdapter.getChildrenCount(spriteToEdit);
+				}
+				deleteGroup(deleteGroupItemSprites);
+				numDeleted++;
+			} else {
+				deleteSprite();
+				numDeleted++;
+			}
+		}
+	}
+
+	private void deleteGroup(boolean deleteSprites) {
+		int numberOfGroupItemSprites = 0;
+		int indexOfGroupSprite = getSpriteList().indexOf(spriteToEdit);
+
+		for (int groupItemPosition = indexOfGroupSprite + 1; groupItemPosition < getSpriteList().size();
+				groupItemPosition++) {
+			Sprite currentSprite = getSpriteList().get(groupItemPosition);
+			if (currentSprite instanceof GroupItemSprite) {
+				numberOfGroupItemSprites++;
+			} else {
+				break;
+			}
+		}
+
+		for (int groupItemPosition = indexOfGroupSprite + numberOfGroupItemSprites;
+				groupItemPosition > indexOfGroupSprite; groupItemPosition--) {
+			spriteToEdit = getSpriteList().get(groupItemPosition);
+			if (deleteSprites) {
+				deleteSprite();
+			} else {
+				spriteToEdit.setConvertToSingleSprite(true);
+				SingleSprite clonedSprite = (SingleSprite) spriteToEdit.clone();
+				getSpriteList().add(groupItemPosition, clonedSprite);
+			}
+		}
+
+		spriteToEdit = getSpriteList().get(indexOfGroupSprite);
+		deleteSprite();
 	}
 
 	private void showConfirmDeleteDialog() {
 		int titleId;
+
 		if (spriteAdapter.getAmountOfCheckedItems() == 1) {
 			titleId = R.string.dialog_confirm_delete_object_title;
 		} else {
@@ -410,8 +517,12 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				deleteCheckedSprites();
-				clearCheckedSpritesAndEnableButtons();
+				if (isGroupWithoutGroupItemsChecked()) {
+					showDeleteDialog();
+				} else {
+					deleteCheckedSprites(false);
+					clearCheckedSpritesAndEnableButtons();
+				}
 			}
 		});
 		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -421,14 +532,44 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 				clearCheckedSpritesAndEnableButtons();
 			}
 		});
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				clearCheckedSpritesAndEnableButtons();
+			}
+		});
 
 		AlertDialog alertDialog = builder.create();
 		alertDialog.show();
 	}
 
+	private boolean isGroupWithoutGroupItemsChecked() {
+		Set<Integer> checkedItems = spriteAdapter.getCheckedItems();
+		for (int position : checkedItems) {
+			Sprite sprite = getSpriteList().get(position);
+			if (sprite instanceof GroupSprite) {
+				int childrenCount = spriteAdapter.getChildrenCount(sprite);
+				boolean groupItemSpriteChecked = false;
+				for (int childPosition = position + 1; childPosition < position + 1 + childrenCount; childPosition++) {
+					if (checkedItems.contains(childPosition)) {
+						groupItemSpriteChecked = true;
+					}
+				}
+				if (childrenCount > 0 && !groupItemSpriteChecked) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public void deleteSprite() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
+
+		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
+			currentLookData.getCollisionInformation().cancelCalculation();
+		}
 
 		deleteSpriteFiles();
 		dataContainer.cleanVariableListForSprite(spriteToEdit);
@@ -437,15 +578,16 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);
 		}
-		projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+		projectManager.getCurrentScene().getSpriteList().remove(spriteToEdit);
 	}
 
-	private void deleteCheckedSprites() {
-		int numDeleted = 0;
-		for (int position : spriteAdapter.getCheckedItems()) {
-			spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numDeleted);
-			deleteSprite();
-			numDeleted++;
+	private void convertGroupItemsToSingleSprites(int groupPosition) {
+		int childCount = spriteAdapter.getChildCountWithGroupSpriteIndex(groupPosition);
+		for (int position = groupPosition + 1; position < groupPosition + 1 + childCount; position++) {
+			getSpriteList().get(position).setConvertToSingleSprite(true);
+			Sprite cloneSprite = getSpriteList().get(position).clone();
+			getSpriteList().remove(position);
+			getSpriteList().add(position, cloneSprite);
 		}
 	}
 
@@ -471,6 +613,16 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	}
 
 	@Override
+	public boolean getActionModeActive() {
+		return actionModeActive;
+	}
+
+	@Override
+	public void setActionModeActive(boolean actionModeActive) {
+		this.actionModeActive = actionModeActive;
+	}
+
+	@Override
 	public boolean getShowDetails() {
 		return spriteAdapter.getShowDetails();
 	}
@@ -481,9 +633,20 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		spriteAdapter.notifyDataSetChanged();
 	}
 
+	public boolean shouldSpriteBeChecked(int flatPosition) {
+		Sprite sprite = getSpriteList().get(flatPosition);
+		if ((isBackPackActionMode && !(sprite instanceof GroupSprite))
+				|| ((isCopyActionMode) && !(sprite instanceof GroupSprite) && flatPosition > 0)
+				|| ((isRenameActionMode) && flatPosition > 0)
+				|| ((isDeleteActionMode) && flatPosition > 0)) {
+			return true;
+		}
+		return false;
+	}
+
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
 		selectAll = true;
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
+		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
@@ -495,8 +658,10 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 					if (isBackPackActionMode) {
 						startPosition = 0;
 					}
-					while (startPosition < spriteList.size()) {
-						spriteAdapter.addCheckedSprite(startPosition);
+					while (startPosition < getSpriteList().size()) {
+						if (shouldSpriteBeChecked(startPosition)) {
+							spriteAdapter.addCheckedSprite(startPosition);
+						}
 						startPosition++;
 					}
 					spriteAdapter.notifyDataSetChanged();
@@ -514,12 +679,33 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		});
 	}
 
+	private void expandAllGroups() {
+		for (int groupPosition : spriteAdapter.getGroupSpritePositions()) {
+			if (!listView.isGroupExpanded(groupPosition)) {
+				listView.expandGroup(groupPosition);
+			}
+		}
+		spriteAdapter.setExpandedIndicatorsForAllGroupSprites(true);
+	}
+
+	public void collapseAllGroups() {
+		for (int groupPosition : spriteAdapter.getGroupSpritePositions()) {
+			if (listView.isGroupExpanded(groupPosition)) {
+				listView.collapseGroup(groupPosition);
+			}
+		}
+		spriteAdapter.setExpandedIndicatorsForAllGroupSprites(false);
+	}
+
 	private class SpriteRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
+				String oldSpriteName = spriteToEdit.getName();
+				renameSpritesInCollisionFormulas(oldSpriteName, newSpriteName, getActivity());
 				spriteToEdit.rename(newSpriteName);
+				spriteAdapter.replaceItemInIdMap(oldSpriteName, newSpriteName);
 			}
 		}
 	}
@@ -553,7 +739,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_TOUCH_ACTION_UP)) {
-				((DynamicListView) getListView()).notifyListItemTouchActionUp();
+				getListView().notifyListItemTouchActionUp();
 			}
 		}
 	}
@@ -576,6 +762,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 			mode.setTitle(multiSelectActionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
+			isDeleteActionMode = true;
 
 			return true;
 		}
@@ -592,6 +779,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 			} else {
 				showConfirmDeleteDialog();
 			}
+			isDeleteActionMode = false;
 		}
 	};
 
@@ -624,7 +812,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 			Iterator<Integer> iterator = checkedSprites.iterator();
 			if (iterator.hasNext()) {
 				int position = iterator.next();
-				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
+				spriteToEdit = getSpriteList().get(position);
 				showRenameDialog();
 			}
 			clearCheckedSpritesAndEnableButtons();
@@ -649,6 +837,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 			mode.setTitle(multiSelectActionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
+			isCopyActionMode = true;
 
 			return true;
 		}
@@ -661,10 +850,11 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			for (int position : spriteAdapter.getCheckedItems()) {
-				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
+				spriteToEdit = getSpriteList().get(position);
 				copySprite();
 			}
 			clearCheckedSpritesAndEnableButtons();
+			isCopyActionMode = false;
 		}
 	};
 
@@ -700,7 +890,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		public void onDestroyActionMode(ActionMode mode) {
 			List<Sprite> spriteListToBackpack = new ArrayList<>();
 			for (Integer position : spriteAdapter.getCheckedItems()) {
-				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
+				spriteToEdit = getSpriteList().get(position);
 				spriteListToBackpack.add(spriteToEdit);
 			}
 
@@ -732,15 +922,14 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	}
 
 	private void initListeners() {
-		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		((DynamicListView) getListView()).setDataList(spriteList);
-		((DynamicListView) getListView()).isForSpriteList();
-		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item,
-				R.id.project_activity_sprite_title, spriteList);
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		getListView().setDataList(spriteList);
+		getListView().isForSpriteList();
+		spriteAdapter = new SpriteAdapter(getActivity(), spriteList);
 		spriteAdapter.setSpritesListFragment(this);
 
 		spriteAdapter.setOnSpriteEditListener(this);
-		setListAdapter(spriteAdapter);
+		listView.setAdapter(spriteAdapter);
 		getListView().setTextFilterEnabled(true);
 		getListView().setDivider(null);
 		getListView().setDividerHeight(0);
@@ -750,49 +939,21 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
 			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath(), false);
 		}
-
 		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
 			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath(), false);
 		}
-	}
-
-	@Override
-	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		initListeners();
-		spriteAdapter.notifyDataSetChanged();
-		isLoading = false;
-		getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
-
-		showInfoFragmentIfNeeded();
-	}
-
-	private void showInfoFragmentIfNeeded() {
-		if (needToShowLegoNXTInfoDialog()) {
-			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
-			dialog.show(this.getActivity().getFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
-		}
-	}
-
-	private boolean needToShowLegoNXTInfoDialog() {
-		boolean isLegoNXTInfoDialogDisabled = SettingsActivity.getShowLegoMindstormsSensorInfoDialog(this.getActivity().getApplicationContext());
-		Project project = ProjectManager.getInstance().getCurrentProject();
-
-		return !isLegoNXTInfoDialogDisabled && (project.getRequiredResources() & Brick.BLUETOOTH_LEGO_NXT) != 0;
-	}
-
-	@Override
-	public void onLoadProjectFailure() {
-		getActivity().onBackPressed();
 	}
 
 	public boolean isBackPackActionMode() {
 		return isBackPackActionMode;
 	}
 
-	public Sprite getSpriteToEdit() {
-		return spriteToEdit;
+	public boolean isCopyActionMode() {
+		return isCopyActionMode;
+	}
+
+	public boolean isDeleteActionMode() {
+		return isDeleteActionMode;
 	}
 
 	private static String getSpriteName(String name, int nextNumber) {
@@ -802,11 +963,139 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		} else {
 			newName = name + nextNumber;
 		}
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 			if (sprite.getName().equals(newName)) {
 				return getSpriteName(name, ++nextNumber);
 			}
 		}
 		return newName;
+	}
+
+	public void showNewObjectGroupDialog() {
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+		builder.setTitle(R.string.new_group);
+		View view = View.inflate(getActivity(), R.layout.new_group_dialog, null);
+		builder.setView(view);
+		final EditText groupNameEditText = (EditText) view.findViewById(R.id.new_group_dialog_group_name);
+		int currentNumberOfGroups = spriteAdapter.getNumberOfGroups();
+		String text = getString(R.string.group) + " " + (currentNumberOfGroups + 1);
+		groupNameEditText.setText(text);
+		UtilUi.positionCursorForEditText(groupNameEditText);
+
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				String groupName = groupNameEditText.getText().toString().trim();
+				List<String> takenNames = spriteAdapter.getGroupNames();
+				takenNames.addAll(spriteAdapter.getNonGroupNames());
+				if (takenNames.contains(groupName)) {
+					showNameForGroupAlreadyGivenDialog();
+				} else {
+					createGroup(groupName);
+				}
+			}
+		});
+		builder.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+
+		groupNameEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence groupName, int start, int before, int count) {
+				if (groupName.toString().trim().isEmpty()) {
+					okButton.setEnabled(false);
+				} else {
+					okButton.setEnabled(true);
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		});
+
+		alertDialog.setCanceledOnTouchOutside(false);
+		alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+		alertDialog.show();
+		okButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+	}
+
+	private void showNameForGroupAlreadyGivenDialog() {
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+		builder.setTitle(R.string.new_group);
+		View view = View.inflate(getActivity(), R.layout.new_group_name_given_dialog, null);
+		builder.setView(view);
+
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				showNewObjectGroupDialog();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+
+		alertDialog.setCanceledOnTouchOutside(true);
+		alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+		alertDialog.show();
+	}
+
+	private void createGroup(String groupName) {
+		GroupSprite groupSprite = new GroupSprite(groupName);
+		getSpriteList().add(groupSprite);
+		spriteAdapter.notifyDataSetChanged();
+		ToastUtil.showSuccess(getActivity(), R.string.group_created);
+	}
+
+	public DynamicExpandableListView getListView() {
+		return listView;
+	}
+
+	public SpriteAdapter getSpriteAdapter() {
+		return spriteAdapter;
+	}
+
+	private List<Sprite> getSpriteList() {
+		return spriteAdapter.getSpriteList();
+	}
+
+	private void renameSpritesInCollisionFormulas(String oldName, String newName, Context context) {
+
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		for (Sprite sprite : spriteList) {
+			for (Script currentScript : sprite.getScriptList()) {
+				if (currentScript == null) {
+					return;
+				}
+				List<Brick> brickList = currentScript.getBrickList();
+				for (Brick brick : brickList) {
+					if (brick instanceof UserBrick) {
+						List<Formula> formulaList = ((UserBrick) brick).getFormulas();
+						for (Formula formula : formulaList) {
+							formula.updateCollisionFormulas(oldName, newName, context);
+						}
+					}
+					if (brick instanceof FormulaBrick) {
+						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
+						for (Formula formula : formulaList) {
+							formula.updateCollisionFormulas(oldName, newName, context);
+						}
+					}
+				}
+			}
+		}
 	}
 }

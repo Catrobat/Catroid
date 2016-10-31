@@ -21,7 +21,9 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.catrobat.catroid">
 
     <PreferenceScreen
         android:key="setting_mindstorms_nxt_bricks"
@@ -160,5 +162,17 @@
         android:key="setting_enable_phiro_bricks"
         android:summary="@string/preference_description_phiro_bricks"
         android:title="@string/preference_title_enable_phiro_bricks" />
+
+    <CheckBoxPreference
+        android:defaultValue="@string/SNACKBAR_HINTS_ENABLED"
+        android:key="setting_enable_hints"
+        android:summary="@string/preference_description_hints"
+        android:title="@string/preference_title_enable_hints" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="setting_enable_crash_reports"
+        android:summary="@string/preference_description_crash_reports"
+        android:title="@string/preference_title_enable_crash_reports" />
 
 </PreferenceScreen>

@@ -23,12 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -36,7 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -94,32 +91,20 @@ public class GlideToBrick extends FormulaBrick {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_glide_to, null);
-		view = getViewWithAlpha(alphaValue);
+		BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_glide_to_checkbox);
-		final Brick brickInstance = this;
 
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
 		TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).refreshTextField(view);
 		editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
 		TextView editY = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_DESTINATION).refreshTextField(view);
 		editY.setOnClickListener(this);
 
-		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		TextView editDuration = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_duration);
 		getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).setTextFieldId(R.id.brick_glide_to_edit_text_duration);
 		getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).refreshTextField(view);
@@ -143,13 +128,6 @@ public class GlideToBrick extends FormulaBrick {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		textDuration.setVisibility(View.GONE);
-		editDuration.setVisibility(View.VISIBLE);
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
-
 		editDuration.setOnClickListener(this);
 		return view;
 	}
@@ -157,9 +135,9 @@ public class GlideToBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
-		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_x);
-		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
-		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_x);
+		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_y);
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_duration);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
 		textX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
 		textY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
@@ -170,45 +148,15 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_glide_to_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView glideToLabel = (TextView) view.findViewById(R.id.brick_glide_to_label);
-			TextView glideToSeconds = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
-			TextView glideToXTextView = (TextView) view.findViewById(R.id.brick_glide_to_x);
-			TextView glideToYTextView = (TextView) view.findViewById(R.id.brick_glide_to_y);
-			TextView editDuration = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_duration);
-			TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
-			TextView editY = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_y);
-
-			glideToLabel.setTextColor(glideToLabel.getTextColors().withAlpha(alphaValue));
-			glideToSeconds.setTextColor(glideToSeconds.getTextColors().withAlpha(alphaValue));
-			glideToXTextView.setTextColor(glideToXTextView.getTextColors().withAlpha(alphaValue));
-			glideToYTextView.setTextColor(glideToYTextView.getTextColors().withAlpha(alphaValue));
-			editDuration.setTextColor(editDuration.getTextColors().withAlpha(alphaValue));
-			editDuration.getBackground().setAlpha(alphaValue);
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite,
+				getFormulaWithBrickField(BrickField.X_DESTINATION),
+				getFormulaWithBrickField(BrickField.Y_DESTINATION),
+				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
+		return null;
 	}
 
-	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.brick_glide_to_edit_text_x:
 				FormulaEditorFragment.showFragment(view, this, BrickField.X_DESTINATION);
@@ -225,19 +173,6 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite,
-				getFormulaWithBrickField(BrickField.X_DESTINATION),
-				getFormulaWithBrickField(BrickField.Y_DESTINATION),
-				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
-		return null;
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.X_DESTINATION);
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

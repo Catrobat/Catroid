@@ -30,7 +30,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -74,11 +74,6 @@ public class UserBrickParameter extends FormulaBrick {
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		return null;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		return parent.getView(context, brickId, adapter);
 	}
@@ -90,7 +85,7 @@ public class UserBrickParameter extends FormulaBrick {
 
 	@Override
 	public java.util.List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		String variableName = element.getText();
 
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite,
@@ -104,7 +99,7 @@ public class UserBrickParameter extends FormulaBrick {
 	}
 
 	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 
 	public void setParent(UserBrick parent) {

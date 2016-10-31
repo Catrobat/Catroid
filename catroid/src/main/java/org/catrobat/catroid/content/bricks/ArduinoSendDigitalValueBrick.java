@@ -23,18 +23,15 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -81,9 +78,11 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_arduino_send_digital, null);
 
-		TextView textSetPinNumber = (TextView) prototypeView.findViewById(R.id.brick_arduino_set_digital_pin_prototype_text_view);
+		TextView textSetPinNumber = (TextView) prototypeView.findViewById(R.id
+				.brick_arduino_set_digital_pin_edit_text);
 		textSetPinNumber.setText(String.valueOf(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER));
-		TextView textSetPinValue = (TextView) prototypeView.findViewById(R.id.brick_arduino_set_digital_value_prototype_text_view);
+		TextView textSetPinValue = (TextView) prototypeView.findViewById(R.id
+				.brick_arduino_set_digital_value_edit_text);
 		textSetPinValue.setText(String.valueOf(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE));
 
 		return prototypeView;
@@ -94,74 +93,36 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_arduino_send_digital, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_arduino_send_digital_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView textPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_digital_pin_prototype_text_view);
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_digital_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_digital_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).refreshTextField(view);
 
-		textPinNumber.setVisibility(View.GONE);
-		editPinNumber.setVisibility(View.VISIBLE);
 		editPinNumber.setOnClickListener(this);
 
-		TextView textPinValue = (TextView) view.findViewById(R.id.brick_arduino_set_digital_value_prototype_text_view);
 		TextView editPinValue = (TextView) view.findViewById(R.id.brick_arduino_set_digital_value_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE).setTextFieldId(R.id.brick_arduino_set_digital_value_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE).refreshTextField(view);
 
-		textPinValue.setVisibility(View.GONE);
-		editPinValue.setVisibility(View.VISIBLE);
 		editPinValue.setOnClickListener(this);
 
 		return view;
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_arduino_send_digital_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_digital_pin_text_view);
-			TextView textgPinValue = (TextView) view.findViewById(R.id.brick_arduino_set_digital_value_text_view);
-			TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_digital_pin_edit_text);
-			TextView editPinValue = (TextView) view.findViewById(R.id.brick_arduino_set_digital_value_edit_text);
-			textPinNumber.setTextColor(textPinNumber.getTextColors().withAlpha(alphaValue));
-			textgPinValue.setTextColor(textgPinValue.getTextColors().withAlpha(alphaValue));
-			editPinNumber.setTextColor(editPinNumber.getTextColors().withAlpha(alphaValue));
-			editPinNumber.getBackground().setAlpha(alphaValue);
-			editPinValue.setTextColor(editPinValue.getTextColors().withAlpha(alphaValue));
-			editPinValue.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createSendDigitalArduinoValueAction(sprite,
+				getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER),
+				getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE)));
+		return null;
 	}
 
-	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.brick_arduino_set_digital_pin_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
@@ -174,18 +135,6 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSendDigitalArduinoValueAction(sprite,
-				getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER),
-				getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE)));
-		return null;
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

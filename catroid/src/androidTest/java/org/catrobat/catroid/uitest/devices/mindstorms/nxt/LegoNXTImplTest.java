@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils;
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -189,7 +190,7 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 	private ArrayList<int[]> createTestproject(String projectName) {
 		ArrayList<int[]> commands = new ArrayList<int[]>();
 
-		Sprite firstSprite = new Sprite(spriteName);
+		Sprite firstSprite = new SingleSprite(spriteName);
 		Script startScript = new StartScript();
 		Script whenScript = new WhenScript();
 		SetLookBrick setLookBrick = new SetLookBrick();
@@ -227,12 +228,12 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 		firstSprite.addScript(startScript);
 		firstSprite.addScript(whenScript);
 
-		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		ArrayList<Sprite> spriteList = new ArrayList<>();
 		spriteList.add(firstSprite);
 		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
 		String imageName = "image";
-		File image = UiTestUtils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
+		File image = UiTestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), imageName, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		LookData lookData = new LookData();

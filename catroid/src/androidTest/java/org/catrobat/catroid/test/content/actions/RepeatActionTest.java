@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.RepeatAction;
@@ -53,7 +54,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		testSprite = new Sprite("sprite");
+		testSprite = new SingleSprite("sprite");
 		testScript = new StartScript();
 	}
 
@@ -110,7 +111,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testRepeatCount() {
-		Sprite testSprite = new Sprite("sprite");
+		Sprite testSprite = new SingleSprite("sprite");
 		Script testScript = new StartScript();
 
 		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.OBJECT_Y.name(), null));
@@ -170,7 +171,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {
-		Sprite testSprite = new Sprite("sprite");
+		Sprite testSprite = new SingleSprite("sprite");
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
 
 		SequenceAction sequence = (SequenceAction) testSprite.getActionFactory().createSequence();

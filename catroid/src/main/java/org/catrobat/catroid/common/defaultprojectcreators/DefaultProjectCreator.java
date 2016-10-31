@@ -47,7 +47,8 @@ public abstract class DefaultProjectCreator {
 		return createDefaultProject(projectName, context, false);
 	}
 
-	public abstract Project createDefaultProject(String projectName, Context context, boolean landscapeMode) throws
+	public abstract Project createDefaultProject(String projectName, Context context, boolean
+			landscapeMode) throws
 			IOException,
 			IllegalArgumentException;
 

@@ -23,13 +23,11 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -56,14 +54,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 
 		view = View.inflate(context, R.layout.brick_drone_spinner, null);
 		setCheckboxView(R.id.brick_drone_spinner_checkbox);
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(DroneSpinnerBrick.this, isChecked);
-			}
-		});
 
 		Spinner spinner = (Spinner) view.findViewById(R.id.brick_drone_spinner_ID);
 		spinner.setFocusableInTouchMode(false);
@@ -75,14 +65,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 
 		spinner.setAdapter(arrayAdapter);
 
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			spinner.setClickable(false);
-			spinner.setEnabled(false);
-		} else {
-			spinner.setClickable(true);
-			spinner.setEnabled(true);
-		}
-
 		spinner.setAdapter(arrayAdapter);
 		spinner.setSelection(spinnerPosition);
 
@@ -91,7 +73,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				selectedMessage = parent.getItemAtPosition(position).toString();
 				spinnerPosition = position;
-				adapterView = parent;
 				Log.d(TAG, "selected message = "
 						+ selectedMessage + " on position: " + spinnerPosition);
 			}
@@ -112,8 +93,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 		View prototypeView = View.inflate(context, R.layout.brick_drone_spinner, null);
 
 		Spinner spinner = (Spinner) prototypeView.findViewById(R.id.brick_drone_spinner_ID);
-		spinner.setFocusableInTouchMode(false);
-		spinner.setFocusable(false);
 
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(prototypeView.getContext(),
 				android.R.layout.simple_spinner_item, getSpinnerItems(prototypeView));
@@ -126,22 +105,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 		label.setText(getBrickLabel(prototypeView));
 
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_drone_spinner_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-
-			TextView label = (TextView) view.findViewById(R.id.brick_drone_spinner_label);
-			label.setText(getBrickLabel(view));
-		}
-		return view;
 	}
 
 	public void setSpinnerPosition(int spinnerPosition) {

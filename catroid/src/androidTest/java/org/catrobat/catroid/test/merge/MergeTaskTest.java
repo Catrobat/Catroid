@@ -27,6 +27,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.merge.MergeTask;
@@ -40,17 +41,17 @@ public class MergeTaskTest extends AndroidTestCase {
 
 	public void testSuccessWithSameScriptsAndGlobalValues() {
 		createProjectsWithSameScriptsAndGlobalValues();
-		MergeTask merge = new MergeTask(firstProject, secondProject, null, null);
+		MergeTask merge = new MergeTask(firstProject, secondProject, null, null, false);
 		assertTrue("Error!", merge.mergeProjects("merge"));
-		Project mergeResult = StorageHandler.getInstance().loadProject("merge");
+		Project mergeResult = StorageHandler.getInstance().loadProject("merge", getContext());
 
-		assertTrue("Error!", mergeResult.getDataContainer().getProjectVariables().size() == 1);
-		assertTrue("Error!", mergeResult.getDataContainer().getProjectLists().size() == 1);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getProjectVariables().size() == 1);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getProjectLists().size() == 1);
 
-		assertTrue("Error!", mergeResult.getSpriteList().size() == 3);
-		for (Sprite sprite : mergeResult.getSpriteList()) {
-			assertTrue("Error!", mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 0);
-			assertTrue("Error!", mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 0);
+		assertTrue("Error!", mergeResult.getDefaultScene().getSpriteList().size() == 3);
+		for (Sprite sprite : mergeResult.getDefaultScene().getSpriteList()) {
+			assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 0);
+			assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 0);
 			assertTrue("Error!", sprite.getScriptList().size() == 1);
 			assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
 		}
@@ -59,17 +60,17 @@ public class MergeTaskTest extends AndroidTestCase {
 
 	public void testSuccessWithSameScriptsAndSpriteValues() {
 		createProjectsWithSameScriptsAndSpriteValues();
-		MergeTask merge = new MergeTask(firstProject, secondProject, null, null);
+		MergeTask merge = new MergeTask(firstProject, secondProject, null, null, false);
 		assertTrue("Error!", merge.mergeProjects("merge"));
-		Project mergeResult = StorageHandler.getInstance().loadProject("merge");
+		Project mergeResult = StorageHandler.getInstance().loadProject("merge", getContext());
 
-		assertTrue("Error!", mergeResult.getDataContainer().getProjectVariables().size() == 0);
-		assertTrue("Error!", mergeResult.getDataContainer().getProjectLists().size() == 0);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getProjectVariables().size() == 0);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getProjectLists().size() == 0);
 
-		assertTrue("Error!", mergeResult.getSpriteList().size() == 3);
-		for (Sprite sprite : mergeResult.getSpriteList()) {
-			assertTrue("Error!", mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
-			assertTrue("Error!", mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
+		assertTrue("Error!", mergeResult.getDefaultScene().getSpriteList().size() == 3);
+		for (Sprite sprite : mergeResult.getDefaultScene().getSpriteList()) {
+			assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
+			assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
 			assertTrue("Error!", sprite.getScriptList().size() == 1);
 			assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
 		}
@@ -79,31 +80,31 @@ public class MergeTaskTest extends AndroidTestCase {
 	public void testSuccessWithDifferentScripts() {
 		createProjectWithDifferentScripts();
 
-		MergeTask merge = new MergeTask(firstProject, secondProject, null, null);
+		MergeTask merge = new MergeTask(firstProject, secondProject, null, null, false);
 		assertTrue("Error!", merge.mergeProjects("merge"));
-		Project mergeResult = StorageHandler.getInstance().loadProject("merge");
+		Project mergeResult = StorageHandler.getInstance().loadProject("merge", getContext());
 
-		assertTrue("Error!", mergeResult.getDataContainer().getProjectVariables().size() == 1);
-		assertTrue("Error!", mergeResult.getDataContainer().getProjectLists().size() == 1);
-		assertTrue("Error!", mergeResult.getSpriteList().size() == 3);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getProjectVariables().size() == 1);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getProjectLists().size() == 1);
+		assertTrue("Error!", mergeResult.getDefaultScene().getSpriteList().size() == 3);
 
-		Sprite sprite = mergeResult.getSpriteList().get(0);
-		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
-		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
+		Sprite sprite = mergeResult.getDefaultScene().getSpriteList().get(0);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
 		assertTrue("Error!", sprite.getScriptList().size() == 2);
 		assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
 		assertTrue("Error!", sprite.getScript(1).getBrickList().size() == 2);
 
-		sprite = mergeResult.getSpriteList().get(1);
-		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
-		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
+		sprite = mergeResult.getDefaultScene().getSpriteList().get(1);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
 		assertTrue("Error!", sprite.getScriptList().size() == 2);
 		assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
 		assertTrue("Error!", sprite.getScript(1).getBrickList().size() == 2);
 
-		sprite = mergeResult.getSpriteList().get(2);
-		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 0);
-		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 0);
+		sprite = mergeResult.getDefaultScene().getSpriteList().get(2);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 0);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 0);
 		assertTrue("Error!", sprite.getScriptList().size() == 0);
 
 		assertTrue("Error!", StorageHandler.getInstance().deleteProject("merge"));
@@ -112,7 +113,7 @@ public class MergeTaskTest extends AndroidTestCase {
 	public void testMergeConflict() {
 		createProjectForMergeConflict();
 
-		MergeTask merge = new MergeTask(firstProject, secondProject, null, null);
+		MergeTask merge = new MergeTask(firstProject, secondProject, null, null, false);
 		assertFalse("Error!", merge.mergeProjects("merge"));
 	}
 
@@ -138,7 +139,7 @@ public class MergeTaskTest extends AndroidTestCase {
 
 		firstProject = TestUtils.createProjectWithGlobalValues("First Project", firstSpriteName, "test1", getContext());
 		secondProject = TestUtils.createProjectWithSpriteValues("Second Project", firstSpriteName, "test2", getContext());
-		secondProject.addSprite(new Sprite(secondSpriteName));
+		secondProject.getDefaultScene().addSprite(new SingleSprite(secondSpriteName));
 	}
 
 	private void createProjectForMergeConflict() {

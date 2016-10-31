@@ -42,6 +42,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
@@ -359,8 +360,14 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 	public void testRateAppMenuExists() {
 		solo.sendKey(Solo.MENU);
-		assertTrue("App rating menu not found in overflow menu!",
-				solo.searchText(solo.getString(R.string.main_menu_rate_app)));
+		assertTrue("App rating menu not found in overflow menu!", solo.searchText(solo.getString(R.string.main_menu_rate_app)));
+		solo.goBack();
+	}
+
+	public void testScratchConverterMenuExists() {
+		solo.sendKey(Solo.MENU);
+		assertTrue("Scratch Converter menu item not found in overflow menu!",
+				solo.searchText(solo.getString(R.string.main_menu_scratch_converter)));
 		solo.goBack();
 	}
 
@@ -395,10 +402,10 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		double size = 0.8;
 
 		Project project = new Project(getActivity(), projectName);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("dog");
-		Sprite thirdSprite = new Sprite("horse");
-		Sprite fourthSprite = new Sprite("pig");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("dog");
+		Sprite thirdSprite = new SingleSprite("horse");
+		Sprite fourthSprite = new SingleSprite("pig");
 		Script testScript = new StartScript();
 		Script otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
@@ -420,10 +427,10 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		firstSprite.addScript(testScript);
 		secondSprite.addScript(otherScript);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
-		project.addSprite(thirdSprite);
-		project.addSprite(fourthSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(fourthSprite);
 
 		ProjectManager.getInstance().setProject(project);
 		StorageHandler.getInstance().saveProject(project);
@@ -456,7 +463,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
-		Sprite backgroundSprite = standardProject.getSpriteList().get(0);
+		Sprite backgroundSprite = standardProject.getDefaultScene().getSpriteList().get(0);
 		Script startingScript = backgroundSprite.getScript(0);
 		assertEquals("Number of bricks in background sprite was wrong", 7, backgroundSprite.getNumberOfBricks());
 		startingScript.addBrick(new SetLookBrick());
@@ -486,7 +493,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.waitForText(solo, solo.getString(R.string.default_project_background_name));
 		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 10,
-				ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
+				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0).getNumberOfBricks());
 	}
 
 	public void testProjectNameVisible() {

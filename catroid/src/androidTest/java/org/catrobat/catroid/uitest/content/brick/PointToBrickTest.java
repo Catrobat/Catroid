@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -88,10 +89,10 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Incorrect number of bricks.", 3, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		int oldSpriteListSize = project.getSpriteList().size();
+		int oldSpriteListSize = project.getDefaultScene().getSpriteList().size();
 		String spinnerNewText = solo.getString(R.string.new_broadcast_message);
 
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_point_to)));
@@ -107,7 +108,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		createNewObjectWithinBrick(newSpriteName1, R.string.no);
 		assertEquals("In wrong sprite", spriteName1, ProjectManager.getInstance().getCurrentSprite().getName());
 
-		assertEquals("Wrong number of sprites", oldSpriteListSize + 1, project.getSpriteList().size());
+		assertEquals("Wrong number of sprites", oldSpriteListSize + 1, project.getDefaultScene().getSpriteList().size());
 		assertEquals("Wrong selection", newSpriteName1, ((Spinner) solo.getView(R.id.brick_point_to_spinner))
 				.getSelectedItem().toString());
 
@@ -166,21 +167,21 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		Sprite sprite2 = new Sprite(spriteName2);
+		Sprite sprite2 = new SingleSprite(spriteName2);
 		Script startScript2 = new StartScript();
 		PlaceAtBrick placeAt2 = new PlaceAtBrick(-400, -300);
 		startScript2.addBrick(placeAt2);
 		sprite2.addScript(startScript2);
-		project.addSprite(sprite2);
+		project.getDefaultScene().addSprite(sprite2);
 
-		Sprite sprite1 = new Sprite(spriteName1);
+		Sprite sprite1 = new SingleSprite(spriteName1);
 		Script startScript1 = new StartScript();
 		PlaceAtBrick placeAt1 = new PlaceAtBrick(300, 400);
 		startScript1.addBrick(placeAt1);
 		pointToBrick = new PointToBrick(sprite2);
 		startScript1.addBrick(pointToBrick);
 		sprite1.addScript(startScript1);
-		project.addSprite(sprite1);
+		project.getDefaultScene().addSprite(sprite1);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite1);

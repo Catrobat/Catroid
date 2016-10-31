@@ -25,13 +25,10 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -39,7 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
@@ -50,10 +47,10 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public class HideTextBrick extends UserVariableBrick {
+
 	private static final long serialVersionUID = 1L;
-	private static String tag = HideTextBrick.class.getSimpleName();
+
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
 	public String userVariableName;
 
 	public HideTextBrick() {
@@ -75,42 +72,24 @@ public class HideTextBrick extends UserVariableBrick {
 			alphaValue = 255;
 		}
 
-		view = View.inflate(context, R.layout.brick_hide_text, null);
-		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_hide_text_checkbox);
+		view = View.inflate(context, R.layout.brick_hide_variable, null);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+		setCheckboxView(R.id.brick_hide_variable_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.hide_text_spinner);
+		Spinner hideVariableSpinner = (Spinner) view.findViewById(R.id.hide_variable_spinner);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
-		variableSpinner.setAdapter(userVariableAdapterWrapper);
+		hideVariableSpinner.setAdapter(userVariableAdapterWrapper);
+		setSpinnerSelection(hideVariableSpinner, null);
 
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			variableSpinner.setClickable(true);
-			variableSpinner.setEnabled(true);
-		} else {
-			variableSpinner.setClickable(false);
-			variableSpinner.setFocusable(false);
-		}
-
-		setSpinnerSelection(variableSpinner, null);
-
-		variableSpinner.setOnTouchListener(new View.OnTouchListener() {
+		hideVariableSpinner.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
@@ -127,7 +106,7 @@ public class HideTextBrick extends UserVariableBrick {
 			}
 		});
 
-		variableSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		hideVariableSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
@@ -141,68 +120,47 @@ public class HideTextBrick extends UserVariableBrick {
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
-				adapterView = parent;
-				setUserVariableName(userVariable);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				userVariable = (UserVariable) adapterView.getItemAtPosition(1);
-				setUserVariableName(userVariable);
+				userVariable = (UserVariable) arg0.getItemAtPosition(1);
 			}
 		});
-		setUserVariableName(userVariable);
 
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_hide_text, null);
+		prototypeView = View.inflate(context, R.layout.brick_hide_variable, null);
 		return prototypeView;
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_hide_text_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		if (userVariableName == null) {
-			userVariableName = Constants.NO_VARIABLE_SELECTED;
+		if (userVariable.getName() == null) {
+			userVariable.setName(Constants.NO_VARIABLE_SELECTED);
 		}
 
-		sequence.addAction(sprite.getActionFactory().createHideTextAction(userVariableName));
+		sequence.addAction(sprite.getActionFactory().createHideVariableAction(userVariable));
 		return null;
 	}
 
-	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
-		super.updateUserVariableReference(into, from);
-	}
-
 	void setUserVariableName(UserVariable userVariable) {
-		userVariableName = Constants.NO_VARIABLE_SELECTED;
-		try {
+		if (userVariable.getName() != null) {
 			userVariableName = userVariable.getName();
-		} catch (NullPointerException e) {
-			Log.d(tag, "Nothing selected yet.");
+		} else {
+			userVariableName = Constants.NO_VARIABLE_SELECTED;
 		}
 	}
 
 	void setUserVariableName(String userVariableName) {
 		this.userVariableName = userVariableName;
 	}
-}
 
+	@Override
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
+		super.updateUserVariableReference(into, from);
+	}
+}

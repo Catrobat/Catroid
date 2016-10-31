@@ -46,8 +46,8 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 	}
 
 	public void testUserBrickVariableScope() throws InterruptedException {
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable("projectVar");
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addSpriteUserVariable("spriteVar");
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().addProjectUserVariable("projectVar");
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().addSpriteUserVariable("spriteVar");
 
 		String textOnSetSizeToBrickTextField = "" + Math.round(BrickValues.SET_SIZE_TO);
 		checkVariableScope(textOnSetSizeToBrickTextField, 0, false);

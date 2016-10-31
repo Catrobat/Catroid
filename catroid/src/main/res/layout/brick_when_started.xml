@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_when_started_layout"
-        style="@style/BrickContainer.Script.Small"
+        style="@style/BrickContainer.Event.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"

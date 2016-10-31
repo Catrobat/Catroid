@@ -23,9 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -34,7 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -88,31 +86,13 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_repeat_until, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_repeat_until_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				checked = !checked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
-			}
-		});
-
-		TextView text = (TextView) view.findViewById(R.id.brick_repeat_until_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_until_edit_text);
 		getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).setTextFieldId(R.id.brick_repeat_until_edit_text);
 		getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).refreshTextField(view);
-
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 		return view;
@@ -121,30 +101,9 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_repeat_until, null);
-		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_until_prototype_text_view);
+		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_until_edit_text);
 		textRepeat.setText(String.valueOf(BrickValues.IF_CONDITION));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_repeat_until_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView repeatLabel = (TextView) view.findViewById(R.id.brick_repeat_until_label);
-			TextView editRepeat = (TextView) view.findViewById(R.id.brick_repeat_until_edit_text);
-			repeatLabel.setTextColor(repeatLabel.getTextColors().withAlpha(alphaValue));
-			editRepeat.setTextColor(editRepeat.getTextColors().withAlpha(alphaValue));
-			editRepeat.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override
@@ -216,6 +175,6 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

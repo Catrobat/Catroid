@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Formula implements Serializable {
 
@@ -90,6 +91,21 @@ public class Formula implements Serializable {
 		internFormula.updateVariableReferences(oldName, newName, context);
 		formulaTree.updateVariableReferences(oldName, newName);
 		displayText = null;
+	}
+
+	public void getVariableAndListNames(List<String> variables, List<String> lists) {
+		internFormula.getVariableAndListNames(variables, lists);
+		formulaTree.getVariableAndListNames(variables, lists);
+	}
+
+	public void updateCollisionFormulas(String oldName, String newName, Context context) {
+		internFormula.updateCollisionFormula(oldName, newName, context);
+		formulaTree.updateCollisionFormula(oldName, newName);
+		displayText = null;
+	}
+
+	public boolean containsSpriteInCollision(String name) {
+		return formulaTree.containsSpriteInCollision(name);
 	}
 
 	public Formula(String value) {
@@ -249,6 +265,7 @@ public class Formula implements Serializable {
 
 	public String getResultForComputeDialog(Context context) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		ElementType type = formulaTree.getElementType();
 
 		if (formulaTree.isLogicalOperator()) {
 			boolean result;
@@ -259,8 +276,9 @@ public class Formula implements Serializable {
 			}
 			int logicalFormulaResultIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
 			return context.getString(logicalFormulaResultIdentifier);
-		} else if (formulaTree.getElementType() == ElementType.STRING
-				|| (formulaTree.getElementType() == ElementType.FUNCTION
+		} else if (type == ElementType.STRING
+				|| type == ElementType.SENSOR
+				|| (type == ElementType.FUNCTION
 				&& (Functions.getFunctionByValue(formulaTree.getValue()) == Functions.LETTER
 				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.JOIN))) {
 			try {
@@ -269,7 +287,7 @@ public class Formula implements Serializable {
 				return "ERROR";
 			}
 		} else if (formulaTree.isUserVariableWithTypeString(sprite)) {
-			DataContainer userVariables = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			DataContainer userVariables = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 			UserVariable userVariable = userVariables.getUserVariable(formulaTree.getValue(), sprite);
 			return (String) userVariable.getValue();
 		} else {

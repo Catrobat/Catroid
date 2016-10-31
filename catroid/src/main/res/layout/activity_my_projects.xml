@@ -23,7 +23,8 @@
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:verticalScrollbarPosition="left">
 
     <LinearLayout
         android:id="@+id/progress_circle"
@@ -46,7 +47,7 @@
         layout="@layout/bottom_bar" />
 
     <fragment
-        android:id="@+id/fragment_projects_list"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_bar"

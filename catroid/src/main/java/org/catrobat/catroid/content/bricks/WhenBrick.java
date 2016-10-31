@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 
@@ -36,12 +35,16 @@ import org.catrobat.catroid.content.WhenScript;
 
 import java.util.List;
 
-public class WhenBrick extends ScriptBrick {
+public class WhenBrick extends BrickBaseType implements ScriptBrick {
 	protected WhenScript whenScript;
 	private static final long serialVersionUID = 1L;
 
 	public WhenBrick(WhenScript whenScript) {
 		this.whenScript = whenScript;
+
+		if (whenScript != null && whenScript.isCommentedOut()) {
+			setCommentedOut(true);
+		}
 	}
 
 	public WhenBrick() {
@@ -68,77 +71,6 @@ public class WhenBrick extends ScriptBrick {
 		view = View.inflate(context, R.layout.brick_when, null);
 
 		setCheckboxView(R.id.brick_when_checkbox);
-
-		//method moved to to DragAndDropListView since it is not working on 2.x
-		/*
-		 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		 * 
-		 * @Override
-		 * public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		 * 
-		 * checked = isChecked;
-		 * if (!checked) {
-		 * for (Brick currentBrick : adapter.getCheckedBricks()) {
-		 * currentBrick.setCheckedBoolean(false);
-		 * }
-		 * }
-		 * adapter.handleCheck(brickInstance, checked);
-		 * }
-		 * });
-		 */
-
-		// inactive until spinner has more than one element
-		//		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_when_spinner);
-		//		spinner.setFocusable(false);
-		//		spinner.setClickable(true);
-		//		ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
-		//				android.R.layout.simple_spinner_item);
-		//		spinnerAdapter.add(context.getString(R.string.action_tapped));
-
-		//		TODO: not working with OpenGL yet, uncomment this when it does
-		//		spinnerAdapter.add(context.getString(R.string.action_doubleTapped));
-		//		spinnerAdapter.add(context.getString(R.string.action_longPressed));
-		//		spinnerAdapter.add(context.getString(R.string.action_swipeUp));
-		//		spinnerAdapter.add(context.getString(R.string.action_swipeDown));
-		//		spinnerAdapter.add(context.getString(R.string.action_swipeLeft));
-		//		spinnerAdapter.add(context.getString(R.string.action_swipeRight));
-
-		//		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		//		spinner.setAdapter(spinnerAdapter);
-		//
-		//		if (whenScript.getAction() != null) {
-		//			spinner.setSelection(whenScript.getPosition(), true);
-		//		}
-		//
-		//		if (spinner.getSelectedItem() == null) {
-		//			spinner.setSelection(0);
-		//		}
-		//
-		//		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-		//			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		//				spinner.setSelected(true);
-		//				whenScript.setAction(position);
-		//				spinner.setSelection(position);
-		//				adapter.notifyDataSetChanged();
-		//			}
-		//
-		//			public void onNothingSelected(AdapterView<?> parent) {
-		//			}
-		//		});
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_when_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-		}
-
 		return view;
 	}
 
@@ -164,5 +96,11 @@ public class WhenBrick extends ScriptBrick {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }

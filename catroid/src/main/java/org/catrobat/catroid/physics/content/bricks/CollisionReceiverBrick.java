@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -39,16 +38,17 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.CollisionScript;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 
 import java.util.List;
 
-public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMessage, Cloneable {
+public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick, BroadcastMessage, Cloneable {
 	private static final long serialVersionUID = 1L;
 	public static final String ANYTHING_ESCAPE_CHAR = "\0";
 
@@ -63,6 +63,10 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 	public CollisionReceiverBrick(CollisionScript collisionScript) {
 		this.collisionScript = collisionScript;
 		this.selectedMessage = "";
+
+		if (collisionScript != null && collisionScript.isCommentedOut()) {
+			setCommentedOut(true);
+		}
 	}
 
 	@Override
@@ -95,28 +99,17 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+
 		if (collisionScript == null) {
 			collisionScript = new CollisionScript(selectedMessage);
 			MessageContainer.addMessage(getBroadcastMessage());
 		}
 
 		view = View.inflate(context, R.layout.brick_physics_collision_receive, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_collision_receive_checkbox);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_collision_receive_spinner);
-		broadcastSpinner.setFocusableInTouchMode(false);
-		broadcastSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			broadcastSpinner.setClickable(true);
-			broadcastSpinner.setEnabled(true);
-		} else {
-			broadcastSpinner.setClickable(false);
-			broadcastSpinner.setEnabled(false);
-		}
 
 		broadcastSpinner.setAdapter(getCollisionObjectAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -141,13 +134,12 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 	}
 
 	public ArrayAdapter<String> getCollisionObjectAdapter(Context context) {
-		Project project = ProjectManager.getInstance().getCurrentProject();
 		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 		messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(getDisplayedAnythingString(context));
 		int resources = Brick.NO_RESOURCES;
-		for (Sprite sprite : project.getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones()) {
 			if (!spriteName.equals(sprite.getName())) {
 				resources |= sprite.getRequiredResources();
 				if ((resources & Brick.PHYSICS) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {
@@ -163,26 +155,11 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_physics_collision_receive, null);
 		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_collision_receive_spinner);
-		broadcastReceiverSpinner.setFocusableInTouchMode(false);
-		broadcastReceiverSpinner.setFocusable(false);
-		broadcastReceiverSpinner.setEnabled(false);
+
 		SpinnerAdapter collisionReceiverSpinnerAdapter = getCollisionObjectAdapter(context);
 		broadcastReceiverSpinner.setAdapter(collisionReceiverSpinnerAdapter);
 		setSpinnerSelection(broadcastReceiverSpinner);
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_collision_receive_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-		}
-		return view;
 	}
 
 	@Override
@@ -221,5 +198,11 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 
 	private String getDisplayedAnythingString(Context context) {
 		return ANYTHING_ESCAPE_CHAR + context.getString(R.string.collision_with_anything) + ANYTHING_ESCAPE_CHAR;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ui.ScratchProgramDetailsActivity">
+
+    <TextView
+        android:id="@+id/scratch_project_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/title"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/scratch_project_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/by_author"
+        android:layout_below="@+id/scratch_project_title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp" />
+
+    <View
+        android:id="@+id/separation_line_top"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/spritelist_separation_line_color"
+        android:layout_below="@+id/scratch_project_owner" />
+
+    <TextView
+        android:id="@+id/scratch_project_visibility_warning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/warning_program_visibility"
+        android:layout_below="@+id/separation_line_top"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_centerVertical="true"
+        android:textStyle="bold"
+        android:background="@color/color_chooser_rgb_red"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/scratch_project_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/scratch_project_visibility_warning"
+        android:layout_above="@+id/separation_line_bottom">
+
+        <RelativeLayout
+            android:id="@+id/scratch_project_details_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="30dp">
+
+            <uk.co.deanwild.flowtextview.FlowTextView
+                android:id="@+id/scratch_project_instructions_flow_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/scratch_project_image_view"
+                    android:layout_width="@dimen/scratch_project_image_width"
+                    android:layout_height="@dimen/scratch_project_image_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="@dimen/scratch_project_image_margin_right" />
+
+                <TextView
+                    android:id="@+id/scratch_project_instructions_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/instructions"
+                    android:layout_toLeftOf="@+id/scratch_project_image_view"
+                    android:layout_alignParentLeft="true" />
+
+            </uk.co.deanwild.flowtextview.FlowTextView>
+
+            <TextView
+                android:id="@+id/scratch_project_notes_and_credits_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/notes_and_credits"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/scratch_project_instructions_flow_text" />
+
+            <TextView
+                android:id="@+id/scratch_project_notes_and_credits_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/scratch_project_notes_and_credits_label" />
+
+            <RelativeLayout
+                android:id="@+id/scratch_project_share_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/scratch_project_notes_and_credits_text"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/scratch_project_favorites_icon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/favorites_72x72" />
+
+                <TextView
+                    android:id="@+id/scratch_project_favorites_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginRight="22dp"
+                    android:layout_toRightOf="@+id/scratch_project_favorites_icon"
+                    android:layout_marginTop="3dp" />
+
+                <ImageView
+                    android:id="@+id/scratch_project_loves_icon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/loves_72x72"
+                    android:layout_toRightOf="@+id/scratch_project_favorites_text" />
+
+                <TextView
+                    android:id="@+id/scratch_project_loves_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginRight="22dp"
+                    android:layout_toRightOf="@+id/scratch_project_loves_icon"
+                    android:layout_marginTop="3dp" />
+
+                <ImageView
+                    android:id="@+id/scratch_project_views_icon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/views_72x72"
+                    android:layout_toRightOf="@+id/scratch_project_loves_text" />
+
+                <TextView
+                    android:id="@+id/scratch_project_views_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_toRightOf="@+id/scratch_project_views_icon"
+                    android:layout_marginTop="3dp" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/scratch_project_tags_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_below="@+id/scratch_project_share_bar"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_corner"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp" />
+
+            <TextView
+                android:id="@+id/scratch_project_shared_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="italic"
+                android:layout_below="@+id/scratch_project_tags_text"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/shared_at_x" />
+
+            <TextView
+                android:id="@+id/scratch_project_modified_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="italic"
+                android:layout_below="@+id/scratch_project_tags_text"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/modified_at_x" />
+
+            <TextView
+                android:id="@+id/scratch_project_remixes_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_below="@+id/scratch_project_modified_text"
+                android:layout_alignParentLeft="true"
+                android:text="@string/remixes" />
+
+            <ListView
+                style="@style/ListViewShadowed"
+                android:id="@+id/scratch_project_remixes_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/scratch_project_remixes_label"
+                android:layout_marginTop="@dimen/scratch_remixes_list_view_margin_top"
+                android:layout_marginBottom="@dimen/scratch_remixes_list_view_margin_bottom"
+                android:dividerHeight="1dp"
+                android:divider="@color/transparent"
+                android:scrollbars="none"
+                tools:ignore="NestedScrolling" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/separation_line_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/spritelist_separation_line_color"
+        android:layout_above="@+id/scratch_project_convert_button" />
+
+    <Button
+        android:id="@+id/scratch_project_convert_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/convert"
+        android:textAlignment="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="0dp"
+        android:background="@color/scratch_converter_button_background_color" />
+
+</RelativeLayout>

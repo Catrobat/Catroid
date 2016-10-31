@@ -23,9 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -34,8 +32,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -55,12 +51,14 @@ import java.util.List;
 
 public class SetLookBrick extends BrickBaseType implements OnLookDataListChangedAfterNewListener {
 	private static final long serialVersionUID = 1L;
-	private LookData look;
+	protected LookData look;
 	private transient View prototypeView;
 	private transient LookData oldSelectedLook;
-	private transient AdapterView<?> adapterView;
+
+	protected transient boolean wait;
 
 	public SetLookBrick() {
+		wait = false;
 	}
 
 	public void setLook(LookData lookData) {
@@ -76,13 +74,13 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		SetLookBrick copyBrick = (SetLookBrick) clone();
 
 		if (look != null && look.isBackpackLookData) {
-			copyBrick.look = look.clone();
+			copyBrick.look = look;
 			return copyBrick;
 		}
 
 		for (LookData data : sprite.getLookDataList()) {
 			if (look != null && data != null && data.getAbsolutePath().equals(look.getAbsolutePath())) {
-				copyBrick.look = data.clone();
+				copyBrick.look = data;
 				break;
 			}
 		}
@@ -99,37 +97,21 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		if (animationState) {
 			return view;
 		}
-		final Brick brickInstance = this;
+
 		view = View.inflate(context, R.layout.brick_set_look, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_look_checkbox);
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			lookbrickSpinner.setClickable(true);
-			lookbrickSpinner.setEnabled(true);
-		} else {
-			lookbrickSpinner.setClickable(false);
-			lookbrickSpinner.setEnabled(false);
-		}
+		final Spinner lookBrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
 
 		final ArrayAdapter<LookData> spinnerAdapter = createLookAdapter(context);
 
 		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
 
-		lookbrickSpinner.setAdapter(spinnerAdapterWrapper);
+		lookBrickSpinner.setAdapter(spinnerAdapterWrapper);
 
-		lookbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		lookBrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -138,7 +120,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 				} else {
 					look = (LookData) parent.getItemAtPosition(position);
 					oldSelectedLook = look;
-					adapterView = parent;
 				}
 			}
 
@@ -147,36 +128,15 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 			}
 		});
 
-		setSpinnerSelection(lookbrickSpinner);
+		setSpinnerSelection(lookBrickSpinner);
 
-		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
+		if (getSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
 			textField.setText(R.string.brick_set_background);
 		}
 
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_look_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			Spinner lookBrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
-			TextView lookBrickTextView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
-
-			ColorStateList color = lookBrickTextView.getTextColors().withAlpha(alphaValue);
-			lookBrickTextView.setTextColor(color);
-			lookBrickSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
+		if (!wait) {
+			view.findViewById(R.id.brick_set_look_and_wait).setVisibility(View.GONE);
 		}
 
 		return view;
@@ -188,7 +148,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		LookData dummyLookData = new LookData();
 		dummyLookData.setLookName(context.getString(R.string.new_broadcast_message));
 		arrayAdapter.add(dummyLookData);
-		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
+		for (LookData lookData : getSprite().getLookDataList()) {
 			arrayAdapter.add(lookData);
 		}
 		return arrayAdapter;
@@ -197,14 +157,15 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_look, null);
-		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
+		if (getSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) prototypeView.findViewById(R.id.brick_set_look_prototype_text_view);
 			textField.setText(R.string.brick_set_background);
 		}
+
+		if (!wait) {
+			prototypeView.findViewById(R.id.brick_set_look_and_wait).setVisibility(View.GONE);
+		}
 		Spinner setLookSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_look_spinner);
-		setLookSpinner.setFocusableInTouchMode(false);
-		setLookSpinner.setFocusable(false);
-		setLookSpinner.setEnabled(false);
 
 		SpinnerAdapter setLookSpinnerAdapter = createLookAdapter(context);
 		setLookSpinner.setAdapter(setLookSpinnerAdapter);
@@ -221,18 +182,18 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look));
+		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look, wait));
 		return null;
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		if (ProjectManager.getInstance().getCurrentSprite().getLookDataList().contains(look)) {
+		if (getSprite().getLookDataList().contains(look)) {
 			oldSelectedLook = look;
-			spinner.setSelection(ProjectManager.getInstance().getCurrentSprite().getLookDataList().indexOf(look) + 1, true);
+			spinner.setSelection(getSprite().getLookDataList().indexOf(look) + 1, true);
 		} else {
 			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 1) {
-				if (ProjectManager.getInstance().getCurrentSprite().getLookDataList().indexOf(oldSelectedLook) >= 0) {
-					spinner.setSelection(ProjectManager.getInstance().getCurrentSprite().getLookDataList()
+				if (getSprite().getLookDataList().indexOf(oldSelectedLook) >= 0) {
+					spinner.setSelection(getSprite().getLookDataList()
 							.indexOf(oldSelectedLook) + 1, true);
 				} else {
 					spinner.setSelection(1, true);
@@ -341,6 +302,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		}
 
 		private void switchToLookFragmentFromScriptFragment() {
+			ProjectManager.getInstance().setCurrentSprite(getSprite());
 			ScriptActivity scriptActivity = ((ScriptActivity) context);
 			scriptActivity.switchToFragmentFromScriptFragment(ScriptActivity.FRAGMENT_LOOKS);
 
@@ -363,5 +325,9 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		if (sprite != null && !sprite.getLookDataList().contains(look)) {
 			sprite.getLookDataList().add(look);
 		}
+	}
+
+	protected Sprite getSprite() {
+		return ProjectManager.getInstance().getCurrentSprite();
 	}
 }

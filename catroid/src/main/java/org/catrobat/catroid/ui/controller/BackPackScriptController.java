@@ -75,9 +75,11 @@ public final class BackPackScriptController {
 		while (iterator.hasNext()) {
 			Brick currentBrick = iterator.next();
 			if (currentBrick instanceof ScriptBrick) {
-				Script scriptToAdd = ((ScriptBrick) currentBrick).getScriptSafe().copyScriptForSprite(
+				Script original = ((ScriptBrick) currentBrick).getScriptSafe();
+				Script scriptToAdd = original.copyScriptForSprite(
 						ProjectManager.getInstance().getCurrentSprite());
 				ProjectManager.getInstance().checkCurrentScript(scriptToAdd, false);
+				scriptToAdd.setCommentedOut(original.isCommentedOut());
 				for (Brick brickOfScript : scriptToAdd.getBrickList()) {
 					brickOfScript.storeDataForBackPack(spriteToBackpack);
 				}
@@ -179,7 +181,7 @@ public final class BackPackScriptController {
 			brick.setUserVariable(backPackedData.userVariable);
 		}
 
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
 		UserVariable variable = null;
 		switch (backPackedData.userVariableType) {
 			case DataContainer.USER_VARIABLE_SPRITE:
@@ -187,8 +189,9 @@ public final class BackPackScriptController {
 				variable = dataContainer.addSpriteVariableIfDoesNotExist(brick.getUserVariable().getName(), currentSprite);
 				break;
 			case DataContainer.USER_VARIABLE_PROJECT:
-				if (dataContainer.findUserVariable(brick.getUserVariable().getName(),
-						dataContainer.getProjectVariables()) == null) {
+				variable = dataContainer.findUserVariable(brick.getUserVariable().getName(),
+						dataContainer.getProjectVariables());
+				if (variable == null) {
 					variable = dataContainer.addProjectUserVariable(brick.getUserVariable().getName());
 				}
 				break;
@@ -212,7 +215,7 @@ public final class BackPackScriptController {
 			brick.setUserList(backPackedData.userList);
 		}
 
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
 		switch (backPackedData.userListType) {
 			case DataContainer.USER_LIST_SPRITE:
 				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();

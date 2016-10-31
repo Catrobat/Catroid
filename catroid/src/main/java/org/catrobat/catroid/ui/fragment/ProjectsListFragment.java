@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.merge.MergeManager;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.CapitalizedTextView;
@@ -72,6 +73,7 @@ import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -84,7 +86,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ProjectsListFragment extends ListFragment implements OnProjectRenameListener,
-		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectEditListener {
+		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectEditListener, LoadProjectTask.OnLoadProjectCompleteListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsMyProjects";
@@ -253,8 +255,16 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
 
 		initAdapter();
+
+		if (ProjectManager.getInstance().getHandleNewSceneFromScriptActivity()) {
+			Intent intent = new Intent(getActivity(), ProjectActivity.class);
+			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			startActivity(intent);
+		}
 	}
 
 	@Override
@@ -332,8 +342,10 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 			}
 		});
 
+		boolean showDetailsEnabled = adapter != null && adapter.getShowDetails();
 		adapter = new ProjectAdapter(getActivity(), R.layout.activity_my_projects_list_item,
 				R.id.my_projects_activity_project_title, projectList);
+		adapter.setShowDetails(showDetailsEnabled);
 		setListAdapter(adapter);
 		initClickListener();
 	}
@@ -366,8 +378,6 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				Log.e(TAG, "Project is not compatible", compatibilityException);
 				Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
 			}
-		} else if (currentProject.getSpriteList().indexOf(projectToEdit) == 0) {
-			return;
 		}
 
 		menu.add(0, R.string.merge_button, 1, getString(R.string.merge_button) + ": " + ProjectManager.getInstance().getCurrentProject().getName());
@@ -445,11 +455,11 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 
 	@Override
 	public void onProjectEdit(int position) {
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, adapter.getItem(position).projectName);
-		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-
-		getActivity().startActivity(intent);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), adapter.getItem(position).projectName,
+				true, false);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
+		loadProjectTask.execute();
 	}
 
 	public void startRenameActionMode() {
@@ -560,14 +570,35 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		}
 
 		if (projectList.isEmpty()) {
-			ProjectManager projectManager = ProjectManager.getInstance();
-			projectManager.initializeDefaultProject(getActivity());
+			initializeDefaultProjectAfterDelete();
+			return;
 		} else if (ProjectManager.getInstance().getCurrentProject() == null) {
 			Utils.saveToPreferences(getActivity().getApplicationContext(), Constants.PREF_PROJECTNAME_KEY,
 					projectList.get(0).projectName);
 		}
 
 		initAdapter();
+	}
+
+	private void initializeDefaultProjectAfterDelete() {
+		final ProjectManager projectManager = ProjectManager.getInstance();
+		getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				projectManager.initializeDefaultProject(getActivity());
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+						getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
+						initAdapter();
+					}
+				});
+			}
+		};
+		(new Thread(r)).start();
 	}
 
 	private void clearCheckedProjectsAndEnableButtons() {
@@ -582,7 +613,7 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
 		selectAll = true;
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
+		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
@@ -606,6 +637,18 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
+		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+		getActivity().startActivity(intent);
+	}
+
+	@Override
+	public void onLoadProjectFailure() {
+		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
 	}
 
 	private class ProjectListInitReceiver extends BroadcastReceiver {

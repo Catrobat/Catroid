@@ -26,6 +26,7 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import org.catrobat.catroid.content.CollisionScript;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -57,7 +58,7 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		sprite = new Sprite("testSprite");
+		sprite = new SingleSprite("testSprite");
 	}
 
 	public void testClonePhysicsBricksWithFormula() {

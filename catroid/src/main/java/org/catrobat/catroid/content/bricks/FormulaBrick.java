@@ -26,15 +26,16 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
-	private ConcurrentFormulaHashMap formulaMap;
+	protected ConcurrentFormulaHashMap formulaMap;
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
 		if (formulaMap != null && formulaMap.containsKey(brickField)) {
@@ -80,7 +81,13 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
+		if (adapter == null) {
+			return;
+		}
+		if (adapter.getActionMode() != BrickAdapter.ActionModeEnum.NO_ACTION) {
+			return;
+		}
+		if (adapter.isDragging) {
 			return;
 		}
 		showFormulaEditorToEditFormula(view);
@@ -92,5 +99,5 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public abstract void showFormulaEditorToEditFormula(View view);
 
-	public abstract void updateReferenceAfterMerge(Project into, Project from);
+	public abstract void updateReferenceAfterMerge(Scene into, Scene from);
 }

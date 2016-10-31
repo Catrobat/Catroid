@@ -61,6 +61,22 @@ public class SoundManager {
 		}
 	}
 
+	public synchronized float getDurationOfSoundFile(String pathToSoundfile) {
+		MediaPlayer mediaPlayer = getAvailableMediaPlayer();
+		float duration = 0f;
+		if (mediaPlayer != null) {
+			try {
+				mediaPlayer.setDataSource(pathToSoundfile);
+				mediaPlayer.prepare();
+				duration = mediaPlayer.getDuration();
+				mediaPlayer.stop();
+			} catch (Exception exception) {
+				Log.e(TAG, "Couldn't play sound file '" + pathToSoundfile + "'", exception);
+			}
+		}
+		return duration;
+	}
+
 	private MediaPlayer getAvailableMediaPlayer() {
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (!mediaPlayer.isPlaying()) {

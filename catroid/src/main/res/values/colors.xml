@@ -35,6 +35,7 @@
     <color name="button_background_gradient_end_color">#003F54</color>
     <color name="button_background_top_border_color">#4D7F8F</color>
     <color name="button_background_bottom_border_color">#001724</color>
+    <color name="scratch_converter_button_background_color">#01485f</color>
     <color name="holo_blue_light">#ff33b5e5</color>
     <color name="terms_of_use_text_color">#E68B00</color>
 
@@ -79,6 +80,9 @@
     <!-- Device List Colors -->
     <color name="bluetooth_device_list_divider_color">#505050</color>
     <color name="dialog_text_line">#696969</color>
+
+    <!-- Scratch Converter Colors -->
+    <color name="beta_label_color">#ff7700</color>
 
     <!-- Phiro RGBColor Chooser Colors -->
     <color name="color_chooser_rgb_red">#FFEB4618</color>

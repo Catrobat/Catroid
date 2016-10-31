@@ -442,7 +442,7 @@ public final class SoundController {
 			return;
 		}
 		SoundInfo soundInfoToDelete = soundInfoList.get(position);
-		if (soundInfoToDelete.isBackpackSoundInfo && !otherSoundInfoItemsHaveAFileReference(soundInfoToDelete)) {
+		if (soundInfoToDelete.isBackpackSoundInfo() && !otherSoundInfoItemsHaveAFileReference(soundInfoToDelete)) {
 			StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath(), true);
 		}
 
@@ -475,7 +475,7 @@ public final class SoundController {
 	public SoundInfo updateSoundBackPackAfterInsert(String title, SoundInfo currentSoundInfo, String
 			existingFileNameInBackPackDirectory, boolean addToHiddenBackpack) {
 		SoundInfo newSoundInfo = new SoundInfo();
-		newSoundInfo.isBackpackSoundInfo = true;
+		newSoundInfo.setBackpackSoundInfo(true);
 		newSoundInfo.setTitle(title);
 
 		if (existingFileNameInBackPackDirectory == null) {

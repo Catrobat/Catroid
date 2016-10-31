@@ -68,6 +68,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 public class BackPackLookFragment extends BackPackActivityFragment implements Dialog.OnKeyListener, OnLookEditListener {
@@ -164,8 +165,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_back_pack_look, container, false);
-		return rootView;
+		return inflater.inflate(R.layout.fragment_back_pack_look, container, false);
 	}
 
 	@Override
@@ -329,7 +329,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
+		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
 				menu);
 
 		selectAllActionModeButton.setOnClickListener(
@@ -475,7 +475,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		}
 
 		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
 				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
 	}
 

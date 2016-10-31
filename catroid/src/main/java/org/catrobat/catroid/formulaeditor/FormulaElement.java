@@ -22,17 +22,23 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.content.res.Resources;
 import android.util.Log;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.io.Serializable;
@@ -45,7 +51,7 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA
 	}
 
 	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
@@ -138,6 +144,9 @@ public class FormulaElement implements Serializable {
 			case STRING:
 				internTokenList.add(new InternToken(InternTokenType.STRING, value));
 				break;
+			case COLLISION_FORMULA:
+				internTokenList.add(new InternToken(InternTokenType.COLLISION_FORMULA, this.value));
+				break;
 		}
 		return internTokenList;
 	}
@@ -159,6 +168,62 @@ public class FormulaElement implements Serializable {
 		}
 		if (type == ElementType.USER_VARIABLE && value.equals(oldName)) {
 			value = newName;
+		}
+	}
+
+	public void getVariableAndListNames(List<String> variables, List<String> lists) {
+		if (leftChild != null) {
+			leftChild.getVariableAndListNames(variables, lists);
+		}
+		if (rightChild != null) {
+			rightChild.getVariableAndListNames(variables, lists);
+		}
+		if (type == ElementType.USER_VARIABLE && !variables.contains(value)) {
+			variables.add(value);
+		}
+		if (type == ElementType.USER_LIST && !lists.contains(value)) {
+			lists.add(value);
+		}
+	}
+
+	public boolean containsSpriteInCollision(String name) {
+		boolean contained = false;
+		if (leftChild != null) {
+			contained |= leftChild.containsSpriteInCollision(name);
+		}
+		if (rightChild != null) {
+			contained |= rightChild.containsSpriteInCollision(name);
+		}
+		if (type == ElementType.COLLISION_FORMULA) {
+			String collisionTag = CatroidApplication.getAppContext().getString(R.string
+					.formula_editor_function_collision);
+			String firstSprite = value.substring(0, value.indexOf(collisionTag) - 1);
+			String secondSprite = value.substring(value.indexOf(collisionTag) + collisionTag.length() + 1, value.length());
+			if (firstSprite.equals(name) || secondSprite.equals(name)) {
+				contained = true;
+			}
+		}
+		return contained;
+	}
+
+	public void updateCollisionFormula(String oldName, String newName) {
+
+		if (leftChild != null) {
+			leftChild.updateCollisionFormula(oldName, newName);
+		}
+		if (rightChild != null) {
+			rightChild.updateCollisionFormula(oldName, newName);
+		}
+		if (type == ElementType.COLLISION_FORMULA && value.contains(oldName)) {
+			String collisionTag = CatroidApplication.getAppContext().getString(R.string
+					.formula_editor_function_collision);
+			String firstSprite = value.substring(0, value.indexOf(collisionTag) - 1);
+			String secondSprite = value.substring(value.indexOf(collisionTag) + collisionTag.length() + 1, value.length());
+			if (firstSprite.equals(oldName)) {
+				value = newName + " " + collisionTag + " " + secondSprite;
+			} else if (secondSprite.equals(oldName)) {
+				value = firstSprite + " " + collisionTag + " " + newName;
+			}
 		}
 	}
 
@@ -193,12 +258,42 @@ public class FormulaElement implements Serializable {
 			case STRING:
 				returnValue = value;
 				break;
+			case COLLISION_FORMULA:
+				try {
+					returnValue = interpretCollision(value);
+				} catch (Exception exception) {
+					returnValue = 0d;
+					Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
+				}
 		}
 		return normalizeDegeneratedDoubleValues(returnValue);
 	}
 
+	private Object interpretCollision(String formula) {
+		int start = 0;
+		String collidesWithTag = CatroidApplication.getAppContext().getString(R.string
+				.formula_editor_function_collision);
+		int end = formula.indexOf(collidesWithTag) - 1;
+		String firstSpriteName = formula.substring(start, end);
+
+		start = end + collidesWithTag.length() + 2;
+		end = formula.length();
+		String secondSpriteName = formula.substring(start, end);
+
+		Look firstLook;
+		Look secondLook;
+		try {
+			firstLook = ProjectManager.getInstance().getCurrentScene().getSpriteBySpriteName(firstSpriteName).look;
+			secondLook = ProjectManager.getInstance().getCurrentScene().getSpriteBySpriteName(secondSpriteName).look;
+		} catch (Resources.NotFoundException exception) {
+			return 0d;
+		}
+
+		return CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook);
+	}
+
 	private Object interpretUserList(Sprite sprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 		UserList userList = dataContainer.getUserList(value, sprite);
 		if (userList == null) {
 			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
@@ -268,7 +363,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretUserVariable(Sprite sprite) {
-		DataContainer userVariables = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer userVariables = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 		UserVariable userVariable = userVariables.getUserVariable(value, sprite);
 		if (userVariable == null) {
 			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
@@ -429,7 +524,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretFunctionContains(Object right, Sprite sprite) {
 		if (leftChild.getElementType() == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 			UserList userList = dataContainer.getUserList(leftChild.getValue(), sprite);
 
 			if (userList == null) {
@@ -449,7 +544,7 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionListItem(Object left, Sprite sprite) {
 		UserList userList = null;
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 			userList = dataContainer.getUserList(rightChild.getValue(), sprite);
 		}
 
@@ -522,7 +617,7 @@ public class FormulaElement implements Serializable {
 			return (double) handleLengthUserVariableParameter(sprite);
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 			UserList userList = dataContainer.getUserList(leftChild.getValue(), sprite);
 			if (userList == null) {
 				return 0d;
@@ -705,6 +800,11 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretObjectSensor(Sensors sensor, Sprite sprite) {
 		Object returnValue = 0d;
+		LookData lookData = sprite.look.getLookData();
+		List<LookData> lookDataList = sprite.getLookDataList();
+		if (lookData == null && lookDataList.size() > 0) {
+			lookData = lookDataList.get(0);
+		}
 		switch (sensor) {
 			case OBJECT_BRIGHTNESS:
 				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
@@ -739,6 +839,16 @@ public class FormulaElement implements Serializable {
 			case OBJECT_Y_VELOCITY:
 				returnValue = (double) sprite.look.getYVelocityInUserInterfaceDimensionUnit();
 				break;
+			case OBJECT_LOOK_NUMBER:
+			case OBJECT_BACKGROUND_NUMBER:
+				returnValue = 1.0d + ((lookData != null) ? lookDataList.indexOf(lookData) : 0);
+				break;
+			case OBJECT_LOOK_NAME:
+			case OBJECT_BACKGROUND_NAME:
+				returnValue = (lookData != null) ? lookData.getLookName() : "";
+				break;
+			case OBJECT_DISTANCE_TO:
+				returnValue = (double) sprite.look.getDistanceToTouchPositionInUserInterfaceDimensions();
 		}
 		return returnValue;
 	}
@@ -874,7 +984,7 @@ public class FormulaElement implements Serializable {
 
 	public boolean isUserVariableWithTypeString(Sprite sprite) {
 		if (type == ElementType.USER_VARIABLE) {
-			DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+			DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
 					.getDataContainer();
 			UserVariable userVariable = userVariableContainer.getUserVariable(value, sprite);
 			Object userVariableValue = userVariable.getValue();
@@ -884,7 +994,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private int handleLengthUserVariableParameter(Sprite sprite) {
-		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+		DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
 				.getDataContainer();
 		UserVariable userVariable = userVariableContainer.getUserVariable(leftChild.value, sprite);
 
@@ -901,7 +1011,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject()
+		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay()
 				.getDataContainer();
 		UserList userList = dataContainer.getUserList(leftChild.value, sprite);
 
@@ -967,6 +1077,13 @@ public class FormulaElement implements Serializable {
 					resources |= Brick.SENSOR_COMPASS;
 					break;
 
+				case LATITUDE:
+				case LONGITUDE:
+				case LOCATION_ACCURACY:
+				case ALTITUDE:
+					resources |= Brick.SENSOR_GPS;
+					break;
+
 				case FACE_DETECTED:
 				case FACE_SIZE:
 				case FACE_X_POSITION:
@@ -1009,6 +1126,9 @@ public class FormulaElement implements Serializable {
 
 				default:
 			}
+		}
+		if (type == ElementType.COLLISION_FORMULA) {
+			resources |= Brick.COLLISION;
 		}
 		return resources;
 	}

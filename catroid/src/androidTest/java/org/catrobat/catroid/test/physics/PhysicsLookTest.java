@@ -36,6 +36,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -81,10 +82,10 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, testImageFilename, IMAGE_FILE_ID,
+		testImage = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(), testImageFilename, IMAGE_FILE_ID,
 				getInstrumentation().getContext(), TestUtils.TYPE_IMAGE_FILE);
 
-		sprite = new Sprite("TestSprite");
+		sprite = new SingleSprite("TestSprite");
 		super.setUp();
 	}
 

@@ -27,42 +27,76 @@ import android.util.Log;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.FieldKey;
 import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
-import com.thoughtworks.xstream.core.util.OrderRetainingMap;
-
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class CatroidFieldKeySorter implements FieldKeySorter {
-
 	private static final String TAG = CatroidFieldKeySorter.class.getSimpleName();
 
 	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Map sort(final Class type, final Map keyedByFieldKey) {
-		if (type.equals(Project.class)) {
-			return sortProjectFields(keyedByFieldKey);
+		XStreamFieldKeyOrder fieldKeyOrderAnnotation = (XStreamFieldKeyOrder) type.getAnnotation(XStreamFieldKeyOrder.class);
+		if (fieldKeyOrderAnnotation != null) {
+			List<String> fieldOrder = Arrays.asList(fieldKeyOrderAnnotation.value());
+			return sortByList(fieldOrder, keyedByFieldKey);
+		} else {
+			return sortAlphabeticallyByClassHierarchy(keyedByFieldKey);
 		}
+	}
 
-		if (type.equals(Sprite.class)) {
-			return sortSpriteFields(keyedByFieldKey);
-		}
-
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Map sortByList(final List<String> fieldOrder, final Map keyedByFieldKey) {
+		checkMissingSerializableField(fieldOrder, keyedByFieldKey.entrySet());
 		final Map map = new TreeMap(new Comparator() {
 
 			@Override
 			public int compare(final Object objectOne, final Object objectTwo) {
 				final FieldKey fieldKeyOne = (FieldKey) objectOne;
 				final FieldKey fieldKeyTwo = (FieldKey) objectTwo;
+
+				int fieldKeyOneIndex = fieldOrder.indexOf(getAliasOrFieldName(fieldKeyOne));
+				int fieldKeyTwoIndex = fieldOrder.indexOf(getAliasOrFieldName(fieldKeyTwo));
+				return fieldKeyOneIndex - fieldKeyTwoIndex;
+			}
+		});
+		map.putAll(keyedByFieldKey);
+		return map;
+	}
+
+	private void checkMissingSerializableField(List<String> fieldOrder, Set<Map.Entry<FieldKey, Field>> fields) {
+		for (Map.Entry<FieldKey, Field> fieldEntry : fields) {
+			final FieldKey fieldKey = fieldEntry.getKey();
+			final String fieldKeyName = getAliasOrFieldName(fieldKey);
+			if (!fieldOrder.contains(fieldKeyName) && isSerializable(fieldEntry.getValue())) {
+				throw new XStreamMissingSerializableFieldException("Missing field '" + fieldKeyName
+						+ "' in XStreamFieldKeyOrder annotation for class " + fieldKey.getDeclaringClass());
+			}
+		}
+	}
+
+	private boolean isSerializable(Field field) {
+		int modifiers = field.getModifiers();
+		return !Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Map sortAlphabeticallyByClassHierarchy(final Map keyedByFieldKey) {
+		final Map map = new TreeMap(new Comparator() {
+			@Override
+			public int compare(final Object objectOne, final Object objectTwo) {
+				final FieldKey fieldKeyOne = (FieldKey) objectOne;
+				final FieldKey fieldKeyTwo = (FieldKey) objectTwo;
 				int fieldKeyComparator = fieldKeyOne.getDepth() - fieldKeyTwo.getDepth();
 				if (fieldKeyComparator == 0) {
-					String fieldNameOrAlias1 = getFieldNameOrAlias(fieldKeyOne);
-					String fieldNameOrAlias2 = getFieldNameOrAlias(fieldKeyTwo);
+					String fieldNameOrAlias1 = getAliasOrFieldName(fieldKeyOne);
+					String fieldNameOrAlias2 = getAliasOrFieldName(fieldKeyTwo);
 					fieldKeyComparator = fieldNameOrAlias1.compareTo(fieldNameOrAlias2);
 				}
 				return fieldKeyComparator;
@@ -72,7 +106,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		return map;
 	}
 
-	private String getFieldNameOrAlias(FieldKey fieldKey) {
+	public static String getAliasOrFieldName(FieldKey fieldKey) {
 		String fieldName = fieldKey.getFieldName();
 		try {
 			Field field = fieldKey.getDeclaringClass().getDeclaredField(fieldName);
@@ -83,79 +117,9 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 			} else {
 				return fieldName;
 			}
-		} catch (SecurityException securityException) {
-			Log.e(TAG, Log.getStackTraceString(securityException));
-		} catch (NoSuchFieldException noSuchFieldException) {
-			Log.e(TAG, Log.getStackTraceString(noSuchFieldException));
+		} catch (SecurityException | NoSuchFieldException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
 		}
 		return fieldName;
-	}
-
-	private Map sortProjectFields(Map map) {
-		Map orderedMap = new OrderRetainingMap();
-		FieldKey[] fieldKeyOrder = new FieldKey[map.size()];
-		Iterator<FieldKey> iterator = map.keySet().iterator();
-		while (iterator.hasNext()) {
-			FieldKey fieldKey = iterator.next();
-			if (fieldKey.getFieldName().equals("xmlHeader")) {
-				fieldKeyOrder[0] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("spriteList")) {
-				fieldKeyOrder[1] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("dataContainer")) {
-				fieldKeyOrder[2] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
-				fieldKeyOrder[3] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("settings")) {
-				fieldKeyOrder[4] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("physicsWorld")) {
-				fieldKeyOrder[5] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("$change")) {
-				fieldKeyOrder[6] = fieldKey;
-			}
-		}
-		for (FieldKey fieldKey : fieldKeyOrder) {
-			orderedMap.put(fieldKey, map.get(fieldKey));
-		}
-		return orderedMap;
-	}
-
-	private Map sortSpriteFields(Map map) {
-		Map orderedMap = new OrderRetainingMap();
-		FieldKey[] fieldKeyOrder = new FieldKey[map.size()];
-		Iterator<FieldKey> iterator = map.keySet().iterator();
-		while (iterator.hasNext()) {
-			FieldKey fieldKey = iterator.next();
-			if (fieldKey.getFieldName().equals("TAG")) {
-				fieldKeyOrder[0] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
-				fieldKeyOrder[1] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("look")) {
-				fieldKeyOrder[2] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("name")) {
-				fieldKeyOrder[3] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("isPaused")) {
-				fieldKeyOrder[4] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("lookList")) {
-				fieldKeyOrder[5] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("soundList")) {
-				fieldKeyOrder[6] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("scriptList")) {
-				fieldKeyOrder[7] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("userBricks")) {
-				fieldKeyOrder[8] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("isBackpackObject")) {
-				fieldKeyOrder[9] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("nfcTagList")) {
-				fieldKeyOrder[10] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("actionFactory")) {
-				fieldKeyOrder[11] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("$change")) {
-				fieldKeyOrder[12] = fieldKey;
-			}
-		}
-		for (FieldKey fieldKey : fieldKeyOrder) {
-			orderedMap.put(fieldKey, map.get(fieldKey));
-		}
-		return orderedMap;
 	}
 }

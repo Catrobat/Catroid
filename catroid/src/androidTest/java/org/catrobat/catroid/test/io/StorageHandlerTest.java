@@ -33,8 +33,10 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -116,10 +118,10 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		final float size = 0.8f;
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		Sprite firstSprite = new Sprite("first");
-		Sprite secondSprite = new Sprite("second");
-		Sprite thirdSprite = new Sprite("third");
-		Sprite fourthSprite = new Sprite("fourth");
+		Sprite firstSprite = new SingleSprite("first");
+		Sprite secondSprite = new SingleSprite("second");
+		Sprite thirdSprite = new SingleSprite("third");
+		Sprite fourthSprite = new SingleSprite("fourth");
 		Script testScript = new StartScript();
 		Script otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
@@ -139,17 +141,23 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		firstSprite.addScript(testScript);
 		secondSprite.addScript(otherScript);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
-		project.addSprite(thirdSprite);
-		project.addSprite(fourthSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(fourthSprite);
 
 		storageHandler.saveProject(project);
 
-		Project loadedProject = storageHandler.loadProject(projectName);
+		Project loadedProject = storageHandler.loadProject(projectName, getInstrumentation().getContext());
 
-		ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getSpriteList();
-		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) loadedProject.getSpriteList();
+		Scene preScene = project.getDefaultScene();
+		Scene postScene = loadedProject.getDefaultScene();
+
+		ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getDefaultScene().getSpriteList();
+		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) loadedProject.getDefaultScene().getSpriteList();
+
+		//Test scene name:
+		assertEquals("Scene does not match after deserialization", preScene.getName(), postScene.getName());
 
 		// Test sprite names:
 		assertEquals("First sprite does not match after deserialization", preSpriteList.get(0).getName(),
@@ -199,10 +207,10 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		final float size = 0.8f;
 
 		final Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		Sprite firstSprite = new Sprite("first");
-		Sprite secondSprite = new Sprite("second");
-		Sprite thirdSprite = new Sprite("third");
-		Sprite fourthSprite = new Sprite("fourth");
+		Sprite firstSprite = new SingleSprite("first");
+		Sprite secondSprite = new SingleSprite("second");
+		Sprite thirdSprite = new SingleSprite("third");
+		Sprite fourthSprite = new SingleSprite("fourth");
 		Script testScript = new StartScript();
 		Script otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
@@ -222,10 +230,10 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		firstSprite.addScript(testScript);
 		secondSprite.addScript(otherScript);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
-		project.addSprite(thirdSprite);
-		project.addSprite(fourthSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(fourthSprite);
 
 		File tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 		File currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
@@ -409,8 +417,8 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 
 	private Project generateMultiplePermissionsProject() {
 		final Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		Sprite firstSprite = new Sprite("first");
-		Sprite secondSprite = new Sprite("second");
+		Sprite firstSprite = new SingleSprite("first");
+		Sprite secondSprite = new SingleSprite("second");
 		Script testScript = new StartScript();
 		Script otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
@@ -432,8 +440,8 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		firstSprite.addScript(testScript);
 		secondSprite.addScript(otherScript);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		return project;
 	}

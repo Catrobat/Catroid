@@ -137,21 +137,27 @@ public final class UtilFile {
 		return renameBeforeDelete.delete();
 	}
 
-	public static File saveFileToProject(String project, String name, int fileID, Context context, FileType type) {
+	public static File saveFileToProject(String project, String sceneName, String name, int fileID, Context context,
+			FileType type) {
 
 		String filePath;
 		if (project == null || project.equalsIgnoreCase("")) {
 			filePath = Utils.buildProjectPath(name);
+			if (sceneName == null || sceneName.equalsIgnoreCase("")) {
+				filePath = Utils.buildPath(filePath, sceneName);
+			}
 		} else {
 			switch (type) {
 				case TYPE_IMAGE_FILE:
-					filePath = Utils.buildPath(Utils.buildProjectPath(project), Constants.IMAGE_DIRECTORY, name);
+					filePath = Utils.buildPath(Utils.buildProjectPath(project), sceneName, Constants.IMAGE_DIRECTORY,
+							name);
 					break;
 				case TYPE_SOUND_FILE:
-					filePath = Utils.buildPath(Utils.buildProjectPath(project), Constants.SOUND_DIRECTORY, name);
+					filePath = Utils.buildPath(Utils.buildProjectPath(project), sceneName, Constants.SOUND_DIRECTORY,
+							name);
 					break;
 				default:
-					filePath = Utils.buildProjectPath(name);
+					filePath = Utils.buildPath(Utils.buildProjectPath(name), sceneName);
 					break;
 			}
 		}
@@ -240,9 +246,11 @@ public final class UtilFile {
 		}
 	}
 
-	public static File copyFromResourceIntoProject(String projectName, String directoryInProject,
+	public static File copyFromResourceIntoProject(String projectName, String sceneName, String directoryInProject,
 			String outputFilename, int resourceId, Context context, boolean prependMd5ToFilename) throws IOException {
-		String directoryPath = Utils.buildPath(Utils.buildProjectPath(projectName), directoryInProject);
+		String directoryPath;
+		directoryPath = Utils.buildPath(Utils.buildProjectPath(projectName), sceneName, directoryInProject);
+
 		File copiedFile = new File(directoryPath, outputFilename);
 		if (!copiedFile.exists()) {
 			copiedFile.createNewFile();
@@ -268,17 +276,22 @@ public final class UtilFile {
 		return prependMd5ToFilename(copiedFile);
 	}
 
-	public static File copySoundFromResourceIntoProject(String projectName, String outputFilename, int resourceId,
+	public static File copySoundFromResourceIntoProject(String projectName, String sceneName, String outputFilename,
+			int resourceId,
 			Context context, boolean prependMd5ToFilename) throws IllegalArgumentException, IOException {
 		if (!outputFilename.toLowerCase(Locale.US).endsWith(SoundRecorder.RECORDING_EXTENSION)) {
 			throw new IllegalArgumentException("Only Files with extension " + SoundRecorder.RECORDING_EXTENSION
 					+ " allowed");
 		}
-		return copyFromResourceIntoProject(projectName, Constants.SOUND_DIRECTORY, outputFilename, resourceId, context,
+		return copyFromResourceIntoProject(projectName, sceneName, Constants.SOUND_DIRECTORY, outputFilename,
+				resourceId,
+				context,
 				prependMd5ToFilename);
 	}
 
-	public static File copyImageFromResourceIntoProject(String projectName, String outputFilename, int resourceId,
+	public static File copyImageFromResourceIntoProject(String projectName, String sceneName, String outputFilename,
+			int
+					resourceId,
 			Context context, boolean prependMd5ToFilename, double scaleFactor) throws IOException {
 		if (scaleFactor <= 0) {
 			throw new IllegalArgumentException("scale factor is smaller or equal zero");
@@ -287,7 +300,7 @@ public final class UtilFile {
 		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.IMAGE_STANDARD_EXTENSION)) {
 			outputFilename = outputFilename + Constants.IMAGE_STANDARD_EXTENSION;
 		}
-		File copiedFile = copyFromResourceIntoProject(projectName, Constants.IMAGE_DIRECTORY, outputFilename,
+		File copiedFile = copyFromResourceIntoProject(projectName, sceneName, Constants.IMAGE_DIRECTORY, outputFilename,
 				resourceId, context, false);
 
 		ImageEditing.scaleImageFile(copiedFile, scaleFactor);
