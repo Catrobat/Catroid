@@ -110,6 +110,7 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
+		menu.findItem(R.id.show_details).setVisible(false);
 		if (BackPackListManager.getInstance().getBackPackedScenes().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(false);
 		}

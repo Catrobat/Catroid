@@ -48,8 +48,8 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BackPackSoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
+import org.catrobat.catroid.ui.adapter.SoundListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
@@ -923,7 +923,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testBackPackSoundDeleteContextMenu() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
 
-		BackPackSoundAdapter adapter = getBackPackSoundAdapter();
+		SoundListAdapter adapter = getSoundListAdapter();
 		int oldCount = adapter.getCount();
 		List<SoundInfo> backPackSoundInfoList = BackPackListManager.getInstance().getBackPackedSounds();
 		String pathOfFirstBackPackedSound = backPackSoundInfoList.get(0).getAbsolutePath();
@@ -947,7 +947,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testBackPackSoundDeleteActionMode() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
 
-		BackPackSoundAdapter adapter = getBackPackSoundAdapter();
+		SoundListAdapter adapter = getSoundListAdapter();
 		int oldCount = adapter.getCount();
 		List<SoundInfo> backPackSoundInfoList = BackPackListManager.getInstance().getBackPackedSounds();
 		String pathOfFirstBackPackedSound = backPackSoundInfoList.get(0).getAbsolutePath();
@@ -1102,7 +1102,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 
-		if (getBackPackSoundAdapter().getShowDetails()) {
+		if (getSoundListAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
 			solo.sleep(TIME_TO_WAIT);
 		}
@@ -1700,8 +1700,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		return (SoundAdapter) getSoundFragment().getListAdapter();
 	}
 
-	private BackPackSoundAdapter getBackPackSoundAdapter() {
-		return (BackPackSoundAdapter) getBackPackSoundFragment().getListAdapter();
+	private SoundListAdapter getSoundListAdapter() {
+		return (SoundListAdapter) getBackPackSoundFragment().getListAdapter();
 	}
 
 	private void checkVisibilityOfViews(int soundNameVisibility, int timePlayedVisibility, int soundSizeVisibility,
