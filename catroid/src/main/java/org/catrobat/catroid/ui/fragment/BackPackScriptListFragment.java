@@ -174,7 +174,7 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 	@Override
 	protected void showDeleteDialog(boolean singleItem) {
 		int titleId;
-		if (scriptAdapter.getCheckedItems().size() == 1  || singleItem) {
+		if (scriptAdapter.getCheckedItems().size() == 1 || singleItem) {
 			titleId = R.string.dialog_confirm_delete_backpack_group_title;
 		} else {
 			titleId = R.string.dialog_confirm_delete_multiple_backpack_groups_title;

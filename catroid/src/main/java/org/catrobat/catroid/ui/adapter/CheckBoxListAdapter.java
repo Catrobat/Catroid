@@ -60,6 +60,7 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 	protected int selectMode;
 	protected boolean showDetails;
 	protected LayoutInflater inflater;
+
 	protected ListItemClickHandler listItemClickHandler;
 	protected ListItemLongClickHandler listItemLongClickHandler;
 	protected ListItemCheckHandler listItemCheckHandler;
@@ -201,7 +202,7 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 		void handleOnItemLongClick(int position, View view);
 	}
 
-	public interface  ListItemCheckHandler {
+	public interface ListItemCheckHandler {
 
 		void onItemChecked();
 	}

@@ -27,24 +27,22 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.utils.Utils;
 
 public class RenameProjectDialog extends TextDialog {
 
-	private static final String BUNDLE_ARGUMENTS_OLD_PROJECT_NAME = "old_project_name";
+	private static final String BUNDLE_ARGUMENTS_CURRENT_NAME = "current_project_name";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_project";
 
 	private OnProjectRenameListener onProjectRenameListener;
-
-	private String oldProjectName;
+	private String currentProjectName;
 
 	public static RenameProjectDialog newInstance(String oldProjectName) {
 		RenameProjectDialog dialog = new RenameProjectDialog();
 
 		Bundle arguments = new Bundle();
-		arguments.putString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME, oldProjectName);
+		arguments.putString(BUNDLE_ARGUMENTS_CURRENT_NAME, oldProjectName);
 		dialog.setArguments(arguments);
 
 		return dialog;
@@ -56,8 +54,8 @@ public class RenameProjectDialog extends TextDialog {
 
 	@Override
 	protected void initialize() {
-		oldProjectName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME);
-		input.setText(oldProjectName);
+		currentProjectName = getArguments().getString(BUNDLE_ARGUMENTS_CURRENT_NAME);
+		input.setText(currentProjectName);
 		inputTitle.setText(R.string.new_project_name);
 	}
 
@@ -65,51 +63,31 @@ public class RenameProjectDialog extends TextDialog {
 	protected boolean handleOkButton() {
 		String newProjectName = input.getText().toString().trim();
 
-		if (newProjectName.equalsIgnoreCase("")) {
-			Utils.showErrorDialog(getActivity(), R.string.notification_invalid_text_entered);
-			return false;
-		} else if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProjectName)
-				&& !oldProjectName.equalsIgnoreCase(newProjectName)) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
-			return false;
-		}
-
-		if (newProjectName.equals(oldProjectName)) {
+		if (newProjectName.equals(currentProjectName)) {
 			dismiss();
 			return false;
 		}
 
-		if (newProjectName != null && !newProjectName.equalsIgnoreCase("")) {
-			ProjectManager projectManager = ProjectManager.getInstance();
-			String currentProjectName = projectManager.getCurrentProject().getName();
-
-			// check if is current project
-			boolean isCurrentProject = false;
-
-			if (oldProjectName.equalsIgnoreCase(currentProjectName)) {
-				projectManager.renameProject(newProjectName, getActivity());
-
-				isCurrentProject = true;
-				Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, newProjectName);
-			} else {
-				try {
-					projectManager.loadProject(oldProjectName, getActivity());
-					projectManager.renameProject(newProjectName, getActivity());
-					projectManager.loadProject(currentProjectName, getActivity());
-				} catch (ProjectException projectException) {
-					Log.e(DIALOG_FRAGMENT_TAG, "Renaming an incompatible project isn't possible", projectException);
-					Utils.showErrorDialog(getActivity(), R.string.error_rename_incompatible_project);
-					dismiss();
-					return false;
-				}
-			}
-
-			if (onProjectRenameListener != null) {
-				onProjectRenameListener.onProjectRename(isCurrentProject);
-			}
-		} else {
-			Utils.showErrorDialog(getActivity(), R.string.notification_invalid_text_entered);
+		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProjectName)) {
+			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return false;
+		}
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		try {
+			projectManager.loadProject(currentProjectName, getActivity());
+			projectManager.renameProject(newProjectName, getActivity());
+			projectManager.loadProject(newProjectName, getActivity());
+		} catch (ProjectException projectException) {
+			Log.e(DIALOG_FRAGMENT_TAG, "Renaming an incompatible project isn't possible", projectException);
+			Utils.showErrorDialog(getActivity(), R.string.error_rename_incompatible_project);
+			dismiss();
+			return false;
+		}
+
+		if (onProjectRenameListener != null) {
+			onProjectRenameListener.onProjectRename();
 		}
 
 		return true;
@@ -127,6 +105,6 @@ public class RenameProjectDialog extends TextDialog {
 
 	public interface OnProjectRenameListener {
 
-		void onProjectRename(boolean isCurrentProject);
+		void onProjectRename();
 	}
 }

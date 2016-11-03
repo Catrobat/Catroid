@@ -444,7 +444,6 @@
     <string name="dialog_confirm_delete_multiple_programs_title">Delete these Programs?</string>
     <string name="dialog_confirm_delete_scene_title">Delete this Scene?</string>
     <string name="dialog_confirm_delete_multiple_scenes_title">Delete these Scenes?</string>
-    <string name="dialog_confirm_delete_program_message">This cannot be undone!</string>
     <string name="details_date_today">Today</string>
     <string name="details_date_yesterday">Yesterday</string>
     <string name="dialog_copy_project_title">Copy Program</string>

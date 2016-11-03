@@ -25,7 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import android.os.Bundle;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
+import org.catrobat.catroid.ui.fragment.ProjectListFragment;
 import org.catrobat.catroid.utils.CopyProjectTask;
 import org.catrobat.catroid.utils.Utils;
 
@@ -35,7 +35,7 @@ public class CopyProjectDialog extends TextDialog {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_copy_project";
 
 	private String oldProjectName;
-	private ProjectsListFragment parentFragment;
+	private ProjectListFragment parentFragment;
 
 	public CopyProjectDialog() {
 	}
@@ -48,7 +48,7 @@ public class CopyProjectDialog extends TextDialog {
 		return dialog;
 	}
 
-	public void setParentFragment(ProjectsListFragment parentFragment) {
+	public void setParentFragment(ProjectListFragment parentFragment) {
 		this.parentFragment = parentFragment;
 	}
 
