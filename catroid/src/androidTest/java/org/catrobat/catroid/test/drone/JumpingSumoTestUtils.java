@@ -37,6 +37,7 @@ public abstract class JumpingSumoTestUtils {
 
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
 	private static final byte DEFAULT_MOVE_POWER_IN_PERCENT = 80;
+	private static final byte DEFAULT_VOLUME_IN_PERCENT = 50;
 	private static final float DEFAULT_ROTATE_IN_DEGREE = 90;
 
 	public static void createDefaultJumpingSumoProject() {
@@ -46,7 +47,8 @@ public abstract class JumpingSumoTestUtils {
 
 		for (JumpingSumoBricks brick : JumpingSumoBricks.values()) {
 			BrickBaseType currentBrick = JumpingSumoBrickFactory.getInstanceOfJumpingSumoBrick(brick,
-					DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT, DEFAULT_ROTATE_IN_DEGREE, 0, 0);
+					DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT, DEFAULT_VOLUME_IN_PERCENT,
+					DEFAULT_ROTATE_IN_DEGREE, 0, 0);
 			script.addBrick(currentBrick);
 			sprite.addScript(script);
 		}

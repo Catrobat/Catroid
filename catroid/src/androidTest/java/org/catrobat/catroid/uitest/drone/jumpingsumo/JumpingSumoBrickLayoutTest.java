@@ -88,10 +88,11 @@ public class JumpingSumoBrickLayoutTest extends BaseActivityInstrumentationTestC
 		solo.getText(solo.getString(R.string.brick_jumping_sumo_jump_long));
 		solo.getText(solo.getString(R.string.brick_jumping_sumo_jump_high));
 		solo.getText(solo.getString(R.string.brick_jumping_sumo_animation));
+		solo.getText(solo.getString(R.string.default_jumping_sumo_project_sprites_sound));
 		solo.getText(solo.getString(R.string.brick_jumping_sumo_move_forward));
-		solo.getText(solo.getString(R.string.brick_jumping_sumo_move_backward));
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
+		solo.getText(solo.getString(R.string.brick_jumping_sumo_move_backward));
 		solo.getText(solo.getString(R.string.brick_jumping_sumo_rotate_left));
 		solo.getText(solo.getString(R.string.brick_jumping_sumo_rotate_right));
 		solo.getText(solo.getString(R.string.brick_show_battery_status));
