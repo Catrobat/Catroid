@@ -141,6 +141,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -2042,6 +2043,12 @@ public final class UiTestUtils {
 		solo.clickOnActionBarHomeButton();
 	}
 
+	public static void getIntoStageFromMainMenu(Solo solo) {
+		getIntoScenesFromMainMenu(solo);
+		clickOnPlayButton(solo);
+		solo.waitForActivity(StageActivity.class);
+	}
+
 	public static void getIntoSpritesFromMainMenu(Solo solo) {
 		getIntoSpritesFromMainMenu(solo, null);
 	}
@@ -2737,5 +2744,10 @@ public final class UiTestUtils {
 		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
 		solo.waitForActivity(UserBrickScriptActivity.class);
 		solo.waitForFragmentByTag(ScriptFragment.TAG);
+	}
+
+	public static void pauseStage(Solo solo) {
+		solo.goBack();
+		solo.waitForView(R.id.stage_dialog_menu);
 	}
 }

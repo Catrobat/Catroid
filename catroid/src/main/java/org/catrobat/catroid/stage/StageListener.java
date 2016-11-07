@@ -225,7 +225,6 @@ public class StageListener implements ApplicationListener {
 				stage.addActor(penActor);
 				addPenActor = false;
 			}
-			sprite.resume();
 		}
 		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
 				maximizeViewPortHeight, virtualWidth, virtualHeight);
@@ -253,7 +252,6 @@ public class StageListener implements ApplicationListener {
 		Sprite copy = cloneMe.cloneForCloneBrick();
 		copy.look.createBrightnessContrastHueShader();
 		stage.addActor(copy.look);
-		copy.resume();
 		sprites.add(copy);
 		clonedSprites.add(copy);
 
@@ -278,7 +276,6 @@ public class StageListener implements ApplicationListener {
 
 		BroadcastHandler.getScriptSpriteMap().remove(sprite);
 
-		sprite.pause();
 		sprite.look.setLookVisible(false);
 		sprite.look.remove();
 		sprites.remove(sprite);
@@ -328,9 +325,6 @@ public class StageListener implements ApplicationListener {
 		paused = false;
 		FaceDetectionHandler.resumeFaceDetection();
 		SoundManager.getInstance().resume();
-		for (Sprite sprite : sprites) {
-			sprite.resume();
-		}
 	}
 
 	void menuPause() {
@@ -341,9 +335,6 @@ public class StageListener implements ApplicationListener {
 		try {
 			paused = true;
 			SoundManager.getInstance().pause();
-			for (Sprite sprite : sprites) {
-				sprite.pause();
-			}
 		} catch (Exception exception) {
 			Log.e(TAG, "Pausing menu failed!", exception);
 		}
@@ -413,9 +404,6 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
-			for (Sprite sprite : sprites) {
-				sprite.resume();
-			}
 		}
 
 		for (Sprite sprite : sprites) {
@@ -431,9 +419,6 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
-			for (Sprite sprite : sprites) {
-				sprite.pause();
-			}
 		}
 	}
 
@@ -457,9 +442,6 @@ public class StageListener implements ApplicationListener {
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (reloadProject) {
 			int spriteSize = sprites.size();
-			for (int i = 0; i < spriteSize; i++) {
-				sprites.get(i).pause();
-			}
 			stage.clear();
 			SoundManager.getInstance().clear();
 
@@ -479,7 +461,6 @@ public class StageListener implements ApplicationListener {
 					stage.addActor(penActor);
 					addPenActor = false;
 				}
-				sprite.pause();
 			}
 			stage.addActor(passepartout);
 			initStageInputListener();
