@@ -675,6 +675,10 @@ public class Sprite implements Serializable, Cloneable {
 		return brickCount;
 	}
 
+	public int getNumberOfScriptsAndBricks() {
+		return getNumberOfBricks() + getNumberOfScripts();
+	}
+
 	public int getScriptIndex(Script script) {
 		return scriptList.indexOf(script);
 	}
