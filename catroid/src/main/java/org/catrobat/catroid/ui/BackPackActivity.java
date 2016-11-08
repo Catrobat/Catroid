@@ -49,15 +49,13 @@ import org.catrobat.catroid.ui.fragment.BackPackSceneListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSpriteListFragment;
-import org.catrobat.catroid.ui.fragment.BackPackUserBrickFragment;
 
 public class BackPackActivity extends BaseActivity {
 	public static final int FRAGMENT_BACKPACK_SCRIPTS = 0;
 	public static final int FRAGMENT_BACKPACK_LOOKS = 1;
 	public static final int FRAGMENT_BACKPACK_SOUNDS = 2;
 	public static final int FRAGMENT_BACKPACK_SPRITES = 3;
-	public static final int FRAGMENT_BACKPACK_USERBRICKS = 4;
-	public static final int FRAGMENT_BACKPACK_SCENES = 5;
+	public static final int FRAGMENT_BACKPACK_SCENES = 4;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 	private static int currentFragmentPosition;
@@ -66,7 +64,6 @@ public class BackPackActivity extends BaseActivity {
 	private BackPackLookListFragment backPackLookListFragment = null;
 	private BackPackScriptListFragment backPackScriptListFragment = null;
 	private BackPackSpriteListFragment backPackSpriteListFragment = null;
-	private BackPackUserBrickFragment backPackUserBrickFragment = null;
 	private BackPackSceneListFragment backPackSceneListFragment = null;
 	private BackPackActivityFragment currentFragment = null;
 	private String currentFragmentTag;
@@ -173,9 +170,6 @@ public class BackPackActivity extends BaseActivity {
 			case FRAGMENT_BACKPACK_SPRITES:
 				fragment = backPackSpriteListFragment;
 				break;
-			case FRAGMENT_BACKPACK_USERBRICKS:
-				fragment = backPackUserBrickFragment;
-				break;
 			case FRAGMENT_BACKPACK_SCENES:
 				fragment = backPackSceneListFragment;
 		}
@@ -216,14 +210,6 @@ public class BackPackActivity extends BaseActivity {
 				currentFragment = backPackSpriteListFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_SPRITES;
 				currentFragmentTag = BackPackSpriteListFragment.TAG;
-				break;
-			case FRAGMENT_BACKPACK_USERBRICKS:
-				if (backPackUserBrickFragment == null) {
-					backPackUserBrickFragment = new BackPackUserBrickFragment();
-				}
-				currentFragment = backPackUserBrickFragment;
-				currentFragmentPosition = FRAGMENT_BACKPACK_USERBRICKS;
-				currentFragmentTag = BackPackUserBrickFragment.TAG;
 				break;
 			case FRAGMENT_BACKPACK_SCENES:
 				if (backPackSceneListFragment == null) {

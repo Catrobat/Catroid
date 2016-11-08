@@ -90,6 +90,7 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 		ToastUtil.showSuccess(parentFragment.getActivity(),
 				parentFragment.getString(R.string.project_name) + " " + newName + " "
 						+ parentFragment.getString(R.string.copy_project_finished));
-		parentFragment.onCopyProject();
+		parentFragment.clearCheckedItems();
+		parentFragment.initializeList();
 	}
 }

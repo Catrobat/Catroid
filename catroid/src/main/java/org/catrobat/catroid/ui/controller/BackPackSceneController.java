@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.controller;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -53,8 +52,6 @@ import java.util.Map;
 public final class BackPackSceneController {
 	public static final String TAG = BackPackSceneController.class.getSimpleName();
 	private static final BackPackSceneController INSTANCE = new BackPackSceneController();
-
-	private OnBackpackSceneCompleteListener onBackpackSceneCompleteListener;
 
 	private BackPackSceneController() {
 	}
@@ -94,42 +91,22 @@ public final class BackPackSceneController {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						fragment.showProgressCircle();
-						backPackAsynchronous(currentSceneList, (Activity) context, dialog);
+						fragment.packScenes(currentSceneList);
 					}
 				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						fragment.clearCheckedItems();
 						dialog.dismiss();
 					}
 				}).setOnCancelListener(new DialogInterface.OnCancelListener() {
 					@Override
 					public void onCancel(DialogInterface dialogInterface) {
-						onBackpackSceneCompleteListener.onBackpackSceneComplete(false, true);
+						fragment.clearCheckedItems();
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.show();
-	}
-
-	private void backPackAsynchronous(final List<Scene> scenes, final Activity activity, final DialogInterface dialog) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				boolean success = true;
-				for (Scene sceneToBackpack : scenes) {
-					success &= BackPackSceneController.getInstance().backpackScene(sceneToBackpack);
-				}
-				final boolean finalSuccess = success;
-				activity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						onBackpackSceneCompleteListener.onBackpackSceneComplete(true, finalSuccess);
-						dialog.dismiss();
-					}
-				});
-			}
-		};
-		(new Thread(r)).start();
 	}
 
 	public boolean backpackScenes(List<Scene> scenes) {
@@ -298,13 +275,5 @@ public final class BackPackSceneController {
 				}
 			}
 		}
-	}
-
-	public void setOnBackpackSceneCompleteListener(OnBackpackSceneCompleteListener listener) {
-		onBackpackSceneCompleteListener = listener;
-	}
-
-	public interface OnBackpackSceneCompleteListener {
-		void onBackpackSceneComplete(boolean startBackpackActivity, boolean success);
 	}
 }

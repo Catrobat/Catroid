@@ -215,6 +215,10 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 
 	public abstract void showRenameDialog();
 
+	public abstract boolean itemNameExists(String newName);
+
+	public abstract void renameItem(String newName);
+
 	protected abstract void packCheckedItems();
 
 	@Override

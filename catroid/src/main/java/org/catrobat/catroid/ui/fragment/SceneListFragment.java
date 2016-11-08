@@ -22,11 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ActionMode;
@@ -43,12 +39,11 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
 import org.catrobat.catroid.ui.adapter.SceneListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSceneController;
-import org.catrobat.catroid.ui.dialogs.RenameSceneDialog;
+import org.catrobat.catroid.ui.dialogs.RenameItemDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -57,8 +52,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class SceneListFragment extends ListActivityFragment implements CheckBoxListAdapter.ListItemClickHandler<Scene>,
-		BackPackSceneController.OnBackpackSceneCompleteListener {
+public class SceneListFragment extends ListActivityFragment implements CheckBoxListAdapter.ListItemClickHandler<Scene> {
 
 	public static final String TAG = SceneListFragment.class.getSimpleName();
 	private static final String BUNDLE_ARGUMENTS_SCENE_TO_EDIT = "scene_to_edit";
@@ -67,8 +61,6 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 	private DragAndDropListView listView;
 
 	private Scene sceneToEdit;
-
-	private SceneRenamedReceiver sceneRenamedReceiver;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,13 +125,6 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 
 		StorageHandler.getInstance().fillChecksumContainer();
 
-		if (sceneRenamedReceiver == null) {
-			sceneRenamedReceiver = new SceneRenamedReceiver();
-		}
-
-		IntentFilter intentFilterSceneRenamed = new IntentFilter(ScriptActivity.ACTION_SCENE_RENAMED);
-		getActivity().registerReceiver(sceneRenamedReceiver, intentFilterSceneRenamed);
-
 		ProjectManager.getInstance().setCurrentScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
 	}
 
@@ -152,10 +137,6 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(getActivity().getApplicationContext());
-		}
-
-		if (sceneRenamedReceiver != null) {
-			getActivity().unregisterReceiver(sceneRenamedReceiver);
 		}
 	}
 
@@ -208,16 +189,6 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 			getActivity().finish();
 			startActivity(intent);
 		}
-	}
-
-	@Override
-	public void onBackpackSceneComplete(boolean startBackpackActivity, boolean success) {
-		if (!success) {
-			showError(R.string.error_scene_backpack);
-		} else if (!sceneAdapter.getCheckedItems().isEmpty() && startBackpackActivity) {
-			switchToBackPack();
-		}
-		clearCheckedItems();
 	}
 
 	public void switchToBackPack() {
@@ -311,25 +282,28 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 		return true;
 	}
 
+	@Override
 	public void showRenameDialog() {
 		sceneToEdit = sceneAdapter.getCheckedItems().get(0);
-		RenameSceneDialog dialog = RenameSceneDialog.newInstance(sceneToEdit.getName());
-		dialog.show(getFragmentManager(), RenameSceneDialog.DIALOG_FRAGMENT_TAG);
-		clearCheckedItems();
+		RenameItemDialog dialog = RenameItemDialog.newInstance(R.string.rename_scene_dialog, R.string.scene_name,
+				R.string.error_scene_exists, sceneToEdit.getName());
+		dialog.setTargetFragment(this, 0);
+		dialog.show(getFragmentManager(), RenameItemDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private class SceneRenamedReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_SCENE_RENAMED)) {
-				String newSceneName = intent.getExtras().getString(RenameSceneDialog.EXTRA_NEW_SCENE_NAME);
-				List<String> sceneOrder = ProjectManager.getInstance().getCurrentProject().getSceneOrder();
-				int pos = sceneOrder.indexOf(sceneToEdit.getName());
-				ProjectManager.getInstance().getCurrentProject().getSceneOrder().set(pos, newSceneName);
-				sceneToEdit.rename(newSceneName, getActivity(), true);
-				sceneAdapter.notifyDataSetChanged();
-			}
-		}
+	@Override
+	public boolean itemNameExists(String newName) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		return projectManager.sceneExists(newName);
+	}
+
+	public void renameItem(String newName) {
+		List<String> sceneOrder = ProjectManager.getInstance().getCurrentProject().getSceneOrder();
+		int pos = sceneOrder.indexOf(sceneToEdit.getName());
+		ProjectManager.getInstance().getCurrentProject().getSceneOrder().set(pos, newName);
+		sceneToEdit.rename(newName, getActivity(), true);
+		clearCheckedItems();
+		sceneAdapter.notifyDataSetChanged();
 	}
 
 	protected void packCheckedItems() {
@@ -338,29 +312,23 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 
 		if (!sceneAlreadyInBackpack) {
 			showProgressCircle();
-			backPackAsynchronous(sceneListToBackpack, getActivity());
+			packScenes(sceneListToBackpack);
 		} else {
-			BackPackSceneController.getInstance().setOnBackpackSceneCompleteListener(SceneListFragment.this);
 			SceneListFragment fragment = ((ProjectActivity) getActivity()).getSceneListFragment();
 			BackPackSceneController.getInstance().showBackPackReplaceDialog(sceneListToBackpack, fragment);
 		}
 	}
 
-	private void backPackAsynchronous(final List<Scene> scenes, final Activity activity) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				boolean success = BackPackSceneController.getInstance().backpackScenes(scenes);
-				final boolean finalSuccess = success;
-				activity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						onBackpackSceneComplete(true, finalSuccess);
-					}
-				});
-			}
-		};
-		(new Thread(r)).start();
+	public void packScenes(List<Scene> sceneList) {
+		boolean success = BackPackSceneController.getInstance().backpackScenes(sceneList);
+		clearCheckedItems();
+
+		if (success) {
+			switchToBackPack();
+			return;
+		}
+
+		showError(R.string.error_scene_backpack);
 	}
 
 	public void showProgressCircle() {

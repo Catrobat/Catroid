@@ -43,17 +43,15 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.merge.MergeManager;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
 import org.catrobat.catroid.ui.adapter.ProjectListAdapter;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
-import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
-import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
-import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
+import org.catrobat.catroid.ui.dialogs.RenameItemDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
-import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -65,8 +63,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ProjectListFragment extends ListActivityFragment implements OnProjectRenameListener,
-		OnUpdateProjectDescriptionListener, OnCopyProjectListener, LoadProjectTask.OnLoadProjectCompleteListener,
+public class ProjectListFragment extends ListActivityFragment implements LoadProjectTask.OnLoadProjectCompleteListener,
 		CheckBoxListAdapter.ListItemClickHandler<ProjectData>, CheckBoxListAdapter.ListItemLongClickHandler {
 
 	private static final String TAG = ProjectListFragment.class.getSimpleName();
@@ -79,8 +76,6 @@ public class ProjectListFragment extends ListActivityFragment implements OnProje
 	private List<ProjectData> projectList;
 	private ProjectData projectToEdit;
 	private int selectedProjectPosition;
-
-	private ProjectListFragment parentFragment = this;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,7 +100,7 @@ public class ProjectListFragment extends ListActivityFragment implements OnProje
 		initializeList();
 	}
 
-	private void initializeList() {
+	public void initializeList() {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		File projectCodeFile;
 		projectList = new ArrayList<>();
@@ -150,6 +145,7 @@ public class ProjectListFragment extends ListActivityFragment implements OnProje
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			startActivity(intent);
 		}
+		initializeList();
 	}
 
 	@Override
@@ -195,22 +191,21 @@ public class ProjectListFragment extends ListActivityFragment implements OnProje
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.context_menu_copy:
-				showCopyProjectDialog();
-				break;
-
-			case R.id.context_menu_rename:
-				showRenameDialog();
-				break;
-
 			case R.id.context_menu_delete:
 				showDeleteDialog();
 				break;
-
+			case R.id.context_menu_copy:
+				showCopyProjectDialog();
+				break;
+			case R.id.context_menu_rename:
+				showRenameDialog();
+				break;
+			case R.id.show_details:
+				showDetailsDialog();
+				break;
 			case R.id.context_menu_set_description:
 				showSetDescriptionDialog();
 				break;
-
 			case R.id.context_menu_upload:
 				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
 				break;
@@ -238,6 +233,7 @@ public class ProjectListFragment extends ListActivityFragment implements OnProje
 		listView.showContextMenuForChild(view);
 	}
 
+	@Override
 	public void showDeleteDialog() {
 		int titleId;
 		if (adapter.getCheckedItems().size() == 1) {
@@ -246,29 +242,6 @@ public class ProjectListFragment extends ListActivityFragment implements OnProje
 			titleId = R.string.dialog_confirm_delete_multiple_programs_title;
 		}
 		showDeleteDialog(titleId);
-	}
-
-	private void showCopyProjectDialog() {
-		CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
-		dialogCopyProject.setParentFragment(parentFragment);
-		dialogCopyProject.show(getActivity().getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	public void showRenameDialog() {
-		if (!projectAdapter.getCheckedItems().isEmpty()) {
-			projectToEdit = projectAdapter.getCheckedItems().get(0);
-		}
-		RenameProjectDialog dialogRenameProject = RenameProjectDialog.newInstance(projectToEdit.projectName);
-		dialogRenameProject.setOnProjectRenameListener(ProjectListFragment.this);
-		dialogRenameProject.show(getActivity().getFragmentManager(), RenameProjectDialog.DIALOG_FRAGMENT_TAG);
-		clearCheckedItems();
-	}
-
-	private void showSetDescriptionDialog() {
-		SetDescriptionDialog dialogSetDescription = SetDescriptionDialog.newInstance(projectToEdit.projectName);
-		dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectListFragment.this);
-		dialogSetDescription.show(getActivity().getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
-		clearCheckedItems();
 	}
 
 	@Override
@@ -308,12 +281,58 @@ public class ProjectListFragment extends ListActivityFragment implements OnProje
 		}
 	}
 
+	private void showCopyProjectDialog() {
+		CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
+		dialogCopyProject.setTargetFragment(this, 0);
+		dialogCopyProject.show(getActivity().getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
 	@Override
 	protected void copyCheckedItems() {
 		for (ProjectData projectData : projectAdapter.getCheckedItems()) {
 			projectToEdit = projectData;
 			showCopyProjectDialog();
 		}
+	}
+
+	public void showRenameDialog() {
+		if (!projectAdapter.getCheckedItems().isEmpty()) {
+			projectToEdit = projectAdapter.getCheckedItems().get(0);
+		}
+
+		RenameItemDialog dialog = RenameItemDialog.newInstance(R.string.rename_project, R.string.new_project_name,
+				R.string.error_project_exists, projectToEdit.projectName);
+		dialog.setTargetFragment(this, 0);
+		dialog.show(getActivity().getFragmentManager(), RenameItemDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	@Override
+	public boolean itemNameExists(String newName) {
+		return Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newName);
+	}
+
+	@Override
+	public void renameItem(String newName) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		try {
+			projectManager.loadProject(projectToEdit.projectName, getActivity());
+			projectManager.renameProject(newName, getActivity());
+			projectManager.loadProject(newName, getActivity());
+			clearCheckedItems();
+			initializeList();
+		} catch (ProjectException projectException) {
+			Log.e(TAG, "Renaming an incompatible project isn't possible", projectException);
+			Utils.showErrorDialog(getActivity(), R.string.error_rename_incompatible_project);
+		}
+	}
+
+	private void showDetailsDialog() {
+	}
+
+	private void showSetDescriptionDialog() {
+		SetDescriptionDialog dialogSetDescription = SetDescriptionDialog.newInstance(projectToEdit.projectName);
+		dialogSetDescription.setTargetFragment(this, 0);
+		dialogSetDescription.show(getActivity().getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
@@ -350,21 +369,6 @@ public class ProjectListFragment extends ListActivityFragment implements OnProje
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
 		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
 		getActivity().startActivity(intent);
-	}
-
-	@Override
-	public void onCopyProject() {
-		initializeList();
-	}
-
-	@Override
-	public void onProjectRename() {
-		initializeList();
-	}
-
-	@Override
-	public void onUpdateProjectDescription() {
-		initializeList();
 	}
 
 	@Override

@@ -80,7 +80,7 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 
 		initializeList();
 		checkEmptyBackgroundBackPack();
-		BottomBar.hideAddButton(getActivity());
+		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initializeList() {

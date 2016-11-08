@@ -81,7 +81,7 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 
 		initializeList();
 		checkEmptyBackgroundBackPack();
-		BottomBar.hideAddButton(getActivity());
+		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initializeList() {

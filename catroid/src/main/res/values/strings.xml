@@ -78,9 +78,6 @@
     <string name="nothing_to_rename">Nothing to rename</string>
     <string name="unpack_background">Program\'s background will be replaced</string>
     <string name="degrees">degrees</string>
-    <string name="landscape">Landscape</string>
-    <string name="portrait">Portrait</string>
-    <string name="unknown">unknown</string>
     <!--  -->
 
 
@@ -301,14 +298,6 @@
     <!--  -->
 
 
-    <!-- Project overview -->
-    <string name="author">Author:</string>
-    <string name="screen_size">Screen Size:</string>
-    <string name="mode">Mode:</string>
-    <string name="remix_of">Remix of:</string>
-    <!--  -->
-
-
     <!-- Sprite activity -->
     <string name="copy_sprite_name_suffix">_Copy</string>
     <!--  -->
@@ -324,8 +313,6 @@
     <string name="size">Size:</string>
     <string name="script_group">Script Group</string>
     <string name="script_groups">Script Groups</string>
-    <string name="userbrick_group">Brick Group</string>
-    <string name="userbrick_groups">Brick Groups</string>
     <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
     <string name="group_or_object_name_given">A Group or object with this name already exists. Please choose a
         different one!</string>
@@ -532,11 +519,8 @@
     <!-- New scene dialog -->
     <string name="new_scene_dialog_hint">My Scene</string>
     <string name="new_scene_name">Scene name</string>
-    <string name="new_scene_dialog_default_scene_name">My Scene</string>
     <string name="new_scene_dialog_title">New Scene</string>
-    <string name="scenename_already_exists">Please choose another Scene name.</string>
     <string name="rename_scene_dialog">Rename Scene</string>
-    <string name="scenename_invalid">This scene name is invalid</string>
     <string name="scene_name">Scene name:</string>
     <!--  -->
 

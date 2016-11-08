@@ -76,7 +76,7 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 
 		initializeList();
 		checkEmptyBackgroundBackPack();
-		BottomBar.hideAddButton(getActivity());
+		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initializeList() {
