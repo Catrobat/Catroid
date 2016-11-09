@@ -20,34 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.ui.dragndrop;
 
-package org.catrobat.catroid.ui.fragment;
+public interface DragAndDropAdapterInterface {
 
-public interface ListItemActionsInterface {
-
-	boolean getActionModeActive();
-
-	void setActionModeActive(boolean actionModeActive);
-
-	boolean getShowDetails();
-
-	void setShowDetails(boolean showDetails);
-
-	void setSelectMode(int selectMode);
-
-	int getSelectMode();
-
-	void startCopyActionMode();
-
-	void startRenameActionMode();
-
-	void startDeleteActionMode();
-
-	void startBackPackActionMode();
-
-	void handleAddButton();
-
-	void showDeleteDialog();
-
-	void showRenameDialog();
+	int swapItems(int position1, int position2);
 }

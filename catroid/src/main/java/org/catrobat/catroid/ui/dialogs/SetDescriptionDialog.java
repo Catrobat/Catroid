@@ -31,14 +31,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.ui.fragment.ProjectListFragment;
 import org.catrobat.catroid.utils.Utils;
 
 public class SetDescriptionDialog extends MultiLineTextDialog {
 
-	private static final String BUNDLE_ARGUMENTS_OLD_PROJECT_NAME = "BUNDLE_ARGUMENTS_OLD_PROJECT_NAME";
+	private static final String BUNDLE_ARGUMENTS_PROJECT_NAME = "BUNDLE_ARGUMENTS_PROJECT_NAME";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_set_description";
-
-	private OnUpdateProjectDescriptionListener onUpdateProjectDescriptionListener;
 
 	private ProjectManager projectManager;
 	private String projectToChangeName;
@@ -47,20 +46,16 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 		SetDescriptionDialog dialog = new SetDescriptionDialog();
 
 		Bundle arguments = new Bundle();
-		arguments.putString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME, projectToChangeName);
+		arguments.putString(BUNDLE_ARGUMENTS_PROJECT_NAME, projectToChangeName);
 		dialog.setArguments(arguments);
 
 		return dialog;
 	}
 
-	public void setOnUpdateProjectDescriptionListener(OnUpdateProjectDescriptionListener listener) {
-		onUpdateProjectDescriptionListener = listener;
-	}
-
 	@Override
 	protected void initialize() {
 		projectManager = ProjectManager.getInstance();
-		projectToChangeName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME);
+		projectToChangeName = getArguments().getString(BUNDLE_ARGUMENTS_PROJECT_NAME);
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
@@ -88,7 +83,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
 			setDescription(description);
-			updateProjectDescriptionListener();
+			((ProjectListFragment) getTargetFragment()).clearCheckedItems();
 			dismiss();
 			return false;
 		}
@@ -97,11 +92,13 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 			projectManager.loadProject(projectToChangeName, getActivity());
 			setDescription(description);
 			projectManager.loadProject(currentProjectName, getActivity());
-			updateProjectDescriptionListener();
+			((ProjectListFragment) getTargetFragment()).clearCheckedItems();
+			((ProjectListFragment) getTargetFragment()).initializeList();
 		} catch (ProjectException projectException) {
 			Log.e(DIALOG_FRAGMENT_TAG, "Changing description of an incompatible project isn\'t possible.",
 					projectException);
 			Utils.showErrorDialog(getActivity(), R.string.error_changing_description_of_incompatible_project);
+			((ProjectListFragment) getTargetFragment()).clearCheckedItems();
 			dismiss();
 			return false;
 		}
@@ -123,17 +120,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 	private void setDescription(String description) {
 		projectManager.getCurrentProject().setDescription(description);
 		projectManager.saveProject(getActivity().getApplicationContext());
-		updateProjectDescriptionListener();
-	}
-
-	private void updateProjectDescriptionListener() {
-		if (onUpdateProjectDescriptionListener != null) {
-			onUpdateProjectDescriptionListener.onUpdateProjectDescription();
-		}
-	}
-
-	public interface OnUpdateProjectDescriptionListener {
-
-		void onUpdateProjectDescription();
+		((ProjectListFragment) getTargetFragment()).clearCheckedItems();
+		((ProjectListFragment) getTargetFragment()).initializeList();
 	}
 }

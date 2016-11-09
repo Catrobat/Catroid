@@ -60,11 +60,11 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
-import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
-import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
+import org.catrobat.catroid.ui.fragment.BackPackLookListFragment;
+import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
+import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorCategoryListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -534,8 +534,8 @@ public class ScriptActivity extends BaseActivity {
 			String backStackEntryName = fragmentManager.getBackStackEntryAt(i - 1).getName();
 			if (backStackEntryName != null
 					&& (backStackEntryName.equals(LookFragment.TAG) || backStackEntryName.equals(SoundFragment.TAG)
-					|| backStackEntryName.equals(BackPackScriptFragment.TAG) || backStackEntryName.equals(BackPackLookFragment
-					.TAG) || backStackEntryName.equals(BackPackSoundFragment.TAG) || backStackEntryName.equals(NfcTagFragment.TAG))) {
+					|| backStackEntryName.equals(BackPackScriptListFragment.TAG) || backStackEntryName.equals(BackPackLookListFragment
+					.TAG) || backStackEntryName.equals(BackPackSoundListFragment.TAG) || backStackEntryName.equals(NfcTagFragment.TAG))) {
 				fragmentManager.popBackStack();
 			} else {
 				break;
@@ -551,7 +551,7 @@ public class ScriptActivity extends BaseActivity {
 				scriptFragment.setBackpackMenuIsVisible(true);
 			}
 
-			DragAndDropListView listView = scriptFragment.getListView();
+			BrickDragAndDropListView listView = scriptFragment.getListView();
 			if (listView.isCurrentlyDragging()) {
 				listView.resetDraggingScreen();
 

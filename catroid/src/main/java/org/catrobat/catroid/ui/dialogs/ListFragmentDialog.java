@@ -20,34 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.ui.dialogs;
 
-package org.catrobat.catroid.ui.fragment;
+import android.content.DialogInterface;
 
-public interface ListItemActionsInterface {
+import org.catrobat.catroid.ui.fragment.ListActivityFragment;
 
-	boolean getActionModeActive();
+public abstract class ListFragmentDialog extends TextDialog {
 
-	void setActionModeActive(boolean actionModeActive);
-
-	boolean getShowDetails();
-
-	void setShowDetails(boolean showDetails);
-
-	void setSelectMode(int selectMode);
-
-	int getSelectMode();
-
-	void startCopyActionMode();
-
-	void startRenameActionMode();
-
-	void startDeleteActionMode();
-
-	void startBackPackActionMode();
-
-	void handleAddButton();
-
-	void showDeleteDialog();
-
-	void showRenameDialog();
+	@Override
+	public void onDismiss(DialogInterface dialog) {
+		super.onDismiss(dialog);
+		((ListActivityFragment) getTargetFragment()).clearCheckedItems();
+	}
 }

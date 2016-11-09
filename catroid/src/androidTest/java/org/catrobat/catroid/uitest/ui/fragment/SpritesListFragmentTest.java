@@ -53,10 +53,10 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.adapter.BackPackSpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
+import org.catrobat.catroid.ui.adapter.SpriteListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.fragment.BackPackSpriteFragment;
+import org.catrobat.catroid.ui.fragment.BackPackSpriteListFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
@@ -630,7 +630,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testBackPackSpriteDeleteContextMenu() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), SPRITE_NAME_BACKGROUND, SPRITE_NAME);
 
-		BackPackSpriteAdapter adapter = getBackPackSpriteAdapter();
+		SpriteListAdapter adapter = getSpriteListAdapter();
 		int oldCount = adapter.getCount();
 		List<Sprite> backPackSpriteList = BackPackListManager.getInstance().getBackPackedSprites();
 
@@ -647,7 +647,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testBackPackSpriteDeleteActionMode() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), SPRITE_NAME_BACKGROUND, SPRITE_NAME);
 
-		BackPackSpriteAdapter adapter = getBackPackSpriteAdapter();
+		SpriteListAdapter adapter = getSpriteListAdapter();
 		int oldCount = adapter.getCount();
 		List<Sprite> backPackSpriteList = BackPackListManager.getInstance().getBackPackedSprites();
 
@@ -1042,10 +1042,10 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 				.getAmountOfCheckedItems());
 		UiTestUtils.backpackAllCheckedItems(solo, firstTestItemNamePacked, secondTestItemNamePacked);
 
-		BackPackSpriteAdapter backPackSpriteAdapter = getBackPackSpriteAdapter();
-		assertNotNull("Could not get Adapter", backPackSpriteAdapter);
+		SpriteListAdapter spriteListAdapter = getSpriteListAdapter();
+		assertNotNull("Could not get Adapter", spriteListAdapter);
 
-		assertEquals("Wrong number of items in backpack", 6, backPackSpriteAdapter.getCount());
+		assertEquals("Wrong number of items in backpack", 6, spriteListAdapter.getCount());
 		clickOnBackPackItem(firstTestItemNamePacked, unpackAsObject);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		assertEquals("Item was not unpacked from backpack", 5, adapter.getGroupCount());
@@ -1400,9 +1400,9 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.sleep(TIME_TO_WAIT);
 	}
 
-	private BackPackSpriteFragment getBackPackSpriteFragment() {
+	private BackPackSpriteListFragment getBackPackSpriteFragment() {
 		BackPackActivity activity = (BackPackActivity) solo.getCurrentActivity();
-		return (BackPackSpriteFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_SPRITES);
+		return (BackPackSpriteListFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_SPRITES);
 	}
 
 	private SpritesListFragment getSpritesListFragment() {
@@ -1416,8 +1416,8 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		return getSpritesListFragment().getSpriteAdapter();
 	}
 
-	private BackPackSpriteAdapter getBackPackSpriteAdapter() {
-		return (BackPackSpriteAdapter) getBackPackSpriteFragment().getListAdapter();
+	private SpriteListAdapter getSpriteListAdapter() {
+		return (SpriteListAdapter) getBackPackSpriteFragment().getListAdapter();
 	}
 
 	private void checkVisibilityOfViews(int imageVisibility, int lookNameVisibility, int lookDetailsVisibility,

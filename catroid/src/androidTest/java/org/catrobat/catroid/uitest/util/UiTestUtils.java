@@ -154,7 +154,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -2229,7 +2229,7 @@ public final class UiTestUtils {
 
 	public static ListView getScriptListView(Solo solo) {
 		for (ListView listView : solo.getCurrentViews(ListView.class)) {
-			if (listView instanceof DragAndDropListView && listView.getAdapter() instanceof BrickAdapter) {
+			if (listView instanceof BrickDragAndDropListView && listView.getAdapter() instanceof BrickAdapter) {
 				return listView;
 			}
 		}
