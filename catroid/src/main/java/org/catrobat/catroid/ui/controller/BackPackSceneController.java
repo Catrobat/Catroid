@@ -99,8 +99,12 @@ public final class BackPackSceneController {
 				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						onBackpackSceneCompleteListener.onBackpackSceneComplete(false, true);
 						dialog.dismiss();
+					}
+				}).setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialogInterface) {
+						onBackpackSceneCompleteListener.onBackpackSceneComplete(false, true);
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(true);

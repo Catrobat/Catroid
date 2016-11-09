@@ -32,5 +32,5 @@ public interface MessageListener {
 	void onUserCanceledConversion(long jobID);
 	int getNumberOfJobsInProgress();
 	boolean scheduleJob(Job job, boolean force, ConvertCallback callback);
-	Client.DownloadFinishedCallback restoreJobIfRunning(Job job, ConvertCallback callback);
+	Client.DownloadCallback restoreJobIfRunning(Job job, ConvertCallback callback);
 }

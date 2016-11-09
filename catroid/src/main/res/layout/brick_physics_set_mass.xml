@@ -50,11 +50,6 @@
             android:text="@string/brick_set_mass" >
 		</TextView >
 	
-		<TextView
-            android:id="@+id/brick_set_mass_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
-	
         <TextView
             android:id="@+id/brick_set_mass_edit_text"
             style="@style/BrickEditText"

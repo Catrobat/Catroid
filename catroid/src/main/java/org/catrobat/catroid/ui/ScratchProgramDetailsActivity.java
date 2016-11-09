@@ -72,7 +72,7 @@ import static android.view.View.VISIBLE;
 
 public class ScratchProgramDetailsActivity extends BaseActivity implements
 		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate, ScratchRemixedProgramEditListener,
-		JobViewListener, Client.DownloadFinishedCallback {
+		JobViewListener, Client.DownloadCallback {
 
 	private static final String TAG = ScratchProgramDetailsActivity.class.getSimpleName();
 
@@ -101,6 +101,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	private RelativeLayout detailsLayout;
 	private TextView remixesLabelView;
 	private FetchScratchProgramDetailsTask fetchRemixesTask = new FetchScratchProgramDetailsTask();
+	private View separationLineBottom;
 
 	public static void setDataFetcher(final ScratchDataFetcher fetcher) {
 		dataFetcher = fetcher;
@@ -138,15 +139,18 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		convertButton = (Button) findViewById(R.id.scratch_project_convert_button);
 		detailsLayout = (RelativeLayout) findViewById(R.id.scratch_project_details_layout);
 		remixesLabelView = (TextView) findViewById(R.id.scratch_project_remixes_label);
+		separationLineBottom = findViewById(R.id.separation_line_bottom);
 
 		if (conversionManager.isJobInProgress(programData.getId())) {
 			onJobInProgress();
+		} else if (conversionManager.isJobDownloading(programData.getId())) {
+			onJobDownloading();
 		} else {
 			onJobNotInProgress();
 		}
 
-		conversionManager.addJobConsoleViewListener(programData.getId(), this);
-		conversionManager.addDownloadFinishedCallback(this);
+		conversionManager.addJobViewListener(programData.getId(), this);
+		conversionManager.addGlobalDownloadCallback(this);
 
 		final Activity activity = this;
 		convertButton.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +173,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 				finish();
 			}
 		});
+
 		loadAdditionalData(programData);
 	}
 
@@ -182,8 +187,8 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.d(TAG, "Destroyed " + TAG);
-		conversionManager.removeJobConsoleViewListener(programData.getId(), this);
-		conversionManager.removeDownloadFinishedCallback(this);
+		conversionManager.removeJobViewListener(programData.getId(), this);
+		conversionManager.removeGlobalDownloadCallback(this);
 		fetchRemixesTask.cancel(true);
 		progressDialog.dismiss();
 	}
@@ -215,6 +220,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		tagsTextView.setVisibility(GONE);
 		visibilityWarningTextView.setVisibility(GONE);
 		convertButton.setVisibility(GONE);
+		separationLineBottom.setVisibility(GONE);
 
 		if (scratchRemixedProgramAdapter != null) {
 			scratchRemixedProgramAdapter.clear();
@@ -267,6 +273,11 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	private void onJobInProgress() {
 		convertButton.setEnabled(false);
 		convertButton.setText(R.string.converting);
+	}
+
+	private void onJobDownloading() {
+		convertButton.setEnabled(false);
+		convertButton.setText(R.string.status_downloading);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -375,6 +386,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 			remixedProjectsListView.setVisibility(VISIBLE);
 			initRemixAdapter(programData.getRemixes());
 		}
+		separationLineBottom.setVisibility(VISIBLE);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -430,8 +442,13 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	public void onDownloadStarted(final String url) {
 		final long jobID = Utils.extractScratchJobIDFromURL(url);
 		if (jobID == programData.getId()) {
-			convertButton.setText(R.string.status_downloading);
+			onJobDownloading();
 		}
+	}
+
+	@Override
+	public void onDownloadProgress(short progress, String url) {
+		// nothing to do
 	}
 
 	@Override

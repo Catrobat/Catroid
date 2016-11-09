@@ -60,11 +60,6 @@
         </TextView >
 
         <TextView
-            android:id="@+id/brick_ev3_tone_duration_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
-
-        <TextView
             android:id="@+id/brick_ev3_tone_duration_edit_text"
             style="@style/BrickEditText"
             android:layout_width="wrap_content"
@@ -89,11 +84,6 @@
         </TextView >
 
         <TextView
-            android:id="@+id/brick_ev3_tone_freq_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
-
-        <TextView
             android:id="@+id/brick_ev3_tone_freq_edit_text"
             style="@style/BrickEditText"
             android:layout_width="wrap_content"
@@ -115,11 +105,6 @@
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:text="@string/ev3_tone_volume" >
-        </TextView >
-
-        <TextView
-            android:id="@+id/brick_ev3_tone_volume_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
         </TextView >
 
         <TextView

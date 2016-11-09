@@ -114,7 +114,7 @@ public class ScratchProgramDetailsActivityTest extends BaseActivityInstrumentati
 
 		doAnswer(new Answer<Void>() {
 			public Void answer(InvocationOnMock invocation) {
-				assertNotNull("No arguments for addJobConsoleViewListener call given", invocation.getArguments());
+				assertNotNull("No arguments for addJobViewListener call given", invocation.getArguments());
 				assertEquals("Invalid number of arguments", invocation.getArguments().length, 2);
 				assertEquals("First argument program ID does not match the one of the currently loaded program!",
 						invocation.getArguments()[0], programData.getId());
@@ -122,7 +122,7 @@ public class ScratchProgramDetailsActivityTest extends BaseActivityInstrumentati
 						invocation.getArguments()[1] instanceof ScratchProgramDetailsActivity);
 				return null;
 			}
-		}).when(conversionManagerMock).addJobConsoleViewListener(any(Long.class), any(JobViewListener.class));
+		}).when(conversionManagerMock).addJobViewListener(any(Long.class), any(JobViewListener.class));
 
 		doAnswer(new Answer<Void>() {
 			public Void answer(InvocationOnMock invocation) {
@@ -132,7 +132,7 @@ public class ScratchProgramDetailsActivityTest extends BaseActivityInstrumentati
 						invocation.getArguments()[0] instanceof ScratchProgramDetailsActivity);
 				return null;
 			}
-		}).when(conversionManagerMock).addDownloadFinishedCallback(any(Client.DownloadFinishedCallback.class));
+		}).when(conversionManagerMock).addGlobalDownloadCallback(any(Client.DownloadCallback.class));
 
 		doAnswer(new Answer<Void>() {
 			public Void answer(InvocationOnMock invocation) {
@@ -146,7 +146,7 @@ public class ScratchProgramDetailsActivityTest extends BaseActivityInstrumentati
 
 		doAnswer(new Answer<Void>() {
 			public Void answer(InvocationOnMock invocation) {
-				assertNotNull("No arguments for removeJobConsoleViewListener call given", invocation.getArguments());
+				assertNotNull("No arguments for removeJobViewListener call given", invocation.getArguments());
 				assertEquals("Invalid number of arguments", invocation.getArguments().length, 2);
 				assertEquals("First argument program ID does not match the one of the currently loaded program!",
 						invocation.getArguments()[0], programData.getId());
@@ -154,17 +154,17 @@ public class ScratchProgramDetailsActivityTest extends BaseActivityInstrumentati
 						invocation.getArguments()[1] instanceof ScratchProgramDetailsActivity);
 				return null;
 			}
-		}).when(conversionManagerMock).removeJobConsoleViewListener(any(Long.class), any(JobViewListener.class));
+		}).when(conversionManagerMock).removeJobViewListener(any(Long.class), any(JobViewListener.class));
 
 		doAnswer(new Answer<Void>() {
 			public Void answer(InvocationOnMock invocation) {
-				assertNotNull("No arguments for removeDownloadFinishedCallback call given", invocation.getArguments());
+				assertNotNull("No arguments for removeGlobalDownloadCallback call given", invocation.getArguments());
 				assertEquals("Invalid number of arguments", invocation.getArguments().length, 1);
 				assertTrue("First argument must be an instance of the ScratchProgramDetailsActivity class",
 						invocation.getArguments()[0] instanceof ScratchProgramDetailsActivity);
 				return null;
 			}
-		}).when(conversionManagerMock).removeDownloadFinishedCallback(any(Client.DownloadFinishedCallback.class));
+		}).when(conversionManagerMock).removeGlobalDownloadCallback(any(Client.DownloadCallback.class));
 
 		ScratchProgramDetailsActivity.setDataFetcher(fetcherMock);
 		ScratchProgramDetailsActivity.setConversionManager(conversionManagerMock);

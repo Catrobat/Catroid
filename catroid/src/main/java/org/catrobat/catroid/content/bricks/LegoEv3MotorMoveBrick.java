@@ -23,14 +23,10 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -50,7 +46,6 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
 
 	private transient Motor motorEnum;
 
@@ -103,7 +98,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_ev3_motor_move, null);
 
-		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_ev3_motor_move_power_prototype_text_view);
+		TextView textPower = (TextView) prototypeView.findViewById(R.id.ev3_motor_move_power_edit_text);
 
 		textPower.setText(String.valueOf(BrickValues.LEGO_POWER));
 
@@ -118,7 +113,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setSelection(motorEnum.ordinal());
 
-		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_ev3_motor_move_period_prototype_text_view);
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.ev3_motor_move_period_edit_text);
 		NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
 		nf.setMinimumFractionDigits(1);
 		textDuration.setText(nf.format(BrickValues.LEGO_DURATION));
@@ -141,38 +136,21 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 			alphaValue = 255;
 		}
 		view = View.inflate(context, R.layout.brick_ev3_motor_move, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_ev3_motor_move_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView textPower = (TextView) view.findViewById(R.id.brick_ev3_motor_move_power_prototype_text_view);
 		TextView editPower = (TextView) view.findViewById(R.id.ev3_motor_move_power_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_POWER)
 				.setTextFieldId(R.id.ev3_motor_move_power_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_POWER).refreshTextField(view);
 
-		textPower.setVisibility(View.GONE);
-		editPower.setVisibility(View.VISIBLE);
-
 		editPower.setOnClickListener(this);
 
-		TextView textDuration = (TextView) view.findViewById(R.id.brick_ev3_motor_move_period_prototype_text_view);
 		TextView editDuration = (TextView) view.findViewById(R.id.ev3_motor_move_period_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_PERIOD_IN_SECONDS)
 				.setTextFieldId(R.id.ev3_motor_move_period_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_PERIOD_IN_SECONDS).refreshTextField(view);
-
-		textDuration.setVisibility(View.GONE);
-		editDuration.setVisibility(View.VISIBLE);
 
 		editDuration.setOnClickListener(this);
 
@@ -196,7 +174,6 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
-				adapterView = arg0;
 			}
 
 			@Override
@@ -219,48 +196,6 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_PERIOD_IN_SECONDS);
 				break;
 		}
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_ev3_motor_move_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textSingleMotorMoveLabel = (TextView) view.findViewById(R.id.brick_ev3_motor_move_label);
-			TextView textSingleMotorMovePower = (TextView) view.findViewById(R.id.brick_ev3_motor_move_power_text);
-			TextView textSingleMotorMovePercent = (TextView) view.findViewById(R.id.brick_ev3_motor_move_percent);
-			TextView textSingleMotorMovePeriod = (TextView) view.findViewById(R.id.brick_ev3_motor_move_period_text);
-			TextView textSingleMotorMoveSecond = (TextView) view.findViewById(R.id.brick_ev3_motor_move_seconds);
-
-			textSingleMotorMoveLabel.setTextColor(textSingleMotorMoveLabel.getTextColors().withAlpha(alphaValue));
-			textSingleMotorMovePower.setTextColor(textSingleMotorMovePower.getTextColors().withAlpha(alphaValue));
-			textSingleMotorMovePercent.setTextColor(textSingleMotorMovePercent.getTextColors().withAlpha(alphaValue));
-			textSingleMotorMovePeriod.setTextColor(textSingleMotorMovePeriod.getTextColors().withAlpha(alphaValue));
-			textSingleMotorMoveSecond.setTextColor(textSingleMotorMoveSecond.getTextColors().withAlpha(alphaValue));
-
-			TextView editSingleMotorMovePower = (TextView) view.findViewById(R.id.ev3_motor_move_power_edit_text);
-			TextView editSingleMotorMovePeriod = (TextView) view.findViewById(R.id.ev3_motor_move_period_edit_text);
-
-			editSingleMotorMovePower.setTextColor(editSingleMotorMovePower.getTextColors().withAlpha(alphaValue));
-			editSingleMotorMovePower.getBackground().setAlpha(alphaValue);
-			editSingleMotorMovePeriod.setTextColor(editSingleMotorMovePeriod.getTextColors().withAlpha(alphaValue));
-			editSingleMotorMovePeriod.getBackground().setAlpha(alphaValue);
-
-			Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_ev3_motor_move_spinner);
-			ColorStateList color = textSingleMotorMoveLabel.getTextColors().withAlpha(alphaValue);
-			motorSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

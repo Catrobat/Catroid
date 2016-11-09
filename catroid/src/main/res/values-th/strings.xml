@@ -33,20 +33,21 @@
   <string name="yes">ใช่</string>
   <string name="no">ไม่ใช่</string>
   <string name="copy">คัด​ลอก</string>
-  <string name="cut">ตัด</string>
-  <string name="move">ย้าย</string>
+  <string name="cut">Cut</string>
+  <string name="move">เคลื่อน</string>
   <string name="backpack_add">Add to backpack</string>
-  <string name="backpack">กระเป๋าเป้</string>
+  <string name="backpack">Backpack</string>
   <string name="packing">Pack</string>
   <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="unpack_bg">Unpack as background</string>
   <string name="unpack_object">Unpack as object</string>
-  <string name="copy_addition">คัดลอก</string>
+  <string name="copy_addition">copy</string>
   <string name="close">ปิด</string>
   <string name="error">ผิดพลาด</string>
-  <string name="please_wait">กรุณารอ</string>
+  <string name="please_wait">Please wait</string>
   <string name="loading">กำลังโหลด&#8230;</string>
+  <string name="search_hint">Search&#8230;</string>
   <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
@@ -59,11 +60,12 @@
   <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
   <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
   <string name="background">พื้นหลัง</string>
-  <string name="stage">เวที</string>
+  <string name="stage">Stage</string>
   <string name="ok">ตกลง</string>
+  <string name="play">เล่น</string>
   <string name="settings">การตั้งค่า</string>
   <string name="redo">ทำซ้ำ</string>
-  <string name="undo">ยกเลิก</string>
+  <string name="undo">เลิกทำ</string>
   <string name="name_exists">Name already exists</string>
   <string name="no_name">No name</string>
   <string name="is_empty">is empty</string>
@@ -77,6 +79,9 @@
   <string name="nothing_to_rename">Nothing to rename</string>
   <string name="unpack_background">Program\'s background will be replaced</string>
   <string name="degrees">degrees</string>
+  <string name="landscape">Landscape</string>
+  <string name="portrait">Portrait</string>
+  <string name="unknown">unknown</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">สร้างใหม่</string>
   <string name="main_menu_continue">ทำต่อ</string>
@@ -86,15 +91,20 @@
   <string name="main_menu_upload">อัพโหลด</string>
   <string name="main_menu_about_pocketcode">เกี่ยวกับ Pocket Code</string>
   <string name="main_menu_terms_of_use">เงื่อนไขการใช้งาน</string>
-  <string name="main_menu_rate_app">ให้คะแนนเรา!</string>
-  <string name="main_menu_play_store_not_installed">ไม่พบรายการใน App Store</string>
+  <string name="main_menu_rate_app">Rate us!</string>
+  <string name="main_menu_play_store_not_installed">Play Store app not found</string>
   <string name="main_menu_logout">ออกจากระบบ</string>
   <string name="main_menu_login">เข้าสู่ระบบ</string>
+  <string name="main_menu_scratch_converter">Scratch Converter</string>
   <string name="logout_successful">Logout successful</string>
+  <!-- Marketing activity -->
+  <string name="marketing_created_with">Created with</string>
+  <string name="marketing_app_details">Details about this app</string>
+  <string name="marketing_more_on_google_play">More apps on Google Play</string>
   <!-- Settings activity -->
   <string name="preference_title">การตั้งค่า</string>
-  <string name="preference_title_enable_quadcopter_bricks">คำสั่งควบคุม ARDrone 2.0</string>
-  <string name="preference_description_quadcopter_bricks">อนุญาตให้ควบคุม ARDrone 2.0</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
+  <string name="preference_description_quadcopter_bricks">Allow to control ARDrone 2.0 quadcopters</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
   <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
@@ -104,6 +114,8 @@
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
   <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
   <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
+  <string name="preference_description_crash_reports">Allow to send crash reports automatically</string>
+  <string name="preference_title_enable_crash_reports">Send anonymous crash reports</string>
   <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
   <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
@@ -112,14 +124,151 @@
   <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <string name="preference_title_access">Accessibility</string>
+  <string name="preference_description_access">Choose a profile and configurate your personal
+        settings for the Pocket-Code-UI</string>
+  <string name="preference_access_title_activity_access">Accessibility preferences</string>
+  <string name="preference_access_profiles">Profiles</string>
+  <string name="preference_access_predefined_profiles">Predefined profiles</string>
+  <string name="preference_access_active_profile">Active profile</string>
+  <string name="preference_access_selected_profile">Selected profile</string>
+  <string name="preference_access_change_profile">Switch to predefined profiles</string>
+  <string name="preference_access_apply_profile">Apply this profile</string>
+  <string name="preference_access_settings">การตั้งค่า</string>
+  <string name="preference_access_title_large_text">Large text</string>
+  <string name="preference_access_summary_large_text">The large text setting increases the text size.</string>
+  <string name="preference_access_choose_fontface">Choose a fontface</string>
+  <string name="preference_access_title_fontface">Fontface</string>
+  <string name="preference_access_summary_fontface">Fontface allows you to choose a font style you
+        prefer.</string>
+  <string name="preference_access_title_fontface_standard">Standard</string>
+  <string name="preference_access_title_fontface_serif">Serif</string>
+  <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
+  <string name="preference_access_title_high_contrast">High contrast</string>
+  <string name="preference_access_summary_high_contrast">Increases the contrast and makes the text on bricks easier
+        to read.</string>
+  <string name="preference_access_title_additional_icons">Additional icons</string>
+  <string name="preference_access_summary_additional_icons">Adds icons to categories and bricks to improve
+        recognizability.</string>
+  <string name="preference_access_title_large_icons">Large icons</string>
+  <string name="preference_access_summary_large_icons">Increases the size of icons.</string>
+  <string name="preference_access_title_high_contrast_icons">Icon contrast</string>
+  <string name="preference_access_summary_high_contrast_icons">Changes the brick icons to high contrast icons.
+        </string>
+  <string name="preference_access_title_largeelementspacing">Large element spacing</string>
+  <string name="preference_access_summary_largeelementspacing">The large element spacing increase the space
+        between touchable elements.</string>
+  <string name="preference_access_title_starter_bricks">Starter bricks</string>
+  <string name="preference_access_summary_starter_bricks">Shows only starter bricks for ease of learning.</string>
+  <string name="preference_access_title_dragndrop_delay">Drag\'n\'drop delay</string>
+  <string name="preference_access_summary_dragndrop_delay">Adds delay to the drag\'n\'drop of bricks.</string>
+  <string name="preference_access_title_profile_standard">Standard</string>
+  <string name="preference_access_summary_profile_standard">The standard settings</string>
+  <string name="preference_access_title_profile_myprofile">โปรไฟล์ของฉัน</string>
+  <string name="preference_access_summary_profile_myprofile">My personal settings</string>
+  <string name="preference_access_title_profile_1">Argus</string>
+  <string name="preference_access_summary_profile_1">Visual improvement: High contrast, additional icons</string>
+  <string name="preference_access_title_profile_2">Odin</string>
+  <string name="preference_access_summary_profile_2">Visual improvement: Large text, large icons, large element
+        spacing, high contrast</string>
+  <string name="preference_access_title_profile_3">Fenrir</string>
+  <string name="preference_access_summary_profile_3">Input improvement: Large element spacing, drag\'n\'drop
+        delay</string>
+  <string name="preference_access_title_profile_4">Tiro</string>
+  <string name="preference_access_summary_profile_4">Learning: Starter bricks</string>
+  <string name="preference_access_title_created_profile">Created profile</string>
+  <string name="preference_access_summary_created_profile">You have created a new profile! The changes you
+        make can be found in \'My Profile\'</string>
+  <string name="preference_access_title_restart">Profile applied</string>
+  <string name="preference_access_summary_restart">Pocket Code will be restarted to apply the changes you
+        made.</string>
+  <!-- Scratch Converter activity -->
+  <string name="beta">beta</string>
+  <string name="title_activity_scratch_converter">Convert Scratch program</string>
+  <string name="error_scratch_program_not_accessible_any_more">Whoops! Data of this program is not accessible any
+        more!</string>
+  <string name="error_scratch_project_data_not_available">Whoops! Some data could not be loaded from this Scratch
+        program. Please try again later!</string>
+  <string name="error_request_timeout">Whoops! Our server is not reachable at the moment, please try later!</string>
+  <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert Scratch program, please try again
+        later!</string>
+  <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
+        again later!</string>
+  <string name="error_scratch_converter_outdated_pocketcode_version">Your Pocket Code app is outdated. Our Scratch
+        converter only supports the latest Pocket Code version. Please update it on the Google Play Store!</string>
+  <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
+        have canceled the conversion/download of the Scratch program or you have renamed/deleted the program in the
+        meanwhile!</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">Cannot open this Scratch program
+        while it is downloading! Please try again later!</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">Cannot open this Scratch program
+        since it has not been downloaded yet! Please try again later!</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s! Older Scratch before %2$s
+        programs are not supported!</string>
+  <plurals name="error_cannot_convert_more_than_x_programs">
+    <item quantity="other">Cannot convert more than %d programs simultaneously!</item>
+  </plurals>
+  <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
+        failed!</string>
+  <string name="search_failed">Search failed, please retry later!</string>
+  <string name="connection_lost_or_closed_by_server">Connection lost or closed by server!</string>
+  <string name="connection_failed">Connection to server failed, please retry later!</string>
+  <string name="authentication_failed">Authentication failed, please contact the Pocket Code team!</string>
+  <plurals name="scratch_conversion_scheduled_x">
+    <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
+  </plurals>
+  <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
+  <string name="convert">Convert</string>
+  <string name="converting">Converting&#8230;</string>
+  <string name="status_scheduled">Scheduled</string>
+  <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
+  <string name="status_started">Started&#8230;</string>
+  <string name="status_conversion_finished">Conversion finished</string>
+  <plurals name="status_in_progress_x_jobs">
+    <item quantity="other">In progress: %d jobs</item>
+  </plurals>
+  <plurals name="status_completed_x_jobs">
+    <item quantity="other">Completed: %d jobs</item>
+  </plurals>
+  <string name="status_conversion_failed">Conversion failed!</string>
+  <string name="status_conversion_canceled">Conversion canceled!</string>
+  <string name="status_downloading">Downloading&#8230;</string>
+  <string name="status_download_finished">Download finished!</string>
+  <string name="status_download_canceled">Download canceled!</string>
+  <string name="list_view_section_title_in_progress">In progress</string>
+  <string name="list_view_section_title_converted_programs">Converted programs</string>
+  <string name="status">Status</string>
+  <string name="title">Title</string>
+  <string name="by_x">by %1$s</string>
+  <string name="by_author">by Author</string>
+  <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. Converting it may
+        fail!</string>
+  <string name="instructions">Instructions</string>
+  <string name="notes_and_credits">Notes and Credits</string>
+  <string name="shared_at_x">Shared: %1$s</string>
+  <string name="modified_at_x">Modified: %1$s</string>
+  <string name="remixes">Remixes</string>
+  <!-- ScratchReconvertDialog Strings -->
+  <string name="reconvert_text">This program has been converted %1$s ago.</string>
+  <plurals name="minutes">
+    <item quantity="other">%d minutes</item>
+  </plurals>
+  <plurals name="hours">
+    <item quantity="other">%d hours</item>
+  </plurals>
+  <plurals name="days">
+    <item quantity="other">%d days</item>
+  </plurals>
+  <string name="reconvert_dialog_download">Download already converted program</string>
+  <string name="reconvert_dialog_reconvert">Reconvert this program</string>
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">วาดรูป</string>
   <string name="dialog_new_object_gallery">เลือกรูปภาพ</string>
-  <string name="dialog_new_object_camera">ถ่ายรูป</string>
+  <string name="dialog_new_object_camera">Take picture</string>
   <string name="dialog_new_object_look_preview">ดู ตัวอย่าง</string>
   <string name="dialog_new_object_name">ชื่อวัตถุ</string>
-  <string name="dialog_new_object_switch_title">วัตถุใหม่ที่ถูกสร้าง</string>
-  <string name="dialog_new_object_switch_message">สลับไปยังวัตถุใหม่หรือไม่?</string>
+  <string name="dialog_new_object_switch_title">New object created</string>
+  <string name="dialog_new_object_switch_message">Switch to new object?</string>
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">เงื่อนไขการใช้งาน</string>
   <string name="dialog_terms_of_use_info">เพื่อที่จะได้รับอนุญาตให้ใช้โปรแกรม Pocket Code และ ส่วนอื่น ๆ จากโครงการ Catrobat คุณต้องยอมรับเงื่อนไขการใช้งานของเรา และกระทำตามข้อกำหนดอย่างเคร่งครัดเมื่อคุณใช้โปรแกรม Pocket Code และส่วนอื่นๆ ของเรา ข้อกำหนดอย่างละเอียดสามารถอ่านได้จากลิงค์ด้านล่าง\n</string>
@@ -132,29 +281,49 @@
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
   <!-- About Dialog -->
   <string name="dialog_about_title">เกี่ยวกับ Pocket Code</string>
-  <string name="dialog_about_license_info">Pocket Code เป็นสภาพแวดล้อมการเขียนโปรแกรม และตัวแปลสำหรับอุปกรณ์ Android โดยใช้งานกับภาษาการเขียนโปรแกรมที่ชื่อ Catrobat.\n\n รหัสต้นฉบับส่วนใหญ่ของ Pocket Code ใช้สัญญาอนุญาต GNU AGPL v3  รายละเอียดของสัญญาอนุญาติดูได้จากลิงค์ด้านล่าง \n</string>
+  <string name="dialog_about_license_info">Pocket Code is a programming
+        environment and interpreter for Android devices for the visual
+        programming language Catrobat.\n\n
+        The source code of Pocket Code is mainly licensed under the GNU AGPL v3 License.
+        For further details on the license see the link below.\n</string>
   <string name="dialog_about_pocketcode_license_link_text">สัญญาอนุญาตของรหัสต้นฉบับโปรแกรม Pocket Code</string>
   <string name="dialog_about_catrobat_link_text">เกี่ยวกับ Catrobat</string>
   <!-- Project activity view -->
   <string name="project_name">โปรแกรม:</string>
   <string name="my_projects_activity_title">โปรแกรม</string>
+  <string name="number_of_objects">Objects:</string>
+  <string name="start_scene_name">%1$s (First Scene)</string>
   <string name="number_of_scripts">สคริปต์:</string>
   <string name="number_of_bricks">ก้อนคำสั่ง:</string>
   <string name="number_of_looks">รูปลักษณ์:</string>
   <string name="number_of_sounds">เสียง:</string>
-  <string name="show_details">แสดงรายละเอียด</string>
-  <string name="hide_details">ซ่อนรายละเอียด</string>
-  <string name="insert_below">แทรกข้างล่าง</string>
+  <string name="show_details">Show details</string>
+  <string name="hide_details">Hide details</string>
+  <string name="insert_below">Insert below</string>
   <string name="sprite">วัตถุ</string>
   <string name="sprites">วัตถุ</string>
   <string name="spritelist_background_headline">พื้นหลัง</string>
   <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
   <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
-  <string name="dialog_confirm_delete_object_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
+  <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
   <string name="select_all">เลือก​ทั้ง​หมด</string>
   <string name="deselect_all">Deselect all</string>
-  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object">The object %1$s already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_scene">The scene %1$s already exists in the backpack. Do you want to replace
+        it?</string>
   <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
+  <string name="groups_create">Create group</string>
+  <string name="group_created">Group successfully created!</string>
+  <string name="ungroup">Ungroup</string>
+  <string name="group_objects_delete">Delete group and objects</string>
+  <string name="group">Group</string>
+  <string name="backpack_replace_scene_multiple">Scenes already exist in the backpack. Do you want to replace
+        them?</string>
+  <!-- Project overview -->
+  <string name="author">Author:</string>
+  <string name="screen_size">Screen Size:</string>
+  <string name="mode">Mode:</string>
+  <string name="remix_of">Remix of:</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_ทำซ้ำ</string>
   <!-- Script activity -->
@@ -169,6 +338,8 @@
   <string name="userbrick_group">Brick Group</string>
   <string name="userbrick_groups">Brick Groups</string>
   <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
+  <string name="group_or_object_name_given">A Group or object with this name already exists. Please choose a
+        different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">เคาะ \"+\" เพื่อเพิ่มสคริปต์</string>
   <string name="dialog_confirm_delete_brick_title">ลบก้อนคำสั่งนี้หรือไม่?</string>
@@ -176,7 +347,7 @@
   <string name="dialog_confirm_delete_multiple_bricks_title">ลบก้อนคำสั่งเหล่านี้หรือไม่?</string>
   <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
   <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
-  <string name="dialog_confirm_delete_brick_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
+  <string name="dialog_confirm_delete_brick_message">This cannot be undone!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">Delete %d Bricks</item>
   </plurals>
@@ -190,38 +361,38 @@
   <string name="fragment_look_text_description">เคาะ \"+\" เพื่อเพิ่มรูปลักษณ์</string>
   <string name="fragment_background_text_description">เคาะ \"+\" เพื่อเพิ่มพื้นหลัง</string>
   <string name="rename_look_dialog">เปลี่ยนชื่อรูปลักษณ์</string>
-  <string name="lookname_invalid">ชื่อของรูปลักษณ์นี้ไม่ถูกต้อง</string>
+  <string name="lookname_invalid">This Look\'s name is invalid</string>
   <string name="pocket_paint_not_installed_title">โปรแกรม Pocket Paint ไม่ถูกติดตั้งไว้!</string>
   <string name="pocket_paint_not_installed">คุณต้องติดตั้งหรือไม่?</string>
   <string name="default_look_name">ดู</string>
-  <string name="delete_look_dialog">ลบรูปลักษณ์หรือไม่?</string>
+  <string name="delete_look_dialog">Delete Look?</string>
   <string name="select_look_from_gallery">เลือกรูปภาพ</string>
   <string name="select_look_from_camera">เลือก​ภาพถ่าย</string>
   <string name="look_measure">วัด:</string>
   <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
-  <string name="dialog_confirm_delete_look_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
-  <string name="lookname">ชื่อ รูปลักษณ์:</string>
-  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
+  <string name="lookname">Look name:</string>
+  <string name="backpack_replace_look">The look %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">เคาะ \"+\" เพื่อใส่เสียง</string>
   <string name="rename_sound_dialog">เปลี่ยนชื่อเสียง</string>
-  <string name="backpack_title">กระเป๋าเป้</string>
+  <string name="backpack_title">Your Backpack</string>
   <string name="soundname_invalid">ชื่อไฟล์เสียงนี้ไม่ถูกต้อง</string>
   <string name="sound_play">เล่น</string>
   <string name="sound_stop">หยุด</string>
-  <string name="sound_select_source">เลือกเสียง</string>
+  <string name="sound_select_source">Select a Sound</string>
   <string name="sound_time_seperator">/</string>
-  <string name="delete_sound_dialog">ลบเสียง?</string>
+  <string name="delete_sound_dialog">Delete Sound?</string>
   <string name="length">ความยาว:</string>
-  <string name="dialog_confirm_delete_sound_title">ลบเสียงนี้หรือไม่?</string>
-  <string name="dialog_confirm_delete_multiple_sounds_title">ลบเสียงเหล่านี้หรือไม่?</string>
-  <string name="dialog_confirm_delete_sound_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
-  <string name="sound_name">ชื่อของเสียง:</string>
-  <string name="new_sound_name">ชื่อของเสียง:</string>
+  <string name="dialog_confirm_delete_sound_title">Delete this Sound?</string>
+  <string name="dialog_confirm_delete_multiple_sounds_title">Delete these Sounds?</string>
+  <string name="dialog_confirm_delete_sound_message">This cannot be undone!</string>
+  <string name="sound_name">Sound name:</string>
+  <string name="new_sound_name">Sound name:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
-  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound">The sound %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Scan tags to add</string>
@@ -246,9 +417,6 @@
   <plurals name="scripts_plural">
     <item quantity="other">Scripts</item>
   </plurals>
-  <plurals name="userbricks_plural">
-    <item quantity="other">Bricks</item>
-  </plurals>
   <!-- My Projects activity -->
   <string name="last_used">เข้าถึงครั้งสุดท้าย:</string>
   <string name="description">คำอธิบาย:</string>
@@ -257,12 +425,16 @@
   <string name="copy_project_finished">ถูกคัดลอกแล้ว</string>
   <string name="program">โปรแกรม</string>
   <string name="programs">โปรแกรม</string>
-  <string name="dialog_confirm_delete_program_title">ลบโปรแกรมนี้หรือไม่?</string>
-  <string name="dialog_confirm_delete_multiple_programs_title">ลบโปรแกรมเหล่านี้หรือไม่?</string>
-  <string name="dialog_confirm_delete_program_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
+  <string name="scene">Scene</string>
+  <string name="scenes">Scenes</string>
+  <string name="dialog_confirm_delete_program_title">Delete this Program?</string>
+  <string name="dialog_confirm_delete_multiple_programs_title">Delete these Programs?</string>
+  <string name="dialog_confirm_delete_scene_title">Delete this Scene?</string>
+  <string name="dialog_confirm_delete_multiple_scenes_title">Delete these Scenes?</string>
+  <string name="dialog_confirm_delete_program_message">This cannot be undone!</string>
   <string name="details_date_today">วันนี้</string>
   <string name="details_date_yesterday">เมื่อวานนี้</string>
-  <string name="dialog_copy_project_title">คัดลอกโปรแกรม</string>
+  <string name="dialog_copy_project_title">Copy Program</string>
   <!-- Soundrecorder activity -->
   <string name="soundrecorder_name">ตัวบันทึกเสียง Pocket Code</string>
   <string name="soundrecorder_error">ไม่สามารถบันทึกเสียง</string>
@@ -278,6 +450,7 @@
   <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
   <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
   <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+  <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
   <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
   <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
@@ -293,13 +466,17 @@
   <string name="brick_context_dialog_delete_brick">ลบก้อนคำสั่ง</string>
   <string name="brick_context_dialog_copy_brick">คัดลอกก้อนคำสั่ง</string>
   <string name="brick_context_dialog_animate_bricks">ทำให้ส่วนของก้อนเกิดการเคลื่อไหว</string>
-  <string name="brick_context_dialog_add_to_script">เพิ่มไปยังสคริปต์</string>
-  <string name="brick_context_dialog_edit_brick">แก้ไขก้อนคำสั่ง</string>
+  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">แก้ไขสูตร</string>
   <string name="brick_context_dialog_delete_script">ลบสคริปต์</string>
+  <string name="brick_context_dialog_comment_in">Enable Brick</string>
+  <string name="brick_context_dialog_comment_out">Disable Brick</string>
+  <string name="brick_context_dialog_help">ช่วยเหลือ</string>
+  <string name="comment_in_out">Disable/Enable</string>
+  <string name="comment_in_out_impossible">Nothing to Disable/Enable</string>
   <!-- New look dialog -->
   <string name="new_look_dialog_title">เพิ่มรูปลักษณ์</string>
-  <string name="add_look_from_camera">ถ่ายภาพ</string>
+  <string name="add_look_from_camera">Take picture</string>
   <string name="add_look_draw_new_image">วาดรูป</string>
   <string name="add_look_choose_image">เลือกรูปภาพ</string>
   <string name="add_look_media_library">Media Library</string>
@@ -315,16 +492,32 @@
   <!-- New project dialog -->
   <string name="new_project_dialog_title">โปรแกรมใหม่</string>
   <string name="new_project_dialog_hint">โปรแกรมของฉัน</string>
-  <string name="new_project_description_dialog_hint">คำอธิบายของฉัน</string>
-  <string name="new_project_name">ชื่อโปรแกรม:</string>
-  <string name="new_project_empty">สร้างโปรแกรมเปล่า</string>
+  <string name="new_project_description_dialog_hint">My description</string>
+  <string name="new_project_name">ชื่อโปรแกรม</string>
+  <string name="new_project_empty">Create empty Program</string>
   <string name="new_project_default">Create example Program</string>
   <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Orientation:</string>
+  <!-- New scene dialog -->
+  <string name="new_scene_dialog_hint">My Scene</string>
+  <string name="new_scene_name">Scene name</string>
+  <string name="new_scene_dialog_default_scene_name">My Scene</string>
+  <string name="new_scene_dialog_title">New Scene</string>
+  <string name="scenename_already_exists">Please choose another Scene name.</string>
+  <string name="rename_scene_dialog">Rename Scene</string>
+  <string name="scenename_invalid">This scene name is invalid</string>
+  <string name="scene_name">Scene name:</string>
+  <!-- Merge Scene Dialog -->
+  <string name="merge_scene_option">Merge Scenes</string>
+  <string name="merge_scene_label_one">Merge</string>
+  <!-- Play scene dialog -->
+  <string name="play_scene_dialog_title">Play Scene:</string>
+  <string name="play_scene_dialog_default">First Scene (%1$s)</string>
+  <string name="play_scene_dialog_current">Current (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">วัตถุของฉัน</string>
   <string name="new_sprite_dialog_title">วัตถุใหม่</string>
-  <string name="spritename_already_exists">ชื่อวัตถุนี้มีอยู่แล้ว</string>
+  <string name="spritename_already_exists">Please choose another Object name.</string>
   <string name="rename_sprite_dialog">เปลี่ยนชื่อวัตถุ</string>
   <string name="spritename_invalid">ชื่อวัตถุไม่ถูกต้อง</string>
   <string name="no_spritename_entered">Please enter an object name.</string>
@@ -353,9 +546,10 @@
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">โปรแกรมชื่อนี้มีอยู่แล้ว!</string>
-  <string name="overwrite_replace">แทนที่โปรแกรมที่มีอยู่</string>
-  <string name="overwrite_rename">เปลี่ยนชื่อโปรแกรมที่ดาวน์โหลด</string>
+  <string name="overwrite_text">Program with this name already exists. Please choose a different one
+        !</string>
+  <string name="overwrite_replace">Replace existing Program</string>
+  <string name="overwrite_rename">Rename downloaded Program</string>
   <!-- OverwriteRenameMediaDialog -->
   <string name="overwrite_replace_look">Replace existing Look</string>
   <string name="overwrite_rename_look">Rename downloaded Look</string>
@@ -367,10 +561,10 @@
   <string name="stage_dialog_back">ย้อนกลับ</string>
   <string name="stage_dialog_resume">ทำต่อ</string>
   <string name="stage_dialog_restart">เริ่มต้นใหม่</string>
-  <string name="stage_dialog_axes_on">เปิดใช้แกน</string>
-  <string name="stage_dialog_axes_off">ปิดใช้แกน</string>
+  <string name="stage_dialog_axes_on">Axes on</string>
+  <string name="stage_dialog_axes_off">Axes off</string>
   <string name="stage_dialog_maximize">ขยาย/\nยืด</string>
-  <string name="stage_dialog_screenshot">ภาพหน้าจอ</string>
+  <string name="stage_dialog_screenshot">Preview</string>
   <!-- Broadcast spinner -->
   <string name="new_broadcast_message">สร้างใหม่&#8230;</string>
   <string name="dialog_new_broadcast_message_title">ข้อความใหม่</string>
@@ -382,8 +576,10 @@
   <string name="categories">หมวดหมู่</string>
   <string name="category_motion">เคลื่อนไหว</string>
   <string name="category_looks">รูปลักษณ์</string>
+  <string name="category_pen">Pen</string>
   <string name="category_sound">เสียง</string>
   <string name="category_control">ควบคุม</string>
+  <string name="category_event">Event</string>
   <string name="category_user_bricks">ก้อนคำสั่งของฉัน</string>
   <string name="category_data">ข้อมูล</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -400,6 +596,10 @@
   <string name="brick_change_x_by">"เปลี่ยนค่า X ทีละ"</string>
   <string name="brick_change_y_by">"เปลี่ยนค่า Y ทีละ"</string>
   <string name="brick_go_back">ย้อนกลับ</string>
+  <string name="brick_set_rotation_style">"Set rotation style "</string>
+  <string name="brick_set_rotation_style_lr">left-right only</string>
+  <string name="brick_set_rotation_style_normal">all-around</string>
+  <string name="brick_set_rotation_style_no">don\'t rotate</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="other">ลำดับชั้น</item>
   </plurals>
@@ -415,6 +615,9 @@
   <string name="brick_point_to">ชี้ไปยัง</string>
   <string name="brick_glide">ไถล</string>
   <string name="brick_glide_to_x">ไปยังตำแหน่ง X:</string>
+  <string name="brick_go_to">Go to</string>
+  <string name="brick_go_to_touch_position">Touch position</string>
+  <string name="brick_go_to_random_position">Random position</string>
   <!-- Physics -->
   <string name="default_project_name_physics">My first physics program</string>
   <string name="brick_set_physics_object_type">Set motion type to</string>
@@ -435,6 +638,8 @@
   <!-- Looks bricks -->
   <string name="brick_set_look">เปลี่ยนรูปลักษณ์เป็น</string>
   <string name="brick_set_background">ตั้งค่าพื้นหลัง</string>
+  <string name="brick_and_wait">and wait</string>
+  <string name="brick_when_background">When background changes to</string>
   <string name="brick_set_size_to">ตั้งขนาดให้เป็น</string>
   <string name="brick_change_size_by">เปลี่ยนขนาดทีละ</string>
   <string name="brick_hide">ซ่อน</string>
@@ -450,22 +655,44 @@
   <string name="brick_clear_graphic_effect">ล้างลักษณะพิเศษ</string>
   <string name="brick_next_look">รูปลักษณ์ถัดไป</string>
   <string name="brick_next_background">พื้นหลังถัดไป</string>
+  <string name="brick_previous_look">Previous look</string>
+  <string name="brick_previous_background">Previous background</string>
   <string name="brick_flash">Turn flashlight</string>
   <string name="brick_flash_on">on</string>
   <string name="brick_flash_off">off</string>
   <string name="brick_vibration">สั่นเป็นเวลา</string>
+  <string name="brick_ask_label">Ask</string>
+  <string name="brick_ask_store">and store written answer in</string>
+  <string name="brick_ask_default_question">\'What\'s your name?\'</string>
+  <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
+  <string name="brick_ask_dialog_submit">Submit answer</string>
+  <!-- Pen bricks -->
+  <string name="brick_pen_down">Pen down</string>
+  <string name="brick_pen_up">Pen up</string>
+  <string name="brick_pen_size">Set pen size to</string>
+  <string name="brick_pen_color">Set pen color to</string>
+  <string name="brick_clear_background">Clear</string>
+  <string name="brick_stamp">แสตมป์</string>
   <!-- Sound bricks -->
   <string name="brick_play_sound">เริ่มเล่นเสียง</string>
+  <string name="brick_play_sound_and_wait">Start sound and wait</string>
   <string name="brick_stop_all_sounds">หยุดเสียงทั้งหมด</string>
   <string name="brick_set_volume_to">ตั้งระดับเสียงเป็น</string>
   <string name="brick_change_volume_by">เปลี่ยนระดับเสียงทีละ</string>
   <string name="brick_speak">พูด</string>
   <string name="brick_speak_default_value">"สวัสดี!"</string>
+  <string name="brick_speak_and_wait">and wait</string>
   <!-- Control bricks -->
   <string name="brick_when_started">เมื่อโปรแกรมเริ่มทำงาน</string>
   <string name="brick_when">เมื่อเคาะ</string>
+  <string name="brick_when_condition_when">When</string>
+  <string name="brick_when_becomes_true">becomes true</string>
   <string name="brick_wait">รอ</string>
   <string name="brick_when_nfc">When NFC</string>
+  <string name="brick_stop_script">Stop script/s</string>
+  <string name="brick_stop_this_script">Stop this script</string>
+  <string name="brick_stop_all_scripts">Stop all scripts</string>
+  <string name="brick_stop_other_scripts">Stop other scripts of this object</string>
   <plurals name="second_plural">
     <item quantity="other">"วินาที "</item>
   </plurals>
@@ -474,11 +701,20 @@
   <string name="brick_broadcast_receive">เมื่อฉันได้รับ</string>
   <string name="brick_broadcast">กระจายเสียง</string>
   <string name="brick_broadcast_wait">กระจายเสียงและรอ</string>
+  <string name="brick_scene_transition">Continue scene</string>
+  <string name="brick_scene_start">Start scene</string>
   <string name="brick_note">หมายเหตุ</string>
+  <string name="brick_think_bubble">Think</string>
+  <string name="brick_say_bubble">Say</string>
+  <string name="brick_think_say_for_text">for</string>
   <string name="brick_forever">ตลอดไป</string>
   <string name="brick_repeat">ทำซ้ำ</string>
   <string name="brick_repeat_until">Repeat until</string>
   <string name="brick_when_touched">When screen is touched</string>
+  <string name="brick_clone">Create clone of</string>
+  <string name="brick_clone_this">myself</string>
+  <string name="brick_when_cloned">When I start as a clone</string>
+  <string name="brick_delete_this_clone">Delete this clone</string>
   <plurals name="time_plural">
     <item quantity="other">ครั้ง</item>
   </plurals>
@@ -492,6 +728,8 @@
   <string name="brick_change_variable">เปลี่ยนค่าตัวแปร</string>
   <string name="brick_variable_spinner_create_new_variable">สร้างใหม่&#8230;</string>
   <string name="brick_note_default_value">"เพิ่มความคิดเห็นที่นี่…"</string>
+  <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
+  <string name="brick_say_bubble_default_value">"สวัสดี!"</string>
   <string name="brick_broadcast_default_value">"ข้อความ 1"</string>
   <string name="brick_add_item_to_userlist_add">เพิ่ม</string>
   <string name="brick_add_item_to_userlist">ไปยังรายการ</string>
@@ -505,6 +743,7 @@
   <string name="brick_replace_item_in_userlist_with_value">แทนด้วย</string>
   <!-- defaultValues -->
   <string name="default_project_name">โปรแกรมแรกของฉัน</string>
+  <string name="default_scene_name">Scene %1$d</string>
   <string name="default_project_background_name">พื้นหลัง</string>
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>
@@ -557,8 +796,9 @@
   <string name="drone_set_tilt_max">30 degrees</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">กรุณาใส่ค่า</string>
-  <string name="notification_screenshot_ok">บันทึกภาพหน้าจอแล้ว</string>
+  <string name="notification_screenshot_ok">Preview image saved</string>
   <string name="notification_download_project_cancel">ยกเลิกการดาวน์โหลดโปรแกรม</string>
+  <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting program</string>
   <string name="notification_copy_title_pending">"กำลังคัดลอก "</string>
   <string name="notification_copy_pending">กำลังคัดลอก</string>
   <string name="notification_copy_finished">คัดลอกเสร็จสมบูรณ์</string>
@@ -574,7 +814,7 @@
   <string name="notification_download_finished">ดาวน์โหลดเสร็จเรียบร้อย</string>
   <string name="notification_title_open">"เปิด​ "</string>
   <string name="notification_low_battery">Attention. Battery is low. Current status =</string>
-  <string name="project_rename">(โปรแกรมคุณจะถูกเปลี่ยนชื่อ)</string>
+  <string name="project_rename">(Your Program will be renamed.)</string>
   <string name="size_of_project">ขนาด:</string>
   <string name="upload_button">อัพโหลด</string>
   <string name="upload_project_dialog_title">อัพโหลดโปรแกรม</string>
@@ -590,18 +830,23 @@
   <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
   <string name="drone_emergency_title">Emergency</string>
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">Pocket Code ต้องสามารถเขียนหน่วยความจำภาพนอกเช่น SD Card เพื่อทำงาน ซึ่งไม่พบในขณะนี้\nปัญหานี้แก้ได้โดยใส่ SD Card หรือทำให้สิทธิ์การเขียนหน่วยความจำภายนอก แล้วลองใหม่อีกครั้ง</string>
+  <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like a SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting a SD card, then try again.</string>
   <string name="error_no_program_name_entered">Please enter a program name.</string>
   <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
-  <string name="error_project_exists">พบโปรแกรมที่มีชื่อเดียวกันอยู่แล้ว \nกรุณาเลือกชื่ออื่น</string>
+  <string name="error_project_exists">Please choose another program name.</string>
+  <string name="error_scene_exists">Please choose another scene name.</string>
+  <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
+  <string name="error_scene_not_copied">An error occurred while copying a scene.</string>
+  <string name="error_scene_backpack">An error occurred in scene backpack.</string>
   <string name="error_delete_project">เกิดข้อผิดพลาดขณะลบโปรแกรม</string>
   <string name="error_unknown_project">ไม่มีโปรแกรมที่มีชื่อนี้</string>
   <string name="error_project_upload">ข้อผิดพลาดเกิดขึ้นขณะอัปโหลดโปรแกรม</string>
   <string name="error_project_download">เกิดข้อผิดพลาดในขณะดาวน์โหลดโปรแกรม</string>
   <string name="error_new_project">เกิดข้อผิดพลาดขณะสร้างโปรแกรมใหม่</string>
   <string name="error_rename_project">เกิดข้อผิดพลาดขณะเปลี่ยนชื่อโปรแกรมก่อนที่จะอัปโหลด</string>
+  <string name="error_rename_scene">An error occurred while renaming the scene.</string>
   <string name="error_load_project">เกิดข้อผิดพลาดขณะโหลดโปรแกรม</string>
-  <string name="error_screenshot_failed">เกิดข้อผิดพลาดขณะบันทึกภาพหน้าจอ</string>
+  <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
   <string name="error_load_image">เกิดข้อผิดพลาดขณะโหลดภาพ</string>
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
@@ -609,7 +854,7 @@
   <string name="error_internet_connection">เกิดข้อผิดพลาดที่ไม่รู้จักขึ้น กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">โปรแกรมไม่เข้ากับ Pocket Code รุ่นนี้</string>
-  <string name="error_outdated_pocketcode_version">Pocket Code รุ่นนี้เก่าเกินไป อัพเดตเดี๋ยวนี้หรือไม่?</string>
+  <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>
   <string name="error_copy_project">เกิดข้อผิดพลาดขณะคัดลอกโปรแกรม</string>
   <string name="error_upload_project_with_default_name">คุณไม่สามารถอัปโหลดโปรแกรมที่ มีชื่อ \'โปรแกรมแรกของฉัน\' กรุณาเปลี่ยนชื่อโปรแกรม</string>
   <string name="error_upload_default_project">คุณไม่สามารถอัปโหลดโปรแกรมนี้ เพราะโปรแกรมเหมือนกับ \'โปรแกรมแรกของฉัน\' กรุณาปรับเปลี่ยน และลองอีกครั้ง</string>
@@ -620,17 +865,20 @@
   <string name="error_drone_low_battery_title">ระดับแบตเตอรี่่ของ Drone ต่ำ: %d%%</string>
   <string name="error_drone_low_battery">ใส่ถ่านที่ช๊าทแล้วและลองใหม่อีกครั้ง</string>
   <string name="error_drone_wrong_platform_title">ไม่พบการสนับสนุน ARDrone</string>
-  <string name="error_drone_wrong_platform">เราไม่สามารถเรียกใช้ ARDrone บนอุปกรณ์ของคุณ</string>
-  <string name="error_rename_incompatible_project">ไม่สามารถเปลี่ยนชื่อโครงงานที่เข้ากันไม่ได้</string>
-  <string name="error_changing_description_of_incompatible_project">ไม่สามารถเปลี่ยนแปลงรายละเอียดของโครงงานที่เข้ากันไม่ได้</string>
+  <string name="error_drone_wrong_platform">We cannot run a ARDrone project on your device.</string>
+  <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
+  <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible
+        project is not possible.</string>
+  <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
+  <string name="error_gps_not_available">Error, GPS was not available.</string>
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">ไม่สามารถเปิดใช้งาน Bluetooth, กำลังปิด stage</string>
   <string name="title_paired_devices">อุปกรณ์ที่จับคู่ไว้</string>
   <string name="title_other_devices">อุปกรณ์ใหม่</string>
   <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">ค้นหาอุปกรณ์ Bluetooth</string>
-  <string name="select_device">เลือกอุปกรณ์: </string>
+  <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">กำลังเชื่อมต่อกับอุปกรณ์ \nกรุณารอ&#8230;</string>
   <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">เชื่อมต่อกับอุปกรณ์ล้มเหลว!</string>
@@ -654,17 +902,17 @@
   <string name="raspi_settings_title_name">Raspberry Pi Settings</string>
   <string name="raspi_settings_gpio_version">GPIO Version</string>
   <!-- Lego Mindstorms Strings -->
-  <string name="nxt_brick_motor_move">ตั้งค่ามอเตอร์ NXT</string>
+  <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">กำหนดความหมาย</string>
-  <string name="nxt_motor_speed">ความเร็ว</string>
-  <string name="nxt_brick_motor_turn_angle">เปิดมอเตอร์ NXT</string>
+  <string name="nxt_motor_speed">speed</string>
+  <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
   <string name="nxt_motor_move_by">โดย</string>
-  <string name="nxt_motor_stop">หยุดมอเตอร์ NXT</string>
-  <string name="nxt_play_tone">NXT เล่นเสียง</string>
-  <string name="nxt_tone_duration">ระยะเวลา</string>
+  <string name="nxt_motor_stop">Stop NXT motor</string>
+  <string name="nxt_play_tone">Play NXT tone</string>
+  <string name="nxt_tone_duration">Duration</string>
   <string name="nxt_tone_frequency">ความถี่</string>
   <string name="nxt_tone_hundred_hz">x100Hz</string>
-  <string name="nxt_seconds">วินาที</string>
+  <string name="nxt_seconds">seconds</string>
   <string name="nxt_motor_a">A</string>
   <string name="nxt_motor_b">B</string>
   <string name="nxt_motor_c">C</string>
@@ -674,7 +922,7 @@
   <string name="nxt_choose_sensor_2">Sensor connected on port 2</string>
   <string name="nxt_choose_sensor_3">Sensor connected on port 3</string>
   <string name="nxt_choose_sensor_4">Sensor connected on port 4</string>
-  <string name="nxt_no_sensor">ไม่มี</string>
+  <string name="nxt_no_sensor">none</string>
   <string name="nxt_sensor_touch">NXT touch sensor</string>
   <string name="nxt_sensor_sound">NXT sound sensor</string>
   <string name="nxt_sensor_light">NXT light sensor</string>
@@ -687,16 +935,16 @@
   <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is program specific and can only be configured for opened programs!</string>
   <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">The current program uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
-  <string name="nxt_port_1">พอร์ต 1</string>
-  <string name="nxt_port_2">พอร์ต 2</string>
-  <string name="nxt_port_3">พอร์ต 3</string>
-  <string name="nxt_port_4">พอร์ต 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">ไม่ต้องแสดงข้อความนี้อีก</string>
+  <string name="nxt_port_1">Port 1</string>
+  <string name="nxt_port_2">Port 2</string>
+  <string name="nxt_port_3">Port 3</string>
+  <string name="nxt_port_4">Port 4</string>
+  <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the Sensor on the chosen port?</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Take off / Land</string>
-  <string name="brick_drone_play_led_animation">เล่นภาพเคลื่อนไหว LED</string>
+  <string name="brick_drone_play_led_animation">Play flash animation</string>
   <string name="brick_drone_move_left">ขยับไปทางซ้าย</string>
   <string name="brick_drone_move_right">ขยับไปทางขวา</string>
   <string name="brick_drone_move_forward">ขยับไปข้างหน้า</string>
@@ -729,9 +977,9 @@
   <string name="brick_phiro_sensor_second_part">is activated</string>
   <!-- tone -->
   <string name="phiro_play_tone">Play Phiro music\n</string>
-  <string name="phiro_tone_duration">ระยะเวลา</string>
+  <string name="phiro_tone_duration">Duration</string>
   <string name="brick_phiro_select_tone">tone</string>
-  <string name="phiro_seconds">วินาที</string>
+  <string name="phiro_seconds">seconds</string>
   <!-- light -->
   <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
   <string name="phiro_rgb_led_red">สีแดง</string>
@@ -773,7 +1021,7 @@
   <string name="formula_editor_title">ตัวแก้ไขสูตร</string>
   <string name="formula_editor_changes_saved">บันทึกการเปลี่ยนแปลงแล้ว!</string>
   <string name="formula_editor_changes_discarded">ละทิ้งการเปลี่ยนแปลงแล้ว!</string>
-  <string name="formula_editor_parse_fail">ไวยากรณ์ผิดพลาด!</string>
+  <string name="formula_editor_parse_fail">Formula is not valid!</string>
   <string name="formula_nothing_selected">กำหนดค่ารับเข้า</string>
   <string name="formula_editor_parse_fail_formula_too_long">สูตรยาวเกินไป!</string>
   <string name="formula_editor_choose_object_variable">คุณสมบัติของวัตถุนี้</string>
@@ -844,13 +1092,25 @@
   <string name="formula_editor_function_list_item_parameter">(1, *ชื่อรายการ*)</string>
   <string name="formula_editor_function_contains">ประกอบด้วย</string>
   <string name="formula_editor_function_contains_parameter">(*ชื่อรายการ*,1)</string>
+  <string name="formula_editor_function_collision">touches</string>
   <string name="formula_editor_sensor_x_acceleration">ความเร่ง_x</string>
   <string name="formula_editor_sensor_y_acceleration">ความเร่ง_y</string>
   <string name="formula_editor_sensor_z_acceleration">ความเร่ง_z</string>
   <string name="formula_editor_sensor_compass_direction">ทิศทาง_เข็มทิศ</string>
+  <string name="formula_editor_sensor_latitude">latitude</string>
+  <string name="formula_editor_sensor_longitude">longitude</string>
+  <string name="formula_editor_sensor_location_accuracy">location_accuracy</string>
+  <string name="formula_editor_sensor_altitude">altitude</string>
   <string name="formula_editor_sensor_x_inclination">ความลาดเอียง_x</string>
   <string name="formula_editor_sensor_y_inclination">ความลาดเอียง_y</string>
   <string name="formula_editor_sensor_loudness">ระดับความดัง</string>
+  <string name="formula_editor_sensor_date_year">year</string>
+  <string name="formula_editor_sensor_date_month">month</string>
+  <string name="formula_editor_sensor_date_day">day</string>
+  <string name="formula_editor_sensor_date_weekday">weekday</string>
+  <string name="formula_editor_sensor_time_hour">hour</string>
+  <string name="formula_editor_sensor_time_minute">minute</string>
+  <string name="formula_editor_sensor_time_second">second</string>
   <string name="formula_editor_sensor_drone_battery_status">drone_battery_status</string>
   <string name="formula_editor_sensor_drone_emergency_state">drone_emergency_state</string>
   <string name="formula_editor_sensor_drone_flying">drone_flying</string>
@@ -887,6 +1147,11 @@
   <string name="formula_editor_object_x_velocity">x_velocity</string>
   <string name="formula_editor_object_y_velocity">y_velocity</string>
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
+  <string name="formula_editor_object_look_number">look_number</string>
+  <string name="formula_editor_object_look_name">look_name</string>
+  <string name="formula_editor_object_background_number">background_number</string>
+  <string name="formula_editor_object_background_name">background_name</string>
+  <string name="formula_editor_object_distance_to">distance to</string>
   <string name="formula_editor_compute">คำนวณ</string>
   <string name="formula_editor_object">วัตถุ</string>
   <string name="formula_editor_functions">Functions</string>
@@ -899,8 +1164,9 @@
   <string name="formula_editor_logic_boolean">logical (boolean) operators</string>
   <string name="formula_editor_logic_comparison">comparison operators</string>
   <string name="formula_editor_object_general">general properties</string>
-  <string name="formula_editor_object_physical">physical properties</string>
+  <string name="formula_editor_object_movement">movement properties</string>
   <string name="formula_editor_device_face_detection">Face detection</string>
+  <string name="formula_editor_device_date_and_time">Date and Time</string>
   <string name="formula_editor_device_touch_detection">Touch detection</string>
   <string name="formula_editor_device_lego">Lego</string>
   <string name="formula_editor_device_arduino">Arduino</string>
@@ -950,39 +1216,39 @@
     <item quantity="other">รายการถูกเลือกแล้ว!</item>
   </plurals>
   <!-- Brick Data Editor Strings -->
-  <string name="brick_data_editor_title">ตัวแก้ไขก้อนคำสั่ง</string>
+  <string name="brick_data_editor_title">Brick editor</string>
   <string name="separator">|</string>
-  <string name="add_text">เพิ่มข้อความ</string>
-  <string name="edit_text">แก้ไขข้อความ</string>
-  <string name="text_hint">ข้อความก้อนคำสั่ง</string>
-  <string name="add_variable">เพิ่มตัวแปร</string>
-  <string name="add_line_break">เพิ่มตัวแบ่งบรรทัด</string>
-  <string name="edit_variable">แก้ไขตัวแปร</string>
-  <string name="variable_hint">ชื่อตัวแปร</string>
+  <string name="add_text">Add text</string>
+  <string name="edit_text">Edit text</string>
+  <string name="text_hint">Brick text</string>
+  <string name="add_variable">Add variable</string>
+  <string name="add_line_break">Add line break</string>
+  <string name="edit_variable">Edit variable</string>
+  <string name="variable_hint">Variable name</string>
   <string name="brick_show_variable">Show variable</string>
   <string name="brick_show_variable_position">"at "</string>
   <string name="brick_hide_variable">Hide variable</string>
   <!-- User Bricks strings -->
-  <string name="define">กำหนด</string>
+  <string name="define">Define</string>
   <string name="new_user_brick">ก้อนคำสั่งใหม่</string>
-  <string name="new_user_brick_variable">ตัวแปร 1</string>
+  <string name="new_user_brick_variable">Variable</string>
   <string name="new_user_brick_name">Please choose a brick name:</string>
   <string name="recursive_user_brick_forbidden">ยังไม่สามารถเพิ่มก้อนคำสั่งของผู้ใช้เข้าไปในอีกก้อนคำสั่งของผู้ใช้ได้!</string>
-  <string name="brick_single">ก้อนคำสั่ง</string>
-  <string name="brick_multiple">ก้อนคำสั่ง</string>
   <!-- Merge strings -->
   <string name="merge_button">Merge with</string>
   <string name="name_merge_result">Enter name for result</string>
-  <string name="merge_info">ผสานกันเข้าเรียบร้อยแล้ว</string>
-  <string name="warning">คำเตือน</string>
-  <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
+  <string name="merge_info">successfully merged into</string>
+  <string name="warning">Warning</string>
+  <string name="error_merge_with_self">Current project and selected project are the same!</string>
+  <string name="error_merge_with_self_scene">Current scene and selected scene are the same!</string>
+  <string name="error_merge_scene_not_found">Scene not found!</string>
   <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
         has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
-  <string name="abort">เลิก</string>
+  <string name="abort">Abort</string>
   <string name="merge_conflict">Merging not possible</string>
-  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+  <string name="merge_conflict_variable">Variable %1$s is used in both programs. If programs use the same
     variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
-  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+  <string name="merge_conflict_list">List %1$s is used in both programs. If programs use the same
     name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <!-- Camera related strings -->
   <string name="brick_video">Turn camera</string>
@@ -1011,4 +1277,27 @@
         and download it.
         You can also download your program as standalone app.</string>
   <string name="progress_upload_dialog_show_program">Show program</string>
+  <!-- Snackbar hints -->
+  <string name="got_it">Got it</string>
+  <string name="preference_description_hints">Enable to show hints</string>
+  <string name="preference_title_enable_hints">Show hints </string>
+  <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
+  <string name="hint_bricks">To add a brick to your script tap on the brick you want to use.</string>
+  <string name="hint_brick_added">Short tap on a brick opens the menu to move, copy, delete or add a brick to
+        the backpack. The help option will show you additional information. Drag and drop the brick with a long press.</string>
+  <string name="hint_scripts">The script defines the behaviour of your object. To add bricks to the script tap on the \"+\" symbol.</string>
+  <string name="hint_looks">Here you can find the different appearances of your object. To add a new look tap on the \"+\" symbol.</string>
+  <string name="hint_sounds">Here you can add new sounds to your object. Keep in mind to use a brick from the sound category.</string>
+  <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object tap on the \"+\" symbol.</string>
+  <string name="hint_merge">To merge two programs long press on one program to open the menu and tap on \'Merge
+        with\'.</string>
+  <string name="hint_stage">Hit the back-button to pause your program. To show axes and the screen size of your
+        phone tap \"Axes on\".</string>
+  <string name="hint_scenes">A program can consist of different independent scenes. To add a new scene tap on the \"+\"
+        symbol.</string>
+  <!-- Crash report dialog -->
+  <string name="pocket_code_has_crashed">Pocket Code has crashed!</string>
+  <string name="crash_dialog_text">Please help to improve Pocket Code by sending us anonymous crash reports!</string>
+  <string name="crash_dialog_always_send">Always send</string>
+  <string name="crash_dialog_send">Send</string>
 </resources>

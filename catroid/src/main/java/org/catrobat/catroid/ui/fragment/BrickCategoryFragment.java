@@ -27,7 +27,6 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -40,6 +39,7 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +94,7 @@ public class BrickCategoryFragment extends ListFragment {
 
 				if (scriptFragment != null) {
 					scriptFragment.onCategorySelected(adapter.getItem(position));
+					SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
 				}
 			}
 		});
@@ -122,14 +123,12 @@ public class BrickCategoryFragment extends ListFragment {
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
 		menu.findItem(R.id.delete).setVisible(false);
 		menu.findItem(R.id.copy).setVisible(false);
 		menu.findItem(R.id.backpack).setVisible(false);
-		if (scriptFragment != null) {
-			((ScriptFragment) scriptFragment).setBackpackMenuIsVisible(false);
-		}
-		super.onCreateOptionsMenu(menu, inflater);
+		menu.findItem(R.id.comment_in_out).setVisible(false);
 	}
 
 	private void setUpActionBar() {
@@ -190,7 +189,6 @@ public class BrickCategoryFragment extends ListFragment {
 	}
 
 	public interface OnCategorySelectedListener {
-
 		void onCategorySelected(String category);
 	}
 }

@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -53,6 +54,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -60,8 +62,9 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
-import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.LegoEV3SensorConfigInfoDialog;
+import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.MergeSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
@@ -120,13 +123,14 @@ public class ProjectActivity extends BaseActivity {
 		}
 
 		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
-			currentFragmentPosition =
-					FRAGMENT_SPRITES;
+			currentFragmentPosition = FRAGMENT_SPRITES;
 		}
 
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 		fragmentTransaction.commit();
+
+		showLegoInfoFragmentIfNeeded(this.getFragmentManager());
 	}
 
 	@Override
@@ -209,7 +213,10 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (currentFragmentPosition == FRAGMENT_SPRITES && spritesListFragment != null) {
 			handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		} else {
+			menu.findItem(R.id.groups_create).setVisible(false);
 		}
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -300,7 +307,7 @@ public class ProjectActivity extends BaseActivity {
 	}
 
 	private void showBackPackChooser() {
-
+		updateFragmentPosition();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		CharSequence[] items;
 		int numberOfItemsInBackpack = 0;
@@ -335,6 +342,7 @@ public class ProjectActivity extends BaseActivity {
 	}
 
 	private void openBackPack() {
+		updateFragmentPosition();
 		Intent intent = new Intent(this, BackPackActivity.class);
 		int fragmentPos = 0;
 		switch (currentFragmentPosition) {
@@ -392,6 +400,7 @@ public class ProjectActivity extends BaseActivity {
 			fragmentTransaction.remove(previousFragment);
 		}
 
+		updateFragmentPosition();
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCENES:
 				NewSceneDialog newSceneFragment = new NewSceneDialog(false, false);
@@ -410,6 +419,8 @@ public class ProjectActivity extends BaseActivity {
 		}
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+
+		updateFragmentPosition();
 
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCENES:
@@ -444,11 +455,14 @@ public class ProjectActivity extends BaseActivity {
 		// Dismiss ActionMode without effecting sounds
 		if (actionListener.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_UP) {
-			if (currentFragmentPosition == FRAGMENT_SCENES && scenesListFragment.lockBackButtonForAsync) {
-				return false;
-			} else {
-				SpriteAdapter adapter = spritesListFragment.getSpriteAdapter();
-				adapter.clearCheckedItems();
+			updateFragmentPosition();
+			switch (currentFragmentPosition) {
+				case FRAGMENT_SCENES:
+					scenesListFragment.getAdapter().clearCheckedItems();
+					break;
+				case FRAGMENT_SPRITES:
+					spritesListFragment.getSpriteAdapter().clearCheckedItems();
+					break;
 			}
 		}
 
@@ -530,5 +544,51 @@ public class ProjectActivity extends BaseActivity {
 
 	public void setSignInDialog(SignInDialog signInDialog) {
 		this.signInDialog = signInDialog;
+	}
+
+	private void updateFragmentPosition() {
+		//TODO: Just a quickfix, we need to investigate why the position is sometimes not correct
+		if (currentFragment instanceof ScenesListFragment) {
+			currentFragmentPosition = FRAGMENT_SCENES;
+		} else if (currentFragment instanceof SpritesListFragment) {
+			currentFragmentPosition = FRAGMENT_SPRITES;
+		}
+	}
+
+	private boolean needToShowLegoEV3InfoDialog() {
+		boolean isLegoEV3InfoDialogDisabled = SettingsActivity
+				.getShowLegoEV3MindstormsSensorInfoDialog(getApplicationContext());
+
+		boolean legoEV3ResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()
+				& Brick.BLUETOOTH_LEGO_EV3) != 0;
+
+		boolean dialogAlreadyShown = !ProjectManager.getInstance().getShowLegoSensorInfoDialog();
+
+		return !isLegoEV3InfoDialogDisabled && legoEV3ResourcesRequired && !dialogAlreadyShown;
+	}
+
+	private boolean needToShowLegoNXTInfoDialog() {
+		boolean isLegoNXTInfoDialogDisabled = SettingsActivity
+				.getShowLegoNXTMindstormsSensorInfoDialog(getApplicationContext());
+
+		boolean legoNXTResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()
+				& Brick.BLUETOOTH_LEGO_NXT) != 0;
+
+		boolean dialogAlreadyShown = !ProjectManager.getInstance().getShowLegoSensorInfoDialog();
+
+		return !isLegoNXTInfoDialogDisabled && legoNXTResourcesRequired && !dialogAlreadyShown;
+	}
+
+	private void showLegoInfoFragmentIfNeeded(FragmentManager fragmentManager) {
+
+		if (needToShowLegoNXTInfoDialog()) {
+			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
+			dialog.show(fragmentManager, LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		}
+		if (needToShowLegoEV3InfoDialog()) {
+			DialogFragment dialog = new LegoEV3SensorConfigInfoDialog();
+			dialog.show(fragmentManager, LegoEV3SensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		}
+		ProjectManager.getInstance().setShowLegoSensorInfoDialog(false);
 	}
 }

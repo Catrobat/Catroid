@@ -23,12 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -88,20 +85,10 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_drone_move, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_drone_move_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView textTime = (TextView) view.findViewById(R.id.brick_drone_move_prototype_text_view_second);
 		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);
 		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
 				.setTextFieldId(R.id.brick_drone_move_edit_text_second);
@@ -127,11 +114,8 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		TextView label = (TextView) view.findViewById(R.id.brick_drone_move_label);
 		label.setText(getBrickLabel(view));
 
-		textTime.setVisibility(View.GONE);
-		editTime.setVisibility(View.VISIBLE);
 		editTime.setOnClickListener(this);
 
-		TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_prototype_text_view_power);
 		TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_power);
 		getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)
 				.setTextFieldId(R.id.brick_drone_move_edit_text_power);
@@ -139,8 +123,7 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_power_to_percent);
 		String textPercentString = "% ".concat(view.getResources().getString(R.string.brick_drone_percent_power));
 		textPercent.setText(textPercentString);
-		textPower.setVisibility(View.GONE);
-		editPower.setVisibility(View.VISIBLE);
+
 		editPower.setOnClickListener(this);
 
 		return view;
@@ -151,12 +134,12 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_drone_move, null);
 		TextView label = (TextView) prototypeView.findViewById(R.id.brick_drone_move_label);
 		label.setText(getBrickLabel(prototypeView));
-		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_second);
+		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_drone_move_edit_text_second);
 		TextView textPercent = (TextView) prototypeView.findViewById(R.id.brick_set_power_to_percent);
 		String textPercentString = "% ".concat(prototypeView.getResources().getString(R.string.brick_drone_percent_power));
 		textPercent.setText(textPercentString);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
-		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_power);
+		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_edit_text_power);
 		textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
 
 		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
@@ -166,42 +149,12 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_move_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textTimeLabel = (TextView) view.findViewById(R.id.brick_drone_move_label);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_power_to_percent);
-			TextView textTimeSeconds = (TextView) view.findViewById(R.id.brick_drone_move_text_view_second);
-			TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);
-
-			TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_text_view_power);
-			TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_power);
-
-			textTimeLabel.setTextColor(textTimeLabel.getTextColors().withAlpha(alphaValue));
-
-			textTimeSeconds.setTextColor(textTimeSeconds.getTextColors().withAlpha(alphaValue));
-			editTime.setTextColor(editTime.getTextColors().withAlpha(alphaValue));
-			editTime.getBackground().setAlpha(alphaValue);
-
-			textPower.setTextColor(textPower.getTextColors().withAlpha(alphaValue));
-			editPower.setTextColor(editPower.getTextColors().withAlpha(alphaValue));
-
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editPower.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
+	public int getRequiredResources() {
+		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.brick_drone_move_edit_text_second:
 				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
@@ -210,20 +163,7 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 			case R.id.brick_drone_move_edit_text_power:
 				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_POWER_IN_PERCENT);
 				break;
-
-			default:
-				return;
 		}
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 	}
 
 	protected abstract String getBrickLabel(View view);

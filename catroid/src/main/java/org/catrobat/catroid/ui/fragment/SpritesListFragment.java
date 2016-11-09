@@ -57,9 +57,14 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
@@ -73,6 +78,7 @@ import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicExpandableListView;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -106,9 +112,10 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 	private boolean isCopyActionMode;
 	private boolean isDeleteActionMode;
 	private boolean selectAll = true;
-	private boolean actionModeActive = false;
 
+	private boolean actionModeActive = false;
 	private Button okButton;
+
 	private DynamicExpandableListView listView;
 
 	@Override
@@ -120,6 +127,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
 		return inflater.inflate(R.layout.fragment_sprites_list, container, false);
 	}
 
@@ -170,8 +178,6 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			BackPackListManager.getInstance().loadBackpack();
 		}
 
-		StorageHandler.getInstance().fillChecksumContainer();
-
 		if (spriteRenamedReceiver == null) {
 			spriteRenamedReceiver = new SpriteRenamedReceiver();
 		}
@@ -205,6 +211,17 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+
+		reExpandAllGroups();
+	}
+
+	private void reExpandAllGroups() {
+		for (int groupPosition : spriteAdapter.getGroupSpritePositions()) {
+			Sprite sprite = (Sprite) spriteAdapter.getGroup(groupPosition);
+			if (!listView.isGroupExpanded(groupPosition) && sprite instanceof GroupSprite && ((GroupSprite) sprite).shouldBeExpanded()) {
+				listView.expandGroup(groupPosition);
+			}
+		}
 	}
 
 	@Override
@@ -384,7 +401,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
 				0));
 		String newName = copiedSprite.getName();
-
+		copiedSprite.renameCopiedSpriteInCollisionFormulas(oldName, newName, getActivity());
 		copiedSprite.updateCollisionBroadcastMessages(oldName, newName);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -551,6 +568,10 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		ProjectManager projectManager = ProjectManager.getInstance();
 		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
 
+		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
+			currentLookData.getCollisionInformation().cancelCalculation();
+		}
+
 		deleteSpriteFiles();
 		dataContainer.cleanVariableListForSprite(spriteToEdit);
 		dataContainer.cleanUserListForSprite(spriteToEdit);
@@ -665,6 +686,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 				listView.expandGroup(groupPosition);
 			}
 		}
+		spriteAdapter.setExpandedIndicatorsForAllGroupSprites(true);
 	}
 
 	public void collapseAllGroups() {
@@ -673,6 +695,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 				listView.collapseGroup(groupPosition);
 			}
 		}
+		spriteAdapter.setExpandedIndicatorsForAllGroupSprites(false);
 	}
 
 	private class SpriteRenamedReceiver extends BroadcastReceiver {
@@ -681,6 +704,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
 				String oldSpriteName = spriteToEdit.getName();
+				renameSpritesInCollisionFormulas(oldSpriteName, newSpriteName, getActivity());
 				spriteToEdit.rename(newSpriteName);
 				spriteAdapter.replaceItemInIdMap(oldSpriteName, newSpriteName);
 			}
@@ -900,8 +924,8 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 
 	private void initListeners() {
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-		((DynamicExpandableListView) getListView()).setDataList(spriteList);
-		((DynamicExpandableListView) getListView()).isForSpriteList();
+		getListView().setDataList(spriteList);
+		getListView().isForSpriteList();
 		spriteAdapter = new SpriteAdapter(getActivity(), spriteList);
 		spriteAdapter.setSpritesListFragment(this);
 
@@ -916,7 +940,6 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
 			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath(), false);
 		}
-
 		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
 			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath(), false);
 		}
@@ -958,6 +981,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		int currentNumberOfGroups = spriteAdapter.getNumberOfGroups();
 		String text = getString(R.string.group) + " " + (currentNumberOfGroups + 1);
 		groupNameEditText.setText(text);
+		UtilUi.positionCursorForEditText(groupNameEditText);
 
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
@@ -1047,5 +1071,32 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 
 	private List<Sprite> getSpriteList() {
 		return spriteAdapter.getSpriteList();
+	}
+
+	private void renameSpritesInCollisionFormulas(String oldName, String newName, Context context) {
+
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		for (Sprite sprite : spriteList) {
+			for (Script currentScript : sprite.getScriptList()) {
+				if (currentScript == null) {
+					return;
+				}
+				List<Brick> brickList = currentScript.getBrickList();
+				for (Brick brick : brickList) {
+					if (brick instanceof UserBrick) {
+						List<Formula> formulaList = ((UserBrick) brick).getFormulas();
+						for (Formula formula : formulaList) {
+							formula.updateCollisionFormulas(oldName, newName, context);
+						}
+					}
+					if (brick instanceof FormulaBrick) {
+						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
+						for (Formula formula : formulaList) {
+							formula.updateCollisionFormulas(oldName, newName, context);
+						}
+					}
+				}
+			}
+		}
 	}
 }

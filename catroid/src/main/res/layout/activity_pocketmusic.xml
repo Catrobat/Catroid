@@ -55,6 +55,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".78"
-            android:background="@color/color_chooser_rgb_blue"/>
+            android:background="@color/solid_black"/>
     </LinearLayout>
 </RelativeLayout>

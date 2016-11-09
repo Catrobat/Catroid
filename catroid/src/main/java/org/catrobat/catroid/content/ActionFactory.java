@@ -78,7 +78,7 @@ import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
 import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
 import org.catrobat.catroid.content.actions.HideAction;
-import org.catrobat.catroid.content.actions.HideVariableAction;
+import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorMoveAction;
@@ -117,6 +117,7 @@ import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
+import org.catrobat.catroid.content.actions.SetRotationStyleAction;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.content.actions.SetTextAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
@@ -125,7 +126,7 @@ import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.ShowAction;
-import org.catrobat.catroid.content.actions.ShowVariableAction;
+import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
@@ -255,6 +256,13 @@ public class ActionFactory extends Actions {
 		ChangeYByNAction action = Actions.action(ChangeYByNAction.class);
 		action.setSprite(sprite);
 		action.setyMovement(yMovement);
+		return action;
+	}
+
+	public Action createSetRotationStyleAction(Sprite sprite, Formula mode) {
+		SetRotationStyleAction action = Actions.action(SetRotationStyleAction.class);
+		action.setRotationStyle(mode);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -945,7 +953,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createShowVariableAction(Sprite sprite, Formula xPosition, Formula yPosition, UserVariable userVariable) {
-		ShowVariableAction action = action(ShowVariableAction.class);
+		ShowTextAction action = action(ShowTextAction.class);
 		action.setPosition(xPosition, yPosition);
 		action.setVariableToShow(userVariable);
 		action.setSprite(sprite);
@@ -955,7 +963,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createHideVariableAction(UserVariable userVariable) {
-		HideVariableAction action = action(HideVariableAction.class);
+		HideTextAction action = action(HideTextAction.class);
 		action.setVariableToHide(userVariable);
 		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		action.setUserBrick(userBrick);

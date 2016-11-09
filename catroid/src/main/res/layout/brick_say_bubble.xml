@@ -50,13 +50,6 @@
             android:text="@string/brick_say_bubble" >
         </TextView >
 
-        <TextView
-            android:id="@+id/brick_say_bubble_prototype_text_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent"
-            android:gravity="left" >
-        </TextView >
-
         <EditText
             android:id="@+id/brick_say_bubble_edit_text"
             style="@style/BrickEditText"

@@ -157,6 +157,8 @@ public final class Constants {
 	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
 	public static final String SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME = "scratchconverter.clientID";
+	public static final String SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME = "scratchconverter"
+			+ ".downloadStatePref";
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
@@ -174,10 +176,6 @@ public final class Constants {
 	public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-	public static final long DISK_IMAGE_CACHE_EXPIRE_TIME = 10 * 24 * 60 * 60 * 1_000;           // 10 days (in ms)
-	public static final long DISK_IMAGE_CACHE_MAX_SIZE = 20 * 1_024 * 1_024;                     // 20MB (in bytes)
-	public static final long MEMORY_IMAGE_CACHE_EXPIRE_TIME = 300_000;                           // 5 minutes (in ms)
-	public static final int MEMORY_IMAGE_CACHE_ALLOCATED_FRACTION_OF_TOTAL_AVAILABLE_MEMORY = 8; // 1/8th of available memory
 	public static final long MEMORY_OBJECT_CACHE_EXPIRE_TIME = 120_000;                          // 2 minutes (in ms)
 	public static final int MEMORY_OBJECT_CACHE_MAX_SIZE = 10_000;
 	public static final String INTENT_SCRATCH_PROGRAM_DATA = "scratchProgramData";
@@ -199,6 +197,12 @@ public final class Constants {
 	public static final String PROJECT_OPENED_FROM_PROJECTS_LIST = "projectList";
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
+	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
+
+	public static final int COLLISION_VERTEX_LIMIT = 100;
+	public static final float COLLISION_POLYGON_CREATION_EPSILON = 10.0f;
+	public static final String COLLISION_POLYGON_METADATA_PATTERN = "((((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+))\\|)*((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+)";
+
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
 	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";

@@ -189,8 +189,9 @@ public final class BackPackScriptController {
 				variable = dataContainer.addSpriteVariableIfDoesNotExist(brick.getUserVariable().getName(), currentSprite);
 				break;
 			case DataContainer.USER_VARIABLE_PROJECT:
-				if (dataContainer.findUserVariable(brick.getUserVariable().getName(),
-						dataContainer.getProjectVariables()) == null) {
+				variable = dataContainer.findUserVariable(brick.getUserVariable().getName(),
+						dataContainer.getProjectVariables());
+				if (variable == null) {
 					variable = dataContainer.addProjectUserVariable(brick.getUserVariable().getName());
 				}
 				break;

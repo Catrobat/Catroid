@@ -28,6 +28,7 @@ import android.widget.ListView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -62,10 +63,10 @@ public class UserBricksExecutionTest extends BaseActivityInstrumentationTestCase
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		sprite = new Sprite("testSprite");
+		sprite = new SingleSprite("testSprite");
 		project = new Project(null, "testProject");
 
-		project.getDefaultScene().addSprite(new Sprite("background"));
+		project.getDefaultScene().addSprite(new SingleSprite("background"));
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

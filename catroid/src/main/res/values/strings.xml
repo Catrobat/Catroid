@@ -98,6 +98,7 @@
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_logout">Logout</string>
     <string name="main_menu_login">Login</string>
+    <string name="main_menu_scratch_converter">Scratch Converter</string>
     <string name="logout_successful">Logout successful</string>
     <!--  -->
 
@@ -114,8 +115,6 @@
     <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
     <string name="preference_description_mindstorms_ev3_bricks">Allow to control Lego Mindstorms EV3 robots</string>
-    <string name="preference_title_scratch_converter">Scratch Converter</string>
-    <string name="preference_description_scratch_converter">Convert your Scratch desktop projects into mobile Pocket Code programs</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
     <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 sensors</string>
     <string name="preference_title_drone_config_properties">Drone configuration properties</string>
@@ -124,6 +123,8 @@
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
     <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
     <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
+    <string name="preference_description_crash_reports">Allow to send crash reports automatically</string>
+    <string name="preference_title_enable_crash_reports">Send anonymous crash reports</string>
     <!-- -->
     <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
     <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
@@ -140,17 +141,23 @@
     <string name="title_activity_scratch_converter">Convert Scratch program</string>
     <string name="error_scratch_program_not_accessible_any_more">Whoops! Data of this program is not accessible any
         more!</string>
+    <string name="error_scratch_project_data_not_available">Whoops! Some data could not be loaded from this Scratch
+        program. Please try again later!</string>
     <string name="error_request_timeout">Whoops! Our server is not reachable at the moment, please try later!</string>
     <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert Scratch program, please try again
         later!</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert "%1$s", please try
+    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
         again later!</string>
     <string name="error_scratch_converter_outdated_pocketcode_version">Your Pocket Code app is outdated. Our Scratch
         converter only supports the latest Pocket Code version. Please update it on the Google Play Store!</string>
     <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
         have canceled the conversion/download of the Scratch program or you have renamed/deleted the program in the
         meanwhile!</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert "%1$s"! Older Scratch before %2$s
+    <string name="error_cannot_open_currently_downloading_scratch_program">Cannot open this Scratch program
+        while it is downloading! Please try again later!</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Cannot open this Scratch program
+        since it has not been downloaded yet! Please try again later!</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s! Older Scratch before %2$s
         programs are not supported!</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
         <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
@@ -158,9 +165,8 @@
     </plurals>
     <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
         failed!</string>
-    <string name="connection_established">Connection to server established!</string>
     <string name="search_failed">Search failed, please retry later!</string>
-    <string name="connection_closed">Connection to server closed!</string>
+    <string name="connection_lost_or_closed_by_server">Connection lost or closed by server!</string>
     <string name="connection_failed">Connection to server failed, please retry later!</string>
     <string name="authentication_failed">Authentication failed, please contact the Pocket Code team!</string>
     <plurals name="scratch_conversion_scheduled_x">
@@ -269,7 +275,7 @@
     <string name="project_name">Program:</string>
     <string name="my_projects_activity_title">Programs</string>
     <string name="number_of_objects">Objects:</string>
-    <string name="start_scene_name">"%1$s" (First Scene)</string>
+    <string name="start_scene_name">%1$s (First Scene)</string>
     <string name="number_of_scripts">Scripts:</string>
     <string name="number_of_bricks">Bricks:</string>
     <string name="number_of_looks">Looks:</string>
@@ -285,8 +291,8 @@
     <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
-    <string name="backpack_replace_object">The object "%1$s" already exists in the backpack. Do you want to replace it?</string>
-    <string name="backpack_replace_scene">The scene "%1$s" already exists in the backpack. Do you want to replace
+    <string name="backpack_replace_object">The object %1$s already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_scene">The scene %1$s already exists in the backpack. Do you want to replace
         it?</string>
     <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
     <string name="groups_create">Create group</string>
@@ -369,7 +375,7 @@
     <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
     <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
     <string name="lookname">Look name:</string>
-    <string name="backpack_replace_look">The look "%1$s" already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_look">The look %1$s already exists in the backpack. Do you want to replace it?</string>
     <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
@@ -391,7 +397,7 @@
     <string name="sound_name">Sound name:</string>
     <string name="new_sound_name">Sound name:</string>
     <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
-    <string name="backpack_replace_sound">The sound "%1$s" already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_sound">The sound %1$s already exists in the backpack. Do you want to replace it?</string>
     <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
@@ -425,11 +431,6 @@
     <plurals name="scripts_plural">
         <item quantity="one">Script</item>
         <item quantity="other">Scripts</item>
-    </plurals>
-
-    <plurals name="userbricks_plural">
-        <item quantity="one">Brick</item>
-        <item quantity="other">Bricks</item>
     </plurals>
 
     <!-- My Projects activity -->
@@ -492,11 +493,11 @@
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
-    <string name="brick_context_dialog_edit_brick">Edit Brick</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
     <string name="brick_context_dialog_comment_in">Enable Brick</string>
     <string name="brick_context_dialog_comment_out">Disable Brick</string>
+    <string name="brick_context_dialog_help">Help</string>
     <string name="comment_in_out">Disable/Enable</string>
     <string name="comment_in_out_impossible">Nothing to Disable/Enable</string>
     <!--  -->
@@ -549,8 +550,8 @@
 
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Play Scene:</string>
-    <string name="play_scene_dialog_default">First Scene ("%1$s")</string>
-    <string name="play_scene_dialog_current">Current ("%1$s")</string>
+    <string name="play_scene_dialog_default">First Scene (%1$s)</string>
+    <string name="play_scene_dialog_current">Current (%1$s)</string>
     <!--  -->
 
     <!-- New sprite dialog -->
@@ -656,6 +657,10 @@
     <string name="brick_change_x_by">"Change X by "</string>
     <string name="brick_change_y_by">"Change Y by "</string>
     <string name="brick_go_back">Go back</string>
+    <string name="brick_set_rotation_style">"Set rotation style "</string>
+    <string name="brick_set_rotation_style_lr">left-right only</string>
+    <string name="brick_set_rotation_style_normal">all-around</string>
+    <string name="brick_set_rotation_style_no">don\'t rotate</string>
 
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">layer</item>
@@ -751,7 +756,7 @@
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
     <string name="brick_speak_default_value">"Hello!"</string>
-    <string name="brick_speak_and_wait">Speak and wait</string>
+    <string name="brick_speak_and_wait">and wait</string>
     <!--  -->
 
 
@@ -827,7 +832,7 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>
-    <string name="default_scene_name">Scene "%1$s"</string>
+    <string name="default_scene_name">Scene %1$d</string>
     <string name="default_project_background_name">Background</string>
     <string name="default_project_cloud_name">Clouds</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>
@@ -1277,6 +1282,7 @@
     <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contains</string>
     <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
+    <string name="formula_editor_function_collision">touches</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
     <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
@@ -1357,7 +1363,7 @@
     <string name="formula_editor_logic_boolean">logical (boolean) operators</string>
     <string name="formula_editor_logic_comparison">comparison operators</string>
     <string name="formula_editor_object_general">general properties</string>
-    <string name="formula_editor_object_physical">physical properties</string>
+    <string name="formula_editor_object_movement">movement properties</string>
     <string name="formula_editor_device_face_detection">Face detection</string>
     <string name="formula_editor_device_date_and_time">Date and Time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
@@ -1433,8 +1439,6 @@
     <string name="new_user_brick_variable">Variable</string>
     <string name="new_user_brick_name">Please choose a brick name:</string>
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
-    <string name="brick_single">Brick</string>
-    <string name="brick_multiple">Bricks</string>
 
     <!-- Merge strings -->
     <string name="merge_button">Merge with</string>
@@ -1451,10 +1455,10 @@
 
     <string name="merge_conflict">Merging not possible</string>
 
-    <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+    <string name="merge_conflict_variable">Variable %1$s is used in both programs. If programs use the same
     variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
 
-    <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+    <string name="merge_conflict_list">List %1$s is used in both programs. If programs use the same
     name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
 
     <!-- Camera related strings -->
@@ -1490,5 +1494,32 @@
         and download it.
         You can also download your program as standalone app.</string>
      <string name="progress_upload_dialog_show_program">Show program</string>
+    <!--  -->
+
+    <!-- Snackbar hints -->
+    <string name="got_it">Got it</string>
+    <string name="preference_description_hints">Enable to show hints</string>
+    <string name="preference_title_enable_hints">Show hints </string>
+    <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
+    <string name="hint_bricks">To add a brick to your script tap on the brick you want to use.</string>
+    <string name="hint_brick_added">Short tap on a brick opens the menu to move, copy, delete or add a brick to
+        the backpack. The help option will show you additional information. Drag and drop the brick with a long press.</string>
+    <string name="hint_scripts">The script defines the behaviour of your object. To add bricks to the script tap on the "+" symbol.</string>
+    <string name="hint_looks">Here you can find the different appearances of your object. To add a new look tap on the "+" symbol.</string>
+    <string name="hint_sounds">Here you can add new sounds to your object. Keep in mind to use a brick from the sound category.</string>
+    <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object tap on the "+" symbol.</string>
+    <string name="hint_merge">To merge two programs long press on one program to open the menu and tap on \'Merge
+        with\'.</string>
+    <string name="hint_stage">Hit the back-button to pause your program. To show axes and the screen size of your
+        phone tap "Axes on".</string>
+    <string name="hint_scenes">A program can consist of different independent scenes. To add a new scene tap on the "+"
+        symbol.</string>
+    <!--  -->
+
+    <!-- Crash report dialog -->
+    <string name="pocket_code_has_crashed">Pocket Code has crashed!</string>
+    <string name="crash_dialog_text">Please help to improve Pocket Code by sending us anonymous crash reports!</string>
+    <string name="crash_dialog_always_send">Always send</string>
+    <string name="crash_dialog_send">Send</string>
     <!--  -->
 </resources>

@@ -28,6 +28,7 @@ import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +81,13 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
+		if (adapter == null) {
+			return;
+		}
+		if (adapter.getActionMode() != BrickAdapter.ActionModeEnum.NO_ACTION) {
+			return;
+		}
+		if (adapter.isDragging) {
 			return;
 		}
 		showFormulaEditorToEditFormula(view);

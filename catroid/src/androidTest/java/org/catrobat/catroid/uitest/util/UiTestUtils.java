@@ -149,9 +149,11 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -615,6 +617,9 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_point_in_direction, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_point_to, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_glide, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_rotation_style_normal, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_rotation_style_lr, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_rotation_style_no, R.string.category_motion);
 
 		brickCategoryMap.put(R.string.brick_set_look, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_set_size_to, R.string.category_looks);
@@ -1015,9 +1020,9 @@ public final class UiTestUtils {
 	public static List<Brick> createOldTestProjectWithSprites(String oldSpriteProject) {
 		Project project = new Project(null, oldSpriteProject);
 		project.setCatrobatLanguageVersion(0.99f);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("testSprite1");
-		Sprite thirdSprite = new Sprite("third_sprite");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("testSprite1");
+		Sprite thirdSprite = new SingleSprite("third_sprite");
 
 		Script testScript = new StartScript();
 		projectManager.setProject(project);
@@ -1239,7 +1244,7 @@ public final class UiTestUtils {
 
 	public static List<Brick> createTestProjectWithUserVariables() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 
 		String globalVariableName = "global_var";
 		String spriteVariableName = "sprite_var";
@@ -2217,13 +2222,13 @@ public final class UiTestUtils {
 	}
 
 	public static ListView getScriptListView(Solo solo) {
-		return getListView(solo, 0);
-	}
-
-	public static ListView getListView(Solo solo, int index) {
-		ArrayList<ListView> listOfListViews = solo.getCurrentViews(ListView.class);
-		assertTrue("no ListView found!", listOfListViews.size() > 0);
-		return listOfListViews.get(index);
+		for (ListView listView : solo.getCurrentViews(ListView.class)) {
+			if (listView instanceof DragAndDropListView && listView.getAdapter() instanceof BrickAdapter) {
+				return listView;
+			}
+		}
+		fail("Could not find a Script ListView");
+		return null;
 	}
 
 	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {

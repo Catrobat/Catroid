@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -49,24 +48,20 @@ import android.widget.ProgressBar;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSceneController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.LegoEV3SensorConfigInfoDialog;
-import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSceneDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
@@ -98,8 +93,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	private View selectAllActionModeButton;
 	private boolean isRenameActionMode;
 	private boolean selectAll = true;
-	public boolean lockBackButtonForAsync = false;
-	private boolean fragmentStartedFirstTime = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -111,6 +104,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View sceneListFragment = inflater.inflate(R.layout.fragment_scenes_list, container, false);
 		sceneListFragment.findViewById(R.id.sceneList_headline).setVisibility(View.VISIBLE);
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scenes);
 		return sceneListFragment;
 	}
 
@@ -134,12 +128,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	public void onStart() {
 		super.onStart();
 		initListeners();
-
-		if (fragmentStartedFirstTime) {
-			showInfoFragmentIfNeeded();
-		}
-
-		fragmentStartedFirstTime = false;
 	}
 
 	@Override
@@ -191,6 +179,8 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 		IntentFilter intentFilterSceneTouchUp = new IntentFilter(ScriptActivity.ACTION_SCENE_TOUCH_ACTION_UP);
 		getActivity().registerReceiver(sceneListTouchActionUpReceiver, intentFilterSceneTouchUp);
+
+		ProjectManager.getInstance().setCurrentScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
 	}
 
 	@Override
@@ -324,6 +314,10 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.scene_checkbox)).isChecked());
 	}
 
+	public SceneAdapter getAdapter() {
+		return sceneAdapter;
+	}
+
 	public boolean copyScene() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -385,6 +379,12 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
+			}
+		});
+
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialogInterface) {
 				clearCheckedScenesAndEnableButtons();
 			}
 		});
@@ -396,7 +396,8 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	private void checkSceneCountAfterDeletion() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject().getSceneList().size() == 0) {
-			Scene emptyScene = new Scene(getActivity(), String.format(getString(R.string.default_scene_name), 1), projectManager.getCurrentProject());
+			Scene emptyScene = new Scene(getActivity(), getString(R.string.default_scene_name, 1), projectManager
+					.getCurrentProject());
 			projectManager.getCurrentProject().addScene(emptyScene);
 			projectManager.setCurrentScene(emptyScene);
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
@@ -513,7 +514,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 			switchToBackPack();
 		}
 		clearCheckedScenesAndEnableButtons();
-		lockBackButtonForAsync = false;
 	}
 
 	public void switchToBackPack() {
@@ -750,7 +750,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
-				lockBackButtonForAsync = true;
 				boolean success = true;
 				for (Scene scene : scenesToCopy) {
 					sceneToEdit = scene;
@@ -767,7 +766,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 						} else {
 							ProjectManager.getInstance().saveProject(getActivity());
 						}
-						lockBackButtonForAsync = false;
 					}
 				});
 			}
@@ -779,7 +777,6 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
-				lockBackButtonForAsync = true;
 				boolean success = BackPackSceneController.getInstance().backpackScenes(scenes);
 				final boolean finalSuccess = success;
 				activity.runOnUiThread(new Runnable() {
@@ -829,41 +826,18 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 	private static String getSceneName(String name, int nextNumber) {
 		String newName;
+
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
 			newName = name + nextNumber;
 		}
+
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			if (scene.getName().equals(newName)) {
 				return getSceneName(name, ++nextNumber);
 			}
 		}
 		return newName;
-	}
-
-	private void showInfoFragmentIfNeeded() {
-		if (needToShowLegoNXTInfoDialog()) {
-			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
-			dialog.show(this.getActivity().getFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
-		}
-		if (needToShowLegoEV3InfoDialog()) {
-			DialogFragment dialog = new LegoEV3SensorConfigInfoDialog();
-			dialog.show(this.getActivity().getFragmentManager(), LegoEV3SensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
-		}
-	}
-
-	private boolean needToShowLegoNXTInfoDialog() {
-		boolean isLegoNXTInfoDialogDisabled = SettingsActivity.getShowLegoNXTMindstormsSensorInfoDialog(this.getActivity().getApplicationContext());
-		Project project = ProjectManager.getInstance().getCurrentProject();
-
-		return !isLegoNXTInfoDialogDisabled && (project.getRequiredResources() & Brick.BLUETOOTH_LEGO_NXT) != 0;
-	}
-
-	private boolean needToShowLegoEV3InfoDialog() {
-		boolean isLegoEV3InfoDialogDisabled = SettingsActivity.getShowLegoEV3MindstormsSensorInfoDialog(this.getActivity().getApplicationContext());
-		Project project = ProjectManager.getInstance().getCurrentProject();
-
-		return !isLegoEV3InfoDialogDisabled && (project.getRequiredResources() & Brick.BLUETOOTH_LEGO_EV3) != 0;
 	}
 }

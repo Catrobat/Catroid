@@ -31,6 +31,7 @@ ext {
 
     manifestPath = "src/main/AndroidManifest.xml"
     resPath = "src/main/res/drawable-nodpi"
+    googleServicesJsonPath = "google-services.json"
 
     buildStandaloneInfoTmpPath = "buildStandaloneInfoTmp"
 }
@@ -81,6 +82,12 @@ task buildStandalone() << {
     manifestFile.write(manifestText)
 
     removeUnecessaryPermissions()
+
+    File googleServicesJsonFile = file(project.ext.googleServicesJsonPath)
+    def googleServicesJsonText = googleServicesJsonFile.text
+
+    googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", "org.catrobat.catroid." + getPackageNameSuffix())
+    googleServicesJsonFile.write(googleServicesJsonText)
 
     File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
     println "standaloneInfoTmpFile: " + standaloneInfoTmpFile.absolutePath

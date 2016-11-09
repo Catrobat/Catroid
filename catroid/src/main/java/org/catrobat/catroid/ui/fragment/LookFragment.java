@@ -80,6 +80,7 @@ import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dialogs.NewLookDialog;
 import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.UtilUi;
@@ -267,6 +268,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_looks);
+
 		return inflater.inflate(R.layout.fragment_look, container, false);
 	}
 
@@ -470,7 +473,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		lastReceivedIntent = data;
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {

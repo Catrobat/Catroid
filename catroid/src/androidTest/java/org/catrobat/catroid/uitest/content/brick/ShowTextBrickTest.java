@@ -38,9 +38,9 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.HideVariableBrick;
+import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.content.bricks.ShowVariableBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -53,15 +53,15 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class ShowVariableBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class ShowTextBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private Project project;
 	private SetVariableBrick setVariableBrick;
-	private ShowVariableBrick showVariableBrick;
-	private HideVariableBrick hideVariableBrick;
+	private ShowTextBrick showTextBrick;
+	private HideTextBrick hideTextBrick;
 	private WaitBrick waitBrick;
 
-	public ShowVariableBrickTest() {
+	public ShowTextBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -93,9 +93,9 @@ public class ShowVariableBrickTest extends BaseActivityInstrumentationTestCase<S
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_set_variable)));
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_show_variable_edit_text_x, 10, Brick.BrickField.X_POSITION, showVariableBrick);
+				R.id.brick_show_variable_edit_text_x, 10, Brick.BrickField.X_POSITION, showTextBrick);
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_show_variable_edit_text_y, 10, Brick.BrickField.Y_POSITION, showVariableBrick);
+				R.id.brick_show_variable_edit_text_y, 10, Brick.BrickField.Y_POSITION, showTextBrick);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
@@ -127,14 +127,14 @@ public class ShowVariableBrickTest extends BaseActivityInstrumentationTestCase<S
 		setVariableBrick = new SetVariableBrick();
 		script.addBrick(setVariableBrick);
 
-		showVariableBrick = new ShowVariableBrick(0, 0);
-		script.addBrick(showVariableBrick);
+		showTextBrick = new ShowTextBrick(0, 0);
+		script.addBrick(showTextBrick);
 
 		waitBrick = new WaitBrick(3000);
 		script.addBrick(waitBrick);
 
-		hideVariableBrick = new HideVariableBrick();
-		script.addBrick(hideVariableBrick);
+		hideTextBrick = new HideTextBrick();
+		script.addBrick(hideTextBrick);
 
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);

@@ -52,12 +52,6 @@
         </TextView>
 
         <TextView
-            android:id="@+id/brick_vibration_prototype_text_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent" >
-        </TextView>
-
-        <TextView
             android:id="@+id/brick_vibration_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"

@@ -21,19 +21,26 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView style="@style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
 
-    <item
-        android:id="@+id/settings"
-        android:showAsAction="never"
-        android:title="@string/settings" />
-    <item
-        android:id="@+id/menu_logout"
-        android:showAsAction="never"
-        android:title="@string/main_menu_logout"/>
-    <item
-        android:id="@+id/menu_login"
-        android:showAsAction="never"
-        android:title="@string/main_menu_login"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/dialog_send_report"
+            style="@style/DefaultDialog.Item"
+            android:text="@string/crash_dialog_text"
+            android:textColor="@color/spritelist_details_text_color" />
+        <CheckBox
+            android:id="@+id/checkBoxSendReportAutomatically"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialog_send_report"
+            android:layout_alignLeft="@+id/dialog_send_report"
+            android:text="@string/crash_dialog_always_send" />
 
-</menu>
+    </RelativeLayout>
+</ScrollView>

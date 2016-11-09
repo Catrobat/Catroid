@@ -176,6 +176,11 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
 		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
 		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_login), 1,
+				1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_logout), 1, 1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.settings), 1,
+				1000, false));
 	}
 
 	public void testMainMenuItemsNotVisibleInProgramActivity() {
@@ -186,6 +191,11 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
 		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
 		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_login), 1,
+				1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_logout), 1, 1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.settings), 1,
+				1000, false));
 	}
 
 	public void testMenuItemSettings() {

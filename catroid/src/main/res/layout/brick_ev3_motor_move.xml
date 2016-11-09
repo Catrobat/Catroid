@@ -84,11 +84,6 @@
                 </TextView >
 
                 <TextView
-                    android:id="@+id/brick_ev3_motor_move_power_prototype_text_view"
-                    style="@style/BrickPrototypeTextView" >
-                </TextView >
-
-                <TextView
                     android:id="@+id/ev3_motor_move_power_edit_text"
                     style="@style/BrickEditText"
                     android:layout_width="wrap_content"
@@ -126,11 +121,6 @@
                     style="@style/BrickText.SingleLine"
                     app:layout_newLine="true"
                     android:text="@string/ev3_motor_move_for_period" >
-                </TextView >
-
-                <TextView
-                    android:id="@+id/brick_ev3_motor_move_period_prototype_text_view"
-                    style="@style/BrickPrototypeTextView" >
                 </TextView >
 
                 <TextView

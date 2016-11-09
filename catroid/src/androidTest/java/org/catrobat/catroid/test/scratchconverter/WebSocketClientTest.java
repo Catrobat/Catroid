@@ -36,14 +36,13 @@ import com.koushikdutta.async.http.WebSocket;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.Client.ConvertCallback;
-import org.catrobat.catroid.scratchconverter.Client.DownloadFinishedCallback;
+import org.catrobat.catroid.scratchconverter.Client.DownloadCallback;
 import org.catrobat.catroid.scratchconverter.ClientException;
 import org.catrobat.catroid.scratchconverter.WebSocketClient;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.scratchconverter.protocol.MessageListener;
 import org.catrobat.catroid.scratchconverter.protocol.WebSocketMessageListener;
 import org.catrobat.catroid.scratchconverter.protocol.command.AuthenticateCommand;
-import org.catrobat.catroid.scratchconverter.protocol.command.CancelDownloadCommand;
 import org.catrobat.catroid.scratchconverter.protocol.command.RetrieveInfoCommand;
 import org.catrobat.catroid.scratchconverter.protocol.command.ScheduleJobCommand;
 import org.catrobat.catroid.scratchconverter.protocol.message.base.ClientIDMessage;
@@ -55,7 +54,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.lang.reflect.Field;
-import java.util.Date;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
@@ -466,7 +464,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 				assertNotNull("First argument of send() call must not be null", invocation.getArguments()[0]);
 
 				final String jsonCommand = (String) invocation.getArguments()[0];
-				assertEquals("Unexpected or invalid command! Expected CancelDownloadCommand",
+				assertEquals("Unexpected or invalid command! Expected RetrieveInfoCommand",
 						expectedRetrieveInfoCommand.toJson().toString(), jsonCommand);
 				return null;
 			}
@@ -516,7 +514,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull("First argument of send() call must not be null", invocation.getArguments()[0]);
 				final String jsonCommand = (String) invocation.getArguments()[0];
-				assertEquals("Unexpected or invalid command! Expected CancelDownloadCommand",
+				assertEquals("Unexpected or invalid command! Expected RetrieveInfoCommand",
 						expectedScheduleJobCommand.toJson().toString(), jsonCommand);
 				return null;
 			}
@@ -533,34 +531,6 @@ public class WebSocketClientTest extends AndroidTestCase {
 				expectedVerboseValue, expectedForceValue);
 
 		verifyZeroInteractions(convertCallbackMock);
-		verify(webSocketMock, times(1)).send(anyString());
-		verifyNoMoreInteractions(webSocketMock);
-	}
-
-	public void testSendCancelDownloadCommand() throws NoSuchFieldException, IllegalAccessException {
-		final long expectedJobID = 1;
-		final CancelDownloadCommand expectedCancelDownloadCommand = new CancelDownloadCommand(expectedJobID);
-
-		final WebSocket webSocketMock = Mockito.mock(WebSocket.class);
-		doAnswer(new Answer<Void>() {
-			@Override
-			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("First argument of send() call must not be null", invocation.getArguments()[0]);
-
-				final String jsonCommand = (String) invocation.getArguments()[0];
-				assertEquals("Unexpected or invalid command! Expected CancelDownloadCommand",
-						expectedCancelDownloadCommand.toJson().toString(), jsonCommand);
-				return null;
-			}
-		}).when(webSocketMock).send(any(String.class));
-
-		Reflection.setPrivateField(WebSocketClient.class, webSocketClient, "state", Client.State.CONNECTED_AUTHENTICATED);
-
-		Field newField = WebSocketClient.class.getDeclaredField("webSocket");
-		newField.setAccessible(true);
-		newField.set(webSocketClient, webSocketMock);
-
-		webSocketClient.cancelDownload(expectedJobID);
 		verify(webSocketMock, times(1)).send(anyString());
 		verifyNoMoreInteractions(webSocketMock);
 	}
@@ -584,14 +554,14 @@ public class WebSocketClientTest extends AndroidTestCase {
 		final Job[] expectedJobs = new Job[] { expectedUnscheduledJob, expectedFinishedJob };
 		final InfoMessage infoMessage = new InfoMessage(expectedCatrobatLanguageVersion, expectedJobs);
 
-		final DownloadFinishedCallback downloadCallbackMock = Mockito.mock(DownloadFinishedCallback.class);
+		final DownloadCallback downloadCallbackMock = Mockito.mock(DownloadCallback.class);
 		final ConvertCallback convertCallbackMock = Mockito.mock(ConvertCallback.class);
 
-		doAnswer(new Answer<DownloadFinishedCallback>() {
+		doAnswer(new Answer<DownloadCallback>() {
 			int counter = 0;
 
 			@Override
-			public DownloadFinishedCallback answer(InvocationOnMock invocation) throws Throwable {
+			public DownloadCallback answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull("First argument of restoreJobIfRunning() call must not be null",
 						invocation.getArguments()[0]);
 				assertNotNull("Second argument of restoreJobIfRunning() call must not be null",
@@ -643,20 +613,17 @@ public class WebSocketClientTest extends AndroidTestCase {
 				assertNotNull("Second argument of onInfo() call must not be null", invocation.getArguments()[1]);
 
 				final Job finishedJob = (Job) invocation.getArguments()[0];
-				final Client.DownloadFinishedCallback downloadCallback = (Client.DownloadFinishedCallback)
+				final DownloadCallback downloadCallback = (DownloadCallback)
 						invocation.getArguments()[1];
 				final String downloadURL = (String) invocation.getArguments()[2];
-				final Date cachedDate = (Date) invocation.getArguments()[3];
 
 				assertEquals("DownloadCallback must be", downloadCallback, downloadCallbackMock);
 				assertEquals("Invalid download URL given", expectedDownloadURL, downloadURL);
 				assertEquals("Unexpected job given", expectedFinishedJob, finishedJob);
-				assertNull("Expecting cachedDate to be null here, otherwise the conversion cannot be restored "
-						+ "correctly!", cachedDate);
 				return null;
 			}
-		}).when(convertCallbackMock).onConversionFinished(any(Job.class), any(Client.DownloadFinishedCallback.class),
-				any(String.class), any(Date.class));
+		}).when(convertCallbackMock).onConversionAlreadyFinished(any(Job.class), any(DownloadCallback.class),
+				any(String.class));
 
 		Reflection.setPrivateField(WebSocketClient.class, webSocketClient, "state", Client.State.CONNECTED_AUTHENTICATED);
 
@@ -664,8 +631,8 @@ public class WebSocketClientTest extends AndroidTestCase {
 		webSocketClient.onBaseMessage(infoMessage);
 
 		verify(convertCallbackMock, times(1)).onInfo(anyFloat(), any(Job[].class));
-		verify(convertCallbackMock, times(1)).onConversionFinished(any(Job.class),
-				any(Client.DownloadFinishedCallback.class), anyString(), any(Date.class));
+		verify(convertCallbackMock, times(1)).onConversionAlreadyFinished(any(Job.class),
+				any(DownloadCallback.class), anyString());
 		verifyNoMoreInteractions(convertCallbackMock);
 		verify(messageListenerMock, times(1)).setBaseMessageHandler(eq(webSocketClient));
 		verify(messageListenerMock, times(2)).restoreJobIfRunning(any(Job.class), any(ConvertCallback.class));

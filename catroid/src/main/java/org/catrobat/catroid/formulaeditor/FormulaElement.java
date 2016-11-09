@@ -22,18 +22,23 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.content.res.Resources;
 import android.util.Log;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.io.Serializable;
@@ -46,7 +51,7 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA
 	}
 
 	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
@@ -139,6 +144,9 @@ public class FormulaElement implements Serializable {
 			case STRING:
 				internTokenList.add(new InternToken(InternTokenType.STRING, value));
 				break;
+			case COLLISION_FORMULA:
+				internTokenList.add(new InternToken(InternTokenType.COLLISION_FORMULA, this.value));
+				break;
 		}
 		return internTokenList;
 	}
@@ -178,6 +186,47 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
+	public boolean containsSpriteInCollision(String name) {
+		boolean contained = false;
+		if (leftChild != null) {
+			contained |= leftChild.containsSpriteInCollision(name);
+		}
+		if (rightChild != null) {
+			contained |= rightChild.containsSpriteInCollision(name);
+		}
+		if (type == ElementType.COLLISION_FORMULA) {
+			String collisionTag = CatroidApplication.getAppContext().getString(R.string
+					.formula_editor_function_collision);
+			String firstSprite = value.substring(0, value.indexOf(collisionTag) - 1);
+			String secondSprite = value.substring(value.indexOf(collisionTag) + collisionTag.length() + 1, value.length());
+			if (firstSprite.equals(name) || secondSprite.equals(name)) {
+				contained = true;
+			}
+		}
+		return contained;
+	}
+
+	public void updateCollisionFormula(String oldName, String newName) {
+
+		if (leftChild != null) {
+			leftChild.updateCollisionFormula(oldName, newName);
+		}
+		if (rightChild != null) {
+			rightChild.updateCollisionFormula(oldName, newName);
+		}
+		if (type == ElementType.COLLISION_FORMULA && value.contains(oldName)) {
+			String collisionTag = CatroidApplication.getAppContext().getString(R.string
+					.formula_editor_function_collision);
+			String firstSprite = value.substring(0, value.indexOf(collisionTag) - 1);
+			String secondSprite = value.substring(value.indexOf(collisionTag) + collisionTag.length() + 1, value.length());
+			if (firstSprite.equals(oldName)) {
+				value = newName + " " + collisionTag + " " + secondSprite;
+			} else if (secondSprite.equals(oldName)) {
+				value = firstSprite + " " + collisionTag + " " + newName;
+			}
+		}
+	}
+
 	public Object interpretRecursive(Sprite sprite) {
 
 		Object returnValue = 0d;
@@ -209,8 +258,38 @@ public class FormulaElement implements Serializable {
 			case STRING:
 				returnValue = value;
 				break;
+			case COLLISION_FORMULA:
+				try {
+					returnValue = interpretCollision(value);
+				} catch (Exception exception) {
+					returnValue = 0d;
+					Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
+				}
 		}
 		return normalizeDegeneratedDoubleValues(returnValue);
+	}
+
+	private Object interpretCollision(String formula) {
+		int start = 0;
+		String collidesWithTag = CatroidApplication.getAppContext().getString(R.string
+				.formula_editor_function_collision);
+		int end = formula.indexOf(collidesWithTag) - 1;
+		String firstSpriteName = formula.substring(start, end);
+
+		start = end + collidesWithTag.length() + 2;
+		end = formula.length();
+		String secondSpriteName = formula.substring(start, end);
+
+		Look firstLook;
+		Look secondLook;
+		try {
+			firstLook = ProjectManager.getInstance().getCurrentScene().getSpriteBySpriteName(firstSpriteName).look;
+			secondLook = ProjectManager.getInstance().getCurrentScene().getSpriteBySpriteName(secondSpriteName).look;
+		} catch (Resources.NotFoundException exception) {
+			return 0d;
+		}
+
+		return CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook);
 	}
 
 	private Object interpretUserList(Sprite sprite) {
@@ -1054,6 +1133,9 @@ public class FormulaElement implements Serializable {
 
 				default:
 			}
+		}
+		if (type == ElementType.COLLISION_FORMULA) {
+			resources |= Brick.COLLISION;
 		}
 		return resources;
 	}

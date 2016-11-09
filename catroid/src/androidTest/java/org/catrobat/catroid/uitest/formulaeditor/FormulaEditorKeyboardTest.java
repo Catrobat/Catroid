@@ -217,7 +217,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 
-		String categoryTitle = solo.getString(R.string.formula_editor_object_physical);
+		String categoryTitle = solo.getString(R.string.formula_editor_object_movement);
 		assertTrue("Category Title not found", solo.searchText(categoryTitle.toUpperCase(Locale.getDefault())));
 
 		itemString = solo.getString(R.string.formula_editor_object_x);
