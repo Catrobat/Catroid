@@ -62,7 +62,7 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -88,7 +88,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	private Script script;
 	private int dragTargetPosition;
 	private Brick draggedBrick;
-	private DragAndDropListView dragAndDropListView;
+	private BrickDragAndDropListView brickDragAndDropListView;
 	private View insertionView;
 	private boolean initInsertedBrick;
 	private boolean addingNewBrick;
@@ -112,11 +112,11 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	private ActionModeEnum actionMode = ActionModeEnum.NO_ACTION;
 
-	public BrickAdapter(ScriptFragment scriptFragment, Sprite sprite, DragAndDropListView listView) {
+	public BrickAdapter(ScriptFragment scriptFragment, Sprite sprite, BrickDragAndDropListView listView) {
 		this.scriptFragment = scriptFragment;
 		this.context = scriptFragment.getActivity();
 		this.sprite = sprite;
-		dragAndDropListView = listView;
+		brickDragAndDropListView = listView;
 		insertionView = View.inflate(context, R.layout.brick_insert, null);
 		initInsertedBrick = false;
 		addingNewBrick = false;
@@ -419,7 +419,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		if (scrollTo >= brickList.size() - 1) {
 			scrollTo = getCount() - 1;
 		}
-		dragAndDropListView.smoothScrollToPosition(scrollTo);
+		brickDragAndDropListView.smoothScrollToPosition(scrollTo);
 
 		setSpinnersEnabled(true);
 		isDragging = false;
@@ -675,7 +675,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	private void scrollToPosition(final int position) {
-		DragAndDropListView list = dragAndDropListView;
+		BrickDragAndDropListView list = brickDragAndDropListView;
 		if (list.getFirstVisiblePosition() < position && position < list.getLastVisiblePosition()) {
 			return;
 		}
@@ -875,7 +875,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		currentBrickView.setOnClickListener(this);
 
 		if (!(brick instanceof ScriptBrick)) {
-			currentBrickView.setOnLongClickListener(dragAndDropListView);
+			currentBrickView.setOnLongClickListener(brickDragAndDropListView);
 		}
 
 		boolean enableSpinners = !isDragging && actionMode == ActionModeEnum.NO_ACTION;
@@ -884,10 +884,10 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		if (position == positionOfInsertedBrick && initInsertedBrick && (selectMode == ListView.CHOICE_MODE_NONE)) {
 			initInsertedBrick = false;
 			addingNewBrick = true;
-			dragAndDropListView.setInsertedBrick(position);
+			brickDragAndDropListView.setInsertedBrick(position);
 
-			dragAndDropListView.setDraggingNewBrick();
-			dragAndDropListView.onLongClick(currentBrickView);
+			brickDragAndDropListView.setDraggingNewBrick();
+			brickDragAndDropListView.onLongClick(currentBrickView);
 
 			return insertionView;
 		}
@@ -1010,7 +1010,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
 			view.setDrawingCacheEnabled(drawingCacheEnabled);
 
-			ImageView imageView = dragAndDropListView.getGlowingBorder(bitmap);
+			ImageView imageView = brickDragAndDropListView.getGlowingBorder(bitmap);
 			builder.setCustomTitle(imageView);
 		}
 
@@ -1065,7 +1065,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	protected void copyBrickListAndProject(int itemPosition) {
-		Brick origin = (Brick) (dragAndDropListView.getItemAtPosition(itemPosition));
+		Brick origin = (Brick) (brickDragAndDropListView.getItemAtPosition(itemPosition));
 		Brick copy;
 		try {
 			copy = origin.clone();
@@ -1175,7 +1175,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {
-		return dragAndDropListView.pointToPosition(view.getLeft(), view.getTop());
+		return brickDragAndDropListView.pointToPosition(view.getLeft(), view.getTop());
 	}
 
 	@Override

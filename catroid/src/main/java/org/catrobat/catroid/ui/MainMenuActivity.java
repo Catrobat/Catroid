@@ -87,7 +87,7 @@ import java.util.concurrent.locks.Lock;
 
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
 
-	private static final String TAG = ProjectActivity.class.getSimpleName();
+	private static final String TAG = MainMenuActivity.class.getSimpleName();
 
 	private static final String START_PROJECT = BuildConfig.START_PROJECT;
 	private static final Boolean STANDALONE_MODE = BuildConfig.FEATURE_APK_GENERATOR_ENABLED;

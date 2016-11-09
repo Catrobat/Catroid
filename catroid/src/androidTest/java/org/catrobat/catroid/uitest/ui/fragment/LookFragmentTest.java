@@ -52,11 +52,11 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BackPackLookAdapter;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
+import org.catrobat.catroid.ui.adapter.LookListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
+import org.catrobat.catroid.ui.fragment.BackPackLookListFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -271,7 +271,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		packSingleItem(SECOND_TEST_LOOK_NAME, true);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
+		solo.waitForFragmentByTag(BackPackLookListFragment.TAG);
 
 		assertTrue("BackPack title didn't show up",
 				solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK));
@@ -284,7 +284,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		packSingleItem(SECOND_TEST_LOOK_NAME, true);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
+		solo.waitForFragmentByTag(BackPackLookListFragment.TAG);
 
 		solo.goBack();
 		packSingleItem(FIRST_TEST_LOOK_NAME, false);
@@ -494,7 +494,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testBackPackLookDeleteContextMenu() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
 
-		BackPackLookAdapter adapter = getBackPackLookAdapter();
+		LookListAdapter adapter = getBackPackLookAdapter();
 		int oldCount = adapter.getCount();
 		List<LookData> backPackLookDataList = BackPackListManager.getInstance().getBackPackedLooks();
 		String pathOfFirstBackPackedLook = backPackLookDataList.get(0).getAbsolutePath();
@@ -517,7 +517,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testBackPackLookDeleteActionMode() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
 
-		BackPackLookAdapter adapter = getBackPackLookAdapter();
+		LookListAdapter adapter = getBackPackLookAdapter();
 		int oldCount = adapter.getCount();
 		List<LookData> backPackLookDataList = BackPackListManager.getInstance().getBackPackedLooks();
 		String pathOfFirstBackPackedLook = backPackLookDataList.get(0).getAbsolutePath();
@@ -717,7 +717,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForDialogToClose();
 
 		solo.waitForActivity(BackPackActivity.class.getSimpleName());
-		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
+		solo.waitForFragmentByTag(BackPackLookListFragment.TAG);
 		solo.sleep(200);
 		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
 		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
@@ -2060,9 +2060,9 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.sendKey(Solo.ENTER);
 	}
 
-	private BackPackLookFragment getBackPackLookFragment() {
+	private BackPackLookListFragment getBackPackLookFragment() {
 		BackPackActivity activity = (BackPackActivity) solo.getCurrentActivity();
-		return (BackPackLookFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_LOOKS);
+		return (BackPackLookListFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_LOOKS);
 	}
 
 	private LookFragment getLookFragment() {
@@ -2074,8 +2074,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		return (LookAdapter) getLookFragment().getListAdapter();
 	}
 
-	private BackPackLookAdapter getBackPackLookAdapter() {
-		return (BackPackLookAdapter) getBackPackLookFragment().getListAdapter();
+	private LookListAdapter getBackPackLookAdapter() {
+		return (LookListAdapter) getBackPackLookFragment().getListAdapter();
 	}
 
 	private void checkVisibilityOfViews(int imageVisibility, int lookNameVisibility, int lookDetailsVisibility,
@@ -2130,7 +2130,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForText(menuItemName);
 		solo.clickOnText(menuItemName);
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
+		solo.waitForFragmentByTag(BackPackLookListFragment.TAG);
 	}
 
 	private String getLookName(int lookIndex) {

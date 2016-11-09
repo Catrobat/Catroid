@@ -100,8 +100,6 @@
     <dimen name="activity_check_box_margin" >15dp</dimen >
     <dimen name="activity_linear_layout_height" >90dip</dimen >
     <dimen name="spritelist_group_item_height" >50dip</dimen >
-    <dimen name="activity_text_view_margin_small" >12.5dp</dimen >
-    <dimen name="activity_text_view_margin_big" >24dp</dimen >
     <dimen name="activity_text_view_margin_large" >35dp</dimen >
     <dimen name="activity_bottom_bar_height" >48dip</dimen >
     <dimen name="activity_bottom_bar_image_view_padding" >5dp</dimen >

@@ -383,6 +383,7 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().stopPreviewAsync();
 		CameraManager.getInstance().releaseCamera();
 		CameraManager.getInstance().setToDefaultCamera();
+		ProjectManager.getInstance().setSceneToPlay(ProjectManager.getInstance().getCurrentScene());
 		super.onDestroy();
 	}
 

@@ -80,7 +80,6 @@ public class Sprite implements Serializable, Cloneable {
 	private static SpriteFactory spriteFactory = new SpriteFactory();
 
 	public transient Look look = new Look(this);
-	public transient boolean isPaused;
 	public transient boolean isBackpackObject = false;
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
@@ -337,6 +336,8 @@ public class Sprite implements Serializable, Cloneable {
 		cloneUserBricks(cloneSprite);
 		cloneNfcTags(cloneSprite);
 		cloneScripts(cloneSprite);
+		cloneSprite.resetSprite();
+		cloneLook(cloneSprite);
 
 		setUserAndVariableBrickReferences(cloneSprite, userBricks);
 
@@ -363,6 +364,8 @@ public class Sprite implements Serializable, Cloneable {
 		cloneUserBricks(cloneSprite);
 		cloneSpriteVariables(ProjectManager.getInstance().getCurrentScene(), cloneSprite);
 		cloneScripts(cloneSprite);
+		cloneSprite.resetSprite();
+		cloneLook(cloneSprite);
 		setUserAndVariableBrickReferences(cloneSprite, userBricks);
 
 		ProjectManager.getInstance().setCurrentSprite(originalSprite);
@@ -382,7 +385,6 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.isBackpackObject = false;
 		cloneSprite.convertToSingleSprite = false;
 		cloneSprite.convertToGroupItemSprite = false;
-		cloneSprite.isPaused = false;
 		cloneSprite.isMobile = this.isMobile;
 
 		cloneSprite.look = this.look;
@@ -487,17 +489,20 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
+	private void cloneLook(Sprite cloneSprite) {
+		int currentLookDataIndex = this.lookList.indexOf(this.look.getLookData());
+		if (currentLookDataIndex != -1) {
+			cloneSprite.look.setLookData(cloneSprite.lookList.get(currentLookDataIndex));
+		}
+		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
+	}
+
 	private void cloneLooks(Sprite cloneSprite) {
 		List<LookData> cloneLookList = new ArrayList<>();
 		for (LookData element : this.lookList) {
 			cloneLookList.add(element.clone());
 		}
 		cloneSprite.lookList = cloneLookList;
-
-		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
-		if (cloneSprite.getLookDataList().size() > 0) {
-			cloneSprite.look.setLookData(cloneSprite.getLookDataList().get(0));
-		}
 	}
 
 	private void cloneSounds(Sprite cloneSprite) {
@@ -625,20 +630,6 @@ public class Sprite implements Serializable, Cloneable {
 			}
 		}
 		look.addAction(whenParallelAction);
-	}
-
-	public void pause() {
-		for (Script s : scriptList) {
-			s.setPaused(true);
-		}
-		this.isPaused = true;
-	}
-
-	public void resume() {
-		for (Script s : scriptList) {
-			s.setPaused(false);
-		}
-		this.isPaused = false;
 	}
 
 	public String getName() {

@@ -519,7 +519,7 @@ public final class LookController {
 		return false;
 	}
 
-	private void deleteLook(int position, List<LookData> lookDataList, Activity activity) {
+	public void deleteLook(int position, List<LookData> lookDataList, Activity activity) {
 		if (position < 0 || position >= lookDataList.size()) {
 			Log.d(TAG, "attempted to delete a look at a position not in lookdatalist");
 			return;
