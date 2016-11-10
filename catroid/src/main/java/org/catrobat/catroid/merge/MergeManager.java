@@ -54,10 +54,6 @@ public final class MergeManager {
 			return;
 		}
 
-		if (firstProject.getName().equals(secondProject.getName())) {
-			Utils.showErrorDialog(activity, R.string.error_merge_with_self);
-			return;
-		}
 		boolean justAddAsScene = firstProject.getSceneList().size() == 1 ^ secondProject.getSceneList().size() == 1;
 		showMergeDialog(firstProject, secondProject, activity, adapter, justAddAsScene);
 	}

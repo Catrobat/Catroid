@@ -1363,7 +1363,6 @@
     <string name="merge_info">successfully merged into</string>
 
     <string name="warning">Warning</string>
-    <string name="error_merge_with_self">Current project and selected project are the same!</string>
     <string name="error_merge_with_self_scene">Current scene and selected scene are the same!</string>
     <string name="error_merge_scene_not_found">Scene not found!</string>
     <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s

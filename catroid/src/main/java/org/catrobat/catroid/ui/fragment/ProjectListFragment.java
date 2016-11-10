@@ -182,7 +182,10 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 			}
 		}
 
-		menu.add(0, R.string.merge_button, 1, getString(R.string.merge_button) + ": " + ProjectManager.getInstance().getCurrentProject().getName());
+		boolean isCurrentProject = projectToEdit.projectName.equals(ProjectManager.getInstance().getCurrentProject().getName());
+		if (!isCurrentProject) {
+			menu.add(0, R.string.merge_button, 1, getString(R.string.merge_button) + ": " + ProjectManager.getInstance().getCurrentProject().getName());
+		}
 		menu.setHeaderTitle(projectToEdit.projectName);
 
 		getActivity().getMenuInflater().inflate(R.menu.context_menu_my_projects, menu);
