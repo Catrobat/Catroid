@@ -357,6 +357,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 					public void run() {
 						getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
 						getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
+						initializeList();
 					}
 				});
 			}
