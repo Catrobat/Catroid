@@ -139,6 +139,7 @@ public class MergeTask {
 		}
 
 		mergedProject = StorageHandler.getInstance().loadProject(mergedProject.getName(), activity);
+		ProjectManager.getInstance().setCurrentProject(mergedProject);
 
 		if (adapter != null) {
 			File projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(mergeProjectName),
