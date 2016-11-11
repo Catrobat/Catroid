@@ -266,26 +266,11 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public boolean jumpingSumoDisconnect() {
-		boolean success = false;
+		boolean success;
 		if (!controller.isConnected()) {
-			stageListener.finish();
-			manageLoadAndFinish();
 			return true;
 		}
-		JumpingSumoInitializer.getInstance().disconnect();
-		/*deviceController = controller.getDeviceController();
-		if (deviceController != null) {
-
-			ARCONTROLLER_ERROR_ENUM error = deviceController.stop();
-			if (error == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
-				success = true;
-				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
-				Log.d(TAG, "TGr disconnect");
-				controller.setDeviceController(null);
-			}
-		}*/
-		stageListener.finish();
-		manageLoadAndFinish();
+		success = JumpingSumoInitializer.getInstance().disconnect();
 		return success;
 	}
 
@@ -462,6 +447,14 @@ public class StageActivity extends AndroidApplication {
 				}
 			}
 		});
+	}
+
+
+	public void jsDestroy() {
+		stageListener.finish();
+		manageLoadAndFinish();
+		exit();
+
 	}
 
 	public static int getAndIncrementNumberOfClonedSprites() {

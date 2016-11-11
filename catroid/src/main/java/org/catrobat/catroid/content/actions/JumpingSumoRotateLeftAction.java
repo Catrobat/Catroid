@@ -82,7 +82,11 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 			e.printStackTrace();
 		}
 		if (state != ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING) {
-			Log.e(TAG, "TGr Device not running");
+			Log.e(TAG, "TGr Device not running. State: " + state);
+
+		
+
+
 			return;
 		} else {
 			Log.d(TAG, "TGr Device running, everything is fine");

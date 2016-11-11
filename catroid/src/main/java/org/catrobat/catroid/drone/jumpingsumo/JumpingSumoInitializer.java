@@ -79,6 +79,7 @@ public class JumpingSumoInitializer {
 	private static final int JUMPING_SUMO_BATTERY_THRESHOLD = 3;
 	private static final int CONNECTION_TIME = 10000; //4000;
 	private static int jumpingSumoCount = 0;
+	private boolean messageShown = false;
 
 	public interface Listener {
 		/**
@@ -185,7 +186,8 @@ public class JumpingSumoInitializer {
 
 		Object value = prestageStageActivity.getString(R.string.user_variable_name_battery_status) + " " + battery + prestageStageActivity.getString(R.string.percent_symbol);
 		batteryStatus.setBatteryStatus(value);
-		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD) {
+		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD && !messageShown) {
+			messageShown = true;
 			showUnCancellableErrorDialog(stageActivity,
 					stageActivity.getString(R.string.error_jumpingsumo_battery_title),
 					stageActivity.getString(R.string.error_jumpingsumo_battery));
@@ -287,6 +289,7 @@ public class JumpingSumoInitializer {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				context.jumpingSumoDisconnect();
+				context.jsDestroy();
 			}
 		});
 		builder.show();
