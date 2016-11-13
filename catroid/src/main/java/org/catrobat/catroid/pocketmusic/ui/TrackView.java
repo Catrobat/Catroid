@@ -64,14 +64,10 @@ public class TrackView extends TableLayout {
 		}
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1.0f);
 		for (int i = 0; i < ROW_COUNT; i++) {
-			for (GridRow gridRow : trackGrid.getGridRows()) {
-				if (gridRow.getNoteName().ordinal() - NoteName.C1.ordinal() == i) {
-					boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
-					trackRowViews.add(new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, gridRow));
-					addView(trackRowViews.get(i), params);
-					break;
-				}
-			}
+			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
+			NoteName noteName = NoteName.getNoteNameFromMidiValue(NoteName.C1.getMidi() + i);
+			trackRowViews.add(new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, trackGrid.getGridRowForNoteName(noteName)));
+			addView(trackRowViews.get(i), params);
 		}
 	}
 

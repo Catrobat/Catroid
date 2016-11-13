@@ -25,6 +25,7 @@ package org.catrobat.catroid.pocketmusic.note.trackgrid;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
+import org.catrobat.catroid.pocketmusic.note.NoteName;
 
 import java.util.List;
 
@@ -77,5 +78,14 @@ public class TrackGrid {
 				&& reference.beat.equals(beat)
 				&& reference.instrument.equals(instrument)
 				&& reference.key.equals(key);
+	}
+
+	public GridRow getGridRowForNoteName(NoteName noteName) {
+		for (GridRow gridRow : gridRows) {
+			if (gridRow.getNoteName().equals(noteName)) {
+				return gridRow;
+			}
+		}
+		return null;
 	}
 }
