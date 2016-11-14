@@ -467,35 +467,15 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			if (failedResources.isEmpty()) {
 
 				if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability()) {
-					if(!verifyJSConnection())
+					if (!verifyJSConnection()) {
 						return;
+					}
 				}
 				startStage();
 			} else {
 				showResourceFailedErrorDialog();
 			}
 		}
-	}
-
-	private boolean verifyJSConnection() {
-		boolean connected;
-		ARCONTROLLER_DEVICE_STATE_ENUM state = ARCONTROLLER_DEVICE_STATE_ENUM
-				.eARCONTROLLER_DEVICE_STATE_UNKNOWN_ENUM_VALUE;
-		try {
-			JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
-			ARDeviceController deviceController = controller.getDeviceController();
-			state = deviceController.getState();
-		} catch (ARControllerException e) {
-			e.printStackTrace();
-		}
-		if (state != ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING) {
-			resourceFailed(Brick.JUMPING_SUMO);
-			showResourceInUseErrorDialog();
-			connected = false;
-		} else {
-			connected = true;
-		}
-		return connected;
 	}
 
 	public void startStage() {
@@ -619,6 +599,27 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
 		}
 		resourceInitialized();
+	}
+
+	private boolean verifyJSConnection() {
+		boolean connected;
+		ARCONTROLLER_DEVICE_STATE_ENUM state = ARCONTROLLER_DEVICE_STATE_ENUM
+				.eARCONTROLLER_DEVICE_STATE_UNKNOWN_ENUM_VALUE;
+		try {
+			JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
+			ARDeviceController deviceController = controller.getDeviceController();
+			state = deviceController.getState();
+		} catch (ARControllerException e) {
+			e.printStackTrace();
+		}
+		if (state != ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING) {
+			resourceFailed(Brick.JUMPING_SUMO);
+			showResourceInUseErrorDialog();
+			connected = false;
+		} else {
+			connected = true;
+		}
+		return connected;
 	}
 
 	@Override

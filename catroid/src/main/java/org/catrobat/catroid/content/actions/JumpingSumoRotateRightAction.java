@@ -73,7 +73,6 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 	protected void move() {
 		if (deviceController != null) {
 			newDegree = (float) (newDegree * Math.PI / 180);
-			Log.d(TAG, "rotate with " + newDegree);
 			deviceController.getFeatureJumpingSumo().sendPilotingAddCapOffset(newDegree);
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 1);
 			Log.d(TAG, "send move command JS");

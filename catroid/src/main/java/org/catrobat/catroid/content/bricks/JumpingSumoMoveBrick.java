@@ -87,7 +87,6 @@ public abstract class JumpingSumoMoveBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_move, null);
-		//view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_jumping_sumo_move_checkbox);
 
@@ -95,7 +94,6 @@ public abstract class JumpingSumoMoveBrick extends FormulaBrick {
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				//checked = isChecked;
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
@@ -159,40 +157,7 @@ public abstract class JumpingSumoMoveBrick extends FormulaBrick {
 				Utils.convertDoubleToPluralInteger(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
 		return prototypeView;
 	}
-/*
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_jumping_sumo_move_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
 
-			TextView textTimeLabel = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_label);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_jumping_sumo_set_power_to_percent);
-
-			TextView textTimeSeconds = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_text_view_second);
-			TextView editTime = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_edit_text_second);
-
-			TextView textPower = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_text_view_power);
-			TextView editPower = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_edit_text_power);
-
-			textTimeLabel.setTextColor(textTimeLabel.getTextColors().withAlpha(alphaValue));
-
-			textTimeSeconds.setTextColor(textTimeSeconds.getTextColors().withAlpha(alphaValue));
-			editTime.setTextColor(editTime.getTextColors().withAlpha(alphaValue));
-			editTime.getBackground().setAlpha(alphaValue);
-
-			textPower.setTextColor(textPower.getTextColors().withAlpha(alphaValue));
-			editPower.setTextColor(editPower.getTextColors().withAlpha(alphaValue));
-
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editPower.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
-	}
-*/
 	@Override
 	public void onClick(View view) {
 		if (checkbox.getVisibility() == View.VISIBLE) {

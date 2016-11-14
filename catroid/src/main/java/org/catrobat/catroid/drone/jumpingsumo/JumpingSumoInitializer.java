@@ -68,47 +68,16 @@ public class JumpingSumoInitializer {
 
 	private final Handler handler = new Handler(getAppContext().getMainLooper());
 
-	private final List<Listener> listeners = new ArrayList<>();
-
 	private static final String TAG = JumpingSumoInitializer.class.getSimpleName();
 
 	private PreStageActivity prestageStageActivity;
-	private StageActivity stageActivity;
+	private StageActivity stageActivity = null;
 	private ARCONTROLLER_DEVICE_STATE_ENUM deviceState = ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED;
 
 	private static final int JUMPING_SUMO_BATTERY_THRESHOLD = 3;
 	private static final int CONNECTION_TIME = 10000; //4000;
 	private static int jumpingSumoCount = 0;
 	private boolean messageShown = false;
-
-	public interface Listener {
-		/**
-		 * Called when the battery charge changes
-		 * Called in the main thread
-		 * @param batteryPercentage the battery remaining (in percent)
-		 */
-		void onBatteryChargeChanged(int batteryPercentage);
-
-		/**
-		 * Called when the video decoder should be configured
-		 * Called on a separate thread
-		 * @param codec the codec to configure the decoder with
-		 */
-		void configureDecoder(ARControllerCodec codec);
-
-		/**
-		 * Called when a video frame has been received
-		 * Called on a separate thread
-		 * @param frame the video frame
-		 */
-		void onFrameReceived(ARFrame frame);
-
-		/**
-		 * Called before medias will be downloaded
-		 * Called in the main thread
-		 * @param nbMedias the number of medias that will be downloaded
-		 */
-	}
 
 	public JumpingSumoInitializer() {
 	}
@@ -133,7 +102,6 @@ public class JumpingSumoInitializer {
 				success = true;
 				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
 				controller.setDeviceController(null);
-				Log.d(TAG, "TGr disconnect");
 			}
 		}
 		return success;
@@ -165,11 +133,10 @@ public class JumpingSumoInitializer {
 		}, CONNECTION_TIME);
 	}
 
+
 	private void notifyConfigureDecoder(ARControllerCodec codec) {
-		List<Listener> listenersCpy = new ArrayList<>(listeners);
-		for (Listener listener : listenersCpy) {
-			listener.configureDecoder(codec);
-		}
+		//configure codec?
+		Log.d(TAG, "Codec " + codec.getType());
 	}
 
 	public void setStageActivity(StageActivity stageActivity) {
@@ -177,10 +144,6 @@ public class JumpingSumoInitializer {
 	}
 
 	private void notifyBatteryChanged(int battery) {
-		List<Listener> listenersCpy = new ArrayList<>(listeners);
-		for (Listener listener : listenersCpy) {
-			listener.onBatteryChargeChanged(battery);
-		}
 		Log.d(TAG, "Jumping Sumo Battery: " + battery);
 		JumpingSumoDataContainer batteryStatus = JumpingSumoDataContainer.getInstance();
 
@@ -188,17 +151,21 @@ public class JumpingSumoInitializer {
 		batteryStatus.setBatteryStatus(value);
 		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD && !messageShown) {
 			messageShown = true;
-			showUnCancellableErrorDialog(stageActivity,
-					stageActivity.getString(R.string.error_jumpingsumo_battery_title),
-					stageActivity.getString(R.string.error_jumpingsumo_battery));
-			Log.e(TAG, "Jumping Sumo Battery too low");
+			if (stageActivity instanceof StageActivity && !(stageActivity == null)) {
+				showUnCancellableErrorDialog(stageActivity,
+						stageActivity.getString(R.string.error_jumpingsumo_battery_title),
+						stageActivity.getString(R.string.error_jumpingsumo_battery));
+				Log.e(TAG, "Jumping Sumo Battery too low");
+			} else {
+				checkJumpingSumoAvailability(prestageStageActivity);
+				Log.e(TAG, "Jumping Sumo Battery too low");
+			}
 		}
 	}
 
 	private void notifyFrameReceived(ARFrame frame) {
-		List<Listener> listenersCpy = new ArrayList<>(listeners);
-		for (Listener listener : listenersCpy) {
-			listener.onFrameReceived(frame);
+		if (false) {
+			Log.d(TAG, "Frame Hash" + frame.hashCode());
 		}
 	}
 
@@ -211,7 +178,6 @@ public class JumpingSumoInitializer {
 			Log.d(TAG, "JumpingSumo: " + dronesList.size() + " Drones found");
 			jumpingSumoCount = dronesList.size();
 			if (jumpingSumoCount > 0) {
-				Log.i(TAG, "The Name of the first JumpingSumo is: " + dronesList.get(0));
 				ARDiscoveryDeviceService service = dronesList.get(0);
 				ARDiscoveryDevice discoveryDevice = createDiscoveryDevice(service, ARDISCOVERY_PRODUCT_ENUM.ARDISCOVERY_PRODUCT_JS);
 				deviceController = createDeviceController(discoveryDevice);
@@ -223,14 +189,9 @@ public class JumpingSumoInitializer {
 				} catch (ARControllerException e) {
 					e.printStackTrace();
 				}
-				Log.d(TAG, "TGr state: " + state.name());
-				if (deviceController.getFeatureJumpingSumo() != null) {
-					Log.d(TAG, "TGr found JS");
-				} else {
-					Log.d(TAG, "TGr not found JS");
-				}
 				if (error != ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
-					Log.e(TAG, "Exception" + error);
+					Log.e(TAG, "Exception " + error);
+					Log.d(TAG, "State: " + state);
 				}
 
 				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();

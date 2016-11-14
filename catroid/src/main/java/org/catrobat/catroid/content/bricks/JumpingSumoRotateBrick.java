@@ -75,28 +75,7 @@ public abstract class JumpingSumoRotateBrick extends FormulaBrick {
 		textDegree.setText(String.valueOf(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
 		return prototypeView;
 	}
-/*
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_jumping_sumo_rotate_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
 
-			TextView textRotateLabel = (TextView) view.findViewById(R.id.brick_jumping_sumo_rotate_label);
-
-			TextView editDegree = (TextView) view.findViewById(R.id.brick_jumping_sumo_rotate_value);
-
-			textRotateLabel.setTextColor(textRotateLabel.getTextColors().withAlpha(alphaValue));
-
-			editDegree.setTextColor(editDegree.getTextColors().withAlpha(alphaValue));
-			editDegree.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
-	}
-*/
 	@Override
 	public void onClick(View view) {
 		if (checkbox.getVisibility() == View.VISIBLE) {

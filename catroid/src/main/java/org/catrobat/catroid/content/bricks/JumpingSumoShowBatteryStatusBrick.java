@@ -105,7 +105,6 @@ public class JumpingSumoShowBatteryStatusBrick extends UserVariableBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_show_batterystatus, null);
-		//view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_show_variable_checkbox);
 
@@ -113,7 +112,6 @@ public class JumpingSumoShowBatteryStatusBrick extends UserVariableBrick {
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				//checked = isChecked;
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
@@ -144,33 +142,7 @@ public class JumpingSumoShowBatteryStatusBrick extends UserVariableBrick {
 
 		return view;
 	}
-/*
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_show_variable_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
 
-			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_show_variable_label);
-			TextView placeAtX = (TextView) view.findViewById(R.id.brick_show_variable_x_textview);
-			TextView placeAtY = (TextView) view.findViewById(R.id.brick_show_variable_y_textview);
-			TextView editTextX = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_x);
-			TextView editTextY = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_y);
-
-			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
-			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
-			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));
-			editTextX.setTextColor(editTextX.getTextColors().withAlpha(alphaValue));
-			editTextX.getBackground().setAlpha(alphaValue);
-			editTextY.setTextColor(editTextY.getTextColors().withAlpha(alphaValue));
-			editTextY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
-	}
-*/
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_show_batterystatus, null);

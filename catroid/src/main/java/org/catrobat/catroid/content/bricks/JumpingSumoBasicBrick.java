@@ -43,14 +43,12 @@ public abstract class JumpingSumoBasicBrick extends BrickBaseType {
 			alphaValue = 255;
 		}
 		view = View.inflate(context, R.layout.brick_jumping_sumo, null);
-		//view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_jumping_sumo_basic_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				//checked = isChecked;
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
@@ -70,22 +68,7 @@ public abstract class JumpingSumoBasicBrick extends BrickBaseType {
 
 		return prototypeView;
 	}
-/*
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_jumping_sumo_basic_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
 
-			TextView label = (TextView) view.findViewById(R.id.ValueTextView);
-			label.setText(getBrickLabel(view));
-		}
-
-		return view;
-	}
-*/
 	@Override
 	public int getRequiredResources() {
 		return super.getRequiredResources() | Brick.JUMPING_SUMO;

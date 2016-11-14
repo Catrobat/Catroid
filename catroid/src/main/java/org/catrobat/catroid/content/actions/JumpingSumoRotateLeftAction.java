@@ -82,20 +82,12 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 			e.printStackTrace();
 		}
 		if (state != ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING) {
-			Log.e(TAG, "TGr Device not running. State: " + state);
-
-		
-
-
+			Log.e(TAG, "Device not running. State: " + state);
 			return;
-		} else {
-			Log.d(TAG, "TGr Device running, everything is fine");
 		}
-		Log.d(TAG, "TGr state: " + state.name());
 
 		if (deviceController != null) {
 			newDegree = (float) (newDegree * Math.PI / 180);
-			Log.d(TAG, "TGr rotate with " + newDegree);
 			deviceController.getFeatureJumpingSumo().sendPilotingAddCapOffset(-newDegree);
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 1);
 			Log.d(TAG, "send move command JS");
