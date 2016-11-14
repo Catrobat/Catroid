@@ -465,28 +465,37 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
 			if (failedResources.isEmpty()) {
-				ARCONTROLLER_DEVICE_STATE_ENUM state = ARCONTROLLER_DEVICE_STATE_ENUM
-						.eARCONTROLLER_DEVICE_STATE_UNKNOWN_ENUM_VALUE;
-				try {
-					JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
-					ARDeviceController deviceController = controller.getDeviceController();
-					state = deviceController.getState();
-				} catch (ARControllerException e) {
-					e.printStackTrace();
-				}
-				if (state != ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING) {
-					Log.e(TAG, "TGr Device not running");
-					resourceFailed(Brick.JUMPING_SUMO);
-					showResourceInUseErrorDialog();
-					return;
-				} else {
-					Log.d(TAG, "TGr Device running, everything is fine");
+
+				if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability()) {
+					if(!verifyJSConnection())
+						return;
 				}
 				startStage();
 			} else {
 				showResourceFailedErrorDialog();
 			}
 		}
+	}
+
+	private boolean verifyJSConnection() {
+		boolean connected;
+		ARCONTROLLER_DEVICE_STATE_ENUM state = ARCONTROLLER_DEVICE_STATE_ENUM
+				.eARCONTROLLER_DEVICE_STATE_UNKNOWN_ENUM_VALUE;
+		try {
+			JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
+			ARDeviceController deviceController = controller.getDeviceController();
+			state = deviceController.getState();
+		} catch (ARControllerException e) {
+			e.printStackTrace();
+		}
+		if (state != ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING) {
+			resourceFailed(Brick.JUMPING_SUMO);
+			showResourceInUseErrorDialog();
+			connected = false;
+		} else {
+			connected = true;
+		}
+		return connected;
 	}
 
 	public void startStage() {
