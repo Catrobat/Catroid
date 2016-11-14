@@ -296,12 +296,12 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <!-- Project activity view -->
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programy</string>
-  <string name="number_of_objects">Objekty:</string>
+  <string name="number_of_objects">Objekty: %1$d</string>
   <string name="start_scene_name">%1$s (první scéna)</string>
-  <string name="number_of_scripts">Skripty:</string>
-  <string name="number_of_bricks">Bloky:</string>
-  <string name="number_of_looks">Vzhledy:</string>
-  <string name="number_of_sounds">Zvuky:</string>
+  <string name="number_of_scripts">Skripty: %1$d</string>
+  <string name="number_of_bricks">Bloky: %1$d</string>
+  <string name="number_of_looks">Vzhledy: %1$d</string>
+  <string name="number_of_sounds">Zvuky: %1$d</string>
   <string name="show_details">Zobrazit detaily</string>
   <string name="hide_details">Skrýt detaily</string>
   <string name="insert_below">Vložit pod</string>

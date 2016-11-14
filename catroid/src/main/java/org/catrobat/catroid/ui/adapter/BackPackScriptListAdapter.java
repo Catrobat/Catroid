@@ -54,8 +54,8 @@ public class BackPackScriptListAdapter extends CheckBoxListAdapter<String> {
 		if (showDetails) {
 			listItemViewHolder.details.setVisibility(View.VISIBLE);
 			int brickCount = BackPackListManager.getInstance().getBackPackedScripts().get(scriptName).size();
-			listItemViewHolder.leftTopDetails.setText(getContext().getResources().getString(R.string.number_of_bricks)
-					.concat(" ").concat(Integer.toString(brickCount)));
+			listItemViewHolder.leftTopDetails.setText(getContext().getResources().getString(R.string
+					.number_of_bricks, brickCount));
 			listItemViewHolder.leftBottomDetails.setVisibility(View.GONE);
 			listItemViewHolder.rightBottomDetails.setVisibility(View.GONE);
 		}

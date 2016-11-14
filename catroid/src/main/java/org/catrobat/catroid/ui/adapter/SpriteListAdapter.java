@@ -59,15 +59,15 @@ public class SpriteListAdapter extends CheckBoxListAdapter<Sprite> implements Dr
 		if (showDetails) {
 			listItemViewHolder.details.setVisibility(View.VISIBLE);
 
-			listItemViewHolder.leftBottomDetails.setText(getContext().getResources().getString(R.string.number_of_scripts)
-					.concat(" ").concat(Integer.toString(sprite.getNumberOfScripts())));
-			listItemViewHolder.rightBottomDetails.setText(getContext().getResources().getString(R.string.number_of_bricks)
-					.concat(" ").concat(Integer.toString(sprite.getNumberOfBricks())));
+			listItemViewHolder.leftBottomDetails.setText(getContext().getResources().getString(R.string
+					.number_of_scripts, sprite.getNumberOfScripts()));
+			listItemViewHolder.rightBottomDetails.setText(getContext().getResources().getString(R.string
+					.number_of_bricks, sprite.getNumberOfBricksAndScripts()));
 
-			listItemViewHolder.leftTopDetails.setText(getContext().getResources().getString(R.string.number_of_looks)
-					.concat(" ").concat(Integer.toString(sprite.getLookDataList().size())));
-			listItemViewHolder.rightTopDetails.setText(getContext().getResources().getString(R.string.number_of_sounds)
-					.concat(" ").concat(Integer.toString(sprite.getSoundList().size())));
+			listItemViewHolder.leftTopDetails.setText(getContext().getResources().getString(R.string.number_of_looks,
+					sprite.getLookDataList().size()));
+			listItemViewHolder.rightTopDetails.setText(getContext().getResources().getString(R.string
+					.number_of_sounds, sprite.getSoundList().size()));
 		}
 
 		return listItemView;
