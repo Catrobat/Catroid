@@ -1097,6 +1097,8 @@
 
     <!-- Jumping Sumo Bricks -->
     <string name="brick_jumping_sumo_turn">Turn</string>
+    <string name="brick_jumping_sumo_taking_picture">Taking Picture</string>
+    <string name="brick_jumping_sumo_no_sound">No Sound</string>
     <string name="brick_jumping_sumo_jump_long">Jump long</string>
     <string name="brick_jumping_sumo_jump_high">Jump high</string>
     <string name="brick_jumping_sumo_move_forward">Move forward</string>
@@ -1120,8 +1122,8 @@
     <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
     <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
     <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
     <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
-    <string name="default_jumping_sumo_project_sprites_record">Record</string>
     <string name="default_jumping_sumo_project_sprites_battery_status">Battery</string>
     <string name="user_variable_name_battery_status">Battery:</string>
     <!--  -->

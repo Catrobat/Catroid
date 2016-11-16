@@ -28,10 +28,12 @@ import org.catrobat.catroid.content.bricks.JumpingSumoJumpHighBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoJumpLongBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoNoSoundBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoShowBatteryStatusBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoTakingPictureBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick;
 
 public final class JumpingSumoBrickFactory {
@@ -42,7 +44,7 @@ public final class JumpingSumoBrickFactory {
 	public enum JumpingSumoBricks {
 		JUMPING_SUMO_TURN, JUMPING_SUMO_FORWARD, JUMPING_SUMO_BACKWARD, JUMPING_SUMO_ROTATE_LEFT, JUMPING_SUMO_ROTATE_RIGHT,
 		JUMPING_SUMO_JUMP_LONG, JUMPING_SUMO_JUMP_HIGH, JUMPING_SUMO_SHOW_BATTERY_STATUS, JUMPING_SUMO_ANIMATIONS, JUMPING_SUMO_SOUND,
-		JUMPING_SUMO_RECORD, JUMPING_SUMO_PICTURE
+		JUMPING_SUMO_PICTURE, JUMPING_SUMO_NO_SOUND
 	}
 
 	public static BrickBaseType getInstanceOfJumpingSumoBrick(JumpingSumoBricks brick, int timeInMilliseconds,
@@ -70,10 +72,10 @@ public final class JumpingSumoBrickFactory {
 				return new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN);
 			case JUMPING_SUMO_SOUND:
 				return new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.DEFAULT, volumeInPercent);
-			case JUMPING_SUMO_RECORD:
-				return new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN);
 			case JUMPING_SUMO_PICTURE:
-				return new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN);
+				return new JumpingSumoTakingPictureBrick();
+			case JUMPING_SUMO_NO_SOUND:
+				return new JumpingSumoNoSoundBrick();
 			default:
 				return null;
 		}

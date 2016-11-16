@@ -229,7 +229,6 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT, 0));
 
 		//picture brick
-		/*TODO: prepaired for taking picture (function not working yet)
 		String pictureName = context.getString(R.string.default_jumping_sumo_project_sprites_picture);
 
 		File pictureFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, pictureName
@@ -239,19 +238,18 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(pictureName, JumpingSumoBrickFactory.JumpingSumoBricks
 				.JUMPING_SUMO_PICTURE, (int) (500 / landscapePortraitFactor), (int)
 				(325 / landscapePortraitFactor), pictureFile));
-		*/
-		//record brick
-		/*TODO: prepaired for taking video (function not working yet)
-		String recordName = context.getString(R.string.default_jumping_sumo_project_sprites_record);
 
-		File recordFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, recordName
-						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_record, context, true,
+		//No Sound brick
+		String noSoundName = context.getString(R.string.default_jumping_sumo_project_sprites_no_sound);
+
+		File recordFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, noSoundName
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_sound_off, context, true,
 				iconImageScaleFactor);
 
-		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(recordName, JumpingSumoBrickFactory.JumpingSumoBricks
-				.JUMPING_SUMO_RECORD, (int) (375 / landscapePortraitFactor), (int)
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(noSoundName, JumpingSumoBrickFactory.JumpingSumoBricks
+				.JUMPING_SUMO_NO_SOUND, (int) (375 / landscapePortraitFactor), (int)
 				(325 / landscapePortraitFactor), recordFile));
-		*/
+
 		return defaultJumpingSumoProject;
 	}
 

@@ -86,10 +86,12 @@ import org.catrobat.catroid.content.actions.JumpingSumoJumpHighAction;
 import org.catrobat.catroid.content.actions.JumpingSumoJumpLongAction;
 import org.catrobat.catroid.content.actions.JumpingSumoMoveBackwardAction;
 import org.catrobat.catroid.content.actions.JumpingSumoMoveForwardAction;
+import org.catrobat.catroid.content.actions.JumpingSumoNoSoundAction;
 import org.catrobat.catroid.content.actions.JumpingSumoRotateLeftAction;
 import org.catrobat.catroid.content.actions.JumpingSumoRotateRightAction;
 import org.catrobat.catroid.content.actions.JumpingSumoShowBatteryStatusAction;
 import org.catrobat.catroid.content.actions.JumpingSumoSoundAction;
+import org.catrobat.catroid.content.actions.JumpingSumoTakingPictureAction;
 import org.catrobat.catroid.content.actions.JumpingSumoTurnAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
@@ -907,6 +909,14 @@ public class ActionFactory extends Actions {
 
 	public Action createJumpingSumoTurnAction() {
 		return action(JumpingSumoTurnAction.class);
+	}
+
+	public Action createJumpingSumoTakingPictureAction() {
+		return action(JumpingSumoTakingPictureAction.class);
+	}
+
+	public Action createJumpingSumoNoSoundAction() {
+		return action(JumpingSumoNoSoundAction.class);
 	}
 
 	public Action createJumpingSumoAnimationAction(Sprite sprite, JumpingSumoAnimationsBrick.Animation animationEnum) {

@@ -83,10 +83,12 @@ import org.catrobat.catroid.content.bricks.JumpingSumoJumpHighBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoJumpLongBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoNoSoundBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoShowBatteryStatusBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoTakingPictureBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
@@ -512,6 +514,8 @@ public class CategoryBricksFactory {
 		jumpingSumoBrickList.add(new JumpingSumoRotateLeftBrick(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
 		jumpingSumoBrickList.add(new JumpingSumoRotateRightBrick(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
 		jumpingSumoBrickList.add(new JumpingSumoShowBatteryStatusBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
+		jumpingSumoBrickList.add(new JumpingSumoTakingPictureBrick());
+		jumpingSumoBrickList.add(new JumpingSumoNoSoundBrick());
 
 		return jumpingSumoBrickList;
 	}
