@@ -180,6 +180,7 @@
     <string name="puzzle_look_look_round_1">Look round 1</string>
     <string name="puzzle_look_look_round_2">Look round 2</string>
     <string name="puzzle_look_look_round_3_template">Look round 3 template</string>
+    <string name="puzzle_look_look_round_3__template">Look round 3 template</string>
     <string name="puzzle_note_this_object_holds_the_looks_to_not_odd_out">This object holds the looks to not odd out</string>
     <string name="puzzle_broadcast_message_answer_wrong">answer wrong</string>
     <string name="puzzle_sprite_image_3_add_looks_with_connection_to_image_2_looks">Image 3 (add looks with connection to image 2 looks)</string>

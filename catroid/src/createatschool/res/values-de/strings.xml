@@ -175,6 +175,7 @@
   <string name="puzzle_look_look_round_1">Aussehen Runde 1</string>
   <string name="puzzle_look_look_round_2">Aussehen Runde 2</string>
   <string name="puzzle_look_look_round_3_template">Aussehen Runde 3 Vorlage</string>
+  <string name="puzzle_look_look_round_3__template">Aussehen Runde 3 Vorlage</string>
   <string name="puzzle_note_this_object_holds_the_looks_to_not_odd_out">Dieses Objekt beinhaltet Aussehen welche eine Verbindung zum anderen Objekt haben (not odd out).</string>
   <string name="puzzle_broadcast_message_answer_wrong">Antwort falsch</string>
   <string name="puzzle_sprite_image_3_add_looks_with_connection_to_image_2_looks">Bild 3 (Füge Bilder hinzu welche eine Verbindung zu den Aussehen aus Bild 2 haben)</string>

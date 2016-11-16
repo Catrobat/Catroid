@@ -1086,6 +1086,17 @@ public final class Utils {
 			projectListsToReplaceInFormulas.add(list.getName());
 		}
 
+		if (replaceStrings) {
+			for (UserVariable variable : project.getProjectVariables()) {
+				key = templateName + Constants.TRANSLATION_PROJECT_VARIABLE;
+				variable.setName(getStringResourceByName(getStringResourceName(key, variable.getName()), context));
+			}
+			for (UserList list : project.getProjectLists()) {
+				key = templateName + Constants.TRANSLATION_PROJECT_LIST;
+				list.setName(getStringResourceByName(getStringResourceName(key, list.getName()), context));
+			}
+		}
+
 		for (Scene scene : project.getSceneList()) {
 			key = templateName + Constants.TRANSLATION_SCENE;
 			String oldSceneName = scene.getName();
@@ -1198,17 +1209,6 @@ public final class Utils {
 			}
 		}
 
-		if (replaceStrings) {
-			for (UserVariable variable : project.getProjectVariables()) {
-				key = templateName + Constants.TRANSLATION_PROJECT_VARIABLE;
-				variable.setName(getStringResourceByName(getStringResourceName(key, variable.getName()), context));
-			}
-			for (UserList list : project.getProjectLists()) {
-				key = templateName + Constants.TRANSLATION_PROJECT_LIST;
-				list.setName(getStringResourceByName(getStringResourceName(key, list.getName()), context));
-			}
-		}
-
 		String entries = "";
 		for (String entry : stringEntriesList) {
 			entries += entry;
@@ -1237,6 +1237,8 @@ public final class Utils {
 		Log.d(TAG, "Loading resId:" + resId + " for key: " + key);
 		if (resId != 0) {
 			return context.getString(resId);
+		} else {
+			Log.d(TAG, "No resId for key" + key);
 		}
 		return key;
 	}

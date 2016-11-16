@@ -176,6 +176,7 @@
   <string name="puzzle_look_look_round_1">Apariencia turno 1</string>
   <string name="puzzle_look_look_round_2">Apariencia turno 2</string>
   <string name="puzzle_look_look_round_3_template">Plantilla de apariencia turno 3</string>
+  <string name="puzzle_look_look_round_3__template">Plantilla de apariencia turno 3</string>
   <string name="puzzle_note_this_object_holds_the_looks_to_not_odd_out">Este objeto contiene las apariencias para no descartar</string>
   <string name="puzzle_broadcast_message_answer_wrong">respuesta incorrecta</string>
   <string name="puzzle_sprite_image_3_add_looks_with_connection_to_image_2_looks">Imagen 3 (añadir las apariencias con conexión a las apariencias de la imagen 2)</string>

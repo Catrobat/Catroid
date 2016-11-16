@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,9 +78,17 @@ public class ProjectListAdapter extends CheckBoxListAdapter<ProjectData> {
 			listItemViewHolder.rightBottomDetails.setText(size);
 		}
 
-		listItemViewHolder.checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, listItemViewHolder.checkBox.getTextSize() * TextSizeUtil.getModifier());
-		listItemViewHolder.name.setTextSize(TypedValue.COMPLEX_UNIT_PX, listItemViewHolder.name.getTextSize() * TextSizeUtil.getModifier());
+		setSize(listItemViewHolder);
 
 		return listItemView;
+	}
+
+	private void setSize(ListItemViewHolder listItemViewHolder) {
+		int[] attributes = { android.R.attr.textSize };
+		TypedArray typedArray = getContext().obtainStyledAttributes(R.style.look_fragment_main, attributes);
+		float originalTextSize = Float.valueOf(typedArray.getString(0).replace("sp", ""));
+		listItemViewHolder.checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, originalTextSize * TextSizeUtil.getModifier());
+		listItemViewHolder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, originalTextSize * TextSizeUtil.getModifier());
+		typedArray.recycle();
 	}
 }
