@@ -59,9 +59,9 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.adapter.BackPackScriptAdapter;
+import org.catrobat.catroid.ui.adapter.BackPackScriptListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
+import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -83,7 +83,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private static final String TEST_SOUND_NAME = "testSound";
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int INVISIBLE = View.INVISIBLE;
-	private static final int GONE = View.GONE;
 
 	private String unpack;
 	private String backpack;
@@ -1129,7 +1128,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
 
-		BackPackScriptAdapter adapter = getBackPackScriptAdapter();
+		BackPackScriptListAdapter adapter = getBackPackScriptListAdapter();
 		int oldCount = adapter.getCount();
 
 		clickOnContextMenuItem(DEFAULT_SCRIPT_GROUP_NAME, delete);
@@ -1153,8 +1152,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		backPackFirstScriptWithContextMenu(SECOND_SCRIPT_GROUP_NAME);
 
 		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(BackPackScriptFragment.TAG);
-		BackPackScriptAdapter adapter = getBackPackScriptAdapter();
+		solo.waitForFragmentByTag(BackPackScriptListFragment.TAG);
+		BackPackScriptListAdapter adapter = getBackPackScriptListAdapter();
 		int oldCount = adapter.getCount();
 
 		UiTestUtils.deleteAllItems(solo);
@@ -1331,33 +1330,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("Script group wasn't deleted!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
 		assertFalse("Script group wasn't deleted!", solo.waitForText(SECOND_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
 		assertTrue("No empty bg found!", solo.waitForText(solo.getString(R.string.is_empty), 0, TIME_TO_WAIT_BACKPACK));
-	}
-
-	public void testBackPackShowAndHideDetails() {
-		UiTestUtils.createTestProjectWithTwoScripts();
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		int timeToWait = 300;
-
-		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
-		hideDetails();
-
-		solo.sleep(timeToWait);
-		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
-		solo.clickOnMenuItem(solo.getString(R.string.show_details));
-		solo.sleep(timeToWait);
-		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
-
-		// Test if showDetails is remembered after pressing back
-		solo.goBack();
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		UiTestUtils.openBackPack(solo);
-		solo.waitForActivity(BackPackActivity.class.getSimpleName());
-		solo.sleep(timeToWait);
-		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
-
-		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
-		solo.sleep(timeToWait);
-		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
 	public void testBackPackSpecialBricks() {
@@ -1551,13 +1523,13 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Backpack wasn't opened", solo.waitForText(backpackTitle));
 	}
 
-	private BackPackScriptFragment getBackPackScriptFragment() {
+	private BackPackScriptListFragment getBackPackScriptFragment() {
 		BackPackActivity activity = (BackPackActivity) solo.getCurrentActivity();
-		return (BackPackScriptFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_SCRIPTS);
+		return (BackPackScriptListFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_SCRIPTS);
 	}
 
-	private BackPackScriptAdapter getBackPackScriptAdapter() {
-		return (BackPackScriptAdapter) getBackPackScriptFragment().getListAdapter();
+	private BackPackScriptListAdapter getBackPackScriptListAdapter() {
+		return (BackPackScriptListAdapter) getBackPackScriptFragment().getListAdapter();
 	}
 
 	private void backPackFirstScriptWithContextMenu(String scriptGroupName) {
@@ -1608,34 +1580,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.sleep(400);
 	}
 
-	private void checkVisibilityOfViews(int imageVisibility, int scriptGroupNameVisibility, int scriptGroupDetailsVisibility,
-			int checkBoxVisibility) {
-		solo.sleep(200);
-		assertTrue("Script group image " + getAssertMessageAffix(imageVisibility),
-				solo.getView(R.id.fragment_group_backpack_item_image_view).getVisibility() == imageVisibility);
-		assertTrue("Script group name " + getAssertMessageAffix(scriptGroupNameVisibility),
-				solo.getView(R.id.fragment_group_backpack_item_name_text_view).getVisibility() == scriptGroupNameVisibility);
-		assertTrue("Script group details " + getAssertMessageAffix(scriptGroupDetailsVisibility),
-				solo.getView(R.id.fragment_group_backpack_item_detail_linear_layout).getVisibility() == scriptGroupDetailsVisibility);
-		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility),
-				solo.getView(R.id.fragment_group_backpack_item_checkbox).getVisibility() == checkBoxVisibility);
-	}
-
-	private String getAssertMessageAffix(int visibility) {
-		String assertMessageAffix = "";
-		switch (visibility) {
-			case View.VISIBLE:
-				assertMessageAffix = "not visible";
-				break;
-			case View.GONE:
-				assertMessageAffix = "not gone";
-				break;
-			default:
-				break;
-		}
-		return assertMessageAffix;
-	}
-
 	private void checkIfCheckboxesAreCorrectlyCheckedAndVisible(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(500);
@@ -1672,13 +1616,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private void checkIfNumberOfBricksIsEqualInBackPack(int expectedNumber) {
 		int currentNumberOfScriptGroups = BackPackListManager.getInstance().getBackPackedScriptGroups().size();
 		assertEquals("Number of script groups is not as expected", expectedNumber, currentNumberOfScriptGroups);
-	}
-
-	private void hideDetails() {
-		if (getBackPackScriptAdapter().getShowDetails()) {
-			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
-			solo.sleep(200);
-		}
 	}
 
 	private void checkNumberOfElementsInDataContainer() {

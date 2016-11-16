@@ -287,7 +287,7 @@ public class Formula implements Serializable {
 				return "ERROR";
 			}
 		} else if (formulaTree.isUserVariableWithTypeString(sprite)) {
-			DataContainer userVariables = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+			DataContainer userVariables = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 			UserVariable userVariable = userVariables.getUserVariable(formulaTree.getValue(), sprite);
 			return (String) userVariable.getValue();
 		} else {

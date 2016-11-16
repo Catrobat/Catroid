@@ -65,7 +65,7 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 //		SensorTestServerConnection.calibrateVibrationSensor();
 //
 //		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
-//		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
+//		BrickAdapter adapter = (BrickAdapter) dragDropListView.getSoundAdapter();
 //
 //		int childrenCount = adapter.getChildCountFromLastGroup();
 //

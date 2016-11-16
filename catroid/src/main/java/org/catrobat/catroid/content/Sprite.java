@@ -80,7 +80,6 @@ public class Sprite implements Serializable, Cloneable {
 	private static SpriteFactory spriteFactory = new SpriteFactory();
 
 	public transient Look look = new Look(this);
-	public transient boolean isPaused;
 	public transient boolean isBackpackObject = false;
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
@@ -386,7 +385,6 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.isBackpackObject = false;
 		cloneSprite.convertToSingleSprite = false;
 		cloneSprite.convertToGroupItemSprite = false;
-		cloneSprite.isPaused = false;
 		cloneSprite.isMobile = this.isMobile;
 
 		cloneSprite.look = this.look;
@@ -632,20 +630,6 @@ public class Sprite implements Serializable, Cloneable {
 			}
 		}
 		look.addAction(whenParallelAction);
-	}
-
-	public void pause() {
-		for (Script s : scriptList) {
-			s.setPaused(true);
-		}
-		this.isPaused = true;
-	}
-
-	public void resume() {
-		for (Script s : scriptList) {
-			s.setPaused(false);
-		}
-		this.isPaused = false;
 	}
 
 	public String getName() {

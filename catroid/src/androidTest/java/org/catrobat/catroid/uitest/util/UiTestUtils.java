@@ -143,6 +143,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -155,7 +156,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -2067,6 +2068,12 @@ public final class UiTestUtils {
 		solo.clickOnActionBarHomeButton();
 	}
 
+	public static void getIntoStageFromMainMenu(Solo solo) {
+		getIntoScenesFromMainMenu(solo);
+		clickOnPlayButton(solo);
+		solo.waitForActivity(StageActivity.class);
+	}
+
 	public static void getIntoSpritesFromMainMenu(Solo solo) {
 		getIntoSpritesFromMainMenu(solo, null);
 	}
@@ -2247,7 +2254,7 @@ public final class UiTestUtils {
 
 	public static ListView getScriptListView(Solo solo) {
 		for (ListView listView : solo.getCurrentViews(ListView.class)) {
-			if (listView instanceof DragAndDropListView && listView.getAdapter() instanceof BrickAdapter) {
+			if (listView instanceof BrickDragAndDropListView && listView.getAdapter() instanceof BrickAdapter) {
 				return listView;
 			}
 		}
@@ -2762,6 +2769,11 @@ public final class UiTestUtils {
 		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
 		solo.waitForActivity(UserBrickScriptActivity.class);
 		solo.waitForFragmentByTag(ScriptFragment.TAG);
+	}
+
+	public static void pauseStage(Solo solo) {
+		solo.goBack();
+		solo.waitForView(R.id.stage_dialog_menu);
 	}
 
 	public static void setServerURLToTestUrl(InstrumentationTestCase instrumentationTestCase) {

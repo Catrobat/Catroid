@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.adapter.ProjectAdapter;
+import org.catrobat.catroid.ui.adapter.ProjectListAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.MergeNameDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
@@ -45,7 +45,8 @@ public final class MergeManager {
 	private MergeManager() {
 	}
 
-	public static void merge(String firstProjectName, String secondProjectName, Activity activity, ProjectAdapter adapter) {
+	public static void merge(String firstProjectName, String secondProjectName, Activity activity, ProjectListAdapter
+			adapter) {
 		Project firstProject = StorageHandler.getInstance().loadProject(firstProjectName, activity);
 		Project secondProject = StorageHandler.getInstance().loadProject(secondProjectName, activity);
 
@@ -56,15 +57,12 @@ public final class MergeManager {
 
 		TrackingUtil.trackMerge(firstProject.getName(), secondProject.getName());
 
-		if (firstProject.getName().equals(secondProject.getName())) {
-			Utils.showErrorDialog(activity, R.string.error_merge_with_self);
-			return;
-		}
 		boolean justAddAsScene = firstProject.getSceneList().size() == 1 ^ secondProject.getSceneList().size() == 1;
 		showMergeDialog(firstProject, secondProject, activity, adapter, justAddAsScene);
 	}
 
-	private static void showMergeDialog(Project firstProject, Project secondProject, Activity activity, ProjectAdapter adapter, boolean addScene) {
+	private static void showMergeDialog(Project firstProject, Project secondProject, Activity activity,
+			ProjectListAdapter adapter, boolean addScene) {
 		XmlHeader firstHeader = firstProject.getXmlHeader();
 		XmlHeader secondHeader = secondProject.getXmlHeader();
 		boolean areScreenSizesDifferent = firstHeader.getVirtualScreenHeight() != secondHeader.getVirtualScreenHeight()
@@ -103,7 +101,7 @@ public final class MergeManager {
 	}
 
 	private static void showDifferentResolutionDialog(final Project firstProject, final Project secondProject,
-			final Activity activity, final ProjectAdapter adapter, final boolean addScene) {
+			final Activity activity, final ProjectListAdapter adapter, final boolean addScene) {
 
 		XmlHeader currentProject = firstProject.getXmlHeader();
 		XmlHeader headerFrom = secondProject.getXmlHeader();

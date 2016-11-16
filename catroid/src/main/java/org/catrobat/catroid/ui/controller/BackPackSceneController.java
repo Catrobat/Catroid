@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.controller;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,7 +40,7 @@ import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.fragment.ScenesListFragment;
+import org.catrobat.catroid.ui.fragment.SceneListFragment;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
@@ -57,8 +56,6 @@ import java.util.Map;
 public final class BackPackSceneController {
 	public static final String TAG = BackPackSceneController.class.getSimpleName();
 	private static final BackPackSceneController INSTANCE = new BackPackSceneController();
-
-	private OnBackpackSceneCompleteListener onBackpackSceneCompleteListener;
 
 	private BackPackSceneController() {
 	}
@@ -80,7 +77,7 @@ public final class BackPackSceneController {
 		return BackPackListManager.getInstance().backPackedScenesContains(currentScene, true);
 	}
 
-	public void showBackPackReplaceDialog(final List<Scene> currentSceneList, final ScenesListFragment fragment) {
+	public void showBackPackReplaceDialog(final List<Scene> currentSceneList, final SceneListFragment fragment) {
 		final Context context = fragment.getActivity();
 		Resources resources = context.getResources();
 		String replaceSceneMessage;
@@ -98,17 +95,18 @@ public final class BackPackSceneController {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						fragment.showProgressCircle();
-						backPackAsynchronous(currentSceneList, (Activity) context, dialog);
+						fragment.packScenes(currentSceneList);
 					}
 				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						fragment.clearCheckedItems();
 						dialog.dismiss();
 					}
 				}).setOnCancelListener(new DialogInterface.OnCancelListener() {
 					@Override
 					public void onCancel(DialogInterface dialogInterface) {
-						onBackpackSceneCompleteListener.onBackpackSceneComplete(false, true);
+						fragment.clearCheckedItems();
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(true);
@@ -119,27 +117,6 @@ public final class BackPackSceneController {
 			}
 		});
 		dialog.show();
-	}
-
-	private void backPackAsynchronous(final List<Scene> scenes, final Activity activity, final DialogInterface dialog) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				boolean success = true;
-				for (Scene sceneToBackpack : scenes) {
-					success &= BackPackSceneController.getInstance().backpackScene(sceneToBackpack);
-				}
-				final boolean finalSuccess = success;
-				activity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						onBackpackSceneCompleteListener.onBackpackSceneComplete(true, finalSuccess);
-						dialog.dismiss();
-					}
-				});
-			}
-		};
-		(new Thread(r)).start();
 	}
 
 	public boolean backpackScenes(List<Scene> scenes) {
@@ -312,13 +289,5 @@ public final class BackPackSceneController {
 				}
 			}
 		}
-	}
-
-	public void setOnBackpackSceneCompleteListener(OnBackpackSceneCompleteListener listener) {
-		onBackpackSceneCompleteListener = listener;
-	}
-
-	public interface OnBackpackSceneCompleteListener {
-		void onBackpackSceneComplete(boolean startBackpackActivity, boolean success);
 	}
 }
