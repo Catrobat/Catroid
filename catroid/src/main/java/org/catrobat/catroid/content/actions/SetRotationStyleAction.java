@@ -22,48 +22,37 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class SetRotationStyleAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula mode;
+	private int mode;
 
 	@Override
 	protected void update(float delta) {
-		try {
-			Integer newMode = (mode == null) ? Integer.valueOf(0) : mode.interpretInteger(sprite);
-
-			sprite.look.setRotationMode(newMode);
-			if (newMode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && sprite.look.isFlipped()) {
-				sprite.look.getLookData().getTextureRegion().flip(true, false);
-				sprite.look.setFlipped(false);
-			}
-			boolean orientedLeft = sprite.look.getDirectionInUserInterfaceDimensionUnit() < 0;
-			if (newMode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft) {
-				sprite.look.getLookData().getTextureRegion().flip(true, false);
-				sprite.look.setFlipped(true);
-			}
-
-			sprite.look.setDirectionInUserInterfaceDimensionUnit(sprite.look.getDirectionInUserInterfaceDimensionUnit());
-		} catch (InterpretationException interpretationException) {
-			Log.e(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
-					interpretationException);
+		sprite.look.setRotationMode(mode);
+		if (mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && sprite.look.isFlipped()) {
+			sprite.look.getLookData().getTextureRegion().flip(true, false);
+			sprite.look.setFlipped(false);
 		}
+		boolean orientedLeft = sprite.look.getDirectionInUserInterfaceDimensionUnit() < 0;
+		if (mode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft) {
+			sprite.look.getLookData().getTextureRegion().flip(true, false);
+			sprite.look.setFlipped(true);
+		}
+
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(sprite.look.getDirectionInUserInterfaceDimensionUnit());
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setRotationStyle(Formula mode) {
+	public void setRotationStyle(int mode) {
 		this.mode = mode;
 	}
 }

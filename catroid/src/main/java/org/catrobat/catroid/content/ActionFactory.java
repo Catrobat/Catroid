@@ -250,7 +250,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSetRotationStyleAction(Sprite sprite, Formula mode) {
+	public Action createSetRotationStyleAction(Sprite sprite, int mode) {
 		SetRotationStyleAction action = Actions.action(SetRotationStyleAction.class);
 		action.setRotationStyle(mode);
 		action.setSprite(sprite);
