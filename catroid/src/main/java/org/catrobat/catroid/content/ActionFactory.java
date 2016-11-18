@@ -77,7 +77,6 @@ import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
 import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
-import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
@@ -117,10 +116,10 @@ import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.content.actions.SetTextAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
 import org.catrobat.catroid.content.actions.SetVariableAction;
+import org.catrobat.catroid.content.actions.SetVisibleAction;
 import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
-import org.catrobat.catroid.content.actions.ShowAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StampAction;
@@ -324,8 +323,9 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createHideAction(Sprite sprite) {
-		HideAction action = Actions.action(HideAction.class);
+		SetVisibleAction action = Actions.action(SetVisibleAction.class);
 		action.setSprite(sprite);
+		action.setVisible(false);
 		return action;
 	}
 
@@ -568,8 +568,9 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createShowAction(Sprite sprite) {
-		ShowAction action = Actions.action(ShowAction.class);
+		SetVisibleAction action = Actions.action(SetVisibleAction.class);
 		action.setSprite(sprite);
+		action.setVisible(true);
 		return action;
 	}
 
