@@ -244,18 +244,16 @@ public final class LookController {
 
 	public LookData updateLookBackPackAfterUnpacking(LookData lookData, LookBaseAdapter adapter, String name, boolean
 			delete, String existingFileNameInProjectDirectory, boolean fromHiddenBackPack) {
-		LookData newLookData = new LookData();
-		newLookData.setLookName(name);
-
+		String fileName;
 		if (existingFileNameInProjectDirectory == null) {
-			String fileName = lookData.getLookFileName();
+			fileName = lookData.getLookFileName();
 			String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
 			fileName = fileName.substring(0, fileName.indexOf('_') + 1) + name + fileFormat;
-			newLookData.setLookFilename(fileName);
 		} else {
-			newLookData.setLookFilename(existingFileNameInProjectDirectory);
+			fileName = existingFileNameInProjectDirectory;
 		}
 
+		LookData newLookData = new LookData(name, fileName);
 		ProjectManager.getInstance().getCurrentSprite().getLookDataList().add(newLookData);
 
 		if (delete) {
@@ -672,24 +670,23 @@ public final class LookController {
 	}
 
 	private LookData updateLookBackPackAfterInsertion(String title, LookData currentLookData, String existingFileNameInBackPackDirectory, boolean addToHiddenBackpack, File backPackedFile) {
-		LookData newLookData = new LookData();
-		newLookData.isBackpackLookData = true;
-		newLookData.setLookName(title);
-
+		String fileName = null;
 		if (existingFileNameInBackPackDirectory == null) {
 			if (currentLookData != null) {
-				String fileName = currentLookData.getLookFileName();
+				fileName = currentLookData.getLookFileName();
 				String hash = backPackedFile == null ? fileName.substring(0, 32) : Utils.md5Checksum(backPackedFile);
 				if (backPackedFile == null) {
 					Log.e(TAG, "backpacked file was null, file hash is possibly wrong");
 				}
 				String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
 				fileName = hash + "_" + title + fileFormat;
-				newLookData.setLookFilename(fileName);
 			}
 		} else {
-			newLookData.setLookFilename(existingFileNameInBackPackDirectory);
+			fileName = existingFileNameInBackPackDirectory;
 		}
+
+		LookData newLookData = new LookData(title, fileName);
+		newLookData.isBackpackLookData = true;
 
 		if (addToHiddenBackpack) {
 			BackPackListManager.getInstance().addLookToHiddenBackPack(newLookData);

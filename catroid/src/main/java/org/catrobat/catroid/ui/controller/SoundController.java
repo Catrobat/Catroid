@@ -476,24 +476,23 @@ public final class SoundController {
 
 	private SoundInfo updateSoundBackPackAfterInsert(String title, SoundInfo currentSoundInfo, String
 			existingFileNameInBackPackDirectory, boolean addToHiddenBackpack, File backPackedFile) {
-		SoundInfo newSoundInfo = new SoundInfo();
-		newSoundInfo.setBackpackSoundInfo(true);
-		newSoundInfo.setTitle(title);
-
+		String fileName = null;
 		if (existingFileNameInBackPackDirectory == null) {
 			if (currentSoundInfo != null) {
-				String fileName = currentSoundInfo.getSoundFileName();
+				fileName = currentSoundInfo.getSoundFileName();
 				String hash = backPackedFile == null ? fileName.substring(0, 32) : Utils.md5Checksum(backPackedFile);
 				if (backPackedFile == null) {
 					Log.e(TAG, "backpacked file was null, file hash is possibly wrong");
 				}
 				String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
 				fileName = hash + "_" + title + fileFormat;
-				newSoundInfo.setSoundFileName(fileName);
 			}
 		} else {
-			newSoundInfo.setSoundFileName(existingFileNameInBackPackDirectory);
+			fileName = existingFileNameInBackPackDirectory;
 		}
+
+		SoundInfo newSoundInfo = new SoundInfo(title, fileName);
+		newSoundInfo.setBackpackSoundInfo(true);
 
 		if (addToHiddenBackpack) {
 			BackPackListManager.getInstance().addSoundToHiddenBackpack(newSoundInfo);
@@ -506,12 +505,10 @@ public final class SoundController {
 
 	private SoundInfo updateSoundAdapter(SoundInfo soundInfo,
 			SoundBaseAdapter adapter, String title, boolean delete, boolean fromHiddenBackPack) {
-		SoundInfo newSoundInfo = new SoundInfo();
-		newSoundInfo.setTitle(title);
 		String fileName = soundInfo.getSoundFileName();
 		String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
 		fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
-		newSoundInfo.setSoundFileName(fileName);
+		SoundInfo newSoundInfo = new SoundInfo(title, fileName);
 		ProjectManager.getInstance().getCurrentSprite().getSoundList().add(newSoundInfo);
 
 		if (delete) {
@@ -676,14 +673,10 @@ public final class SoundController {
 
 	public SoundInfo updateSoundAdapter(String name, String fileName, List<SoundInfo> soundList, SoundFragment
 			fragment) {
-		SoundInfo soundInfoToCheck = new SoundInfo();
-		soundInfoToCheck.setSoundFileName(fileName);
-		soundInfoToCheck.setTitle(name);
+		SoundInfo soundInfoToCheck = new SoundInfo(name, fileName);
 		name = Utils.getUniqueSoundName(soundInfoToCheck, false);
 
-		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setSoundFileName(fileName);
-		soundInfo.setTitle(name);
+		SoundInfo soundInfo = new SoundInfo(name, fileName);
 		soundList.add(soundInfo);
 
 		fragment.updateSoundAdapter(soundInfo);
