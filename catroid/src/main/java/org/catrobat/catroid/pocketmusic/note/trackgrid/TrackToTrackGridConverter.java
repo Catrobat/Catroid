@@ -44,18 +44,15 @@ public final class TrackToTrackGridConverter {
 		Map<NoteName, Long> openNotes = new HashMap<NoteName, Long>();
 		Map<NoteName, GridRow> gridRows = new HashMap<NoteName, GridRow>();
 
-		for (int i = NoteName.C4.getMidi(); i <= NoteName.C5.getMidi(); i++) {
-			NoteName noteName = NoteName.getNoteNameFromMidiValue(i);
-			SparseArray<List<GridRowPosition>> gridRowPositions = new SparseArray<>();
-			gridRowPositions.put(0, new ArrayList<GridRowPosition>());
-			gridRows.put(noteName, new GridRow(noteName, gridRowPositions));
-		}
-
 		NoteLength minNoteLength = beat.getNoteLength();
 
 		for (Long tick : track.getSortedTicks()) {
 			for (NoteEvent noteEvent : track.getNoteEventsForTick(tick)) {
 				NoteName noteName = noteEvent.getNoteName();
+
+				if (gridRows.get(noteName) == null) {
+					gridRows.put(noteName, new GridRow(noteName, new SparseArray<List<GridRowPosition>>()));
+				}
 
 				if (noteEvent.isNoteOn()) {
 					openNotes.put(noteName, tick);
@@ -81,6 +78,6 @@ public final class TrackToTrackGridConverter {
 			}
 		}
 
-		return new TrackGrid(track.getKey(), track.getInstrument(), beat, new ArrayList(gridRows.values()));
+		return new TrackGrid(track.getKey(), track.getInstrument(), beat, new ArrayList<>(gridRows.values()));
 	}
 }
