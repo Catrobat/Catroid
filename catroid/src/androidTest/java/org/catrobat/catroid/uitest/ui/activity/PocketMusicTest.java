@@ -30,12 +30,15 @@ import android.content.res.Configuration;
 import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.pocketmusic.ui.NoteView;
 import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -82,11 +85,20 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Piano Element was not found.", solo.getCurrentActivity().findViewById(R.id.musicdroid_piano));
 	}
 
-	public void testNoteGridElement() {
+	public void testPocketmusicSaving() {
 		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
 
-		assertNotNull("NoteGrid Element was not found.", solo.getCurrentActivity().findViewById(R.id
-				.musicdroid_note_grid));
+		solo.goBack();
+
+		ScriptActivity scriptActivity = (ScriptActivity) solo.getCurrentActivity();
+		SoundFragment soundFragment = (SoundFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
+
+		assertEquals("Saving Pocketmusic MIDI did not work.", 1, soundFragment.getSoundInfoList().size());
+
+		for (SoundInfo soundInfo : soundFragment.getSoundInfoList()) {
+			assertEquals("Wrong Pocketmusic title.", solo.getString(R.string.pocketmusic_recorded_filename),
+					soundInfo.getTitle());
+		}
 	}
 
 	public void testRandomButtonToggle() {
