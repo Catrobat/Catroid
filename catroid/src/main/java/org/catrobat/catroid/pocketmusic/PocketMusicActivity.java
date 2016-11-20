@@ -51,7 +51,7 @@ public class PocketMusicActivity extends BaseActivity {
 		trackView.setTrack(project.getTrack("Track 1"), project.getBeatsPerMinute());
 	}
 
-	private Project createDummyProject() {
+	public Project createDummyProject() {
 		int bpm = 60;
 
 		Project project = new Project("Dummy Project", MusicalBeat.BEAT_4_4, bpm);
