@@ -77,7 +77,8 @@ public class TrackRowView extends TableRow {
 
 	private void initializeRow() {
 		LayoutParams params = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
-		params.leftMargin = params.topMargin = params.rightMargin = params.bottomMargin = 2;
+		params.leftMargin = params.topMargin = params.rightMargin = params.bottomMargin = getResources()
+				.getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
 		int noteColor;
 		if (isBlackRow) {
 			noteColor = ContextCompat.getColor(getContext(), R.color.light_grey);
