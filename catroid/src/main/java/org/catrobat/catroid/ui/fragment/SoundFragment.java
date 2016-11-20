@@ -60,6 +60,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -1027,5 +1028,26 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void handleCheckBoxClick(View view) {
+	}
+
+	@Override
+	public void onSoundEdit(View view) {
+
+		if (!BuildConfig.FEATURE_POCKETMUSIC_ENABLED) {
+			return;
+		}
+
+		int position = getListView().getPositionForView(view);
+
+		selectedSoundInfo = soundInfoList.get(position);
+
+		if (selectedSoundInfo.getSoundFileName().matches(".*MUS-.*\\.midi")) {
+			Intent intent = new Intent(getActivity(), PocketMusicActivity.class);
+
+			intent.putExtra("FILENAME", selectedSoundInfo.getSoundFileName());
+			intent.putExtra("TITLE", selectedSoundInfo.getTitle());
+
+			startActivity(intent);
+		}
 	}
 }

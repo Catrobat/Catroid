@@ -26,6 +26,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.view.View;
 
 import com.robotium.solo.Solo;
 
@@ -85,8 +86,16 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Piano Element was not found.", solo.getCurrentActivity().findViewById(R.id.musicdroid_piano));
 	}
 
-	public void testPocketmusicSaving() {
+	public void testPocketmusic() {
 		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
+
+		TrackView trackView = (TrackView) solo.getCurrentActivity().findViewById(R.id.musicdroid_note_grid);
+		int trackGridHashCode = trackView.getTrackGrid().hashCode();
+
+		Random random = new Random();
+		int randomRow = random.nextInt(TrackView.ROW_COUNT);
+		int randomCol = random.nextInt(TrackRowView.QUARTER_COUNT);
+		toggleNote(trackView, randomRow, randomCol, "Button not toggled");
 
 		solo.goBack();
 
@@ -95,10 +104,32 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		assertEquals("Saving Pocketmusic MIDI did not work.", 1, soundFragment.getSoundInfoList().size());
 
-		for (SoundInfo soundInfo : soundFragment.getSoundInfoList()) {
-			assertEquals("Wrong Pocketmusic title.", solo.getString(R.string.pocketmusic_recorded_filename),
-					soundInfo.getTitle());
+		View firstPocketMusicView = null;
+
+		for (int i = 0; i < soundFragment.getSoundInfoList().size(); i++) {
+			SoundInfo soundInfo = soundFragment.getSoundInfoList().get(i);
+			if (soundInfo.getSoundFileName().matches(".*MUS-.*\\.midi")) {
+				assertEquals("Wrong Pocketmusic title.", solo.getString(R.string.pocketmusic_recorded_filename),
+						soundInfo.getTitle());
+				firstPocketMusicView = soundFragment.getListView().getChildAt(i);
+				break;
+			}
 		}
+
+		solo.clickOnView(firstPocketMusicView);
+		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
+
+		trackView = (TrackView) solo.getCurrentActivity().findViewById(R.id.musicdroid_note_grid);
+
+		int loadedTrackgridHashCode = trackView.getTrackGrid().hashCode();
+
+		assertFalse("Loaded Track is the same.", trackGridHashCode == loadedTrackgridHashCode);
+
+		toggleNote(trackView, randomRow, randomCol, "Button toggled");
+
+		loadedTrackgridHashCode = trackView.getTrackGrid().hashCode();
+
+		assertTrue("Loaded Track is not the same.", trackGridHashCode == loadedTrackgridHashCode);
 	}
 
 	public void testRandomButtonToggle() {
@@ -107,8 +138,6 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		TrackView trackView = (TrackView) solo.getCurrentActivity().findViewById(R.id.musicdroid_note_grid);
 
 		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(0)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(2)
 				.isToggled());
 		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(3)
 				.isToggled());
@@ -124,14 +153,14 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		Random random = new Random();
 		int randomRow = random.nextInt(TrackView.ROW_COUNT);
 		int randomCol = random.nextInt(TrackRowView.QUARTER_COUNT);
-		clickRandomButton(trackView, randomRow, randomCol, "Button not toggled");
-		clickRandomButton(trackView, randomRow, randomCol, "Button toggled");
+		toggleNote(trackView, randomRow, randomCol, "Button not toggled");
+		toggleNote(trackView, randomRow, randomCol, "Button toggled");
 	}
 
-	private void clickRandomButton(TrackView trackView, int randomRow, int randomCol, String
+	private void toggleNote(TrackView trackView, int rowIndex, int columnIndex, String
 			assertionText) {
-		TrackRowView randomRowView = trackView.getTrackRowViews().get(randomRow);
-		NoteView randomNoteView = randomRowView.getNoteViews().get(randomCol);
+		TrackRowView randomRowView = trackView.getTrackRowViews().get(rowIndex);
+		NoteView randomNoteView = randomRowView.getNoteViews().get(columnIndex);
 		boolean toggled = randomNoteView.isToggled();
 		solo.clickOnView(randomNoteView);
 		solo.sleep(200);

@@ -32,14 +32,14 @@ public final class GridRowPositionTestDataFactory {
 	}
 
 	public static GridRowPosition createSimpleGridRowPosition() {
-		return new GridRowPosition(0, 0, NoteLength.QUARTER);
+		return new GridRowPosition(0, NoteLength.QUARTER);
 	}
 
 	public static GridRowPosition createGridRowPositionWithOffset() {
-		return new GridRowPosition(4, 100, NoteLength.QUARTER);
+		return new GridRowPosition(4, NoteLength.QUARTER);
 	}
 
 	public static GridRowPosition createGridRowPositionWithHalf() {
-		return new GridRowPosition(4, 100, NoteLength.HALF);
+		return new GridRowPosition(4, NoteLength.HALF);
 	}
 }

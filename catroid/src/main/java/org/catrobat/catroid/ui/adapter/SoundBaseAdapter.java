@@ -172,5 +172,7 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ActionM
 		void onSoundPause(View view);
 
 		void onSoundChecked();
+
+		void onSoundEdit(View view);
 	}
 }
