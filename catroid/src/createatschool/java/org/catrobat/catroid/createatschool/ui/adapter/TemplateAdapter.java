@@ -75,11 +75,11 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> {
 		View projectView = convertView;
 		final ViewHolder holder;
 		if (projectView == null) {
-			projectView = inflater.inflate(R.layout.activity_my_projects_list_item, parent, false);
+			projectView = inflater.inflate(R.layout.list_item, parent, false);
 			holder = new ViewHolder();
-			holder.background = (RelativeLayout) projectView.findViewById(R.id.my_projects_activity_item_background);
-			holder.templateName = (TextView) projectView.findViewById(R.id.my_projects_activity_project_title);
-			holder.image = (ImageView) projectView.findViewById(R.id.my_projects_activity_project_image);
+			holder.background = (RelativeLayout) projectView.findViewById(R.id.list_item_background);
+			holder.templateName = (TextView) projectView.findViewById(R.id.list_item_text_view);
+			holder.image = (ImageView) projectView.findViewById(R.id.list_item_image_view);
 			projectView.setTag(holder);
 
 			holder.templateName.setTextSize(TypedValue.COMPLEX_UNIT_PX, holder.templateName.getTextSize() * TextSizeUtil.getModifier());

@@ -41,6 +41,8 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.Utils;
 
+import static org.catrobat.catroid.utils.IconsUtil.isLargeSize;
+
 public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
 
 	@Override
@@ -50,8 +52,10 @@ public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPreferences.edit().putBoolean(Constants.FORCE_SIGNIN, true).commit();
 
-		IconsUtil.setLeftDrawableSize(getApplicationContext(), this.findViewById(android.R.id.content),
-				IconsUtil.getLargeIconSizeMainMenu(), R.id.main_menu_button_templates, R.drawable.ic_main_menu_templates);
+		if (isLargeSize()) {
+			IconsUtil.setLeftDrawableSize(getApplicationContext(), this.findViewById(android.R.id.content),
+					IconsUtil.getLargeIconSizeMainMenu(), R.id.main_menu_button_templates, R.drawable.ic_main_menu_templates);
+		}
 	}
 
 	@Override

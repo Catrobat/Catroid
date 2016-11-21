@@ -82,8 +82,7 @@ public class TemplatesFragment extends ListFragment implements TemplateAdapter.O
 	}
 
 	private void initAdapter() {
-		adapter = new TemplateAdapter(getActivity(), R.layout.activity_my_projects_list_item,
-				R.id.my_projects_activity_project_title);
+		adapter = new TemplateAdapter(getActivity(), R.layout.list_item, R.id.list_item_text_view);
 		setListAdapter(adapter);
 		initListener();
 	}

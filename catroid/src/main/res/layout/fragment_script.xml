@@ -28,7 +28,7 @@
     android:layout_weight="1"
     android:orientation="vertical" >
 
-    <org.catrobat.catroid.ui.dragndrop.DragAndDropListView
+    <org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView
         android:id="@android:id/list"
         style="@style/ListViewShadowed"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         android:clickable="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="-5dip" >
-    </org.catrobat.catroid.ui.dragndrop.DragAndDropListView>
+    </org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView>
 
     <RelativeLayout
         android:id="@android:id/empty"

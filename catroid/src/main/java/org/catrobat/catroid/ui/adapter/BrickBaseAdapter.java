@@ -96,6 +96,9 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 
 			@Override
 			public void onTextChanged(CharSequence groupName, int start, int before, int count) {
+				if (okButtonDelete == null) {
+					return;
+				}
 				if (groupName.toString().trim().isEmpty()) {
 					okButtonDelete.setEnabled(false);
 				} else {
@@ -119,7 +122,10 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 		});
 
 		okButtonDelete = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-		okButtonDelete.setEnabled(false);
+		if (okButtonDelete != null) {
+			okButtonDelete.setEnabled(false);
+		}
+
 		alertDialog.show();
 	}
 

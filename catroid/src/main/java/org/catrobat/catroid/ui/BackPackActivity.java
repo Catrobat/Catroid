@@ -35,24 +35,20 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.adapter.ActionModeActivityAdapterInterface;
 import org.catrobat.catroid.ui.fragment.BackPackActivityFragment;
-import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
-import org.catrobat.catroid.ui.fragment.BackPackSceneFragment;
-import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
-import org.catrobat.catroid.ui.fragment.BackPackSpriteFragment;
-import org.catrobat.catroid.ui.fragment.BackPackUserBrickFragment;
+import org.catrobat.catroid.ui.fragment.BackPackLookListFragment;
+import org.catrobat.catroid.ui.fragment.BackPackSceneListFragment;
+import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
+import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
+import org.catrobat.catroid.ui.fragment.BackPackSpriteListFragment;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class BackPackActivity extends BaseActivity {
@@ -60,18 +56,16 @@ public class BackPackActivity extends BaseActivity {
 	public static final int FRAGMENT_BACKPACK_LOOKS = 1;
 	public static final int FRAGMENT_BACKPACK_SOUNDS = 2;
 	public static final int FRAGMENT_BACKPACK_SPRITES = 3;
-	public static final int FRAGMENT_BACKPACK_USERBRICKS = 4;
-	public static final int FRAGMENT_BACKPACK_SCENES = 5;
+	public static final int FRAGMENT_BACKPACK_SCENES = 4;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 	private static int currentFragmentPosition;
 	private FragmentManager fragmentManager = getFragmentManager();
-	private BackPackSoundFragment backPackSoundFragment = null;
-	private BackPackLookFragment backPackLookFragment = null;
-	private BackPackScriptFragment backPackScriptFragment = null;
-	private BackPackSpriteFragment backPackSpriteFragment = null;
-	private BackPackUserBrickFragment backPackUserBrickFragment = null;
-	private BackPackSceneFragment backPackSceneFragment = null;
+	private BackPackSoundListFragment backPackSoundListFragment = null;
+	private BackPackLookListFragment backPackLookListFragment = null;
+	private BackPackScriptListFragment backPackScriptListFragment = null;
+	private BackPackSpriteListFragment backPackSpriteListFragment = null;
+	private BackPackSceneListFragment backPackSceneListFragment = null;
 	private BackPackActivityFragment currentFragment = null;
 	private String currentFragmentTag;
 
@@ -120,24 +114,19 @@ public class BackPackActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (currentFragment != null) {
 			handleShowDetails(currentFragment.getShowDetails(), menu.findItem(R.id.show_details));
-			menu.findItem(R.id.backpack).setVisible(false);
-			menu.findItem(R.id.cut).setVisible(false);
-			menu.findItem(R.id.rename).setVisible(false);
-			menu.findItem(R.id.copy).setVisible(false);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
+		getMenuInflater().inflate(R.menu.menu_backpack_activity, menu);
 		TextSizeUtil.enlargeOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				onBackPressed();
@@ -148,15 +137,11 @@ public class BackPackActivity extends BaseActivity {
 				break;
 
 			case R.id.unpacking:
-				currentFragment.startUnPackingActionMode(false);
-				break;
-
-			case R.id.unpacking_keep:
-				currentFragment.startUnPackingActionMode(false);
+				currentFragment.startUnpackActionMode();
 				break;
 
 			case R.id.unpacking_object:
-				currentFragment.startUnPackingActionMode(false);
+				currentFragment.startUnpackActionMode();
 				break;
 
 			case R.id.delete:
@@ -179,22 +164,19 @@ public class BackPackActivity extends BaseActivity {
 
 		switch (fragmentPosition) {
 			case FRAGMENT_BACKPACK_SCRIPTS:
-				fragment = backPackScriptFragment;
+				fragment = backPackScriptListFragment;
 				break;
 			case FRAGMENT_BACKPACK_LOOKS:
-				fragment = backPackLookFragment;
+				fragment = backPackLookListFragment;
 				break;
 			case FRAGMENT_BACKPACK_SOUNDS:
-				fragment = backPackSoundFragment;
+				fragment = backPackSoundListFragment;
 				break;
 			case FRAGMENT_BACKPACK_SPRITES:
-				fragment = backPackSpriteFragment;
-				break;
-			case FRAGMENT_BACKPACK_USERBRICKS:
-				fragment = backPackUserBrickFragment;
+				fragment = backPackSpriteListFragment;
 				break;
 			case FRAGMENT_BACKPACK_SCENES:
-				fragment = backPackSceneFragment;
+				fragment = backPackSceneListFragment;
 		}
 		return fragment;
 	}
@@ -203,72 +185,46 @@ public class BackPackActivity extends BaseActivity {
 
 		switch (fragmentPosition) {
 			case FRAGMENT_BACKPACK_SCRIPTS:
-				if (backPackScriptFragment == null) {
-					backPackScriptFragment = new BackPackScriptFragment();
+				if (backPackScriptListFragment == null) {
+					backPackScriptListFragment = new BackPackScriptListFragment();
 				}
-				currentFragment = backPackScriptFragment;
+				currentFragment = backPackScriptListFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_SCRIPTS;
-				currentFragmentTag = BackPackScriptFragment.TAG;
+				currentFragmentTag = BackPackScriptListFragment.TAG;
 				break;
 			case FRAGMENT_BACKPACK_LOOKS:
-				if (backPackLookFragment == null) {
-					backPackLookFragment = new BackPackLookFragment();
+				if (backPackLookListFragment == null) {
+					backPackLookListFragment = new BackPackLookListFragment();
 				}
-				currentFragment = backPackLookFragment;
+				currentFragment = backPackLookListFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_LOOKS;
-				currentFragmentTag = BackPackLookFragment.TAG;
+				currentFragmentTag = BackPackLookListFragment.TAG;
 				break;
 			case FRAGMENT_BACKPACK_SOUNDS:
-				if (backPackSoundFragment == null) {
-					backPackSoundFragment = new BackPackSoundFragment();
+				if (backPackSoundListFragment == null) {
+					backPackSoundListFragment = new BackPackSoundListFragment();
 				}
-				currentFragment = backPackSoundFragment;
+				currentFragment = backPackSoundListFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_SOUNDS;
-				currentFragmentTag = BackPackSoundFragment.TAG;
+				currentFragmentTag = BackPackSoundListFragment.TAG;
 				break;
 			case FRAGMENT_BACKPACK_SPRITES:
-				if (backPackSpriteFragment == null) {
-					backPackSpriteFragment = new BackPackSpriteFragment();
+				if (backPackSpriteListFragment == null) {
+					backPackSpriteListFragment = new BackPackSpriteListFragment();
 				}
-				currentFragment = backPackSpriteFragment;
+				currentFragment = backPackSpriteListFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_SPRITES;
-				currentFragmentTag = BackPackSpriteFragment.TAG;
-				break;
-			case FRAGMENT_BACKPACK_USERBRICKS:
-				if (backPackUserBrickFragment == null) {
-					backPackUserBrickFragment = new BackPackUserBrickFragment();
-				}
-				currentFragment = backPackUserBrickFragment;
-				currentFragmentPosition = FRAGMENT_BACKPACK_USERBRICKS;
-				currentFragmentTag = BackPackUserBrickFragment.TAG;
+				currentFragmentTag = BackPackSpriteListFragment.TAG;
 				break;
 			case FRAGMENT_BACKPACK_SCENES:
-				if (backPackSceneFragment == null) {
-					backPackSceneFragment = new BackPackSceneFragment();
+				if (backPackSceneListFragment == null) {
+					backPackSceneListFragment = new BackPackSceneListFragment();
 				}
-				currentFragment = backPackSceneFragment;
+				currentFragment = backPackSceneListFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_SCENES;
-				currentFragmentTag = BackPackSceneFragment.TAG;
+				currentFragmentTag = BackPackSceneListFragment.TAG;
 				break;
 		}
-	}
-
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		//Dismiss ActionMode without effecting checked items
-
-		if (currentFragment != null && currentFragment.getActionModeActive()
-				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-			ListAdapter adapter;
-			if (currentFragment instanceof BackPackScriptFragment) {
-				adapter = ((BackPackScriptFragment) currentFragment).getAdapter();
-			} else {
-				adapter = currentFragment.getListAdapter();
-			}
-			((ActionModeActivityAdapterInterface) adapter).clearCheckedItems();
-		}
-
-		return super.dispatchKeyEvent(event);
 	}
 
 	public void returnToScriptActivity(int fragmentPosition) {

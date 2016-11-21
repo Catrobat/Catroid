@@ -25,62 +25,39 @@ package org.catrobat.catroid.ui.dragndrop;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.ListView;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DragAndDropListView extends ListView implements OnTouchListener {
+public class DragAndDropListView extends ListView implements CheckBoxListAdapter.ListItemLongClickHandler, View.OnTouchListener {
 
-	private static final int SCROLL_SPEED = 25;
-	public static final int WIDTH_OF_BRICK_PREVIEW_IMAGE = 400;
-	private static final int DRAG_BACKGROUND_COLOR = Color.TRANSPARENT;
+	public static final String TAG = DragAndDropListView.class.getSimpleName();
+	private static final int SMOOTH_SCROLL_BY = 15;
+	private int upperScrollBound;
+	private int lowerScrollBound;
+
+	private DragAndDropAdapterInterface adapterInterface;
+
+	private View view;
+	private BitmapDrawable hoveringListItem;
+	private int position;
+
+	private Rect viewBounds;
+	private float downY = 0;
+	private int offsetToCenter = 0;
 
 	private static int longpressTime = ViewConfiguration.getLongPressTimeout();
 	Timer longpressTimer;
-
-	private int maximumDragViewHeight;
-
-	private int previousItemPosition;
-	private int touchPointY;
-
-	private int upperScrollBound;
-	private int lowerScrollBound;
-	private int upperDragBound;
-	private int lowerDragBound;
-
-	private ImageView dragView;
-	private int position;
-	private boolean newView;
-	private int touchedListPosition;
-
-	private boolean dimBackground;
-	private boolean dragNewBrick;
-	private boolean isScrolling;
-
-	private long blinkAnimationTimestamp;
-
-	private DragAndDropListener dragAndDropListener;
 
 	public DragAndDropListView(Context context) {
 		super(context);
@@ -94,27 +71,61 @@ public class DragAndDropListView extends ListView implements OnTouchListener {
 		super(context, attributes, defStyle);
 	}
 
-	public void setOnDragAndDropListener(DragAndDropListener listener) {
-		dragAndDropListener = listener;
-	}
-
-	public void setInsertedBrick(int pos) {
-		this.position = pos;
-		newView = true;
+	public void setAdapterInterface(DragAndDropAdapterInterface adapterInterface) {
+		this.adapterInterface = adapterInterface;
 	}
 
 	@Override
-	public void draw(Canvas canvas) {
-		super.draw(canvas);
+	public boolean onTouchEvent(MotionEvent event) {
+		if (longpressTimer != null) {
+			longpressTimer.cancel();
+		}
+		if (hoveringListItem == null) {
+			return super.onTouchEvent(event);
+		}
 
-		if (dimBackground) {
-			Rect rect = new Rect(0, 0, canvas.getWidth(), canvas.getHeight());
-			Paint paint = new Paint();
-			paint.setColor(Color.BLACK);
-			paint.setStyle(Style.FILL);
-			paint.setAlpha(128);
+		switch (event.getAction()) {
+			case MotionEvent.ACTION_UP:
+			case MotionEvent.ACTION_CANCEL:
+				stopDragging();
+				break;
+			case MotionEvent.ACTION_DOWN:
+				downY = event.getY();
+				break;
+			case MotionEvent.ACTION_MOVE:
+				float dY = event.getY() - downY;
+				downY += dY;
+				downY -= offsetToCenter;
 
-			canvas.drawRect(rect, paint);
+				viewBounds.offsetTo(viewBounds.left, (int) downY);
+				hoveringListItem.setBounds(viewBounds);
+
+				invalidate();
+				swapListItems();
+				scrollWhileDragging();
+				break;
+		}
+		return true;
+	}
+
+	@Override
+	public void handleOnItemLongClick(int position, View view) {
+		upperScrollBound = getHeight() / 6;
+		lowerScrollBound = getHeight() / 6 * 4;
+
+		this.view = view;
+		this.position = position;
+		view.setVisibility(INVISIBLE);
+		hoveringListItem = getHoveringListItem(view);
+		setOffsetToCenter(viewBounds);
+		invalidate();
+	}
+
+	@Override
+	public void dispatchDraw(Canvas canvas) {
+		super.dispatchDraw(canvas);
+		if (hoveringListItem != null) {
+			hoveringListItem.draw(canvas);
 		}
 	}
 
@@ -129,7 +140,7 @@ public class DragAndDropListView extends ListView implements OnTouchListener {
 						((Activity) getContext()).runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								longClick(view);
+								view.performLongClick();
 							}
 						});
 					}
@@ -148,319 +159,74 @@ public class DragAndDropListView extends ListView implements OnTouchListener {
 		return false;
 	}
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (longpressTimer != null) {
-			longpressTimer.cancel();
-		}
-
-		int x = (int) event.getX();
-		int y = (int) event.getY();
-
-		if (y < 0) {
-			y = 0;
-		} else if (y > getHeight()) {
-			y = getHeight();
-		}
-
-		int itemPosition = pointToPosition(x, y);
-		itemPosition = itemPosition < 0 ? ((BrickAdapter) dragAndDropListener).getCount() - 1 : itemPosition;
-
-		if (touchedListPosition != itemPosition) {
-			touchedListPosition = itemPosition;
-			if (dragAndDropListener != null) {
-				dragAndDropListener.setTouchedScript(touchedListPosition);
-			}
-		}
-
-		if (dragAndDropListener != null && dragView != null) {
-			int action = event.getAction();
-			switch (action) {
-				case MotionEvent.ACTION_UP:
-				case MotionEvent.ACTION_CANCEL:
-					setDragViewAnimation(0);
-					dragAndDropListener.drop();
-
-					stopDragging();
-
-					dimBackground = false;
-					dragNewBrick = false;
-					break;
-
-				case MotionEvent.ACTION_MOVE:
-
-					scrollListWithDraggedItem(y);
-
-					dragTouchedListItem((int) event.getRawY());
-					dragItemInList(y, itemPosition);
-
-					dimBackground = true;
-					break;
-			}
-			return true;
-		}
-		return super.onTouchEvent(event);
-	}
-
-	@Override
-	protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
-
-		super.onSizeChanged(width, height, oldWidth, oldHeight);
-		upperScrollBound = height / 6;
-		lowerScrollBound = height * 5 / 6;
-		maximumDragViewHeight = height / 2;
-	}
-
-	public static Bitmap getBitmapFromView(View view, int width, int height) {
-
-		view.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
-		view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+	private BitmapDrawable getHoveringListItem(View view) {
 		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
-		canvas.translate(-view.getScrollX(), -view.getScrollY());
 		view.draw(canvas);
-		return bitmap;
+
+		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+
+		viewBounds = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+		drawable.setBounds(viewBounds);
+
+		return drawable;
 	}
 
-	public boolean longClick(View view) {
-		if (((BrickAdapter) getAdapter()).getActionMode() != BrickAdapter.ActionModeEnum.NO_ACTION) {
-			return true;
-		}
-
-		((BrickAdapter) getAdapter()).isDragging = true;
-		((BrickAdapter) getAdapter()).setSpinnersEnabled(false);
-
-		int itemPosition = calculateItemPositionAndTouchPointY(view);
-		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
-
-		view.setDrawingCacheEnabled(true);
-		view.measure(MeasureSpec.makeMeasureSpec(ScreenValues.SCREEN_WIDTH, MeasureSpec.EXACTLY), MeasureSpec
-				.makeMeasureSpec(Utils.getPhysicalPixels(WIDTH_OF_BRICK_PREVIEW_IMAGE, getContext()),
-						MeasureSpec.AT_MOST));
-		view.layout(0, 0, ScreenValues.SCREEN_WIDTH, view.getMeasuredHeight());
-		view.setDrawingCacheBackgroundColor(Color.TRANSPARENT);
-
-		view.buildDrawingCache(true);
-
-		Bitmap bitmap;
-		if (view.getDrawingCache() == null) {
-			view.setDrawingCacheEnabled(drawingCacheEnabled);
-			bitmap = getBitmapFromView(view, getMeasuredWidth(), view.getHeight());
-		} else {
-			bitmap = Bitmap.createBitmap(view.getDrawingCache());
-		}
-
-		view.setDrawingCacheEnabled(drawingCacheEnabled);
-
-		startDragging(bitmap, touchPointY);
-
-		if (!dragNewBrick) {
-			setDragViewAnimation(0);
-			dragNewBrick = false;
-		}
-
-		dragAndDropListener.drag(itemPosition, itemPosition);
-		dimBackground = true;
-
-		previousItemPosition = itemPosition;
-
-		return true;
+	private void setOffsetToCenter(Rect viewBounds) {
+		offsetToCenter = (viewBounds.height() / 2);
 	}
 
-	private void startDragging(Bitmap bitmap, int y) {
-		stopDragging();
+	private void swapListItems() {
+		int itemPositionAbove = position - 1;
+		int itemPositionBelow = position + 1;
 
-		if (bitmap.getHeight() > maximumDragViewHeight) {
-			bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), maximumDragViewHeight);
+		View itemBelow = null;
+		View itemAbove = null;
+
+		if (isPositionValid(itemPositionAbove)) {
+			itemAbove = getChildAt(getVisiblePosition(itemPositionAbove));
 		}
 
-		ImageView imageView = getGlowingBorder(bitmap);
-
-		WindowManager.LayoutParams dragViewParameters = createLayoutParameters();
-		if (isScrolling) {
-			isScrolling = false;
-
-			dragViewParameters.y = getHeight() / 2 - bitmap.getHeight() / 2;
-		} else {
-			dragViewParameters.y = y - bitmap.getHeight() / 2;
+		if (isPositionValid(itemPositionBelow)) {
+			itemBelow = getChildAt(getVisiblePosition(itemPositionBelow));
 		}
-		dragViewParameters.windowAnimations = R.style.brick_new;
 
-		WindowManager windowManager = getWindowManager();
+		boolean isAbove = (itemBelow != null) && (downY > itemBelow.getY());
+		boolean isBelow = (itemAbove != null) && (downY < itemAbove.getY());
 
-		windowManager.addView(imageView, dragViewParameters);
+		if (isAbove || isBelow) {
+			int swapWith = isAbove ? itemPositionBelow : itemPositionAbove;
+			position = adapterInterface.swapItems(position, swapWith);
 
-		dragView = imageView;
+			view.setVisibility(VISIBLE);
+			view = getChildAt(getVisiblePosition(position));
+			view.setVisibility(INVISIBLE);
+
+			invalidateViews();
+		}
 	}
 
-	public ImageView getGlowingBorder(Bitmap bitmap) {
-		ImageView imageView = new ImageView(getContext());
-		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
-		imageView.setId(R.id.drag_and_drop_list_view_image_view);
-
-		Bitmap glowingBitmap = Bitmap.createBitmap(bitmap.getWidth() + 30, bitmap.getHeight() + 30,
-				Bitmap.Config.ARGB_8888);
-		Canvas glowingCanvas = new Canvas(glowingBitmap);
-		Bitmap alpha = bitmap.extractAlpha();
-		Paint paintBlur = new Paint();
-		paintBlur.setColor(Color.WHITE);
-		glowingCanvas.drawBitmap(alpha, 15, 15, paintBlur);
-		BlurMaskFilter blurMaskFilter = new BlurMaskFilter(15.0f, BlurMaskFilter.Blur.OUTER);
-		paintBlur.setMaskFilter(blurMaskFilter);
-		glowingCanvas.drawBitmap(alpha, 15, 15, paintBlur);
-		paintBlur.setMaskFilter(null);
-		glowingCanvas.drawBitmap(bitmap, 15, 15, paintBlur);
-
-		imageView.setImageBitmap(glowingBitmap);
-
-		return imageView;
+	private void scrollWhileDragging() {
+		if (downY > lowerScrollBound) {
+			smoothScrollBy(SMOOTH_SCROLL_BY, 0);
+		} else if (downY < upperScrollBound) {
+			smoothScrollBy(-SMOOTH_SCROLL_BY, 0);
+		}
 	}
 
-	private void dragTouchedListItem(int y) {
-		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
-		dragViewParameters.y = y - dragView.getHeight() / 2;
+	private int getVisiblePosition(int positionInAdapter) {
+		return positionInAdapter - getFirstVisiblePosition();
+	}
 
-		WindowManager windowManager = getWindowManager();
-		try {
-			windowManager.updateViewLayout(dragView, dragViewParameters);
-		} catch (IllegalArgumentException e) {
-			windowManager.addView(dragView, dragViewParameters);
-		}
+	private boolean isPositionValid(int position) {
+		return (position >= 0 && position < getCount());
 	}
 
 	private void stopDragging() {
-		if (dragView != null) {
-			dragView.setVisibility(GONE);
-			WindowManager windowManager = getWindowManager();
-			windowManager.removeView(dragView);
-			dragView.setImageDrawable(null);
-			dragView = null;
-		}
-	}
-
-	public void resetDraggingScreen() {
-		stopDragging();
-
-		dimBackground = false;
-		dragNewBrick = false;
-
+		view.setVisibility(VISIBLE);
+		view = null;
+		hoveringListItem = null;
 		invalidate();
-	}
-
-	private WindowManager.LayoutParams createLayoutParameters() {
-
-		WindowManager.LayoutParams windowParameters = new WindowManager.LayoutParams();
-		windowParameters.gravity = Gravity.TOP | Gravity.LEFT;
-
-		windowParameters.height = WindowManager.LayoutParams.WRAP_CONTENT;
-		windowParameters.width = WindowManager.LayoutParams.WRAP_CONTENT;
-		windowParameters.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-				| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-				| WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
-		windowParameters.format = PixelFormat.TRANSLUCENT;
-
-		return windowParameters;
-	}
-
-	private WindowManager getWindowManager() {
-		return (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-	}
-
-	private int calculateItemPositionAndTouchPointY(View view) {
-		int itemPosition = -1;
-		int[] location = new int[2];
-
-		if (newView) {
-			itemPosition = this.position;
-			View tempView = getChildAt(getChildCount() - 1);
-			if (tempView != null) {
-				tempView.getLocationOnScreen(location);
-				touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
-			}
-			newView = false;
-		} else {
-			itemPosition = pointToPosition(view.getLeft(), view.getTop());
-			int visiblePosition = itemPosition - getFirstVisiblePosition();
-			(getChildAt(visiblePosition)).getLocationOnScreen(location);
-			touchPointY = location[1] + (getChildAt(visiblePosition)).getHeight() / 2;
-		}
-
-		return itemPosition;
-	}
-
-	private void scrollListWithDraggedItem(int y) {
-		if (y > lowerScrollBound) {
-			smoothScrollBy(SCROLL_SPEED, 0);
-		} else if (y < upperScrollBound) {
-			smoothScrollBy(-SCROLL_SPEED, 0);
-		}
-	}
-
-	private void dragItemInList(int y, int itemPosition) {
-		int index = previousItemPosition - getFirstVisiblePosition();
-
-		if (index > 0) {
-			View upperChild = getChildAt(index - 1);
-			upperDragBound = upperChild.getBottom() - upperChild.getHeight() / 2;
-		} else {
-			upperDragBound = 0;
-		}
-
-		if (index < getChildCount() - 1) {
-			View lowerChild = getChildAt(index + 1);
-			lowerDragBound = lowerChild.getTop() + lowerChild.getHeight() / 2;
-		} else {
-			lowerDragBound = getHeight();
-		}
-
-		if ((y > lowerDragBound || y < upperDragBound)) {
-			if (previousItemPosition != itemPosition) {
-				dragAndDropListener.drag(previousItemPosition, itemPosition);
-			}
-			previousItemPosition = itemPosition;
-		}
-	}
-
-	public void animateHoveringBrick() {
-		if (dragView == null) {
-			return;
-		}
-
-		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
-
-		long now = System.currentTimeMillis();
-		if (blinkAnimationTimestamp < now) {
-			dragViewParameters.windowAnimations = R.style.brick_blink;
-			getWindowManager().removeView(dragView);
-			getWindowManager().addView(dragView, dragViewParameters);
-			blinkAnimationTimestamp = now + 800;
-		}
-	}
-
-	public boolean isCurrentlyDragging() {
-		if (dragView == null) {
-			return false;
-		}
-
-		return true;
-	}
-
-	private void setDragViewAnimation(int styleId) {
-		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
-		dragViewParameters.windowAnimations = styleId;
-		try {
-			getWindowManager().updateViewLayout(dragView, dragViewParameters);
-		} catch (IllegalArgumentException e) {
-			getWindowManager().addView(dragView, dragViewParameters);
-		}
-	}
-
-	public void setDraggingNewBrick() {
-		dragNewBrick = true;
-	}
-
-	public void setIsScrolling() {
-		isScrolling = true;
 	}
 
 	public static void enableLongpressDelay() {
