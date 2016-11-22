@@ -121,6 +121,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
@@ -529,6 +530,9 @@ public class XStreamToSupportCatrobatLanguageVersion0992AndBefore extends XStrea
 
 		brickInfo = new BrickInfo(WhenNfcBrick.class.getSimpleName());
 		brickInfoMap.put("whenNfcBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetNfcTagBrick.class.getSimpleName());
+		brickInfoMap.put("setNfcTagBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenClonedBrick.class.getSimpleName());
 		brickInfoMap.put("whenClonedBrick", brickInfo);

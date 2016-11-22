@@ -140,6 +140,14 @@
                     android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="file" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:scheme="vnd.android.nfc"
+                    android:host="ext"
+                    android:pathPrefix="/catrobat.com:catroid" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.BackPackActivity"

@@ -243,7 +243,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		FaceDetectionHandler.unregisterOnFaceDetectionStatusListener(instance);
 	}
 
-	public static Double getSensorValue(Sensors sensor) {
+	public static Object getSensorValue(Sensors sensor) {
 		if (instance.sensorManager == null) {
 			return 0d;
 		}
@@ -518,9 +518,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				} else {
 					return 0.0;
 				}
+			case NFC_TAG_MESSAGE:
+				return String.valueOf(NfcHandler.getLastNfcTagMessage());
 
 			case NFC_TAG_ID:
-				return (double) NfcHandler.getLastNfcTagId();
+				return String.valueOf(NfcHandler.getLastNfcTagId());
 		}
 		return 0d;
 	}

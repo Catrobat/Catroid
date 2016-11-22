@@ -404,7 +404,18 @@
     <string name="nfctag">NFC Tag</string>
     <string name="nfctags">NFC Tags</string>
     <string name="uid">ID</string>
+    <string name="ndef_record_label">as NDEF record type</string>
+    <string name="brick_set_nfc_tag">Set next NFC tag to</string>
+    <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">nfc_tag</string>
+    <string name="tnf_empty">Empty</string>
+    <string name="tnf_external_type">External Type</string>
+    <string name="tnf_mime_media">Text</string>
+    <string name="tnf_well_known_http">HTTP</string>
+    <string name="tnf_well_known_https">HTTPS</string>
+    <string name="tnf_well_known_tel">Phonenumber</string>
+    <string name="tnf_well_known_sms">SMS</string>
+    <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
 
     <plurals name="unpacking_items_plural">
@@ -1321,6 +1332,7 @@
     <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
     <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
     <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
+    <string name="formula_editor_nfc_tag_message">nfc_tag_message</string>
     <string name="formula_editor_object_x">position_x</string>
     <string name="formula_editor_object_y">position_y</string>
     <string name="formula_editor_object_transparency">transparency</string>
