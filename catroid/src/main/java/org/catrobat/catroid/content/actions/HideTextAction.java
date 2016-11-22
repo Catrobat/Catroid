@@ -37,20 +37,21 @@ import java.util.Map;
 public class HideTextAction extends TemporalAction {
 
 	private UserVariable variableToHide;
+
+	private Sprite sprite;
 	private UserBrick userBrick;
 
 	@Override
 	protected void begin() {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 
 		List<UserVariable> variableList = dataContainer.getProjectVariables();
 		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
 
 		setVariablesVisible(variableList);
 
-		if (currentSprite != null) {
-			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
+		if (sprite != null) {
+			List<UserVariable> spriteVariableList = spriteVariableMap.get(sprite);
 			setVariablesVisible(spriteVariableList);
 		}
 		if (userBrick != null) {
@@ -81,5 +82,9 @@ public class HideTextAction extends TemporalAction {
 
 	public void setUserBrick(UserBrick userBrick) {
 		this.userBrick = userBrick;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 }
