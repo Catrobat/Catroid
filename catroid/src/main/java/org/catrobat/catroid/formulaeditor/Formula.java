@@ -104,6 +104,11 @@ public class Formula implements Serializable {
 		displayText = null;
 	}
 
+	public void updateCollsionFormulasToNewVersion()
+	{
+		formulaTree.updateCollisionFormulaToNewVersion();
+	}
+
 	public boolean containsSpriteInCollision(String name) {
 		return formulaTree.containsSpriteInCollision(name);
 	}

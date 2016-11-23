@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content;
 
 import android.graphics.PointF;
+import android.util.Log;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;

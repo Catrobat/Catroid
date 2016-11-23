@@ -275,7 +275,7 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement collision() throws InternFormulaParserException {
-		int start = 0;
+		/*int start = 0;
 		String collidesWithTag = CatroidApplication.getAppContext().getString(R.string
 				.formula_editor_function_collision);
 		int end = currentToken.getTokenStringValue().indexOf(collidesWithTag) - 1;
@@ -283,7 +283,13 @@ public class InternFormulaParser {
 		start = end + collidesWithTag.length() + 2;
 		end = currentToken.getTokenStringValue().length();
 		String secondSpriteName = currentToken.getTokenStringValue().substring(start, end);
-
+		*/
+		String collidesWithTag = CatroidApplication.getAppContext().getString(R.string
+				.formula_editor_function_collision);
+		String firstSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		int start = collidesWithTag.length() + 1;
+		int end = currentToken.getTokenStringValue().length()-1;
+		String secondSpriteName = currentToken.getTokenStringValue().substring(start,end);
 		boolean formulaOk;
 		int spriteCount = 0;
 

@@ -880,6 +880,21 @@ public class Sprite implements Serializable, Cloneable {
 		return false;
 	}
 
+	public void updateCollisionFormulasToNewVersion()
+	{
+		for (Script script : getScriptList()) {
+			for (Brick brick : script.brickList) {
+				if (brick instanceof FormulaBrick) {
+					FormulaBrick formulaBrick = (FormulaBrick) brick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+							formula.updateCollsionFormulasToNewVersion();
+					}
+				}
+			}
+		}
+	}
+
+
 	public void createCollisionPolygons() {
 		for (LookData lookData : getLookDataList()) {
 			lookData.getCollisionInformation().calculate();

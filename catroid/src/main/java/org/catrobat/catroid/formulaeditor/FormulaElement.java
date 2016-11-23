@@ -197,9 +197,10 @@ public class FormulaElement implements Serializable {
 		if (type == ElementType.COLLISION_FORMULA) {
 			String collisionTag = CatroidApplication.getAppContext().getString(R.string
 					.formula_editor_function_collision);
-			String firstSprite = value.substring(0, value.indexOf(collisionTag) - 1);
-			String secondSprite = value.substring(value.indexOf(collisionTag) + collisionTag.length() + 1, value.length());
-			if (firstSprite.equals(name) || secondSprite.equals(name)) {
+			int start = collisionTag.length() + 1;
+			int end = value.length()-1;
+			String secondSprite = value.substring(start, end);
+			if (secondSprite.equals(name)) {
 				contained = true;
 			}
 		}
@@ -225,6 +226,25 @@ public class FormulaElement implements Serializable {
 				value = firstSprite + " " + collisionTag + " " + newName;
 			}
 		}
+	}
+
+	public void updateCollisionFormulaToNewVersion()
+	{
+		if (leftChild != null) {
+			leftChild.updateCollisionFormulaToNewVersion();
+		}
+		if (rightChild != null) {
+			rightChild.updateCollisionFormulaToNewVersion();
+		}
+		if (type == ElementType.COLLISION_FORMULA)
+		{
+			String collisionTag = CatroidApplication.getAppContext().getString(R.string
+				.formula_editor_function_collision);
+			String secondSpriteName = value.substring(value.indexOf(collisionTag) + collisionTag.length() + 1, value
+					.length());
+			value = collisionTag + "(" + secondSpriteName + ")";
+		}
+
 	}
 
 	public Object interpretRecursive(Sprite sprite) {
@@ -260,7 +280,7 @@ public class FormulaElement implements Serializable {
 				break;
 			case COLLISION_FORMULA:
 				try {
-					returnValue = interpretCollision(value);
+					returnValue = interpretCollision(sprite, value);
 				} catch (Exception exception) {
 					returnValue = 0d;
 					Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
@@ -269,8 +289,8 @@ public class FormulaElement implements Serializable {
 		return normalizeDegeneratedDoubleValues(returnValue);
 	}
 
-	private Object interpretCollision(String formula) {
-		int start = 0;
+	private Object interpretCollision(Sprite firstSprite, String formula) {
+		/*int start = 0;
 		String collidesWithTag = CatroidApplication.getAppContext().getString(R.string
 				.formula_editor_function_collision);
 		int end = formula.indexOf(collidesWithTag) - 1;
@@ -279,11 +299,15 @@ public class FormulaElement implements Serializable {
 		start = end + collidesWithTag.length() + 2;
 		end = formula.length();
 		String secondSpriteName = formula.substring(start, end);
-
-		Look firstLook;
+*/
+		String collidesWithTag = CatroidApplication.getAppContext().getString(R.string
+				.formula_editor_function_collision);
+		int start = collidesWithTag.length() + 1;
+		int end = formula.length() - 1;
+		String secondSpriteName = formula.substring(start,end);
+		Look firstLook = firstSprite.look;
 		Look secondLook;
 		try {
-			firstLook = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(firstSpriteName).look;
 			secondLook = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(secondSpriteName).look;
 		} catch (Resources.NotFoundException exception) {
 			return 0d;
