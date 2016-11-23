@@ -111,7 +111,8 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public abstract void showFormulaEditorToEditFormula(View view);
 
-	public abstract void updateReferenceAfterMerge(Scene into, Scene from);
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
+	}
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {

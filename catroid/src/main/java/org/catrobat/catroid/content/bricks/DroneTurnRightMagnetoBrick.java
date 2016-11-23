@@ -30,7 +30,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
@@ -79,9 +78,5 @@ public class DroneTurnRightMagnetoBrick extends DroneMoveBrick {
 		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_power);
 		textView.setText(R.string.brick_drone_angle);
 		return prototypeView;
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }
