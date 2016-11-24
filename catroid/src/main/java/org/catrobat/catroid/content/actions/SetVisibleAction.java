@@ -28,22 +28,27 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 
-public class ShowAction extends TemporalAction {
+public class SetVisibleAction extends TemporalAction {
 
 	private Sprite sprite;
+	private boolean visible;
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.setLookVisible(true);
+		sprite.look.setLookVisible(visible);
 		if (StageActivity.stageListener != null) {
 			ShowBubbleActor actor = StageActivity.stageListener.getBubbleActorForSprite(sprite);
 			if (actor != null) {
-				actor.setVisible(true);
+				actor.setVisible(visible);
 			}
 		}
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 }
