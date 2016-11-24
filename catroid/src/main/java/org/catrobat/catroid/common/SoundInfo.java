@@ -42,7 +42,6 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	private String fileName;
 
 	public SoundInfo() {
-		isBackpackSoundInfo = false;
 	}
 
 	@Override
@@ -72,7 +71,6 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 		cloneSoundInfo.name = this.name;
 		cloneSoundInfo.fileName = this.fileName;
-		cloneSoundInfo.isBackpackSoundInfo = false;
 
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(getAbsolutePath());
