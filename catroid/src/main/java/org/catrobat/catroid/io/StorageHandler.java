@@ -311,6 +311,8 @@ public final class StorageHandler {
 		xstream.registerConverter(new XStreamSpriteConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamSettingConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 
+		xstream.omitField(StopScriptBrick.class, "spinnerValue");
+
 		setProgramXstreamAliases();
 	}
 
