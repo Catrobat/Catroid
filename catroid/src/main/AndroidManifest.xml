@@ -231,7 +231,9 @@
         <activity
             android:name=".pocketmusic.PocketMusicActivity"
             android:noHistory="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/add_sound_pocketmusic"
+            android:icon="@drawable/ic_pocketmusic"/>
 
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
