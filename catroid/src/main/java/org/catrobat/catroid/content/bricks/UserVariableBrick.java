@@ -36,8 +36,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 
-import java.io.Serializable;
-
 public abstract class UserVariableBrick extends FormulaBrick implements NewDataDialog.NewVariableDialogListener {
 
 	protected UserVariable userVariable;
@@ -111,22 +109,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		this.backPackedData = backPackedData;
 	}
 
-	public class BackPackedData implements Serializable {
-		public UserVariable userVariable;
-		public Integer userVariableType;
-
-		public BackPackedData() {
-		}
-
-		public BackPackedData(BackPackedData backPackedData) {
-			if (backPackedData != null) {
-				this.userVariable = backPackedData.userVariable;
-				this.userVariableType = backPackedData.userVariableType;
-			}
-		}
-	}
-
-	protected void updateUserVariableReference(Scene into, Scene from) {
+	void updateUserVariableReference(Scene into, Scene from) {
 		UserVariable variable;
 		if (from.existProjectVariable(userVariable)) {
 			variable = into.getProjectVariableWithName(userVariable.getName());
