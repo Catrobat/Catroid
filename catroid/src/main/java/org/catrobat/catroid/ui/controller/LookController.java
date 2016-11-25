@@ -609,15 +609,16 @@ public final class LookController {
 		return backPack(currentLookData, newLookDataName, true);
 	}
 
-	public LookData backPack(LookData currentLookData, String newLookDataName, boolean addToHiddenBackpack) {
+	private LookData backPack(LookData currentLookData, String newLookDataName, boolean addToHiddenBackpack) {
 		String existingFileNameInBackPackDirectory = lookFileAlreadyInBackPackDirectory(currentLookData);
 		currentLookData.isBackpackLookData = true;
+		File backPackedFile = null;
 		if (existingFileNameInBackPackDirectory == null && currentLookData != null
 				&& currentLookData.getAbsolutePath() != null && !currentLookData.getAbsolutePath().isEmpty()) {
-			copyLookBackPack(currentLookData, newLookDataName, false);
+			backPackedFile = copyLookBackPack(currentLookData, newLookDataName, false);
 		}
 		return updateLookBackPackAfterInsertion(newLookDataName, currentLookData,
-				existingFileNameInBackPackDirectory, addToHiddenBackpack);
+				existingFileNameInBackPackDirectory, addToHiddenBackpack, backPackedFile);
 	}
 
 	public LookData unpack(LookData selectedLookDataBackPack, boolean deleteUnpackedItems, boolean fromHiddenBackPack) {
@@ -662,7 +663,7 @@ public final class LookController {
 		return null;
 	}
 
-	public LookData updateLookBackPackAfterInsertion(String title, LookData currentLookData, String existingFileNameInBackPackDirectory, boolean addToHiddenBackpack) {
+	private LookData updateLookBackPackAfterInsertion(String title, LookData currentLookData, String existingFileNameInBackPackDirectory, boolean addToHiddenBackpack, File backPackedFile) {
 		LookData newLookData = new LookData();
 		newLookData.isBackpackLookData = true;
 		newLookData.setLookName(title);
@@ -670,8 +671,12 @@ public final class LookController {
 		if (existingFileNameInBackPackDirectory == null) {
 			if (currentLookData != null) {
 				String fileName = currentLookData.getLookFileName();
+				String hash = backPackedFile == null ? fileName.substring(0, 32) : Utils.md5Checksum(backPackedFile);
+				if (backPackedFile == null) {
+					Log.e(TAG, "backpacked file was null, file hash is possibly wrong");
+				}
 				String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
-				fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
+				fileName = hash + "_" + title + fileFormat;
 				newLookData.setLookFilename(fileName);
 			}
 		} else {
@@ -687,7 +692,7 @@ public final class LookController {
 		return newLookData;
 	}
 
-	public File copyLookBackPack(LookData selectedlookData, String newLookDataName, boolean copyFromBackpack) {
+	private File copyLookBackPack(LookData selectedlookData, String newLookDataName, boolean copyFromBackpack) {
 		try {
 			return StorageHandler.getInstance().copyImageBackPack(selectedlookData, newLookDataName, copyFromBackpack);
 		} catch (IOException ioException) {
