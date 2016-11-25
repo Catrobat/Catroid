@@ -52,7 +52,7 @@ public class TrackTest extends AndroidTestCase {
 		track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
 		track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
 
-		assertEquals("Failed to add note Event", 2, track.size());
+		assertEquals("Failed to add note Event", 1, track.size());
 	}
 
 	public void testGetNoteEventsForTick() {

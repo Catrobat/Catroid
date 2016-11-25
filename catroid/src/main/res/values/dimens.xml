@@ -110,4 +110,7 @@
     <dimen name="device_button_padding" >5dp</dimen >
     <dimen name="device_text_view_text_size" >15sp</dimen >
 
+    <!-- PocketMusic -->
+    <dimen name="pocketmusic_trackrow_margin">0.5dp</dimen>
+
 </resources>

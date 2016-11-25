@@ -54,9 +54,9 @@ public class TrackToTrackGridConverterTest extends AndroidTestCase {
 		assertTrue("Failed to convert Track with several breaks", convertedTrackGrid.equals(trackWithSeveralBreaks));
 	}
 
-	public void testConvertTrack() {
+	public void testConvertSemiComplexTrack() {
 		Track track = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-		TrackGrid semiComplexTrack = TrackGridTestDataFactory.createSemiComplexTrackGrid(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		TrackGrid semiComplexTrack = TrackGridTestDataFactory.createSemiComplexTrackGrid();
 
 		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_16_16, Project
 				.DEFAULT_BEATS_PER_MINUTE);

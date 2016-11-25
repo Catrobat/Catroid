@@ -50,6 +50,10 @@ public final class TrackToTrackGridConverter {
 			for (NoteEvent noteEvent : track.getNoteEventsForTick(tick)) {
 				NoteName noteName = noteEvent.getNoteName();
 
+				if (gridRows.get(noteName) == null) {
+					gridRows.put(noteName, new GridRow(noteName, new SparseArray<List<GridRowPosition>>()));
+				}
+
 				if (noteEvent.isNoteOn()) {
 					openNotes.put(noteName, tick);
 				} else {
@@ -63,10 +67,6 @@ public final class TrackToTrackGridConverter {
 
 					GridRowPosition gridRowPosition = new GridRowPosition(columnStartIndex, openTick, length);
 
-					if (!gridRows.containsKey(noteName)) {
-						gridRows.put(noteName, new GridRow(noteName, new SparseArray<List<GridRowPosition>>()));
-					}
-
 					for (int i = startBeatIndex; i <= endBeatIndex; i++) {
 						if (null == gridRows.get(noteName).getGridRowPositions().get(i)) {
 							gridRows.get(noteName).getGridRowPositions().put(i, new ArrayList<GridRowPosition>());
@@ -78,6 +78,6 @@ public final class TrackToTrackGridConverter {
 			}
 		}
 
-		return new TrackGrid(track.getKey(), track.getInstrument(), beat, new ArrayList(gridRows.values()));
+		return new TrackGrid(track.getKey(), track.getInstrument(), beat, new ArrayList<>(gridRows.values()));
 	}
 }

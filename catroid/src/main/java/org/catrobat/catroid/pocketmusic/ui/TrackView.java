@@ -37,7 +37,6 @@ import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackToTrackGridConverter
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class TrackView extends TableLayout {
@@ -59,26 +58,16 @@ public class TrackView extends TableLayout {
 	}
 
 	private void initializeRows() {
+		if (!trackRowViews.isEmpty()) {
+			removeAllViews();
+			trackRowViews.clear();
+		}
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1.0f);
 		for (int i = 0; i < ROW_COUNT; i++) {
-			GridRow gridRow = null;
-			Iterator<GridRow> it = trackGrid.getGridRows().iterator();
-			while (it.hasNext()) {
-				GridRow gr = it.next();
-				if (gr.getNoteName().ordinal() - NoteName.C1.ordinal() == i) {
-					gridRow = gr;
-					it.remove();
-					break;
-				}
-			}
-
-			if (trackRowViews.size() == ROW_COUNT) {
-				trackRowViews.get(i).updateGridRow(gridRow);
-			} else {
-				boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
-				trackRowViews.add(new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, gridRow));
-				addView(trackRowViews.get(i), params);
-			}
+			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
+			NoteName noteName = NoteName.getNoteNameFromMidiValue(NoteName.C1.getMidi() + i);
+			trackRowViews.add(new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, trackGrid.getGridRowForNoteName(noteName)));
+			addView(trackRowViews.get(i), params);
 		}
 	}
 

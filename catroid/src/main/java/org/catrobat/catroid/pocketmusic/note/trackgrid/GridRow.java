@@ -66,6 +66,10 @@ public class GridRow {
 		}
 		GridRow reference = (GridRow) o;
 
+		if (!reference.noteName.equals(noteName)) {
+			return false;
+		}
+
 		if (reference.getGridRowPositions().size() != getGridRowPositions().size()) {
 			return false;
 		}
@@ -83,6 +87,6 @@ public class GridRow {
 				return false;
 			}
 		}
-		return reference.noteName.equals(noteName);
+		return true;
 	}
 }
