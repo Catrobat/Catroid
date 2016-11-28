@@ -624,8 +624,14 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			return;
 		}
 
-		SignInDialog signInDialog = new SignInDialog();
-		signInDialog.show(activity.getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
+		if (BuildConfig.CREATE_AT_SCHOOL) {
+			ProjectManager.getInstance().showLogInDialog(activity, false);
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+			sharedPreferences.edit().putBoolean(Constants.FORCE_SIGNIN, false).commit();
+		} else {
+			SignInDialog signInDialog = new SignInDialog();
+			signInDialog.show(activity.getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
+		}
 	}
 
 	public void showLogInDialog(Activity activity, boolean showUploadDialog) {

@@ -26,8 +26,13 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.ArrayList;
@@ -35,7 +40,8 @@ import java.util.List;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
-	protected ConcurrentFormulaHashMap formulaMap;
+	ConcurrentFormulaHashMap formulaMap;
+	private List<BackPackedData> backPackedDataList;
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
 		if (formulaMap != null && formulaMap.containsKey(brickField)) {
@@ -100,4 +106,51 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	public abstract void showFormulaEditorToEditFormula(View view);
 
 	public abstract void updateReferenceAfterMerge(Scene into, Scene from);
+
+	@Override
+	public void storeDataForBackPack(Sprite sprite) {
+		Integer type;
+		List<String> variableNames = new ArrayList<>();
+		List<String> listNames = new ArrayList<>();
+
+		if (backPackedDataList == null) {
+			backPackedDataList = new ArrayList<>();
+		}
+
+		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		DataContainer dataContainer = currentScene.getDataContainer();
+
+		for (Formula formula : formulaMap.values()) {
+			formula.getVariableAndListNames(variableNames, listNames);
+		}
+
+		for (String variableName : variableNames) {
+			UserVariable variable = dataContainer.getUserVariable(variableName, currentSprite);
+			if (variable == null) {
+				continue;
+			}
+			type = dataContainer.getTypeOfUserVariable(variableName, currentSprite);
+			BackPackedData backPackedData = new BackPackedData();
+			backPackedData.userVariable = variable;
+			backPackedData.userVariableType = type;
+			backPackedDataList.add(backPackedData);
+		}
+
+		for (String listName : listNames) {
+			UserList userList = dataContainer.getUserList(listName, currentSprite);
+			if (userList == null) {
+				continue;
+			}
+			type = dataContainer.getTypeOfUserList(listName, currentSprite);
+			BackPackedData backPackedData = new BackPackedData();
+			backPackedData.userList = userList;
+			backPackedData.userListType = type;
+			backPackedDataList.add(backPackedData);
+		}
+	}
+
+	public List<BackPackedData> getBackPackedDataList() {
+		return backPackedDataList;
+	}
 }

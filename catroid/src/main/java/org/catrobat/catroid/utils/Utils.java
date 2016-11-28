@@ -677,8 +677,8 @@ public final class Utils {
 		return searchForNonExistingLookName(lookData, 0, forBackPack);
 	}
 
-	private static String searchForNonExistingLookName(LookData originalLookData, int nextNumber, boolean
-			forBackPack) {
+	private static String searchForNonExistingLookName(LookData originalLookData,
+			int nextNumber, boolean forBackPack) {
 		String newName;
 		List<LookData> lookDataList;
 		if (forBackPack) {
