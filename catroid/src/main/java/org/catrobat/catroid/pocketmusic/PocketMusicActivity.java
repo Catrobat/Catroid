@@ -32,9 +32,6 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
-import org.catrobat.catroid.pocketmusic.note.NoteEvent;
-import org.catrobat.catroid.pocketmusic.note.NoteLength;
-import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
@@ -75,7 +72,7 @@ public class PocketMusicActivity extends BaseActivity {
 			}
 		}
 		if (project == null) {
-			project = createDummyProject();
+			project = createEmptyProject();
 		}
 
 		setContentView(R.layout.activity_pocketmusic);
@@ -139,38 +136,12 @@ public class PocketMusicActivity extends BaseActivity {
 		super.finish();
 	}
 
-	public Project createDummyProject() {
+	private Project createEmptyProject() {
 		int bpm = 60;
 
-		Project project = new Project("Dummy Project", MusicalBeat.BEAT_4_4, bpm);
+		Project project = new Project("Untitled song", MusicalBeat.BEAT_4_4, bpm);
 
 		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.VIOLIN);
-		NoteName c1 = NoteName.C1;
-		NoteEvent c1On = new NoteEvent(c1, true);
-		NoteEvent c1Off = new NoteEvent(c1, false);
-
-		NoteName e1 = NoteName.E1;
-		NoteEvent e1On = new NoteEvent(e1, true);
-		NoteEvent e1Off = new NoteEvent(e1, false);
-
-		NoteName g1 = NoteName.G1;
-		NoteEvent g1On = new NoteEvent(g1, true);
-		NoteEvent g1Off = new NoteEvent(g1, false);
-
-		track.addNoteEvent(0, c1On);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm), c1Off);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 3, c1On);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 4, c1Off);
-
-		track.addNoteEvent(0, e1On);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm), e1Off);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 2, e1On);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 3, e1Off);
-
-		track.addNoteEvent(0, g1On);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm), g1Off);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm), g1On);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 2, g1Off);
 
 		project.putTrack("Track 1", track);
 
