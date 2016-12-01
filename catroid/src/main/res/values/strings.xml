@@ -1363,6 +1363,7 @@
     <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_list_dialog_title">New List</string>
+    <string name="formula_editor_variable_dialog_title">New Variable</string>
     <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_dialog_change_text">Change text</string>
