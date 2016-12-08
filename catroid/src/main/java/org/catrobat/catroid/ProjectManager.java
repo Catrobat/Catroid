@@ -783,29 +783,41 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			} else if (currentBrick instanceof LoopBeginBrick) {
 				loopBeginList.add((LoopBeginBrick) currentBrick);
 			} else if (currentBrick instanceof LoopEndBrick) {
-				LoopBeginBrick loopBeginBrick = loopBeginList.get(loopBeginList.size() - 1);
-				loopBeginBrick.setLoopEndBrick((LoopEndBrick) currentBrick);
-				((LoopEndBrick) currentBrick).setLoopBeginBrick(loopBeginBrick);
-				loopBeginList.remove(loopBeginBrick);
+				if (hasItems(loopBeginList)) {
+					LoopBeginBrick loopBeginBrick = loopBeginList.get(loopBeginList.size() - 1);
+					loopBeginBrick.setLoopEndBrick((LoopEndBrick) currentBrick);
+					((LoopEndBrick) currentBrick).setLoopBeginBrick(loopBeginBrick);
+					loopBeginList.remove(loopBeginBrick);
+				}
 			} else if (currentBrick instanceof IfLogicElseBrick) {
-				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
-				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
-				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
+				if (hasItems(ifBeginList)) {
+					IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
+					ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
+					((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
+				}
 			} else if (currentBrick instanceof IfThenLogicEndBrick) {
-				IfThenLogicBeginBrick ifBeginBrick = ifThenBeginList.get(ifThenBeginList.size() - 1);
-				ifBeginBrick.setIfThenEndBrick((IfThenLogicEndBrick) currentBrick);
-				((IfThenLogicEndBrick) currentBrick).setIfThenBeginBrick(ifBeginBrick);
-				ifBeginList.remove(ifBeginBrick);
+				if (hasItems(ifThenBeginList)) {
+					IfThenLogicBeginBrick ifBeginBrick = ifThenBeginList.get(ifThenBeginList.size() - 1);
+					ifBeginBrick.setIfThenEndBrick((IfThenLogicEndBrick) currentBrick);
+					((IfThenLogicEndBrick) currentBrick).setIfThenBeginBrick(ifBeginBrick);
+					ifBeginList.remove(ifBeginBrick);
+				}
 			} else if (currentBrick instanceof IfLogicEndBrick) {
-				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
-				IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
-				ifBeginBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
-				elseBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
-				((IfLogicEndBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
-				((IfLogicEndBrick) currentBrick).setIfElseBrick(elseBrick);
-				ifBeginList.remove(ifBeginBrick);
+				if (hasItems(ifBeginList)) {
+					IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
+					IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
+					ifBeginBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
+					elseBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
+					((IfLogicEndBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
+					((IfLogicEndBrick) currentBrick).setIfElseBrick(elseBrick);
+					ifBeginList.remove(ifBeginBrick);
+				}
 			}
 		}
+	}
+
+	private boolean hasItems(List nestingBrickList) {
+		return nestingBrickList.size() > 0;
 	}
 
 	@Override
