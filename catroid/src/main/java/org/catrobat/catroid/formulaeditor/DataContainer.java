@@ -45,24 +45,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class DataContainer implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class DataContainer extends BaseDataContainer {
 	public static final transient int USER_VARIABLE_SPRITE = 0;
 	public static final transient int USER_VARIABLE_PROJECT = 1;
 	public static final transient int USER_VARIABLE_USERBRICK = 2;
 	public static final transient int USER_LIST_SPRITE = 4;
 	public static final transient int USER_LIST_PROJECT = 5;
 	public static final transient int USER_DATA_EMPTY = 6;
-
-	@XStreamAlias("objectVariableList")
-	private Map<Sprite, List<UserVariable>> spriteVariables;
-
-	@XStreamAlias("userBrickVariableList")
-	private Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
-
-	@XStreamAlias("objectListOfList")
-	private Map<Sprite, List<UserList>> spriteListOfLists;
 
 	private transient Project project;
 
