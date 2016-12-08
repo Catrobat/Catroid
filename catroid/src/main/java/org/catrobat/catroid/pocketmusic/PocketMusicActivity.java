@@ -26,6 +26,7 @@ package org.catrobat.catroid.pocketmusic;
 import android.os.Bundle;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiDriver;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
@@ -39,6 +40,8 @@ import org.catrobat.catroid.ui.BaseActivity;
 
 public class PocketMusicActivity extends BaseActivity {
 
+	private final MidiDriver midiDriver = MidiDriver.getInstance();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,7 +54,7 @@ public class PocketMusicActivity extends BaseActivity {
 		trackView.setTrack(project.getTrack("Track 1"), project.getBeatsPerMinute());
 	}
 
-	public Project createDummyProject() {
+	private Project createDummyProject() {
 		int bpm = 60;
 
 		Project project = new Project("Dummy Project", MusicalBeat.BEAT_4_4, bpm);
@@ -87,5 +90,21 @@ public class PocketMusicActivity extends BaseActivity {
 		project.addTrack("Track 1", track);
 
 		return project;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (midiDriver != null) {
+			midiDriver.start();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (midiDriver != null) {
+			midiDriver.stop();
+		}
 	}
 }
