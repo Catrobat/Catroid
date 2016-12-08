@@ -33,5 +33,4 @@ public class SupportDataContainer extends BaseDataContainer {
 
 	@XStreamAlias("programListOfLists")
 	public List<UserList> projectLists;
-
 }
