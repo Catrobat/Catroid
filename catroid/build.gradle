@@ -98,6 +98,12 @@ android {
             buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "false"
         }
     }
+/*  MUS-207: uncomment this and remove the *.so files from repository when gradle is updated to 2.2.2.
+    externalNativeBuild {
+        ndkBuild {
+            path "src/main/jni/Android.mk"
+        }
+    }*/
 }
 
 ext {
@@ -199,6 +205,12 @@ android {
         htmlReport true
         xmlOutput file("build/reports/lint.xml")
         htmlOutput file("build/reports/lint.html")
+    }
+
+    sourceSets {
+        main {
+            jni.srcDirs = [ ]
+        }
     }
 }
 
