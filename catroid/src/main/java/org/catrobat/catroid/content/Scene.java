@@ -241,6 +241,7 @@ public class Scene implements Serializable {
 	}
 
 	public void removeAllClones() {
+		ProjectManager.getInstance().getCurrentProject().removeInvalidVariablesAndLists(dataContainer);
 		dataContainer.removeVariablesOfClones();
 		for (Sprite s : new ArrayList<>(spriteList)) {
 			if (s.isClone) {

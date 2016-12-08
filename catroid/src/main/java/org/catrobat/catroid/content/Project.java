@@ -35,8 +35,8 @@ import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.formulaeditor.BaseDataContainer;
 import org.catrobat.catroid.formulaeditor.DataContainer;
-import org.catrobat.catroid.formulaeditor.SupportDataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
@@ -136,7 +136,7 @@ public class Project implements Serializable {
 		sceneList.add(scene);
 	}
 
-	private void removeInvalidVariablesAndLists(SupportDataContainer dataContainer) {
+	public void removeInvalidVariablesAndLists(BaseDataContainer dataContainer) {
 		if (dataContainer == null) {
 			return;
 		}
