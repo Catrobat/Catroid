@@ -71,9 +71,11 @@ public class PocketMusicActivity extends BaseActivity {
 				SoundInfo soundInfo = new SoundInfo();
 				soundInfo.setSoundFileName(fileName);
 
-				project = converter.convertMidiFileToProject(new File(soundInfo.getAbsolutePath()));
-				project.setFileName(fileName);
-				project.setName(title);
+				if (null != ProjectManager.getInstance().getCurrentProject()) {
+					project = converter.convertMidiFileToProject(new File(soundInfo.getAbsolutePath()));
+					project.setFileName(fileName);
+					project.setName(title);
+				}
 			} catch (MidiException | IOException ignored) {
 			}
 		}
