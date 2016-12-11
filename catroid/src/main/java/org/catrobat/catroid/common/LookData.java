@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.FileNotFoundException;
@@ -198,15 +197,15 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	String getPathToImageDirectory() {
-		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				getSceneNameByLookData(), Constants.IMAGE_DIRECTORY);
+		return Utils.buildPath(Utils.buildScenePath(ProjectManager.getInstance().getCurrentProject().getName(),
+				getSceneNameByLookData()), Constants.IMAGE_DIRECTORY);
 	}
 
 	private String getSceneNameByLookData() {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				if (sprite.getLookDataList().contains(this)) {
-					return UtilFile.encodeSpecialCharsForFileSystem(scene.getName());
+					return scene.getName();
 				}
 			}
 		}

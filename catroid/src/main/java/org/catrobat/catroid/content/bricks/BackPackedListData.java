@@ -24,25 +24,18 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.io.Serializable;
 
-public class BackPackedData implements Serializable {
-	public UserVariable userVariable;
-	public Integer userVariableType;
-
+public class BackPackedListData implements Serializable {
 	public UserList userList;
 	public Integer userListType;
 
-	BackPackedData() {
+	BackPackedListData() {
 	}
 
-	BackPackedData(BackPackedData backPackedData) {
+	BackPackedListData(BackPackedListData backPackedData) {
 		if (backPackedData != null) {
-			this.userVariable = backPackedData.userVariable;
-			this.userVariableType = backPackedData.userVariableType;
-
 			this.userList = backPackedData.userList;
 			this.userListType = backPackedData.userListType;
 		}

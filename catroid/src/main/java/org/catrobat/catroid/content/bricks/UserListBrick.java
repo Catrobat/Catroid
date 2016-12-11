@@ -41,7 +41,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 	protected UserList userList;
 
 	@XStreamOmitField
-	protected BackPackedData backPackedData;
+	protected BackPackedListData backPackedData;
 
 	private void updateUserListIfDeleted(UserListAdapterWrapper userListAdapterWrapper) {
 		if (userList != null && (userListAdapterWrapper.getPositionOfItem(userList) == 0)) {
@@ -107,11 +107,11 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		this.userList = userList;
 	}
 
-	public BackPackedData getBackPackedData() {
+	public BackPackedListData getBackPackedData() {
 		return backPackedData;
 	}
 
-	public void setBackPackedData(BackPackedData backPackedData) {
+	public void setBackPackedData(BackPackedListData backPackedData) {
 		this.backPackedData = backPackedData;
 	}
 
@@ -171,7 +171,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		}
 
 		if (backPackedData == null) {
-			backPackedData = new BackPackedData();
+			backPackedData = new BackPackedListData();
 		}
 		backPackedData.userList = userList;
 		backPackedData.userListType = type;

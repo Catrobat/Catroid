@@ -34,7 +34,8 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.BackPackedData;
+import org.catrobat.catroid.content.bricks.BackPackedListData;
+import org.catrobat.catroid.content.bricks.BackPackedVariableData;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -164,12 +165,15 @@ public final class BackPackScriptController {
 
 	private void handleFormulaBrickUnpacking(Brick brickOfScript) {
 		FormulaBrick brick = (FormulaBrick) brickOfScript;
-		for (BackPackedData backPackedData : brick.getBackPackedDataList()) {
-			if (backPackedData.userVariable != null) {
-				updateVariablesInDataContainer(backPackedData, backPackedData.userVariable);
-			}
+		for (BackPackedListData backPackedData : brick.getBackPackedListData()) {
 			if (backPackedData.userList != null) {
 				updateListsInDataContainer(backPackedData, backPackedData.userList);
+			}
+		}
+
+		for (BackPackedVariableData backPackedData : brick.getBackPackedVariableData()) {
+			if (backPackedData.userVariable != null) {
+				updateVariablesInDataContainer(backPackedData, backPackedData.userVariable);
 			}
 		}
 	}
@@ -193,7 +197,7 @@ public final class BackPackScriptController {
 	private void handleVariableBrickUnpacking(Brick brickOfScript) {
 		UserVariableBrick brick = (UserVariableBrick) brickOfScript;
 
-		BackPackedData backPackedData = brick.getBackPackedData();
+		BackPackedVariableData backPackedData = brick.getBackPackedData();
 		if (brick.getUserVariable() == null) {
 			brick.setUserVariable(backPackedData.userVariable);
 		}
@@ -205,7 +209,7 @@ public final class BackPackScriptController {
 	private void handleVariableListUnpacking(Brick brickOfScript) {
 		UserListBrick brick = (UserListBrick) brickOfScript;
 
-		BackPackedData backPackedData = brick.getBackPackedData();
+		BackPackedListData backPackedData = brick.getBackPackedData();
 		if (brick.getUserList() == null) {
 			brick.setUserList(backPackedData.userList);
 		}
@@ -249,7 +253,7 @@ public final class BackPackScriptController {
 		}
 	}
 
-	private UserVariable updateVariablesInDataContainer(BackPackedData backPackedData, UserVariable userVariable) {
+	private UserVariable updateVariablesInDataContainer(BackPackedVariableData backPackedData, UserVariable userVariable) {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
 		UserVariable unpackedVariable = null;
@@ -277,7 +281,7 @@ public final class BackPackScriptController {
 		return unpackedVariable;
 	}
 
-	private void updateListsInDataContainer(BackPackedData backPackedData, UserList userList) {
+	private void updateListsInDataContainer(BackPackedListData backPackedData, UserList userList) {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
 		switch (backPackedData.userListType) {

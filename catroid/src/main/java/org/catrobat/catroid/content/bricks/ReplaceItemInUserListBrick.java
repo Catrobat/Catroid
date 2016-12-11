@@ -174,7 +174,7 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	@Override
 	public Brick clone() {
 		ReplaceItemInUserListBrick clonedBrick = new ReplaceItemInUserListBrick(getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).clone(), getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX).clone(), userList);
-		clonedBrick.setBackPackedData(new BackPackedData(backPackedData));
+		clonedBrick.setBackPackedData(new BackPackedListData(backPackedData));
 		return clonedBrick;
 	}
 
