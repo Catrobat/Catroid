@@ -782,21 +782,21 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				ifBeginList.add((IfLogicBeginBrick) currentBrick);
 			} else if (currentBrick instanceof LoopBeginBrick) {
 				loopBeginList.add((LoopBeginBrick) currentBrick);
-			} else if (currentBrick instanceof LoopEndBrick) {
+			} else if (currentBrick instanceof LoopEndBrick && hasItems(loopBeginList)) {
 				LoopBeginBrick loopBeginBrick = loopBeginList.get(loopBeginList.size() - 1);
 				loopBeginBrick.setLoopEndBrick((LoopEndBrick) currentBrick);
 				((LoopEndBrick) currentBrick).setLoopBeginBrick(loopBeginBrick);
 				loopBeginList.remove(loopBeginBrick);
-			} else if (currentBrick instanceof IfLogicElseBrick) {
+			} else if (currentBrick instanceof IfLogicElseBrick && hasItems(ifBeginList)) {
 				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
 				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
-			} else if (currentBrick instanceof IfThenLogicEndBrick) {
+			} else if (currentBrick instanceof IfThenLogicEndBrick && hasItems(ifThenBeginList)) {
 				IfThenLogicBeginBrick ifBeginBrick = ifThenBeginList.get(ifThenBeginList.size() - 1);
 				ifBeginBrick.setIfThenEndBrick((IfThenLogicEndBrick) currentBrick);
 				((IfThenLogicEndBrick) currentBrick).setIfThenBeginBrick(ifBeginBrick);
 				ifBeginList.remove(ifBeginBrick);
-			} else if (currentBrick instanceof IfLogicEndBrick) {
+			} else if (currentBrick instanceof IfLogicEndBrick && hasItems(ifBeginList)) {
 				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
 				ifBeginBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
@@ -806,6 +806,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				ifBeginList.remove(ifBeginBrick);
 			}
 		}
+	}
+
+	private boolean hasItems(List nestingBrickList) {
+		return nestingBrickList.size() > 0;
 	}
 
 	@Override

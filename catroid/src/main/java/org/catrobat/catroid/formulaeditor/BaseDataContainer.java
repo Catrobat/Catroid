@@ -24,13 +24,23 @@ package org.catrobat.catroid.formulaeditor;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
+
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class SupportDataContainer extends BaseDataContainer {
+public class BaseDataContainer implements Serializable {
+	protected static final long serialVersionUID = 1L;
 
-	@XStreamAlias("programVariableList")
-	public List<UserVariable> projectVariables;
+	@XStreamAlias("objectVariableList")
+	public Map<Sprite, List<UserVariable>> spriteVariables;
 
-	@XStreamAlias("programListOfLists")
-	public List<UserList> projectLists;
+	@XStreamAlias("userBrickVariableList")
+	Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
+
+	@XStreamAlias("objectListOfList")
+	public Map<Sprite, List<UserList>> spriteListOfLists;
 }
