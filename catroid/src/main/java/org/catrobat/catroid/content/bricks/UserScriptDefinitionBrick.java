@@ -27,6 +27,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -158,6 +159,13 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 		view = View.inflate(context, R.layout.brick_user_definition, null);
 		setCheckboxView(R.id.brick_user_definition_checkbox);
+
+		//For Right-to-left Brick Rendering
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			layout.getBackground().setAutoMirrored(true);
+		}
+
 		onLayoutChanged();
 
 		return view;
