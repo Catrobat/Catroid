@@ -36,7 +36,7 @@
   <string name="cut">قص</string>
   <string name="move">تحريك</string>
   <string name="backpack_add">إضافة الى حزمة الظهر</string>
-  <string name="backpack">إنشاء حزمة الظهر</string>
+  <string name="backpack">إنشاء حقيبة الظهر</string>
   <string name="packing">حزمة</string>
   <string name="unpack">فك الحزمة</string>
   <string name="unpack_keep">فك الحزمة وحفظها</string>
@@ -73,7 +73,7 @@
   <string name="my_group">مجموعتي</string>
   <string name="name">الاسم:</string>
   <string name="nothing_to_copy">لايوجد شيء للقيام بنسخة</string>
-  <string name="nothing_to_backpack_and_unpack">لا يوجد شئ لإنشاء حزمة أو فك حزمة</string>
+  <string name="nothing_to_backpack_and_unpack">لا يوجد شئ لإنشاء حقيبة الظهر أو فك حقيبة الظهر</string>
   <string name="nothing_to_unpack">لا يوجد شيء لفك الحزمة</string>
   <string name="nothing_to_delete">لا يوجد شيء للحذف</string>
   <string name="nothing_to_rename">لا يوجد شيء لاعادة تسميته</string>
@@ -268,15 +268,15 @@
   <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
   <string name="select_all">تحديد الكل</string>
   <string name="deselect_all">إلغاء تحديد الكل</string>
-  <string name="backpack_replace_object">الكائن %1$s موجود بالفعل في حزمة الظهر. هل تريد استبداله؟</string>
-  <string name="backpack_replace_scene">المشهد %1$s موجود بالفعل في حزمة الظهر. هل تريد استبداله؟</string>
-  <string name="backpack_replace_object_multiple">الكائنات موجودة بالفعل في حزمة الظهر. هل تريد استبدالها؟</string>
+  <string name="backpack_replace_object">الكائن %1$s موجود بالفعل في حقيبة الظهر. هل تريد استبداله؟</string>
+  <string name="backpack_replace_scene">المشهد %1$s موجود بالفعل في حقيبة الظهر. هل تريد استبداله؟</string>
+  <string name="backpack_replace_object_multiple">الكائنات موجودة بالفعل في حقيبة الظهر. هل تريد استبدالها؟</string>
   <string name="groups_create">إنشاء مجموعة</string>
   <string name="group_created">تم إنشاء المجموعة بنجاح!</string>
   <string name="ungroup">فك التجميع</string>
   <string name="group_objects_delete">حذف المجموعة والكائنات</string>
   <string name="group">مجموعة</string>
-  <string name="backpack_replace_scene_multiple">المشاهد موجودة بالفعل في حزمة الظهر. هل تريد استبدالها؟</string>
+  <string name="backpack_replace_scene_multiple">المشاهد موجودة بالفعل في حقيبة الظهر. هل تريد استبدالها؟</string>
   <!-- Project overview -->
   <string name="author">المؤلف:</string>
   <string name="screen_size">حجم الشاشة:</string>
@@ -323,12 +323,12 @@
     <item quantity="other">Copy %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
-    <item quantity="zero">إنشاء حزمة ظهر %d لبّنة</item>
-    <item quantity="one">إنشاء حزمة ظهر %d لبّنات</item>
-    <item quantity="two">إنشاء حزمة ظهر %d لبّنات</item>
-    <item quantity="few">إنشاء حزمة ظهر %d لبّنات</item>
-    <item quantity="many">إنشاء حزمة ظهر %d لبّنات</item>
-    <item quantity="other">إنشاء حزمة ظهر %d لبّنات</item>
+    <item quantity="zero">إنشاء حقيبة الظهر %d لبّنة</item>
+    <item quantity="one">إنشاء حقيبة الظهر %d لبّنة</item>
+    <item quantity="two">إنشاء حقيبة الظهر %d لبّنة</item>
+    <item quantity="few">إنشاء حقيبة الظهر %d لبّنة</item>
+    <item quantity="many">إنشاء حقيبة الظهر %d لبّنة</item>
+    <item quantity="other">إنشاء حقيبة الظهر %d لبّنة</item>
   </plurals>
   <!-- Look fragment -->
   <string name="fragment_look_text_description">انقر فوق \"+\" لإضافة مشاهد</string>
@@ -346,12 +346,12 @@
   <string name="dialog_confirm_delete_multiple_looks_title">هل تريد حذف هذه المشاهد؟</string>
   <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
   <string name="lookname">اسم المشهد:</string>
-  <string name="backpack_replace_look">المشهد %1$s موجود بالفعل في حزمة الظهر. هل تريد استبداله؟</string>
-  <string name="backpack_replace_look_multiple">المشاهد موجودة بالفعل في حزمة الظهر. هل تريد استبدالها؟</string>
+  <string name="backpack_replace_look">المشهد %1$s موجود بالفعل في حقيبة الظهر. هل تريد استبداله؟</string>
+  <string name="backpack_replace_look_multiple">المشاهد موجودة بالفعل في حقيبة الظهر. هل تريد استبدالها؟</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">انقر فوق \"+\" لإضافة الأصوات</string>
   <string name="rename_sound_dialog">إعادة تسمية الصوت</string>
-  <string name="backpack_title">حزمة الظهر الخاصة بك</string>
+  <string name="backpack_title">حقيبة الظهر الخاصة بك</string>
   <string name="soundname_invalid">اسم هذا الصوت غير صحيح</string>
   <string name="sound_play">تشغيل</string>
   <string name="sound_stop">ايقاف</string>
@@ -365,8 +365,8 @@
   <string name="sound_name">اسم ملف الصوت:</string>
   <string name="new_sound_name">اسم ملف الصوت:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
-  <string name="backpack_replace_sound">ملف الصوت %1$s موجود بالفعل في حزمة الظهر. هل تريد استبداله؟</string>
-  <string name="backpack_replace_sound_multiple">ملفات الصوت موجودة بالفعل في حزمة الظهر. هل تريد استبدالها؟</string>
+  <string name="backpack_replace_sound">ملف الصوت %1$s موجود بالفعل في حقيبة الظهر. هل تريد استبداله؟</string>
+  <string name="backpack_replace_sound_multiple">ملفات الصوت موجودة بالفعل في حقيبة الظهر. هل تريد استبدالها؟</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Scan tags to add</string>
   <string name="rename_nfctag_dialog">Rename nfctag</string>
@@ -390,7 +390,7 @@
     <item quantity="other">were unpacked!</item>
   </plurals>
   <plurals name="packing_items_plural">
-    <item quantity="zero">تم إنشاء حزمة الظهر!</item>
+    <item quantity="zero">تم إنشاء حقيبة الظهر!</item>
     <item quantity="one">تم إنشاء حزمتا الظهر!</item>
     <item quantity="two">تم إنشاء حزمة الظهر!</item>
     <item quantity="few">تم إنشاء حزمة الظهر!</item>
@@ -844,7 +844,7 @@
   <string name="error_scene_exists">الرجاء اختيار اسم آخر للمشهد.</string>
   <string name="error_scene_not_deleted">حدث خطأ أثناء حذف المشهد.</string>
   <string name="error_scene_not_copied">حدث خطأ أثناء نسخ المشهد.</string>
-  <string name="error_scene_backpack">حدث خطأ في مشهد حزمة الظهر.</string>
+  <string name="error_scene_backpack">حدث خطأ في مشهد حقيبة الظهر.</string>
   <string name="error_delete_project">حدث خطأ أثناء حذف البرنامج</string>
   <string name="error_unknown_project">لا يوجد برنامج بهذا الاسم.</string>
   <string name="error_project_upload">حدث خطأ أثناء تحميل البرنامج.</string>
@@ -1293,7 +1293,7 @@
   <string name="preference_title_enable_hints">إظهار التلميحات </string>
   <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
   <string name="hint_bricks">To add a brick to your script tap on the brick you want to use.</string>
-  <string name="hint_brick_added">نقرة قصيرة على اللّبنة يقوم بفتح القائمة لنقل، ونسخ و حذف أو إضافة لبنة إلى حزمة الظهر. عنصر المساعدة سوف يظهر لك معلومات إضافية. سحب وإسقاط اللبنة مع نقر مستمر.</string>
+  <string name="hint_brick_added">نقرة قصيرة على اللّبنة يقوم بفتح القائمة لنقل، ونسخ و حذف أو إضافة لبنة إلى حقيبة الظهر. عنصر المساعدة سوف يظهر لك معلومات إضافية. سحب وإسقاط اللبنة مع نقر مستمر.</string>
   <string name="hint_scripts">النص البرمجي يحدد سلوك الكائن الخاص بك. لإضافة لّبنات إلى االنص البرمجي أنقر على الرمز \"+\".</string>
   <string name="hint_looks">Here you can find the different appearances of your object. To add a new look tap on the \"+\" symbol.</string>
   <string name="hint_sounds">Here you can add new sounds to your object. Keep in mind to use a brick from the sound category.</string>
