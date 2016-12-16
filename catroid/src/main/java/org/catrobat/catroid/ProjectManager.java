@@ -89,6 +89,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean handleNewSceneFromScriptActivity;
 	private boolean showUploadDialog = false;
+	private boolean showLegoSensorInfoDialog = true;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -252,6 +253,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		if (project != null) {
 			project.loadLegoNXTSettingsFromProject(context);
+			project.loadLegoEV3SettingsFromProject(context);
+			showLegoSensorInfoDialog = true;
 
 			int resources = project.getRequiredResources();
 
@@ -292,6 +295,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 
 		project.saveLegoNXTSettingsToProject(context);
+		project.saveLegoEV3SettingsToProject(context);
 
 		if (asynchronousTask) {
 			SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
@@ -765,6 +769,14 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				ifBeginList.remove(ifBeginBrick);
 			}
 		}
+	}
+
+	public boolean getShowLegoSensorInfoDialog() {
+		return showLegoSensorInfoDialog;
+	}
+
+	public void setShowLegoSensorInfoDialog(boolean showLegoSensorInfoDialogFlag) {
+		showLegoSensorInfoDialog = showLegoSensorInfoDialogFlag;
 	}
 
 	@Override

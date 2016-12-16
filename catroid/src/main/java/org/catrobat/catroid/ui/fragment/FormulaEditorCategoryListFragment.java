@@ -50,7 +50,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorChooseSpriteDialog;
-import org.catrobat.catroid.ui.dialogs.LegoNXTSensorPortConfigDialog;
+import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -167,6 +167,11 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_sensor_drone_record_ready, R.string.formula_editor_sensor_drone_recording,
 			R.string.formula_editor_sensor_drone_num_frames };
 
+	private static final int[] EV3_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_ev3_sensor_touch,
+			R.string.formula_editor_sensor_lego_ev3_sensor_infrared, R.string.formula_editor_sensor_lego_ev3_sensor_color,
+			R.string.formula_editor_sensor_lego_ev3_sensor_color_ambient, R.string
+			.formula_editor_sensor_lego_ev3_sensor_color_reflected };
+
 	private static final int[] PHIRO_SENSOR_ITEMS = { R.string.formula_editor_phiro_sensor_front_left,
 			R.string.formula_editor_phiro_sensor_front_right, R.string.formula_editor_phiro_sensor_side_left,
 			R.string.formula_editor_phiro_sensor_side_right, R.string.formula_editor_phiro_sensor_bottom_left,
@@ -211,9 +216,13 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 	public void onListItemClick(int position) {
 		if (isNXTItem(position)) {
-			DialogFragment dialog = new LegoNXTSensorPortConfigDialog(itemsIds[position]);
+			DialogFragment dialog = new LegoSensorPortConfigDialog(itemsIds[position], LegoSensorPortConfigDialog.Lego.NXT);
 			dialog.setTargetFragment(this, getTargetRequestCode());
-			dialog.show(this.getActivity().getFragmentManager(), LegoNXTSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(this.getActivity().getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
+		} else if (isEV3Item(position)) {
+			DialogFragment dialog = new LegoSensorPortConfigDialog(itemsIds[position], LegoSensorPortConfigDialog.Lego.EV3);
+			dialog.setTargetFragment(this, getTargetRequestCode());
+			dialog.show(this.getActivity().getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
 		} else {
 			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -235,6 +244,16 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		String clickedItem = getString(itemsIds[position]);
 		for (int index = 0; index < NXT_SENSOR_ITEMS.length; index++) {
 			if (getString(NXT_SENSOR_ITEMS[index]).equals(clickedItem)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isEV3Item(int position) {
+		String clickedItem = getString(itemsIds[position]);
+		for (int index = 0; index < EV3_SENSOR_ITEMS.length; index++) {
+			if (getString(EV3_SENSOR_ITEMS[index]).equals(clickedItem)) {
 				return true;
 			}
 		}
@@ -273,7 +292,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		int item = getNXTPort(resultCode);
+		int item = getLegoPort(resultCode, data.getType().equals("NXT") ? true : false);
 		if (formulaEditor != null && item != -1) {
 			formulaEditor.addResourceToActiveFormula(item);
 			formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
@@ -282,16 +301,16 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		onKey(null, keyEvent.getKeyCode(), keyEvent);
 	}
 
-	private int getNXTPort(int port) {
+	private int getLegoPort(int port, boolean nxt) {
 		switch (port) {
 			case 0:
-				return R.string.formula_editor_sensor_lego_nxt_1;
+				return nxt ? R.string.formula_editor_sensor_lego_nxt_1 : R.string.formula_editor_sensor_lego_ev3_1;
 			case 1:
-				return R.string.formula_editor_sensor_lego_nxt_2;
+				return nxt ? R.string.formula_editor_sensor_lego_nxt_2 : R.string.formula_editor_sensor_lego_ev3_2;
 			case 2:
-				return R.string.formula_editor_sensor_lego_nxt_3;
+				return nxt ? R.string.formula_editor_sensor_lego_nxt_3 : R.string.formula_editor_sensor_lego_ev3_3;
 			case 3:
-				return R.string.formula_editor_sensor_lego_nxt_4;
+				return nxt ? R.string.formula_editor_sensor_lego_nxt_4 : R.string.formula_editor_sensor_lego_ev3_4;
 			default:
 				return -1;
 		}
@@ -393,6 +412,10 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_lego));
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(NXT_SENSOR_ITEMS.length));
+			}
+
+			if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, EV3_SENSOR_ITEMS);
 			}
 
 			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {

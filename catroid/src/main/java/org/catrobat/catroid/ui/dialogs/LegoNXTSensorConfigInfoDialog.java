@@ -69,7 +69,7 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						if (disableShowInfoDialog.isChecked()) {
-							SettingsActivity.disableLegoMindstormsSensorInfoDialog(LegoNXTSensorConfigInfoDialog.this.getActivity());
+							SettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(LegoNXTSensorConfigInfoDialog.this.getActivity());
 						}
 					}
 				}).create();

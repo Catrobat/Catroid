@@ -46,6 +46,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
@@ -76,7 +77,7 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		disableSensors();
-		SettingsActivity.disableLegoMindstormsSensorInfoDialog(
+		SettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(
 				this.getInstrumentation().getTargetContext().getApplicationContext());
 	}
 
@@ -93,8 +94,11 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		ConnectionDataLogger logger = ConnectionDataLogger.createLocalConnectionLogger();
 
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickOnText(projectName);
+
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(1000);
 
@@ -104,10 +108,19 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 		BluetoothTestUtils.addPairedDevice(LOCAL_BLUETOOTH_TEST_DUMMY_DEVICE_NAME,
 				(ConnectBluetoothDeviceActivity) solo.getCurrentActivity(), getInstrumentation());
 
-		ListView deviceList = solo.getCurrentViews(ListView.class).get(0);
+		int pairedDevicesIndex = 0;
+
+		for (int listViewIdx = 0; listViewIdx < solo.getCurrentViews(ListView.class).size(); listViewIdx++) {
+			if (solo.getCurrentViews(ListView.class).get(listViewIdx).getId() == R.id.paired_devices) {
+				pairedDevicesIndex = listViewIdx;
+			}
+		}
+		ListView deviceList = solo.getCurrentViews(ListView.class).get(pairedDevicesIndex);
+
 		String connectedDeviceName = null;
 		for (int i = 0; i < deviceList.getCount(); i++) {
 			String deviceName = (String) deviceList.getItemAtPosition(i);
+
 			if (deviceName.startsWith(LOCAL_BLUETOOTH_TEST_DUMMY_DEVICE_NAME)) {
 				connectedDeviceName = deviceName;
 				break;
@@ -118,6 +131,7 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.sleep(2000);
 		solo.assertCurrentActivity("Not in stage - connection to bluetooth-device failed", StageActivity.class);
 
+		solo.sleep(2000);
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2);
 
 		ArrayList<byte[]> executedCommands = logger.getSentMessages(2, commands.size());
@@ -175,7 +189,11 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		BluetoothTestUtils.enableBluetooth();
 
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickOnText(projectName);
+
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(1000);

@@ -675,6 +675,7 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_drone_turn_right_magneto, R.string.category_drone);
 
 		brickCategoryMap.put(R.string.nxt_brick_motor_move, R.string.category_lego_nxt);
+		brickCategoryMap.put(R.string.ev3_motor_move, R.string.category_lego_ev3);
 		brickCategoryMap.put(R.string.brick_when_nfc, R.string.category_control);
 	}
 

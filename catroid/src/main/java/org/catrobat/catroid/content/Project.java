@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.SupportDataContainer;
@@ -98,7 +99,6 @@ public class Project implements Serializable {
 		MessageContainer.clear();
 		//This is used for tests
 		if (context == null) {
-
 			//Because in test project we can't find the string
 			sceneList.add(new Scene(context, "Scene 1", this));
 		} else {
@@ -389,8 +389,34 @@ public class Project implements Serializable {
 		settings.add(mapping);
 	}
 
-	public void loadLegoNXTSettingsFromProject(Context context) {
+	public void saveLegoEV3SettingsToProject(Context context) {
+		if (context == null) {
+			return;
+		}
 
+		if ((getRequiredResources() & Brick.BLUETOOTH_LEGO_EV3) == 0) {
+			for (Object setting : settings.toArray()) {
+				if (setting instanceof LegoEV3Setting) {
+					settings.remove(setting);
+					return;
+				}
+			}
+			return;
+		}
+
+		EV3Sensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsEV3SensorMapping(context);
+		for (Setting setting : settings) {
+			if (setting instanceof LegoEV3Setting) {
+				((LegoEV3Setting) setting).updateMapping(sensorMapping);
+				return;
+			}
+		}
+
+		Setting mapping = new LegoEV3Setting(sensorMapping);
+		settings.add(mapping);
+	}
+
+	public void loadLegoNXTSettingsFromProject(Context context) {
 		if (context == null) {
 			return;
 		}
@@ -399,6 +425,20 @@ public class Project implements Serializable {
 			if (setting instanceof LegoNXTSetting) {
 				SettingsActivity.enableLegoMindstormsNXTBricks(context);
 				SettingsActivity.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
+				return;
+			}
+		}
+	}
+
+	public void loadLegoEV3SettingsFromProject(Context context) {
+		if (context == null) {
+			return;
+		}
+
+		for (Setting setting : settings) {
+			if (setting instanceof LegoEV3Setting) {
+				SettingsActivity.enableLegoMindstormsEV3Bricks(context);
+				SettingsActivity.setLegoMindstormsEV3SensorMapping(context, ((LegoEV3Setting) setting).getSensorMapping());
 				return;
 			}
 		}

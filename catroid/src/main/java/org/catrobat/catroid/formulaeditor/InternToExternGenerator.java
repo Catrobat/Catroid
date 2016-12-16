@@ -130,6 +130,11 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_2.name(), R.string.formula_editor_sensor_lego_nxt_2);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_3.name(), R.string.formula_editor_sensor_lego_nxt_3);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_4.name(), R.string.formula_editor_sensor_lego_nxt_4);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.EV3_SENSOR_1.name(), R.string.formula_editor_sensor_lego_ev3_1);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.EV3_SENSOR_2.name(), R.string.formula_editor_sensor_lego_ev3_2);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.EV3_SENSOR_3.name(), R.string.formula_editor_sensor_lego_ev3_3);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.EV3_SENSOR_4.name(), R.string.formula_editor_sensor_lego_ev3_4);
+
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_FRONT_LEFT.name(), R.string.formula_editor_phiro_sensor_front_left);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_FRONT_RIGHT.name(), R.string.formula_editor_phiro_sensor_front_right);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_SIDE_LEFT.name(), R.string.formula_editor_phiro_sensor_side_left);
