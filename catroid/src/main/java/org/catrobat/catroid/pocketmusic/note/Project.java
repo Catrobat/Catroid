@@ -77,7 +77,7 @@ public class Project implements Serializable {
 		return beat;
 	}
 
-	public void addTrack(String trackName, Track track) {
+	public void putTrack(String trackName, Track track) {
 		tracks.put(trackName, track);
 	}
 

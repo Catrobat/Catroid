@@ -79,4 +79,8 @@ public class TrackView extends TableLayout {
 		trackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4, beatsPerMinute);
 		initializeRows();
 	}
+
+	public TrackGrid getTrackGrid() {
+		return trackGrid;
+	}
 }

@@ -24,8 +24,11 @@
 package org.catrobat.catroid.pocketmusic;
 
 import android.os.Bundle;
+import android.util.Log;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
@@ -34,21 +37,66 @@ import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
+import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGridToTrackConverter;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
 import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
 
 public class PocketMusicActivity extends BaseActivity {
+
+	private static final String TAG = PocketMusicActivity.class.getSimpleName();
+
+	private Project project;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Project project = createDummyProject();
+		project = createDummyProject();
 
 		setContentView(R.layout.activity_pocketmusic);
 
 		TrackView trackView = (TrackView) findViewById(R.id.musicdroid_note_grid);
 		trackView.setTrack(project.getTrack("Track 1"), project.getBeatsPerMinute());
+	}
+
+	@Override
+	public void finish() {
+
+		TrackView tv = (TrackView) findViewById(R.id.musicdroid_note_grid);
+		Track track = TrackGridToTrackConverter.convertTrackGridToTrack(tv.getTrackGrid(), Project.DEFAULT_BEATS_PER_MINUTE);
+
+		for (String trackName : project.getTrackNames()) {
+			project.putTrack(trackName, track);
+		}
+
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setTitle(getString(R.string.pocketmusic_recorded_filename));
+
+		Random randomGenerator = new Random();
+		soundInfo.setSoundFileName("MUS-" + Math.abs(randomGenerator.nextInt()) + ".midi");
+
+		ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
+		File initialFile = new File(soundInfo.getAbsolutePath());
+		try {
+			projectToMidiConverter.writeProjectAsMidi(project, initialFile);
+		} catch (IOException | MidiException e) {
+			Log.e(TAG, "Couldn't save midi file (" + soundInfo.getSoundFileName() + ").", e);
+		}
+
+		soundInfo.setSoundFileName(Utils.md5Checksum(soundInfo.getAbsolutePath()) + "_" + soundInfo.getSoundFileName());
+		File rename = new File(soundInfo.getAbsolutePath());
+		initialFile.renameTo(rename);
+
+		ProjectManager.getInstance().getCurrentSprite().getSoundList().add(soundInfo);
+
+		super.finish();
 	}
 
 	public Project createDummyProject() {
@@ -84,7 +132,7 @@ public class PocketMusicActivity extends BaseActivity {
 		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm), g1On);
 		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 2, g1Off);
 
-		project.addTrack("Track 1", track);
+		project.putTrack("Track 1", track);
 
 		return project;
 	}

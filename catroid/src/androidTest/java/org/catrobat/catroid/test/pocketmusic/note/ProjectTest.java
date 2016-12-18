@@ -56,7 +56,7 @@ public class ProjectTest extends AndroidTestCase {
 		Project project = ProjectTestDataFactory.createProject();
 		Track track = TrackTestDataFactory.createTrack();
 		String trackName = "trackName";
-		project.addTrack(trackName, track);
+		project.putTrack(trackName, track);
 
 		assertEquals("Failed to add Track", 1, project.size());
 	}
@@ -65,7 +65,7 @@ public class ProjectTest extends AndroidTestCase {
 		Project project = ProjectTestDataFactory.createProject();
 		Track track = TrackTestDataFactory.createTrack();
 		String trackName = "trackName";
-		project.addTrack(trackName, track);
+		project.putTrack(trackName, track);
 
 		assertEquals("Failed to get Track", track, project.getTrack(trackName));
 	}
@@ -73,7 +73,7 @@ public class ProjectTest extends AndroidTestCase {
 	public void testGetTrackNames() {
 		Project project = ProjectTestDataFactory.createProject();
 		Track track = TrackTestDataFactory.createTrack();
-		project.addTrack("trackName", track);
+		project.putTrack("trackName", track);
 
 		assertEquals("Failed to get Tracknames", 1, project.getTrackNames().size());
 	}
@@ -81,7 +81,7 @@ public class ProjectTest extends AndroidTestCase {
 	public void testGetTotalTimeInMilliseconds() {
 		Project project = ProjectTestDataFactory.createProject();
 		Track track = TrackTestDataFactory.createSimpleTrack();
-		project.addTrack("trackName", track);
+		project.putTrack("trackName", track);
 
 		assertEquals("Time in Milliseconds is wrong", track.getTotalTimeInMilliseconds(), project
 				.getTotalTimeInMilliseconds());
