@@ -38,6 +38,7 @@ import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.catroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGridToTrackConverter;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
@@ -58,7 +59,24 @@ public class PocketMusicActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		project = createDummyProject();
+		String fileName = getIntent().getStringExtra("FILENAME");
+		String title = getIntent().getStringExtra("TITLE");
+
+		if (null != fileName) {
+			MidiToProjectConverter converter = new MidiToProjectConverter();
+			try {
+				SoundInfo soundInfo = new SoundInfo();
+				soundInfo.setSoundFileName(fileName);
+
+				project = converter.convertMidiFileToProject(new File(soundInfo.getAbsolutePath()));
+				project.setFileName(fileName);
+				project.setName(title);
+			} catch (MidiException | IOException ignored) {
+			}
+		}
+		if (project == null) {
+			project = createDummyProject();
+		}
 
 		setContentView(R.layout.activity_pocketmusic);
 
@@ -66,35 +84,57 @@ public class PocketMusicActivity extends BaseActivity {
 		trackView.setTrack(project.getTrack("Track 1"), project.getBeatsPerMinute());
 	}
 
+	public SoundInfo getSoundInfoForTrack(boolean fileExists) {
+		SoundInfo soundInfo = new SoundInfo();
+
+		if (fileExists) {
+			soundInfo.setTitle(project.getName());
+			soundInfo.setSoundFileName(project.getFileName());
+		} else {
+			soundInfo.setTitle(getString(R.string.pocketmusic_recorded_filename));
+
+			Random randomGenerator = new Random();
+			soundInfo.setSoundFileName("MUS-" + Math.abs(randomGenerator.nextInt()) + ".midi");
+		}
+		return soundInfo;
+	}
+
 	@Override
 	public void finish() {
+
+		boolean fileExists = project.getFileName() != null;
 
 		TrackView tv = (TrackView) findViewById(R.id.musicdroid_note_grid);
 		Track track = TrackGridToTrackConverter.convertTrackGridToTrack(tv.getTrackGrid(), Project.DEFAULT_BEATS_PER_MINUTE);
 
-		for (String trackName : project.getTrackNames()) {
-			project.putTrack(trackName, track);
+		if (track.isEmpty() && fileExists) {
+			new File(project.getFileName()).delete();
+			SoundInfo soundInfo = getSoundInfoForTrack(true);
+			ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundInfo);
+		} else if (!track.isEmpty()) {
+			for (String trackName : project.getTrackNames()) {
+				project.putTrack(trackName, track);
+			}
+
+			SoundInfo soundInfo = getSoundInfoForTrack(fileExists);
+
+			ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
+
+			File initialFile = new File(soundInfo.getAbsolutePath());
+			try {
+				projectToMidiConverter.writeProjectAsMidi(project, initialFile);
+			} catch (IOException | MidiException e) {
+				Log.e(TAG, "Couldn't save midi file (" + soundInfo.getSoundFileName() + ").", e);
+			}
+
+			if (!fileExists) {
+				soundInfo.setSoundFileName(Utils.md5Checksum(soundInfo.getAbsolutePath()) + "_" + soundInfo.getSoundFileName());
+				File rename = new File(soundInfo.getAbsolutePath());
+				initialFile.renameTo(rename);
+
+				ProjectManager.getInstance().getCurrentSprite().getSoundList().add(soundInfo);
+			}
 		}
-
-		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setTitle(getString(R.string.pocketmusic_recorded_filename));
-
-		Random randomGenerator = new Random();
-		soundInfo.setSoundFileName("MUS-" + Math.abs(randomGenerator.nextInt()) + ".midi");
-
-		ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
-		File initialFile = new File(soundInfo.getAbsolutePath());
-		try {
-			projectToMidiConverter.writeProjectAsMidi(project, initialFile);
-		} catch (IOException | MidiException e) {
-			Log.e(TAG, "Couldn't save midi file (" + soundInfo.getSoundFileName() + ").", e);
-		}
-
-		soundInfo.setSoundFileName(Utils.md5Checksum(soundInfo.getAbsolutePath()) + "_" + soundInfo.getSoundFileName());
-		File rename = new File(soundInfo.getAbsolutePath());
-		initialFile.renameTo(rename);
-
-		ProjectManager.getInstance().getCurrentSprite().getSoundList().add(soundInfo);
 
 		super.finish();
 	}
@@ -119,7 +159,7 @@ public class PocketMusicActivity extends BaseActivity {
 
 		track.addNoteEvent(0, c1On);
 		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm), c1Off);
-		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 2, c1On);
+		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 3, c1On);
 		track.addNoteEvent(NoteLength.QUARTER.toTicks(bpm) * 4, c1Off);
 
 		track.addNoteEvent(0, e1On);

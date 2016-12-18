@@ -53,7 +53,7 @@ public class GridRow {
 		hashCode = primeWithGoodCollisionPrevention * hashCode + noteName.hashCode();
 
 		for (int i = 0; i < getGridRowPositions().size(); i++) {
-			hashCode = primeWithGoodCollisionPrevention * hashCode + getGridRowPositions().valueAt(i).hashCode();
+			hashCode = hashCode + primeWithGoodCollisionPrevention * getGridRowPositions().valueAt(i).hashCode();
 		}
 
 		return hashCode;

@@ -37,6 +37,7 @@ public class Project implements Serializable {
 	private int beatsPerMinute;
 	private MusicalBeat beat;
 	private Map<String, Track> tracks;
+	private String fileName;
 
 	public Project(String name, MusicalBeat beat, int beatsPerMinute) {
 		this.name = name;
@@ -143,6 +144,14 @@ public class Project implements Serializable {
 		}
 
 		return false;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	@Override

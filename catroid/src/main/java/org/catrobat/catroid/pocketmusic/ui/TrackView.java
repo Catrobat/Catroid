@@ -29,6 +29,7 @@ import android.widget.TableLayout;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
+import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
@@ -66,7 +67,8 @@ public class TrackView extends TableLayout {
 		for (int i = 0; i < ROW_COUNT; i++) {
 			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
 			NoteName noteName = NoteName.getNoteNameFromMidiValue(NoteName.C1.getMidi() + i);
-			trackRowViews.add(new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, trackGrid.getGridRowForNoteName(noteName)));
+			trackRowViews.add(new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, noteName,
+					trackGrid.getGridRowForNoteName(noteName), this));
 			addView(trackRowViews.get(i), params);
 		}
 	}
@@ -78,6 +80,10 @@ public class TrackView extends TableLayout {
 	public void setTrack(Track track, int beatsPerMinute) {
 		trackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4, beatsPerMinute);
 		initializeRows();
+	}
+
+	public void updateGridRowPosition(NoteName noteName, int columnIndex, NoteLength noteLength, boolean toggled) {
+		trackGrid.updateGridRowPosition(noteName, columnIndex, noteLength, toggled);
 	}
 
 	public TrackGrid getTrackGrid() {
