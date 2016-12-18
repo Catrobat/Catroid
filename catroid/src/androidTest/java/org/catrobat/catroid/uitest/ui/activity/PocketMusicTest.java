@@ -137,19 +137,6 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		TrackView trackView = (TrackView) solo.getCurrentActivity().findViewById(R.id.musicdroid_note_grid);
 
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(0)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(3)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(4).getNoteViews().get(0)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(4).getNoteViews().get(2)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(7).getNoteViews().get(0)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(7).getNoteViews().get(1)
-				.isToggled());
-
 		Random random = new Random();
 		int randomRow = random.nextInt(TrackView.ROW_COUNT);
 		int randomCol = random.nextInt(TrackRowView.QUARTER_COUNT);
