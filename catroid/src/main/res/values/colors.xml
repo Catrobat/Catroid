@@ -98,4 +98,9 @@
     <color name="drone_tilt_color">#FFE01B</color>
     <color name="drone_holo_blue_bright">#33B5E5</color>
 
+    <!-- Pocketmusic colors -->
+    <color name="turquoise_play_line">#FF008b96</color>
+    <color name="opaque_turquoise_play_line">#FF80c5ca</color>
+    <color name="opaque_turquoise_play_line_dark">#FF5EA3A8</color>
+
 </resources>

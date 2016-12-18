@@ -169,7 +169,7 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
 
 		assertNotNull("Play Button Element was not found.",
-				solo.getCurrentActivity().findViewById(R.id.musicdroid_button_play));
+				solo.getCurrentActivity().findViewById(R.id.pocketmusic_play_button));
 	}
 
 	private void prepareTest() {
