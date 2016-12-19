@@ -49,8 +49,7 @@
     android:queryHint="@string/search_hint"
     android:iconifiedByDefault="false"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:privateImeOptions="nm" />
+    android:focusableInTouchMode="true" />
 
 <ImageButton
     android:id="@+id/mic_button_image_scratch"

@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -210,6 +211,188 @@ public class UtilsTest extends AndroidTestCase {
 			fail("Tried to load project which should not be loadable.");
 		}
 		TestUtils.removeFromPreferences(getContext(), Constants.PREF_PROJECTNAME_KEY);
+	}
+
+	public void testExtractRemixUrlsOfProgramHeaderUrlFieldContainingSingleAbsoluteUrl() {
+		final String expectedFirstProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
+		final String remixUrlsString = expectedFirstProgramRemixUrl;
+
+		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
+		assertEquals("Invalid number of remix URLs extracted", 1, result.size());
+		assertEquals("Failed to extract remix URL", expectedFirstProgramRemixUrl, result.get(0));
+	}
+
+	public void testExtractRemixUrlsOfProgramHeaderUrlFieldContainingSingleRelativeUrl() {
+		final String expectedFirstProgramRemixUrl = "/pocketcode/program/3570";
+		final String remixUrlsString = expectedFirstProgramRemixUrl;
+
+		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
+		assertEquals("Invalid number of remix URLs extracted", 1, result.size());
+		assertEquals("Failed to extract remix URL", expectedFirstProgramRemixUrl, result.get(0));
+	}
+
+	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingTwoAbsoluteUrls() {
+		final String expectedFirstProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
+		final String expectedSecondProgramRemixUrl = "https://scratch.mit.edu/projects/110380057/";
+
+		final XmlHeader headerOfFirstProgram = new XmlHeader();
+		headerOfFirstProgram.setProgramName("Catrobat program");
+		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
+
+		final XmlHeader headerOfSecondProgram = new XmlHeader();
+		headerOfSecondProgram.setProgramName("Scratch program");
+		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
+
+		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
+				headerOfSecondProgram);
+		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
+		assertEquals("Invalid number of remix URLs extracted", 2, result.size());
+		assertEquals("Failed to extract URL of first program", expectedFirstProgramRemixUrl, result.get(0));
+		assertEquals("Failed to extract URL of second program", expectedSecondProgramRemixUrl, result.get(1));
+	}
+
+	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingTwoRelativeUrls() {
+		final String expectedFirstProgramRemixUrl = "/pocketcode/program/16267";
+		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
+
+		final XmlHeader headerOfFirstProgram = new XmlHeader();
+		headerOfFirstProgram.setProgramName("Program A");
+		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
+
+		final XmlHeader headerOfSecondProgram = new XmlHeader();
+		headerOfSecondProgram.setProgramName("Program B");
+		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
+
+		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
+				headerOfSecondProgram);
+
+		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
+		assertEquals("Invalid number of remix URLs extracted", 2, result.size());
+		assertEquals("Failed to extract URL of first program", expectedFirstProgramRemixUrl, result.get(0));
+		assertEquals("Failed to extract URL of second program", expectedSecondProgramRemixUrl, result.get(1));
+	}
+
+	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingNoUrls() {
+		final XmlHeader headerOfFirstProgram = new XmlHeader();
+		headerOfFirstProgram.setProgramName("Program A");
+
+		final XmlHeader headerOfSecondProgram = new XmlHeader();
+		headerOfSecondProgram.setProgramName("Program B");
+
+		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
+				headerOfSecondProgram);
+
+		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
+		assertEquals("Invalid number of remix URLs extracted", 0, result.size());
+	}
+
+	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingMultipleMixedUrls() {
+		final String expectedFirstProgramRemixUrl = "https://scratch.mit.edu/projects/117697631/";
+		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
+
+		final XmlHeader headerOfFirstProgram = new XmlHeader();
+		headerOfFirstProgram.setProgramName("My Scratch program");
+		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
+
+		final XmlHeader headerOfSecondProgram = new XmlHeader();
+		headerOfSecondProgram.setProgramName("The Periodic Table");
+		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
+
+		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
+				headerOfSecondProgram);
+
+		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
+		assertEquals("Invalid number of remix URLs extracted", 2, result.size());
+		assertEquals("Failed to extract URL of first program", expectedFirstProgramRemixUrl, result.get(0));
+		assertEquals("Failed to extract URL of second program", expectedSecondProgramRemixUrl, result.get(1));
+	}
+
+	public void testExtractRemixUrlsOfRemergedProgramHeaderUrlFieldContainingMixedUrls() {
+		final String expectedFirstProgramRemixUrl = "https://scratch.mit.edu/projects/117697631/";
+		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
+		final String expectedThirdProgramRemixUrl = "https://scratch.mit.edu/projects/121648946/";
+		final String expectedFourthProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
+
+		final XmlHeader headerOfFirstProgram = new XmlHeader();
+		headerOfFirstProgram.setProgramName("My first Scratch program");
+		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
+
+		final XmlHeader headerOfSecondProgram = new XmlHeader();
+		headerOfSecondProgram.setProgramName("The Periodic Table");
+		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
+
+		final String firstMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
+				headerOfSecondProgram);
+
+		final XmlHeader headerOfFirstMergedProgram = new XmlHeader();
+		headerOfFirstMergedProgram.setProgramName("First merged Catrobat program");
+		headerOfFirstMergedProgram.setRemixParentsUrlString(firstMergedRemixUrlsString);
+
+		final XmlHeader headerOfThirdProgram = new XmlHeader();
+		headerOfThirdProgram.setProgramName("My second Scratch program");
+		headerOfThirdProgram.setRemixParentsUrlString(expectedThirdProgramRemixUrl);
+
+		final String secondMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstMergedProgram,
+				headerOfThirdProgram);
+
+		final XmlHeader headerOfSecondMergedProgram = new XmlHeader();
+		headerOfSecondMergedProgram.setProgramName("Second merged Catrobat program");
+		headerOfSecondMergedProgram.setRemixParentsUrlString(secondMergedRemixUrlsString);
+
+		final XmlHeader headerOfFourthProgram = new XmlHeader();
+		headerOfFourthProgram.setProgramName("My third Catrobat program");
+		headerOfFourthProgram.setRemixParentsUrlString(expectedFourthProgramRemixUrl);
+
+		final String finalMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfSecondMergedProgram,
+				headerOfFourthProgram);
+
+		List<String> result = Utils.extractRemixUrlsFromString(finalMergedRemixUrlsString);
+		assertEquals("Invalid number of remix URLs extracted", 4, result.size());
+		assertEquals("Failed to extract URL of first program", expectedFirstProgramRemixUrl, result.get(0));
+		assertEquals("Failed to extract URL of second program", expectedSecondProgramRemixUrl, result.get(1));
+		assertEquals("Failed to extract URL of third program", expectedThirdProgramRemixUrl, result.get(2));
+		assertEquals("Failed to extract URL of fourth program", expectedFourthProgramRemixUrl, result.get(3));
+	}
+
+	public void testExtractRemixUrlsOfRemergedProgramHeaderUrlFieldContainingMissingUrls() {
+		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
+		final String expectedFourthProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
+
+		final XmlHeader headerOfFirstProgram = new XmlHeader();
+		headerOfFirstProgram.setProgramName("Program A");
+
+		final XmlHeader headerOfSecondProgram = new XmlHeader();
+		headerOfSecondProgram.setProgramName("Program B");
+		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
+
+		final String firstMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
+				headerOfSecondProgram);
+
+		final XmlHeader headerOfFirstMergedProgram = new XmlHeader();
+		headerOfFirstMergedProgram.setProgramName("First merged program");
+		headerOfFirstMergedProgram.setRemixParentsUrlString(firstMergedRemixUrlsString);
+
+		final XmlHeader headerOfThirdProgram = new XmlHeader();
+		headerOfThirdProgram.setProgramName("Program C");
+
+		final String secondMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstMergedProgram,
+				headerOfThirdProgram);
+
+		final XmlHeader headerOfSecondMergedProgram = new XmlHeader();
+		headerOfSecondMergedProgram.setProgramName("Second merged program");
+		headerOfSecondMergedProgram.setRemixParentsUrlString(secondMergedRemixUrlsString);
+
+		final XmlHeader headerOfFourthProgram = new XmlHeader();
+		headerOfFourthProgram.setProgramName("Program D");
+		headerOfFourthProgram.setRemixParentsUrlString(expectedFourthProgramRemixUrl);
+
+		final String finalMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfSecondMergedProgram,
+				headerOfFourthProgram);
+
+		List<String> result = Utils.extractRemixUrlsFromString(finalMergedRemixUrlsString);
+		assertEquals("Invalid number of remix URLs extracted", 2, result.size());
+		assertEquals("Failed to extract remix URL of second program", expectedSecondProgramRemixUrl, result.get(0));
+		assertEquals("Failed to extract remix URL of fourth program", expectedFourthProgramRemixUrl, result.get(1));
 	}
 
 	private void addSpriteAndCompareToStandardProject() {
