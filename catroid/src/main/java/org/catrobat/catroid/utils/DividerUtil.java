@@ -35,7 +35,7 @@ public final class DividerUtil {
 
 	private static boolean activated = false;
 
-	public static int dividerHeight = 30;
+	public static int dividerHeight = 60;
 
 	private DividerUtil() {
 	}
@@ -50,7 +50,7 @@ public final class DividerUtil {
 
 	public static void setDivider(Context context, ListView listView) {
 		if (isActivated()) {
-			listView.setDivider(context.getResources().getDrawable(R.drawable.divider));
+			listView.setDividerHeight(dividerHeight);
 		}
 	}
 
