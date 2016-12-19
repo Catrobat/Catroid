@@ -27,6 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -104,9 +105,10 @@ public class Formula implements Serializable {
 		displayText = null;
 	}
 
-	public void updateCollsionFormulasToNewVersion()
-	{
+	public void updateCollisionFormulasToNewVersion() {
 		formulaTree.updateCollisionFormulaToNewVersion();
+		internFormula.generateExternFormulaStringAndInternExternMapping(CatroidApplication.getAppContext());
+		displayText = null;
 	}
 
 	public boolean containsSpriteInCollision(String name) {

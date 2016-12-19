@@ -25,14 +25,14 @@ package org.catrobat.catroid.formulaeditor;
 import android.content.res.Resources;
 import android.util.Log;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.Arduino;
@@ -194,15 +194,8 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			contained |= rightChild.containsSpriteInCollision(name);
 		}
-		if (type == ElementType.COLLISION_FORMULA) {
-			String collisionTag = CatroidApplication.getAppContext().getString(R.string
-					.formula_editor_function_collision);
-			int start = collisionTag.length() + 1;
-			int end = value.length()-1;
-			String secondSprite = value.substring(start, end);
-			if (secondSprite.equals(name)) {
-				contained = true;
-			}
+		if (type == ElementType.COLLISION_FORMULA && value.equals(name)) {
+			contained = true;
 		}
 		return contained;
 	}
@@ -215,36 +208,37 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			rightChild.updateCollisionFormula(oldName, newName);
 		}
-		if (type == ElementType.COLLISION_FORMULA && value.contains(oldName)) {
-			String collisionTag = CatroidApplication.getAppContext().getString(R.string
-					.formula_editor_function_collision);
-			String firstSprite = value.substring(0, value.indexOf(collisionTag) - 1);
-			String secondSprite = value.substring(value.indexOf(collisionTag) + collisionTag.length() + 1, value.length());
-			if (firstSprite.equals(oldName)) {
-				value = newName + " " + collisionTag + " " + secondSprite;
-			} else if (secondSprite.equals(oldName)) {
-				value = firstSprite + " " + collisionTag + " " + newName;
-			}
+		if (type == ElementType.COLLISION_FORMULA && value.equals(oldName)) {
+			value = newName;
 		}
 	}
 
-	public void updateCollisionFormulaToNewVersion()
-	{
+	public void updateCollisionFormulaToNewVersion() {
 		if (leftChild != null) {
 			leftChild.updateCollisionFormulaToNewVersion();
 		}
 		if (rightChild != null) {
 			rightChild.updateCollisionFormulaToNewVersion();
 		}
-		if (type == ElementType.COLLISION_FORMULA)
-		{
-			String collisionTag = CatroidApplication.getAppContext().getString(R.string
-				.formula_editor_function_collision);
-			String secondSpriteName = value.substring(value.indexOf(collisionTag) + collisionTag.length() + 1, value
-					.length());
-			value = collisionTag + "(" + secondSpriteName + ")";
+		if (type == ElementType.COLLISION_FORMULA) {
+			int indexOfSpriteInFormula = -1;
+			for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+				for (Sprite sprite : scene.getSpriteList()) {
+					int index = value.indexOf(sprite.getName());
+					if (index > indexOfSpriteInFormula) {
+						indexOfSpriteInFormula = index;
+					}
+				}
+			}
+			if (indexOfSpriteInFormula < 0) {
+				return;
+			}
+			String secondSpriteName = value.substring(indexOfSpriteInFormula, value.length());
+			for (InternToken token : getInternTokenList()) {
+				token.updateCollisionFormula(value, secondSpriteName);
+			}
+			value = secondSpriteName;
 		}
-
 	}
 
 	public Object interpretRecursive(Sprite sprite) {
@@ -290,29 +284,28 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretCollision(Sprite firstSprite, String formula) {
-		/*int start = 0;
-		String collidesWithTag = CatroidApplication.getAppContext().getString(R.string
-				.formula_editor_function_collision);
-		int end = formula.indexOf(collidesWithTag) - 1;
-		String firstSpriteName = formula.substring(start, end);
 
-		start = end + collidesWithTag.length() + 2;
-		end = formula.length();
-		String secondSpriteName = formula.substring(start, end);
-*/
-		String collidesWithTag = CatroidApplication.getAppContext().getString(R.string
-				.formula_editor_function_collision);
-		int start = collidesWithTag.length() + 1;
-		int end = formula.length() - 1;
-		String secondSpriteName = formula.substring(start,end);
-		Look firstLook = firstSprite.look;
-		Look secondLook;
+		String secondSpriteName = formula;
+		Sprite secondSprite;
 		try {
-			secondLook = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(secondSpriteName).look;
+			secondSprite = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(secondSpriteName);
 		} catch (Resources.NotFoundException exception) {
 			return 0d;
 		}
+		Look firstLook = firstSprite.look;
+		Look secondLook;
+		if (secondSprite instanceof GroupSprite) {
+			List<Sprite> groupSprites = GroupSprite.getSpritesFromGroupWithGroupName(secondSpriteName);
+			for (Sprite sprite : groupSprites) {
+				secondLook = sprite.look;
+				if (CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook) == 1d) {
+					return 1d;
+				}
+			}
+			return 0d;
+		}
 
+		secondLook = secondSprite.look;
 		return CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook);
 	}
 

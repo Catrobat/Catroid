@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.sensing;
 
-import android.util.Log;
-
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
@@ -38,7 +36,7 @@ public final class CollisionDetection {
 	}
 
 	public static double checkCollisionBetweenLooks(Look firstLook, Look secondLook) {
-		if (!firstLook.isVisible() || !secondLook.isVisible()) {
+		if (!firstLook.isVisible() || !firstLook.isLookVisible() || !secondLook.isVisible() || !secondLook.isLookVisible()) {
 			return 0d;
 		}
 

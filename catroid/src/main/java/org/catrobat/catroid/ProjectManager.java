@@ -245,6 +245,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (project.getCatrobatLanguageVersion() == 0.992f) {
 				project.updateCollisionFormulasToNewVersion();
 				project.setCatrobatLanguageVersion(0.993f);
+				asynchronousTask = false;
+				saveProject(context);
+				loadProject(projectName, context);
+				asynchronousTask = true;
 			}
 			if (project.getCatrobatLanguageVersion() == 0.993f) {
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);

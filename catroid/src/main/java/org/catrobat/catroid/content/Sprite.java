@@ -32,6 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
@@ -763,6 +764,9 @@ public class Sprite implements Serializable, Cloneable {
 				}
 			}
 		}
+		if (hasCollision()) {
+			renameSpriteInCollisionFormulas(newSpriteName, CatroidApplication.getAppContext());
+		}
 		setName(newSpriteName);
 	}
 
@@ -818,32 +822,17 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
-	public void renameCopiedSpriteInCollisionFormulas(String oldName, String newName, Context context) {
-
-		for (Script currentScript : getScriptList()) {
-			if (currentScript == null) {
-				return;
-			}
-			List<Brick> brickList = currentScript.getBrickList();
-			for (Brick brick : brickList) {
-				if (brick instanceof UserBrick) {
-					List<Formula> formulaList = ((UserBrick) brick).getFormulas();
-					for (Formula formula : formulaList) {
-						formula.updateCollisionFormulas(oldName, newName, context);
-					}
-				}
-				if (brick instanceof FormulaBrick) {
-					List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
-					for (Formula formula : formulaList) {
-						formula.updateCollisionFormulas(oldName, newName, context);
-					}
-				}
-			}
-		}
-	}
-
 	public boolean hasCollision() {
 		for (Script script : getScriptList()) {
+			Brick scriptBrick = script.getScriptBrick();
+			if (scriptBrick instanceof FormulaBrick) {
+				FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
+				for (Formula formula : formulaBrick.getFormulas()) {
+					if (formula.containsElement(FormulaElement.ElementType.COLLISION_FORMULA)) {
+						return true;
+					}
+				}
+			}
 			for (Brick brick : script.brickList) {
 				if (brick instanceof FormulaBrick) {
 					FormulaBrick formulaBrick = (FormulaBrick) brick;
@@ -866,6 +855,15 @@ public class Sprite implements Serializable, Cloneable {
 
 	public boolean hasToCollideWith(Sprite other) {
 		for (Script script : getScriptList()) {
+			Brick scriptBrick = script.getScriptBrick();
+			if (scriptBrick instanceof FormulaBrick) {
+				FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
+				for (Formula formula : formulaBrick.getFormulas()) {
+					if (formula.containsSpriteInCollision(other.getName())) {
+						return true;
+					}
+				}
+			}
 			for (Brick brick : script.brickList) {
 				if (brick instanceof FormulaBrick) {
 					FormulaBrick formulaBrick = (FormulaBrick) brick;
@@ -880,20 +878,64 @@ public class Sprite implements Serializable, Cloneable {
 		return false;
 	}
 
-	public void updateCollisionFormulasToNewVersion()
-	{
+	public void updateCollisionFormulasToNewVersion() {
 		for (Script script : getScriptList()) {
-			for (Brick brick : script.brickList) {
-				if (brick instanceof FormulaBrick) {
+			Brick scriptBrick = script.getScriptBrick();
+			if (scriptBrick instanceof FormulaBrick) {
+				FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
+				for (Formula formula : formulaBrick.getFormulas()) {
+					formula.updateCollisionFormulasToNewVersion();
+				}
+			}
+			for (Brick brick : script.getBrickList()) {
+				if (brick instanceof UserBrick) {
+					UserBrick formulaBrick = (UserBrick) brick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						formula.updateCollisionFormulasToNewVersion();
+					}
+				} else if (brick instanceof FormulaBrick) {
 					FormulaBrick formulaBrick = (FormulaBrick) brick;
 					for (Formula formula : formulaBrick.getFormulas()) {
-							formula.updateCollsionFormulasToNewVersion();
+						formula.updateCollisionFormulasToNewVersion();
 					}
 				}
 			}
 		}
 	}
 
+	private void renameSpriteInCollisionFormulas(String newName, Context context) {
+		String oldName = getName();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		for (Sprite sprite : spriteList) {
+			for (Script currentScript : sprite.getScriptList()) {
+				if (currentScript == null) {
+					return;
+				}
+				Brick scriptBrick = currentScript.getScriptBrick();
+				if (scriptBrick instanceof FormulaBrick) {
+					FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						formula.updateCollisionFormulas(oldName, newName, context);
+					}
+				}
+				List<Brick> brickList = currentScript.getBrickList();
+				for (Brick brick : brickList) {
+					if (brick instanceof UserBrick) {
+						List<Formula> formulaList = ((UserBrick) brick).getFormulas();
+						for (Formula formula : formulaList) {
+							formula.updateCollisionFormulas(oldName, newName, context);
+						}
+					}
+					if (brick instanceof FormulaBrick) {
+						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
+						for (Formula formula : formulaList) {
+							formula.updateCollisionFormulas(oldName, newName, context);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	public void createCollisionPolygons() {
 		for (LookData lookData : getLookDataList()) {

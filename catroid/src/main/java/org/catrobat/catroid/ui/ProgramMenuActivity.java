@@ -163,7 +163,7 @@ public class ProgramMenuActivity extends BaseActivity {
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
-				ProjectManager.getInstance().getCurrentSprite().setName(newSpriteName);
+				ProjectManager.getInstance().getCurrentSprite().rename(newSpriteName);
 				final ActionBar actionBar = getActionBar();
 				actionBar.setTitle(newSpriteName);
 			}

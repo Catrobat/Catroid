@@ -413,8 +413,8 @@ public class Project implements Serializable {
 			scene.refreshSpriteReferences();
 		}
 	}
-	public void updateCollisionFormulasToNewVersion()
-	{
+
+	public void updateCollisionFormulasToNewVersion() {
 		for (Scene scene : sceneList) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				sprite.updateCollisionFormulasToNewVersion();
