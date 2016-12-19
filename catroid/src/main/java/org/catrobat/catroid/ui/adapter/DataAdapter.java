@@ -225,11 +225,7 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 		}
 
 		if (holder.text1 != null) {
-			if (currentDataItem instanceof UserVariable) {
-				holder.text1.setText(nameOfCurrentDataItem.concat(":"));
-			} else {
-				holder.text1.setText(nameOfCurrentDataItem);
-			}
+			holder.text1.setText(nameOfCurrentDataItem);
 		}
 
 		if (holder.text2 != null) {
