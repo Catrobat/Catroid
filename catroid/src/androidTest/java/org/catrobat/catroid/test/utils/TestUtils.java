@@ -29,6 +29,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+
 import junit.framework.Assert;
 
 import org.catrobat.catroid.ProjectManager;
@@ -442,5 +445,12 @@ public final class TestUtils {
 		} catch (InterruptedException e) {
 			Log.e(TAG, e.getMessage());
 		}
+	}
+
+	public static Pixmap createRectanglePixmap(int width, int height, Color color) {
+		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+		pixmap.setColor(color);
+		pixmap.fillRectangle(0, 0, width, height);
+		return pixmap;
 	}
 }

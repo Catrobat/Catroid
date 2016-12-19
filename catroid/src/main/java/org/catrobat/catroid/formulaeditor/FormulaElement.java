@@ -283,8 +283,8 @@ public class FormulaElement implements Serializable {
 		Look firstLook;
 		Look secondLook;
 		try {
-			firstLook = ProjectManager.getInstance().getCurrentScene().getSpriteBySpriteName(firstSpriteName).look;
-			secondLook = ProjectManager.getInstance().getCurrentScene().getSpriteBySpriteName(secondSpriteName).look;
+			firstLook = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(firstSpriteName).look;
+			secondLook = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(secondSpriteName).look;
 		} catch (Resources.NotFoundException exception) {
 			return 0d;
 		}
@@ -1096,6 +1096,13 @@ public class FormulaElement implements Serializable {
 				case NXT_SENSOR_3:
 				case NXT_SENSOR_4:
 					resources |= Brick.BLUETOOTH_LEGO_NXT;
+					break;
+
+				case EV3_SENSOR_1:
+				case EV3_SENSOR_2:
+				case EV3_SENSOR_3:
+				case EV3_SENSOR_4:
+					resources |= Brick.BLUETOOTH_LEGO_EV3;
 					break;
 
 				case PHIRO_FRONT_LEFT:

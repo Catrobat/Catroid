@@ -119,7 +119,7 @@ public final class TrackTestDataFactory {
 		long tick = 0;
 
 		tick += NoteLength.HALF.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-		tick += NoteLength.SIXTEENTH.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
 
@@ -135,32 +135,32 @@ public final class TrackTestDataFactory {
 
 		long tick = 0;
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C2, true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C5, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C2, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C5, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, true));
 
-		tick += NoteLength.QUARTER_DOT.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.F1, true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, true));
 
-		tick += NoteLength.QUARTER_DOT.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.F1, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, false));
 
 		return track;
 	}
@@ -193,5 +193,9 @@ public final class TrackTestDataFactory {
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
 
 		return track;
+	}
+
+	public static Track createEmptyTrack(MusicalInstrument acousticGrandPiano) {
+		return new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 	}
 }

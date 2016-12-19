@@ -237,7 +237,6 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		testScript.addBrick(comeToFrontBrick);
 
 		otherScript.addBrick(placeAtBrick);
-		otherScript.setPaused(true);
 
 		firstSprite.addScript(testScript);
 		secondSprite.addScript(otherScript);

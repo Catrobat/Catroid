@@ -138,18 +138,34 @@ public class Look extends Image {
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
 
+		cloneLook.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
+				this.getYInUserInterfaceDimensionUnit());
+		cloneLook.setTransparencyInUserInterfaceDimensionUnit(this.getTransparencyInUserInterfaceDimensionUnit());
+		cloneLook.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
+
+		int rotationMode = this.getRotationMode();
+		cloneLook.setRotationMode(rotationMode);
+		if (rotationMode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && this.isFlipped()) {
+			cloneLook.getLookData().getTextureRegion().flip(true, false);
+			cloneLook.setFlipped(false);
+		}
+		boolean orientedLeft = this.getDirectionInUserInterfaceDimensionUnit() < 0;
+		if (rotationMode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft) {
+			cloneLook.getLookData().getTextureRegion().flip(true, false);
+			cloneLook.setFlipped(true);
+		}
+		cloneLook.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
+		cloneLook.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
+
 		return cloneLook;
 	}
 
 	public boolean doTouchDown(float x, float y, int pointer) {
-		if (sprite.isPaused) {
-			return true;
-		}
 		if (!isLookVisible()) {
 			return false;
 		}
 		if (isFlipped) {
-			x = -x + getWidth();
+			x = (getWidth() - 1) - x;
 		}
 
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection

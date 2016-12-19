@@ -40,7 +40,7 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.ui.adapter.ProjectAdapter;
+import org.catrobat.catroid.ui.adapter.ProjectListAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -60,11 +60,11 @@ public class MergeTask {
 	private Project firstProject = null;
 	private Project secondProject = null;
 	private Project mergedProject = null;
-	private ProjectAdapter adapter = null;
+	private ProjectListAdapter adapter = null;
 	private boolean addScene = false;
 	private String oldSceneName = null;
 
-	public MergeTask(Project firstProject, Project secondProject, Activity activity, ProjectAdapter
+	public MergeTask(Project firstProject, Project secondProject, Activity activity, ProjectListAdapter
 			adapter, boolean addScene) {
 		if (addScene) {
 			this.firstProject = firstProject.getProjectLists().size() == 1 ? secondProject : firstProject;
@@ -139,6 +139,7 @@ public class MergeTask {
 		}
 
 		mergedProject = StorageHandler.getInstance().loadProject(mergedProject.getName(), activity);
+		ProjectManager.getInstance().setCurrentProject(mergedProject);
 
 		if (adapter != null) {
 			File projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(mergeProjectName),
@@ -260,16 +261,7 @@ public class MergeTask {
 		mergeHeader.setVirtualScreenWidth(mainHeader.virtualScreenWidth);
 		mergeHeader.setVirtualScreenHeight(mainHeader.virtualScreenHeight);
 
-		String name = mainHeader.getProgramName();
-		if (!mainHeader.getRemixOf().equals("")) {
-			name += "[" + mainHeader.getRemixOf() + "]";
-		}
-
-		name += ", " + subHeader.getProgramName();
-		if (!subHeader.getRemixOf().equals("")) {
-			name += "[" + subHeader.getRemixOf() + "]";
-		}
-		mergeHeader.setRemixOf(name);
+		mergeHeader.setRemixParentsUrlString(Utils.generateRemixUrlsStringForMergedProgram(mainHeader, subHeader));
 		mergedProject.setXmlHeader(mergeHeader);
 	}
 

@@ -53,7 +53,7 @@ public class GridRow {
 		hashCode = primeWithGoodCollisionPrevention * hashCode + noteName.hashCode();
 
 		for (int i = 0; i < getGridRowPositions().size(); i++) {
-			hashCode = primeWithGoodCollisionPrevention * hashCode + getGridRowPositions().valueAt(i).hashCode();
+			hashCode = hashCode + primeWithGoodCollisionPrevention * getGridRowPositions().valueAt(i).hashCode();
 		}
 
 		return hashCode;
@@ -65,6 +65,10 @@ public class GridRow {
 			return false;
 		}
 		GridRow reference = (GridRow) o;
+
+		if (!reference.noteName.equals(noteName)) {
+			return false;
+		}
 
 		if (reference.getGridRowPositions().size() != getGridRowPositions().size()) {
 			return false;
@@ -83,6 +87,6 @@ public class GridRow {
 				return false;
 			}
 		}
-		return reference.noteName.equals(noteName);
+		return true;
 	}
 }

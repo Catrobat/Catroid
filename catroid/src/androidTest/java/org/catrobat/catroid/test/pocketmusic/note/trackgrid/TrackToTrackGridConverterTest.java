@@ -48,19 +48,29 @@ public class TrackToTrackGridConverterTest extends AndroidTestCase {
 		Track track = TrackTestDataFactory.createTrackWithSeveralBreaks();
 		TrackGrid trackWithSeveralBreaks = TrackGridTestDataFactory.createTrackGridWithSeveralBreaks();
 
-		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_16_16, Project
-				.DEFAULT_BEATS_PER_MINUTE);
+		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4,
+				Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertTrue("Failed to convert Track with several breaks", convertedTrackGrid.equals(trackWithSeveralBreaks));
 	}
 
-	public void testConvertTrack() {
+	public void testConvertSemiComplexTrack() {
 		Track track = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-		TrackGrid semiComplexTrack = TrackGridTestDataFactory.createSemiComplexTrackGrid(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		TrackGrid semiComplexTrack = TrackGridTestDataFactory.createSemiComplexTrackGrid();
 
-		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_16_16, Project
-				.DEFAULT_BEATS_PER_MINUTE);
+		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4,
+				Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertTrue("Failed to convert a more complex Track", convertedTrackGrid.equals(semiComplexTrack));
+	}
+
+	public void testConvertEmptyTrack() {
+		Track emptyTrack = TrackTestDataFactory.createEmptyTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		TrackGrid emptyTrackGrid = TrackGridTestDataFactory.createEmptyTrackGrid();
+
+		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(emptyTrack, MusicalBeat.BEAT_4_4,
+				Project.DEFAULT_BEATS_PER_MINUTE);
+
+		assertTrue("Failed to convert empty Track", convertedTrackGrid.equals(emptyTrackGrid));
 	}
 }

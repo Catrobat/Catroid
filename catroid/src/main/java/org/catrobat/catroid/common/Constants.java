@@ -48,6 +48,12 @@ public final class Constants {
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String IMAGE_STANDARD_EXTENSION = ".png";
 	public static final String SOUND_STANDARD_EXTENSION = ".wav";
+	public static final char REMIX_URL_PREFIX_INDICATOR = '[';
+	public static final char REMIX_URL_SUFIX_INDICATOR = ']';
+	public static final char REMIX_URL_SEPARATOR = ',';
+	public static final char REMIX_URL_PREFIX_REPLACE_INDICATOR = '(';
+	public static final char REMIX_URL_SUFIX_REPLACE_INDICATOR = ')';
+	public static final char REMIX_URL_REPLACE_SEPARATOR = ';';
 
 	//Extensions:
 	public static final String[] IMAGE_EXTENSIONS = { ".png", ".jpg", ".jpeg", ".png", ".gif" };

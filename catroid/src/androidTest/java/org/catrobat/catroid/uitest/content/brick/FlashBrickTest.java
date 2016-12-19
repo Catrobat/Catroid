@@ -72,7 +72,7 @@ public class FlashBrickTest extends BaseActivityInstrumentationTestCase<ScriptAc
 		//TODO: fix this test
 		/*
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
-		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getSoundAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 

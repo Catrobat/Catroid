@@ -352,7 +352,9 @@ public class DataContainer implements Serializable {
 		Iterator iterator = spriteVariables.keySet().iterator();
 		while (iterator.hasNext()) {
 			Sprite sprite = (Sprite) iterator.next();
-			if (sprite == null || !(sprite == spriteToKeep) && sprite.getName().equals(spriteToKeep.getName())) {
+			if (sprite == null || !(sprite == spriteToKeep)
+					&& spriteVariables.get(sprite).size() == 0
+					&& sprite.getName().equals(spriteToKeep.getName())) {
 				iterator.remove();
 			}
 		}

@@ -122,6 +122,10 @@ import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -311,6 +315,11 @@ public final class StorageHandler {
 		xstream.registerConverter(new XStreamSpriteConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamSettingConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 
+		xstream.omitField(CameraBrick.class, "spinnerValues");
+		xstream.omitField(ChooseCameraBrick.class, "spinnerValues");
+		xstream.omitField(FlashBrick.class, "spinnerValues");
+		xstream.omitField(StopScriptBrick.class, "spinnerValue");
+
 		setProgramXstreamAliases();
 	}
 
@@ -485,6 +494,11 @@ public final class StorageHandler {
 		xstream.alias("brick", PhiroRGBLightBrick.class);
 		xstream.alias("brick", PhiroIfLogicBeginBrick.class);
 
+		xstream.alias("brick", LegoEv3PlayToneBrick.class);
+		xstream.alias("brick", LegoEv3MotorMoveBrick.class);
+		xstream.alias("brick", LegoEv3MotorStopBrick.class);
+		xstream.alias("brick", LegoEv3SetLedBrick.class);
+
 		xstream.alias("brick", ArduinoSendPWMValueBrick.class);
 		xstream.alias("brick", ArduinoSendDigitalValueBrick.class);
 
@@ -613,8 +627,6 @@ public final class StorageHandler {
 	}
 
 	private void fixFolderStructureForSupportProject(String projectName, String sceneName) throws IOException {
-		projectName = UtilFile.encodeSpecialCharsForFileSystem(projectName);
-		sceneName = UtilFile.encodeSpecialCharsForFileSystem(sceneName);
 		String projectPath = buildProjectPath(projectName);
 		String scenePath = buildScenePath(projectName, sceneName);
 		File looksDirectory = new File(buildPath(projectPath, IMAGE_DIRECTORY));

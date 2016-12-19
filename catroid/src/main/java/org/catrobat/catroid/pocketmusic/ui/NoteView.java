@@ -30,25 +30,30 @@ import android.view.View;
 import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.pocketmusic.note.NoteLength;
 
 public class NoteView extends ImageView implements View.OnClickListener {
 
 	private static final int HIDDEN = 0;
 	private static final int FULL_VISIBLE = 255;
+	private final int horizontalIndexInGridRowPosition;
 	private boolean toggled;
 	private Drawable noteDrawable;
+	private TrackRowView trackRowView;
 
 	public NoteView(Context context) {
-		this(context, ContextCompat.getColor(context, R.color.white));
+		this(context, ContextCompat.getColor(context, R.color.white), null, 0);
 	}
 
-	public NoteView(Context context, int backgroundColor) {
+	public NoteView(Context context, int backgroundColor, TrackRowView trackRowView, int horizontalIndexInGridRowPosition) {
 		super(context);
 		setOnClickListener(this);
 		setAdjustViewBounds(true);
 		setBackgroundColor(backgroundColor);
 		setScaleType(ScaleType.CENTER_INSIDE);
 		initNoteDrawable();
+		this.trackRowView = trackRowView;
+		this.horizontalIndexInGridRowPosition = horizontalIndexInGridRowPosition;
 	}
 
 	private void initNoteDrawable() {
@@ -62,6 +67,15 @@ public class NoteView extends ImageView implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		toggled = !toggled;
+		showNote();
+		updateGridRow();
+	}
+
+	private void updateGridRow() {
+		trackRowView.updateGridRowPosition(horizontalIndexInGridRowPosition, NoteLength.QUARTER, toggled);
+	}
+
+	private void showNote() {
 		if (toggled) {
 			noteDrawable.setAlpha(FULL_VISIBLE);
 		} else {

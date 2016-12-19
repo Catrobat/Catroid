@@ -22,10 +22,15 @@
  */
 package org.catrobat.catroid.pocketmusic.note.trackgrid;
 
+import android.util.SparseArray;
+
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
+import org.catrobat.catroid.pocketmusic.note.NoteLength;
+import org.catrobat.catroid.pocketmusic.note.NoteName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrackGrid {
@@ -77,5 +82,39 @@ public class TrackGrid {
 				&& reference.beat.equals(beat)
 				&& reference.instrument.equals(instrument)
 				&& reference.key.equals(key);
+	}
+
+	public GridRow getGridRowForNoteName(NoteName noteName) {
+		for (GridRow gridRow : gridRows) {
+			if (gridRow.getNoteName().equals(noteName)) {
+				return gridRow;
+			}
+		}
+		return null;
+	}
+
+	public void updateGridRowPosition(NoteName noteName, int columnIndex, NoteLength noteLength, boolean toggled) {
+		GridRow gridRow = getGridRowForNoteName(noteName);
+		if (null == gridRow) {
+			List<GridRowPosition> gridRowPositions = new ArrayList<>();
+			SparseArray<List<GridRowPosition>> array = new SparseArray<>();
+			array.append(0, gridRowPositions);
+			gridRow = new GridRow(noteName, array);
+			gridRows.add(gridRow);
+		}
+		List<GridRowPosition> firstGridRowPositions = gridRow.getGridRowPositions().get(0);
+		int indexInList = GridRowPosition.getGridRowPositionIndexInList(firstGridRowPositions, columnIndex);
+		if (toggled) {
+			if (indexInList == -1) {
+				firstGridRowPositions.add(new GridRowPosition(columnIndex, noteLength));
+			}
+		} else {
+			if (indexInList >= 0) {
+				firstGridRowPositions.remove(indexInList);
+				if (firstGridRowPositions.isEmpty()) {
+					gridRows.remove(gridRow);
+				}
+			}
+		}
 	}
 }

@@ -58,7 +58,6 @@ public class LookData implements Serializable, Cloneable {
 	protected static final transient int THUMBNAIL_WIDTH = 150;
 	protected static final transient int THUMBNAIL_HEIGHT = 150;
 	protected transient Pixmap pixmap = null;
-	protected transient Pixmap originalPixmap = null;
 	protected transient TextureRegion textureRegion = null;
 
 	protected transient CollisionInformation collisionInformation = null;
@@ -110,7 +109,6 @@ public class LookData implements Serializable, Cloneable {
 
 	public void resetLookData() {
 		pixmap = null;
-		originalPixmap = null;
 		textureRegion = null;
 	}
 
@@ -119,10 +117,6 @@ public class LookData implements Serializable, Cloneable {
 			textureRegion = new TextureRegion(new Texture(getPixmap()));
 		}
 		return textureRegion;
-	}
-
-	public void setTextureRegion() {
-		this.textureRegion = new TextureRegion(new Texture(getPixmap()));
 	}
 
 	public Pixmap getPixmap() {
@@ -143,13 +137,6 @@ public class LookData implements Serializable, Cloneable {
 
 	public void setPixmap(Pixmap pixmap) {
 		this.pixmap = pixmap;
-	}
-
-	public Pixmap getOriginalPixmap() {
-		if (originalPixmap == null) {
-			originalPixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
-		}
-		return originalPixmap;
 	}
 
 	public String getAbsolutePath() {
@@ -226,8 +213,8 @@ public class LookData implements Serializable, Cloneable {
 
 	public Bitmap getThumbnailBitmap() {
 		if (thumbnailBitmap == null) {
-			thumbnailBitmap = ImageEditing.getScaledBitmapFromPath(getAbsolutePath(), THUMBNAIL_HEIGHT,
-					THUMBNAIL_WIDTH, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
+			thumbnailBitmap = ImageEditing.getScaledBitmapFromPath(getAbsolutePath(), THUMBNAIL_WIDTH,
+					THUMBNAIL_HEIGHT, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
 		}
 		return thumbnailBitmap;
 	}
@@ -260,9 +247,5 @@ public class LookData implements Serializable, Cloneable {
 			collisionInformation = new CollisionInformation(this);
 		}
 		return collisionInformation;
-	}
-
-	public void setCollisionInformation(CollisionInformation collisionInformation) {
-		this.collisionInformation = collisionInformation;
 	}
 }

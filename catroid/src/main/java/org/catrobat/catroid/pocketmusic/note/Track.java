@@ -86,7 +86,19 @@ public class Track implements Serializable {
 			lastTick = tick;
 		}
 
-		noteEventList.add(noteEvent);
+		if (!eventListAlreadyContainsNoteEventWithTick(tick, noteEvent)) {
+			noteEventList.add(noteEvent);
+		}
+	}
+
+	private boolean eventListAlreadyContainsNoteEventWithTick(long tick, NoteEvent noteEvent) {
+		for (int i = 0; i < events.size(); i++) {
+			long key = events.keyAt(i);
+			if (key == tick && events.get(key).contains(noteEvent)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public List<NoteEvent> getNoteEventsForTick(long tick) {
@@ -185,5 +197,9 @@ public class Track implements Serializable {
 	@Override
 	public String toString() {
 		return "[Track] instrument=" + instrument + " key=" + key + " size=" + size();
+	}
+
+	public boolean isEmpty() {
+		return size() == 0;
 	}
 }

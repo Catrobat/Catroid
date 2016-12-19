@@ -29,7 +29,6 @@ import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
-import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRowPosition;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
@@ -39,149 +38,92 @@ import java.util.List;
 
 public final class TrackGridTestDataFactory {
 
+	private static final int ASSUMED_NOTE_COUNT_PER_TACT = 4;
+
 	private TrackGridTestDataFactory() {
+	}
+
+	private static SparseArray<List<GridRowPosition>> createGridRowPositionsGridRow(int[] columnStartIndices) {
+
+		SparseArray<List<GridRowPosition>> gridRowContent = new SparseArray<>();
+
+		for (int columnStartIndex : columnStartIndices) {
+			int sparseArrayIndex = columnStartIndex / ASSUMED_NOTE_COUNT_PER_TACT;
+
+			List<GridRowPosition> gridRowPositions = gridRowContent.get(sparseArrayIndex);
+			if (gridRowPositions == null) {
+				gridRowPositions = new ArrayList<>();
+				gridRowContent.put(sparseArrayIndex, gridRowPositions);
+			}
+
+			gridRowPositions.add(new GridRowPosition(columnStartIndex, NoteLength.QUARTER));
+			gridRowContent.put(sparseArrayIndex, gridRowPositions);
+		}
+
+		return gridRowContent;
+	}
+
+	public static TrackGrid createFirstOctaveOnlyTrackGrid() {
+
+		List<GridRow> gridRows = new ArrayList<GridRow>();
+
+		SparseArray<List<GridRowPosition>> gridRowPositionC1 = new SparseArray<List<GridRowPosition>>();
+
+		List<GridRowPosition> gridRowPositionListC1 = new ArrayList<GridRowPosition>();
+		gridRowPositionListC1.add(new GridRowPosition(0, NoteLength.QUARTER));
+		gridRowPositionListC1.add(new GridRowPosition(1, NoteLength.QUARTER));
+		gridRowPositionListC1.add(new GridRowPosition(2, NoteLength.QUARTER));
+		gridRowPositionListC1.add(new GridRowPosition(3, NoteLength.QUARTER));
+
+		gridRowPositionC1.put(0, gridRowPositionListC1);
+
+		gridRows.add(new GridRow(NoteName.C1, gridRowPositionC1));
+
+		return new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
+				.BEAT_4_4, gridRows);
 	}
 
 	public static TrackGrid createSimpleTrackGrid() {
 
 		List<GridRow> gridRows = new ArrayList<GridRow>();
 
-		SparseArray<List<GridRowPosition>> gridRowPositionC4 = new SparseArray<List<GridRowPosition>>();
-		GridRowPosition gridRowPosition = new GridRowPosition(0, 0, NoteLength.QUARTER);
-		List<GridRowPosition> gridRowPositionListC4 = new ArrayList<GridRowPosition>();
-		gridRowPositionListC4.add(gridRowPosition);
+		gridRows.add(new GridRow(NoteName.C4, createGridRowPositionsGridRow(new int[] { 0, 3 })));
+		gridRows.add(new GridRow(NoteName.E4, createGridRowPositionsGridRow(new int[] { 1 })));
+		gridRows.add(new GridRow(NoteName.F4, createGridRowPositionsGridRow(new int[] { 2 })));
+		gridRows.add(new GridRow(NoteName.C5, createGridRowPositionsGridRow(new int[] { 4 })));
 
-		GridRowPosition gridRowPosition1 = new GridRowPosition(3, NoteLength.QUARTER.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE) * 3, NoteLength.QUARTER);
-		gridRowPositionListC4.add(gridRowPosition1);
-
-		gridRowPositionC4.put(0, gridRowPositionListC4);
-
-		SparseArray<List<GridRowPosition>> gridRowPositionF4 = new SparseArray<List<GridRowPosition>>();
-		List<GridRowPosition> gridRowPositionF4List = new ArrayList<GridRowPosition>();
-		GridRowPosition gridRowPositionF4v1 = new GridRowPosition(2, NoteLength.QUARTER.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE) * 2, NoteLength.QUARTER);
-		gridRowPositionF4List.add(gridRowPositionF4v1);
-
-		gridRowPositionF4.put(0, gridRowPositionF4List);
-
-		SparseArray<List<GridRowPosition>> gridRowPositionE4 = new SparseArray<List<GridRowPosition>>();
-		List<GridRowPosition> gridRowPositionE4List = new ArrayList<GridRowPosition>();
-		GridRowPosition gridRowPositionE4v1 = new GridRowPosition(1, NoteLength.QUARTER.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE), NoteLength.QUARTER);
-		gridRowPositionE4List.add(gridRowPositionE4v1);
-
-		gridRowPositionE4.put(0, gridRowPositionE4List);
-
-		SparseArray<List<GridRowPosition>> gridRowPositionC5 = new SparseArray<List<GridRowPosition>>();
-		List<GridRowPosition> gridRowPositionC5List = new ArrayList<GridRowPosition>();
-		GridRowPosition gridRowPositionC5v1 = new GridRowPosition(4, NoteLength.QUARTER.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE) * 4, NoteLength.QUARTER);
-		gridRowPositionC5List.add(gridRowPositionC5v1);
-
-		gridRowPositionC5.put(1, gridRowPositionC5List);
-
-		gridRows.add(new GridRow(NoteName.C4, gridRowPositionC4));
-		gridRows.add(new GridRow(NoteName.E4, gridRowPositionE4));
-		gridRows.add(new GridRow(NoteName.F4, gridRowPositionF4));
-		gridRows.add(new GridRow(NoteName.C5, gridRowPositionC5));
-
-		TrackGrid trackGrid = new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
+		return new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
 				.BEAT_4_4, gridRows);
-
-		return trackGrid;
 	}
 
 	public static TrackGrid createTrackGridWithSeveralBreaks() {
 
 		List<GridRow> gridRows = new ArrayList<GridRow>();
-		SparseArray<List<GridRowPosition>> gridRowPositionC4 = new SparseArray<List<GridRowPosition>>();
-		List<GridRowPosition> gridRowPositionsC4List = new ArrayList<GridRowPosition>();
 
-		GridRowPosition gridRowPosition1 = new GridRowPosition(9, NoteLength.SIXTEENTH.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE) + NoteLength.HALF.toTicks(Project.DEFAULT_BEATS_PER_MINUTE),
-				NoteLength.QUARTER);
-		gridRowPosition1.setColumnStartIndex(9);
-		gridRowPositionsC4List.add(gridRowPosition1);
+		gridRows.add(new GridRow(NoteName.C4, createGridRowPositionsGridRow(new int[] { 3 })));
 
-		gridRowPositionC4.put(0, gridRowPositionsC4List);
-
-		gridRows.add(new GridRow(NoteName.C4, gridRowPositionC4));
-
-		TrackGrid trackGrid = new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
-				.BEAT_16_16, gridRows);
-
-		return trackGrid;
+		return new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
+				.BEAT_4_4, gridRows);
 	}
 
-	public static TrackGrid createSemiComplexTrackGrid(MusicalInstrument instrument) {
-
-		SparseArray<List<GridRowPosition>> gridRowPositionsC2 = new SparseArray<List<GridRowPosition>>();
-		GridRowPosition gridRowPositionC2 = new GridRowPosition(0, 0, NoteLength.QUARTER);
-		List<GridRowPosition> gridRowPositionListC2 = new ArrayList<GridRowPosition>();
-		gridRowPositionListC2.add(gridRowPositionC2);
-
-		gridRowPositionsC2.put(0, gridRowPositionListC2);
-
-		SparseArray<List<GridRowPosition>> gridRowPositionsC1 = new SparseArray<List<GridRowPosition>>();
-		List<GridRowPosition> gridRowPositionC1List = new ArrayList<GridRowPosition>();
-		GridRowPosition gridRowPositionC1v1 = new GridRowPosition(4, NoteLength.QUARTER.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE), NoteLength.QUARTER);
-
-		GridRowPosition gridRowPositionC1v2 = new GridRowPosition(8, NoteLength.QUARTER.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE) * 2, NoteLength.QUARTER_DOT);
-		gridRowPositionC1List.add(gridRowPositionC1v1);
-		gridRowPositionC1List.add(gridRowPositionC1v2);
-
-		gridRowPositionsC1.put(0, gridRowPositionC1List);
-
-		SparseArray<List<GridRowPosition>> gridRowPositionsD1 = new SparseArray<List<GridRowPosition>>();
-		List<GridRowPosition> gridRowPositionD1List = new ArrayList<GridRowPosition>();
-		GridRowPosition gridRowPositionD1v1 = new GridRowPosition(4, NoteLength.QUARTER.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE), NoteLength.QUARTER);
-
-		GridRowPosition gridRowPositionD1v2 = new GridRowPosition(8, NoteLength.QUARTER.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE) * 2, NoteLength.QUARTER_DOT);
-		gridRowPositionD1List.add(gridRowPositionD1v1);
-		gridRowPositionD1List.add(gridRowPositionD1v2);
-
-		gridRowPositionsD1.put(0, gridRowPositionD1List);
-
-		SparseArray<List<GridRowPosition>> gridRowPositionsE1 = new SparseArray<List<GridRowPosition>>();
-		List<GridRowPosition> gridRowPositionE1v1List = new ArrayList<GridRowPosition>();
-		List<GridRowPosition> gridRowPositionE1v2List = new ArrayList<GridRowPosition>();
-		GridRowPosition gridRowPositionE1v1 = new GridRowPosition(14, NoteLength.QUARTER.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE) * 2 + NoteLength.QUARTER_DOT.toTicks(Project.DEFAULT_BEATS_PER_MINUTE),
-				NoteLength.QUARTER_DOT);
-		gridRowPositionE1v1List.add(gridRowPositionE1v1);
-		gridRowPositionE1v2List.add(gridRowPositionE1v1);
-
-		gridRowPositionsE1.put(0, gridRowPositionE1v1List);
-		gridRowPositionsE1.put(1, gridRowPositionE1v2List);
-
-		SparseArray<List<GridRowPosition>> gridRowPositionsF1 = new SparseArray<List<GridRowPosition>>();
-		List<GridRowPosition> gridRowPositionF1v1List = new ArrayList<GridRowPosition>();
-		List<GridRowPosition> gridRowPositionF1v2List = new ArrayList<GridRowPosition>();
-		GridRowPosition gridRowPositionF1v1 = new GridRowPosition(14, NoteLength.QUARTER.toTicks(Project
-				.DEFAULT_BEATS_PER_MINUTE) * 2 + NoteLength.QUARTER_DOT.toTicks(Project.DEFAULT_BEATS_PER_MINUTE),
-				NoteLength.QUARTER_DOT);
-		gridRowPositionF1v1List.add(gridRowPositionF1v1);
-		gridRowPositionF1v2List.add(gridRowPositionF1v1);
-
-		gridRowPositionsF1.put(0, gridRowPositionF1v1List);
-		gridRowPositionsF1.put(1, gridRowPositionF1v2List);
+	public static TrackGrid createSemiComplexTrackGrid() {
 
 		List<GridRow> gridRows = new ArrayList<GridRow>();
 
-		gridRows.add(new GridRow(NoteName.C2, gridRowPositionsC2));
-		gridRows.add(new GridRow(NoteName.C1, gridRowPositionsC1));
-		gridRows.add(new GridRow(NoteName.D1, gridRowPositionsD1));
-		gridRows.add(new GridRow(NoteName.E1, gridRowPositionsE1));
-		gridRows.add(new GridRow(NoteName.F1, gridRowPositionsF1));
+		gridRows.add(new GridRow(NoteName.C5, createGridRowPositionsGridRow(new int[] { 0 })));
+		gridRows.add(new GridRow(NoteName.C4, createGridRowPositionsGridRow(new int[] { 1, 2 })));
+		gridRows.add(new GridRow(NoteName.D4, createGridRowPositionsGridRow(new int[] { 1, 2 })));
+		gridRows.add(new GridRow(NoteName.E4, createGridRowPositionsGridRow(new int[] { 3 })));
+		gridRows.add(new GridRow(NoteName.F4, createGridRowPositionsGridRow(new int[] { 3 })));
 
-		TrackGrid trackGrid = new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
-				.BEAT_16_16, gridRows);
+		return new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
+				.BEAT_4_4, gridRows);
+	}
 
-		return trackGrid;
+	public static TrackGrid createEmptyTrackGrid() {
+
+		List<GridRow> gridRows = new ArrayList<GridRow>();
+		return new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
+				.BEAT_4_4, gridRows);
 	}
 }

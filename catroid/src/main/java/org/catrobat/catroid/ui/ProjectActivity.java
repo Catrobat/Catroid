@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -54,6 +55,7 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -62,13 +64,15 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.LegoEV3SensorConfigInfoDialog;
+import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.MergeSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.fragment.ListItemActionsInterface;
-import org.catrobat.catroid.ui.fragment.ScenesListFragment;
+import org.catrobat.catroid.ui.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -88,7 +92,7 @@ public class ProjectActivity extends BaseActivity {
 
 	private Fragment currentFragment;
 	private SpritesListFragment spritesListFragment;
-	private ScenesListFragment scenesListFragment;
+	private SceneListFragment sceneListFragment;
 	private static int currentFragmentPosition;
 	private FragmentManager fragmentManager = getFragmentManager();
 	private String currentFragmentTag;
@@ -126,12 +130,15 @@ public class ProjectActivity extends BaseActivity {
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 		fragmentTransaction.commit();
+
+		showLegoInfoFragmentIfNeeded(this.getFragmentManager());
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
 		SettingsActivity.setDroneChooserEnabled(this, true);
 	}
 
@@ -177,13 +184,13 @@ public class ProjectActivity extends BaseActivity {
 
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCENES:
-				if (scenesListFragment == null) {
-					scenesListFragment = new ScenesListFragment();
+				if (sceneListFragment == null) {
+					sceneListFragment = new SceneListFragment();
 					fragmentExists = false;
 				}
-				currentFragmentTag = ScenesListFragment.TAG;
-				currentFragment = scenesListFragment;
-				actionListener = scenesListFragment;
+				currentFragmentTag = SceneListFragment.TAG;
+				currentFragment = sceneListFragment;
+				actionListener = sceneListFragment;
 				break;
 			case FRAGMENT_SPRITES:
 				if (spritesListFragment == null) {
@@ -459,7 +466,7 @@ public class ProjectActivity extends BaseActivity {
 			updateFragmentPosition();
 			switch (currentFragmentPosition) {
 				case FRAGMENT_SCENES:
-					scenesListFragment.getAdapter().clearCheckedItems();
+					sceneListFragment.clearCheckedItems();
 					break;
 				case FRAGMENT_SPRITES:
 					spritesListFragment.getSpriteAdapter().clearCheckedItems();
@@ -510,8 +517,8 @@ public class ProjectActivity extends BaseActivity {
 		return spritesListFragment;
 	}
 
-	public ScenesListFragment getScenesListFragment() {
-		return scenesListFragment;
+	public SceneListFragment getSceneListFragment() {
+		return sceneListFragment;
 	}
 
 	public void initializeFacebookSdk() {
@@ -549,10 +556,47 @@ public class ProjectActivity extends BaseActivity {
 
 	private void updateFragmentPosition() {
 		//TODO: Just a quickfix, we need to investigate why the position is sometimes not correct
-		if (currentFragment instanceof ScenesListFragment) {
+		if (currentFragment instanceof SceneListFragment) {
 			currentFragmentPosition = FRAGMENT_SCENES;
 		} else if (currentFragment instanceof SpritesListFragment) {
 			currentFragmentPosition = FRAGMENT_SPRITES;
 		}
+	}
+
+	private boolean needToShowLegoEV3InfoDialog() {
+		boolean isLegoEV3InfoDialogDisabled = SettingsActivity
+				.getShowLegoEV3MindstormsSensorInfoDialog(getApplicationContext());
+
+		boolean legoEV3ResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()
+				& Brick.BLUETOOTH_LEGO_EV3) != 0;
+
+		boolean dialogAlreadyShown = !ProjectManager.getInstance().getShowLegoSensorInfoDialog();
+
+		return !isLegoEV3InfoDialogDisabled && legoEV3ResourcesRequired && !dialogAlreadyShown;
+	}
+
+	private boolean needToShowLegoNXTInfoDialog() {
+		boolean isLegoNXTInfoDialogDisabled = SettingsActivity
+				.getShowLegoNXTMindstormsSensorInfoDialog(getApplicationContext());
+
+		boolean legoNXTResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()
+				& Brick.BLUETOOTH_LEGO_NXT) != 0;
+
+		boolean dialogAlreadyShown = !ProjectManager.getInstance().getShowLegoSensorInfoDialog();
+
+		return !isLegoNXTInfoDialogDisabled && legoNXTResourcesRequired && !dialogAlreadyShown;
+	}
+
+	private void showLegoInfoFragmentIfNeeded(FragmentManager fragmentManager) {
+
+		if (needToShowLegoNXTInfoDialog()) {
+			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
+			dialog.show(fragmentManager, LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		}
+		if (needToShowLegoEV3InfoDialog()) {
+			DialogFragment dialog = new LegoEV3SensorConfigInfoDialog();
+			dialog.show(fragmentManager, LegoEV3SensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		}
+		ProjectManager.getInstance().setShowLegoSensorInfoDialog(false);
 	}
 }
