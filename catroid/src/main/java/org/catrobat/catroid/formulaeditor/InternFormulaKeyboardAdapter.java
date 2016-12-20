@@ -345,6 +345,10 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_BACKGROUND_NAME);
 			case R.string.formula_editor_object_distance_to:
 				return buildObject(Sensors.OBJECT_DISTANCE_TO);
+			case R.string.formula_editor_function_collides_with_edge:
+				return buildObject(Sensors.COLLIDES_WITH_EDGE);
+			case R.string.formula_editor_function_touched:
+				return buildObject(Sensors.COLLIDES_WITH_FINGER);
 		}
 		return null;
 	}

@@ -1266,6 +1266,8 @@
     <string name="formula_editor_function_contains">contains</string>
     <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
     <string name="formula_editor_function_collision">touches_object</string>
+    <string name="formula_editor_function_collides_with_edge">touches_edge</string>
+    <string name="formula_editor_function_touched">touches_finger</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
     <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>

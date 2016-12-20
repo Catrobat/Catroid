@@ -778,6 +778,10 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 	public void addResourceToActiveFormula(int resource) {
 		formulaEditorEditText.handleKeyEvent(resource, "");
+		if (resource == R.string.formula_editor_function_collides_with_edge || resource == R.string
+				.formula_editor_function_touched) {
+			ProjectManager.getInstance().getCurrentSprite().createCollisionPolygons();
+		}
 	}
 
 	public void addUserListToActiveFormula(String userListName) {
