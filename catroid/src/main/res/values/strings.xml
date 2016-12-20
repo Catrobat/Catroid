@@ -89,7 +89,7 @@
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
-    <string name="main_menu_terms_of_use">Terms of use</string>
+    <string name="main_menu_terms_of_use">Terms of use and services</string>
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_logout">Logout</string>
@@ -239,18 +239,20 @@
 
 
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of use</string>
+    <string name="dialog_terms_of_use_title">Terms of use and services</string>
     <string name="dialog_terms_of_use_info">In order to 
     be allowed to use Pocket Code and other executables offered by the Catrobat project, you 
-    must agree to our Terms of Use and strictly follow them when you use Pocket 
+    must agree to our Terms of use and services and strictly follow them when you use Pocket
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use</string>
+    <string name="dialog_terms_of_use_link_text">Terms of Use and services</string>
     <!--  -->
 
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use and services</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
-        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use and services for the drone and to
+        Catrobat\'s
+        terms of
         use for Pocket Code.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
     <!--  -->
@@ -556,7 +558,7 @@
     <string name="user_logged_in">Successfully logged in</string>
     <string name="register_error">Invalid login</string>
     <string name="register_terms">By registering you agree to our</string>
-    <string name="register_pocketcode_terms_of_use_text">Terms of use</string>
+    <string name="register_pocketcode_terms_of_use_text">Terms of use and services</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="or">OR</string>
@@ -744,7 +746,7 @@
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started">When program started</string>
+    <string name="brick_when_started">When program starts</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_when_condition_when">When</string>
     <string name="brick_when_becomes_true">becomes true</string>
@@ -764,7 +766,7 @@
     <string name="brick_collision_receive">When physical collision with</string>
     <string name="collision_with_anything">anything</string>
 
-    <string name="brick_broadcast_receive">When I receive</string>
+    <string name="brick_broadcast_receive">When you receive</string>
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
     <string name="brick_scene_transition">Continue scene</string>
