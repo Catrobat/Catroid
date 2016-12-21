@@ -26,7 +26,7 @@
     android:id="@+id/brick_user_main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
+    android:gravity="center_horizontal"
     android:orientation="horizontal" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <CheckBox
