@@ -737,6 +737,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<>();
 		ArrayList<IfThenLogicBeginBrick> ifThenBeginList = new ArrayList<>();
 		ArrayList<LoopBeginBrick> loopBeginList = new ArrayList<>();
+		ArrayList<Brick> bricksWithInvalidReferences = new ArrayList<>();
 
 		for (Brick currentBrick : script.getBrickList()) {
 			if (currentBrick instanceof IfThenLogicBeginBrick) {
@@ -745,21 +746,41 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				ifBeginList.add((IfLogicBeginBrick) currentBrick);
 			} else if (currentBrick instanceof LoopBeginBrick) {
 				loopBeginList.add((LoopBeginBrick) currentBrick);
-			} else if (currentBrick instanceof LoopEndBrick && hasItems(loopBeginList)) {
+			} else if (currentBrick instanceof LoopEndBrick) {
+				if (loopBeginList.isEmpty()) {
+					Log.e(TAG, "Removing LoopEndBrick without reference to a LoopBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
 				LoopBeginBrick loopBeginBrick = loopBeginList.get(loopBeginList.size() - 1);
 				loopBeginBrick.setLoopEndBrick((LoopEndBrick) currentBrick);
 				((LoopEndBrick) currentBrick).setLoopBeginBrick(loopBeginBrick);
 				loopBeginList.remove(loopBeginBrick);
-			} else if (currentBrick instanceof IfLogicElseBrick && hasItems(ifBeginList)) {
+			} else if (currentBrick instanceof IfLogicElseBrick) {
+				if (ifBeginList.isEmpty()) {
+					Log.e(TAG, "Removing IfLogicElseBrick without reference to an IfBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
 				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
 				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
-			} else if (currentBrick instanceof IfThenLogicEndBrick && hasItems(ifThenBeginList)) {
+			} else if (currentBrick instanceof IfThenLogicEndBrick) {
+				if (ifThenBeginList.isEmpty()) {
+					Log.e(TAG, "Removing IfThenLogicEndBrick without reference to an IfBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
 				IfThenLogicBeginBrick ifBeginBrick = ifThenBeginList.get(ifThenBeginList.size() - 1);
 				ifBeginBrick.setIfThenEndBrick((IfThenLogicEndBrick) currentBrick);
 				((IfThenLogicEndBrick) currentBrick).setIfThenBeginBrick(ifBeginBrick);
 				ifBeginList.remove(ifBeginBrick);
-			} else if (currentBrick instanceof IfLogicEndBrick && hasItems(ifBeginList)) {
+			} else if (currentBrick instanceof IfLogicEndBrick) {
+				if (ifBeginList.isEmpty()) {
+					Log.e(TAG, "Removing IfLogicEndBrick without reference to an IfBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
 				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
 				ifBeginBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
@@ -769,10 +790,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				ifBeginList.remove(ifBeginBrick);
 			}
 		}
-	}
 
-	private boolean hasItems(List nestingBrickList) {
-		return nestingBrickList.size() > 0;
+		script.removeBricks(bricksWithInvalidReferences);
 	}
 
 	public boolean getShowLegoSensorInfoDialog() {
