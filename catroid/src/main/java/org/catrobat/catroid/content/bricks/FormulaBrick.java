@@ -26,6 +26,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -41,6 +43,8 @@ import java.util.List;
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
 	ConcurrentFormulaHashMap formulaMap;
+
+	@XStreamOmitField
 	private List<BackPackedData> backPackedDataList;
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
