@@ -87,7 +87,7 @@ public abstract class Script implements Serializable {
 			return;
 		}
 
-		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
+		ArrayList<SequenceAction> sequenceList = new ArrayList<>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
 			if (brickList.get(i).isCommentedOut()) {

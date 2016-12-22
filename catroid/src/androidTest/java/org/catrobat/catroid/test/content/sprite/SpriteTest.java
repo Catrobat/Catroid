@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -36,9 +37,11 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -228,6 +231,40 @@ public class SpriteTest extends AndroidTestCase {
 			assertTrue("Cloned userBrickElements element not equivalent to original userBrickElements element. "
 					+ ". arrayId: " + elementPosition, equivalent);
 		}
+	}
+
+	public void testUserVariableVisibilityOfLocalVariablesInDifferentScenes() {
+		String variableName = "sceneTestVariable";
+
+		Script script = new StartScript();
+		Brick firstBrick = new ChangeBrightnessByNBrick(0);
+		script.addBrick(firstBrick);
+		sprite.addScript(script);
+
+		Scene secondScene = new Scene(getContext(), "scene 2", project);
+		Sprite sprite2 = new SingleSprite("testSprite2");
+		Script secondScript = new StartScript();
+		Brick textBrick = new ShowTextBrick(10, 10);
+		secondScript.addBrick(textBrick);
+		sprite2.addScript(secondScript);
+		secondScene.getDataContainer().addSpriteUserVariableToSprite(sprite2, variableName);
+		UserVariable userVariable = secondScene.getDataContainer().getUserVariable(variableName, sprite2);
+		userVariable.setValue(LOCAL_VARIABLE_VALUE);
+		userVariable.setVisible(false);
+		ProjectManager.getInstance().setSceneToPlay(secondScene);
+
+		SequenceAction sequence = new SequenceAction();
+		sequence.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2, new Formula(10), new Formula(10), userVariable));
+		secondScript.run(sprite2, sequence);
+
+		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+		userVariable = dataContainer.getUserVariable(variableName, sprite2);
+		assertFalse("Variable should be invisible", userVariable.getVisible());
+
+		sequence.act(1f);
+
+		userVariable = dataContainer.getUserVariable(variableName, sprite2);
+		assertTrue("Variable should be visible", userVariable.getVisible());
 	}
 
 	private void runScriptOnSprite(Sprite sprite, float expectedOriginalX, float expectedDeltaX) {
