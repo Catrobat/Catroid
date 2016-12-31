@@ -93,8 +93,14 @@ public class BrickCategoryFragment extends ListFragment {
 				}
 
 				if (scriptFragment != null) {
-					scriptFragment.onCategorySelected(adapter.getItem(position));
-					SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
+					String category = adapter.getItem(position);
+					String userBrickCategory = getActivity().getString(R.string.category_user_bricks);
+					if (category.equals(userBrickCategory)) {
+						scriptFragment.onUserBricksSelected();
+					} else {
+						scriptFragment.onCategorySelected(category);
+						SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
+					}
 				}
 			}
 		});
@@ -104,6 +110,7 @@ public class BrickCategoryFragment extends ListFragment {
 	public void onResume() {
 		super.onResume();
 		BottomBar.hideBottomBar(getActivity());
+		BottomBar.hideAddButton(getActivity());
 		setupBrickCategories();
 	}
 
@@ -164,7 +171,7 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null));
 		}
 
-		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null) {
+		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null) { //TODO: getUserBrick?
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}
 
@@ -190,5 +197,6 @@ public class BrickCategoryFragment extends ListFragment {
 
 	public interface OnCategorySelectedListener {
 		void onCategorySelected(String category);
+		void onUserBricksSelected();
 	}
 }

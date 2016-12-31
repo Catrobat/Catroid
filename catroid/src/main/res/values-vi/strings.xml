@@ -467,7 +467,6 @@
   <string name="brick_context_dialog_delete_brick">Xóa gạch</string>
   <string name="brick_context_dialog_copy_brick">Sao chép gạch</string>
   <string name="brick_context_dialog_animate_bricks">Mô phỏng các Phần-Gạch</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">Chỉnh sửa công thức</string>
   <string name="brick_context_dialog_delete_script">Xóa kịch bản</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>

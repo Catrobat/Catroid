@@ -291,7 +291,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
 		if (STANDALONE_MODE) {
-			Log.d("STANDALONE", "onLoadProjectSucess -> startStage");
+			Log.d("STANDALONE", "onLoadProjectSuccess -> startStage");
 			startStageProject();
 		} else if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);

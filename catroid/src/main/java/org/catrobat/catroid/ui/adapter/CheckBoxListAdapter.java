@@ -43,16 +43,16 @@ import java.util.List;
 
 public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 
-	protected static class ListItemViewHolder {
+	static class ListItemViewHolder {
 		protected RelativeLayout background;
 		protected CheckBox checkBox;
 		protected TextView name;
 		protected ImageView image;
 		protected LinearLayout details;
-		protected TextView leftTopDetails;
-		protected TextView leftBottomDetails;
-		protected TextView rightTopDetails;
-		protected TextView rightBottomDetails;
+		TextView leftTopDetails;
+		TextView leftBottomDetails;
+		TextView rightTopDetails;
+		TextView rightBottomDetails;
 	}
 
 	public static final String TAG = CheckBoxListAdapter.class.getSimpleName();
@@ -61,12 +61,12 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 	protected boolean showDetails;
 	protected LayoutInflater inflater;
 
-	protected ListItemClickHandler listItemClickHandler;
-	protected ListItemLongClickHandler listItemLongClickHandler;
-	protected ListItemCheckHandler listItemCheckHandler;
+	private ListItemClickHandler listItemClickHandler;
+	private ListItemLongClickHandler listItemLongClickHandler;
+	private ListItemCheckHandler listItemCheckHandler;
 
-	protected List<T> itemList;
-	protected List<T> checkedItems = new ArrayList<>();
+	private List<T> itemList;
+	private List<T> checkedItems = new ArrayList<>();
 
 	public CheckBoxListAdapter(Context context, int resource, List<T> listItems) {
 		super(context, resource, listItems);

@@ -78,7 +78,7 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 		this.adapter = (CheckBoxListAdapter) adapter;
 	}
 
-	protected boolean isActionModeActive() {
+	public boolean isActionModeActive() {
 		return actionMode != null;
 	}
 

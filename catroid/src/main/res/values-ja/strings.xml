@@ -437,7 +437,6 @@
   <string name="brick_context_dialog_delete_brick">ブロックを削除します。</string>
   <string name="brick_context_dialog_copy_brick">ブロックをコピーします。</string>
   <string name="brick_context_dialog_animate_bricks">ブロック部品をアニメーション化します。</string>
-  <string name="brick_context_dialog_add_to_script">スクリプトに追加</string>
   <string name="brick_context_dialog_formula_edit_brick">数式を編集します。</string>
   <string name="brick_context_dialog_delete_script">スクリプトを削除します。</string>
   <string name="brick_context_dialog_comment_in">ブロックを有効にする</string>

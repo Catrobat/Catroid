@@ -128,14 +128,14 @@ public abstract class Script implements Serializable {
 		}
 	}
 
-	public void removeInstancesOfUserBrick(UserBrick userBrickToRemove) {
+	void removeInstancesOfUserBrick(UserBrick userBrickToRemove) {
 
 		LinkedList<Brick> toRemove = new LinkedList<>();
 
 		for (Brick brick : brickList) {
 			if (brick instanceof UserBrick) {
 				UserBrick userBrick = (UserBrick) brick;
-				if (userBrick.getDefinitionBrick() == userBrickToRemove.getDefinitionBrick()) {
+				if (userBrick.getDefinitionBrick().equals(userBrickToRemove.getDefinitionBrick())) {
 					toRemove.add(brick);
 				}
 			}
@@ -216,7 +216,7 @@ public abstract class Script implements Serializable {
 		this.brick = brick;
 	}
 
-	protected void setIfBrickReferences(IfLogicEndBrick copiedIfEndBrick, IfLogicEndBrick originalIfEndBrick) {
+	private void setIfBrickReferences(IfLogicEndBrick copiedIfEndBrick, IfLogicEndBrick originalIfEndBrick) {
 		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
 		IfLogicBeginBrick copiedIfBeginBrick = ((IfLogicBeginBrick) ifBrickList.get(0)).getCopy();
 		IfLogicElseBrick copiedIfElseBrick = ((IfLogicElseBrick) ifBrickList.get(1)).getCopy();
@@ -229,7 +229,7 @@ public abstract class Script implements Serializable {
 		copiedIfEndBrick.setIfElseBrick(copiedIfElseBrick);
 	}
 
-	protected void setIfThenBrickReferences(IfThenLogicEndBrick copiedIfEndBrick, IfThenLogicEndBrick
+	private void setIfThenBrickReferences(IfThenLogicEndBrick copiedIfEndBrick, IfThenLogicEndBrick
 			originalIfEndBrick) {
 		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
 		IfThenLogicBeginBrick copiedIfBeginBrick = (IfThenLogicBeginBrick) ((IfThenLogicBeginBrick) ifBrickList.get(0)).getCopy();
@@ -238,7 +238,7 @@ public abstract class Script implements Serializable {
 		copiedIfEndBrick.setIfThenBeginBrick(copiedIfBeginBrick);
 	}
 
-	protected void setLoopBrickReferences(LoopEndBrick copiedBrick, LoopEndBrick originalBrick) {
+	private void setLoopBrickReferences(LoopEndBrick copiedBrick, LoopEndBrick originalBrick) {
 		List<NestingBrick> loopBrickList = originalBrick.getAllNestingBrickParts(true);
 		LoopBeginBrick copiedLoopBeginBrick = ((LoopBeginBrick) loopBrickList.get(0)).getCopy();
 
@@ -254,7 +254,7 @@ public abstract class Script implements Serializable {
 		this.commentedOut = commentedOut;
 		if (commentedOut) {
 			for (Brick brick : brickList) {
-				brick.setCommentedOut(commentedOut);
+				brick.setCommentedOut(true);
 			}
 		}
 	}

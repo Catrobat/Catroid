@@ -505,7 +505,6 @@
   <string name="brick_context_dialog_delete_brick">Izbriši blok</string>
   <string name="brick_context_dialog_copy_brick">Kopiraj blok</string>
   <string name="brick_context_dialog_animate_bricks">Animiraj dele bloka</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">Uredi formulo</string>
   <string name="brick_context_dialog_delete_script">Izbriši skript</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>

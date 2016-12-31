@@ -50,8 +50,8 @@ public final class BackPackListManager {
 	private static final BackPackListManager INSTANCE = new BackPackListManager();
 
 	private static Backpack backpack;
-	private static SoundBaseAdapter currentSoundAdapter;
-	private static LookBaseAdapter currentLookAdapter;
+	private SoundBaseAdapter currentSoundAdapter;
+	private LookBaseAdapter currentLookAdapter;
 
 	public static BackPackListManager getInstance() {
 		if (backpack == null) {
@@ -108,7 +108,7 @@ public final class BackPackListManager {
 		return new ArrayList<>(getBackpack().backpackedUserBricks.keySet());
 	}
 
-	public void addUserBrickToBackPack(String userBrickGroup, List<UserBrick> userBricks) {
+	void addUserBrickToBackPack(String userBrickGroup, List<UserBrick> userBricks) {
 		getBackpack().backpackedUserBricks.put(userBrickGroup, userBricks);
 	}
 
@@ -146,7 +146,7 @@ public final class BackPackListManager {
 		getBackpack().backpackedSounds.add(soundInfo);
 	}
 
-	void removeItemFromSoundBackPack(SoundInfo currentSoundInfo) {
+	public void removeItemFromSoundBackPack(SoundInfo currentSoundInfo) {
 		getBackpack().backpackedSounds.remove(currentSoundInfo);
 	}
 
@@ -348,8 +348,8 @@ public final class BackPackListManager {
 		return currentSoundAdapter;
 	}
 
-	public void setCurrentSoundAdapter(SoundBaseAdapter adapter) {
-		currentSoundAdapter = adapter;
+	public void setCurrentSoundAdapter(SoundBaseAdapter currentSoundAdapter) {
+		this.currentSoundAdapter = currentSoundAdapter;
 	}
 
 	LookBaseAdapter getCurrentLookAdapter() {
@@ -357,7 +357,7 @@ public final class BackPackListManager {
 	}
 
 	public void setCurrentLookAdapter(LookBaseAdapter currentLookAdapter) {
-		BackPackListManager.currentLookAdapter = currentLookAdapter;
+		this.currentLookAdapter = currentLookAdapter;
 	}
 
 	void addLookToHiddenBackPack(LookData newLookData) {

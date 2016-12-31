@@ -33,16 +33,14 @@ import java.util.List;
 
 import static org.catrobat.catroid.R.drawable.ic_program_menu_scripts;
 
-public class BackPackScriptListAdapter extends CheckBoxListAdapter<String> {
+public class BackPackUserBrickListAdapter extends CheckBoxListAdapter<String> {
 
-	public static final String TAG = BackPackScriptListAdapter.class.getSimpleName();
-
-	public BackPackScriptListAdapter(Context context, int resource, List<String> listItems) {
-		super(context, resource, listItems);
+	public BackPackUserBrickListAdapter(final Context context, int resource, List<String> items) {
+		super(context, resource, items);
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View listItemView = super.getView(position, convertView, parent);
 
 		ListItemViewHolder listItemViewHolder = (ListItemViewHolder) listItemView.getTag();
@@ -53,7 +51,7 @@ public class BackPackScriptListAdapter extends CheckBoxListAdapter<String> {
 
 		if (showDetails) {
 			listItemViewHolder.details.setVisibility(View.VISIBLE);
-			int brickCount = BackPackListManager.getInstance().getBackPackedScripts().get(groupName).size();
+			int brickCount = BackPackListManager.getInstance().getBackPackedUserBricks().get(groupName).size();
 			listItemViewHolder.leftTopDetails.setText(getContext().getResources().getString(R.string.number_of_bricks)
 					.concat(" ").concat(Integer.toString(brickCount)));
 			listItemViewHolder.leftBottomDetails.setVisibility(View.GONE);

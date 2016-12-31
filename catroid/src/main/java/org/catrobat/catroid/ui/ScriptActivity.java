@@ -61,10 +61,10 @@ import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
-import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BackPackLookListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
+import org.catrobat.catroid.ui.fragment.BackPackUserBrickListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorCategoryListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -74,6 +74,7 @@ import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
+import org.catrobat.catroid.ui.fragment.UserBrickFragment;
 
 import java.util.concurrent.locks.Lock;
 
@@ -82,7 +83,9 @@ public class ScriptActivity extends BaseActivity {
 	public static final int FRAGMENT_LOOKS = 1;
 	public static final int FRAGMENT_SOUNDS = 2;
 	public static final int FRAGMENT_NFCTAGS = 3;
-	public static final int USERBRICKS_PROTOTYPE_VIEW = 4;
+	public static final int FRAGMENT_USERBRICKS = 5;
+
+	public static final int USERBRICKS_PROTOTYPE_VIEW = 5;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 
@@ -123,10 +126,9 @@ public class ScriptActivity extends BaseActivity {
 	private LookFragment lookFragment = null;
 	private SoundFragment soundFragment = null;
 	private NfcTagFragment nfcTagFragment = null;
+	private UserBrickFragment userBrickFragment = null;
 
 	private ScriptActivityFragment currentFragment = null;
-	private DeleteModeListener deleteModeListener;
-	private BackPackModeListener backPackModeListener;
 	private String currentFragmentTag;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -265,6 +267,13 @@ public class ScriptActivity extends BaseActivity {
 				}
 				currentFragment = nfcTagFragment;
 				break;
+			case FRAGMENT_USERBRICKS:
+				if (userBrickFragment == null) {
+					userBrickFragment = new UserBrickFragment();
+					fragmentExists = false;
+					currentFragmentTag = UserBrickFragment.TAG;
+				}
+				currentFragment = userBrickFragment;
 		}
 
 		updateHandleAddButtonClickListener();
@@ -349,11 +358,7 @@ public class ScriptActivity extends BaseActivity {
 				break;
 
 			case R.id.delete:
-				if (deleteModeListener != null) {
-					deleteModeListener.startDeleteActionMode();
-				} else {
-					currentFragment.startDeleteActionMode();
-				}
+				currentFragment.startDeleteActionMode();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -394,16 +399,14 @@ public class ScriptActivity extends BaseActivity {
 
 	private void openBackPack() {
 		Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
-		if (currentFragment == lookFragment) {
+		if (currentFragment.equals(lookFragment)) {
 			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_LOOKS);
-		} else if (currentFragment == soundFragment) {
+		} else if (currentFragment.equals(soundFragment)) {
 			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SOUNDS);
-		} else if (currentFragment == scriptFragment) {
-			if (scriptFragment.isInUserBrickOverview()) {
-				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, USERBRICKS_PROTOTYPE_VIEW);
-			} else {
-				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
-			}
+		} else if (currentFragment.equals(scriptFragment)) {
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
+		} else if (currentFragment.equals(userBrickFragment)) {
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_USERBRICKS);
 		}
 		startActivity(intent);
 	}
@@ -417,14 +420,8 @@ public class ScriptActivity extends BaseActivity {
 
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCRIPTS:
-				if (scriptFragment.isInUserBrickOverview()) {
-					numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedUserBricks().size();
-					Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-					numberOfItemsInAdapter = currentSprite.getUserBrickList().size();
-				} else {
-					numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedScripts().size();
-					numberOfItemsInAdapter = ((ScriptFragment) currentFragment).getAdapter().getCount();
-				}
+				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedScripts().size();
+				numberOfItemsInAdapter = ((ScriptFragment) currentFragment).getAdapter().getCount();
 				break;
 			case FRAGMENT_LOOKS:
 				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedLooks().size();
@@ -434,16 +431,16 @@ public class ScriptActivity extends BaseActivity {
 				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedSounds().size();
 				numberOfItemsInAdapter = currentFragment.getListAdapter().getCount();
 				break;
+			case FRAGMENT_USERBRICKS:
+				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedUserBricks().size();
+				numberOfItemsInAdapter = currentFragment.getListAdapter().getCount();
+				break;
 		}
 
 		if (numberOfItemsInBackpack > 0 && numberOfItemsInAdapter == 0) {
 			openBackPack();
 		} else if (numberOfItemsInBackpack == 0) {
-			if (backPackModeListener != null) {
-				backPackModeListener.startBackPackActionMode();
-			} else {
-				currentFragment.startBackPackActionMode();
-			}
+			currentFragment.startBackPackActionMode();
 		} else {
 			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpack) };
 
@@ -451,11 +448,7 @@ public class ScriptActivity extends BaseActivity {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					if (which == 0) {
-						if (backPackModeListener != null) {
-							backPackModeListener.startBackPackActionMode();
-						} else {
-							currentFragment.startBackPackActionMode();
-						}
+						currentFragment.startBackPackActionMode();
 					} else if (which == 1) {
 						openBackPack();
 					}
@@ -535,7 +528,9 @@ public class ScriptActivity extends BaseActivity {
 			if (backStackEntryName != null
 					&& (backStackEntryName.equals(LookFragment.TAG) || backStackEntryName.equals(SoundFragment.TAG)
 					|| backStackEntryName.equals(BackPackScriptListFragment.TAG) || backStackEntryName.equals(BackPackLookListFragment
-					.TAG) || backStackEntryName.equals(BackPackSoundListFragment.TAG) || backStackEntryName.equals(NfcTagFragment.TAG))) {
+					.TAG) || backStackEntryName.equals(BackPackSoundListFragment.TAG) || backStackEntryName.equals(NfcTagFragment.TAG)
+					|| backStackEntryName.equals(BackPackUserBrickListFragment.TAG)
+					|| backStackEntryName.equals(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))) {
 				fragmentManager.popBackStack();
 			} else {
 				break;
@@ -545,10 +540,6 @@ public class ScriptActivity extends BaseActivity {
 		if (keyCode == KeyEvent.KEYCODE_BACK && currentFragmentPosition == FRAGMENT_SCRIPTS) {
 			if (scriptFragment.getAdapter().getActionMode() == BrickAdapter.ActionModeEnum.BACKPACK) {
 				scriptFragment.getAdapter().setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
-			}
-			AddBrickFragment addBrickFragment = (AddBrickFragment) getFragmentManager().findFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
-			if (addBrickFragment == null || !addBrickFragment.isVisible()) {
-				scriptFragment.setBackpackMenuIsVisible(true);
 			}
 
 			BrickDragAndDropListView listView = scriptFragment.getListView();
@@ -692,14 +683,6 @@ public class ScriptActivity extends BaseActivity {
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
 
-	public void setDeleteModeListener(DeleteModeListener listener) {
-		deleteModeListener = listener;
-	}
-
-	public void setBackPackModeListener(BackPackModeListener listener) {
-		backPackModeListener = listener;
-	}
-
 	public ScriptActivityFragment getFragment(int fragmentPosition) {
 		ScriptActivityFragment fragment = null;
 
@@ -715,6 +698,9 @@ public class ScriptActivity extends BaseActivity {
 				break;
 			case FRAGMENT_NFCTAGS:
 				fragment = nfcTagFragment;
+				break;
+			case FRAGMENT_USERBRICKS:
+				fragment = userBrickFragment;
 				break;
 		}
 		return fragment;
@@ -742,6 +728,11 @@ public class ScriptActivity extends BaseActivity {
 				currentFragment = nfcTagFragment;
 				currentFragmentPosition = FRAGMENT_NFCTAGS;
 				currentFragmentTag = NfcTagFragment.TAG;
+				break;
+			case FRAGMENT_USERBRICKS:
+				currentFragment = userBrickFragment;
+				currentFragmentPosition = FRAGMENT_USERBRICKS;
+				currentFragmentTag = UserBrickFragment.TAG;
 				break;
 		}
 	}
@@ -795,6 +786,9 @@ public class ScriptActivity extends BaseActivity {
 	}
 
 	public ScriptFragment getScriptFragment() {
+		if (scriptFragment == null) {
+			scriptFragment = new ScriptFragment();
+		}
 		return scriptFragment;
 	}
 
@@ -838,6 +832,7 @@ public class ScriptActivity extends BaseActivity {
 				}
 				setCurrentFragment(FRAGMENT_SOUNDS);
 				break;
+
 			case FRAGMENT_NFCTAGS:
 				isNfcTagFragmentFromWhenNfcTagBrickNew = true;
 
@@ -892,6 +887,20 @@ public class ScriptActivity extends BaseActivity {
 		actionModeEmptyDialog.setCanceledOnTouchOutside(true);
 		actionModeEmptyDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		actionModeEmptyDialog.show();
+	}
+
+	public void setUserBrickFragment(UserBrickFragment userBrickFragment) {
+		this.userBrickFragment = userBrickFragment;
+	}
+
+	public void removeFormulaEditorFragment() {
+		Fragment formulaEditorFragment =
+				fragmentManager.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		if (formulaEditorFragment != null) {
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.remove(formulaEditorFragment);
+			fragmentTransaction.commit();
+		}
 	}
 }
 

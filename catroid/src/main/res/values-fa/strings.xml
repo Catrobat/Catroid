@@ -479,7 +479,6 @@
   <string name="brick_context_dialog_delete_brick">حذف آجر</string>
   <string name="brick_context_dialog_copy_brick">رونوشت  آجر</string>
   <string name="brick_context_dialog_animate_bricks">به قطعات آجر تحرک بده</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">ویرایش فرمول</string>
   <string name="brick_context_dialog_delete_script">حذف اسکریپت</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>

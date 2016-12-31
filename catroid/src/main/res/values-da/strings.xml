@@ -479,7 +479,6 @@
   <string name="brick_context_dialog_delete_brick">Slet Klods</string>
   <string name="brick_context_dialog_copy_brick">Kopier Klods</string>
   <string name="brick_context_dialog_animate_bricks">Animér Klods-Dele</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">Redigér Formel</string>
   <string name="brick_context_dialog_delete_script">Slet Manuskript</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>

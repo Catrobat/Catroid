@@ -745,8 +745,21 @@ public class Sprite implements Serializable, Cloneable {
 		nfcTagList = list;
 	}
 
-	public int getNextNewUserBrickId() {
-		return userBricks.size();
+	public int getNextNewUserBrickId(String text) {
+		int id = 1;
+		boolean newIdFound = false;
+
+		while (!newIdFound) {
+			newIdFound = true;
+			for (UserBrick userBrick : userBricks) {
+				if (userBrick.getDefinitionBrick().getName().equals(text + id)) {
+					newIdFound = false;
+					id++;
+					break;
+				}
+			}
+		}
+		return id;
 	}
 
 	@Override
@@ -923,6 +936,15 @@ public class Sprite implements Serializable, Cloneable {
 		for (LookData lookData : getLookDataList()) {
 			lookData.getCollisionInformation().calculate();
 		}
+	}
+
+	public boolean userBrickNameExists(String userBrickName) {
+		for (UserBrick userBrick : userBricks) {
+			if (userBrick.getDefinitionBrick().getName().equals(userBrickName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public class PenConfiguration {

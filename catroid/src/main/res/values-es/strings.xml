@@ -448,7 +448,6 @@
   <string name="brick_context_dialog_delete_brick">Eliminar el bloque</string>
   <string name="brick_context_dialog_copy_brick">Copiar el ladrillo</string>
   <string name="brick_context_dialog_animate_bricks">Animar las partes del Bloque</string>
-  <string name="brick_context_dialog_add_to_script">Añadir a las Líneas de Comandos</string>
   <string name="brick_context_dialog_formula_edit_brick">Editar la fórmula</string>
   <string name="brick_context_dialog_delete_script">Eliminar el guión</string>
   <string name="brick_context_dialog_comment_in">Activar bloque</string>

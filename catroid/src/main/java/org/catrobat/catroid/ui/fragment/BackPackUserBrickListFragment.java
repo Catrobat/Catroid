@@ -23,11 +23,9 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,36 +33,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.adapter.BackPackUserBrickListAdapter;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
-import org.catrobat.catroid.ui.adapter.SoundListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.controller.BackPackUserBrickController;
+import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class BackPackSoundListFragment extends BackPackActivityFragment implements CheckBoxListAdapter
+public class BackPackUserBrickListFragment extends BackPackActivityFragment implements CheckBoxListAdapter
 		.ListItemClickHandler, CheckBoxListAdapter.ListItemLongClickHandler {
 
-	public static final String TAG = BackPackSoundListFragment.class.getSimpleName();
+	public static final String TAG = BackPackUserBrickListFragment.class.getSimpleName();
+	private static final String SHARED_PREFERENCE_NAME = "showDetailsUserBricks";
 
-	private SoundListAdapter soundAdapter;
+	private BackPackUserBrickListAdapter adapter;
 	private ListView listView;
 
-	private MediaPlayer mediaPlayer;
-
-	private SoundInfo soundInfoToEdit;
-	private int selectedSoundPosition = Constants.NO_POSITION;
+	private String userBrickGroupToEdit;
+	private int selectedUserBrickGroupPosition;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View backPackSoundListFragment = inflater.inflate(R.layout.fragment_sound_backpack, container, false);
-		listView = (ListView) backPackSoundListFragment.findViewById(android.R.id.list);
+		View backPackUserBrickListFragment = inflater.inflate(R.layout.fragment_backpack, container, false);
+		listView = (ListView) backPackUserBrickListFragment.findViewById(android.R.id.list);
 
-		return backPackSoundListFragment;
+		return backPackUserBrickListFragment;
 	}
 
 	@Override
@@ -73,94 +71,79 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 
 		registerForContextMenu(listView);
 
-		singleItemTitle = getString(R.string.sound);
-		multipleItemsTitle = getString(R.string.sounds);
-
-		if (savedInstanceState != null) {
-			soundInfoToEdit = (SoundInfo) savedInstanceState
-					.getSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND);
-		}
+		singleItemTitle = getString(R.string.userbrick_group);
+		multipleItemsTitle = getString(R.string.userbrick_groups);
 
 		initializeList();
 		checkEmptyBackgroundBackPack();
 		BottomBar.hideBottomBar(getActivity());
 	}
 
-	private void initializeList() {
-		List<SoundInfo> soundList = BackPackListManager.getInstance().getBackPackedSounds();
+	public void initializeList() {
+		List<String> groupList = BackPackListManager.getInstance().getBackPackedUserBrickGroups();
 
-		soundAdapter = new SoundListAdapter(getActivity(), R.layout.list_item, soundList);
-		setListAdapter(soundAdapter);
-		soundAdapter.setListItemClickHandler(this);
-		soundAdapter.setListItemCheckHandler(this);
-		soundAdapter.setListItemLongClickHandler(this);
+		adapter = new BackPackUserBrickListAdapter(getActivity(), R.layout.list_item, groupList);
+		setListAdapter(adapter);
+		adapter.setListItemClickHandler(this);
+		adapter.setListItemCheckHandler(this);
+		adapter.setListItemLongClickHandler(this);
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND, soundInfoToEdit);
+		outState.putSerializable(LookController.BUNDLE_ARGUMENTS_SELECTED_LOOK, userBrickGroupToEdit);
 		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		mediaPlayer = new MediaPlayer();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
+			return;
+		}
+
+		initializeList();
+
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 
-		setShowDetails(settings.getBoolean(SoundController.SHARED_PREFERENCE_NAME, false));
+		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 
+		ProjectManager projectManager = ProjectManager.getInstance();
+		if (projectManager.getCurrentProject() != null) {
+			projectManager.saveProject(getActivity().getApplicationContext());
+		}
+
 		BackPackListManager.getInstance().saveBackpack();
-		SoundController.getInstance().stopSound(mediaPlayer, BackPackListManager.getInstance().getBackPackedSounds());
-		soundAdapter.notifyDataSetChanged();
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
 
-		editor.putBoolean(SoundController.SHARED_PREFERENCE_NAME, getShowDetails());
+		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
 		editor.commit();
 	}
 
 	@Override
-	public void onStop() {
-		super.onStop();
-		mediaPlayer.reset();
-		mediaPlayer.release();
-		mediaPlayer = null;
-	}
-
-	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		if (BackPackListManager.getInstance().getBackPackedSounds().isEmpty()) {
+		super.onPrepareOptionsMenu(menu);
+		if (BackPackListManager.getInstance().getBackPackedUserBricks().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(false);
 		}
-
-		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, view, menuInfo);
 
-		if (SoundController.getInstance().isSoundPlaying(mediaPlayer)) {
-			SoundController.getInstance().stopSound(mediaPlayer, BackPackListManager.getInstance().getBackPackedSounds());
-		}
-
-		soundInfoToEdit = soundAdapter.getItem(selectedSoundPosition);
-		menu.setHeaderTitle(soundInfoToEdit.getTitle());
+		userBrickGroupToEdit = adapter.getItem(selectedUserBrickGroupPosition);
+		menu.setHeaderTitle(userBrickGroupToEdit);
 
 		getActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
 	}
@@ -168,11 +151,12 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+
 			case R.id.context_menu_unpacking:
 				unpackCheckedItems(true);
 				break;
 			case R.id.context_menu_delete:
-				deleteCheckedItems(true);
+				showDeleteDialog(true);
 				break;
 		}
 		return super.onContextItemSelected(item);
@@ -180,67 +164,56 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 
 	@Override
 	public void handleOnItemClick(int position, View view, Object listItem) {
-		selectedSoundPosition = position;
-		soundInfoToEdit = soundAdapter.getItem(position);
+		selectedUserBrickGroupPosition = position;
 		listView.showContextMenuForChild(view);
 	}
 
 	@Override
 	public void handleOnItemLongClick(int position, View view) {
-		selectedSoundPosition = position;
-		soundInfoToEdit = soundAdapter.getItem(position);
+		selectedUserBrickGroupPosition = position;
 		listView.showContextMenuForChild(view);
-	}
-
-	public void pauseSound(SoundInfo soundInfo) {
-		mediaPlayer.pause();
-		soundInfo.isPlaying = false;
 	}
 
 	@Override
 	protected void showDeleteDialog(boolean singleItem) {
 		int titleId;
-		if (soundAdapter.getCheckedItems().size() == 1 || singleItem) {
-			titleId = R.string.dialog_confirm_delete_sound_title;
+		if (adapter.getCheckedItems().size() == 1 || singleItem) {
+			titleId = R.string.dialog_confirm_delete_backpack_group_title;
 		} else {
-			titleId = R.string.dialog_confirm_delete_multiple_sounds_title;
+			titleId = R.string.dialog_confirm_delete_multiple_backpack_groups_title;
 		}
+
 		showDeleteDialog(titleId, singleItem);
 	}
 
 	@Override
 	protected void deleteCheckedItems(boolean singleItem) {
 		if (singleItem) {
-			deleteSound();
+			deleteUserBrickGroup();
 			return;
 		}
-		for (SoundInfo soundInfo : soundAdapter.getCheckedItems()) {
-			soundInfoToEdit = soundInfo;
-			deleteSound();
+		for (String userBrickGroup : adapter.getCheckedItems()) {
+			userBrickGroupToEdit = userBrickGroup;
+			deleteUserBrickGroup();
 		}
 	}
 
-	private void deleteSound() {
-		BackPackListManager.getInstance().removeItemFromSoundBackPack(soundInfoToEdit);
+	private void deleteUserBrickGroup() {
+		BackPackListManager.getInstance().removeItemFromUserBrickBackPack(userBrickGroupToEdit);
+		adapter.remove(userBrickGroupToEdit);
 		checkEmptyBackgroundBackPack();
-		soundAdapter.notifyDataSetChanged();
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {
 		if (singleItem) {
-			unpackSound();
+			BackPackUserBrickController.getInstance().unpack(userBrickGroupToEdit, false, getActivity());
 			showUnpackingCompleteToast(1);
 			return;
 		}
-		for (SoundInfo soundInfo : soundAdapter.getCheckedItems()) {
-			soundInfoToEdit = soundInfo;
-			unpackSound();
+		for (String userBrick : adapter.getCheckedItems()) {
+			BackPackUserBrickController.getInstance().unpack(userBrick, false, getActivity());
 		}
-		showUnpackingCompleteToast(soundAdapter.getCheckedItems().size());
+		showUnpackingCompleteToast(adapter.getCheckedItems().size());
 		clearCheckedItems();
-	}
-
-	private void unpackSound() {
-		SoundController.getInstance().unpack(soundInfoToEdit, false, false);
 	}
 }

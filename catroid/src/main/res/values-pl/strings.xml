@@ -472,7 +472,6 @@
   <string name="brick_context_dialog_delete_brick">Usuń blok</string>
   <string name="brick_context_dialog_copy_brick">Kopiuj blok</string>
   <string name="brick_context_dialog_animate_bricks">Animuj bloki</string>
-  <string name="brick_context_dialog_add_to_script">Dodaj do skryptu</string>
   <string name="brick_context_dialog_formula_edit_brick">Edytuj formułę</string>
   <string name="brick_context_dialog_delete_script">Usuń skrypt</string>
   <string name="brick_context_dialog_comment_in">Włącz bloczek</string>

@@ -482,7 +482,6 @@
   <string name="brick_context_dialog_delete_brick">ईंट को हटाएं</string>
   <string name="brick_context_dialog_copy_brick">ईंट की प्रतिलिपि बनाएँ</string>
   <string name="brick_context_dialog_animate_bricks">ईंट-भागों को चलाये</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">सूत्र को संपादित करें</string>
   <string name="brick_context_dialog_delete_script">लिपि हटाएँ</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>

@@ -77,9 +77,14 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 	@Override
 	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+
 		if (!(obj instanceof UserScriptDefinitionBrick)) {
 			return false;
 		}
+
 		if (obj == this) {
 			return true;
 		}
@@ -118,7 +123,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		return resources;
 	}
 
-	public void appendBrickToScript(Brick brick) {
+	void appendBrickToScript(Brick brick) {
 		this.getScriptSafe().addBrick(brick);
 	}
 
@@ -130,7 +135,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		UserScriptDefinitionBrick clonedBrick = new UserScriptDefinitionBrick();
-		clonedBrick.userScriptDefinitionBrickElements = cloneDefinitionBrickElements();
+		clonedBrick.userScriptDefinitionBrickElements = cloneDefinitionBrickElements(sprite);
 		for (Brick brick : this.script.getBrickList()) {
 			clonedBrick.script.addBrick(brick.copyBrickForSprite(sprite));
 		}
@@ -138,11 +143,17 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		return clonedBrick;
 	}
 
-	public List<UserScriptDefinitionBrickElement> cloneDefinitionBrickElements() {
+	private List<UserScriptDefinitionBrickElement> cloneDefinitionBrickElements(Sprite sprite) {
 		List<UserScriptDefinitionBrickElement> cloneList = new ArrayList<>();
+		boolean isUserBrickName = true;
 		for (UserScriptDefinitionBrickElement originalUserBrickElement : userScriptDefinitionBrickElements) {
 			UserScriptDefinitionBrickElement clonedUserBrickElement = new UserScriptDefinitionBrickElement();
-			clonedUserBrickElement.setText(originalUserBrickElement.getText());
+			String text = originalUserBrickElement.getText();
+			if (isUserBrickName && sprite.userBrickNameExists(text)) {
+				text = text + sprite.getNextNewUserBrickId(text);
+				isUserBrickName = false;
+			}
+			clonedUserBrickElement.setText(text);
 			clonedUserBrickElement.setElementType(originalUserBrickElement.getElementType());
 			clonedUserBrickElement.setNewLineHint(originalUserBrickElement.isNewLineHint());
 			cloneList.add(clonedUserBrickElement);
@@ -163,7 +174,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		return view;
 	}
 
-	public void onLayoutChanged() {
+	private void onLayoutChanged() {
 		Context context = view.getContext();
 
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
@@ -215,7 +226,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 				continue;
 			} else if (element.isVariable()) {
 				currentTextView = new EditText(context);
-				currentTextView.setText(String.valueOf(0d));
+				currentTextView.setText(element.getText());
 				currentTextView.setVisibility(View.VISIBLE);
 			} else {
 				currentTextView = new TextView(context);
@@ -264,7 +275,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		return bitmap;
 	}
 
-	public ImageView getBorderedPreview(final Bitmap bitmap) {
+	private ImageView getBorderedPreview(final Bitmap bitmap) {
 		ImageView imageView = new ImageView(view.getContext());
 		imageView.setBackgroundColor(Color.TRANSPARENT);
 
@@ -275,8 +286,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		return imageView;
 	}
 
-	public Bitmap getWithBorder(int radius, Bitmap bitmap, int color) {
-
+	private Bitmap getWithBorder(int radius, Bitmap bitmap, int color) {
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		int borderedWidth = width + radius * 2;
@@ -428,7 +438,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		return userScriptDefinitionBrickElements;
 	}
 
-	public void renameVariablesInFormulasAndBricks(String oldName, String newName, Context context) {
+	private void renameVariablesInFormulasAndBricks(String oldName, String newName, Context context) {
 		List<Brick> brickList = script.getBrickList();
 		for (Brick brick : brickList) {
 			if (brick instanceof UserBrick) {

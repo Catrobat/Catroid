@@ -59,8 +59,9 @@ public class UserScriptDefinitionBrickElement implements Serializable {
 		}
 
 		UserScriptDefinitionBrickElement elementToCompare = (UserScriptDefinitionBrickElement) obj;
-		if (!(elementToCompare.getElementType().getValue() == elementType.getValue())
-				|| !(elementToCompare.getText().equals(text)) || !(elementToCompare.isNewLineHint() == newLineHint)) {
+		if (!(elementToCompare.elementType.getValue() == elementType.getValue())
+				|| !(elementToCompare.text.equals(text))
+				|| !(elementToCompare.newLineHint == newLineHint)) {
 			return false;
 		}
 

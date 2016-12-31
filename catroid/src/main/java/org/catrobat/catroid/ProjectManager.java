@@ -365,7 +365,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public Scene getCurrentScene() {
-		if (currentScene == null) {
+		if (currentScene == null && project != null) {
 			currentScene = project.getDefaultScene();
 		}
 		return currentScene;

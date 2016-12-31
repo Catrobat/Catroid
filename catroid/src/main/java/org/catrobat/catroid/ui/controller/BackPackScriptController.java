@@ -103,6 +103,7 @@ public final class BackPackScriptController {
 	public void unpack(String selectedScriptGroupBackPack, boolean deleteUnpackedItems, boolean
 			handleInsertFromScriptBackPack, Activity activity, boolean fromHiddenBackPack) {
 		List<Script> scriptsInGroup;
+
 		if (fromHiddenBackPack) {
 			scriptsInGroup = BackPackListManager.getInstance().getHiddenBackpackedScripts().get(selectedScriptGroupBackPack);
 		} else {
@@ -224,7 +225,7 @@ public final class BackPackScriptController {
 		brick.setPointedObject(unpackedPointToSprite);
 	}
 
-	private void handleUserBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
+	void handleUserBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
 		UserBrick brick = (UserBrick) brickOfScript;
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 

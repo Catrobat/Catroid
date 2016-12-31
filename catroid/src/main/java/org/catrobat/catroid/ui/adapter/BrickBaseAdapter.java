@@ -33,18 +33,24 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.BackPackScriptController;
+import org.catrobat.catroid.ui.controller.BackPackUserBrickController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.fragment.UserBrickFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -52,14 +58,20 @@ import java.util.List;
 
 public abstract class BrickBaseAdapter extends BaseAdapter {
 
-	protected Context context;
-	protected ScriptFragment scriptFragment;
-	protected AddBrickFragment addBrickFragment;
-	protected Button okButtonDelete;
-	protected List<Brick> checkedBricks = new ArrayList<>();
-	protected List<Brick> brickList;
+	public enum ActionModeEnum {
+		NO_ACTION, COPY_DELETE, BACKPACK, COMMENT_OUT
+	}
 
-	protected void showNewGroupBackPackDialog(final List<String> backPackedItems, final boolean backPackUserBricks) {
+	protected Context context;
+	ScriptFragment scriptFragment;
+	AddBrickFragment addBrickFragment;
+	UserBrickFragment userBrickFragment;
+	private Button okButtonDelete;
+	List<Brick> checkedBricks = new ArrayList<>();
+	protected List<Brick> brickList;
+	protected ActionModeEnum actionMode = ActionModeEnum.NO_ACTION;
+
+	void showNewGroupBackPackDialog(final List<String> backPackedItems, final boolean backPackUserBricks) {
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(context);
 		builder.setTitle(R.string.new_group);
 		View view = View.inflate(context, R.layout.new_group_dialog, null);
@@ -73,7 +85,11 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 				if (backPackedItems.contains(groupName)) {
 					showScriptGroupNameAlreadyGivenDialog(backPackedItems, backPackUserBricks);
 				} else {
-					backPackScript(groupName);
+					if (backPackUserBricks) {
+						backPackUserBrick(groupName);
+					} else {
+						backPackScript(groupName);
+					}
 				}
 			}
 		});
@@ -81,7 +97,7 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
-				scriptFragment.clearCheckedBricksAndEnableButtons();
+				clearCheckedBricksAndEnableButtons();
 			}
 		});
 
@@ -140,12 +156,21 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 	private void backPackScript(String groupName) {
 		if (!checkedBricks.isEmpty()) {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			int scriptsBackPacked = BackPackScriptController.getInstance().backpack(
-					groupName, checkedBricks, false, currentSprite).size();
-			scriptFragment.clearCheckedBricksAndEnableButtons();
+			int scriptsBackPacked = BackPackScriptController.getInstance().backpack(groupName, checkedBricks, false, currentSprite).size();
+			clearCheckedBricksAndEnableButtons();
 			showToast(scriptsBackPacked, R.plurals.scripts_plural);
 
 			startBackPackActivity(ScriptActivity.FRAGMENT_SCRIPTS);
+		}
+	}
+
+	private void backPackUserBrick(String groupName) {
+		if (!checkedBricks.isEmpty()) {
+			int userBricksBackPacked = BackPackUserBrickController.getInstance().backpack(groupName, checkedBricks).size();
+			showToast(userBricksBackPacked, R.plurals.brick_plural);
+			clearCheckedBricksAndEnableButtons();
+
+			startBackPackActivity(ScriptActivity.FRAGMENT_USERBRICKS);
 		}
 	}
 
@@ -161,5 +186,72 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 		Intent intent = new Intent(context, BackPackActivity.class);
 		intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, fragment);
 		context.startActivity(intent);
+	}
+
+	public void setCheckboxVisibility(boolean fromUserBrickFragment) {
+		for (Brick brick : brickList) {
+			switch (actionMode) {
+				case NO_ACTION:
+					BrickViewProvider.setCheckboxVisibility(brick, View.GONE);
+					break;
+				case BACKPACK:
+					if (fromUserBrickFragment || brick instanceof ScriptBrick) {
+						BrickViewProvider.setCheckboxVisibility(brick, View.VISIBLE);
+					} else {
+						BrickViewProvider.setCheckboxVisibility(brick, View.INVISIBLE);
+					}
+					break;
+				case COPY_DELETE:
+				case COMMENT_OUT:
+					BrickViewProvider.setCheckboxVisibility(brick, View.VISIBLE);
+					break;
+			}
+		}
+	}
+
+	public List<Brick> getCheckedBricks() {
+		return checkedBricks;
+	}
+
+	void setCheckbox(Brick brick, boolean enabled) {
+		CheckBox checkBox = brick.getCheckBox();
+		if (checkBox != null) {
+			checkBox.setChecked(enabled);
+		}
+	}
+
+	void addElementToCheckedBricks(Brick brick) {
+		if (!(checkedBricks.contains(brick)) && !(brick instanceof UserScriptDefinitionBrick)) {
+			checkedBricks.add(brick);
+		}
+	}
+
+	public ActionModeEnum getActionMode() {
+		return actionMode;
+	}
+
+	public void setActionMode(ActionModeEnum actionMode) {
+		this.actionMode = actionMode;
+	}
+
+	public List<Brick> getBrickList() {
+		return brickList;
+	}
+
+	public List<Brick> getReversedCheckedBrickList() {
+		List<Brick> reverseCheckedList = new ArrayList<>();
+		for (int counter = checkedBricks.size() - 1; counter >= 0; counter--) {
+			reverseCheckedList.add(checkedBricks.get(counter));
+		}
+		return reverseCheckedList;
+	}
+
+	private void clearCheckedBricksAndEnableButtons() {
+		if (scriptFragment != null) {
+			scriptFragment.clearCheckedBricksAndEnableButtons();
+		}
+		if (userBrickFragment != null) {
+			userBrickFragment.clearCheckedBricksAndEnableButtons();
+		}
 	}
 }

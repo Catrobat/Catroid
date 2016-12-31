@@ -32,7 +32,7 @@
         android:layout_height="match_parent" >
 
         <TextView
-            android:id="@+id/fragment_sound_text_heading"
+            android:id="@+id/backpack_text_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -42,10 +42,10 @@
             android:textSize="80sp" />
 
         <TextView
-            android:id="@+id/fragment_sound_text_description"
+            android:id="@+id/backpack_text_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_sound_text_heading"
+            android:layout_below="@id/backpack_text_heading"
             android:gravity="center"
             android:paddingTop="10dp"
             android:text="@string/fragment_sound_text_description"

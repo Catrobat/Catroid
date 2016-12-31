@@ -480,7 +480,6 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="brick_context_dialog_delete_brick">Smaž blok</string>
   <string name="brick_context_dialog_copy_brick">Kopíruj blok</string>
   <string name="brick_context_dialog_animate_bricks">Animuj části bloku</string>
-  <string name="brick_context_dialog_add_to_script">Přidat do skriptů</string>
   <string name="brick_context_dialog_formula_edit_brick">Upravit vzorec</string>
   <string name="brick_context_dialog_delete_script">Smazat skript</string>
   <string name="brick_context_dialog_comment_in">Povol block</string>

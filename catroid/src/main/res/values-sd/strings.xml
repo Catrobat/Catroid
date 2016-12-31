@@ -479,7 +479,6 @@
   <string name="brick_context_dialog_delete_brick">برڪ ختم ڪريو</string>
   <string name="brick_context_dialog_copy_brick">برڪ نقل ڪريو</string>
   <string name="brick_context_dialog_animate_bricks">برڪ جا حصا متحرڪ بڻايو</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">فارميولا ۾ ترميم ڪريو</string>
   <string name="brick_context_dialog_delete_script">اسڪرپٽ ختم ڪريو</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>
