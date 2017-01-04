@@ -89,34 +89,6 @@ public abstract class BaseActivity extends Activity {
 		invalidateOptionsMenu(); // TODO Any other way to ensure the cast button is presented correctly?
 	}
 
-	/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		mainMenu = menu;
-		//CAST
-		//getMenuInflater().inflate(R.menu.menu_main_menu, menu);
-		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
-		}
-
-		final MenuItem scratchConverterMenuItem = menu.findItem(R.id.menu_scratch_converter);
-		if (scratchConverterMenuItem != null) {
-			if (!(this instanceof MainMenuActivity)) {
-				scratchConverterMenuItem.setVisible(false);
-			} else {
-				final String title = getString(R.string.preference_title_scratch_converter);
-				final String beta = getString(R.string.beta).toUpperCase(Locale.getDefault());
-				final SpannableString spanTitle = new SpannableString(title + " " + beta);
-				final int begin = title.length() + 1;
-				final int end = begin + beta.length();
-				spanTitle.setSpan(new ForegroundColorSpan(Color.RED), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				scratchConverterMenuItem.setTitle(spanTitle);
-			}
-		}
-		return super.onCreateOptionsMenu(menu);
-	}*/
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

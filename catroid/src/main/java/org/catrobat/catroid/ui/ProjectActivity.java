@@ -234,6 +234,9 @@ public class ProjectActivity extends BaseActivity {
 				menu.findItem(R.id.backpack).setVisible(true);
 			}
 		}
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 

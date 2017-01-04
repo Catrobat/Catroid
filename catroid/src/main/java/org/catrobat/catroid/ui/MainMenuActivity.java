@@ -57,6 +57,7 @@ import com.facebook.login.LoginResult;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -257,6 +258,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			final int betaLabelColor = ContextCompat.getColor(this, R.color.beta_label_color);
 			spanTitle.setSpan(new ForegroundColorSpan(betaLabelColor), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			scratchConverterMenuItem.setTitle(spanTitle);
+		}
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
