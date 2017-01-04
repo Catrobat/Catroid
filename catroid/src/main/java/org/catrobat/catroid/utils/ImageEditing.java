@@ -314,7 +314,7 @@ public final class ImageEditing {
 		return "";
 	}
 
-	public static void writeMetaDataStringToPNG(String absolutePath, String key, String value) {
+	public static synchronized void writeMetaDataStringToPNG(String absolutePath, String key, String value) {
 		String tempFilename = absolutePath.substring(0, absolutePath.length() - 4) + "___temp.png";
 
 		File oldFile = new File(absolutePath);
