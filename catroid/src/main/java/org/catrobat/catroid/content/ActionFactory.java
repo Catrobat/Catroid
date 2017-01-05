@@ -963,11 +963,12 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createHideVariableAction(UserVariable userVariable) {
+	public Action createHideVariableAction(Sprite sprite, UserVariable userVariable) {
 		HideTextAction action = action(HideTextAction.class);
 		action.setVariableToHide(userVariable);
 		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		action.setUserBrick(userBrick);
+		action.setSprite(sprite);
 		return action;
 	}
 
