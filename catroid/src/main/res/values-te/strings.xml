@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">పాకెట్ కోడ్</string>
-  <string name="cancel_button">రద్దు చేయు</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">Done</string>
+  <string name="cancel">రద్దు చేయు</string>
+  <string name="next">Next</string>
+  <string name="done">Done</string>
   <string name="rename">పేరు మార్చు</string>
   <string name="delete">తొలగించు</string>
   <string name="yes">అవును</string>

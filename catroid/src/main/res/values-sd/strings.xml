@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">پاڪيٽ ڪوڊ</string>
-  <string name="cancel_button">رد ڪريو</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">پورو ٿيو</string>
+  <string name="cancel">رد ڪريو</string>
+  <string name="next">Next</string>
+  <string name="done">پورو ٿيو</string>
   <string name="rename">نالو ماٽيو</string>
   <string name="delete">ختم ڪيو</string>
   <string name="yes">هائو</string>

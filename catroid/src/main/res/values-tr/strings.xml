@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">Cep Kodu</string>
-  <string name="cancel_button">İptal et</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">Done</string>
+  <string name="cancel">İptal et</string>
+  <string name="next">Next</string>
+  <string name="done">Done</string>
   <string name="rename">Yeniden adlandır</string>
   <string name="delete">Sil</string>
   <string name="yes">Evet</string>

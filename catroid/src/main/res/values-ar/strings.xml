@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">قانون الجيب</string>
-  <string name="cancel_button">موافق</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">موافق</string>
+  <string name="cancel">موافق</string>
+  <string name="next">Next</string>
+  <string name="done">موافق</string>
   <string name="rename">إعادة تسمية</string>
   <string name="delete">حذف</string>
   <string name="yes">نعم</string>

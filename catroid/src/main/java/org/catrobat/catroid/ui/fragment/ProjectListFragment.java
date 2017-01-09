@@ -45,6 +45,7 @@ import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.merge.MergeManager;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
@@ -64,7 +65,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ProjectListFragment extends ListActivityFragment implements LoadProjectTask.OnLoadProjectCompleteListener,
-		CheckBoxListAdapter.ListItemClickHandler<ProjectData>, CheckBoxListAdapter.ListItemLongClickHandler {
+		CheckBoxListAdapter.ListItemClickHandler<ProjectData>, CheckBoxListAdapter.ListItemLongClickHandler,
+		SetDescriptionDialog.ChangeDescriptionInterface {
 
 	private static final String TAG = ProjectListFragment.class.getSimpleName();
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
@@ -285,7 +287,8 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 	}
 
 	private void showCopyProjectDialog() {
-		CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
+		CopyProjectDialog dialogCopyProject = new CopyProjectDialog(R.string.dialog_copy_project_title,
+				R.string.new_project_name, projectToEdit.projectName);
 		dialogCopyProject.setTargetFragment(this, 0);
 		dialogCopyProject.show(getActivity().getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
@@ -303,9 +306,8 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 			projectToEdit = projectAdapter.getCheckedItems().get(0);
 		}
 
-		RenameItemDialog dialog = RenameItemDialog.newInstance(R.string.rename_project, R.string.new_project_name,
-				R.string.error_project_exists, projectToEdit.projectName);
-		dialog.setTargetFragment(this, 0);
+		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_project, R.string.new_project_name, projectToEdit.projectName,
+				this);
 		dialog.show(getActivity().getFragmentManager(), RenameItemDialog.DIALOG_FRAGMENT_TAG);
 	}
 
@@ -333,9 +335,19 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 	}
 
 	private void showSetDescriptionDialog() {
-		SetDescriptionDialog dialogSetDescription = SetDescriptionDialog.newInstance(projectToEdit.projectName);
-		dialogSetDescription.setTargetFragment(this, 0);
-		dialogSetDescription.show(getActivity().getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+		projectToEdit = projectAdapter.getItem(selectedProjectPosition);
+		Project project = StorageHandler.getInstance().loadProject(projectToEdit.projectName, getActivity());
+		SetDescriptionDialog dialog = new SetDescriptionDialog(R.string.set_description, R.string.description,
+				project.getDescription(), this);
+		dialog.show(getActivity().getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	@Override
+	public void setDescription(String newDescription) {
+		Project project = StorageHandler.getInstance().loadProject(projectToEdit.projectName, getActivity());
+		project.setDescription(newDescription);
+		StorageHandler.getInstance().saveProject(project);
+		initializeList();
 	}
 
 	@Override

@@ -25,9 +25,11 @@
 
     <!-- General terms -->
     <string name="app_name">Pocket Code</string>
-    <string name="cancel_button">Cancel</string>
-    <string name="next_button">Next</string>
-     <string name="done_button">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
+    <string name="done">Done</string>
+    <string name="name_already_exists">This name already exists, please choose another one!</string>
+    <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
     <string name="yes">Yes</string>
@@ -352,7 +354,6 @@
     <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
     <string name="fragment_background_text_description">Tap \"+\" to add Backgrounds</string>
     <string name="rename_look_dialog">Rename Look</string>
-    <string name="lookname_invalid">This Look\'s name is invalid</string>
     <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
     <string name="pocket_paint_not_installed">Do you want to install it?</string>
     <string name="default_look_name">look</string>
@@ -373,7 +374,6 @@
     <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
     <string name="rename_sound_dialog">Rename Sound</string>
     <string name="backpack_title">Your Backpack</string>
-    <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_stop">stop</string>
     <string name="sound_select_source">Select a Sound</string>
@@ -952,8 +952,6 @@
     <string name="error_drone_wrong_platform_title">No ARDrone support</string>
     <string name="error_drone_wrong_platform">We cannot run a ARDrone project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
-    <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible
-        project is not possible.</string>
     <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
     <string name="error_gps_not_available">Error, GPS was not available.</string>
