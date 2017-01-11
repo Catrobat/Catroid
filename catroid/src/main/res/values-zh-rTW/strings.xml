@@ -851,7 +851,7 @@
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">載入音效時出錯。</string>
-  <string name="error_internet_connection">發生未知的錯誤。檢查您的網路連線。</string>
+  <string name="error_internet_connection">沒有網絡連接。</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">程式檔與目前使用的Pocket Code版本不同。</string>
   <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>

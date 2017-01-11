@@ -868,7 +868,7 @@
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Er is een fout opgetreden tijdens het laden van het geluid.</string>
-  <string name="error_internet_connection">Er is een onbekende fout opgetreden. Controleer je internetverbinding.</string>
+  <string name="error_internet_connection">Geen internet verbinding.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Het programma is niet geschikt voor deze versie van Pocket Code.</string>
   <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>

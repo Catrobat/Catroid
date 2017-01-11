@@ -936,7 +936,7 @@
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">حدث خطأ أثناء تحميل الصوت.</string>
-  <string name="error_internet_connection">حدث خطأ غير معروف. تحقق من اتصال الإنترنت الخاص بك.</string>
+  <string name="error_internet_connection">حلا يوجد اتصال بالانترنت.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">البرنامج غير متوافق مع هذا الإصدار من \"النص البرمجي لجهاز الجيب\".</string>
   <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>

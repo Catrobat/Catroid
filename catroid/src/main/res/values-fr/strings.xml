@@ -870,7 +870,7 @@ il faut
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Une erreur est apparue en chargeant le son.</string>
-  <string name="error_internet_connection">Une erreur est apparue. Vérifiez votre connexion Internet.</string>
+  <string name="error_internet_connection">pas de connexion Internet.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Ce programme n\'est pas compatible avec cette version de Pocket Code.</string>
   <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>

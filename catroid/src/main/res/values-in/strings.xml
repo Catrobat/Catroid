@@ -851,7 +851,7 @@
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Terjadi kesalahan saat memuat suara.</string>
-  <string name="error_internet_connection">Terjadi kesalahan yang tidak diketahui. Periksa koneksi Internet Anda.</string>
+  <string name="error_internet_connection">Tidak ada koneksi internet.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Program ini tidak sesuai dengan versi Pocket kode.</string>
   <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>

@@ -870,7 +870,7 @@
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Hiba történt a hang betöltése közben.</string>
-  <string name="error_internet_connection">Ismeretlen hiba történt. Ellenőrizze az internetkapcsolatot.</string>
+  <string name="error_internet_connection">nincs internetkapcsolat.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">A program nem kompatibilis a Pocket Code ezen verziójával.</string>
   <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>

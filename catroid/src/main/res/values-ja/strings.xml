@@ -820,7 +820,7 @@
   <string name="error_load_image_special_chars">画像を読み込みできません。ファイル名に特殊文字が
 含まれていませんか (例えば $、%、&amp;、&#8230;)? </string>
   <string name="error_load_sound">サウンドをロード中にエラーが発生しました</string>
-  <string name="error_internet_connection">不明なエラーが発生しました。インターネット接続を確認してください</string>
+  <string name="error_internet_connection">インターネット接続はありません。</string>
   <string name="error_no_internet">インターネット接続を確立してください。</string>
   <string name="error_project_compatability">プログラムは、このバージョンのポケット コードと互換性がありません。</string>
   <string name="error_outdated_pocketcode_version">ポケットコードのバージョンが古すぎます。今すぐ更新しますか?</string>
