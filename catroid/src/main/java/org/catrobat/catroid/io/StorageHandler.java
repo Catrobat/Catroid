@@ -31,6 +31,7 @@ import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -275,6 +276,7 @@ public final class StorageHandler {
 		try {
 			INSTANCE = new StorageHandler();
 		} catch (IOException ioException) {
+			FirebaseCrash.report(ioException);
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
 	}
@@ -341,11 +343,13 @@ public final class StorageHandler {
 			}
 			outputStream.flush();
 		} catch (IOException ioException) {
+			FirebaseCrash.report(ioException);
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		} finally {
 			try {
 				outputStream.close();
 			} catch (IOException e) {
+				FirebaseCrash.report(e);
 				Log.e(TAG, "Could not close outputstream.", e);
 			}
 		}
@@ -538,6 +542,7 @@ public final class StorageHandler {
 		try {
 			createBackPackFileStructure();
 		} catch (IOException e) {
+			FirebaseCrash.report(e);
 			Log.e(TAG, "Creating backpack file structure failed");
 		}
 	}
@@ -554,6 +559,7 @@ public final class StorageHandler {
 				return null;
 			}
 		} catch (IOException e) {
+			FirebaseCrash.report(e);
 			Log.e(TAG, "Exception getFirstSceneName", e);
 			return null;
 		}
@@ -562,6 +568,7 @@ public final class StorageHandler {
 		try {
 			projectXml = Files.toString(projectXmlFile, Charsets.UTF_8);
 		} catch (IOException e) {
+			FirebaseCrash.report(e);
 			Log.e(TAG, "Exception getFirstSceneName", e);
 			return null;
 		}
@@ -583,6 +590,7 @@ public final class StorageHandler {
 				return loadSupportProject(projectName, context);
 			}
 		} catch (IOException e) {
+			FirebaseCrash.report(e);
 			Log.e(TAG, "Could not check Scene Tag!", e);
 			return null;
 		}
@@ -602,6 +610,7 @@ public final class StorageHandler {
 				project.getSceneByName(sceneName).getDataContainer().setProject(project);
 			}
 		} catch (Exception e) {
+			FirebaseCrash.report(e);
 			Log.e(TAG, "Could not get Project from xml and get Scene from order", e);
 			loadSaveLock.unlock();
 			return null;
@@ -677,6 +686,7 @@ public final class StorageHandler {
 			fixFolderStructureForSupportProject(projectName, project.getDefaultScene().getName());
 			return project;
 		} catch (IOException e) {
+			FirebaseCrash.report(e);
 			Log.d(TAG, "Could not load project!");
 			UtilFile.deleteDirectory(file);
 			Log.d(TAG, "loadProject: directory is deleted and "
@@ -688,6 +698,7 @@ public final class StorageHandler {
 				try {
 					fileInputStream.close();
 				} catch (IOException ioException) {
+					FirebaseCrash.report(ioException);
 					Log.e(TAG, "can't close fileStream.", ioException);
 				}
 			}
@@ -701,6 +712,7 @@ public final class StorageHandler {
 				fileInputStream.close();
 				return true;
 			} catch (IOException ioException) {
+				FirebaseCrash.report(ioException);
 				Log.e(TAG, "can't close fileStream.", ioException);
 			}
 		}
@@ -741,6 +753,7 @@ public final class StorageHandler {
 					Log.d(TAG, "Project version differ <" + oldProjectXml.length() + "> <"
 							+ projectXml.length() + ">. update " + currentCodeFile.getName());
 				} catch (Exception exception) {
+					FirebaseCrash.report(exception);
 					Log.e(TAG, "Opening old project " + currentCodeFile.getAbsolutePath() + " failed.", exception);
 					return false;
 				}
@@ -760,9 +773,9 @@ public final class StorageHandler {
 				writer.newLine();
 			}
 			writer.flush();
-
 			return true;
 		} catch (Exception exception) {
+			FirebaseCrash.report(exception);
 			Log.e(TAG, "Saving project " + project.getName() + " failed.", exception);
 			return false;
 		} finally {
@@ -778,6 +791,7 @@ public final class StorageHandler {
 						Log.e(TAG, "Could not rename " + currentCodeFile.getName());
 					}
 				} catch (IOException ioException) {
+					FirebaseCrash.report(ioException);
 					Log.e(TAG, "Failed closing the buffered writer", ioException);
 				}
 			}
@@ -819,6 +833,7 @@ public final class StorageHandler {
 			ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
 			return project.getDefaultScene();
 		} catch (IOException e) {
+			FirebaseCrash.report(e);
 			Log.e(TAG, "Error while creating default Scene!", e);
 			return null;
 		}
@@ -839,6 +854,7 @@ public final class StorageHandler {
 			writer.write(json);
 			return true;
 		} catch (IOException e) {
+			FirebaseCrash.report(e);
 			Log.e(TAG, "Could not write backpack file", e);
 			return false;
 		} finally {
@@ -846,6 +862,7 @@ public final class StorageHandler {
 				try {
 					writer.close();
 				} catch (IOException ioException) {
+					FirebaseCrash.report(ioException);
 					Log.e(TAG, "Failed closing the buffered writer", ioException);
 				}
 			}
@@ -864,9 +881,11 @@ public final class StorageHandler {
 			BufferedReader bufferedBackpackReader = new BufferedReader(new FileReader(backpackFile));
 			return backpackGson.fromJson(bufferedBackpackReader, Backpack.class);
 		} catch (FileNotFoundException e) {
+			FirebaseCrash.report(e);
 			Log.d(TAG, "Could not find backpack file!");
 			return new Backpack();
 		} catch (JsonSyntaxException | JsonIOException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.d(TAG, "Could not load backpack file! File will be deleted!", jsonException);
 			deleteBackpackFile();
 			return new Backpack();
@@ -912,6 +931,7 @@ public final class StorageHandler {
 				}
 			}
 		} catch (Exception exception) {
+			FirebaseCrash.report(exception);
 			Log.e(TAG, "Exception " + exception);
 		} finally {
 			loadSaveLock.unlock();
@@ -1238,6 +1258,7 @@ public final class StorageHandler {
 				toDelete.delete();
 			}
 		} catch (FileNotFoundException fileNotFoundException) {
+			FirebaseCrash.report(fileNotFoundException);
 			Log.e(TAG, Log.getStackTraceString(fileNotFoundException));
 		}
 	}
@@ -1360,6 +1381,7 @@ public final class StorageHandler {
 				target.close();
 			}
 		} catch (IOException e) {
+			FirebaseCrash.report(e);
 			Log.e(TAG, e.getMessage());
 			return false;
 		}

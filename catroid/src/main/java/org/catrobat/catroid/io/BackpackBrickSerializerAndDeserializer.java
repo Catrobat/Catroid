@@ -25,6 +25,7 @@ package org.catrobat.catroid.io;
 
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -64,6 +65,7 @@ public class BackpackBrickSerializerAndDeserializer implements JsonSerializer<Br
 		try {
 			classToDeserialize = Class.forName(type);
 		} catch (ClassNotFoundException classNotFoundException) {
+			FirebaseCrash.report(classNotFoundException);
 			Log.e(TAG, "Could not deserialize backpacked brick element: " + type);
 			StorageHandler.getInstance().deleteBackpackFile();
 			return null;

@@ -24,6 +24,8 @@ package org.catrobat.catroid.common;
 
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -75,6 +77,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(getAbsolutePath());
 		} catch (FileNotFoundException fileNotFoundexception) {
+			FirebaseCrash.report(fileNotFoundexception);
 			Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
 		}
 

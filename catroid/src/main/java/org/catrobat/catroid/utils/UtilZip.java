@@ -24,6 +24,8 @@ package org.catrobat.catroid.utils;
 
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import org.catrobat.catroid.common.Constants;
 
 import java.io.BufferedInputStream;
@@ -68,6 +70,7 @@ public final class UtilZip {
 
 			return true;
 		} catch (IOException ioException) {
+			FirebaseCrash.report(ioException);
 			Log.e(TAG, ioException.getMessage(), ioException);
 		} finally {
 			try {
@@ -75,6 +78,7 @@ public final class UtilZip {
 					zipOutputStream.close();
 				}
 			} catch (IOException ignoredException) {
+				FirebaseCrash.report(ignoredException);
 				Log.e(TAG, ERROR_CLOSING_STREAM, ignoredException);
 			}
 		}
@@ -149,8 +153,10 @@ public final class UtilZip {
 			}
 			return true;
 		} catch (FileNotFoundException fileNotFoundException) {
+			FirebaseCrash.report(fileNotFoundException);
 			Log.e(TAG, fileNotFoundException.getMessage(), fileNotFoundException);
 		} catch (IOException ioException) {
+			FirebaseCrash.report(ioException);
 			Log.e(TAG, ioException.getMessage(), ioException);
 		} finally {
 			try {
@@ -161,6 +167,7 @@ public final class UtilZip {
 					zipInputStream.close();
 				}
 			} catch (IOException ignoredException) {
+				FirebaseCrash.report(ignoredException);
 				Log.e(TAG, ERROR_CLOSING_STREAM, ignoredException);
 			}
 		}

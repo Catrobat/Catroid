@@ -32,6 +32,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.google.firebase.crash.FirebaseCrash;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.ProjectManager;
@@ -101,6 +102,7 @@ public class LookData implements Serializable, Cloneable {
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
 		} catch (FileNotFoundException fileNotFoundexception) {
+			FirebaseCrash.report(fileNotFoundexception);
 			Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
 		}
 

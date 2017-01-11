@@ -24,6 +24,7 @@ package org.catrobat.catroid.io;
 
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.converters.reflection.ReflectionConverter;
@@ -66,6 +67,7 @@ public class XStreamBrickConverter extends ReflectionConverter {
 				Brick brick = (Brick) reflectionProvider.newInstance(cls);
 				return super.doUnmarshal(brick, reader, context);
 			} catch (ClassNotFoundException exception) {
+				FirebaseCrash.report(exception);
 				Log.d(TAG, "Brick " + type + " not found in " + BRICKS_PACKAGE_NAMES[index]);
 			}
 		}

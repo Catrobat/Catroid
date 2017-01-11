@@ -29,6 +29,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.google.firebase.crash.FirebaseCrash;
 import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
 import org.catrobat.catroid.ProjectManager;
@@ -55,6 +56,7 @@ public class DroneVideoLookData extends LookData {
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
 		} catch (FileNotFoundException fileNotFoundexception) {
+			FirebaseCrash.report(fileNotFoundexception);
 			Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
 		}
 
