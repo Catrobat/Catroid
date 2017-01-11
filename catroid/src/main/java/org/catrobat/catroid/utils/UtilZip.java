@@ -166,4 +166,11 @@ public final class UtilZip {
 		}
 		return false;
 	}
+
+	public static void deleteZipFile(String fileName, String destinationFolder) {
+		File fileToBeDeleted = new File(destinationFolder, fileName);
+		if (fileToBeDeleted.exists()) {
+			fileToBeDeleted.delete();
+		}
+	}
 }
