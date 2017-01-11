@@ -102,4 +102,8 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 
 		return returnActionList;
 	}
+
+	public IfThenLogicEndBrick getIfThenEndBrick() {
+		return ifEndBrick;
+	}
 }

@@ -440,6 +440,8 @@
   <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
   <string name="soundrecorder_recorded_filename">Aufnahme</string>
   <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme tippe auf das Symbol oben.</string>
+  <!-- Pocketmusic activity -->
+  <string name="pocketmusic_recorded_filename">Pocketmusic</string>
   <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
   <string name="prestage_resource_not_available_title">Komponente nicht verfügbar</string>

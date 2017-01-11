@@ -25,11 +25,10 @@ package org.catrobat.catroid.test.physics.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
+import org.catrobat.catroid.content.actions.SetVisibleAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
-import org.catrobat.catroid.content.actions.ShowAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
@@ -230,15 +229,18 @@ public class PhysicsObjectStateTest extends PhysicsBaseTest {
 	}
 
 	private void show() {
-		ShowAction showAction = new ShowAction();
-		showAction.setSprite(sprite);
-		showAction.act(1.0f);
+		setVisible(true);
 	}
 
 	private void hide() {
-		HideAction hideAction = new HideAction();
-		hideAction.setSprite(sprite);
-		hideAction.act(1.0f);
+		setVisible(false);
+	}
+
+	private void setVisible(boolean visible) {
+		SetVisibleAction showAction = new SetVisibleAction();
+		showAction.setSprite(sprite);
+		showAction.setVisible(visible);
+		showAction.act(1.0f);
 	}
 
 	private Action glideTo(Formula x, Formula y) {

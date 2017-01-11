@@ -108,7 +108,7 @@ public class MidiToProjectConverter {
 			if (track.size() > 0) {
 				String trackName = trackNames.get(i);
 				i++;
-				project.addTrack(trackName, track);
+				project.putTrack(trackName, track);
 			}
 		}
 

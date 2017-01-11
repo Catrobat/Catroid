@@ -180,7 +180,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	@Override
 	public Brick clone() {
 		DeleteItemOfUserListBrick clonedBrick = new DeleteItemOfUserListBrick(getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).clone(), userList);
-		clonedBrick.setBackPackedData(new BackPackedData(backPackedData));
+		clonedBrick.setBackPackedData(new BackPackedListData(backPackedData));
 		return clonedBrick;
 	}
 

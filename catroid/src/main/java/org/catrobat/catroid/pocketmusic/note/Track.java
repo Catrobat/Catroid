@@ -198,4 +198,8 @@ public class Track implements Serializable {
 	public String toString() {
 		return "[Track] instrument=" + instrument + " key=" + key + " size=" + size();
 	}
+
+	public boolean isEmpty() {
+		return size() == 0;
+	}
 }

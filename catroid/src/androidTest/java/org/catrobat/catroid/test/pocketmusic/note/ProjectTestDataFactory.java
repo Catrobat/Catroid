@@ -54,7 +54,7 @@ public final class ProjectTestDataFactory {
 	public static Project createProjectWithTrack(MusicalInstrument instrument) {
 		Project project = createProject();
 		Track track = TrackTestDataFactory.createTrack(instrument);
-		project.addTrack("someRandomTrackName1", track);
+		project.putTrack("someRandomTrackName1", track);
 
 		return project;
 	}
@@ -62,7 +62,7 @@ public final class ProjectTestDataFactory {
 	public static Project createProjectWithTrack() {
 		Project project = createProject();
 		Track track = TrackTestDataFactory.createTrack();
-		project.addTrack("someRandomTrackName1", track);
+		project.putTrack("someRandomTrackName1", track);
 
 		return project;
 	}
@@ -72,8 +72,8 @@ public final class ProjectTestDataFactory {
 		Track track1 = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.GUNSHOT);
 		Track track2 = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.WHISTLE);
 
-		project.addTrack("someRandomTrackName1", track1);
-		project.addTrack("someRandomTrackName2", track2);
+		project.putTrack("someRandomTrackName1", track1);
+		project.putTrack("someRandomTrackName2", track2);
 
 		return project;
 	}
@@ -81,7 +81,7 @@ public final class ProjectTestDataFactory {
 	public static Project createProjectWithOneSimpleTrack(String projectName) {
 		Project project = createProject(projectName);
 		Track track = TrackTestDataFactory.createSimpleTrack();
-		project.addTrack("someRandomTrackName1", track);
+		project.putTrack("someRandomTrackName1", track);
 
 		return project;
 	}

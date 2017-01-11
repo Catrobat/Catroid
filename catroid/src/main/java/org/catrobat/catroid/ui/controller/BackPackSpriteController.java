@@ -58,10 +58,8 @@ public final class BackPackSpriteController {
 	}
 
 	public boolean checkSpriteReplaceInBackpack(List<Sprite> currentSpriteList) {
-		boolean spritesAlreadyInBackpack;
 		for (Sprite sprite : currentSpriteList) {
-			spritesAlreadyInBackpack = checkSpriteReplaceInBackpack(sprite);
-			if (spritesAlreadyInBackpack) {
+			if (checkSpriteReplaceInBackpack(sprite)) {
 				return true;
 			}
 		}

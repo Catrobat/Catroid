@@ -20,30 +20,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.ShowBubbleActor;
-import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.formulaeditor.UserList;
 
-public class HideAction extends TemporalAction {
+import java.io.Serializable;
 
-	private Sprite sprite;
+public class BackPackedListData implements Serializable {
+	public UserList userList;
+	public Integer userListType;
 
-	@Override
-	protected void update(float delta) {
-		sprite.look.setLookVisible(false);
-		if (StageActivity.stageListener != null) {
-			ShowBubbleActor actor = StageActivity.stageListener.getBubbleActorForSprite(sprite);
-			if (actor != null) {
-				actor.setVisible(false);
-			}
-		}
+	BackPackedListData() {
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	BackPackedListData(BackPackedListData backPackedData) {
+		if (backPackedData != null) {
+			this.userList = backPackedData.userList;
+			this.userListType = backPackedData.userListType;
+		}
 	}
 }

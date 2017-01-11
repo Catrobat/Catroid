@@ -41,7 +41,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 	protected UserVariable userVariable;
 
 	@XStreamOmitField
-	protected BackPackedData backPackedData;
+	protected BackPackedVariableData backPackedData;
 
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
 		if (userVariable != null && (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
@@ -101,11 +101,11 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		return userVariable;
 	}
 
-	public BackPackedData getBackPackedData() {
+	public BackPackedVariableData getBackPackedData() {
 		return backPackedData;
 	}
 
-	public void setBackPackedData(BackPackedData backPackedData) {
+	public void setBackPackedData(BackPackedVariableData backPackedData) {
 		this.backPackedData = backPackedData;
 	}
 
@@ -156,7 +156,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 			type = dataContainer.getTypeOfUserVariable(userVariable.getName(), currentSprite);
 		}
 		if (backPackedData == null) {
-			backPackedData = new BackPackedData();
+			backPackedData = new BackPackedVariableData();
 		}
 		this.backPackedData.userVariable = userVariable;
 		this.backPackedData.userVariableType = type;

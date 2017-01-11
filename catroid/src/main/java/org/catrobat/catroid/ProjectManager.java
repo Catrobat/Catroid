@@ -92,6 +92,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean handleNewSceneFromScriptActivity;
 	private boolean showUploadDialog = false;
+	private boolean showLegoSensorInfoDialog = true;
 	private String userID = null;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
@@ -265,6 +266,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		if (project != null) {
 			project.loadLegoNXTSettingsFromProject(context);
+			project.loadLegoEV3SettingsFromProject(context);
+			showLegoSensorInfoDialog = true;
 
 			int resources = project.getRequiredResources();
 
@@ -305,6 +308,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 
 		project.saveLegoNXTSettingsToProject(context);
+		project.saveLegoEV3SettingsToProject(context);
 
 		if (asynchronousTask) {
 			SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
@@ -668,12 +672,13 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public void onLoadProjectFailure() {
 	}
 
-	public void checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack) {
-		checkNestingBrickReferences(assumeWrong, inBackPack, false);
+	public boolean checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack) {
+		return checkNestingBrickReferences(assumeWrong, inBackPack, false);
 	}
 
-	public void checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack, boolean sceneBackpack) {
+	public boolean checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack, boolean sceneBackpack) {
 		List<Sprite> spritesToCheck = new ArrayList<>();
+		boolean projectCorrect = true;
 
 		if (inBackPack) {
 			if (sceneBackpack) {
@@ -693,29 +698,38 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 
 			for (Sprite currentSprite : spritesToCheck) {
-				checkCurrentSprite(currentSprite, assumeWrong);
+				if (!checkCurrentSprite(currentSprite, assumeWrong)) {
+					projectCorrect = false;
+				}
 			}
 		} else {
 			for (Scene scene : project.getSceneList()) {
 
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
 				if (currentProject == null) {
-					return;
+					return false;
 				}
 				spritesToCheck = scene.getSpriteList();
 				for (Sprite currentSprite : spritesToCheck) {
-					checkCurrentSprite(currentSprite, assumeWrong);
+					if (!checkCurrentSprite(currentSprite, assumeWrong)) {
+						projectCorrect = false;
+					}
 				}
 			}
 		}
+		return projectCorrect;
 	}
 
-	public void checkCurrentSprite(Sprite currentSprite, boolean assumeWrong) {
+	public boolean checkCurrentSprite(Sprite currentSprite, boolean assumeWrong) {
+		boolean spriteCorrect = true;
 		int numberOfScripts = currentSprite.getNumberOfScripts();
 		for (int pos = 0; pos < numberOfScripts; pos++) {
 			Script script = currentSprite.getScript(pos);
-			checkCurrentScript(script, assumeWrong);
+			if (!checkCurrentScript(script, assumeWrong)) {
+				spriteCorrect = false;
+			}
 		}
+		return spriteCorrect;
 	}
 
 	public boolean checkCurrentScript(Script script, boolean assumeWrong) {
@@ -737,7 +751,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	private boolean checkReferencesOfCurrentBrick(Brick currentBrick) {
 		if (currentBrick instanceof IfThenLogicBeginBrick) {
-			IfLogicEndBrick endBrick = ((IfThenLogicBeginBrick) currentBrick).getIfEndBrick();
+			IfThenLogicEndBrick endBrick = ((IfThenLogicBeginBrick) currentBrick).getIfThenEndBrick();
 			if (endBrick == null || endBrick.getIfBeginBrick() == null
 					|| !endBrick.getIfBeginBrick().equals(currentBrick)) {
 				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
@@ -773,7 +787,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private void correctAllNestedReferences(Script script) {
 		ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<>();
 		ArrayList<IfThenLogicBeginBrick> ifThenBeginList = new ArrayList<>();
-		ArrayList<LoopBeginBrick> loopBeginList = new ArrayList<>();
+		ArrayList<Brick> loopBeginList = new ArrayList<>();
+		ArrayList<Brick> bricksWithInvalidReferences = new ArrayList<>();
 
 		for (Brick currentBrick : script.getBrickList()) {
 			if (currentBrick instanceof IfThenLogicBeginBrick) {
@@ -781,22 +796,42 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			} else if (currentBrick instanceof IfLogicBeginBrick) {
 				ifBeginList.add((IfLogicBeginBrick) currentBrick);
 			} else if (currentBrick instanceof LoopBeginBrick) {
-				loopBeginList.add((LoopBeginBrick) currentBrick);
-			} else if (currentBrick instanceof LoopEndBrick && hasItems(loopBeginList)) {
-				LoopBeginBrick loopBeginBrick = loopBeginList.get(loopBeginList.size() - 1);
+				loopBeginList.add(currentBrick);
+			} else if (currentBrick instanceof LoopEndBrick) {
+				if (loopBeginList.isEmpty()) {
+					Log.e(TAG, "Removing LoopEndBrick without reference to a LoopBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
+				LoopBeginBrick loopBeginBrick = (LoopBeginBrick) loopBeginList.get(loopBeginList.size() - 1);
 				loopBeginBrick.setLoopEndBrick((LoopEndBrick) currentBrick);
 				((LoopEndBrick) currentBrick).setLoopBeginBrick(loopBeginBrick);
 				loopBeginList.remove(loopBeginBrick);
-			} else if (currentBrick instanceof IfLogicElseBrick && hasItems(ifBeginList)) {
+			} else if (currentBrick instanceof IfLogicElseBrick) {
+				if (ifBeginList.isEmpty()) {
+					Log.e(TAG, "Removing IfLogicElseBrick without reference to an IfBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
 				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
 				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
-			} else if (currentBrick instanceof IfThenLogicEndBrick && hasItems(ifThenBeginList)) {
+			} else if (currentBrick instanceof IfThenLogicEndBrick) {
+				if (ifThenBeginList.isEmpty()) {
+					Log.e(TAG, "Removing IfThenLogicEndBrick without reference to an IfBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
 				IfThenLogicBeginBrick ifBeginBrick = ifThenBeginList.get(ifThenBeginList.size() - 1);
 				ifBeginBrick.setIfThenEndBrick((IfThenLogicEndBrick) currentBrick);
 				((IfThenLogicEndBrick) currentBrick).setIfThenBeginBrick(ifBeginBrick);
-				ifBeginList.remove(ifBeginBrick);
-			} else if (currentBrick instanceof IfLogicEndBrick && hasItems(ifBeginList)) {
+				ifThenBeginList.remove(ifBeginBrick);
+			} else if (currentBrick instanceof IfLogicEndBrick) {
+				if (ifBeginList.isEmpty()) {
+					Log.e(TAG, "Removing IfLogicEndBrick without reference to an IfBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
 				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
 				ifBeginBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
@@ -806,10 +841,28 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				ifBeginList.remove(ifBeginBrick);
 			}
 		}
+
+		for (Brick brick : ifBeginList) {
+			bricksWithInvalidReferences.add(brick);
+		}
+
+		for (Brick brick : ifThenBeginList) {
+			bricksWithInvalidReferences.add(brick);
+		}
+
+		for (Brick brick : loopBeginList) {
+			bricksWithInvalidReferences.add(brick);
+		}
+
+		script.removeBricks(bricksWithInvalidReferences);
 	}
 
-	private boolean hasItems(List nestingBrickList) {
-		return nestingBrickList.size() > 0;
+	public boolean getShowLegoSensorInfoDialog() {
+		return showLegoSensorInfoDialog;
+	}
+
+	public void setShowLegoSensorInfoDialog(boolean showLegoSensorInfoDialogFlag) {
+		showLegoSensorInfoDialog = showLegoSensorInfoDialogFlag;
 	}
 
 	@Override

@@ -165,7 +165,7 @@ public class Look extends Image {
 			return false;
 		}
 		if (isFlipped) {
-			x = -x + getWidth();
+			x = (getWidth() - 1) - x;
 		}
 
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection

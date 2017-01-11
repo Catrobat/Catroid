@@ -26,16 +26,20 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.view.View;
 
 import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.pocketmusic.ui.NoteView;
 import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -82,11 +86,50 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Piano Element was not found.", solo.getCurrentActivity().findViewById(R.id.musicdroid_piano));
 	}
 
-	public void testNoteGridElement() {
+	public void testPocketmusic() {
 		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
 
-		assertNotNull("NoteGrid Element was not found.", solo.getCurrentActivity().findViewById(R.id
-				.musicdroid_note_grid));
+		TrackView trackView = (TrackView) solo.getCurrentActivity().findViewById(R.id.musicdroid_note_grid);
+		int trackGridHashCode = trackView.getTrackGrid().hashCode();
+
+		Random random = new Random();
+		int randomRow = random.nextInt(TrackView.ROW_COUNT);
+		int randomCol = random.nextInt(TrackRowView.QUARTER_COUNT);
+		toggleNote(trackView, randomRow, randomCol, "Button not toggled");
+
+		solo.goBack();
+
+		ScriptActivity scriptActivity = (ScriptActivity) solo.getCurrentActivity();
+		SoundFragment soundFragment = (SoundFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
+
+		assertEquals("Saving Pocketmusic MIDI did not work.", 1, soundFragment.getSoundInfoList().size());
+
+		View firstPocketMusicView = null;
+
+		for (int i = 0; i < soundFragment.getSoundInfoList().size(); i++) {
+			SoundInfo soundInfo = soundFragment.getSoundInfoList().get(i);
+			if (soundInfo.getSoundFileName().matches(".*MUS-.*\\.midi")) {
+				assertEquals("Wrong Pocketmusic title.", solo.getString(R.string.pocketmusic_recorded_filename),
+						soundInfo.getTitle());
+				firstPocketMusicView = soundFragment.getListView().getChildAt(i);
+				break;
+			}
+		}
+
+		solo.clickOnView(firstPocketMusicView);
+		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
+
+		trackView = (TrackView) solo.getCurrentActivity().findViewById(R.id.musicdroid_note_grid);
+
+		int loadedTrackgridHashCode = trackView.getTrackGrid().hashCode();
+
+		assertFalse("Loaded Track is the same.", trackGridHashCode == loadedTrackgridHashCode);
+
+		toggleNote(trackView, randomRow, randomCol, "Button toggled");
+
+		loadedTrackgridHashCode = trackView.getTrackGrid().hashCode();
+
+		assertTrue("Loaded Track is not the same.", trackGridHashCode == loadedTrackgridHashCode);
 	}
 
 	public void testRandomButtonToggle() {
@@ -94,32 +137,17 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		TrackView trackView = (TrackView) solo.getCurrentActivity().findViewById(R.id.musicdroid_note_grid);
 
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(0)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(2)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(0).getNoteViews().get(3)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(4).getNoteViews().get(0)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(4).getNoteViews().get(2)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(7).getNoteViews().get(0)
-				.isToggled());
-		assertTrue("Dummy Song wrong entry triggered", trackView.getTrackRowViews().get(7).getNoteViews().get(1)
-				.isToggled());
-
 		Random random = new Random();
 		int randomRow = random.nextInt(TrackView.ROW_COUNT);
 		int randomCol = random.nextInt(TrackRowView.QUARTER_COUNT);
-		clickRandomButton(trackView, randomRow, randomCol, "Button not toggled");
-		clickRandomButton(trackView, randomRow, randomCol, "Button toggled");
+		toggleNote(trackView, randomRow, randomCol, "Button not toggled");
+		toggleNote(trackView, randomRow, randomCol, "Button toggled");
 	}
 
-	private void clickRandomButton(TrackView trackView, int randomRow, int randomCol, String
+	private void toggleNote(TrackView trackView, int rowIndex, int columnIndex, String
 			assertionText) {
-		TrackRowView randomRowView = trackView.getTrackRowViews().get(randomRow);
-		NoteView randomNoteView = randomRowView.getNoteViews().get(randomCol);
+		TrackRowView randomRowView = trackView.getTrackRowViews().get(rowIndex);
+		NoteView randomNoteView = randomRowView.getNoteViews().get(columnIndex);
 		boolean toggled = randomNoteView.isToggled();
 		solo.clickOnView(randomNoteView);
 		solo.sleep(200);
@@ -141,7 +169,7 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
 
 		assertNotNull("Play Button Element was not found.",
-				solo.getCurrentActivity().findViewById(R.id.musicdroid_button_play));
+				solo.getCurrentActivity().findViewById(R.id.pocketmusic_play_button));
 	}
 
 	private void prepareTest() {

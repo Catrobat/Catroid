@@ -29,8 +29,10 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.merge.MergeTask;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 public class MergeTaskTest extends AndroidTestCase {
@@ -75,6 +77,113 @@ public class MergeTaskTest extends AndroidTestCase {
 			assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
 		}
 		assertTrue("Error!", StorageHandler.getInstance().deleteProject("merge"));
+	}
+
+	public void testVerifyRemixUrlsOfMergedProgramConsistingOfTwoDownloadedPrograms() {
+		createProjectWithDifferentScripts();
+		final String expectedUrlOfFirstProgram = "/pocketcode/program/12345";
+		final String expectedUrlOfSecondProgram = "https://scratch.mit.edu/projects/10205819";
+
+		firstProject.getXmlHeader().setRemixParentsUrlString(expectedUrlOfFirstProgram);
+		Reflection.setPrivateField(XmlHeader.class, firstProject.getXmlHeader(),
+				"remixGrandparentsUrlString", "/pocketcode/program/82341");
+		secondProject.getXmlHeader().setRemixParentsUrlString(expectedUrlOfSecondProgram);
+
+		MergeTask merge = new MergeTask(firstProject, secondProject, null, null, false);
+		assertTrue("Error!", merge.mergeProjects("merge"));
+		Project mergeResult = StorageHandler.getInstance().loadProject("merge", getContext());
+
+		final String expectedUrlFieldValue = String.format("%s [%s], %s [%s]", firstProject.getName(),
+				expectedUrlOfFirstProgram, secondProject.getName(), expectedUrlOfSecondProgram);
+
+		final String mergedRemixOfString = (String) Reflection.getPrivateField(XmlHeader.class,
+				mergeResult.getXmlHeader(), "remixGrandparentsUrlString");
+
+		assertTrue("Expecting remixOf header-field to be empty!", mergedRemixOfString.equals(""));
+		assertEquals("Unexpected remix-url header-field!",
+				expectedUrlFieldValue, mergeResult.getXmlHeader().getRemixParentsUrlString());
+	}
+
+	public void testVerifyRemixUrlsOfMergedProgramConsistingOfTwoLocallyCreatedPrograms() {
+		createProjectWithDifferentScripts();
+
+		MergeTask merge = new MergeTask(firstProject, secondProject, null, null, false);
+		assertTrue("Error!", merge.mergeProjects("merge"));
+		Project mergeResult = StorageHandler.getInstance().loadProject("merge", getContext());
+
+		final String expectedUrlFieldValue = String.format("%s, %s", firstProject.getName(), secondProject.getName());
+
+		final String mergedRemixOfString = (String) Reflection.getPrivateField(XmlHeader.class,
+				mergeResult.getXmlHeader(), "remixGrandparentsUrlString");
+
+		assertTrue("Expecting remixOf header-field to be empty!", mergedRemixOfString.equals(""));
+		assertEquals("Unexpected remix-url header-field!",
+				expectedUrlFieldValue, mergeResult.getXmlHeader().getRemixParentsUrlString());
+	}
+
+	public void testVerifyRemixUrlsOfMergedProgramWhereFirstProgramHasBeenDownloadedAndSecondProgramHasBeenLocallyCreated() {
+		createProjectWithDifferentScripts();
+		final String expectedUrlOfFirstProgram = "http://pocketcode.org/details/3218";
+		firstProject.getXmlHeader().setRemixParentsUrlString(expectedUrlOfFirstProgram);
+
+		MergeTask merge = new MergeTask(firstProject, secondProject, null, null, false);
+		assertTrue("Error!", merge.mergeProjects("merge"));
+		Project mergeResult = StorageHandler.getInstance().loadProject("merge", getContext());
+
+		final String expectedUrlFieldValue = String.format("%s [%s], %s",
+				firstProject.getName(), expectedUrlOfFirstProgram, secondProject.getName());
+
+		final String mergedRemixOfString = (String) Reflection.getPrivateField(XmlHeader.class,
+				mergeResult.getXmlHeader(), "remixGrandparentsUrlString");
+
+		assertTrue("Expecting remixOf header-field to be empty!", mergedRemixOfString.equals(""));
+		assertEquals("Unexpected remix-url header-field!",
+				expectedUrlFieldValue, mergeResult.getXmlHeader().getRemixParentsUrlString());
+	}
+
+	public void testVerifyRemixUrlsOfMergedProgramWhereFirstProgramHasBeenLocallyCreatedAndSecondProgramHasBeenDownloaded() {
+		createProjectWithDifferentScripts();
+		final String expectedUrlOfSecondProgram = "http://pocketcode.org/details/3218";
+		secondProject.getXmlHeader().setRemixParentsUrlString(expectedUrlOfSecondProgram);
+
+		MergeTask merge = new MergeTask(firstProject, secondProject, null, null, false);
+		assertTrue("Error!", merge.mergeProjects("merge"));
+		Project mergeResult = StorageHandler.getInstance().loadProject("merge", getContext());
+
+		final String expectedUrlFieldValue = String.format("%s, %s [%s]", firstProject.getName(),
+				secondProject.getName(), expectedUrlOfSecondProgram);
+
+		final String mergedRemixOfString = (String) Reflection.getPrivateField(XmlHeader.class,
+				mergeResult.getXmlHeader(), "remixGrandparentsUrlString");
+
+		assertTrue("Expecting remixOf header-field to be empty!", mergedRemixOfString.equals(""));
+		assertEquals("Unexpected remix-url header-field!",
+				expectedUrlFieldValue, mergeResult.getXmlHeader().getRemixParentsUrlString());
+	}
+
+	public void testVerifyRemixUrlsOfMergedMergedProgram() {
+		createProjectWithDifferentScripts();
+		final String expectedUrlOfSecondProgram = "http://pocketcode.org/details/3218";
+		secondProject.getXmlHeader().setRemixParentsUrlString(expectedUrlOfSecondProgram);
+
+		MergeTask firstMerge = new MergeTask(firstProject, secondProject, null, null, false);
+		assertTrue("Error!", firstMerge.mergeProjects("firstMerge"));
+		Project mergeResult = StorageHandler.getInstance().loadProject("firstMerge", getContext());
+
+		MergeTask secondMerge = new MergeTask(mergeResult, secondProject, null, null, false);
+		assertTrue("Error!", secondMerge.mergeProjects("secondMerge"));
+		Project finalMergeResult = StorageHandler.getInstance().loadProject("secondMerge", getContext());
+
+		final String expectedUrlFieldValue = String.format("%s [%s, %s [%s]], %s [%s]",
+				"firstMerge", firstProject.getName(), secondProject.getName(), expectedUrlOfSecondProgram,
+				secondProject.getName(), expectedUrlOfSecondProgram);
+
+		final String mergedRemixOfString = (String) Reflection.getPrivateField(XmlHeader.class,
+				finalMergeResult.getXmlHeader(), "remixGrandparentsUrlString");
+
+		assertTrue("Expecting remixOf header-field to be empty!", mergedRemixOfString.equals(""));
+		assertEquals("Unexpected remix-url header-field!",
+				expectedUrlFieldValue, finalMergeResult.getXmlHeader().getRemixParentsUrlString());
 	}
 
 	public void testSuccessWithDifferentScripts() {

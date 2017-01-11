@@ -87,7 +87,7 @@ public abstract class Script implements Serializable {
 			return;
 		}
 
-		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
+		ArrayList<SequenceAction> sequenceList = new ArrayList<>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
 			if (brickList.get(i).isCommentedOut()) {
@@ -143,6 +143,12 @@ public abstract class Script implements Serializable {
 
 		for (Brick brick : toRemove) {
 			brickList.remove(brick);
+		}
+	}
+
+	public void removeBricks(List<Brick> bricksToRemove) {
+		for (Brick brick : bricksToRemove) {
+			removeBrick(brick);
 		}
 	}
 

@@ -20,30 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.ShowBubbleActor;
-import org.catrobat.catroid.stage.StageActivity;
+public enum EV3SensorMode {
+	MODE0(0x00), MODE1(0x01), MODE2(0x02), MODE3(0x03),
+	MODE4(0x04), MODE5(0x05), MODE6(0x06), MODE7(0x07);
 
-public class ShowAction extends TemporalAction {
+	private int sensorModeValue;
 
-	private Sprite sprite;
-
-	@Override
-	protected void update(float delta) {
-		sprite.look.setLookVisible(true);
-		if (StageActivity.stageListener != null) {
-			ShowBubbleActor actor = StageActivity.stageListener.getBubbleActorForSprite(sprite);
-			if (actor != null) {
-				actor.setVisible(true);
-			}
-		}
+	EV3SensorMode(int sensorModeValue) {
+		this.sensorModeValue = sensorModeValue;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public byte getByte() {
+		return (byte) sensorModeValue;
 	}
 }

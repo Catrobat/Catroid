@@ -44,9 +44,14 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
+
+import java.util.List;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MarketingActivity extends Activity {
+
+	private static final String TAG = MarketingActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,11 +88,23 @@ public class MarketingActivity extends Activity {
 		website.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String url = ProjectManager.getInstance().getCurrentProject().getXmlHeader().getUrl();
-				if (!url.trim().startsWith("http")) {
-					url = Constants.MAIN_URL_HTTPS + url;
+				String urlsString = ProjectManager.getInstance().getCurrentProject().getXmlHeader().getRemixParentsUrlString();
+				if (urlsString == null || urlsString.length() == 0) {
+					Log.w(TAG, "Header of program contains not even one valid detail url!");
+					return;
 				}
-				Log.d("MarketingActivity", "Program detail url: " + url);
+
+				List<String> extractedUrls = Utils.extractRemixUrlsFromString(urlsString);
+				if (extractedUrls.size() == 0) {
+					Log.w(TAG, "Header of program contains not even one valid detail url!");
+					return;
+				}
+
+				String url = extractedUrls.get(0);
+				if (!urlsString.trim().startsWith("http")) {
+					url = Constants.MAIN_URL_HTTPS + urlsString;
+				}
+				Log.d(TAG, "Program detail url: " + url);
 				startWebViewActivity(url);
 			}
 		});
