@@ -136,7 +136,7 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		solo.clickOnText(projectName);
 
-		NXTSensor.Sensor[] sensorMapping  = new NXTSensor.Sensor[4];
+		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
 		sensorMapping[0] = NXTSensor.Sensor.SOUND;
 		sensorMapping[1] = NXTSensor.Sensor.SOUND;
 		sensorMapping[2] = NXTSensor.Sensor.SOUND;

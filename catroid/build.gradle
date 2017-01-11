@@ -112,7 +112,7 @@ android {
 
         createatschool {
             applicationId 'org.catrobat.catroid.createatschool'
-            versionCode 4
+            versionCode 5
 
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""

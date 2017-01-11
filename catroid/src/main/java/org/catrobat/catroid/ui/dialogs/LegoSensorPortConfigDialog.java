@@ -41,7 +41,12 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_port_config";
 	public static final String TAG = LegoSensorPortConfigDialog.class.getSimpleName();
-	public enum Lego { NXT, EV3 }
+
+	public enum Lego {
+		NXT,
+		EV3
+	}
+
 	private int clickedItem = 0;
 	private Lego legoType;
 	private String legoTypeString;
