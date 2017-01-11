@@ -54,17 +54,15 @@ public final class BackPackSpriteController {
 	}
 
 	public boolean checkSpriteReplaceInBackpack(List<Sprite> currentSpriteList) {
-		boolean spritesAlreadyInBackpack = false;
 		for (Sprite sprite : currentSpriteList) {
-			spritesAlreadyInBackpack = checkSpriteReplaceInBackpack(sprite);
-			if (spritesAlreadyInBackpack) {
-				return spritesAlreadyInBackpack;
+			if (checkSpriteReplaceInBackpack(sprite)) {
+				return true;
 			}
 		}
-		return spritesAlreadyInBackpack;
+		return false;
 	}
 
-	public boolean checkSpriteReplaceInBackpack(Sprite currentSprite) {
+	private boolean checkSpriteReplaceInBackpack(Sprite currentSprite) {
 		return BackPackListManager.getInstance().backPackedSpritesContains(currentSprite, true);
 	}
 

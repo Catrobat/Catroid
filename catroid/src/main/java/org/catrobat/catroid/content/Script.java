@@ -146,6 +146,12 @@ public abstract class Script implements Serializable {
 		}
 	}
 
+	public void removeBricks(List<Brick> bricksToRemove) {
+		for (Brick brick : bricksToRemove) {
+			removeBrick(brick);
+		}
+	}
+
 	public void removeBrick(Brick brick) {
 		brickList.remove(brick);
 	}
