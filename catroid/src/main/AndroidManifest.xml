@@ -170,30 +170,25 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ProjectActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
          <activity
              android:name=".ui.BaseActivity"
-             android:screenOrientation="portrait"
-             android:windowSoftInputMode="adjustPan" />
+             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ProgramMenuActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ScriptActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.UserBrickScriptActivity"
 
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MyProjectsActivity"
             android:noHistory="false"
 
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SettingsActivity"
             android:noHistory="true"

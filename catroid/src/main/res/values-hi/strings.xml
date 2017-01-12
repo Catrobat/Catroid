@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">पॉकेट कोड</string>
-  <string name="cancel_button">रद्द करें</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">पूर्ण</string>
+  <string name="cancel">रद्द करें</string>
+  <string name="next">Next</string>
+  <string name="done">पूर्ण</string>
   <string name="rename">नाम बदलिए</string>
   <string name="delete">मिटायें</string>
   <string name="yes">हां</string>

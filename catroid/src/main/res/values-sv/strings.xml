@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">Pocked Code</string>
-  <string name="cancel_button">Avbryt</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">Färdigt</string>
+  <string name="cancel">Avbryt</string>
+  <string name="next">Next</string>
+  <string name="done">Färdigt</string>
   <string name="rename">Döp om</string>
   <string name="delete">Radera</string>
   <string name="yes">Ja</string>

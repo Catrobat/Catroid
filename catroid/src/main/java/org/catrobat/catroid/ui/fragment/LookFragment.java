@@ -872,7 +872,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public void showRenameDialog() {
-		RenameLookDialog renameLookDialog = RenameLookDialog.newInstance(selectedLookData.getLookName());
+		RenameLookDialog renameLookDialog = new RenameLookDialog(R.string.rename_look_dialog, R.string
+				.lookname, selectedLookData.getLookName());
 		renameLookDialog.show(getFragmentManager(), RenameLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 

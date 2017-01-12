@@ -414,7 +414,8 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 
 	@Override
 	public void showRenameDialog() {
-		RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
+		RenameSpriteDialog dialog = new RenameSpriteDialog(R.string.rename_sprite_dialog, R.string.sprite_name,
+				spriteToEdit.getName());
 		dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 
@@ -996,7 +997,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 				}
 			}
 		});
-		builder.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();

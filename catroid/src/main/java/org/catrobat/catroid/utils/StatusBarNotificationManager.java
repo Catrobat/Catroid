@@ -225,7 +225,7 @@ public final class StatusBarNotificationManager {
 				PendingIntent actionPendingIntentCancelUpload = PendingIntent.getService(context, id,
 						actionIntentCancelUpload, PendingIntent.FLAG_ONE_SHOT);
 				notificationBuilder.addAction(android.R.drawable.ic_menu_close_clear_cancel,
-						context.getResources().getString(R.string.cancel_button), actionPendingIntentCancelUpload);
+						context.getResources().getString(R.string.cancel), actionPendingIntentCancelUpload);
 
 				break;
 			case Constants.STATUS_CODE_UPLOAD_MISSING_CHECKSUM:

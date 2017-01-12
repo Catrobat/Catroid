@@ -285,9 +285,8 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 	@Override
 	public void showRenameDialog() {
 		sceneToEdit = sceneAdapter.getCheckedItems().get(0);
-		RenameItemDialog dialog = RenameItemDialog.newInstance(R.string.rename_scene_dialog, R.string.scene_name,
-				R.string.error_scene_exists, sceneToEdit.getName());
-		dialog.setTargetFragment(this, 0);
+		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_scene_dialog, R.string.scene_name, sceneToEdit
+				.getName(), this);
 		dialog.show(getFragmentManager(), RenameItemDialog.DIALOG_FRAGMENT_TAG);
 	}
 

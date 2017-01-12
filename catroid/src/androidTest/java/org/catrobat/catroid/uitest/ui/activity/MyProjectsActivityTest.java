@@ -1052,7 +1052,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testCancelRenameActionMode() {
 		String rename = solo.getString(R.string.rename);
-		String cancel = solo.getString(R.string.cancel_button);
+		String cancel = solo.getString(R.string.cancel);
 		String ok = solo.getString(R.string.ok);
 		createProjects();
 		solo.sleep(200);

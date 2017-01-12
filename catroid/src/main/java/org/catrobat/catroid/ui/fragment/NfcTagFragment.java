@@ -456,7 +456,8 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 	@Override
 	public void showRenameDialog() {
-		RenameNfcTagDialog renameNfcTagDialog = RenameNfcTagDialog.newInstance(selectedNfcTag.getNfcTagName());
+		RenameNfcTagDialog renameNfcTagDialog = new RenameNfcTagDialog(R.string.rename_nfctag_dialog, R
+				.string.nfctag_name, selectedNfcTag.getNfcTagName());
 		renameNfcTagDialog.show(getFragmentManager(), RenameNfcTagDialog.DIALOG_FRAGMENT_TAG);
 	}
 

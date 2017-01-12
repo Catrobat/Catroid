@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">پاکت کد</string>
-  <string name="cancel_button">انصراف</string>
-  <string name="next_button">بعدي</string>
-  <string name="done_button">ﺍﻧﺠﺎﻡ شد</string>
+  <string name="cancel">انصراف</string>
+  <string name="next">بعدي</string>
+  <string name="done">ﺍﻧﺠﺎﻡ شد</string>
   <string name="rename">تغییر نام</string>
   <string name="delete">حذف</string>
   <string name="yes">بله</string>

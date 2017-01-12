@@ -26,9 +26,9 @@
   <!-- General terms -->
   <string name="app_name">ポケット
 コード</string>
-  <string name="cancel_button">キャンセル</string>
-  <string name="next_button">次へ</string>
-  <string name="done_button">完了</string>
+  <string name="cancel">キャンセル</string>
+  <string name="next">次へ</string>
+  <string name="done">完了</string>
   <string name="rename">名前の変更</string>
   <string name="delete">削除</string>
   <string name="yes">はい</string>

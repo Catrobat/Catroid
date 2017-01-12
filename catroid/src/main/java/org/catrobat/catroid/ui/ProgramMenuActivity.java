@@ -163,7 +163,8 @@ public class ProgramMenuActivity extends BaseActivity {
 
 	private void showRenameDialog() {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(sprite.getName());
+		RenameSpriteDialog dialog = new RenameSpriteDialog(R.string.rename_sprite_dialog, R.string.sprite_name, sprite
+				.getName());
 		dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 

@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">פוקטקוד</string>
-  <string name="cancel_button">ביטול</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">בוצע</string>
+  <string name="cancel">ביטול</string>
+  <string name="next">Next</string>
+  <string name="done">בוצע</string>
   <string name="rename">שנה שם</string>
   <string name="delete">מחק</string>
   <string name="yes">כן</string>
