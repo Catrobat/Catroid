@@ -343,17 +343,17 @@
     
     <style name="BrickContainer.UserBrick.Small" >
         <item name="android:minHeight" >@dimen/brick_height_small</item >
-        <item name="android:background" >@drawable/brick_lime_1h</item >
+        <item name="android:background" >@drawable/brick_darkblue_1h</item >
     </style >
 
     <style name="BrickContainer.UserBrick.Medium" >
         <item name="android:minHeight" >@dimen/brick_height_medium</item >
-        <item name="android:background" >@drawable/brick_lime_2h</item >
+        <item name="android:background" >@drawable/brick_darkblue_2h</item >
     </style >
 
     <style name="BrickContainer.UserBrick.Big" >
         <item name="android:minHeight" >@dimen/brick_height_big</item >
-        <item name="android:background" >@drawable/brick_lime_3h</item >
+        <item name="android:background" >@drawable/brick_darkblue_3h</item >
     </style >
     
     <style name="BrickContainer.Drone" ></style >
