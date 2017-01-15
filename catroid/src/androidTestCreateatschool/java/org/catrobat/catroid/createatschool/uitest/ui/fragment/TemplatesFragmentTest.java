@@ -32,13 +32,12 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.createatschool.common.TemplateConstants;
 import org.catrobat.catroid.createatschool.ui.CreateAtSchoolMainMenuActivity;
 import org.catrobat.catroid.createatschool.ui.TemplatesActivity;
 import org.catrobat.catroid.createatschool.ui.fragment.TemplatesFragment;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.fragment.ScenesListFragment;
+import org.catrobat.catroid.ui.fragment.SceneListFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -50,14 +49,14 @@ import java.util.Locale;
 
 public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<CreateAtSchoolMainMenuActivity> {
 
-	private String actionTemplateName = TemplateConstants.TEMPLATE_ACTION_NAME;
-	private String adventureTemplateName = TemplateConstants.TEMPLATE_ADVENTURE_NAME;
-	private String puzzleTemplateName = TemplateConstants.TEMPLATE_PUZZLE_NAME;
-	private String quizTemplateName = TemplateConstants.TEMPLATE_QUIZ_NAME;
+	private static final String TEMPLATE_ACTION_NAME = "Action";
+	private static final String TEMPLATE_ADVENTURE_NAME = "Adventure";
+	private static final String TEMPLATE_PUZZLE_NAME = "Puzzle";
+	private static final String TEMPLATE_QUIZ_NAME = "Quiz";
 
 	private String projectName = "Unzipped Template Adventure";
 	private static final String GERMAN = "de";
-	private String localToReset;
+	private String localeToReset;
 
 	public TemplatesFragmentTest() {
 		super(CreateAtSchoolMainMenuActivity.class);
@@ -72,8 +71,8 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<C
 	@Override
 	public void tearDown() throws Exception {
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectName)));
-		if (localToReset != null && !localToReset.isEmpty()) {
-			setLocale(localToReset);
+		if (localeToReset != null && !localeToReset.isEmpty()) {
+			setLocale(localeToReset);
 		}
 		super.tearDown();
 	}
@@ -84,10 +83,10 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<C
 
 		openTemplatesFragment();
 
-		assertTrue("Action template not visible", solo.searchText(actionTemplateName, 1, false, true));
-		assertTrue("Adventure template not visible", solo.searchText(adventureTemplateName, 1, false, true));
-		assertTrue("Puzzle template not visible", solo.searchText(puzzleTemplateName, 1, false, true));
-		assertTrue("Quiz template not visible", solo.searchText(quizTemplateName, 1, false, true));
+		assertTrue("Action template not visible", solo.searchText(TEMPLATE_ACTION_NAME, 1, false, true));
+		assertTrue("Adventure template not visible", solo.searchText(TEMPLATE_ADVENTURE_NAME, 1, false, true));
+		assertTrue("Puzzle template not visible", solo.searchText(TEMPLATE_PUZZLE_NAME, 1, false, true));
+		assertTrue("Quiz template not visible", solo.searchText(TEMPLATE_QUIZ_NAME, 1, false, true));
 	}
 
 	public void testRatingDialogGone() {
@@ -102,7 +101,7 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<C
 
 	public void testCreateLandscapeModeProgramFromTemplate() {
 		openTemplatesFragment();
-		createProgramFromTemplate(adventureTemplateName, projectName, true);
+		createProgramFromTemplate(TEMPLATE_ADVENTURE_NAME, projectName, true);
 		checkAdventureTemplate(true);
 		solo.goBack();
 		solo.sleep(250);
@@ -111,7 +110,7 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<C
 
 	public void testCreatePortraitModeProgramFromTemplate() {
 		openTemplatesFragment();
-		createProgramFromTemplate(adventureTemplateName, projectName, false);
+		createProgramFromTemplate(TEMPLATE_ADVENTURE_NAME, projectName, false);
 		checkAdventureTemplate(false);
 		solo.goBack();
 		solo.sleep(250);
@@ -150,7 +149,7 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<C
 		setLocale(GERMAN);
 
 		openTemplatesFragment();
-		createProgramFromTemplate(adventureTemplateName, projectName, false);
+		createProgramFromTemplate(TEMPLATE_ADVENTURE_NAME, projectName, false);
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		assertEquals("Project was not translated!", "Beispiel-Level 1", project.getSceneList().get(1).getName());
@@ -160,7 +159,7 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<C
 		Resources resources = getActivity().getResources();
 		DisplayMetrics displayMetrics = resources.getDisplayMetrics();
 		android.content.res.Configuration configuration = resources.getConfiguration();
-		localToReset = configuration.locale.getLanguage();
+		localeToReset = configuration.locale.getLanguage();
 		configuration.locale = new Locale(languageCode.toLowerCase(Locale.US));
 		resources.updateConfiguration(configuration, displayMetrics);
 	}
@@ -194,7 +193,7 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<C
 		solo.waitForDialogToClose();
 
 		solo.waitForActivity(ProjectActivity.class);
-		solo.waitForFragmentByTag(ScenesListFragment.TAG);
+		solo.waitForFragmentByTag(SceneListFragment.TAG);
 		solo.sleep(500);
 	}
 
@@ -205,9 +204,9 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<C
 		assertEquals("Wrong program name", projectName, project.getName());
 		assertEquals("Wrong number of Scenes", 5, scenes.size());
 		assertEquals("Wrong scene name", "Start", scenes.get(0).getName());
-		assertEquals("Wrong scene name", "Example Level 1", scenes.get(1).getName());
-		assertEquals("Wrong scene name", "Example Level 2", scenes.get(2).getName());
-		assertEquals("Wrong scene name", "Template Level", scenes.get(3).getName());
+		assertEquals("Wrong scene name", "Example level 1", scenes.get(1).getName());
+		assertEquals("Wrong scene name", "Example level 2", scenes.get(2).getName());
+		assertEquals("Wrong scene name", "Template level", scenes.get(3).getName());
 		assertEquals("Wrong scene name", "End (Last Scene)", scenes.get(4).getName());
 
 		int height = project.getXmlHeader().getVirtualScreenHeight();

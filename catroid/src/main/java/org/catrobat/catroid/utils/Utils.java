@@ -207,8 +207,7 @@ public final class Utils {
 	}
 
 	public static boolean checkForNetworkError(WebconnectionException exception) {
-		return exception != null && exception.getStatusCode() == WebconnectionException
-				.ERROR_NETWORK;
+		return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
 
 	public static String formatDate(Date date, Locale locale) {
@@ -479,6 +478,10 @@ public final class Utils {
 		}
 
 		return returnValue;
+	}
+
+	public static String buildPathForTemplatesZip(String templateName) {
+		return Utils.buildPath(Constants.TMP_TEMPLATES_PATH, templateName) + ".zip";
 	}
 
 	public static String buildProjectPath(String projectName) {

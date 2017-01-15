@@ -22,9 +22,14 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.StorageHandler;
+import org.rauschig.jarchivelib.Archiver;
+import org.rauschig.jarchivelib.ArchiverFactory;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -33,6 +38,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -171,6 +178,54 @@ public final class UtilZip {
 		File fileToBeDeleted = new File(destinationFolder, fileName);
 		if (fileToBeDeleted.exists()) {
 			fileToBeDeleted.delete();
+		}
+	}
+
+	public static void unzipTemplate(String projectName, String templateName, String zipFileName) {
+		Log.d(TAG, "zip file name:" + zipFileName);
+		Archiver archiver = ArchiverFactory.createArchiver("zip");
+		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + templateName);
+		try {
+			archiver.extract(new File(zipFileName), unpackedDirectory);
+		} catch (IOException e) {
+			Log.d(TAG, "Can't extract program", e);
+		}
+
+		File destination = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+		if (unpackedDirectory.isDirectory()) {
+			unpackedDirectory.renameTo(destination);
+		}
+
+		File zipFile = new File(zipFileName);
+		if (zipFile.exists()) {
+			zipFile.delete();
+		}
+	}
+
+	public static void copyProgramZip(Resources resources, String zipFileName) {
+		AssetManager assetManager = resources.getAssets();
+		String[] files = null;
+		try {
+			files = assetManager.list("");
+		} catch (IOException e) {
+			Log.e("STANDALONE", "Failed to get asset file list.", e);
+		}
+		for (String filename : files) {
+			if (filename.contains(zipFileName)) {
+				InputStream in;
+				OutputStream out;
+				try {
+					in = assetManager.open(filename);
+					File outFile = new File(Constants.DEFAULT_ROOT, filename);
+					out = new FileOutputStream(outFile);
+					StorageHandler.getInstance().copyFile(in, out);
+					out.flush();
+					out.close();
+					in.close();
+				} catch (IOException e) {
+					Log.e("STANDALONE", "Failed to copy asset file: " + filename, e);
+				}
+			}
 		}
 	}
 }

@@ -33,37 +33,47 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.common.base.Strings;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.squareup.picasso.Picasso;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.TemplateContainer;
 import org.catrobat.catroid.common.TemplateData;
-import org.catrobat.catroid.createatschool.common.TemplateConstants;
+import org.catrobat.catroid.createatschool.transfers.FetchTemplatesTask;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.ToastUtil;
 
-public class TemplateAdapter extends ArrayAdapter<TemplateData> {
+public class TemplateAdapter extends ArrayAdapter<TemplateData> implements
+		FetchTemplatesTask.OnFetchTemplatesCompleteListener {
+
+	private static LayoutInflater inflater;
+
 	private final Context context;
 	private OnTemplateEditListener onTemplateEditListener;
-	private static LayoutInflater inflater;
+	private TemplateContainer templateContainer;
 
 	public TemplateAdapter(Context context, int resource, int textViewResourceId) {
 		super(context, resource, textViewResourceId);
 		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		initTemplates();
+		fetchTemplates();
+	}
+
+	private void fetchTemplates() {
+		FetchTemplatesTask task = new FetchTemplatesTask(context);
+		task.setOnFetchTemplatesCompleteListener(this);
+		task.execute();
 	}
 
 	private void initTemplates() {
-		add(new TemplateData(TemplateConstants.TEMPLATE_ACTION_NAME, TemplateConstants.TEMPLATE_ACTION_IMAGE_NAME,
-				TemplateConstants.TEMPLATE_ACTION_LANDSCAPE_FILENAME, TemplateConstants.TEMPLATE_ACTION_PORTRAIT_FILENAME));
+		if (templateContainer == null) {
+			return;
+		}
 
-		add(new TemplateData(TemplateConstants.TEMPLATE_ADVENTURE_NAME, TemplateConstants.TEMPLATE_ADVENTURE_IMAGE_NAME,
-				TemplateConstants.TEMPLATE_ADVENTURE_LANDSCAPE_FILENAME, TemplateConstants.TEMPLATE_ADVENTURE_PORTRAIT_FILENAME));
-
-		add(new TemplateData(TemplateConstants.TEMPLATE_PUZZLE_NAME, TemplateConstants.TEMPLATE_PUZZLE_IMAGE_NAME,
-				TemplateConstants.TEMPLATE_PUZZLE_LANDSCAPE_FILENAME, TemplateConstants.TEMPLATE_PUZZLE_PORTRAIT_FILENAME));
-
-		add(new TemplateData(TemplateConstants.TEMPLATE_QUIZ_NAME, TemplateConstants.TEMPLATE_QUIZ_IMAGE_NAME,
-				TemplateConstants.TEMPLATE_QUIZ_LANDSCAPE_FILENAME, TemplateConstants.TEMPLATE_QUIZ_PORTRAIT_FILENAME));
+		addAll(templateContainer.getTemplateData());
 	}
 
 	public void setOnTemplateEditListener(OnTemplateEditListener listener) {
@@ -90,7 +100,7 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> {
 		final TemplateData templateData = getItem(position);
 		final String templateName;
 		if (templateData != null) {
-			templateName = templateData.templateName;
+			templateName = templateData.getName();
 			holder.templateName.setText(templateName);
 		}
 		setImage(templateData, holder);
@@ -110,14 +120,31 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> {
 	}
 
 	private void setImage(TemplateData templateData, ViewHolder holder) {
-		Picasso.with(context).load(templateData.templateResourceId).into(holder.image);
+		Picasso.with(context).load(getBaseUrl() + templateData.getThumbnail()).into(holder.image);
+	}
+
+	public String getBaseUrl() {
+		return !Strings.isNullOrEmpty(templateContainer.getBaseUrl())
+				? templateContainer.getBaseUrl() : Constants.MAIN_URL_HTTPS + "/";
+	}
+
+	@Override
+	public void onFetchTemplatesComplete(String templatesList) {
+		Gson gson = new Gson();
+		try {
+			templateContainer = gson.fromJson(templatesList, TemplateContainer.class);
+		} catch (JsonSyntaxException exception) {
+			ToastUtil.showError(context, context.getString(R.string.error_fetching_templates));
+		}
+
+		initTemplates();
 	}
 
 	public interface OnTemplateEditListener {
 		void onTemplateEdit(TemplateData templateData);
 	}
 
-	public static class ViewHolder {
+	private static class ViewHolder {
 		private RelativeLayout background;
 		private TextView templateName;
 		private ImageView image;

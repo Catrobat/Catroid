@@ -475,7 +475,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private void unzipProgram() {
 		StorageHandler.getInstance();
 		String zipFileString = Constants.DEFAULT_ROOT + "/" + ZIP_FILE_NAME;
-		StorageHandler.getInstance().copyProgramZip(getResources(), ZIP_FILE_NAME);
+		UtilZip.copyProgramZip(getResources(), ZIP_FILE_NAME);
 		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);
 		Log.d("STANDALONE", "zip file name:" + ZIP_FILE_NAME);
 		Archiver archiver = ArchiverFactory.createArchiver("zip");

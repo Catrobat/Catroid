@@ -240,7 +240,8 @@ public final class Constants {
 
 	//create@school constants
 	public static final String FORCE_SIGNIN = "forceSignIn";
-	public static final java.lang.String CREATE_AT_SCHOOL_USER = "nolbUser";
+	public static final String CREATE_AT_SCHOOL_USER = "nolbUser";
+	public static final String TMP_TEMPLATES_PATH = TMP_PATH + "/templates";
 
 	public static final String TRANSLATION_SCENE = "_scene_";
 	public static final String TRANSLATION_SPRITE = "_sprite_";

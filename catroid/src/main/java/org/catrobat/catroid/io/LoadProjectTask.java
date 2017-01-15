@@ -38,6 +38,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.UtilZip;
 
 public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -91,7 +92,7 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		if (BuildConfig.CREATE_AT_SCHOOL && templateZipFileName != null) {
-			StorageHandler.getInstance().unzipTemplate(projectName, templateName, templateZipFileName, activity);
+			UtilZip.unzipTemplate(projectName, templateName, templateZipFileName);
 		}
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
