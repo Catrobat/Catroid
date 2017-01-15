@@ -45,8 +45,8 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		NO_SENSOR,
 		TOUCH,
 		COLOR,
-		COLOR_REFLECT,
 		COLOR_AMBIENT,
+		COLOR_REFLECT,
 		INFRARED;
 
 		public static String[] getSensorCodes() {
