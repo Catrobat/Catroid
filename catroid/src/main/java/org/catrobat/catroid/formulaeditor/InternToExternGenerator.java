@@ -25,6 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import android.content.Context;
 import android.util.Log;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
 
@@ -40,7 +41,6 @@ public class InternToExternGenerator {
 	private Context context;
 
 	private static final HashMap<String, Integer> INTERN_EXTERN_LANGUAGE_CONVERTER_MAP = new HashMap<String, Integer>();
-
 	static {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.DIVIDE.name(), R.string.formula_editor_operator_divide);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.MULT.name(), R.string.formula_editor_operator_mult);
@@ -192,7 +192,6 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.SMALLER_THAN.name(),
 				R.string.formula_editor_logic_lesserthan);
 	}
-
 	public InternToExternGenerator(Context context) {
 		this.context = context;
 		generatedExternFormulaString = "";
@@ -293,7 +292,9 @@ public class InternToExternGenerator {
 			case STRING:
 				return "\'" + internToken.getTokenStringValue() + "\'";
 			case COLLISION_FORMULA:
-				return internToken.getTokenStringValue();
+				String collisionTag = CatroidApplication.getAppContext().getString(R.string
+						.formula_editor_function_collision);
+				return collisionTag + "(" + internToken.getTokenStringValue() + ")";
 
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);

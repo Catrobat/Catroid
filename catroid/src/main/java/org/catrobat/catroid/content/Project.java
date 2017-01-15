@@ -449,4 +449,12 @@ public class Project implements Serializable {
 			scene.refreshSpriteReferences();
 		}
 	}
+
+	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
+		for (Scene scene : sceneList) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.updateCollisionFormulasToVersion(catroidLanguageVersion);
+			}
+		}
+	}
 }

@@ -228,7 +228,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 			if (formulaEditor != null) {
 				if (itemsIds[position] == R.string.formula_editor_function_collision) {
-					showChooseSpriteDialog(formulaEditor, position);
+					showChooseSpriteDialog(formulaEditor);
 				} else {
 
 					formulaEditor.addResourceToActiveFormula(itemsIds[position]);
@@ -260,7 +260,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		return false;
 	}
 
-	private void showChooseSpriteDialog(FormulaEditorFragment fragment, final int pos) {
+	private void showChooseSpriteDialog(FormulaEditorFragment fragment) {
 		final FormulaEditorFragment formulaEditor = fragment;
 		final FormulaEditorChooseSpriteDialog dialog = FormulaEditorChooseSpriteDialog.newInstance();
 		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -277,10 +277,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 						}
 					}
 					if (secondSprite != null) {
-						String formula = firstSprite.getName() + " "
-								+ getActivity().getString(itemsIds[pos]) + " " + dialog.getSprite();
-
-						formulaEditor.addCollideFormulaToActiveFormula(formula);
+						formulaEditor.addCollideFormulaToActiveFormula(secondSprite.getName());
 					}
 				}
 			}
