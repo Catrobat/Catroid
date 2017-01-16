@@ -79,7 +79,8 @@ public class MergeSceneDialog extends DialogFragment {
 		secondAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerFirstScene.setAdapter(firstAdapter);
 		spinnerSecondScene.setAdapter(secondAdapter);
-		spinnerSecondScene.setSelection(2);
+		spinnerFirstScene.setSelection(0);
+		spinnerSecondScene.setSelection(1);
 
 		spinnerFirstScene.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
