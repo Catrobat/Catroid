@@ -54,7 +54,7 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 	protected static LookData generateLookData(File testImage) {
 		LookData lookData = new LookData();
 		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName(testImage.getName());
+		lookData.setName(testImage.getName());
 		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 		return lookData;

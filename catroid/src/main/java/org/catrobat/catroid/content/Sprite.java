@@ -697,7 +697,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public boolean existLookDataByName(LookData look) {
 		for (LookData lookdata : lookList) {
-			if (lookdata.getLookName().equals(look.getLookName())) {
+			if (lookdata.getName().equals(look.getName())) {
 				return true;
 			}
 		}

@@ -92,7 +92,7 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		project.getDefaultScene().addSprite(sprite);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName("testImage");
+		lookData.setName("testImage");
 		sprite.getLookDataList().add(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();

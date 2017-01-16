@@ -29,25 +29,23 @@
         android:layout_height="wrap_content">
 
         <org.catrobat.catroid.ui.CapitalizedTextView
-            android:id="@+id/project_name"
-            style="@style/DefaultDialog.TextView"
-            android:text="@string/new_project_name" />
+            android:id="@+id/input_label"
+            style="@style/DefaultDialog.TextView" />
 
         <View
             android:id="@+id/project_name_line"
             style="@style/DefaultDialog.Line"
-            android:layout_below="@+id/project_name" />
+            android:layout_below="@+id/input_label" />
 
         <EditText
-            android:id="@+id/project_name_edittext"
+            android:id="@+id/edit_text"
             style="@style/DefaultDialog.EditText"
             android:layout_below="@+id/project_name_line"
-            android:hint="@string/new_project_dialog_hint"
             android:selectAllOnFocus="true" />
 
         <RadioGroup
             style="@style/DefaultDialog.Item"
-            android:layout_below="@+id/project_name_edittext"
+            android:layout_below="@+id/edit_text"
             android:checkedButton="@+id/project_empty_radio_button">
 
             <RadioButton

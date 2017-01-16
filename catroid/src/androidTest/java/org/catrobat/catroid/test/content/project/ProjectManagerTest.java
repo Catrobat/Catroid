@@ -226,7 +226,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 				getInstrumentation().getContext(), 0);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
-		lookData.setLookName("name");
+		lookData.setName("name");
 		lookBrick.setLook(lookData);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(size);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick();

@@ -681,6 +681,56 @@ public final class Utils {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
 	}
 
+	public static String getUniqueProjectName(String name) {
+		return searchForNonExistingProjectName(name, 1);
+	}
+
+	private static String searchForNonExistingProjectName(String name, int nextNumber) {
+		String newName;
+
+		newName = String.format(name, nextNumber);
+
+		if (checkIfProjectExistsOrIsDownloadingIgnoreCase(newName)) {
+			searchForNonExistingProjectName(name, ++nextNumber);
+		}
+
+		return newName;
+	}
+
+	public static String getUniqueSceneName(String sceneName, boolean forBackPack) {
+		return searchForNonExistingSceneName(sceneName, 1, forBackPack);
+	}
+
+	public static String getUniqueSceneName(String sceneName, Project firstProject, Project secondProject) {
+		Project backup = ProjectManager.getInstance().getCurrentProject();
+		ProjectManager.getInstance().setCurrentProject(firstProject);
+		String result = getUniqueSceneName(sceneName, false);
+		ProjectManager.getInstance().setCurrentProject(secondProject);
+		sceneName = getUniqueSceneName(result, false);
+		ProjectManager.getInstance().setCurrentProject(backup);
+		return sceneName;
+	}
+
+	private static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
+		List<Scene> sceneList;
+
+		if (forBackPack) {
+			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
+		} else {
+			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
+		}
+
+		String possibleNewName = String.format(sceneName, nextNumber);
+
+		for (Scene sceneListItem : sceneList) {
+			if (sceneListItem.getName().equals(possibleNewName)) {
+				return searchForNonExistingSceneName(sceneName, ++nextNumber, forBackPack);
+			}
+		}
+
+		return possibleNewName;
+	}
+
 	public static String getUniqueObjectName(String name) {
 		return searchForNonExistingObjectNameInCurrentProgram(name, 0);
 	}
@@ -691,7 +741,7 @@ public final class Utils {
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
-			newName = name + "_" + nextNumber;
+			newName = name + " " + nextNumber;
 		}
 
 		if (ProjectManager.getInstance().getCurrentScene().containsSpriteBySpriteName(newName)) {
@@ -701,21 +751,27 @@ public final class Utils {
 		return newName;
 	}
 
-	public static String getUniqueNfcTagName(String name) {
-		return searchForNonExistingNfcTagName(name, 0);
+	public static String getUniqueSpriteName(Sprite sprite) {
+		return searchForNonExistingSpriteName(sprite, 0);
 	}
 
-	private static String searchForNonExistingNfcTagName(String name, int nextNumber) {
+	private static String searchForNonExistingSpriteName(Sprite sprite, int nextNumber) {
 		String newName;
-		List<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
-		if (nextNumber == 0) {
-			newName = name;
+		List<Sprite> spriteList;
+		if (sprite.isBackpackObject) {
+			spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 		} else {
-			newName = name + "_" + nextNumber;
+			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
 		}
-		for (NfcTagData nfcTagData : nfcTagDataList) {
-			if (nfcTagData.getNfcTagName().equals(newName)) {
-				return searchForNonExistingNfcTagName(name, ++nextNumber);
+
+		if (nextNumber == 0) {
+			newName = sprite.getName();
+		} else {
+			newName = sprite.getName() + " " + nextNumber;
+		}
+		for (Sprite spriteListItem : spriteList) {
+			if (spriteListItem.getName().equals(newName)) {
+				return searchForNonExistingSpriteName(sprite, ++nextNumber);
 			}
 		}
 		return newName;
@@ -736,99 +792,36 @@ public final class Utils {
 		}
 
 		if (nextNumber == 0) {
-			newName = originalLookData.getLookName();
+			newName = originalLookData.getName();
 		} else {
-			newName = originalLookData.getLookName() + "_" + nextNumber;
+			newName = originalLookData.getName() + " " + nextNumber;
 		}
 		for (LookData lookData : lookDataList) {
-			if (lookData.getLookName().equals(newName)) {
+			if (lookData.getName().equals(newName)) {
 				return searchForNonExistingLookName(originalLookData, ++nextNumber, forBackPack);
 			}
 		}
 		return newName;
 	}
 
-	public static String getUniqueSpriteName(Sprite sprite) {
-		return searchForNonExistingSpriteName(sprite, 0);
+	public static String getUniqueNfcTagName(String name) {
+		return searchForNonExistingNfcTagName(name, 0);
 	}
 
-	private static String searchForNonExistingSpriteName(Sprite sprite, int nextNumber) {
+	private static String searchForNonExistingNfcTagName(String name, int nextNumber) {
 		String newName;
-		List<Sprite> spriteList;
-		if (!sprite.isBackpackObject) {
-			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
-		} else {
-			spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-		}
-
+		List<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		if (nextNumber == 0) {
-			newName = sprite.getName();
+			newName = name;
 		} else {
-			newName = sprite.getName() + "_" + nextNumber;
+			newName = name + " " + nextNumber;
 		}
-		for (Sprite spriteListItem : spriteList) {
-			if (spriteListItem.getName().equals(newName)) {
-				return searchForNonExistingSpriteName(sprite, ++nextNumber);
+		for (NfcTagData nfcTagData : nfcTagDataList) {
+			if (nfcTagData.getNfcTagName().equals(newName)) {
+				return searchForNonExistingNfcTagName(name, ++nextNumber);
 			}
 		}
 		return newName;
-	}
-
-	public static String getUniqueSceneName(String sceneName, Project firstProject, Project secondProject) {
-		Project backup = ProjectManager.getInstance().getCurrentProject();
-		ProjectManager.getInstance().setCurrentProject(firstProject);
-		String result = getUniqueSceneName(sceneName, false);
-		ProjectManager.getInstance().setCurrentProject(secondProject);
-		sceneName = getUniqueSceneName(result, false);
-		ProjectManager.getInstance().setCurrentProject(backup);
-		return sceneName;
-	}
-
-	public static String getUniqueSceneName(String sceneName, boolean forBackPack) {
-		List<Scene> sceneList;
-
-		if (forBackPack) {
-			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
-		} else {
-			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
-		}
-
-		String possibleNewName = sceneName;
-		Boolean check = true;
-		int nextNumber = 1;
-		while (check) {
-
-			check = false;
-			possibleNewName = sceneName + "_" + nextNumber;
-			for (Scene sceneListItem : sceneList) {
-				if (sceneListItem.getName().equals(possibleNewName)) {
-					check = true;
-					break;
-				}
-			}
-			nextNumber += 1;
-		}
-
-		return possibleNewName;
-	}
-
-	public static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
-		List<Scene> sceneList;
-
-		if (forBackPack) {
-			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
-		} else {
-			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
-		}
-
-		String possibleNewName = String.format(sceneName, nextNumber);
-		for (Scene sceneListItem : sceneList) {
-			if (sceneListItem.getName().equals(possibleNewName)) {
-				return searchForNonExistingSceneName(sceneName, ++nextNumber, forBackPack);
-			}
-		}
-
-		return possibleNewName;
 	}
 
 	public static String getUniqueSoundName(SoundInfo soundInfo, boolean forBackPack) {
@@ -864,7 +857,7 @@ public final class Utils {
 			}
 		} else {
 			if (soundInfo != null) {
-				newTitle = soundInfo.getTitle() + "_" + nextNumber;
+				newTitle = soundInfo.getTitle() + " " + nextNumber;
 			}
 		}
 		for (SoundInfo soundInfoFromList : soundInfoList) {
@@ -943,8 +936,8 @@ public final class Utils {
 
 					result &= standardLook.equals(lookToCheck);
 					if (!result) {
-						Log.e(TAG, "isStandardScene: " + standardLook.getLookName() + " was not the same as "
-								+ lookToCheck.getLookName());
+						Log.e(TAG, "isStandardScene: " + standardLook.getName() + " was not the same as "
+								+ lookToCheck.getName());
 						return false;
 					}
 				}
@@ -1041,7 +1034,7 @@ public final class Utils {
 
 	public static boolean checkIfLookExists(String name) {
 		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
-			if (lookData.getLookName().compareTo(name) == 0) {
+			if (lookData.getName().compareTo(name) == 0) {
 				return true;
 			}
 		}

@@ -25,124 +25,45 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.content.ComponentName;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.utils.Utils;
 
 public class NewLookDialog extends DialogFragment {
 
 	public static final String TAG = "dialog_new_look";
+	private AddLookInterface addLookInterface;
 
-	private LookFragment fragment = null;
-	private DialogInterface.OnDismissListener onDismissListener;
-	private DialogInterface.OnCancelListener onCancelListener;
-
-	public static NewLookDialog newInstance() {
-		return new NewLookDialog();
-	}
-
-	public void showDialog(Fragment fragment) {
-		if (!(fragment instanceof LookFragment)) {
-			throw new RuntimeException("This dialog (NewLookDialog) can only be called by the LookFragment.");
-		}
-		this.fragment = (LookFragment) fragment;
-		show(fragment.getActivity().getFragmentManager(), TAG);
+	public NewLookDialog(AddLookInterface addLookInterface) {
+		this.addLookInterface = addLookInterface;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = View.inflate(getActivity(), R.layout.dialog_new_look, null);
+
 		setupPaintroidButton(dialogView);
+		setupMediaLibraryButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
-		setupMediaLibraryButton(dialogView);
 		setupDroneVideoButton(dialogView);
 
-		AlertDialog dialog;
-		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
-				R.string.new_look_dialog_title);
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setView(dialogView);
+		builder.setTitle(R.string.new_look_dialog_title);
 
-		dialog = createDialog(dialogBuilder);
-		dialog.setCanceledOnTouchOutside(true);
-		return dialog;
-	}
-
-	public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
-		this.onDismissListener = onDismissListener;
-	}
-
-	public void setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
-		this.onCancelListener = onCancelListener;
-	}
-
-	@Override
-	public void onDismiss(final DialogInterface dialog) {
-		super.onDismiss(dialog);
-		if (onDismissListener != null) {
-			onDismissListener.onDismiss(dialog);
-		}
-	}
-
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		if (onCancelListener != null) {
-			onCancelListener.onCancel(dialog);
-		}
-	}
-
-	private AlertDialog createDialog(AlertDialog.Builder dialogBuilder) {
-		return dialogBuilder.create();
+		return builder.create();
 	}
 
 	private void setupPaintroidButton(View parentView) {
 		View paintroidButton = parentView.findViewById(R.id.dialog_new_look_paintroid);
 
-		final Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
-				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-
 		paintroidButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
-					fragment.addLookDrawNewImage();
-					NewLookDialog.this.dismiss();
-				}
-			}
-		});
-	}
-
-	private void setupGalleryButton(View parentView) {
-		View galleryButton = parentView.findViewById(R.id.dialog_new_look_gallery);
-
-		galleryButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				fragment.addLookChooseImage();
-				NewLookDialog.this.dismiss();
-			}
-		});
-	}
-
-	private void setupCameraButton(View parentView) {
-		View cameraButton = parentView.findViewById(R.id.dialog_new_look_camera);
-
-		cameraButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				fragment.addLookFromCamera();
+				addLookInterface.addLookDrawNewImage();
 				NewLookDialog.this.dismiss();
 			}
 		});
@@ -154,10 +75,34 @@ public class NewLookDialog extends DialogFragment {
 		mediaLibraryButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (Utils.isNetworkAvailable(view.getContext(), true)) {
-					fragment.addLookMediaLibrary();
-					NewLookDialog.this.dismiss();
-				}
+				addLookInterface.addLookMediaLibrary();
+				dismiss();
+			}
+		});
+	}
+
+	private void setupGalleryButton(View parentView) {
+		View galleryButton = parentView.findViewById(R.id.dialog_new_look_gallery);
+
+		galleryButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				addLookInterface.addLookChooseImage();
+				dismiss();
+			}
+		});
+	}
+
+	private void setupCameraButton(View parentView) {
+		View cameraButton = parentView.findViewById(R.id.dialog_new_look_camera);
+
+		cameraButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				addLookInterface.addLookFromCamera();
+				dismiss();
 			}
 		});
 	}
@@ -171,13 +116,23 @@ public class NewLookDialog extends DialogFragment {
 			droneDialogItem.setVisibility(View.GONE);
 			return;
 		}
+
 		droneDialogItem.setVisibility(View.VISIBLE);
 		droneVideoButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				fragment.addLookDroneVideo();
-				NewLookDialog.this.dismiss();
+				addLookInterface.addLookDroneVideo();
+				dismiss();
 			}
 		});
+	}
+
+	public interface AddLookInterface {
+
+		void addLookDrawNewImage();
+		void addLookMediaLibrary();
+		void addLookChooseImage();
+		void addLookFromCamera();
+		void addLookDroneVideo();
 	}
 }

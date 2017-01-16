@@ -37,7 +37,7 @@
   <string name="move">Przenieś</string>
   <string name="backpack_add">Dodaj do plecaka</string>
   <string name="backpack">Plecak</string>
-  <string name="packing">Zapakuj</string>
+  <string name="pack">Zapakuj</string>
   <string name="unpack">Rozpakuj</string>
   <string name="unpack_keep">Rozpakuj i zachowaj</string>
   <string name="unpack_bg">Rozpakuj jako tło</string>
@@ -523,7 +523,7 @@
   <string name="new_sprite_dialog_default_sprite_name">Mój obiekt</string>
   <string name="new_sprite_dialog_title">Nowy obiekt</string>
   <string name="spritename_already_exists">Proszę wybrać inną nazwę obiektu.</string>
-  <string name="rename_sprite_dialog">Zmień nazwę obiektu</string>
+  <string name="dialog_rename_sprite">Zmień nazwę obiektu</string>
   <string name="spritename_invalid">Ta nazwa obiektu jest nieprawidłowa</string>
   <string name="no_spritename_entered">Wpisz nazwę obiektu.</string>
   <string name="sprite_name">Nazwa obiektu:</string>
@@ -847,9 +847,9 @@
   <string name="error_no_userbrick_name_entered">Wprowadź nazwę bloku.</string>
   <string name="error_project_exists">Proszę wybrać inną nazwę programu.</string>
   <string name="error_scene_exists">Proszę wybrać inną nazwę sceny.</string>
-  <string name="error_scene_not_deleted">Wystąpił błąd podczas usuwania sceny.</string>
-  <string name="error_scene_not_copied">Wystąpił błąd podczas kopiowania sceny.</string>
-  <string name="error_scene_backpack">Wystąpił błąd w scenie plecaka.</string>
+  <string name="error_delete_scene">Wystąpił błąd podczas usuwania sceny.</string>
+  <string name="error_copy_scene">Wystąpił błąd podczas kopiowania sceny.</string>
+  <string name="error_backpack_scene">Wystąpił błąd w scenie plecaka.</string>
   <string name="error_delete_project">Wystąpił błąd podczas usuwania programu</string>
   <string name="error_unknown_project">Program o tej nazwie nie istnieje.</string>
   <string name="error_project_upload">Podczas wysyłania programu wystąpił błąd.</string>

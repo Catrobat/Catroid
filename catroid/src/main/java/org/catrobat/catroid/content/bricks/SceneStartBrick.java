@@ -48,7 +48,7 @@ import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 
 import java.util.List;
 
-public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnNewSceneListener {
+public class SceneStartBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	private String sceneToStart;
@@ -156,12 +156,6 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 		return prototypeView;
 	}
 
-	private void setOnNewSceneListener(NewSceneDialog dialog) {
-		if (dialog != null) {
-			dialog.setOnNewSceneListener(this);
-		}
-	}
-
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSceneStartAction(sceneToStart));
@@ -181,7 +175,6 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 		return arrayAdapter;
 	}
 
-	@Override
 	public void onNewScene(Scene scene) {
 		oldSelectedScene = this.sceneToStart;
 		this.sceneToStart = scene.getName();
@@ -278,17 +271,7 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 		}
 
 		private void switchToNewSceneDialogFromScriptFragment() {
-			ScriptActivity activity = ((ScriptActivity) context);
-			FragmentTransaction fragmentTransaction = activity.getFragmentManager().beginTransaction();
-			Fragment previousFragment;
-
-			previousFragment = activity.getFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-			if (previousFragment != null) {
-				fragmentTransaction.remove(previousFragment);
-			}
-			NewSceneDialog newSceneDialog = new NewSceneDialog(true, false);
-			setOnNewSceneListener(newSceneDialog);
-			newSceneDialog.show(fragmentTransaction, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+			//TODO: show NewSceneDialog.
 		}
 	}
 }

@@ -38,7 +38,7 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
@@ -68,7 +68,7 @@ public class ShowDetailsFragment extends Fragment implements SetDescriptionDialo
 			}
 		} catch (Exception e) {
 			getActivity().getFragmentManager().beginTransaction().remove(this).commit();
-			((MyProjectsActivity) getActivity()).loadFragment(ProjectListFragment.class, false);
+			((ProjectListActivity) getActivity()).loadFragment(ProjectListFragment.class, false);
 		}
 
 		String sceneName = StorageHandler.getInstance().getFirstSceneName(projectData.projectName);

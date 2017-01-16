@@ -191,7 +191,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		ArrayList<LookData> lookDataList = new ArrayList<LookData>();
 
 		LookData lookData = new LookData();
-		lookData.setLookName("testLook");
+		lookData.setName("testLook");
 		lookData.setLookFilename(Utils.md5Checksum(testImage) + "_" + testImage.getName());
 		lookDataList.add(lookData);
 		testSprite.setLookDataList(lookDataList);
@@ -288,7 +288,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		SetLookBrick lookBrick2 = new SetLookBrick();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(testImageCopy2.getName());
-		lookData.setLookName("testImageCopy2");
+		lookData.setName("testImageCopy2");
 		lookBrick2.setLook(lookData);
 		sprite.getLookDataList().add(lookData);
 
@@ -305,7 +305,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		SetLookBrick lookBrick = new SetLookBrick();
 		lookData = new LookData();
 		lookData.setLookFilename(testImageCopy.getName());
-		lookData.setLookName("testImageCopy");
+		lookData.setName("testImageCopy");
 		lookBrick.setLook(lookData);
 		sprite.getLookDataList().add(lookData);
 

@@ -44,7 +44,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.controller.OldSoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
 
@@ -204,9 +204,9 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 
 	private void setOnSoundInfoListChangedAfterNewListener(Context context) {
 		ScriptActivity scriptActivity = (ScriptActivity) context;
-		SoundFragment soundFragment = (SoundFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
-		if (soundFragment != null) {
-			soundFragment.setOnSoundInfoListChangedAfterNewListener(this);
+		SoundFragment soundListFragment = (SoundFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
+		if (soundListFragment != null) {
+			soundListFragment.setOnSoundInfoListChangedAfterNewListener(this);
 		}
 	}
 
@@ -320,7 +320,7 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		SoundInfo backPackedSoundInfo = SoundController.getInstance().backPackHiddenSound(sound);
+		SoundInfo backPackedSoundInfo = OldSoundController.getInstance().backPackHiddenSound(sound);
 		setSoundInfo(backPackedSoundInfo);
 		if (sprite != null && !sprite.getSoundList().contains(backPackedSoundInfo)) {
 			sprite.getSoundList().add(backPackedSoundInfo);

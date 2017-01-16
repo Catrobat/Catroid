@@ -37,7 +37,7 @@
   <string name="move">Déplacer</string>
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Backpack</string>
-  <string name="packing">Pack</string>
+  <string name="pack">Pack</string>
   <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="unpack_bg">Unpack as background</string>
@@ -533,7 +533,7 @@ il faut
   <string name="new_sprite_dialog_default_sprite_name">Mon objet</string>
   <string name="new_sprite_dialog_title">Nouvel objet</string>
   <string name="spritename_already_exists">Please choose another Object name.</string>
-  <string name="rename_sprite_dialog">Renommer l\'objet</string>
+  <string name="dialog_rename_sprite">Renommer l\'objet</string>
   <string name="spritename_invalid">Le nom d\'objet n\'est pas valide</string>
   <string name="no_spritename_entered">Please enter an object name.</string>
   <string name="sprite_name">Nom de l\'objet :</string>
@@ -854,9 +854,9 @@ il faut
   <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Please choose another program name.</string>
   <string name="error_scene_exists">Please choose another scene name.</string>
-  <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
-  <string name="error_scene_not_copied">An error occurred while copying a scene.</string>
-  <string name="error_scene_backpack">An error occurred in scene backpack.</string>
+  <string name="error_delete_scene">An error occurred while deleting a scene.</string>
+  <string name="error_copy_scene">An error occurred while copying a scene.</string>
+  <string name="error_backpack_scene">An error occurred in scene backpack.</string>
   <string name="error_delete_project">Une erreur s\'est produite lors de la suppression de l\'appli</string>
   <string name="error_unknown_project">Un programme portant ce nom n\'existe pas.</string>
   <string name="error_project_upload">Une erreur s\'est produite lors du téléchargement de l\'appli.</string>

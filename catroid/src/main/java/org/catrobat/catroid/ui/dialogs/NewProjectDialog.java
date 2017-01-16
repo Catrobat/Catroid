@@ -22,189 +22,81 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
-import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-import java.io.IOException;
+public class NewProjectDialog extends TextDialog {
 
-public class NewProjectDialog extends DialogFragment {
-
+	public static final String TAG = NewProjectDialog.class.getSimpleName();
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
 
-	private static final String TAG = NewProjectDialog.class.getSimpleName();
+	private LoadNewProjectInterface loadNewProjectInterface;
+	private RadioButton emptyProjectButton;
+	private RadioButton defaultDroneProjectButton;
 
-	private EditText newProjectEditText;
-	private Dialog newProjectDialog;
-	private RadioButton defaultProjectRadioButton;
-	private RadioButton defaultDroneProjectRadioButton;
-	private OrientationDialog orientationDialog;
-
-	private boolean openedFromProjectList = false;
+	public NewProjectDialog(String defaultProjectName, LoadNewProjectInterface loadNewProjectInterface) {
+		super(R.string.new_project_dialog_title, R.string.new_project_name, "", true, defaultProjectName);
+		this.loadNewProjectInterface = loadNewProjectInterface;
+	}
 
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_project, null);
+	protected View inflateLayout() {
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+		View dialogView = inflater.inflate(R.layout.dialog_new_project, null);
 
-		newProjectEditText = (EditText) dialogView.findViewById(R.id.project_name_edittext);
-
-		newProjectEditText.setText("");
-
-		newProjectDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(R.string.new_project_dialog_title)
-				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).create();
-
-		newProjectDialog.setCanceledOnTouchOutside(true);
-		newProjectDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		newProjectDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-		newProjectDialog.setOnShowListener(new OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialog) {
-				if (getActivity() == null) {
-					Log.e(TAG, "onShow() Activity was null!");
-					return;
-				}
-
-				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
-						Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(newProjectEditText, InputMethodManager.SHOW_IMPLICIT);
-
-				((AlertDialog) newProjectDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
-				newProjectEditText.addTextChangedListener(new TextWatcher() {
-
-					@Override
-					public void onTextChanged(CharSequence s, int start, int before, int count) {
-					}
-
-					@Override
-					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-					}
-
-					@Override
-					public void afterTextChanged(Editable s) {
-						if (newProjectEditText.length() == 0) {
-							((AlertDialog) newProjectDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
-						} else {
-							((AlertDialog) newProjectDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
-						}
-					}
-				});
-
-				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-				positiveButton.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View view) {
-						handleOkButtonClick();
-					}
-				});
-			}
-		});
-
-		defaultProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_default_radio_button);
-		defaultDroneProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_default_drone_radio_button);
+		emptyProjectButton = (RadioButton) dialogView.findViewById(R.id.project_empty_radio_button);
+		defaultDroneProjectButton = (RadioButton) dialogView.findViewById(R.id.project_default_drone_radio_button);
 
 		if (DroneServiceWrapper.isDroneSharedPreferenceEnabled()) {
-			defaultDroneProjectRadioButton.setVisibility(View.VISIBLE);
+			defaultDroneProjectButton.setVisibility(View.VISIBLE);
 		}
 
-		return newProjectDialog;
+		return dialogView;
 	}
 
-	protected void handleOkButtonClick() {
-		String projectName = newProjectEditText.getText().toString().trim();
+	@Override
+	protected boolean handlePositiveButtonClick() {
+		String newName = input.getText().toString().trim();
 
-		if (getActivity() == null) {
-			Log.e(TAG, "handleOkButtonClick() Activity was null!");
-			return;
+		if (newName.isEmpty()) {
+			newName = hint;
 		}
 
-		if (projectName.isEmpty()) {
-			Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.error_no_program_name_entered);
-			return;
+		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newName)) {
+			input.setError(getString(R.string.error_project_exists));
+			return false;
 		}
 
-		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(projectName)) {
-			Utils.showErrorDialog(getActivity(), R.string.name_exists, R.string.error_project_exists);
-			return;
-		}
-
-		boolean createEmptyProject = true;
-
-		if (defaultProjectRadioButton.isChecked()) {
-			createEmptyProject = false;
-		}
-
-		if (defaultDroneProjectRadioButton.isChecked()) {
-			createEmptyProject = false;
+		if (defaultDroneProjectButton.isChecked()) {
 			try {
-				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, true, false);
-			} catch (IllegalArgumentException illegalArgumentException) {
-				Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
-				return;
-			} catch (IOException ioException) {
-				Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-				Log.e(TAG, Log.getStackTraceString(ioException));
-				dismiss();
-				return;
+				ProjectManager.getInstance().initializeNewProject(newName, getActivity(), false, true, true);
+				loadNewProjectInterface.loadNewProject(newName);
+			} catch (Exception e) {
+				Log.e(TAG, "Could not create Program");
+				ToastUtil.showError(getActivity(), R.string.error_new_project);
 			}
-
-			Intent intent = new Intent(getActivity(), ProjectActivity.class);
-			intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
-
-			if (openedFromProjectList) {
-				intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-			}
-
-			getActivity().startActivity(intent);
-			dismiss();
-		} else {
-			orientationDialog = new OrientationDialog();
-			orientationDialog.show(getFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
-			orientationDialog.setOpenedFromProjectList(openedFromProjectList);
-			orientationDialog.setProjectName(projectName);
-			orientationDialog.setCreateEmptyProject(createEmptyProject);
-
-			Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
-
-			dismiss();
+			return true;
 		}
+
+		OrientationDialog dialog = new OrientationDialog(newName, emptyProjectButton.isChecked(), loadNewProjectInterface);
+		dialog.show(getFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
+		return true;
 	}
 
-	public void setOpenedFromProjectList(boolean openedFromProjectList) {
-		this.openedFromProjectList = openedFromProjectList;
+	@Override
+	protected void handleNegativeButtonClick() {
+	}
+
+	public interface LoadNewProjectInterface {
+
+		void loadNewProject(String projectName);
 	}
 }

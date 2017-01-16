@@ -43,8 +43,20 @@ import java.util.List;
 
 public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 
-	protected static class ListItemViewHolder {
-		protected RelativeLayout background;
+	public static class ListItemViewHolder {
+		public ListItemViewHolder(View listItemView) {
+			background = (RelativeLayout) listItemView.findViewById(R.id.list_item_background);
+			checkBox = (CheckBox) listItemView.findViewById(R.id.list_item_checkbox);
+			name = (TextView) listItemView.findViewById(R.id.list_item_text_view);
+			image = (ImageView) listItemView.findViewById(R.id.list_item_image_view);
+
+			details = (LinearLayout) listItemView.findViewById(R.id.list_item_details);
+			leftTopDetails = (TextView) listItemView.findViewById(R.id.details_left_top);
+			leftBottomDetails = (TextView) listItemView.findViewById(R.id.details_left_bottom);
+			rightTopDetails = (TextView) listItemView.findViewById(R.id.details_right_top);
+			rightBottomDetails = (TextView) listItemView.findViewById(R.id.details_right_bottom);
+		}
+		public RelativeLayout background;
 		protected CheckBox checkBox;
 		protected TextView name;
 		protected ImageView image;
@@ -130,18 +142,7 @@ public abstract class CheckBoxListAdapter<T> extends ArrayAdapter<T> {
 
 		if (listItemView == null) {
 			listItemView = inflater.inflate(R.layout.list_item, parent, false);
-			viewHolder = new ListItemViewHolder();
-			viewHolder.background = (RelativeLayout) listItemView.findViewById(R.id.list_item_background);
-			viewHolder.checkBox = (CheckBox) listItemView.findViewById(R.id.list_item_checkbox);
-			viewHolder.name = (TextView) listItemView.findViewById(R.id.list_item_text_view);
-			viewHolder.image = (ImageView) listItemView.findViewById(R.id.list_item_image_view);
-
-			viewHolder.details = (LinearLayout) listItemView.findViewById(R.id.list_item_details);
-			viewHolder.leftTopDetails = (TextView) listItemView.findViewById(R.id.details_left_top);
-			viewHolder.leftBottomDetails = (TextView) listItemView.findViewById(R.id.details_left_bottom);
-			viewHolder.rightTopDetails = (TextView) listItemView.findViewById(R.id.details_right_top);
-			viewHolder.rightBottomDetails = (TextView) listItemView.findViewById(R.id.details_right_bottom);
-
+			viewHolder = new ListItemViewHolder(listItemView);
 			listItemView.setTag(viewHolder);
 		} else {
 			viewHolder = (ListItemViewHolder) listItemView.getTag();

@@ -40,7 +40,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.controller.OldLookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -89,7 +89,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, OldLookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		assertTrue("Testfile not added from mockActivity", solo.searchText(nyanCat));
 
@@ -140,7 +140,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, OldLookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		assertTrue("Testfile not added from mockActivity", solo.searchText(manImage));
 

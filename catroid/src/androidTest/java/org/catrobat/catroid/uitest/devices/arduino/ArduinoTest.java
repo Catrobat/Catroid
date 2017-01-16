@@ -193,7 +193,7 @@ public class ArduinoTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
-		lookData.setLookName(imageName);
+		lookData.setName(imageName);
 		setLookBrick.setLook(lookData);
 		firstSprite.getLookDataList().add(lookData);
 

@@ -22,61 +22,43 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.adapter.BackPackScriptListAdapter;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackScriptController;
-import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.ui.controller.OldLookController;
 
 import java.util.List;
 
 public class BackPackScriptListFragment extends BackPackActivityFragment implements CheckBoxListAdapter
-		.ListItemClickHandler, CheckBoxListAdapter.ListItemLongClickHandler {
+		.ListItemClickHandler {
 
 	public static final String TAG = BackPackScriptListFragment.class.getSimpleName();
-	private static final String SHARED_PREFERENCE_NAME = "showDetailsScripts";
+	private static final String SHARED_PREFERENCE_NAME = "showDetailsScriptGroups";
 
 	private BackPackScriptListAdapter scriptAdapter;
-	private ListView listView;
-
 	private String scriptToEdit;
-	private int selectedScriptPosition;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View backPackScriptListFragment = inflater.inflate(R.layout.fragment_backpack, container, false);
-		listView = (ListView) backPackScriptListFragment.findViewById(android.R.id.list);
-
-		return backPackScriptListFragment;
+		return inflater.inflate(R.layout.fragment_backpack, container, false);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		registerForContextMenu(listView);
-
-		singleItemTitle = getString(R.string.script_group);
-		multipleItemsTitle = getString(R.string.script_groups);
+		itemIdentifier = R.plurals.script_groups;
+		deleteDialogTitle = R.plurals.dialog_delete_group;
 
 		initializeList();
-		checkEmptyBackgroundBackPack();
-		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initializeList() {
@@ -91,101 +73,42 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(LookController.BUNDLE_ARGUMENTS_SELECTED_LOOK, scriptToEdit);
+		outState.putSerializable(OldLookController.BUNDLE_ARGUMENTS_SELECTED_LOOK, scriptToEdit);
 		super.onSaveInstanceState(outState);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
-			return;
-		}
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
-				.getApplicationContext());
-
-		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+		loadShowDetailsPreferences(SHARED_PREFERENCE_NAME);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject(getActivity().getApplicationContext());
-		}
-
-		BackPackListManager.getInstance().saveBackpack();
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
-				.getApplicationContext());
-		SharedPreferences.Editor editor = settings.edit();
-
-		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
-		editor.commit();
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-		if (BackPackListManager.getInstance().getBackPackedScripts().isEmpty()) {
-			menu.findItem(R.id.unpacking).setVisible(false);
-		}
+		saveCurrentProject();
+		putShowDetailsPreferences(SHARED_PREFERENCE_NAME);
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, view, menuInfo);
 
-		scriptToEdit = scriptAdapter.getItem(selectedScriptPosition);
+		scriptToEdit = scriptAdapter.getItem(selectedItemPosition);
 		menu.setHeaderTitle(scriptToEdit);
 
-		getActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.context_menu_unpacking:
-				unpackCheckedItems(true);
-				break;
-			case R.id.context_menu_delete:
-				showDeleteDialog(true);
-				break;
-		}
-		return super.onContextItemSelected(item);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_backpack, menu);
 	}
 
 	@Override
 	public void handleOnItemClick(int position, View view, Object listItem) {
-		selectedScriptPosition = position;
-		listView.showContextMenuForChild(view);
+		selectedItemPosition = position;
+		getListView().showContextMenuForChild(view);
 	}
 
 	@Override
-	public void handleOnItemLongClick(int position, View view) {
-		selectedScriptPosition = position;
-		listView.showContextMenuForChild(view);
-	}
-
-	@Override
-	protected void showDeleteDialog(boolean singleItem) {
-		int titleId;
-		if (scriptAdapter.getCheckedItems().size() == 1 || singleItem) {
-			titleId = R.string.dialog_confirm_delete_backpack_group_title;
-		} else {
-			titleId = R.string.dialog_confirm_delete_multiple_backpack_groups_title;
-		}
-
-		showDeleteDialog(titleId, singleItem);
-	}
-
-	@Override
-	protected void deleteCheckedItems(boolean singleItem) {
-		if (singleItem) {
+	public void deleteCheckedItems() {
+		if (scriptAdapter.getCheckedItems().isEmpty()) {
 			deleteScript();
 			return;
 		}
@@ -201,8 +124,9 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 		scriptAdapter.remove(scriptToEdit);
 	}
 
-	protected void unpackCheckedItems(boolean singleItem) {
-		if (singleItem) {
+	@Override
+	protected void unpackCheckedItems() {
+		if (scriptAdapter.getCheckedItems().isEmpty()) {
 			BackPackScriptController.getInstance().unpack(scriptToEdit, false, true, getActivity(), false);
 			showUnpackingCompleteToast(1);
 			return;

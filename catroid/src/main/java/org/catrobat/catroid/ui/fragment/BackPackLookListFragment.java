@@ -22,65 +22,48 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
 import org.catrobat.catroid.ui.adapter.LookListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
 public class BackPackLookListFragment extends BackPackActivityFragment implements CheckBoxListAdapter
-		.ListItemClickHandler<LookData>, CheckBoxListAdapter.ListItemLongClickHandler {
+		.ListItemClickHandler<LookData> {
 
 	public static final String TAG = BackPackLookListFragment.class.getSimpleName();
+	public static final String BUNDLE_ARGUMENTS_LOOK_TO_EDIT = "look_to_edit";
 
 	private LookListAdapter lookAdapter;
-	private ListView listView;
-
 	private LookData lookToEdit;
-	private int selectedLookPosition;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View backPackLookListFragment = inflater.inflate(R.layout.fragment_backpack, container, false);
-		listView = (ListView) backPackLookListFragment.findViewById(android.R.id.list);
-
-		return backPackLookListFragment;
+		return inflater.inflate(R.layout.fragment_backpack, container, false);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		registerForContextMenu(listView);
-
-		singleItemTitle = getString(R.string.look);
-		multipleItemsTitle = getString(R.string.looks);
+		itemIdentifier = R.plurals.looks;
+		deleteDialogTitle = R.plurals.dialog_delete_look;
 
 		if (savedInstanceState != null) {
-			lookToEdit = (LookData) savedInstanceState.getSerializable(LookController.BUNDLE_ARGUMENTS_SELECTED_LOOK);
+			lookToEdit = (LookData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_LOOK_TO_EDIT);
 		}
 
 		initializeList();
-		checkEmptyBackgroundBackPack();
-		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initializeList() {
@@ -95,100 +78,40 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(LookController.BUNDLE_ARGUMENTS_SELECTED_LOOK, lookToEdit);
+		outState.putSerializable(BUNDLE_ARGUMENTS_LOOK_TO_EDIT, lookToEdit);
 		super.onSaveInstanceState(outState);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
-			return;
-		}
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
-				.getApplicationContext());
-
-		setShowDetails(settings.getBoolean(LookController.SHARED_PREFERENCE_NAME, false));
+		loadShowDetailsPreferences(LookListFragment.SHARED_PREFERENCE_NAME);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject(getActivity().getApplicationContext());
-		}
-
-		BackPackListManager.getInstance().saveBackpack();
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
-				.getApplicationContext());
-		SharedPreferences.Editor editor = settings.edit();
-
-		editor.putBoolean(LookController.SHARED_PREFERENCE_NAME, getShowDetails());
-		editor.commit();
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-		if (BackPackListManager.getInstance().getBackPackedLooks().isEmpty()) {
-			menu.findItem(R.id.unpacking).setVisible(false);
-		}
+		saveCurrentProject();
+		putShowDetailsPreferences(LookListFragment.SHARED_PREFERENCE_NAME);
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, view, menuInfo);
 
-		lookToEdit = lookAdapter.getItem(selectedLookPosition);
-		menu.setHeaderTitle(lookToEdit.getLookName());
-
-		getActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.context_menu_unpacking:
-				unpackCheckedItems(true);
-				break;
-			case R.id.context_menu_delete:
-				showDeleteDialog(true);
-				break;
-		}
-		return super.onContextItemSelected(item);
+		lookToEdit = lookAdapter.getItem(selectedItemPosition);
+		menu.setHeaderTitle(lookToEdit.getName());
 	}
 
 	@Override
 	public void handleOnItemClick(int position, View view, LookData listItem) {
-		selectedLookPosition = position;
-		listView.showContextMenuForChild(view);
+		selectedItemPosition = position;
+		getListView().showContextMenuForChild(view);
 	}
 
 	@Override
-	public void handleOnItemLongClick(int position, View view) {
-		selectedLookPosition = position;
-		listView.showContextMenuForChild(view);
-	}
-
-	@Override
-	protected void showDeleteDialog(boolean singleItem) {
-		int titleId;
-		if (lookAdapter.getCheckedItems().size() == 1 || singleItem) {
-			titleId = R.string.dialog_confirm_delete_look_title;
-		} else {
-			titleId = R.string.dialog_confirm_delete_multiple_looks_title;
-		}
-		showDeleteDialog(titleId, singleItem);
-	}
-
-	@Override
-	protected void deleteCheckedItems(boolean singleItem) {
-		if (singleItem) {
+	public void deleteCheckedItems() {
+		if (lookAdapter.getCheckedItems().isEmpty()) {
 			deleteLook();
 			return;
 		}
@@ -204,8 +127,9 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 		lookAdapter.notifyDataSetChanged();
 	}
 
-	protected void unpackCheckedItems(boolean singleItem) {
-		if (singleItem) {
+	@Override
+	protected void unpackCheckedItems() {
+		if (lookAdapter.getCheckedItems().isEmpty()) {
 			unpackLook();
 			showUnpackingCompleteToast(1);
 			return;
@@ -219,6 +143,6 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 	}
 
 	private void unpackLook() {
-		LookController.getInstance().unpack(lookToEdit, false, false);
+		LookController.unpack(lookToEdit, true);
 	}
 }

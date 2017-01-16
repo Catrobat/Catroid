@@ -33,7 +33,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -116,7 +116,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 		solo.clickLongOnText(uploadProject.getName());
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));

@@ -23,6 +23,8 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -34,7 +36,6 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -65,7 +66,13 @@ public class ProjectListAdapter extends CheckBoxListAdapter<ProjectData> {
 			listItemViewHolder.details.setVisibility(View.VISIBLE);
 
 			Date lastModified = new Date(projectData.lastUsed);
-			String lastAccess = DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastModified);
+			String lastAccess;
+			if (DateUtils.isToday(lastModified.getTime())) {
+				lastAccess = getContext().getString(R.string.details_date_today).concat(": ");
+				lastAccess = lastAccess.concat(DateFormat.getTimeFormat(getContext()).format(lastModified));
+			} else {
+				lastAccess = DateFormat.getDateFormat(getContext()).format(lastModified);
+			}
 
 			listItemViewHolder.leftTopDetails.setText(getContext().getString(R.string.last_used));
 			listItemViewHolder.rightTopDetails.setText(lastAccess);

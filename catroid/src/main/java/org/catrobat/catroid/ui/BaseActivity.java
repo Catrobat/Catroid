@@ -79,7 +79,7 @@ public abstract class BaseActivity extends Activity {
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				if (returnToProjectsList) {
-					Intent intent = new Intent(this, MyProjectsActivity.class);
+					Intent intent = new Intent(this, ProjectListActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 				} else if (returnByPressingBackButton) {

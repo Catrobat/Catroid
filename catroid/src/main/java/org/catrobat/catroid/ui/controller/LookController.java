@@ -24,26 +24,14 @@ package org.catrobat.catroid.ui.controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.badlogic.gdx.graphics.Pixmap;
 
@@ -54,326 +42,91 @@ import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.LookViewHolder;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.fragment.LookListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.TreeSet;
 
 public final class LookController {
-	public static final int REQUEST_SELECT_OR_DRAW_IMAGE = 0;
-	public static final int REQUEST_POCKET_PAINT_EDIT_IMAGE = 1;
-	public static final int REQUEST_TAKE_PICTURE = 2;
-	public static final int REQUEST_MEDIA_LIBRARY = 3;
-	public static final int REQUEST_DRONE_VIDEO = 4;
-	public static final int ID_LOADER_MEDIA_IMAGE = 1;
-	public static final String BUNDLE_ARGUMENTS_SELECTED_LOOK = "selected_look";
-	public static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
-	public static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
-	public static final String SHARED_PREFERENCE_NAME = "showDetailsLooks";
 
-	private static final String TAG = LookController.class.getSimpleName();
-	private static final LookController INSTANCE = new LookController();
+	public static final String TAG = LookController.class.getSimpleName();
 
-	private OnBackpackLookCompleteListener onBackpackLookCompleteListener;
+	public static boolean loadFromPocketPaint(Intent intent, LookData lookData) {
+		Bundle bundle = intent.getExtras();
+		String pathOfPocketPaintImage = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
 
-	private LookController() {
-	}
+		int[] imageDimensions = ImageEditing.getImageDimensions(pathOfPocketPaintImage);
 
-	public static LookController getInstance() {
-		return INSTANCE;
-	}
-
-	public void updateLookLogic(final int position, final LookViewHolder holder, final LookBaseAdapter lookAdapter) {
-		final LookData lookData = lookAdapter.getLookDataItems().get(position);
-
-		if (lookData == null) {
-			return;
-		}
-		holder.lookNameTextView.setTag(position);
-		holder.lookElement.setTag(position);
-		holder.lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
-		holder.lookNameTextView.setText(lookData.getLookName());
-
-		boolean checkboxIsVisible = handleCheckboxes(position, holder, lookAdapter);
-		handleDetails(lookData, holder, lookAdapter);
-
-		// Disable ImageView on active ActionMode
-		if (checkboxIsVisible) {
-			holder.lookImageView.setEnabled(false);
-		} else {
-			holder.lookImageView.setEnabled(true);
-		}
-		if (holder.lookElement.isClickable()) {
-			holder.lookElement.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-						holder.checkbox.setChecked(!holder.checkbox.isChecked());
-					} else if (lookAdapter.getOnLookEditListener() != null) {
-						lookAdapter.getOnLookEditListener().onLookEdit(view);
-					}
-				}
-			});
-			setOnTouchListener(holder, lookAdapter);
-		} else {
-			holder.lookElement.setOnClickListener(null);
-		}
-	}
-
-	private void setOnTouchListener(LookViewHolder holder, final LookBaseAdapter lookAdapter) {
-		if (lookAdapter.backPackAdapter) {
-			return;
+		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+			return false;
 		}
 
-		holder.lookElement.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP) {
-					Intent intent = new Intent(ScriptActivity.ACTION_LOOK_TOUCH_ACTION_UP);
-					lookAdapter.getContext().sendBroadcast(intent);
-				}
-				return false;
-			}
-		});
-	}
-
-	private void handleDetails(LookData lookData, LookViewHolder holder, LookBaseAdapter lookAdapter) {
-		if (lookAdapter.getShowDetails()) {
-			if (lookData.getAbsolutePath() != null) {
-				holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
-			}
-			int[] measure = lookData.getMeasure();
-			String measureString = measure[0] + " x " + measure[1];
-
-			holder.lookMeasureTextView.setText(measureString);
-			holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
-		} else {
-			holder.lookDetailsLinearLayout.setVisibility(TextView.GONE);
-		}
-	}
-
-	private boolean handleCheckboxes(final int position, LookViewHolder holder, final LookBaseAdapter lookAdapter) {
-		holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					if (lookAdapter.getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
-						lookAdapter.clearCheckedItems();
-					}
-					lookAdapter.getCheckedItems().add(position);
-				} else {
-					lookAdapter.getCheckedItems().remove(position);
-				}
-				lookAdapter.notifyDataSetChanged();
-
-				if (lookAdapter.getOnLookEditListener() != null) {
-					lookAdapter.getOnLookEditListener().onLookChecked();
-				}
-			}
-		});
-
-		boolean checkboxIsVisible = false;
-
-		if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-			holder.checkbox.setVisibility(View.VISIBLE);
-			holder.lookElement.setBackgroundResource(R.drawable.button_background_shadowed);
-			checkboxIsVisible = true;
-		} else {
-			holder.checkbox.setVisibility(View.GONE);
-			holder.checkbox.setChecked(false);
-			holder.lookElement.setBackgroundResource(R.drawable.button_background_selector);
-			lookAdapter.clearCheckedItems();
+		String pocketPaintImageChecksum = Utils.md5Checksum(new File(pathOfPocketPaintImage));
+		if (lookData.getChecksum().equalsIgnoreCase(pocketPaintImageChecksum)) {
+			return true;
 		}
 
-		if (lookAdapter.getCheckedItems().contains(position)) {
-			holder.checkbox.setChecked(true);
-		} else {
-			holder.checkbox.setChecked(false);
-		}
-		return checkboxIsVisible;
-	}
+		String lookFileName = lookData.getLookFilenameWithoutChecksum();
+		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
 
-	public Loader<Cursor> onCreateLoader(int id, Bundle arguments, Activity activity) {
-		Uri imageUri = null;
-
-		if (arguments != null) {
-			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
-		}
-		String[] projection = { MediaStore.MediaColumns.DATA };
-		return new CursorLoader(activity, imageUri, projection, null, null, null);
-	}
-
-	public void onLoadFinished(Loader<Cursor> loader, Cursor data, Activity activity, List<LookData> lookDataList,
-			LookFragment fragment) {
-		String originalImagePath = "";
-		CursorLoader cursorLoader = (CursorLoader) loader;
-
-		boolean catchedException = false;
-
-		if (data == null) {
-			originalImagePath = cursorLoader.getUri().getPath();
-		} else {
-			int columnIndex = data.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-			data.moveToFirst();
-
-			try {
-				originalImagePath = data.getString(columnIndex);
-			} catch (CursorIndexOutOfBoundsException e) {
-				catchedException = true;
-			}
-		}
-
-		if (catchedException || (data == null && originalImagePath.equals(""))) {
-			Log.e(TAG, "Error loading image in onLoadFinished");
-			Utils.showErrorDialog(activity, R.string.error_load_image);
-			return;
-		}
-		copyImageToCatroid(originalImagePath, activity, lookDataList, fragment);
-	}
-
-	public LookData updateLookBackPackAfterUnpacking(LookData lookData, LookBaseAdapter adapter, String name, boolean
-			delete, String existingFileNameInProjectDirectory, boolean fromHiddenBackPack) {
-		String fileName;
-		if (existingFileNameInProjectDirectory == null) {
-			fileName = lookData.getLookFileName();
-			String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
-			fileName = fileName.substring(0, fileName.indexOf('_') + 1) + name + fileFormat;
-		} else {
-			fileName = existingFileNameInProjectDirectory;
-		}
-
-		LookData newLookData = new LookData(name, fileName);
-		ProjectManager.getInstance().getCurrentSprite().getLookDataList().add(newLookData);
-
-		if (delete) {
-			if (fromHiddenBackPack) {
-				BackPackListManager.getInstance().removeItemFromLookHiddenBackpack(lookData);
-			} else {
-				BackPackListManager.getInstance().removeItemFromLookBackPack(lookData);
-			}
-			if (!otherLookDataItemsHaveAFileReference(lookData)) {
-				StorageHandler.getInstance().deleteFile(lookData.getAbsoluteBackPackPath(), true);
-			}
-		}
-
-		if (adapter != null) {
-			adapter.notifyDataSetChanged();
-		}
-		return newLookData;
-	}
-
-	public void updateLookAdapter(String name, String fileName, List<LookData> lookDataList, LookFragment fragment) {
-		updateLookAdapter(name, fileName, lookDataList, fragment, false);
-	}
-
-	private void updateLookAdapter(String name, String fileName, List<LookData> lookDataList, LookFragment fragment,
-			boolean isDroneVideo) {
-		LookData lookData;
-
-		if (isDroneVideo) {
-			lookData = new DroneVideoLookData();
-		} else {
-			lookData = new LookData();
-		}
-
-		lookData.setLookFilename(fileName);
-		lookData.setLookName(name);
-		lookDataList.add(lookData);
-		fragment.updateLookAdapter(lookData);
-
-		if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
-			lookData.getCollisionInformation().calculate();
-		}
-	}
-
-	public void loadDroneVideoImageToProject(String defaultImageName, int imageId, Activity activity, List<LookData>
-			lookDataList, LookFragment fragment) {
 		try {
-			File imageFile = StorageHandler.getInstance().copyImageFromResourceToCatroid(activity, imageId, defaultImageName);
-			updateLookAdapter(defaultImageName, imageFile.getName(), lookDataList, fragment, true);
-		} catch (IOException e) {
-			Utils.showErrorDialog(activity, R.string.error_load_image);
-		}
+			File newLookFile = StorageHandler.getInstance().copyImage(projectName, sceneName, pathOfPocketPaintImage,
+					lookFileName);
 
-		fragment.destroyLoader();
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+			StorageHandler.getInstance().deleteFile(lookData.getAbsolutePath(), false);
+
+			lookData.setLookFilename(newLookFile.getName());
+			lookData.resetThumbnailBitmap();
+
+			if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
+				lookData.getCollisionInformation().calculate();
+			}
+			return true;
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			return false;
+		}
 	}
 
-	private void copyImageToCatroid(String originalImagePath, Activity activity, List<LookData> lookDataList,
-			LookFragment fragment) {
-		try {
-			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
+	public static boolean loadFromMediaLibrary(String mediaFilePath, List<LookData> lookDataList) {
+		File sourceImage = new File(mediaFilePath);
 
-			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-				Log.e(TAG, "Error loading image in copyImageToCatroid imageDimensions");
-				Utils.showErrorDialog(activity, R.string.error_load_image);
-				return;
-			}
-
-			File oldFile = new File(originalImagePath);
-
-			if (originalImagePath.equals("")) {
-				throw new IOException();
-			}
-
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
-			File imageFile = StorageHandler.getInstance().copyImage(projectName, sceneName, originalImagePath, null);
-
-			String imageName;
-			int extensionDotIndex = oldFile.getName().lastIndexOf('.');
-			if (extensionDotIndex > 0) {
-				imageName = oldFile.getName().substring(0, extensionDotIndex);
-			} else {
-				imageName = oldFile.getName();
-			}
-
-			String imageFileName = imageFile.getName();
-			// if pixmap cannot be created, image would throw an Exception in stage
-			// so has to be loaded again with other Config
-			Pixmap pixmap = Utils.getPixmapFromFile(imageFile);
-
-			if (pixmap == null) {
-				ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
-				pixmap = Utils.getPixmapFromFile(imageFile);
-
-				if (pixmap == null) {
-					Log.e(TAG, "Error loading image in copyImageToCatroid pixmap");
-					Utils.showErrorDialog(activity, R.string.error_load_image);
-					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath(), false);
-					return;
-				}
-			}
-			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
-		} catch (IOException e) {
-			Log.e(TAG, "Error loading image in copyImageToCatroid IOException");
-			Utils.showErrorDialog(activity, R.string.error_load_image);
-		} catch (NullPointerException e) {
-			Log.e(TAG, "probably originalImagePath null; message: " + e.getMessage());
-			Utils.showErrorDialog(activity, R.string.error_load_image);
+		if (copyImage(mediaFilePath, lookDataList, false)) {
+			sourceImage.delete();
+			return true;
 		}
-		fragment.destroyLoader();
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+
+		sourceImage.delete();
+		return false;
 	}
 
-	public void loadImageIntoCatroid(Intent intent, Activity activity, List<LookData> lookDataList,
-			LookFragment fragment) {
-		String originalImagePath = "";
-		//get path of image - will work for most applications
+	public static boolean loadFromCamera(Uri lookFromCameraUri, List<LookData> lookDataList) {
+		if (lookFromCameraUri == null) {
+			return false;
+		}
+
+		String sourceImagePath = lookFromCameraUri.getPath();
+		File sourceImage = new File(sourceImagePath);
+
+		if (copyImage(sourceImagePath, lookDataList, false)) {
+			sourceImage.delete();
+			return true;
+		}
+
+		sourceImage.delete();
+		return false;
+	}
+
+	public static boolean loadFromExternalApp(Intent intent, Activity activity, List<LookData> lookDataList) {
+		String sourceImagePath = "";
 		Bundle bundle = intent.getExtras();
 		if (bundle != null) {
-			originalImagePath = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
+			sourceImagePath = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
 		}
 
 		Uri imageUri = intent.getData();
@@ -383,109 +136,107 @@ public final class LookController {
 
 			if (cursor != null) {
 				cursor.moveToFirst();
-				originalImagePath = cursor.getString(0);
+				sourceImagePath = cursor.getString(0);
 				cursor.close();
 			}
 		}
 
-		if (originalImagePath == null || originalImagePath.equals("")) {
+		if (sourceImagePath == null) {
+			return false;
+		}
+
+		if (sourceImagePath.isEmpty()) {
 			Bundle arguments = new Bundle();
-			arguments.putParcelable(LOADER_ARGUMENTS_IMAGE_URI, intent.getData());
-			fragment.initOrRestartLoader(arguments);
-		} else {
-			copyImageToCatroid(originalImagePath, activity, lookDataList, fragment);
+			arguments.putParcelable(LookListFragment.LOADER_ARGUMENTS_IMAGE_URI, intent.getData());
+			return true;
+		}
+
+		return copyImage(sourceImagePath, lookDataList, false);
+	}
+
+	public static boolean loadDroneVideo(String imageName, Activity activity, List<LookData> lookDataList) {
+		try {
+			StorageHandler storageHandler = StorageHandler.getInstance();
+			File imageFile = storageHandler.copyImageFromResourceToCatroid(activity, R.drawable.ic_video, imageName);
+			addLookDataToList(imageName, imageFile.getName(), lookDataList, true);
+			return true;
+		} catch (IOException e) {
+			return false;
 		}
 	}
 
-	public void loadPocketPaintImageIntoCatroid(Intent intent, Activity activity, LookData selectedLookData) {
-		Bundle bundle = intent.getExtras();
-		String pathOfPocketPaintImage = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
-
-		int[] imageDimensions = ImageEditing.getImageDimensions(pathOfPocketPaintImage);
+	private static boolean copyImage(String sourceImagePath, List<LookData> lookDataList, boolean isDroneVideo) {
+		int[] imageDimensions = ImageEditing.getImageDimensions(sourceImagePath);
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Log.e(TAG, "Error loading image in loadPocketPaintImageIntoCatroid");
-			Utils.showErrorDialog(activity, R.string.error_load_image);
-			return;
+			return false;
 		}
 
-		String actualChecksum = Utils.md5Checksum(new File(pathOfPocketPaintImage));
-
-		// If look changed --> saving new image with new checksum and changing lookData
-		if (!selectedLookData.getChecksum().equalsIgnoreCase(actualChecksum)) {
-			String oldFileName = selectedLookData.getLookFileName();
-			String newFileName = oldFileName.substring(oldFileName.indexOf('_') + 1);
-
-			//HACK for https://github.com/Catrobat/Catroid/issues/81
-			if (!newFileName.endsWith(".png")) {
-				newFileName = newFileName + ".png";
-			}
+		try {
+			File sourceFile = new File(sourceImagePath);
 
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
+			File imageFile = StorageHandler.getInstance().copyImage(projectName, sceneName, sourceImagePath, null);
 
-			try {
-				File newLookFile = StorageHandler.getInstance().copyImage(projectName, sceneName,
-						pathOfPocketPaintImage,
-						newFileName);
-
-				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath(), false); //reduce usage in container or delete it
-
-				selectedLookData.setLookFilename(newLookFile.getName());
-				selectedLookData.resetThumbnailBitmap();
-			} catch (IOException ioException) {
-				Log.e(TAG, Log.getStackTraceString(ioException));
+			String imageName;
+			int extensionDotIndex = sourceFile.getName().lastIndexOf('.');
+			if (extensionDotIndex > 0) {
+				imageName = sourceFile.getName().substring(0, extensionDotIndex);
+			} else {
+				imageName = sourceFile.getName();
 			}
-			if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
-				selectedLookData.getCollisionInformation().calculate();
+
+			String imageFileName = imageFile.getName();
+			Pixmap pixmap = Utils.getPixmapFromFile(imageFile);
+
+			if (pixmap == null) {
+				ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
+				pixmap = Utils.getPixmapFromFile(imageFile);
+
+				if (pixmap == null) {
+					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath(), false);
+					return false;
+				}
 			}
+			addLookDataToList(imageName, imageFileName, lookDataList, isDroneVideo);
+			return true;
+		} catch (Exception e) {
+			Log.e(TAG, "Error loading image in copyImage IOException");
+			return false;
 		}
 	}
 
-	public void loadPictureFromCameraIntoCatroid(Uri lookFromCameraUri, Activity activity,
-			List<LookData> lookData, LookFragment fragment) {
-		if (lookFromCameraUri != null) {
-			String originalImagePath = lookFromCameraUri.getPath();
-
-			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
-			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-				Log.e(TAG, "Error loading image in loadPictureFromCameraIntoCatroid");
-				Utils.showErrorDialog(activity, R.string.error_load_image);
-				return;
-			}
-			copyImageToCatroid(originalImagePath, activity, lookData, fragment);
-
-			File pictureOnSdCard = new File(lookFromCameraUri.getPath());
-			pictureOnSdCard.delete();
+	private static void addLookDataToList(String imageName, String imageFileName, List<LookData> lookDataList,
+			boolean isDroneVideo) {
+		LookData lookData;
+		if (isDroneVideo) {
+			lookData = new DroneVideoLookData();
+		} else {
+			lookData = new LookData();
 		}
+
+		lookData.setName(imageName);
+		lookData.setLookFilename(imageFileName);
+		lookDataList.add(lookData);
 	}
 
-	public void loadPictureFromLibraryIntoCatroid(String filePath, Activity activity,
-			List<LookData> lookData, LookFragment fragment) {
-		File mediaImage = null;
-		mediaImage = new File(filePath);
-		copyImageToCatroid(mediaImage.toString(), activity, lookData, fragment);
-		File pictureOnSdCard = new File(mediaImage.getPath());
-		pictureOnSdCard.delete();
-	}
-
-	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
-		// Confirm if Pocket Paint is installed else start dialog --------------------------
-
+	public static boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
 		List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
 				PackageManager.MATCH_DEFAULT_ONLY);
 
 		if (packageList.size() <= 0) {
 			AlertDialog.Builder builder = new CustomAlertDialogBuilder(activity);
 			builder.setTitle(R.string.pocket_paint_not_installed_title);
-			builder.setMessage(R.string.pocket_paint_not_installed).setCancelable(false)
-					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
-							activity.startActivity(downloadPocketPaintIntent);
-						}
-					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			builder.setMessage(R.string.pocket_paint_not_installed);
+			builder.setCancelable(false);
+			builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
+					activity.startActivity(downloadPocketPaintIntent);
+				}
+			});
+			builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
@@ -498,14 +249,7 @@ public final class LookController {
 		return true;
 	}
 
-	public void deleteCheckedLooks(LookBaseAdapter adapter, List<LookData> lookDataList, Activity activity) {
-		Iterator iterator = ((TreeSet) adapter.getCheckedItems()).descendingIterator();
-		while (iterator.hasNext()) {
-			deleteLook((int) iterator.next(), lookDataList, activity);
-		}
-	}
-
-	public boolean otherLookDataItemsHaveAFileReference(LookData lookDataToCheck) {
+	public static boolean otherLookDataItemsHaveAFileReference(LookData lookDataToCheck) {
 		for (LookData lookData : BackPackListManager.getInstance().getAllBackPackedLooks()) {
 			if (lookData.equals(lookDataToCheck)) {
 				continue;
@@ -517,232 +261,134 @@ public final class LookController {
 		return false;
 	}
 
-	public void deleteLook(int position, List<LookData> lookDataList, Activity activity) {
-		if (position < 0 || position >= lookDataList.size()) {
-			Log.d(TAG, "attempted to delete a look at a position not in lookdatalist");
-			return;
-		}
-		LookData lookDataToDelete = lookDataList.get(position);
-		lookDataToDelete.getCollisionInformation().cancelCalculation();
-
-		boolean isBackPackLook = lookDataToDelete.isBackpackLookData;
-
-		if (!otherLookDataItemsHaveAFileReference(lookDataToDelete)) {
-			Log.d(TAG, "delete - is bp:" + isBackPackLook);
-			StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath(), isBackPackLook);
-		}
-
-		lookDataList.remove(position);
-		if (!isBackPackLook) {
-			ProjectManager.getInstance().getCurrentSprite().setLookDataList(lookDataList);
-		}
-
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
-	}
-
-	public boolean checkLookReplaceInBackpack(List<LookData> currentLookDataList) {
-		boolean looksAlreadyInBackpack = false;
-		for (LookData lookData : currentLookDataList) {
-			looksAlreadyInBackpack = checkLookReplaceInBackpack(lookData);
-			if (looksAlreadyInBackpack) {
-				return looksAlreadyInBackpack;
+	public static boolean existsInBackPack(List<LookData> lookDataList) {
+		for (LookData lookData : lookDataList) {
+			if (existsInBackPack(lookData)) {
+				return true;
 			}
 		}
-		return looksAlreadyInBackpack;
+		return false;
 	}
 
-	public boolean checkLookReplaceInBackpack(LookData currentLookData) {
-		return BackPackListManager.getInstance().backPackedLooksContain(currentLookData, true);
+	public static boolean existsInBackPack(LookData lookData) {
+		return BackPackListManager.getInstance().backPackedLooksContain(lookData, true);
 	}
 
-	public void showBackPackReplaceDialog(final List<LookData> currentLookDataList, final Context context) {
-		Resources resources = context.getResources();
-		String replaceLookMessage = resources.getString(R.string.backpack_replace_look_multiple);
-
-		AlertDialog dialog = new CustomAlertDialogBuilder(context)
-				.setTitle(R.string.backpack)
-				.setMessage(replaceLookMessage)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						for (LookData currentLookData : currentLookDataList) {
-							backPackVisibleLook(currentLookData);
-						}
-						onBackpackLookCompleteListener.onBackpackLookComplete(true);
-						dialog.dismiss();
-					}
-				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						onBackpackLookCompleteListener.onBackpackLookComplete(false);
-						dialog.dismiss();
-					}
-				}).create();
-		dialog.setCanceledOnTouchOutside(true);
-		dialog.show();
-	}
-
-	public void showBackPackReplaceDialog(final LookData currentLookData, final Context context) {
-		Resources resources = context.getResources();
-		String replaceLookMessage = resources.getString(R.string.backpack_replace_look, currentLookData.getLookName());
-
-		AlertDialog dialog = new CustomAlertDialogBuilder(context)
-				.setTitle(R.string.backpack)
-				.setMessage(replaceLookMessage)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						backPackVisibleLook(currentLookData);
-						onBackpackLookCompleteListener.onBackpackLookComplete(true);
-						dialog.dismiss();
-					}
-				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				}).create();
-		dialog.setCanceledOnTouchOutside(true);
-		dialog.show();
-	}
-
-	public void backPackVisibleLook(LookData currentLookData) {
-		String lookDataName = currentLookData.getLookName();
-		BackPackListManager.getInstance().removeItemFromLookBackPackByLookName(lookDataName);
-		backPack(currentLookData, lookDataName, false);
-	}
-
-	public LookData backPackHiddenLook(LookData currentLookData) {
-		if (BackPackListManager.getInstance().backPackedLooksContain(currentLookData, false)) {
-			return currentLookData;
-		}
-		String newLookDataName = Utils.getUniqueLookName(currentLookData, true);
-		return backPack(currentLookData, newLookDataName, true);
-	}
-
-	private LookData backPack(LookData currentLookData, String newLookDataName, boolean addToHiddenBackpack) {
-		String existingFileNameInBackPackDirectory = lookFileAlreadyInBackPackDirectory(currentLookData);
-		currentLookData.isBackpackLookData = true;
-		File backPackedFile = null;
-		if (existingFileNameInBackPackDirectory == null && currentLookData != null
-				&& currentLookData.getAbsolutePath() != null && !currentLookData.getAbsolutePath().isEmpty()) {
-			backPackedFile = copyLookBackPack(currentLookData, newLookDataName, false);
-		}
-		return updateLookBackPackAfterInsertion(newLookDataName, currentLookData,
-				existingFileNameInBackPackDirectory, addToHiddenBackpack, backPackedFile);
-	}
-
-	public LookData unpack(LookData selectedLookDataBackPack, boolean deleteUnpackedItems, boolean fromHiddenBackPack) {
-		if (fromHiddenBackPack && ProjectManager.getInstance().getCurrentSprite().containsLookData(selectedLookDataBackPack)) {
-			return selectedLookDataBackPack;
-		}
-		selectedLookDataBackPack.isBackpackLookData = true;
-		String newLookDataName = Utils.getUniqueLookName(selectedLookDataBackPack, false);
-		String existingFileNameInProjectDirectory = lookFileAlreadyInProjectDirectory(selectedLookDataBackPack);
-		if (existingFileNameInProjectDirectory == null) {
-			Log.d(TAG, "copyLookBackPack" + newLookDataName);
-			copyLookBackPack(selectedLookDataBackPack, newLookDataName, true);
-		}
-		return LookController.getInstance().updateLookBackPackAfterUnpacking(selectedLookDataBackPack,
-				BackPackListManager.getInstance().getCurrentLookAdapter(), newLookDataName, deleteUnpackedItems,
-				existingFileNameInProjectDirectory, fromHiddenBackPack);
-	}
-
-	private String lookFileAlreadyInBackPackDirectory(LookData lookDataToCheck) {
-		for (LookData lookData : BackPackListManager.getInstance().getAllBackPackedLooks()) {
-			if (lookData.getChecksum().equals(lookDataToCheck.getChecksum())) {
-				return lookData.getLookFileName();
+	public static boolean backpack(List<LookData> lookDataList, boolean visible) {
+		for (LookData lookData : lookDataList) {
+			if (!backpack(lookData, visible)) {
+				return false;
 			}
 		}
-		return null;
+		return true;
 	}
 
-	private String lookFileAlreadyInProjectDirectory(LookData lookDataToCheck) {
-		List<Sprite> spritesToCheck = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-		for (Sprite sprite : spritesToCheck) {
-			for (LookData lookData : sprite.getLookDataList()) {
-				if (lookData.getChecksum().equals(lookDataToCheck.getChecksum())) {
-					return lookData.getLookFileName();
+	protected static boolean backpack(LookData lookData, boolean visible) {
+		if (visible) {
+			return backpackVisible(lookData) != null;
+		} else {
+			return backpackHidden(lookData) != null;
+		}
+	}
+
+	public static LookData backpackVisible(LookData lookData) {
+		BackPackListManager.getInstance().removeItemFromLookBackPackByLookName(lookData.getName());
+		LookData backpackLookData = new LookData();
+		backpackLookData.isBackpackLookData = true;
+
+		if (!setLookFileNameForBackpackLookData(lookData, backpackLookData)) {
+			return null;
+		}
+
+		backpackLookData.setName(lookData.getName());
+		BackPackListManager.getInstance().addLookToBackPack(backpackLookData);
+		return backpackLookData;
+	}
+
+	public static LookData backpackHidden(LookData lookData) {
+		LookData backpackLookData = new LookData();
+		backpackLookData.isBackpackLookData = true;
+
+		if (!setLookFileNameForBackpackLookData(lookData, backpackLookData)) {
+			return null;
+		}
+
+		backpackLookData.setName(Utils.getUniqueLookName(lookData, true));
+		BackPackListManager.getInstance().addLookToHiddenBackPack(backpackLookData);
+		return backpackLookData;
+	}
+
+	private static boolean setLookFileNameForBackpackLookData(LookData lookData, LookData newLookData) {
+		for (LookData backpackedLookData : BackPackListManager.getInstance().getAllBackPackedLooks()) {
+			if (backpackedLookData.getChecksum().equals(lookData.getChecksum())) {
+				newLookData.setLookFilename(backpackedLookData.getLookFileName());
+				return true;
+			}
+		}
+
+		try {
+			String lookFileName = lookData.getLookFileNameWithoutChecksumAndEnding();
+			File file = StorageHandler.getInstance().copyImageBackPack(lookData, lookFileName, false);
+			newLookData.setLookFilename(file.getName());
+			return true;
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			return false;
+		}
+	}
+
+	public static boolean unpack(List<LookData> lookDataList, boolean visible) {
+		for (LookData lookData : lookDataList) {
+			if (!unpack(lookData, visible)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static boolean unpack(LookData lookData, boolean visible) {
+		return visible ? (unpackVisible(lookData) != null) : unpackHidden(lookData) != null;
+	}
+
+	public static LookData unpackVisible(LookData lookData) {
+		LookData lookDataToUnpack = new LookData();
+		lookDataToUnpack.isBackpackLookData = true;
+
+		if (!setLookFileNameForUnpackedLookData(lookData, lookDataToUnpack)) {
+			return null;
+		}
+
+		lookDataToUnpack.setName(Utils.getUniqueLookName(lookData, false));
+		ProjectManager.getInstance().getCurrentSprite().getLookDataList().add(lookDataToUnpack);
+		return lookDataToUnpack;
+	}
+
+	public static LookData unpackHidden(LookData lookData) {
+		if (ProjectManager.getInstance().getCurrentSprite().containsLookData(lookData)) {
+			return lookData;
+		}
+
+		return unpackVisible(lookData);
+	}
+
+	private static boolean setLookFileNameForUnpackedLookData(LookData lookData, LookData newLookData) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+			for (LookData unpackedLookData : sprite.getLookDataList()) {
+				if (lookData.getChecksum().equals(unpackedLookData.getChecksum())) {
+					newLookData.setLookFilename(unpackedLookData.getLookFileName());
+					return true;
 				}
 			}
 		}
-		return null;
-	}
-
-	private LookData updateLookBackPackAfterInsertion(String title, LookData currentLookData, String existingFileNameInBackPackDirectory, boolean addToHiddenBackpack, File backPackedFile) {
-		String fileName = null;
-		if (existingFileNameInBackPackDirectory == null) {
-			if (currentLookData != null) {
-				fileName = currentLookData.getLookFileName();
-				String hash = backPackedFile == null ? fileName.substring(0, 32) : Utils.md5Checksum(backPackedFile);
-				if (backPackedFile == null) {
-					Log.e(TAG, "backpacked file was null, file hash is possibly wrong");
-				}
-				String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
-				fileName = hash + "_" + title + fileFormat;
-			}
-		} else {
-			fileName = existingFileNameInBackPackDirectory;
-		}
-
-		LookData newLookData = new LookData(title, fileName);
-		newLookData.isBackpackLookData = true;
-
-		if (addToHiddenBackpack) {
-			BackPackListManager.getInstance().addLookToHiddenBackPack(newLookData);
-		} else {
-			BackPackListManager.getInstance().addLookToBackPack(newLookData);
-		}
-
-		return newLookData;
-	}
-
-	private File copyLookBackPack(LookData selectedlookData, String newLookDataName, boolean copyFromBackpack) {
-		try {
-			return StorageHandler.getInstance().copyImageBackPack(selectedlookData, newLookDataName, copyFromBackpack);
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-		}
-		return null;
-	}
-
-	public void copyLook(int position, List<LookData> lookDataList, final Activity activity, LookFragment fragment) {
-		LookData lookData = lookDataList.get(position);
 
 		try {
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
-
-			StorageHandler.getInstance().copyImage(projectName, sceneName, lookData.getAbsolutePath(), null);
-			String imageName = lookData.getLookName() + "_" + activity.getString(R.string.copy_addition);
-			String imageFileName = lookData.getLookFileName();
-
-			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
+			String lookFileName = lookData.getLookFileNameWithoutChecksumAndEnding();
+			File file = StorageHandler.getInstance().copyImageBackPack(lookData, lookFileName, true);
+			newLookData.setLookFilename(file.getName());
+			return true;
 		} catch (IOException ioException) {
-			Log.e(TAG, "Error loading image in copyLook");
-			Utils.showErrorDialog(activity, R.string.error_load_image);
 			Log.e(TAG, Log.getStackTraceString(ioException));
+			return false;
 		}
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
-	}
-
-	public void switchToScriptFragment(LookFragment fragment, ScriptActivity scriptActivity) {
-		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-
-		FragmentTransaction fragmentTransaction = scriptActivity.getFragmentManager().beginTransaction();
-		fragmentTransaction.hide(fragment);
-		fragmentTransaction.show(scriptActivity.getFragmentManager().findFragmentByTag(ScriptFragment.TAG));
-		fragmentTransaction.commitAllowingStateLoss();
-
-		scriptActivity.setIsLookFragmentFromSetLookBrickNewFalse();
-		scriptActivity.setIsLookFragmentHandleAddButtonHandled(false);
-	}
-
-	public void setOnBackpackLookCompleteListener(OnBackpackLookCompleteListener listener) {
-		onBackpackLookCompleteListener = listener;
-	}
-
-	public interface OnBackpackLookCompleteListener {
-		void onBackpackLookComplete(boolean startBackpackActivity);
 	}
 }

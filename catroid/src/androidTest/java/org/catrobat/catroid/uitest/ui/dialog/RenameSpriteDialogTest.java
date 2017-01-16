@@ -53,8 +53,8 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		createTestProject(testProject);
 		solo.waitForActivity("MainMenuActivity");
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity("MyProjectsActivity");
-		solo.assertCurrentActivity("Expected MyProjectsActivity activity", "MyProjectsActivity");
+		solo.waitForActivity("ProjectListActivity");
+		solo.assertCurrentActivity("Expected ProjectListActivity activity", "ProjectListActivity");
 
 		assertTrue("Cannot find project", solo.searchText(testProject));
 
@@ -75,8 +75,8 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		createTestProject(testProject);
 		solo.waitForActivity("MainMenuActivity");
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity("MyProjectsActivity");
-		solo.assertCurrentActivity("Expected MyProjectsActivity activity", "MyProjectsActivity");
+		solo.waitForActivity("ProjectListActivity");
+		solo.assertCurrentActivity("Expected ProjectListActivity activity", "ProjectListActivity");
 
 		assertTrue("Cannot find project", solo.searchText(testProject));
 

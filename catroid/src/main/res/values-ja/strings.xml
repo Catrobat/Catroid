@@ -38,7 +38,7 @@
   <string name="move">移動</string>
   <string name="backpack_add">バックパックに追加</string>
   <string name="backpack">バックパック</string>
-  <string name="packing">パック</string>
+  <string name="pack">パック</string>
   <string name="unpack">解凍</string>
   <string name="unpack_keep">解凍して残す</string>
   <string name="unpack_bg">背景として解凍</string>
@@ -488,7 +488,7 @@
   <string name="new_sprite_dialog_default_sprite_name">私のオブジェクト</string>
   <string name="new_sprite_dialog_title">新しいオブジェクトの名前</string>
   <string name="spritename_already_exists">別のオブジェクト名を選択してください。</string>
-  <string name="rename_sprite_dialog">オブジェクトの名前を変更</string>
+  <string name="dialog_rename_sprite">オブジェクトの名前を変更</string>
   <string name="spritename_invalid">このオブジェクトの名前は無効です</string>
   <string name="no_spritename_entered">オブジェクト名を入力してください。</string>
   <string name="sprite_name">オブジェクト名:</string>
@@ -804,9 +804,9 @@
   <string name="error_no_userbrick_name_entered">ブロック名を入力してください。</string>
   <string name="error_project_exists">別のプログラム名を選択してください。</string>
   <string name="error_scene_exists">別のシーン名を選択してください。</string>
-  <string name="error_scene_not_deleted">シーンの削除中にエラーが発生しました。</string>
-  <string name="error_scene_not_copied">シーンのコピー中にエラーが発生しました。</string>
-  <string name="error_scene_backpack">シーンのバックパックの中にエラーが発生しました。</string>
+  <string name="error_delete_scene">シーンの削除中にエラーが発生しました。</string>
+  <string name="error_copy_scene">シーンのコピー中にエラーが発生しました。</string>
+  <string name="error_backpack_scene">シーンのバックパックの中にエラーが発生しました。</string>
   <string name="error_delete_project">プログラムの削除中にエラーが発生しました</string>
   <string name="error_unknown_project">その名前のプログラムは存在しません。</string>
   <string name="error_project_upload">アップロード中にエラーが発生しました</string>

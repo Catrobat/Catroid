@@ -39,10 +39,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -208,12 +205,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnText(lookName);
 		solo.clickOnText(newText);
 
-		ScriptActivity currentActivity = (ScriptActivity) solo.getCurrentActivity();
-		solo.waitForFragmentByTag(LookFragment.TAG);
-
-		LookFragment lookFragment = (LookFragment) currentActivity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
-		lookFragment.startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		//TODO: Test LookListActivity.
 		solo.goBack();
 		//This is needed, because the spinner is only updated, when you actually click on the dialog
 		//and not using the MockActivity. This functionality is tested in testDismissNewLookDialog()
@@ -224,11 +216,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.goBack();
 		solo.goBack();
 
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-
-		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
-		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
-				.equals(programMenuActivityClass));
+		//TODO: check if in SpriteMemberSelectionActivity.
 	}
 
 	public void selectLook(String newLook, String oldName, String lookImagePath) {
@@ -265,13 +253,13 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(lookFile.getName());
-		lookData.setLookName(lookName);
+		lookData.setName(lookName);
 
 		lookFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(), "image2.png", RESOURCE_LOOK2,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		LookData lookData2 = new LookData();
 		lookData2.setLookFilename(lookFile2.getName());
-		lookData2.setLookName(lookName2);
+		lookData2.setName(lookName2);
 
 		lookDataList.add(lookData);
 		lookDataList.add(lookData2);

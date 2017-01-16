@@ -146,7 +146,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -2678,8 +2677,8 @@ public final class UiTestUtils {
 		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack);
 		solo.waitForDialogToOpen();
 		solo.sleep(50);
-		solo.waitForText(solo.getString(R.string.packing));
-		solo.clickOnText(solo.getString(R.string.packing));
+		solo.waitForText(solo.getString(R.string.pack));
+		solo.clickOnText(solo.getString(R.string.pack));
 		solo.sleep(500);
 	}
 
@@ -2751,7 +2750,7 @@ public final class UiTestUtils {
 				imageResource, instrumentationContext, UiTestUtils.FileTypes.IMAGE);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
-		lookData.setLookName(testLookName);
+		lookData.setName(testLookName);
 		lookDataList.add(lookData);
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 

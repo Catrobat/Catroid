@@ -37,7 +37,7 @@
   <string name="move">Mover</string>
   <string name="backpack_add">Agregar a la Mochila</string>
   <string name="backpack">Mochila</string>
-  <string name="packing">Empacar</string>
+  <string name="pack">Empacar</string>
   <string name="unpack">Desempacar</string>
   <string name="unpack_keep">Desempacar y guardar</string>
   <string name="unpack_bg">Desempacar como fondo</string>
@@ -499,7 +499,7 @@
   <string name="new_sprite_dialog_default_sprite_name">Mi objeto</string>
   <string name="new_sprite_dialog_title">Objeto nuevo</string>
   <string name="spritename_already_exists">Por favor selecciona otro nombre para el objeto.</string>
-  <string name="rename_sprite_dialog">Renombrar el objeto</string>
+  <string name="dialog_rename_sprite">Renombrar el objeto</string>
   <string name="spritename_invalid">Este nombre de objeto no es válido</string>
   <string name="no_spritename_entered">Por favor introduzca otro nombre para el objeto.</string>
   <string name="sprite_name">Nombre del objeto:</string>
@@ -819,9 +819,9 @@
   <string name="error_no_userbrick_name_entered">Por favor establezca un nombre para el bloque.</string>
   <string name="error_project_exists">Por favor selecciona un nuevo nombre para el programa.</string>
   <string name="error_scene_exists">Por favor selecciona un nuevo nombre para la escena.</string>
-  <string name="error_scene_not_deleted">Se ha producido un error al borrar la escena.</string>
-  <string name="error_scene_not_copied">Se ha producido un error al copiar la escena.</string>
-  <string name="error_scene_backpack">Se ha producido un error en la mochila relacionado a la escena.</string>
+  <string name="error_delete_scene">Se ha producido un error al borrar la escena.</string>
+  <string name="error_copy_scene">Se ha producido un error al copiar la escena.</string>
+  <string name="error_backpack_scene">Se ha producido un error en la mochila relacionado a la escena.</string>
   <string name="error_delete_project">Se produjo un error al eliminar el programa</string>
   <string name="error_unknown_project">No existe un programa con ese nombre.</string>
   <string name="error_project_upload">Un error ha ocurrido durante el proceso de carga</string>

@@ -27,21 +27,16 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.utils.Utils;
-
-import java.io.IOException;
+import org.catrobat.catroid.ui.dialogs.NewProjectDialog.LoadNewProjectInterface;
+import org.catrobat.catroid.utils.ToastUtil;
 
 public class OrientationDialog extends DialogFragment {
 
@@ -49,93 +44,49 @@ public class OrientationDialog extends DialogFragment {
 
 	private static final String TAG = OrientationDialog.class.getSimpleName();
 
-	private Dialog orientationDialog;
-	private String projectName;
-	private RadioButton landscapeMode;
+	private String newName;
 	private boolean createEmptyProject;
-	private boolean createLandscapeProject = false;
+	private LoadNewProjectInterface loadNewProjectInterface;
 
-	private boolean openedFromProjectList = false;
+	public OrientationDialog(String newName, boolean createEmptyProject, LoadNewProjectInterface loadNewProjectInterface) {
+		this.newName = newName;
+		this.createEmptyProject = createEmptyProject;
+		this.loadNewProjectInterface = loadNewProjectInterface;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(R.string.project_orientation_title)
-				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).create();
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+		View dialogView = inflater.inflate(R.layout.dialog_orientation_new_project, null);
 
-		orientationDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialog) {
-				if (getActivity() == null) {
-					Log.e(TAG, "onShow() Activity was null!");
-					return;
-				}
-				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-				positiveButton.setOnClickListener(new View.OnClickListener() {
+		RadioButton landscapeButton = (RadioButton) dialogView.findViewById(R.id.landscape_mode);
+		final boolean createLandscapeProject = landscapeButton.isChecked();
 
-					@Override
-					public void onClick(View view) {
-						handleOkButtonClick();
-					}
-				});
+		builder.setView(dialogView);
+		builder.setTitle(R.string.project_orientation_title);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				createNewProject(createEmptyProject, createLandscapeProject);
 			}
 		});
-		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+			}
+		});
 
-		return orientationDialog;
+		return builder.create();
 	}
 
-	protected void handleOkButtonClick() {
-		createLandscapeProject = landscapeMode.isChecked();
-
+	private void createNewProject(boolean createEmptyProject, boolean createLandscapeProject) {
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
-			return;
-		} catch (IOException ioException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			dismiss();
-			return;
+			ProjectManager.getInstance().initializeNewProject(newName, getActivity(), createEmptyProject, false,
+					createLandscapeProject);
+			loadNewProjectInterface.loadNewProject(newName);
+		} catch (Exception e) {
+			Log.e(TAG, "Could not create Program");
+			ToastUtil.showError(getActivity(), R.string.error_new_project);
 		}
-
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
-
-		if (isOpenedFromProjectList()) {
-			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-		}
-
-		getActivity().startActivity(intent);
-
-		dismiss();
-	}
-
-	public boolean isOpenedFromProjectList() {
-		return openedFromProjectList;
-	}
-
-	public void setOpenedFromProjectList(boolean openedFromProjectList) {
-		this.openedFromProjectList = openedFromProjectList;
-	}
-
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-
-	public void setCreateEmptyProject(boolean isChecked) {
-		this.createEmptyProject = isChecked;
 	}
 }

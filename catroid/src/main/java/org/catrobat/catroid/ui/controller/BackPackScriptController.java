@@ -51,8 +51,6 @@ import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.BackPackActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -139,8 +137,6 @@ public final class BackPackScriptController {
 				SharedPreferences sharedPreferences = PreferenceManager
 						.getDefaultSharedPreferences(activity);
 				sharedPreferences.edit().putInt(Constants.NUMBER_OF_BRICKS_INSERTED_FROM_BACKPACK, numberOfBricks).commit();
-				((BackPackActivity) activity)
-						.returnToScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 			}
 		}
 	}
@@ -180,7 +176,7 @@ public final class BackPackScriptController {
 
 	private void handleLookBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
 		SetLookBrick brick = (SetLookBrick) brickOfScript;
-		LookData newLookData = LookController.getInstance().unpack(brick.getLook(), deleteUnpackedItems, true);
+		LookData newLookData = OldLookController.getInstance().unpack(brick.getLook(), deleteUnpackedItems, true);
 		if (newLookData != null) {
 			brick.setLook(newLookData);
 		}
@@ -188,7 +184,7 @@ public final class BackPackScriptController {
 
 	private void handleSoundBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
 		PlaySoundBrick brick = (PlaySoundBrick) brickOfScript;
-		SoundInfo newSoundInfo = SoundController.getInstance().unpack(brick.getSound(), deleteUnpackedItems, true);
+		SoundInfo newSoundInfo = OldSoundController.getInstance().unpack(brick.getSound(), deleteUnpackedItems, true);
 		if (newSoundInfo != null) {
 			brick.setSoundInfo(newSoundInfo);
 		}
@@ -219,8 +215,7 @@ public final class BackPackScriptController {
 
 	private void handlePointToBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
 		PointToBrick brick = (PointToBrick) brickOfScript;
-		Sprite unpackedPointToSprite = BackPackSpriteController.getInstance().unpack(brick.getPointedObject(),
-				deleteUnpackedItems, true, true, false);
+		Sprite unpackedPointToSprite = BackPackSpriteController.unpackHidden(brick.getPointedObject(), false);
 		brick.setPointedObject(unpackedPointToSprite);
 	}
 

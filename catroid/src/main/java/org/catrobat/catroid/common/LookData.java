@@ -67,7 +67,7 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	public LookData(String name, String fileName) {
-		setLookName(name);
+		setName(name);
 		setLookFilename(fileName);
 	}
 
@@ -176,11 +176,11 @@ public class LookData implements Serializable, Cloneable {
 		}
 	}
 
-	public String getLookName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setLookName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -190,6 +190,14 @@ public class LookData implements Serializable, Cloneable {
 
 	public String getLookFileName() {
 		return fileName;
+	}
+
+	public String getLookFilenameWithoutChecksum() {
+		return fileName.substring(33);
+	}
+
+	public String getLookFileNameWithoutChecksumAndEnding() {
+		return fileName.substring(33, fileName.lastIndexOf("."));
 	}
 
 	public String getChecksum() {

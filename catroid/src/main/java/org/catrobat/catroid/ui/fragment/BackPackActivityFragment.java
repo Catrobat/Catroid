@@ -22,22 +22,26 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.ActionMode;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.BackPackActivity;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.DeleteItemDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 
-public abstract class BackPackActivityFragment extends CheckBoxListFragment {
+public abstract class BackPackActivityFragment extends CheckBoxListFragment implements CheckBoxListAdapter
+		.ListItemLongClickHandler, DeleteItemDialog.DeleteItemInterface {
+	protected int deleteDialogTitle;
+	protected int selectedItemPosition;
 
 	protected ActionMode.Callback unpackModeCallBack = new ActionMode.Callback() {
 
@@ -68,7 +72,7 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 			if (adapter.getCheckedItems().isEmpty()) {
 				clearCheckedItems();
 			} else {
-				unpackCheckedItems(false);
+				unpackCheckedItems();
 			}
 		}
 	};
@@ -102,10 +106,51 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 			if (adapter.getCheckedItems().isEmpty()) {
 				clearCheckedItems();
 			} else {
-				showDeleteDialog(false);
+				showDeleteDialog();
 			}
 		}
 	};
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		registerForContextMenu(getListView());
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		BackPackListManager.getInstance().saveBackpack();
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		if (adapter.isEmpty()) {
+			menu.findItem(R.id.unpack).setVisible(false);
+		}
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, view, menuInfo);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_backpack, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.unpack:
+				unpackCheckedItems();
+				break;
+			case R.id.delete:
+				showDeleteDialog();
+				break;
+			default:
+				return super.onContextItemSelected(item);
+		}
+		return true;
+	}
 
 	public void startUnpackActionMode() {
 		startActionMode(unpackModeCallBack);
@@ -122,52 +167,38 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 
 		if (adapter.isEmpty()) {
 			if (actionModeCallback.equals(unpackModeCallBack)) {
-				((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpack));
+				ToastUtil.showError(getActivity(), R.string.nothing_to_unpack);
 			} else if (actionModeCallback.equals(deleteModeCallBack)) {
-				((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
+				ToastUtil.showError(getActivity(), R.string.nothing_to_delete);
 			}
 		} else {
 			actionMode = getActivity().startActionMode(actionModeCallback);
 			unregisterForContextMenu(getListView());
-			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
-	protected abstract void unpackCheckedItems(boolean singleItem);
-
-	protected abstract void showDeleteDialog(boolean singleItem);
-
-	protected abstract void deleteCheckedItems(boolean singleItem);
-
-	protected void showDeleteDialog(int titleId, final boolean singleItem) {
-		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
-		builder.setTitle(titleId);
-		builder.setMessage(R.string.dialog_confirm_delete_object_message);
-		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				deleteCheckedItems(singleItem);
-				clearCheckedItems();
-			}
-		});
-		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-				clearCheckedItems();
-			}
-		});
-
-		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialogInterface) {
-				clearCheckedItems();
-			}
-		});
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
+	@Override
+	public void handleOnItemLongClick(int position, View view) {
+		selectedItemPosition = position;
+		getListView().showContextMenuForChild(view);
 	}
+
+	protected abstract void unpackCheckedItems();
+
+	protected void showDeleteDialog() {
+		DeleteItemDialog dialog = new DeleteItemDialog(deleteDialogTitle, this);
+		dialog.show(getFragmentManager(), DeleteItemDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	@Override
+	public int getCheckedItemCount() {
+		int checkedItems = adapter.getCheckedItems().size();
+		boolean fromContextMenu = checkedItems == 0;
+		return fromContextMenu ? 1 : checkedItems;
+	}
+
+	@Override
+	public abstract void deleteCheckedItems();
 
 	protected void checkEmptyBackgroundBackPack() {
 		if (adapter.isEmpty()) {
@@ -186,8 +217,8 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 	}
 
 	protected void showUnpackingCompleteToast(int itemCount) {
-		String message = itemCount == 1 ? singleItemTitle : multipleItemsTitle;
-		message += " " + getResources().getQuantityString(R.plurals.unpacking_items_plural, itemCount);
+		String message = getResources().getQuantityString(itemIdentifier, itemCount, itemCount);
+		message = message.concat(" ").concat(getResources().getQuantityString(R.plurals.unpacking_items_plural, itemCount));
 		ToastUtil.showSuccess(getActivity(), message);
 	}
 }

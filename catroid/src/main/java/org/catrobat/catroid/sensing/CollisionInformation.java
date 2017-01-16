@@ -67,7 +67,7 @@ public class CollisionInformation {
 
 	public void cancelCalculation() {
 		isCalculationThreadCancelled = true;
-		Log.i(TAG, "Collision Polygon Calculation of " + lookData.getLookName() + " cancelled!");
+		Log.i(TAG, "Collision Polygon Calculation of " + lookData.getName() + " cancelled!");
 	}
 
 	public int getNumberOfVertices() {
@@ -136,7 +136,7 @@ public class CollisionInformation {
 					return;
 				}
 				writeCollisionVerticesToPNGMeta(collisionPolygons, path);
-				Log.i("CollsionPolygon", "Polygon size of look " + lookData.getLookName() + ": " + getNumberOfVertices());
+				Log.i("CollsionPolygon", "Polygon size of look " + lookData.getName() + ": " + getNumberOfVertices());
 			}
 		}
 	}

@@ -27,7 +27,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
-import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -56,7 +55,6 @@ import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
 import org.catrobat.catroid.ui.adapter.ScratchJobAdapter;
 import org.catrobat.catroid.ui.adapter.ScratchJobAdapter.ScratchJobEditListener;
@@ -536,9 +534,9 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-		getActivity().startActivity(intent);
+//		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+//		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+//		getActivity().startActivity(intent);
 	}
 
 	@Override

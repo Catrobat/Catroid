@@ -187,7 +187,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		LookData yellowLookData = new LookData();
 		String yellowImageName = "yellow_image.bmp";
 
-		yellowLookData.setLookName(yellowImageName);
+		yellowLookData.setName(yellowImageName);
 
 		yellowSprite.getLookDataList().add(yellowLookData);
 
@@ -207,7 +207,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
-		blueLookData.setLookName(blueImageName);
+		blueLookData.setName(blueImageName);
 
 		blueSprite.getLookDataList().add(blueLookData);
 
@@ -227,7 +227,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		LookData greenLookData = new LookData();
 		String greenImageName = "green_image.bmp";
 
-		greenLookData.setLookName(greenImageName);
+		greenLookData.setName(greenImageName);
 
 		greenSprite.getLookDataList().add(greenLookData);
 
@@ -247,7 +247,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		LookData redLookData = new LookData();
 		String redImageName = "red_image.bmp";
 
-		redLookData.setLookName(redImageName);
+		redLookData.setName(redImageName);
 
 		redSprite.getLookDataList().add(redLookData);
 
@@ -271,7 +271,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		LookData blackLookData = new LookData();
 		String blackImageName = "black_image.bmp";
 
-		blackLookData.setLookName(blackImageName);
+		blackLookData.setName(blackImageName);
 
 		blackSprite.getLookDataList().add(blackLookData);
 

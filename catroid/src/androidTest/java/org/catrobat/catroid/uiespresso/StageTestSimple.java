@@ -87,7 +87,7 @@ public class StageTestSimple {
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
-		blueLookData.setLookName(blueImageName);
+		blueLookData.setName(blueImageName);
 
 		blueSprite.getLookDataList().add(blueLookData);
 

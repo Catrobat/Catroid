@@ -36,7 +36,6 @@ import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -51,7 +50,6 @@ public final class BackPackListManager {
 
 	private static Backpack backpack;
 	private static SoundBaseAdapter currentSoundAdapter;
-	private static LookBaseAdapter currentLookAdapter;
 
 	public static BackPackListManager getInstance() {
 		if (backpack == null) {
@@ -127,7 +125,7 @@ public final class BackPackListManager {
 
 	void removeItemFromLookBackPackByLookName(String name) {
 		for (LookData lookData : getBackpack().backpackedLooks) {
-			if (lookData.getLookName().equals(name)) {
+			if (lookData.getName().equals(name)) {
 				getBackpack().backpackedLooks.remove(lookData);
 			}
 		}
@@ -268,11 +266,11 @@ public final class BackPackListManager {
 		return getBackpack().hiddenBackpackedSprites;
 	}
 
-	void addSpriteToHiddenBackpack(Sprite sprite) {
+	public void addSpriteToHiddenBackpack(Sprite sprite) {
 		getBackpack().hiddenBackpackedSprites.add(sprite);
 	}
 
-	void removeItemFromSpriteHiddenBackpack(Sprite sprite) {
+	public void removeItemFromSpriteHiddenBackpack(Sprite sprite) {
 		getBackpack().hiddenBackpackedSprites.remove(sprite);
 	}
 
@@ -350,14 +348,6 @@ public final class BackPackListManager {
 
 	public void setCurrentSoundAdapter(SoundBaseAdapter adapter) {
 		currentSoundAdapter = adapter;
-	}
-
-	LookBaseAdapter getCurrentLookAdapter() {
-		return currentLookAdapter;
-	}
-
-	public void setCurrentLookAdapter(LookBaseAdapter currentLookAdapter) {
-		BackPackListManager.currentLookAdapter = currentLookAdapter;
 	}
 
 	void addLookToHiddenBackPack(LookData newLookData) {

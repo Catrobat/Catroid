@@ -37,7 +37,7 @@
   <string name="move">移動</string>
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Backpack</string>
-  <string name="packing">Pack</string>
+  <string name="pack">Pack</string>
   <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="unpack_bg">Unpack as background</string>
@@ -518,7 +518,7 @@
   <string name="new_sprite_dialog_default_sprite_name">我的物件</string>
   <string name="new_sprite_dialog_title">建立新物件</string>
   <string name="spritename_already_exists">Please choose another Object name.</string>
-  <string name="rename_sprite_dialog">物件更名</string>
+  <string name="dialog_rename_sprite">物件更名</string>
   <string name="spritename_invalid">物件命名不正確</string>
   <string name="no_spritename_entered">Please enter an object name.</string>
   <string name="sprite_name">物件名稱:</string>
@@ -835,9 +835,9 @@
   <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Please choose another program name.</string>
   <string name="error_scene_exists">Please choose another scene name.</string>
-  <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
-  <string name="error_scene_not_copied">An error occurred while copying a scene.</string>
-  <string name="error_scene_backpack">An error occurred in scene backpack.</string>
+  <string name="error_delete_scene">An error occurred while deleting a scene.</string>
+  <string name="error_copy_scene">An error occurred while copying a scene.</string>
+  <string name="error_backpack_scene">An error occurred in scene backpack.</string>
   <string name="error_delete_project">刪除程式檔時出錯</string>
   <string name="error_unknown_project">該檔名的程式檔不存在。</string>
   <string name="error_project_upload">上傳程式檔時出錯。</string>

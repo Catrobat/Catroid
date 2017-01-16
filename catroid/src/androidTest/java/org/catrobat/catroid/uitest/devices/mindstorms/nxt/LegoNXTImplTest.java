@@ -46,8 +46,8 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -96,7 +96,7 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.clickOnText(projectName);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
@@ -191,7 +191,7 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.clickOnText(projectName);
 
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -256,7 +256,7 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
-		lookData.setLookName(imageName);
+		lookData.setName(imageName);
 		setLookBrick.setLook(lookData);
 		firstSprite.getLookDataList().add(lookData);
 

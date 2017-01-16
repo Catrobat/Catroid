@@ -203,5 +203,9 @@
         <item>@string/brick_set_physics_object_type_no</item>
     </string-array>
 
+    <string-array name="pack_or_unpack_dialog_items">
+        <item>@string/pack</item>
+        <item>@string/unpack</item>
+    </string-array>
 
 </resources>

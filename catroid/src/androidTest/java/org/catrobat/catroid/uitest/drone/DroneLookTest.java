@@ -26,7 +26,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -56,7 +55,7 @@ public class DroneLookTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	public void testAddLook() {
 		TestUtils.loadExistingOrCreateDefaultDroneProject(getActivity());
 
-		solo.waitForActivity(ProgramMenuActivity.class);
+		//TODO: wait for SpriteMemberSelectionActivity.
 		solo.clickOnText(solo.getString(R.string.programs));
 		solo.waitForText(solo.getString(R.string.default_project_name));
 		solo.clickOnText(solo.getString(R.string.default_project_name));

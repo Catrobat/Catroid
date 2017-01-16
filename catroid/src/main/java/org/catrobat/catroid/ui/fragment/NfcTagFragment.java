@@ -22,102 +22,47 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.nfc.NfcHandler;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.NfcTagViewHolder;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.NfcTagAdapter;
-import org.catrobat.catroid.ui.adapter.NfcTagBaseAdapter;
-import org.catrobat.catroid.ui.controller.NfcTagController;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.DeleteNfcTagDialog;
-import org.catrobat.catroid.ui.dialogs.RenameNfcTagDialog;
-import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
+import org.catrobat.catroid.ui.adapter.NfcTagListAdapter;
+import org.catrobat.catroid.ui.dialogs.RenameItemDialog;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBaseAdapter.OnNfcTagEditListener, Dialog.OnKeyListener {
+public class NfcTagFragment extends ListActivityFragment implements CheckBoxListAdapter.ListItemClickHandler {
 
 	public static final String TAG = NfcTagFragment.class.getSimpleName();
+	public static final String BUNDLE_ARGUMENTS_NFC_TAG_DATA = "nfc_tag_data";
+	public static final String SHARED_PREFERENCE_NAME = "showNfcTagDetails";
 
-	private static int selectedNfcTagPosition = Constants.NO_POSITION;
+	private NfcTagListAdapter nfcTagAdapter;
+	private DragAndDropListView listView;
 
-	private static String actionModeTitle;
-
-	private static String singleItemAppendixDeleteActionMode;
-	private static String multipleItemAppendixDeleteActionMode;
-
-	private ListView listView;
-
-	private NfcTagDeletedReceiver nfcTagDeletedReceiver;
-	private NfcTagRenamedReceiver nfcTagRenamedReceiver;
-	private NfcTagCopiedReceiver nfcTagCopiedReceiver;
-	private NfcListTouchActionUpReceiver nfcListTouchActionUpReceiver;
-
-	private NfcTagsListInitReceiver nfcTagsListInitReceiver;
-
-	private ActionMode actionMode;
-	private View selectAllActionModeButton;
-
-	private NfcTagBaseAdapter adapter;
-	private List<NfcTagData> nfcTagDataList;
-	private NfcTagData selectedNfcTag;
-
-	private boolean isRenameActionMode;
-	private boolean isResultHandled = false;
+	private NfcTagData nfcTagToEdit;
 
 	NfcAdapter nfcAdapter;
 	PendingIntent pendingIntent;
 
-	private OnNfcTagDataListChangedAfterNewListener nfcTagDataListChangedAfterNewListener;
-
-	public void setOnNfcTagDataListChangedAfterNewListener(OnNfcTagDataListChangedAfterNewListener listener) {
-		nfcTagDataListChangedAfterNewListener = listener;
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
 
 		nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 		pendingIntent = PendingIntent.getActivity(getActivity(), 0,
@@ -139,115 +84,56 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_nfctags, container, false);
+		View nfcTagListFragment = inflater.inflate(R.layout.fragment_nfctag_list, container, false);
+		listView = (DragAndDropListView) nfcTagListFragment.findViewById(android.R.id.list);
+		return nfcTagListFragment;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		listView = getListView();
-		if (listView != null) {
-			registerForContextMenu(listView);
-		}
+		itemIdentifier = R.plurals.nfc_tags;
+		deleteDialogTitle = R.plurals.dialog_delete_nfctag;
 
 		if (savedInstanceState != null) {
-			selectedNfcTag = (NfcTagData) savedInstanceState
-					.getSerializable(NfcTagController.BUNDLE_ARGUMENTS_SELECTED_NFCTAG);
+			nfcTagToEdit = (NfcTagData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_NFC_TAG_DATA);
 		}
 
-		try {
-			nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
-		} catch (NullPointerException e) {
-			Log.e(TAG, e.getMessage());
-		}
-
-		((DynamicListView) getListView()).setDataList(nfcTagDataList);
-
-		adapter = new NfcTagAdapter(getActivity(), R.layout.fragment_nfctag_nfctaglist_item,
-				R.id.fragment_nfctag_item_title_text_view, nfcTagDataList, false);
-
-		adapter.setOnNfcTagEditListener(this);
-		setListAdapter(adapter);
-		((NfcTagAdapter) adapter).setNfcTagFragment(this);
-
+		initializeList();
 		Utils.loadProjectIfNeeded(getActivity());
 	}
 
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.copy).setVisible(true);
-		menu.findItem(R.id.backpack).setVisible(false);
-		menu.findItem(R.id.cut).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(true);
+	private void initializeList() {
+		List<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 
-		super.onPrepareOptionsMenu(menu);
+		nfcTagAdapter = new NfcTagListAdapter(getActivity(), R.layout.list_item, nfcTagDataList);
+
+		setListAdapter(nfcTagAdapter);
+		nfcTagAdapter.setListItemClickHandler(this);
+		nfcTagAdapter.setListItemLongClickHandler(listView);
+		nfcTagAdapter.setListItemCheckHandler(this);
 	}
+
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(NfcTagController.BUNDLE_ARGUMENTS_SELECTED_NFCTAG, selectedNfcTag);
+		outState.putSerializable(BUNDLE_ARGUMENTS_NFC_TAG_DATA, nfcTagToEdit);
 		super.onSaveInstanceState(outState);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		BottomBar.showBottomBar(getActivity());
-		BottomBar.showPlayButton(getActivity());
-		BottomBar.hideAddButton(getActivity());
-
-		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
-			return;
-		}
-
-		if (nfcTagRenamedReceiver == null) {
-			nfcTagRenamedReceiver = new NfcTagRenamedReceiver();
-		}
-
-		if (nfcTagDeletedReceiver == null) {
-			nfcTagDeletedReceiver = new NfcTagDeletedReceiver();
-		}
-
-		if (nfcTagCopiedReceiver == null) {
-			nfcTagCopiedReceiver = new NfcTagCopiedReceiver();
-		}
-
-		if (nfcTagsListInitReceiver == null) {
-			nfcTagsListInitReceiver = new NfcTagsListInitReceiver();
-		}
-
-		if (nfcListTouchActionUpReceiver == null) {
-			nfcListTouchActionUpReceiver = new NfcListTouchActionUpReceiver();
-		}
-
-		IntentFilter intentFilterRenameNfcTag = new IntentFilter(ScriptActivity.ACTION_NFCTAG_RENAMED);
-		getActivity().registerReceiver(nfcTagRenamedReceiver, intentFilterRenameNfcTag);
-
-		IntentFilter intentFilterDeleteNfcTag = new IntentFilter(ScriptActivity.ACTION_NFCTAG_DELETED);
-		getActivity().registerReceiver(nfcTagDeletedReceiver, intentFilterDeleteNfcTag);
-
-		IntentFilter intentFilterCopyNfcTag = new IntentFilter(ScriptActivity.ACTION_NFCTAG_COPIED);
-		getActivity().registerReceiver(nfcTagCopiedReceiver, intentFilterCopyNfcTag);
-
-		IntentFilter intentFilterNfcTagsListInit = new IntentFilter(ScriptActivity.ACTION_NFCTAGS_LIST_INIT);
-		getActivity().registerReceiver(nfcTagsListInitReceiver, intentFilterNfcTagsListInit);
-
-		IntentFilter intentFilterNfcTagsListActionUp = new IntentFilter(ScriptActivity.ACTION_NFC_TOUCH_ACTION_UP);
-		getActivity().registerReceiver(nfcListTouchActionUpReceiver, intentFilterNfcTagsListActionUp);
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
-				.getApplicationContext());
-
-		setShowDetails(settings.getBoolean(NfcTagController.SHARED_PREFERENCE_NAME, false));
-
 		if (nfcAdapter != null) {
 			Log.d(TAG, "onResume()enableForegroundDispatch()");
 			nfcAdapter.enableForegroundDispatch(getActivity(), pendingIntent, null, null);
 		}
+
+		loadShowDetailsPreferences(SHARED_PREFERENCE_NAME);
 	}
 
+	@Override
 	public void onNewIntent(Intent intent) {
 		Log.i("Foreground dispatch", "Discovered tag with intent: " + intent);
 		Log.d(TAG, "activity:" + getActivity().getClass().getSimpleName());
@@ -260,10 +146,10 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			String newTagName = Utils.getUniqueNfcTagName(getString(R.string.default_tag_name));
 			newNfcTagData.setNfcTagName(newTagName);
 			newNfcTagData.setNfcTagUid(uid);
-			adapter.add(newNfcTagData);
-			adapter.notifyDataSetChanged();
+			nfcTagAdapter.add(newNfcTagData);
+			nfcTagAdapter.notifyDataSetChanged();
 		} else {
-			Log.d(TAG, "no nfc tag found");
+			Log.d(TAG, "NO NFC tag found");
 		}
 	}
 
@@ -271,497 +157,84 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	public void onPause() {
 		super.onPause();
 		if (nfcAdapter != null) {
-			Log.d(TAG, "onPause()disableForegroundDispatch()");
 			nfcAdapter.disableForegroundDispatch(getActivity());
 		}
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject(getActivity().getApplicationContext());
-		}
-
-		adapter.notifyDataSetChanged();
-
-		if (nfcTagRenamedReceiver != null) {
-			getActivity().unregisterReceiver(nfcTagRenamedReceiver);
-		}
-
-		if (nfcTagDeletedReceiver != null) {
-			getActivity().unregisterReceiver(nfcTagDeletedReceiver);
-		}
-
-		if (nfcTagCopiedReceiver != null) {
-			getActivity().unregisterReceiver(nfcTagCopiedReceiver);
-		}
-
-		if (nfcTagsListInitReceiver != null) {
-			getActivity().unregisterReceiver(nfcTagsListInitReceiver);
-		}
-
-		if (nfcListTouchActionUpReceiver != null) {
-			getActivity().unregisterReceiver(nfcListTouchActionUpReceiver);
-		}
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
-				.getApplicationContext());
-		SharedPreferences.Editor editor = settings.edit();
-
-		editor.putBoolean(NfcTagController.SHARED_PREFERENCE_NAME, getShowDetails());
-		editor.commit();
+		putShowDetailsPreferences(SHARED_PREFERENCE_NAME);
 	}
 
 	@Override
-	public boolean getShowDetails() {
-		// TODO CHANGE THIS!!! (was just a quick fix)
-		if (adapter != null) {
-			return adapter.getShowDetails();
-		} else {
-			return false;
+	public void handleAddButton(){
+	}
+
+	@Override
+	public void handleOnItemClick(int position, View view, Object listItem) {
+		//DO NOTHING onClick.
+	}
+
+	@Override
+	public void deleteCheckedItems() {
+		for (NfcTagData nfcTagData : nfcTagAdapter.getCheckedItems()) {
+			nfcTagAdapter.remove(nfcTagData);
 		}
+		clearCheckedItems();
 	}
 
 	@Override
-	public void setShowDetails(boolean showDetails) {
-		// TODO CHANGE THIS!!! (was just a quick fix)
-		if (adapter != null) {
-			adapter.setShowDetails(showDetails);
-			adapter.notifyDataSetChanged();
+	protected void copyCheckedItems() {
+		for (NfcTagData nfcTagData : nfcTagAdapter.getCheckedItems()) {
+			copyNfcTag(nfcTagData);
 		}
+		clearCheckedItems();
 	}
 
-	@Override
-	public void setSelectMode(int selectMode) {
-		adapter.setSelectMode(selectMode);
-		adapter.notifyDataSetChanged();
-	}
+	private void copyNfcTag(NfcTagData nfcTagData) {
+		String name = Utils.getUniqueNfcTagName(nfcTagData.getNfcTagName());
+		String uid = nfcTagData.getNfcTagUid();
 
-	@Override
-	public int getSelectMode() {
-		return adapter.getSelectMode();
-	}
-
-	@Override
-	public void startCopyActionMode() {
-		if (actionMode == null) {
-			actionMode = getActivity().startActionMode(copyModeCallBack);
-			unregisterForContextMenu(listView);
-			BottomBar.hideBottomBar(getActivity());
-			isRenameActionMode = false;
-		}
-	}
-
-	@Override
-	public void startCommentOutActionMode() {
-		// Comment out not supported
-	}
-
-	@Override
-	public void startRenameActionMode() {
-		if (actionMode == null) {
-			actionMode = getActivity().startActionMode(renameModeCallBack);
-			unregisterForContextMenu(listView);
-			BottomBar.hideBottomBar(getActivity());
-			isRenameActionMode = true;
-		}
-	}
-
-	@Override
-	public void startDeleteActionMode() {
-		if (actionMode == null) {
-			actionMode = getActivity().startActionMode(deleteModeCallBack);
-			unregisterForContextMenu(listView);
-			BottomBar.hideBottomBar(getActivity());
-			isRenameActionMode = false;
-		}
-	}
-
-	@Override
-	public void startBackPackActionMode() {
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	@Override
-	public void onNfcTagEdit(View view) {
-	}
-
-	public void onNfcTagChecked() {
-		if (isRenameActionMode || actionMode == null) {
-			return;
-		}
-
-		updateActionModeTitle();
-		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
-				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
-	}
-
-	private void updateActionModeTitle() {
-		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
-
-		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(actionModeTitle);
-		} else {
-			String appendix = multipleItemAppendixDeleteActionMode;
-
-			if (numberOfSelectedItems == 1) {
-				appendix = singleItemAppendixDeleteActionMode;
-			}
-
-			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
-
-			int titleLength = actionModeTitle.length();
-
-			Spannable completeSpannedTitle = new SpannableString(completeTitle);
-			completeSpannedTitle.setSpan(
-					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
-					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			actionMode.setTitle(completeSpannedTitle);
-		}
-	}
-
-	public void updateNfcTagAdapter(NfcTagData newNfcTagData) {
-
-		if (nfcTagDataListChangedAfterNewListener != null) {
-			nfcTagDataListChangedAfterNewListener.onNfcTagDataListChangedAfterNew(newNfcTagData);
-		}
-
-		//scroll down the list to the new item:
-		final ListView listView = getListView();
-		listView.post(new Runnable() {
-			@Override
-			public void run() {
-				listView.setSelection(listView.getCount() - 1);
-			}
-		});
-
-		if (isResultHandled) {
-			isResultHandled = false;
-
-			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-			if (scriptActivity.getIsNfcTagFragmentFromWhenNfcBrickNew()
-					&& scriptActivity.getIsNfcTagFragmentHandleAddButtonHandled()) {
-				NfcTagController.getInstance().switchToScriptFragment(this);
-			}
-		}
-	}
-
-	@Override
-	public void handleAddButton() {
-		//Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		NfcTagData newNfcTagData = new NfcTagData();
+		newNfcTagData.setNfcTagName(name);
+		newNfcTagData.setNfcTagUid(uid);
+		nfcTagAdapter.add(newNfcTagData);
 	}
 
 	@Override
 	public void showRenameDialog() {
-		RenameNfcTagDialog renameNfcTagDialog = new RenameNfcTagDialog(R.string.rename_nfctag_dialog, R
-				.string.nfctag_name, selectedNfcTag.getNfcTagName());
-		renameNfcTagDialog.show(getFragmentManager(), RenameNfcTagDialog.DIALOG_FRAGMENT_TAG);
+		nfcTagToEdit = nfcTagAdapter.getCheckedItems().get(0);
+		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_nfctag_dialog, R.string.nfctag_name, nfcTagToEdit
+				.getNfcTagName(), this);
+		dialog.show(getFragmentManager(), RenameItemDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
-	public void showDeleteDialog() {
-		DeleteNfcTagDialog deleteNfcTagDialog = DeleteNfcTagDialog.newInstance(selectedNfcTagPosition);
-		deleteNfcTagDialog.show(getFragmentManager(), DeleteNfcTagDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	private class NfcTagRenamedReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_NFCTAG_RENAMED)) {
-				String newTagName = intent.getExtras().getString(RenameNfcTagDialog.EXTRA_NEW_NFCTAG_TITLE);
-
-				if (newTagName != null && !newTagName.equalsIgnoreCase("") && !newTagName.equalsIgnoreCase(context.getString(R.string.brick_when_nfc_default_all))) {
-					selectedNfcTag.setNfcTagName(newTagName);
-					adapter.notifyDataSetChanged();
-				}
-			}
-		}
-	}
-
-	private class NfcTagDeletedReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_NFCTAG_DELETED)) {
-				adapter.notifyDataSetChanged();
-				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
-			}
-		}
-	}
-
-	private class NfcTagCopiedReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-
-			if (intent.getAction().equals(ScriptActivity.ACTION_NFCTAG_COPIED)) {
-				adapter.notifyDataSetChanged();
-				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
-			}
-		}
-	}
-
-	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
-				menu);
-		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				for (int position = 0; position < nfcTagDataList.size(); position++) {
-					adapter.addCheckedItem(position);
-				}
-				adapter.notifyDataSetChanged();
-				onNfcTagChecked();
-			}
-		});
-	}
-
-	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_SINGLE);
-			mode.setTitle(R.string.rename);
-
-			setActionModeActive(true);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			((NfcTagAdapter) adapter).onDestroyActionModeRename(mode, listView);
-		}
-	};
-
-	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-
-			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-			setActionModeActive(true);
-
-			actionModeTitle = getString(R.string.copy);
-			singleItemAppendixDeleteActionMode = getString(R.string.nfctag);
-			multipleItemAppendixDeleteActionMode = getString(R.string.nfctags);
-
-			mode.setTitle(actionModeTitle);
-			addSelectAllActionModeButton(mode, menu);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			((NfcTagAdapter) adapter).onDestroyActionModeCopy(mode);
-		}
-	};
-
-	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-			setActionModeActive(true);
-
-			actionModeTitle = getString(R.string.delete);
-			singleItemAppendixDeleteActionMode = getString(R.string.nfctag);
-			multipleItemAppendixDeleteActionMode = getString(R.string.nfctags);
-
-			mode.setTitle(R.string.delete);
-			addSelectAllActionModeButton(mode, menu);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			if (adapter.getAmountOfCheckedItems() == 0) {
-				clearCheckedNfcTagsAndEnableButtons();
-			} else {
-				showConfirmDeleteDialog();
-			}
-		}
-	};
-
-	private void showConfirmDeleteDialog() {
-		int titleId = R.string.dialog_confirm_delete_nfctag_title;
-		if (adapter.getAmountOfCheckedItems() == 1) {
-			titleId = R.string.dialog_confirm_delete_nfctag_title;
-		} else {
-			titleId = R.string.dialog_confirm_delete_multiple_nfctags_title;
-		}
-
-		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
-		builder.setTitle(titleId);
-		builder.setMessage(R.string.dialog_confirm_delete_nfctag_message);
-		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				NfcTagController.getInstance().deleteCheckedNfcTags(getActivity(), adapter, nfcTagDataList);
-				clearCheckedNfcTagsAndEnableButtons();
-			}
-		});
-		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-				clearCheckedNfcTagsAndEnableButtons();
-			}
-		});
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
-	}
-
-	public void clearCheckedNfcTagsAndEnableButtons() {
-		setSelectMode(ListView.CHOICE_MODE_NONE);
-		adapter.clearCheckedItems();
-
-		actionMode = null;
-		setActionModeActive(false);
-
-		registerForContextMenu(listView);
-		BottomBar.showBottomBar(getActivity());
+	public boolean itemNameExists(String newName) {
+		return newName.equalsIgnoreCase(getString(R.string.brick_when_nfc_default_all));
 	}
 
 	@Override
-	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-		switch (keyCode) {
-			case KeyEvent.KEYCODE_BACK:
-				ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-				if (scriptActivity.getIsNfcTagFragmentFromWhenNfcBrickNew()) {
-					NfcTagController.getInstance().switchToScriptFragment(this);
-					BottomBar.showAddButton(getActivity());
-					return true;
-				}
-			default:
-				break;
-		}
-		return false;
-	}
-
-	public View getView(int position, View convertView) {
-		NfcTagViewHolder holder;
-
-		if (convertView == null) {
-			convertView = View.inflate(getActivity(), R.layout.fragment_nfctag_nfctaglist_item, null);
-
-			holder = new NfcTagViewHolder();
-			holder.scanNewTagButton = (ImageButton) convertView.findViewById(R.id.fragment_nfctag_item_image_button);
-			holder.scanNewTagButton.setImageResource(R.drawable.ic_program_menu_nfc);
-			holder.scanNewTagButton.setContentDescription(getString(R.string.nfctag_scan));
-
-			holder.nfcTagFragmentButtonLayout = (LinearLayout) convertView
-					.findViewById(R.id.fragment_nfctag_item_main_linear_layout);
-			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_nfctag_item_checkbox);
-			holder.titleTextView = (TextView) convertView.findViewById(R.id.fragment_nfctag_item_title_text_view);
-
-			holder.nfcTagUidPrefixTextView = (TextView) convertView
-					.findViewById(R.id.fragment_nfctag_item_uid_prefix_text_view);
-			holder.nfcTagUidTextView = (TextView) convertView.findViewById(R.id.fragment_nfctag_item_uid_text_view);
-			holder.nfcTagDetailsLinearLayout = (LinearLayout) convertView.findViewById(R.id.fragment_nfctag_item_detail_linear_layout);
-
-			convertView.setTag(holder);
-		} else {
-			holder = (NfcTagViewHolder) convertView.getTag();
-		}
-
-		NfcTagController controller = NfcTagController.getInstance();
-		controller.updateNfcTagLogic(position, holder, adapter);
-		return convertView;
-	}
-
-	public interface OnNfcTagDataListChangedAfterNewListener {
-
-		void onNfcTagDataListChangedAfterNew(NfcTagData nfcTagData);
-	}
-
-	public NfcTagDeletedReceiver getNfcTagDeletedReceiver() {
-		return nfcTagDeletedReceiver;
-	}
-
-	public void setNfcTagDeletedReceiver(NfcTagDeletedReceiver nfcTagDeletedReceiver) {
-		this.nfcTagDeletedReceiver = nfcTagDeletedReceiver;
-	}
-
-	public NfcTagRenamedReceiver getNfcTagRenamedReceiver() {
-		return nfcTagRenamedReceiver;
-	}
-
-	public void setNfcTagRenamedReceiver(NfcTagRenamedReceiver nfcTagRenamedReceiver) {
-		this.nfcTagRenamedReceiver = nfcTagRenamedReceiver;
-	}
-
-	public NfcTagCopiedReceiver getNfcTagCopiedReceiver() {
-		return nfcTagCopiedReceiver;
-	}
-
-	public void setNfcTagCopiedReceiver(NfcTagCopiedReceiver nfcTagCopiedReceiver) {
-		this.nfcTagCopiedReceiver = nfcTagCopiedReceiver;
-	}
-
-	public void setSelectedNfcTagData(NfcTagData selectedNfcTagData) {
-		this.selectedNfcTag = selectedNfcTagData;
-	}
-
-	public List<NfcTagData> getNfcTagDataList() {
-		return nfcTagDataList;
-	}
-
-	private class NfcTagsListInitReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_NFCTAGS_LIST_INIT)) {
-				adapter.notifyDataSetChanged();
-			}
-		}
-	}
-
-	private class NfcListTouchActionUpReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_NFC_TOUCH_ACTION_UP)) {
-				((DynamicListView) getListView()).notifyListItemTouchActionUp();
-			}
-		}
+	public void renameItem(String newName) {
+		nfcTagToEdit.setNfcTagName(newName);
+		clearCheckedItems();
+		nfcTagAdapter.notifyDataSetChanged();
 	}
 
 	@Override
-	public void handleCheckBoxClick(View view) {
+	public void showReplaceItemsInBackPackDialog() {
+		//NO BACKPACK FOR NFC TAGS
+	}
+
+	@Override
+	public void packCheckedItems() {
+		//NO BACKPACK FOR NFC TAGS
+	}
+
+	@Override
+	protected boolean isBackPackEmpty() {
+		//NO BACKPACK FOR NFC TAGS
+		return true;
+	}
+
+	@Override
+	protected void changeToBackPack(){
+		//NO BACKPACK FOR NFC TAGS
 	}
 }

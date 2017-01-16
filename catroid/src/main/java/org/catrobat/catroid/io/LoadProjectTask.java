@@ -116,7 +116,6 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	public interface OnLoadProjectCompleteListener {
 
 		void onLoadProjectSuccess(boolean startProjectActivity);
-
 		void onLoadProjectFailure();
 	}
 }

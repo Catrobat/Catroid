@@ -317,7 +317,7 @@ public class GoToBrick extends BrickBaseType {
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
 		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpackHiddenSprite(getDestinationSprite());
+		Sprite backPackedSprite = BackPackSpriteController.backpackHidden(getDestinationSprite());
 		setDestinationSprite(backPackedSprite);
 		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}

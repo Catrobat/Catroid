@@ -47,6 +47,7 @@ public abstract class TextDialog extends DialogFragment {
 	protected int inputLabel;
 	protected String previousText;
 	protected boolean allowEmptyInput;
+	protected String hint;
 
 	public TextDialog(int title, int inputLabel, String previousText, boolean allowEmptyInput) {
 		this.title = title;
@@ -55,8 +56,16 @@ public abstract class TextDialog extends DialogFragment {
 		this.allowEmptyInput = allowEmptyInput;
 	}
 
+	public TextDialog(int title, int inputLabel, String previousText, boolean allowEmptyInput, String hint) {
+		this.title = title;
+		this.inputLabel = inputLabel;
+		this.previousText = previousText;
+		this.allowEmptyInput = allowEmptyInput;
+		this.hint = hint;
+	}
+
 	protected View inflateLayout() {
-		final LayoutInflater inflater = getActivity().getLayoutInflater();
+		LayoutInflater inflater = getActivity().getLayoutInflater();
 		return inflater.inflate(R.layout.dialog_text_input, null);
 	}
 
@@ -74,6 +83,10 @@ public abstract class TextDialog extends DialogFragment {
 
 		input = (EditText) view.findViewById(R.id.edit_text);
 		input.setText(previousText);
+
+		if (hint != null) {
+			input.setHint(hint);
+		}
 
 		builder.setPositiveButton(R.string.ok, null);
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
