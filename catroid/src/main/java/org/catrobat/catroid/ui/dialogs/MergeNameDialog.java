@@ -44,6 +44,7 @@ import android.widget.EditText;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.merge.MergeTask;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class MergeNameDialog extends DialogFragment {
@@ -136,7 +137,9 @@ public class MergeNameDialog extends DialogFragment {
 		if (StorageHandler.getInstance().projectExists(mergeName)) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 		} else {
-			task.mergeProjects(nameEditText.getText().toString());
+			if (!task.mergeProjects(nameEditText.getText().toString())) {
+				ToastUtil.showError(getActivity(), R.string.error_merge);
+			}
 			this.dismiss();
 		}
 	}
