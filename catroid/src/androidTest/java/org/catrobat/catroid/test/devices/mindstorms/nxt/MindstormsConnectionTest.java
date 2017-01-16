@@ -43,7 +43,7 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
 		MindstormsConnectionImpl connection = new MindstormsConnectionImpl(null);
-		Reflection.setPrivateField(connection, "nxtOutputStream", outStream);
+		Reflection.setPrivateField(connection, "legoOutputStream", outStream);
 
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.SET_OUTPUT_STATE, false);
 		command.append((byte) 0x1);
@@ -73,8 +73,8 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
 		MindstormsConnectionImpl connection = new MindstormsConnectionImpl(null);
-		Reflection.setPrivateField(connection, "nxtOutputStream", outStream);
-		Reflection.setPrivateField(connection, "nxtInputStream", new DataInputStream(inStream));
+		Reflection.setPrivateField(connection, "legoOutputStream", outStream);
+		Reflection.setPrivateField(connection, "legoInputStream", new DataInputStream(inStream));
 
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.SET_OUTPUT_STATE, false);
 		command.append((byte) 0x1);

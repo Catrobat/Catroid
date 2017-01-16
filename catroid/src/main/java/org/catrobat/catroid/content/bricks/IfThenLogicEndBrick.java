@@ -44,6 +44,7 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfThenLogicEndBrick.class.getSimpleName();
+
 	private transient IfThenLogicBeginBrick ifBeginBrick;
 
 	public IfThenLogicEndBrick(IfThenLogicBeginBrick beginBrick) {
@@ -132,5 +133,9 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 
 		copyBrick.ifBeginBrick = null;
 		return copyBrick;
+	}
+
+	public IfThenLogicBeginBrick getIfBeginBrick() {
+		return ifBeginBrick;
 	}
 }

@@ -67,6 +67,7 @@ import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
@@ -109,6 +110,10 @@ import java.util.Locale;
 public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
+
+	private enum RemixUrlParsingState {
+		STARTING, TOKEN, BETWEEN
+	}
 
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 
@@ -224,6 +229,92 @@ public final class Utils {
 		} catch (IOException e) {
 			return null;
 		}
+	}
+
+	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
+		String escapedFirstProgramName = headerOfFirstProgram.getProgramName();
+		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
+				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
+		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
+				Constants.REMIX_URL_SUFIX_REPLACE_INDICATOR);
+		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SEPARATOR,
+				Constants.REMIX_URL_REPLACE_SEPARATOR);
+
+		String escapedSecondProgramName = headerOfSecondProgram.getProgramName();
+		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
+				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
+		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
+				Constants.REMIX_URL_SUFIX_REPLACE_INDICATOR);
+		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_SEPARATOR,
+				Constants.REMIX_URL_REPLACE_SEPARATOR);
+
+		StringBuilder remixUrlString = new StringBuilder(escapedFirstProgramName);
+
+		if (!headerOfFirstProgram.getRemixParentsUrlString().equals("")) {
+			remixUrlString
+					.append(' ')
+					.append(Constants.REMIX_URL_PREFIX_INDICATOR)
+					.append(headerOfFirstProgram.getRemixParentsUrlString())
+					.append(Constants.REMIX_URL_SUFIX_INDICATOR);
+		}
+
+		remixUrlString
+				.append(Constants.REMIX_URL_SEPARATOR)
+				.append(' ')
+				.append(escapedSecondProgramName);
+
+		if (!headerOfSecondProgram.getRemixParentsUrlString().equals("")) {
+			remixUrlString
+					.append(' ')
+					.append(Constants.REMIX_URL_PREFIX_INDICATOR)
+					.append(headerOfSecondProgram.getRemixParentsUrlString())
+					.append(Constants.REMIX_URL_SUFIX_INDICATOR);
+		}
+
+		return remixUrlString.toString();
+	}
+
+	// based on: http://stackoverflow.com/a/27295688
+	public static List<String> extractRemixUrlsFromString(String text) {
+		RemixUrlParsingState state = RemixUrlParsingState.STARTING;
+		ArrayList<String> extractedUrls = new ArrayList<>();
+		StringBuffer temp = new StringBuffer("");
+
+		for (int index = 0; index < text.length(); index++) {
+			char currentCharacter = text.charAt(index);
+			switch (currentCharacter) {
+				case Constants.REMIX_URL_PREFIX_INDICATOR:
+					if (state == RemixUrlParsingState.STARTING) {
+						state = RemixUrlParsingState.BETWEEN;
+					} else if (state == RemixUrlParsingState.TOKEN) {
+						temp.delete(0, temp.length());
+						state = RemixUrlParsingState.BETWEEN;
+					}
+					break;
+
+				case Constants.REMIX_URL_SUFIX_INDICATOR:
+					if (state == RemixUrlParsingState.TOKEN) {
+						String extractedUrl = temp.toString().trim();
+						if (!extractedUrl.contains(String.valueOf(Constants.REMIX_URL_SEPARATOR))
+								&& extractedUrl.length() > 0) {
+							extractedUrls.add(extractedUrl);
+						}
+						temp.delete(0, temp.length());
+						state = RemixUrlParsingState.BETWEEN;
+					}
+					break;
+
+				default:
+					state = RemixUrlParsingState.TOKEN;
+					temp.append(currentCharacter);
+			}
+		}
+
+		if (extractedUrls.size() == 0 && !text.contains(String.valueOf(Constants.REMIX_URL_SEPARATOR))) {
+			extractedUrls.add(text);
+		}
+
+		return extractedUrls;
 	}
 
 	public static Date getScratchSecondReleasePublishedDate() {

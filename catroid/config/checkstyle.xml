@@ -255,6 +255,13 @@
     <property name="message" value="Empty line contains whitespaces." />
   </module>
 
+  <module name="RegexpSingleline">
+    <property name="id" value="EllipsesCheck"/>
+    <property name="fileExtensions" value="java,xml" />
+    <property name="format" value="&amp;#8230;" />
+    <property name="message" value="Use ellipses character … instead of &amp;#8230;." />
+  </module>
+
   <module name="SuppressWithNearbyCommentFilter">
     <property name="commentFormat" value="CHECKSTYLE DISABLE ([\w\|]+) FOR (-?\d+) LINES" />
     <property name="checkFormat" value="$1" />
@@ -264,6 +271,10 @@
   <module name="SuppressionCommentFilter">
     <property name="offCommentFormat" value="@formatter\:off" />
     <property name="onCommentFormat" value="@formatter\:on" />
+  </module>
+
+  <module name="SuppressionFilter">
+    <property name="file" value="catroid/config/checkstyle_suppressions.xml" />
   </module>
 
 </module>

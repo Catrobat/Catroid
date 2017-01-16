@@ -169,6 +169,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		AppEventsLogger.activateApp(this);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
+		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, false);
 
 		SettingsActivity.setDroneChooserEnabled(this, false);
 

@@ -45,7 +45,9 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	ConcurrentFormulaHashMap formulaMap;
 
 	@XStreamOmitField
-	private List<BackPackedData> backPackedDataList;
+	private List<BackPackedListData> backPackedListData;
+	@XStreamOmitField
+	private List<BackPackedVariableData> backPackedVariableData;
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
 		if (formulaMap != null && formulaMap.containsKey(brickField)) {
@@ -117,8 +119,12 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		List<String> variableNames = new ArrayList<>();
 		List<String> listNames = new ArrayList<>();
 
-		if (backPackedDataList == null) {
-			backPackedDataList = new ArrayList<>();
+		if (backPackedListData == null) {
+			backPackedListData = new ArrayList<>();
+		}
+
+		if (backPackedVariableData == null) {
+			backPackedVariableData = new ArrayList<>();
 		}
 
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
@@ -135,10 +141,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 				continue;
 			}
 			type = dataContainer.getTypeOfUserVariable(variableName, currentSprite);
-			BackPackedData backPackedData = new BackPackedData();
+			BackPackedVariableData backPackedData = new BackPackedVariableData();
 			backPackedData.userVariable = variable;
 			backPackedData.userVariableType = type;
-			backPackedDataList.add(backPackedData);
+			backPackedVariableData.add(backPackedData);
 		}
 
 		for (String listName : listNames) {
@@ -147,14 +153,18 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 				continue;
 			}
 			type = dataContainer.getTypeOfUserList(listName, currentSprite);
-			BackPackedData backPackedData = new BackPackedData();
+			BackPackedListData backPackedData = new BackPackedListData();
 			backPackedData.userList = userList;
 			backPackedData.userListType = type;
-			backPackedDataList.add(backPackedData);
+			backPackedListData.add(backPackedData);
 		}
 	}
 
-	public List<BackPackedData> getBackPackedDataList() {
-		return backPackedDataList;
+	public List<BackPackedListData> getBackPackedListData() {
+		return backPackedListData;
+	}
+
+	public List<BackPackedVariableData> getBackPackedVariableData() {
+		return backPackedVariableData;
 	}
 }

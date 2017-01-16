@@ -230,6 +230,8 @@ public final class SoundController {
 			public void onClick(View view) {
 				if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
 					holder.checkbox.setChecked(!holder.checkbox.isChecked());
+				} else {
+					soundAdapter.getOnSoundEditListener().onSoundEdit(view);
 				}
 			}
 		};

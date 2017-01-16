@@ -29,8 +29,8 @@ public class UserVariable implements Serializable {
 
 	private String name;
 	private transient Object value;
-	private boolean visible = true;
-	private boolean dummy = false;
+	private transient boolean visible = true;
+	private transient boolean dummy = false;
 
 	public UserVariable(String name) {
 		this.name = name;

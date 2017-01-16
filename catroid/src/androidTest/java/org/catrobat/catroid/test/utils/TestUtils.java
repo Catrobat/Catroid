@@ -29,6 +29,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+
 import junit.framework.Assert;
 
 import org.catrobat.catroid.ProjectManager;
@@ -441,6 +444,44 @@ public final class TestUtils {
 			Thread.sleep((long) time);
 		} catch (InterruptedException e) {
 			Log.e(TAG, e.getMessage());
+		}
+	}
+
+	public static Pixmap createRectanglePixmap(int width, int height, Color color) {
+		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+		pixmap.setColor(color);
+		pixmap.fillRectangle(0, 0, width, height);
+		return pixmap;
+	}
+
+	public static void copyAssetProjectZipFile(Context context, String fileName, String destinationFolder) {
+		File dstFolder = new File(destinationFolder);
+		dstFolder.mkdirs();
+
+		InputStream inputStream = null;
+		FileOutputStream outputStream = null;
+		try {
+			inputStream = context.getResources().getAssets().open(fileName);
+			outputStream = new FileOutputStream(destinationFolder + "/" + fileName);
+			byte[] buffer = new byte[1024];
+			int read;
+			while ((read = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, read);
+			}
+			outputStream.flush();
+		} catch (IOException exception) {
+			Log.e(TAG, "cannot copy asset project", exception);
+		} finally {
+			try {
+				if (inputStream != null) {
+					inputStream.close();
+				}
+				if (outputStream != null) {
+					outputStream.close();
+				}
+			} catch (IOException exception) {
+				Log.e(TAG, "Error closing streams", exception);
+			}
 		}
 	}
 }

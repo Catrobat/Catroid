@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.widget.ListView;
@@ -31,7 +32,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -39,21 +40,25 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class SetRotationStyleTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class LegoEv3SetLedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private Project project;
+	private LegoEv3SetLedBrick setLedBrick;
 
-	public SetRotationStyleTest() {
+	public LegoEv3SetLedBrickTest() {
 		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
 		super.setUp();
 	}
 
-	public void testSetRotationStyleBrick() {
+	public void testEv3SetLedBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -63,27 +68,28 @@ public class SetRotationStyleTest extends BaseActivityInstrumentationTestCase<Sc
 		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-
+		ArrayList<Brick> projectBrickList = project.getSceneList().get(0).getSpriteList().get(0).getScript(0)
+				.getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
+
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_rotation_style)));
-		assertNotNull("Spinner does not exist.", solo.getView(R.id.brick_set_rotation_style_spinner));
-		solo.clickOnView(solo.getView(R.id.brick_set_rotation_style_spinner));
-		assertNotNull("Spinner empty? (left/right rotation missing)", solo.getText(solo.getString(R.string.brick_set_rotation_style_lr)));
-		assertNotNull("Spinner empty? (no rotation missing)", solo.getText(solo.getString(R.string.brick_set_rotation_style_no)));
-		assertNotNull("Spinner empty? (normal rotation missing)", solo.getText(solo.getString(R.string.brick_set_rotation_style_normal)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.ev3_set_led_status)));
+
+		String[] ledStatus = getActivity().getResources().getStringArray(R.array.ev3_led_status_chooser);
+		assertTrue("Spinner items list too short!", ledStatus.length == 10);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
-		ProjectManager.getInstance().setProject(project);
-		script.addBrick(new SetRotationStyleBrick());
+
+		setLedBrick = new LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_GREEN);
+
+		script.addBrick(setLedBrick);
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getSceneList().get(0).addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

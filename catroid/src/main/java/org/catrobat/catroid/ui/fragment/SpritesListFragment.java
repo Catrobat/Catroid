@@ -115,9 +115,10 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 	private boolean isCopyActionMode;
 	private boolean isDeleteActionMode;
 	private boolean selectAll = true;
-	private boolean actionModeActive = false;
 
+	private boolean actionModeActive = false;
 	private Button okButton;
+
 	private DynamicExpandableListView listView;
 
 	@Override

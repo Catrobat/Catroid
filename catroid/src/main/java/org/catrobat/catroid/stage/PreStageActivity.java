@@ -150,6 +150,10 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			connectBTDevice(BluetoothDevice.LEGO_NXT);
 		}
 
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_EV3) > 0) {
+			connectBTDevice(BluetoothDevice.LEGO_EV3);
+		}
+
 		if ((requiredResources & Brick.BLUETOOTH_PHIRO) > 0) {
 			connectBTDevice(BluetoothDevice.PHIRO);
 		}

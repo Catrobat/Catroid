@@ -26,7 +26,15 @@ import android.content.Context;
 import android.widget.ListView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTI2CUltraSonicSensor;
@@ -34,14 +42,22 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import java.io.File;
+import java.util.ArrayList;
+
 public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private Context applicationContext;
+	private final String spriteName = "testSprite";
+	private final String projectName = UiTestUtils.PROJECTNAME1;
+	private static final int IMAGE_FILE_ID = org.catrobat.catroid.test.R.raw.icon;
 
 	public LegoNXTPreferencesTests() {
 		super(MainMenuActivity.class);
@@ -53,7 +69,7 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		UiTestUtils.prepareStageForTest();
 
 		applicationContext = getInstrumentation().getTargetContext().getApplicationContext();
-		SettingsActivity.disableLegoMindstormsSensorInfoDialog(applicationContext);
+		SettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(applicationContext);
 	}
 
 	public void testNXTAllBricksAvailable() throws InterruptedException {
@@ -104,12 +120,28 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testNXTSensorsSetCorrectly() throws InterruptedException {
+		createTestproject(projectName);
+
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(applicationContext, true);
 		LegoNXT nxt = new LegoNXTImpl(applicationContext);
 		ConnectionDataLogger logger = ConnectionDataLogger.createLocalConnectionLogger();
 		nxt.setConnection(logger.getConnectionProxy());
 
 		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
+
+		solo.waitForText(solo.getString(R.string.main_menu_programs));
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForText(solo.getString(R.string.programs));
+
+		solo.clickOnText(projectName);
+
+		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
+		sensorMapping[0] = NXTSensor.Sensor.SOUND;
+		sensorMapping[1] = NXTSensor.Sensor.SOUND;
+		sensorMapping[2] = NXTSensor.Sensor.SOUND;
+		sensorMapping[3] = NXTSensor.Sensor.SOUND;
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext, sensorMapping);
 
 		solo.clickOnActionBarItem(R.id.settings);
 
@@ -288,9 +320,44 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		solo.sleep(300);
 
-		assertTrue("NXT sensor 1 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_1)));
-		assertTrue("NXT sensor 2 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_2)));
-		assertTrue("NXT sensor 3 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_3)));
-		assertTrue("NXT sensor 4 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_4)));
+		assertTrue("NXT sensor light not available!", solo.searchText(solo.getString(R.string
+				.formula_editor_sensor_lego_nxt_light)));
+		assertTrue("NXT sensor light active not available!", solo.searchText(solo.getString(R.string
+				.formula_editor_sensor_lego_nxt_light_active)));
+		assertTrue("NXT sensor sound not available!", solo.searchText(solo.getString(R.string
+				.formula_editor_sensor_lego_nxt_sound)));
+		assertTrue("NXT sensor touch not available!", solo.searchText(solo.getString(R.string
+				.formula_editor_sensor_lego_nxt_touch)));
+		assertTrue("NXT sensor ultrasonic not available!", solo.searchText(solo.getString(R.string
+				.formula_editor_sensor_lego_nxt_ultrasonic)));
+	}
+
+	private void createTestproject(String projectName) {
+
+		Sprite firstSprite = new SingleSprite(spriteName);
+		Script startScript = new StartScript();
+		SetLookBrick setLookBrick = new SetLookBrick();
+
+		WaitBrick firstWaitBrick = new WaitBrick(123);
+
+		startScript.addBrick(firstWaitBrick);
+
+		firstSprite.addScript(startScript);
+
+		ArrayList<Sprite> spriteList = new ArrayList<>();
+		spriteList.add(firstSprite);
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
+
+		String imageName = "image";
+		File image = UiTestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), imageName, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.FileTypes.IMAGE);
+
+		LookData lookData = new LookData();
+		lookData.setLookFilename(image.getName());
+		lookData.setLookName(imageName);
+		setLookBrick.setLook(lookData);
+		firstSprite.getLookDataList().add(lookData);
+
+		StorageHandler.getInstance().saveProject(project);
 	}
 }

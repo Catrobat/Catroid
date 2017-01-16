@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -57,6 +58,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -65,6 +67,8 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.LegoEV3SensorConfigInfoDialog;
+import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.MergeSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
@@ -135,6 +139,8 @@ public class ProjectActivity extends BaseActivity {
 		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 		fragmentTransaction.commit();
 
+		showLegoInfoFragmentIfNeeded(this.getFragmentManager());
+
 		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 
@@ -142,6 +148,7 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
 		SettingsActivity.setDroneChooserEnabled(this, true);
 	}
 
@@ -579,5 +586,42 @@ public class ProjectActivity extends BaseActivity {
 		} else if (currentFragment instanceof SpritesListFragment) {
 			currentFragmentPosition = FRAGMENT_SPRITES;
 		}
+	}
+
+	private boolean needToShowLegoEV3InfoDialog() {
+		boolean isLegoEV3InfoDialogDisabled = SettingsActivity
+				.getShowLegoEV3MindstormsSensorInfoDialog(getApplicationContext());
+
+		boolean legoEV3ResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()
+				& Brick.BLUETOOTH_LEGO_EV3) != 0;
+
+		boolean dialogAlreadyShown = !ProjectManager.getInstance().getShowLegoSensorInfoDialog();
+
+		return !isLegoEV3InfoDialogDisabled && legoEV3ResourcesRequired && !dialogAlreadyShown;
+	}
+
+	private boolean needToShowLegoNXTInfoDialog() {
+		boolean isLegoNXTInfoDialogDisabled = SettingsActivity
+				.getShowLegoNXTMindstormsSensorInfoDialog(getApplicationContext());
+
+		boolean legoNXTResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()
+				& Brick.BLUETOOTH_LEGO_NXT) != 0;
+
+		boolean dialogAlreadyShown = !ProjectManager.getInstance().getShowLegoSensorInfoDialog();
+
+		return !isLegoNXTInfoDialogDisabled && legoNXTResourcesRequired && !dialogAlreadyShown;
+	}
+
+	private void showLegoInfoFragmentIfNeeded(FragmentManager fragmentManager) {
+
+		if (needToShowLegoNXTInfoDialog()) {
+			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
+			dialog.show(fragmentManager, LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		}
+		if (needToShowLegoEV3InfoDialog()) {
+			DialogFragment dialog = new LegoEV3SensorConfigInfoDialog();
+			dialog.show(fragmentManager, LegoEV3SensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		}
+		ProjectManager.getInstance().setShowLegoSensorInfoDialog(false);
 	}
 }

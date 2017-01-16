@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.arduino.Arduino;
+import org.catrobat.catroid.devices.arduino.ArduinoImpl;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
@@ -67,11 +68,8 @@ public class ArduinoSendDigitalValueAction extends TemporalAction {
 		}
 
 		if ((!restart)
-				&& (pinNumberInterpretation == 2)
-				|| (pinNumberInterpretation == 4)
-				|| (pinNumberInterpretation == 8)
-				|| (pinNumberInterpretation == 12)
-				|| (pinNumberInterpretation == 13)) {
+				&& (pinNumberInterpretation >= 0)
+				&& (pinNumberInterpretation < ArduinoImpl.NUMBER_OF_DIGITAL_PINS)) {
 			this.pin = pinNumberInterpretation;
 			this.value = pinValueInterpretation;
 		}

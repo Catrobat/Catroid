@@ -49,7 +49,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 
 	public void testNormalMode() {
 		ActionFactory factory = sprite.getActionFactory();
-		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, new Formula(Look.ROTATION_STYLE_ALL_AROUND));
+		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_ALL_AROUND);
 		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(Direction.RIGHT
 				.getDegrees()));
 
@@ -60,8 +60,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 
 	public void testNoMode() {
 		ActionFactory factory = sprite.getActionFactory();
-		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, new Formula(Look
-				.ROTATION_STYLE_NONE));
+		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_NONE);
 		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(Direction.LEFT
 				.getDegrees()));
 
@@ -73,8 +72,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 
 	public void testLRMode() {
 		ActionFactory factory = sprite.getActionFactory();
-		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, new Formula(Look
-				.ROTATION_STYLE_LEFT_RIGHT_ONLY));
+		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
 		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(Direction.LEFT
 				.getDegrees()));
 
