@@ -85,6 +85,7 @@ public class SceneListFragmentTest extends BaseActivityInstrumentationTestCase<M
 	private Project project;
 
 	private String delete;
+	private String copy;
 	private String unpack;
 	private String backpack;
 	private String backpackTitle;
@@ -120,6 +121,7 @@ public class SceneListFragmentTest extends BaseActivityInstrumentationTestCase<M
 		Resources resources = getActivity().getBaseContext().getResources();
 		backpackTitle = solo.getString(R.string.backpack_title);
 		delete = solo.getString(R.string.delete);
+		copy = solo.getString(R.string.copy);
 		unpack = solo.getString(R.string.unpack);
 		backpack = solo.getString(R.string.backpack);
 		backpackReplaceDialogSingle = resources.getString(R.string.backpack_replace_scene, SCENE_NAME);
@@ -216,6 +218,18 @@ public class SceneListFragmentTest extends BaseActivityInstrumentationTestCase<M
 		for (UserVariable userVariable : userVariableList) {
 			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));
 		}
+	}
+
+	public void testCopySceneActionMode() {
+		int scenesCount = getSceneListAdapter(false).getCount();
+
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
+		assertEquals("Scene " + SCENE_NAME + " was not copied", scenesCount + 1, getSceneListAdapter(false).getCount());
+
+		assertTrue("BottomBar is not visible!", solo.getView(R.id.bottom_bar).isShown());
 	}
 
 	public void testDeleteAllButOneScenesActionMode() {
