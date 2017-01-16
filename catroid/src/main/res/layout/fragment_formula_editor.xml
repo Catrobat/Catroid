@@ -28,40 +28,44 @@
     android:theme="@android:style/Theme.Light" >
 
     <LinearLayout
-        android:id="@+id/formula_editor_brick_space"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" />
-
-    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
 
-        <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
-            android:id="@+id/formula_editor_edit_field"
+        <LinearLayout
+            android:id="@+id/formula_editor_brick_space"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/white"
-            android:hint="@string/formula_nothing_selected"
-            android:inputType="textMultiLine"
-            android:lineSpacingExtra="5dp"
-            android:maxLines="5"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            android:textColor="@color/solid_black"
-            android:textSize="@dimen/text_size_xxlarge" />
-    </FrameLayout>
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.5" >
-    </View>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" >
+
+            <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
+                android:id="@+id/formula_editor_edit_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white"
+                android:hint="@string/formula_nothing_selected"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="5dp"
+                android:maxLines="5"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:textColor="@color/solid_black"
+                android:textSize="@dimen/text_size_xxlarge" />
+        </FrameLayout>
+
+    </LinearLayout>
 
     <include
         android:id="@+id/formula_editor_keyboardview"

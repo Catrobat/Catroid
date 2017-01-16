@@ -774,7 +774,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		Rect keyboardRec = new Rect();
 		formulaEditorBrick.getGlobalVisibleRect(brickRect);
 		formulaEditorKeyboard.getGlobalVisibleRect(keyboardRec);
-		formulaEditorEditText.setMaxHeight(keyboardRec.top - brickRect.bottom);
 	}
 
 	public void addResourceToActiveFormula(int resource) {
