@@ -42,6 +42,7 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class FormulaEditorComputeDialog extends AlertDialog implements SensorEventListener {
 
@@ -135,6 +136,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	}
 
 	private void setDialogTextView(final String newString) {
+		TextSizeUtil.enlargeTextView(computeTextView);
 		computeTextView.post(new Runnable() {
 			@Override
 			public void run() {

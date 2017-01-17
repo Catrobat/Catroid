@@ -76,6 +76,7 @@
     <dimen name="dialog_item_text_size" >14sp</dimen >
     <dimen name="dialog_relative_layout_padding" >40dp</dimen >
     <dimen name="dialog_text_view_text_size_small" >14sp</dimen >
+    <dimen name="dialog_text_view_text_size_large" >40sp</dimen >
     <dimen name="dialog_check_box_margin_bottom_right" > 16dp</dimen >
     <dimen name="dialog_text_view_layout_width" >0dp</dimen >
     <dimen name="dialog_radio_group_margin" >16dp</dimen >
