@@ -49,6 +49,10 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
+    packagingOptions {
+        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+    }
     buildTypes {
 
         debug {
@@ -149,6 +153,23 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
 
+    androidTestCompile ('com.android.support.test:runner:0.5') {
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+
+    compile ('com.android.support.test.espresso:espresso-core:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+    compile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
 
@@ -172,6 +193,7 @@ android {
         targetSdkVersion 22
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
         versionCode 34
         println "VersionCode is " + versionCode
@@ -180,6 +202,10 @@ android {
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
         multiDexEnabled true
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
     }
 
     lintOptions {
