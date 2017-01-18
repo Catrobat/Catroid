@@ -23,5 +23,5 @@
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
-    <size android:height="30dp"/>
+    <size android:height="60px"/>
 </shape>

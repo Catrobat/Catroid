@@ -64,7 +64,8 @@
             style="@style/ListViewShadowed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/sceneList_headline"/>
+            android:layout_below="@id/sceneList_headline"
+            android:divider="#00000000" />
 
     </RelativeLayout>
 
