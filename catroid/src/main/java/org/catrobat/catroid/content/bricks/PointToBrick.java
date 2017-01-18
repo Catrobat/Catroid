@@ -51,6 +51,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -190,7 +191,7 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	private ArrayAdapter<String> getArrayAdapterFromSpriteList(Context context) {
-		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context,
+		final DynamicTextSizeArrayAdapter<String> arrayAdapter = new DynamicTextSizeArrayAdapter<String>(context,
 				android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		arrayAdapter.add(context.getString(R.string.new_broadcast_message));
@@ -300,6 +301,7 @@ public class PointToBrick extends BrickBaseType {
 					return false;
 				}
 			});
+			TextSizeUtil.enlargeTextView((TextView) dropDownView);
 
 			return dropDownView;
 		}

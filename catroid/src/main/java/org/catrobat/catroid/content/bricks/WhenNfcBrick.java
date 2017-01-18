@@ -46,6 +46,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -207,7 +208,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 	}
 
 	private ArrayAdapter<NfcTagData> createNfcTagAdapter(Context context) {
-		ArrayAdapter<NfcTagData> arrayAdapter = new ArrayAdapter<NfcTagData>(context, android.R.layout.simple_spinner_item);
+		DynamicTextSizeArrayAdapter<NfcTagData> arrayAdapter = new DynamicTextSizeArrayAdapter<NfcTagData>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		NfcTagData dummyNfcTagData = new NfcTagData();
 		dummyNfcTagData.setNfcTagName(context.getString(R.string.new_broadcast_message));
@@ -325,6 +326,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 					return false;
 				}
 			});
+			TextSizeUtil.enlargeTextView((TextView) dropDownView);
 
 			return dropDownView;
 		}

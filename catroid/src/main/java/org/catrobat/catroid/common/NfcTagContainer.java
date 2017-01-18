@@ -27,6 +27,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ import java.util.Map;
 public final class NfcTagContainer {
 	private static final String TAG = NfcTagContainer.class.getSimpleName();
 
-	private static ArrayAdapter<String> tagNameAdapter = null;
+	private static DynamicTextSizeArrayAdapter<String> tagNameAdapter = null;
 	private static List<String> tagNameList = new ArrayList<String>();
 	private static Map<String, String> mapUidToTagName = new HashMap<String, String>();
 
@@ -47,7 +48,7 @@ public final class NfcTagContainer {
 	//TODO: rename to getNfcAdapter/getTagAdapter
 	public static ArrayAdapter<String> getMessageAdapter(Context context) {
 		if (tagNameAdapter == null) {
-			tagNameAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, tagNameList);
+			tagNameAdapter = new DynamicTextSizeArrayAdapter<String>(context, android.R.layout.simple_spinner_item, tagNameList);
 			//TODO: use .add() instead of .insert()
 			tagNameAdapter.insert(context.getString(R.string.new_nfc_tag), 0);
 			tagNameAdapter.insert(context.getString(R.string.brick_when_nfc_default_all), 1);

@@ -48,6 +48,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -155,7 +156,7 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	private ArrayAdapter<SoundInfo> createSoundAdapter(Context context) {
-		ArrayAdapter<SoundInfo> arrayAdapter = new ArrayAdapter<SoundInfo>(context,
+		DynamicTextSizeArrayAdapter<SoundInfo> arrayAdapter = new DynamicTextSizeArrayAdapter<SoundInfo>(context,
 				android.R.layout.simple_spinner_item);
 
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -307,6 +308,7 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 					return false;
 				}
 			});
+			TextSizeUtil.enlargeTextView((TextView) dropDownView);
 
 			return dropDownView;
 		}

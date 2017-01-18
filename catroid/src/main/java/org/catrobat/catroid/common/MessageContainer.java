@@ -29,6 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.physics.PhysicsCollision;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +40,7 @@ public final class MessageContainer {
 
 	private static Map<String, List<BroadcastScript>> receiverMap = new HashMap<>();
 	private static Map<String, List<BroadcastScript>> backupReceiverMap = null;
-	private static ArrayAdapter<String> messageAdapter = null;
+	private static DynamicTextSizeArrayAdapter<String> messageAdapter = null;
 	private static Map<String, List<CollisionScript>> collisionReceiverMap = new HashMap<>();
 	private static int hiddenEntries = 0;
 
@@ -127,7 +128,7 @@ public final class MessageContainer {
 
 	public static ArrayAdapter<String> getMessageAdapter(Context context) {
 		if (messageAdapter == null) {
-			messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+			messageAdapter = new DynamicTextSizeArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 			messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			messageAdapter.add(context.getString(R.string.new_broadcast_message));
 			if (receiverMap.size() == hiddenEntries) {
