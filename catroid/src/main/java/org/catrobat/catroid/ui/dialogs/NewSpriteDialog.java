@@ -339,11 +339,14 @@ public class NewSpriteDialog extends DialogFragment {
 		mediaButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getActivity(), WebViewActivity.class);
-				String url = Constants.LIBRARY_LOOKS_URL;
-				intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
-				intent.putExtra(WebViewActivity.CALLING_ACTIVITY, SpritesListFragment.TAG);
-				startActivityForResult(intent, REQUEST_MEDIA_LIBRARY);
+				if (Utils.isNetworkAvailable(view.getContext(), true)) {
+					Intent intent = new Intent(getActivity(), WebViewActivity.class);
+					String url = Constants.LIBRARY_LOOKS_URL;
+
+					intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+					intent.putExtra(WebViewActivity.CALLING_ACTIVITY, SpritesListFragment.TAG);
+					startActivityForResult(intent, REQUEST_MEDIA_LIBRARY);
+				}
 			}
 		});
 	}
