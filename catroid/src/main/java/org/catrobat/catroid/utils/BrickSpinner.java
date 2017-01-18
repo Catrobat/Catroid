@@ -49,8 +49,8 @@ public class BrickSpinner extends Spinner {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		TextView textView = (TextView) getSelectedView();
 		if (drawShadowBorder) {
-			TextView textView = (TextView) getSelectedView();
 			if (textView != null) {
 				textView.getPaint().setShadowLayer(SHADOW_RADIUS, 0, 0, Color.BLACK);
 				textView.getPaint().setShader(null);
@@ -61,6 +61,10 @@ public class BrickSpinner extends Spinner {
 			}
 		} else {
 			super.onDraw(canvas);
+		}
+
+		if (textView != null) {
+			TextSizeUtil.enlargeTextView(textView);
 		}
 	}
 
