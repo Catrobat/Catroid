@@ -28,7 +28,10 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
 
 public final class CollisionDetection {
 
@@ -36,8 +39,7 @@ public final class CollisionDetection {
 	}
 
 	public static double checkCollisionBetweenLooks(Look firstLook, Look secondLook) {
-
-		if (!firstLook.isVisible() || !secondLook.isVisible()) {
+		if (!firstLook.isVisible() || !firstLook.isLookVisible() || !secondLook.isVisible() || !secondLook.isLookVisible()) {
 			return 0d;
 		}
 
@@ -118,5 +120,24 @@ public final class CollisionDetection {
 			}
 		}
 		return false;
+	}
+
+	public static String getSecondSpriteNameFromCollisionFormulaString(String formula) {
+
+		int indexOfSpriteInFormula = formula.length();
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				int index = formula.lastIndexOf(sprite.getName());
+				if (index > 0 && index + sprite.getName().length() == formula.length() && index
+						< indexOfSpriteInFormula) {
+					indexOfSpriteInFormula = index;
+				}
+			}
+		}
+		if (indexOfSpriteInFormula >= formula.length()) {
+			return null;
+		}
+		String secondSpriteName = formula.substring(indexOfSpriteInFormula, formula.length());
+		return secondSpriteName;
 	}
 }

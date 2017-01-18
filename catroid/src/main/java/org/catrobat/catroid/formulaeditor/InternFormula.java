@@ -154,6 +154,13 @@ public class InternFormula {
 		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
+	public void updateCollisionFormulaToVersion(Context context, float catroidLanguageVersion) {
+		for (InternToken internToken : internTokenFormulaList) {
+			internToken.updateCollisionFormulaToVersion(catroidLanguageVersion);
+		}
+		generateExternFormulaStringAndInternExternMapping(context);
+	}
+
 	public void removeVariableReferences(String name, Context context) {
 		LinkedList<InternToken> toRemove = new LinkedList<InternToken>();
 		for (InternToken internToken : internTokenFormulaList) {
