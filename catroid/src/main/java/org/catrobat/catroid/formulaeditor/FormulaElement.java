@@ -38,6 +38,7 @@ import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.sensing.CollisionDetection;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.io.Serializable;
@@ -854,6 +855,15 @@ public class FormulaElement implements Serializable {
 				break;
 			case OBJECT_DISTANCE_TO:
 				returnValue = (double) sprite.look.getDistanceToTouchPositionInUserInterfaceDimensions();
+				break;
+			case COLLIDES_WITH_EDGE:
+				//if the stage is not setUp yet, there can't be a collision
+				returnValue = StageActivity.stageListener.firstFrameDrawn ? CollisionDetection.collidesWithEdge(sprite
+						.look) : 0d;
+				break;
+			case COLLIDES_WITH_FINGER:
+				returnValue = CollisionDetection.collidesWithFinger(sprite.look);
+				break;
 		}
 		return returnValue;
 	}
@@ -1134,6 +1144,13 @@ public class FormulaElement implements Serializable {
 
 				case NFC_TAG_ID:
 					resources |= Brick.NFC_ADAPTER;
+					break;
+
+				case COLLIDES_WITH_EDGE:
+					resources |= Brick.COLLISION;
+					break;
+				case COLLIDES_WITH_FINGER:
+					resources |= Brick.COLLISION;
 					break;
 
 				default:

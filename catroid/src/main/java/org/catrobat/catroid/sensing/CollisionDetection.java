@@ -23,15 +23,21 @@
 
 package org.catrobat.catroid.sensing;
 
+import android.graphics.PointF;
+
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.TouchUtil;
+
+import java.util.ArrayList;
 
 public final class CollisionDetection {
 
@@ -139,5 +145,87 @@ public final class CollisionDetection {
 		}
 		String secondSpriteName = formula.substring(indexOfSpriteInFormula, formula.length());
 		return secondSpriteName;
+	}
+
+	public static double collidesWithEdge(Look look) {
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
+		Rectangle screen = new Rectangle(-virtualScreenWidth / 2, -virtualScreenHeight / 2, virtualScreenWidth,
+				virtualScreenHeight);
+		//check if any line of the collision polygons intersects with the screen boundary
+		for (Polygon polygon : look.getCurrentCollisionPolygon()) {
+			for (int i = 0; i < polygon.getTransformedVertices().length - 4; i += 2) {
+				Vector2 firstPoint = new Vector2(polygon.getTransformedVertices()[i],
+						polygon.getTransformedVertices()[i + 1]);
+				Vector2 secondPoint = new Vector2(polygon.getTransformedVertices()[i + 2],
+						polygon.getTransformedVertices()[i + 3]);
+
+				//if the line crosses the screen boarder, a collision is detected
+				if (screen.contains(firstPoint) ^ screen.contains(secondPoint)) {
+					return 1.0d;
+				}
+			}
+		}
+		return 0d;
+	}
+
+	public static double collidesWithFinger(Look look) {
+		/*The touching points are expanded to circles with Constants.COLLISION_WITH_FINGER_TOUCH_RADIUS
+		to simulate the real touching area of the finger (which is not only a point, but a small area)
+		To improve performance first check if the circle is contained in the bounding box of that polygon
+		If that's the case, check if any line segment of the polygon intersects with the circle, to evaluate
+		a collision. If there is no intersection, but the circle is contained in an uneven number of polygons
+		it means that there still is a collision
+		Example:
+		   _______
+		  |  ___ x|  point "o" is not colliding, while point "x" is colliding
+		  | | o | |
+		  | |___| |
+		  |_______|
+		*/
+		ArrayList<PointF> touchingPoints = TouchUtil.getCurrentTouchingPoints();
+		Vector2 start = new Vector2();
+		Vector2 end = new Vector2();
+		Vector2 center = new Vector2();
+		float touchRadius = Constants.COLLISION_WITH_FINGER_TOUCH_RADIUS;
+
+		for (PointF point : touchingPoints) {
+			center.set(point.x, point.y);
+			int containedIn = 0;
+			for (Polygon polygon : look.getCurrentCollisionPolygon()) {
+				Rectangle boundingRectangle = polygon.getBoundingRectangle();
+				boundingRectangle.x -= touchRadius;
+				boundingRectangle.y -= touchRadius;
+				boundingRectangle.width += touchRadius * 2;
+				boundingRectangle.height += touchRadius * 2;
+				if (boundingRectangle.contains(point.x, point.y)) {
+					float[] vertices = polygon.getTransformedVertices();
+					int f = 0;
+					while (f < polygon.getVertices().length - 3) {
+						start.x = vertices[f++];
+						start.y = vertices[f++];
+						end.x = vertices[f++];
+						end.y = vertices[f++];
+						if (Intersector.intersectSegmentCircle(start, end, center, touchRadius * touchRadius)) {
+							return 1d;
+						}
+					}
+					start.x = vertices[vertices.length - 2];
+					start.y = vertices[vertices.length - 1];
+					end.x = vertices[0];
+					end.y = vertices[1];
+					if (Intersector.intersectSegmentCircle(start, end, center, touchRadius * touchRadius)) {
+						return 1d;
+					}
+					if (polygon.contains(point.x, point.y)) {
+						containedIn++;
+					}
+				}
+			}
+			if (containedIn % 2 != 0) {
+				return 1d;
+			}
+		}
+		return 0d;
 	}
 }

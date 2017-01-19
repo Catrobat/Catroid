@@ -109,4 +109,12 @@ public final class TouchUtil {
 			sprite.createTouchDownAction();
 		}
 	}
+
+	public static ArrayList<PointF> getCurrentTouchingPoints() {
+		ArrayList<PointF> points = new ArrayList<>();
+		for (int index : currentlyTouchingPointersToTouchIndex.values()) {
+			points.add(touches.get(index));
+		}
+		return points;
+	}
 }

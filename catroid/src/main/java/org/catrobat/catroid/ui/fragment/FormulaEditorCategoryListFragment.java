@@ -83,6 +83,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
 			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer,
 			R.string.formula_editor_function_collision,
+			R.string.formula_editor_function_collides_with_edge, R.string.formula_editor_function_touched,
 			R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
 			R.string.formula_editor_object_angular_velocity };
 
@@ -137,7 +138,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	private static final int[] FUNCTIONS_LISTS_PARAMETERS = { R.string.formula_editor_function_number_of_items_parameter,
 			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter };
 
-	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness };
+	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness, R.string
+			.formula_editor_function_touched };
 
 	private static final int[] DATE_AND_TIME_SENSOR_ITEMS = { R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month, R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
 			R.string.formula_editor_sensor_time_hour, R.string.formula_editor_sensor_time_minute, R.string.formula_editor_sensor_time_second };
