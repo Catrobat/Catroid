@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Look;
@@ -816,7 +817,7 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LAYER:
-				returnValue = (double) sprite.look.getZIndex();
+				returnValue = (double) sprite.look.getZIndex() - Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS;
 				break;
 			case OBJECT_ROTATION:
 				returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
