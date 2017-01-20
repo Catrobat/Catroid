@@ -252,6 +252,8 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 		} else {
 			showError(R.string.error_scene_not_copied);
 		}
+
+		clearCheckedItems();
 	}
 
 	private boolean copyScene() {
@@ -278,7 +280,6 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 		copiedScene.setSceneName(sceneName);
 		copiedScene.setProject(projectManager.getCurrentProject());
 		projectManager.addScene(copiedScene);
-
 		return true;
 	}
 

@@ -78,7 +78,7 @@ public abstract class TextDialog extends DialogFragment {
 		builder.setPositiveButton(R.string.ok, null);
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
-				handleNegativeButtonClick();
+				onCancel(dialog);
 			}
 		});
 
@@ -106,8 +106,9 @@ public abstract class TextDialog extends DialogFragment {
 	}
 
 	@Override
-	public void onDismiss(DialogInterface dialog) {
+	public void onCancel(DialogInterface dialog) {
 		handleNegativeButtonClick();
+		dismiss();
 	}
 
 	protected abstract boolean handlePositiveButtonClick();
