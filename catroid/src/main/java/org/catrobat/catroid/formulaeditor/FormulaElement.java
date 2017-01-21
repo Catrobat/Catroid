@@ -53,7 +53,8 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA,
+		DISTANCE_TO_TOUCH_POSITION, DISTANCE_TO_SPRITE_POSITION
 	}
 
 	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
@@ -148,6 +149,12 @@ public class FormulaElement implements Serializable {
 				break;
 			case COLLISION_FORMULA:
 				internTokenList.add(new InternToken(InternTokenType.COLLISION_FORMULA, this.value));
+				break;
+			case DISTANCE_TO_TOUCH_POSITION:
+				internTokenList.add(new InternToken(InternTokenType.DISTANCE_TO_TOUCH_POSITION, this.value));
+				break;
+			case DISTANCE_TO_SPRITE_POSITION:
+				internTokenList.add(new InternToken(InternTokenType.DISTANCE_TO_SPRITE_POSITION, this.value));
 				break;
 		}
 		return internTokenList;
@@ -270,8 +277,37 @@ public class FormulaElement implements Serializable {
 					returnValue = 0d;
 					Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
 				}
+				break;
+			case DISTANCE_TO_TOUCH_POSITION:
+				returnValue = interpretDistanceToTouchPosition(sprite);
+				break;
+			case DISTANCE_TO_SPRITE_POSITION:
+				returnValue = interpretDistanceToSpritePosition(sprite, value);
+				break;
 		}
 		return normalizeDegeneratedDoubleValues(returnValue);
+	}
+
+	private Object interpretDistanceToTouchPosition(Sprite currentSprite) {
+		int touchIndex = TouchUtil.getLastTouchIndex();
+
+		float touchXPosition = TouchUtil.getX(touchIndex);
+		float touchYPosition = TouchUtil.getY(touchIndex);
+
+		return currentSprite.look.getDistanceToInUserInterfaceDimensions(touchXPosition,
+				touchYPosition);
+	}
+
+	private Object interpretDistanceToSpritePosition(Sprite currentSprite, String secondSpriteName) {
+		Sprite secondSprite;
+
+		secondSprite = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(secondSpriteName);
+
+		float secondSpriteXPosition = secondSprite.look.getXInUserInterfaceDimensionUnit();
+		float secondSpriteYPosition = secondSprite.look.getYInUserInterfaceDimensionUnit();
+
+		return currentSprite.look.getDistanceToInUserInterfaceDimensions(secondSpriteXPosition,
+				secondSpriteYPosition);
 	}
 
 	private Object interpretCollision(Sprite firstSprite, String formula) {
@@ -854,9 +890,6 @@ public class FormulaElement implements Serializable {
 			case OBJECT_LOOK_NAME:
 			case OBJECT_BACKGROUND_NAME:
 				returnValue = (lookData != null) ? lookData.getLookName() : "";
-				break;
-			case OBJECT_DISTANCE_TO:
-				returnValue = (double) sprite.look.getDistanceToTouchPositionInUserInterfaceDimensions();
 				break;
 			case NFC_TAG_MESSAGE:
 				returnValue = NfcHandler.getLastNfcTagMessage();

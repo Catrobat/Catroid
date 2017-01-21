@@ -32,9 +32,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
@@ -46,6 +48,9 @@ public class FormulaEditorChooseSpriteDialog extends DialogFragment {
 	private DialogInterface.OnDismissListener onDismissListener;
 	private boolean success = false;
 	private Spinner spinnerOne;
+
+	private int formulaTpye;
+	private boolean distanceToTouchPositionSelected;
 
 	public static FormulaEditorChooseSpriteDialog newInstance() {
 		return new FormulaEditorChooseSpriteDialog();
@@ -59,6 +64,15 @@ public class FormulaEditorChooseSpriteDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = View.inflate(getActivity(), R.layout.dialog_formulaeditor_choose_sprite, null);
 		//View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_formulaeditor_choose_sprite, );
+
+		TextView stringName = (TextView) dialogView.findViewById(R.id.string_name);
+
+		if (formulaTpye == R.string.formula_editor_object_distance_to) {
+			stringName.setText(getString(R.string.formula_editor_object_distance_to));
+		} else {
+			stringName.setText(getString(R.string.formula_editor_function_collision));
+		}
+
 		setUpSpinner(dialogView);
 
 		final AlertDialog chooseSpriteDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
@@ -103,12 +117,24 @@ public class FormulaEditorChooseSpriteDialog extends DialogFragment {
 	private void setUpSpinner(View dialogView) {
 		spinnerOne = (Spinner) dialogView.findViewById(R.id.formula_editor_choose_sprite_spinner_one);
 		List<String> spriteNames = new ArrayList<>();
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
-			if (sprite.getName().compareTo(getActivity().getString(R.string.background)) != 0
-					&& sprite.getName().compareTo(ProjectManager.getInstance().getCurrentSprite().getName()) != 0) {
-				spriteNames.add(sprite.getName());
+		if (formulaTpye == R.string.formula_editor_object_distance_to) {
+			spriteNames.add(getString(R.string.formula_editor_object_distance_to_touch_position));
+			for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+				if (sprite.getName().compareTo(getActivity().getString(R.string.background)) != 0
+						&& sprite.getName().compareTo(ProjectManager.getInstance().getCurrentSprite().getName()) != 0
+						&& !(sprite instanceof GroupSprite)) {
+					spriteNames.add(sprite.getName());
+				}
+			}
+		} else {
+			for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+				if (sprite.getName().compareTo(getActivity().getString(R.string.background)) != 0
+						&& sprite.getName().compareTo(ProjectManager.getInstance().getCurrentSprite().getName()) != 0) {
+					spriteNames.add(sprite.getName());
+				}
 			}
 		}
+
 		ArrayAdapter<String> adapterOne = new ArrayAdapter<>(getActivity(),
 				android.R.layout.simple_spinner_item, spriteNames);
 
@@ -122,5 +148,19 @@ public class FormulaEditorChooseSpriteDialog extends DialogFragment {
 
 	public String getSprite() {
 		return String.valueOf(spinnerOne.getSelectedItem());
+	}
+
+	public void setFormulaType(int type) {
+		this.formulaTpye = type;
+	}
+
+	public boolean getDistanceToTouchPositionSelected() {
+		if (formulaTpye == R.string.formula_editor_object_distance_to && spinnerOne.getSelectedItemId() == 0) {
+			distanceToTouchPositionSelected = true;
+		} else {
+			distanceToTouchPositionSelected = false;
+		}
+
+		return distanceToTouchPositionSelected;
 	}
 }

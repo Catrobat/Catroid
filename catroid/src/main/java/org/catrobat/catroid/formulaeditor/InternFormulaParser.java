@@ -248,6 +248,14 @@ public class InternFormulaParser {
 				currentElement.replaceElement(collision());
 				break;
 
+			case DISTANCE_TO_TOUCH_POSITION:
+				currentElement.replaceElement(distanceToTouchPosition());
+				break;
+
+			case DISTANCE_TO_SPRITE_POSITION:
+				currentElement.replaceElement(distanceToSpritePosition());
+				break;
+
 			default:
 				throw new InternFormulaParserException("Parse Error");
 		}
@@ -292,6 +300,49 @@ public class InternFormulaParser {
 		}
 
 		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
+				currentToken.getTokenStringValue(), null);
+
+		getNextToken();
+		return lookTree;
+	}
+
+	private FormulaElement distanceToTouchPosition() throws InternFormulaParserException {
+		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		int spriteCount = 0;
+
+		for (Sprite sprite : ProjectManager.getInstance().getSceneToPlay().getSpriteList()) {
+			if (sprite.getName().compareTo(currentSpriteName) == 0) {
+				spriteCount++;
+			}
+		}
+
+		if (!(spriteCount == 1)) {
+			throw new InternFormulaParserException("Parse Error, Sprite was not found");
+		}
+
+		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.DISTANCE_TO_TOUCH_POSITION,
+				currentToken.getTokenStringValue(), null);
+
+		getNextToken();
+		return lookTree;
+	}
+
+	private FormulaElement distanceToSpritePosition() throws InternFormulaParserException {
+		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		String secondSpriteName = currentToken.getTokenStringValue();
+		int spriteCount = 0;
+
+		for (Sprite sprite : ProjectManager.getInstance().getSceneToPlay().getSpriteList()) {
+			if (sprite.getName().compareTo(currentSpriteName) == 0 || sprite.getName().compareTo(secondSpriteName) == 0) {
+				spriteCount++;
+			}
+		}
+
+		if (!(spriteCount == 2)) {
+			throw new InternFormulaParserException("Parse Error, Sprite was not found");
+		}
+
+		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.DISTANCE_TO_SPRITE_POSITION,
 				currentToken.getTokenStringValue(), null);
 
 		getNextToken();
