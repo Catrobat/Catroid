@@ -217,7 +217,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		return view;
 	}
 
-	private boolean isUserBrickAdapter(BaseAdapter baseAdapter) {
+	private static boolean isUserBrickAdapter(BaseAdapter baseAdapter) {
 		return baseAdapter instanceof UserBrickAdapter;
 	}
 

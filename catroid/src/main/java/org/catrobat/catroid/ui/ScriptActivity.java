@@ -76,6 +76,8 @@ import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
 import org.catrobat.catroid.ui.fragment.UserBrickFragment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 
 public class ScriptActivity extends BaseActivity {
@@ -83,9 +85,7 @@ public class ScriptActivity extends BaseActivity {
 	public static final int FRAGMENT_LOOKS = 1;
 	public static final int FRAGMENT_SOUNDS = 2;
 	public static final int FRAGMENT_NFCTAGS = 3;
-	public static final int FRAGMENT_USERBRICKS = 5;
-
-	public static final int USERBRICKS_PROTOTYPE_VIEW = 5;
+	public static final int FRAGMENT_USERBRICKS = 4;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 
@@ -121,6 +121,20 @@ public class ScriptActivity extends BaseActivity {
 
 	private static final String TAG = ScriptActivity.class.getSimpleName();
 	private static int currentFragmentPosition;
+
+	private List<String> backStackEntryList = new ArrayList<String>() {
+		{
+			add(LookFragment.TAG);
+			add(SoundFragment.TAG);
+			add(BackPackScriptListFragment.TAG);
+			add(BackPackLookListFragment.TAG);
+			add(BackPackSoundListFragment.TAG);
+			add(NfcTagFragment.TAG);
+			add(BackPackUserBrickListFragment.TAG);
+			add(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		}
+	};
+
 	private FragmentManager fragmentManager = getFragmentManager();
 	private ScriptFragment scriptFragment = null;
 	private LookFragment lookFragment = null;
@@ -274,6 +288,7 @@ public class ScriptActivity extends BaseActivity {
 					currentFragmentTag = UserBrickFragment.TAG;
 				}
 				currentFragment = userBrickFragment;
+				break;
 		}
 
 		updateHandleAddButtonClickListener();
@@ -386,27 +401,24 @@ public class ScriptActivity extends BaseActivity {
 				getFragmentManager()
 						.findFragmentByTag(FormulaEditorCategoryListFragment.SENSOR_TAG);
 
-		if (formulaEditorFragment != null && formulaEditorFragment.isVisible()
+		return formulaEditorFragment != null && formulaEditorFragment.isVisible()
 				|| formulaEditorObjectFragment != null && formulaEditorObjectFragment.isVisible()
 				|| formulaEditorFunctionFragment != null && formulaEditorFunctionFragment.isVisible()
 				|| formulaEditorLogicFragment != null && formulaEditorLogicFragment.isVisible()
 				|| formulaEditorSensorFragment != null && formulaEditorSensorFragment.isVisible()
-				|| formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
-			return true;
-		}
-		return false;
+				|| formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible();
 	}
 
 	private void openBackPack() {
 		Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
 		if (currentFragment.equals(lookFragment)) {
-			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_LOOKS);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_LOOKS);
 		} else if (currentFragment.equals(soundFragment)) {
-			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SOUNDS);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_SOUNDS);
 		} else if (currentFragment.equals(scriptFragment)) {
-			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_SCRIPTS);
 		} else if (currentFragment.equals(userBrickFragment)) {
-			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_USERBRICKS);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_USERBRICKS);
 		}
 		startActivity(intent);
 	}
@@ -525,12 +537,7 @@ public class ScriptActivity extends BaseActivity {
 		int backStackEntryCount = fragmentManager.getBackStackEntryCount();
 		for (int i = backStackEntryCount; i > 0; --i) {
 			String backStackEntryName = fragmentManager.getBackStackEntryAt(i - 1).getName();
-			if (backStackEntryName != null
-					&& (backStackEntryName.equals(LookFragment.TAG) || backStackEntryName.equals(SoundFragment.TAG)
-					|| backStackEntryName.equals(BackPackScriptListFragment.TAG) || backStackEntryName.equals(BackPackLookListFragment
-					.TAG) || backStackEntryName.equals(BackPackSoundListFragment.TAG) || backStackEntryName.equals(NfcTagFragment.TAG)
-					|| backStackEntryName.equals(BackPackUserBrickListFragment.TAG)
-					|| backStackEntryName.equals(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))) {
+			if (backStackEntryName != null && backStackEntryList.contains(backStackEntryName)) {
 				fragmentManager.popBackStack();
 			} else {
 				break;
@@ -671,10 +678,7 @@ public class ScriptActivity extends BaseActivity {
 	}
 
 	public boolean isHoveringActive() {
-		if (currentFragmentPosition == FRAGMENT_SCRIPTS && scriptFragment.getListView().isCurrentlyDragging()) {
-			return true;
-		}
-		return false;
+		return currentFragmentPosition == FRAGMENT_SCRIPTS && scriptFragment.getListView().isCurrentlyDragging();
 	}
 
 	public void handleShowDetails(boolean showDetails, MenuItem item) {

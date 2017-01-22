@@ -89,7 +89,7 @@ public final class BackPackUserBrickController {
 			String textForUnPacking = activity.getResources().getQuantityString(R.plurals.unpacking_items_plural, 1);
 			ToastUtil.showSuccess(activity, selectedUserBrickGroup + " " + textForUnPacking);
 
-			((BackPackActivity) activity).returnToScriptActivity(ScriptActivity.USERBRICKS_PROTOTYPE_VIEW);
+			((BackPackActivity) activity).returnToScriptActivity(ScriptActivity.FRAGMENT_USERBRICKS);
 		}
 	}
 }

@@ -76,6 +76,7 @@ import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 
 public class ProjectActivity extends BaseActivity {
@@ -122,8 +123,8 @@ public class ProjectActivity extends BaseActivity {
 			}
 		}
 
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		if (project.getSceneList() == null || project.getSceneList().size() == 1) {
+		List<Scene> scenes = ProjectManager.getInstance().getCurrentProject().getSceneList();
+		if (scenes == null || scenes.size() == 1) {
 			currentFragmentPosition = FRAGMENT_SPRITES;
 		}
 

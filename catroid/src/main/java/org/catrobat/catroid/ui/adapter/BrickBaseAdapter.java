@@ -36,6 +36,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.google.common.collect.Lists;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -170,7 +172,7 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 			showToast(userBricksBackPacked, R.plurals.brick_plural);
 			clearCheckedBricksAndEnableButtons();
 
-			startBackPackActivity(ScriptActivity.FRAGMENT_USERBRICKS);
+			startBackPackActivity(BackPackActivity.FRAGMENT_BACKPACK_USERBRICKS);
 		}
 	}
 
@@ -239,11 +241,7 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 	}
 
 	public List<Brick> getReversedCheckedBrickList() {
-		List<Brick> reverseCheckedList = new ArrayList<>();
-		for (int counter = checkedBricks.size() - 1; counter >= 0; counter--) {
-			reverseCheckedList.add(checkedBricks.get(counter));
-		}
-		return reverseCheckedList;
+		return Lists.reverse(checkedBricks);
 	}
 
 	private void clearCheckedBricksAndEnableButtons() {
@@ -254,4 +252,6 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 			userBrickFragment.clearCheckedBricksAndEnableButtons();
 		}
 	}
+
+	public abstract void handleCheck(Brick instance, boolean checked);
 }
