@@ -182,6 +182,24 @@
         <item name="android:layout_alignWithParentIfMissing" >true</item >
     </style >
 
+    <style name="ShowDetailsTitle" >
+        <item name="android:textColor" >@color/list_view_item_title_text_color</item >
+        <item name="android:textSize" >20sp</item >
+        <item name="android:layout_alignWithParentIfMissing" >true</item >
+        <item name="android:paddingLeft" >10sp</item>
+        <item name="android:paddingRight" >10sp</item>
+        <item name="android:paddingTop" >10sp</item>
+    </style >
+
+    <style name="ShowDetailsValue" >
+        <item name="android:textColor" >@color/list_view_item_details_text_color</item >
+        <item name="android:textSize" >18sp</item >
+        <item name="android:layout_alignWithParentIfMissing" >true</item >
+        <item name="android:paddingLeft" >15sp</item>
+        <item name="android:paddingRight" >15sp</item>
+        <item name="android:paddingTop" >1sp</item>
+    </style >
+
     <style name="ProgramMenuButton" >
         <item name="android:layout_width" >match_parent</item >
         <item name="android:layout_height" >@dimen/program_menu_button_height</item >
