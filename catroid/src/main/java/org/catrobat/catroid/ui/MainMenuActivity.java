@@ -156,7 +156,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 			sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 			if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-				if (sharedpreferences.getBoolean("firstRun", true)) {
+				/*if (sharedpreferences.getBoolean("firstRun", true)) {
 					sharedpreferences.edit().putBoolean("firstRun", false).commit();
 
 					TextView textView = (TextView) findViewById(R.id.cast_text);
@@ -188,6 +188,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 					});
 				} else {
 					findViewById(R.id.cast_view).setVisibility(View.GONE);
+				}*/
+				if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+					CastManager.getInstance().initializeCast(this);
 				}
 			} else {
 				findViewById(R.id.cast_view).setVisibility(View.GONE);
@@ -209,6 +212,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, false);
 
 		SettingsActivity.setDroneChooserEnabled(this, false);
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
+		}
 
 		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 		final Activity activity = this;

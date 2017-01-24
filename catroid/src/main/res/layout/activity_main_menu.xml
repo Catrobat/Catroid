@@ -103,7 +103,8 @@
         android:gravity="center|bottom"
         android:clickable="true"
         android:focusable="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/cast_text"
