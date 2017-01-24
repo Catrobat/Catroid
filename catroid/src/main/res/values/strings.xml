@@ -78,6 +78,7 @@
     <string name="nothing_to_rename">Nothing to rename</string>
     <string name="unpack_background">Program\'s background will be replaced</string>
     <string name="degrees">degrees</string>
+    <string name="disconnect">Disconnect</string>
     <!--  -->
 
 
@@ -1499,10 +1500,12 @@
     <string name="cast_device_selector_dialog_title">Cast to</string>
     <string name="cast_button_menu_item_title">Cast button</string>
     <string name="cast_stop_casting_to">Stop casting to</string>
+    <string name="cast_ready_to_cast">Ready to cast to</string>
     <string name="cast_enable_cast_feature">Cast features disabled. Please enable cast features in the settings.</string>
     <string name="cast_searching_for_cast_devices">Searching for cast devices</string>
     <string name="cast_trouble_finding_devices_tip">.\nNot seeing your device? Try turning your phone\'s Wifi off and on.</string>
     <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
+    <string name="cast_screen_pause_text">Paused</string>
     <!-- -->
 
     <!-- Rating Dialog -->

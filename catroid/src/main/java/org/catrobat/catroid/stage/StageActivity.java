@@ -39,6 +39,7 @@ import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -72,6 +73,8 @@ import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.sql.Types.NULL;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -269,6 +272,11 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().pausePreviewAsync();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			//create extra layer in remotelayout in cast manager and set visiblity auf true bzw false
+			CastManager.getInstance().setRemoteLayoutToPauseScreen(getApplicationContext());
+		}
 	}
 
 	public void resume() {
@@ -323,6 +331,10 @@ public class StageActivity extends AndroidApplication {
 		if ((requiredResources & Brick.NFC_ADAPTER) > 0
 				&& nfcAdapter != null) {
 			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+		}
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().resumeRemoteLayoutFromPauseScreen();
 		}
 	}
 
