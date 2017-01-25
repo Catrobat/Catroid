@@ -731,9 +731,9 @@ public class InternFormula {
 						.getFunctionParameterInternTokensAsLists(functionInternTokenList);
 				List<InternToken> functionFirstParameter = functionParameters.get(0);
 
-				cursorPositionInternTokenIndex = internFormulaTokenSelection.getEndIndex();
 				internFormulaTokenSelection = new InternFormulaTokenSelection(TokenSelectionType.USER_SELECTION,
 						insertedInternTokenIndex + 2, insertedInternTokenIndex + functionFirstParameter.size() + 1);
+				cursorPositionInternTokenIndex = internFormulaTokenSelection.getEndIndex();
 			} else {
 				cursorPositionInternTokenIndex = insertedInternTokenIndex + functionInternTokenList.size() - 1;
 				internFormulaTokenSelection = null;
