@@ -577,8 +577,10 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	public void addLookMediaLibrary() {
 		Intent intent = new Intent(activity, WebViewActivity.class);
 		String url;
-		if (ProjectManager.getInstance().getCurrentSprite().getName().compareTo(getString(R.string.background)) == 0) {
-			url = Constants.LIBRARY_BACKGROUNDS_URL;
+		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(getString(R.string.background))) {
+			url = ProjectManager.getInstance().isCurrentProjectLandscapeMode()
+					? Constants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE
+					: Constants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 		} else {
 			url = Constants.LIBRARY_LOOKS_URL;
 		}
