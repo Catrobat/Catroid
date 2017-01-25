@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.List;
@@ -41,10 +42,11 @@ public class ComeToFrontAction extends TemporalAction {
 
 		for (int i = 0; i < spriteList.size(); i++) {
 			if (spriteList.get(i).look.getZIndex() > actualSpriteZIndex) {
-				spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex() - 1);
+				spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex()
+						+ Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS - 1);
 			}
 		}
-		sprite.look.setZIndex(spriteList.size() - 1);
+		sprite.look.setZIndex(spriteList.size() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS - 1);
 	}
 
 	public void setSprite(Sprite sprite) {

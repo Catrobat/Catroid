@@ -196,6 +196,7 @@ public final class Constants {
 	public static final String POCKET_PAINT_PACKAGE_NAME = "org.catrobat.paintroid";
 	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id=" + POCKET_PAINT_PACKAGE_NAME;
 	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
+
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
@@ -209,6 +210,16 @@ public final class Constants {
 	public static final float COLLISION_POLYGON_CREATION_EPSILON = 10.0f;
 	public static final String COLLISION_POLYGON_METADATA_PATTERN = "((((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+))\\|)*((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+)";
 	public static final float COLLISION_WITH_FINGER_TOUCH_RADIUS = 50;
+
+	// background sprite is always on index 0
+	public static final int Z_INDEX_BACKGROUND = 0;
+
+	// this offset reflects the offset caused by "virtual" layers (currently only PenActor)
+	// which are sneaked in at the Stage creation when starting the scene.
+	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 1;
+
+	// the minimum z index a real sprite layer can have
+	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
