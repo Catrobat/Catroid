@@ -70,7 +70,6 @@ public class Look extends Image {
 	private int rotationMode = ROTATION_STYLE_ALL_AROUND;
 	private float rotation = 90f;
 	private float realRotation = rotation;
-	public boolean isFlipped = false;
 
 	public Look(final Sprite sprite) {
 		this.sprite = sprite;
@@ -145,15 +144,6 @@ public class Look extends Image {
 
 		int rotationMode = this.getRotationMode();
 		cloneLook.setRotationMode(rotationMode);
-		if (rotationMode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && this.isFlipped()) {
-			cloneLook.getLookData().getTextureRegion().flip(true, false);
-			cloneLook.setFlipped(false);
-		}
-		boolean orientedLeft = this.getDirectionInUserInterfaceDimensionUnit() < 0;
-		if (rotationMode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft) {
-			cloneLook.getLookData().getTextureRegion().flip(true, false);
-			cloneLook.setFlipped(true);
-		}
 		cloneLook.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
 		cloneLook.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
 
@@ -164,7 +154,7 @@ public class Look extends Image {
 		if (!isLookVisible()) {
 			return false;
 		}
-		if (isFlipped) {
+		if (isFlipped()) {
 			x = (getWidth() - 1) - x;
 		}
 
@@ -271,6 +261,7 @@ public class Look extends Image {
 			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
 			setDrawable(drawable);
 
+			flipLookDataIfNeeded(getRotationMode());
 			imageChanged = false;
 		}
 	}
@@ -377,6 +368,16 @@ public class Look extends Image {
 
 	public void setRotationMode(int mode) {
 		rotationMode = mode;
+		flipLookDataIfNeeded(mode);
+	}
+
+	private void flipLookDataIfNeeded(int mode) {
+		boolean orientedLeft = sprite.look.getDirectionInUserInterfaceDimensionUnit() < 0;
+		boolean differentModeButFlipped = mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && sprite.look.isFlipped();
+		boolean facingLeftButNotFlipped = mode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft;
+		if (differentModeButFlipped || facingLeftButNotFlipped) {
+			getLookData().getTextureRegion().flip(true, false);
+		}
 	}
 
 	public int getRotationMode() {
@@ -436,11 +437,9 @@ public class Look extends Image {
 				setRotation(0f);
 				boolean orientedRight = realRotation >= 0;
 				boolean orientedLeft = realRotation < 0;
-				if (isFlipped && orientedRight || !isFlipped && orientedLeft) {
-					if (lookData != null) {
-						lookData.getTextureRegion().flip(true, false);
-					}
-					isFlipped = !isFlipped;
+				boolean needsFlipping = (isFlipped() && orientedRight) || (!isFlipped() && orientedLeft);
+				if (needsFlipping && lookData != null) {
+					lookData.getTextureRegion().flip(true, false);
 				}
 				break;
 			case ROTATION_STYLE_ALL_AROUND:
@@ -457,11 +456,7 @@ public class Look extends Image {
 	}
 
 	public boolean isFlipped() {
-		return isFlipped;
-	}
-
-	public void setFlipped(boolean status) {
-		isFlipped = status;
+		return (lookData != null && lookData.getTextureRegion().isFlipX());
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
