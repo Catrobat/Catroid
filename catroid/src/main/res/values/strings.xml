@@ -207,6 +207,12 @@
     <string name="remixes">Remixes</string>
     <!--  -->
 
+    <string name="author">Author:</string>
+    <string name="screen_size">Screen Size:</string>
+    <string name="mode">Mode:</string>
+    <string name="remix_of">Remix of:</string>
+    <string name="description_hint">Press to add description</string>
+
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">This program has been converted %1$s ago.</string>
     <plurals name="minutes">
@@ -955,6 +961,7 @@
     <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
     <string name="error_gps_not_available">Error, GPS was not available.</string>
+    <string name="error_set_description">An error occurred while saving the new description.</string>
     <!--  -->
 
 

@@ -47,6 +47,8 @@ import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.merge.MergeManager;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
 import org.catrobat.catroid.ui.adapter.ProjectListAdapter;
@@ -81,8 +83,11 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View projectListFragment = inflater.inflate(R.layout.fragment_projects_list, container);
+		View projectListFragment = inflater.inflate(R.layout.fragment_projects_list, container, false);
 		listView = (ListView) projectListFragment.findViewById(android.R.id.list);
+
+		BottomBar.showBottomBar(getActivity());
+
 		return projectListFragment;
 	}
 
@@ -206,7 +211,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 				showRenameDialog();
 				break;
 			case R.id.show_details:
-				showDetailsDialog();
+				showDetailsFragment();
 				break;
 			case R.id.context_menu_set_description:
 				showSetDescriptionDialog();
@@ -331,7 +336,10 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 		}
 	}
 
-	private void showDetailsDialog() {
+	private void showDetailsFragment() {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(ShowDetailsFragment.SELECTED_PROJECT_KEY, projectToEdit);
+		((MyProjectsActivity) getActivity()).loadFragment(ShowDetailsFragment.class, bundle, true);
 	}
 
 	private void showSetDescriptionDialog() {

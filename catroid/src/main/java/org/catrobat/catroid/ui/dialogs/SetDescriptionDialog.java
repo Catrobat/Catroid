@@ -53,18 +53,15 @@ public class SetDescriptionDialog extends TextDialog {
 	protected boolean handlePositiveButtonClick() {
 		String newDescription = input.getText().toString().trim();
 		descriptionInterface.setDescription(newDescription);
-		descriptionInterface.clearCheckedItems();
 		return true;
 	}
 
 	@Override
 	protected void handleNegativeButtonClick() {
-		descriptionInterface.clearCheckedItems();
 	}
 
 	public interface ChangeDescriptionInterface {
 
-		void clearCheckedItems();
 		void setDescription(String description);
 	}
 }
