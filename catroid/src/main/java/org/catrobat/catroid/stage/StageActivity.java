@@ -28,7 +28,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
+import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -69,6 +71,8 @@ import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -80,6 +84,7 @@ public class StageActivity extends AndroidApplication {
 	private StageAudioFocus stageAudioFocus;
 	private PendingIntent pendingIntent;
 	private NfcAdapter nfcAdapter;
+	private static BlockingDeque<NdefMessage> ndefMessageBlockingDeque = new LinkedBlockingDeque<NdefMessage>();
 	private StageDialog stageDialog;
 	private boolean resizePossible;
 	private boolean askDialogUnanswered = false;
@@ -195,6 +200,11 @@ public class StageActivity extends AndroidApplication {
 		super.onNewIntent(intent);
 		Log.d(TAG, "processIntent");
 		NfcHandler.processIntent(intent);
+
+		if (!ndefMessageBlockingDeque.isEmpty()) {
+			Tag currentTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+			NfcHandler.writeTag(currentTag, ndefMessageBlockingDeque.poll());
+		}
 	}
 
 	@Override
@@ -437,5 +447,9 @@ public class StageActivity extends AndroidApplication {
 
 	public static int getAndIncrementNumberOfClonedSprites() {
 		return ++numberOfSpritesCloned;
+	}
+
+	public static void addNfcTagMessageToDeque(NdefMessage message) {
+		ndefMessageBlockingDeque.addLast(message);
 	}
 }

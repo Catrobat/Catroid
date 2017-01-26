@@ -151,6 +151,20 @@ public final class BrickValues {
 	public static final double RASPI_PWM_INITIAL_PERCENTAGE = 50.0;
 	public static final double RASPI_PWM_INITIAL_FREQUENCY = 100.0;
 
+	//Constants NFC
+	public static final short TNF_MIME_MEDIA = 0;
+	public static final short TNF_WELL_KNOWN_HTTP = 1;
+	public static final short TNF_WELL_KNOWN_HTTPS = 2;
+	public static final short TNF_WELL_KNOWN_SMS = 3;
+	public static final short TNF_WELL_KNOWN_TEL = 4;
+	public static final short TNF_WELL_KNOWN_MAILTO = 5;
+	public static final short TNF_EXTERNAL_TYPE = 6;
+	public static final short TNF_EMPTY = 7;
+	public static final byte NDEF_PREFIX_HTTP = 0x03;
+	public static final byte NDEF_PREFIX_HTTPS = 0x04;
+	public static final byte NDEF_PREFIX_TEL = 0x05;
+	public static final byte NDEF_PREFIX_MAILTO = 0x06;
+
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {
 		throw new AssertionError();

@@ -162,6 +162,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 	private static final int[] NFC_TAG_ID_ITEMS = { R.string.formula_editor_nfc_tag_id };
 
+	private static final int[] NFC_TAG_MESSAGE_ITEMS = { R.string.formula_editor_nfc_tag_message };
+
 	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
 			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
@@ -392,6 +394,11 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, NFC_TAG_ID_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_ID_ITEMS.length));
+			}
+
+			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, NFC_TAG_MESSAGE_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_MESSAGE_ITEMS.length));
 			}
 
 			header.put(itemsIds.length, getString(R.string.formula_editor_device_touch_detection));

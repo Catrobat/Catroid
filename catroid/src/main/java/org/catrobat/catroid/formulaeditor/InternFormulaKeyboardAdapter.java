@@ -228,6 +228,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.TIME_SECOND);
 			case R.string.formula_editor_nfc_tag_id:
 				return buildSensor(Sensors.NFC_TAG_ID);
+			case R.string.formula_editor_nfc_tag_message:
+				return buildSensor(Sensors.NFC_TAG_MESSAGE);
 
 			//NXT SENSOR
 			case R.string.formula_editor_sensor_lego_nxt_1:

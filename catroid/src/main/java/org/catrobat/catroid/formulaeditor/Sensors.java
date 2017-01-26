@@ -40,7 +40,7 @@ public enum Sensors {
 	OBJECT_Y_VELOCITY(true), OBJECT_ANGULAR_VELOCITY(true),
 	LAST_FINGER_INDEX, FINGER_X, FINGER_Y, FINGER_TOUCHED, OBJECT_LOOK_NUMBER(true), OBJECT_LOOK_NAME(true),
 	OBJECT_BACKGROUND_NUMBER(true), OBJECT_BACKGROUND_NAME(true),
-	NFC_TAG_ID;
+	NFC_TAG_ID(true), NFC_TAG_MESSAGE(true);
 
 	public final boolean isObjectSensor;
 	public static final String TAG = Sensors.class.getSimpleName();
