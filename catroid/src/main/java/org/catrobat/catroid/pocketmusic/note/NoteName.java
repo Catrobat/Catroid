@@ -40,11 +40,11 @@ public enum NoteName {
 	private static final NoteName DEFAULT_NOTE_NAME = NoteName.C4;
 
 	private int midi;
-	private boolean signed;
+	private boolean isBlackKey;
 
 	private NoteName(int midi, boolean signed) {
 		this.midi = midi;
-		this.signed = signed;
+		this.isBlackKey = signed;
 	}
 
 	public static NoteName getNoteNameFromMidiValue(int midiValue) {
@@ -66,14 +66,14 @@ public enum NoteName {
 		NoteName smallNoteName = isDownGoing ? referenceNoteName : noteName;
 		NoteName largeNoteName = isDownGoing ? noteName : referenceNoteName;
 
-		if (smallNoteName.isSigned()) {
+		if (smallNoteName.isBlackKey()) {
 			distance = 1;
-		} else if (largeNoteName.isSigned()) {
+		} else if (largeNoteName.isBlackKey()) {
 			distance = -1;
 		}
 
 		while (smallNoteName.getMidi() != largeNoteName.getMidi()) {
-			if (!smallNoteName.isSigned()) {
+			if (!smallNoteName.isBlackKey()) {
 				distance++;
 			}
 
@@ -111,7 +111,7 @@ public enum NoteName {
 		return values()[index];
 	}
 
-	public boolean isSigned() {
-		return signed;
+	public boolean isBlackKey() {
+		return isBlackKey;
 	}
 }
