@@ -315,24 +315,22 @@ public class LookListFragment extends ListActivityFragment implements CheckBoxLi
 	}
 
 	private boolean copyLook() {
-		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-		String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
+		File copiedImageFile = StorageHandler.copyFile(lookToEdit.getAbsolutePath(),
+				ProjectManager.getInstance().getFileChecksumContainer());
 
-		try {
-			StorageHandler.getInstance().copyImage(projectName, sceneName, lookToEdit.getAbsolutePath(), null);
-			String newLookName = lookToEdit.getName().concat(getString(R.string.copied_item_suffix));
-			LookData newLookData = new LookData(newLookName, lookToEdit.getLookFileName());
-
-			lookAdapter.add(newLookData);
-
-			if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
-				newLookData.getCollisionInformation().calculate();
-			}
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(copiedImageFile == null) {
 			return false;
 		}
+
+		String newLookName = lookToEdit.getName().concat(getString(R.string.copied_item_suffix));
+		LookData newLookData = new LookData(newLookName, copiedImageFile.getName());
+
+		lookAdapter.add(newLookData);
+
+		if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
+			newLookData.getCollisionInformation().calculate();
+		}
+		return true;
 	}
 
 	@Override

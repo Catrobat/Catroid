@@ -216,59 +216,59 @@ public final class OldLookController {
 
 	private void copyImageToCatroid(String originalImagePath, Activity activity, List<LookData> lookDataList,
 			LookFragment fragment) {
-		try {
-			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
-
-			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-				Log.e(TAG, "Error loading image in copyImageToCatroid imageDimensions");
-				Utils.showErrorDialog(activity, R.string.error_load_image);
-				return;
-			}
-
-			File oldFile = new File(originalImagePath);
-
-			if (originalImagePath.equals("")) {
-				throw new IOException();
-			}
-
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
-			File imageFile = StorageHandler.getInstance().copyImage(projectName, sceneName, originalImagePath, null);
-
-			String imageName;
-			int extensionDotIndex = oldFile.getName().lastIndexOf('.');
-			if (extensionDotIndex > 0) {
-				imageName = oldFile.getName().substring(0, extensionDotIndex);
-			} else {
-				imageName = oldFile.getName();
-			}
-
-			String imageFileName = imageFile.getName();
-			// if pixmap cannot be created, image would throw an Exception in stage
-			// so has to be loaded again with other Config
-			Pixmap pixmap = Utils.getPixmapFromFile(imageFile);
-
-			if (pixmap == null) {
-				ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
-				pixmap = Utils.getPixmapFromFile(imageFile);
-
-				if (pixmap == null) {
-					Log.e(TAG, "Error loading image in copyImageToCatroid pixmap");
-					Utils.showErrorDialog(activity, R.string.error_load_image);
-					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath(), false);
-					return;
-				}
-			}
-			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
-		} catch (IOException e) {
-			Log.e(TAG, "Error loading image in copyImageToCatroid IOException");
-			Utils.showErrorDialog(activity, R.string.error_load_image);
-		} catch (NullPointerException e) {
-			Log.e(TAG, "probably originalImagePath null; message: " + e.getMessage());
-			Utils.showErrorDialog(activity, R.string.error_load_image);
-		}
-		fragment.destroyLoader();
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+//		try {
+//			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
+//
+//			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+//				Log.e(TAG, "Error loading image in copyImageToCatroid imageDimensions");
+//				Utils.showErrorDialog(activity, R.string.error_load_image);
+//				return;
+//			}
+//
+//			File oldFile = new File(originalImagePath);
+//
+//			if (originalImagePath.equals("")) {
+//				throw new IOException();
+//			}
+//
+//			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+//			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
+//			File imageFile = StorageHandler.getInstance().copyImage(projectName, sceneName, originalImagePath, null);
+//
+//			String imageName;
+//			int extensionDotIndex = oldFile.getName().lastIndexOf('.');
+//			if (extensionDotIndex > 0) {
+//				imageName = oldFile.getName().substring(0, extensionDotIndex);
+//			} else {
+//				imageName = oldFile.getName();
+//			}
+//
+//			String imageFileName = imageFile.getName();
+//			// if pixmap cannot be created, image would throw an Exception in stage
+//			// so has to be loaded again with other Config
+//			Pixmap pixmap = Utils.getPixmapFromFile(imageFile);
+//
+//			if (pixmap == null) {
+//				ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
+//				pixmap = Utils.getPixmapFromFile(imageFile);
+//
+//				if (pixmap == null) {
+//					Log.e(TAG, "Error loading image in copyImageToCatroid pixmap");
+//					Utils.showErrorDialog(activity, R.string.error_load_image);
+//					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath(), false);
+//					return;
+//				}
+//			}
+//			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
+//		} catch (IOException e) {
+//			Log.e(TAG, "Error loading image in copyImageToCatroid IOException");
+//			Utils.showErrorDialog(activity, R.string.error_load_image);
+//		} catch (NullPointerException e) {
+//			Log.e(TAG, "probably originalImagePath null; message: " + e.getMessage());
+//			Utils.showErrorDialog(activity, R.string.error_load_image);
+//		}
+//		fragment.destroyLoader();
+//		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	public void loadImageIntoCatroid(Intent intent, Activity activity, List<LookData> lookDataList,
@@ -302,47 +302,47 @@ public final class OldLookController {
 	}
 
 	public void loadPocketPaintImageIntoCatroid(Intent intent, Activity activity, LookData selectedLookData) {
-		Bundle bundle = intent.getExtras();
-		String pathOfPocketPaintImage = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
-
-		int[] imageDimensions = ImageEditing.getImageDimensions(pathOfPocketPaintImage);
-		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Log.e(TAG, "Error loading image in loadPocketPaintImageIntoCatroid");
-			Utils.showErrorDialog(activity, R.string.error_load_image);
-			return;
-		}
-
-		String actualChecksum = Utils.md5Checksum(new File(pathOfPocketPaintImage));
-
-		// If look changed --> saving new image with new checksum and changing lookData
-		if (!selectedLookData.getChecksum().equalsIgnoreCase(actualChecksum)) {
-			String oldFileName = selectedLookData.getLookFileName();
-			String newFileName = oldFileName.substring(oldFileName.indexOf('_') + 1);
-
-			//HACK for https://github.com/Catrobat/Catroid/issues/81
-			if (!newFileName.endsWith(".png")) {
-				newFileName = newFileName + ".png";
-			}
-
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
-
-			try {
-				File newLookFile = StorageHandler.getInstance().copyImage(projectName, sceneName,
-						pathOfPocketPaintImage,
-						newFileName);
-
-				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath(), false); //reduce usage in container or delete it
-
-				selectedLookData.setLookFilename(newLookFile.getName());
-				selectedLookData.resetThumbnailBitmap();
-			} catch (IOException ioException) {
-				Log.e(TAG, Log.getStackTraceString(ioException));
-			}
-			if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
-				selectedLookData.getCollisionInformation().calculate();
-			}
-		}
+//		Bundle bundle = intent.getExtras();
+//		String pathOfPocketPaintImage = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
+//
+//		int[] imageDimensions = ImageEditing.getImageDimensions(pathOfPocketPaintImage);
+//		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+//			Log.e(TAG, "Error loading image in loadPocketPaintImageIntoCatroid");
+//			Utils.showErrorDialog(activity, R.string.error_load_image);
+//			return;
+//		}
+//
+//		String actualChecksum = Utils.md5Checksum(new File(pathOfPocketPaintImage));
+//
+//		// If look changed --> saving new image with new checksum and changing lookData
+//		if (!selectedLookData.getChecksum().equalsIgnoreCase(actualChecksum)) {
+//			String oldFileName = selectedLookData.getLookFileName();
+//			String newFileName = oldFileName.substring(oldFileName.indexOf('_') + 1);
+//
+//			//HACK for https://github.com/Catrobat/Catroid/issues/81
+//			if (!newFileName.endsWith(".png")) {
+//				newFileName = newFileName + ".png";
+//			}
+//
+//			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+//			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
+//
+//			try {
+//				File newLookFile = StorageHandler.getInstance().copyImage(projectName, sceneName,
+//						pathOfPocketPaintImage,
+//						newFileName);
+//
+//				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath(), false); //reduce usage in container or delete it
+//
+//				selectedLookData.setLookFilename(newLookFile.getName());
+//				selectedLookData.resetThumbnailBitmap();
+//			} catch (IOException ioException) {
+//				Log.e(TAG, Log.getStackTraceString(ioException));
+//			}
+//			if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
+//				selectedLookData.getCollisionInformation().calculate();
+//			}
+//		}
 	}
 
 	public void loadPictureFromCameraIntoCatroid(Uri lookFromCameraUri, Activity activity,
@@ -609,23 +609,23 @@ public final class OldLookController {
 	}
 
 	public void copyLook(int position, List<LookData> lookDataList, final Activity activity, LookFragment fragment) {
-		LookData lookData = lookDataList.get(position);
-
-		try {
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
-
-			StorageHandler.getInstance().copyImage(projectName, sceneName, lookData.getAbsolutePath(), null);
-			String imageName = lookData.getName() + "_" + activity.getString(R.string.copy_addition);
-			String imageFileName = lookData.getLookFileName();
-
-			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
-		} catch (IOException ioException) {
-			Log.e(TAG, "Error loading image in copyLook");
-			Utils.showErrorDialog(activity, R.string.error_load_image);
-			Log.e(TAG, Log.getStackTraceString(ioException));
-		}
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+//		LookData lookData = lookDataList.get(position);
+//
+//		try {
+//			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+//			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
+//
+//			StorageHandler.getInstance().copyImage(projectName, sceneName, lookData.getAbsolutePath(), null);
+//			String imageName = lookData.getName() + "_" + activity.getString(R.string.copy_addition);
+//			String imageFileName = lookData.getLookFileName();
+//
+//			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
+//		} catch (IOException ioException) {
+//			Log.e(TAG, "Error loading image in copyLook");
+//			Utils.showErrorDialog(activity, R.string.error_load_image);
+//			Log.e(TAG, Log.getStackTraceString(ioException));
+//		}
+//		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	public void switchToScriptFragment(LookFragment fragment, ScriptActivity scriptActivity) {

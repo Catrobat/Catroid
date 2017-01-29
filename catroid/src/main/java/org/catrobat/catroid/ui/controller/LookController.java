@@ -70,27 +70,21 @@ public final class LookController {
 			return true;
 		}
 
-		String lookFileName = lookData.getLookFilenameWithoutChecksum();
-		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-		String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
+		ProjectManager projectManager = ProjectManager.getInstance();
 
-		try {
-			File newLookFile = StorageHandler.getInstance().copyImage(projectName, sceneName, pathOfPocketPaintImage,
-					lookFileName);
+		File newLookFile = StorageHandler.copyFile(pathOfPocketPaintImage,
+				projectManager.getCurrentScene().getSceneImageDirectoryPath(),
+				projectManager.getFileChecksumContainer());
 
-			StorageHandler.getInstance().deleteFile(lookData.getAbsolutePath(), false);
+		StorageHandler.getInstance().deleteFile(lookData.getAbsolutePath(), false);
 
-			lookData.setLookFilename(newLookFile.getName());
-			lookData.resetThumbnailBitmap();
+		lookData.setLookFilename(newLookFile.getName());
+		lookData.resetThumbnailBitmap();
 
-			if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
-				lookData.getCollisionInformation().calculate();
-			}
-			return true;
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			return false;
+		if (projectManager.getCurrentSprite().hasCollision()) {
+			lookData.getCollisionInformation().calculate();
 		}
+		return true;
 	}
 
 	public static boolean loadFromMediaLibrary(String mediaFilePath, List<LookData> lookDataList) {
@@ -174,9 +168,10 @@ public final class LookController {
 		try {
 			File sourceFile = new File(sourceImagePath);
 
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
-			File imageFile = StorageHandler.getInstance().copyImage(projectName, sceneName, sourceImagePath, null);
+			ProjectManager projectManager = ProjectManager.getInstance();
+			File imageFile = StorageHandler.copyFile(sourceImagePath,
+					projectManager.getCurrentScene().getSceneImageDirectoryPath(),
+					projectManager.getFileChecksumContainer());
 
 			String imageName;
 			int extensionDotIndex = sourceFile.getName().lastIndexOf('.');

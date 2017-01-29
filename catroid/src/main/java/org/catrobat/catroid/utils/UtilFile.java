@@ -216,36 +216,6 @@ public final class UtilFile {
 		return projectList;
 	}
 
-	public static File copyFile(File destinationFile, File sourceFile) throws IOException {
-		FileInputStream inputStream = null;
-		FileChannel inputChannel = null;
-		FileOutputStream outputStream = null;
-		FileChannel outputChannel = null;
-		try {
-			inputStream = new FileInputStream(sourceFile);
-			inputChannel = inputStream.getChannel();
-			outputStream = new FileOutputStream(destinationFile);
-			outputChannel = outputStream.getChannel();
-			inputChannel.transferTo(0, inputChannel.size(), outputChannel);
-			return destinationFile;
-		} catch (IOException exception) {
-			throw exception;
-		} finally {
-			if (inputChannel != null) {
-				inputChannel.close();
-			}
-			if (inputStream != null) {
-				inputStream.close();
-			}
-			if (outputChannel != null) {
-				outputChannel.close();
-			}
-			if (outputStream != null) {
-				outputStream.close();
-			}
-		}
-	}
-
 	public static File copyFromResourceIntoProject(String projectName, String sceneName, String directoryInProject,
 			String outputFilename, int resourceId, Context context, boolean prependMd5ToFilename) throws IOException {
 		String directoryPath;

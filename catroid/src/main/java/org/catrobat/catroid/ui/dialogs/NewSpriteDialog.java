@@ -404,8 +404,14 @@ public class NewSpriteDialog extends DialogFragment {
 				newLookFile = new File(lookUri.getPath());
 			} else {
 				lookData = new LookData();
-				newLookFile = StorageHandler.getInstance().copyImage(projectManager.getCurrentProject().getName(),
-						projectManager.getCurrentScene().getName(), lookUri.getPath(), null);
+				newLookFile = StorageHandler.copyFile(lookUri.getPath(),
+						projectManager.getCurrentScene().getSceneImageDirectoryPath(),
+						projectManager.getFileChecksumContainer());
+
+				if(newLookFile == null) {
+					return false;
+				}
+
 				if (lookUri.getPath().contains(Constants.TMP_LOOKS_PATH)) {
 					File oldFile = new File(lookUri.getPath());
 					oldFile.delete();
