@@ -417,25 +417,25 @@ public final class OldSoundController {
 		return null;
 	}
 
-	public SoundInfo copySound(SoundInfo selectedSoundInfo, List<SoundInfo> soundInfoList, SoundFragment fragment) {
-		try {
-			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-		}
-		return updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
-				fragment);
-	}
+//	public SoundInfo copySound(SoundInfo selectedSoundInfo, List<SoundInfo> soundInfoList, SoundFragment fragment) {
+//		try {
+//			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
+//		} catch (IOException ioException) {
+//			Log.e(TAG, Log.getStackTraceString(ioException));
+//		}
+//		return updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
+//				fragment);
+//	}
 
 	public void copySound(int position, List<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
-		SoundInfo soundInfo = soundInfoList.get(position);
-		try {
-			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-		}
-		String newSoundInfoTitle = Utils.getUniqueSoundName(soundInfo, false);
-		updateSoundAdapter(soundInfo, adapter, newSoundInfoTitle, false, false);
+//		SoundInfo soundInfo = soundInfoList.get(position);
+//		try {
+//			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
+//		} catch (IOException ioException) {
+//			Log.e(TAG, Log.getStackTraceString(ioException));
+//		}
+//		String newSoundInfoTitle = Utils.getUniqueSoundName(soundInfo, false);
+//		updateSoundAdapter(soundInfo, adapter, newSoundInfoTitle, false, false);
 	}
 
 	private void deleteSound(int position, List<SoundInfo> soundInfoList, Activity activity) {
@@ -642,33 +642,33 @@ public final class OldSoundController {
 
 	private void copySoundToCatroid(String originalSoundPath, Activity activity, List<SoundInfo> soundList,
 			SoundFragment fragment) {
-		try {
-			File oldFile = new File(originalSoundPath);
-
-			if (originalSoundPath.equals("")) {
-				throw new IOException();
-			}
-
-			File soundFile = StorageHandler.getInstance().copySoundFile(originalSoundPath);
-
-			String soundName;
-			int extensionDotIndex = oldFile.getName().lastIndexOf('.');
-			if (extensionDotIndex > 0) {
-				soundName = oldFile.getName().substring(0, extensionDotIndex);
-			} else {
-				soundName = oldFile.getName();
-			}
-
-			String soundFileName = soundFile.getName();
-
-			updateSoundAdapter(soundName, soundFileName, soundList, fragment);
-		} catch (IOException e) {
-			Utils.showErrorDialog(activity, R.string.error_load_sound);
-		} catch (NullPointerException e) {
-			Log.e(TAG, "probably originalSoundPath null; message: " + e.getMessage());
-			Utils.showErrorDialog(activity, R.string.error_load_sound);
-		}
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+//		try {
+//			File oldFile = new File(originalSoundPath);
+//
+//			if (originalSoundPath.equals("")) {
+//				throw new IOException();
+//			}
+//
+//			File soundFile = StorageHandler.getInstance().copySoundFile(originalSoundPath);
+//
+//			String soundName;
+//			int extensionDotIndex = oldFile.getName().lastIndexOf('.');
+//			if (extensionDotIndex > 0) {
+//				soundName = oldFile.getName().substring(0, extensionDotIndex);
+//			} else {
+//				soundName = oldFile.getName();
+//			}
+//
+//			String soundFileName = soundFile.getName();
+//
+//			updateSoundAdapter(soundName, soundFileName, soundList, fragment);
+//		} catch (IOException e) {
+//			Utils.showErrorDialog(activity, R.string.error_load_sound);
+//		} catch (NullPointerException e) {
+//			Log.e(TAG, "probably originalSoundPath null; message: " + e.getMessage());
+//			Utils.showErrorDialog(activity, R.string.error_load_sound);
+//		}
+//		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	public SoundInfo updateSoundAdapter(String name, String fileName, List<SoundInfo> soundList, SoundFragment

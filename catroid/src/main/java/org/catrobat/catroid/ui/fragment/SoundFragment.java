@@ -950,13 +950,9 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		@Override
 		protected File doInBackground(String... path) {
-			File file = null;
-			try {
-				file = StorageHandler.getInstance().copySoundFile(path[0]);
-			} catch (IOException e) {
-				Log.e(TAG, "Cannot load sound.", e);
-			}
-			return file;
+			ProjectManager projectManager = ProjectManager.getInstance();
+			return StorageHandler.copyFile(path[0], projectManager.getCurrentScene().getSceneSoundDirectoryPath(),
+					projectManager.getFileChecksumContainer());
 		}
 
 		@Override

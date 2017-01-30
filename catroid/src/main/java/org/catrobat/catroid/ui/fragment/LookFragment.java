@@ -77,7 +77,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
-public class LookFragment extends ScriptActivityFragment implements LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener, OldLookController.OnBackpackLookCompleteListener {
+public class LookFragment extends ScriptActivityFragment implements LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
 	public static final String TAG = LookFragment.class.getSimpleName();
 	private static int selectedLookPosition = Constants.NO_POSITION;
@@ -422,7 +422,7 @@ public class LookFragment extends ScriptActivityFragment implements LoaderManage
 					break;
 				case OldLookController.REQUEST_TAKE_PICTURE:
 					String defLookName = getString(R.string.default_look_name);
-					lookFromCameraUri = UtilCamera.rotatePictureIfNecessary(lookFromCameraUri, defLookName);
+					//lookFromCameraUri = UtilCamera.rotatePictureIfNecessary(lookFromCameraUri, defLookName);
 					OldLookController.getInstance().loadPictureFromCameraIntoCatroid(lookFromCameraUri, activity,
 							lookDataList, this);
 					break;
@@ -725,11 +725,6 @@ public class LookFragment extends ScriptActivityFragment implements LoaderManage
 
 	public List<LookData> getLookDataList() {
 		return lookDataList;
-	}
-
-	@Override
-	public void onBackpackLookComplete(boolean startBackpackActivity) {
-		openBackPack();
 	}
 
 	public interface OnLookDataListChangedAfterNewListener {

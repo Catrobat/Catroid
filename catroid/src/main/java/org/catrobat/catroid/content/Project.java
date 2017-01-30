@@ -132,6 +132,10 @@ public class Project implements Serializable {
 		sceneList.add(scene);
 	}
 
+	public String getProjectPath(){
+		return Utils.buildProjectPath(getName());
+	}
+
 	public void removeInvalidVariablesAndLists(BaseDataContainer dataContainer) {
 		if (dataContainer == null) {
 			return;
