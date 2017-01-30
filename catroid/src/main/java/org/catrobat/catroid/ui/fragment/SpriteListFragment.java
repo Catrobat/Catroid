@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -158,7 +159,8 @@ public class SpriteListFragment extends ListActivityFragment implements CheckBox
 	}
 
 	public void showNewSceneDialog() {
-		String defaultSceneName = Utils.getUniqueSceneName(getString(R.string.default_scene_name), false);
+		List<Scene> scope = ProjectManager.getInstance().getCurrentProject().getSceneList();
+		String defaultSceneName = Utils.getUniqueSceneName(getString(R.string.default_scene_name), scope);
 		NewSceneDialog dialog = new NewSceneDialog(defaultSceneName, this);
 		dialog.show(getFragmentManager(), NewSceneDialog.DIALOG_FRAGMENT_TAG);
 	}
@@ -223,15 +225,16 @@ public class SpriteListFragment extends ListActivityFragment implements CheckBox
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);
 		}
-		projectManager.getCurrentScene().getSpriteList().remove(spriteToEdit);
+		spriteAdapter.remove(spriteToEdit);
 	}
 
 	private void deleteSpriteFiles() {
+		FileChecksumContainer checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
-			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath(), false);
+			StorageHandler.deleteFile(currentLookData.getAbsolutePath(), checksumContainer);
 		}
 		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
-			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath(), false);
+			StorageHandler.deleteFile(currentSoundInfo.getAbsolutePath(), checksumContainer);
 		}
 	}
 
@@ -284,7 +287,7 @@ public class SpriteListFragment extends ListActivityFragment implements CheckBox
 
 	@Override
 	public void showReplaceItemsInBackPackDialog() {
-		if (!BackPackSpriteController.existsInBackPack(spriteAdapter.getCheckedItems())) {
+		if (!BackPackSpriteController.existsInBackpack(spriteAdapter.getCheckedItems())) {
 			packCheckedItems();
 			return;
 		}

@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
@@ -51,9 +52,9 @@ import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilCamera;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class LookListFragment extends ListActivityFragment implements CheckBoxListAdapter
@@ -63,15 +64,12 @@ public class LookListFragment extends ListActivityFragment implements CheckBoxLi
 	public static final String BUNDLE_ARGUMENTS_LOOK_TO_EDIT = "look_to_edit";
 	public static final String SHARED_PREFERENCE_NAME = "showLookDetails";
 
-	public static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
-
 	public static final int REQUEST_EDIT_IMAGE = 0;
 	public static final int REQUEST_DRAW_IMAGE = 1;
 	public static final int REQUEST_MEDIA_LIBRARY = 2;
 	public static final int REQUEST_SELECT_IMAGE = 3;
 	public static final int REQUEST_CAMERA_IMAGE = 4;
 	public static final int REQUEST_DRONE_VIDEO = 5;
-
 
 	private LookListAdapter lookAdapter;
 	private DragAndDropListView listView;
@@ -139,40 +137,57 @@ public class LookListFragment extends ListActivityFragment implements CheckBoxLi
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK) {
+			File lookFile = null;
+			String lookName = getString(R.string.default_look_name);
+			//TODO: delete temporary image copies.
 			switch (requestCode) {
 				case REQUEST_EDIT_IMAGE:
 					if (!LookController.loadFromPocketPaint(data, lookToEdit)) {
 						ToastUtil.showError(getActivity(), R.string.error_load_image);
 					}
-					StorageHandler.getInstance().deleteTempImageCopy();
-					break;
+					return;
 				case REQUEST_DRAW_IMAGE:
+					String paintroidFilePath = data.getStringExtra(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
+					lookFile = LookController.loadFromExternal(paintroidFilePath);
+					break;
 				case REQUEST_SELECT_IMAGE:
-					if (!LookController.loadFromExternalApp(data, getActivity(), lookDataList)) {
-						ToastUtil.showError(getActivity(), R.string.error_load_image);
-					}
+					lookFile = LookController.loadFromExternalApp(data, getActivity());
 					break;
 				case REQUEST_MEDIA_LIBRARY:
-					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
-					if (!LookController.loadFromMediaLibrary(filePath, lookDataList)) {
-						ToastUtil.showError(getActivity(), R.string.error_load_image);
+					String libraryFilePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
+					lookFile = LookController.loadFromExternal(libraryFilePath);
+					if (lookFile != null) {
+						lookName = LookController.getLookNameFromLookFile(lookFile);
 					}
 					break;
 				case REQUEST_CAMERA_IMAGE:
-					String defaultLookName = getString(R.string.default_look_name);
-					lookFromCameraUri = UtilCamera.rotatePictureIfNecessary(lookFromCameraUri, defaultLookName);
-					if (!LookController.loadFromCamera(lookFromCameraUri, lookDataList)) {
-						ToastUtil.showError(getActivity(), R.string.error_load_image);
-					}
+					lookFromCameraUri = UtilCamera.rotatePictureIfNecessary(lookFromCameraUri);
+					lookFile = LookController.loadFromExternal(lookFromCameraUri.getPath());
 					break;
 				case REQUEST_DRONE_VIDEO:
-					String droneFilePath = getString(R.string.add_look_drone_video);
-					if (!LookController.loadDroneVideo(droneFilePath, getActivity(),lookDataList)) {
-						ToastUtil.showError(getActivity(), R.string.error_load_image);
-					}
+					//TODO: loadDroneVideo.
 					break;
 			}
+
+			if (!addNewLookData(lookName, lookFile)) {
+				ToastUtil.showError(getActivity(), R.string.error_load_image);
+			}
 		}
+	}
+
+	private boolean addNewLookData(String lookName, File lookFile) {
+		if(lookFile == null) {
+			return false;
+		}
+
+		LookData newLookData = new LookData(Utils.getUniqueLookName(lookName, lookDataList), lookFile.getName());
+
+		if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
+			newLookData.getCollisionInformation().calculate();
+		}
+
+		lookAdapter.add(newLookData);
+		return true;
 	}
 
 	public void addLookDrawNewImage() {
@@ -290,11 +305,21 @@ public class LookListFragment extends ListActivityFragment implements CheckBoxLi
 	}
 
 	private boolean deleteLook() {
-		if (!LookController.otherLookDataItemsHaveAFileReference(lookToEdit)) {
-			StorageHandler.getInstance().deleteFile(lookToEdit.getAbsolutePath(), false);
-		}
 		lookAdapter.remove(lookToEdit);
+		if (!lookFileHasReferences(lookToEdit.getLookFileName())) {
+			FileChecksumContainer checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+			StorageHandler.deleteFile(lookToEdit.getAbsolutePath(), checksumContainer);
+		}
 		return true;
+	}
+
+	private boolean lookFileHasReferences(String lookFileName) {
+		for (LookData lookData : lookDataList) {
+			if (lookFileName.equals(lookData.getLookFileName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -315,24 +340,9 @@ public class LookListFragment extends ListActivityFragment implements CheckBoxLi
 	}
 
 	private boolean copyLook() {
-		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-		String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
-
-		try {
-			StorageHandler.getInstance().copyImage(projectName, sceneName, lookToEdit.getAbsolutePath(), null);
-			String newLookName = lookToEdit.getName().concat(getString(R.string.copied_item_suffix));
-			LookData newLookData = new LookData(newLookName, lookToEdit.getLookFileName());
-
-			lookAdapter.add(newLookData);
-
-			if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
-				newLookData.getCollisionInformation().calculate();
-			}
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+		FileChecksumContainer checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+		File newLookFile = StorageHandler.copyFile(lookToEdit.getAbsolutePath(), checksumContainer);
+		return addNewLookData(lookToEdit.getName().concat(getString(R.string.copied_item_suffix)), newLookFile);
 	}
 
 	@Override
@@ -362,7 +372,7 @@ public class LookListFragment extends ListActivityFragment implements CheckBoxLi
 
 	@Override
 	public void showReplaceItemsInBackPackDialog() {
-		if (!LookController.existsInBackPack(lookAdapter.getCheckedItems())) {
+		if (!LookController.existsInBackpack(lookAdapter.getCheckedItems())) {
 			packCheckedItems();
 			return;
 		}
@@ -397,20 +407,5 @@ public class LookListFragment extends ListActivityFragment implements CheckBoxLi
 		Intent intent = new Intent(getActivity(), BackPackActivity.class);
 		intent.putExtra(BackPackActivity.FRAGMENT, BackPackLookListFragment.class);
 		startActivity(intent);
-	}
-
-	private static String getNewValidLookName(String name, int nextNumber) {
-		String newName;
-		if (nextNumber == 0) {
-			newName = name;
-		} else {
-			newName = name + nextNumber;
-		}
-		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
-			if (lookData.getName().equals(newName)) {
-				return getNewValidLookName(name, ++nextNumber);
-			}
-		}
-		return newName;
 	}
 }

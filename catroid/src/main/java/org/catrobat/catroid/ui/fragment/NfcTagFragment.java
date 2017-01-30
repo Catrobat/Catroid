@@ -143,11 +143,11 @@ public class NfcTagFragment extends ListActivityFragment implements CheckBoxList
 		NfcHandler.setLastNfcTagMessage(NfcHandler.getMessageFromIntent(intent));
 		if (uid != null) {
 			NfcTagData newNfcTagData = new NfcTagData();
-			String newTagName = Utils.getUniqueNfcTagName(getString(R.string.default_tag_name));
-			newNfcTagData.setNfcTagName(newTagName);
+			List<NfcTagData> scope = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+			String name = Utils.getUniqueNfcTagName(getString(R.string.default_tag_name), scope);
+			newNfcTagData.setNfcTagName(name);
 			newNfcTagData.setNfcTagUid(uid);
 			nfcTagAdapter.add(newNfcTagData);
-			nfcTagAdapter.notifyDataSetChanged();
 		} else {
 			Log.d(TAG, "NO NFC tag found");
 		}
@@ -188,7 +188,8 @@ public class NfcTagFragment extends ListActivityFragment implements CheckBoxList
 	}
 
 	private void copyNfcTag(NfcTagData nfcTagData) {
-		String name = Utils.getUniqueNfcTagName(nfcTagData.getNfcTagName());
+		List<NfcTagData> scope = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		String name = Utils.getUniqueNfcTagName(getString(R.string.default_tag_name), scope);
 		String uid = nfcTagData.getNfcTagUid();
 
 		NfcTagData newNfcTagData = new NfcTagData();

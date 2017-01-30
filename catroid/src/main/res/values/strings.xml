@@ -44,7 +44,7 @@
     <string name="unpack">Unpack</string>
     <string name="unpack_bg">Unpack as background</string>
     <string name="unpack_object">Unpack as object</string>
-    <string name="copied_item_suffix">_Copy</string>
+    <string name="copied_item_suffix">_copy</string>
     <string name="close">Close</string>
     <string name="error">Error</string>
     <string name="please_wait">Please wait</string>
@@ -391,7 +391,7 @@
     <string name="rename_look_dialog">Rename Look</string>
     <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
     <string name="pocket_paint_not_installed">Do you want to install it?</string>
-    <string name="default_look_name">look</string>
+    <string name="default_look_name">Look</string>
     <string name="delete_look_dialog">Delete Look?</string>
     <string name="select_look_from_gallery">Select image</string>
     <string name="select_look_from_camera">Select photo</string>
@@ -903,7 +903,7 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>
-    <string name="default_scene_name">Scene %1$d</string>
+    <string name="default_scene_name">Scene</string>
     <string name="default_project_background_name">Background</string>
     <string name="default_project_cloud_name">Clouds</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>

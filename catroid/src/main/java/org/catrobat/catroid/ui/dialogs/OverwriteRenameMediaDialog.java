@@ -43,11 +43,15 @@ import android.widget.TextView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.WebViewActivity;
+import org.catrobat.catroid.ui.fragment.LookListFragment;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class OverwriteRenameMediaDialog extends DialogFragment implements OnClickListener {
 	protected RadioButton replaceButton;
@@ -209,25 +213,26 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 
 	private boolean handleOkButton() {
 		if (replaceButton.isChecked()) {
+			FileChecksumContainer checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 			switch (mediaType) {
 				case Constants.MEDIA_TYPE_LOOK:
-					LookData lookToRemove = null;
+					LookData lookToRemove;
 					for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
 						if (lookData.getName().compareTo(mediaName) == 0) {
 							lookToRemove = lookData;
 							ProjectManager.getInstance().getCurrentSprite().getLookDataList().remove(lookToRemove);
-							StorageHandler.getInstance().deleteFile(lookToRemove.getAbsolutePath(), false);
+							StorageHandler.deleteFile(lookToRemove.getAbsolutePath(), checksumContainer);
 							break;
 						}
 					}
 					break;
 				case Constants.MEDIA_TYPE_SOUND:
-					SoundInfo soundToRemove = null;
+					SoundInfo soundToRemove;
 					for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
 						if (soundInfo.getTitle().compareTo(mediaName) == 0) {
 							soundToRemove = soundInfo;
 							ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundToRemove);
-							StorageHandler.getInstance().deleteFile(soundToRemove.getAbsolutePath(), false);
+							StorageHandler.deleteFile(soundToRemove.getAbsolutePath(), checksumContainer);
 							break;
 						}
 					}
@@ -237,23 +242,22 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 		} else if (renameButton.isChecked()) {
 			String newMediaName = mediaText.getText().toString();
 			switch (mediaType) {
-//				TODO: Check media type and call respective dialog.
-//				case Constants.MEDIA_TYPE_LOOK:
-//					if (callingActivity.contains(LookFragment.TAG)) {
-//						if (Utils.checkIfLookExists(newMediaName)) {
-//							ToastUtil.showError(context, R.string.look_rename_overwrite);
-//							return false;
-//						}
-//					} else {
-//						return true;
-//					}
-//					break;
-//				case Constants.MEDIA_TYPE_SOUND:
-//					if (Utils.checkIfSoundExists(newMediaName)) {
-//						ToastUtil.showError(context, R.string.rename_sound_overwrite);
-//						return false;
-//					}
-//					break;
+				case Constants.MEDIA_TYPE_LOOK:
+					if (callingActivity.contains(LookListFragment.TAG)) {
+						if (Utils.checkIfLookExists(newMediaName)) {
+							ToastUtil.showError(context, R.string.look_rename_overwrite);
+							return false;
+						}
+					} else {
+						return true;
+					}
+					break;
+				case Constants.MEDIA_TYPE_SOUND:
+					if (Utils.checkIfSoundExists(newMediaName)) {
+						ToastUtil.showError(context, R.string.rename_sound_overwrite);
+						return false;
+					}
+					break;
 			}
 			filePath = filePath.replace(mediaName, newMediaName);
 

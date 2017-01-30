@@ -65,6 +65,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class NewSpriteDialog extends DialogFragment {
 
@@ -177,7 +178,9 @@ public class NewSpriteDialog extends DialogFragment {
 		if (newObjectName == null) {
 			newObjectName = getString(R.string.new_sprite_dialog_default_sprite_name);
 		}
-		newObjectName = Utils.getUniqueObjectName(newObjectName);
+
+		List<Sprite> scope = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		newObjectName = Utils.getUniqueSpriteName(newObjectName, scope);
 
 		DisplayMetrics metrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -223,7 +226,7 @@ public class NewSpriteDialog extends DialogFragment {
 						newObjectName = new File(lookUri.toString()).getName();
 						break;
 					case REQUEST_TAKE_PICTURE:
-						lookUri = UtilCamera.rotatePictureIfNecessary(lookUri, getString(R.string.default_look_name));
+						lookUri = UtilCamera.rotatePictureIfNecessary(lookUri);
 						break;
 					case REQUEST_MEDIA_LIBRARY:
 						lookUri = Uri.parse(data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH));
@@ -404,8 +407,14 @@ public class NewSpriteDialog extends DialogFragment {
 				newLookFile = new File(lookUri.getPath());
 			} else {
 				lookData = new LookData();
-				newLookFile = StorageHandler.getInstance().copyImage(projectManager.getCurrentProject().getName(),
-						projectManager.getCurrentScene().getName(), lookUri.getPath(), null);
+				newLookFile = StorageHandler.copyFile(lookUri.getPath(),
+						projectManager.getCurrentScene().getSceneImageDirectoryPath(),
+						projectManager.getFileChecksumContainer());
+
+				if(newLookFile == null) {
+					return false;
+				}
+
 				if (lookUri.getPath().contains(Constants.TMP_LOOKS_PATH)) {
 					File oldFile = new File(lookUri.getPath());
 					oldFile.delete();

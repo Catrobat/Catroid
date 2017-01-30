@@ -43,12 +43,11 @@ import java.io.OutputStream;
 public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
-	private StorageHandler storageHandler;
 	private ProjectManager projectManager;
+	private FileChecksumContainer checksumContainer;
 	private File testImage;
 	private File testSound;
 	private String currentProjectName = "testCopyFile2";
-	private String currentSceneName;
 
 	public FileChecksumContainerTest() throws IOException {
 	}
@@ -57,13 +56,12 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 	protected void setUp() throws Exception {
 
 		TestUtils.clearProject(currentProjectName);
-		storageHandler = StorageHandler.getInstance();
 		Project testCopyFile = new Project(null, currentProjectName);
-		currentSceneName = testCopyFile.getDefaultScene().getName();
 		testCopyFile.getXmlHeader().virtualScreenHeight = 1000;
 		testCopyFile.getXmlHeader().virtualScreenWidth = 1000;
 		projectManager = ProjectManager.getInstance();
-		storageHandler.saveProject(testCopyFile);
+		checksumContainer = projectManager.getFileChecksumContainer();
+		StorageHandler.getInstance().saveProject(testCopyFile);
 		projectManager.setProject(testCopyFile);
 
 		final String imagePath = Constants.DEFAULT_ROOT + "/testImage.png";
@@ -115,59 +113,51 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 	}
 
 	public void testContainer() throws IOException, InterruptedException {
-
-		storageHandler.copyImage(currentProjectName, currentSceneName, testImage.getAbsolutePath(), null);
-
+		StorageHandler.copyFile(testImage.getAbsolutePath(), checksumContainer);
 		String checksumImage = Utils.md5Checksum(testImage);
-
-		FileChecksumContainer fileChecksumContainer = projectManager.getFileChecksumContainer();
-		assertTrue("Checksum isn't in container", fileChecksumContainer.containsChecksum(checksumImage));
+		assertTrue("Checksum isn't in container", checksumContainer.containsChecksum(checksumImage));
 
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
 
-		File newTestImage = storageHandler.copyImage(currentProjectName, currentSceneName, testImage.getAbsolutePath(), null);
-		File imageDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + currentSceneName + "/"
-				+ Constants.IMAGE_DIRECTORY + "/");
+		File newTestImage = StorageHandler.copyFile(testImage.getAbsolutePath(), checksumContainer);
+		File imageDirectory = new File(projectManager.getCurrentScene().getSceneImageDirectoryPath());
 		File[] filesImage = imageDirectory.listFiles();
 
 		//nomedia file is also in images folder
 		assertEquals("Wrong amount of files in folder", 2, filesImage.length);
 
-		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
+		File newTestSound = StorageHandler.copyFile(testSound.getAbsolutePath(), checksumContainer);
 		String checksumSound = Utils.md5Checksum(testSound);
-		assertTrue("Checksum isn't in container", fileChecksumContainer.containsChecksum(checksumSound));
-		File soundDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + currentSceneName + "/"
-				+ Constants.SOUND_DIRECTORY);
+		assertTrue("Checksum isn't in container", checksumContainer.containsChecksum(checksumSound));
+		File soundDirectory = new File(projectManager.getCurrentScene().getSceneSoundDirectoryPath());
 		File[] filesSound = soundDirectory.listFiles();
 
 		//nomedia file is also in sounds folder
 		assertEquals("Wrong amount of files in folder", 2, filesSound.length);
 
-		fileChecksumContainer.decrementUsage(newTestImage.getAbsolutePath());
-		assertTrue("Checksum was deleted", fileChecksumContainer.containsChecksum(checksumImage));
-		fileChecksumContainer.decrementUsage(newTestImage.getAbsolutePath());
-		assertFalse("Checksum wasn't deleted", fileChecksumContainer.containsChecksum(checksumImage));
-		fileChecksumContainer.decrementUsage(newTestSound.getAbsolutePath());
-		assertFalse("Checksum wasn't deleted", fileChecksumContainer.containsChecksum(checksumSound));
+		checksumContainer.decrementUsage(newTestImage.getAbsolutePath());
+		assertTrue("Checksum was deleted", checksumContainer.containsChecksum(checksumImage));
+		checksumContainer.decrementUsage(newTestImage.getAbsolutePath());
+		assertFalse("Checksum wasn't deleted", checksumContainer.containsChecksum(checksumImage));
+		checksumContainer.decrementUsage(newTestSound.getAbsolutePath());
+		assertFalse("Checksum wasn't deleted", checksumContainer.containsChecksum(checksumSound));
 	}
 
 	public void testDeleteFile() throws IOException, InterruptedException {
-		File newTestImage1 = storageHandler.copyImage(currentProjectName, currentSceneName, testImage.getAbsolutePath(), null);
+		File newTestImage1 = StorageHandler.copyFile(testImage.getAbsolutePath(), checksumContainer);
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
 
-		storageHandler.deleteFile(newTestImage1.getAbsolutePath(), false);
-		File imageDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + currentSceneName + "/"
-				+ Constants.IMAGE_DIRECTORY);
+		StorageHandler.deleteFile(newTestImage1.getAbsolutePath(), checksumContainer);
+		File imageDirectory = new File(projectManager.getCurrentScene().getSceneImageDirectoryPath());
 		File[] filesImage = imageDirectory.listFiles();
 		assertEquals("Wrong amount of files in folder", 1, filesImage.length);
 
-		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
-		storageHandler.deleteFile(newTestSound.getAbsolutePath(), false);
+		File newTestSound = StorageHandler.copyFile(testSound.getAbsolutePath(), checksumContainer);
+		StorageHandler.deleteFile(newTestSound.getAbsolutePath(), checksumContainer);
 
-		File soundDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + currentSceneName + "/"
-				+ Constants.SOUND_DIRECTORY);
+		File soundDirectory = new File(projectManager.getCurrentScene().getSceneSoundDirectoryPath());
 		File[] filesSound = soundDirectory.listFiles();
 
 		assertEquals("Wrong amount of files in folder", 1, filesSound.length);

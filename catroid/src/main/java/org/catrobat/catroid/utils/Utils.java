@@ -58,6 +58,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
+import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ScratchProgramData;
@@ -93,9 +94,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public final class Utils {
 
@@ -697,135 +700,93 @@ public final class Utils {
 		return newName;
 	}
 
-	public static String getUniqueSceneName(String sceneName, boolean forBackPack) {
-		return searchForNonExistingSceneName(sceneName, 1, forBackPack);
-	}
+	private static String getUniqueName(String name, Set<String> nameSet) {
+		String newName = name;
+		int suffix = 1;
 
-	public static String getUniqueSceneName(String sceneName, Project firstProject, Project secondProject) {
-		Project backup = ProjectManager.getInstance().getCurrentProject();
-		ProjectManager.getInstance().setCurrentProject(firstProject);
-		String result = getUniqueSceneName(sceneName, false);
-		ProjectManager.getInstance().setCurrentProject(secondProject);
-		sceneName = getUniqueSceneName(result, false);
-		ProjectManager.getInstance().setCurrentProject(backup);
-		return sceneName;
-	}
-
-	private static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
-		List<Scene> sceneList;
-
-		if (forBackPack) {
-			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
-		} else {
-			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
-		}
-
-		String possibleNewName = String.format(sceneName, nextNumber);
-
-		for (Scene sceneListItem : sceneList) {
-			if (sceneListItem.getName().equals(possibleNewName)) {
-				return searchForNonExistingSceneName(sceneName, ++nextNumber, forBackPack);
-			}
-		}
-
-		return possibleNewName;
-	}
-
-	public static String getUniqueObjectName(String name) {
-		return searchForNonExistingObjectNameInCurrentProgram(name, 0);
-	}
-
-	private static String searchForNonExistingObjectNameInCurrentProgram(String name, int nextNumber) {
-		String newName;
-
-		if (nextNumber == 0) {
-			newName = name;
-		} else {
-			newName = name + " " + nextNumber;
-		}
-
-		if (ProjectManager.getInstance().getCurrentScene().containsSpriteBySpriteName(newName)) {
-			return searchForNonExistingObjectNameInCurrentProgram(name, ++nextNumber);
+		while(nameSet.contains(newName)) {
+			suffix++;
+			newName = name.concat(" ").concat(Integer.toString(suffix));
 		}
 
 		return newName;
 	}
 
-	public static String getUniqueSpriteName(Sprite sprite) {
-		return searchForNonExistingSpriteName(sprite, 0);
+	public static String getUniqueSceneName(String name, List<Scene> scope) {
+		Set<String> nameSet = new HashSet<>();
+		for (Scene scene : scope) {
+			nameSet.add(scene.getName());
+		}
+
+		return getUniqueName(name, nameSet);
 	}
 
-	private static String searchForNonExistingSpriteName(Sprite sprite, int nextNumber) {
-		String newName;
-		List<Sprite> spriteList;
-		if (sprite.isBackpackObject) {
-			spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-		} else {
-			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
+	public static String getUniqueSceneName(String name, Project firstProject, Project secondProject) {
+		String uniqueNameInFirstProject = getUniqueSceneName(name, firstProject.getSceneList());
+		return getUniqueSceneName(uniqueNameInFirstProject, secondProject.getSceneList());
+	}
+
+	public static String getUniqueSpriteName(String name, List<Sprite> scope) {
+		Set<String> nameSet = new HashSet<>();
+		for (Sprite sprite : scope) {
+			nameSet.add(sprite.getName());
 		}
 
-		if (nextNumber == 0) {
-			newName = sprite.getName();
-		} else {
-			newName = sprite.getName() + " " + nextNumber;
+		return getUniqueName(name, nameSet);
+	}
+
+	public static String getUniqueLookName(String name, List<LookData> scope) {
+		Set<String> nameSet = new HashSet<>();
+		for (LookData lookData : scope) {
+			nameSet.add(lookData.getName());
 		}
-		for (Sprite spriteListItem : spriteList) {
-			if (spriteListItem.getName().equals(newName)) {
-				return searchForNonExistingSpriteName(sprite, ++nextNumber);
+
+		return getUniqueName(name, nameSet);
+	}
+
+	public static String getUniqueSoundName(String name, List<SoundInfo> scope) {
+		Set<String> nameSet = new HashSet<>();
+		for (SoundInfo soundInfo : scope) {
+			nameSet.add(soundInfo.getTitle());
+		}
+
+		return getUniqueName(name, nameSet);
+	}
+
+	public static String getUniqueNfcTagName(String name, List<NfcTagData> scope) {
+		Set<String> nameSet = new HashSet<>();
+		for (NfcTagData nfcTagData : scope) {
+			nameSet.add(nfcTagData.getNfcTagName());
+		}
+
+		return getUniqueName(name, nameSet);
+	}
+
+	public static boolean checkIfProjectExistsOrIsDownloadingIgnoreCase(String programName) {
+		if (DownloadUtil.getInstance().isProgramNameInDownloadQueueIgnoreCase(programName)) {
+			return true;
+		}
+
+		File projectDirectory = new File(Utils.buildProjectPath(programName));
+		return projectDirectory.exists();
+	}
+
+	public static boolean checkIfLookExists(String name) {
+		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
+			if (lookData.getName().compareTo(name) == 0) {
+				return true;
 			}
 		}
-		return newName;
+		return false;
 	}
 
-	public static String getUniqueLookName(LookData lookData, boolean forBackPack) {
-		return searchForNonExistingLookName(lookData, 0, forBackPack);
-	}
-
-	private static String searchForNonExistingLookName(LookData originalLookData,
-			int nextNumber, boolean forBackPack) {
-		String newName;
-		List<LookData> lookDataList;
-		if (forBackPack) {
-			lookDataList = BackPackListManager.getInstance().getAllBackPackedLooks();
-		} else {
-			lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
-		}
-
-		if (nextNumber == 0) {
-			newName = originalLookData.getName();
-		} else {
-			newName = originalLookData.getName() + " " + nextNumber;
-		}
-		for (LookData lookData : lookDataList) {
-			if (lookData.getName().equals(newName)) {
-				return searchForNonExistingLookName(originalLookData, ++nextNumber, forBackPack);
+	public static boolean checkIfSoundExists(String name) {
+		for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
+			if (soundInfo.getTitle().compareTo(name) == 0) {
+				return true;
 			}
 		}
-		return newName;
-	}
-
-	public static String getUniqueNfcTagName(String name) {
-		return searchForNonExistingNfcTagName(name, 0);
-	}
-
-	private static String searchForNonExistingNfcTagName(String name, int nextNumber) {
-		String newName;
-		List<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
-		if (nextNumber == 0) {
-			newName = name;
-		} else {
-			newName = name + " " + nextNumber;
-		}
-		for (NfcTagData nfcTagData : nfcTagDataList) {
-			if (nfcTagData.getNfcTagName().equals(newName)) {
-				return searchForNonExistingNfcTagName(name, ++nextNumber);
-			}
-		}
-		return newName;
-	}
-
-	public static String getUniqueSoundName(SoundInfo soundInfo, boolean forBackPack) {
-		return searchForNonExistingSoundTitle(soundInfo, 0, forBackPack);
+		return false;
 	}
 
 	public static Project findValidProject(Context context) {
@@ -839,33 +800,6 @@ public final class Utils {
 			}
 		}
 		return loadableProject;
-	}
-
-	private static String searchForNonExistingSoundTitle(SoundInfo soundInfo, int nextNumber, boolean forBackPack) {
-		// search for sounds with the same title
-		String newTitle = "";
-		List<SoundInfo> soundInfoList;
-		if (forBackPack) {
-			soundInfoList = BackPackListManager.getInstance().getAllBackPackedSounds();
-		} else {
-			soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		}
-
-		if (nextNumber == 0) {
-			if (soundInfo != null) {
-				newTitle = soundInfo.getTitle();
-			}
-		} else {
-			if (soundInfo != null) {
-				newTitle = soundInfo.getTitle() + " " + nextNumber;
-			}
-		}
-		for (SoundInfo soundInfoFromList : soundInfoList) {
-			if (soundInfoFromList.getTitle().equals(newTitle)) {
-				return searchForNonExistingSoundTitle(soundInfo, ++nextNumber, forBackPack);
-			}
-		}
-		return newTitle;
 	}
 
 	public static Pixmap getPixmapFromFile(File imageFile) {
@@ -894,7 +828,8 @@ public final class Utils {
 			if (pixmap == null) {
 				Log.e(TAG, "error_load_image rewriteImageFileForStage");
 				Utils.showErrorDialog(context, R.string.error_load_image);
-				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath(), false);
+				FileChecksumContainer checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+				StorageHandler.deleteFile(lookFile.getAbsolutePath(), checksumContainer);
 				throw new IOException("Pixmap could not be fixed");
 			}
 		}
@@ -1021,33 +956,6 @@ public final class Utils {
 				return TRANSLATION_PLURAL_OTHER_INTEGER;
 			}
 		}
-	}
-
-	public static boolean checkIfProjectExistsOrIsDownloadingIgnoreCase(String programName) {
-		if (DownloadUtil.getInstance().isProgramNameInDownloadQueueIgnoreCase(programName)) {
-			return true;
-		}
-
-		File projectDirectory = new File(Utils.buildProjectPath(programName));
-		return projectDirectory.exists();
-	}
-
-	public static boolean checkIfLookExists(String name) {
-		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
-			if (lookData.getName().compareTo(name) == 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static boolean checkIfSoundExists(String name) {
-		for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
-			if (soundInfo.getTitle().compareTo(name) == 0) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {

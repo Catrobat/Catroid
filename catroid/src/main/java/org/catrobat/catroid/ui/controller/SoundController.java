@@ -31,16 +31,16 @@ public final class SoundController {
 
 	public static final String TAG = SoundController.class.getSimpleName();
 
-	public static boolean existsInBackPack(List<SoundInfo> soundInfoList) {
+	public static boolean existsInBackpack(List<SoundInfo> soundInfoList) {
 		for (SoundInfo soundInfo : soundInfoList) {
-			if (existsInBackPack(soundInfo)) {
+			if (existsInBackpack(soundInfo)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static boolean existsInBackPack(SoundInfo soundInfo) {
+	public static boolean existsInBackpack(SoundInfo soundInfo) {
 		return BackPackListManager.getInstance().backPackedSoundsContain(soundInfo, true);
 	}
 }

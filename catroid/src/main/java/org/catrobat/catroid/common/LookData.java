@@ -160,22 +160,6 @@ public class LookData implements Serializable, Cloneable {
 		}
 	}
 
-	public String getAbsoluteBackPackPath() {
-		if (fileName != null) {
-			return Utils.buildPath(getPathToBackPackImageDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
-	public String getAbsoluteProjectPath() {
-		if (fileName != null) {
-			return Utils.buildPath(getPathToImageDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -190,14 +174,6 @@ public class LookData implements Serializable, Cloneable {
 
 	public String getLookFileName() {
 		return fileName;
-	}
-
-	public String getLookFilenameWithoutChecksum() {
-		return fileName.substring(33);
-	}
-
-	public String getLookFileNameWithoutChecksumAndEnding() {
-		return fileName.substring(33, fileName.lastIndexOf("."));
 	}
 
 	public String getChecksum() {

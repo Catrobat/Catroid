@@ -155,14 +155,14 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 	private void removeLooksAndSounds() {
 		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
 			if (!OldLookController.getInstance().otherLookDataItemsHaveAFileReference(currentLookData)) {
-				StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath(), true);
+				StorageHandler.deleteFile(currentLookData.getAbsolutePath());
 			}
 			BackPackListManager.getInstance().removeItemFromLookHiddenBackpack(currentLookData);
 		}
 
 		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
 			if (!OldSoundController.getInstance().otherSoundInfoItemsHaveAFileReference(currentSoundInfo)) {
-				StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath(), true);
+				StorageHandler.deleteFile(currentSoundInfo.getAbsolutePath());
 			}
 			BackPackListManager.getInstance().removeItemFromSoundHiddenBackpack(currentSoundInfo);
 		}

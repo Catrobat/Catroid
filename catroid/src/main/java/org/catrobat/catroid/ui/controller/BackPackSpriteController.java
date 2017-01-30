@@ -38,16 +38,16 @@ public final class BackPackSpriteController {
 
 	public static final String TAG = BackPackSpriteController.class.getSimpleName();
 
-	public static boolean existsInBackPack(List<Sprite> spriteList) {
+	public static boolean existsInBackpack(List<Sprite> spriteList) {
 		for (Sprite sprite : spriteList) {
-			if (existsInBackPack(sprite)) {
+			if (existsInBackpack(sprite)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static boolean existsInBackPack(Sprite sprite) {
+	public static boolean existsInBackpack(Sprite sprite) {
 		return BackPackListManager.getInstance().backPackedSpritesContains(sprite, true);
 	}
 
@@ -89,13 +89,14 @@ public final class BackPackSpriteController {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		Sprite backPackSprite = sprite.cloneForBackPack();
 
-		String newSpriteName = Utils.getUniqueSpriteName(sprite);
+		List<Sprite> scope = BackPackListManager.getInstance().getAllBackPackedSprites();
+		String newSpriteName = Utils.getUniqueSpriteName(sprite.getName(), scope);
 		backPackSprite.setName(newSpriteName);
 		backPackSprite.isBackpackObject = true;
 
 		for (LookData lookData : sprite.getLookDataList()) {
 			if (!lookDataIsUsedInScript(lookData, ProjectManager.getInstance().getCurrentSprite())) {
-				backPackSprite.getLookDataList().add(OldLookController.getInstance().backPackHiddenLook(lookData));
+				backPackSprite.getLookDataList().add(LookController.backpackHidden(lookData));
 			}
 		}
 		for (SoundInfo soundInfo : sprite.getSoundList()) {
@@ -119,7 +120,9 @@ public final class BackPackSpriteController {
 
 	public static Sprite unpackVisible(Sprite sprite, boolean asBackground) {
 		Sprite unpackedSprite = sprite.cloneForBackPack();
-		String newSpriteName = Utils.getUniqueSpriteName(sprite);
+
+		List<Sprite> scope = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		String newSpriteName = Utils.getUniqueSpriteName(sprite.getName(), scope);
 		unpackedSprite.setName(newSpriteName);
 
 		ProjectManager.getInstance().setCurrentSprite(unpackedSprite);

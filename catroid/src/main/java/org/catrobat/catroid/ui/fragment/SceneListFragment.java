@@ -62,6 +62,7 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 
 	private SceneListAdapter sceneAdapter;
 	private Scene sceneToEdit;
+	private List<Scene> sceneList;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +88,7 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 	}
 
 	private void initializeList() {
-		List<Scene> sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
+		sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
 
 		sceneAdapter = new SceneListAdapter(getActivity(), R.layout.list_item, sceneList);
 
@@ -145,7 +146,8 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (projectManager.getCurrentProject().getSceneList().isEmpty()) {
-			Scene emptyScene = new Scene(getActivity(), getString(R.string.default_scene_name, 1), projectManager.getCurrentProject());
+			Scene emptyScene = new Scene(getActivity(), getString(R.string.default_scene_name).concat(" 1"),
+					projectManager.getCurrentProject());
 			projectManager.getCurrentProject().addScene(emptyScene);
 			projectManager.setCurrentScene(emptyScene);
 		}
@@ -159,7 +161,7 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 
 	@Override
 	public void handleAddButton() {
-		String defaultSceneName = Utils.getUniqueSceneName(getString(R.string.default_scene_name), false);
+		String defaultSceneName = Utils.getUniqueSceneName(getString(R.string.default_scene_name), sceneList);
 		NewSceneDialog dialog = new NewSceneDialog(defaultSceneName, this);
 		dialog.show(getFragmentManager(), NewSceneDialog.DIALOG_FRAGMENT_TAG);
 	}
@@ -211,11 +213,11 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 			return false;
 		}
 
+		projectManager.getCurrentProject().getSceneList().remove(sceneToEdit);
+
 		if (projectManager.getCurrentScene() != null && projectManager.getCurrentScene().equals(sceneToEdit)) {
 			projectManager.setCurrentScene(projectManager.getCurrentProject().getDefaultScene());
 		}
-		projectManager.getCurrentProject().getSceneList().remove(sceneToEdit);
-		projectManager.getCurrentProject().getSceneOrder().remove(sceneToEdit.getName());
 
 		return true;
 	}
@@ -287,7 +289,7 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 
 	@Override
 	public void showReplaceItemsInBackPackDialog() {
-		if (!BackPackSceneController.existsInBackPack(sceneAdapter.getCheckedItems())) {
+		if (!BackPackSceneController.existsInBackpack(sceneAdapter.getCheckedItems())) {
 			packCheckedItems();
 			return;
 		}

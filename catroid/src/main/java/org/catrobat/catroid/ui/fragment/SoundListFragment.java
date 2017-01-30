@@ -239,7 +239,7 @@ public class SoundListFragment extends ListActivityFragment implements CheckBoxL
 
 	@Override
 	public void showReplaceItemsInBackPackDialog() {
-		if (!SoundController.existsInBackPack(soundAdapter.getCheckedItems())) {
+		if (!SoundController.existsInBackpack(soundAdapter.getCheckedItems())) {
 			packCheckedItems();
 			return;
 		}

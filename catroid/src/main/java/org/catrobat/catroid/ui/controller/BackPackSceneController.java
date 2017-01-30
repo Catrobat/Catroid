@@ -53,16 +53,16 @@ public final class BackPackSceneController {
 	private static Map<String, String> unPackedNameMap = new HashMap<>();
 
 
-	public static boolean existsInBackPack(List<Scene> sceneList) {
+	public static boolean existsInBackpack(List<Scene> sceneList) {
 		for (Scene scene : sceneList) {
-			if (existsInBackPack(scene)) {
+			if (existsInBackpack(scene)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static boolean existsInBackPack(Scene scene) {
+	public static boolean existsInBackpack(Scene scene) {
 		return BackPackListManager.getInstance().backPackedScenesContains(scene, true);
 	}
 
@@ -149,7 +149,8 @@ public final class BackPackSceneController {
 
 	public static boolean unpack(Scene scene) {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		String newName = Utils.getUniqueSceneName(scene.getName(), false);
+		List<Scene> scope = projectManager.getCurrentProject().getSceneList();
+		String newName = Utils.getUniqueSceneName(scene.getName(), scope);
 
 		File sourceScene = new File(Utils.buildBackpackScenePath(scene.getName()));
 		File targetScene = new File(Utils.buildScenePath(projectManager.getCurrentProject().getName(), newName));

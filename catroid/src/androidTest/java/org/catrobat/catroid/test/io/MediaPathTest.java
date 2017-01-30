@@ -65,6 +65,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = org.catrobat.catroid.test.R.raw.testsound;
 	private static final int BIGBLUE_ID = org.catrobat.catroid.test.R.raw.bigblue;
 	private Project project;
+	private FileChecksumContainer checksumContainer;
 	private File testImage;
 	private File bigBlue;
 	private File testSound;
@@ -78,7 +79,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 	private String imageName = "testImage.png";
 	private String soundName = "testSound.mp3";
 	private String projectName = "testProject7";
-	private String sceneName;
 	private String bigBlueName = "bigblue.png";
 
 	@Override
@@ -88,7 +88,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		TestUtils.clearProject("mockProject");
 
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
-		sceneName = project.getDefaultScene().getName();
+		checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
@@ -106,11 +106,9 @@ public class MediaPathTest extends InstrumentationTestCase {
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 
 		//copy files with the Storagehandler copy function
-		testImageCopy = StorageHandler.getInstance().copyImage(projectName, sceneName, testImage.getAbsolutePath(),
-				null);
-		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, sceneName, testImage.getAbsolutePath(),
-				null);
-		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
+		testImageCopy = StorageHandler.copyFile(testImage.getAbsolutePath(), checksumContainer);
+		testImageCopy2 = StorageHandler.copyFile(testImage.getAbsolutePath(), checksumContainer);
+		testSoundCopy = StorageHandler.copyFile(testSound.getAbsolutePath(), checksumContainer);
 	}
 
 	@Override
@@ -163,7 +161,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 				Utils.md5Checksum(testSoundCopy));
 
 		//check if copy doesn't save more instances of the same file:
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + this.project.getDefaultScene().getName() + "/" + Constants.IMAGE_DIRECTORY);
+		File directory = new File(ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSceneImageDirectoryPath());
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -171,12 +169,11 @@ public class MediaPathTest extends InstrumentationTestCase {
 	}
 
 	public void testCopyLargeImage() throws IOException, InterruptedException {
-		StorageHandler storage = StorageHandler.getInstance();
-		bigBlue2 = storage.copyImage(projectName, sceneName, bigBlue.getAbsolutePath(), null);
-		bigBlue3 = storage.copyImage(projectName, sceneName, bigBlue.getAbsolutePath(), null);
+		bigBlue2 = StorageHandler.copyFile(bigBlue.getAbsolutePath(), checksumContainer);
+		bigBlue3 = StorageHandler.copyFile(bigBlue.getAbsolutePath(), checksumContainer);
 		fillProjectWithAllBricksAndMediaFiles();
 
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + project.getDefaultScene().getName() + "/" + Constants.IMAGE_DIRECTORY);
+		File directory = new File(ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSceneImageDirectoryPath());
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -202,22 +199,21 @@ public class MediaPathTest extends InstrumentationTestCase {
 	}
 
 	public void testDecrementUsage() {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-		storageHandler.deleteFile(testImageCopy.getAbsolutePath(), false);
+		StorageHandler.deleteFile(testImageCopy.getAbsolutePath(), checksumContainer);
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		assertTrue("checksum not in project although file should exist",
 				container.containsChecksum(Utils.md5Checksum(testImageCopy)));
-		storageHandler.deleteFile(testImageCopy2.getAbsolutePath(), false);
+		StorageHandler.deleteFile(testImageCopy2.getAbsolutePath(), checksumContainer);
 		assertFalse("checksum in project although file should not exist",
 				container.containsChecksum(Utils.md5Checksum(testImageCopy2)));
 
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + project.getDefaultScene().getName() + "/" + Constants.IMAGE_DIRECTORY);
+		File directory = new File(ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSceneImageDirectoryPath());
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
 		assertEquals("Wrong amount of files in folder - delete unsuccessfull", 1, filesImage.length);
 
-		storageHandler.deleteFile(testImageCopy.getAbsolutePath(), false); //there a FileNotFoundException is thrown and caught (this is expected behavior)
+		StorageHandler.deleteFile(testImageCopy.getAbsolutePath(), checksumContainer);
 	}
 
 	public void testContainerOnLoadProject() throws IOException {

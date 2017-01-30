@@ -178,7 +178,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 				for (int i = 0; i < paths.length; i++) {
 					Log.d(TAG, "Path to delete: " + paths[i]);
-					StorageHandler.getInstance().deleteAllFile(paths[i]);
+					StorageHandler.getInstance().deleteAllFiles(paths[i]);
 				}
 				unzip = true;
 			} catch (IOException e) {
@@ -209,7 +209,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 			for (int i = 0; i < paths.length; i++) {
 				if (!paths[i].equals(zipFileString)) {
 					Log.d(TAG, "Path to delete: " + paths[i]);
-					StorageHandler.getInstance().deleteAllFile(paths[i]);
+					StorageHandler.getInstance().deleteAllFiles(paths[i]);
 				}
 			}
 
