@@ -28,7 +28,7 @@
 
         <EditText
             android:id="@+id/formula_editor_string_name_edit_text"
-            style="@style/DefaultDialog.EditText"
+            style="@style/MultiLineDialog.EditText"
             android:hint="@string/formula_editor_new_string_dialog_hint"
             android:selectAllOnFocus="true" />
     </LinearLayout>

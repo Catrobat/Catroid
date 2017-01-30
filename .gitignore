@@ -1,5 +1,7 @@
 oauth_config.xml
 sed_replace.txt
+Catroid.iml
+catroid/catroid.iml
 
 # built application files
 *.apk
@@ -25,11 +27,8 @@ dataSources.ids
 !.idea/copyright/Catroid.xml
 !.idea/copyright/profiles_settings.xml
 !.idea/dictionaries/catrobat.xml
-!.idea/encodings.xml
-!.idea/misc.xml
 !.idea/modules.xml
 !.idea/scopes/scope_settings.xml
-!.idea/vcs.xml
 
 # files for the dex VM
 *.dex
