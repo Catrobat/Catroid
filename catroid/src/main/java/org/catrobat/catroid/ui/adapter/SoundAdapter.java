@@ -31,7 +31,8 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.BackPackActivity;
-import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.controller.OldSoundController;
+import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivityAdapterInterface, SoundController.OnBackpackSoundCompleteListener {
+public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivityAdapterInterface, OldSoundController.OnBackpackSoundCompleteListener {
 
 	private static final int INVALID_ID = -1;
 
@@ -104,7 +105,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivity
 
 		while (iterator.hasNext()) {
 			int position = iterator.next();
-			SoundController.getInstance().copySound(position, soundFragment.getSoundInfoList(), this);
+			OldSoundController.getInstance().copySound(position, soundFragment.getSoundInfoList(), this);
 		}
 		soundFragment.clearCheckedSoundsAndEnableButtons();
 	}
@@ -115,24 +116,24 @@ public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivity
 			soundInfoListToBackpack.add(soundInfoItems.get(position));
 		}
 
-		boolean soundsAlreadyInBackpack = SoundController.getInstance().checkSoundReplaceInBackpack(soundInfoListToBackpack);
+		boolean soundsAlreadyInBackpack = OldSoundController.getInstance().checkSoundReplaceInBackpack(soundInfoListToBackpack);
 
 		if (!soundInfoListToBackpack.isEmpty()) {
 			if (!soundsAlreadyInBackpack) {
 				for (SoundInfo soundInfoToBackpack : soundInfoListToBackpack) {
-					SoundController.getInstance().backPackVisibleSound(soundInfoToBackpack);
+					OldSoundController.getInstance().backPackVisibleSound(soundInfoToBackpack);
 					onBackpackSoundComplete(true);
 				}
 			} else {
-				SoundController.getInstance().setOnBackpackSoundCompleteListener(this);
-				SoundController.getInstance().showBackPackReplaceDialog(soundInfoListToBackpack, soundFragment.getActivity());
+				OldSoundController.getInstance().setOnBackpackSoundCompleteListener(this);
+				OldSoundController.getInstance().showBackPackReplaceDialog(soundInfoListToBackpack, soundFragment.getActivity());
 			}
 		} else {
 			soundFragment.clearCheckedSoundsAndEnableButtons();
 		}
 	}
 
-	public void setSoundFragment(SoundFragment soundFragment) {
+	public void setsoundFragment(SoundFragment soundFragment) {
 		this.soundFragment = soundFragment;
 	}
 
@@ -145,7 +146,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivity
 	public void onBackpackSoundComplete(boolean startBackpackActivity) {
 		if (!checkedSounds.isEmpty() && startBackpackActivity) {
 			Intent intent = new Intent(soundFragment.getActivity(), BackPackActivity.class);
-			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_SOUNDS);
+			intent.putExtra(BackPackActivity.FRAGMENT, BackPackSoundListFragment.class);
 			soundFragment.getActivity().startActivity(intent);
 		}
 		soundFragment.clearCheckedSoundsAndEnableButtons();

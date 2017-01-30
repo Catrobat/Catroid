@@ -23,19 +23,18 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropAdapterInterface;
 
 import java.util.List;
 
-public class SpriteListAdapter extends CheckBoxListAdapter<Sprite> implements DragAndDropAdapterInterface {
+public class SpriteListAdapter extends SpriteListBaseAdapter implements DragAndDropAdapterInterface {
 
 	public static final String TAG = SpriteListAdapter.class.getSimpleName();
+	private static final String BACKGROUND_TAG = "BACKGROUND";
 
 	public SpriteListAdapter(Context context, int resource, List<Sprite> listItems) {
 		super(context, resource, listItems);
@@ -43,33 +42,31 @@ public class SpriteListAdapter extends CheckBoxListAdapter<Sprite> implements Dr
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		if (isBackgroundSprite(getItem(position))) {
+			View emptyView = new View(getContext());
+			emptyView.setTag(BACKGROUND_TAG);
+			return emptyView;
+		}
+
+		boolean isBackgroundSpriteView = convertView != null && convertView.getTag().equals(BACKGROUND_TAG);
+
+		if (isBackgroundSpriteView) {
+			convertView = null;
+		}
+
 		View listItemView = super.getView(position, convertView, parent);
+		return getWrappedListItem(position, listItemView);
+	}
 
-		ListItemViewHolder listItemViewHolder = (ListItemViewHolder) listItemView.getTag();
-		Sprite sprite = getItem(position);
-		Bitmap lookData = null;
-
-		if (!sprite.getLookDataList().isEmpty()) {
-			lookData = sprite.getLookDataList().get(0).getThumbnailBitmap();
+	@Override
+	public int swapItems(int position1, int position2) {
+		if (position2 == 0) {
+			return position1;
 		}
+		return super.swapItems(position1, position2);
+	}
 
-		listItemViewHolder.name.setText(sprite.getName());
-		listItemViewHolder.image.setImageBitmap(lookData);
-
-		if (showDetails) {
-			listItemViewHolder.details.setVisibility(View.VISIBLE);
-
-			listItemViewHolder.leftBottomDetails.setText(getContext().getResources().getString(R.string.number_of_scripts)
-					.concat(" ").concat(Integer.toString(sprite.getNumberOfScripts())));
-			listItemViewHolder.rightBottomDetails.setText(getContext().getResources().getString(R.string.number_of_bricks)
-					.concat(" ").concat(Integer.toString(sprite.getNumberOfBricks())));
-
-			listItemViewHolder.leftTopDetails.setText(getContext().getResources().getString(R.string.number_of_looks)
-					.concat(" ").concat(Integer.toString(sprite.getLookDataList().size())));
-			listItemViewHolder.rightTopDetails.setText(getContext().getResources().getString(R.string.number_of_sounds)
-					.concat(" ").concat(Integer.toString(sprite.getSoundList().size())));
-		}
-
-		return listItemView;
+	private boolean isBackgroundSprite(Sprite sprite) {
+		return sprite.equals(getItem(0));
 	}
 }

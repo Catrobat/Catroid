@@ -72,7 +72,6 @@ import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -284,7 +283,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.unpacking).setVisible(false);
+		menu.findItem(R.id.unpack).setVisible(false);
 
 		if (getActivity() instanceof UserBrickScriptActivity || isInUserBrickOverview()) {
 			backpackMenuIsVisible = false;
@@ -553,8 +552,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void showDeleteDialog() {
 
-		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
-		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
@@ -760,7 +757,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private void openBackPack() {
 		Intent intent = new Intent(getActivity(), BackPackActivity.class);
-		intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_SCRIPTS);
+		intent.putExtra(BackPackActivity.FRAGMENT, BackPackScriptListFragment.class);
 		startActivity(intent);
 	}
 

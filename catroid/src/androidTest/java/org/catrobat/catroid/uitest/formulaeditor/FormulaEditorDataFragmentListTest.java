@@ -43,9 +43,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteMemberSelectionActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -153,7 +152,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		solo.goBack();
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		//TODO: wait for SpriteMemberSelectionActivity.
 		solo.clickOnView(solo.getView(R.id.program_menu_button_scripts));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(ADD_ITEM_TO_USERLIST_EDIT_TEXT_RID));
@@ -178,14 +177,14 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.goBack();
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		//TODO: wait for SpriteMemberSelectionActivity.
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
 		solo.goBack();
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		//TODO: wait for SpriteMemberSelectionActivity.
 		solo.clickOnView(solo.getView(R.id.program_menu_button_scripts));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(ADD_ITEM_TO_USERLIST_EDIT_TEXT_RID));
@@ -204,9 +203,9 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.goBack();
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.waitForActivity(SpriteMemberSelectionActivity.class.getSimpleName());
 		solo.goBack();
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		//TODO: wait for ProjectActivity (SceneListActivity/SpriteListActivity).
 
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
@@ -214,7 +213,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.goBack();
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		//TODO: wait for ProjectActivity (SceneListActivity/SpriteListActivity).
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 

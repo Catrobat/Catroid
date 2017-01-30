@@ -92,7 +92,7 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		SetLookBrick setAlphaLookBrick = new SetLookBrick();
 
 		LookData touchLookData = new LookData();
-		touchLookData.setLookName(alphaTestImageName);
+		touchLookData.setName(alphaTestImageName);
 		touchSprite.getLookDataList().add(touchLookData);
 
 		setAlphaLookBrick.setLook(touchLookData);

@@ -33,7 +33,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.controller.OldLookController;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -73,7 +73,7 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-		if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
+		if (OldLookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
 			assertTrue("No pocket paint selection available",
 					solo.waitForText(solo.getString(R.string.dialog_new_object_pocketpaint), 0, 500));
 		}

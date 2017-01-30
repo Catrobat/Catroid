@@ -46,7 +46,6 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -253,9 +252,7 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue(solo.getString(R.string.default_tag_name) + " is not selected in Spinner", solo.isSpinnerTextSelected(solo.getString(R.string.default_tag_name)));
 
 		solo.goBack();
-		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
-		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
-				.equals(programMenuActivityClass));
+		//TODO: check if in SpriteMemberSelectionActivity.
 	}
 
 	public void testNfcSensorVariable() throws InterpretationException {

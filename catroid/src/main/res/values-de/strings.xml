@@ -37,7 +37,7 @@
   <string name="move">Verschieben</string>
   <string name="backpack_add">Zum Rucksack hinzufügen</string>
   <string name="backpack">Rucksack</string>
-  <string name="packing">Einpacken</string>
+  <string name="pack">Einpacken</string>
   <string name="unpack">Auspacken</string>
   <string name="unpack_keep">Auspacken und behalten</string>
   <string name="unpack_bg">Als Hintergrund entpacken</string>
@@ -520,7 +520,7 @@
   <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
   <string name="new_sprite_dialog_title">Neues Objekt</string>
   <string name="spritename_already_exists">Bitte wähle einen anderen Objektnamen</string>
-  <string name="rename_sprite_dialog">Objekt umbenennen</string>
+  <string name="dialog_rename_sprite">Objekt umbenennen</string>
   <string name="spritename_invalid">Dieser Objektname ist ungültig</string>
   <string name="no_spritename_entered">Bitte einen Objektnamen eingeben.</string>
   <string name="sprite_name">Objektname:</string>
@@ -840,9 +840,9 @@
   <string name="error_no_userbrick_name_entered">Bitte gib einen Benutzerbausteinnamen ein.</string>
   <string name="error_project_exists">Es gibt bereits ein Programm mit diesem Namen.\nBitte wählen Sie einen anderen Namen.</string>
   <string name="error_scene_exists">Bitte wähle einen anderen Szenen-Namen.</string>
-  <string name="error_scene_not_deleted">Beim Löschen der Szene ist ein Fehler aufgetreten.</string>
-  <string name="error_scene_not_copied">Beim Kopieren der Szene ist ein Fehler aufgetreten.</string>
-  <string name="error_scene_backpack">Im Szenen-Rucksack ist ein Fehler aufgetreten.</string>
+  <string name="error_delete_scene">Beim Löschen der Szene ist ein Fehler aufgetreten.</string>
+  <string name="error_copy_scene">Beim Kopieren der Szene ist ein Fehler aufgetreten.</string>
+  <string name="error_backpack_scene">Im Szenen-Rucksack ist ein Fehler aufgetreten.</string>
   <string name="error_delete_project">Während des Löschens ist ein Fehler aufgetreten</string>
   <string name="error_unknown_project">Ein Programm mit diesem Namen existiert nicht.</string>
   <string name="error_project_upload">Beim Hochladen des Programms ist ein Fehler aufgetreten.</string>

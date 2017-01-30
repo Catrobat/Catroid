@@ -47,10 +47,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.utils.DownloadUtil;
-import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
 
 public class OverwriteRenameMediaDialog extends DialogFragment implements OnClickListener {
 	protected RadioButton replaceButton;
@@ -131,7 +128,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 				renameHeaderText = R.string.new_sound_name;
 				break;
 			default:
-				header = R.string.rename_sprite_dialog;
+				header = R.string.dialog_rename_sprite;
 				replaceText = R.string.overwrite_replace_default;
 				renameText = R.string.overwrite_rename_default;
 				renameHeaderText = R.string.new_sound_name;
@@ -216,7 +213,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 				case Constants.MEDIA_TYPE_LOOK:
 					LookData lookToRemove = null;
 					for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
-						if (lookData.getLookName().compareTo(mediaName) == 0) {
+						if (lookData.getName().compareTo(mediaName) == 0) {
 							lookToRemove = lookData;
 							ProjectManager.getInstance().getCurrentSprite().getLookDataList().remove(lookToRemove);
 							StorageHandler.getInstance().deleteFile(lookToRemove.getAbsolutePath(), false);
@@ -240,22 +237,23 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 		} else if (renameButton.isChecked()) {
 			String newMediaName = mediaText.getText().toString();
 			switch (mediaType) {
-				case Constants.MEDIA_TYPE_LOOK:
-					if (callingActivity.contains(LookFragment.TAG)) {
-						if (Utils.checkIfLookExists(newMediaName)) {
-							ToastUtil.showError(context, R.string.look_rename_overwrite);
-							return false;
-						}
-					} else {
-						return true;
-					}
-					break;
-				case Constants.MEDIA_TYPE_SOUND:
-					if (Utils.checkIfSoundExists(newMediaName)) {
-						ToastUtil.showError(context, R.string.rename_sound_overwrite);
-						return false;
-					}
-					break;
+//				TODO: Check media type and call respective dialog.
+//				case Constants.MEDIA_TYPE_LOOK:
+//					if (callingActivity.contains(LookFragment.TAG)) {
+//						if (Utils.checkIfLookExists(newMediaName)) {
+//							ToastUtil.showError(context, R.string.look_rename_overwrite);
+//							return false;
+//						}
+//					} else {
+//						return true;
+//					}
+//					break;
+//				case Constants.MEDIA_TYPE_SOUND:
+//					if (Utils.checkIfSoundExists(newMediaName)) {
+//						ToastUtil.showError(context, R.string.rename_sound_overwrite);
+//						return false;
+//					}
+//					break;
 			}
 			filePath = filePath.replace(mediaName, newMediaName);
 

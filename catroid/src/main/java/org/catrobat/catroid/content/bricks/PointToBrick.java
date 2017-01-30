@@ -45,10 +45,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 
 import java.util.ArrayList;
@@ -313,7 +311,7 @@ public class PointToBrick extends BrickBaseType {
 
 			setSpinnerSelection(spinner);
 
-			AlertDialog dialog = new CustomAlertDialogBuilder(context)
+			AlertDialog dialog = new AlertDialog.Builder(context)
 					.setTitle(R.string.dialog_new_object_switch_title)
 					.setMessage(R.string.dialog_new_object_switch_message)
 					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -322,9 +320,8 @@ public class PointToBrick extends BrickBaseType {
 						public void onClick(DialogInterface dialog, int which) {
 							ProjectManager.getInstance().setCurrentSprite(pointedObject);
 
-							Intent intent = new Intent(context, ProgramMenuActivity.class);
-							intent.putExtra(ProgramMenuActivity.FORWARD_TO_SCRIPT_ACTIVITY,
-									ScriptActivity.FRAGMENT_SCRIPTS);
+							Intent intent = new Intent(context, ScriptActivity.class);
+							intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, ScriptActivity.FRAGMENT_SCRIPTS);
 							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -360,7 +357,7 @@ public class PointToBrick extends BrickBaseType {
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
 		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpackHiddenSprite(getPointedObject());
+		Sprite backPackedSprite = BackPackSpriteController.backpackHidden(getPointedObject());
 		setPointedObject(backPackedSprite);
 		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}

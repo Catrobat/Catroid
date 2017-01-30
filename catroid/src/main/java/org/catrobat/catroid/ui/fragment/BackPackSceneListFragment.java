@@ -28,60 +28,48 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
 import org.catrobat.catroid.ui.adapter.SceneListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSceneController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BackPackSceneListFragment extends BackPackActivityFragment implements CheckBoxListAdapter
-		.ListItemClickHandler<Scene>, CheckBoxListAdapter.ListItemLongClickHandler {
+		.ListItemClickHandler<Scene> {
 
 	public static final String TAG = BackPackSceneListFragment.class.getSimpleName();
 	private static final String BUNDLE_ARGUMENTS_SCENE_TO_EDIT = "scene_to_edit";
 
 	private SceneListAdapter sceneAdapter;
-	private ListView listView;
-
 	private Scene sceneToEdit;
-	private int selectedScenePosition;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View backPackSceneListFragment = inflater.inflate(R.layout.fragment_backpack, container, false);
-		listView = (ListView) backPackSceneListFragment.findViewById(android.R.id.list);
-
-		return backPackSceneListFragment;
+		return inflater.inflate(R.layout.fragment_backpack, container, false);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		registerForContextMenu(listView);
-
-		singleItemTitle = getString(R.string.scene);
-		multipleItemsTitle = getString(R.string.scenes);
+		itemIdentifier = R.plurals.scenes;
+		deleteDialogTitle = R.plurals.dialog_delete_scene;
 
 		if (savedInstanceState != null) {
 			sceneToEdit = (Scene) savedInstanceState.get(BUNDLE_ARGUMENTS_SCENE_TO_EDIT);
 		}
 
 		initializeList();
-		checkEmptyBackgroundBackPack();
-		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initializeList() {
@@ -102,69 +90,27 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-		BackPackListManager.getInstance().saveBackpack();
-	}
-
-	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
 		menu.findItem(R.id.show_details).setVisible(false);
-		if (BackPackListManager.getInstance().getBackPackedScenes().isEmpty()) {
-			menu.findItem(R.id.unpacking).setVisible(false);
-		}
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, view, menuInfo);
-
-		sceneToEdit = sceneAdapter.getItem(selectedScenePosition);
+		sceneToEdit = sceneAdapter.getItem(selectedItemPosition);
 		menu.setHeaderTitle(sceneToEdit.getName());
-
-		getActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.context_menu_unpacking:
-				unpackCheckedItems(true);
-				break;
-			case R.id.context_menu_delete:
-				showDeleteDialog(true);
-				break;
-		}
-		return super.onContextItemSelected(item);
 	}
 
 	@Override
 	public void handleOnItemClick(int position, View view, Scene scene) {
-		selectedScenePosition = position;
-		listView.showContextMenuForChild(view);
+		selectedItemPosition = position;
+		getListView().showContextMenuForChild(view);
 	}
 
 	@Override
-	public void handleOnItemLongClick(int position, View view) {
-		selectedScenePosition = position;
-		listView.showContextMenuForChild(view);
-	}
-
-	@Override
-	public void showDeleteDialog(boolean singleItem) {
-		int titleId;
-		if (sceneAdapter.getCheckedItems().size() == 1 || singleItem) {
-			titleId = R.string.dialog_confirm_delete_scene_title;
-		} else {
-			titleId = R.string.dialog_confirm_delete_multiple_scenes_title;
-		}
-		showDeleteDialog(titleId, singleItem);
-	}
-
-	@Override
-	protected void deleteCheckedItems(boolean singleItem) {
-		if (singleItem) {
+	public void deleteCheckedItems() {
+		if (sceneAdapter.getCheckedItems().isEmpty()) {
 			deleteScene();
 			return;
 		}
@@ -186,9 +132,9 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 		sceneAdapter.notifyDataSetChanged();
 	}
 
-	protected void unpackCheckedItems(boolean singleItem) {
+	protected void unpackCheckedItems() {
 		List<Scene> sceneList = new ArrayList<>();
-		if (singleItem) {
+		if (sceneAdapter.getCheckedItems().isEmpty()) {
 			sceneList.add(sceneToEdit);
 		} else {
 			sceneList.addAll(sceneAdapter.getCheckedItems());
@@ -230,7 +176,6 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 		builder.setNegativeButton(R.string.abort, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
 				clearCheckedItems();
 			}
 		});
@@ -247,14 +192,14 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 	}
 
 	private void unpackScenes(List<Scene> sceneList) {
-		boolean success = BackPackSceneController.getInstance().unpackScenes(sceneList) != null;
+		boolean success = BackPackSceneController.unpack(sceneList);
 
 		if (success) {
 			ProjectManager.getInstance().checkNestingBrickReferences(false, false);
 			showUnpackingCompleteToast(sceneList.size());
 			clearCheckedItems();
 		} else {
-			showError(R.string.error_scene_backpack);
+			ToastUtil.showError(getActivity(), R.string.error_backpack_scene);
 		}
 	}
 }

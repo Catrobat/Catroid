@@ -53,7 +53,7 @@ import java.util.List;
 public class MergeTask {
 
 	private Activity activity;
-	private Scene mergeResult = null;
+	private Scene mergeResultScene = null;
 	private Scene firstScene = null;
 	private Scene secondScene = null;
 	private Scene current = null;
@@ -122,13 +122,13 @@ public class MergeTask {
 
 		for (Scene scene : firstProject.getSceneList()) {
 			if (!handledScenes.contains(scene.getName())) {
-				addSceneToProject(scene, firstProject, mergedProject);
+				addSceneToProject(scene, mergedProject);
 			}
 		}
 
 		for (Scene scene : secondProject.getSceneList()) {
 			if (!handledScenes.contains(scene.getName())) {
-				addSceneToProject(scene, secondProject, mergedProject);
+				addSceneToProject(scene, mergedProject);
 			}
 		}
 
@@ -155,81 +155,88 @@ public class MergeTask {
 	}
 
 	public boolean mergeScenes(String mergeResultName) {
-		if (mergeResult != null) {
+		if (mergeResultScene != null) {
 			return false;
 		}
 
-		mergeResult = new Scene(activity, mergeResultName, mergedProject);
+		mergeResultScene = new Scene(activity, mergeResultName, mergedProject);
 
 		createSpritesAllScenes();
 		copySpriteScriptsAllScenes();
 
-		if (!ConflictHelper.checkMergeConflict(activity, mergeResult)) {
+		if (!ConflictHelper.checkMergeConflict(activity, mergeResultScene)) {
 			return false;
 		}
 
-		mergedProject.addScene(mergeResult);
+		mergedProject.addScene(mergeResultScene);
 		StorageHandler.getInstance().saveProject(mergedProject);
-		StorageHandler.getInstance().copyImageFiles(mergeResult.getName(), mergeResult.getProject().getName(),
-				firstScene.getName(), firstScene.getProject().getName());
-		StorageHandler.getInstance().copySoundFiles(mergeResult.getName(), mergeResult.getProject().getName(),
-				firstScene.getName(), firstScene.getProject().getName());
-		StorageHandler.getInstance().copyImageFiles(mergeResult.getName(), mergeResult.getProject().getName(),
-				secondScene.getName(), secondScene.getProject().getName());
-		StorageHandler.getInstance().copySoundFiles(mergeResult.getName(), mergeResult.getProject().getName(),
-				secondScene.getName(), secondScene.getProject().getName());
 
-		File automaticScreenshotDestination = new File(Utils.buildScenePath(mergedProject.getName(), mergeResult.getName()), StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-		File automaticScreenshotSource = new File(Utils.buildScenePath(firstScene.getProject().getName(), firstScene.getName()), StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-		File manualScreenshotDestination = new File(Utils.buildScenePath(mergedProject.getName(), mergeResult.getName()), StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-		File manualScreenshotSource = new File(Utils.buildScenePath(firstScene.getProject().getName(), firstScene.getName()), StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+		// copy all images and sounds from first scene into merge scene
+		StorageHandler.copyAllFiles(firstScene.getSceneImageDirectoryPath(),
+				mergeResultScene.getSceneImageDirectoryPath());
+		StorageHandler.copyAllFiles(firstScene.getSceneSoundDirectoryPath(),
+				mergeResultScene.getSceneSoundDirectoryPath());
 
-		try {
-			if (automaticScreenshotSource.exists()) {
-				UtilFile.copyFile(automaticScreenshotDestination, automaticScreenshotSource);
-			}
-			if (manualScreenshotSource.exists()) {
-				UtilFile.copyFile(manualScreenshotDestination, manualScreenshotSource);
-			}
-		} catch (IOException e) {
-			Log.e("MergeTask", "Something went wrong while copying Screenshot Files!");
-			Log.e("MergeTask", "Copy " + automaticScreenshotSource.getAbsolutePath() + " to " + automaticScreenshotDestination.getAbsolutePath());
-			Log.e("MergeTask", "Copy " + manualScreenshotSource.getAbsolutePath() + " to " + manualScreenshotDestination.getAbsolutePath());
-			return false;
+		// copy all images and sounds from second scene into merge scene
+		StorageHandler.copyAllFiles(secondScene.getSceneImageDirectoryPath(),
+				mergeResultScene.getSceneImageDirectoryPath());
+		StorageHandler.copyAllFiles(secondScene.getSceneSoundDirectoryPath(),
+				mergeResultScene.getSceneSoundDirectoryPath());
+
+		File automaticScreenshotDestination = new File(firstScene.getSceneDirectoryPath(),
+				StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+		File automaticScreenshotSource = new File(mergeResultScene.getSceneDirectoryPath(),
+				StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+		File manualScreenshotDestination = new File(firstScene.getSceneDirectoryPath(),
+				StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+		File manualScreenshotSource = new File(mergeResultScene.getSceneDirectoryPath(),
+				StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+
+		if (automaticScreenshotSource.exists()) {
+			StorageHandler.copyFile(automaticScreenshotDestination.getAbsolutePath(),
+					automaticScreenshotSource.getAbsolutePath(), null);
+		}
+		if (manualScreenshotSource.exists()) {
+			StorageHandler.copyFile(manualScreenshotDestination.getAbsolutePath(),
+					manualScreenshotSource.getAbsolutePath(), null);
 		}
 
 		return true;
 	}
 
-	private boolean addSceneToProject(Scene toAdd, Project oldProject, Project project) {
-		toAdd.setProject(project);
-		toAdd.getDataContainer().setProject(project);
-		project.addScene(toAdd);
+	private boolean addSceneToProject(Scene scene, Project targetProject) {
+		String srcSceneImageDirectoryPath = scene.getSceneImageDirectoryPath();
+		String srcSceneSoundDirectoryPath = scene.getSceneSoundDirectoryPath();
+
+		Scene copiedScene = scene.clone();
+		copiedScene.setProject(targetProject);
+		copiedScene.getDataContainer().setProject(targetProject);
+		targetProject.addScene(copiedScene);
+
+		String dstSceneImageDirectoryPath = copiedScene.getSceneImageDirectoryPath();
+		String dstSceneSoundDirectoryPath = copiedScene.getSceneSoundDirectoryPath();
+
 		StorageHandler.getInstance().saveProject(mergedProject);
 
-		boolean result = StorageHandler.getInstance().copyImageFiles(toAdd.getName(), project.getName(),
-				toAdd.getName(), oldProject.getName());
-		result &= StorageHandler.getInstance().copySoundFiles(toAdd.getName(), project.getName(),
-				toAdd.getName(), oldProject.getName());
+		boolean result = StorageHandler.copyAllFiles(srcSceneImageDirectoryPath, dstSceneImageDirectoryPath);
+		result &= StorageHandler.copyAllFiles(srcSceneSoundDirectoryPath, dstSceneSoundDirectoryPath);
 
-		File automaticScreenshotDestination = new File(Utils.buildScenePath(project.getName(), toAdd.getName()), StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-		File automaticScreenshotSource = new File(Utils.buildScenePath(oldProject.getName(), toAdd.getName()), StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-		File manualScreenshotDestination = new File(Utils.buildScenePath(project.getName(), toAdd.getName()), StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-		File manualScreenshotSource = new File(Utils.buildScenePath(oldProject.getName(), toAdd.getName()), StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-		toAdd.setProject(oldProject);
-		toAdd.getDataContainer().setProject(oldProject);
-		try {
-			if (automaticScreenshotSource.exists()) {
-				UtilFile.copyFile(automaticScreenshotDestination, automaticScreenshotSource);
-			}
-			if (manualScreenshotSource.exists()) {
-				UtilFile.copyFile(manualScreenshotDestination, manualScreenshotSource);
-			}
-		} catch (IOException e) {
-			Log.e("MergeTask", "Something went wrong while copying Screenshot Files!");
-			Log.e("MergeTask", "Copy " + automaticScreenshotSource.getAbsolutePath() + " to " + automaticScreenshotDestination.getAbsolutePath());
-			Log.e("MergeTask", "Copy " + manualScreenshotSource.getAbsolutePath() + " to " + manualScreenshotDestination.getAbsolutePath());
-			return false;
+		File automaticScreenshotDestination = new File(copiedScene.getSceneDirectoryPath(),
+				StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+		File automaticScreenshotSource = new File(scene.getSceneDirectoryPath(),
+				StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+		File manualScreenshotDestination = new File(copiedScene.getSceneDirectoryPath(),
+				StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+		File manualScreenshotSource = new File(scene.getSceneDirectoryPath(),
+				StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+
+		if (automaticScreenshotSource.exists()) {
+			StorageHandler.copyFile(automaticScreenshotSource.getAbsolutePath(),
+					automaticScreenshotDestination.getAbsolutePath(), null);
+		}
+		if (manualScreenshotSource.exists()) {
+			StorageHandler.copyFile(manualScreenshotSource.getAbsolutePath(),
+					manualScreenshotDestination.getAbsolutePath(), null);
 		}
 
 		return result;
@@ -274,8 +281,8 @@ public class MergeTask {
 
 	private void createSprites(Scene scene) {
 		for (Sprite sprite : scene.getSpriteList()) {
-			if (!mergeResult.containsSpriteBySpriteName(sprite.getName())) {
-				mergeResult.addSprite(sprite);
+			if (!mergeResultScene.containsSpriteBySpriteName(sprite.getName())) {
+				mergeResultScene.addSprite(sprite);
 			}
 		}
 	}
@@ -285,21 +292,21 @@ public class MergeTask {
 		copySpriteScripts(firstScene);
 		current = secondScene;
 		copySpriteScripts(secondScene);
-		mergeResult.removeUnusedBroadcastMessages();
+		mergeResultScene.removeUnusedBroadcastMessages();
 	}
 
 	private void copySpriteScripts(Scene scene) {
-		ReferenceHelper helper = new ReferenceHelper(mergeResult, scene);
+		ReferenceHelper helper = new ReferenceHelper(mergeResultScene, scene);
 
 		for (Sprite sprite : scene.getSpriteList()) {
 			checkScripts(sprite);
 			addSoundsAndLooks(sprite);
 		}
-		mergeResult = helper.updateAllReferences();
+		mergeResultScene = helper.updateAllReferences();
 	}
 
 	private void checkScripts(Sprite sprite) {
-		Sprite spriteInto = mergeResult.getSpriteBySpriteName(sprite.getName());
+		Sprite spriteInto = mergeResultScene.getSpriteBySpriteName(sprite.getName());
 
 		for (Script fromScript : sprite.getScriptList()) {
 			boolean equal = false;
@@ -307,20 +314,20 @@ public class MergeTask {
 				equal |= isEqualScript(intoScript, fromScript);
 			}
 			if (spriteInto.getScriptList().size() == 0 || !equal) {
-				mergeResult.getSpriteBySpriteName(sprite.getName()).addScript(fromScript);
+				mergeResultScene.getSpriteBySpriteName(sprite.getName()).addScript(fromScript);
 			}
 		}
 	}
 
 	private void addSoundsAndLooks(Sprite sprite) {
-		Sprite spriteInto = mergeResult.getSpriteBySpriteName(sprite.getName());
+		Sprite spriteInto = mergeResultScene.getSpriteBySpriteName(sprite.getName());
 
 		for (LookData look : sprite.getLookDataList()) {
 			if (!spriteInto.existLookDataByName(look) && !spriteInto.existLookDataByFileName(look)) {
 				spriteInto.getLookDataList().add(look.clone());
 			} else if (spriteInto.existLookDataByName(look) && !spriteInto.existLookDataByFileName(look)) {
 				for (int i = 2; i < 100; i++) {
-					look.setLookName(look.getLookName() + "_" + i);
+					look.setName(look.getName() + "_" + i);
 					if (!spriteInto.existLookDataByName(look)) {
 						break;
 					}
@@ -347,7 +354,7 @@ public class MergeTask {
 			Brick intoProjectBrick = intoProjectBrickList.get(i);
 			Brick fromProjectBrick = fromProjectBrickList.get(i);
 
-			if (intoProjectBrick.isEqualBrick(fromProjectBrick, mergeResult, current)) {
+			if (intoProjectBrick.isEqualBrick(fromProjectBrick, mergeResultScene, current)) {
 				counter++;
 			}
 		}

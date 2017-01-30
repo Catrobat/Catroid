@@ -53,13 +53,12 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.controller.OldLookController;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
-import org.catrobat.catroid.ui.fragment.SpritesListFragment;
+import org.catrobat.catroid.ui.fragment.SpriteListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
@@ -224,7 +223,7 @@ public class NewSpriteDialog extends DialogFragment {
 						newObjectName = new File(lookUri.toString()).getName();
 						break;
 					case REQUEST_TAKE_PICTURE:
-						lookUri = UtilCamera.rotatePictureIfNecessary(lookUri, getString(R.string.default_look_name));
+						lookUri = UtilCamera.rotatePictureIfNecessary(lookUri);
 						break;
 					case REQUEST_MEDIA_LIBRARY:
 						lookUri = Uri.parse(data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH));
@@ -283,7 +282,7 @@ public class NewSpriteDialog extends DialogFragment {
 		paintroidButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
+				if (OldLookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
 					Intent intent = new Intent("android.intent.action.MAIN");
 					intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 							Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
@@ -344,7 +343,7 @@ public class NewSpriteDialog extends DialogFragment {
 					String url = Constants.LIBRARY_LOOKS_URL;
 
 					intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
-					intent.putExtra(WebViewActivity.CALLING_ACTIVITY, SpritesListFragment.TAG);
+					intent.putExtra(WebViewActivity.CALLING_ACTIVITY, SpriteListFragment.TAG);
 					startActivityForResult(intent, REQUEST_MEDIA_LIBRARY);
 				}
 			}
@@ -405,8 +404,14 @@ public class NewSpriteDialog extends DialogFragment {
 				newLookFile = new File(lookUri.getPath());
 			} else {
 				lookData = new LookData();
-				newLookFile = StorageHandler.getInstance().copyImage(projectManager.getCurrentProject().getName(),
-						projectManager.getCurrentScene().getName(), lookUri.getPath(), null);
+				newLookFile = StorageHandler.copyFile(lookUri.getPath(),
+						projectManager.getCurrentScene().getSceneImageDirectoryPath(),
+						projectManager.getFileChecksumContainer());
+
+				if(newLookFile == null) {
+					return false;
+				}
+
 				if (lookUri.getPath().contains(Constants.TMP_LOOKS_PATH)) {
 					File oldFile = new File(lookUri.getPath());
 					oldFile.delete();
@@ -416,7 +421,7 @@ public class NewSpriteDialog extends DialogFragment {
 			String imageFileName = newLookFile.getName();
 			Utils.rewriteImageFileForStage(getActivity(), newLookFile);
 
-			lookData.setLookName(newSpriteName);
+			lookData.setName(newSpriteName);
 			lookData.setLookFilename(imageFileName);
 		} catch (IOException ioException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_load_image);
@@ -451,8 +456,8 @@ public class NewSpriteDialog extends DialogFragment {
 		if (requestedAction == ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT) {
 			projectManager.setCurrentSprite(sprite);
 
-			Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
-			intent.putExtra(ProgramMenuActivity.FORWARD_TO_SCRIPT_ACTIVITY, ScriptActivity.FRAGMENT_SCRIPTS);
+			Intent intent = new Intent(getActivity(), ScriptActivity.class);
+			intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, ScriptActivity.FRAGMENT_SCRIPTS);
 			startActivity(intent);
 		}
 		dismiss();

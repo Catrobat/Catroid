@@ -30,12 +30,13 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropAdapterInterface;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 import java.util.List;
 
-public class SoundListAdapter extends CheckBoxListAdapter<SoundInfo> {
+public class SoundListAdapter extends CheckBoxListAdapter<SoundInfo> implements DragAndDropAdapterInterface {
 
 	public static final String TAG = SoundListAdapter.class.getSimpleName();
 

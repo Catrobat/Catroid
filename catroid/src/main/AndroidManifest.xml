@@ -153,8 +153,7 @@
             android:name=".ui.BackPackActivity"
             android:noHistory="true"
 
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait" />
@@ -176,15 +175,9 @@
         <activity
             android:name=".stage.PreStageActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.ProjectActivity"
-            android:screenOrientation="portrait" />
          <activity
              android:name=".ui.BaseActivity"
              android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.ProgramMenuActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ScriptActivity"
             android:screenOrientation="portrait" />
@@ -193,9 +186,19 @@
 
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.MyProjectsActivity"
-            android:noHistory="false"
-
+            android:name=".ui.ProjectListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SceneListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SpriteListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SpriteMemberSelectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SpriteActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SettingsActivity"
@@ -204,7 +207,6 @@
         <activity
             android:name=".ui.ScratchConverterActivity"
             android:label="@string/title_activity_scratch_converter"
-            android:noHistory="false"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name=".ui.ScratchConverterActivity" />
@@ -213,7 +215,6 @@
         </activity>
         <activity
             android:name=".ui.ScratchProgramDetailsActivity"
-            android:noHistory="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".bluetooth.ConnectBluetoothDeviceActivity" />

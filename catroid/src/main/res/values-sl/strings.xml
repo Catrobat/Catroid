@@ -37,7 +37,7 @@
   <string name="move">Premakni</string>
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Backpack</string>
-  <string name="packing">Pack</string>
+  <string name="pack">Pack</string>
   <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="unpack_bg">Unpack as background</string>
@@ -557,7 +557,7 @@
   <string name="new_sprite_dialog_default_sprite_name">Moj objekt</string>
   <string name="new_sprite_dialog_title">Nov objekt</string>
   <string name="spritename_already_exists">Please choose another Object name.</string>
-  <string name="rename_sprite_dialog">Preimenujte objekt</string>
+  <string name="dialog_rename_sprite">Preimenujte objekt</string>
   <string name="spritename_invalid">To ime je neveljavno</string>
   <string name="no_spritename_entered">Please enter an object name.</string>
   <string name="sprite_name">Ime objekta:</string>
@@ -886,9 +886,9 @@
   <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Please choose another program name.</string>
   <string name="error_scene_exists">Please choose another scene name.</string>
-  <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
-  <string name="error_scene_not_copied">An error occurred while copying a scene.</string>
-  <string name="error_scene_backpack">An error occurred in scene backpack.</string>
+  <string name="error_delete_scene">An error occurred while deleting a scene.</string>
+  <string name="error_copy_scene">An error occurred while copying a scene.</string>
+  <string name="error_backpack_scene">An error occurred in scene backpack.</string>
   <string name="error_delete_project">Napaka pri brisanju programa</string>
   <string name="error_unknown_project">Program s tem imenom ne obstaja.</string>
   <string name="error_project_upload">Med nalaganjem programa je prišlo do napake.</string>

@@ -26,6 +26,6 @@
     <item
         android:id="@+id/menu_rename_sprite"
         android:showAsAction="withText"
-        android:title="@string/rename_sprite_dialog" />
+        android:title="@string/dialog_rename_sprite" />
 
 </menu>

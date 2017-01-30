@@ -55,11 +55,11 @@ public class RenameItemDialog extends TextDialog {
 		if (renameItemInterface.itemNameExists(newName)) {
 			input.setError(getString(R.string.name_already_exists));
 			return false;
-		} else {
-			renameItemInterface.clearCheckedItems();
-			renameItemInterface.renameItem(newName);
-			return true;
 		}
+
+		renameItemInterface.clearCheckedItems();
+		renameItemInterface.renameItem(newName);
+		return true;
 	}
 
 	@Override

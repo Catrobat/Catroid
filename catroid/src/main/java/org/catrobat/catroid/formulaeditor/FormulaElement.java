@@ -853,7 +853,7 @@ public class FormulaElement implements Serializable {
 				break;
 			case OBJECT_LOOK_NAME:
 			case OBJECT_BACKGROUND_NAME:
-				returnValue = (lookData != null) ? lookData.getLookName() : "";
+				returnValue = (lookData != null) ? lookData.getName() : "";
 				break;
 			case OBJECT_DISTANCE_TO:
 				returnValue = (double) sprite.look.getDistanceToTouchPositionInUserInterfaceDimensions();

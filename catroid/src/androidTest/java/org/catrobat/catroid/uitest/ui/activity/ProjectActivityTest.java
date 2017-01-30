@@ -70,9 +70,8 @@ import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
@@ -129,7 +128,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		spriteList.add(new SingleSprite(FOURTH_TEST_SPRITE_NAME));
 
 		rename = solo.getString(R.string.rename);
-		renameDialogTitle = solo.getString(R.string.rename_sprite_dialog);
+		renameDialogTitle = solo.getString(R.string.dialog_rename_sprite);
 		delete = solo.getString(R.string.delete);
 		defaultSpriteName = solo.getString(R.string.default_project_sprites_bird_name);
 	}
@@ -285,7 +284,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		ProjectManager.getInstance().getCurrentProject().getDefaultScene().addSprite(sprite);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 		solo.waitForText(solo.getString(R.string.default_project_name));
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
@@ -304,7 +303,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.createProjectForCopySprite(UiTestUtils.PROJECTNAME1, getActivity());
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 		solo.clickOnText(UiTestUtils.PROJECTNAME1);
 		solo.sleep(200);
@@ -357,7 +356,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		storageHandler.saveProject(project);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 		solo.clickOnText(UiTestUtils.PROJECTNAME1);
 		solo.sleep(200);
@@ -504,7 +503,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		final String spriteToRename = "renamedTestSpriteName";
 
 		clickOnContextMenuItem(FIRST_TEST_SPRITE_NAME, rename);
-		solo.waitForText(solo.getString(R.string.rename_sprite_dialog));
+		solo.waitForText(solo.getString(R.string.dialog_rename_sprite));
 		solo.sleep(50);
 
 		solo.clearEditText(0);
@@ -649,7 +648,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		//------------ OK Button:
 		String buttonCloseText = solo.getString(R.string.close);
 		String errorSpriteAlreadyExists = solo.getString(R.string.spritename_already_exists);
-		String dialogRenameSpriteText = solo.getString(R.string.rename_sprite_dialog);
+		String dialogRenameSpriteText = solo.getString(R.string.dialog_rename_sprite);
 
 		clickOnContextMenuItem(FIRST_TEST_SPRITE_NAME, rename);
 

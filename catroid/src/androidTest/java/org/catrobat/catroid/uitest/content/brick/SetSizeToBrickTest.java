@@ -162,7 +162,7 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		Log.v(TAG, image.getName());
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
-		lookData.setLookName("image");
+		lookData.setName("image");
 		setLookBrick.setLook(lookData);
 		sprite.getLookDataList().add(lookData);
 		ProjectManager.getInstance().getFileChecksumContainer()

@@ -44,7 +44,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.controller.OldLookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
 
@@ -147,7 +147,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		ArrayAdapter<LookData> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		LookData dummyLookData = new LookData();
-		dummyLookData.setLookName(context.getString(R.string.new_broadcast_message));
+		dummyLookData.setName(context.getString(R.string.new_broadcast_message));
 		arrayAdapter.add(dummyLookData);
 		for (LookData lookData : getSprite().getLookDataList()) {
 			arrayAdapter.add(lookData);
@@ -243,7 +243,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		@Override
 		public long getItemId(int paramInt) {
 			LookData currentLook = spinnerAdapter.getItem(paramInt);
-			if (!currentLook.getLookName().equals(context.getString(R.string.new_broadcast_message))) {
+			if (!currentLook.getName().equals(context.getString(R.string.new_broadcast_message))) {
 				oldSelectedLook = currentLook;
 			}
 			return spinnerAdapter.getItemId(paramInt);
@@ -314,7 +314,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		if (getLook() == null) {
 			return;
 		}
-		setLook(LookController.getInstance().backPackHiddenLook(this.getLook()));
+		setLook(OldLookController.getInstance().backPackHiddenLook(this.getLook()));
 		if (sprite != null && !sprite.getLookDataList().contains(getLook())) {
 			sprite.getLookDataList().add(getLook());
 		}

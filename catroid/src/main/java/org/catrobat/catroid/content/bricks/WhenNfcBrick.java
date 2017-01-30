@@ -43,13 +43,10 @@ import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 
 import java.util.List;
 
-public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFragment
-		.OnNfcTagDataListChangedAfterNewListener {
+public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 	protected WhenNfcScript whenNfcScript;
 	private transient View prototypeView;
@@ -222,11 +219,11 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 	}
 
 	private void setOnNfcTagDataListChangedAfterNewListener(Context context) {
-		ScriptActivity scriptActivity = (ScriptActivity) context;
-		NfcTagFragment nfcTagFragment = (NfcTagFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_NFCTAGS);
-		if (nfcTagFragment != null) {
-			nfcTagFragment.setOnNfcTagDataListChangedAfterNewListener(this);
-		}
+//		ScriptActivity scriptActivity = (ScriptActivity) context;
+//		NfcTagFragment nfcTagFragment = (NfcTagFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_NFCTAGS);
+//		if (nfcTagFragment != null) {
+//			nfcTagFragment.setOnNfcTagDataListChangedAfterNewListener(this);
+//		}
 	}
 
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {
@@ -319,10 +316,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 		}
 
 		private void switchToNfcTagFragmentFromScriptFragment() {
-			ScriptActivity scriptActivity = ((ScriptActivity) context);
-			scriptActivity.switchToFragmentFromScriptFragment(ScriptActivity.FRAGMENT_NFCTAGS);
-
-			setOnNfcTagDataListChangedAfterNewListener(context);
+			//TODO: switch to fragment
 		}
 	}
 
@@ -331,11 +325,11 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 		return NFC_ADAPTER;
 	}
 
-	@Override
-	public void onNfcTagDataListChangedAfterNew(NfcTagData nfcTagData) {
-		oldSelectedNfcTag = nfcTagData;
-		setNfcTag(nfcTagData);
-	}
+//	@Override
+//	public void onNfcTagDataListChangedAfterNew(NfcTagData nfcTagData) {
+//		oldSelectedNfcTag = nfcTagData;
+//		setNfcTag(nfcTagData);
+//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

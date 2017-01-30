@@ -37,7 +37,7 @@
   <string name="move">منتقل ڪيو</string>
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">بيڪ پيڪ</string>
-  <string name="packing">Pack</string>
+  <string name="pack">Pack</string>
   <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="unpack_bg">Unpack as background</string>
@@ -531,7 +531,7 @@
   <string name="new_sprite_dialog_default_sprite_name">منهنجو مقصد</string>
   <string name="new_sprite_dialog_title">نئون مقصد</string>
   <string name="spritename_already_exists">Please choose another Object name.</string>
-  <string name="rename_sprite_dialog">مقصد جو نالو مٺايو</string>
+  <string name="dialog_rename_sprite">مقصد جو نالو مٺايو</string>
   <string name="spritename_invalid">مقصد جو نالو مناسب ناهي</string>
   <string name="no_spritename_entered">Please enter an object name.</string>
   <string name="sprite_name">آبجيڪٽ جو نالو:</string>
@@ -852,9 +852,9 @@
   <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Please choose another program name.</string>
   <string name="error_scene_exists">Please choose another scene name.</string>
-  <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
-  <string name="error_scene_not_copied">An error occurred while copying a scene.</string>
-  <string name="error_scene_backpack">An error occurred in scene backpack.</string>
+  <string name="error_delete_scene">An error occurred while deleting a scene.</string>
+  <string name="error_copy_scene">An error occurred while copying a scene.</string>
+  <string name="error_backpack_scene">An error occurred in scene backpack.</string>
   <string name="error_delete_project">An error while deleting the program occurred</string>
   <string name="error_unknown_project">A program with that name does not exist.</string>
   <string name="error_project_upload">An error occurred while uploading the program.</string>

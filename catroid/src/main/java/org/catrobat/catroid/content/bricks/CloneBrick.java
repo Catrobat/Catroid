@@ -100,7 +100,7 @@ public class CloneBrick extends BrickBaseType {
 		}
 
 		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpackHiddenSprite(objectToClone);
+		Sprite backPackedSprite = BackPackSpriteController.backpackHidden(objectToClone);
 		objectToClone = backPackedSprite;
 		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}

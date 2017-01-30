@@ -48,7 +48,7 @@ public final class UtilCamera {
 		return Uri.fromFile(pictureFile);
 	}
 
-	public static Uri rotatePictureIfNecessary(Uri lookFromCameraUri, String defLookName) {
+	public static Uri rotatePictureIfNecessary(Uri lookFromCameraUri) {
 		Uri rotatedPictureUri;
 		int rotate = getPhotoRotationDegree(lookFromCameraUri.getPath());
 
@@ -61,7 +61,7 @@ public final class UtilCamera {
 					project.getXmlHeader().virtualScreenHeight, project.getXmlHeader().virtualScreenWidth,
 					ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 			Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
-			File downScaledCameraPicture = new File(Constants.DEFAULT_ROOT, defLookName + ".jpg");
+			File downScaledCameraPicture = new File(Constants.DEFAULT_ROOT, "CameraImage" + ".jpg");
 			rotatedPictureUri = Uri.fromFile(downScaledCameraPicture);
 			try {
 				StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);

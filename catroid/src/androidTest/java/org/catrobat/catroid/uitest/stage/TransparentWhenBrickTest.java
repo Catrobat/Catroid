@@ -149,7 +149,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		SetLookBrick setLookCat = new SetLookBrick();
 
 		LookData lookDataCat = new LookData();
-		lookDataCat.setLookName(catFilename);
+		lookDataCat.setName(catFilename);
 
 		cat.getLookDataList().add(lookDataCat);
 		setLookCat.setLook(lookDataCat);
@@ -169,7 +169,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		setTransparencyBrick = new SetTransparencyBrick(0.0);
 
 		LookData lookDataFish = new LookData();
-		lookDataFish.setLookName(fishFilename);
+		lookDataFish.setName(fishFilename);
 
 		fish.getLookDataList().add(lookDataFish);
 		setLookFish.setLook(lookDataFish);

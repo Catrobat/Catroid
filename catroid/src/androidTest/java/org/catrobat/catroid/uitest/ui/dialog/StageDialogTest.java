@@ -43,8 +43,8 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilUi;
@@ -86,7 +86,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void testBackToPreviousActivity() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -139,7 +139,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void testRestartButtonActivityChain() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -170,7 +170,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		scriptRestart.clear();
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -275,7 +275,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void testAxesOnOff() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -327,7 +327,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		project.setDeviceData(getActivity());
 		StorageHandler.getInstance().saveProject(project);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -409,7 +409,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		project.setDeviceData(getActivity());
 		StorageHandler.getInstance().saveProject(project);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());

@@ -22,14 +22,9 @@
  */
 package org.catrobat.catroid.ui.controller;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -37,8 +32,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.fragment.SceneListFragment;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -50,193 +43,129 @@ import java.util.List;
 import java.util.Map;
 
 public final class BackPackSceneController {
+
 	public static final String TAG = BackPackSceneController.class.getSimpleName();
-	private static final BackPackSceneController INSTANCE = new BackPackSceneController();
 
-	private BackPackSceneController() {
-	}
+	private static ArrayList<Scene> backPackedScenes = new ArrayList<>();
+	private  static Map<String, String> backPackedNameMap = new HashMap<>();
 
-	public static BackPackSceneController getInstance() {
-		return INSTANCE;
-	}
+	private static ArrayList<Scene> unpackedScenes = new ArrayList<>();
+	private static Map<String, String> unPackedNameMap = new HashMap<>();
 
-	public boolean checkScenesReplaceInBackpack(List<Scene> currentSceneList) {
-		for (Scene scene : currentSceneList) {
-			if (checkSceneReplaceInBackpack(scene)) {
+
+	public static boolean existsInBackPack(List<Scene> sceneList) {
+		for (Scene scene : sceneList) {
+			if (existsInBackPack(scene)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean checkSceneReplaceInBackpack(Scene currentScene) {
-		return BackPackListManager.getInstance().backPackedScenesContains(currentScene, true);
+	public static boolean existsInBackPack(Scene scene) {
+		return BackPackListManager.getInstance().backPackedScenesContains(scene, true);
 	}
 
-	public void showBackPackReplaceDialog(final List<Scene> currentSceneList, final SceneListFragment fragment) {
-		final Context context = fragment.getActivity();
-		Resources resources = context.getResources();
-		String replaceSceneMessage;
-		if (currentSceneList.size() == 1) {
-			replaceSceneMessage = resources.getString(R.string.backpack_replace_scene, currentSceneList.get(0)
-					.getName());
-		} else {
-			replaceSceneMessage = resources.getString(R.string.backpack_replace_scene_multiple);
-		}
-
-		AlertDialog dialog = new CustomAlertDialogBuilder(context)
-				.setTitle(R.string.backpack)
-				.setMessage(replaceSceneMessage)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						fragment.showProgressCircle();
-						fragment.packScenes(currentSceneList);
-					}
-				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						fragment.clearCheckedItems();
-						dialog.dismiss();
-					}
-				}).setOnCancelListener(new DialogInterface.OnCancelListener() {
-					@Override
-					public void onCancel(DialogInterface dialogInterface) {
-						fragment.clearCheckedItems();
-					}
-				}).create();
-		dialog.setCanceledOnTouchOutside(true);
-		dialog.show();
-	}
-
-	public boolean backpackScenes(List<Scene> scenes) {
+	public static boolean backpack(List<Scene> scenes) {
 		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 		ArrayList<Scene> hiddenScenes = new ArrayList<>();
-		ArrayList<Scene> backPackedScenes = new ArrayList<>();
-		Map<String, String> backPackedNameMap = new HashMap<>();
 
-		for (Scene sceneToEdit : scenes) {
-			String sceneName = sceneToEdit.getName();
+		for (Scene scene : scenes) {
+			String sceneName = scene.getName();
 			BackPackListManager.getInstance().removeItemFromSceneBackPackByName(sceneName, false);
 
-			Scene backPackScene = backpack(sceneToEdit);
-			if (backPackScene == null) {
+			if (!backpack(scene, false)) {
 				return false;
 			}
 
-			backPackedNameMap.put(sceneToEdit.getName(), backPackScene.getName());
-			backPackedScenes.add(backPackScene);
-			BackPackListManager.searchForHiddenScenes(backPackScene, hiddenScenes, false);
-			BackPackListManager.getInstance().addSceneToBackPack(backPackScene);
+			BackPackListManager.searchForHiddenScenes(scene, hiddenScenes, false);
 		}
 
 		for (Scene scene : hiddenScenes) {
 			BackPackListManager.getInstance().removeItemFromSceneBackPackByName(scene.getName(), true);
-			Scene hiddenBackPackScene = backpack(scene);
-			if (hiddenBackPackScene == null) {
+			if (!backpack(scene, true)) {
 				return false;
 			}
-			backPackedNameMap.put(scene.getName(), hiddenBackPackScene.getName());
-			BackPackListManager.getInstance().addSceneToHiddenBackpack(hiddenBackPackScene);
-			backPackedScenes.add(hiddenBackPackScene);
+
 		}
+
 		correctTransitionAndStartSceneBricksAfterPacking(backPackedScenes, backPackedNameMap);
 		return true;
 	}
 
-	public boolean backpackScene(Scene sceneToEdit) {
-		ArrayList<Scene> scenes = new ArrayList<>();
-		scenes.add(sceneToEdit);
-		return backpackScenes(scenes);
-	}
-
-	public Scene backpack(Scene sceneToEdit) {
-		File sourceScene = new File(Utils.buildScenePath(sceneToEdit.getProject().getName(), sceneToEdit.getName()));
-		File targetScene = new File(Utils.buildBackpackScenePath(sceneToEdit.getName()));
+	private static boolean backpack(Scene scene, boolean hidden) {
+		File sourceScene = new File(Utils.buildScenePath(scene.getProject().getName(), scene.getName()));
+		File targetScene = new File(Utils.buildBackpackScenePath(scene.getName()));
 
 		try {
 			StorageHandler.copyDirectory(targetScene, sourceScene);
 		} catch (IOException e) {
-			Log.e(TAG, "Error while backpacking Scene Files !", e);
+			Log.e(TAG, "Error while backpacking Scene Files!", e);
 			UtilFile.deleteDirectory(targetScene);
-			return null;
+			return false;
 		}
-		Scene clonedScene = sceneToEdit.clone();
+		Scene clonedScene = scene.clone();
 
 		clonedScene.isBackPackScene = true;
 		clonedScene.setProject(null);
 
-		return clonedScene;
+		backPackedNameMap.put(scene.getName(), clonedScene.getName());
+		backPackedScenes.add(clonedScene);
+
+		if (hidden) {
+			BackPackListManager.getInstance().addSceneToHiddenBackpack(clonedScene);
+		}  else {
+			BackPackListManager.getInstance().addSceneToBackPack(clonedScene);
+		}
+
+		return true;
 	}
 
-	public List<Scene> unpackScenes(List<Scene> scenes) {
-		ArrayList<Scene> unpackedScenes = new ArrayList<>();
-		Map<String, String> unPackedNameMap = new HashMap<>();
+	public static boolean unpack(List<Scene> scenes) {
 		ArrayList<Scene> hiddenScenesToUnpack = new ArrayList<>();
 
-		for (Scene selectedScene : scenes) {
-			Scene unpackedScene = unpack(selectedScene);
-			if (unpackedScene == null) {
-				return null;
+		for (Scene scene : scenes) {
+			if (!unpack(scene)) {
+				return false;
 			}
-			unpackedScene.setProject(ProjectManager.getInstance().getCurrentProject());
-			unpackedScene.getDataContainer().setProject(ProjectManager.getInstance().getCurrentProject());
-			unpackedScenes.add(unpackedScene);
-			unPackedNameMap.put(selectedScene.getName(), unpackedScene.getName());
 
-			BackPackListManager.searchForHiddenScenes(selectedScene, hiddenScenesToUnpack, true);
+			BackPackListManager.searchForHiddenScenes(scene, hiddenScenesToUnpack, true);
 		}
 
 		clearHiddenScenesToUnpackFromAlreadyUnpacked(hiddenScenesToUnpack, scenes);
 		List<Scene> result = new ArrayList<>();
 		result.addAll(unpackedScenes);
 
-		Scene unpackedScene;
 		for (Scene scene : hiddenScenesToUnpack) {
-			unpackedScene = unpack(scene);
-			if (unpackedScene == null) {
-				return null;
+			if (!unpack(scene)) {
+				return false;
 			}
-			unpackedScenes.add(unpackedScene);
-			unPackedNameMap.put(scene.getName(), unpackedScene.getName());
-			unpackedScene.setProject(ProjectManager.getInstance().getCurrentProject());
-			unpackedScene.getDataContainer().setProject(ProjectManager.getInstance().getCurrentProject());
 		}
 
 		correctTransitionAndStartSceneBricksAfterPacking(unpackedScenes, unPackedNameMap);
 
-		return result;
+		return true;
 	}
 
-	public Scene unpackScene(Scene selectedScene) {
-		ArrayList<Scene> scenes = new ArrayList<>();
-		scenes.add(selectedScene);
-		List<Scene> result = unpackScenes(scenes);
-		return result == null ? null : result.get(0);
-	}
-
-	public Scene unpack(Scene selectedScene) {
-		if (selectedScene == null) {
-			return null;
-		}
+	public static boolean unpack(Scene scene) {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		String newName = Utils.getUniqueSceneName(selectedScene.getName(), false);
+		String newName = Utils.getUniqueSceneName(scene.getName(), false);
 
-		File sourceScene = new File(Utils.buildBackpackScenePath(selectedScene.getName()));
+		File sourceScene = new File(Utils.buildBackpackScenePath(scene.getName()));
 		File targetScene = new File(Utils.buildScenePath(projectManager.getCurrentProject().getName(), newName));
 
 		try {
 			StorageHandler.copyDirectory(targetScene, sourceScene);
 			UtilFile.deleteDirectory(new File(targetScene, Constants.PROJECTCODE_NAME));
 		} catch (IOException e) {
-			Log.e(TAG, "Error while unpacking Scene Files !", e);
 			UtilFile.deleteDirectory(targetScene);
-			return null;
+			return false;
 		}
-		Scene clonedScene = selectedScene.cloneForBackPack();
+		Scene clonedScene = scene.cloneForBackPack();
 		if (clonedScene == null) {
-			return null;
+			return false;
 		}
+
 		clonedScene.setSceneName(newName);
 		clonedScene.isBackPackScene = false;
 		clonedScene.setProject(projectManager.getCurrentProject());
@@ -244,10 +173,15 @@ public final class BackPackSceneController {
 		projectManager.addScene(clonedScene);
 		projectManager.setCurrentScene(clonedScene);
 
-		return clonedScene;
+		clonedScene.setProject(ProjectManager.getInstance().getCurrentProject());
+		clonedScene.getDataContainer().setProject(ProjectManager.getInstance().getCurrentProject());
+		unpackedScenes.add(clonedScene);
+		unPackedNameMap.put(scene.getName(), clonedScene.getName());
+
+		return true;
 	}
 
-	private void clearHiddenScenesToUnpackFromAlreadyUnpacked(ArrayList<Scene> hiddenScenes, List<Scene>
+	private static void clearHiddenScenesToUnpackFromAlreadyUnpacked(ArrayList<Scene> hiddenScenes, List<Scene>
 			alreadyUnpacked) {
 		ArrayList<Scene> toRemove = new ArrayList<>();
 		for (Scene hiddenScene : hiddenScenes) {
@@ -260,7 +194,8 @@ public final class BackPackSceneController {
 		hiddenScenes.removeAll(toRemove);
 	}
 
-	private void correctTransitionAndStartSceneBricksAfterPacking(ArrayList<Scene> scenesToCorrect, Map<String, String> visibleHiddenMap) {
+	private static void correctTransitionAndStartSceneBricksAfterPacking(ArrayList<Scene> scenesToCorrect, Map<String,
+			String> visibleHiddenMap) {
 		for (Scene scene : scenesToCorrect) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Brick brick : sprite.getListWithAllBricks()) {

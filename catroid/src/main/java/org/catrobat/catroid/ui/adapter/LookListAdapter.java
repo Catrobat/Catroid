@@ -28,12 +28,13 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropAdapterInterface;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 import java.util.List;
 
-public class LookListAdapter extends CheckBoxListAdapter<LookData> {
+public class LookListAdapter extends CheckBoxListAdapter<LookData> implements DragAndDropAdapterInterface {
 
 	public static final String TAG = LookListAdapter.class.getSimpleName();
 
@@ -48,19 +49,21 @@ public class LookListAdapter extends CheckBoxListAdapter<LookData> {
 		ListItemViewHolder listItemViewHolder = (ListItemViewHolder) listItemView.getTag();
 		LookData lookData = getItem(position);
 
-		listItemViewHolder.name.setText(lookData.getLookName());
+		listItemViewHolder.name.setText(lookData.getName());
 		listItemViewHolder.image.setImageBitmap(lookData.getThumbnailBitmap());
+
+		listItemViewHolder.details.setVisibility(View.GONE);
 
 		if (showDetails) {
 			listItemViewHolder.details.setVisibility(View.VISIBLE);
+
+			listItemViewHolder.leftTopDetails.setText(R.string.size);
+			listItemViewHolder.rightTopDetails.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
 
 			listItemViewHolder.leftBottomDetails.setText(R.string.look_measure);
 			int[] measure = lookData.getMeasure();
 			String measureString = measure[0] + " x " + measure[1];
 			listItemViewHolder.rightBottomDetails.setText(measureString);
-
-			listItemViewHolder.leftTopDetails.setText(R.string.size);
-			listItemViewHolder.rightTopDetails.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
 		}
 
 		return listItemView;

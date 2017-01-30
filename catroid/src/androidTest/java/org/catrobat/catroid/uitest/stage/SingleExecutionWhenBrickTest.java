@@ -139,7 +139,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		SetSizeToBrick yellowSetSizeToBrick = new SetSizeToBrick(200d);
 		LookData yellowLookData = new LookData();
 		String yellowImageName = "yellow_image.bmp";
-		yellowLookData.setLookName(yellowImageName);
+		yellowLookData.setName(yellowImageName);
 		yellowSprite.getLookDataList().add(yellowLookData);
 		yellowLookBrick.setLook(yellowLookData);
 		yellowStartScript.addBrick(yellowLookBrick);
@@ -162,7 +162,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
-		blueLookData.setLookName(blueImageName);
+		blueLookData.setName(blueImageName);
 
 		blueSprite.getLookDataList().add(blueLookData);
 
@@ -185,7 +185,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		LookData greenLookData = new LookData();
 		String greenImageName = "green_image.bmp";
 
-		greenLookData.setLookName(greenImageName);
+		greenLookData.setName(greenImageName);
 
 		greenSprite.getLookDataList().add(greenLookData);
 

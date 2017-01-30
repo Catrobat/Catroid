@@ -39,7 +39,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -111,7 +111,7 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		solo.waitForText(solo.getString(R.string.main_menu_programs));
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.programs));
 
 		solo.clickOnText(projectNameEv3);
@@ -158,7 +158,7 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		solo.waitForText(solo.getString(R.string.main_menu_programs));
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.programs));
 
 		solo.clickOnText(projectNameEv3);
@@ -168,7 +168,7 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 				solo.searchText(solo.getString(R.string.lego_ev3_sensor_config_info_title)));
 
 		solo.goBack();
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.programs));
 		solo.clickOnText(projectNameNoEv3);
 
@@ -246,10 +246,10 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 			solo.goBack();
 		}
 		setSensors(EV3Sensor.Sensor.COLOR);
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.main_menu_programs));
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.programs));
 		solo.clickOnText(projectNameEv3);
 
@@ -348,7 +348,7 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
-		lookData.setLookName(imageName);
+		lookData.setName(imageName);
 		setLookBrick.setLook(lookData);
 		firstSprite.getLookDataList().add(lookData);
 
@@ -377,7 +377,7 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
-		lookData.setLookName(imageName);
+		lookData.setName(imageName);
 		setLookBrick.setLook(lookData);
 		firstSprite.getLookDataList().add(lookData);
 

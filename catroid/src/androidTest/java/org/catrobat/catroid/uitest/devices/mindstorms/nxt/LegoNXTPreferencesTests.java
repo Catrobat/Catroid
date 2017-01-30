@@ -44,7 +44,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -131,7 +131,7 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		solo.waitForText(solo.getString(R.string.main_menu_programs));
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.programs));
 
 		solo.clickOnText(projectName);
@@ -354,7 +354,7 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
-		lookData.setLookName(imageName);
+		lookData.setName(imageName);
 		setLookBrick.setLook(lookData);
 		firstSprite.getLookDataList().add(lookData);
 

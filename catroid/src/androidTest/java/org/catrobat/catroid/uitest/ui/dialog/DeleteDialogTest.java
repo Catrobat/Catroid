@@ -32,7 +32,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.ui.fragment.SoundListFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilUi;
@@ -119,7 +119,7 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
 
 		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-		SoundFragment fragment = (SoundFragment) activity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
+		SoundListFragment fragment = (SoundListFragment) activity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
 		ListAdapter adapter = fragment.getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(buttonCancelText);
@@ -147,13 +147,13 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
-		lookData.setLookName(lookName);
+		lookData.setName(lookName);
 		lookDataList.add(lookData);
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 		lookData = new LookData();
 		lookData.setLookFilename(imageFile2.getName());
-		lookData.setLookName("lookNameTest2");
+		lookData.setName("lookNameTest2");
 		lookDataList.add(lookData);
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());

@@ -40,10 +40,10 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.BackPackActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.BackPackScriptController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -145,7 +145,7 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 			scriptFragment.clearCheckedBricksAndEnableButtons();
 			showToast(scriptsBackPacked, R.plurals.scripts_plural);
 
-			startBackPackActivity(ScriptActivity.FRAGMENT_SCRIPTS);
+			startBackPackActivity();
 		}
 	}
 
@@ -157,9 +157,9 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 				+ textForBackpacking);
 	}
 
-	private void startBackPackActivity(int fragment) {
+	private void startBackPackActivity() {
 		Intent intent = new Intent(context, BackPackActivity.class);
-		intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, fragment);
+		intent.putExtra(BackPackActivity.FRAGMENT, BackPackScriptListFragment.class);
 		context.startActivity(intent);
 	}
 }

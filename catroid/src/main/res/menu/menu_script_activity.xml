@@ -30,13 +30,13 @@
         android:title="@string/backpack" />
 
     <item
-        android:id="@+id/unpacking"
+        android:id="@+id/unpack"
         android:showAsAction="never"
         android:visible="false"
         android:title="@string/unpack" />
 
     <item
-        android:id="@+id/unpacking_object"
+        android:id="@+id/unpack_as_object"
         android:showAsAction="never"
         android:title="@string/unpack_object"
         android:visible="false"/>

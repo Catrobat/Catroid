@@ -44,9 +44,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteMemberSelectionActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -152,7 +152,7 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		solo.goBack();
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.waitForActivity(SpriteMemberSelectionActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.program_menu_button_scripts));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(SET_VARIABLE_EDIT_TEXT_RID));
@@ -171,14 +171,14 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.goBack();
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.waitForActivity(SpriteMemberSelectionActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(250);
 		solo.goBack();
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.waitForActivity(SpriteMemberSelectionActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.program_menu_button_scripts));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(SET_VARIABLE_EDIT_TEXT_RID));
@@ -197,9 +197,9 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.goBack();
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		//TODO: Wait for ProjectActivity (Sprites/Scenes).
 		solo.goBack();
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForActivity(ProjectListActivity.class.getSimpleName());
 
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
@@ -207,7 +207,7 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.goBack();
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		//TODO: Wait for ProjectActivity (Sprites/Scenes).
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 

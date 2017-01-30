@@ -39,7 +39,7 @@ import org.catrobat.catroid.pocketmusic.ui.TrackView;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.ui.fragment.SoundListFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -100,18 +100,18 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.goBack();
 
 		ScriptActivity scriptActivity = (ScriptActivity) solo.getCurrentActivity();
-		SoundFragment soundFragment = (SoundFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
+		SoundListFragment soundListFragment = (SoundListFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
 
-		assertEquals("Saving Pocketmusic MIDI did not work.", 1, soundFragment.getSoundInfoList().size());
+		assertEquals("Saving Pocketmusic MIDI did not work.", 1, soundListFragment.getSoundInfoList().size());
 
 		View firstPocketMusicView = null;
 
-		for (int i = 0; i < soundFragment.getSoundInfoList().size(); i++) {
-			SoundInfo soundInfo = soundFragment.getSoundInfoList().get(i);
+		for (int i = 0; i < soundListFragment.getSoundInfoList().size(); i++) {
+			SoundInfo soundInfo = soundListFragment.getSoundInfoList().get(i);
 			if (soundInfo.getSoundFileName().matches(".*MUS-.*\\.midi")) {
 				assertEquals("Wrong Pocketmusic title.", solo.getString(R.string.pocketmusic_recorded_filename),
 						soundInfo.getTitle());
-				firstPocketMusicView = soundFragment.getListView().getChildAt(i);
+				firstPocketMusicView = soundListFragment.getListView().getChildAt(i);
 				break;
 			}
 		}

@@ -37,7 +37,7 @@
   <string name="move">Přesunout</string>
   <string name="backpack_add">Přidat do batohu</string>
   <string name="backpack">Batoh</string>
-  <string name="packing">Zabalit</string>
+  <string name="pack">Zabalit</string>
   <string name="unpack">Vybalit</string>
   <string name="unpack_keep">Vybal a ponechej</string>
   <string name="unpack_bg">Vybal jako pozadí</string>
@@ -531,7 +531,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="new_sprite_dialog_default_sprite_name">Můj Objekt</string>
   <string name="new_sprite_dialog_title">Nový Objekt</string>
   <string name="spritename_already_exists">Prosím, vyber jiný název Objektu.</string>
-  <string name="rename_sprite_dialog">Přejmenovat Objekt</string>
+  <string name="dialog_rename_sprite">Přejmenovat Objekt</string>
   <string name="spritename_invalid">Neplatné jméno objektu</string>
   <string name="no_spritename_entered">Zadej název objektu.</string>
   <string name="sprite_name">Název objektu:</string>
@@ -856,9 +856,9 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Please choose another program name.</string>
   <string name="error_scene_exists">Please choose another scene name.</string>
-  <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
-  <string name="error_scene_not_copied">Došlo k chybě během kopírování scény.</string>
-  <string name="error_scene_backpack">Došlo k chybě v batohu scény.</string>
+  <string name="error_delete_scene">An error occurred while deleting a scene.</string>
+  <string name="error_copy_scene">Došlo k chybě během kopírování scény.</string>
+  <string name="error_backpack_scene">Došlo k chybě v batohu scény.</string>
   <string name="error_delete_project">Došlo k chybě při odstraňování programu</string>
   <string name="error_unknown_project">Program s tímto názvem již neexistuje.</string>
   <string name="error_project_upload">Došlo k chybě při nahrávání programu.</string>

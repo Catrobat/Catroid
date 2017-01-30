@@ -67,7 +67,7 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	public LookData(String name, String fileName) {
-		setLookName(name);
+		setName(name);
 		setLookFilename(fileName);
 	}
 
@@ -160,27 +160,11 @@ public class LookData implements Serializable, Cloneable {
 		}
 	}
 
-	public String getAbsoluteBackPackPath() {
-		if (fileName != null) {
-			return Utils.buildPath(getPathToBackPackImageDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
-	public String getAbsoluteProjectPath() {
-		if (fileName != null) {
-			return Utils.buildPath(getPathToImageDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
-	public String getLookName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setLookName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 

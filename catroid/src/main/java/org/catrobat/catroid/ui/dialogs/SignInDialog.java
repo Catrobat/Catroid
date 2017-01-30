@@ -62,7 +62,6 @@ import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.transfers.GoogleExchangeCodeTask;
 import org.catrobat.catroid.transfers.GoogleLogInTask;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
@@ -100,9 +99,9 @@ public class SignInDialog extends DialogFragment implements
 	public Dialog onCreateDialog(Bundle bundle) {
 		if (getActivity() instanceof MainMenuActivity) {
 			((MainMenuActivity) getActivity()).setSignInDialog(this);
-		} else if (getActivity() instanceof ProjectActivity) {
-			((ProjectActivity) getActivity()).setSignInDialog(this);
-		}
+		} //else if (getActivity() instanceof ProjectActivity) {
+//			((ProjectActivity) getActivity()).setSignInDialog(this);
+//		}
 
 		initializeGooglePlus();
 
