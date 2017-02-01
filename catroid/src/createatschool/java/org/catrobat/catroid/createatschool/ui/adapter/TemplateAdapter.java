@@ -55,17 +55,19 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> implements
 	private OnTemplateEditListener onTemplateEditListener;
 	private TemplateContainer templateContainer;
 
-	public TemplateAdapter(Context context, int resource, int textViewResourceId) {
+	public TemplateAdapter(Context context, int resource, int textViewResourceId, OnTemplateEditListener listener) {
 		super(context, resource, textViewResourceId);
 		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.onTemplateEditListener = listener;
 		fetchTemplates();
 	}
 
 	private void fetchTemplates() {
-		FetchTemplatesTask task = new FetchTemplatesTask(context);
-		task.setOnFetchTemplatesCompleteListener(this);
-		task.execute();
+		if (isEmpty()) {
+			FetchTemplatesTask task = new FetchTemplatesTask(context, this);
+			task.execute();
+		}
 	}
 
 	private void initTemplates() {
@@ -74,10 +76,6 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> implements
 		}
 
 		addAll(templateContainer.getTemplateData());
-	}
-
-	public void setOnTemplateEditListener(OnTemplateEditListener listener) {
-		onTemplateEditListener = listener;
 	}
 
 	@Override
@@ -109,7 +107,7 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> implements
 
 			@Override
 			public void onClick(View view) {
-				if (onTemplateEditListener != null && templateData != null) {
+				if (templateData != null) {
 					onTemplateEditListener.onTemplateEdit(templateData);
 				}
 			}

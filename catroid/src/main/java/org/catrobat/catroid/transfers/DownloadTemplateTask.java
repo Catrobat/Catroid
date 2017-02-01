@@ -29,14 +29,14 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.TemplateData;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.IOException;
 
-public class DownloadTemplateTask extends AsyncTask<Void, Void, Void> {
+public class DownloadTemplateTask extends AsyncTask<Void, Void, Boolean> {
 
 	private static final String TAG = DownloadTemplateTask.class.getSimpleName();
 
@@ -45,16 +45,13 @@ public class DownloadTemplateTask extends AsyncTask<Void, Void, Void> {
 	private final String zipFileUrl;
 	private ProgressDialog progressDialog;
 	private OnDownloadTemplateCompleteListener onDownloadTemplateCompleteListener;
-	private WebconnectionException exception;
 	private String message;
 
-	public DownloadTemplateTask(Context context, TemplateData templateData, String zipFileUrl) {
+	public DownloadTemplateTask(Context context, TemplateData templateData, String zipFileUrl,
+			OnDownloadTemplateCompleteListener listener) {
 		this.context = context;
 		this.templateData = templateData;
 		this.zipFileUrl = zipFileUrl;
-	}
-
-	public void setOnDownloadTemplateCompleteListener(OnDownloadTemplateCompleteListener listener) {
 		onDownloadTemplateCompleteListener = listener;
 	}
 
@@ -65,57 +62,43 @@ public class DownloadTemplateTask extends AsyncTask<Void, Void, Void> {
 			return;
 		}
 		String title = context.getString(R.string.please_wait);
-		String message = context.getString(R.string.status_downloading);
-		progressDialog = ProgressDialog.show(context, title, message);
+		String progressMessage = context.getString(R.string.status_downloading);
+		progressDialog = ProgressDialog.show(context, title, progressMessage);
 	}
 
 	@Override
-	protected Void doInBackground(Void... arg0) {
+	protected Boolean doInBackground(Void... arg0) {
+		if (!Utils.isNetworkAvailable(context)) {
+			return false;
+		}
+		String zipFileString = Utils.buildPathForTemplatesZip(templateData.getName());
+
 		try {
-			if (!Utils.isNetworkAvailable(context)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
-				return null;
-			}
-
-			String zipFileString = Utils.buildPathForTemplatesZip(templateData.getName());
-
 			ServerCalls.getInstance().downloadProject(zipFileUrl, zipFileString, null, null, 0);
 		} catch (WebconnectionException | IOException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			message = webconnectionException.getMessage();
 		}
-		return null;
+		return true;
 	}
 
 	@Override
-	protected void onPostExecute(Void aVoid) {
-		super.onPostExecute(aVoid);
+	protected void onPostExecute(Boolean networkAvailable) {
+		super.onPostExecute(networkAvailable);
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(exception)) {
-			showDialog(R.string.error_internet_connection);
+		if (!networkAvailable) {
+			ToastUtil.showError(context, R.string.error_internet_connection);
+			return;
+		} else if (message != null) {
+			ToastUtil.showError(context, message);
 			return;
 		}
 
-		if (onDownloadTemplateCompleteListener != null) {
-			onDownloadTemplateCompleteListener.onDownloadTemplateComplete();
-		}
-	}
-
-	private void showDialog(int messageId) {
-		if (context == null) {
-			return;
-		}
-		if (message == null) {
-			new CustomAlertDialogBuilder(context).setTitle(R.string.register_error).setMessage(messageId)
-					.setPositiveButton(R.string.ok, null).show();
-		} else {
-			new CustomAlertDialogBuilder(context).setTitle(R.string.register_error).setMessage(message)
-					.setPositiveButton(R.string.ok, null).show();
-		}
+		onDownloadTemplateCompleteListener.onDownloadTemplateComplete();
 	}
 
 	public interface OnDownloadTemplateCompleteListener {

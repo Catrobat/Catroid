@@ -38,6 +38,7 @@ import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
+import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -863,6 +864,16 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void setShowLegoSensorInfoDialog(boolean showLegoSensorInfoDialogFlag) {
 		showLegoSensorInfoDialog = showLegoSensorInfoDialogFlag;
+	}
+
+	public void loadStageProject(TemplateData templateData, Activity activity, String projectName,
+			OnLoadProjectCompleteListener listener) {
+		String zipFileString = Utils.buildPathForTemplatesZip(templateData.getName());
+		LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, templateData.getName(),
+				zipFileString, false, false);
+		loadProjectTask.setOnLoadProjectCompleteListener(listener);
+		Log.e("STANDALONE", "going to execute standalone project");
+		loadProjectTask.execute();
 	}
 
 	@Override

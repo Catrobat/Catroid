@@ -22,10 +22,14 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.Log;
 
+import com.google.common.io.Files;
+
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
 import org.rauschig.jarchivelib.Archiver;
@@ -38,8 +42,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -181,14 +183,15 @@ public final class UtilZip {
 		}
 	}
 
-	public static void unzipTemplate(String projectName, String templateName, String zipFileName) {
+	public static void unzipTemplate(String projectName, String templateName, String zipFileName, Context context) {
 		Log.d(TAG, "zip file name:" + zipFileName);
 		Archiver archiver = ArchiverFactory.createArchiver("zip");
 		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + templateName);
 		try {
 			archiver.extract(new File(zipFileName), unpackedDirectory);
 		} catch (IOException e) {
-			Log.d(TAG, "Can't extract program", e);
+			ToastUtil.showError(context, R.string.error_extracting_program);
+			Log.d(TAG, "Could not extract program", e);
 		}
 
 		File destination = new File(Constants.DEFAULT_ROOT + "/" + projectName);
@@ -202,7 +205,33 @@ public final class UtilZip {
 		}
 	}
 
-	public static void copyProgramZip(Resources resources, String zipFileName) {
+	public static void unzipProgram(Context context) {
+		StorageHandler.getInstance();
+		String zipFileString = Constants.DEFAULT_ROOT + "/" + Constants.ZIP_FILE_NAME;
+		UtilZip.copyProgramZip(context.getResources(), Constants.ZIP_FILE_NAME, context);
+		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);
+		Log.d("STANDALONE", "zip file name:" + Constants.ZIP_FILE_NAME);
+		Archiver archiver = ArchiverFactory.createArchiver("zip");
+		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + Constants.START_PROJECT);
+		try {
+			archiver.extract(new File(zipFileString), unpackedDirectory);
+		} catch (IOException e) {
+			ToastUtil.showError(context, R.string.error_extracting_program);
+			Log.d("STANDALONE", "Can't extract program", e);
+		}
+
+		File destination = new File(Constants.DEFAULT_ROOT + "/" + Constants.STANDALONE_PROJECT_NAME);
+		if (unpackedDirectory.isDirectory()) {
+			unpackedDirectory.renameTo(destination);
+		}
+
+		File zipFile = new File(zipFileString);
+		if (zipFile.exists()) {
+			zipFile.delete();
+		}
+	}
+
+	private static void copyProgramZip(Resources resources, String zipFileName, Context context) {
 		AssetManager assetManager = resources.getAssets();
 		String[] files = null;
 		try {
@@ -212,17 +241,12 @@ public final class UtilZip {
 		}
 		for (String filename : files) {
 			if (filename.contains(zipFileName)) {
-				InputStream in;
-				OutputStream out;
+				File sourceFile = new File(filename);
+				File destinationFile = new File(Constants.DEFAULT_ROOT, filename);
 				try {
-					in = assetManager.open(filename);
-					File outFile = new File(Constants.DEFAULT_ROOT, filename);
-					out = new FileOutputStream(outFile);
-					StorageHandler.getInstance().copyFile(in, out);
-					out.flush();
-					out.close();
-					in.close();
+					Files.copy(sourceFile, destinationFile);
 				} catch (IOException e) {
+					ToastUtil.showError(context, R.string.error_extracting_program);
 					Log.e("STANDALONE", "Failed to copy asset file: " + filename, e);
 				}
 			}

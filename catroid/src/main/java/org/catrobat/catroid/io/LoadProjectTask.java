@@ -92,7 +92,7 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		if (BuildConfig.CREATE_AT_SCHOOL && templateZipFileName != null) {
-			UtilZip.unzipTemplate(projectName, templateName, templateZipFileName);
+			UtilZip.unzipTemplate(projectName, templateName, templateZipFileName, activity);
 		}
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();

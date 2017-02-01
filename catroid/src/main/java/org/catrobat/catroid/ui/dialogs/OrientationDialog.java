@@ -140,18 +140,8 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 		String zipFileUrl = baseUrlForTemplates;
 		zipFileUrl += createLandscapeProject ? templateData.getLandscape() : templateData.getPortrait();
 
-		DownloadTemplateTask downloadTemplateTask = new DownloadTemplateTask(getActivity(), templateData, zipFileUrl);
-		downloadTemplateTask.setOnDownloadTemplateCompleteListener(this);
-		downloadTemplateTask.execute();
-	}
-
-	private void loadStageProject() {
-		String zipFileString = Utils.buildPathForTemplatesZip(templateData.getName());
-		LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, templateData.getName(),
-				zipFileString, false, false);
-		loadProjectTask.setOnLoadProjectCompleteListener(this);
-		Log.e("STANDALONE", "going to execute standalone project");
-		loadProjectTask.execute();
+		DownloadTemplateTask downloadTask = new DownloadTemplateTask(getActivity(), templateData, zipFileUrl, this);
+		downloadTask.execute();
 	}
 
 	public boolean isOpenedFromProjectList() {
@@ -212,6 +202,6 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 
 	@Override
 	public void onDownloadTemplateComplete() {
-		loadStageProject();
+		ProjectManager.getInstance().loadStageProject(templateData, activity, projectName, this);
 	}
 }

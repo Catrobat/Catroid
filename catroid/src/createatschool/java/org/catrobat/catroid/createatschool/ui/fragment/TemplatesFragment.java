@@ -71,7 +71,6 @@ public class TemplatesFragment extends ListFragment implements TemplateAdapter.O
 			projectToEdit = (ProjectData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_TEMPLATE_DATA);
 		}
 
-		initAdapter();
 		DividerUtil.setDivider(getActivity(), getListView());
 	}
 
@@ -82,13 +81,10 @@ public class TemplatesFragment extends ListFragment implements TemplateAdapter.O
 	}
 
 	private void initAdapter() {
-		adapter = new TemplateAdapter(getActivity(), R.layout.list_item, R.id.list_item_text_view);
-		setListAdapter(adapter);
-		initListener();
-	}
-
-	private void initListener() {
-		adapter.setOnTemplateEditListener(this);
+		if (adapter == null) {
+			adapter = new TemplateAdapter(getActivity(), R.layout.list_item, R.id.list_item_text_view, this);
+			setListAdapter(adapter);
+		}
 	}
 
 	@Override
