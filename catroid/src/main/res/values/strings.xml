@@ -1100,13 +1100,13 @@
 
     <string name="ev3_motor_move">Set EV3 motor</string>
     <string name="ev3_motor_power_to">to</string>
-    <string name="ev3_motor_power">Power</string>
+    <string name="ev3_motor_power">speed</string>
     <string name="ev3_motor_move_for_period">for</string>
 
     <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
     <string name="ev3_motor_move_by">by</string>
 
-    <string name="ev3_seconds">Seconds</string>
+    <string name="ev3_seconds">seconds</string>
 
     <string name="ev3_set_led_status">Set EV3 LED Status</string>
     <string name="ev3_led_status_off">Off</string>
