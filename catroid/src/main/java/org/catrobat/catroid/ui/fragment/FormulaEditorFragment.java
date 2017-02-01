@@ -557,6 +557,14 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			case android.R.id.home:
 				exitFormulaEditorFragment();
 				return true;
+			case R.id.menu_undo:
+                		formulaEditorEditText.undo();
+				getActivity().invalidateOptionsMenu();
+				return true;
+            		case R.id.menu_redo:
+                		formulaEditorEditText.redo();
+				getActivity().invalidateOptionsMenu();
+				return true;	
 		}
 		return super.onOptionsItemSelected(item);
 	}
