@@ -1335,11 +1335,11 @@
     <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
     <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
     <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 touch sensor</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared sensor</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 color sensor</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 color sensor ambient</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3_touch</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3_infrared</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_color_ambient</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_color_reflected</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
