@@ -153,9 +153,6 @@ public final class Utils {
 					&& preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false)) {
 				sendCaughtException(context);
 			}
-			if (BuildConfig.CREATE_AT_SCHOOL) {
-				ProjectManager.getInstance().setUserID(context);
-			}
 
 			if (!(context instanceof MainMenuActivity)) {
 				context.finish();

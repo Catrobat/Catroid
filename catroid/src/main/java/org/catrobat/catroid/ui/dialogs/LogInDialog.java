@@ -130,10 +130,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 		getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
 			@Override
 			public boolean onKey(android.content.DialogInterface dialog, int keyCode, android.view.KeyEvent event) {
-				if (keyCode == android.view.KeyEvent.KEYCODE_BACK && BuildConfig.CREATE_AT_SCHOOL) {
-					return true;
-				}
-				return false;
+				return keyCode == android.view.KeyEvent.KEYCODE_BACK && BuildConfig.CREATE_AT_SCHOOL;
 			}
 		});
 	}
@@ -144,7 +141,6 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
 		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
-		ProjectManager.getInstance().setUserID(getActivity());
 
 		TrackingUtil.trackLoginInitSessionEvent(getActivity());
 	}
