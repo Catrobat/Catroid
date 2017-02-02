@@ -80,6 +80,9 @@
     <string name="nothing_to_rename">Nothing to rename</string>
     <string name="unpack_background">Program\'s background will be replaced</string>
     <string name="degrees">degrees</string>
+    <string name="landscape">landscape</string>
+    <string name="portrait">portrait</string>
+    <string name="unknown">unknown</string>
     <!--  -->
 
 
@@ -466,6 +469,9 @@
     <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
     <!--  -->
 
+    <!-- Pocketmusic activity -->
+    <string name="pocketmusic_recorded_filename">Pocketmusic</string>
+    <!--  -->
 
     <!-- PreStage activity -->
     <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
