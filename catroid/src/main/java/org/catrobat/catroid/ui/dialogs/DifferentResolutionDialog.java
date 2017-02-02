@@ -22,19 +22,30 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-public class BrickTextDialog extends TextDialog {
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.dialogs.base.TextDialog;
 
-	public BrickTextDialog(int title, int inputLabel, String previousText) {
-		super(title, inputLabel, previousText, false);
+public class DifferentResolutionDialog extends TextDialog {
+
+	public static final String TAG = DifferentResolutionDialog.class.getSimpleName();
+	private DifferentResolutionInterface differentResolutionInterface;
+
+	public DifferentResolutionDialog(String text, DifferentResolutionInterface differentResolutionInterface) {
+		super(R.string.warning, text, R.string.main_menu_continue, R.string.abort);
+		this.differentResolutionInterface = differentResolutionInterface;
 	}
 
 	@Override
 	protected boolean handlePositiveButtonClick() {
-		return false;
+		differentResolutionInterface.showMergeDialog();
+		return true;
 	}
 
 	@Override
 	protected void handleNegativeButtonClick() {
-		dismiss();
+	}
+
+	public interface DifferentResolutionInterface {
+		void showMergeDialog();
 	}
 }

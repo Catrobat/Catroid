@@ -24,21 +24,20 @@ package org.catrobat.catroid.formulaeditor;
 
 import java.io.Serializable;
 
-public class UserVariable implements Serializable {
+public class UserVariable extends UserObject implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String name;
 	private transient Object value;
 	private transient boolean visible = true;
 	private transient boolean dummy = false;
 
 	public UserVariable(String name) {
-		this.name = name;
+		super(name);
 		this.value = 0d;
 	}
 
 	public UserVariable(final String name, final Object value) {
-		this.name = name;
+		super(name);
 		this.value = value;
 	}
 
@@ -48,14 +47,6 @@ public class UserVariable implements Serializable {
 
 	public void setValue(Object value) {
 		this.value = value;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public boolean getVisible() {

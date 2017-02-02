@@ -20,40 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.ui.dialogs;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.catrobat.catroid.ui.dialogs.base.InputDialog;
 
-public class UserList extends UserObject implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class BrickInputDialog extends InputDialog {
 
-	private transient List<Object> list;
-
-	public UserList() {
-		list = new ArrayList<>();
+	public BrickInputDialog(int title, int inputLabel, String previousText) {
+		super(title, inputLabel, previousText, false);
 	}
 
-	public UserList(final String name) {
-		super(name);
-		this.list = new ArrayList<>();
+	@Override
+	protected boolean handlePositiveButtonClick() {
+		return false;
 	}
 
-	public UserList(final String name, final List<Object> value) {
-		super(name);
-		this.list = value;
-	}
-
-	public List<Object> getList() {
-		return list;
-	}
-
-	public void addListItem(Object listItem) {
-		this.list.add(listItem);
-	}
-
-	public void setList(List<Object> list) {
-		this.list = list;
+	@Override
+	protected void handleNegativeButtonClick() {
+		dismiss();
 	}
 }

@@ -394,15 +394,22 @@ public final class TestUtils {
 
 		project.getDefaultScene().getDataContainer().addProjectUserList(valueName);
 		project.getDefaultScene().getDataContainer().addProjectUserVariable(valueName);
+		project.getDefaultScene().getDataContainer().addProjectUserList(valueName + "_1");
+		project.getDefaultScene().getDataContainer().addProjectUserVariable(valueName + "_1");
 
 		Sprite sprite = new SingleSprite(spriteName);
 		Script script = new StartScript();
 
 		SetVariableBrick variableBrick = new SetVariableBrick(new Formula(1), project.getProjectVariableWithName(valueName));
 		AddItemToUserListBrick listBrick = new AddItemToUserListBrick(new Formula(1), project.getProjectListWithName(valueName));
-
 		script.addBrick(variableBrick);
 		script.addBrick(listBrick);
+
+		variableBrick = new SetVariableBrick(new Formula(1), project.getProjectVariableWithName(valueName + "_1"));
+		listBrick = new AddItemToUserListBrick(new Formula(1), project.getProjectListWithName(valueName + "_1"));
+		script.addBrick(variableBrick);
+		script.addBrick(listBrick);
+
 		sprite.addScript(script);
 		project.getDefaultScene().getSpriteList().get(0).addScript(script);
 		project.getDefaultScene().addSprite(sprite);
@@ -412,21 +419,27 @@ public final class TestUtils {
 
 	public static Project createProjectWithSpriteValues(String name, String spriteName, String valueName, Context context) {
 		Project project = new Project(context, name);
-
 		Sprite sprite = new SingleSprite(spriteName);
 
-		UserList firstList = project.getDefaultScene().getDataContainer().addSpriteUserListToSprite(project.getDefaultScene().getSpriteList().get(0), valueName);
-		UserList secondList = project.getDefaultScene().getDataContainer().addSpriteUserListToSprite(sprite, valueName);
-		UserVariable firstVariable = project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(project.getDefaultScene().getSpriteList().get(0), valueName);
-		UserVariable secondVariable = project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, valueName);
+		project = createSpriteVariableAndList(project, sprite, valueName);
+		project = createSpriteVariableAndList(project, sprite, valueName + "_1");
 
-		Script firstScript = new StartScript();
-		Script secondScript = new StartScript();
+		return project;
+	}
+
+	private static Project createSpriteVariableAndList(Project project, Sprite sprite, String name) {
+		UserList firstList = project.getDefaultScene().getDataContainer().addSpriteUserListToSprite(project.getDefaultScene().getSpriteList().get(0), name);
+		UserList secondList = project.getDefaultScene().getDataContainer().addSpriteUserListToSprite(sprite, name);
+		UserVariable firstVariable = project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(project.getDefaultScene().getSpriteList().get(0), name);
+		UserVariable secondVariable = project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, name);
 
 		SetVariableBrick firstVariableBrick = new SetVariableBrick(new Formula(1), firstVariable);
 		SetVariableBrick secondVariableBrick = new SetVariableBrick(new Formula(1), secondVariable);
 		AddItemToUserListBrick firstListBrick = new AddItemToUserListBrick(new Formula(1), firstList);
 		AddItemToUserListBrick secondListBrick = new AddItemToUserListBrick(new Formula(1), secondList);
+
+		Script firstScript = new StartScript();
+		Script secondScript = new StartScript();
 
 		firstScript.addBrick(firstVariableBrick);
 		firstScript.addBrick(firstListBrick);

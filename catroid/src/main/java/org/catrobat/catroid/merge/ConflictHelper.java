@@ -20,19 +20,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.catroid.merge;
 
-import android.app.Activity;
-import android.content.Context;
-
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserObject;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class ConflictHelper {
@@ -40,72 +36,70 @@ public final class ConflictHelper {
 	private ConflictHelper() {
 	}
 
-	public static boolean checkMergeConflict(Context context, Scene mergeResult) {
-		return checkVariableMergeConflict(context, mergeResult)
-				&& checkListMergeConflict(context, mergeResult);
+	public static void renameConflicts(Scene scene, String conflictEnding) {
+		renameVariablesWithConflict(scene, conflictEnding);
+		renameListsWithConflict(scene, conflictEnding);
 	}
 
-	private static boolean checkVariableMergeConflict(Context context, Scene mergeResult) {
-		List<UserVariable> globalValues = mergeResult.getDataContainer().getProjectVariables();
+	public static void renameVariablesWithConflict(Scene scene, String conflictEnding) {
+		List<UserVariable> globalValues = scene.getDataContainer().getProjectVariables();
 
-		for (Sprite sprite : mergeResult.getSpriteList()) {
-			List<UserVariable> localValues = mergeResult.getDataContainer().getVariableListForSprite(sprite);
+		for (Sprite sprite : scene.getSpriteList()) {
+			List<UserVariable> localValues = scene.getDataContainer().getVariableListForSprite(sprite);
 
-			if (localValues.size() == 0) {
-				continue;
-			}
-
-			String name = checkVariableNames(globalValues, localValues);
-			if (name != null) {
-				if (context instanceof Activity) {
-					String msg = String.format(context.getString(R.string.merge_conflict_variable), name);
-					Utils.showErrorDialog(context, msg, R.string.merge_conflict);
+			List<String> conflicts = checkObjectNames(globalValues, localValues);
+			if (conflicts.size() > 0) {
+				for (String name : conflicts) {
+					String newName = getUniqueGlobalObjectName(name.concat("_").concat(conflictEnding), globalValues);
+					scene.getDataContainer().renameProjectUserVariable(newName, name);
 				}
-				return false;
 			}
 		}
-		return true;
 	}
 
-	private static boolean checkListMergeConflict(Context context, Scene mergeResult) {
-		List<UserList> globalLists = mergeResult.getDataContainer().getProjectLists();
+	private static void renameListsWithConflict(Scene scene, String conflictEnding) {
+		List<UserList> globalLists = scene.getDataContainer().getProjectLists();
 
-		for (Sprite sprite : mergeResult.getSpriteList()) {
-			List<UserList> localLists = mergeResult.getDataContainer().getUserListListForSprite(sprite);
-			if (localLists.size() == 0) {
-				continue;
-			}
-			String name = checkListNames(globalLists, localLists);
-			if (name != null) {
-				if (context instanceof Activity) {
-					String msg = String.format(context.getString(R.string.merge_conflict_list), name);
-					Utils.showErrorDialog(context, msg, R.string.merge_conflict);
+		for (Sprite sprite : scene.getSpriteList()) {
+			List<UserList> localLists = scene.getDataContainer().getUserListListForSprite(sprite);
+
+			List<String> conflicts = checkObjectNames(globalLists, localLists);
+			if (conflicts.size() > 0) {
+				for (String name : conflicts) {
+					String newName = getUniqueGlobalObjectName(name.concat("_").concat(conflictEnding), globalLists);
+					scene.getDataContainer().renameProjectUserList(newName, name);
 				}
-				return false;
 			}
 		}
-		return true;
 	}
 
-	private static String checkVariableNames(List<UserVariable> globalValues, List<UserVariable> localValues) {
-		for (UserVariable global : globalValues) {
-			for (UserVariable local : localValues) {
+	private static List<String> checkObjectNames(List<? extends UserObject> globalObjects, List<? extends UserObject> localObjects) {
+		List conflicts = new ArrayList();
+		for (UserObject global : globalObjects) {
+			for (UserObject local : localObjects) {
 				if (global.getName().equals(local.getName())) {
-					return global.getName();
+					conflicts.add(global.getName());
 				}
 			}
 		}
-		return null;
+		return conflicts;
 	}
 
-	private static String checkListNames(List<UserList> globalLists, List<UserList> localLists) {
-		for (UserList global : globalLists) {
-			for (UserList local : localLists) {
-				if (global.getName().equals(local.getName())) {
-					return global.getName();
-				}
+	private static String getUniqueGlobalObjectName(String name, List<? extends UserObject> globalObjects) {
+		return getUniqueGlobalObjectName(name, globalObjects, 0);
+	}
+
+	private static String getUniqueGlobalObjectName(String name, List<? extends UserObject> globalObjects, int number) {
+		String newName = name;
+		if (number != 0) {
+			newName = name.concat(String.valueOf(number));
+		}
+
+		for (UserObject object : globalObjects) {
+			if (object.getName().equals(newName)) {
+				return getUniqueGlobalObjectName(name, globalObjects, number++);
 			}
 		}
-		return null;
+		return newName;
 	}
 }

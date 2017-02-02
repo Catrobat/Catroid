@@ -59,13 +59,14 @@ import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.merge.MergeTask;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.LegoEV3SensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
-import org.catrobat.catroid.ui.dialogs.MergeSceneDialog;
+import org.catrobat.catroid.ui.dialogs.MergeScenesDialog;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
@@ -78,7 +79,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.concurrent.locks.Lock;
 
-public class ProjectActivity extends BaseActivity {
+public class ProjectActivity extends BaseActivity implements MergeScenesDialog.MergeScenesInterface {
 
 	private static final String TAG = ProjectActivity.class.getSimpleName();
 
@@ -294,13 +295,13 @@ public class ProjectActivity extends BaseActivity {
 				break;
 			case R.id.merge_scene:
 				fragmentTransaction = getFragmentManager().beginTransaction();
-				previousFragment = getFragmentManager().findFragmentByTag(MergeSceneDialog.DIALOG_FRAGMENT_TAG);
+				previousFragment = getFragmentManager().findFragmentByTag(MergeScenesDialog.TAG);
 				if (previousFragment != null) {
 					fragmentTransaction.remove(previousFragment);
 				}
 
-				MergeSceneDialog mergeSceneDialog = new MergeSceneDialog();
-				mergeSceneDialog.show(fragmentTransaction, MergeSceneDialog.DIALOG_FRAGMENT_TAG);
+				MergeScenesDialog mergeSceneDialog = new MergeScenesDialog(this);
+				mergeSceneDialog.show(fragmentTransaction, MergeScenesDialog.TAG);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -592,5 +593,21 @@ public class ProjectActivity extends BaseActivity {
 			dialog.show(fragmentManager, LegoEV3SensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 		ProjectManager.getInstance().setShowLegoSensorInfoDialog(false);
+	}
+
+	@Override
+	public void mergeScenes(String firstScene, String secondScene, String resultName) {
+		Scene first = ProjectManager.getInstance().getCurrentProject().getSceneByName(firstScene);
+		Scene second = ProjectManager.getInstance().getCurrentProject().getSceneByName(secondScene);
+
+		if (firstScene == null || secondScene == null) {
+			Utils.showErrorDialog(this, R.string.error_merge_scene_not_found);
+			return;
+		}
+
+		MergeTask merge = new MergeTask(first, second, this);
+		if (!merge.mergeScenesInCurrentProject(resultName)) {
+			Utils.showErrorDialog(this, R.string.merge_error);
+		}
 	}
 }

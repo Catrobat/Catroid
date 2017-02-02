@@ -23,11 +23,12 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.dialogs.base.InputDialog;
 import org.catrobat.catroid.ui.fragment.ProjectListFragment;
 import org.catrobat.catroid.utils.CopyProjectTask;
 import org.catrobat.catroid.utils.Utils;
 
-public class CopyProjectDialog extends TextDialog {
+public class CopyProjectDialog extends InputDialog {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_copy_project";
 

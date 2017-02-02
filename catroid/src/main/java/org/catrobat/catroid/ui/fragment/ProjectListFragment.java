@@ -40,19 +40,22 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.merge.MergeManager;
+import org.catrobat.catroid.merge.MergeTask;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
 import org.catrobat.catroid.ui.adapter.ProjectListAdapter;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
+import org.catrobat.catroid.ui.dialogs.DifferentResolutionDialog;
+import org.catrobat.catroid.ui.dialogs.MergeProjectsDialog;
 import org.catrobat.catroid.ui.dialogs.RenameItemDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -68,7 +71,8 @@ import java.util.List;
 
 public class ProjectListFragment extends ListActivityFragment implements LoadProjectTask.OnLoadProjectCompleteListener,
 		CheckBoxListAdapter.ListItemClickHandler<ProjectData>, CheckBoxListAdapter.ListItemLongClickHandler,
-		SetDescriptionDialog.ChangeDescriptionInterface {
+		SetDescriptionDialog.ChangeDescriptionInterface, MergeProjectsDialog.MergeProjectsInterface,
+		DifferentResolutionDialog.DifferentResolutionInterface {
 
 	private static final String TAG = ProjectListFragment.class.getSimpleName();
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
@@ -220,10 +224,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
 				break;
 			case R.string.merge_button:
-				String firstProjectName = ProjectManager.getInstance().getCurrentProject().getName();
-				String secondProjectName = projectToEdit.projectName;
-
-				MergeManager.merge(firstProjectName, secondProjectName, getActivity(), projectAdapter);
+				mergeProjects();
 				break;
 		}
 		return super.onContextItemSelected(item);
@@ -398,5 +399,52 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 	@Override
 	public void onLoadProjectFailure() {
 		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+	}
+
+	private void showDifferentResolutionDialog(XmlHeader first, XmlHeader second) {
+		String msg = String.format(getString(R.string.error_different_resolutions),
+				first.getProgramName(), first.getVirtualScreenHeight(), first.getVirtualScreenWidth(),
+				second.getProgramName(), second.getVirtualScreenHeight(), second.getVirtualScreenWidth());
+
+		DifferentResolutionDialog dialog = new DifferentResolutionDialog(msg, this);
+		dialog.show(getFragmentManager(), DifferentResolutionDialog.TAG);
+	}
+
+	private void mergeProjects() {
+		XmlHeader first = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
+		XmlHeader second = StorageHandler.getInstance().loadProject(projectToEdit.projectName, getActivity()).getXmlHeader();
+
+		boolean areScreenSizesDifferent = first.getVirtualScreenHeight() != second.getVirtualScreenHeight()
+				|| first.getVirtualScreenWidth() != second.getVirtualScreenWidth();
+
+		if (areScreenSizesDifferent) {
+			showDifferentResolutionDialog(first, second);
+		} else {
+			showMergeDialog();
+		}
+	}
+
+	@Override
+	public void showMergeDialog() {
+		MergeProjectsDialog mergeDialog = new MergeProjectsDialog(this);
+		mergeDialog.show(getActivity().getFragmentManager(), MergeProjectsDialog.TAG);
+	}
+
+	@Override
+	public void mergeProjects(String name) {
+		Project firstProject = ProjectManager.getInstance().getCurrentProject();
+		Project secondProject = StorageHandler.getInstance().loadProject(projectToEdit.projectName, getActivity());
+
+		MergeTask merge = new MergeTask(firstProject, secondProject, getActivity());
+		if (merge.mergeProjects(name)) {
+			File projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(name), Constants.PROJECTCODE_NAME));
+			projectAdapter.insert(new ProjectData(name, projectCodeFile.lastModified()), 0);
+			projectAdapter.notifyDataSetChanged();
+
+			String msg = firstProject.getName() + " " + getString(R.string.merge_info) + " " + secondProject.getName();
+			ToastUtil.showSuccess(getActivity(), msg);
+		} else {
+			ToastUtil.showError(getActivity(), R.string.error_merge);
+		}
 	}
 }

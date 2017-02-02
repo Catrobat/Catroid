@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.dialogs.base;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -39,7 +39,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
-public abstract class TextDialog extends DialogFragment {
+public abstract class InputDialog extends DialogFragment {
 
 	protected EditText input;
 
@@ -48,7 +48,7 @@ public abstract class TextDialog extends DialogFragment {
 	protected String previousText;
 	protected boolean allowEmptyInput;
 
-	public TextDialog(int title, int inputLabel, String previousText, boolean allowEmptyInput) {
+	public InputDialog(int title, int inputLabel, String previousText, boolean allowEmptyInput) {
 		this.title = title;
 		this.inputLabel = inputLabel;
 		this.previousText = previousText;

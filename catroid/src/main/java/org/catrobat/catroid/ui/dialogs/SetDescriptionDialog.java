@@ -27,8 +27,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.dialogs.base.InputDialog;
 
-public class SetDescriptionDialog extends TextDialog {
+public class SetDescriptionDialog extends InputDialog {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_set_description";
 

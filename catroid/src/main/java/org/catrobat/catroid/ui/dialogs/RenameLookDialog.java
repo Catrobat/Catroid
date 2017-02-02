@@ -27,9 +27,10 @@ import android.content.Intent;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.base.InputDialog;
 import org.catrobat.catroid.utils.Utils;
 
-public class RenameLookDialog extends TextDialog {
+public class RenameLookDialog extends InputDialog {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_look";
 	public static final String EXTRA_NEW_LOOK_NAME = "new_look_name";
