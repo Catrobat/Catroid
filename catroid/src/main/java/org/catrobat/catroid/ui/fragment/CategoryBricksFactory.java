@@ -247,6 +247,7 @@ public class CategoryBricksFactory {
 			}
 		} else {
 			eventBrickList.add(new WhenStartedBrick(null));
+			eventBrickList.add(new WhenBrick(null));
 			eventBrickList.add(new WhenTouchDownBrick());
 			final String broadcastMessage = MessageContainer.getFirst(context);
 			eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
