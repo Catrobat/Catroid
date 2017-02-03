@@ -30,28 +30,28 @@
   <string name="done">Done</string>
   <string name="name_already_exists">This name already exists, please choose another one!</string>
   <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
-  <string name="rename">Rename</string>
-  <string name="delete">Delete</string>
-  <string name="yes">Yes</string>
+  <string name="rename">Canvia el nom</string>
+  <string name="delete">Esborra</string>
+  <string name="yes">Sí</string>
   <string name="no">No</string>
-  <string name="copy">Copy</string>
-  <string name="cut">Cut</string>
-  <string name="move">Move</string>
-  <string name="backpack_add">Add to backpack</string>
-  <string name="backpack">Backpack</string>
-  <string name="packing">Pack</string>
-  <string name="unpack">Unpack</string>
-  <string name="unpack_bg">Unpack as background</string>
-  <string name="unpack_object">Unpack as object</string>
-  <string name="copy_addition">copy</string>
-  <string name="close">Close</string>
+  <string name="copy">Copia</string>
+  <string name="cut">Retalla</string>
+  <string name="move">Desplaça</string>
+  <string name="backpack_add">Afegir a la motxilla</string>
+  <string name="backpack">Motxilla</string>
+  <string name="packing">Empaquetar</string>
+  <string name="unpack">Desempaquetar</string>
+  <string name="unpack_bg">Desempaquetar com a fons</string>
+  <string name="unpack_object">Desempaquetar com a objecte</string>
+  <string name="copy_addition">copia</string>
+  <string name="close">Tanca</string>
   <string name="error">Error</string>
-  <string name="please_wait">Please wait</string>
-  <string name="loading">Loading&#8230;</string>
+  <string name="please_wait">Si us plau, espera</string>
+  <string name="loading">Carregant&#8230;</string>
   <string name="search_hint">Search&#8230;</string>
   <string name="no_internet">No Internet</string>
-  <string name="loading_check_token">Token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
+  <string name="loading_check_token">La fitxa d\'accés està validada al nostre servidor&#8230;</string>
+  <string name="loading_check_facebook_data">Recuperant dades de Facebook&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
   <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
@@ -65,8 +65,8 @@
   <string name="ok">OK</string>
   <string name="play">Play</string>
   <string name="settings">Settings</string>
-  <string name="redo">Redo</string>
-  <string name="undo">Undo</string>
+  <string name="redo">Refés</string>
+  <string name="undo">Desfés</string>
   <string name="name_exists">Name already exists</string>
   <string name="no_name">No name</string>
   <string name="is_empty">is empty</string>
@@ -91,11 +91,11 @@
   <string name="main_menu_help">Help</string>
   <string name="main_menu_web">Explore</string>
   <string name="main_menu_upload">Upload</string>
-  <string name="main_menu_about_pocketcode">About Pocket Code</string>
+  <string name="main_menu_about_pocketcode">Quant a Pocket Code</string>
   <string name="main_menu_terms_of_use">Terms of use and services</string>
   <string name="main_menu_rate_app">Rate us!</string>
   <string name="main_menu_play_store_not_installed">Play Store app not found</string>
-  <string name="main_menu_logout">&amp;#x4E00;&amp;#x5929;&amp;#x524D;</string>
+  <string name="main_menu_logout">Logout</string>
   <string name="main_menu_login">Login</string>
   <string name="main_menu_scratch_converter">Scratch Converter</string>
   <string name="logout_successful">Logout successful</string>
@@ -156,6 +156,7 @@
   <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s! Older Scratch before %2$s
         programs are not supported!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
+    <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
     <item quantity="other">Cannot convert more than %d programs simultaneously!</item>
   </plurals>
   <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
@@ -165,6 +166,7 @@
   <string name="connection_failed">Connection to server failed, please retry later!</string>
   <string name="authentication_failed">Authentication failed, please contact the Pocket Code team!</string>
   <plurals name="scratch_conversion_scheduled_x">
+    <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
     <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
   </plurals>
   <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
@@ -175,9 +177,11 @@
   <string name="status_started">Started&#8230;</string>
   <string name="status_conversion_finished">Conversion finished</string>
   <plurals name="status_in_progress_x_jobs">
+    <item quantity="one">In progress: 1 job</item>
     <item quantity="other">In progress: %d jobs</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
+    <item quantity="one">Completed: 1 job</item>
     <item quantity="other">Completed: %d jobs</item>
   </plurals>
   <string name="status_conversion_failed">Conversion failed!</string>
@@ -207,12 +211,15 @@
   <!-- ScratchReconvertDialog Strings -->
   <string name="reconvert_text">This program has been converted %1$s ago.</string>
   <plurals name="minutes">
+    <item quantity="one">1 minute</item>
     <item quantity="other">%d minutes</item>
   </plurals>
   <plurals name="hours">
+    <item quantity="one">1 hour</item>
     <item quantity="other">%d hours</item>
   </plurals>
   <plurals name="days">
+    <item quantity="one">1 day</item>
     <item quantity="other">%d days</item>
   </plurals>
   <string name="reconvert_dialog_download">Download already converted program</string>
@@ -245,7 +252,7 @@
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
   <!--  -->
   <!-- About Dialog -->
-  <string name="dialog_about_title">About Pocket Code</string>
+  <string name="dialog_about_title">Quant a Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code is a programming 
         environment and interpreter for Android devices for the visual 
         programming language Catrobat.\n\n
@@ -312,12 +319,15 @@
   <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">This cannot be undone!</string>
   <plurals name="number_of_bricks_to_delete">
+    <item quantity="one">Delete %d Brick</item>
     <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
+    <item quantity="one">Copy %d Brick</item>
     <item quantity="other">Copy %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
+    <item quantity="one">Backpack %d Brick</item>
     <item quantity="other">Backpack %d Bricks</item>
   </plurals>
   <!--  -->
@@ -377,20 +387,23 @@
   <string name="default_tag_name">nfc_tag</string>
   <string name="tnf_empty">Empty</string>
   <string name="tnf_external_type">External Type</string>
-  <string name="tnf_mime_media">Text</string>
+  <string name="tnf_mime_media">Texte</string>
   <string name="tnf_well_known_http">HTTP</string>
   <string name="tnf_well_known_https">HTTPS</string>
   <string name="tnf_well_known_tel">Phonenumber</string>
   <string name="tnf_well_known_sms">SMS</string>
-  <string name="tnf_well_known_mailto">邮箱</string>
+  <string name="tnf_well_known_mailto">E-Mail</string>
   <!--  -->
   <plurals name="unpacking_items_plural">
+    <item quantity="one">was unpacked!</item>
     <item quantity="other">were unpacked!</item>
   </plurals>
   <plurals name="packing_items_plural">
+    <item quantity="one">was backpacked!</item>
     <item quantity="other">were backpacked!</item>
   </plurals>
   <plurals name="scripts_plural">
+    <item quantity="one">Script</item>
     <item quantity="other">Scripts</item>
   </plurals>
   <!-- My Projects activity -->
@@ -520,7 +533,7 @@
   <string name="register">Register</string>
   <string name="or">OR</string>
   <string name="password_confirm">Confirm Password</string>
-  <string name="accountName">邮箱</string>
+  <string name="accountName">E-Mail</string>
   <string name="signin_thanks">Thank you for signing up to Pocket Code!</string>
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
@@ -569,7 +582,7 @@
   <string name="category_pen">Pen</string>
   <string name="category_sound">Sound</string>
   <string name="category_control">Control</string>
-  <string name="category_event">Event</string>
+  <string name="category_event">Esdeveniment</string>
   <string name="category_user_bricks">My Bricks</string>
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -593,12 +606,14 @@
   <string name="brick_set_rotation_style_normal">all-around</string>
   <string name="brick_set_rotation_style_no">don\'t rotate</string>
   <plurals name="brick_go_back_layer_plural">
+    <item quantity="one">layer</item>
     <item quantity="other">layers</item>
   </plurals>
   <string name="brick_come_to_front">Go to front</string>
   <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
-  <string name="brick_move">Move</string>
+  <string name="brick_move">Desplaça</string>
   <plurals name="brick_move_n_step_plural">
+    <item quantity="one">step</item>
     <item quantity="other">steps</item>
   </plurals>
   <string name="brick_turn_left">Turn left</string>
@@ -669,7 +684,7 @@
   <string name="brick_pen_size">Set pen size to</string>
   <string name="brick_pen_color">Set pen color to</string>
   <string name="brick_clear_background">Clear</string>
-  <string name="brick_stamp">Stamp</string>
+  <string name="brick_stamp">Segell</string>
   <!--  -->
   <!-- Sound bricks -->
   <string name="brick_play_sound">Start sound</string>
@@ -693,6 +708,7 @@
   <string name="brick_stop_all_scripts">Stop all scripts</string>
   <string name="brick_stop_other_scripts">Stop other scripts of this object</string>
   <plurals name="second_plural">
+    <item quantity="one">"second "</item>
     <item quantity="other">"seconds "</item>
   </plurals>
   <string name="brick_collision_receive">When physical collision with</string>
@@ -715,6 +731,7 @@
   <string name="brick_when_cloned">When I start as a clone</string>
   <string name="brick_delete_this_clone">Delete this clone</string>
   <plurals name="time_plural">
+    <item quantity="one">time</item>
     <item quantity="other">times</item>
   </plurals>
   <string name="brick_loop_end">End of loop</string>
@@ -757,7 +774,7 @@
   <string name="default_drone_project_name">My first Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Rotate</string>
+  <string name="default_drone_project_sprites_rotate">Rotar</string>
   <string name="default_drone_project_sprites_up">Up</string>
   <string name="default_drone_project_sprites_down">Down</string>
   <string name="default_drone_project_sprites_left">Left</string>
@@ -767,7 +784,7 @@
   <string name="default_drone_project_sprites_turn_left">Turn left</string>
   <string name="default_drone_project_sprites_turn_right">Turn right</string>
   <string name="default_drone_project_sprites_emergency">Emergency</string>
-  <string name="drone_brick_set_text">Text</string>
+  <string name="drone_brick_set_text">Texte</string>
   <string name="drone_brick_set_x">X:</string>
   <!--  -->
   <!-- Drone config spinner values  -->
@@ -808,7 +825,7 @@
   <string name="notification_upload_pending">Upload in progress</string>
   <string name="notification_upload_finished">Upload successful</string>
   <string name="notification_upload_rejected">Uploaded program rejected</string>
-  <string name="notification_upload_retry">Retry</string>
+  <string name="notification_upload_retry">Torna-ho a intentar</string>
   <string name="notification_open_play_store">Open Play Store</string>
   <string name="notification_download_title_pending">"Downloading "</string>
   <string name="notification_download_pending">Download in progress</string>
@@ -1006,7 +1023,7 @@
   <string name="brick_drone_move_backward">Move backward</string>
   <string name="brick_drone_move_up">Move up</string>
   <string name="brick_drone_move_down">Move down</string>
-  <string name="brick_drone_flip">Flip</string>
+  <string name="brick_drone_flip">Capgirar</string>
   <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">Turn right</string>
   <string name="brick_drone_turn_left">Turn left</string>
@@ -1289,6 +1306,7 @@
   <string name="formula_editor_function_number_of_items">number_of_items</string>
   <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
+    <item quantity="one">Item selected!</item>
     <item quantity="other">Items selected!</item>
   </plurals>
   <!--  -->
@@ -1382,6 +1400,6 @@
   <string name="pocket_code_has_crashed">Pocket Code has crashed!</string>
   <string name="crash_dialog_text">Please help to improve Pocket Code by sending us anonymous crash reports!</string>
   <string name="crash_dialog_always_send">Always send</string>
-  <string name="crash_dialog_send">发送</string>
+  <string name="crash_dialog_send">Send</string>
   <!--  -->
 </resources>
