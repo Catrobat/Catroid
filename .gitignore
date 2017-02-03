@@ -40,7 +40,7 @@ dataSources.ids
 # generated files
 bin/
 gen/
-jniLibs/
+!jniLibs/
 
 # Local configuration file (sdk path, etc)
 local.properties
