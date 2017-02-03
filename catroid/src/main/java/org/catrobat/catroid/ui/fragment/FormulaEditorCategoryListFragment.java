@@ -160,9 +160,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_sensor_lego_nxt_sound, R.string.formula_editor_sensor_lego_nxt_light,
 			R.string.formula_editor_sensor_lego_nxt_light_active, R.string.formula_editor_sensor_lego_nxt_ultrasonic };
 
-	private static final int[] NFC_TAG_ID_ITEMS = { R.string.formula_editor_nfc_tag_id };
-
-	private static final int[] NFC_TAG_MESSAGE_ITEMS = { R.string.formula_editor_nfc_tag_message };
+	private static final int[] NFC_TAG_ITEMS = { R.string.formula_editor_nfc_tag_id,
+			R.string.formula_editor_nfc_tag_message };
 
 	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
@@ -391,16 +390,6 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			itemsIds = concatAll(itemsIds, GPS_SENSOR_ITEMS);
 			parameterIds = concatAll(parameterIds, createEmptyParametersList(GPS_SENSOR_ITEMS.length));
 
-			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
-				itemsIds = concatAll(itemsIds, NFC_TAG_ID_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_ID_ITEMS.length));
-			}
-
-			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
-				itemsIds = concatAll(itemsIds, NFC_TAG_MESSAGE_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_MESSAGE_ITEMS.length));
-			}
-
 			header.put(itemsIds.length, getString(R.string.formula_editor_device_touch_detection));
 			itemsIds = concatAll(itemsIds, TOUCH_DEDECTION_SENSOR_ITEMS);
 			parameterIds = concatAll(parameterIds, TOUCH_DEDECTION_PARAMETERS);
@@ -446,6 +435,12 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_raspberry));
 				itemsIds = concatAll(itemsIds, RASPBERRY_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, RASPBERRY_SENSOR_PARAMETERS);
+			}
+
+			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+				header.put(itemsIds.length, getString(R.string.formula_editor_device_nfc));
+				itemsIds = concatAll(itemsIds, NFC_TAG_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_ITEMS.length));
 			}
 		}
 
