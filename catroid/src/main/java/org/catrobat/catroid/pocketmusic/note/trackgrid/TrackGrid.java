@@ -23,6 +23,7 @@
 package org.catrobat.catroid.pocketmusic.note.trackgrid;
 
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.pocketmusic.mididriver.MidiDriver;
@@ -45,6 +46,8 @@ public class TrackGrid {
 	private final MusicalBeat beat;
 	private final List<GridRow> gridRows;
 	private Handler handler;
+	private MidiDriver midiDriver;
+	private List<MidiRunnable> playRunnables = new ArrayList<>();
 
 	public TrackGrid(MusicalKey key, MusicalInstrument instrument, MusicalBeat beat, List<GridRow> gridRows) {
 		this.key = key;
@@ -52,6 +55,7 @@ public class TrackGrid {
 		this.beat = beat;
 		this.gridRows = gridRows;
 		handler = new Handler();
+		midiDriver = new MidiDriver();
 	}
 
 	public MusicalKey getKey() {
@@ -125,5 +129,31 @@ public class TrackGrid {
 				}
 			}
 		}
+	}
+
+	public void startPlayback() {
+		playRunnables.clear();
+		long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
+		long currentTime = SystemClock.uptimeMillis();
+		for (GridRow row : gridRows) {
+			for (int i = 0; i < row.getGridRowPositions().size(); i++) {
+				List<GridRowPosition> gridRowPositions = row.getGridRowPositions().get(row.getGridRowPositions()
+						.keyAt(i));
+				for (GridRowPosition position : gridRowPositions) {
+					MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, row.getNoteName(), playLength - 10,
+							handler, midiDriver);
+					handler.postAtTime(runnable, currentTime + playLength * position.getColumnStartIndex() + 10);
+					playRunnables.add(runnable);
+				}
+			}
+		}
+	}
+
+	public void stopPlayback() {
+		for (MidiRunnable r : playRunnables) {
+			handler.removeCallbacks(r);
+			handler.post(new MidiRunnable(MidiSignals.NOTE_OFF, r.getNoteName(), 0, handler, midiDriver));
+		}
+		playRunnables.clear();
 	}
 }

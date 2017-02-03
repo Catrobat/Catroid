@@ -50,4 +50,8 @@ public class MidiRunnable implements Runnable {
 					duration);
 		}
 	}
+
+	public NoteName getNoteName() {
+		return noteName;
+	}
 }
