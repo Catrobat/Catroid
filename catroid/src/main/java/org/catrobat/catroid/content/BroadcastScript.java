@@ -22,11 +22,15 @@
  */
 package org.catrobat.catroid.content;
 
+import android.content.Context;
+
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.utils.Utils;
 
-public class BroadcastScript extends Script implements BroadcastMessage {
+public class BroadcastScript extends Script implements BroadcastMessage, Translatable {
 
 	private static final long serialVersionUID = 1L;
 	protected String receivedMessage;
@@ -74,5 +78,14 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 
 		doCopy(copySprite, cloneScript);
 		return cloneScript;
+	}
+
+	@Override
+	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
+		String key = templateName + Constants.TRANSLATION_BROADCAST_MESSAGE;
+		String value = getBroadcastMessage();
+
+		setMessage(Utils.getStringResourceByName(Utils.getStringResourceName(key, value), value, context));
+		return Utils.createStringEntry(key, value);
 	}
 }

@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -32,17 +33,23 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Translatable;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class NoteBrick extends FormulaBrick implements OnClickListener {
+public class NoteBrick extends FormulaBrick implements OnClickListener, Translatable {
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = NoteBrick.class.getSimpleName();
+
 	private transient View prototypeView;
 
 	public NoteBrick() {
@@ -106,5 +113,21 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public void updateReferenceAfterMerge(Scene into, Scene from) {
+	}
+
+	@Override
+	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
+		try {
+			String key = templateName + Constants.TRANSLATION_NOTE;
+			String value = getFormulaWithBrickField(Brick.BrickField.NOTE).interpretString(sprite);
+
+			setFormulaWithBrickField(Brick.BrickField.NOTE,
+					new Formula(Utils.getStringResourceByName(Utils.getStringResourceName(key, value), value, context)));
+
+			return Utils.createStringEntry(key, value);
+		} catch (InterpretationException e) {
+			Log.e(TAG, "Could not set note formula: " + e.getMessage());
+		}
+		return null;
 	}
 }

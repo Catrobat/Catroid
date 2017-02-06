@@ -197,8 +197,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.92f);
 			} else {
 				project = oldProject;
-				currentScene = oldProject.getDefaultScene();
-				sceneToPlay = currentScene;
+				if (oldProject != null) {
+					currentScene = oldProject.getDefaultScene();
+					sceneToPlay = currentScene;
+				}
 				throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_pocketcode_version));
 			}
 		} else {
@@ -870,9 +872,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			OnLoadProjectCompleteListener listener) {
 		String zipFileString = Utils.buildPathForTemplatesZip(templateData.getName());
 		LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, templateData.getName(),
-				zipFileString, false, false);
+				zipFileString, true, false);
 		loadProjectTask.setOnLoadProjectCompleteListener(listener);
-		Log.e("STANDALONE", "going to execute standalone project");
 		loadProjectTask.execute();
 	}
 
