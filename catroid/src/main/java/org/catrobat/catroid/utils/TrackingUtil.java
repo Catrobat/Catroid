@@ -33,6 +33,7 @@ import android.util.Pair;
 import com.zed.bdsclient.controller.BDSClientController;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
@@ -487,7 +488,7 @@ public final class TrackingUtil {
 		}
 
 		PreferenceManager.getDefaultSharedPreferences(context).edit().putLong(TrackingConstants.LOGIN_TIME, System.currentTimeMillis()).commit();
-		BDSClientController.getInstance().generateInitSessionEvent(ProjectManager.getInstance().getUserID(),
+		BDSClientController.getInstance().generateInitSessionEvent(ProjectManager.getInstance().getUserID(context),
 				System.currentTimeMillis(), null);
 	}
 
@@ -499,7 +500,7 @@ public final class TrackingUtil {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		long time = System.currentTimeMillis() - preferences.getLong(TrackingConstants.LOGIN_TIME, 0);
 		preferences.edit().remove(TrackingConstants.LOGIN_TIME).commit();
-		BDSClientController.getInstance().generateEndSessionEvent(ProjectManager.getInstance().getUserID(), time,
+		BDSClientController.getInstance().generateEndSessionEvent(ProjectManager.getInstance().getUserID(context), time,
 				System.currentTimeMillis(), null);
 	}
 
@@ -518,8 +519,9 @@ public final class TrackingUtil {
 	}
 
 	private static void logCustomEvent(String eventName, JSONObject jsonObject) {
+		Context context = CatroidApplication.getAppContext();
 		BDSClientController.getInstance().generateCustomEvent(eventName,
-				ProjectManager.getInstance().getUserID(), System.currentTimeMillis(), jsonObject);
+				ProjectManager.getInstance().getUserID(context), System.currentTimeMillis(), jsonObject);
 	}
 
 	private static void startTimer(String id) {

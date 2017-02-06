@@ -93,7 +93,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean handleNewSceneFromScriptActivity;
 	private boolean showUploadDialog = false;
 	private boolean showLegoSensorInfoDialog = true;
-	private String userID = null;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -154,13 +153,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void setUserID(Context context) {
+	public String getUserID(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		userID = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-	}
-
-	public String getUserID() {
-		return userID;
+		return sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 	}
 
 	public void loadProject(String projectName, Context context) throws LoadingProjectException,
