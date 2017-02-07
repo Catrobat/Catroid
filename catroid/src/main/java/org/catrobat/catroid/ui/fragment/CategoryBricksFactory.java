@@ -25,12 +25,14 @@ package org.catrobat.catroid.ui.fragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Path;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
@@ -213,7 +215,7 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
 			tempList = setupPhiroProCategoryList();
 		} else if (category.equals(context.getString(R.string.category_cast))) {
-			tempList = setupChromecastCategoryList();
+			tempList = setupChromecastCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_raspi))) {
 			tempList = setupRaspiCategoryList();
 		}
@@ -270,10 +272,10 @@ public class CategoryBricksFactory {
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
-
+		/*
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			controlBrickList.add(new WhenGamepadButtonBrick(null));
-		}
+		}*/
 
 		controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
 
@@ -324,15 +326,20 @@ public class CategoryBricksFactory {
 //		return false;
 //	}
 
-	private List<Brick> setupChromecastCategoryList() {
+	private List<Brick> setupChromecastCategoryList(Context context) {
 		List<Brick> chromecastBrickList = new ArrayList<Brick>();
-		chromecastBrickList.add(new WhenGamepadButtonBrick(null));
-		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_A_PRESSED));
-		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_B_PRESSED));
-		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_UP_PRESSED));
-		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_DOWN_PRESSED));
-		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_LEFT_PRESSED));
-		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_RIGHT_PRESSED));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_A))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_B))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_up))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_down))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_left))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_right))));
 
 		return chromecastBrickList;
 	}
