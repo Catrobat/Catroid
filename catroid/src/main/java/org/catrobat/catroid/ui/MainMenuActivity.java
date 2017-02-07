@@ -31,6 +31,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -111,6 +115,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private SignInDialog signInDialog;
 	private Menu mainMenu;
 
+	CountingIdlingResource idlingResource = new CountingIdlingResource(TAG);
+
 	private SharedPreferences sharedpreferences = null;
 
 	public TourGuide tourGuideHandler;
@@ -118,8 +124,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
@@ -205,7 +209,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
-
 		AppEventsLogger.activateApp(this);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
@@ -219,6 +222,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 		final Activity activity = this;
+		idlingResource.increment();
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
@@ -318,6 +322,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			startActivity(intent);
 		}
+		idlingResource.decrement();
 	}
 
 	// needed because of android:onClick in activity_main_menu.xml
@@ -587,5 +592,11 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		//ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+	}
+
+	@VisibleForTesting
+	@NonNull
+	public IdlingResource getIdlingResource() {
+		return idlingResource;
 	}
 }

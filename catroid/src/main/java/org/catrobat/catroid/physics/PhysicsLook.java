@@ -132,11 +132,8 @@ public class PhysicsLook extends Look {
 				super.setRotation(0f);
 				boolean orientedRight = realRotation > 180 || realRotation == 0;
 				boolean orientedLeft = realRotation <= 180 && realRotation != 0;
-				if (isFlipped && orientedRight || !isFlipped && orientedLeft) {
-					if (lookData != null) {
-						lookData.getTextureRegion().flip(true, false);
-					}
-					isFlipped = !isFlipped;
+				if (((isFlipped() && orientedRight) || (!isFlipped() && orientedLeft)) && lookData != null) {
+					lookData.getTextureRegion().flip(true, false);
 				}
 				break;
 			case ROTATION_STYLE_ALL_AROUND:

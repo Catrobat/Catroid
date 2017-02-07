@@ -46,7 +46,7 @@ public enum MusicalInstrument {
 
 	private int program;
 
-	private MusicalInstrument(int program) {
+	MusicalInstrument(int program) {
 		this.program = program;
 	}
 
@@ -64,5 +64,9 @@ public enum MusicalInstrument {
 
 	public int getProgram() {
 		return program;
+	}
+
+	public byte getInstrumentByte() {
+		return (byte) program;
 	}
 }

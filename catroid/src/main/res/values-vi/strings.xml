@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
-  <string name="cancel_button">Hủy bỏ</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">Đã Thực hiện</string>
+  <string name="cancel">Hủy bỏ</string>
+  <string name="next">Next</string>
+  <string name="done">Đã Thực hiện</string>
   <string name="rename">Đổi Tên</string>
   <string name="delete">Xóa</string>
   <string name="yes">Có</string>

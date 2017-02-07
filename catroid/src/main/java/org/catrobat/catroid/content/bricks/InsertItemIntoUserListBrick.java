@@ -181,7 +181,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	@Override
 	public Brick clone() {
 		InsertItemIntoUserListBrick clonedBrick = new InsertItemIntoUserListBrick(getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).clone(), getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).clone(), userList);
-		clonedBrick.setBackPackedData(new UserListBrick.BackPackedData(backPackedData));
+		clonedBrick.setBackPackedData(new BackPackedListData(backPackedData));
 		return clonedBrick;
 	}
 

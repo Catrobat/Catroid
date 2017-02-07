@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
-  <string name="cancel_button">İmtina et</string>
-  <string name="next_button">Növbəti</string>
-  <string name="done_button">Yerinə yetirildi</string>
+  <string name="cancel">İmtina et</string>
+  <string name="next">Növbəti</string>
+  <string name="done">Yerinə yetirildi</string>
   <string name="rename">Adını dəyiş</string>
   <string name="delete">Sil</string>
   <string name="yes">Bəli</string>

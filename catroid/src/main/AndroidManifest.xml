@@ -140,6 +140,14 @@
                     android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="file" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:scheme="vnd.android.nfc"
+                    android:host="ext"
+                    android:pathPrefix="/catrobat.com:catroid" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.BackPackActivity"
@@ -170,30 +178,25 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ProjectActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
          <activity
              android:name=".ui.BaseActivity"
-             android:screenOrientation="portrait"
-             android:windowSoftInputMode="adjustPan" />
+             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ProgramMenuActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ScriptActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.UserBrickScriptActivity"
 
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MyProjectsActivity"
             android:noHistory="false"
 
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SettingsActivity"
             android:noHistory="true"

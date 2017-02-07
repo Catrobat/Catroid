@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">Pocket Code 口袋編碼</string>
-  <string name="cancel_button">取消</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">完成</string>
+  <string name="cancel">取消</string>
+  <string name="next">Next</string>
+  <string name="done">完成</string>
   <string name="rename">更名</string>
   <string name="delete">刪除</string>
   <string name="yes">是</string>

@@ -946,7 +946,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testBackPackMultipleUnpackingVariablesWithSameName() {
-		UiTestUtils.createTestProjectWithUserVariables();
+		UiTestUtils.createTestProjectWithUserVariablesAndUserBrick();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		checkNumberOfElementsInDataContainer();
 

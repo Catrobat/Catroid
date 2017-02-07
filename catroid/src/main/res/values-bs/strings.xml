@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
-  <string name="cancel_button">Odustani</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">Done</string>
+  <string name="cancel">Odustani</string>
+  <string name="next">Next</string>
+  <string name="done">Done</string>
   <string name="rename">Preimenovati</string>
   <string name="delete">Obrisati</string>
   <string name="yes">Da</string>

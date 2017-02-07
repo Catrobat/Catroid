@@ -154,7 +154,7 @@ public class ProgramMenuActivity extends BaseActivity {
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
-				ProjectManager.getInstance().getCurrentSprite().setName(newSpriteName);
+				ProjectManager.getInstance().getCurrentSprite().rename(newSpriteName);
 				final ActionBar actionBar = getActionBar();
 				actionBar.setTitle(newSpriteName);
 			}
@@ -163,7 +163,8 @@ public class ProgramMenuActivity extends BaseActivity {
 
 	private void showRenameDialog() {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(sprite.getName());
+		RenameSpriteDialog dialog = new RenameSpriteDialog(R.string.rename_sprite_dialog, R.string.sprite_name, sprite
+				.getName());
 		dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 

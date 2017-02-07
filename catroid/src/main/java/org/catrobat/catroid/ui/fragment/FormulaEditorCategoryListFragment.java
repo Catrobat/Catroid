@@ -83,6 +83,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
 			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer,
 			R.string.formula_editor_function_collision,
+			R.string.formula_editor_function_collides_with_edge, R.string.formula_editor_function_touched,
 			R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
 			R.string.formula_editor_object_angular_velocity };
 
@@ -137,7 +138,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	private static final int[] FUNCTIONS_LISTS_PARAMETERS = { R.string.formula_editor_function_number_of_items_parameter,
 			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter };
 
-	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness };
+	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness, R.string
+			.formula_editor_function_touched };
 
 	private static final int[] DATE_AND_TIME_SENSOR_ITEMS = { R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month, R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
 			R.string.formula_editor_sensor_time_hour, R.string.formula_editor_sensor_time_minute, R.string.formula_editor_sensor_time_second };
@@ -159,6 +161,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_sensor_lego_nxt_light_active, R.string.formula_editor_sensor_lego_nxt_ultrasonic };
 
 	private static final int[] NFC_TAG_ID_ITEMS = { R.string.formula_editor_nfc_tag_id };
+
+	private static final int[] NFC_TAG_MESSAGE_ITEMS = { R.string.formula_editor_nfc_tag_message };
 
 	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
@@ -234,7 +238,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 			if (formulaEditor != null) {
 				if (itemsIds[position] == R.string.formula_editor_function_collision) {
-					showChooseSpriteDialog(formulaEditor, position);
+					showChooseSpriteDialog(formulaEditor);
 				} else {
 
 					formulaEditor.addResourceToActiveFormula(itemsIds[position]);
@@ -266,7 +270,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		return false;
 	}
 
-	private void showChooseSpriteDialog(FormulaEditorFragment fragment, final int pos) {
+	private void showChooseSpriteDialog(FormulaEditorFragment fragment) {
 		final FormulaEditorFragment formulaEditor = fragment;
 		final FormulaEditorChooseSpriteDialog dialog = FormulaEditorChooseSpriteDialog.newInstance();
 		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -283,10 +287,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 						}
 					}
 					if (secondSprite != null) {
-						String formula = firstSprite.getName() + " "
-								+ getActivity().getString(itemsIds[pos]) + " " + dialog.getSprite();
-
-						formulaEditor.addCollideFormulaToActiveFormula(formula);
+						formulaEditor.addCollideFormulaToActiveFormula(secondSprite.getName());
 					}
 				}
 			}
@@ -399,6 +400,11 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, NFC_TAG_ID_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_ID_ITEMS.length));
+			}
+
+			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, NFC_TAG_MESSAGE_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_MESSAGE_ITEMS.length));
 			}
 
 			header.put(itemsIds.length, getString(R.string.formula_editor_device_touch_detection));

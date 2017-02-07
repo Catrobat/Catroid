@@ -29,7 +29,6 @@ public class NfcTagData implements Serializable, Comparable<NfcTagData>, Cloneab
 
 	private String name;
 	private String uid;
-	public transient boolean isScanning;
 
 	@Override
 	public NfcTagData clone() {
@@ -39,9 +38,6 @@ public class NfcTagData implements Serializable, Comparable<NfcTagData>, Cloneab
 		cloneNfcTagData.uid = this.uid;
 
 		return cloneNfcTagData;
-	}
-
-	public void resetNfcTagData() {
 	}
 
 	public NfcTagData() {

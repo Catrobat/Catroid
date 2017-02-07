@@ -37,8 +37,8 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.formulaeditor.BaseDataContainer;
 import org.catrobat.catroid.formulaeditor.DataContainer;
-import org.catrobat.catroid.formulaeditor.SupportDataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
@@ -142,7 +142,7 @@ public class Project implements Serializable {
 		sceneList.add(scene);
 	}
 
-	private void removeInvalidVariablesAndLists(SupportDataContainer dataContainer) {
+	public void removeInvalidVariablesAndLists(BaseDataContainer dataContainer) {
 		if (dataContainer == null) {
 			return;
 		}
@@ -306,7 +306,7 @@ public class Project implements Serializable {
 		for (Scene scene : sceneList) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				int tempResources = sprite.getRequiredResources();
-				if ((tempResources & Brick.PHYSICS) > 0) {
+				if ((tempResources & Brick.PHYSICS) != 0) {
 					sprite.setActionFactory(physicsActionFactory);
 					tempResources &= ~Brick.PHYSICS;
 				} else {
@@ -472,6 +472,14 @@ public class Project implements Serializable {
 	public void refreshSpriteReferences() {
 		for (Scene scene : sceneList) {
 			scene.refreshSpriteReferences();
+		}
+	}
+
+	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
+		for (Scene scene : sceneList) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.updateCollisionFormulasToVersion(catroidLanguageVersion);
+			}
 		}
 	}
 }

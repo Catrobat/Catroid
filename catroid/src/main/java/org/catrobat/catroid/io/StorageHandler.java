@@ -73,6 +73,7 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
+import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -165,6 +166,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
@@ -260,7 +262,7 @@ public final class StorageHandler {
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	public static final String BACKPACK_FILENAME = "backpack.json";
 
-	private XStreamToSupportCatrobatLanguageVersion0992AndBefore xstream;
+	private BackwardCompatibleCatrobatLanguageXStream xstream;
 	private Gson backpackGson;
 
 	private FileInputStream fileInputStream;
@@ -293,7 +295,7 @@ public final class StorageHandler {
 	}
 
 	private void prepareProgramXstream(boolean forSupportProject) {
-		xstream = new XStreamToSupportCatrobatLanguageVersion0992AndBefore(new PureJavaReflectionProvider(new
+		xstream = new BackwardCompatibleCatrobatLanguageXStream(new PureJavaReflectionProvider(new
 				FieldDictionary(new CatroidFieldKeySorter())));
 		if (forSupportProject) {
 			xstream.processAnnotations(SupportProject.class);
@@ -377,6 +379,7 @@ public final class StorageHandler {
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", AskBrick.class);
+		xstream.alias("brick", AskSpeechBrick.class);
 		xstream.alias("brick", BroadcastBrick.class);
 		xstream.alias("brick", BroadcastReceiverBrick.class);
 		xstream.alias("brick", BroadcastWaitBrick.class);
@@ -472,6 +475,7 @@ public final class StorageHandler {
 		xstream.alias("brick", StopScriptBrick.class);
 
 		xstream.alias("brick", WhenNfcBrick.class);
+		xstream.alias("brick", SetNfcTagBrick.class);
 
 		xstream.alias("brick", DronePlayLedAnimationBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
@@ -1332,38 +1336,34 @@ public final class StorageHandler {
 		return permissionsSet;
 	}
 
-	public boolean copyImageFiles(String targetScene, String targetProject, String sourceScene, String sourceProject) {
-		return copyFiles(targetScene, targetProject, sourceScene, sourceProject, false);
+	public void copyImageFiles(String targetScene, String targetProject, String sourceScene, String sourceProject) throws Exception {
+		copyFiles(targetScene, targetProject, sourceScene, sourceProject, false);
 	}
 
-	public boolean copySoundFiles(String targetScene, String targetProject, String sourceScene, String sourceProject) {
-		return copyFiles(targetScene, targetProject, sourceScene, sourceProject, true);
+	public void copySoundFiles(String targetScene, String targetProject, String sourceScene, String sourceProject) throws Exception {
+		copyFiles(targetScene, targetProject, sourceScene, sourceProject, true);
 	}
 
-	private boolean copyFiles(String targetScene, String targetProject, String sourceScene, String sourceProject, boolean copySoundFiles) {
+	private void copyFiles(String targetScene, String targetProject, String sourceScene, String sourceProject, boolean copySoundFiles) throws Exception {
 		String type = IMAGE_DIRECTORY;
 		if (copySoundFiles) {
 			type = SOUND_DIRECTORY;
 		}
-		File targetDirectory = new File(buildPath(buildScenePath(targetProject, targetScene), type));
+
 		File sourceDirectory = new File(buildPath(buildScenePath(sourceProject, sourceScene), type));
-		if (!targetDirectory.exists() || !sourceDirectory.exists()) {
-			return false;
+		File targetDirectory = new File(buildPath(buildScenePath(targetProject, targetScene), type));
+		targetDirectory.mkdirs();
+
+		for (File sourceFile : sourceDirectory.listFiles()) {
+			File targetFile = new File(targetDirectory.getAbsolutePath(), sourceFile.getName());
+			targetFile.createNewFile();
+
+			FileChannel source = new FileInputStream(sourceFile).getChannel();
+			FileChannel target = new FileOutputStream(targetFile).getChannel();
+			target.transferFrom(source, 0, source.size());
+			source.close();
+			target.close();
 		}
-		try {
-			for (File sourceFile : sourceDirectory.listFiles()) {
-				File targetFile = new File(targetDirectory.getAbsolutePath(), sourceFile.getName());
-				FileChannel source = new FileInputStream(sourceFile).getChannel();
-				FileChannel target = new FileOutputStream(targetFile).getChannel();
-				target.transferFrom(source, 0, source.size());
-				source.close();
-				target.close();
-			}
-		} catch (IOException e) {
-			Log.e(TAG, e.getMessage());
-			return false;
-		}
-		return true;
 	}
 
 	public void updateCodefileOnDownload(String projectName) {

@@ -25,9 +25,11 @@
 
     <!-- General terms -->
     <string name="app_name">Pocket Code</string>
-    <string name="cancel_button">Cancel</string>
-    <string name="next_button">Next</string>
-     <string name="done_button">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
+    <string name="done">Done</string>
+    <string name="name_already_exists">This name already exists, please choose another one!</string>
+    <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
     <string name="yes">Yes</string>
@@ -90,7 +92,7 @@
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
-    <string name="main_menu_terms_of_use">Terms of use</string>
+    <string name="main_menu_terms_of_use">Terms of use and services</string>
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_logout">Logout</string>
@@ -210,6 +212,12 @@
     <string name="remixes">Remixes</string>
     <!--  -->
 
+    <string name="author">Author:</string>
+    <string name="screen_size">Screen Size:</string>
+    <string name="mode">Mode:</string>
+    <string name="remix_of">Remix of:</string>
+    <string name="description_hint">Press to add description</string>
+
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">This program has been converted %1$s ago.</string>
     <plurals name="minutes">
@@ -244,18 +252,20 @@
 
 
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of use</string>
+    <string name="dialog_terms_of_use_title">Terms of use and services</string>
     <string name="dialog_terms_of_use_info">In order to 
     be allowed to use Pocket Code and other executables offered by the Catrobat project, you 
-    must agree to our Terms of Use and strictly follow them when you use Pocket 
+    must agree to our Terms of use and services and strictly follow them when you use Pocket
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use</string>
+    <string name="dialog_terms_of_use_link_text">Terms of Use and services</string>
     <!--  -->
 
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use and services</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
-        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use and services for the drone and to
+        Catrobat\'s
+        terms of
         use for Pocket Code.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
     <!--  -->
@@ -355,7 +365,6 @@
     <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
     <string name="fragment_background_text_description">Tap \"+\" to add Backgrounds</string>
     <string name="rename_look_dialog">Rename Look</string>
-    <string name="lookname_invalid">This Look\'s name is invalid</string>
     <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
     <string name="pocket_paint_not_installed">Do you want to install it?</string>
     <string name="default_look_name">look</string>
@@ -376,7 +385,6 @@
     <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
     <string name="rename_sound_dialog">Rename Sound</string>
     <string name="backpack_title">Your Backpack</string>
-    <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_stop">stop</string>
     <string name="sound_select_source">Select a Sound</string>
@@ -407,7 +415,18 @@
     <string name="nfctag">NFC Tag</string>
     <string name="nfctags">NFC Tags</string>
     <string name="uid">ID</string>
+    <string name="ndef_record_label">as NDEF record type</string>
+    <string name="brick_set_nfc_tag">Set next NFC tag to</string>
+    <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">nfc_tag</string>
+    <string name="tnf_empty">Empty</string>
+    <string name="tnf_external_type">External Type</string>
+    <string name="tnf_mime_media">Text</string>
+    <string name="tnf_well_known_http">HTTP</string>
+    <string name="tnf_well_known_https">HTTPS</string>
+    <string name="tnf_well_known_tel">Phonenumber</string>
+    <string name="tnf_well_known_sms">SMS</string>
+    <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
 
     <plurals name="unpacking_items_plural">
@@ -562,7 +581,7 @@
     <string name="user_logged_in">Successfully logged in</string>
     <string name="register_error">Invalid login</string>
     <string name="register_terms">By registering you agree to our</string>
-    <string name="register_pocketcode_terms_of_use_text">Terms of use</string>
+    <string name="register_pocketcode_terms_of_use_text">Terms of use and services</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="or">OR</string>
@@ -726,6 +745,9 @@
     <string name="brick_ask_default_question">\'What\'s your name?\'</string>
     <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
     <string name="brick_ask_dialog_submit">Submit answer</string>
+    <string name="brick_ask_speech_label">Ask</string>
+    <string name="brick_ask_speech_store">and store spoken answer in</string>
+    <string name="brick_ask_speech_default_question">\'What\'s your name?\'</string>
     <!--  -->
 
     <!-- Pen bricks -->
@@ -751,7 +773,7 @@
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started">When program started</string>
+    <string name="brick_when_started">When program starts</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_when_condition_when">When</string>
     <string name="brick_when_becomes_true">becomes true</string>
@@ -773,7 +795,7 @@
     <string name="brick_collision_receive">When physical collision with</string>
     <string name="collision_with_anything">anything</string>
 
-    <string name="brick_broadcast_receive">When I receive</string>
+    <string name="brick_broadcast_receive">When you receive</string>
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
     <string name="brick_scene_transition">Continue scene</string>
@@ -975,11 +997,15 @@
     <string name="error_drone_wrong_platform_title">No ARDrone support</string>
     <string name="error_drone_wrong_platform">We cannot run a ARDrone project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
-    <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible
-        project is not possible.</string>
     <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
     <string name="error_gps_not_available">Error, GPS was not available.</string>
+    <string name="error_set_description">An error occurred while saving the new description.</string>
+    <string name="error_no_network">You need a network connection to use this Pocket Code program. Please turn on
+        mobile network or Wi-Fi in Settings.</string>
+    <string name="error_no_network_one_brick">Following brick will use the network:</string>
+    <string name="error_no_network_multiple_bricks">Following bricks will use the network:</string>
+    <string name="error_no_network_title">No network</string>
     <!--  -->
 
 
@@ -1290,7 +1316,9 @@
     <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contains</string>
     <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
-    <string name="formula_editor_function_collision">touches</string>
+    <string name="formula_editor_function_collision">touches_object</string>
+    <string name="formula_editor_function_collides_with_edge">touches_edge</string>
+    <string name="formula_editor_function_touched">touches_finger</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
     <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
@@ -1350,6 +1378,7 @@
     <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
     <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
     <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
+    <string name="formula_editor_nfc_tag_message">nfc_tag_message</string>
     <string name="formula_editor_object_x">position_x</string>
     <string name="formula_editor_object_y">position_y</string>
     <string name="formula_editor_object_transparency">transparency</string>
@@ -1461,6 +1490,7 @@
     <string name="merge_info">successfully merged into</string>
 
     <string name="warning">Warning</string>
+    <string name="error_merge">Error while merging projects</string>
     <string name="error_merge_with_self_scene">Current scene and selected scene are the same!</string>
     <string name="error_merge_scene_not_found">Scene not found!</string>
     <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s

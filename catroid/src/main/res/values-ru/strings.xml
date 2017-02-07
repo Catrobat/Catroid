@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
-  <string name="cancel_button">Отмена</string>
-  <string name="next_button">Next</string>
-  <string name="done_button">Готово</string>
+  <string name="cancel">Отмена</string>
+  <string name="next">Next</string>
+  <string name="done">Готово</string>
   <string name="rename">Переименовать</string>
   <string name="delete">Удалить</string>
   <string name="yes">Да</string>

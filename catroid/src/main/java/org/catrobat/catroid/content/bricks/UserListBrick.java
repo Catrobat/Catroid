@@ -36,14 +36,12 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 
-import java.io.Serializable;
-
 public abstract class UserListBrick extends FormulaBrick implements NewDataDialog.NewUserListDialogListener {
 
 	protected UserList userList;
 
 	@XStreamOmitField
-	protected BackPackedData backPackedData;
+	protected BackPackedListData backPackedData;
 
 	private void updateUserListIfDeleted(UserListAdapterWrapper userListAdapterWrapper) {
 		if (userList != null && (userListAdapterWrapper.getPositionOfItem(userList) == 0)) {
@@ -109,30 +107,15 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		this.userList = userList;
 	}
 
-	public BackPackedData getBackPackedData() {
+	public BackPackedListData getBackPackedData() {
 		return backPackedData;
 	}
 
-	public void setBackPackedData(BackPackedData backPackedData) {
+	public void setBackPackedData(BackPackedListData backPackedData) {
 		this.backPackedData = backPackedData;
 	}
 
-	public class BackPackedData implements Serializable {
-		public UserList userList;
-		public Integer userListType;
-
-		public BackPackedData() {
-		}
-
-		public BackPackedData(BackPackedData backPackedData) {
-			if (backPackedData != null) {
-				this.userList = backPackedData.userList;
-				this.userListType = backPackedData.userListType;
-			}
-		}
-	}
-
-	protected void updateUserListReference(Scene into, Scene from) {
+	void updateUserListReference(Scene into, Scene from) {
 		UserList list;
 
 		if (from.existProjectList(userList)) {
@@ -181,14 +164,14 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 	public void storeDataForBackPack(Sprite sprite) {
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 		Integer type = DataContainer.USER_DATA_EMPTY;
-		if (getUserList() != null) {
+		if (userList != null) {
 			type = currentScene.getDataContainer()
 					.getTypeOfUserList(getUserList().getName(), ProjectManager
 							.getInstance().getCurrentSprite());
 		}
 
 		if (backPackedData == null) {
-			backPackedData = new BackPackedData();
+			backPackedData = new BackPackedListData();
 		}
 		backPackedData.userList = userList;
 		backPackedData.userListType = type;

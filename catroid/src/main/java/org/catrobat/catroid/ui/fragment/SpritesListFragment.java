@@ -57,14 +57,9 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
@@ -401,7 +396,6 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
 				0));
 		String newName = copiedSprite.getName();
-		copiedSprite.renameCopiedSpriteInCollisionFormulas(oldName, newName, getActivity());
 		copiedSprite.updateCollisionBroadcastMessages(oldName, newName);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -414,7 +408,8 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 
 	@Override
 	public void showRenameDialog() {
-		RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
+		RenameSpriteDialog dialog = new RenameSpriteDialog(R.string.rename_sprite_dialog, R.string.sprite_name,
+				spriteToEdit.getName());
 		dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 
@@ -704,7 +699,6 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
 				String oldSpriteName = spriteToEdit.getName();
-				renameSpritesInCollisionFormulas(oldSpriteName, newSpriteName, getActivity());
 				spriteToEdit.rename(newSpriteName);
 				spriteAdapter.replaceItemInIdMap(oldSpriteName, newSpriteName);
 			}
@@ -996,7 +990,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 				}
 			}
 		});
-		builder.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
@@ -1071,32 +1065,5 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 
 	private List<Sprite> getSpriteList() {
 		return spriteAdapter.getSpriteList();
-	}
-
-	private void renameSpritesInCollisionFormulas(String oldName, String newName, Context context) {
-
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-		for (Sprite sprite : spriteList) {
-			for (Script currentScript : sprite.getScriptList()) {
-				if (currentScript == null) {
-					return;
-				}
-				List<Brick> brickList = currentScript.getBrickList();
-				for (Brick brick : brickList) {
-					if (brick instanceof UserBrick) {
-						List<Formula> formulaList = ((UserBrick) brick).getFormulas();
-						for (Formula formula : formulaList) {
-							formula.updateCollisionFormulas(oldName, newName, context);
-						}
-					}
-					if (brick instanceof FormulaBrick) {
-						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
-						for (Formula formula : formulaList) {
-							formula.updateCollisionFormulas(oldName, newName, context);
-						}
-					}
-				}
-			}
-		}
 	}
 }
