@@ -42,7 +42,6 @@ import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -81,8 +80,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
-
-import static java.sql.Types.NULL;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();

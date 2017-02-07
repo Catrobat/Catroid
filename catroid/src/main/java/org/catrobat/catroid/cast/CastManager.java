@@ -23,18 +23,13 @@
 package org.catrobat.catroid.cast;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.MediaRouteChooserDialogFragment;
-import android.support.v7.app.MediaRouteDialogFactory;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.view.HapticFeedbackConstants;
@@ -44,10 +39,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
+
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
@@ -123,7 +118,9 @@ public final class CastManager {
 		return isConnected;
 	}
 
-	public MediaRouter getMediaRouter() { return mediaRouter; }
+	public MediaRouter getMediaRouter() {
+		return mediaRouter;
+	}
 
 	public ArrayList<MediaRouter.RouteInfo> getRouteInfos() {
 		return routeInfos;
@@ -137,7 +134,9 @@ public final class CastManager {
 		isGamepadButtonPressed.put(btn, b);
 	}
 
-	public CastDevice getSelectedDevice() { return selectedDevice; }
+	public CastDevice getSelectedDevice() {
+		return selectedDevice;
+	}
 
 	public boolean pausedViewEmpty() {
 		if (pausedView != null) {
@@ -337,8 +336,8 @@ public final class CastManager {
 	}
 
 	public synchronized void setRemoteLayoutToPauseScreen(Context context) {
-		if(remoteLayout != null) {
-			if((pausedView == null) && !pausedScreenShowing) {
+		if (remoteLayout != null) {
+			if ((pausedView == null) && !pausedScreenShowing) {
 				pausedView = (RelativeLayout) LayoutInflater.from(context)
 						.inflate(R.layout.cast_pause_screen, null);
 				remoteLayout.addView(pausedView);
@@ -355,7 +354,7 @@ public final class CastManager {
 	}
 
 	public synchronized void resumeRemoteLayoutFromPauseScreen() {
-		if(remoteLayout != null && pausedView != null) {
+		if (remoteLayout != null && pausedView != null) {
 			pausedView.setVisibility(View.GONE);
 			pausedScreenShowing = false;
 		}

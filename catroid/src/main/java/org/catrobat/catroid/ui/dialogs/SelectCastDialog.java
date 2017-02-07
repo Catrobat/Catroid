@@ -33,8 +33,6 @@ import android.support.v7.media.MediaRouter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -86,7 +84,6 @@ public class SelectCastDialog extends DialogFragment {
 			});
 			dialog = builder.create();
 			return dialog;
-
 		} else {
 			final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 			View view = View.inflate(getActivity(), R.layout.dialog_select_cast, null);
@@ -107,7 +104,6 @@ public class SelectCastDialog extends DialogFragment {
 						CastManager.getInstance().startCastButtonAnimation();
 						CastManager.getInstance().selectRoute(routeInfo);
 						dialog.dismiss();
-
 					}
 				}
 			});
@@ -128,6 +124,5 @@ public class SelectCastDialog extends DialogFragment {
 			}, Constants.CAST_NOT_SEEING_DEVICE_TIMEOUT);
 			return dialog;
 		}
-
 	}
 }

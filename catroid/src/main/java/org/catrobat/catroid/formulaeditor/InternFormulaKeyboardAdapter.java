@@ -264,7 +264,6 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_gamepad_right_pressed:
 				return buildSensor(Sensors.GAMEPAD_RIGHT_PRESSED);
 
-
 			//DRONE SENSOR
 			case R.string.formula_editor_sensor_drone_battery_status:
 				return buildSensor(Sensors.DRONE_BATTERY_STATUS);

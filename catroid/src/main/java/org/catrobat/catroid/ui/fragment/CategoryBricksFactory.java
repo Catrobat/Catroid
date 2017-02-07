@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.fragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Path;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
