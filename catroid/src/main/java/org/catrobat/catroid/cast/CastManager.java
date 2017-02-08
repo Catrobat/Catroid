@@ -348,7 +348,7 @@ public final class CastManager {
 				layoutParams.height = p.getXmlHeader().getVirtualScreenHeight();
 				layoutParams.width = p.getXmlHeader().getVirtualScreenWidth();
 				pausedView.setLayoutParams(layoutParams);
-				pausedView.setBackgroundColor(0x660000);
+				pausedView.setBackgroundColor(0x66000000);
 				pausedScreenShowing = true;
 			}
 			pausedView.setVisibility(View.VISIBLE);
