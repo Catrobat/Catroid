@@ -114,7 +114,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	CountingIdlingResource idlingResource = new CountingIdlingResource(TAG);
 
-	private SharedPreferences sharedpreferences = null;
+	//private SharedPreferences sharedpreferences = null;
 
 	public TourGuide tourGuideHandler;
 
@@ -155,7 +155,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 				loadProgramFromExternalSource(loadExternalProjectUri);
 			}
 
-			sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			//sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 			if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 				/*if (sharedpreferences.getBoolean("firstRun", true)) {
 					sharedpreferences.edit().putBoolean("firstRun", false).commit();

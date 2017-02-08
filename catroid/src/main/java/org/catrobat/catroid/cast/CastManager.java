@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.cast;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -335,6 +336,7 @@ public final class CastManager {
 		remoteLayout.setBackground(drawable);
 	}
 
+	@SuppressLint("InflateParams")
 	public synchronized void setRemoteLayoutToPauseScreen(Context context) {
 		if (remoteLayout != null) {
 			if ((pausedView == null) && !pausedScreenShowing) {
@@ -346,6 +348,7 @@ public final class CastManager {
 				layoutParams.height = p.getXmlHeader().getVirtualScreenHeight();
 				layoutParams.width = p.getXmlHeader().getVirtualScreenWidth();
 				pausedView.setLayoutParams(layoutParams);
+				pausedView.setBackgroundColor(0x660000);
 				pausedScreenShowing = true;
 			}
 			pausedView.setVisibility(View.VISIBLE);
