@@ -226,6 +226,12 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 		}
 	}
 
+	public void unpackAsBackground() {
+		BackPackSpriteController.getInstance().unpack(spriteToEdit, false, false, false, true);
+		showUnpackingCompleteToast(1);
+		getActivity().finish();
+	}
+
 	protected void unpackCheckedItems(boolean singleItem) {
 		if (singleItem) {
 			BackPackSpriteController.getInstance().unpack(spriteToEdit, false, false, false, false);
@@ -249,7 +255,7 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 		builder.setPositiveButton(R.string.main_menu_continue, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				unpackCheckedItems(true);
+				unpackAsBackground();
 				clearCheckedItems();
 			}
 		});
