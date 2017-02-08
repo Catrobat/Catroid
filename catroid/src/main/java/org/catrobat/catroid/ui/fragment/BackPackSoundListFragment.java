@@ -209,6 +209,7 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 		if (singleItem) {
 			unpackSound();
 			showUnpackingCompleteToast(1);
+			getActivity().finish();
 			return;
 		}
 		for (SoundInfo soundInfo : soundAdapter.getCheckedItems()) {
@@ -217,6 +218,7 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 		}
 		showUnpackingCompleteToast(soundAdapter.getCheckedItems().size());
 		clearCheckedItems();
+		getActivity().finish();
 	}
 
 	private void unpackSound() {

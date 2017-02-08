@@ -230,6 +230,7 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 		if (singleItem) {
 			BackPackSpriteController.getInstance().unpack(spriteToEdit, false, false, false, false);
 			showUnpackingCompleteToast(1);
+			getActivity().finish();
 			return;
 		}
 		for (Sprite sprite : spriteAdapter.getCheckedItems()) {
@@ -238,6 +239,7 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 
 		showUnpackingCompleteToast(spriteAdapter.getCheckedItems().size());
 		clearCheckedItems();
+		getActivity().finish();
 	}
 
 	private void showUnpackAsBackgroundDialog() {
