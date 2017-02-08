@@ -225,6 +225,23 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 		}
 	}
 
+	public void moveMotorSpeed(byte outputField, int chainLayer, int speed) {
+
+		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_SPEED);
+		mindstormsConnection.incCommandCounter();
+
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, outputField);
+
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, speed);
+
+		try {
+			mindstormsConnection.send(command);
+		} catch (MindstormsException e) {
+			Log.e(TAG, e.getMessage());
+		}
+	}
+
 	public void stopMotor(byte outputField, int chainLayer, boolean brake) {
 
 		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_STOP);

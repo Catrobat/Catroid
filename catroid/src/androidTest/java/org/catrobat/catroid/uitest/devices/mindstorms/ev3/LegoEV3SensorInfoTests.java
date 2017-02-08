@@ -327,7 +327,7 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 		SetLookBrick setLookBrick = new SetLookBrick();
 
 		LegoEv3MotorMoveBrick legoMotorActionBrick = new LegoEv3MotorMoveBrick(
-				LegoEv3MotorMoveBrick.Motor.MOTOR_B_C, 100, 1.5f);
+				LegoEv3MotorMoveBrick.Motor.MOTOR_B_C, 100);
 		WaitBrick firstWaitBrick = new WaitBrick(500);
 
 		LegoEv3PlayToneBrick legoPlayToneBrick = new LegoEv3PlayToneBrick(50, 1.5f, 50);
