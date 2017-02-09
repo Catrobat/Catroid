@@ -170,7 +170,7 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		ProjectManager.getInstance().initializeTemplateProject(projectName, createLandscapeProject, activity);
+		ProjectManager.getInstance().initializeTemplateProject(projectName, activity);
 		Utils.replaceTranslatableStringsInProject(templateData.getName(), activity);
 		TrackingUtil.trackUseTemplate(templateData.getName(), createLandscapeProject);
 		startProjectActivity();
