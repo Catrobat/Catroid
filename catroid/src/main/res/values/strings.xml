@@ -1015,6 +1015,7 @@
     <string name="error_unknown_error">An unknown error occurred.</string>
     <string name="error_gps_not_available">Error, GPS was not available.</string>
     <string name="error_no_nolb_user">This is a beta-version. You can only use it with a predefined school account.</string>
+    <string name="error_extracting_program">Error extracting program.</string>
     <!--  -->
 
 

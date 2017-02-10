@@ -20,57 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common;
+package org.catrobat.catroid.content;
 
-import java.io.Serializable;
+import android.content.Context;
 
-public class TemplateData implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	private String name;
-	private int id;
-	private String thumbnail;
-	private String portrait;
-	private String landscape;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-	}
-
-	public String getPortrait() {
-		return portrait;
-	}
-
-	public void setPortrait(String portrait) {
-		this.portrait = portrait;
-	}
-
-	public String getLandscape() {
-		return landscape;
-	}
-
-	public void setLandscape(String landscape) {
-		this.landscape = landscape;
-	}
+public interface Translatable {
+	String translate(String templateName, Scene scene, Sprite sprite, Context context);
 }

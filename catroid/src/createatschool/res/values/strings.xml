@@ -284,4 +284,7 @@
     <string name="hint_accessibility">Change the listed settings as you wish or switch to predefined profiles to choose a god to help you with these settings.</string>
     <string name="hint_accessibility_profiles">Choose a guide to help you with Create@School. Which one fits to you?</string>
     <string name="error_no_nolb_user">This is a beta-version. You can only use it with a predefined school account.</string>
+
+    <string name="fetching_templates">Fetching templates</string>
+    <string name="error_fetching_templates">Error fetching templates</string>
 </resources>

@@ -27,7 +27,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,6 +42,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.transfers.DownloadTemplateTask;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -51,7 +51,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
 
-public class OrientationDialog extends DialogFragment implements LoadProjectTask.OnLoadProjectCompleteListener {
+public class OrientationDialog extends DialogFragment implements LoadProjectTask.OnLoadProjectCompleteListener, DownloadTemplateTask.OnDownloadTemplateCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_orientation_project";
 
@@ -66,7 +66,8 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 	private boolean openedFromTemplatesList = false;
 
 	private TemplateData templateData;
-	private Context context;
+	private Activity activity;
+	private String baseUrlForTemplates;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -108,16 +109,16 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 	}
 
 	@Override
-	public void onAttach(Activity context) {
-		super.onAttach(context);
-		this.context = context;
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		this.activity = activity;
 	}
 
 	protected void handleOkButtonClick() {
 		createLandscapeProject = landscapeMode.isChecked();
 
 		if (isOpenedFromTemplatesList()) {
-			loadStageProject();
+			downloadTemplateFile();
 		} else {
 			try {
 				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject);
@@ -135,15 +136,12 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 		dismiss();
 	}
 
-	private void loadStageProject() {
-		String templateZipFileName =
-				createLandscapeProject ? templateData.landscapeZipFileName : templateData.portraitZipFileName;
+	private void downloadTemplateFile() {
+		String zipFileUrl = baseUrlForTemplates;
+		zipFileUrl += createLandscapeProject ? templateData.getLandscape() : templateData.getPortrait();
 
-		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), projectName, templateData.templateName,
-				templateZipFileName, false, false);
-		loadProjectTask.setOnLoadProjectCompleteListener(this);
-		Log.e("STANDALONE", "going to execute standalone project");
-		loadProjectTask.execute();
+		DownloadTemplateTask downloadTask = new DownloadTemplateTask(getActivity(), templateData, zipFileUrl, this);
+		downloadTask.execute();
 	}
 
 	public boolean isOpenedFromProjectList() {
@@ -172,29 +170,38 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		ProjectManager.getInstance().initializeTemplateProject(projectName, createLandscapeProject, context);
-		Utils.replaceTranslatableStringsInProject(templateData.templateName, true, context);
-		TrackingUtil.trackUseTemplate(templateData.templateName, createLandscapeProject);
+		ProjectManager.getInstance().initializeTemplateProject(projectName, createLandscapeProject, activity);
+		Utils.replaceTranslatableStringsInProject(templateData.getName(), activity);
+		TrackingUtil.trackUseTemplate(templateData.getName(), createLandscapeProject);
 		startProjectActivity();
 	}
 
 	@Override
 	public void onLoadProjectFailure() {
-		ToastUtil.showError(getActivity(), context.getString(R.string.error_load_project));
+		ToastUtil.showError(activity, activity.getString(R.string.error_load_project));
 	}
 
 	private void startProjectActivity() {
-		Intent intent = new Intent(context, ProjectActivity.class);
+		Intent intent = new Intent(activity, ProjectActivity.class);
 		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
 		if (isOpenedFromProjectList()) {
 			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
 		} else if (isOpenedFromTemplatesList()) {
 			intent.putExtra(Constants.PROJECT_OPENED_FROM_TEMPLATES_LIST, true);
 		}
-		context.startActivity(intent);
+		activity.startActivity(intent);
 	}
 
 	public void setTemplateData(TemplateData templateData) {
 		this.templateData = templateData;
+	}
+
+	public void setBaseUrlForTemplates(String baseUrlForTemplates) {
+		this.baseUrlForTemplates = baseUrlForTemplates;
+	}
+
+	@Override
+	public void onDownloadTemplateComplete() {
+		ProjectManager.getInstance().loadStageProject(templateData, activity, projectName, this);
 	}
 }

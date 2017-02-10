@@ -71,6 +71,7 @@ public class NewProjectDialog extends DialogFragment {
 	private boolean openedFromProjectList = false;
 	private boolean openedFromTemplatesList = false;
 	private TemplateData templateData;
+	private String baseUrlForTemplates;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -216,6 +217,7 @@ public class NewProjectDialog extends DialogFragment {
 			orientationDialog.setOpenedFromTemplatesList(openedFromTemplatesList);
 			orientationDialog.setProjectName(projectName);
 			orientationDialog.setCreateEmptyProject(createEmptyProject);
+			orientationDialog.setBaseUrlForTemplates(baseUrlForTemplates);
 
 			Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 
@@ -233,5 +235,9 @@ public class NewProjectDialog extends DialogFragment {
 
 	public void setTemplateData(TemplateData templateData) {
 		this.templateData = templateData;
+	}
+
+	public void setBaseUrlForTemplates(String baseUrlForTemplates) {
+		this.baseUrlForTemplates = baseUrlForTemplates;
 	}
 }

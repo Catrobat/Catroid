@@ -41,17 +41,20 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Translatable;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnNewSceneListener {
+public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnNewSceneListener, Translatable {
 	private static final long serialVersionUID = 1L;
 
 	private String sceneToStart;
@@ -188,6 +191,13 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 	public void onNewScene(Scene scene) {
 		oldSelectedScene = this.sceneToStart;
 		this.sceneToStart = scene.getName();
+	}
+
+	@Override
+	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
+		String key = templateName + Constants.TRANSLATION_SCENE;
+		sceneToStart = Utils.getStringResourceByName(Utils.getStringResourceName(key, sceneToStart), sceneToStart, context);
+		return null;
 	}
 
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {

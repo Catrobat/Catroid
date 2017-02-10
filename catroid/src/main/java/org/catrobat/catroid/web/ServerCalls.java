@@ -168,6 +168,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 	private static final String JSON_TOKEN = "token";
 	private static final String FACEBOOK_SERVER_TOKEN_INVALID = "token_invalid";
 
+	private static final String TEMPLATES_URL = Constants.BASE_URL_HTTPS + "api/templates/list.json";
+	private static final String TEST_TEMPLATES_URL = BASE_URL_TEST_HTTPS + "api/templates/list.json";
+
 	private static LoginBehavior loginBehavior = LoginBehavior.NATIVE_WITH_FALLBACK;
 
 	private static final ServerCalls INSTANCE = new ServerCalls();
@@ -510,6 +513,24 @@ public final class ServerCalls implements ScratchDataFetcher {
 			httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
 		}
 
+		if (receiver != null) {
+			addNetworkInterceptor(httpClient, programName, receiver, notificationId, url);
+		}
+
+		try {
+			Response response = httpClient.newCall(request).execute();
+			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
+			bufferedSink.writeAll(response.body().source());
+			bufferedSink.close();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
+					"Connection could not be established!");
+		}
+	}
+
+	private void addNetworkInterceptor(OkHttpClient httpClient, final String programName,
+			final ResultReceiver receiver, final int notificationId, final String url) {
 		httpClient.networkInterceptors().add(new Interceptor() {
 			@Override
 			public Response intercept(Chain chain) throws IOException {
@@ -530,17 +551,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 				}
 			}
 		});
-
-		try {
-			Response response = httpClient.newCall(request).execute();
-			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
-			bufferedSink.writeAll(response.body().source());
-			bufferedSink.close();
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
-					"Connection could not be established!");
-		}
 	}
 
 	public void downloadMedia(final String url, final String filePath, final ResultReceiver receiver)
@@ -657,7 +667,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 	}
 
-	public String getRequest(String url) throws WebconnectionException {
+	private String getRequest(String url) throws WebconnectionException {
 		Request request = new Request.Builder()
 				.url(url)
 				.build();
@@ -672,7 +682,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 	}
 
-	public String getRequestInterruptable(String url) throws InterruptedIOException, WebconnectionException {
+	private String getRequestInterruptable(String url) throws InterruptedIOException, WebconnectionException {
 		Request request = new Request.Builder()
 				.url(url)
 				.build();
@@ -1164,6 +1174,16 @@ public final class ServerCalls implements ScratchDataFetcher {
 		} catch (WebconnectionException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
 		}
+	}
+
+	public String fetchTemplatesList() throws WebconnectionException {
+		String serverUrl = useTestUrl ? TEST_TEMPLATES_URL : TEMPLATES_URL;
+
+		Log.v(TAG, "URL to use: " + serverUrl);
+		resultString = getRequest(serverUrl);
+		Log.v(TAG, "Result string: " + resultString);
+
+		return resultString;
 	}
 
 	public LoginBehavior getLoginBehavior() {

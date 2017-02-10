@@ -41,6 +41,8 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Translatable;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
@@ -52,7 +54,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class ShowTextBrick extends UserVariableBrick {
+public class ShowTextBrick extends UserVariableBrick implements Translatable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -228,5 +230,17 @@ public class ShowTextBrick extends UserVariableBrick {
 	@Override
 	public void updateReferenceAfterMerge(Scene into, Scene from) {
 		super.updateUserVariableReference(into, from);
+	}
+
+	@Override
+	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
+		String variableName = userVariable.getName();
+
+		String key = scene.getDataContainer().getTypeOfUserVariable(variableName, sprite)
+				== DataContainer.USER_VARIABLE_SPRITE
+				? templateName + Constants.TRANSLATION_SPRITE_VARIABLE
+				: templateName + Constants.TRANSLATION_PROJECT_VARIABLE;
+		setUserVariableName(Utils.getStringResourceByName(Utils.getStringResourceName(key, variableName), variableName, context));
+		return null;
 	}
 }

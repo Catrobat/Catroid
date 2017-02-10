@@ -36,21 +36,25 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.CollisionScript;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Translatable;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.utils.IconsUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick, BroadcastMessage, Cloneable {
+public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick, BroadcastMessage, Cloneable, Translatable {
 	private static final long serialVersionUID = 1L;
 	public static final String ANYTHING_ESCAPE_CHAR = "\0";
 
@@ -215,5 +219,14 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
 		getScriptSafe().setCommentedOut(commentedOut);
+	}
+
+	@Override
+	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
+		String key = templateName + Constants.TRANSLATION_BROADCAST_MESSAGE;
+		String value = getBroadcastMessage();
+
+		setMessage(Utils.getStringResourceByName(Utils.getStringResourceName(key, value), value, context));
+		return Utils.createStringEntry(key, value);
 	}
 }

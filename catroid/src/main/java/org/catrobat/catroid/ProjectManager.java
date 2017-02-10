@@ -38,6 +38,7 @@ import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
+import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -191,8 +192,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.92f);
 			} else {
 				project = oldProject;
-				currentScene = oldProject.getDefaultScene();
-				sceneToPlay = currentScene;
+				if (oldProject != null) {
+					currentScene = oldProject.getDefaultScene();
+					sceneToPlay = currentScene;
+				}
 				throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_pocketcode_version));
 			}
 		} else {
@@ -858,6 +861,15 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void setShowLegoSensorInfoDialog(boolean showLegoSensorInfoDialogFlag) {
 		showLegoSensorInfoDialog = showLegoSensorInfoDialogFlag;
+	}
+
+	public void loadStageProject(TemplateData templateData, Activity activity, String projectName,
+			OnLoadProjectCompleteListener listener) {
+		String zipFileString = Utils.buildPathForTemplatesZip(templateData.getName());
+		LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, templateData.getName(),
+				zipFileString, true, false);
+		loadProjectTask.setOnLoadProjectCompleteListener(listener);
+		loadProjectTask.execute();
 	}
 
 	@Override

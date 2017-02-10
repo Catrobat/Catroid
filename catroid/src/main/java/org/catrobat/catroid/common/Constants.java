@@ -24,6 +24,8 @@ package org.catrobat.catroid.common;
 
 import android.os.Environment;
 
+import org.catrobat.catroid.BuildConfig;
+
 import java.util.Calendar;
 
 public final class Constants {
@@ -240,7 +242,8 @@ public final class Constants {
 
 	//create@school constants
 	public static final String FORCE_SIGNIN = "forceSignIn";
-	public static final java.lang.String CREATE_AT_SCHOOL_USER = "nolbUser";
+	public static final String CREATE_AT_SCHOOL_USER = "nolbUser";
+	public static final String TMP_TEMPLATES_PATH = TMP_PATH + "/templates";
 
 	public static final String TRANSLATION_SCENE = "_scene_";
 	public static final String TRANSLATION_SPRITE = "_sprite_";
@@ -253,6 +256,10 @@ public final class Constants {
 	public static final String TRANSLATION_PROJECT_VARIABLE = "_project_variable_";
 	public static final String TRANSLATION_PROJECT_LIST = "_project_list_";
 	public static final Integer MAX_LOGCAT_OUTPUT_CHARS = 3000;
+
+	public static final String START_PROJECT = BuildConfig.START_PROJECT;
+	public static final String ZIP_FILE_NAME = START_PROJECT + ".zip";
+	public static final String STANDALONE_PROJECT_NAME = BuildConfig.PROJECT_NAME;
 
 	// Suppress default constructor for noninstantiability
 	private Constants() {

@@ -62,7 +62,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
@@ -80,11 +79,7 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
-import org.rauschig.jarchivelib.Archiver;
-import org.rauschig.jarchivelib.ArchiverFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 
@@ -92,10 +87,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	private static final String TAG = MainMenuActivity.class.getSimpleName();
 
-	private static final String START_PROJECT = BuildConfig.START_PROJECT;
 	private static final Boolean STANDALONE_MODE = BuildConfig.FEATURE_APK_GENERATOR_ENABLED;
-	private static final String ZIP_FILE_NAME = START_PROJECT + ".zip";
-	private static final String STANDALONE_PROJECT_NAME = BuildConfig.PROJECT_NAME;
 
 	public static final String SHARED_PREFERENCES_SHOW_BROWSER_WARNING = "shared_preferences_browser_warning";
 	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
@@ -128,7 +120,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
 			getActionBar().hide();
 			setContentView(R.layout.activity_main_menu_splashscreen);
-			unzipProgram();
+			UtilZip.unzipProgram(this);
+			loadStageProject(Constants.STANDALONE_PROJECT_NAME);
 		} else {
 			if (!DividerUtil.isActivated()) {
 				setContentView(R.layout.activity_main_menu);
@@ -470,33 +463,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	public void setSignInDialog(SignInDialog signInDialog) {
 		this.signInDialog = signInDialog;
-	}
-
-	private void unzipProgram() {
-		StorageHandler.getInstance();
-		String zipFileString = Constants.DEFAULT_ROOT + "/" + ZIP_FILE_NAME;
-		StorageHandler.getInstance().copyProgramZip(getResources(), ZIP_FILE_NAME);
-		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);
-		Log.d("STANDALONE", "zip file name:" + ZIP_FILE_NAME);
-		Archiver archiver = ArchiverFactory.createArchiver("zip");
-		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT);
-		try {
-			archiver.extract(new File(zipFileString), unpackedDirectory);
-		} catch (IOException e) {
-			Log.d("STANDALONE", "Can't extract program", e);
-		}
-
-		File destination = new File(Constants.DEFAULT_ROOT + "/" + STANDALONE_PROJECT_NAME);
-		if (unpackedDirectory.isDirectory()) {
-			unpackedDirectory.renameTo(destination);
-		}
-
-		loadStageProject(STANDALONE_PROJECT_NAME);
-
-		File zipFile = new File(zipFileString);
-		if (zipFile.exists()) {
-			zipFile.delete();
-		}
 	}
 
 	private void loadStageProject(String projectName) {

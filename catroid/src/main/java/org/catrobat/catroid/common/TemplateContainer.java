@@ -22,55 +22,45 @@
  */
 package org.catrobat.catroid.common;
 
-import java.io.Serializable;
+import com.google.gson.annotations.SerializedName;
 
-public class TemplateData implements Serializable {
+import java.io.Serializable;
+import java.util.List;
+
+public class TemplateContainer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
-	private int id;
-	private String thumbnail;
-	private String portrait;
-	private String landscape;
+	@SerializedName("CatrobatTemplates")
+	private List<TemplateData> templateData;
 
-	public String getName() {
-		return name;
+	@SerializedName("BaseUrl")
+	private String baseUrl;
+
+	@SerializedName("ProjectsExtension")
+	private String programsExtension;
+
+	public List<TemplateData> getTemplateData() {
+		return templateData;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTemplateData(List<TemplateData> templateData) {
+		this.templateData = templateData;
 	}
 
-	public int getId() {
-		return id;
+	public String getBaseUrl() {
+		return baseUrl;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
 	}
 
-	public String getThumbnail() {
-		return thumbnail;
+	public String getProgramsExtension() {
+		return programsExtension;
 	}
 
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-	}
-
-	public String getPortrait() {
-		return portrait;
-	}
-
-	public void setPortrait(String portrait) {
-		this.portrait = portrait;
-	}
-
-	public String getLandscape() {
-		return landscape;
-	}
-
-	public void setLandscape(String landscape) {
-		this.landscape = landscape;
+	public void setProgramsExtension(String programsExtension) {
+		this.programsExtension = programsExtension;
 	}
 }

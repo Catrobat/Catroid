@@ -37,11 +37,14 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Translatable;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 import org.catrobat.catroid.utils.IconsUtil;
@@ -50,7 +53,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick, BroadcastMessage {
+public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick, BroadcastMessage, Translatable {
 	private static final long serialVersionUID = 1L;
 
 	private BroadcastScript receiveScript;
@@ -232,5 +235,14 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
 		getScriptSafe().setCommentedOut(commentedOut);
+	}
+
+	@Override
+	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
+		String key = templateName + Constants.TRANSLATION_BROADCAST_MESSAGE;
+		String value = getBroadcastMessage();
+
+		setMessage(Utils.getStringResourceByName(Utils.getStringResourceName(key, value), value, context));
+		return Utils.createStringEntry(key, value);
 	}
 }
