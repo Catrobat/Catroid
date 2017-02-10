@@ -558,11 +558,11 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 				exitFormulaEditorFragment();
 				return true;
 			case R.id.menu_undo:
-                		formulaEditorEditText.undo();
+				formulaEditorEditText.undo();
 				getActivity().invalidateOptionsMenu();
 				return true;
-            		case R.id.menu_redo:
-                		formulaEditorEditText.redo();
+			case R.id.menu_redo:
+				formulaEditorEditText.redo();
 				getActivity().invalidateOptionsMenu();
 				return true;	
 		}
