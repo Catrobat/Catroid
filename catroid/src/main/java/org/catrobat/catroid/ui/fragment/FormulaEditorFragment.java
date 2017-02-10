@@ -564,7 +564,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			case R.id.menu_redo:
 				formulaEditorEditText.redo();
 				getActivity().invalidateOptionsMenu();
-				return true;	
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
