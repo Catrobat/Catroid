@@ -31,6 +31,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -87,6 +88,8 @@ public class UserListValuesAdapter extends BaseAdapter implements View.OnClickLi
 
 		holder.text1.setText(view.getContext().getString(R.string.formula_editor_fragment_data_current_items));
 
+		TextSizeUtil.enlargeTextView(holder.text1);
+
 		return view;
 	}
 
@@ -115,6 +118,8 @@ public class UserListValuesAdapter extends BaseAdapter implements View.OnClickLi
 		}
 
 		holder.text1.setText(currentItemStringValue);
+
+		TextSizeUtil.enlargeTextView(holder.text1);
 
 		return view;
 	}

@@ -30,6 +30,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -98,6 +99,8 @@ public class CategoryListAdapter extends BaseAdapter {
 			});
 		}
 		view.setClickable(true);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

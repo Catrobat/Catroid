@@ -37,6 +37,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,6 +196,8 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 			holder.userListsHeadline.setVisibility(View.VISIBLE);
 			LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.fragment_formula_editor_data_list_item_layout);
 			linearLayout.setVisibility(View.GONE);
+
+			TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 			return view;
 		}
 
@@ -333,6 +336,7 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 		} else {
 			holder.checkbox.setChecked(false);
 		}
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}
@@ -367,6 +371,8 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 			view.setTag(holder);
 		}
 		holder.text1.setText(nameOfCurrentDataItem);
+
+		TextSizeUtil.enlargeTextView((TextView) view);
 		return view;
 	}
 

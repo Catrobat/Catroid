@@ -51,6 +51,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -69,6 +70,7 @@ import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.dialogs.RenameVariableDialog;
 import org.catrobat.catroid.utils.DividerUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
 
@@ -116,6 +118,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 			public void onGlobalLayout() {
 				getListView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				DividerUtil.setDivider(getActivity(), getListView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) getView());
 			}
 		});
 		return view;
@@ -130,12 +133,14 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 			menu.findItem(R.id.context_formula_editor_userlist_delete).setVisible(visible);
 			menu.findItem(R.id.context_formula_editor_userlist_rename).setVisible(visible);
 		}
+		TextSizeUtil.enlargeOptionsMenu(menu);
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.menu_formulaeditor_data_fragment, menu);
+		TextSizeUtil.enlargeOptionsMenu(menu);
 	}
 
 	@Override
@@ -150,6 +155,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 		getActivity().getActionBar().setTitle(actionBarTitle);
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
+		TextSizeUtil.enlargeOptionsMenu(menu);
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -165,6 +171,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 				contextActionMode = getActivity().startActionMode(contextModeCallback);
 				return true;
 		}
+		TextSizeUtil.enlargeOptionsItem(item);
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -261,8 +268,13 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 						getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_USERLIST_DELETED));
 					} else {
 						final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+
+						final TextView textView = new TextView(getActivity());
+						textView.setText(R.string.deletion_alert_text);
+						TextSizeUtil.enlargeTextView(textView);
 						alertDialog.setTitle(R.string.deletion_alert_title);
-						alertDialog.setMessage(R.string.deletion_alert_text);
+						alertDialog.setView(textView);
+
 						alertDialog.setPositiveButton(R.string.deletion_alert_yes,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog, int which) {
@@ -275,9 +287,11 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 							public void onClick(DialogInterface dialog, int which) {
 							}
 						});
+
 						alertDialog.show();
 					}
 				}
+				TextSizeUtil.enlargeOptionsItem(item);
 				return true;
 			case R.id.context_formula_editor_userlist_rename:
 				Object itemToRename = adapter.getItem(index);
@@ -292,6 +306,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 					return false;
 				}
 				dialog.show(getActivity().getFragmentManager(), RenameVariableDialog.DIALOG_FRAGMENT_TAG);
+				TextSizeUtil.enlargeOptionsItem(item);
 				return true;
 			default:
 				return super.onContextItemSelected(item);
