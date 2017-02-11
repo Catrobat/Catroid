@@ -37,6 +37,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -333,6 +334,7 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 		} else {
 			holder.checkbox.setChecked(false);
 		}
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}
