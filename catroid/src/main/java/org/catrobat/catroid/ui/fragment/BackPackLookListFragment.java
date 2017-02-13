@@ -208,6 +208,7 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 		if (singleItem) {
 			unpackLook();
 			showUnpackingCompleteToast(1);
+			getActivity().finish();
 			return;
 		}
 		for (LookData lookData : lookAdapter.getCheckedItems()) {
@@ -216,6 +217,7 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 		}
 		showUnpackingCompleteToast(lookAdapter.getCheckedItems().size());
 		clearCheckedItems();
+		getActivity().finish();
 	}
 
 	private void unpackLook() {
