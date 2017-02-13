@@ -316,7 +316,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeTemplateProject(String projectName, boolean landscapeMode, Context context) {
+	public void initializeTemplateProject(String projectName, Context context) {
 		project.setName(projectName);
 
 		fileChecksumContainer = new FileChecksumContainer();

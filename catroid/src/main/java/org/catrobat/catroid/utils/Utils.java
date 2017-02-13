@@ -1353,7 +1353,7 @@ public final class Utils {
 		if (resId != 0) {
 			return context.getString(resId);
 		} else {
-			Log.d(TAG, "No resId for key" + key);
+			Log.d(TAG, "No resId for key: " + key);
 		}
 		return originalName;
 	}
