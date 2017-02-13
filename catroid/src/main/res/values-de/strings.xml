@@ -1256,6 +1256,7 @@
   <string name="formula_editor_device_phiro">Phiro</string>
   <string name="formula_editor_device_raspberry">Raspberry Pi</string>
   <string name="formula_editor_device_drone">Drohne</string>
+  <string name="formula_editor_device_nfc">NFC</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>

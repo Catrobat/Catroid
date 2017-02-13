@@ -81,9 +81,9 @@
   <string name="nothing_to_rename">名前を変更するものはありません</string>
   <string name="unpack_background">プログラムの背景が置き換えられます</string>
   <string name="degrees">度</string>
-  <string name="landscape">landscape</string>
-  <string name="portrait">portrait</string>
-  <string name="unknown">unknown</string>
+  <string name="landscape">ランドスケープ (横長モード)</string>
+  <string name="portrait">ポートレート (縦長モード)</string>
+  <string name="unknown">不明</string>
   <!--  -->
   <!-- Main menu activity -->
   <string name="main_menu_new">新しい</string>
@@ -954,7 +954,7 @@
   <string name="ev3_motor_stop">EV3 モーターを停止</string>
   <string name="ev3_motor_move">EV3 モーターを設定</string>
   <string name="ev3_motor_power_to">先</string>
-  <string name="ev3_motor_power">パワー</string>
+  <string name="ev3_motor_power">スピード</string>
   <string name="ev3_motor_move_for_period">次の</string>
   <string name="ev3_brick_motor_turn_angle">EV3 モーターの回転</string>
   <string name="ev3_motor_move_by">によって</string>
@@ -1174,11 +1174,11 @@
   <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
   <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
   <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
-  <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 タッチ センサー</string>
-  <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 赤外線センサー</string>
-  <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 カラーセンサー</string>
-  <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 カラーセンサー周囲</string>
-  <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">Ev3 カラーセンサー反映</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3_touch</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3_infrared</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_color</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_color_ambient</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_color_reflected</string>
   <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
   <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
   <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -1223,6 +1223,7 @@
   <string name="formula_editor_device_phiro">Phiro</string>
   <string name="formula_editor_device_raspberry">Raspberry Pi</string>
   <string name="formula_editor_device_drone">ドローン</string>
+  <string name="formula_editor_device_nfc">NFC</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
