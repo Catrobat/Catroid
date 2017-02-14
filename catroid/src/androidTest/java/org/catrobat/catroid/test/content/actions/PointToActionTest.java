@@ -88,6 +88,16 @@ public class PointToActionTest extends AndroidTestCase {
 		assertEquals("Wrong direction", 135f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
 	}
 
+	public void testPointToBothSpritesOnSamePosition() {
+		pointedSprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(45);
+
+		createPointToAction(sprite, pointedSprite).act(1.0f);
+
+		assertEquals("Wrong direction", 90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+	}
+
 	private Action createPointToAction(Sprite sprite, Sprite pointedSprite) {
 		return sprite.getActionFactory().createPointToAction(sprite, pointedSprite);
 	}

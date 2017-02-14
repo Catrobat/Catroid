@@ -49,7 +49,7 @@ public class PointToAction extends TemporalAction {
 
 		double rotationDegrees;
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
-			rotationDegrees = 0;
+			rotationDegrees = 90;
 		} else if (spriteXPosition == pointedSpriteXPosition) {
 			if (spriteYPosition < pointedSpriteYPosition) {
 				rotationDegrees = 0;
