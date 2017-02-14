@@ -57,39 +57,39 @@ import java.util.List;
 
 public class UtilDynamicListView {
 
-	public static final int SMOOTH_SCROLL_AMOUNT_AT_EDGE = 15;
-	public static final int MOVE_DURATION = 100;
-	public static final int LINE_THICKNESS = 15;
-	public static final int INVALID_POINTER_ID = -1;
-	static final int INVALID_ID = -1;
+	private static final int SMOOTH_SCROLL_AMOUNT_AT_EDGE = 15;
+	private static final int MOVE_DURATION = 100;
+	private static final int LINE_THICKNESS = 15;
+	private static final int INVALID_POINTER_ID = -1;
+	private static final int INVALID_ID = -1;
 
 	private final ListView listView;
 
 	private SpritesListFragment spritesListFragment = null;
 
-	List dataList;
-	boolean forSpriteList = false;
-	boolean dismissLongPress = false;
-	int lastEventY = -1;
-	int downY = -1;
-	int totalOffset = 0;
-	boolean cellIsMobile = false;
-	boolean isMobileScrolling = false;
-	int smoothScrollAmountAtEdge = 0;
+	private List dataList;
+	private boolean forSpriteList = false;
+	private boolean dismissLongPress = false;
+	private int lastEventY = -1;
+	private int downY = -1;
+	private int totalOffset = 0;
+	private boolean cellIsMobile = false;
+	private boolean isMobileScrolling = false;
+	private int smoothScrollAmountAtEdge = 0;
 
-	long aboveItemId = INVALID_ID;
-	long mobileItemId = INVALID_ID;
-	long belowItemId = INVALID_ID;
-	BitmapDrawable hoverCell;
-	Rect hoverCellCurrentBounds;
-	Rect hoverCellOriginalBounds;
-	int activePointerId = INVALID_POINTER_ID;
-	boolean isWaitingForScrollFinish = false;
-	int scrollState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+	private long aboveItemId = INVALID_ID;
+	private long mobileItemId = INVALID_ID;
+	private long belowItemId = INVALID_ID;
+	private BitmapDrawable hoverCell;
+	private Rect hoverCellCurrentBounds;
+	private Rect hoverCellOriginalBounds;
+	private int activePointerId = INVALID_POINTER_ID;
+	private boolean isWaitingForScrollFinish = false;
+	private int scrollState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
-	boolean swapElementsOnlyOnDrop = false;
+	private boolean swapElementsOnlyOnDrop = false;
 
-	public UtilDynamicListView(ListView listView) {
+	UtilDynamicListView(ListView listView) {
 		this.listView = listView;
 	}
 
@@ -108,17 +108,17 @@ public class UtilDynamicListView {
 				}
 			};
 
-	boolean adapterViewOnItemLongClick(int position) {
+	private boolean adapterViewOnItemLongClick(int position) {
 
 		int adapterPosition = position;
 		if (forSpriteList) {
 			adapterPosition = getAdapterPositionForVisibleListViewPosition(position);
-			getSpriteAdapter().getSpriteList().get(adapterPosition).setIsMobile(true);
 			if (adapterPosition == 0) {
 				return true;
 			} else if (getSpriteAdapter().isGroupPosition(adapterPosition)) {
 				spritesListFragment.collapseAllGroups();
 			}
+			getSpriteAdapter().getSpriteList().get(adapterPosition).setIsMobile(true);
 		}
 
 		handleLongPress(position, adapterPosition);
@@ -134,14 +134,17 @@ public class UtilDynamicListView {
 		View selectedView = listView.getChildAt(itemNum);
 		mobileItemId = getItemId(adapterPosition);
 
-		adapterPosition = getAdapterPositionForVisibleListViewPosition(position);
-		Sprite sprite = getSpriteAdapter().getSpriteList().get(adapterPosition);
-		boolean isGroupItemSprite = sprite instanceof GroupItemSprite;
+		if (forSpriteList) {
+			adapterPosition = getAdapterPositionForVisibleListViewPosition(position);
+			Sprite sprite = getSpriteAdapter().getSpriteList().get(adapterPosition);
+			boolean isGroupItemSprite = sprite instanceof GroupItemSprite;
 
-		hoverCell = getAndAddHoverView(selectedView, isGroupItemSprite);
-		if (!forSpriteList) {
-			selectedView.setVisibility(ListView.INVISIBLE);
+			hoverCell = getAndAddHoverView(selectedView, isGroupItemSprite);
+		} else {
+			hoverCell = getAndAddHoverView(selectedView, false);
 		}
+
+		selectedView.setVisibility(ListView.INVISIBLE);
 		cellIsMobile = true;
 		updateNeighborViewsForID(mobileItemId);
 	}
@@ -166,7 +169,7 @@ public class UtilDynamicListView {
 		Bitmap bitmap = getBitmapFromView(v);
 		Canvas can = new Canvas(bitmap);
 		Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-		int strokeWidth = isGroupItemSprite ? 0 : 15;
+		int strokeWidth = isGroupItemSprite ? 0 : LINE_THICKNESS;
 
 		Paint paint = new Paint();
 		paint.setStyle(Paint.Style.STROKE);
@@ -220,7 +223,7 @@ public class UtilDynamicListView {
 		}
 	}
 
-	public View getViewForID(long itemID) {
+	private View getViewForID(long itemID) {
 		int firstVisiblePosition = listView.getFirstVisiblePosition();
 		for (int i = 0; i < listView.getChildCount(); i++) {
 			View v = listView.getChildAt(i);
@@ -238,7 +241,7 @@ public class UtilDynamicListView {
 		return null;
 	}
 
-	public int getPositionForID(long itemID) {
+	private int getPositionForID(long itemID) {
 		View v = getViewForID(itemID);
 		if (v == null) {
 			return INVALID_ID;
@@ -247,13 +250,13 @@ public class UtilDynamicListView {
 		}
 	}
 
-	public void dispatchDraw(Canvas canvas) {
+	void dispatchDraw(Canvas canvas) {
 		if (hoverCell != null) {
 			hoverCell.draw(canvas);
 		}
 	}
 
-	public boolean onTouchEvent(MotionEvent event) {
+	boolean onTouchEvent(MotionEvent event) {
 		dismissLongPress = false;
 
 		switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -550,7 +553,9 @@ public class UtilDynamicListView {
 		final View mobileView = getViewForID(mobileItemId);
 		if (cellIsMobile || isWaitingForScrollFinish) {
 			handleCellSwitch(true);
-			ProjectManager.getInstance().getCurrentProject().refreshSpriteReferences();
+			if (forSpriteList) {
+				ProjectManager.getInstance().getCurrentProject().refreshSpriteReferences();
+			}
 
 			cellIsMobile = false;
 			isWaitingForScrollFinish = false;
@@ -580,7 +585,10 @@ public class UtilDynamicListView {
 
 				@Override
 				public void onAnimationEnd(Animator animation) {
-					unsetSpriteMobileState();
+					if (forSpriteList) {
+						unsetSpriteMobileState();
+					}
+
 					aboveItemId = INVALID_ID;
 					mobileItemId = INVALID_ID;
 					belowItemId = INVALID_ID;
@@ -599,7 +607,7 @@ public class UtilDynamicListView {
 		}
 	}
 
-	public void notifyListItemTouchActionUp() {
+	void notifyListItemTouchActionUp() {
 		if (dismissLongPress) {
 			touchEventsCancelled();
 		}
@@ -608,7 +616,9 @@ public class UtilDynamicListView {
 	private void touchEventsCancelled() {
 		if (cellIsMobile) {
 			View mobileView = getViewForID(mobileItemId);
-			unsetSpriteMobileState();
+			if (forSpriteList) {
+				unsetSpriteMobileState();
+			}
 			aboveItemId = INVALID_ID;
 			mobileItemId = INVALID_ID;
 			belowItemId = INVALID_ID;
@@ -650,7 +660,7 @@ public class UtilDynamicListView {
 					interpolate(startValue.bottom, endValue.bottom, fraction));
 		}
 
-		public int interpolate(int start, int end, float fraction) {
+		int interpolate(int start, int end, float fraction) {
 			return (int) (start + fraction * (end - start));
 		}
 	};
@@ -659,7 +669,7 @@ public class UtilDynamicListView {
 		isMobileScrolling = handleMobileCellScroll(hoverCellCurrentBounds);
 	}
 
-	public boolean handleMobileCellScroll(Rect r) {
+	private boolean handleMobileCellScroll(Rect r) {
 		int offset = 0;
 		int extent = 0;
 		int range = 0;
@@ -694,11 +704,11 @@ public class UtilDynamicListView {
 		return false;
 	}
 
-	public void setDataList(List data) {
+	void setDataList(List data) {
 		dataList = data;
 	}
 
-	public void isForSpriteList() {
+	void isForSpriteList() {
 		forSpriteList = true;
 	}
 
@@ -743,7 +753,7 @@ public class UtilDynamicListView {
 			}
 		}
 
-		public void checkAndHandleFirstVisibleCellChange() {
+		void checkAndHandleFirstVisibleCellChange() {
 			if (currentFirstVisibleItem != previousFirstVisibleItem && cellIsMobile && mobileItemId != INVALID_ID) {
 				updateNeighborViewsForID(mobileItemId);
 				if (!swapElementsOnlyOnDrop) {
@@ -752,7 +762,7 @@ public class UtilDynamicListView {
 			}
 		}
 
-		public void checkAndHandleLastVisibleCellChange() {
+		void checkAndHandleLastVisibleCellChange() {
 			int currentLastVisibleItem = currentFirstVisibleItem + currentVisibleItemCount;
 			int previousLastVisibleItem = previousFirstVisibleItem + previousVisibleItemCount;
 			if (currentLastVisibleItem != previousLastVisibleItem && cellIsMobile && mobileItemId != INVALID_ID) {
@@ -768,7 +778,7 @@ public class UtilDynamicListView {
 		this.spritesListFragment = spritesListFragment;
 	}
 
-	public SpritesListFragment getSpritesListFragment() {
+	SpritesListFragment getSpritesListFragment() {
 		return spritesListFragment;
 	}
 

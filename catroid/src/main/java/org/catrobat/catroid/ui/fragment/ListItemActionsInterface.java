@@ -47,7 +47,7 @@ public interface ListItemActionsInterface {
 
 	void handleAddButton();
 
-	void showRenameDialog();
-
 	void showDeleteDialog();
+
+	void showRenameDialog();
 }

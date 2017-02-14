@@ -25,17 +25,12 @@ package org.catrobat.catroid.content.bricks;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -45,7 +40,6 @@ import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -95,28 +89,9 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 			alphaValue = 255;
 		}
 		view = View.inflate(context, R.layout.brick_broadcast, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_broadcast_checkbox);
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(BroadcastBrick.this, isChecked);
-			}
-		});
-
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
-		broadcastSpinner.setFocusableInTouchMode(false);
-		broadcastSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			broadcastSpinner.setClickable(true);
-			broadcastSpinner.setEnabled(true);
-		} else {
-			broadcastSpinner.setClickable(false);
-			broadcastSpinner.setEnabled(false);
-		}
 
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -128,7 +103,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 					showNewMessageDialog(broadcastSpinner);
 				} else {
 					broadcastMessage = selectedMessage;
-					adapterView = parent;
 				}
 			}
 
@@ -145,38 +119,11 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_broadcast, null);
 		Spinner broadcastSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_spinner);
-		broadcastSpinner.setFocusableInTouchMode(false);
-		broadcastSpinner.setFocusable(false);
-		broadcastSpinner.setEnabled(false);
 
 		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
 		setSpinnerSelection(broadcastSpinner);
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_broadcast_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textBroadcastLabel = (TextView) view.findViewById(R.id.brick_broadcast_label);
-			textBroadcastLabel.setTextColor(textBroadcastLabel.getTextColors().withAlpha(alphaValue));
-			Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
-			ColorStateList color = textBroadcastLabel.getTextColors().withAlpha(alphaValue);
-			broadcastSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	protected void setSpinnerSelection(Spinner spinner) {
@@ -187,23 +134,19 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	// TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
 	protected void showNewMessageDialog(final Spinner spinner) {
 		final Context context = spinner.getContext();
-		BrickTextDialog editDialog = new BrickTextDialog() {
+		BrickTextDialog editDialog = new BrickTextDialog(R.string.dialog_new_broadcast_message_title, R.string
+				.dialog_new_broadcast_message_name, context.getString(R.string.new_broadcast_message)) {
 
 			@Override
-			protected void initialize() {
-				inputTitle.setText(R.string.dialog_new_broadcast_message_name);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
+			protected boolean handlePositiveButtonClick() {
 				String newMessage = input.getText().toString().trim();
-				if (newMessage.isEmpty() || newMessage.equals(context.getString(R.string.new_broadcast_message))) {
+				if (newMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					dismiss();
 					return false;
 				}
 
 				if (newMessage.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR)) {
-					Utils.showErrorDialog(getActivity(), R.string.brick_broadcast_invalid_symbol);
+					input.setError(getString(R.string.brick_broadcast_invalid_symbol));
 					return false;
 				}
 
@@ -217,11 +160,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 			public void onDismiss(DialogInterface dialog) {
 				setSpinnerSelection(spinner);
 				super.onDismiss(dialog);
-			}
-
-			@Override
-			protected String getTitle() {
-				return getString(R.string.dialog_new_broadcast_message_title);
 			}
 		};
 

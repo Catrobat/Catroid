@@ -37,7 +37,6 @@ import org.catrobat.catroid.scratchconverter.protocol.BaseMessageHandler;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.scratchconverter.protocol.MessageListener;
 import org.catrobat.catroid.scratchconverter.protocol.command.AuthenticateCommand;
-import org.catrobat.catroid.scratchconverter.protocol.command.CancelDownloadCommand;
 import org.catrobat.catroid.scratchconverter.protocol.command.Command;
 import org.catrobat.catroid.scratchconverter.protocol.command.RetrieveInfoCommand;
 import org.catrobat.catroid.scratchconverter.protocol.command.ScheduleJobCommand;
@@ -224,13 +223,6 @@ public final class WebSocketClient<T extends MessageListener & StringCallback>
 	}
 
 	@Override
-	public void cancelDownload(final long jobID) {
-		Preconditions.checkState(state == State.CONNECTED_AUTHENTICATED);
-		Preconditions.checkState(clientID != INVALID_CLIENT_ID);
-		sendCommand(new CancelDownloadCommand(jobID));
-	}
-
-	@Override
 	public void onUserCanceledConversion(long jobID) {
 		Preconditions.checkState(state == State.CONNECTED_AUTHENTICATED);
 		Preconditions.checkState(clientID != INVALID_CLIENT_ID);
@@ -245,10 +237,9 @@ public final class WebSocketClient<T extends MessageListener & StringCallback>
 
 			final Job[] jobs = infoMessage.getJobList();
 			for (Job job : jobs) {
-				DownloadFinishedCallback downloadCallback = messageListener.restoreJobIfRunning(job, convertCallback);
+				DownloadCallback downloadCallback = messageListener.restoreJobIfRunning(job, convertCallback);
 				if (downloadCallback != null) {
-					Log.i(TAG, "Downloading missed converted project...");
-					convertCallback.onConversionFinished(job, downloadCallback, job.getDownloadURL(), null);
+					convertCallback.onConversionAlreadyFinished(job, downloadCallback, job.getDownloadURL());
 				}
 			}
 			return;

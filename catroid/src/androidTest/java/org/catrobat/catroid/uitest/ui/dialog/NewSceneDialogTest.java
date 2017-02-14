@@ -33,7 +33,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class NewSceneDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private Project testingproject;
+	private Project testingProject;
 
 	public NewSceneDialogTest() {
 		super(MainMenuActivity.class);
@@ -43,21 +43,21 @@ public class NewSceneDialogTest extends BaseActivityInstrumentationTestCase<Main
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		String testingprojectName = UiTestUtils.PROJECTNAME1;
-		UiTestUtils.createTestProject(testingprojectName);
-		testingproject = ProjectManager.getInstance().getCurrentProject();
-		String testingsceneName = "testingscene";
-		Scene testingscene = new Scene(null, testingsceneName, testingproject);
-		testingproject.addScene(testingscene);
-		StorageHandler.getInstance().saveProject(testingproject);
-		ProjectManager.getInstance().loadProject(testingprojectName, getActivity());
+		String testingProjectName = UiTestUtils.PROJECTNAME1;
+		UiTestUtils.createTestProject(testingProjectName);
+		testingProject = ProjectManager.getInstance().getCurrentProject();
+		String testingSceneName = "testingScene";
+		Scene testingScene = new Scene(null, testingSceneName, testingProject);
+		testingProject.addScene(testingScene);
+		StorageHandler.getInstance().saveProject(testingProject);
+		ProjectManager.getInstance().loadProject(testingProjectName, getActivity());
 		UiTestUtils.getIntoScenesFromMainMenu(solo);
 	}
 
 	public void testNewSceneDialogEmpty() {
-		testingproject = ProjectManager.getInstance().getCurrentProject();
+		testingProject = ProjectManager.getInstance().getCurrentProject();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		String defaultSceneName = String.format(solo.getString(R.string.default_scene_name), testingproject
+		String defaultSceneName = String.format(solo.getString(R.string.default_scene_name), testingProject
 				.getSceneList().size());
 		assertTrue("Default name should be " + defaultSceneName, solo.waitForText(defaultSceneName));
 
@@ -65,7 +65,7 @@ public class NewSceneDialogTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.sleep(1000);
 
-		Scene newScene = testingproject.getSceneByName(defaultSceneName);
+		Scene newScene = testingProject.getSceneByName(defaultSceneName);
 		assertNotNull("New scene was not added", newScene);
 		assertTrue("New Scene is not empty", newScene.getSpriteList().size() == 1 && newScene.getSpriteList().get(0)
 				.getListWithAllBricks().size() == 0 && newScene.getSpriteList().get(0).getSoundList().size() == 0

@@ -247,7 +247,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("click on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list_backpack_text_heading);
+		solo.waitForFragmentById(R.id.backpack_text_heading);
 		UiTestUtils.addNewSprite(solo, "testSprite", lookFile, null);
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -305,7 +305,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		int pixelColor;
 		int expectedImageWidth = getActivity().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
 		int expectedImageHeigth = getActivity().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
-		int imageViewID = R.id.my_projects_activity_project_image;
+		int imageViewID = R.id.list_item_image_view;
 		Bitmap viewBitmap;
 		int counter = 0;
 		//solo.sleep(100000000);
@@ -391,7 +391,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			if (projectTitleCounter == 2) {
 				break;
 			}
-			if (textView.getId() == R.id.my_projects_activity_project_title) {
+			if (textView.getId() == R.id.list_item_text_view) {
 				projectTitleCounter++;
 				switch (projectTitleCounter) {
 					case 1:
@@ -431,7 +431,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(500);
 		int currentViewID;
 		int pixelColor;
-		int imageViewID = R.id.my_projects_activity_project_image;
+		int imageViewID = R.id.list_item_image_view;
 		Bitmap viewBitmap;
 		int counter = 0;
 		ArrayList<View> currentViewList = solo.getCurrentViews();
@@ -740,48 +740,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.sleep(200);
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
-	}
-
-	public void testProjectOverview() {
-		int showOverviewButtonId = R.id.my_projects_activity_show_overview;
-		int editDescriptionButtonId = R.id.my_projects_activity_edit_description_button;
-		String description = "testDescription";
-
-		createProjectsWithoutSprites();
-		solo.sleep(200);
-		Project project = StorageHandler.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-
-		assertTrue("show Overview Button not found for every project", solo.waitForView(showOverviewButtonId, 2, 1000));
-		solo.clickOnView(solo.getView(showOverviewButtonId, 0));
-		solo.sleep(200);
-		View overviewView = solo.getView(R.id.my_projects_activity_list_item_overview, 0);
-		View descriptionText = solo.getView(R.id.my_projects_activity_description_content, 0);
-		View descriptionEdit = solo.getView(R.id.my_projects_activity_description_edit, 0);
-		assertEquals("overview should be visible", View.VISIBLE, overviewView.getVisibility());
-		assertEquals("descriptionText should be visible", View.VISIBLE, descriptionText.getVisibility());
-		assertEquals("descriptionEdit should not be visible", View.GONE, descriptionEdit.getVisibility());
-
-		solo.clickOnView(solo.getView(editDescriptionButtonId));
-		solo.sleep(200);
-		assertEquals("descriptionText should not be visible", View.GONE, descriptionText.getVisibility());
-		assertEquals("descriptionEdit should be visible", View.VISIBLE, descriptionEdit.getVisibility());
-		assertEquals("description should be empty", "", project.getXmlHeader().getDescription());
-
-		UiTestUtils.enterText(solo, 0, description);
-
-		solo.goBack();
-		solo.sleep(200);
-		assertEquals("descriptionText should be visible", View.VISIBLE, descriptionText.getVisibility());
-		assertEquals("descriptionEdit should not be visible", View.GONE, descriptionEdit.getVisibility());
-
-		solo.clickOnView(solo.getView(showOverviewButtonId, 0));
-		solo.sleep(200);
-		assertEquals("overview should not be visible", View.GONE, overviewView.getVisibility());
-		project = StorageHandler.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
-		assertEquals("description was not saved", description, project.getXmlHeader().getDescription());
 	}
 
 	public void testItemClick() {
@@ -1094,7 +1052,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testCancelRenameActionMode() {
 		String rename = solo.getString(R.string.rename);
-		String cancel = solo.getString(R.string.cancel_button);
+		String cancel = solo.getString(R.string.cancel);
 		String ok = solo.getString(R.string.ok);
 		createProjects();
 		solo.sleep(200);
@@ -1320,7 +1278,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 
-		View projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
+		View projectDetails = solo.getView(R.id.list_item_details);
 		solo.waitForView(projectDetails);
 		UiTestUtils.openOptionsMenu(solo);
 
@@ -1347,7 +1305,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(500);
 
 		//get details view again, otherwise assert will fail
-		projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
+		projectDetails = solo.getView(R.id.list_item_details);
 		assertEquals("Project details are still showing!", View.GONE, projectDetails.getVisibility());
 
 		solo.sleep(400);
@@ -1384,7 +1342,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 
-		View projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
+		View projectDetails = solo.getView(R.id.list_item_details);
 		solo.waitForView(projectDetails);
 		UiTestUtils.openOptionsMenu(solo);
 
@@ -1393,7 +1351,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(400);
 
 		//get details view again, otherwise assert will fail
-		projectDetails = solo.getView(R.id.my_projects_activity_list_item_details);
+		projectDetails = solo.getView(R.id.list_item_details);
 		assertEquals("Project details are not showing!", View.VISIBLE, projectDetails.getVisibility());
 
 		assertTrue("Last access is not correct!", solo.searchText(solo.getString(R.string.details_date_today)));
@@ -2195,7 +2153,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		Bitmap viewBitmap;
 		int currentViewID;
-		int imageViewID = R.id.my_projects_activity_project_image;
+		int imageViewID = R.id.list_item_image_view;
 		byte[] pixel = null;
 
 		ArrayList<View> currentViews = solo.getCurrentViews();

@@ -46,11 +46,10 @@
         android:id="@+id/bottom_bar"
         layout="@layout/bottom_bar" />
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar"
-        class="org.catrobat.catroid.ui.fragment.ProjectsListFragment" />
+        android:layout_above="@id/bottom_bar"/>
 
 </RelativeLayout >

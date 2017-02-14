@@ -24,16 +24,17 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
-  <string name="app_name">ポケット\nコード</string>
-  <string name="cancel_button">キャンセル</string>
-  <string name="next_button">次へ</string>
-  <string name="done_button">完了</string>
+  <string name="app_name">ポケット
+コード</string>
+  <string name="cancel">キャンセル</string>
+  <string name="next">次へ</string>
+  <string name="done">完了</string>
   <string name="rename">名前の変更</string>
   <string name="delete">削除</string>
   <string name="yes">はい</string>
   <string name="no">いいえ</string>
   <string name="copy">コピー</string>
-  <string name="cut">カット</string>
+  <string name="cut">切り取り</string>
   <string name="move">移動</string>
   <string name="backpack_add">バックパックに追加</string>
   <string name="backpack">バックパック</string>
@@ -45,8 +46,9 @@
   <string name="copy_addition">コピー</string>
   <string name="close">閉じる</string>
   <string name="error">エラー</string>
-  <string name="please_wait">お待ちください</string>
+  <string name="please_wait">しばらくお待ちください</string>
   <string name="loading">読み込み中&#8230;</string>
+  <string name="search_hint">検索&#8230;</string>
   <string name="no_internet">インターネットがありません</string>
   <string name="loading_check_token">私たちのサーバーでトークンをチェックします&#8230;</string>
   <string name="loading_check_facebook_data">Facebook のデータを取得します&#8230;</string>
@@ -61,6 +63,7 @@
   <string name="background">背景</string>
   <string name="stage">ステージ</string>
   <string name="ok">わかりました</string>
+  <string name="play">プレイ</string>
   <string name="settings">設定</string>
   <string name="redo">リドゥー</string>
   <string name="undo">取り消す</string>
@@ -77,6 +80,9 @@
   <string name="nothing_to_rename">名前を変更するものはありません</string>
   <string name="unpack_background">プログラムの背景が置き換えられます</string>
   <string name="degrees">度</string>
+  <string name="landscape">ランドスケープ (横長モード)</string>
+  <string name="portrait">ポートレート (縦長モード)</string>
+  <string name="unknown">不明</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">新しい</string>
   <string name="main_menu_continue">続行</string>
@@ -87,13 +93,18 @@
   <string name="main_menu_about_pocketcode">ポケットコードについて</string>
   <string name="main_menu_terms_of_use">利用規約</string>
   <string name="main_menu_rate_app">アプリを評価して！</string>
-  <string name="main_menu_play_store_not_installed">プレイストア アプリが見つかりません</string>
+  <string name="main_menu_play_store_not_installed">Play ストア アプリが見つかりません</string>
   <string name="main_menu_logout">ログアウト</string>
   <string name="main_menu_login">ログイン</string>
+  <string name="main_menu_scratch_converter">スクラッチ コンバーター</string>
   <string name="logout_successful">ログアウトしました</string>
+  <!-- Marketing activity -->
+  <string name="marketing_created_with">作成</string>
+  <string name="marketing_app_details">このアプリの詳細について</string>
+  <string name="marketing_more_on_google_play">Google Play でより多くのアプリ</string>
   <!-- Settings activity -->
   <string name="preference_title">設定</string>
-  <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 ブロック</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone ブロック</string>
   <string name="preference_description_quadcopter_bricks">ARDrone 2.0 quadcopter を制御することができます</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">レゴ マインドストーム NXT ブロック</string>
   <string name="preference_description_mindstorms_nxt_bricks">レゴ マインドストーム NXT ロボットを制御することができます</string>
@@ -102,9 +113,11 @@
   <string name="preference_title_enable_phiro_bricks">Phiro ブロック</string>
   <string name="preference_description_phiro_bricks">Phiro ロボットを制御することができます</string>
   <string name="preference_title_enable_arduino_bricks">Arduino ブロック</string>
-  <string name="preference_title_enable_nfc_bricks">近距離無線通信</string>
+  <string name="preference_title_enable_nfc_bricks">近距離無線通信 (NFC)</string>
   <string name="preference_description_nfc_bricks">プログラムで NFC タグを使用することができます</string>
-  <string name="preference_description_arduino_bricks">Arduino ブロックを制御することができます</string>
+  <string name="preference_description_crash_reports">自動的にクラッシュレポートを送信することができます</string>
+  <string name="preference_title_enable_crash_reports">匿名のクラッシュ レポートを送信</string>
+  <string name="preference_description_arduino_bricks">Arduino ボードを制御することができます</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi ブロック</string>
   <string name="preference_description_raspi_bricks">Raspberry Pi コンピューターを制御することができます</string>
   <string name="preference_raspi_enable_bricks">Raspberry Pi ブロックを有効にする</string>
@@ -112,14 +125,129 @@
   <string name="preference_raspi_help_summary">接続を設定する方法についてヘルプを表示します</string>
   <string name="preference_raspi_host">Raspberry Pi IP/ホスト アドレス</string>
   <string name="preference_raspi_port">Raspberry Pi ポート</string>
+  <string name="preference_title_access">アクセシビリティ</string>
+  <string name="preference_description_access">プロファイルを選択して、ポケットコード UI の個人設定を構成します</string>
+  <string name="preference_access_title_activity_access">アクセシビリティの設定</string>
+  <string name="preference_access_profiles">プロファイル</string>
+  <string name="preference_access_predefined_profiles">定義済みのプロファイル</string>
+  <string name="preference_access_active_profile">有効なプロファイル</string>
+  <string name="preference_access_selected_profile">選択したプロファイル</string>
+  <string name="preference_access_change_profile">定義済みのプロファイルに切り替える</string>
+  <string name="preference_access_apply_profile">このプロファイルを適用</string>
+  <string name="preference_access_settings">設定</string>
+  <string name="preference_access_title_large_text">大きな文字</string>
+  <string name="preference_access_summary_large_text">大きな文字の設定は、文字のサイズを大きくします。</string>
+  <string name="preference_access_choose_fontface">フォントフェイスを選択</string>
+  <string name="preference_access_title_fontface">フォントフェイス</string>
+  <string name="preference_access_summary_fontface">フォントフェイスで、お好みのフォントのスタイルを選択することができます。</string>
+  <string name="preference_access_title_fontface_standard">標準</string>
+  <string name="preference_access_title_fontface_serif">セリフ</string>
+  <string name="preference_access_title_fontface_dyslexic">ディスレクシア</string>
+  <string name="preference_access_title_high_contrast">高コントラスト</string>
+  <string name="preference_access_summary_high_contrast">コントラストを高くして、ブロック上の文字を読みやすくします。</string>
+  <string name="preference_access_title_additional_icons">追加アイコン</string>
+  <string name="preference_access_summary_additional_icons">カテゴリとブロックにアイコンを追加して、認知性を改善します。</string>
+  <string name="preference_access_title_large_icons">大きいアイコン</string>
+  <string name="preference_access_summary_large_icons">アイコンのサイズを大きくします。</string>
+  <string name="preference_access_title_high_contrast_icons">アイコンのコントラスト</string>
+  <string name="preference_access_summary_high_contrast_icons">ブロックのアイコンを高いコントラストのアイコンに変更します。        </string>
+  <string name="preference_access_title_largeelementspacing">大きな要素の間隔</string>
+  <string name="preference_access_summary_largeelementspacing">大きな要素の間隔は、タッチすることができる要素間の領域を増やします。</string>
+  <string name="preference_access_title_starter_bricks">開始ブロック</string>
+  <string name="preference_access_summary_starter_bricks">学習を容易にするため、開始ブロックのみを表示します。</string>
+  <string name="preference_access_title_dragndrop_delay">ドラッグ＆ドロップの遅延</string>
+  <string name="preference_access_summary_dragndrop_delay">ブロックのドラッグ＆ドロップを遅らせます。</string>
+  <string name="preference_access_title_profile_standard">標準</string>
+  <string name="preference_access_summary_profile_standard">標準の設定</string>
+  <string name="preference_access_title_profile_myprofile">&amp;#x30D7;&amp;#x30ED;&amp;#x30B8;&amp;#x30A7;&amp;#x30AF;&amp;#x30C8;</string>
+  <string name="preference_access_summary_profile_myprofile">個人用の設定</string>
+  <string name="preference_access_title_profile_1">アーガス</string>
+  <string name="preference_access_summary_profile_1">視覚改善: 高コントラスト、追加アイコン</string>
+  <string name="preference_access_title_profile_2">オーディン</string>
+  <string name="preference_access_summary_profile_2">視覚改善: 大きなテキスト、大きいアイコン、大きな要素間隔、高コントラスト</string>
+  <string name="preference_access_title_profile_3">フェンリル</string>
+  <string name="preference_access_summary_profile_3">入力の改善: 大きな要素の間隔、ドラッグ＆ドロップの遅延</string>
+  <string name="preference_access_title_profile_4">ティロ</string>
+  <string name="preference_access_summary_profile_4">学習: 開始ブロック</string>
+  <string name="preference_access_title_created_profile">作成されたプロファイル</string>
+  <string name="preference_access_summary_created_profile">新しいプロファイルを作成しました! \'私のプロファイル\' で変更を見ることができます。</string>
+  <string name="preference_access_title_restart">プロファイルの適用</string>
+  <string name="preference_access_summary_restart">ポケットコードは、変更内容を適用するために再起動されます。</string>
+  <!-- Scratch Converter activity -->
+  <string name="beta">ベータ</string>
+  <string name="title_activity_scratch_converter">スクラッチ プログラムを変換</string>
+  <string name="error_scratch_program_not_accessible_any_more">このプログラムのデータはもうアクセス可能ではありません!</string>
+  <string name="error_scratch_project_data_not_available">このスクラッチ プログラムから一部のデータを読み込めませんでした。後でもう一度やり直してください!</string>
+  <string name="error_request_timeout">現時点ではサーバーに到達不能です。後でやり直してください!</string>
+  <string name="error_scratch_program_conversion_failed">スクラッチ プログラムの変換に失敗しました。もう一度やり直してください!</string>
+  <string name="error_specific_scratch_program_conversion_failed_x">%1$s の変換に失敗しました。後でもう一度やり直してください!</string>
+  <string name="error_scratch_converter_outdated_pocketcode_version">ポケットコード アプリが古いです。スクラッチ コンバーターはポケットコードの最新バージョンのみをサポートしています。Google Play ストアで更新してください!</string>
+  <string name="error_cannot_open_not_existing_scratch_program">このスクラッチ プログラムを開くことができません。スクラッチ プログラムの変換/ダウンロードをキャンセルしたか、プログラムの名前を変更/削除した可能性があります!</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">ダウンロード中はこのスクラッチ プログラムを開くことができません! 後でもう一度試してください!</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">ダウンロードされるまではこのスクラッチ プログラムを開くことができません! 後でもう一度試してください!</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">%1$s を変換できません! %2$s 前の古いスクラッチ プログラムはサポートされていません!</string>
+  <plurals name="error_cannot_convert_more_than_x_programs">
+    <item quantity="other">同時に %d 以上のプログラムを変換できません!</item>
+  </plurals>
+  <string name="error_cannot_open_failed_scratch_program">変換に失敗したため、スクラッチ プログラムを開くことができません!</string>
+  <string name="search_failed">検索に失敗しました。 後でもう一度やり直してください!</string>
+  <string name="connection_lost_or_closed_by_server">接続を失った、またはサーバーから切断されました!</string>
+  <string name="connection_failed">サーバーへの接続に失敗しました。後でもう一度やり直してください!</string>
+  <string name="authentication_failed">認証に失敗しました。ポケットコード チームにご連絡ください!</string>
+  <plurals name="scratch_conversion_scheduled_x">
+    <item quantity="other">%d スクラッチ プログラムをスケジュールしました&#8230;</item>
+  </plurals>
+  <string name="scratch_conversion_started">スクラッチ プログラムの変換を開始しました&#8230;</string>
+  <string name="convert">変換</string>
+  <string name="converting">変換しています&#8230;</string>
+  <string name="status_scheduled">スケジュール済</string>
+  <string name="status_waiting_for_worker">フリーワーカーを探しています&#8230; しばらくお待ちください&#8230;</string>
+  <string name="status_started">開始しました&#8230;</string>
+  <string name="status_conversion_finished">変換が終了しました</string>
+  <plurals name="status_in_progress_x_jobs">
+    <item quantity="other">進行中: %d ジョブ</item>
+  </plurals>
+  <plurals name="status_completed_x_jobs">
+    <item quantity="other">完了: %d ジョブ</item>
+  </plurals>
+  <string name="status_conversion_failed">変換に失敗しました!</string>
+  <string name="status_conversion_canceled">変換をキャンセルしました!</string>
+  <string name="status_downloading">ダウンロード中&#8230;</string>
+  <string name="status_download_finished">ダウンロードが完了しました!</string>
+  <string name="status_download_canceled">ダウンロードをキャンセルしました!</string>
+  <string name="list_view_section_title_in_progress">進行中</string>
+  <string name="list_view_section_title_converted_programs">変換したプログラム</string>
+  <string name="status">ステータス</string>
+  <string name="title">タイトル</string>
+  <string name="by_x">%1$s によって</string>
+  <string name="by_author">作者によって</string>
+  <string name="warning_program_visibility">警告:\nこれは専用プログラムのようです。変換が失敗する可能性があります!</string>
+  <string name="instructions">説明</string>
+  <string name="notes_and_credits">ノートとクレジット</string>
+  <string name="shared_at_x">共有: %1$s</string>
+  <string name="modified_at_x">更新: %1$s</string>
+  <string name="remixes">リミックス</string>
+  <!-- ScratchReconvertDialog Strings -->
+  <string name="reconvert_text">このプログラムは %1$s 前に変換されました。</string>
+  <plurals name="minutes">
+    <item quantity="other">%d 分</item>
+  </plurals>
+  <plurals name="hours">
+    <item quantity="other">%d 時間</item>
+  </plurals>
+  <plurals name="days">
+    <item quantity="other">%d 日</item>
+  </plurals>
+  <string name="reconvert_dialog_download">既に変換されたプログラムをダウンロード</string>
+  <string name="reconvert_dialog_reconvert">このプログラムを再変換</string>
   <!-- New Object Dialog -->
-  <string name="dialog_new_object_pocketpaint">絵を描く</string>
-  <string name="dialog_new_object_gallery">イメージを選ぶ</string>
-  <string name="dialog_new_object_camera">カメラから</string>
+  <string name="dialog_new_object_pocketpaint">新しい画像を描画します。</string>
+  <string name="dialog_new_object_gallery">画像を選択</string>
+  <string name="dialog_new_object_camera">写真を撮る</string>
   <string name="dialog_new_object_look_preview">外見のプレビュー</string>
   <string name="dialog_new_object_name">オブジェクト名</string>
-  <string name="dialog_new_object_switch_title">新しいオブジェクトの作成</string>
-  <string name="dialog_new_object_switch_message">新しいオブジェクトに切り替えますか？</string>
+  <string name="dialog_new_object_switch_title">新しいオブジェクトを作成しました</string>
+  <string name="dialog_new_object_switch_message">新しいオブジェクトに切り替えますか?</string>
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">利用規約</string>
   <string name="dialog_terms_of_use_info">Catrobat プロジェクトによって提供されるポケットコードおよびその他の実行可能ファイルの使用が許可されるためには、利用規約に同意して、ポケットコードおよび私たちの他の実行可能ファイルを使用するにあたり、それに厳格に従う必要があります。その正確な内容は次のリンクを参照してください。\n\n</string>
@@ -129,32 +257,46 @@
   <string name="dialog_terms_of_use_parrot_reminder_text">Parrot の AR.Drone と一緒にポケットコードを使用しようとしています。ドローンの Parrot の利用規約と Catrobat のポケットコードの利用規約を遵守することをしっかり覚えておいてください。</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">今後表示しない。</string>
   <!-- About Dialog -->
-  <string name="dialog_about_title">キャットロバトについて</string>
+  <string name="dialog_about_title">ポケットコードについて</string>
   <string name="dialog_about_license_info">ポケットコードは、Android 向けビジュアルプログラミング言語 Catrobat のプログラミング環境とインタプリタです。\n\n
 ポケットコードのソースコードは、主に GNU AGPL v3 の下でライセンスされています。
-ライセンスの詳細については、下記リンクをご参照ください。\n</string>
+ライセンスの詳細については、下記リンクを参照してください。\n</string>
   <string name="dialog_about_pocketcode_license_link_text">ポケットコード ソースコード ライセンス</string>
   <string name="dialog_about_catrobat_link_text">キャトロバットについて</string>
   <!-- Project activity view -->
   <string name="project_name">プログラム：</string>
   <string name="my_projects_activity_title">プログラム</string>
+  <string name="number_of_objects">オブジェクト:</string>
+  <string name="start_scene_name">%1$s (最初のシーン)</string>
   <string name="number_of_scripts">スクリプト：</string>
   <string name="number_of_bricks">ブロック：</string>
   <string name="number_of_looks">外見：</string>
   <string name="number_of_sounds">サウンド：</string>
   <string name="show_details">詳細を表示</string>
   <string name="hide_details">詳細を隠す</string>
-  <string name="insert_below">下に挿入します。</string>
+  <string name="insert_below">下に挿入</string>
   <string name="sprite">オブジェクト</string>
   <string name="sprites">オブジェクト</string>
   <string name="spritelist_background_headline">背景</string>
-  <string name="dialog_confirm_delete_object_title">このオブジェクトを削除しますか？</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">これらのオブジェクトを削除しますか？</string>
-  <string name="dialog_confirm_delete_object_message">元に戻すことができない ！</string>
+  <string name="dialog_confirm_delete_object_title">このオブジェクトを削除しますか?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">これらのオブジェクトを削除しますか?</string>
+  <string name="dialog_confirm_delete_object_message">この操作は元に戻せません!</string>
   <string name="select_all">すべてを選択します。</string>
   <string name="deselect_all">すべて選択解除</string>
-  <string name="backpack_replace_object">オブジェクト \"%1$s\" は、既にバックパックに存在します。置き換えますか?</string>
+  <string name="backpack_replace_object">オブジェクト %1$s は、既にバックパックに存在します。置き換えますか?</string>
+  <string name="backpack_replace_scene">シーン %1$s は、既にバックパックに存在します。置き換えますか?</string>
   <string name="backpack_replace_object_multiple">オブジェクトは、既にバックパックに存在します。置き換えますか?</string>
+  <string name="groups_create">グループを作成</string>
+  <string name="group_created">グループが正常に作成されました!</string>
+  <string name="ungroup">グループ化の解除</string>
+  <string name="group_objects_delete">グループとオブジェクトを削除</string>
+  <string name="group">グループ</string>
+  <string name="backpack_replace_scene_multiple">シーンは、既にバックパックに存在します。置き換えますか?</string>
+  <!-- Project overview -->
+  <string name="author">作成者:</string>
+  <string name="screen_size">画面サイズ:</string>
+  <string name="mode">モード:</string>
+  <string name="remix_of">リミックス:</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_コピー</string>
   <!-- Script activity -->
@@ -166,9 +308,10 @@
   <string name="size">プログラムのサイズ：</string>
   <string name="script_group">スクリプト グループ</string>
   <string name="script_groups">スクリプト グループ</string>
-  <string name="userbrick_group">ユーザーブロック グループ</string>
-  <string name="userbrick_groups">ユーザーブロック グループ</string>
-  <string name="script_group_name_given">スクリプトのグループ名は既に指定されています。別のものを選択してください。</string>
+  <string name="userbrick_group">ブロック グループ</string>
+  <string name="userbrick_groups">ブロック グループ</string>
+  <string name="script_group_name_given">この名前のグループがすでに存在します。別のものを選択してください!</string>
+  <string name="group_or_object_name_given">この名前のグループまたはオブジェクトがすでに存在します。別のものを選択してください!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">スクリプトを追加するために「+」をタップしてください</string>
   <string name="dialog_confirm_delete_brick_title">このブロックを削除しますか？</string>
@@ -176,7 +319,7 @@
   <string name="dialog_confirm_delete_multiple_bricks_title">これらのブロックを削除しますか？</string>
   <string name="dialog_confirm_delete_backpack_group_title">このグループを削除しますか?</string>
   <string name="dialog_confirm_delete_multiple_backpack_groups_title">これらのグループを削除しますか?</string>
-  <string name="dialog_confirm_delete_brick_message">元に戻すことができない ！</string>
+  <string name="dialog_confirm_delete_brick_message">この操作は元に戻せません!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">%d 個のブロックを削除</item>
   </plurals>
@@ -190,38 +333,38 @@
   <string name="fragment_look_text_description">外見を追加するに「+」をタップしてください</string>
   <string name="fragment_background_text_description">背景を追加するには「+」をタップしてください</string>
   <string name="rename_look_dialog">外見の名前を変更します</string>
-  <string name="lookname_invalid">外見の名前は無効です</string>
+  <string name="lookname_invalid">この外見の名前は無効です</string>
   <string name="pocket_paint_not_installed_title">ポケットペイントがインストールされていない ！</string>
   <string name="pocket_paint_not_installed">ポケットペイントがインストールされていません！\n今、ポケットペイントをインストールしましょうか？</string>
   <string name="default_look_name">外見</string>
-  <string name="delete_look_dialog">外見を削除しますか？</string>
+  <string name="delete_look_dialog">外見を削除しますか?</string>
   <string name="select_look_from_gallery">画像を選択</string>
   <string name="select_look_from_camera">写真を選択</string>
   <string name="look_measure">測定:</string>
-  <string name="dialog_confirm_delete_look_title">この外見を削除しますか？</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">これらの外見を削除しますか？</string>
-  <string name="dialog_confirm_delete_look_message">元に戻すことができない ！</string>
-  <string name="lookname">外見の名:</string>
-  <string name="backpack_replace_look">外見 \"%1$s\" は、既にバックパックに存在します。置き換えますか?</string>
+  <string name="dialog_confirm_delete_look_title">この外見を削除しますか?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">これらの外見を削除しますか?</string>
+  <string name="dialog_confirm_delete_look_message">この操作は元に戻せません!</string>
+  <string name="lookname">外見名:</string>
+  <string name="backpack_replace_look">外見 %1$s は、既にバックパックに存在します。置き換えますか?</string>
   <string name="backpack_replace_look_multiple">外見は、既にバックパックに存在します。置き換えますか?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">「+」をタップしてのサウンドを追加するには</string>
   <string name="rename_sound_dialog">音の名前を変更します</string>
-  <string name="backpack_title">バックパック</string>
+  <string name="backpack_title">あなたのバックパック</string>
   <string name="soundname_invalid">この音の名前は無効です</string>
   <string name="sound_play">再生</string>
   <string name="sound_stop">停止</string>
-  <string name="sound_select_source">音を選択してください</string>
+  <string name="sound_select_source">サウンドを選択</string>
   <string name="sound_time_seperator">/</string>
-  <string name="delete_sound_dialog">音を削除しますか？</string>
+  <string name="delete_sound_dialog">サウンドを削除しますか?</string>
   <string name="length">長さ:</string>
-  <string name="dialog_confirm_delete_sound_title">この音を削除しますか？</string>
-  <string name="dialog_confirm_delete_multiple_sounds_title">これらの音を削除しますか？</string>
-  <string name="dialog_confirm_delete_sound_message">元に戻すことができない ！</string>
-  <string name="sound_name">音の名前:</string>
+  <string name="dialog_confirm_delete_sound_title">このサウンドを削除しますか?</string>
+  <string name="dialog_confirm_delete_multiple_sounds_title">これらのサウンドを削除しますか?</string>
+  <string name="dialog_confirm_delete_sound_message">この操作は元に戻せません!</string>
+  <string name="sound_name">サウンド名:</string>
   <string name="new_sound_name">サウンド名:</string>
-  <string name="rename_sound_overwrite">同じ名前のサウンドが既に存在します!</string>
-  <string name="backpack_replace_sound">サウンド \"%1$s\" は、既にバックパックに存在します。置き換えますか?</string>
+  <string name="rename_sound_overwrite">この名前のサウンドがすでに存在します。別のものを選択してください!</string>
+  <string name="backpack_replace_sound">サウンド %1$s は、既にバックパックに存在します。置き換えますか?</string>
   <string name="backpack_replace_sound_multiple">サウンドは、既にバックパックに存在します。置き換えますか?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">追加するタグをスキャン</string>
@@ -246,9 +389,6 @@
   <plurals name="scripts_plural">
     <item quantity="other">スクリプト</item>
   </plurals>
-  <plurals name="userbricks_plural">
-    <item quantity="other">ユーザーブロック</item>
-  </plurals>
   <!-- My Projects activity -->
   <string name="last_used">最新の使用：</string>
   <string name="description">デスクリプション：</string>
@@ -257,9 +397,13 @@
   <string name="copy_project_finished">コピーされました。</string>
   <string name="program">プログラム</string>
   <string name="programs">プログラム</string>
-  <string name="dialog_confirm_delete_program_title">このプログラムを削除しますか？</string>
-  <string name="dialog_confirm_delete_multiple_programs_title">これらのプログラムを削除しますか？</string>
-  <string name="dialog_confirm_delete_program_message">元に戻すことができない ！</string>
+  <string name="scene">シーン</string>
+  <string name="scenes">シーン</string>
+  <string name="dialog_confirm_delete_program_title">このプログラムを削除しますか?</string>
+  <string name="dialog_confirm_delete_multiple_programs_title">これらのプログラムを削除しますか?</string>
+  <string name="dialog_confirm_delete_scene_title">このシーンを削除しますか?</string>
+  <string name="dialog_confirm_delete_multiple_scenes_title">これらのシーンを削除しますか?</string>
+  <string name="dialog_confirm_delete_program_message">この操作は元に戻せません!</string>
   <string name="details_date_today">今日</string>
   <string name="details_date_yesterday">昨日</string>
   <string name="dialog_copy_project_title">プログラムをコピー</string>
@@ -278,6 +422,7 @@
   <string name="prestage_no_acceleration_sensor_available">\u2022 加速度センサー\n</string>
   <string name="prestage_no_inclination_sensor_available">\u2022 傾斜センサー\n</string>
   <string name="prestage_no_compass_sensor_available">\u2022 コンパス\n</string>
+  <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
   <string name="prestage_text_to_speech_error">\u2022 音声合成エンジン\n</string>
   <string name="prestage_no_back_camera_available">\u2022 背面カメラ\n</string>
   <string name="prestage_no_camera_available">\u2022 顔認識\n</string>
@@ -293,17 +438,21 @@
   <string name="brick_context_dialog_copy_brick">ブロックをコピーします。</string>
   <string name="brick_context_dialog_animate_bricks">ブロック部品をアニメーション化します。</string>
   <string name="brick_context_dialog_add_to_script">スクリプトに追加</string>
-  <string name="brick_context_dialog_edit_brick">ブロックを編集</string>
   <string name="brick_context_dialog_formula_edit_brick">数式を編集します。</string>
   <string name="brick_context_dialog_delete_script">スクリプトを削除します。</string>
+  <string name="brick_context_dialog_comment_in">ブロックを有効にする</string>
+  <string name="brick_context_dialog_comment_out">ブロックを無効にする</string>
+  <string name="brick_context_dialog_help">ヘルプ</string>
+  <string name="comment_in_out">無効/有効にする</string>
+  <string name="comment_in_out_impossible">有効/無効にするものはありません</string>
   <!-- New look dialog -->
   <string name="new_look_dialog_title">外見を追加します。</string>
-  <string name="add_look_from_camera">カメラから</string>
+  <string name="add_look_from_camera">写真を撮る</string>
   <string name="add_look_draw_new_image">新しい画像を描画します。</string>
   <string name="add_look_choose_image">画像を選択</string>
   <string name="add_look_media_library">メディア ライブラリー</string>
   <string name="new_look_name">外見名:</string>
-  <string name="look_rename_overwrite">外見名は既に存在します!</string>
+  <string name="look_rename_overwrite">この名前の外見がすでに存在します。別のものを選択してください!</string>
   <string name="add_look_drone_video">ドローン ビデオ</string>
   <!-- New Sound dialog -->
   <string name="new_sound_dialog_title">サウンドを追加</string>
@@ -315,14 +464,30 @@
   <string name="new_project_dialog_hint">私のプログラム</string>
   <string name="new_project_description_dialog_hint">私の説明</string>
   <string name="new_project_name">プログラム名:</string>
-  <string name="new_project_empty">空のプログラムを作成します。</string>
+  <string name="new_project_empty">空のプログラムを作成</string>
   <string name="new_project_default">サンプル プログラムを作成</string>
   <string name="new_project_default_drone">サンプル ドローン プログラムを作成</string>
   <string name="project_orientation_title">向き:</string>
+  <!-- New scene dialog -->
+  <string name="new_scene_dialog_hint">私のシーン</string>
+  <string name="new_scene_name">シーン名</string>
+  <string name="new_scene_dialog_default_scene_name">私のシーン</string>
+  <string name="new_scene_dialog_title">新しいシーン</string>
+  <string name="scenename_already_exists">別のシーン名を選択してください。</string>
+  <string name="rename_scene_dialog">シーンの名前を変更</string>
+  <string name="scenename_invalid">このシーンの名前は無効です</string>
+  <string name="scene_name">シーン名:</string>
+  <!-- Merge Scene Dialog -->
+  <string name="merge_scene_option">シーンを結合</string>
+  <string name="merge_scene_label_one">統合</string>
+  <!-- Play scene dialog -->
+  <string name="play_scene_dialog_title">再生シーン:</string>
+  <string name="play_scene_dialog_default">最初のシーン (%1$s)</string>
+  <string name="play_scene_dialog_current">現在 (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">私のオブジェクト</string>
   <string name="new_sprite_dialog_title">新しいオブジェクトの名前</string>
-  <string name="spritename_already_exists">このオブジェクトの名前はすでに存在しています</string>
+  <string name="spritename_already_exists">別のオブジェクト名を選択してください。</string>
   <string name="rename_sprite_dialog">オブジェクトの名前を変更</string>
   <string name="spritename_invalid">このオブジェクトの名前は無効です</string>
   <string name="no_spritename_entered">オブジェクト名を入力してください。</string>
@@ -346,14 +511,14 @@
   <string name="signin_choose_username">ユーザー名を選択してください:</string>
   <string name="signin_choose_username_empty">ユーザー名を入力してください</string>
   <string name="signin_choose_username_hint">ユーザー名は、あなたの本当の名前にする必要はありません。</string>
-  <string name="oauth_username_taken">ユーザー名はすでに使用されています、別の名前を選んでください。</string>
+  <string name="oauth_username_taken">ユーザー名はすでに使用されています、別の名前を選んでください!</string>
   <string name="show_password">パスワードを表示</string>
   <string name="register_password_mismatch">パスワードが一致しません</string>
   <string name="sign_in_error">サインイン時にエラー</string>
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">同じ名前のつプログラムは既に存在します!</string>
-  <string name="overwrite_replace">既存のプログラムを置き換える</string>
-  <string name="overwrite_rename">ダウンロードしたプログラムの名前を変更します。</string>
+  <string name="overwrite_text">この名前のプログラムがすでに存在します。別のものを選択してください!</string>
+  <string name="overwrite_replace">既存のプログラムを置き換え</string>
+  <string name="overwrite_rename">ダウンロードしたプログラムの名前を変更</string>
   <!-- OverwriteRenameMediaDialog -->
   <string name="overwrite_replace_look">既存の外見を置き換え</string>
   <string name="overwrite_rename_look">ダウンロードした外見の名前を変更</string>
@@ -365,10 +530,10 @@
   <string name="stage_dialog_back">戻る</string>
   <string name="stage_dialog_resume">続ける</string>
   <string name="stage_dialog_restart">再スタート</string>
-  <string name="stage_dialog_axes_on">上軸</string>
-  <string name="stage_dialog_axes_off">オフ軸</string>
+  <string name="stage_dialog_axes_on">軸オン</string>
+  <string name="stage_dialog_axes_off">軸オフ</string>
   <string name="stage_dialog_maximize">最大化/\n拡大解釈</string>
-  <string name="stage_dialog_screenshot">スクリーンショット</string>
+  <string name="stage_dialog_screenshot">プレビュー</string>
   <!-- Broadcast spinner -->
   <string name="new_broadcast_message">新しい&#8230;</string>
   <string name="dialog_new_broadcast_message_title">新しいメッセージ</string>
@@ -380,8 +545,10 @@
   <string name="categories">範囲</string>
   <string name="category_motion">動き</string>
   <string name="category_looks">外見</string>
+  <string name="category_pen">ペン</string>
   <string name="category_sound">音</string>
   <string name="category_control">制御</string>
+  <string name="category_event">イベント</string>
   <string name="category_user_bricks">マイ ブロック</string>
   <string name="category_data">データ</string>
   <string name="category_lego_nxt">レゴマインドストームNXT</string>
@@ -398,6 +565,10 @@
   <string name="brick_change_x_by">"Xを変更:"</string>
   <string name="brick_change_y_by">"Yを変更:"</string>
   <string name="brick_go_back">戻って：</string>
+  <string name="brick_set_rotation_style">"回転のスタイルを設定 "</string>
+  <string name="brick_set_rotation_style_lr">左右のみ</string>
+  <string name="brick_set_rotation_style_normal">万能</string>
+  <string name="brick_set_rotation_style_no">回転しない</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="other">レイヤー</item>
   </plurals>
@@ -413,6 +584,9 @@
   <string name="brick_point_to">方向（オブジェクト）：</string>
   <string name="brick_glide">滑る：</string>
   <string name="brick_glide_to_x">x：</string>
+  <string name="brick_go_to">移動</string>
+  <string name="brick_go_to_touch_position">タッチ位置</string>
+  <string name="brick_go_to_random_position">ランダムな位置</string>
   <!-- Physics -->
   <string name="default_project_name_physics">私の最初の物理学プログラム</string>
   <string name="brick_set_physics_object_type">動きの種類を設定</string>
@@ -433,6 +607,8 @@
   <!-- Looks bricks -->
   <string name="brick_set_look">外見に切り替える：</string>
   <string name="brick_set_background">背景を設定する</string>
+  <string name="brick_and_wait">待つ</string>
+  <string name="brick_when_background">背景を変更した場合</string>
   <string name="brick_set_size_to">サイズ：</string>
   <string name="brick_change_size_by">サイズを変更：</string>
   <string name="brick_hide">隠す</string>
@@ -448,22 +624,44 @@
   <string name="brick_clear_graphic_effect">画像効果をなくす</string>
   <string name="brick_next_look">次の外見</string>
   <string name="brick_next_background">次の背景</string>
+  <string name="brick_previous_look">前の外見</string>
+  <string name="brick_previous_background">前の背景</string>
   <string name="brick_flash">フラッシュライトのスイッチ</string>
-  <string name="brick_flash_on">フラッシュライトをオンにする</string>
-  <string name="brick_flash_off">フラッシュライトをオフにする</string>
+  <string name="brick_flash_on">オン</string>
+  <string name="brick_flash_off">オフ</string>
   <string name="brick_vibration">振動する</string>
+  <string name="brick_ask_label">質問</string>
+  <string name="brick_ask_store">して答えを保存</string>
+  <string name="brick_ask_default_question">\'あなたのお名前は何ですか?\'</string>
+  <string name="brick_ask_dialog_hint">"答えを入力:"</string>
+  <string name="brick_ask_dialog_submit">答えを送信</string>
+  <!-- Pen bricks -->
+  <string name="brick_pen_down">ペンを下す</string>
+  <string name="brick_pen_up">ペンを上げる</string>
+  <string name="brick_pen_size">ペンのサイズを設定</string>
+  <string name="brick_pen_color">ペンの色を設定</string>
+  <string name="brick_clear_background">クリア</string>
+  <string name="brick_stamp">スタンプ</string>
   <!-- Sound bricks -->
   <string name="brick_play_sound">サウンドの再生</string>
+  <string name="brick_play_sound_and_wait">サウンドを開始して待つ</string>
   <string name="brick_stop_all_sounds">すべてのサウンドを停止</string>
   <string name="brick_set_volume_to">音量：</string>
   <string name="brick_change_volume_by">音量を変更して：</string>
   <string name="brick_speak">話す：</string>
   <string name="brick_speak_default_value">"こんにちは！"</string>
+  <string name="brick_speak_and_wait">待つ</string>
   <!-- Control bricks -->
   <string name="brick_when_started">プログラムがはじまると</string>
   <string name="brick_when">オブジェクトがタップされている</string>
+  <string name="brick_when_condition_when">場合</string>
+  <string name="brick_when_becomes_true">真になる</string>
   <string name="brick_wait"> </string>
   <string name="brick_when_nfc">場合 NFC が</string>
+  <string name="brick_stop_script">スクリプトを停止</string>
+  <string name="brick_stop_this_script">このスクリプトを停止</string>
+  <string name="brick_stop_all_scripts">すべてのスクリプトを停止</string>
+  <string name="brick_stop_other_scripts">このオブジェクトの他のスクリプトを停止</string>
   <plurals name="second_plural">
     <item quantity="other">"秒待つ"</item>
   </plurals>
@@ -472,11 +670,20 @@
   <string name="brick_broadcast_receive">次のメッセージを受け取ったとき</string>
   <string name="brick_broadcast">次のメッセージを送る：</string>
   <string name="brick_broadcast_wait">次のメッセージを送り、待つ：</string>
+  <string name="brick_scene_transition">シーンを続ける</string>
+  <string name="brick_scene_start">シーンを開始</string>
   <string name="brick_note">注意</string>
+  <string name="brick_think_bubble">考える</string>
+  <string name="brick_say_bubble">言う</string>
+  <string name="brick_think_say_for_text">次の</string>
   <string name="brick_forever">ずっと</string>
   <string name="brick_repeat">繰り返し：</string>
   <string name="brick_repeat_until">次まで繰り返し</string>
   <string name="brick_when_touched">画面にタッチした時</string>
+  <string name="brick_clone">複製を作成</string>
+  <string name="brick_clone_this">自分自身</string>
+  <string name="brick_when_cloned">自分が複製として起動したとき</string>
+  <string name="brick_delete_this_clone">この複製を削除</string>
   <plurals name="time_plural">
     <item quantity="other">回</item>
   </plurals>
@@ -485,11 +692,13 @@
   <string name="brick_if_begin_second_part">は本当だったら</string>
   <string name="brick_if_else">そうではなかったら、</string>
   <string name="brick_if_end">「もし」の終わり</string>
-  <string name="brick_broadcast_invalid_symbol">"予約されたメッセージ:\n\"物理的な衝突のとき\"-ブロック\nもう一度試してください!"</string>
+  <string name="brick_broadcast_invalid_symbol">"予約されたメッセージ:\n\"物理的な衝突のとき\"-ブロック\nもう一度やり直してください!"</string>
   <string name="brick_set_variable">変数を設定：</string>
   <string name="brick_change_variable">変数の変更：</string>
   <string name="brick_variable_spinner_create_new_variable">新しい&#8230;</string>
   <string name="brick_note_default_value">"ここにコメントを追加。"</string>
+  <string name="brick_think_bubble_default_value">"うーむ!"</string>
+  <string name="brick_say_bubble_default_value">"こんにちは！"</string>
   <string name="brick_broadcast_default_value">"メッセージ 1"</string>
   <string name="brick_add_item_to_userlist_add">追加</string>
   <string name="brick_add_item_to_userlist">リストに</string>
@@ -503,6 +712,7 @@
   <string name="brick_replace_item_in_userlist_with_value">で</string>
   <!-- defaultValues -->
   <string name="default_project_name">私の最初のプログラム</string>
+  <string name="default_scene_name">シーン %1$d</string>
   <string name="default_project_background_name">背景</string>
   <string name="default_project_cloud_name">雲</string>
   <string name="default_project_cloud_sprite_name_1">雲1</string>
@@ -510,8 +720,8 @@
   <string name="default_project_sprites_bird_name">鳥</string>
   <string name="default_project_sprites_bird_name_wing_up">鳥の翼をあげる</string>
   <string name="default_project_sprites_bird_name_wing_down">鳥の翼をおろす</string>
-  <string name="default_project_sprites_tweet_1">Tweet1</string>
-  <string name="default_project_sprites_tweet_2">Tweet2</string>
+  <string name="default_project_sprites_tweet_1">さえずり1</string>
+  <string name="default_project_sprites_tweet_2">さえずり2</string>
   <!-- defaultDroneValues -->
   <string name="default_drone_project_name">私の最初のドローン プログラム</string>
   <string name="default_drone_project_sprites_takeoff">離陸</string>
@@ -529,9 +739,9 @@
   <string name="drone_brick_set_text">テキスト</string>
   <string name="drone_brick_set_x">X:</string>
   <!-- Drone config spinner values  -->
-  <string name="drone_config_indoor_with_hull">室内ハル</string>
+  <string name="drone_config_indoor_with_hull">室内ハルあり</string>
   <string name="drone_config_indoor_without_hull">室内ハルなし</string>
-  <string name="drone_config_outdoor_with_hull">屋外ハル</string>
+  <string name="drone_config_outdoor_with_hull">屋外ハルあり</string>
   <string name="drone_config_outdoor_without_hull">屋外ハルなし</string>
   <!-- Drone altitude limit values  -->
   <string name="drone_set_altitude_max_3m">3 メートル</string>
@@ -549,14 +759,15 @@
   <string name="drone_set_rotation_outdoor">200 度/秒</string>
   <string name="drone_set_rotation_max">350 度/秒</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5度</string>
-  <string name="drone_set_tilt_indoor">12度</string>
-  <string name="drone_set_tilt_outdoor">20度 </string>
-  <string name="drone_set_tilt_max">30度</string>
+  <string name="drone_set_tilt_min">5 度</string>
+  <string name="drone_set_tilt_indoor">12 度</string>
+  <string name="drone_set_tilt_outdoor">20 度 </string>
+  <string name="drone_set_tilt_max">30 度</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">値を入力してください</string>
-  <string name="notification_screenshot_ok">スクリーン ショットが保存した</string>
+  <string name="notification_screenshot_ok">プレビュー画像を保存しました</string>
   <string name="notification_download_project_cancel">ダウンロード プログラムのキャンセル</string>
+  <string name="notification_reconvert_download_program_cancel">プログラムのダウンロード/再変換をキャンセルしました</string>
   <string name="notification_copy_title_pending">"コピーしています "</string>
   <string name="notification_copy_pending">コピー中</string>
   <string name="notification_copy_finished">コピー完了</string>
@@ -566,13 +777,13 @@
   <string name="notification_upload_finished">アップロードが成功</string>
   <string name="notification_upload_rejected">アップロードしたプログラムが拒否されました</string>
   <string name="notification_upload_retry">リトライ</string>
-  <string name="notification_open_play_store">Play Store を開く</string>
+  <string name="notification_open_play_store">Play ストア を開く</string>
   <string name="notification_download_title_pending">"ダウンロード中 "</string>
   <string name="notification_download_pending">ダウンロードが進行中</string>
   <string name="notification_download_finished">ダウンロードに成功しました</string>
   <string name="notification_title_open">"開く "</string>
   <string name="notification_low_battery">注意。バッテリー残量が少なくなりました。現在のステータス =</string>
-  <string name="project_rename">（あなたのプログラムの名前が変更されます）</string>
+  <string name="project_rename">(プログラムの名前が変更されます)</string>
   <string name="size_of_project">プログラムのサイズ：</string>
   <string name="upload_button">アップロード</string>
   <string name="upload_project_dialog_title">プログラムをアップロード</string>
@@ -583,23 +794,28 @@
   <string name="drone_emergency_ultrasound">超音波センサーが応答していません。</string>
   <string name="drone_emergency_angle">AR.Drone オイラー角が高すぎました。不良動作を防ぐためにモーターをシャットダウンします。</string>
   <string name="drone_emergency_cutout">1 つまたは複数のモーターが環境によって停止されました。</string>
-  <string name="drone_alert_battery_low">バッテリーが少なすぎるため再び離陸できません。</string>
+  <string name="drone_alert_battery_low">バッテリー残量が少なすぎるため再び離陸できません。</string>
   <string name="drone_alert_ultrasound">超音波センサーが AR.Drone の高度を判断できません。</string>
-  <string name="drone_alert_vision">下向きのカメラから速度を推定てきません。</string>
+  <string name="drone_alert_vision">下向きのカメラから速度を推定できません。</string>
   <string name="drone_emergency_title">緊急</string>
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">ポケットコードを実行するためにSDカードが必要ですが、どれも見つかりませんでした\nSDカードを挿入して再試行してください。</string>
+  <string name="error_no_writiable_external_storage_available">ポケットコードを実行するためにSDカードのような外部書き込みストレージが必要ですが、何も見つかりませんでした。\n外部ストレージを書き込み可能にするか、SDカードを挿入してもう一度やり直してください。</string>
   <string name="error_no_program_name_entered">プログラム名を入力してください。</string>
-  <string name="error_no_userbrick_name_entered">ユーザーブロック名を入力してください。</string>
-  <string name="error_project_exists">同じ名前のプログラムが既に存在しています\n別の名前を選択してください</string>
+  <string name="error_no_userbrick_name_entered">ブロック名を入力してください。</string>
+  <string name="error_project_exists">別のプログラム名を選択してください。</string>
+  <string name="error_scene_exists">別のシーン名を選択してください。</string>
+  <string name="error_scene_not_deleted">シーンの削除中にエラーが発生しました。</string>
+  <string name="error_scene_not_copied">シーンのコピー中にエラーが発生しました。</string>
+  <string name="error_scene_backpack">シーンのバックパックの中にエラーが発生しました。</string>
   <string name="error_delete_project">プログラムの削除中にエラーが発生しました</string>
   <string name="error_unknown_project">その名前のプログラムは存在しません。</string>
   <string name="error_project_upload">アップロード中にエラーが発生しました</string>
   <string name="error_project_download">プログラムをダウンロード中にエラーが発生しました</string>
   <string name="error_new_project">新しいプログラムを作成中にエラーが発生しました</string>
   <string name="error_rename_project">アップロード前のプログラム名の変更中にエラーが発生しました。</string>
+  <string name="error_rename_scene">シーンの名前を変更中にエラーが発生しました。</string>
   <string name="error_load_project">プログラムの読み込み中にエラーが発生しました</string>
-  <string name="error_screenshot_failed">発表方法を保存するときにエラーが発生しました</string>
+  <string name="error_screenshot_failed">プレビュー画像の保存中にエラーが発生しました。</string>
   <string name="error_load_image">画像の読み込み中にエラーが発生しました</string>
   <string name="error_load_image_special_chars">画像を読み込みできません。ファイル名に特殊文字が
 含まれていませんか (例えば $、%、&amp;、&#8230;)? </string>
@@ -607,7 +823,7 @@
   <string name="error_internet_connection">不明なエラーが発生しました。インターネット接続を確認してください</string>
   <string name="error_no_internet">インターネット接続を確立してください。</string>
   <string name="error_project_compatability">プログラムは、このバージョンのポケット コードと互換性がありません。</string>
-  <string name="error_outdated_pocketcode_version">ポケットコードのバージョンが古すぎます。今すぐ更新しますか？</string>
+  <string name="error_outdated_pocketcode_version">ポケットコードのバージョンが古すぎます。今すぐ更新しますか?</string>
   <string name="error_copy_project">プログラムのコピー中にエラーが発生しました。</string>
   <string name="error_upload_project_with_default_name">名前 \'私の最初のプログラム\' でプログラムをアップロードできません。プログラムの名前を変更してください。</string>
   <string name="error_upload_default_project">\'私の最初のプログラム\' と同じため、このプログラムをアップロードできません。変更して、もう一度やり直してください。</string>
@@ -619,16 +835,18 @@
   <string name="error_drone_low_battery">充電済みのバッテリーを挿入して、もう一度やり直してください。</string>
   <string name="error_drone_wrong_platform_title">ARDrone がサポートされていません</string>
   <string name="error_drone_wrong_platform">お使いのデバイスで ARDrone プロジェクトを実行できません。</string>
-  <string name="error_rename_incompatible_project">互換性のないプロジェクトの名前を変更できません。</string>
-  <string name="error_changing_description_of_incompatible_project">互換性のないプロジェクトの説明を変更できません。</string>
+  <string name="error_rename_incompatible_project">互換性のないプロジェクトの名前を変更することはできません。</string>
+  <string name="error_changing_description_of_incompatible_project">互換性のないプロジェクトの説明を変更することはできません。</string>
+  <string name="error_unpack_scene_with_different_resolution">注意! 異なる解像度を検出しました。</string>
   <string name="error_unknown_error">不明なエラーが発生しました。</string>
+  <string name="error_gps_not_available">エラー、GPS は利用できませんでした。</string>
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetoothが有効にできませんでした、ステージをクロースします</string>
   <string name="title_paired_devices">デバイスの組み合わせ</string>
   <string name="title_other_devices">新しいデバイス</string>
   <string name="searching_devices">デバイスを検索しています&#8230;</string>
   <string name="button_scan">Bluetoothデバイスを検索</string>
-  <string name="select_device">デバイスを選択してください:</string>
+  <string name="select_device">デバイスの選択:</string>
   <string name="connecting_please_wait">お使いのデバイスに接続しています\nしばらく待つ&#8230;</string>
   <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">デバイスへの接続に失敗しました！</string>
@@ -639,15 +857,15 @@
   <string name="brick_arduino_select_analog_value">Arduino PWM~ 端子を設定</string>
   <string name="brick_arduino_set_pin_value_to">先</string>
   <!-- Raspi Bricks -->
-  <string name="brick_raspi_select_digital_value">Raspberry Pi のピンを設定</string>
+  <string name="brick_raspi_select_digital_value">Raspberry Pi の端子を設定</string>
   <string name="brick_raspi_set_pin_value_to">先</string>
-  <string name="brick_raspi_if_begin">Raspberry Pi のピンが次の場合</string>
+  <string name="brick_raspi_if_begin">Raspberry Pi の端子が次の場合</string>
   <string name="brick_raspi_if_begin_second_part">は本当だったら</string>
-  <string name="brick_raspi_when_begin">Raspberry Pi のピンが次のとき</string>
+  <string name="brick_raspi_when_begin">Raspberry Pi の端子が次のとき</string>
   <string name="brick_raspi_when_equals">変更する</string>
   <string name="brick_raspi_pressed_text">高</string>
   <string name="brick_raspi_released_text">低</string>
-  <string name="brick_raspi_set_pwm">Raspberry Pi PWM ピンを設定</string>
+  <string name="brick_raspi_set_pwm">Raspberry Pi PWM 端子を設定</string>
   <!-- Raspi Settings -->
   <string name="raspi_settings_title_name">Raspberry Pi 設定</string>
   <string name="raspi_settings_gpio_version">GPIO バージョン</string>
@@ -655,11 +873,11 @@
   <string name="nxt_brick_motor_move">NXT モーターを設定</string>
   <string name="nxt_motor_speed_to">先</string>
   <string name="nxt_motor_speed">スピード</string>
-  <string name="nxt_brick_motor_turn_angle">NXT モーターを回転</string>
+  <string name="nxt_brick_motor_turn_angle">NXT モーターの回転</string>
   <string name="nxt_motor_move_by">によって</string>
   <string name="nxt_motor_stop">NXT モーターを停止</string>
-  <string name="nxt_play_tone">NXTの再生音</string>
-  <string name="nxt_tone_duration">期間</string>
+  <string name="nxt_play_tone">NXT の音色を再生</string>
+  <string name="nxt_tone_duration">時間</string>
   <string name="nxt_tone_frequency">周波数</string>
   <string name="nxt_tone_hundred_hz">x100Hz</string>
   <string name="nxt_seconds">秒</string>
@@ -681,9 +899,9 @@
   <string name="nxt_sensor_not_found">センサーが見つかりません!</string>
   <string name="lego_nxt_sensor_config_info_title">NXT センサー設定</string>
   <string name="preference_disable_nxt_info_dialog">情報ダイアログを無効にする</string>
-  <string name="preference_disable_nxt_info_dialog_description">プログラムを開いたとき、プログラムで指定した NXT 設定は表示されません。</string>
-  <string name="preference_title_mindstorms_nxt_sensors_description">NXT センサーのポートへのマッピングはプログラムで指定し、開かれたプログラムに対してのみ設定することができます!</string>
-  <string name="preference_title_drone_properties_setting_description">ドローン設定プロパティの選択は、特定のプログラムで、プログラムの中でのみ設定することができます。</string>
+  <string name="preference_disable_nxt_info_dialog_description">プログラムを開いたとき、プログラム固有の NXT 設定は表示されません。</string>
+  <string name="preference_title_mindstorms_nxt_sensors_description">NXT センサーのポートへのマッピングはプログラム固有で、開かれたプログラムに対してのみ設定することができます!</string>
+  <string name="preference_title_drone_properties_setting_description">ドローン設定プロパティの選択は、プログラム固有で、プログラムの中でのみ設定することができます。</string>
   <string name="lego_nxt_sensor_config_info_text">現在のプログラムは、レゴ マインドストーム NXT ブロックやセンサーを使用します。正しく動作するように、次のとおりセンサーをロボットに接続してください</string>
   <string name="nxt_port_1">ポート 1</string>
   <string name="nxt_port_2">ポート 2</string>
@@ -694,7 +912,7 @@
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">センサーを上書きしますか?</string>
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">離陸 / 着陸</string>
-  <string name="brick_drone_play_led_animation">LED アニメーションを再生</string>
+  <string name="brick_drone_play_led_animation">フラッシュ アニメーションを再生</string>
   <string name="brick_drone_move_left">左に移動</string>
   <string name="brick_drone_move_right">右に移動</string>
   <string name="brick_drone_move_forward">前に移動</string>
@@ -708,14 +926,14 @@
   <string name="brick_drone_turn_left_magneto">左方向 [angle]</string>
   <string name="brick_drone_turn_right_magneto">右方向 [angle]</string>
   <string name="brick_drone_angle">角度</string>
-  <string name="brick_drone_set_config">構成の設定</string>
-  <string name="brick_drone_switch_camera">カメラを切り替え</string>
+  <string name="brick_drone_set_config">構成設定</string>
+  <string name="brick_drone_switch_camera">ドローン カメラを切り替え</string>
   <string name="brick_drone_set_altitude">高度制限</string>
   <string name="brick_drone_set_vertical_speed">垂直方向の速度制限</string>
   <string name="brick_drone_set_rotation_speed">回転速度の制限</string>
   <string name="brick_drone_set_tilt_limit">傾斜制限</string>
   <string name="brick_drone_with">で</string>
-  <string name="brick_drone_percent_power">電源</string>
+  <string name="brick_drone_percent_power">パワー</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Phiro モーターを停止</string>
@@ -723,15 +941,15 @@
   <string name="brick_phiro_motor_backward_action">Phiro モーターを後に移動</string>
   <string name="phiro_motor_speed">スピード</string>
   <!-- sensor -->
-  <string name="brick_phiro_sensor_begin">Phiro の場合</string>
-  <string name="brick_phiro_sensor_second_part">アクティブになります</string>
+  <string name="brick_phiro_sensor_begin">Phiro が次の場合</string>
+  <string name="brick_phiro_sensor_second_part">アクティブです</string>
   <!-- tone -->
   <string name="phiro_play_tone">Phiro 音楽を再生\n</string>
-  <string name="phiro_tone_duration">期間</string>
+  <string name="phiro_tone_duration">時間</string>
   <string name="brick_phiro_select_tone">音色</string>
   <string name="phiro_seconds">秒</string>
   <!-- light -->
-  <string name="brick_phiro_rgb_led_action">Phiro 光をセット</string>
+  <string name="brick_phiro_rgb_led_action">Phiro の光を設定</string>
   <string name="phiro_rgb_led_red">赤</string>
   <string name="phiro_rgb_led_green">緑</string>
   <string name="phiro_rgb_led_blue">青</string>
@@ -808,7 +1026,7 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">指数関数</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
-  <string name="formula_editor_function_power">電源</string>
+  <string name="formula_editor_function_power">パワー</string>
   <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">floor</string>
   <string name="formula_editor_function_floor_parameter">(0.7)</string>
@@ -842,13 +1060,25 @@
   <string name="formula_editor_function_list_item_parameter">(1,*リスト名*)</string>
   <string name="formula_editor_function_contains">contains</string>
   <string name="formula_editor_function_contains_parameter">(*リスト名*,1)</string>
+  <string name="formula_editor_function_collision">タッチ</string>
   <string name="formula_editor_sensor_x_acceleration">x_加速</string>
   <string name="formula_editor_sensor_y_acceleration">y_加速</string>
   <string name="formula_editor_sensor_z_acceleration">z_加速</string>
   <string name="formula_editor_sensor_compass_direction">コンパスの方向</string>
+  <string name="formula_editor_sensor_latitude">緯度</string>
+  <string name="formula_editor_sensor_longitude">経度</string>
+  <string name="formula_editor_sensor_location_accuracy">location_accuracy</string>
+  <string name="formula_editor_sensor_altitude">高度</string>
   <string name="formula_editor_sensor_x_inclination">x_傾斜</string>
   <string name="formula_editor_sensor_y_inclination">y_傾斜</string>
   <string name="formula_editor_sensor_loudness">ラウドネス</string>
+  <string name="formula_editor_sensor_date_year">年</string>
+  <string name="formula_editor_sensor_date_month">月</string>
+  <string name="formula_editor_sensor_date_day">日</string>
+  <string name="formula_editor_sensor_date_weekday">曜日</string>
+  <string name="formula_editor_sensor_time_hour"> 時間</string>
+  <string name="formula_editor_sensor_time_minute">分</string>
+  <string name="formula_editor_sensor_time_second">秒</string>
   <string name="formula_editor_sensor_drone_battery_status">drone_battery_status</string>
   <string name="formula_editor_sensor_drone_emergency_state">drone_emergency_state</string>
   <string name="formula_editor_sensor_drone_flying">drone_flying</string>
@@ -860,9 +1090,9 @@
   <string name="formula_editor_sensor_drone_recording">drone_recording</string>
   <string name="formula_editor_sensor_drone_num_frames">drone_num_frames</string>
   <string name="formula_editor_sensor_lego_nxt_1">NXT_sensor_1</string>
-  <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_1</string>
+  <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
   <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
-  <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_3</string>
+  <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
   <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
   <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
   <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
@@ -885,20 +1115,26 @@
   <string name="formula_editor_object_x_velocity">x_velocity</string>
   <string name="formula_editor_object_y_velocity">y_velocity</string>
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
+  <string name="formula_editor_object_look_number">look_number</string>
+  <string name="formula_editor_object_look_name">look_name</string>
+  <string name="formula_editor_object_background_number">background_number</string>
+  <string name="formula_editor_object_background_name">background_name</string>
+  <string name="formula_editor_object_distance_to">距離</string>
   <string name="formula_editor_compute">計算</string>
   <string name="formula_editor_object">オブジェクト</string>
   <string name="formula_editor_functions">関数</string>
   <string name="formula_editor_logic">論理</string>
   <string name="formula_editor_device">デバイス</string>
   <string name="formula_editor_variables">変数</string>
-  <string name="formula_editor_functions_maths">数学</string>
+  <string name="formula_editor_functions_maths">Maths</string>
   <string name="formula_editor_functions_strings">文字列</string>
   <string name="formula_editor_functions_lists">リスト</string>
   <string name="formula_editor_logic_boolean">論理 (ブール) 演算子</string>
   <string name="formula_editor_logic_comparison">比較演算子</string>
   <string name="formula_editor_object_general">全般プロパティ</string>
-  <string name="formula_editor_object_physical">物理プロパティ</string>
+  <string name="formula_editor_object_movement">運動プロパティ</string>
   <string name="formula_editor_device_face_detection">顔検出</string>
+  <string name="formula_editor_device_date_and_time">日付と時刻</string>
   <string name="formula_editor_device_touch_detection">タッチ検出</string>
   <string name="formula_editor_device_lego">レゴ</string>
   <string name="formula_editor_device_arduino">Arduino</string>
@@ -963,23 +1199,23 @@
   <!-- User Bricks strings -->
   <string name="define">定義</string>
   <string name="new_user_brick">新しいブロック</string>
-  <string name="new_user_brick_variable">変数 1</string>
-  <string name="new_user_brick_name">ユーザーブロック名を選択してください:</string>
+  <string name="new_user_brick_variable">変数</string>
+  <string name="new_user_brick_name">ブロック名を選択してください:</string>
   <string name="recursive_user_brick_forbidden">まだ、ユーザーブロックをユーザーブロックに追加することはできません!</string>
-  <string name="brick_single">ブロック</string>
-  <string name="brick_multiple">ブロック</string>
   <!-- Merge strings -->
   <string name="merge_button">マージする</string>
   <string name="name_merge_result">結果の名前を入力</string>
   <string name="merge_info">正常にマージしました</string>
   <string name="warning">警告</string>
-  <string name="error_merge_with_self">注意! 現在のプロジェクトと選択したプロジェクトは同じです!</string>
+  <string name="error_merge_with_self">現在のプロジェクトと選択したプロジェクトは同じです!</string>
+  <string name="error_merge_with_self_scene">現在のシーンと選択したシーンは同じです!</string>
+  <string name="error_merge_scene_not_found">シーンが見つかりません!</string>
   <string name="error_different_resolutions" tools:ignore="PluralsCandidate">注意! 異なる解像度を検出しました。%1$s は解像度が %2$dx%3$d 、%4$s は解像度が %5$dx%6$d です。%1$s の解像度を使用します。</string>
   <string name="abort">中止</string>
   <string name="merge_conflict">マージできません</string>
-  <string name="merge_conflict_variable">変数 \"%1$s\" は両方のプログラムで使用されます。プログラムが同じ変数名を
+  <string name="merge_conflict_variable">変数 %1$s は両方のプログラムで使用されます。プログラムが同じ変数名を
 使用している場合は、結合できません。いずれかのプログラムで変数の名前を変更して、もう一度やり直してください。</string>
-  <string name="merge_conflict_list">リスト \"%1$s\" は両方のプログラムで使用されます。プログラムが同じ名前のリストを
+  <string name="merge_conflict_list">リスト %1$s は両方のプログラムで使用されます。プログラムが同じ名前のリストを
 使用している場合は、結合できません。いずれかのプログラムでリストの名前を変更して、もう一度やり直してください。</string>
   <!-- Camera related strings -->
   <string name="brick_video">カメラを</string>
@@ -988,7 +1224,7 @@
   <string name="brick_choose_camera">使用カメラ</string>
   <string name="choose_camera_front">前面</string>
   <string name="choose_camera_back">背面</string>
-  <string name="error_flash_front_camera">「フラッシュは背面のカメラでのみ使用できます。「使用カメラ」ブロックを追加して、デバイスの背面のカメラに変更します。」</string>
+  <string name="error_flash_front_camera">"フラッシュは背面のカメラでのみ使用できます。\"使用カメラ\"ブロックを追加して、デバイスの背面のカメラに変更してください。"</string>
   <string name="brick_wait_until">次まで待つ</string>
   <string name="brick_wait_until_second_part">が真</string>
   <!-- Rating Dialog -->
@@ -999,11 +1235,30 @@
   <string name="rating_dialog_rate_never">しない</string>
   <!-- Delete User Variable Alert Dialog -->
   <string name="deletion_alert_title">警告!</string>
-  <string name="deletion_alert_text">まだ使用している変数を削除するは危険です! よろしいですか?</string>
+  <string name="deletion_alert_text">まだ使用している変数を削除するのは危険です! よろしいですか?</string>
   <string name="deletion_alert_yes">はい、とにかく削除します!</string>
   <string name="deletion_alert_no">いいえ。</string>
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">あなたのプログラムは、私たちのコミュニ ティー ページにアップロードされます。他の人がそれを使用したりダウンロードすることができます。
 スタンドアロン アプリケーションとしてあなたのプログラムをダウンロードすることもできます。</string>
   <string name="progress_upload_dialog_show_program">プログラムの表示</string>
+  <!-- Snackbar hints -->
+  <string name="got_it">うまくいきました</string>
+  <string name="preference_description_hints">有効にするとヒントを表示します</string>
+  <string name="preference_title_enable_hints">ヒントを表示 </string>
+  <string name="hint_category">すべてのブロックがカテゴリでソートされます。お探しのカテゴリを選択してください。</string>
+  <string name="hint_bricks">使用するブロックの上でタップして、スクリプトにブロックを追加します。</string>
+  <string name="hint_brick_added">ブロックを短くタップすると、移動、コピー、削除、またはブロックをバックパックに追加するメニューを開きます。ヘルプ オプションでは、追加情報が表示されます。長押しすると、レンガをドラッグ＆ドロップします。</string>
+  <string name="hint_scripts">スクリプトは、オブジェクトの動作を定義します。\"+\" 記号をタップして、スクリプトにブロックを追加します。</string>
+  <string name="hint_looks">ここで、異なる外観のオブジェクトを見つけることができます。\"+\" 記号をタップして、新しい外見を追加します。</string>
+  <string name="hint_sounds">ここで、オブジェクトに新しいサウンドを追加できます。サウンドのカテゴリからブロックを使うことを覚えておいてください。</string>
+  <string name="hint_objects">プログラムは、互いにインタラクションすることができる、異なるオブジェクトで構成されます。\"+\" 記号をタップして、新しいオブジェクトを追加します。</string>
+  <string name="hint_merge">2 つのプログラムをマージするには、1 つのプログラムを長押ししてメニューを開き、\'マージする\' をタップします。</string>
+  <string name="hint_stage">戻るボタンを押すと、プログラムを一時停止します。「軸オン」をタップすると、軸とお使いの電話の画面サイズを表示します。</string>
+  <string name="hint_scenes">プログラムは、さまざまな独立したシーンで構成することができます。\"+\" 記号をタップして、新しいシーンを追加します。</string>
+  <!-- Crash report dialog -->
+  <string name="pocket_code_has_crashed">ポケットコードがクラッシュしました!</string>
+  <string name="crash_dialog_text">私たちに匿名のクラッシュ レポートを送信して、ポケット コードの改善をご支援ください!</string>
+  <string name="crash_dialog_always_send">常に送信</string>
+  <string name="crash_dialog_send">送信</string>
 </resources>

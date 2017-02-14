@@ -29,7 +29,6 @@
         android:title="@string/cast_button_menu_item_title"
         android:icon="@drawable/ic_cast_white"
         android:visible="false"/>
-
     <item
         android:id="@+id/menu_rate_app"
         android:showAsAction="withText"
@@ -45,6 +44,17 @@
     <item
         android:id="@+id/menu_scratch_converter"
         android:showAsAction="withText"
-        android:title="@string/preference_title_scratch_converter" />
-
+        android:title="@string/main_menu_scratch_converter" />
+    <item
+        android:id="@+id/settings"
+        android:showAsAction="never"
+        android:title="@string/settings" />
+    <item
+        android:id="@+id/menu_logout"
+        android:showAsAction="never"
+        android:title="@string/main_menu_logout"/>
+    <item
+        android:id="@+id/menu_login"
+        android:showAsAction="never"
+        android:title="@string/main_menu_login"/>
 </menu>

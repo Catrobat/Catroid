@@ -23,32 +23,65 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.pocketmusic.note.NoteLength;
 
-public class NoteView extends View implements View.OnClickListener {
+public class NoteView extends ImageView implements View.OnClickListener {
 
+	private static final int HIDDEN = 0;
+	private static final int FULL_VISIBLE = 255;
+	private final int horizontalIndexInGridRowPosition;
 	private boolean toggled;
-	private static int whiteColor;
-	private static int blackColor;
+	private Drawable noteDrawable;
+	private TrackRowView trackRowView;
 
 	public NoteView(Context context) {
+		this(context, ContextCompat.getColor(context, R.color.white), null, 0);
+	}
+
+	public NoteView(Context context, int backgroundColor, TrackRowView trackRowView, int horizontalIndexInGridRowPosition) {
 		super(context);
-		setBackgroundColor(getToggledColor());
 		setOnClickListener(this);
-		whiteColor = getResources().getColor(R.color.white);
-		blackColor = getResources().getColor(R.color.dark_gray);
+		setAdjustViewBounds(true);
+		setBackgroundColor(backgroundColor);
+		setScaleType(ScaleType.CENTER_INSIDE);
+		initNoteDrawable();
+		this.trackRowView = trackRowView;
+		this.horizontalIndexInGridRowPosition = horizontalIndexInGridRowPosition;
+	}
+
+	private void initNoteDrawable() {
+		noteDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_pocketmusic_note_toggle);
+		noteDrawable.setColorFilter(ContextCompat.getColor(getContext(), R.color.terms_of_use_text_color), PorterDuff.Mode.SRC_IN);
+		noteDrawable.mutate();
+		noteDrawable.setAlpha(HIDDEN);
+		setImageDrawable(noteDrawable);
 	}
 
 	@Override
 	public void onClick(View v) {
 		toggled = !toggled;
-		setBackgroundColor(getToggledColor());
+		showNote();
+		updateGridRow();
 	}
 
-	private int getToggledColor() {
-		return toggled ? blackColor : whiteColor;
+	private void updateGridRow() {
+		trackRowView.updateGridRowPosition(horizontalIndexInGridRowPosition, NoteLength.QUARTER, toggled);
+	}
+
+	private void showNote() {
+		if (toggled) {
+			noteDrawable.setAlpha(FULL_VISIBLE);
+		} else {
+			noteDrawable.setAlpha(HIDDEN);
+		}
+		invalidate();
 	}
 
 	public boolean isToggled() {

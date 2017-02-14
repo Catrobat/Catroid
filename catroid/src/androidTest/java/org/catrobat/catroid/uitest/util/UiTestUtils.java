@@ -132,6 +132,7 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -141,6 +142,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -149,9 +151,11 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
+import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -615,6 +619,9 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_point_in_direction, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_point_to, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_glide, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_rotation_style_normal, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_rotation_style_lr, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_rotation_style_no, R.string.category_motion);
 
 		brickCategoryMap.put(R.string.brick_set_look, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_set_size_to, R.string.category_looks);
@@ -669,6 +676,7 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_drone_turn_right_magneto, R.string.category_drone);
 
 		brickCategoryMap.put(R.string.nxt_brick_motor_move, R.string.category_lego_nxt);
+		brickCategoryMap.put(R.string.ev3_motor_move, R.string.category_lego_ev3);
 		brickCategoryMap.put(R.string.brick_when_nfc, R.string.category_control);
 	}
 
@@ -1014,9 +1022,9 @@ public final class UiTestUtils {
 	public static List<Brick> createOldTestProjectWithSprites(String oldSpriteProject) {
 		Project project = new Project(null, oldSpriteProject);
 		project.setCatrobatLanguageVersion(0.99f);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("testSprite1");
-		Sprite thirdSprite = new Sprite("third_sprite");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("testSprite1");
+		Sprite thirdSprite = new SingleSprite("third_sprite");
 
 		Script testScript = new StartScript();
 		projectManager.setProject(project);
@@ -1238,7 +1246,54 @@ public final class UiTestUtils {
 
 	public static List<Brick> createTestProjectWithUserVariables() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
+		projectManager.setCurrentSprite(firstSprite);
+
+		String globalVariableName = "global_var";
+		String spriteVariableName = "sprite_var";
+		FormulaElement variableElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, globalVariableName, null);
+		FormulaElement variableElementSprite = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, spriteVariableName, null);
+
+		String globalListName = "global_list";
+		String spriteListName = "sprite_list";
+		FormulaElement listElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_LIST, globalListName, null);
+		FormulaElement listElementSprite = new FormulaElement(FormulaElement.ElementType.USER_LIST, spriteListName, null);
+
+		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
+		dataContainer.addProjectUserVariable(globalVariableName);
+		dataContainer.addSpriteUserVariableToSprite(firstSprite, spriteVariableName);
+		dataContainer.addProjectUserList(globalListName);
+		dataContainer.addSpriteUserList(spriteListName);
+
+		ArrayList<Brick> brickList = new ArrayList<>();
+		brickList.add(new SetXBrick(new Formula(variableElementGlobal)));
+		brickList.add(new SetYBrick(new Formula(variableElementSprite)));
+		brickList.add(new SetXBrick(new Formula(listElementGlobal)));
+		brickList.add(new SetYBrick(new Formula(listElementSprite)));
+
+		Script testScript = new StartScript();
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+		WhenStartedBrick scriptBrick = new WhenStartedBrick(testScript);
+		testScript.setBrick(scriptBrick);
+		brickList.add(0, scriptBrick);
+
+		firstSprite.addScript(testScript);
+
+		project.getDefaultScene().addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static List<Brick> createTestProjectWithUserVariablesAndUserBrick() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new SingleSprite("cat");
 
 		String globalVariableName = "global_var";
 		String spriteVariableName = "sprite_var";
@@ -2037,6 +2092,12 @@ public final class UiTestUtils {
 		solo.clickOnActionBarHomeButton();
 	}
 
+	public static void getIntoStageFromMainMenu(Solo solo) {
+		getIntoScenesFromMainMenu(solo);
+		clickOnPlayButton(solo);
+		solo.waitForActivity(StageActivity.class);
+	}
+
 	public static void getIntoSpritesFromMainMenu(Solo solo) {
 		getIntoSpritesFromMainMenu(solo, null);
 	}
@@ -2216,13 +2277,13 @@ public final class UiTestUtils {
 	}
 
 	public static ListView getScriptListView(Solo solo) {
-		return getListView(solo, 0);
-	}
-
-	public static ListView getListView(Solo solo, int index) {
-		ArrayList<ListView> listOfListViews = solo.getCurrentViews(ListView.class);
-		assertTrue("no ListView found!", listOfListViews.size() > 0);
-		return listOfListViews.get(index);
+		for (ListView listView : solo.getCurrentViews(ListView.class)) {
+			if (listView instanceof BrickDragAndDropListView && listView.getAdapter() instanceof BrickAdapter) {
+				return listView;
+			}
+		}
+		fail("Could not find a Script ListView");
+		return null;
 	}
 
 	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {
@@ -2732,5 +2793,10 @@ public final class UiTestUtils {
 		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
 		solo.waitForActivity(UserBrickScriptActivity.class);
 		solo.waitForFragmentByTag(ScriptFragment.TAG);
+	}
+
+	public static void pauseStage(Solo solo) {
+		solo.goBack();
+		solo.waitForView(R.id.stage_dialog_menu);
 	}
 }

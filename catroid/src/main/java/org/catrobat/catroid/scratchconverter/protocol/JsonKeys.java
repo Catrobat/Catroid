@@ -74,7 +74,6 @@ public enum JsonKeys {
 		TITLE("title"),
 		IMAGE_URL("imageURL"),
 		PROGRESS("progress"),
-		ALREADY_DOWNLOADED("alreadyDownloaded"),
 		DOWNLOAD_URL("downloadURL");
 		private final String rawValue;
 

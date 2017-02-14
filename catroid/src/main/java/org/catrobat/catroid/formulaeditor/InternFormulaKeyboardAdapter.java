@@ -29,6 +29,7 @@ import java.util.List;
 
 public class InternFormulaKeyboardAdapter {
 
+	public static final int FORMULA_EDITOR_COLLIDE_RESOURCE_ID = 2;
 	public static final int FORMULA_EDITOR_USER_LIST_RESOURCE_ID = 1;
 	public static final int FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID = 0;
 
@@ -36,6 +37,11 @@ public class InternFormulaKeyboardAdapter {
 		//USER VARIABLES
 		if ((resource == FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID) && !name.isEmpty()) {
 			return buildUserVariable(name);
+		}
+
+		//COLLISION FORMULA
+		if ((resource == FORMULA_EDITOR_COLLIDE_RESOURCE_ID) && !name.isEmpty()) {
+			return buildCollideWithFormula(name);
 		}
 
 		//USER LISTS
@@ -222,6 +228,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.TIME_SECOND);
 			case R.string.formula_editor_nfc_tag_id:
 				return buildSensor(Sensors.NFC_TAG_ID);
+			case R.string.formula_editor_nfc_tag_message:
+				return buildSensor(Sensors.NFC_TAG_MESSAGE);
 
 			//NXT SENSOR
 			case R.string.formula_editor_sensor_lego_nxt_1:
@@ -233,6 +241,16 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_lego_nxt_4:
 				return buildSensor(Sensors.NXT_SENSOR_4);
 
+			case R.string.formula_editor_sensor_lego_ev3_1:
+				return buildSensor(Sensors.EV3_SENSOR_1);
+			case R.string.formula_editor_sensor_lego_ev3_2:
+				return buildSensor(Sensors.EV3_SENSOR_2);
+			case R.string.formula_editor_sensor_lego_ev3_3:
+				return buildSensor(Sensors.EV3_SENSOR_3);
+			case R.string.formula_editor_sensor_lego_ev3_4:
+				return buildSensor(Sensors.EV3_SENSOR_4);
+
+			//CAST SENSOR
 			case R.string.formula_editor_sensor_gamepad_a_pressed:
 				return buildSensor(Sensors.GAMEPAD_A_PRESSED);
 			case R.string.formula_editor_sensor_gamepad_b_pressed:
@@ -343,6 +361,10 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_BACKGROUND_NAME);
 			case R.string.formula_editor_object_distance_to:
 				return buildObject(Sensors.OBJECT_DISTANCE_TO);
+			case R.string.formula_editor_function_collides_with_edge:
+				return buildObject(Sensors.COLLIDES_WITH_EDGE);
+			case R.string.formula_editor_function_touched:
+				return buildObject(Sensors.COLLIDES_WITH_FINGER);
 		}
 		return null;
 	}
@@ -368,6 +390,12 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildUserVariable(String userVariableName) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.USER_VARIABLE, userVariableName));
+		return returnList;
+	}
+
+	private List<InternToken> buildCollideWithFormula(String formula) {
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(InternTokenType.COLLISION_FORMULA, formula));
 		return returnList;
 	}
 

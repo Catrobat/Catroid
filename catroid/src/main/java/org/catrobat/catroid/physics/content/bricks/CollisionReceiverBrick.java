@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -43,6 +42,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 
@@ -99,28 +99,17 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+
 		if (collisionScript == null) {
 			collisionScript = new CollisionScript(selectedMessage);
 			MessageContainer.addMessage(getBroadcastMessage());
 		}
 
 		view = View.inflate(context, R.layout.brick_physics_collision_receive, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_collision_receive_checkbox);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_collision_receive_spinner);
-		broadcastSpinner.setFocusableInTouchMode(false);
-		broadcastSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			broadcastSpinner.setClickable(true);
-			broadcastSpinner.setEnabled(true);
-		} else {
-			broadcastSpinner.setClickable(false);
-			broadcastSpinner.setEnabled(false);
-		}
 
 		broadcastSpinner.setAdapter(getCollisionObjectAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -150,7 +139,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(getDisplayedAnythingString(context));
 		int resources = Brick.NO_RESOURCES;
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 			if (!spriteName.equals(sprite.getName())) {
 				resources |= sprite.getRequiredResources();
 				if ((resources & Brick.PHYSICS) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {
@@ -166,26 +155,11 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_physics_collision_receive, null);
 		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_collision_receive_spinner);
-		broadcastReceiverSpinner.setFocusableInTouchMode(false);
-		broadcastReceiverSpinner.setFocusable(false);
-		broadcastReceiverSpinner.setEnabled(false);
+
 		SpinnerAdapter collisionReceiverSpinnerAdapter = getCollisionObjectAdapter(context);
 		broadcastReceiverSpinner.setAdapter(collisionReceiverSpinnerAdapter);
 		setSpinnerSelection(broadcastReceiverSpinner);
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_collision_receive_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-		}
-		return view;
 	}
 
 	@Override

@@ -35,10 +35,13 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.formulaeditor.BaseDataContainer;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -48,9 +51,19 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @XStreamAlias("program")
+// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+// CHECKSTYLE DISABLE IndentationCheck FOR 7 LINES
+@XStreamFieldKeyOrder({
+		"header",
+		"settings",
+		"scenes",
+		"programVariableList",
+		"programListOfLists"
+})
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -90,13 +103,12 @@ public class Project implements Serializable {
 		}
 
 		MessageContainer.clear();
-
 		//This is used for tests
 		if (context == null) {
+			//Because in test project we can't find the string
 			sceneList.add(new Scene(context, "Scene 1", this));
 		} else {
-			sceneList.add(new Scene(context, String.format(context.getString(R.string.default_scene_name), 1),
-					this));
+			sceneList.add(new Scene(context, context.getString(R.string.default_scene_name, 1), this));
 		}
 		xmlHeader.scenesEnabled = true;
 	}
@@ -115,17 +127,45 @@ public class Project implements Serializable {
 		projectVariables = oldProject.dataContainer.projectVariables;
 		projectLists = oldProject.dataContainer.projectLists;
 		Scene scene;
+
 		try {
-			scene = new Scene(context, String.format(context.getString(R.string.default_scene_name), 1), this);
+			scene = new Scene(context, context.getString(R.string.default_scene_name, 1), this);
 		} catch (Resources.NotFoundException e) {
 			//Because in test project we can't find the string
 			scene = new Scene(context, "Scene 1", this);
 		}
 		DataContainer container = new DataContainer(this);
+		removeInvalidVariablesAndLists(oldProject.dataContainer);
 		container.setSpriteVariablesForSupportContainer(oldProject.dataContainer);
 		scene.setDataContainer(container);
 		scene.setSpriteList(oldProject.spriteList);
 		sceneList.add(scene);
+	}
+
+	public void removeInvalidVariablesAndLists(BaseDataContainer dataContainer) {
+		if (dataContainer == null) {
+			return;
+		}
+
+		if (dataContainer.spriteListOfLists != null) {
+			Iterator listIterator = dataContainer.spriteListOfLists.keySet().iterator();
+			while (listIterator.hasNext()) {
+				Sprite sprite = (Sprite) listIterator.next();
+				if (sprite == null) {
+					listIterator.remove();
+				}
+			}
+		}
+
+		if (dataContainer.spriteVariables != null) {
+			Iterator variablesIterator = dataContainer.spriteVariables.keySet().iterator();
+			while (variablesIterator.hasNext()) {
+				Sprite sprite = (Sprite) variablesIterator.next();
+				if (sprite == null) {
+					variablesIterator.remove();
+				}
+			}
+		}
 	}
 
 	public List<Scene> getSceneList() {
@@ -266,7 +306,7 @@ public class Project implements Serializable {
 		for (Scene scene : sceneList) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				int tempResources = sprite.getRequiredResources();
-				if ((tempResources & Brick.PHYSICS) > 0) {
+				if ((tempResources & Brick.PHYSICS) != 0) {
 					sprite.setActionFactory(physicsActionFactory);
 					tempResources &= ~Brick.PHYSICS;
 				} else {
@@ -369,8 +409,34 @@ public class Project implements Serializable {
 		settings.add(mapping);
 	}
 
-	public void loadLegoNXTSettingsFromProject(Context context) {
+	public void saveLegoEV3SettingsToProject(Context context) {
+		if (context == null) {
+			return;
+		}
 
+		if ((getRequiredResources() & Brick.BLUETOOTH_LEGO_EV3) == 0) {
+			for (Object setting : settings.toArray()) {
+				if (setting instanceof LegoEV3Setting) {
+					settings.remove(setting);
+					return;
+				}
+			}
+			return;
+		}
+
+		EV3Sensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsEV3SensorMapping(context);
+		for (Setting setting : settings) {
+			if (setting instanceof LegoEV3Setting) {
+				((LegoEV3Setting) setting).updateMapping(sensorMapping);
+				return;
+			}
+		}
+
+		Setting mapping = new LegoEV3Setting(sensorMapping);
+		settings.add(mapping);
+	}
+
+	public void loadLegoNXTSettingsFromProject(Context context) {
 		if (context == null) {
 			return;
 		}
@@ -384,6 +450,20 @@ public class Project implements Serializable {
 		}
 	}
 
+	public void loadLegoEV3SettingsFromProject(Context context) {
+		if (context == null) {
+			return;
+		}
+
+		for (Setting setting : settings) {
+			if (setting instanceof LegoEV3Setting) {
+				SettingsActivity.enableLegoMindstormsEV3Bricks(context);
+				SettingsActivity.setLegoMindstormsEV3SensorMapping(context, ((LegoEV3Setting) setting).getSensorMapping());
+				return;
+			}
+		}
+	}
+
 	//CAST
 	public boolean isCastProject() {
 		return xmlHeader.isCastProject();
@@ -392,6 +472,14 @@ public class Project implements Serializable {
 	public void refreshSpriteReferences() {
 		for (Scene scene : sceneList) {
 			scene.refreshSpriteReferences();
+		}
+	}
+
+	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
+		for (Scene scene : sceneList) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.updateCollisionFormulasToVersion(catroidLanguageVersion);
+			}
 		}
 	}
 }

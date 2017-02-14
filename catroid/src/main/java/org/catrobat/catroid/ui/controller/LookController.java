@@ -244,18 +244,16 @@ public final class LookController {
 
 	public LookData updateLookBackPackAfterUnpacking(LookData lookData, LookBaseAdapter adapter, String name, boolean
 			delete, String existingFileNameInProjectDirectory, boolean fromHiddenBackPack) {
-		LookData newLookData = new LookData();
-		newLookData.setLookName(name);
-
+		String fileName;
 		if (existingFileNameInProjectDirectory == null) {
-			String fileName = lookData.getLookFileName();
+			fileName = lookData.getLookFileName();
 			String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
 			fileName = fileName.substring(0, fileName.indexOf('_') + 1) + name + fileFormat;
-			newLookData.setLookFilename(fileName);
 		} else {
-			newLookData.setLookFilename(existingFileNameInProjectDirectory);
+			fileName = existingFileNameInProjectDirectory;
 		}
 
+		LookData newLookData = new LookData(name, fileName);
 		ProjectManager.getInstance().getCurrentSprite().getLookDataList().add(newLookData);
 
 		if (delete) {
@@ -293,6 +291,10 @@ public final class LookController {
 		lookData.setLookName(name);
 		lookDataList.add(lookData);
 		fragment.updateLookAdapter(lookData);
+
+		if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
+			lookData.getCollisionInformation().calculate();
+		}
 	}
 
 	public void loadDroneVideoImageToProject(String defaultImageName, int imageId, Activity activity, List<LookData>
@@ -368,7 +370,6 @@ public final class LookController {
 	public void loadImageIntoCatroid(Intent intent, Activity activity, List<LookData> lookDataList,
 			LookFragment fragment) {
 		String originalImagePath = "";
-
 		//get path of image - will work for most applications
 		Bundle bundle = intent.getExtras();
 		if (bundle != null) {
@@ -433,6 +434,9 @@ public final class LookController {
 				selectedLookData.resetThumbnailBitmap();
 			} catch (IOException ioException) {
 				Log.e(TAG, Log.getStackTraceString(ioException));
+			}
+			if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
+				selectedLookData.getCollisionInformation().calculate();
 			}
 		}
 	}
@@ -513,12 +517,14 @@ public final class LookController {
 		return false;
 	}
 
-	private void deleteLook(int position, List<LookData> lookDataList, Activity activity) {
+	public void deleteLook(int position, List<LookData> lookDataList, Activity activity) {
 		if (position < 0 || position >= lookDataList.size()) {
 			Log.d(TAG, "attempted to delete a look at a position not in lookdatalist");
 			return;
 		}
 		LookData lookDataToDelete = lookDataList.get(position);
+		lookDataToDelete.getCollisionInformation().cancelCalculation();
+
 		boolean isBackPackLook = lookDataToDelete.isBackpackLookData;
 
 		if (!otherLookDataItemsHaveAFileReference(lookDataToDelete)) {
@@ -614,15 +620,16 @@ public final class LookController {
 		return backPack(currentLookData, newLookDataName, true);
 	}
 
-	public LookData backPack(LookData currentLookData, String newLookDataName, boolean addToHiddenBackpack) {
+	private LookData backPack(LookData currentLookData, String newLookDataName, boolean addToHiddenBackpack) {
 		String existingFileNameInBackPackDirectory = lookFileAlreadyInBackPackDirectory(currentLookData);
 		currentLookData.isBackpackLookData = true;
+		File backPackedFile = null;
 		if (existingFileNameInBackPackDirectory == null && currentLookData != null
 				&& currentLookData.getAbsolutePath() != null && !currentLookData.getAbsolutePath().isEmpty()) {
-			copyLookBackPack(currentLookData, newLookDataName, false);
+			backPackedFile = copyLookBackPack(currentLookData, newLookDataName, false);
 		}
 		return updateLookBackPackAfterInsertion(newLookDataName, currentLookData,
-				existingFileNameInBackPackDirectory, addToHiddenBackpack);
+				existingFileNameInBackPackDirectory, addToHiddenBackpack, backPackedFile);
 	}
 
 	public LookData unpack(LookData selectedLookDataBackPack, boolean deleteUnpackedItems, boolean fromHiddenBackPack) {
@@ -662,21 +669,24 @@ public final class LookController {
 		return null;
 	}
 
-	public LookData updateLookBackPackAfterInsertion(String title, LookData currentLookData, String existingFileNameInBackPackDirectory, boolean addToHiddenBackpack) {
-		LookData newLookData = new LookData();
-		newLookData.isBackpackLookData = true;
-		newLookData.setLookName(title);
-
+	private LookData updateLookBackPackAfterInsertion(String title, LookData currentLookData, String existingFileNameInBackPackDirectory, boolean addToHiddenBackpack, File backPackedFile) {
+		String fileName = null;
 		if (existingFileNameInBackPackDirectory == null) {
 			if (currentLookData != null) {
-				String fileName = currentLookData.getLookFileName();
+				fileName = currentLookData.getLookFileName();
+				String hash = backPackedFile == null ? fileName.substring(0, 32) : Utils.md5Checksum(backPackedFile);
+				if (backPackedFile == null) {
+					Log.e(TAG, "backpacked file was null, file hash is possibly wrong");
+				}
 				String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
-				fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
-				newLookData.setLookFilename(fileName);
+				fileName = hash + "_" + title + fileFormat;
 			}
 		} else {
-			newLookData.setLookFilename(existingFileNameInBackPackDirectory);
+			fileName = existingFileNameInBackPackDirectory;
 		}
+
+		LookData newLookData = new LookData(title, fileName);
+		newLookData.isBackpackLookData = true;
 
 		if (addToHiddenBackpack) {
 			BackPackListManager.getInstance().addLookToHiddenBackPack(newLookData);
@@ -687,7 +697,7 @@ public final class LookController {
 		return newLookData;
 	}
 
-	public File copyLookBackPack(LookData selectedlookData, String newLookDataName, boolean copyFromBackpack) {
+	private File copyLookBackPack(LookData selectedlookData, String newLookDataName, boolean copyFromBackpack) {
 		try {
 			return StorageHandler.getInstance().copyImageBackPack(selectedlookData, newLookDataName, copyFromBackpack);
 		} catch (IOException ioException) {

@@ -774,11 +774,14 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		Rect keyboardRec = new Rect();
 		formulaEditorBrick.getGlobalVisibleRect(brickRect);
 		formulaEditorKeyboard.getGlobalVisibleRect(keyboardRec);
-		formulaEditorEditText.setMaxHeight(keyboardRec.top - brickRect.bottom);
 	}
 
 	public void addResourceToActiveFormula(int resource) {
 		formulaEditorEditText.handleKeyEvent(resource, "");
+		if (resource == R.string.formula_editor_function_collides_with_edge || resource == R.string
+				.formula_editor_function_touched) {
+			ProjectManager.getInstance().getCurrentSprite().createCollisionPolygons();
+		}
 	}
 
 	public void addUserListToActiveFormula(String userListName) {
@@ -789,6 +792,11 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	public void addUserVariableToActiveFormula(String userVariableName) {
 		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID,
 				userVariableName);
+	}
+
+	public void addCollideFormulaToActiveFormula(String spriteName) {
+		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_COLLIDE_RESOURCE_ID,
+				spriteName);
 	}
 
 	public void addStringToActiveFormula(String string) {

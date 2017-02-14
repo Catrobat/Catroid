@@ -24,8 +24,6 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -36,32 +34,21 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class DataContainer implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class DataContainer extends BaseDataContainer {
 	public static final transient int USER_VARIABLE_SPRITE = 0;
 	public static final transient int USER_VARIABLE_PROJECT = 1;
 	public static final transient int USER_VARIABLE_USERBRICK = 2;
 	public static final transient int USER_LIST_SPRITE = 4;
 	public static final transient int USER_LIST_PROJECT = 5;
 	public static final transient int USER_DATA_EMPTY = 6;
-
-	@XStreamAlias("objectVariableList")
-	private Map<Sprite, List<UserVariable>> spriteVariables;
-
-	@XStreamAlias("userBrickVariableList")
-	private Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
-
-	@XStreamAlias("objectListOfList")
-	private Map<Sprite, List<UserList>> spriteListOfLists;
 
 	private transient Project project;
 
@@ -322,9 +309,8 @@ public class DataContainer implements Serializable {
 					List<UserScriptDefinitionBrickElement> currentElements = userBrick.getUserScriptDefinitionBrickElements();
 					for (int id = 0; id < currentElements.size(); id++) {
 						if (currentElements.get(id).getText().equals(userVariableName) && currentElements.get(id).isVariable()) {
-							int alpha = userBrick.getAlphaValue();
-							Context alphaView = userBrick.getDefinitionBrick().getViewWithAlpha(alpha).getContext();
-							userBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.get(id).getText(), alphaView);
+							Context brickContext = userBrick.getDefinitionBrick().view.getContext();
+							userBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.get(id).getText(), brickContext);
 							currentElements.remove(id);
 						}
 					}
@@ -339,8 +325,25 @@ public class DataContainer implements Serializable {
 		if (variables == null) {
 			variables = new ArrayList<>();
 			spriteVariables.put(sprite, variables);
+			removeSpriteVariableWithSameSpriteName(sprite);
 		}
 		return variables;
+	}
+
+	private void removeSpriteVariableWithSameSpriteName(Sprite spriteToKeep) {
+		if (spriteVariables == null || spriteToKeep == null) {
+			return;
+		}
+
+		Iterator iterator = spriteVariables.keySet().iterator();
+		while (iterator.hasNext()) {
+			Sprite sprite = (Sprite) iterator.next();
+			if (sprite == null || !(sprite == spriteToKeep)
+					&& spriteVariables.get(sprite).size() == 0
+					&& sprite.getName().equals(spriteToKeep.getName())) {
+				iterator.remove();
+			}
+		}
 	}
 
 	public void removeVariableListForSprite(Sprite sprite) {

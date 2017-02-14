@@ -22,11 +22,10 @@
  */
 package org.catrobat.catroid.cast;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
@@ -35,6 +34,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,6 +43,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
+
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
@@ -78,7 +79,9 @@ public final class CastManager {
 	private GLSurfaceView20 stageViewDisplayedOnCast;
 	private Activity initializingActivity;
 	private RelativeLayout remoteLayout;
+	private RelativeLayout pausedView = null;
 	private MenuItem castButton;
+	private boolean pausedScreenShowing = false;
 
 	private CastManager() {
 		isGamepadButtonPressed.put(Sensors.GAMEPAD_A_PRESSED, false);
@@ -116,6 +119,10 @@ public final class CastManager {
 		return isConnected;
 	}
 
+	public MediaRouter getMediaRouter() {
+		return mediaRouter;
+	}
+
 	public ArrayList<MediaRouter.RouteInfo> getRouteInfos() {
 		return routeInfos;
 	}
@@ -126,6 +133,18 @@ public final class CastManager {
 
 	public void setButtonPress(Sensors btn, boolean b) {
 		isGamepadButtonPressed.put(btn, b);
+	}
+
+	public CastDevice getSelectedDevice() {
+		return selectedDevice;
+	}
+
+	public boolean pausedViewEmpty() {
+		if (pausedView != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public synchronized void initializeCast(Activity activity) {
@@ -261,25 +280,26 @@ public final class CastManager {
 				p.getXmlHeader().getVirtualScreenHeight());
 	}
 
-	private synchronized boolean currentlyConnecting() {
+	public synchronized boolean currentlyConnecting() {
 		return (!isConnected && selectedDevice != null);
 	}
 
 	public synchronized void openDeviceSelectorOrDisconnectDialog(Activity activity) {
-		if (isConnected || currentlyConnecting()) {
+		/*if (isConnected || currentlyConnecting()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			builder.setMessage(activity.getString(R.string.cast_stop_casting_to) + " "
-					+ selectedDevice.getFriendlyName() + "?");
-			builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			if (pausedView != null) {
+				builder.setMessage(activity.getString(R.string.cast_stop_casting_to) + " "
+						+ selectedDevice.getFriendlyName() + "?");
+			} else {
+				builder.setMessage(activity.getString(R.string.cast_ready_to_cast) + " "
+						+ selectedDevice.getFriendlyName());
+			}
+			builder.setPositiveButton(R.string.disconnect, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i) {
 					synchronized (this) {
 						mediaRouter.unselect(MediaRouter.UNSELECT_REASON_STOPPED);
 					}
-				}
-			}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialogInterface, int i) {
 				}
 			});
 			builder.create().show();
@@ -287,7 +307,9 @@ public final class CastManager {
 			//mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
 			SelectCastDialog dialog = new SelectCastDialog(deviceAdapter, activity);
 			dialog.openDialog();
-		}
+		}*/
+		SelectCastDialog dialog = new SelectCastDialog(deviceAdapter, activity);
+		dialog.openDialog();
 	}
 
 	public synchronized void setCastButton(MenuItem castButton) {
@@ -314,11 +336,40 @@ public final class CastManager {
 		remoteLayout.setBackground(drawable);
 	}
 
+	@SuppressLint("InflateParams")
+	public synchronized void setRemoteLayoutToPauseScreen(Context context) {
+		if (remoteLayout != null) {
+			if ((pausedView == null) && !pausedScreenShowing) {
+				pausedView = (RelativeLayout) LayoutInflater.from(context)
+						.inflate(R.layout.cast_pause_screen, null);
+				remoteLayout.addView(pausedView);
+				RelativeLayout.LayoutParams layoutParams =	(RelativeLayout.LayoutParams) pausedView.getLayoutParams();
+				Project p = ProjectManager.getInstance().getCurrentProject();
+				layoutParams.height = p.getXmlHeader().getVirtualScreenHeight();
+				layoutParams.width = p.getXmlHeader().getVirtualScreenWidth();
+				pausedView.setLayoutParams(layoutParams);
+				pausedView.setBackgroundColor(0x66000000);
+				pausedScreenShowing = true;
+			}
+			pausedView.setVisibility(View.VISIBLE);
+			pausedScreenShowing = true;
+		}
+	}
+
+	public synchronized void resumeRemoteLayoutFromPauseScreen() {
+		if (remoteLayout != null && pausedView != null) {
+			pausedView.setVisibility(View.GONE);
+			pausedScreenShowing = false;
+		}
+	}
+
 	public synchronized void onStageDestroyed() {
 		if (isConnected) {
 			setRemoteLayoutToIdleScreen(initializingActivity);
 		}
 		stageViewDisplayedOnCast = null;
+		pausedView = null;
+		pausedScreenShowing = false;
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
@@ -412,6 +463,8 @@ public final class CastManager {
 			selectedDevice = null;
 			gamepadActivity = null;
 			remoteLayout = null;
+			pausedView = null;
+			pausedScreenShowing = false;
 			CastRemoteDisplayLocalService.stopService();
 		}
 

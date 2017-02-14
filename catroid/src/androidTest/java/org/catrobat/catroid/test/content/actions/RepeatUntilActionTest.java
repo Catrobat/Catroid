@@ -53,9 +53,11 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 	private Script testScript;
 	private int delta = 5;
 	private UserVariable userVariable;
+	private UserVariable userVariable2;
 	private static final int START_VALUE = 3;
 	private static final int TRUE_VALUE = 6;
 	private static final String TEST_USERVARIABLE = "testUservariable";
+	private static final String TEST_USERVARIABLE_2 = "testUservariable2";
 	private Project project;
 
 	@Override
@@ -66,10 +68,16 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
+
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
+
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE_2);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE_2);
+		userVariable2 = ProjectManager.getInstance().getCurrentScene().getDataContainer()
+				.getUserVariable(TEST_USERVARIABLE_2, null);
 
 		super.setUp();
 	}
@@ -160,5 +168,34 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		}
 		assertEquals("Executed the wrong number of times!", expected,
 				testSprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testConditionCheckedOnlyAtEnd() {
+		Formula validFormula = new Formula(1);
+		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
+				new FormulaElement(ElementType.NUMBER, String.valueOf(TRUE_VALUE), null),
+				new FormulaElement(ElementType.USER_VARIABLE, userVariable.getName(), null)));
+
+		RepeatUntilBrick repeatBrick = new RepeatUntilBrick(validFormula);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new SetVariableBrick(new Formula(TRUE_VALUE), userVariable));
+		testScript.addBrick(new SetVariableBrick(new Formula(TRUE_VALUE), userVariable2));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+
+		while (!testSprite.look.getAllActionsAreFinished()) {
+			testSprite.look.act(1.0f);
+		}
+
+		int valueOfUserVariable = ((Double) userVariable.getValue()).intValue();
+		int valueOfUserVariable2 = ((Double) userVariable2.getValue()).intValue();
+
+		assertEquals("Wrong value for userVariable", TRUE_VALUE, valueOfUserVariable);
+		assertEquals("Wrong value for userVariable2", TRUE_VALUE, valueOfUserVariable2);
 	}
 }

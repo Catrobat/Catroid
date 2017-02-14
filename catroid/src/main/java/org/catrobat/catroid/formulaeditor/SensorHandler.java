@@ -43,6 +43,7 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
+import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -67,7 +68,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float[] rotationVector = new float[3];
 	private float[] accelerationXYZ = new float[3];
 	private float signAccelerationZ = 0f;
-	private float[] gravity = new float[]{0f, 0f, 0f};
+	private float[] gravity = new float[] { 0f, 0f, 0f };
 	private boolean useLinearAccelerationFallback = false;
 	private boolean useRotationVectorFallback = false;
 	private float linearAccelerationX = 0f;
@@ -144,6 +145,19 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	private static boolean networkGpsAvailable() {
 		return instance.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+	}
+
+	private static double startWeekWithMonday() {
+		int weekdayOfAndroidCalendar = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+		int convertedWeekday;
+
+		if (weekdayOfAndroidCalendar == Calendar.SUNDAY) {
+			convertedWeekday = Calendar.SATURDAY;
+		} else {
+			convertedWeekday = weekdayOfAndroidCalendar - 1;
+		}
+
+		return convertedWeekday;
 	}
 
 	public boolean accelerationAvailable() {
@@ -230,7 +244,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		FaceDetectionHandler.unregisterOnFaceDetectionStatusListener(instance);
 	}
 
-	public static Double getSensorValue(Sensors sensor) {
+	public static Object getSensorValue(Sensors sensor) {
 		if (instance.sensorManager == null) {
 			return 0d;
 		}
@@ -398,11 +412,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case DATE_YEAR:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			case DATE_MONTH:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.MONTH));
+				return Double.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1);
 			case DATE_DAY:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 			case DATE_WEEKDAY:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+				return startWeekWithMonday();
 			case TIME_HOUR:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 			case TIME_MINUTE:
@@ -418,6 +432,16 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				LegoNXT nxt = btService.getDevice(BluetoothDevice.LEGO_NXT);
 				if (nxt != null) {
 					return Double.valueOf(nxt.getSensorValue(sensor));
+				}
+				break;
+
+			case EV3_SENSOR_1:
+			case EV3_SENSOR_2:
+			case EV3_SENSOR_3:
+			case EV3_SENSOR_4:
+				LegoEV3 ev3 = btService.getDevice(BluetoothDevice.LEGO_EV3);
+				if (ev3 != null) {
+					return Double.valueOf(ev3.getSensorValue(sensor));
 				}
 				break;
 
@@ -503,12 +527,14 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				} else {
 					return 0.0;
 				}
+			case NFC_TAG_MESSAGE:
+				return String.valueOf(NfcHandler.getLastNfcTagMessage());
 
 			case NFC_TAG_ID:
-				return (double) NfcHandler.getLastNfcTagId();
+				return String.valueOf(NfcHandler.getLastNfcTagId());
 			//CAST
 			//default:
-			//	throw new IllegalArgumentException("Sensor not implemented");
+			//throw new IllegalArgumentException("Sensor not implemented");
 		}
 		return 0d;
 	}
@@ -603,16 +629,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (location == null) {
 			return;
 		}
-		if (isGpsConnected && location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
+		if (location.getProvider().equals(LocationManager.GPS_PROVIDER) || !isGpsConnected) {
 			latitude = location.getLatitude();
 			longitude = location.getLongitude();
 			locationAccuracy = location.getAccuracy();
-			altitude = location.hasAltitude() ? location.getAltitude() : Double.NaN;
-		} else if (!isGpsConnected) {
-			latitude = location.getLatitude();
-			longitude = location.getLongitude();
-			locationAccuracy = location.getAccuracy();
-			altitude = location.hasAltitude() ? location.getAltitude() : Double.NaN;
+			altitude = location.hasAltitude() ? location.getAltitude() : 0;
 		}
 
 		if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {

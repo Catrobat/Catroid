@@ -25,10 +25,10 @@ package org.catrobat.catroid.ui;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -111,16 +111,17 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 		}
 
 		conversionManager = new ScratchConversionManager(this, client, false);
-		conversionManager.addDownloadFinishedCallback(converterSlidingUpPanelFragment);
 		conversionManager.setCurrentActivity(this);
+		conversionManager.addGlobalDownloadCallback(converterSlidingUpPanelFragment);
 		conversionManager.addBaseInfoViewListener(converterSlidingUpPanelFragment);
-		conversionManager.addGlobalJobConsoleViewListener(converterSlidingUpPanelFragment);
+		conversionManager.addGlobalJobViewListener(converterSlidingUpPanelFragment);
 		searchProjectsListFragment.setConversionManager(conversionManager);
 
 		slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 		slidingLayout.addPanelSlideListener(this);
 
-		appendColoredBetaLabelToTitle(Color.RED);
+		final int betaLabelColor = ContextCompat.getColor(this, R.color.beta_label_color);
+		appendColoredBetaLabelToTitle(betaLabelColor);
 		hideSlideUpPanelBar();
 		Log.i(TAG, "Scratch Converter Activity created");
 	}
@@ -139,6 +140,9 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 		super.onDestroy();
 		Log.d(TAG, "Destroyed: " + TAG);
 		conversionManager.shutdown();
+		conversionManager.removeGlobalDownloadCallback(converterSlidingUpPanelFragment);
+		conversionManager.removeBaseInfoViewListener(converterSlidingUpPanelFragment);
+		conversionManager.removeGlobalJobViewListener(converterSlidingUpPanelFragment);
 		client = null;
 	}
 

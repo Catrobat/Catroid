@@ -27,7 +27,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -53,7 +52,7 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.BrickLayout;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -216,7 +215,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 				continue;
 			} else if (element.isVariable()) {
 				currentTextView = new EditText(context);
-				currentTextView.setTextAppearance(context, R.style.BrickPrototypeTextView);
 				currentTextView.setText(String.valueOf(0d));
 				currentTextView.setVisibility(View.VISIBLE);
 			} else {
@@ -248,7 +246,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 		view.measure(MeasureSpec.makeMeasureSpec(ScreenValues.SCREEN_WIDTH, MeasureSpec.EXACTLY), MeasureSpec
 				.makeMeasureSpec(
-						Utils.getPhysicalPixels(DragAndDropListView.WIDTH_OF_BRICK_PREVIEW_IMAGE, view.getContext()),
+						Utils.getPhysicalPixels(BrickDragAndDropListView.WIDTH_OF_BRICK_PREVIEW_IMAGE, view.getContext()),
 						MeasureSpec.AT_MOST));
 		view.layout(0, 0, ScreenValues.SCREEN_WIDTH, view.getMeasuredHeight());
 
@@ -309,15 +307,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		canvas.drawBitmap(bitmap, radius, radius, paint);
 
 		return toReturn;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = alphaValue;
-		return view;
 	}
 
 	@Override
@@ -454,16 +443,16 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 					formula.updateVariableReferences(oldName, newName, context);
 				}
 			}
-			if (brick instanceof ShowVariableBrick) {
-				ShowVariableBrick showVariableBrick = (ShowVariableBrick) brick;
-				if (showVariableBrick.getUserVariable().getName().equals(oldName)) {
-					((ShowVariableBrick) brick).getUserVariable().setName(newName);
+			if (brick instanceof ShowTextBrick) {
+				ShowTextBrick showTextBrick = (ShowTextBrick) brick;
+				if (showTextBrick.getUserVariable().getName().equals(oldName)) {
+					((ShowTextBrick) brick).getUserVariable().setName(newName);
 				}
 			}
-			if (brick instanceof HideVariableBrick) {
-				HideVariableBrick showTextBrick = (HideVariableBrick) brick;
+			if (brick instanceof HideTextBrick) {
+				HideTextBrick showTextBrick = (HideTextBrick) brick;
 				if (showTextBrick.getUserVariable().getName().equals(oldName)) {
-					((HideVariableBrick) brick).getUserVariable().setName(newName);
+					((HideTextBrick) brick).getUserVariable().setName(newName);
 				}
 			}
 		}

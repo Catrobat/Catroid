@@ -43,9 +43,12 @@ public interface Brick extends Serializable, Cloneable {
 		TRANSPARENCY, TRANSPARENCY_CHANGE, SIZE, SIZE_CHANGE, VOLUME, VOLUME_CHANGE, X_DESTINATION, Y_DESTINATION, STEPS,
 		DURATION_IN_SECONDS, DEGREES, TURN_RIGHT_DEGREES, TURN_LEFT_DEGREES, TIME_TO_WAIT_IN_SECONDS, VARIABLE,
 		VARIABLE_CHANGE, PEN_SIZE, IF_CONDITION, TIMES_TO_REPEAT, VIBRATE_DURATION_IN_SECONDS, USER_BRICK, NOTE, SPEAK,
-		SHOWTEXT, HIDETEXT, STRING, REPEAT_UNTIL_CONDITION, ASK_QUESTION,
+		SHOWTEXT, HIDETEXT, STRING, ROTATION_STYLE, REPEAT_UNTIL_CONDITION, ASK_QUESTION, NFC_NDEF_MESSAGE, ASK_SPEECH_QUESTION,
 
 		LEGO_NXT_SPEED, LEGO_NXT_DEGREES, LEGO_NXT_FREQUENCY, LEGO_NXT_DURATION_IN_SECONDS,
+
+		LEGO_EV3_FREQUENCY, LEGO_EV3_DURATION_IN_SECONDS, LEGO_EV3_VOLUME,
+		LEGO_EV3_SPEED, LEGO_EV3_POWER, LEGO_EV3_PERIOD_IN_SECONDS, LEGO_EV3_DEGREES,
 
 		DRONE_TIME_TO_FLY_IN_SECONDS, LIST_ADD_ITEM, LIST_DELETE_ITEM, INSERT_ITEM_INTO_USERLIST_VALUE,
 		INSERT_ITEM_INTO_USERLIST_INDEX, REPLACE_ITEM_IN_USERLIST_VALUE, REPLACE_ITEM_IN_USERLIST_INDEX, DRONE_POWER_IN_PERCENT,
@@ -65,7 +68,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	//use bitwise | for using multiple resources in a brick
 	int NO_RESOURCES = 0x0;
-	//int SOUND_MANAGER = 0x1;
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
 	int PHYSICS = 0x8;
@@ -84,9 +86,10 @@ public interface Brick extends Serializable, Cloneable {
 	int NFC_ADAPTER = 0x10000;
 	int VIDEO = 0x20000;
 	int SENSOR_GPS = 0x40000;
-	int CAST_REQUIRED = 0x80000;
-
-	//	public static final int BLUETOOTH_ARDUINO = 0x20000;
+	int COLLISION = 0x80000;
+	int BLUETOOTH_LEGO_EV3 = 0x100000;
+	int NETWORK_CONNECTION = 0x200000;
+	int CAST_REQUIRED = 0x400000;
 
 	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 
@@ -101,8 +104,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	int getRequiredResources();
 
-	void setCheckboxVisibility(int visibility);
-
 	int getAlphaValue();
 
 	void setBrickAdapter(BrickAdapter adapter);
@@ -115,19 +116,13 @@ public interface Brick extends Serializable, Cloneable {
 
 	void setCommentedOut(boolean commentedOut);
 
-	void setCheckedBoolean(boolean newValue);
-
 	void setCheckboxView(int id);
 
 	void setCheckboxView(int id, View view);
 
-	View getViewWithAlpha(int alphaValue);
-
 	void setAnimationState(boolean animationState);
 
 	void setAlpha(int alphaFull);
-
-	void enableAllViews(View view, boolean enable);
 
 	boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current);
 

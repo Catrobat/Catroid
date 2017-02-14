@@ -22,33 +22,40 @@
  */
 package org.catrobat.catroid.test;
 
-import android.test.AndroidTestCase;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.utils.UtilZip;
 
 import java.io.File;
 
-public class ProjectManagerTest extends AndroidTestCase {
+public class ProjectManagerTest extends InstrumentationTestCase {
 
 	private static final String OLD_PROJECT = "OLD_PROJECT";
 	private static final String NEW_PROJECT = "NEW_PROJECT";
 	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
 
 	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
+	private static final String ZIP_FILENAME_WRONG_NESTING_BRICKS = "CoinCatcher2.catrobat";
+	private static final String PROJECT_NAME_NESTING_BRICKS = "Coin Catcher 2";
 
 	private ProjectManager projectManager;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UtilUi.updateScreenWidthAndHeight(getContext());
+		UtilUi.updateScreenWidthAndHeight(getInstrumentation().getTargetContext());
 		projectManager = ProjectManager.getInstance();
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronousTask", false);
 	}
 
 	@Override
@@ -56,14 +63,14 @@ public class ProjectManagerTest extends AndroidTestCase {
 		super.tearDown();
 		projectManager.setProject(null);
 		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
-		TestUtils.removeFromPreferences(getContext(), Constants.PREF_PROJECTNAME_KEY);
+		TestUtils.removeFromPreferences(getInstrumentation().getTargetContext(), Constants.PREF_PROJECTNAME_KEY);
 	}
 
 	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 
 		try {
-			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
+			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 			fail("Project shouldn't be compatible");
 		} catch (CompatibilityProjectException expected) {
 		} catch (ProjectException projectException) {
@@ -76,7 +83,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 				.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 
 		try {
-			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
+			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 			assertTrue("Load project worked correctly", true);
 		} catch (ProjectException projectException) {
 			fail("Error loading project");
@@ -88,7 +95,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 				Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
 
 		try {
-			projectManager.loadProject(OLD_PROJECT, getContext());
+			projectManager.loadProject(OLD_PROJECT, getInstrumentation().getTargetContext());
 			assertTrue("Load old project worked correctly", true);
 		} catch (ProjectException projectException) {
 			fail("Could not load project.");
@@ -97,7 +104,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 
 		try {
-			projectManager.loadProject(NEW_PROJECT, getContext());
+			projectManager.loadProject(NEW_PROJECT, getInstrumentation().getTargetContext());
 			fail("Load project didn't failed to load project");
 		} catch (ProjectException expected) {
 		}
@@ -114,7 +121,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		assertNull("Current project not null.", projectManager.getCurrentProject());
 
 		try {
-			projectManager.loadProject(DOES_NOT_EXIST, getContext());
+			projectManager.loadProject(DOES_NOT_EXIST, getInstrumentation().getTargetContext());
 			fail("Load project didn't failed to load project");
 		} catch (ProjectException expected) {
 		}
@@ -129,7 +136,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 				Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		try {
-			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
+			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 		} catch (CompatibilityProjectException compatibilityException) {
 			fail("Incompatible project");
 		} catch (ProjectException projectException) {
@@ -145,7 +152,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		// simulate multiple saving trigger asynchronous (occurs in black box testing)
 		for (int i = 0; i < 3; i++) {
 			currentProject.setDescription(currentProject.getDescription() + i);
-			projectManager.saveProject(getContext());
+			projectManager.saveProject(getInstrumentation().getTargetContext());
 		}
 
 		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance
@@ -154,5 +161,22 @@ public class ProjectManagerTest extends AndroidTestCase {
 		TestUtils.deleteTestProjects();
 
 		assertFalse(String.format("Directory %s does still exist", directory.getPath()), directory.exists());
+	}
+
+	public void testLoadProjectWithInvalidNestingBrickReferences() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.TMP_PATH);
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_NESTING_BRICKS);
+
+		projectManager.loadProject(PROJECT_NAME_NESTING_BRICKS, getInstrumentation().getTargetContext());
+		Project project = projectManager.getCurrentProject();
+
+		assertTrue("Cannot load " + PROJECT_NAME_NESTING_BRICKS + " project", project != null);
+		assertEquals("Wrong project loaded", PROJECT_NAME_NESTING_BRICKS, project.getName());
+
+		assertTrue("Nesting brick references not correct!", projectManager.checkNestingBrickReferences(false, false));
+
+		UtilZip.deleteZipFile(ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.TMP_PATH);
+		TestUtils.deleteTestProjects(PROJECT_NAME_NESTING_BRICKS);
 	}
 }

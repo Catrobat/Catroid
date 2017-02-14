@@ -26,7 +26,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,11 +35,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -66,7 +62,7 @@ public class PointToBrick extends BrickBaseType {
 
 	private Sprite pointedObject;
 	private transient String oldSelectedObject;
-	private transient AdapterView<?> adapterView;
+
 	private transient SpinnerAdapterWrapper spinnerAdapterWrapper;
 
 	public PointToBrick(Sprite pointedSprite) {
@@ -95,29 +91,10 @@ public class PointToBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_point_to, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_point_to_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
-		spinner.setFocusableInTouchMode(false);
-		spinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			spinner.setClickable(true);
-			spinner.setEnabled(true);
-		} else {
-			spinner.setClickable(false);
-			spinner.setEnabled(false);
-		}
 
 		final ArrayAdapter<String> spinnerAdapter = getArrayAdapterFromSpriteList(context);
 
@@ -144,7 +121,6 @@ public class PointToBrick extends BrickBaseType {
 						}
 					}
 				}
-				adapterView = parent;
 			}
 
 			@Override
@@ -158,35 +134,9 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_point_to_layout);
-			layout.getBackground().setAlpha(alphaValue);
-
-			TextView textPointToLabel = (TextView) view.findViewById(R.id.brick_point_to_label);
-			textPointToLabel.setTextColor(textPointToLabel.getTextColors().withAlpha(alphaValue));
-			Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
-			ColorStateList color = textPointToLabel.getTextColors().withAlpha(alphaValue);
-			pointToSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_point_to, null);
 		Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
-		pointToSpinner.setFocusableInTouchMode(false);
-		pointToSpinner.setFocusable(false);
-		pointToSpinner.setEnabled(false);
 
 		SpinnerAdapter pointToSpinnerAdapter = getArrayAdapterFromSpriteList(context);
 		pointToSpinner.setAdapter(pointToSpinnerAdapter);

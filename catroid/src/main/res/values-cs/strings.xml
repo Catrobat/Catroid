@@ -25,9 +25,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
-  <string name="cancel_button">Zrušit</string>
-  <string name="next_button">Další</string>
-  <string name="done_button">Hotovo</string>
+  <string name="cancel">Zrušit</string>
+  <string name="next">Další</string>
+  <string name="done">Hotovo</string>
   <string name="rename">Přejmenovat</string>
   <string name="delete">Smazat</string>
   <string name="yes">Ano</string>
@@ -38,15 +38,16 @@
   <string name="backpack_add">Přidat do batohu</string>
   <string name="backpack">Batoh</string>
   <string name="packing">Zabalit</string>
-  <string name="unpack">Rozbalit</string>
-  <string name="unpack_keep">Rozbal a ponechej</string>
-  <string name="unpack_bg">Rozbal jako pozadí</string>
-  <string name="unpack_object">Rozbal jako objekt</string>
+  <string name="unpack">Vybalit</string>
+  <string name="unpack_keep">Vybal a ponechej</string>
+  <string name="unpack_bg">Vybal jako pozadí</string>
+  <string name="unpack_object">Vybal jako objekt</string>
   <string name="copy_addition">kopírovat</string>
   <string name="close">Zavřít</string>
   <string name="error">Chyba</string>
   <string name="please_wait">Počkej, prosím</string>
   <string name="loading">Načítání&#8230;</string>
+  <string name="search_hint">Hledat&#8230;</string>
   <string name="no_internet">Žádný internet</string>
   <string name="loading_check_token">Token je kontrolován na našem serveru&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data se načítají&#8230;</string>
@@ -61,6 +62,7 @@
   <string name="background">Pozadí</string>
   <string name="stage">Scéna</string>
   <string name="ok">OK</string>
+  <string name="play">Přehrát</string>
   <string name="settings">Nastavení</string>
   <string name="redo">Provést znovu</string>
   <string name="undo">Zpět</string>
@@ -71,12 +73,15 @@
   <string name="my_group">Moje skupina</string>
   <string name="name">Jméno:</string>
   <string name="nothing_to_copy">Nic ke kopírování</string>
-  <string name="nothing_to_backpack_and_unpack">Nic pro přidání nebo vyndání z batohu</string>
+  <string name="nothing_to_backpack_and_unpack">Nic pro zabalení nebo vybalení z batohu</string>
   <string name="nothing_to_unpack">Nic pro rozbalení</string>
   <string name="nothing_to_delete">Nic ke smazání</string>
   <string name="nothing_to_rename">Nic k přejmenování</string>
   <string name="unpack_background">Pozadí programu bude nahrazeno</string>
   <string name="degrees">stupně</string>
+  <string name="landscape">Krajina</string>
+  <string name="portrait">Portrét</string>
+  <string name="unknown">neznámé</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Nový</string>
   <string name="main_menu_continue">Pokračovat</string>
@@ -85,12 +90,17 @@
   <string name="main_menu_web">Prozkoumat</string>
   <string name="main_menu_upload">Nahrát</string>
   <string name="main_menu_about_pocketcode">O Pocket Code</string>
-  <string name="main_menu_terms_of_use">Podmínky užívání</string>
+  <string name="main_menu_terms_of_use">Podmínkami užívání</string>
   <string name="main_menu_rate_app">Ohodnoť nás!</string>
   <string name="main_menu_play_store_not_installed">Aplikace Play Store nenalezena</string>
   <string name="main_menu_logout">Odhlásit se</string>
-  <string name="main_menu_login">Přihlásit</string>
+  <string name="main_menu_login">Přihlásit se</string>
+  <string name="main_menu_scratch_converter">Scratch konvertor</string>
   <string name="logout_successful">Odhlášení bylo úspěšné</string>
+  <!-- Marketing activity -->
+  <string name="marketing_created_with">Vytvořen s</string>
+  <string name="marketing_app_details">Podrobnosti o této aplikaci</string>
+  <string name="marketing_more_on_google_play">Další aplikace na Google Play</string>
   <!-- Settings activity -->
   <string name="preference_title">Nastavení</string>
   <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bloky</string>
@@ -104,6 +114,8 @@
   <string name="preference_title_enable_arduino_bricks">Arduino bloky</string>
   <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
   <string name="preference_description_nfc_bricks">Povolit použití NFC tagů v programech</string>
+  <string name="preference_description_crash_reports">Povolit automaticky odesílat zprávy o selhání</string>
+  <string name="preference_title_enable_crash_reports">Odesílat anonymní zprávy o selhání</string>
   <string name="preference_description_arduino_bricks">Povolit ovládání Arduino desek</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bloky</string>
   <string name="preference_description_raspi_bricks">Povolit ovládání Raspberry Pi počítačů</string>
@@ -112,6 +124,153 @@
   <string name="preference_raspi_help_summary">Nápověda ke konfiguraci připojení</string>
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Adresa</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <string name="preference_title_access">Accessibility</string>
+  <string name="preference_description_access">Choose a profile and configurate your personal
+        settings for the Pocket-Code-UI</string>
+  <string name="preference_access_title_activity_access">Accessibility preferences</string>
+  <string name="preference_access_profiles">Profiles</string>
+  <string name="preference_access_predefined_profiles">Predefined profiles</string>
+  <string name="preference_access_active_profile">Active profile</string>
+  <string name="preference_access_selected_profile">Selected profile</string>
+  <string name="preference_access_change_profile">Switch to predefined profiles</string>
+  <string name="preference_access_apply_profile">Apply this profile</string>
+  <string name="preference_access_settings">Nastavení</string>
+  <string name="preference_access_title_large_text">Large text</string>
+  <string name="preference_access_summary_large_text">The large text setting increases the text size.</string>
+  <string name="preference_access_choose_fontface">Choose a fontface</string>
+  <string name="preference_access_title_fontface">Fontface</string>
+  <string name="preference_access_summary_fontface">Fontface allows you to choose a font style you
+        prefer.</string>
+  <string name="preference_access_title_fontface_standard">Standard</string>
+  <string name="preference_access_title_fontface_serif">Serif</string>
+  <string name="preference_access_title_fontface_dyslexic">Dyslexic</string>
+  <string name="preference_access_title_high_contrast">High contrast</string>
+  <string name="preference_access_summary_high_contrast">Increases the contrast and makes the text on bricks easier
+        to read.</string>
+  <string name="preference_access_title_additional_icons">Additional icons</string>
+  <string name="preference_access_summary_additional_icons">Adds icons to categories and bricks to improve
+        recognizability.</string>
+  <string name="preference_access_title_large_icons">Large icons</string>
+  <string name="preference_access_summary_large_icons">Increases the size of icons.</string>
+  <string name="preference_access_title_high_contrast_icons">Icon contrast</string>
+  <string name="preference_access_summary_high_contrast_icons">Changes the brick icons to high contrast icons.
+        </string>
+  <string name="preference_access_title_largeelementspacing">Large element spacing</string>
+  <string name="preference_access_summary_largeelementspacing">The large element spacing increase the space
+        between touchable elements.</string>
+  <string name="preference_access_title_starter_bricks">Starter bricks</string>
+  <string name="preference_access_summary_starter_bricks">Shows only starter bricks for ease of learning.</string>
+  <string name="preference_access_title_dragndrop_delay">Drag\'n\'drop delay</string>
+  <string name="preference_access_summary_dragndrop_delay">Adds delay to the drag\'n\'drop of bricks.</string>
+  <string name="preference_access_title_profile_standard">Standard</string>
+  <string name="preference_access_summary_profile_standard">The standard settings</string>
+  <string name="preference_access_title_profile_myprofile">My Profile</string>
+  <string name="preference_access_summary_profile_myprofile">My personal settings</string>
+  <string name="preference_access_title_profile_1">Argus</string>
+  <string name="preference_access_summary_profile_1">Visual improvement: High contrast, additional icons</string>
+  <string name="preference_access_title_profile_2">Odin</string>
+  <string name="preference_access_summary_profile_2">Visual improvement: Large text, large icons, large element
+        spacing, high contrast</string>
+  <string name="preference_access_title_profile_3">Fenrir</string>
+  <string name="preference_access_summary_profile_3">Input improvement: Large element spacing, drag\'n\'drop
+        delay</string>
+  <string name="preference_access_title_profile_4">Tiro</string>
+  <string name="preference_access_summary_profile_4">Learning: Starter bricks</string>
+  <string name="preference_access_title_created_profile">Created profile</string>
+  <string name="preference_access_summary_created_profile">You have created a new profile! The changes you
+        make can be found in \'My Profile\'</string>
+  <string name="preference_access_title_restart">Profile applied</string>
+  <string name="preference_access_summary_restart">Pocket Code will be restarted to apply the changes you
+        made.</string>
+  <!-- Scratch Converter activity -->
+  <string name="beta">beta</string>
+  <string name="title_activity_scratch_converter">Převod Scratch programu</string>
+  <string name="error_scratch_program_not_accessible_any_more">Jejda! Data tohoto programu již nejsou přístupná!</string>
+  <string name="error_scratch_project_data_not_available">Whoops! Some data could not be loaded from this Scratch
+        program. Please try again later!</string>
+  <string name="error_request_timeout">Jejda! Náš server není momentálně dostupný, zkus to prosím později!</string>
+  <string name="error_scratch_program_conversion_failed">Jejda! Nepodařilo se převést Scratch program, opakujte akci později!</string>
+  <string name="error_specific_scratch_program_conversion_failed_x">Jejda! Převod %1$s se nezdařil, opakujte akci později!</string>
+  <string name="error_scratch_converter_outdated_pocketcode_version">Your Pocket Code app is outdated. Our Scratch
+        converter only supports the latest Pocket Code version. Please update it on the Google Play Store!</string>
+  <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
+        have canceled the conversion/download of the Scratch program or you have renamed/deleted the program in the
+        meanwhile!</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">Cannot open this Scratch program
+        while it is downloading! Please try again later!</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">Cannot open this Scratch program
+        since it has not been downloaded yet! Please try again later!</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s! Older Scratch before %2$s
+        programs are not supported!</string>
+  <plurals name="error_cannot_convert_more_than_x_programs">
+    <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
+    <item quantity="few">Cannot convert more than %d programs simultaneously!</item>
+    <item quantity="other">Cannot convert more than %d programs simultaneously!</item>
+  </plurals>
+  <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
+        failed!</string>
+  <string name="search_failed">Search failed, please retry later!</string>
+  <string name="connection_lost_or_closed_by_server">Connection lost or closed by server!</string>
+  <string name="connection_failed">Connection to server failed, please retry later!</string>
+  <string name="authentication_failed">Authentication failed, please contact the Pocket Code team!</string>
+  <plurals name="scratch_conversion_scheduled_x">
+    <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
+    <item quantity="few">Scheduled %d Scratch programs&#8230;</item>
+    <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
+  </plurals>
+  <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
+  <string name="convert">Konvertovat</string>
+  <string name="converting">Probíhá převod&#8230;</string>
+  <string name="status_scheduled">Naplánováno</string>
+  <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
+  <string name="status_started">Byl zahájen&#8230;</string>
+  <string name="status_conversion_finished">Konverze dokončena</string>
+  <plurals name="status_in_progress_x_jobs">
+    <item quantity="one">In progress: 1 job</item>
+    <item quantity="few">In progress: %d jobs</item>
+    <item quantity="other">In progress: %d jobs</item>
+  </plurals>
+  <plurals name="status_completed_x_jobs">
+    <item quantity="one">Completed: 1 job</item>
+    <item quantity="few">Completed: %d jobs</item>
+    <item quantity="other">Completed: %d jobs</item>
+  </plurals>
+  <string name="status_conversion_failed">Conversion failed!</string>
+  <string name="status_conversion_canceled">Conversion canceled!</string>
+  <string name="status_downloading">Downloading&#8230;</string>
+  <string name="status_download_finished">Download finished!</string>
+  <string name="status_download_canceled">Download canceled!</string>
+  <string name="list_view_section_title_in_progress">Probíhá</string>
+  <string name="list_view_section_title_converted_programs">Převedené programy</string>
+  <string name="status">Status</string>
+  <string name="title">Oslovení</string>
+  <string name="by_x">o %1$s</string>
+  <string name="by_author">podle autora</string>
+  <string name="warning_program_visibility">Upozornění: \n Toto vypadá jako soukromý program. Převod může selhat!</string>
+  <string name="instructions">Instrukce</string>
+  <string name="notes_and_credits">Poznámky a autoři</string>
+  <string name="shared_at_x">Sdílené: %1$s</string>
+  <string name="modified_at_x">Změněno: %1$s</string>
+  <string name="remixes">Remixy</string>
+  <!-- ScratchReconvertDialog Strings -->
+  <string name="reconvert_text">Tento program byl převeden před %1$s.</string>
+  <plurals name="minutes">
+    <item quantity="one">1 minuta</item>
+    <item quantity="few">%d minuty</item>
+    <item quantity="other">%d minut</item>
+  </plurals>
+  <plurals name="hours">
+    <item quantity="one">1 hodina</item>
+    <item quantity="few">%d hodiny</item>
+    <item quantity="other">%d hodin</item>
+  </plurals>
+  <plurals name="days">
+    <item quantity="one">1 den</item>
+    <item quantity="few">%d dny</item>
+    <item quantity="other">%d dnů</item>
+  </plurals>
+  <string name="reconvert_dialog_download">Stáhnou již konvertovaný program</string>
+  <string name="reconvert_dialog_reconvert">Převést tento program</string>
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Nakreslit obrázek</string>
   <string name="dialog_new_object_gallery">Vybrat obrázek</string>
@@ -121,7 +280,7 @@
   <string name="dialog_new_object_switch_title">Nový objekt vytvořen</string>
   <string name="dialog_new_object_switch_message">Přepnout na nový objekt?</string>
   <!-- Terms of Use Dialog -->
-  <string name="dialog_terms_of_use_title">Podmínky užívání</string>
+  <string name="dialog_terms_of_use_title">Podmínkami užívání</string>
   <string name="dialog_terms_of_use_info">Pro možnost použití Pocket Code a ostatních programů nabízených projektem Catrobat, musíš souhlas s podmínkami užívání a strikně je následovat, když používáš Pocket Code a ostatní programy. Prosím klepni na odkaz níže pro jejich přesné znění. \n</string>
   <string name="dialog_terms_of_use_link_text">Podmínky užívání</string>
   <!-- Terms of Use Dialog Parrot ARDrone-->
@@ -137,6 +296,8 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <!-- Project activity view -->
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programy</string>
+  <string name="number_of_objects">Objekty:</string>
+  <string name="start_scene_name">%1$s (první scéna)</string>
   <string name="number_of_scripts">Skripty:</string>
   <string name="number_of_bricks">Bloky:</string>
   <string name="number_of_looks">Vzhledy:</string>
@@ -152,8 +313,20 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="dialog_confirm_delete_object_message">Tuto operaci nelze vrátit!</string>
   <string name="select_all">Vyber vše</string>
   <string name="deselect_all">Zrušit výběr všech</string>
-  <string name="backpack_replace_object">Objekt \"%1$s\" již je v batohu. Chceš jej nahradit?</string>
+  <string name="backpack_replace_object">Objekt %1$s již je v batohu. Chceš jej nahradit?</string>
+  <string name="backpack_replace_scene">Scéna %1$s již je v batohu. Chceš ji nahradit?</string>
   <string name="backpack_replace_object_multiple">Objekty už jsou v batohu. Chceš je nahradit?</string>
+  <string name="groups_create">Vytvořit skupinu</string>
+  <string name="group_created">Skupina byla úspěšně vytvořena!</string>
+  <string name="ungroup">Zrušit skupinu</string>
+  <string name="group_objects_delete">Odstranit skupinu a objekty</string>
+  <string name="group">Skupina</string>
+  <string name="backpack_replace_scene_multiple">Scény jsou již v batohu. Chceš je nahradit?</string>
+  <!-- Project overview -->
+  <string name="author">Autor:</string>
+  <string name="screen_size">Velikost obrazovky:</string>
+  <string name="mode">Režim:</string>
+  <string name="remix_of">Remix:</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Kopie</string>
   <!-- Script activity -->
@@ -165,81 +338,83 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="size">Velikost:</string>
   <string name="script_group">Skupina skriptů</string>
   <string name="script_groups">Skupiny skriptů</string>
-  <string name="userbrick_group">Skupina bloků uživatele</string>
-  <string name="userbrick_groups">Skupiny bloků uživatele</string>
+  <string name="userbrick_group">Skupina bloků</string>
+  <string name="userbrick_groups">Skupiny bloků</string>
   <string name="script_group_name_given">Skupina s tímto názvem již existuje. Zvolte prosím jiný!</string>
+  <string name="group_or_object_name_given">A Group or object with this name already exists. Please choose a
+        different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Klepni na \"+\" pro přidání skriptů</string>
   <string name="dialog_confirm_delete_brick_title">Smazat tento blok?</string>
   <string name="dialog_confirm_delete_script_title">Smazat tento skript?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Smazat tyto bloky?</string>
-  <string name="dialog_confirm_delete_backpack_group_title">Smazat tuto skupinu?</string>
-  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Smazat tyto skupiny?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">Tuto operaci nelze vrátit!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Smaž %d blok</item>
-    <item quantity="few">Smaž %d bloky</item>
-    <item quantity="other">Smaž %d bloků</item>
+    <item quantity="one">Delete %d Brick</item>
+    <item quantity="few">Delete %d Bricks</item>
+    <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Kopíruj %d blok</item>
-    <item quantity="few">Kopíruj %d bloky</item>
-    <item quantity="other">Kopíruj %d bloků</item>
+    <item quantity="one">Copy %d Brick</item>
+    <item quantity="few">Copy %d Bricks</item>
+    <item quantity="other">Copy %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Dej %d blok do batohu</item>
-    <item quantity="few">Dej %d bloky do batohu</item>
-    <item quantity="other">Dej %d bloků do batohu</item>
+    <item quantity="one">Backpack %d Brick</item>
+    <item quantity="few">Backpack %d Bricks</item>
+    <item quantity="other">Backpack %d Bricks</item>
   </plurals>
   <!-- Look fragment -->
   <string name="fragment_look_text_description">Klepni na \"+\" pro přidání vzhledů</string>
   <string name="fragment_background_text_description">Klepni na \"+\" pro přidání pozadí</string>
   <string name="rename_look_dialog">Přejmenovat vzhled</string>
-  <string name="lookname_invalid">Neplatné jméno vzhledu</string>
+  <string name="lookname_invalid">This Look\'s name is invalid</string>
   <string name="pocket_paint_not_installed_title">Pocket Paint není nainstalován!</string>
   <string name="pocket_paint_not_installed">Chceš ho nainstalovat?</string>
   <string name="default_look_name">vzhled</string>
-  <string name="delete_look_dialog">Smazat vzhled?</string>
+  <string name="delete_look_dialog">Delete Look?</string>
   <string name="select_look_from_gallery">Vybrat obrázek</string>
   <string name="select_look_from_camera">Vybrat fotografii</string>
   <string name="look_measure">Míra:</string>
-  <string name="dialog_confirm_delete_look_title">Smazat tento vzhled?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Smazat tyto vzhledy?</string>
+  <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">Tuto operaci nelze vrátit!</string>
-  <string name="lookname">Jméno vzhledu:</string>
-  <string name="backpack_replace_look">Vzhled \"%1$s\" již je v batohu. Chceš ho nahradit?</string>
-  <string name="backpack_replace_look_multiple">Vzhledy již v batohu jsou. Chceš je nahradit?</string>
+  <string name="lookname">Look name:</string>
+  <string name="backpack_replace_look">The look %1$s already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Klepni na \"+\" pro přidání zvuků</string>
   <string name="rename_sound_dialog">Přejmenovat zvuk</string>
-  <string name="backpack_title">Tvůj batoh</string>
+  <string name="backpack_title">Your Backpack</string>
   <string name="soundname_invalid">Neplatné jméno zvuku</string>
   <string name="sound_play">spustit</string>
   <string name="sound_stop">zastavit</string>
-  <string name="sound_select_source">Vyber zvuk</string>
+  <string name="sound_select_source">Select a Sound</string>
   <string name="sound_time_seperator">/</string>
-  <string name="delete_sound_dialog">Smazat zvuk?</string>
+  <string name="delete_sound_dialog">Delete Sound?</string>
   <string name="length">Délka:</string>
-  <string name="dialog_confirm_delete_sound_title">Smazat tento zvuk?</string>
-  <string name="dialog_confirm_delete_multiple_sounds_title">Smazat tyto zvuky?</string>
+  <string name="dialog_confirm_delete_sound_title">Delete this Sound?</string>
+  <string name="dialog_confirm_delete_multiple_sounds_title">Delete these Sounds?</string>
   <string name="dialog_confirm_delete_sound_message">Tuto operaci nelze vrátit!</string>
-  <string name="sound_name">Jméno zvuku:</string>
-  <string name="new_sound_name">Jméno zvuku:</string>
-  <string name="rename_sound_overwrite">Zvuk s tímto názvem již existuje. Zvolte prosím jiný!</string>
-  <string name="backpack_replace_sound">Zvuk \"%1$s\" již je v batohu. Chceš ho nahradit?</string>
-  <string name="backpack_replace_sound_multiple">Zvuky jsou již v batohu. Chceš je nahradit?</string>
+  <string name="sound_name">Sound name:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
+  <string name="backpack_replace_sound">The sound %1$s already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Skenovat tagy pro přidání</string>
-  <string name="rename_nfctag_dialog">Přejmenuj nfc tag</string>
-  <string name="nfctagname_invalid">Neplatné jméno nfc tagu</string>
-  <string name="nfctag_scan">skenuj</string>
-  <string name="delete_nfctag_dialog">Smazat nfc tag?</string>
-  <string name="dialog_confirm_delete_nfctag_title">Smazat tento nfc tag?</string>
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
   <string name="dialog_confirm_delete_multiple_nfctags_title">Smazat tyto nfc tagy?</string>
   <string name="dialog_confirm_delete_nfctag_message">Tuto operaci nelze vrátit!</string>
   <string name="nfctag_name">jméno nfc tagu:</string>
   <string name="nfctag">NFC tag</string>
-  <string name="nfctags">NFC tagy</string>
+  <string name="nfctags">NFC Tags</string>
   <string name="uid">ID</string>
   <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
@@ -248,19 +423,14 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
     <item quantity="other">bylo rozbalených!</item>
   </plurals>
   <plurals name="packing_items_plural">
-    <item quantity="one">byl uložen do batohu!</item>
-    <item quantity="few">byli uloženy do batohu!</item>
-    <item quantity="other">bylo uloženo do batohu!</item>
+    <item quantity="one">was backpacked!</item>
+    <item quantity="few">were backpacked!</item>
+    <item quantity="other">were backpacked!</item>
   </plurals>
   <plurals name="scripts_plural">
-    <item quantity="one">Skript</item>
-    <item quantity="few">Skripty</item>
-    <item quantity="other">Skriptů</item>
-  </plurals>
-  <plurals name="userbricks_plural">
-    <item quantity="one">Uživatelský blok</item>
-    <item quantity="few">Uživatelské bloky</item>
-    <item quantity="other">Uživatelských bloků</item>
+    <item quantity="one">Script</item>
+    <item quantity="few">Scripts</item>
+    <item quantity="other">Scripts</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Poslední přístup:</string>
@@ -270,26 +440,32 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="copy_project_finished"> zkopírováno.</string>
   <string name="program">Program</string>
   <string name="programs">Programy</string>
-  <string name="dialog_confirm_delete_program_title">Smazat tento program?</string>
-  <string name="dialog_confirm_delete_multiple_programs_title">Smazat tyto programy?</string>
+  <string name="scene">Scene</string>
+  <string name="scenes">Scenes</string>
+  <string name="dialog_confirm_delete_program_title">Delete this Program?</string>
+  <string name="dialog_confirm_delete_multiple_programs_title">Delete these Programs?</string>
+  <string name="dialog_confirm_delete_scene_title">Delete this Scene?</string>
+  <string name="dialog_confirm_delete_multiple_scenes_title">Delete these Scenes?</string>
   <string name="dialog_confirm_delete_program_message">Tuto operaci nelze vrátit!</string>
   <string name="details_date_today">Dnes</string>
   <string name="details_date_yesterday">Včera</string>
-  <string name="dialog_copy_project_title">Zkopírovat program</string>
+  <string name="dialog_copy_project_title">Copy Program</string>
   <!-- Soundrecorder activity -->
   <string name="soundrecorder_name">Záznamník Pocket Code</string>
   <string name="soundrecorder_error">Záznam zvuku se nezdařil</string>
   <string name="soundrecorder_recorded_filename">záznam</string>
   <string name="soundrecorder_text_view">Klepněte na ikonu pro spuštění a zastavení nahrávání.</string>
   <!-- PreStage activity -->
-  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech není nainstalován!\nChcete ho nainstalovat?</string>
-  <string name="prestage_resource_not_available_title">Komponenta není k dispozici</string>
-  <string name="prestage_resource_not_available_text">Tato hra nemůže běžet na tvém zařízení. Následující         komponenty nejsou k dispozici:\n\n</string>
-  <string name="prestage_no_flash_available">\u2022 Blesk\n</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+  <string name="prestage_resource_not_available_title">Component not available</string>
+  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
+        components are unavailable:\n\n</string>
+  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
   <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 Senzor zrychlení\n</string>
   <string name="prestage_no_inclination_sensor_available">\u2022 Senzor sklonu\n</string>
   <string name="prestage_no_compass_sensor_available">\u2022 Kompas\n</string>
+  <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
   <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
   <string name="prestage_no_back_camera_available">\u2022 Zadní kamera\n</string>
   <string name="prestage_no_camera_available">\u2022 Rozpoznávání obličeje\n</string>
@@ -305,9 +481,13 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="brick_context_dialog_copy_brick">Kopíruj blok</string>
   <string name="brick_context_dialog_animate_bricks">Animuj části bloku</string>
   <string name="brick_context_dialog_add_to_script">Přidat do skriptů</string>
-  <string name="brick_context_dialog_edit_brick">Uprav blok</string>
   <string name="brick_context_dialog_formula_edit_brick">Upravit vzorec</string>
   <string name="brick_context_dialog_delete_script">Smazat skript</string>
+  <string name="brick_context_dialog_comment_in">Povol block</string>
+  <string name="brick_context_dialog_comment_out">Zakaž blok</string>
+  <string name="brick_context_dialog_help">Nápověda</string>
+  <string name="comment_in_out">Zakázat/povolit</string>
+  <string name="comment_in_out_impossible">Nic k povolení/zakázání</string>
   <!-- New look dialog -->
   <string name="new_look_dialog_title">Přidat vzhled</string>
   <string name="add_look_from_camera">Vyfotit</string>
@@ -331,10 +511,26 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="new_project_default">Vytvořit příklad Programu</string>
   <string name="new_project_default_drone">Vytvořit příklad Drone Programu</string>
   <string name="project_orientation_title">Orientace:</string>
+  <!-- New scene dialog -->
+  <string name="new_scene_dialog_hint">Moje scéna</string>
+  <string name="new_scene_name">Jméno scény</string>
+  <string name="new_scene_dialog_default_scene_name">Moje scéna</string>
+  <string name="new_scene_dialog_title">Nová scéna</string>
+  <string name="scenename_already_exists">Prosím, vyber jiný název scény.</string>
+  <string name="rename_scene_dialog">Přejmenovat scénu</string>
+  <string name="scenename_invalid">Neplatné jméno scény</string>
+  <string name="scene_name">Jméno scény:</string>
+  <!-- Merge Scene Dialog -->
+  <string name="merge_scene_option">Sloučit scény</string>
+  <string name="merge_scene_label_one">Sloučit</string>
+  <!-- Play scene dialog -->
+  <string name="play_scene_dialog_title">Přehrát scénu:</string>
+  <string name="play_scene_dialog_default">První scéna (%1$s)</string>
+  <string name="play_scene_dialog_current">Současný (%1$s)</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Můj Objekt</string>
   <string name="new_sprite_dialog_title">Nový Objekt</string>
-  <string name="spritename_already_exists">Prosím, vyber jiný název.</string>
+  <string name="spritename_already_exists">Prosím, vyber jiný název Objektu.</string>
   <string name="rename_sprite_dialog">Přejmenovat Objekt</string>
   <string name="spritename_invalid">Neplatné jméno objektu</string>
   <string name="no_spritename_entered">Zadej název objektu.</string>
@@ -350,50 +546,53 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="register_terms">Registrací souhlasíte s našimi</string>
   <string name="register_pocketcode_terms_of_use_text">Podmínkami užívání</string>
   <string name="login">Přihlásit</string>
-  <string name="register">Registrovat</string>
-  <string name="or">NEBO</string>
-  <string name="password_confirm">Potvrdit heslo</string>
-  <string name="accountName">E-mail</string>
-  <string name="signin_thanks">Děkujeme ti za registraci na Pocket Code!</string>
-  <string name="signin_choose_username">Prosím, zadejte své uživatelské jméno:</string>
-  <string name="signin_choose_username_empty">Prosím, zadejte své uživatelské jméno</string>
-  <string name="signin_choose_username_hint">Uživatelské jméno by nemělo být tvoje skutečné jméno.</string>
-  <string name="oauth_username_taken">Uživatelské jméno je již obsazeno, vyberte si prosím jiné!</string>
-  <string name="show_password">Zobrazit heslo</string>
-  <string name="register_password_mismatch">Hesla se neshodují</string>
-  <string name="sign_in_error">Chyba při přihlášení</string>
+  <string name="register">Register</string>
+  <string name="or">OR</string>
+  <string name="password_confirm">Confirm Password</string>
+  <string name="accountName">E-Mail</string>
+  <string name="signin_thanks">Thank you for signing up to Pocket Code!</string>
+  <string name="signin_choose_username">Please choose your username:</string>
+  <string name="signin_choose_username_empty">Please enter a username</string>
+  <string name="signin_choose_username_hint">The username should not be your real name.</string>
+  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
+  <string name="show_password">Show Password</string>
+  <string name="register_password_mismatch">Passwords do not match</string>
+  <string name="sign_in_error">Error during Sign In</string>
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">Program s tímto názvem již existuje. Zvolte prosím jiný!</string>
-  <string name="overwrite_replace">Nahradit existující program</string>
-  <string name="overwrite_rename">Přejmenovat stažený program</string>
+  <string name="overwrite_text">Program with this name already exists. Please choose a different one
+        !</string>
+  <string name="overwrite_replace">Replace existing Program</string>
+  <string name="overwrite_rename">Rename downloaded Program</string>
   <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Nahradit existující vzhled</string>
-  <string name="overwrite_rename_look">Přejmenovat stažený vzhled</string>
-  <string name="overwrite_replace_sound">Nahradit existující zvuk</string>
-  <string name="overwrite_rename_sound">Přejmenovat stažený zvuk</string>
-  <string name="overwrite_replace_default">Nahradit existující média</string>
-  <string name="overwrite_rename_default">Přejmenovat existující média</string>
+  <string name="overwrite_replace_look">Replace existing Look</string>
+  <string name="overwrite_rename_look">Rename downloaded Look</string>
+  <string name="overwrite_replace_sound">Replace existing Sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded Sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <!-- Stage menu dialog -->
   <string name="stage_dialog_back">Zpět</string>
   <string name="stage_dialog_resume">Obnovit</string>
   <string name="stage_dialog_restart">Restartovat</string>
-  <string name="stage_dialog_axes_on">Zapnout osy</string>
-  <string name="stage_dialog_axes_off">Vypnout osy</string>
+  <string name="stage_dialog_axes_on">Axes on</string>
+  <string name="stage_dialog_axes_off">Axes off</string>
   <string name="stage_dialog_maximize">Maximalizovat/\nRoztáhnout</string>
-  <string name="stage_dialog_screenshot">Náhled</string>
+  <string name="stage_dialog_screenshot">Preview</string>
   <!-- Broadcast spinner -->
   <string name="new_broadcast_message">Nová&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Nová zpráva</string>
   <string name="dialog_new_broadcast_message_name">zpráva:</string>
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">Nový&#8230;</string>
-  <string name="brick_when_nfc_default_all">všechny</string>
+  <string name="new_nfc_tag">Nová&#8230;</string>
+  <string name="brick_when_nfc_default_all">all</string>
   <!-- Brick categories -->
   <string name="categories">Kategorie</string>
   <string name="category_motion">Pohyb</string>
   <string name="category_looks">Vzhledy</string>
+  <string name="category_pen">Pen</string>
   <string name="category_sound">Zvuk</string>
   <string name="category_control">Ovládání</string>
+  <string name="category_event">Event</string>
   <string name="category_user_bricks">Moje bloky</string>
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -410,6 +609,10 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="brick_change_x_by">"Změň X o "</string>
   <string name="brick_change_y_by">"Změň Y o "</string>
   <string name="brick_go_back">Zpět</string>
+  <string name="brick_set_rotation_style">"Set rotation style "</string>
+  <string name="brick_set_rotation_style_lr">left-right only</string>
+  <string name="brick_set_rotation_style_normal">all-around</string>
+  <string name="brick_set_rotation_style_no">don\'t rotate</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">vrstva</item>
     <item quantity="few">vrstvy</item>
@@ -429,26 +632,31 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="brick_point_to">Mířit k</string>
   <string name="brick_glide">Hýbat</string>
   <string name="brick_glide_to_x">do X:</string>
+  <string name="brick_go_to">Go to</string>
+  <string name="brick_go_to_touch_position">Touch position</string>
+  <string name="brick_go_to_random_position">Random position</string>
   <!-- Physics -->
-  <string name="default_project_name_physics">Můj první fyzikální program</string>
-  <string name="brick_set_physics_object_type">Nastavit druh pohybu na</string>
-  <string name="brick_set_physics_object_type_dynamic">odrážení s gravitací</string>
-  <string name="brick_set_physics_object_type_fixed">ostatní se odrážejí</string>
-  <string name="brick_set_physics_object_type_no">žádné odrážení</string>
-  <string name="brick_set_mass">"Nastav hmotnost na "</string>
+  <string name="default_project_name_physics">My first physics program</string>
+  <string name="brick_set_physics_object_type">Set motion type to</string>
+  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
+  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
+  <string name="brick_set_physics_object_type_no">no bouncing</string>
+  <string name="brick_set_mass">"Set mass to "</string>
   <string name="brick_set_mass_unit">kilogram</string>
-  <string name="brick_set_gravity_to">"Nastav gravitaci všech objektů na "</string>
-  <string name="brick_set_gravity_unit">kroky/sekunda²</string>
-  <string name="brick_set_velocity_to">"Nastavit rychlost na "</string>
-  <string name="brick_set_velocity_unit">kroky/sekunda</string>
-  <string name="brick_turn_speed_unit">stupně/sekunda</string>
-  <string name="brick_set_friction">"Nastavit tření na "</string>
+  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
+  <string name="brick_set_gravity_unit">steps/second²</string>
+  <string name="brick_set_velocity_to">"Set velocity to "</string>
+  <string name="brick_set_velocity_unit">steps/second</string>
+  <string name="brick_turn_speed_unit">degrees/second</string>
+  <string name="brick_set_friction">"Set friction to "</string>
   <string name="brick_set_bounce_factor">"Nastavit faktor odrazu na "</string>
   <string name="brick_rotate_left">"Otočit doleva "</string>
   <string name="brick_rotate_right">"Otočit doprava "</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">Změnit na vzhled</string>
   <string name="brick_set_background">Nastavit pozadí</string>
+  <string name="brick_and_wait">a počkat</string>
+  <string name="brick_when_background">Když se pozadí změní na</string>
   <string name="brick_set_size_to">Nastavit velikost na</string>
   <string name="brick_change_size_by">Změnit velikost o</string>
   <string name="brick_hide">Skrýt</string>
@@ -464,22 +672,44 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="brick_clear_graphic_effect">Vyčistit grafické efekty</string>
   <string name="brick_next_look">Další vzhled</string>
   <string name="brick_next_background">Další pozadí</string>
+  <string name="brick_previous_look">Předchozí vzhled</string>
+  <string name="brick_previous_background">Předchozí pozadí</string>
   <string name="brick_flash">Zapnout baterku</string>
   <string name="brick_flash_on">zapnout</string>
   <string name="brick_flash_off">vypnout</string>
   <string name="brick_vibration">Vibrace</string>
+  <string name="brick_ask_label">Zeptat se</string>
+  <string name="brick_ask_store">a uchovat písemnou odpověď v</string>
+  <string name="brick_ask_default_question">\"Jak se jmenuješ?\"</string>
+  <string name="brick_ask_dialog_hint">"Zadej svoji odpověď:"</string>
+  <string name="brick_ask_dialog_submit">Odeslat odpověď</string>
+  <!-- Pen bricks -->
+  <string name="brick_pen_down">Pero dolu</string>
+  <string name="brick_pen_up">Pero nahoru</string>
+  <string name="brick_pen_size">Nastavit velikost pera na</string>
+  <string name="brick_pen_color">Nastavit barvu pera na</string>
+  <string name="brick_clear_background">Smazat</string>
+  <string name="brick_stamp">Razítko</string>
   <!-- Sound bricks -->
   <string name="brick_play_sound">Spuštění zvuku</string>
+  <string name="brick_play_sound_and_wait">Spustit zvuk a čekat</string>
   <string name="brick_stop_all_sounds">Zastavit všechny zvuky</string>
   <string name="brick_set_volume_to">Nastavit hlasitost na</string>
   <string name="brick_change_volume_by">Změnit hlasitost o</string>
   <string name="brick_speak">Vyslovit</string>
   <string name="brick_speak_default_value">"Ahoj!"</string>
+  <string name="brick_speak_and_wait">a počkat</string>
   <!-- Control bricks -->
   <string name="brick_when_started">Když program začne</string>
   <string name="brick_when">Na klepnutí</string>
+  <string name="brick_when_condition_when">Když</string>
+  <string name="brick_when_becomes_true">bude platit</string>
   <string name="brick_wait">Čekat</string>
   <string name="brick_when_nfc">Když NFC</string>
+  <string name="brick_stop_script">Zastavit skript/y</string>
+  <string name="brick_stop_this_script">Zastavit tento skript</string>
+  <string name="brick_stop_all_scripts">Zastavit všechny skripty</string>
+  <string name="brick_stop_other_scripts">Zastavit další skripty tohoto objektu</string>
   <plurals name="second_plural">
     <item quantity="one">"sekunda "</item>
     <item quantity="few">"sekundy "</item>
@@ -490,11 +720,20 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="brick_broadcast_receive">Při přijetí</string>
   <string name="brick_broadcast">Vysílat</string>
   <string name="brick_broadcast_wait">Vysílat a počkat</string>
+  <string name="brick_scene_transition">Pokračovat ve scéně</string>
+  <string name="brick_scene_start">Start scény</string>
   <string name="brick_note">Poznámka</string>
+  <string name="brick_think_bubble">Myslet</string>
+  <string name="brick_say_bubble">Říct</string>
+  <string name="brick_think_say_for_text">pro</string>
   <string name="brick_forever">Navždy</string>
   <string name="brick_repeat">Opakovat</string>
   <string name="brick_repeat_until">Opakovat dokud</string>
   <string name="brick_when_touched">Při dotyku obrazovky</string>
+  <string name="brick_clone">Vytvořit klon</string>
+  <string name="brick_clone_this">sebe</string>
+  <string name="brick_when_cloned">Pokud jsem začal jako klon</string>
+  <string name="brick_delete_this_clone">Smazat tento klon</string>
   <plurals name="time_plural">
     <item quantity="one">krát</item>
     <item quantity="few">krát</item>
@@ -510,6 +749,8 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="brick_change_variable">Změnit proměnnou</string>
   <string name="brick_variable_spinner_create_new_variable">Nová&#8230;</string>
   <string name="brick_note_default_value">"přidat sem komentář…"</string>
+  <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
+  <string name="brick_say_bubble_default_value">"Ahoj!"</string>
   <string name="brick_broadcast_default_value">"zpráva 1"</string>
   <string name="brick_add_item_to_userlist_add">Přidat</string>
   <string name="brick_add_item_to_userlist">na seznam</string>
@@ -523,20 +764,21 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="brick_replace_item_in_userlist_with_value">s</string>
   <!-- defaultValues -->
   <string name="default_project_name">Můj první program</string>
+  <string name="default_scene_name">Scéna %1$d</string>
   <string name="default_project_background_name">Pozadí</string>
   <string name="default_project_cloud_name">Mraky</string>
   <string name="default_project_cloud_sprite_name_1">Mraky1</string>
-  <string name="default_project_cloud_sprite_name_2">Mraky2</string>
-  <string name="default_project_sprites_bird_name">Pták</string>
-  <string name="default_project_sprites_bird_name_wing_up">Ptačí křídla nahoru</string>
-  <string name="default_project_sprites_bird_name_wing_down">Ptačí křídla dolů</string>
-  <string name="default_project_sprites_tweet_1">Pípnutí1</string>
-  <string name="default_project_sprites_tweet_2">Pípnutí2</string>
+  <string name="default_project_cloud_sprite_name_2">Clouds2</string>
+  <string name="default_project_sprites_bird_name">Bird</string>
+  <string name="default_project_sprites_bird_name_wing_up">Bird Wings up</string>
+  <string name="default_project_sprites_bird_name_wing_down">Bird Wings down</string>
+  <string name="default_project_sprites_tweet_1">Tweet1</string>
+  <string name="default_project_sprites_tweet_2">Tweet2</string>
   <!-- defaultDroneValues -->
   <string name="default_drone_project_name">Můj první Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Vzlétnout</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Otočit</string>
+  <string name="default_drone_project_sprites_rotate">Rotate</string>
   <string name="default_drone_project_sprites_up">Nahoru</string>
   <string name="default_drone_project_sprites_down">Dolů</string>
   <string name="default_drone_project_sprites_left">Nalevo</string>
@@ -545,38 +787,39 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="default_drone_project_sprites_back">Dozadu</string>
   <string name="default_drone_project_sprites_turn_left">Zatočit vlevo</string>
   <string name="default_drone_project_sprites_turn_right">Zatočit vpravo</string>
-  <string name="default_drone_project_sprites_emergency">Pohotovost</string>
+  <string name="default_drone_project_sprites_emergency">Emergency</string>
   <string name="drone_brick_set_text">Text</string>
   <string name="drone_brick_set_x">X:</string>
   <!-- Drone config spinner values  -->
-  <string name="drone_config_indoor_with_hull">vnitřní s trupem</string>
-  <string name="drone_config_indoor_without_hull">vnitřní bez trupu</string>
-  <string name="drone_config_outdoor_with_hull">venkovní s trupem</string>
-  <string name="drone_config_outdoor_without_hull">venkovní bez trupu</string>
+  <string name="drone_config_indoor_with_hull">indoor with hull</string>
+  <string name="drone_config_indoor_without_hull">indoor without hull</string>
+  <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
+  <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
   <!-- Drone altitude limit values  -->
-  <string name="drone_set_altitude_max_3m">3 metry</string>
-  <string name="drone_set_altitude_max_5m">5 metrů</string>
-  <string name="drone_set_altitude_max_10m">10 metrů</string>
-  <string name="drone_set_altitude_max_100m">100 metrů</string>
+  <string name="drone_set_altitude_max_3m">3 meters</string>
+  <string name="drone_set_altitude_max_5m">5 meters</string>
+  <string name="drone_set_altitude_max_10m">10 meters</string>
+  <string name="drone_set_altitude_max_100m">100 meters</string>
   <!-- Drone max vertical speed limit values  -->
   <string name="drone_set_vertical_min">200 mm/s</string>
   <string name="drone_set_vertical_indoor">700 mm/s</string>
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">40 stupňů/s</string>
-  <string name="drone_set_rotation_indoor">100 stupňů/s</string>
-  <string name="drone_set_rotation_outdoor">200 stupňů/s</string>
-  <string name="drone_set_rotation_max">350 stupňů/s</string>
+  <string name="drone_set_rotation_min">40 degrees/s</string>
+  <string name="drone_set_rotation_indoor">100 degrees/s</string>
+  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
+  <string name="drone_set_rotation_max">350 degrees/s</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5 stupňů</string>
-  <string name="drone_set_tilt_indoor">12 stupňů</string>
-  <string name="drone_set_tilt_outdoor">20 stupňů </string>
-  <string name="drone_set_tilt_max">30 stupňů</string>
+  <string name="drone_set_tilt_min">5 degrees</string>
+  <string name="drone_set_tilt_indoor">12 degrees</string>
+  <string name="drone_set_tilt_outdoor">20 degrees </string>
+  <string name="drone_set_tilt_max">30 degrees</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">Prosím zadej hodnotu</string>
-  <string name="notification_screenshot_ok">Snímek uložen</string>
+  <string name="notification_screenshot_ok">Preview image saved</string>
   <string name="notification_download_project_cancel">Stahování programu zrušeno</string>
+  <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting program</string>
   <string name="notification_copy_title_pending">"Kopírování "</string>
   <string name="notification_copy_pending">Probíhá kopírování</string>
   <string name="notification_copy_finished">Kopírování dokončeno</string>
@@ -586,62 +829,70 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="notification_upload_finished">Nahráno úspěšně</string>
   <string name="notification_upload_rejected">Nahrávaný program zamítnut</string>
   <string name="notification_upload_retry">Zkusit znovu</string>
-  <string name="notification_open_play_store">Otevřít Google Play</string>
+  <string name="notification_open_play_store">Open Play Store</string>
   <string name="notification_download_title_pending">"Stahování "</string>
   <string name="notification_download_pending">Probíhá stahování</string>
   <string name="notification_download_finished">Staženo úspěšně</string>
   <string name="notification_title_open">"Otevřít "</string>
-  <string name="notification_low_battery">Baterie je téměr vybitá. Aktuální stav =</string>
-  <string name="project_rename">(Tvůj program bude přejmenován.)</string>
+  <string name="notification_low_battery">Attention. Battery is low. Current status =</string>
+  <string name="project_rename">(Your Program will be renamed.)</string>
   <string name="size_of_project">Velikost:</string>
   <string name="upload_button">Nahrát</string>
   <string name="upload_project_dialog_title">Nahrát program</string>
   <string name="upload_description">Popis:</string>
-  <string name="upload_tag_dialog_title">Vyber až tři kategorie</string>
-  <string name="drone_emergency_battery_low">Baterie je vybitá (automatické přistání).</string>
-  <string name="drone_emergency_camera">Jedna nebo více kamer nereagují.</string>
-  <string name="drone_emergency_ultrasound">Ultrazvukové čidlo nereaguje.</string>
-  <string name="drone_emergency_angle">AR.Drone sklon byl příliš velký. Motory se vypnou pro zabránění špatného chování.</string>
-  <string name="drone_emergency_cutout">Jeden nebo více motorů bylo zastaveno prostředím.</string>
-  <string name="drone_alert_battery_low">Baterie je příliš vybitá pro opětovné vzlítnutí.</string>
-  <string name="drone_alert_ultrasound">Ultrazvukový senzor nedokáže určit výšku AR.Dronu.</string>
-  <string name="drone_alert_vision">Žádný odhad rychlosti pomocí spodní kamery.</string>
-  <string name="drone_emergency_title">Pohotovost</string>
+  <string name="upload_tag_dialog_title">Choose up to three categories</string>
+  <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
+  <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
+  <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
+  <string name="drone_emergency_angle">AR.Drone euler angles went too high. Motors shutdown to prevent bad behaviors.</string>
+  <string name="drone_emergency_cutout">One or more motor(s) was stopped by environment.</string>
+  <string name="drone_alert_battery_low">Battery is too low to take-off again.</string>
+  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
+  <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
+  <string name="drone_emergency_title">Emergency</string>
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">Pocket Code vyžaduje pro běh zapisovatelné externí úložiště jako SD kartu, ale žádné nebylo nalezeno.\nZkus povolit zápis na externí úložiště nebo vlož SD kartu a zkus znovu.</string>
-  <string name="error_no_program_name_entered">Zadej jméno programu.</string>
-  <string name="error_no_userbrick_name_entered">Zadejte jméno uživatelského bloku.</string>
-  <string name="error_project_exists">Prosím, vyber jiný název programu.</string>
+  <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like a SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting a SD card, then try again.</string>
+  <string name="error_no_program_name_entered">Please enter a program name.</string>
+  <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
+  <string name="error_project_exists">Please choose another program name.</string>
+  <string name="error_scene_exists">Please choose another scene name.</string>
+  <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
+  <string name="error_scene_not_copied">Došlo k chybě během kopírování scény.</string>
+  <string name="error_scene_backpack">Došlo k chybě v batohu scény.</string>
   <string name="error_delete_project">Došlo k chybě při odstraňování programu</string>
   <string name="error_unknown_project">Program s tímto názvem již neexistuje.</string>
   <string name="error_project_upload">Došlo k chybě při nahrávání programu.</string>
   <string name="error_project_download">Došlo k chybě při stahování programu.</string>
   <string name="error_new_project">Došlo k chybě při vytváření nového programu.</string>
   <string name="error_rename_project">Došlo k chybě při přejmenování programu před nahráním.</string>
+  <string name="error_rename_scene">An error occurred while renaming the scene.</string>
   <string name="error_load_project">Došlo k chybě při nahrávání programu.</string>
-  <string name="error_screenshot_failed">Došlo k chybě při ukládání obrázku.</string>
+  <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
   <string name="error_load_image">Došlo k chybě při nahrávání obrázku.</string>
-  <string name="error_load_image_special_chars">Nelze načíst obrázek. Neobsahuje název souboru speciální znaky (např. $, %, &amp;, &#8230;)? </string>
+  <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
+        characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Došlo k chybě při nahrávání zvuku.</string>
   <string name="error_internet_connection">Došlo k neznámé chybě. Zkontrolujte připojení k Internetu.</string>
-  <string name="error_no_internet">Prosím připoj se k Internetu.</string>
+  <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Tento program není kompatibilní s touto verzí Pocket Code.</string>
-  <string name="error_outdated_pocketcode_version">Verze Pocket Code je zastaralá. Chceš aktualizovat?</string>
+  <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>
   <string name="error_copy_project">Došlo k chybě při kopírování programu.</string>
   <string name="error_upload_project_with_default_name">Nelze nahrát program s názvem \"Můj první program\". Prosím, přejmenuj program.</string>
   <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
   <string name="error_adding_brick">Došlo k chybě při přidávání bloku</string>
   <string name="error_copying_brick">Došlo k chybě při kopírování bloku</string>
-  <string name="error_no_drone_connected_title">Cannot find ARDrone</string>
+  <string name="error_no_drone_connected_title">Nelze najít ARDrone</string>
   <string name="error_no_drone_connected">Connect your wifi to the ARDrone and try again.</string>
   <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
   <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
-  <string name="error_drone_wrong_platform_title">No ARDrone support</string>
+  <string name="error_drone_wrong_platform_title">Žádná podpora ARDrone</string>
   <string name="error_drone_wrong_platform">We cannot run a ARDrone project on your device.</string>
   <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
   <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible
         project is not possible.</string>
+  <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
+  <string name="error_gps_not_available">Error, GPS was not available.</string>
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
   <string name="title_paired_devices">Paired devices</string>
@@ -682,7 +933,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="nxt_tone_duration">Duration</string>
   <string name="nxt_tone_frequency">Frequency</string>
   <string name="nxt_tone_hundred_hz">x100Hz</string>
-  <string name="nxt_seconds">sekundy</string>
+  <string name="nxt_seconds">seconds</string>
   <string name="nxt_motor_a">A</string>
   <string name="nxt_motor_b">B</string>
   <string name="nxt_motor_c">C</string>
@@ -722,7 +973,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="brick_drone_move_up">Move up</string>
   <string name="brick_drone_move_down">Move down</string>
   <string name="brick_drone_flip">Flip</string>
-  <string name="brick_drone_emergency">Pohotovost</string>
+  <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">Zatočit vpravo</string>
   <string name="brick_drone_turn_left">Zatočit vlevo</string>
   <string name="brick_drone_turn_left_magneto">Turn left [angle]</string>
@@ -749,7 +1000,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="phiro_play_tone">Play Phiro music\n</string>
   <string name="phiro_tone_duration">Duration</string>
   <string name="brick_phiro_select_tone">tone</string>
-  <string name="phiro_seconds">sekundy</string>
+  <string name="phiro_seconds">seconds</string>
   <!-- light -->
   <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
   <string name="phiro_rgb_led_red">Red</string>
@@ -862,13 +1113,25 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>
   <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
+  <string name="formula_editor_function_collision">touches</string>
   <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
   <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
   <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
   <string name="formula_editor_sensor_compass_direction">compass_direction</string>
+  <string name="formula_editor_sensor_latitude">latitude</string>
+  <string name="formula_editor_sensor_longitude">longitude</string>
+  <string name="formula_editor_sensor_location_accuracy">location_accuracy</string>
+  <string name="formula_editor_sensor_altitude">altitude</string>
   <string name="formula_editor_sensor_x_inclination">inclination_x</string>
   <string name="formula_editor_sensor_y_inclination">inclination_y</string>
   <string name="formula_editor_sensor_loudness">loudness</string>
+  <string name="formula_editor_sensor_date_year">year</string>
+  <string name="formula_editor_sensor_date_month">month</string>
+  <string name="formula_editor_sensor_date_day">day</string>
+  <string name="formula_editor_sensor_date_weekday">weekday</string>
+  <string name="formula_editor_sensor_time_hour">hour</string>
+  <string name="formula_editor_sensor_time_minute">minute</string>
+  <string name="formula_editor_sensor_time_second">second</string>
   <string name="formula_editor_sensor_drone_battery_status">drone_battery_status</string>
   <string name="formula_editor_sensor_drone_emergency_state">drone_emergency_state</string>
   <string name="formula_editor_sensor_drone_flying">drone_flying</string>
@@ -905,6 +1168,11 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="formula_editor_object_x_velocity">x_velocity</string>
   <string name="formula_editor_object_y_velocity">y_velocity</string>
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
+  <string name="formula_editor_object_look_number">look_number</string>
+  <string name="formula_editor_object_look_name">look_name</string>
+  <string name="formula_editor_object_background_number">background_number</string>
+  <string name="formula_editor_object_background_name">background_name</string>
+  <string name="formula_editor_object_distance_to">distance to</string>
   <string name="formula_editor_compute">Compute</string>
   <string name="formula_editor_object">Objekt</string>
   <string name="formula_editor_functions">Functions</string>
@@ -917,8 +1185,9 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="formula_editor_logic_boolean">logical (boolean) operators</string>
   <string name="formula_editor_logic_comparison">comparison operators</string>
   <string name="formula_editor_object_general">general properties</string>
-  <string name="formula_editor_object_physical">physical properties</string>
+  <string name="formula_editor_object_movement">movement properties</string>
   <string name="formula_editor_device_face_detection">Face detection</string>
+  <string name="formula_editor_device_date_and_time">Date and Time</string>
   <string name="formula_editor_device_touch_detection">Touch detection</string>
   <string name="formula_editor_device_lego">Lego</string>
   <string name="formula_editor_device_arduino">Arduino</string>
@@ -970,11 +1239,11 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
     <item quantity="other">Items selected!</item>
   </plurals>
   <!-- Brick Data Editor Strings -->
-  <string name="brick_data_editor_title">Editor bloků</string>
+  <string name="brick_data_editor_title">Brick editor</string>
   <string name="separator">|</string>
   <string name="add_text">Add text</string>
   <string name="edit_text">Edit text</string>
-  <string name="text_hint">Textový blok</string>
+  <string name="text_hint">Brick text</string>
   <string name="add_variable">Add variable</string>
   <string name="add_line_break">Add line break</string>
   <string name="edit_variable">Edit variable</string>
@@ -986,23 +1255,23 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="define">Define</string>
   <string name="new_user_brick">Nový blok</string>
   <string name="new_user_brick_variable">Variable</string>
-  <string name="new_user_brick_name">Zadej jméno uživatelského bloku:</string>
+  <string name="new_user_brick_name">Please choose a brick name:</string>
   <string name="recursive_user_brick_forbidden">Přidání uživatelského bloku do uživatelského bloku ještě není povoleno!</string>
-  <string name="brick_single">Blok</string>
-  <string name="brick_multiple">Bloky</string>
   <!-- Merge strings -->
   <string name="merge_button">Merge with</string>
   <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">successfully merged into</string>
   <string name="warning">Warning</string>
-  <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
+  <string name="error_merge_with_self">Current project and selected project are the same!</string>
+  <string name="error_merge_with_self_scene">Current scene and selected scene are the same!</string>
+  <string name="error_merge_scene_not_found">Scene not found!</string>
   <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
         has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Abort</string>
   <string name="merge_conflict">Merging not possible</string>
-  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+  <string name="merge_conflict_variable">Variable %1$s is used in both programs. If programs use the same
     variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
-  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+  <string name="merge_conflict_list">List %1$s is used in both programs. If programs use the same
     name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <!-- Camera related strings -->
   <string name="brick_video">Turn camera</string>
@@ -1031,4 +1300,27 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
         and download it.
         You can also download your program as standalone app.</string>
   <string name="progress_upload_dialog_show_program">Show program</string>
+  <!-- Snackbar hints -->
+  <string name="got_it">Got it</string>
+  <string name="preference_description_hints">Enable to show hints</string>
+  <string name="preference_title_enable_hints">Show hints </string>
+  <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
+  <string name="hint_bricks">To add a brick to your script tap on the brick you want to use.</string>
+  <string name="hint_brick_added">Short tap on a brick opens the menu to move, copy, delete or add a brick to
+        the backpack. The help option will show you additional information. Drag and drop the brick with a long press.</string>
+  <string name="hint_scripts">The script defines the behaviour of your object. To add bricks to the script tap on the \"+\" symbol.</string>
+  <string name="hint_looks">Here you can find the different appearances of your object. To add a new look tap on the \"+\" symbol.</string>
+  <string name="hint_sounds">Here you can add new sounds to your object. Keep in mind to use a brick from the sound category.</string>
+  <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object tap on the \"+\" symbol.</string>
+  <string name="hint_merge">To merge two programs long press on one program to open the menu and tap on \'Merge
+        with\'.</string>
+  <string name="hint_stage">Hit the back-button to pause your program. To show axes and the screen size of your
+        phone tap \"Axes on\".</string>
+  <string name="hint_scenes">A program can consist of different independent scenes. To add a new scene tap on the \"+\"
+        symbol.</string>
+  <!-- Crash report dialog -->
+  <string name="pocket_code_has_crashed">Pocket Code has crashed!</string>
+  <string name="crash_dialog_text">Please help to improve Pocket Code by sending us anonymous crash reports!</string>
+  <string name="crash_dialog_always_send">Always send</string>
+  <string name="crash_dialog_send">Send</string>
 </resources>

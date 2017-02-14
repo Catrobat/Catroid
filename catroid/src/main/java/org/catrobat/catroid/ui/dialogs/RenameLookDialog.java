@@ -23,10 +23,6 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.Button;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
@@ -35,45 +31,31 @@ import org.catrobat.catroid.utils.Utils;
 
 public class RenameLookDialog extends TextDialog {
 
-	private static final String BUNDLE_ARGUMENTS_OLD_LOOK_NAME = "old_look_name";
-	public static final String EXTRA_NEW_LOOK_NAME = "new_look_name";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_look";
+	public static final String EXTRA_NEW_LOOK_NAME = "new_look_name";
 
-	private String oldLookName;
-
-	public static RenameLookDialog newInstance(String oldLookName) {
-		RenameLookDialog dialog = new RenameLookDialog();
-
-		Bundle arguments = new Bundle();
-		arguments.putString(BUNDLE_ARGUMENTS_OLD_LOOK_NAME, oldLookName);
-		dialog.setArguments(arguments);
-
-		return dialog;
+	public RenameLookDialog(int title, int inputLabel, String previousText) {
+		super(title, inputLabel, previousText, false);
 	}
 
 	@Override
-	protected void initialize() {
-		oldLookName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_LOOK_NAME);
-		input.setText(oldLookName);
-		inputTitle.setText(R.string.lookname);
-	}
-
-	@Override
-	protected boolean handleOkButton() {
+	protected boolean handlePositiveButtonClick() {
 		String newLookName = input.getText().toString().trim();
 
-		if (newLookName.equals(oldLookName)) {
-			dismiss();
+		if (newLookName.equals(previousText)) {
+			return true;
 		}
 
-		if (!newLookName.equalsIgnoreCase("")) {
-			LookData lookData = new LookData();
-			lookData.setLookName(newLookName);
-			newLookName = Utils.getUniqueLookName(lookData, false);
-		} else {
-			Utils.showErrorDialog(getActivity(), R.string.lookname_invalid);
-			dismiss();
+		boolean newNameConsistsOfSpacesOnly = newLookName.isEmpty();
+
+		if (newNameConsistsOfSpacesOnly) {
+			input.setError(getString(R.string.name_consists_of_spaces_only));
+			return false;
 		}
+
+		LookData lookData = new LookData();
+		lookData.setLookName(newLookName);
+		newLookName = Utils.getUniqueLookName(lookData, false);
 
 		Intent intent = new Intent(ScriptActivity.ACTION_LOOK_RENAMED);
 		intent.putExtra(EXTRA_NEW_LOOK_NAME, newLookName);
@@ -82,34 +64,6 @@ public class RenameLookDialog extends TextDialog {
 	}
 
 	@Override
-	protected String getTitle() {
-		return getString(R.string.rename_look_dialog);
-	}
-
-	@Override
-	protected String getHint() {
-		return null;
-	}
-
-	@Override
-	protected TextWatcher getInputTextChangedListener(final Button buttonPositive) {
-		return new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-					buttonPositive.setEnabled(false);
-				} else {
-					buttonPositive.setEnabled(true);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
-		};
+	protected void handleNegativeButtonClick() {
 	}
 }

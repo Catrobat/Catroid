@@ -43,12 +43,9 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.scratchconverter.Client.DownloadFinishedCallback;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
-
-import java.util.Arrays;
 
 public class OverwriteRenameDialog extends DialogFragment implements OnClickListener {
 	private static final String TAG = OverwriteRenameDialog.class.getSimpleName();
@@ -61,7 +58,6 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 	protected EditText projectText;
 	protected TextView projectTextView;
 	protected View projectTextLine;
-	protected DownloadFinishedCallback[] callbacks;
 
 	public static final String DIALOG_FRAGMENT_TAG = "overwrite_rename_look";
 
@@ -71,10 +67,6 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 
 	public void setProgramName(String programName) {
 		this.programName = programName;
-	}
-
-	public void setCallbacks(DownloadFinishedCallback[] callbacks) {
-		this.callbacks = (callbacks != null) ? Arrays.copyOf(callbacks, callbacks.length) : null;
 	}
 
 	public void setURL(String url) {
@@ -103,16 +95,12 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 					}
-				}).setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						Log.d(TAG, "User canceled dialog by pressing Cancel-button");
 						ToastUtil.showError(context, R.string.notification_download_project_cancel);
-						if (callbacks != null) {
-							for (DownloadFinishedCallback callback : callbacks) {
-								callback.onUserCanceledDownload(url);
-							}
-						}
+						DownloadUtil.getInstance().downloadCanceled(url);
 					}
 				}).create();
 
@@ -143,11 +131,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 				} else if (keyCode == KeyEvent.KEYCODE_BACK) {
 					Log.d(TAG, "User canceled dialog by pressing Back-button");
 					ToastUtil.showError(context, R.string.notification_download_project_cancel);
-					if (callbacks != null) {
-						for (DownloadFinishedCallback callback : callbacks) {
-							callback.onUserCanceledDownload(url);
-						}
-					}
+					DownloadUtil.getInstance().downloadCanceled(url);
 					dismiss();
 					return true;
 				}
@@ -184,24 +168,20 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 		super.onCancel(dialog);
 		Log.d(TAG, "User canceled dialog by clicking outside of the Dialog fragment");
 		ToastUtil.showError(context, R.string.notification_download_project_cancel);
-		if (callbacks != null) {
-			for (DownloadFinishedCallback callback : callbacks) {
-				callback.onUserCanceledDownload(url);
-			}
-		}
+		DownloadUtil.getInstance().downloadCanceled(url);
 	}
 
 	private boolean handleOkButton() {
 		if (replaceButton.isChecked()) {
 			ProjectManager.getInstance().setProject(null);
-			DownloadUtil.getInstance().startDownload(context, url, programName, callbacks, false);
+			DownloadUtil.getInstance().startDownload(context, url, programName, false);
 		} else if (renameButton.isChecked()) {
 			String newProgramName = projectText.getText().toString();
 			if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProgramName)) {
 				return false;
 			}
 
-			DownloadUtil.getInstance().startDownload(context, url, newProgramName, callbacks, true);
+			DownloadUtil.getInstance().startDownload(context, url, newProgramName, true);
 		}
 		dismiss();
 

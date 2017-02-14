@@ -73,6 +73,7 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
+import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -114,7 +115,7 @@ import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.HideVariableBrick;
+import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -122,6 +123,10 @@ import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -161,8 +166,10 @@ import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
+import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -170,7 +177,7 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.content.bricks.ShowVariableBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
@@ -255,7 +262,7 @@ public final class StorageHandler {
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	public static final String BACKPACK_FILENAME = "backpack.json";
 
-	private XStreamToSupportCatrobatLanguageVersion0991AndBefore xstream;
+	private BackwardCompatibleCatrobatLanguageXStream xstream;
 	private Gson backpackGson;
 
 	private FileInputStream fileInputStream;
@@ -288,7 +295,7 @@ public final class StorageHandler {
 	}
 
 	private void prepareProgramXstream(boolean forSupportProject) {
-		xstream = new XStreamToSupportCatrobatLanguageVersion0991AndBefore(new PureJavaReflectionProvider(new
+		xstream = new BackwardCompatibleCatrobatLanguageXStream(new PureJavaReflectionProvider(new
 				FieldDictionary(new CatroidFieldKeySorter())));
 		if (forSupportProject) {
 			xstream.processAnnotations(SupportProject.class);
@@ -309,6 +316,11 @@ public final class StorageHandler {
 		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamSpriteConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamSettingConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+
+		xstream.omitField(CameraBrick.class, "spinnerValues");
+		xstream.omitField(ChooseCameraBrick.class, "spinnerValues");
+		xstream.omitField(FlashBrick.class, "spinnerValues");
+		xstream.omitField(StopScriptBrick.class, "spinnerValue");
 
 		setProgramXstreamAliases();
 	}
@@ -367,6 +379,7 @@ public final class StorageHandler {
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", AskBrick.class);
+		xstream.alias("brick", AskSpeechBrick.class);
 		xstream.alias("brick", BroadcastBrick.class);
 		xstream.alias("brick", BroadcastReceiverBrick.class);
 		xstream.alias("brick", BroadcastWaitBrick.class);
@@ -388,7 +401,7 @@ public final class StorageHandler {
 		xstream.alias("brick", GlideToBrick.class);
 		xstream.alias("brick", GoNStepsBackBrick.class);
 		xstream.alias("brick", HideBrick.class);
-		xstream.alias("brick", HideVariableBrick.class);
+		xstream.alias("brick", HideTextBrick.class);
 		xstream.alias("brick", IfLogicBeginBrick.class);
 		xstream.alias("brick", IfLogicElseBrick.class);
 		xstream.alias("brick", IfLogicEndBrick.class);
@@ -431,13 +444,14 @@ public final class StorageHandler {
 		xstream.alias("brick", SetBackgroundAndWaitBrick.class);
 		xstream.alias("brick", SetPenColorBrick.class);
 		xstream.alias("brick", SetPenSizeBrick.class);
+		xstream.alias("brick", SetRotationStyleBrick.class);
 		xstream.alias("brick", SetSizeToBrick.class);
 		xstream.alias("brick", SetVariableBrick.class);
 		xstream.alias("brick", SetVolumeToBrick.class);
 		xstream.alias("brick", SetXBrick.class);
 		xstream.alias("brick", SetYBrick.class);
 		xstream.alias("brick", ShowBrick.class);
-		xstream.alias("brick", ShowVariableBrick.class);
+		xstream.alias("brick", ShowTextBrick.class);
 		xstream.alias("brick", SpeakBrick.class);
 		xstream.alias("brick", SpeakAndWaitBrick.class);
 		xstream.alias("brick", StampBrick.class);
@@ -461,6 +475,7 @@ public final class StorageHandler {
 		xstream.alias("brick", StopScriptBrick.class);
 
 		xstream.alias("brick", WhenNfcBrick.class);
+		xstream.alias("brick", SetNfcTagBrick.class);
 
 		xstream.alias("brick", DronePlayLedAnimationBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
@@ -482,6 +497,11 @@ public final class StorageHandler {
 		xstream.alias("brick", PhiroPlayToneBrick.class);
 		xstream.alias("brick", PhiroRGBLightBrick.class);
 		xstream.alias("brick", PhiroIfLogicBeginBrick.class);
+
+		xstream.alias("brick", LegoEv3PlayToneBrick.class);
+		xstream.alias("brick", LegoEv3MotorMoveBrick.class);
+		xstream.alias("brick", LegoEv3MotorStopBrick.class);
+		xstream.alias("brick", LegoEv3SetLedBrick.class);
 
 		xstream.alias("brick", ArduinoSendPWMValueBrick.class);
 		xstream.alias("brick", ArduinoSendDigitalValueBrick.class);
@@ -578,7 +598,7 @@ public final class StorageHandler {
 		}
 
 		loadSaveLock.lock();
-		Project project = null;
+		Project project;
 		try {
 			project = (Project) xstream.getProjectFromXML(new File(buildProjectPath(projectName), PROJECTCODE_NAME));
 			for (String sceneName : project.getSceneOrder()) {
@@ -611,8 +631,6 @@ public final class StorageHandler {
 	}
 
 	private void fixFolderStructureForSupportProject(String projectName, String sceneName) throws IOException {
-		projectName = UtilFile.encodeSpecialCharsForFileSystem(projectName);
-		sceneName = UtilFile.encodeSpecialCharsForFileSystem(sceneName);
 		String projectPath = buildProjectPath(projectName);
 		String scenePath = buildScenePath(projectName, sceneName);
 		File looksDirectory = new File(buildPath(projectPath, IMAGE_DIRECTORY));
@@ -1007,11 +1025,6 @@ public final class StorageHandler {
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
-			fileChecksumContainer.addChecksum(inputFileChecksum, null);
-			return new File(fileChecksumContainer.getPath(inputFileChecksum));
-		}
 		File outputFile = new File(buildPath(soundDirectory.getAbsolutePath(),
 				inputFileChecksum + "_" + inputFile.getName()));
 
@@ -1247,14 +1260,15 @@ public final class StorageHandler {
 	}
 
 	public void fillChecksumContainer() {
-		//FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-		//if (container == null) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject == null) {
+			return;
+		}
+
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
-		//}
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 
 		Project newProject = ProjectManager.getInstance().getCurrentProject();
-
 		for (Scene scene : newProject.getSceneList()) {
 			for (Sprite currentSprite : scene.getSpriteList()) {
 				for (SoundInfo soundInfo : currentSprite.getSoundList()) {
@@ -1322,38 +1336,34 @@ public final class StorageHandler {
 		return permissionsSet;
 	}
 
-	public boolean copyImageFiles(String targetScene, String targetProject, String sourceScene, String sourceProject) {
-		return copyFiles(targetScene, targetProject, sourceScene, sourceProject, false);
+	public void copyImageFiles(String targetScene, String targetProject, String sourceScene, String sourceProject) throws Exception {
+		copyFiles(targetScene, targetProject, sourceScene, sourceProject, false);
 	}
 
-	public boolean copySoundFiles(String targetScene, String targetProject, String sourceScene, String sourceProject) {
-		return copyFiles(targetScene, targetProject, sourceScene, sourceProject, true);
+	public void copySoundFiles(String targetScene, String targetProject, String sourceScene, String sourceProject) throws Exception {
+		copyFiles(targetScene, targetProject, sourceScene, sourceProject, true);
 	}
 
-	private boolean copyFiles(String targetScene, String targetProject, String sourceScene, String sourceProject, boolean copySoundFiles) {
+	private void copyFiles(String targetScene, String targetProject, String sourceScene, String sourceProject, boolean copySoundFiles) throws Exception {
 		String type = IMAGE_DIRECTORY;
 		if (copySoundFiles) {
 			type = SOUND_DIRECTORY;
 		}
-		File targetDirectory = new File(buildPath(buildScenePath(targetProject, targetScene), type));
+
 		File sourceDirectory = new File(buildPath(buildScenePath(sourceProject, sourceScene), type));
-		if (!targetDirectory.exists() || !sourceDirectory.exists()) {
-			return false;
+		File targetDirectory = new File(buildPath(buildScenePath(targetProject, targetScene), type));
+		targetDirectory.mkdirs();
+
+		for (File sourceFile : sourceDirectory.listFiles()) {
+			File targetFile = new File(targetDirectory.getAbsolutePath(), sourceFile.getName());
+			targetFile.createNewFile();
+
+			FileChannel source = new FileInputStream(sourceFile).getChannel();
+			FileChannel target = new FileOutputStream(targetFile).getChannel();
+			target.transferFrom(source, 0, source.size());
+			source.close();
+			target.close();
 		}
-		try {
-			for (File sourceFile : sourceDirectory.listFiles()) {
-				File targetFile = new File(targetDirectory.getAbsolutePath(), sourceFile.getName());
-				FileChannel source = new FileInputStream(sourceFile).getChannel();
-				FileChannel target = new FileOutputStream(targetFile).getChannel();
-				target.transferFrom(source, 0, source.size());
-				source.close();
-				target.close();
-			}
-		} catch (IOException e) {
-			Log.e(TAG, e.getMessage());
-			return false;
-		}
-		return true;
 	}
 
 	public void updateCodefileOnDownload(String projectName) {

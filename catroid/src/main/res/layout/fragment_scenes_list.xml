@@ -33,7 +33,7 @@
         android:layout_height="match_parent" >
 
         <TextView
-            android:id="@+id/fragment_sprites_list_backpack_text_heading"
+            android:id="@+id/backpack_text_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -42,10 +42,10 @@
             android:textSize="80sp" />
 
         <TextView
-            android:id="@+id/fragment_sprites_list_backpack_text_description"
+            android:id="@+id/backpack_text_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_sprites_list_backpack_text_heading"
+            android:layout_below="@id/backpack_text_heading"
             android:gravity="center"
             android:paddingTop="10dp"
             android:textColor="@color/actionbar_title_color"
@@ -59,7 +59,7 @@
 
         <include layout="@layout/activity_project_scenes_headline" />
 
-        <org.catrobat.catroid.ui.dynamiclistview.DynamicListView
+        <org.catrobat.catroid.ui.dragndrop.DragAndDropListView
             android:id="@android:id/list"
             style="@style/ListViewShadowed"
             android:layout_width="match_parent"

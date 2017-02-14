@@ -63,10 +63,6 @@
             android:text="@string/to_label" />
 
         <TextView
-            android:id="@+id/brick_set_variable_prototype_view"
-            style="@style/BrickPrototypeTextView" />
-
-        <TextView
             android:id="@+id/brick_set_variable_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"

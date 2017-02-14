@@ -31,7 +31,7 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.992f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.993f);
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -48,6 +48,12 @@ public final class Constants {
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String IMAGE_STANDARD_EXTENSION = ".png";
 	public static final String SOUND_STANDARD_EXTENSION = ".wav";
+	public static final char REMIX_URL_PREFIX_INDICATOR = '[';
+	public static final char REMIX_URL_SUFIX_INDICATOR = ']';
+	public static final char REMIX_URL_SEPARATOR = ',';
+	public static final char REMIX_URL_PREFIX_REPLACE_INDICATOR = '(';
+	public static final char REMIX_URL_SUFIX_REPLACE_INDICATOR = ')';
+	public static final char REMIX_URL_REPLACE_SEPARATOR = ';';
 
 	//Extensions:
 	public static final String[] IMAGE_EXTENSIONS = { ".png", ".jpg", ".jpeg", ".png", ".gif" };
@@ -97,7 +103,8 @@ public final class Constants {
 	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
 	public static final String LIBRARY_LOOKS_URL = "https://share.catrob.at/pocketcode/pocket-library/looks";
-	public static final String LIBRARY_BACKGROUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/backgrounds";
+	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = "https://share.catrob.at/pocketcode/pocket-library/backgrounds-portrait";
+	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = "https://share.catrob.at/pocketcode/pocket-library/backgrounds-landscape";
 	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/sounds";
 	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/pocketcode/download-media/";
 	public static final String SHARE_PROGRAM_URL = "https://share.catrob.at/pocketcode/program/";
@@ -161,6 +168,8 @@ public final class Constants {
 	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
 	public static final String SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME = "scratchconverter.clientID";
+	public static final String SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME = "scratchconverter"
+			+ ".downloadStatePref";
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
@@ -178,10 +187,6 @@ public final class Constants {
 	public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-	public static final long DISK_IMAGE_CACHE_EXPIRE_TIME = 10 * 24 * 60 * 60 * 1_000;           // 10 days (in ms)
-	public static final long DISK_IMAGE_CACHE_MAX_SIZE = 20 * 1_024 * 1_024;                     // 20MB (in bytes)
-	public static final long MEMORY_IMAGE_CACHE_EXPIRE_TIME = 300_000;                           // 5 minutes (in ms)
-	public static final int MEMORY_IMAGE_CACHE_ALLOCATED_FRACTION_OF_TOTAL_AVAILABLE_MEMORY = 8; // 1/8th of available memory
 	public static final long MEMORY_OBJECT_CACHE_EXPIRE_TIME = 120_000;                          // 2 minutes (in ms)
 	public static final int MEMORY_OBJECT_CACHE_MAX_SIZE = 10_000;
 	public static final String INTENT_SCRATCH_PROGRAM_DATA = "scratchProgramData";
@@ -196,6 +201,7 @@ public final class Constants {
 	public static final String POCKET_PAINT_PACKAGE_NAME = "org.catrobat.paintroid";
 	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id=" + POCKET_PAINT_PACKAGE_NAME;
 	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
+
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
@@ -203,6 +209,23 @@ public final class Constants {
 	public static final String PROJECT_OPENED_FROM_PROJECTS_LIST = "projectList";
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
+
+	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
+	public static final int COLLISION_VERTEX_LIMIT = 100;
+	public static final float COLLISION_POLYGON_CREATION_EPSILON = 10.0f;
+	public static final String COLLISION_POLYGON_METADATA_PATTERN = "((((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+))\\|)*((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+)";
+	public static final float COLLISION_WITH_FINGER_TOUCH_RADIUS = 50;
+
+	// background sprite is always on index 0
+	public static final int Z_INDEX_BACKGROUND = 0;
+
+	// this offset reflects the offset caused by "virtual" layers (currently only PenActor)
+	// which are sneaked in at the Stage creation when starting the scene.
+	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 1;
+
+	// the minimum z index a real sprite layer can have
+	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
+
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
 	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";

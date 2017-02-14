@@ -23,13 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -49,7 +44,6 @@ public class SetPenColorBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
 
 	private transient TextView editRedValue;
 	private transient TextView editGreenValue;
@@ -96,13 +90,13 @@ public class SetPenColorBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_pen_color, null);
 
-		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_red_prototype_text_view);
+		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
 		textValueRed.setText(String.valueOf(BrickValues.PEN_COLOR.r * 255));
 
-		TextView textValueGreen = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_green_prototype_text_view);
+		TextView textValueGreen = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_action_green_edit_text);
 		textValueGreen.setText(String.valueOf(BrickValues.PEN_COLOR.g * 255));
 
-		TextView textValueBlue = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_blue_prototype_text_view);
+		TextView textValueBlue = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_action_blue_edit_text);
 		textValueBlue.setText(String.valueOf(BrickValues.PEN_COLOR.b * 255));
 
 		return prototypeView;
@@ -132,43 +126,21 @@ public class SetPenColorBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_set_pen_color, null);
 		setCheckboxView(R.id.brick_set_pen_color_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView textRed = (TextView) view.findViewById(R.id.brick_set_pen_color_red_prototype_text_view);
 		editRedValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).setTextFieldId(R.id.brick_set_pen_color_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).refreshTextField(view);
 
-		textRed.setVisibility(View.GONE);
-		editRedValue.setVisibility(View.VISIBLE);
-
 		editRedValue.setOnClickListener(this);
 
-		TextView textGreen = (TextView) view.findViewById(R.id.brick_set_pen_color_green_prototype_text_view);
 		editGreenValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_green_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).setTextFieldId(R.id.brick_set_pen_color_action_green_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).refreshTextField(view);
 
-		textGreen.setVisibility(View.GONE);
-		editGreenValue.setVisibility(View.VISIBLE);
-
 		editGreenValue.setOnClickListener(this);
 
-		TextView textBlue = (TextView) view.findViewById(R.id.brick_set_pen_color_blue_prototype_text_view);
 		editBlueValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_blue_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).setTextFieldId(R.id.brick_set_pen_color_action_blue_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).refreshTextField(view);
-
-		textBlue.setVisibility(View.GONE);
-		editBlueValue.setVisibility(View.VISIBLE);
 
 		editBlueValue.setOnClickListener(this);
 
@@ -207,60 +179,6 @@ public class SetPenColorBrick extends FormulaBrick {
 		}
 
 		return null;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_pen_color_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textPhiroProLabel = (TextView) view.findViewById(R.id.brick_set_pen_color_action_label);
-			TextView textPhiroProEyeRed = (TextView) view.findViewById(R.id.brick_set_pen_color_red_text_view);
-			TextView editRed = (TextView) view.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
-
-			//red
-			TextView textPhiroProEyeRedView = (TextView) view.findViewById(R.id.brick_set_pen_color_red_text_view);
-			textPhiroProLabel.setTextColor(textPhiroProLabel.getTextColors().withAlpha(alphaValue));
-			textPhiroProEyeRed.setTextColor(textPhiroProEyeRed.getTextColors().withAlpha(alphaValue));
-			ColorStateList color = textPhiroProEyeRedView.getTextColors().withAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			editRed.setTextColor(editRed.getTextColors().withAlpha(alphaValue));
-			editRed.getBackground().setAlpha(alphaValue);
-
-			//green
-			TextView textPhiroProEyeGreen = (TextView) view.findViewById(R.id.brick_set_pen_color_green_text_view);
-			TextView editGreen = (TextView) view.findViewById(R.id.brick_set_pen_color_action_green_edit_text);
-			TextView textPhiroProEyeGreenView = (TextView) view.findViewById(R.id.brick_set_pen_color_green_text_view);
-			editGreen.setTextColor(editGreen.getTextColors().withAlpha(alphaValue));
-			editGreen.getBackground().setAlpha(alphaValue);
-			ColorStateList color2 = textPhiroProEyeGreenView.getTextColors().withAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color2);
-			}
-			textPhiroProEyeGreen.setTextColor(textPhiroProEyeGreen.getTextColors().withAlpha(alphaValue));
-
-			//blue
-			TextView textPhiroProEyeBlue = (TextView) view.findViewById(R.id.brick_set_pen_color_blue_text_view);
-			TextView editBlue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_blue_edit_text);
-			TextView textPhiroProEyeBlueView = (TextView) view.findViewById(R.id.brick_set_pen_color_action_blue_edit_text);
-			editBlue.setTextColor(editGreen.getTextColors().withAlpha(alphaValue));
-			editBlue.getBackground().setAlpha(alphaValue);
-			ColorStateList color3 = textPhiroProEyeBlueView.getTextColors().withAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color3);
-			}
-			textPhiroProEyeBlue.setTextColor(textPhiroProEyeBlue.getTextColors().withAlpha(alphaValue));
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

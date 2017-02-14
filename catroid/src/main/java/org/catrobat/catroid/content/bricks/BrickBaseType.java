@@ -23,12 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
@@ -36,7 +32,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
@@ -44,9 +39,8 @@ import java.util.List;
 public abstract class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = BrickBaseType.class.getSimpleName();
-	protected transient View view;
+	public transient View view;
 	protected transient CheckBox checkbox;
-	protected transient boolean checked = false;
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
@@ -61,71 +55,6 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		this.commentedOut = commentedOut;
-		setCommentedOutAppearance();
-	}
-
-	public void setCommentedOutAppearance() {
-		if (view == null) {
-			return;
-		}
-
-		if (commentedOut) {
-			grayscaleBackground();
-		} else {
-			undoGrayscaleBackground();
-		}
-		doPadding();
-	}
-
-	private void grayscaleBackground() {
-		ViewGroup viewGroup = (ViewGroup) view;
-		for (int index = 0; index < viewGroup.getChildCount(); index++) {
-			View child = viewGroup.getChildAt(index);
-
-			if (child instanceof BrickLayout) {
-				Drawable background = child.getBackground();
-
-				if (background == null) {
-					return;
-				}
-
-				ColorMatrix matrix = new ColorMatrix();
-				matrix.setSaturation(0);
-
-				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-
-				background.setColorFilter(filter);
-			}
-		}
-	}
-
-	private void undoGrayscaleBackground() {
-		ViewGroup viewGroup = (ViewGroup) view;
-		for (int index = 0; index < viewGroup.getChildCount(); index++) {
-			View child = viewGroup.getChildAt(index);
-
-			if (child instanceof BrickLayout) {
-				Drawable background = child.getBackground();
-				if (background != null) {
-					background.clearColorFilter();
-				}
-			}
-		}
-	}
-
-	public void doPadding() {
-		if (adapter == null) {
-			return;
-		}
-
-		int next = adapter.getBrickList().indexOf(this) + 1;
-		boolean hasNext = next < adapter.getBrickList().size();
-		boolean nextCommentStateDifferent = hasNext && (this.isCommentedOut() != adapter.getBrickList().get(next).isCommentedOut());
-		boolean nextIsScriptbrick = hasNext && adapter.getBrickList().get(next) instanceof ScriptBrick;
-
-		int paddingLeft = isCommentedOut() ? 75 : 0;
-		int paddingBottom = nextCommentStateDifferent && !nextIsScriptbrick ? 50 : 0;
-		view.setPadding(paddingLeft, view.getPaddingTop(), 0, paddingBottom);
 	}
 
 	@Override
@@ -138,7 +67,7 @@ public abstract class BrickBaseType implements Brick {
 
 	@Override
 	public boolean isChecked() {
-		return checked;
+		return checkbox.isChecked();
 	}
 
 	@Override
@@ -152,16 +81,6 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-			if (visibility == View.GONE) {
-				checked = false;
-			}
-		}
-	}
-
-	@Override
 	public void setBrickAdapter(BrickAdapter adapter) {
 		this.adapter = adapter;
 	}
@@ -169,11 +88,6 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public CheckBox getCheckBox() {
 		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 
 	@Override
@@ -195,6 +109,14 @@ public abstract class BrickBaseType implements Brick {
 		checkbox.setChecked(isChecked);
 		checkbox.setVisibility(checkboxVisibility);
 		checkbox.setEnabled(enabled);
+
+		final Brick instance = this;
+		checkbox.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				adapter.handleCheck(instance, ((CheckBox) view).isChecked());
+			}
+		});
 	}
 
 	@Override
@@ -219,34 +141,9 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public void enableAllViews(View recursiveView, boolean enable) {
-		View viewToDisable = recursiveView == null ? view : recursiveView;
-
-		if (viewToDisable != null) {
-			if (!(viewToDisable instanceof CheckBox)) {
-				viewToDisable.setEnabled(enable);
-			}
-			if (viewToDisable instanceof ViewGroup) {
-				ViewGroup viewGroup = (ViewGroup) viewToDisable;
-				for (int i = 0; i < viewGroup.getChildCount(); i++) {
-					View child = viewGroup.getChildAt(i);
-					enableAllViews(child, enable);
-				}
-			}
-		}
-	}
-
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		return getView(context, brickId, adapter);
-	}
-
-	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
-
-	@Override
-	public abstract View getViewWithAlpha(int alphaValue);
 
 	@Override
 	public abstract View getView(Context context, int brickId, BaseAdapter adapter);

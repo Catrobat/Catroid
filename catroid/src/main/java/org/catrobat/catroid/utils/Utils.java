@@ -50,7 +50,10 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.facebook.AccessToken;
 import com.google.common.base.Splitter;
+import com.google.firebase.crash.FirebaseCrash;
+import com.google.gson.Gson;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -62,12 +65,14 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.BaseExceptionHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -90,10 +95,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
+
+	private enum RemixUrlParsingState {
+		STARTING, TOKEN, BETWEEN
+	}
 
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 
@@ -129,7 +139,10 @@ public final class Utils {
 	public static boolean checkIfCrashRecoveryAndFinishActivity(final Activity context) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (preferences.getBoolean(BaseExceptionHandler.RECOVERED_FROM_CRASH, false)) {
-
+			if (BuildConfig.FIREBASE_CRASH_REPORT_ENABLED
+					&& preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false)) {
+				sendCaughtException(context);
+			}
 			if (!(context instanceof MainMenuActivity)) {
 				context.finish();
 			} else {
@@ -138,6 +151,17 @@ public final class Utils {
 			}
 		}
 		return false;
+	}
+
+	public static void sendCaughtException(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		Gson gson = new Gson();
+		String json = preferences.getString(BaseExceptionHandler.EXCEPTION_FOR_REPORT, "");
+		Throwable exception = gson.fromJson(json, Throwable.class);
+
+		FirebaseCrash.report(exception);
+
+		preferences.edit().remove(BaseExceptionHandler.EXCEPTION_FOR_REPORT).commit();
 	}
 
 	public static boolean isNetworkAvailable(Context context, boolean createDialog) {
@@ -191,6 +215,92 @@ public final class Utils {
 		} catch (IOException e) {
 			return null;
 		}
+	}
+
+	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
+		String escapedFirstProgramName = headerOfFirstProgram.getProgramName();
+		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
+				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
+		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
+				Constants.REMIX_URL_SUFIX_REPLACE_INDICATOR);
+		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SEPARATOR,
+				Constants.REMIX_URL_REPLACE_SEPARATOR);
+
+		String escapedSecondProgramName = headerOfSecondProgram.getProgramName();
+		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
+				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
+		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
+				Constants.REMIX_URL_SUFIX_REPLACE_INDICATOR);
+		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_SEPARATOR,
+				Constants.REMIX_URL_REPLACE_SEPARATOR);
+
+		StringBuilder remixUrlString = new StringBuilder(escapedFirstProgramName);
+
+		if (!headerOfFirstProgram.getRemixParentsUrlString().equals("")) {
+			remixUrlString
+					.append(' ')
+					.append(Constants.REMIX_URL_PREFIX_INDICATOR)
+					.append(headerOfFirstProgram.getRemixParentsUrlString())
+					.append(Constants.REMIX_URL_SUFIX_INDICATOR);
+		}
+
+		remixUrlString
+				.append(Constants.REMIX_URL_SEPARATOR)
+				.append(' ')
+				.append(escapedSecondProgramName);
+
+		if (!headerOfSecondProgram.getRemixParentsUrlString().equals("")) {
+			remixUrlString
+					.append(' ')
+					.append(Constants.REMIX_URL_PREFIX_INDICATOR)
+					.append(headerOfSecondProgram.getRemixParentsUrlString())
+					.append(Constants.REMIX_URL_SUFIX_INDICATOR);
+		}
+
+		return remixUrlString.toString();
+	}
+
+	// based on: http://stackoverflow.com/a/27295688
+	public static List<String> extractRemixUrlsFromString(String text) {
+		RemixUrlParsingState state = RemixUrlParsingState.STARTING;
+		ArrayList<String> extractedUrls = new ArrayList<>();
+		StringBuffer temp = new StringBuffer("");
+
+		for (int index = 0; index < text.length(); index++) {
+			char currentCharacter = text.charAt(index);
+			switch (currentCharacter) {
+				case Constants.REMIX_URL_PREFIX_INDICATOR:
+					if (state == RemixUrlParsingState.STARTING) {
+						state = RemixUrlParsingState.BETWEEN;
+					} else if (state == RemixUrlParsingState.TOKEN) {
+						temp.delete(0, temp.length());
+						state = RemixUrlParsingState.BETWEEN;
+					}
+					break;
+
+				case Constants.REMIX_URL_SUFIX_INDICATOR:
+					if (state == RemixUrlParsingState.TOKEN) {
+						String extractedUrl = temp.toString().trim();
+						if (!extractedUrl.contains(String.valueOf(Constants.REMIX_URL_SEPARATOR))
+								&& extractedUrl.length() > 0) {
+							extractedUrls.add(extractedUrl);
+						}
+						temp.delete(0, temp.length());
+						state = RemixUrlParsingState.BETWEEN;
+					}
+					break;
+
+				default:
+					state = RemixUrlParsingState.TOKEN;
+					temp.append(currentCharacter);
+			}
+		}
+
+		if (extractedUrls.size() == 0 && !text.contains(String.valueOf(Constants.REMIX_URL_SEPARATOR))) {
+			extractedUrls.add(text);
+		}
+
+		return extractedUrls;
 	}
 
 	public static Date getScratchSecondReleasePublishedDate() {
@@ -581,7 +691,7 @@ public final class Utils {
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
-			newName = name + nextNumber;
+			newName = name + "_" + nextNumber;
 		}
 
 		if (ProjectManager.getInstance().getCurrentScene().containsSpriteBySpriteName(newName)) {
@@ -601,7 +711,7 @@ public final class Utils {
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
-			newName = name + nextNumber;
+			newName = name + "_" + nextNumber;
 		}
 		for (NfcTagData nfcTagData : nfcTagDataList) {
 			if (nfcTagData.getNfcTagName().equals(newName)) {
@@ -615,8 +725,8 @@ public final class Utils {
 		return searchForNonExistingLookName(lookData, 0, forBackPack);
 	}
 
-	private static String searchForNonExistingLookName(LookData originalLookData, int nextNumber, boolean
-			forBackPack) {
+	private static String searchForNonExistingLookName(LookData originalLookData,
+			int nextNumber, boolean forBackPack) {
 		String newName;
 		List<LookData> lookDataList;
 		if (forBackPack) {
@@ -628,7 +738,7 @@ public final class Utils {
 		if (nextNumber == 0) {
 			newName = originalLookData.getLookName();
 		} else {
-			newName = originalLookData.getLookName() + nextNumber;
+			newName = originalLookData.getLookName() + "_" + nextNumber;
 		}
 		for (LookData lookData : lookDataList) {
 			if (lookData.getLookName().equals(newName)) {
@@ -654,7 +764,7 @@ public final class Utils {
 		if (nextNumber == 0) {
 			newName = sprite.getName();
 		} else {
-			newName = sprite.getName() + nextNumber;
+			newName = sprite.getName() + "_" + nextNumber;
 		}
 		for (Sprite spriteListItem : spriteList) {
 			if (spriteListItem.getName().equals(newName)) {
@@ -675,29 +785,50 @@ public final class Utils {
 	}
 
 	public static String getUniqueSceneName(String sceneName, boolean forBackPack) {
-		return searchForNonExistingSceneName(sceneName, 0, forBackPack);
-	}
-
-	public static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
-		String newName;
 		List<Scene> sceneList;
+
 		if (forBackPack) {
 			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
 		} else {
 			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
 		}
 
-		if (nextNumber == 0) {
-			newName = sceneName;
-		} else {
-			newName = sceneName + nextNumber;
+		String possibleNewName = sceneName;
+		Boolean check = true;
+		int nextNumber = 1;
+		while (check) {
+
+			check = false;
+			possibleNewName = sceneName + "_" + nextNumber;
+			for (Scene sceneListItem : sceneList) {
+				if (sceneListItem.getName().equals(possibleNewName)) {
+					check = true;
+					break;
+				}
+			}
+			nextNumber += 1;
 		}
+
+		return possibleNewName;
+	}
+
+	public static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
+		List<Scene> sceneList;
+
+		if (forBackPack) {
+			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
+		} else {
+			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
+		}
+
+		String possibleNewName = String.format(sceneName, nextNumber);
 		for (Scene sceneListItem : sceneList) {
-			if (sceneListItem.getName().equals(newName)) {
+			if (sceneListItem.getName().equals(possibleNewName)) {
 				return searchForNonExistingSceneName(sceneName, ++nextNumber, forBackPack);
 			}
 		}
-		return newName;
+
+		return possibleNewName;
 	}
 
 	public static String getUniqueSoundName(SoundInfo soundInfo, boolean forBackPack) {
@@ -733,7 +864,7 @@ public final class Utils {
 			}
 		} else {
 			if (soundInfo != null) {
-				newTitle = soundInfo.getTitle() + nextNumber;
+				newTitle = soundInfo.getTitle() + "_" + nextNumber;
 			}
 		}
 		for (SoundInfo soundInfoFromList : soundInfoList) {
@@ -973,5 +1104,13 @@ public final class Utils {
 
 	public static String getNumberStringForBricks(float value) {
 		return (int) value == value ? "" + (int) value : "" + value;
+	}
+
+	public static <T> List<T> distinctListByClassOfObjects(List<T> listToDistinct) {
+		Map<Class, T> uniqueMap = new HashMap<>();
+		for (T objectInstance : listToDistinct) {
+			uniqueMap.put(objectInstance.getClass(), objectInstance);
+		}
+		return new ArrayList<>(uniqueMap.values());
 	}
 }

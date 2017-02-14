@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
@@ -60,6 +61,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -68,6 +70,8 @@ import java.io.IOException;
 
 public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 	private static final String TAG = DefaultProjectCreatorDefault.class.getSimpleName();
+
+	private static SpriteFactory spriteFactory = new SpriteFactory();
 
 	public DefaultProjectCreatorCast() {
 		standardProjectNameID = R.string.default_cast_project_name;
@@ -189,8 +193,9 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			UserVariable direction = userVariables.getUserVariable(varDirection, backgroundSprite);
 
 			//Clouds
-			Sprite cloudSprite1 = new Sprite(cloudSpriteName1);
-			Sprite cloudSprite2 = new Sprite(cloudSpriteName2);
+			Sprite cloudSprite1 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName1);
+			Sprite cloudSprite2 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName2);
+
 			cloudSprite1.getLookDataList().add(cloudLookData);
 			cloudSprite2.getLookDataList().add(cloudLookData);
 
@@ -232,7 +237,8 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			///Clouds
 
 			//Bird
-			Sprite birdSprite = new Sprite(birdLookName);
+			Sprite birdSprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), birdLookName);
+
 			birdSprite.getLookDataList().add(birdWingUpLookData);
 			birdSprite.getLookDataList().add(birdWingDownLookData);
 			birdSprite.getLookDataList().add(birdWingUpLeftLookData);

@@ -23,26 +23,30 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.adapter.ProjectAdapter;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
-import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
+import org.catrobat.catroid.ui.fragment.ProjectListFragment;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.concurrent.locks.Lock;
 
 public class MyProjectsActivity extends BaseActivity {
 
+	public static final String TAG = MyProjectsActivity.class.getSimpleName();
 	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
-	private ProjectsListFragment projectsListFragment;
+	private ProjectListFragment projectListFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +56,35 @@ public class MyProjectsActivity extends BaseActivity {
 
 		BottomBar.hidePlayButton(this);
 
-		projectsListFragment = (ProjectsListFragment) getFragmentManager().findFragmentById(
-				R.id.fragment_container);
+		loadFragment(ProjectListFragment.class, false);
+		projectListFragment = (ProjectListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
+		SnackbarUtil.showHintSnackbar(this, R.string.hint_merge);
+	}
+
+	public void loadFragment(Class<? extends Fragment> fragmentClass, boolean addCurrentFragmentToBackStack) {
+		loadFragment(fragmentClass, null, addCurrentFragmentToBackStack);
+	}
+
+	public void loadFragment(Class<? extends Fragment> fragmentClass, Bundle bundle, boolean addCurrentFragmentToBackStack) {
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+
+		try {
+			Fragment newFragment = fragmentClass.newInstance();
+			fragmentTransaction.replace(R.id.fragment_container, newFragment, fragmentClass.getSimpleName());
+
+			if (addCurrentFragmentToBackStack) {
+				fragmentTransaction.addToBackStack(null);
+			}
+
+			if (bundle != null) {
+				newFragment.setArguments(bundle);
+			}
+
+			fragmentTransaction.commit();
+			getFragmentManager().executePendingTransactions();
+		} catch (Exception e) {
+			Log.e(TAG, "Error while loading fragment" + e);
+		}
 	}
 
 	@Override
@@ -67,12 +98,15 @@ public class MyProjectsActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_myprojects, menu);
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		handleShowDetails(projectsListFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		handleShowDetails(projectListFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -84,19 +118,19 @@ public class MyProjectsActivity extends BaseActivity {
 				return true;
 
 			case R.id.copy:
-				projectsListFragment.startCopyActionMode();
+				projectListFragment.startCopyActionMode();
 				break;
 
 			case R.id.delete:
-				projectsListFragment.startDeleteActionMode();
+				projectListFragment.startDeleteActionMode();
 				break;
 
 			case R.id.rename:
-				projectsListFragment.startRenameActionMode();
+				projectListFragment.startRenameActionMode();
 				break;
 
 			case R.id.show_details:
-				handleShowDetails(!projectsListFragment.getShowDetails(), item);
+				handleShowDetails(!projectListFragment.getShowDetails(), item);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -109,20 +143,6 @@ public class MyProjectsActivity extends BaseActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (projectsListFragment.lockBackButtonForAsync) {
-			return false;
-		}
-		if (projectsListFragment.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_UP) {
-			ProjectAdapter adapter = (ProjectAdapter) projectsListFragment.getListAdapter();
-			adapter.clearCheckedProjects();
-		}
-
-		return super.dispatchKeyEvent(event);
-	}
-
 	public void handleAddButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
@@ -133,7 +153,7 @@ public class MyProjectsActivity extends BaseActivity {
 	}
 
 	private void handleShowDetails(boolean showDetails, MenuItem item) {
-		projectsListFragment.setShowDetails(showDetails);
+		projectListFragment.setShowDetails(showDetails);
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}

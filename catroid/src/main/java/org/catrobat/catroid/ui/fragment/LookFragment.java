@@ -80,6 +80,7 @@ import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dialogs.NewLookDialog;
 import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.UtilUi;
@@ -267,6 +268,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_looks);
+
 		return inflater.inflate(R.layout.fragment_look, container, false);
 	}
 
@@ -470,7 +473,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		lastReceivedIntent = data;
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
@@ -575,8 +577,10 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	public void addLookMediaLibrary() {
 		Intent intent = new Intent(activity, WebViewActivity.class);
 		String url;
-		if (ProjectManager.getInstance().getCurrentSprite().getName().compareTo(getString(R.string.background)) == 0) {
-			url = Constants.LIBRARY_BACKGROUNDS_URL;
+		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(getString(R.string.background))) {
+			url = ProjectManager.getInstance().isCurrentProjectLandscapeMode()
+					? Constants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE
+					: Constants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 		} else {
 			url = Constants.LIBRARY_LOOKS_URL;
 		}
@@ -870,7 +874,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public void showRenameDialog() {
-		RenameLookDialog renameLookDialog = RenameLookDialog.newInstance(selectedLookData.getLookName());
+		RenameLookDialog renameLookDialog = new RenameLookDialog(R.string.rename_look_dialog, R.string
+				.lookname, selectedLookData.getLookName());
 		renameLookDialog.show(getFragmentManager(), RenameLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 

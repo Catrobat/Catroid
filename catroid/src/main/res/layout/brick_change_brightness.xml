@@ -60,11 +60,6 @@
         </TextView >
 
         <TextView
-            android:id="@+id/brick_change_brightness_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
-
-        <TextView
             android:id="@+id/brick_change_brightness_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"

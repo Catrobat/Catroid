@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -80,7 +79,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		}
 
 		view = View.inflate(context, R.layout.brick_raspi_pin_changed, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_raspi_when_checkbox);
 
 		setupValueSpinner(context);
@@ -94,9 +93,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		View prototypeView = View.inflate(context, R.layout.brick_raspi_pin_changed, null);
 
 		Spinner pinSpinner = (Spinner) prototypeView.findViewById(R.id.brick_raspi_when_pinspinner);
-		pinSpinner.setFocusableInTouchMode(false);
-		pinSpinner.setFocusable(false);
-		pinSpinner.setEnabled(false);
 
 		ArrayAdapter<String> messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -104,9 +100,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		pinSpinner.setAdapter(messageAdapter);
 
 		Spinner valueSpinner = (Spinner) prototypeView.findViewById(R.id.brick_raspi_when_valuespinner);
-		valueSpinner.setFocusableInTouchMode(false);
-		valueSpinner.setFocusable(false);
-		valueSpinner.setEnabled(false);
 
 		valueSpinner.setAdapter(getValueSpinnerArrayAdapter(context));
 		return prototypeView;
@@ -114,10 +107,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 	private void setupPinSpinner(Context context) {
 		final Spinner pinSpinner = (Spinner) view.findViewById(R.id.brick_raspi_when_pinspinner);
-		pinSpinner.setFocusableInTouchMode(false);
-		pinSpinner.setFocusable(false);
-		pinSpinner.setClickable(true);
-		pinSpinner.setEnabled(true);
 
 		String revision = SettingsActivity.getRaspiRevision(context);
 		ArrayList<Integer> availableGPIOs = RaspberryPiService.getInstance().getGpioList(revision);
@@ -148,10 +137,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	private void setupValueSpinner(final Context context) {
 
 		final Spinner valueSpinner = (Spinner) view.findViewById(R.id.brick_raspi_when_valuespinner);
-		valueSpinner.setFocusableInTouchMode(false);
-		valueSpinner.setFocusable(false);
-		valueSpinner.setClickable(true);
-		valueSpinner.setEnabled(true);
 
 		ArrayAdapter<String> valueAdapter = getValueSpinnerArrayAdapter(context);
 		valueSpinner.setAdapter(valueAdapter);
@@ -200,18 +185,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		}
 
 		return script;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_raspi_when_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	public String getPinString() {

@@ -51,12 +51,6 @@
             android:text="@string/brick_ask_label" />
 
         <TextView
-            android:id="@+id/brick_ask_question_prototype_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent"
-            android:text="@string/brick_ask_default_question" />
-
-        <TextView
             android:id="@+id/brick_ask_question_edit_text"
             style="@style/BrickEditText"
             android:layout_width="match_parent" />

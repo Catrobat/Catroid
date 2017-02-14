@@ -25,19 +25,13 @@ package org.catrobat.catroid.ui;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
@@ -46,13 +40,11 @@ import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.Locale;
-
 public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
-	private Menu baseMenu;
+	//private Menu mainMenu;
 	private boolean returnByPressingBackButton;
 
 	@Override
@@ -67,6 +59,17 @@ public abstract class BaseActivity extends Activity {
 		//CAST
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
+		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		CastManager.getInstance().initializeCast(this);
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().addCallback();
 		}
 	}
 
@@ -92,33 +95,6 @@ public abstract class BaseActivity extends Activity {
 		}
 
 		invalidateOptionsMenu(); // TODO Any other way to ensure the cast button is presented correctly?
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		baseMenu = menu;
-		//CAST
-		//getMenuInflater().inflate(R.menu.menu_main_menu, menu);
-		getMenuInflater().inflate(R.menu.menu_base_menu, menu);
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
-		}
-
-		final MenuItem scratchConverterMenuItem = menu.findItem(R.id.menu_scratch_converter);
-		if (scratchConverterMenuItem != null) {
-			if (!(this instanceof MainMenuActivity)) {
-				scratchConverterMenuItem.setVisible(false);
-			} else {
-				final String title = getString(R.string.preference_title_scratch_converter);
-				final String beta = getString(R.string.beta).toUpperCase(Locale.getDefault());
-				final SpannableString spanTitle = new SpannableString(title + " " + beta);
-				final int begin = title.length() + 1;
-				final int end = begin + beta.length();
-				spanTitle.setSpan(new ForegroundColorSpan(Color.RED), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				scratchConverterMenuItem.setTitle(spanTitle);
-			}
-		}
-		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -221,17 +197,5 @@ public abstract class BaseActivity extends Activity {
 
 	public void setTitleActionBar(String titleActionBar) {
 		this.titleActionBar = titleActionBar;
-	}
-
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuItem logout = baseMenu.findItem(R.id.menu_logout);
-		MenuItem login = baseMenu.findItem(R.id.menu_login);
-		logout.setVisible(Utils.isUserLoggedIn(this));
-		login.setVisible(!Utils.isUserLoggedIn(this));
-
-		if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
-			baseMenu.removeItem(R.id.menu_scratch_converter);
-		}
-		return true;
 	}
 }

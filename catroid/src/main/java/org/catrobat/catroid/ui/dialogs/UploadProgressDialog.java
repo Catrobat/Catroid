@@ -79,7 +79,7 @@ public class UploadProgressDialog extends DialogFragment {
 		progressBarDialog.setCancelable(false);
 		progressBarDialog.setCanceledOnTouchOutside(false);
 
-		progressBarDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel_button), (DialogInterface
+		progressBarDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), (DialogInterface
 				.OnClickListener) null);
 		progressBarDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.progress_upload_dialog_show_program), (DialogInterface
 				.OnClickListener) null);
@@ -94,7 +94,7 @@ public class UploadProgressDialog extends DialogFragment {
 		final AlertDialog dialog = (AlertDialog) getDialog();
 		dialog.setCanceledOnTouchOutside(false);
 		dialog.setCancelable(false);
-		dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(getString(R.string.done_button));
+		dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(getString(R.string.done));
 		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 
 		uploadProject(currentProjectName, currentProjectDescription);

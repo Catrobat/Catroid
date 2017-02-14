@@ -50,13 +50,6 @@
             android:text="@string/brick_say_bubble" >
         </TextView >
 
-        <TextView
-            android:id="@+id/brick_say_bubble_prototype_text_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent"
-            android:gravity="left" >
-        </TextView >
-
         <EditText
             android:id="@+id/brick_say_bubble_edit_text"
             style="@style/BrickEditText"
@@ -66,8 +59,7 @@
             app:layout_textField="true"
             android:gravity="left"
             android:maxLines="3"
-            android:minLines="1"
-            android:singleLine="false" />
+            android:minLines="1" />
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

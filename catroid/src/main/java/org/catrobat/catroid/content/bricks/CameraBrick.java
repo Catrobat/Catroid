@@ -24,15 +24,11 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -48,17 +44,14 @@ public class CameraBrick extends BrickBaseType {
 	private static final int ON = 1;
 
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
-	private String[] spinnerValues;
+
 	private int spinnerSelectionID;
 
 	public CameraBrick() {
-		spinnerValues = new String[2];
 		spinnerSelectionID = ON;
 	}
 
 	public CameraBrick(int onOrOff) {
-		spinnerValues = new String[2];
 		spinnerSelectionID = onOrOff;
 	}
 
@@ -67,29 +60,11 @@ public class CameraBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
-		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_video, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_video_checkbox);
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			videoSpinner.setClickable(true);
-			videoSpinner.setEnabled(true);
-		} else {
-			videoSpinner.setClickable(false);
-			videoSpinner.setEnabled(false);
-		}
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
@@ -117,9 +92,6 @@ public class CameraBrick extends BrickBaseType {
 		prototypeView = View.inflate(context, R.layout.brick_video, null);
 
 		Spinner setVideoSpinner = (Spinner) prototypeView.findViewById(R.id.brick_video_spinner);
-		setVideoSpinner.setFocusableInTouchMode(false);
-		setVideoSpinner.setFocusable(false);
-		setVideoSpinner.setEnabled(false);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		setVideoSpinner.setAdapter(spinnerAdapter);
@@ -128,32 +100,8 @@ public class CameraBrick extends BrickBaseType {
 		return prototypeView;
 	}
 
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_video_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			Spinner videoBrickSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
-			TextView videoBrickTextView = (TextView) view.findViewById(R.id.brick_video_prototype_text_view);
-
-			ColorStateList color = videoBrickTextView.getTextColors().withAlpha(alphaValue);
-			videoBrickTextView.setTextColor(color);
-			videoBrickSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
-	}
-
 	private ArrayAdapter<String> createArrayAdapter(Context context) {
+		String[] spinnerValues = new String[2];
 		spinnerValues[OFF] = context.getString(R.string.video_brick_camera_off);
 		spinnerValues[ON] = context.getString(R.string.video_brick_camera_on);
 

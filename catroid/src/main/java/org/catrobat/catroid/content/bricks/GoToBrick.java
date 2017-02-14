@@ -24,19 +24,15 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -47,6 +43,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GoToBrick extends BrickBaseType {
@@ -55,10 +52,7 @@ public class GoToBrick extends BrickBaseType {
 
 	private Sprite destinationSprite;
 	private transient String oldSelectedObject;
-	private String touchPositionLabel;
-	private String randomPositionLabel;
 
-	private transient AdapterView<?> adapterView;
 	private transient SpinnerAdapterWrapper spinnerAdapterWrapper;
 	private int spinnerSelection;
 
@@ -90,31 +84,11 @@ public class GoToBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_go_to, null);
-		view = getViewWithAlpha(alphaValue);
-
-		this.touchPositionLabel = context.getString(R.string.brick_go_to_touch_position);
-		this.randomPositionLabel = context.getString(R.string.brick_go_to_random_position);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_go_to_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			goToSpinner.setClickable(true);
-			goToSpinner.setEnabled(true);
-		} else {
-			goToSpinner.setClickable(false);
-			goToSpinner.setEnabled(false);
-		}
 
 		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
@@ -144,7 +118,6 @@ public class GoToBrick extends BrickBaseType {
 						}
 					}
 				}
-				adapterView = parent;
 			}
 
 			@Override
@@ -152,34 +125,7 @@ public class GoToBrick extends BrickBaseType {
 			}
 		});
 
-		setSpinnerSelection(goToSpinner);
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_go_to_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView goToLabel = (TextView) view.findViewById(R.id.brick_go_to_label);
-			goToLabel.setTextColor(goToLabel.getTextColors().withAlpha(alphaValue));
-
-			Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
-			goToSpinner.getBackground().setAlpha(alphaValue);
-
-			ColorStateList color = goToLabel.getTextColors().withAlpha(alphaValue);
-
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
+		setSpinnerSelection(goToSpinner, context);
 
 		return view;
 	}
@@ -190,14 +136,10 @@ public class GoToBrick extends BrickBaseType {
 
 		Spinner goToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_go_to_spinner);
 
-		goToSpinner.setFocusableInTouchMode(false);
-		goToSpinner.setFocusable(false);
-		goToSpinner.setEnabled(false);
-
 		SpinnerAdapter goToSpinnerAdapter = createArrayAdapter(context);
 
 		goToSpinner.setAdapter(goToSpinnerAdapter);
-		setSpinnerSelection(goToSpinner);
+		setSpinnerSelection(goToSpinner, context);
 
 		return prototypeView;
 	}
@@ -206,19 +148,19 @@ public class GoToBrick extends BrickBaseType {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createGoToAction(sprite, destinationSprite, spinnerSelection));
 
-		return null;
+		return Collections.emptyList();
 	}
 
-	private void setSpinnerSelection(Spinner spinner) {
+	private void setSpinnerSelection(Spinner spinner, Context context) {
 		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentScene()
 				.getSpriteList();
 
 		if (spinnerSelection == BrickValues.GO_TO_TOUCH_POSITION) {
 			spinner.setSelection(0, true);
-			oldSelectedObject = touchPositionLabel;
+			oldSelectedObject = context.getString(R.string.brick_go_to_touch_position);
 		} else if (spinnerSelection == BrickValues.GO_TO_RANDOM_POSITION) {
 			spinner.setSelection(1, true);
-			oldSelectedObject = randomPositionLabel;
+			oldSelectedObject = context.getString(R.string.brick_go_to_random_position);
 		} else if (spriteList.contains(destinationSprite)) {
 			oldSelectedObject = destinationSprite.getName();
 			spinner.setSelection(
@@ -359,7 +301,9 @@ public class GoToBrick extends BrickBaseType {
 
 	@Override
 	public Brick clone() {
-		return new GoToBrick(destinationSprite);
+		GoToBrick copy = new GoToBrick(destinationSprite);
+		copy.spinnerSelection = spinnerSelection;
+		return copy;
 	}
 
 	public Sprite getDestinationSprite() {

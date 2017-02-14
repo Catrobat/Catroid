@@ -244,6 +244,10 @@ public class InternFormulaParser {
 				currentElement.replaceElement(FormulaElement.ElementType.STRING, string());
 				break;
 
+			case COLLISION_FORMULA:
+				currentElement.replaceElement(collision());
+				break;
+
 			default:
 				throw new InternFormulaParserException("Parse Error");
 		}
@@ -262,6 +266,32 @@ public class InternFormulaParser {
 		}
 
 		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE,
+				currentToken.getTokenStringValue(), null);
+
+		getNextToken();
+		return lookTree;
+	}
+
+	private FormulaElement collision() throws InternFormulaParserException {
+
+		String firstSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		String secondSpriteName = currentToken.getTokenStringValue();
+		boolean formulaOk;
+		int spriteCount = 0;
+
+		for (Sprite sprite : ProjectManager.getInstance().getSceneToPlay().getSpriteList()) {
+			if (sprite.getName().compareTo(firstSpriteName) == 0 || sprite.getName().compareTo(secondSpriteName) == 0) {
+				spriteCount++;
+			}
+		}
+
+		formulaOk = (spriteCount == 2);
+
+		if (!formulaOk) {
+			throw new InternFormulaParserException("Parse Error, Sprite was not found");
+		}
+
+		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
 				currentToken.getTokenStringValue(), null);
 
 		getNextToken();

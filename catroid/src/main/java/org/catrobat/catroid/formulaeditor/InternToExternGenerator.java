@@ -25,6 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import android.content.Context;
 import android.util.Log;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
 
@@ -40,7 +41,6 @@ public class InternToExternGenerator {
 	private Context context;
 
 	private static final HashMap<String, Integer> INTERN_EXTERN_LANGUAGE_CONVERTER_MAP = new HashMap<String, Integer>();
-
 	static {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.DIVIDE.name(), R.string.formula_editor_operator_divide);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.MULT.name(), R.string.formula_editor_operator_mult);
@@ -143,6 +143,11 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_2.name(), R.string.formula_editor_sensor_lego_nxt_2);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_3.name(), R.string.formula_editor_sensor_lego_nxt_3);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_4.name(), R.string.formula_editor_sensor_lego_nxt_4);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.EV3_SENSOR_1.name(), R.string.formula_editor_sensor_lego_ev3_1);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.EV3_SENSOR_2.name(), R.string.formula_editor_sensor_lego_ev3_2);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.EV3_SENSOR_3.name(), R.string.formula_editor_sensor_lego_ev3_3);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.EV3_SENSOR_4.name(), R.string.formula_editor_sensor_lego_ev3_4);
+
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_FRONT_LEFT.name(), R.string.formula_editor_phiro_sensor_front_left);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_FRONT_RIGHT.name(), R.string.formula_editor_phiro_sensor_front_right);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_SIDE_LEFT.name(), R.string.formula_editor_phiro_sensor_side_left);
@@ -150,6 +155,7 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_BOTTOM_LEFT.name(), R.string.formula_editor_phiro_sensor_bottom_left);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_BOTTOM_RIGHT.name(), R.string.formula_editor_phiro_sensor_bottom_right);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NFC_TAG_ID.name(), R.string.formula_editor_nfc_tag_id);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NFC_TAG_MESSAGE.name(), R.string.formula_editor_nfc_tag_message);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_YEAR.name(), R.string.formula_editor_sensor_date_year);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_MONTH.name(), R.string.formula_editor_sensor_date_month);
@@ -169,6 +175,10 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_ROTATION.name(),
 				R.string.formula_editor_object_rotation);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_LAYER.name(), R.string.formula_editor_object_layer);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.COLLIDES_WITH_EDGE.name(), R.string
+				.formula_editor_function_collides_with_edge);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.COLLIDES_WITH_FINGER.name(), R.string
+				.formula_editor_function_touched);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X_VELOCITY.name(),
 				R.string.formula_editor_object_x_velocity);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y_VELOCITY.name(),
@@ -200,7 +210,6 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.SMALLER_THAN.name(),
 				R.string.formula_editor_logic_lesserthan);
 	}
-
 	public InternToExternGenerator(Context context) {
 		this.context = context;
 		generatedExternFormulaString = "";
@@ -300,6 +309,10 @@ public class InternToExternGenerator {
 				return "*" + internToken.getTokenStringValue() + "*";
 			case STRING:
 				return "\'" + internToken.getTokenStringValue() + "\'";
+			case COLLISION_FORMULA:
+				String collisionTag = CatroidApplication.getAppContext().getString(R.string
+						.formula_editor_function_collision);
+				return collisionTag + "(" + internToken.getTokenStringValue() + ")";
 
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);

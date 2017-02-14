@@ -60,6 +60,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -82,6 +83,7 @@ import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
@@ -145,7 +147,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//setHandleAddbutton();
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_sounds);
+
 		return inflater.inflate(R.layout.fragment_sounds, container, false);
 	}
 
@@ -632,7 +635,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void showRenameDialog() {
-		RenameSoundDialog renameSoundDialog = RenameSoundDialog.newInstance(selectedSoundInfo.getTitle());
+		RenameSoundDialog renameSoundDialog = new RenameSoundDialog(R.string.rename_sound_dialog, R.string
+				.sound_name, selectedSoundInfo.getTitle());
 		renameSoundDialog.show(getFragmentManager(), RenameSoundDialog.DIALOG_FRAGMENT_TAG);
 	}
 
@@ -856,6 +860,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			public void onClick(DialogInterface dialog, int id) {
 				adapter.addCheckedItemIfNotExists(selectedSoundPosition);
 				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter, soundInfoList, mediaPlayer);
+				adapter.notifyDataSetChanged();
 				clearCheckedSoundsAndEnableButtons();
 			}
 		});
@@ -1024,5 +1029,26 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void handleCheckBoxClick(View view) {
+	}
+
+	@Override
+	public void onSoundEdit(View view) {
+
+		if (!BuildConfig.FEATURE_POCKETMUSIC_ENABLED) {
+			return;
+		}
+
+		int position = getListView().getPositionForView(view);
+
+		selectedSoundInfo = soundInfoList.get(position);
+
+		if (selectedSoundInfo.getSoundFileName().matches(".*MUS-.*\\.midi")) {
+			Intent intent = new Intent(getActivity(), PocketMusicActivity.class);
+
+			intent.putExtra("FILENAME", selectedSoundInfo.getSoundFileName());
+			intent.putExtra("TITLE", selectedSoundInfo.getTitle());
+
+			startActivity(intent);
+		}
 	}
 }

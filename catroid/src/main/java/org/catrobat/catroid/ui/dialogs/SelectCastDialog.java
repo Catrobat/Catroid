@@ -65,43 +65,64 @@ public class SelectCastDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-		View view = View.inflate(getActivity(), R.layout.dialog_select_cast, null);
-		ListView listView = (ListView) view.findViewById(R.id.cast_device_list_view);
-		listView.setEmptyView(view.findViewById(R.id.empty_view_item));
-		builder.setView(view).setTitle(getString(R.string.cast_device_selector_dialog_title));
-		listView.setAdapter(deviceAdapter);
-		listView.setDivider(null);
-
-		dialog = builder.create();
-
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				synchronized (this) {
-					MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(position);
-					CastManager.getInstance().setCallback();
-					CastManager.getInstance().startCastButtonAnimation();
-					CastManager.getInstance().selectRoute(routeInfo);
-					dialog.dismiss();
-				}
+		if (CastManager.getInstance().currentlyConnecting() || CastManager.getInstance().isConnected()) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+			if (CastManager.getInstance().pausedViewEmpty()) {
+				builder.setMessage(activity.getString(R.string.cast_stop_casting_to) + " "
+						+ CastManager.getInstance().getSelectedDevice().getFriendlyName() + "?");
+			} else {
+				builder.setMessage(activity.getString(R.string.cast_ready_to_cast) + " "
+						+ CastManager.getInstance().getSelectedDevice().getFriendlyName());
 			}
-		});
-
-		// Show a tip inside of the empty view after CAST_NOT_SEEING_DEVICE_TIMEOUT milliseconds.
-		(new Handler()).postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				synchronized (this) {
-					if (dialog != null && dialog.isShowing() && deviceAdapter.isEmpty()) {
-						TextView t = (TextView) dialog.findViewById(R.id.cast_searching_for_cast_text_view);
-						String text = activity.getText(R.string.cast_searching_for_cast_devices).toString()
-								+ activity.getText(R.string.cast_trouble_finding_devices_tip);
-						t.setText(text);
+			builder.setPositiveButton(R.string.disconnect, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					synchronized (this) {
+						CastManager.getInstance().getMediaRouter().unselect(MediaRouter.UNSELECT_REASON_STOPPED);
 					}
 				}
-			}
-		}, Constants.CAST_NOT_SEEING_DEVICE_TIMEOUT);
-		return dialog;
+			});
+			dialog = builder.create();
+			return dialog;
+		} else {
+			final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+			View view = View.inflate(getActivity(), R.layout.dialog_select_cast, null);
+			ListView listView = (ListView) view.findViewById(R.id.cast_device_list_view);
+			listView.setEmptyView(view.findViewById(R.id.empty_view_item));
+			builder.setView(view).setTitle(getString(R.string.cast_device_selector_dialog_title));
+			listView.setAdapter(deviceAdapter);
+			listView.setDivider(null);
+
+			dialog = builder.create();
+
+			listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					synchronized (this) {
+						MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(position);
+						CastManager.getInstance().setCallback();
+						CastManager.getInstance().startCastButtonAnimation();
+						CastManager.getInstance().selectRoute(routeInfo);
+						dialog.dismiss();
+					}
+				}
+			});
+
+			// Show a tip inside of the empty view after CAST_NOT_SEEING_DEVICE_TIMEOUT milliseconds.
+			(new Handler()).postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					synchronized (this) {
+						if (dialog != null && dialog.isShowing() && deviceAdapter.isEmpty()) {
+							TextView t = (TextView) dialog.findViewById(R.id.cast_searching_for_cast_text_view);
+							String text = activity.getText(R.string.cast_searching_for_cast_devices).toString()
+									+ activity.getText(R.string.cast_trouble_finding_devices_tip);
+							t.setText(text);
+						}
+					}
+				}
+			}, Constants.CAST_NOT_SEEING_DEVICE_TIMEOUT);
+			return dialog;
+		}
 	}
 }

@@ -24,6 +24,7 @@
 package org.catrobat.catroid.merge;
 
 import android.app.Activity;
+import android.content.Context;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
@@ -39,12 +40,12 @@ public final class ConflictHelper {
 	private ConflictHelper() {
 	}
 
-	public static boolean checkMergeConflict(Activity activity, Scene mergeResult) {
-		return checkVariableMergeConflict(activity, mergeResult)
-				&& checkListMergeConflict(activity, mergeResult);
+	public static boolean checkMergeConflict(Context context, Scene mergeResult) {
+		return checkVariableMergeConflict(context, mergeResult)
+				&& checkListMergeConflict(context, mergeResult);
 	}
 
-	private static boolean checkVariableMergeConflict(Activity activity, Scene mergeResult) {
+	private static boolean checkVariableMergeConflict(Context context, Scene mergeResult) {
 		List<UserVariable> globalValues = mergeResult.getDataContainer().getProjectVariables();
 
 		for (Sprite sprite : mergeResult.getSpriteList()) {
@@ -56,9 +57,9 @@ public final class ConflictHelper {
 
 			String name = checkVariableNames(globalValues, localValues);
 			if (name != null) {
-				if (activity != null) {
-					String msg = String.format(activity.getString(R.string.merge_conflict_variable), name);
-					Utils.showErrorDialog(activity, msg, R.string.merge_conflict);
+				if (context instanceof Activity) {
+					String msg = String.format(context.getString(R.string.merge_conflict_variable), name);
+					Utils.showErrorDialog(context, msg, R.string.merge_conflict);
 				}
 				return false;
 			}
@@ -66,7 +67,7 @@ public final class ConflictHelper {
 		return true;
 	}
 
-	private static boolean checkListMergeConflict(Activity activity, Scene mergeResult) {
+	private static boolean checkListMergeConflict(Context context, Scene mergeResult) {
 		List<UserList> globalLists = mergeResult.getDataContainer().getProjectLists();
 
 		for (Sprite sprite : mergeResult.getSpriteList()) {
@@ -76,9 +77,9 @@ public final class ConflictHelper {
 			}
 			String name = checkListNames(globalLists, localLists);
 			if (name != null) {
-				if (activity != null) {
-					String msg = String.format(activity.getString(R.string.merge_conflict_list), name);
-					Utils.showErrorDialog(activity, msg, R.string.merge_conflict);
+				if (context instanceof Activity) {
+					String msg = String.format(context.getString(R.string.merge_conflict_list), name);
+					Utils.showErrorDialog(context, msg, R.string.merge_conflict);
 				}
 				return false;
 			}

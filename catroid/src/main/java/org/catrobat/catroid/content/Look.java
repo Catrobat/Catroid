@@ -22,10 +22,14 @@
  */
 package org.catrobat.catroid.content;
 
+import android.graphics.PointF;
+
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -36,6 +40,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.utils.TouchUtil;
@@ -60,8 +65,14 @@ public class Look extends Image {
 	private ParallelAction whenParallelAction;
 	private boolean allActionsAreFinished = false;
 	private BrightnessContrastHueShader shader;
+	public static final int ROTATION_STYLE_ALL_AROUND = 1;
+	public static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
+	public static final int ROTATION_STYLE_NONE = 2;
+	private int rotationMode = ROTATION_STYLE_ALL_AROUND;
+	private float rotation = 90f;
+	private float realRotation = rotation;
 
-	public Look(Sprite sprite) {
+	public Look(final Sprite sprite) {
 		this.sprite = sprite;
 		setBounds(0f, 0f, 0f, 0f);
 		setOrigin(0f, 0f);
@@ -69,6 +80,7 @@ public class Look extends Image {
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
 		addListeners();
+		rotation = getDirectionInUserInterfaceDimensionUnit();
 	}
 
 	protected void addListeners() {
@@ -126,15 +138,25 @@ public class Look extends Image {
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
 
+		cloneLook.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
+				this.getYInUserInterfaceDimensionUnit());
+		cloneLook.setTransparencyInUserInterfaceDimensionUnit(this.getTransparencyInUserInterfaceDimensionUnit());
+		cloneLook.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
+
+		int rotationMode = this.getRotationMode();
+		cloneLook.setRotationMode(rotationMode);
+		cloneLook.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
+		cloneLook.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
+
 		return cloneLook;
 	}
 
 	public boolean doTouchDown(float x, float y, int pointer) {
-		if (sprite.isPaused) {
-			return true;
-		}
 		if (!isLookVisible()) {
 			return false;
+		}
+		if (isFlipped()) {
+			x = (getWidth() - 1) - x;
 		}
 
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
@@ -240,6 +262,7 @@ public class Look extends Image {
 			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
 			setDrawable(drawable);
 
+			flipLookDataIfNeeded(getRotationMode());
 			imageChanged = false;
 		}
 	}
@@ -256,7 +279,7 @@ public class Look extends Image {
 		this.lookData = lookData;
 		imageChanged = true;
 
-		boolean isBackgroundLook = getZIndex() == 0;
+		boolean isBackgroundLook = getZIndex() == Constants.Z_INDEX_BACKGROUND;
 		if (isBackgroundLook) {
 			BackgroundWaitHandler.fireBackgroundChangedEvent(lookData);
 		}
@@ -341,15 +364,105 @@ public class Look extends Image {
 	}
 
 	public float getDirectionInUserInterfaceDimensionUnit() {
-		return convertStageAngleToCatroidAngle(getRotation());
+		return realRotation;
+	}
+
+	public void setRotationMode(int mode) {
+		rotationMode = mode;
+		flipLookDataIfNeeded(mode);
+	}
+
+	private void flipLookDataIfNeeded(int mode) {
+		boolean orientedLeft = sprite.look.getDirectionInUserInterfaceDimensionUnit() < 0;
+		boolean differentModeButFlipped = mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && sprite.look.isFlipped();
+		boolean facingLeftButNotFlipped = mode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft;
+		if (differentModeButFlipped || facingLeftButNotFlipped) {
+			getLookData().getTextureRegion().flip(true, false);
+		}
+	}
+
+	public int getRotationMode() {
+		return rotationMode;
+	}
+
+	private PointF rotatePointAroundPoint(PointF center, PointF point, float rotation) {
+		float sin = (float) Math.sin(rotation);
+		float cos = (float) Math.cos(rotation);
+		point.x -= center.x;
+		point.y -= center.y;
+		float xNew = point.x * cos - point.y * sin;
+		float yNew = point.x * sin + point.y * cos;
+		point.x = xNew + center.x;
+		point.y = yNew + center.y;
+		return point;
+	}
+
+	public Rectangle getHitbox() {
+		float x = getXInUserInterfaceDimensionUnit() - getWidthInUserInterfaceDimensionUnit() / 2;
+		float y = getYInUserInterfaceDimensionUnit() - getHeightInUserInterfaceDimensionUnit() / 2;
+		float width = getWidthInUserInterfaceDimensionUnit();
+		float height = getHeightInUserInterfaceDimensionUnit();
+		float[] vertices;
+		if (getRotation() == 0) {
+			vertices = new float[] {
+					x, y,
+					x, y + height,
+					x + width, y + height,
+					x + width, y
+			};
+		} else {
+			PointF center = new PointF(x + width / 2f, y + height / 2f);
+			PointF upperLeft = rotatePointAroundPoint(center, new PointF(x, y), getRotation());
+			PointF upperRight = rotatePointAroundPoint(center, new PointF(x, y + height), getRotation());
+			PointF lowerRight = rotatePointAroundPoint(center, new PointF(x + width, y + height), getRotation());
+			PointF lowerLeft = rotatePointAroundPoint(center, new PointF(x + width, y), getRotation());
+			vertices = new float[] {
+					upperLeft.x, upperLeft.y,
+					upperRight.x, upperRight.y,
+					lowerRight.x, lowerRight.y,
+					lowerLeft.x, lowerLeft.y
+			};
+		}
+
+		Polygon p = new Polygon(vertices);
+
+		return p.getBoundingRectangle();
 	}
 
 	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
-		setRotation(convertCatroidAngleToStageAngle(degrees));
+		rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
+		realRotation = convertStageAngleToCatroidAngle(rotation);
+
+		switch (rotationMode) {
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+				setRotation(0f);
+				boolean orientedRight = realRotation >= 0;
+				boolean orientedLeft = realRotation < 0;
+				boolean needsFlipping = (isFlipped() && orientedRight) || (!isFlipped() && orientedLeft);
+				if (needsFlipping && lookData != null) {
+					lookData.getTextureRegion().flip(true, false);
+				}
+				break;
+			case ROTATION_STYLE_ALL_AROUND:
+				setRotation(rotation);
+				break;
+			case ROTATION_STYLE_NONE:
+				setRotation(0f);
+				break;
+		}
+	}
+
+	public float getRealRotation() {
+		return realRotation;
+	}
+
+	public boolean isFlipped() {
+		return (lookData != null && lookData.getTextureRegion().isFlipX());
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
-		setRotation(getRotation() - changeDegrees);
+		setDirectionInUserInterfaceDimensionUnit(
+				(getDirectionInUserInterfaceDimensionUnit() + changeDegrees) % 360);
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
@@ -535,5 +648,29 @@ public class Look extends Image {
 			setUniformf(HUE_STRING_IN_SHADER, hue);
 			end();
 		}
+	}
+
+	public Polygon[] getCurrentCollisionPolygon() {
+		Polygon[] originalPolygons;
+		if (getLookData() == null) {
+			originalPolygons = new Polygon[0];
+		} else {
+			if (getLookData().getCollisionInformation().collisionPolygons == null) {
+				getLookData().getCollisionInformation().loadOrCreateCollisionPolygon();
+			}
+			originalPolygons = getLookData().getCollisionInformation().collisionPolygons;
+		}
+
+		Polygon[] transformedPolygons = new Polygon[originalPolygons.length];
+
+		for (int p = 0; p < transformedPolygons.length; p++) {
+			Polygon poly = new Polygon(originalPolygons[p].getTransformedVertices());
+			poly.translate(getX(), getY());
+			poly.setRotation(getRotation());
+			poly.setScale(getScaleX(), getScaleY());
+			poly.setOrigin(getOriginX(), getOriginY());
+			transformedPolygons[p] = poly;
+		}
+		return transformedPolygons;
 	}
 }

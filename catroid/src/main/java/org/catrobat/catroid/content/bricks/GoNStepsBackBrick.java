@@ -23,12 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -78,20 +75,10 @@ public class GoNStepsBackBrick extends FormulaBrick {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_go_back, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_go_back_checkbox);
-		final Brick brickInstance = this;
 
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_go_back_edit_text);
 
 		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_go_back_edit_text);
@@ -117,8 +104,6 @@ public class GoNStepsBackBrick extends FormulaBrick {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
 		return view;
 	}
@@ -126,35 +111,13 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
-		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
+		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_edit_text);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
 		textSteps.setText(String.valueOf(BrickValues.GO_BACK));
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
 
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_go_back_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-
-			TextView hideLabel = (TextView) view.findViewById(R.id.brick_go_back_label);
-			TextView hideLayers = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
-			TextView editGoBack = (TextView) view.findViewById(R.id.brick_go_back_edit_text);
-			hideLabel.setTextColor(hideLabel.getTextColors().withAlpha(alphaValue));
-			hideLayers.setTextColor(hideLayers.getTextColors().withAlpha(alphaValue));
-			editGoBack.setTextColor(editGoBack.getTextColors().withAlpha(alphaValue));
-			editGoBack.getBackground().setAlpha(alphaValue);
-		}
-
-		return view;
 	}
 
 	@Override

@@ -36,14 +36,12 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 
-import java.io.Serializable;
-
 public abstract class UserVariableBrick extends FormulaBrick implements NewDataDialog.NewVariableDialogListener {
 
 	protected UserVariable userVariable;
 
 	@XStreamOmitField
-	protected BackPackedData backPackedData;
+	protected BackPackedVariableData backPackedData;
 
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
 		if (userVariable != null && (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
@@ -80,11 +78,11 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 				if (brick instanceof SetVariableBrick) {
 					Spinner spinner = (Spinner) ((SetVariableBrick) brick).view.findViewById(R.id.set_variable_spinner);
 					setSpinnerSelection(spinner, newUserVariable);
-				} else if (brick instanceof ShowVariableBrick) {
-					Spinner spinner = (Spinner) ((ShowVariableBrick) brick).view.findViewById(R.id.show_variable_spinner);
+				} else if (brick instanceof ShowTextBrick) {
+					Spinner spinner = (Spinner) ((ShowTextBrick) brick).view.findViewById(R.id.show_variable_spinner);
 					setSpinnerSelection(spinner, newUserVariable);
-				} else if (brick instanceof HideVariableBrick) {
-					Spinner spinner = (Spinner) ((HideVariableBrick) brick).view.findViewById(R.id.hide_variable_spinner);
+				} else if (brick instanceof HideTextBrick) {
+					Spinner spinner = (Spinner) ((HideTextBrick) brick).view.findViewById(R.id.hide_variable_spinner);
 					setSpinnerSelection(spinner, newUserVariable);
 				} else if (brick instanceof ChangeVariableBrick) {
 					Spinner spinner = (Spinner) ((ChangeVariableBrick) brick).view.findViewById(R.id
@@ -103,30 +101,15 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		return userVariable;
 	}
 
-	public BackPackedData getBackPackedData() {
+	public BackPackedVariableData getBackPackedData() {
 		return backPackedData;
 	}
 
-	public void setBackPackedData(BackPackedData backPackedData) {
+	public void setBackPackedData(BackPackedVariableData backPackedData) {
 		this.backPackedData = backPackedData;
 	}
 
-	public class BackPackedData implements Serializable {
-		public UserVariable userVariable;
-		public Integer userVariableType;
-
-		public BackPackedData() {
-		}
-
-		public BackPackedData(BackPackedData backPackedData) {
-			if (backPackedData != null) {
-				this.userVariable = backPackedData.userVariable;
-				this.userVariableType = backPackedData.userVariableType;
-			}
-		}
-	}
-
-	protected void updateUserVariableReference(Scene into, Scene from) {
+	void updateUserVariableReference(Scene into, Scene from) {
 		UserVariable variable;
 		if (from.existProjectVariable(userVariable)) {
 			variable = into.getProjectVariableWithName(userVariable.getName());
@@ -173,7 +156,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 			type = dataContainer.getTypeOfUserVariable(userVariable.getName(), currentSprite);
 		}
 		if (backPackedData == null) {
-			backPackedData = new BackPackedData();
+			backPackedData = new BackPackedVariableData();
 		}
 		this.backPackedData.userVariable = userVariable;
 		this.backPackedData.userVariableType = type;

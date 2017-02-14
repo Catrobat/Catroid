@@ -72,7 +72,6 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 	public BaseActivityInstrumentationTestCase(Class<T> clazz, boolean createSoloInSetUp) {
 		super(clazz);
 		this.clazz = clazz;
-
 		this.createSoloInSetUp = createSoloInSetUp;
 	}
 

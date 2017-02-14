@@ -23,15 +23,12 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -46,6 +43,7 @@ import java.util.List;
 public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick {
 
 	protected WhenGamepadButtonScript whenGamepadButtonScript;
+	protected transient boolean checked = false;
 	private static final long serialVersionUID = 1L;
 	private String[] actions;
 	private String action;
@@ -84,7 +82,6 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 		}
 
 		view = View.inflate(context, R.layout.brick_when_gamepad_button, null);
-		view = getViewWithAlpha(alphaValue);
 
 		final Brick brickInstance = this;
 		setCheckboxView(R.id.brick_when_gamepad_button_checkbox);
@@ -139,31 +136,6 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 
 		actionSpinner.setSelection(position);
 		actionSpinner.setFocusable(false);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_when_gamepad_button_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			Spinner gamepadBrickSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
-			TextView gamepadBrickTextView = (TextView) view.findViewById(R.id.brick_when_gamepad_button_text);
-			TextView gamepadPressedBrickTextView = (TextView) view.findViewById(R.id.brick_when_gamepad_button_text_pressed);
-
-			ColorStateList color = gamepadBrickTextView.getTextColors().withAlpha(alphaValue);
-			gamepadBrickTextView.setTextColor(color);
-			color = gamepadPressedBrickTextView.getTextColors().withAlpha(alphaValue);
-			gamepadPressedBrickTextView.setTextColor(color);
-			gamepadBrickSpinner.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
 		return view;
 	}
 
