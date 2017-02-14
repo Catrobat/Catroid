@@ -27,8 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 
-import java.util.ArrayList;
-
 public class PointToAction extends TemporalAction {
 
 	private Sprite sprite;
@@ -36,9 +34,7 @@ public class PointToAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getSceneToPlay()
-				.getSpriteList();
-		if (!spriteList.contains(pointedSprite)) {
+		if (!ProjectManager.getInstance().getSceneToPlay().getSpriteList().contains(pointedSprite)) {
 			pointedSprite = null;
 		}
 
@@ -54,23 +50,21 @@ public class PointToAction extends TemporalAction {
 		double rotationDegrees;
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
 			rotationDegrees = 0;
-		} else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
-			if (spriteXPosition == pointedSpriteXPosition) {
-				if (spriteYPosition < pointedSpriteYPosition) {
-					rotationDegrees = 0;
-				} else {
-					rotationDegrees = 180;
-				}
+		} else if (spriteXPosition == pointedSpriteXPosition) {
+			if (spriteYPosition < pointedSpriteYPosition) {
+				rotationDegrees = 0;
 			} else {
-				if (spriteXPosition < pointedSpriteXPosition) {
-					rotationDegrees = 90;
-				} else {
-					rotationDegrees = -90;
-				}
+				rotationDegrees = 180;
+			}
+		} else if (spriteYPosition == pointedSpriteYPosition) {
+			if (spriteXPosition < pointedSpriteXPosition) {
+				rotationDegrees = 90;
+			} else {
+				rotationDegrees = -90;
 			}
 		} else {
-			rotationDegrees = (90f - Math.toDegrees(Math.atan2(pointedSpriteYPosition - spriteYPosition,
-					pointedSpriteXPosition - spriteXPosition)));
+			rotationDegrees = 90f - Math.toDegrees(Math.atan2(pointedSpriteYPosition - spriteYPosition,
+					pointedSpriteXPosition - spriteXPosition));
 		}
 		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) rotationDegrees);
 	}
