@@ -34,12 +34,9 @@ public class PointToAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		if (!ProjectManager.getInstance().getSceneToPlay().getSpriteList().contains(pointedSprite)) {
-			pointedSprite = null;
-		}
-
-		if (pointedSprite == null) {
-			pointedSprite = this.sprite;
+		if (pointedSprite == null
+				|| !ProjectManager.getInstance().getSceneToPlay().getSpriteList().contains(pointedSprite)) {
+			return;
 		}
 
 		float spriteXPosition = sprite.look.getXInUserInterfaceDimensionUnit();
