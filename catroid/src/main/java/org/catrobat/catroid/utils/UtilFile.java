@@ -364,8 +364,9 @@ public final class UtilFile {
 		}
 
 		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-		File oldSceneDirectory = new File(Utils.buildPath(Utils.buildProjectPath(projectName), oldSceneName));
-		File newSceneDirectory = new File(Utils.buildPath(Utils.buildProjectPath(projectName), newSceneName));
+
+		File oldSceneDirectory = new File(Utils.buildScenePath(projectName, oldSceneName));
+		File newSceneDirectory = new File(Utils.buildScenePath(projectName, newSceneName));
 
 		if (!newSceneDirectory.exists()) {
 			try {

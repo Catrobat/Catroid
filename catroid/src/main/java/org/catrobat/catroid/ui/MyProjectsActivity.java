@@ -36,7 +36,6 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectListFragment;
-import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
@@ -64,7 +63,6 @@ public class MyProjectsActivity extends BaseActivity {
 		loadFragment(ProjectListFragment.class, false);
 		projectListFragment = (ProjectListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
 		SnackBarUtil.showHintSnackBar(this, R.string.hint_merge);
-		DividerUtil.setDivider(this, projectListFragment.getListView());
 		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 

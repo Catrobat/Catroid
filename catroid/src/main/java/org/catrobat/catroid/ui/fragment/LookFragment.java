@@ -84,7 +84,6 @@ import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.UtilUi;
@@ -834,7 +833,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		} catch (NullPointerException nullPointerException) {
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
-			ToastUtil.showError(activity, R.string.error_load_image);
+			Utils.showErrorDialog(activity, R.string.error_load_image);
 		}
 	}
 
