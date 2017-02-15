@@ -62,7 +62,7 @@ public class MergeTaskTest extends AndroidTestCase {
 
 		assertTrue("Error!", mergeResult.getDefaultScene().getSpriteList().size() == 3);
 		for (Sprite sprite : mergeResult.getDefaultScene().getSpriteList()) {
-			assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 0);
+			assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListForSprite(sprite).size() == 0);
 			assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 0);
 			assertTrue("Error!", sprite.getScriptList().size() == 1);
 			assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
@@ -81,7 +81,7 @@ public class MergeTaskTest extends AndroidTestCase {
 
 		assertTrue("Error!", mergeResult.getDefaultScene().getSpriteList().size() == 3);
 		for (Sprite sprite : mergeResult.getDefaultScene().getSpriteList()) {
-			assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
+			assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListForSprite(sprite).size() == 1);
 			assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
 			assertTrue("Error!", sprite.getScriptList().size() == 1);
 			assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
@@ -208,21 +208,21 @@ public class MergeTaskTest extends AndroidTestCase {
 		assertTrue("Error!", mergeResult.getDefaultScene().getSpriteList().size() == 3);
 
 		Sprite sprite = mergeResult.getDefaultScene().getSpriteList().get(0);
-		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListForSprite(sprite).size() == 1);
 		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
 		assertTrue("Error!", sprite.getScriptList().size() == 2);
 		assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
 		assertTrue("Error!", sprite.getScript(1).getBrickList().size() == 2);
 
 		sprite = mergeResult.getDefaultScene().getSpriteList().get(1);
-		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListForSprite(sprite).size() == 1);
 		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
 		assertTrue("Error!", sprite.getScriptList().size() == 2);
 		assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
 		assertTrue("Error!", sprite.getScript(1).getBrickList().size() == 2);
 
 		sprite = mergeResult.getDefaultScene().getSpriteList().get(2);
-		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 0);
+		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateUserListForSprite(sprite).size() == 0);
 		assertTrue("Error!", mergeResult.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 0);
 		assertTrue("Error!", sprite.getScriptList().size() == 0);
 

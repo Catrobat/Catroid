@@ -183,8 +183,7 @@ public final class Utils {
 	}
 
 	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
-		return !success && exception != null && exception.getStatusCode() == WebconnectionException
-				.ERROR_NETWORK;
+		return !success && exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
 
 	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
@@ -193,8 +192,7 @@ public final class Utils {
 	}
 
 	public static boolean checkForNetworkError(WebconnectionException exception) {
-		return exception != null && exception.getStatusCode() == WebconnectionException
-				.ERROR_NETWORK;
+		return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
 
 	public static String formatDate(Date date, Locale locale) {

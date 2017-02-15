@@ -204,7 +204,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		StartScript script = new StartScript();
 		sprite.addScript(script);
 		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
-		UserVariable spriteVariable = project.getDefaultScene().getDataContainer().getUserVariable(VARIABLE_NAME, sprite);
+		UserVariable spriteVariable = project.getDefaultScene().getDataContainer().getUserVariable(sprite, VARIABLE_NAME);
 		Formula formula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, VARIABLE_NAME, null));
 
 		// create brick - expects:
@@ -219,7 +219,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		Sprite clonedSprite = sprite.clone();
 		@SuppressWarnings("unchecked")
 		T clonedBrick = (T) clonedSprite.getScript(0).getBrick(0);
-		UserVariable clonedVariable = project.getDefaultScene().getDataContainer().getUserVariable(VARIABLE_NAME, clonedSprite);
+		UserVariable clonedVariable = project.getDefaultScene().getDataContainer().getUserVariable(clonedSprite, VARIABLE_NAME);
 		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, clonedBrick, "userVariable");
 
 		// check them

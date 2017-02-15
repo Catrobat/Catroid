@@ -31,10 +31,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.ArrayList;
@@ -116,7 +116,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		Integer type;
+		DataContainer.DataType type;
 		List<String> variableNames = new ArrayList<>();
 		List<String> listNames = new ArrayList<>();
 
@@ -137,7 +137,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 
 		for (String variableName : variableNames) {
-			UserVariable variable = dataContainer.getUserVariable(variableName, currentSprite);
+			UserVariable variable = dataContainer.getUserVariable(currentSprite, variableName);
 			if (variable == null) {
 				continue;
 			}
@@ -149,7 +149,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 
 		for (String listName : listNames) {
-			UserList userList = dataContainer.getUserList(listName, currentSprite);
+			UserList userList = dataContainer.getUserList(currentSprite, listName);
 			if (userList == null) {
 				continue;
 			}

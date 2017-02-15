@@ -35,8 +35,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -95,7 +95,7 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		solo.sleep(5000);
 
 		assertEquals("Variable has the wrong value after stage", 42.0,
-				dataContainer.getUserVariable("p2", sprite).getValue());
+				dataContainer.getUserVariable(sprite, "p2").getValue());
 	}
 
 	public void testCreatingNewVariableCancelling() {

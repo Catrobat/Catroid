@@ -20,25 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.formulaeditor.datacontainer;
 
-package org.catrobat.catroid.content.bricks;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
-import java.io.Serializable;
+import java.util.List;
 
-public class BackPackedVariableData implements Serializable {
-	public UserVariable userVariable;
-	public DataContainer.DataType userVariableType;
+public class SupportDataContainer extends BaseDataContainer {
 
-	BackPackedVariableData() {
-	}
+	@XStreamAlias("programVariableList")
+	public List<UserVariable> projectVariables;
 
-	BackPackedVariableData(BackPackedVariableData backPackedData) {
-		if (backPackedData != null) {
-			this.userVariable = backPackedData.userVariable;
-			this.userVariableType = backPackedData.userVariableType;
-		}
-	}
+	@XStreamAlias("programListOfLists")
+	public List<UserList> projectLists;
 }

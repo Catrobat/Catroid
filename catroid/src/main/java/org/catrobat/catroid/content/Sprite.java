@@ -47,11 +47,11 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -421,8 +421,8 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void shallowCloneSpriteLists(DataContainer dataContainer, Sprite cloneSprite) {
-		List<UserList> originalSpriteLists = dataContainer.getOrCreateUserListListForSprite(this);
-		List<UserList> clonedSpriteLists = dataContainer.getOrCreateUserListListForSprite(cloneSprite);
+		List<UserList> originalSpriteLists = dataContainer.getOrCreateUserListForSprite(this);
+		List<UserList> clonedSpriteLists = dataContainer.getOrCreateUserListForSprite(cloneSprite);
 		for (UserList list : originalSpriteLists) {
 			clonedSpriteLists.add(list);
 		}
@@ -967,5 +967,9 @@ public class Sprite implements Serializable, Cloneable {
 			resourceBrickList.addAll(script.getBricksRequiringResources(resource));
 		}
 		return resourceBrickList;
+	}
+
+	public boolean isClone() {
+		return isClone;
 	}
 }
