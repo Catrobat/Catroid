@@ -399,7 +399,6 @@ public class LookTest extends InstrumentationTestCase {
 			}
 		};
 		look.setSize(width, height);
-		look.setFlipped(true);
 
 		assertTrue("Flipped look not touched", look.doTouchDown(0, 0, 0));
 	}
@@ -418,10 +417,5 @@ public class LookTest extends InstrumentationTestCase {
 
 		assertTrue("Look not touched", look.doTouchDown(0, 0, 0));
 		assertFalse("Look touched on alpha shouldn't trigger touch down", look.doTouchDown(1, 0, 0));
-
-		look.setFlipped(true);
-
-		assertTrue("Flipped look not touched", look.doTouchDown(1, 0, 0));
-		assertFalse("Flipped look touched on alpha shouldn't trigger touch down", look.doTouchDown(0, 0, 0));
 	}
 }

@@ -23,10 +23,6 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.Button;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
@@ -35,44 +31,31 @@ import org.catrobat.catroid.utils.Utils;
 
 public class RenameSoundDialog extends TextDialog {
 
-	private static final String BUNDLE_ARGUMENTS_OLD_SOUND_NAME = "old_sound_name";
-	public static final String EXTRA_NEW_SOUND_TITLE = "new_sound_name";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_sound";
+	public static final String EXTRA_NEW_SOUND_TITLE = "new_sound_name";
 
-	private String oldSoundTitle;
-
-	public static RenameSoundDialog newInstance(String oldSoundName) {
-		RenameSoundDialog dialog = new RenameSoundDialog();
-
-		Bundle arguments = new Bundle();
-		arguments.putString(BUNDLE_ARGUMENTS_OLD_SOUND_NAME, oldSoundName);
-		dialog.setArguments(arguments);
-
-		return dialog;
+	public RenameSoundDialog(int title, int inputLabel, String previousText) {
+		super(title, inputLabel, previousText, false);
 	}
 
 	@Override
-	protected void initialize() {
-		oldSoundTitle = getArguments().getString(BUNDLE_ARGUMENTS_OLD_SOUND_NAME);
-		input.setText(oldSoundTitle);
-		inputTitle.setText(R.string.sound_name);
-	}
-
-	@Override
-	protected boolean handleOkButton() {
+	protected boolean handlePositiveButtonClick() {
 		String newSoundTitle = input.getText().toString().trim();
 
-		if (newSoundTitle.equals(oldSoundTitle)) {
-			dismiss();
+		if (newSoundTitle.equals(previousText)) {
+			return true;
 		}
 
-		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
-			SoundInfo soundInfo = new SoundInfo();
-			soundInfo.setTitle(newSoundTitle);
-			newSoundTitle = Utils.getUniqueSoundName(soundInfo, false);
-		} else {
-			Utils.showErrorDialog(getActivity(), R.string.soundname_invalid);
+		boolean newNameConsistsOfSpacesOnly = newSoundTitle.isEmpty();
+
+		if (newNameConsistsOfSpacesOnly) {
+			input.setError(getString(R.string.name_consists_of_spaces_only));
+			return false;
 		}
+
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setTitle(newSoundTitle);
+		newSoundTitle = Utils.getUniqueSoundName(soundInfo, false);
 
 		Intent intent = new Intent(ScriptActivity.ACTION_SOUND_RENAMED);
 		intent.putExtra(EXTRA_NEW_SOUND_TITLE, newSoundTitle);
@@ -82,34 +65,6 @@ public class RenameSoundDialog extends TextDialog {
 	}
 
 	@Override
-	protected String getTitle() {
-		return getString(R.string.rename_sound_dialog);
-	}
-
-	@Override
-	protected String getHint() {
-		return null;
-	}
-
-	@Override
-	protected TextWatcher getInputTextChangedListener(final Button buttonPositive) {
-		return new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-					buttonPositive.setEnabled(false);
-				} else {
-					buttonPositive.setEnabled(true);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
-		};
+	protected void handleNegativeButtonClick() {
 	}
 }

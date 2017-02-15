@@ -30,33 +30,27 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/dialog_item_margin">
+        android:paddingBottom="@dimen/dialog_item_margin"
+        android:id="@+id/new_scene_dialog_layout">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/dialog_item_margin"
-            android:id="@+id/new_scene_dialog_layout">
+                <org.catrobat.catroid.ui.CapitalizedTextView
+                    android:id="@+id/scene_name"
+                    style="@style/DefaultDialog.TextView"
+                    android:text="@string/new_scene_name"/>
 
-                    <org.catrobat.catroid.ui.CapitalizedTextView
-                        android:id="@+id/scene_name"
-                        style="@style/DefaultDialog.TextView"
-                        android:text="@string/new_scene_name"/>
+                <View
+                    android:id="@+id/scene_name_line"
+                    style="@style/DefaultDialog.Line"
+                    android:layout_below="@+id/scene_name"/>
 
-                    <View
-                        android:id="@+id/scene_name_line"
-                        style="@style/DefaultDialog.Line"
-                        android:layout_below="@+id/scene_name"/>
-
-                    <EditText
-                        android:id="@+id/scene_name_edittext"
-                        style="@style/DefaultDialog.EditText"
-                        android:layout_below="@+id/scene_name_line"
-                        android:hint="@string/new_scene_dialog_hint"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:selectAllOnFocus="true"/>
-            </RelativeLayout>
-    </RelativeLayout>
+                <EditText
+                    android:id="@+id/scene_name_edittext"
+                    style="@style/DefaultDialog.EditText"
+                    android:layout_below="@+id/scene_name_line"
+                    android:hint="@string/new_scene_dialog_hint"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:selectAllOnFocus="true"/>
+        </RelativeLayout>
 
 </ScrollView>

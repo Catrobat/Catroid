@@ -1833,8 +1833,7 @@ public final class UiTestUtils {
 		} else if (overflowMenuItemName != null) {
 			solo.waitForText(overflowMenuItemName, 0, 20000, false);
 
-			if (overflowMenuItemName.equals(solo.getString(R.string.unpack))
-					|| overflowMenuItemName.equals(solo.getString(R.string.unpack_keep))) {
+			if (overflowMenuItemName.equals(solo.getString(R.string.unpack))) {
 				solo.clickOnActionBarItem(menuItemId);
 			} else {
 				solo.clickOnMenuItem(overflowMenuItemName, true);

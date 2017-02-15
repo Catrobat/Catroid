@@ -61,7 +61,7 @@ public class DeleteLookDialog extends DialogFragment {
 
 		final Dialog dialog = new CustomAlertDialogBuilder(getActivity()).setTitle(R.string.delete_look_dialog)
 				.setMessage(R.string.dialog_confirm_delete_look_message)
-				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
+				.setNegativeButton(R.string.cancel, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dismiss();

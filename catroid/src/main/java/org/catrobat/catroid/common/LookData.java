@@ -67,6 +67,11 @@ public class LookData implements Serializable, Cloneable {
 	public LookData() {
 	}
 
+	public LookData(String name, String fileName) {
+		setLookName(name);
+		setLookFilename(fileName);
+	}
+
 	public void draw(Batch batch, float alpha) {
 	}
 
@@ -99,10 +104,8 @@ public class LookData implements Serializable, Cloneable {
 
 	@Override
 	public LookData clone() {
-		LookData cloneLookData = new LookData();
+		LookData cloneLookData = new LookData(this.name, this.fileName);
 
-		cloneLookData.name = this.name;
-		cloneLookData.fileName = this.fileName;
 		String filePath = getPathToImageDirectory() + "/" + fileName;
 		cloneLookData.isBackpackLookData = false;
 		try {

@@ -28,11 +28,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
+import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
@@ -70,7 +73,12 @@ import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -78,10 +86,13 @@ public class StageActivity extends AndroidApplication {
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
 	public static final int ASK_MESSAGE = 0;
+	public static final int REGISTER_INTENT = 1;
+	private static final int PERFORM_INTENT = 2;
 
 	private StageAudioFocus stageAudioFocus;
 	private PendingIntent pendingIntent;
 	private NfcAdapter nfcAdapter;
+	private static BlockingDeque<NdefMessage> ndefMessageBlockingDeque = new LinkedBlockingDeque<NdefMessage>();
 	private StageDialog stageDialog;
 	private boolean resizePossible;
 	private boolean askDialogUnanswered = false;
@@ -89,6 +100,8 @@ public class StageActivity extends AndroidApplication {
 	private static int numberOfSpritesCloned;
 
 	public static Handler messageHandler;
+	public static Map<Integer, IntentListener> intentListeners = new HashMap<>();
+	public static Random randomGenerator = new Random();
 
 	AndroidApplicationConfiguration configuration = null;
 
@@ -144,13 +157,25 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	private void setupAskHandler() {
+		final StageActivity currentStage = this;
 		messageHandler = new Handler(Looper.getMainLooper()) {
 			@Override
 			public void handleMessage(Message message) {
-				ArrayList<Object> params = (ArrayList<Object>) message.obj;
+				List<Object> params = (ArrayList<Object>) message.obj;
 
-				if (message.what == ASK_MESSAGE) {
-					showDialog((String) params.get(1), (AskAction) params.get(0));
+				switch (message.what) {
+					case ASK_MESSAGE:
+						showDialog((String) params.get(1), (AskAction) params.get(0));
+						break;
+					case REGISTER_INTENT:
+						currentStage.queueIntent((IntentListener) params.get(0));
+						break;
+					case PERFORM_INTENT:
+						currentStage.startQueuedIntent((Integer) params.get(0));
+						break;
+					default:
+						Log.e(TAG, "Unhandled message in messagehandler, case " + message.what);
+						break;
 				}
 			}
 		};
@@ -204,6 +229,11 @@ public class StageActivity extends AndroidApplication {
 		super.onNewIntent(intent);
 		Log.d(TAG, "processIntent");
 		NfcHandler.processIntent(intent);
+
+		if (!ndefMessageBlockingDeque.isEmpty()) {
+			Tag currentTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+			NfcHandler.writeTag(currentTag, ndefMessageBlockingDeque.poll());
+		}
 	}
 
 	@Override
@@ -288,35 +318,35 @@ public class StageActivity extends AndroidApplication {
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_FLASH) > 0) {
+		if ((requiredResources & Brick.CAMERA_FLASH) != 0) {
 			FlashUtil.resumeFlash();
 		}
 
-		if ((requiredResources & Brick.VIBRATOR) > 0) {
+		if ((requiredResources & Brick.VIBRATOR) != 0) {
 			VibratorUtil.resumeVibrator();
 		}
 
-		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+		if ((requiredResources & Brick.FACE_DETECTION) != 0) {
 			FaceDetectionHandler.resumeFaceDetection();
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0
-				|| (requiredResources & Brick.BLUETOOTH_PHIRO) > 0
-				|| (requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) != 0
+				|| (requiredResources & Brick.BLUETOOTH_PHIRO) != 0
+				|| (requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) != 0) {
 			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 		}
 
-		if ((requiredResources & Brick.CAMERA_BACK) > 0
-				|| (requiredResources & Brick.CAMERA_FRONT) > 0
-				|| (requiredResources & Brick.VIDEO) > 0) {
+		if ((requiredResources & Brick.CAMERA_BACK) != 0
+				|| (requiredResources & Brick.CAMERA_FRONT) != 0
+				|| (requiredResources & Brick.VIDEO) != 0) {
 			CameraManager.getInstance().resumePreviewAsync();
 		}
 
-		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
+		if ((requiredResources & Brick.TEXT_TO_SPEECH) != 0) {
 			stageAudioFocus.requestAudioFocus();
 		}
 
-		if ((requiredResources & Brick.NFC_ADAPTER) > 0
+		if ((requiredResources & Brick.NFC_ADAPTER) != 0
 				&& nfcAdapter != null) {
 			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
 		}
@@ -445,5 +475,51 @@ public class StageActivity extends AndroidApplication {
 
 	public static int getAndIncrementNumberOfClonedSprites() {
 		return ++numberOfSpritesCloned;
+	}
+
+	public static void addNfcTagMessageToDeque(NdefMessage message) {
+		ndefMessageBlockingDeque.addLast(message);
+	}
+
+	public synchronized void queueIntent(IntentListener asker) {
+		if (StageActivity.messageHandler == null) {
+			return;
+		}
+		int newIdentId;
+		do {
+			newIdentId = StageActivity.randomGenerator.nextInt(Integer.MAX_VALUE);
+		} while (intentListeners.containsKey(newIdentId));
+
+		intentListeners.put(newIdentId, asker);
+		ArrayList<Object> params = new ArrayList<>();
+		params.add(newIdentId);
+		Message message = StageActivity.messageHandler.obtainMessage(StageActivity.PERFORM_INTENT, params);
+		message.sendToTarget();
+	}
+
+	private void startQueuedIntent(int intentKey) {
+		if (!intentListeners.containsKey(intentKey)) {
+			return;
+		}
+		Intent i = intentListeners.get(intentKey).getTargetIntent();
+		i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, this.getClass().getPackage().getName());
+		this.startActivityForResult(i, intentKey);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//Register your intent with "queueIntent"
+		if (!intentListeners.containsKey(requestCode)) {
+			Log.e(TAG, "Unknown intent result recieved!");
+		} else {
+			IntentListener asker = intentListeners.get(requestCode);
+			asker.onIntentResult(resultCode, data);
+			intentListeners.remove(requestCode);
+		}
+	}
+
+	public interface IntentListener {
+		Intent getTargetIntent();
+		void onIntentResult(int resultCode, Intent data); //don't do heavy processing here
 	}
 }

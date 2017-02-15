@@ -80,7 +80,6 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		pointInDirectionAction.act(1.0f);
 
 		assertEquals("Wrong direction", -90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
-		assertEquals("Look not flipped", true, sprite.look.isFlipped());
 	}
 
 	//Directions here get funky because in physics there is no UI Degree Offset as in the normal looks
@@ -141,21 +140,17 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		physicsLook.setRotation((float) Direction.RIGHT.getDegrees());
 		assertEquals("Wrong physics object angle (Right)", 90f, physicsObject.getDirection());
 		assertEquals("Wrong direction (Right)", 0f, physicsLook.getRotation());
-		assertEquals("Look not flipped correctly (Right)", true, physicsLook.isFlipped());
 
 		physicsLook.setRotation((float) Direction.LEFT.getDegrees());
 		assertEquals("Wrong physics object angle (Left)", -90f, physicsObject.getDirection());
 		assertEquals("Wrong direction (Left)", 0f, physicsLook.getRotation());
-		assertEquals("Look not flipped correctly (Left)", false, physicsLook.isFlipped());
 
 		physicsLook.setRotation((float) Direction.UP.getDegrees());
 		assertEquals("Wrong physics object angle (Up)", 0f, physicsObject.getDirection());
 		assertEquals("Wrong direction (Up)", 0f, physicsLook.getRotation());
-		assertEquals("Look not flipped correctly (Up)", false, physicsLook.isFlipped());
 
 		physicsLook.setRotation((float) Direction.DOWN.getDegrees());
 		assertEquals("Wrong physics object angle (Down)", 180f, physicsObject.getDirection());
 		assertEquals("Wrong direction (Down)", 0f, physicsLook.getRotation());
-		assertEquals("Look not flipped correctly (Down)", true, physicsLook.isFlipped());
 	}
 }

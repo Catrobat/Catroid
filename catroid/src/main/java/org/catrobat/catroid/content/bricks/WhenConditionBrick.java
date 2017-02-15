@@ -68,6 +68,11 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	@Override
+	public int getRequiredResources() {
+		return getConditionFormula().getRequiredResources();
+	}
+
+	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.IF_CONDITION);
 	}

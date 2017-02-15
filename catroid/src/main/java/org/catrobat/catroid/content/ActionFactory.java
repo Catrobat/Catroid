@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
+import org.catrobat.catroid.content.actions.AskSpeechAction;
 import org.catrobat.catroid.content.actions.BackgroundNotifyAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
@@ -114,6 +115,7 @@ import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.catrobat.catroid.content.actions.SetNfcTagAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetRotationStyleAction;
@@ -673,6 +675,14 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createAskSpeechAction(Sprite sprite, Formula questionFormula, UserVariable answerVariable) {
+		AskSpeechAction action = Actions.action(AskSpeechAction.class);
+		action.setSprite(sprite);
+		action.setQuestionFormula(questionFormula);
+		action.setAnswerVariable(answerVariable);
+		return action;
+	}
+
 	public Action createDeleteItemOfUserListAction(Sprite sprite, Formula userListFormula, UserList userList) {
 		DeleteItemOfUserListAction action = action(DeleteItemOfUserListAction.class);
 		action.setSprite(sprite);
@@ -1074,5 +1084,13 @@ public class ActionFactory extends Actions {
 			default:
 				return Actions.action(StopAllScriptsAction.class);
 		}
+	}
+
+	public Action createSetNfcTagAction(Sprite sprite, Formula nfcNdefMessage, int nfcNdefSpinnerSelection) {
+		SetNfcTagAction setNfcTagAction = Actions.action(SetNfcTagAction.class);
+		setNfcTagAction.setSprite(sprite);
+		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
+		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
+		return setNfcTagAction;
 	}
 }

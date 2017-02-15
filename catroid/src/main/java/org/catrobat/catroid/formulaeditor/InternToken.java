@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.R;
+import org.catrobat.catroid.sensing.CollisionDetection;
 
 import java.util.List;
 
@@ -66,15 +65,16 @@ public class InternToken {
 	}
 
 	public void updateCollisionFormula(String oldName, String newName) {
-		if (internTokenType == InternTokenType.COLLISION_FORMULA && tokenStringValue.contains(oldName)) {
-			String collisionTag = CatroidApplication.getAppContext().getString(R.string
-					.formula_editor_function_collision);
-			String firstSprite = tokenStringValue.substring(0, tokenStringValue.indexOf(collisionTag) - 1);
-			String secondSprite = tokenStringValue.substring(tokenStringValue.indexOf(collisionTag) + collisionTag.length() + 1, tokenStringValue.length());
-			if (firstSprite.equals(oldName)) {
-				tokenStringValue = newName + " " + collisionTag + " " + secondSprite;
-			} else if (secondSprite.equals(oldName)) {
-				tokenStringValue = firstSprite + " " + collisionTag + " " + newName;
+		if (internTokenType == InternTokenType.COLLISION_FORMULA && tokenStringValue.equals(oldName)) {
+			tokenStringValue = newName;
+		}
+	}
+
+	public void updateCollisionFormulaToVersion(float catroidLanguageVersion) {
+		if (catroidLanguageVersion == 0.993f && internTokenType == InternTokenType.COLLISION_FORMULA) {
+			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(tokenStringValue);
+			if (secondSpriteName != null) {
+				tokenStringValue = secondSpriteName;
 			}
 		}
 	}

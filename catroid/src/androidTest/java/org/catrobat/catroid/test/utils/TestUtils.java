@@ -57,6 +57,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
@@ -436,6 +437,33 @@ public final class TestUtils {
 		project.getDefaultScene().getSpriteList().get(0).addScript(firstScript);
 		project.getDefaultScene().addSprite(sprite);
 
+		return project;
+	}
+
+	public static Project createProjectWithOldCollisionFormulas(String name, Context context, String firstSprite,
+			String secondSprite, String thirdSprite, String collisionTag) {
+		Project project = new Project(context, name);
+		project.setCatrobatLanguageVersion(0.992f);
+		Sprite sprite1 = new Sprite(firstSprite);
+		Sprite sprite2 = new Sprite(secondSprite);
+		Sprite sprite3 = new Sprite(thirdSprite);
+
+		Script firstScript = new StartScript();
+
+		FormulaElement element1 = new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA, firstSprite + " "
+				+ collisionTag + " " + thirdSprite, null);
+		Formula formula1 = new Formula(element1);
+		IfLogicBeginBrick ifBrick = new IfLogicBeginBrick(formula1);
+
+		firstScript.addBrick(ifBrick);
+		sprite1.addScript(firstScript);
+
+		project.getDefaultScene().addSprite(sprite1);
+		project.getDefaultScene().addSprite(sprite2);
+		project.getDefaultScene().addSprite(sprite3);
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.setCurrentProject(project);
 		return project;
 	}
 

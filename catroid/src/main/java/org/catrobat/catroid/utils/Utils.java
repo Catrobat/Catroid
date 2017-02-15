@@ -103,6 +103,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public final class Utils {
 
@@ -1407,5 +1408,13 @@ public final class Utils {
 		} catch (IllegalAccessException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
+	}
+
+	public static <T> List<T> distinctListByClassOfObjects(List<T> listToDistinct) {
+		Map<Class, T> uniqueMap = new HashMap<>();
+		for (T objectInstance : listToDistinct) {
+			uniqueMap.put(objectInstance.getClass(), objectInstance);
+		}
+		return new ArrayList<>(uniqueMap.values());
 	}
 }

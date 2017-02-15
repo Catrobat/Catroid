@@ -462,6 +462,7 @@ public class Scene implements Serializable {
 	}
 
 	public synchronized void replaceBackgroundSprite(Sprite unpackedSprite) {
+		unpackedSprite.setName(spriteList.get(0).getName());
 		spriteList.set(0, unpackedSprite);
 	}
 

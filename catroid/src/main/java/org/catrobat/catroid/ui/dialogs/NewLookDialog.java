@@ -42,6 +42,7 @@ import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class NewLookDialog extends DialogFragment {
 
@@ -172,8 +173,10 @@ public class NewLookDialog extends DialogFragment {
 		mediaLibraryButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				fragment.addLookMediaLibrary();
-				NewLookDialog.this.dismiss();
+				if (Utils.isNetworkAvailable(view.getContext(), true)) {
+					fragment.addLookMediaLibrary();
+					NewLookDialog.this.dismiss();
+				}
 			}
 		});
 	}
