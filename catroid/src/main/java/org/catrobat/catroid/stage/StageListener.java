@@ -383,8 +383,8 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		this.stageDialog = stageDialog;
-		if (!project.getDefaultScene().getName().equals(scene.getName())) {
-			transitionToScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene().getName());
+		if (!ProjectManager.getInstance().getStartScene().getName().equals(scene.getName())) {
+			transitionToScene(ProjectManager.getInstance().getStartScene().getName());
 		}
 		stageBackupMap.clear();
 
