@@ -116,7 +116,7 @@ public class UserBrickEditElementDialog extends DialogFragment {
 		textField.setSelection(text.length());
 
 		final Dialog dialogNewVariable = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(stringResourceOfTitle).setNegativeButton(R.string.cancel_button, new OnClickListener() {
+				.setTitle(stringResourceOfTitle).setNegativeButton(R.string.cancel, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.cancel();

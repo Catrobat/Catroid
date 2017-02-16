@@ -59,7 +59,7 @@ public class DeleteNfcTagDialog extends DialogFragment {
 		final int selectedPosition = getArguments().getInt(BUNDLE_ARGUMENTS_SELECTED_POSITION);
 
 		final Dialog dialog = new CustomAlertDialogBuilder(getActivity()).setTitle(R.string.delete_nfctag_dialog)
-				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
+				.setNegativeButton(R.string.cancel, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dismiss();

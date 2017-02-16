@@ -59,8 +59,7 @@
             app:layout_textField="true"
             android:gravity="left"
             android:maxLines="3"
-            android:minLines="1"
-            android:singleLine="false" />
+            android:minLines="1" />
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

@@ -23,8 +23,11 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +36,6 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectListFragment;
-import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
@@ -42,6 +44,7 @@ import java.util.concurrent.locks.Lock;
 
 public class MyProjectsActivity extends BaseActivity {
 
+	public static final String TAG = MyProjectsActivity.class.getSimpleName();
 	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -57,11 +60,36 @@ public class MyProjectsActivity extends BaseActivity {
 
 		BottomBar.hidePlayButton(this);
 
-		projectListFragment = (ProjectListFragment) getFragmentManager().findFragmentById(
-				R.id.fragment_container);
+		loadFragment(ProjectListFragment.class, false);
+		projectListFragment = (ProjectListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
 		SnackBarUtil.showHintSnackBar(this, R.string.hint_merge);
-		DividerUtil.setDivider(this, projectListFragment.getListView());
 		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
+	}
+
+	public void loadFragment(Class<? extends Fragment> fragmentClass, boolean addCurrentFragmentToBackStack) {
+		loadFragment(fragmentClass, null, addCurrentFragmentToBackStack);
+	}
+
+	public void loadFragment(Class<? extends Fragment> fragmentClass, Bundle bundle, boolean addCurrentFragmentToBackStack) {
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+
+		try {
+			Fragment newFragment = fragmentClass.newInstance();
+			fragmentTransaction.replace(R.id.fragment_container, newFragment, fragmentClass.getSimpleName());
+
+			if (addCurrentFragmentToBackStack) {
+				fragmentTransaction.addToBackStack(null);
+			}
+
+			if (bundle != null) {
+				newFragment.setArguments(bundle);
+			}
+
+			fragmentTransaction.commit();
+			getFragmentManager().executePendingTransactions();
+		} catch (Exception e) {
+			Log.e(TAG, "Error while loading fragment" + e);
+		}
 	}
 
 	@Override

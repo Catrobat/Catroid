@@ -33,7 +33,7 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.992f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.993f);
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
@@ -101,7 +101,8 @@ public final class Constants {
 	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
 	public static final String LIBRARY_LOOKS_URL = "https://share.catrob.at/pocketcode/pocket-library/looks";
-	public static final String LIBRARY_BACKGROUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/backgrounds";
+	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = "https://share.catrob.at/pocketcode/pocket-library/backgrounds-portrait";
+	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = "https://share.catrob.at/pocketcode/pocket-library/backgrounds-landscape";
 	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/sounds";
 	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/pocketcode/download-media/";
 	public static final String SHARE_PROGRAM_URL = "https://share.catrob.at/pocketcode/program/";
@@ -195,6 +196,7 @@ public final class Constants {
 	public static final String POCKET_PAINT_PACKAGE_NAME = "org.catrobat.paintroid";
 	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id=" + POCKET_PAINT_PACKAGE_NAME;
 	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
+
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
@@ -203,11 +205,22 @@ public final class Constants {
 	public static final String PROJECT_OPENED_FROM_TEMPLATES_LIST = "templatesList";
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
-	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
 
+	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
 	public static final int COLLISION_VERTEX_LIMIT = 100;
 	public static final float COLLISION_POLYGON_CREATION_EPSILON = 10.0f;
 	public static final String COLLISION_POLYGON_METADATA_PATTERN = "((((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+))\\|)*((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+)";
+	public static final float COLLISION_WITH_FINGER_TOUCH_RADIUS = 50;
+
+	// background sprite is always on index 0
+	public static final int Z_INDEX_BACKGROUND = 0;
+
+	// this offset reflects the offset caused by "virtual" layers (currently only PenActor)
+	// which are sneaked in at the Stage creation when starting the scene.
+	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 1;
+
+	// the minimum z index a real sprite layer can have
+	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";

@@ -102,7 +102,7 @@ public class RenameVariableDialog extends DialogFragment {
 
 		final Dialog dialogRenameVariable = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.formula_editor_rename_variable_dialog_title)
-				.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.cancel();

@@ -257,6 +257,8 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 		} else {
 			showError(R.string.error_scene_not_copied);
 		}
+
+		clearCheckedItems();
 	}
 
 	private boolean copyScene() {
@@ -283,16 +285,14 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 		copiedScene.setSceneName(sceneName);
 		copiedScene.setProject(projectManager.getCurrentProject());
 		projectManager.addScene(copiedScene);
-
 		return true;
 	}
 
 	@Override
 	public void showRenameDialog() {
 		sceneToEdit = sceneAdapter.getCheckedItems().get(0);
-		RenameItemDialog dialog = RenameItemDialog.newInstance(R.string.rename_scene_dialog, R.string.scene_name,
-				R.string.error_scene_exists, sceneToEdit.getName());
-		dialog.setTargetFragment(this, 0);
+		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_scene_dialog, R.string.scene_name, sceneToEdit
+				.getName(), this);
 		dialog.show(getFragmentManager(), RenameItemDialog.DIALOG_FRAGMENT_TAG);
 	}
 

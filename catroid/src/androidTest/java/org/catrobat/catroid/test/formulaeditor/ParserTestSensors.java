@@ -89,10 +89,10 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			assertEquals("SensorHandler not initialized value error", 0d,
-					Math.abs(SensorHandler.getSensorValue(Sensors.Y_ACCELERATION)));
+					Math.abs((Double) SensorHandler.getSensorValue(Sensors.Y_ACCELERATION)));
 		} else {
 			assertEquals("SensorHandler not initialized value error", 0d,
-					Math.abs(SensorHandler.getSensorValue(Sensors.X_ACCELERATION)));
+					Math.abs((Double) SensorHandler.getSensorValue(Sensors.X_ACCELERATION)));
 		}
 	}
 

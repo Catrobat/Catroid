@@ -27,6 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -101,6 +102,12 @@ public class Formula implements Serializable {
 	public void updateCollisionFormulas(String oldName, String newName, Context context) {
 		internFormula.updateCollisionFormula(oldName, newName, context);
 		formulaTree.updateCollisionFormula(oldName, newName);
+		displayText = null;
+	}
+
+	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
+		internFormula.updateCollisionFormulaToVersion(CatroidApplication.getAppContext(), catroidLanguageVersion);
+		formulaTree.updateCollisionFormulaToVersion(catroidLanguageVersion);
 		displayText = null;
 	}
 
@@ -299,5 +306,9 @@ public class Formula implements Serializable {
 			}
 			return String.valueOf(interpretationResult);
 		}
+	}
+
+	public FormulaElement getFormulaTree() {
+		return formulaTree;
 	}
 }

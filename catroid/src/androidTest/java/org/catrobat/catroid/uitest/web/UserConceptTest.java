@@ -212,7 +212,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		fillNativeRegistrationDialog(username, true);
 
 		solo.waitForText(uploadDialogTitle);
-		String cancel = solo.getString(R.string.cancel_button);
+		String cancel = solo.getString(R.string.cancel);
 		if (solo.searchText(cancel)) {
 			solo.clickOnText(cancel);
 		}

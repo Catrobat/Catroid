@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
+import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -121,6 +122,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
@@ -214,6 +216,10 @@ public class XStreamToSupportCatrobatLanguageVersion0992AndBefore extends XStrea
 		BrickInfo brickInfo = new BrickInfo(AskBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("askQuestion", BrickField.ASK_QUESTION);
 		brickInfoMap.put("askBrick", brickInfo);
+
+		brickInfo = new BrickInfo(AskSpeechBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("askQuestionSpoken", BrickField.ASK_SPEECH_QUESTION);
+		brickInfoMap.put("askSpeechBrick", brickInfo);
 
 		brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastBrick", brickInfo);
@@ -529,6 +535,9 @@ public class XStreamToSupportCatrobatLanguageVersion0992AndBefore extends XStrea
 
 		brickInfo = new BrickInfo(WhenNfcBrick.class.getSimpleName());
 		brickInfoMap.put("whenNfcBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetNfcTagBrick.class.getSimpleName());
+		brickInfoMap.put("setNfcTagBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenClonedBrick.class.getSimpleName());
 		brickInfoMap.put("whenClonedBrick", brickInfo);

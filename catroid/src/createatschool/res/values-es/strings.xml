@@ -408,7 +408,8 @@
   <string name="action_shooter_look_button_play">botón jugar</string>
   <string name="action_shooter_sprite_button_instruction">botón instrucción</string>
   <string name="action_shooter_look_button_instruction">botón instrucción</string>
-  <string name="action_shooter_scene_game_instruction__add_a_new_instruction">Instrucciones del juego: agregue una nueva instrucción</string>
+  <string name="action_shooter_scene_game_instruction__add_a_new_instruction">Instrucciones del juego - agregue una
+    nueva instrucción</string>
   <string name="action_shooter_look_game">juego</string>
   <string name="action_shooter_sprite_game_instruction__add_your_own">instrucciones del juego: Agrega tus instrucciones</string>
   <string name="action_shooter_look_example_question">ejemplo de pregunta</string>
@@ -453,7 +454,7 @@
   <string name="action_shooter_note_movement_if_the_ship">movimiento si la nave</string>
   <string name="action_shooter_sprite_display_field">pantalla de indicación</string>
   <string name="action_shooter_look_display_field">pantalla de indicación</string>
-  <string name="action_shooter_scene_action_shooter_template_level">Nivel de ejemplo del acción shooter</string>
+  <string name="action_shooter_scene_action_shooter_template_level">Nivel de plantilla del acción shooter</string>
   <string name="action_shooter_sprite_task">tarea</string>
   <string name="action_shooter_look_task">tarea</string>
   <string name="action_shooter_broadcast_message_play_template">jugar_plantilla</string>

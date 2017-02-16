@@ -77,7 +77,11 @@ task buildStandalone() << {
     println "manifestFile: " + manifestFile.absolutePath
     def manifestText = manifestFile.text
 
-    manifestText = manifestText.replaceAll("@string/app_name", getProjectName());
+    String projectName = getProjectName();
+    projectName = projectName.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+            .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
+
+    manifestText = manifestText.replaceAll("@string/app_name", projectName);
     manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
     manifestFile.write(manifestText)
 

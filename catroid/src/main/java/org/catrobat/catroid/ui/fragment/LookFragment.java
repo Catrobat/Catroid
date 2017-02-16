@@ -84,7 +84,6 @@ import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.UtilUi;
@@ -606,8 +605,10 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	public void addLookMediaLibrary() {
 		Intent intent = new Intent(activity, WebViewActivity.class);
 		String url;
-		if (ProjectManager.getInstance().getCurrentSprite().getName().compareTo(getString(R.string.background)) == 0) {
-			url = Constants.LIBRARY_BACKGROUNDS_URL;
+		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(getString(R.string.background))) {
+			url = ProjectManager.getInstance().isCurrentProjectLandscapeMode()
+					? Constants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE
+					: Constants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 		} else {
 			url = Constants.LIBRARY_LOOKS_URL;
 		}
@@ -832,7 +833,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		} catch (NullPointerException nullPointerException) {
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
-			ToastUtil.showError(activity, R.string.error_load_image);
+			Utils.showErrorDialog(activity, R.string.error_load_image);
 		}
 	}
 
@@ -903,7 +904,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public void showRenameDialog() {
-		RenameLookDialog renameLookDialog = RenameLookDialog.newInstance(selectedLookData.getLookName());
+		RenameLookDialog renameLookDialog = new RenameLookDialog(R.string.rename_look_dialog, R.string
+				.lookname, selectedLookData.getLookName());
 		renameLookDialog.show(getFragmentManager(), RenameLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 

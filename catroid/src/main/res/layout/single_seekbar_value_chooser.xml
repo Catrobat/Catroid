@@ -34,7 +34,8 @@
         android:layout_height="fill_parent"
         android:paddingBottom="30dp"
         android:paddingTop="40dp"
-        android:weightSum="100" >
+        android:weightSum="100"
+        tools:ignore="UselessParent">
 
         <TextView
             style="@style/SingleSeekbarTextView"

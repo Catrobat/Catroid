@@ -20,17 +20,37 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.utils.idlingresources;
 
-import android.content.DialogInterface;
+import android.support.annotation.Nullable;
+import android.support.test.espresso.IdlingResource;
 
-import org.catrobat.catroid.ui.fragment.ListActivityFragment;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class ListFragmentDialog extends TextDialog {
+public class BooleanInitiallyBusyIdlingResource implements IdlingResource {
+	@Nullable
+	private volatile ResourceCallback callback;
+	private AtomicBoolean isIdleNow = new AtomicBoolean(false);
 
 	@Override
-	public void onDismiss(DialogInterface dialog) {
-		super.onDismiss(dialog);
-		((ListActivityFragment) getTargetFragment()).clearCheckedItems();
+	public String getName() {
+		return BooleanInitiallyBusyIdlingResource.class.getName();
+	}
+
+	@Override
+	public boolean isIdleNow() {
+		return isIdleNow.get();
+	}
+
+	@Override
+	public void registerIdleTransitionCallback(ResourceCallback callback) {
+		this.callback = callback;
+	}
+
+	public void setIdleState(boolean isIdleNow) {
+		this.isIdleNow.set(isIdleNow);
+		if (isIdleNow && callback != null) {
+			callback.onTransitionToIdle();
+		}
 	}
 }

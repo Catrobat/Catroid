@@ -37,6 +37,7 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class NewSoundDialog extends DialogFragment {
 
@@ -133,8 +134,10 @@ public class NewSoundDialog extends DialogFragment {
 		mediaLibraryButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				fragment.addSoundMediaLibrary();
-				NewSoundDialog.this.dismiss();
+				if (Utils.isNetworkAvailable(view.getContext(), true)) {
+					fragment.addSoundMediaLibrary();
+					NewSoundDialog.this.dismiss();
+				}
 			}
 		});
 	}

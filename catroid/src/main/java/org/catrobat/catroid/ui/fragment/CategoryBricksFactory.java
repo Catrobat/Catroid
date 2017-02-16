@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
+import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -414,6 +415,7 @@ public class CategoryBricksFactory {
 
 			soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 			soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
+			soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
 			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 				soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
@@ -490,6 +492,7 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupPenCategoryList(Sprite sprite) {
 		List<Brick> penBrickList = new ArrayList<>();
+
 		if (!isBackground(sprite)) {
 			penBrickList.add(new PenDownBrick());
 			penBrickList.add(new PenUpBrick());
@@ -515,6 +518,7 @@ public class CategoryBricksFactory {
 			dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 			dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 			dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+			dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 		} else {
 			dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
 			dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
@@ -716,6 +720,8 @@ public class CategoryBricksFactory {
 
 		if (brick instanceof AskBrick) {
 			category = res.getString(R.string.category_looks);
+		} else if (brick instanceof AskSpeechBrick) {
+			category = res.getString(R.string.category_sound);
 		} else if (brick instanceof WhenClonedBrick) {
 			category = res.getString(R.string.category_control);
 		} else if (brick instanceof WhenBackgroundChangesBrick) {

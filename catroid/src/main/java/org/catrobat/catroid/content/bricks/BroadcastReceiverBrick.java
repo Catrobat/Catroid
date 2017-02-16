@@ -184,23 +184,19 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 	// TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
 	private void showNewMessageDialog(final Spinner spinner) {
 		final Context context = spinner.getContext();
-		BrickTextDialog editDialog = new BrickTextDialog() {
+		BrickTextDialog editDialog = new BrickTextDialog(R.string.dialog_new_broadcast_message_title, R.string
+				.dialog_new_broadcast_message_name, context.getString(R.string.new_broadcast_message)) {
 
 			@Override
-			protected void initialize() {
-				inputTitle.setText(R.string.dialog_new_broadcast_message_name);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
+			protected boolean handlePositiveButtonClick() {
 				String newMessage = input.getText().toString().trim();
-				if (newMessage.isEmpty() || newMessage.equals(context.getString(R.string.new_broadcast_message))) {
+				if (newMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					dismiss();
 					return false;
 				}
 
 				if (newMessage.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR)) {
-					Utils.showErrorDialog(getActivity(), R.string.brick_broadcast_invalid_symbol);
+					input.setError(getString(R.string.brick_broadcast_invalid_symbol));
 					return false;
 				}
 
@@ -215,11 +211,6 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 			public void onDismiss(DialogInterface dialog) {
 				setSpinnerSelection(spinner);
 				super.onDismiss(dialog);
-			}
-
-			@Override
-			protected String getTitle() {
-				return getString(R.string.dialog_new_broadcast_message_title);
 			}
 		};
 

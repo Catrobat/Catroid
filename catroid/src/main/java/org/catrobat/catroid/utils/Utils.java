@@ -103,6 +103,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public final class Utils {
 
@@ -1168,9 +1169,12 @@ public final class Utils {
 		List<String> spriteListsToReplaceInFormulas = new ArrayList<>();
 		List<String> projectVariablesToReplaceInFormulas = new ArrayList<>();
 		List<String> projectListsToReplaceInFormulas = new ArrayList<>();
+		List<String> spritesToReplaceInFormulas = new ArrayList<>();
 
 		locateAndReplaceGlobalVariableAndListStrings(project, templateName, stringEntriesList, projectListsToReplaceInFormulas,
 				projectVariablesToReplaceInFormulas, context);
+
+		buildSpriteMap(project, spritesToReplaceInFormulas);
 
 		for (Scene scene : project.getSceneList()) {
 			locateAndReplaceSceneStrings(scene, templateName, stringEntriesList, context);
@@ -1188,7 +1192,8 @@ public final class Utils {
 
 				locateAndReplaceBricksAndBrickFormulas(sprite, templateName, stringEntriesList,
 						projectVariablesToReplaceInFormulas, spriteVariablesToReplaceInFormulas,
-						projectListsToReplaceInFormulas, spriteListsToReplaceInFormulas, scene, context);
+						projectListsToReplaceInFormulas, spriteListsToReplaceInFormulas, spritesToReplaceInFormulas,
+						scene, context);
 
 				replaceLocalVariableAndListStrings(sprite, templateName, dataContainer, context);
 
@@ -1203,6 +1208,14 @@ public final class Utils {
 		}
 
 		logLargeString(entries);
+	}
+
+	private static void buildSpriteMap(Project project, List<String> spritesToReplaceInFormulas) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				spritesToReplaceInFormulas.add(sprite.getName());
+			}
+		}
 	}
 
 	private static void locateAndReplaceGlobalVariableAndListStrings(Project project, String templateName,
@@ -1274,12 +1287,13 @@ public final class Utils {
 		UtilFile.renameSceneDirectory(oldSceneName, scene.getName());
 	}
 
-	private static void locateAndReplaceSpriteStrings(Sprite sprite, String templateName, List<String>
-			stringEntriesList, Context context) {
+	private static void locateAndReplaceSpriteStrings(Sprite sprite, String templateName,
+			List<String> stringEntriesList, Context context) {
 		String key = templateName + Constants.TRANSLATION_SPRITE;
-		addIfNotInList(stringEntriesList, createStringEntry(key, sprite.getName()));
-
 		String spriteName = sprite.getName();
+
+		addIfNotInList(stringEntriesList, createStringEntry(key, spriteName));
+
 		sprite.setName(getStringResourceByName(getStringResourceName(key, spriteName), spriteName, context));
 	}
 
@@ -1311,7 +1325,8 @@ public final class Utils {
 			List<String> stringEntriesList, List<String> projectVariablesToReplaceInFormulas,
 			List<String> spriteVariablesToReplaceInFormulas,
 			List<String> projectListsToReplaceInFormulas,
-			List<String> spriteListsToReplaceInFormulas, Scene scene, Context context) {
+			List<String> spriteListsToReplaceInFormulas, List<String> spritesToReplaceInFormulas,
+			Scene scene, Context context) {
 		for (Brick brick : sprite.getListWithAllBricks()) {
 
 			replaceFormulaDataStrings(projectVariablesToReplaceInFormulas, brick,
@@ -1323,11 +1338,28 @@ public final class Utils {
 			replaceFormulaDataStrings(spriteListsToReplaceInFormulas, brick,
 					templateName + Constants.TRANSLATION_SPRITE_LIST, context);
 
+			replaceFormulaSpriteStrings(spritesToReplaceInFormulas, brick, templateName + Constants
+					.TRANSLATION_SPRITE, context);
+
 			if (brick instanceof Translatable) {
 				String stringEntry = ((Translatable) brick).translate(templateName, scene, sprite, context);
 				if (stringEntry != null) {
 					addIfNotInList(stringEntriesList, stringEntry);
 				}
+			}
+		}
+	}
+
+	private static void replaceFormulaSpriteStrings(List<String> spritesToReplaceInFormulas, Brick brick,
+			String key, Context context) {
+		if (!(brick instanceof FormulaBrick)) {
+			return;
+		}
+
+		for (String spriteName : spritesToReplaceInFormulas) {
+			String newName = getStringResourceByName(getStringResourceName(key, spriteName), spriteName, context);
+			for (Formula formula : ((FormulaBrick) brick).getFormulas()) {
+				formula.updateCollisionFormulas(spriteName, newName, context);
 			}
 		}
 	}
@@ -1407,5 +1439,13 @@ public final class Utils {
 		} catch (IllegalAccessException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
+	}
+
+	public static <T> List<T> distinctListByClassOfObjects(List<T> listToDistinct) {
+		Map<Class, T> uniqueMap = new HashMap<>();
+		for (T objectInstance : listToDistinct) {
+			uniqueMap.put(objectInstance.getClass(), objectInstance);
+		}
+		return new ArrayList<>(uniqueMap.values());
 	}
 }
