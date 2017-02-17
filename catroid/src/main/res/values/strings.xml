@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!--
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -1431,6 +1430,13 @@
         <item quantity="other">Items selected!</item>
     </plurals>
     <!--  -->
+
+    <!-- New Data Dialog -->
+    <string name="user_variablename_already_exists">Please choose another variable name.</string>
+    <string name="user_listname_already_exists">Please choose another list name.</string>
+    <string name="no_variablename_entered">Please enter a variable name.</string>
+    <string name="no_listname_entered">Please enter a list name.</string>
+    <!-- -->
 
     <!-- Brick Data Editor Strings -->
     <string name="brick_data_editor_title">Brick editor</string>
