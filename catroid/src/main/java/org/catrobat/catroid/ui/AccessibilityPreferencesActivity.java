@@ -39,7 +39,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.AccessibilityCheckboxAdapter;
 import org.catrobat.catroid.ui.adapter.AccessibilityCheckboxAdapter.AccessibilityCheckbox;
@@ -273,7 +272,11 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 						saveAccessibilityProfilePreference();
 						SettingsActivity.setActiveAccessibilityProfile(getApplicationContext(), selectedProfileName);
 						updateAccessibilityActiveProfile();
-						CatroidApplication.restartApplication(CatroidApplication.getAppContext());
+
+						Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						intent.putExtra(MainMenuActivity.RESTART_INTENT, true);
+						startActivity(intent);
 						break;
 				}
 			}
