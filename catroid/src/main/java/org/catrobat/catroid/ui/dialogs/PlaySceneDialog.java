@@ -111,6 +111,9 @@ public class PlaySceneDialog extends DialogFragment {
 		} else {
 			ProjectManager.getInstance().setSceneToPlay(ProjectManager.getInstance().getCurrentScene());
 		}
+
+		ProjectManager.getInstance().setStartScene(ProjectManager.getInstance().getSceneToPlay());
+
 		if (getActivity() instanceof ProjectActivity) {
 			((ProjectActivity) getActivity()).startPreStageActivity();
 		}
