@@ -74,6 +74,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.NewStringDialog;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 
@@ -331,6 +332,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		formulaEditorEditText = (FormulaEditorEditText) fragmentView.findViewById(R.id.formula_editor_edit_field);
 
 		formulaEditorKeyboard = (TableLayout) fragmentView.findViewById(R.id.formula_editor_keyboardview);
+		TextSizeUtil.enlargeTableLayoutButtonText(formulaEditorKeyboard);
 		formulaEditorEditText.init(this);
 
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);

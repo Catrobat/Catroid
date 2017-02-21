@@ -30,12 +30,19 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.TextAppearanceSpan;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 
 import java.util.ArrayList;
@@ -43,11 +50,28 @@ import java.util.List;
 
 public final class TextSizeUtil {
 
+	private static boolean largeFormulaEditorTextSize = false;
+
 	private static float modifier = 1.0f;
+
+	private static float widthForIncreasedTextSizeInInches = 3.75f;
+	private static float modifierIncreaseDelta = 0.8f;
 
 	private static List<TextView> enlargedObjects = new ArrayList<>();
 
 	private TextSizeUtil() {
+	}
+
+	public static void mapTextSizesToDeviceSize() {
+		Context context = CatroidApplication.getAppContext();
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		DisplayMetrics metrics = new DisplayMetrics();
+		display.getMetrics(metrics);
+
+		if ((metrics.widthPixels / metrics.xdpi) >= widthForIncreasedTextSizeInInches) {
+			largeFormulaEditorTextSize = true;
+		}
 	}
 
 	public static float getModifier() {
@@ -69,6 +93,32 @@ public final class TextSizeUtil {
 		}
 	}
 
+	public static void enlargeTableLayoutButtonText(TableLayout tableLayout) {
+		if (modifier == 1.0f) {
+			return;
+		}
+
+		if (largeFormulaEditorTextSize) {
+			modifier += modifierIncreaseDelta;
+		}
+
+		for (int i = 0; i < tableLayout.getChildCount(); i++) {
+			if (tableLayout.getChildAt(i) instanceof TableRow) {
+				TableRow tableRow = (TableRow) tableLayout.getChildAt(i);
+				for (int j = 0; j < tableRow.getChildCount(); j++) {
+					if (tableRow.getChildAt(j) instanceof Button) {
+						Button button = (Button) tableRow.getChildAt(j);
+						enlargeButtonText(button);
+					}
+				}
+			}
+		}
+
+		if (largeFormulaEditorTextSize) {
+			modifier -= modifierIncreaseDelta;
+		}
+	}
+
 	public static void enlargeTextView(TextView textView) {
 		if (modifier == 1.0f) {
 			return;
@@ -78,6 +128,14 @@ public final class TextSizeUtil {
 			textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textView.getTextSize() * getModifier());
 			enlargedObjects.add(textView);
 		}
+	}
+
+	public static void enlargeButtonText(Button button) {
+		if (modifier == 1.0f) {
+			return;
+		}
+
+		button.setTextSize(TypedValue.COMPLEX_UNIT_PX, button.getTextSize() * getModifier());
 	}
 
 	public static void enlargeOptionsMenu(Menu menu) {
