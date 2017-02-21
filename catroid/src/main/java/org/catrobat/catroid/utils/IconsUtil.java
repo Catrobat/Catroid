@@ -28,9 +28,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -38,6 +41,7 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BrickLayout;
 
@@ -47,19 +51,55 @@ public final class IconsUtil {
 	private static boolean contrast = false;
 	private static boolean largeSize = false;
 
-	public static Rect smallIconSize = new Rect(0, 0, 64, 64);
-	public static Rect largeIconSize = new Rect(0, 0, 128, 128);
-	private static Rect smallIconSizeCategory = new Rect(-20, 0, 75, 95);
-	private static Rect largeIconSizeCategory = new Rect(-20, 0, 145, 160);
-	private static Rect largeIconSizeMainMenu = new Rect(0, 0, 150, 150);
-	private static Rect largeIconSizeProgramMenu = new Rect(0, 0, 150, 150);
-	private static Rect largeIconSizeStageDialog = new Rect(0, 0, 100, 100);
-	private static Rect largeIconSizeStageDialogContinue = new Rect(0, 0, 150, 150);
-	private static int largeIconBottomBar = 75;
+	private static final float INCH_TO_CM = 0.393701f;
+	private static final float SMALL_ICON_SIZE_BRICKS_IN_CM = 0.6f;
+	private static final float LARGE_ICON_SIZE_BRICKS_IN_CM = 1.2f;
+	private static final float SMALL_ICON_SIZE_CATEGORY_IN_CM = 0.6f;
+	private static final float LARGE_ICON_SIZE_CATEGORY_IN_CM = 1.2f;
+	private static final float LARGE_ICON_SIZE_MAIN_MENU_IN_CM = 1.1f;
+	private static final float LARGE_ICON_SIZE_PROGRAM_MENU_IN_CM = 1.2f;
+	private static final float LARGE_ICON_SIZE_STAGE_DIALOG_IN_CM = 0.7f;
+	private static final float LARGE_ICON_SIZE_STAGE_DIALOG_CONTINUE_IN_CM = 1.0f;
+	private static final float LARGE_ICON_SIZE_BOTTOM_BAR_IN_CM = 0.5f;
+	private static Rect smallIconSizeBricks = new Rect();
+	private static Rect largeIconSizeBricks = new Rect();
+	private static Rect smallIconSizeCategory = new Rect();
+	private static Rect largeIconSizeCategory = new Rect();
+	private static Rect largeIconSizeMainMenu = new Rect();
+	private static Rect largeIconSizeProgramMenu = new Rect();
+	private static Rect largeIconSizeStageDialog = new Rect();
+	private static Rect largeIconSizeStageDialogContinue = new Rect();
+	private static int largeIconBottomBar;
 
 	private static String uglySpacingString = " ";
 
 	private IconsUtil() {
+	}
+
+	public static void mapIconSizesToDeviceSize() {
+		Context context = CatroidApplication.getAppContext();
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		DisplayMetrics metrics = new DisplayMetrics();
+		display.getMetrics(metrics);
+
+		int smallIconSizeBricksScaled = (int) (metrics.xdpi * (SMALL_ICON_SIZE_BRICKS_IN_CM * INCH_TO_CM));
+		smallIconSizeBricks = new Rect(0, 0, smallIconSizeBricksScaled, smallIconSizeBricksScaled);
+		int largeIconSizeBricksScaled = (int) (metrics.xdpi * (LARGE_ICON_SIZE_BRICKS_IN_CM * INCH_TO_CM));
+		largeIconSizeBricks = new Rect(0, 0, largeIconSizeBricksScaled, largeIconSizeBricksScaled);
+		int smallIconSizeCategoryScaled = (int) (metrics.xdpi * (SMALL_ICON_SIZE_CATEGORY_IN_CM * INCH_TO_CM));
+		smallIconSizeCategory = new Rect(0, 0, smallIconSizeCategoryScaled, smallIconSizeCategoryScaled);
+		int largeIconSizeCategoryScaled = (int) (metrics.xdpi * (LARGE_ICON_SIZE_CATEGORY_IN_CM * INCH_TO_CM));
+		largeIconSizeCategory = new Rect(0, 0, largeIconSizeCategoryScaled, largeIconSizeCategoryScaled);
+		int largeIconSizeMainMenuScaled = (int) (metrics.xdpi * (LARGE_ICON_SIZE_MAIN_MENU_IN_CM * INCH_TO_CM));
+		largeIconSizeMainMenu = new Rect(0, 0, largeIconSizeMainMenuScaled, largeIconSizeMainMenuScaled);
+		int largeIconSizeProgramMenuScaled = (int) (metrics.xdpi * (LARGE_ICON_SIZE_PROGRAM_MENU_IN_CM * INCH_TO_CM));
+		largeIconSizeProgramMenu = new Rect(0, 0, largeIconSizeProgramMenuScaled, largeIconSizeProgramMenuScaled);
+		int largeIconSizeStageDialogScaled = (int) (metrics.xdpi * (LARGE_ICON_SIZE_STAGE_DIALOG_IN_CM * INCH_TO_CM));
+		largeIconSizeStageDialog = new Rect(0, 0, largeIconSizeStageDialogScaled, largeIconSizeStageDialogScaled);
+		int largeIconSizeStageDialogContinueScaled = (int) (metrics.xdpi * (LARGE_ICON_SIZE_STAGE_DIALOG_CONTINUE_IN_CM * INCH_TO_CM));
+		largeIconSizeStageDialogContinue = new Rect(0, 0, largeIconSizeStageDialogContinueScaled, largeIconSizeStageDialogContinueScaled);
+		largeIconBottomBar = (int) (metrics.ydpi * (LARGE_ICON_SIZE_BOTTOM_BAR_IN_CM * INCH_TO_CM));
 	}
 
 	public static void addIcon(Context context, TextView textView, String category) {
@@ -126,9 +166,9 @@ public final class IconsUtil {
 
 			if (drawable != null) {
 				if (isLargeSize()) {
-					drawable.setBounds(largeIconSize);
+					drawable.setBounds(largeIconSizeBricks);
 				} else {
-					drawable.setBounds(smallIconSize);
+					drawable.setBounds(smallIconSizeBricks);
 				}
 				String textWithSpacing = uglySpacingString + textView.getText();
 				textView.setText(textWithSpacing);
