@@ -264,7 +264,7 @@
   <string name="quiz_note_todo_set_the_right_scene_name_if_new_questions_were_added">ToDo: Setze den richten Szenennamen wenn neue Fragen hinzugefügt wurden.</string>
   <string name="quiz_scene_question_template_copy_before_adding_questions">Fragen-Vorlage (Kopiere diese BEVOR Fragen hinzugefügt werden)</string>
   <string name="quiz_scene_question_template_copy_scene_before_adding_questions">Fragen-Vorlage (Kopiere diese BEVOR Fragen hinzugefügt werden)</string>
-  <string name="quiz_look_template_question">Antwortvorlage</string>
+  <string name="quiz_look_template_question">Fragenvorlage</string>
   <string name="quiz_look_template_answer">Antwortvorlage</string>
   <string name="quiz_sprite_question_template">Fragenvorlage</string>
   <string name="quiz_look_question_template">Fragenvorlage</string>
@@ -383,7 +383,7 @@
   <string name="action_platform_note_you_can_set_a_new_value_for_the_timer">Du kannstn einen neuen Wert für den Timer einstellen.</string>
   <string name="action_platform_note_step_1_add_a_forever_brick">Schritt 1: Hinzufügen einer \"Wiederhole fortlaufend\" Schleife</string>
   <string name="action_platform_note_step_2_add_an_if_then_else_brick._if_the_timer_is_greater_than_0_change_variable_timer_by_1">Schritt 2: Füge einen \"Wenn dann sonst\" Baustein hinzu.  Wenn der Timer größer ist als 0 ändere die  Variablen Timer um -1 </string>
-  <string name="action_platform_note_step_3__else_broadcast_message_game_over">Schritt 3: füge im \"Sonst\" Teil der Bedienung den Baustein \"Verschicke an alle Game over\" hinzu.</string>
+  <string name="action_platform_note_step_3__else_broadcast_message_game_over">Schritt 3: Füge im \"Sonst\" Teil der Bedingung den Baustein \"Verschicke an alle Game over\" hinzu.</string>
   <string name="action_platform_sprite_extra_task__add_level_up">Zusätzliche Aufgabe – Füge ein Level up Element hinzu</string>
   <string name="action_platform_look_level_up_display">Level up Anzeige</string>
   <string name="action_platform_note_step_1_create_a_new_variable_level_">Schritt 1: Erstelle eine neue Variable </string>
@@ -394,6 +394,21 @@
   <string name="action_platform_look_end">Ende</string>
   <string name="action_platform_sprite_button_play_again">Button Neustart</string>
   <string name="action_platform_look_button_play_again">Button Neustart</string>
+  <string name="action_platform_project_variable_animation_number">Animations Nummer</string>
+  <string name="action_platform_broadcast_message_title">Titel</string>
+  <string name="action_platform_broadcast_message_instruction">Anleitung</string>
+  <string name="action_platform_broadcast_message_start">Start</string>
+  <string name="action_platform_note_multiplies_the_score">Mulitpliziert die Punkte</string>
+  <string name="action_platform_note_score_gets_multiplied_every_time_the_jumper_is_falling_down">Wenn der Jumper fällt werden die Punkte multipliziert</string>
+  <string name="action_platform_note_saves_the_position_of_the_jumper_permanently">Die Position des Jumpers wird laufend gespeichert</string>
+  <string name="action_platform_note_animation_of_the_jumper">Animation des Jumpers</string>
+  <string name="action_platform_note_defines_the_falling_of_the_jumper">Definiert das Fallen des Jumpers</string>
+  <string name="action_platform_note_sets_the_jumping_power_of_the_jumper">Setzt die Sprungkraft des Jumpers</string>
+  <string name="action_platform_note_step_3_else_broadcast_message_game_over">Schritt 3: Füge im \"Sonst\" Teil der Bedingung den Baustein \"Verschicke an alle Game over\" hinzu</string>
+  <string name="action_platform_note_step_1_create_a_new_variable_level">Schritt 1: Erstelle eine neue Variable Level</string>
+  <string name="action_platform_note_step_2_add_a_forever_loop_and_an_ifcondition">Schritt 2: Füge eine \"Wiederhole fortlaufend\" Schleife und eine \" Wenn\" Bedingung hinzu</string>
+  <string name="action_platform_note_step_3_if_the_score_reaches_a_certain_amount_like_200_400_600_800_or_1000_show_this_object_for_1_second">Schritt 3: Wenn die Punkte eine gewisse Anzahl erreichen wie 200, 400, 600, 800 oder 1000 dann zeige dieses Objekt für 1 Sekunde an</string>
+  <string name="action_platform_note_step_4_change_variable_level_by_1_and_repeat">Schritt 4: Ändern die Variable Level um 1 und wiederhole alle Vorgänge mit dem nächsten Wert (z.B. wenn Punkte = 400)</string>
   <!-- Action Shooter Strings -->
   <string name="action_shooter_project_variable_timer">Timer</string>
   <string name="action_shooter_project_variable_score">Punkte</string>
@@ -411,10 +426,10 @@
   <string name="action_shooter_look_game">Spiel</string>
   <string name="action_shooter_sprite_game_instruction__add_your_own">Spielanleitung - füge deine eigene hinzu</string>
   <string name="action_shooter_look_example_question">Beispielfrage</string>
-  <string name="action_shooter_look_template_question">Antwortvorlage</string>
+  <string name="action_shooter_look_template_question">Fragenvorlage</string>
   <string name="action_shooter_sprite_button_back">Button Zurück</string>
   <string name="action_shooter_look_button_back">Button Zurück</string>
-  <string name="action_shooter_scene_action_shooter_example_level">Action Shooter Beispiellevel</string>
+  <string name="action_shooter_scene_action_shooter_example_level">Action Shooter Beispiel Level</string>
   <string name="action_shooter_broadcast_message_play">abspielen</string>
   <string name="action_shooter_sprite_hud_elements">HUD-Elemente</string>
   <string name="action_shooter_look_hud">HUD</string>
@@ -476,7 +491,7 @@
   <string name="action_shooter_note_step_1_create_a_new_variable_level_">Schritt 1: Erstelle eine neue Variable </string>
   <string name="action_shooter_note_step_2_add_a_forever_loop_and_a_ifclause__">Schritt 2: Fügen eine \"Wiederholfe fortlaufend\" Schleife und eine \"Wenn\" Bedingung hinzu.</string>
   <string name="action_shooter_note_step_3_if_timer_reaches_a_certain_amount_of_time_show_this_object_for_one_second_">Schritt 3: Wenn Timer eine gewisse Zeit erreicht (zb 20 Sekunden) zeige dieses Objekt für 1 Sekunde</string>
-  <string name="action_shooter_note_step_4_change_variable_level_by_1">Schritt 4: ändere Variable Level um 1</string>
+  <string name="action_shooter_note_step_4_change_variable_level_by_1">Schritt 4: Ändere Variable Level um 1</string>
   <string name="action_shooter_note_step_5_speed_up_the_asteroids_if_the_level_raises__">Schritt 5: beschleunige die Geschwindigkeit der Asteroiden wenn das Level sich erhöht</string>
   <string name="action_shooter_note_step_6_add_additional_levels__">Schritt 6: füge weitere Level hinzu</string>
   <string name="action_shooter_scene_end_last_scene">Ende (letzte Szene)</string>
@@ -485,6 +500,21 @@
   <string name="action_shooter_look_button_play_again">Button Neustart</string>
   <string name="action_shooter_sprite_score_display">Punkteanzeige</string>
   <string name="action_shooter_look_score_display">Punkteanzeige</string>
+  <string name="action_shooter_project_variable_ship_position_x">Raumschiff Position_x</string>
+  <string name="action_shooter_broadcast_message_title">Titel</string>
+  <string name="action_shooter_broadcast_message_instruction">Anleitung</string>
+  <string name="action_shooter_broadcast_message_start">Start</string>
+  <string name="action_shooter_note_sets_the_timer_and_the_score_and_places_it">Setzt den Timer und die Punkte und platziert diese</string>
+  <string name="action_shooter_note_todo_you_can_change_the_timer_to_another_value">ToDo: Du kannst den Timer auf einen anderen Wert stellen</string>
+  <string name="action_shooter_note_todo_change_the_second_number_according_to_the_amount_of_asteroids_looks">ToDo: Der zweite Wert in der Formel sollte der Anzahl der Aussehen entsprechen</string>
+  <string name="action_shooter_note_extra_task_speed_up_after_a_certain_amount_of_time_and_show_the_level_up_object.">Zusätzliche Aufgabe: Nach einer gewissen Zeit sollen die Asteroiden schneller werden und zeige das Objekt  \"Level up\" an.</string>
+  <string name="action_shooter_note_extra_task_speed_up_after_a_certain_amount_of_time_and_show_level_up_object">Zusätzliche Aufgabe: Nach einer gewissen Zeit sollen die Asteroiden schneller werden und zeige das Objekt  \"Level up\" an.</string>
+  <string name="action_shooter_note_movement_of_the_ship">Bewegung des Raumschiffs</string>
+  <string name="action_shooter_note_step_1_create_a_new_variable_level">Schritt 1: Erstelle eine neue Variable Level</string>
+  <string name="action_shooter_note_step_2_add_a_forever_loop_and_a_ifclause">Schritt 2: Fügen eine \"Wiederholfe fortlaufend\" Schleife und eine \"Wenn\" Bedingung hinzu</string>
+  <string name="action_shooter_note_step_3_if_timer_reaches_a_certain_amount_of_time_show_this_object_for_one_second">Schritt 3: Wenn Timer eine gewisse Zeit erreicht (z.B. 20 Sekunden) zeige dieses Objekt für 1 Sekunde an</string>
+  <string name="action_shooter_note_step_5_speed_up_the_asteroids_if_the_level_raises">Schritt 5: Beschleunige die Geschwindigkeit der Asteroiden wenn das Level sich erhöht</string>
+  <string name="action_shooter_note_step_6_add_additional_levels">Schritt 6: Füge weitere Level hinzu</string>
   <!-- Interactive Book Strings -->
   <string name="interactive_book_scene_cover_page">Deckblatt</string>
   <string name="interactive_book_sprite_background">Hintergrund</string>
@@ -618,7 +648,7 @@
   <string name="physical_simulation_look_add_your_own_rocket">Füge deine eigene Rakete hinzu</string>
   <string name="physical_simulation_note_step_1_add_a_look_and_place_your_rocket_">Schritt 1: Füge ein Aussehen hinzu und platziere die Rakete</string>
   <string name="physical_simulation_note_step_2_set_two_local_variables._one_to_define_the_mass_if_the_rocket_and_one_for_the_force_">Schritt 2: Lege zwei lokale Variablen an. Eine welche die Masse der Rakete bestimmt und eine für ihre Kraft</string>
-  <string name="physical_simulation_note_step_3_show_both_variables_in_the_corresponding_labels__">Schritt 3: zeige beide Variablen in den entsprechenden Labels an</string>
+  <string name="physical_simulation_note_step_3_show_both_variables_in_the_corresponding_labels__">Schritt 3: Zeige beide Variablen in den entsprechenden Labels an</string>
   <string name="physical_simulation_note_step_4_set_a_new_variable_acceleration_abd_calculate_the_rockets__acceleration_">Schritt 4: Setzte eine weitere Variable Beschleunigung und füge die Formel zur Berechnung hinzu</string>
   <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_x_to_the_variable_acceleration_and_multiply_with__1000">Schritt 5:  Füge einen neuen Baustein hinzu um die Beschleunigung von X zu setzten. Diese hat den Wert der Variable Beschleunigung und mulitpliziere sie mit - 1000.</string>
   <string name="physical_simulation_note__todo_add_the_collision_detection_in_the_whenbrick_between_your_rocket_and_the_finish_line_"> ToDo: Füge eine Kollisionserkennung (berührt_Objekt) im \"Wenn\" Baustein hinzu. Die Kollision soll sich auf das Objekt Ziellinie beziehen.</string>
@@ -647,7 +677,7 @@
   <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_x_to_the_variable_acceleration_and_multiply_with_1000">Schritt 5:  Füge einen neuen Baustein hinzu um die Beschleunigung von X zu setzten. Diese hat den Wert der Variable Beschleunigung und mulitpliziere sie mit - 1000</string>
   <!-- Lego EV3 Strings -->
   <string name="lego_ev3_project_variable_move">bewegen</string>
-  <string name="lego_ev3_project_variable_detecded">erkannt</string>
+  <string name="lego_ev3_project_variable_detected">erkannt</string>
   <string name="lego_ev3_scene_start">Start</string>
   <string name="lego_ev3_sprite_background">Hintergrund</string>
   <string name="lego_ev3_look_title">Titel</string>
@@ -723,8 +753,7 @@
   <string name="lego_ev3_note_todo_add_a_new_brick._tap_on___switch_to_category_ev3_lego._choose_the_brick_to_set_the_right_motor_to_speed_20_.">ToDo: Füge einen Baustein hinzu. Tippe auf \'+\', wechsle zur Kategorie \"Lego EV3\". Wähle den Baustein um den Motoren nach rechts mit der Geschwindigkeit 20 %% zu bewegen.</string>
   <string name="lego_ev3_note_todo_add_a_new_brick._tap_on__switch_to_category_ev3_lego._choose_the_brick_to_set_the_left_motor_to_speed_20_.">ToDo: Füge einen Baustein hinzu. Tippe auf \'+\', wechsle zur Kategorie \"Lego EV3\". Wähle den Baustein um den Motoren nach links mit der Geschwindigkeit 20 %% zu bewegen.</string>
   <string name="lego_ev3_note_todo_add_a_new_brick._tap_on___switch_to_category_ev3_lego._choose_the_brick_to_stop_both_motors.">ToDo: Füge einen Baustein hinzu. Tippe auf \'+\', wechsle zur Kategorie \"Lego EV3\". Wähle den Baustein um beide Motoren zu stoppen.</string>
-  <string
-      name="lego_ev3_note_todo_edit_formula_of_the_whenbrick_category_device_choose_nxt_ultrasonic._tap_on_compute_to_see_the_value._define_the_range_category_logic._dont_remove_the_second_part_and_move__true.">ToDo: Bearbeite die Formel des Wenn-Bausteins. Gehe dazu in Kategorie \"Gerät\" und wähle \"NXT_Ultraschall\".  Benutze \"Berechnen\" um den Wert des Sensors zu sehen. Bestimme ab welchen Bereich sich der Roboter ein Hinterniss erkennen soll (Kategorie \"Logik\"). Entferne nicht den zweiten Teil (AND bewegen = WAHR).</string>
+  <string name="lego_ev3_note_todo_edit_formula_of_the_whenbrick_category_device_choose_nxt_ultrasonic._tap_on_compute_to_see_the_value._define_the_range_category_logic._dont_remove_the_second_part_and_move__true.">ToDo: Bearbeite die Formel des Wenn-Bausteins. Gehe dazu in Kategorie \"Gerät\" und wähle \"NXT_Ultraschall\". Benutze \"Berechnen\" um den Wert des Sensors zu sehen. Bestimme ab welchen Bereich sich der Roboter ein Hinterniss erkennen soll (Kategorie \"Logik\"). Entferne nicht den zweiten Teil (AND bewegen = WAHR).</string>
   <string name="lego_ev3_note_tod_add_a_new_brick._tap_on____category_ev3_lego._set_the_motors_speed_to_move_backwards_for_5_seconds.">ToDo: Füge einen Baustein hinzu. Tippe auf \'+\', wechsle zur Kategorie \"Lego EV3\". Wähle den Baustein um die Motoren rückwärts mit 50 %% Geschwindigkeit zu bewegen.</string>
   <string name="lego_ev3_note_todo_add_a_new_brick._tap_on__category_ev3_lego.__the_robot_should_turn_to_the_right_gorgeous_5_seconds._">ToDo: Füge einen Baustein hinzu. Tippe auf \'+\', wechsle zur Kategorie \"Lego EV3\". Wähle den Baustein um den Motor nach rechts mit 50 %% Geschwindigkeit zu bewegen.</string>
   <string name="lego_ev3_note_todo_edit_formula_of_the_whenbrick_category_device_choose_nxt_touch._tap_on_compute_to_see_the_value._define_the_range_category_logic._dont_delete_that_part_and_move__true.">ToDo: Bearbeite die Formel des Wenn-Bausteins. Gehe dazu in Kategorie \"Gerät\" und wähle \"NXT_Berührung\". Benutze \"Berechnen\" um den Wert des Sensors zu sehen. Bestimme wann das Skript ausgeführt werden soll (vergleiche mit =). Lösche diesen Teil nicht: UND bewegen = WAHR.</string>
@@ -745,7 +774,7 @@
   <string name="lego_ev3_look_button_play_again">Button Neustart</string>
   <!-- Lego NXT Strings -->
   <string name="lego_nxt_project_variable_move">bewegen</string>
-  <string name="lego_nxt_project_variable_detecded">erkannt</string>
+  <string name="lego_nxt_project_variable_detected">erkannt</string>
   <string name="lego_nxt_scene_start">Start</string>
   <string name="lego_nxt_sprite_background">Hintergrund</string>
   <string name="lego_nxt_look_title">Titel</string>

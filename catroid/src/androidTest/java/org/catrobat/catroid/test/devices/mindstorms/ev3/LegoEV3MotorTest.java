@@ -27,6 +27,7 @@ import android.content.Context;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
 
@@ -55,18 +56,18 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 	}
 
 	public void testMotorMoveTest() {
-		int inputPower = -70;
-		int timeInMs = 1500;
+		int inputSpeed = -70;
 		byte outputField = (byte) 0x01;
 
-		int expectedPower = -70;
-		int expectedTimeInMs = 1500;
+		int expectedSpeed = (EV3CommandByte.EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & inputSpeed)
+				| EV3CommandByte.EV3CommandParamByteCode.PARAM_SHORT_SIGN_NEGATIVE.getByte();
+
 		byte expectedOutputField = (byte) 0x01;
-		int expectedTime1 = 0;
-		int expectedTime3 = 0;
+
+		byte startCmdCode = (byte) 0xA6;
 
 		ev3.initialise();
-		ev3.moveMotorTime(outputField, 0, inputPower, 0, timeInMs, 0, true);
+		ev3.moveMotorSpeed(outputField, 0, inputSpeed);
 
 		byte[] setOutputState = this.logger.getNextSentMessage(0, 2);
 
@@ -75,30 +76,14 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		assertEquals("Expected OutputField(Motor) doesn't match input", expectedOutputField, setOutputState[offset]);
 		offset += 1;
 
-		assertEquals("Expected control byte for power-value doesn't match", LONG_PARAMETER_BYTE_ONE_FOLLOW,
-				setOutputState[offset]);
-		offset += 1;
+		assertEquals("Expected Speed not same as input Speed", (byte) expectedSpeed, setOutputState[offset]);
 
-		assertEquals("Expected Power not same as input Power", (byte) expectedPower, setOutputState[offset]);
-		offset += 1;
+		setOutputState = this.logger.getNextSentMessage(0, 2);
+		assertEquals("Set Speed Command wasn't followed by Start Command", startCmdCode, setOutputState[5]);
 
-		assertEquals("Control-Byte for unused StepTime 1 wrong", LONG_PARAMETER_BYTE_ONE_FOLLOW,
+		offset = BASIC_MESSAGE_BYTE_OFFSET + 1;
+		assertEquals("Expected OutputField(Motor) in Start-Cmd doesn't match input", expectedOutputField,
 				setOutputState[offset]);
-		offset += 1;
-		assertEquals("Unused StepTime 1 was not 0", (byte) expectedTime1, setOutputState[offset]);
-		offset += 1;
-
-		assertEquals("Control-Byte for unused StepTime 1 wrong", LONG_PARAMETER_BYTE_TWO_FOLLOW,
-				setOutputState[offset]);
-		offset += 1;
-		assertEquals("Expected Time doesn't match input", (byte) expectedTimeInMs, setOutputState[offset]);
-		assertEquals("Expected Time doesn't match input", (byte) (expectedTimeInMs >> 8), setOutputState[offset + 1]);
-		offset += 2;
-
-		assertEquals("Control-Byte for unused StepTime 3 wrong", LONG_PARAMETER_BYTE_ONE_FOLLOW,
-				setOutputState[offset]);
-		offset += 1;
-		assertEquals("Unused StepTime 3 was not 0", (byte) expectedTime3, setOutputState[offset]);
 	}
 
 	public void testStopMotorTest() {
