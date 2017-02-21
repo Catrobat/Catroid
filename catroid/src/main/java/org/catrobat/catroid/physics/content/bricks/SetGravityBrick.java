@@ -112,15 +112,14 @@ public class SetGravityBrick extends FormulaBrick {
 			return;
 		}
 		switch (view.getId()) {
-			case R.id.brick_set_gravity_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_GRAVITY_X);
-				break;
-
 			case R.id.brick_set_gravity_edit_text_y:
 				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_GRAVITY_Y);
 				break;
+
+			case R.id.brick_set_gravity_edit_text_x:
 			default:
-				// nothing to do
+				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_GRAVITY_X);
+				break;
 		}
 	}
 

@@ -157,12 +157,6 @@ public class SetPenColorBrick extends FormulaBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-
-		BrickField clickedBrickField = getClickedBrickField(view);
-		if (clickedBrickField == null) {
-			return;
-		}
-
 		if (areAllBrickFieldsNumbers()) {
 			FormulaEditorFragment.showCustomFragment(view, this, getClickedBrickField(view));
 		} else {
@@ -178,15 +172,14 @@ public class SetPenColorBrick extends FormulaBrick {
 
 	private BrickField getClickedBrickField(View view) {
 		switch (view.getId()) {
-			case R.id.brick_set_pen_color_action_red_edit_text:
-				return BrickField.PHIRO_LIGHT_RED;
 			case R.id.brick_set_pen_color_action_green_edit_text:
 				return BrickField.PHIRO_LIGHT_GREEN;
 			case R.id.brick_set_pen_color_action_blue_edit_text:
 				return BrickField.PHIRO_LIGHT_BLUE;
+			case R.id.brick_set_pen_color_action_red_edit_text:
+			default:
+				return BrickField.PHIRO_LIGHT_RED;
 		}
-
-		return null;
 	}
 
 	@Override
