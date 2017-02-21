@@ -578,7 +578,7 @@
   <string name="physical_simulation_project_variable_start_rocket_1">Start Rakete 1</string>
   <string name="physical_simulation_project_variable_end_without_rocket_1_">Ende ohne Rakete 1 </string>
   <string name="physical_simulation_project_variable_answer_value">Antwortwert</string>
-  <string name="physical_simulation_project_variable_answer_level_2">Anwort Level 2</string>
+  <string name="physical_simulation_project_variable_answer_level_2">Antwort Level 2</string>
   <string name="physical_simulation_project_variable_acceleration_calculated_2">Beschleunigung berechnet 2</string>
   <string name="physical_simulation_project_variable_calculated_acceleration_3">Beschleunigung berechnet 3</string>
   <string name="physical_simulation_project_variable_force_shuttle_1">Kraft Shuttle 1</string>

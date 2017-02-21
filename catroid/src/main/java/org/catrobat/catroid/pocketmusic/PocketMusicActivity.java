@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiDriver;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
@@ -54,9 +55,12 @@ public class PocketMusicActivity extends BaseActivity {
 
 	private Project project;
 
+	private MidiDriver midiDriver;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		midiDriver = new MidiDriver();
 
 		String fileName = getIntent().getStringExtra("FILENAME");
 		String title = getIntent().getStringExtra("TITLE");
@@ -67,9 +71,11 @@ public class PocketMusicActivity extends BaseActivity {
 				SoundInfo soundInfo = new SoundInfo();
 				soundInfo.setSoundFileName(fileName);
 
-				project = converter.convertMidiFileToProject(new File(soundInfo.getAbsolutePath()));
-				project.setFileName(fileName);
-				project.setName(title);
+				if (null != ProjectManager.getInstance().getCurrentProject()) {
+					project = converter.convertMidiFileToProject(new File(soundInfo.getAbsolutePath()));
+					project.setFileName(fileName);
+					project.setName(title);
+				}
 			} catch (MidiException | IOException ignored) {
 			}
 		}
@@ -163,5 +169,21 @@ public class PocketMusicActivity extends BaseActivity {
 		project.putTrack("Track 1", track);
 
 		return project;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (midiDriver != null) {
+			midiDriver.start();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (midiDriver != null) {
+			midiDriver.stop();
+		}
 	}
 }

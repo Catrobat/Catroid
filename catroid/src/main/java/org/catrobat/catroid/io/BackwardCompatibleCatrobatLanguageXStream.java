@@ -183,14 +183,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion0992AndBefore extends XStream {
+public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion0992AndBefore.class.getSimpleName();
+	private static final String TAG = BackwardCompatibleCatrobatLanguageXStream.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion0992AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public BackwardCompatibleCatrobatLanguageXStream(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 

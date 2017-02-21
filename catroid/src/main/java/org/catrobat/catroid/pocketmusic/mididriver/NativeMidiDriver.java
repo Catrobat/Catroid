@@ -21,37 +21,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.mindstorms.ev3;
+package org.catrobat.catroid.pocketmusic.mididriver;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.devices.mindstorms.Mindstorms;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
-import org.catrobat.catroid.formulaeditor.Sensors;
+public class NativeMidiDriver {
+	private OnMidiStartListener listener;
 
-public interface LegoEV3 extends Mindstorms, BluetoothDevice {
+	public NativeMidiDriver() {
+	}
 
-	boolean isAlive();
+	public void start() {
+		if (!init()) {
+			return;
+		}
+		if (listener != null) {
+			listener.onMidiStart();
+		}
+	}
 
-	void playTone(int frequency, int duration, int volumeInPercent);
+	public void queueEvent(byte[] event) {
+		write(event);
+	}
 
-	EV3Motor getMotorA();
-	EV3Motor getMotorB();
-	EV3Motor getMotorC();
-	EV3Motor getMotorD();
+	public void stop() {
+		shutdown();
+	}
 
-	void stopAllMovements();
+	public void setOnMidiStartListener(OnMidiStartListener l) {
+		listener = l;
+	}
 
-	void moveMotorStepsSpeed(byte outputField, int chainLayer, int speed, int step1Tacho, int step2Tacho,
-			int step3Tacho, boolean brake);
-	void moveMotorSpeed(byte outputField, int chainLayer, int speed);
-	void stopMotor(byte outputField, int chainLayer, boolean brake);
+	public interface OnMidiStartListener {
+		void onMidiStart();
+	}
 
-	void setLed(int ledStatus);
+	private native boolean init();
 
-	int getSensorValue(Sensors sensor);
+	public native int[] config();
 
-	MindstormsSensor getSensor1();
-	MindstormsSensor getSensor2();
-	MindstormsSensor getSensor3();
-	MindstormsSensor getSensor4();
+	public native boolean write(byte[] a);
+
+	private native boolean shutdown();
+
+	static {
+		System.loadLibrary("midi");
+	}
 }
