@@ -400,6 +400,21 @@
     <string name="action_platform_look_end">end</string>
     <string name="action_platform_sprite_button_play_again">button play again</string>
     <string name="action_platform_look_button_play_again">button play again</string>
+    <string name="action_platform_project_variable_animation_number">animation number</string>
+    <string name="action_platform_broadcast_message_title">title</string>
+    <string name="action_platform_broadcast_message_instruction">instruction</string>
+    <string name="action_platform_broadcast_message_start">start</string>
+    <string name="action_platform_note_multiplies_the_score">multiplies the score</string>
+    <string name="action_platform_note_score_gets_multiplied_every_time_the_jumper_is_falling_down">score gets multiplied every time the jumper is falling down</string>
+    <string name="action_platform_note_saves_the_position_of_the_jumper_permanently">Saves the position of the jumper permanently</string>
+    <string name="action_platform_note_animation_of_the_jumper">animation of the jumper</string>
+    <string name="action_platform_note_defines_the_falling_of_the_jumper">defines the falling of the jumper</string>
+    <string name="action_platform_note_sets_the_jumping_power_of_the_jumper">sets the jumping power of the jumper</string>
+    <string name="action_platform_note_step_3_else_broadcast_message_game_over">step 3: else broadcast message \'game over\'</string>
+    <string name="action_platform_note_step_1_create_a_new_variable_level">step 1: create a new variable level</string>
+    <string name="action_platform_note_step_2_add_a_forever_loop_and_an_ifcondition">step 2: add a forever loop and an if-condition</string>
+    <string name="action_platform_note_step_3_if_the_score_reaches_a_certain_amount_like_200_400_600_800_or_1000_show_this_object_for_1_second">step 3: if the score reaches a certain amount like 200, 400, 600, 800 or 1000 show this object for 1 second</string>
+    <string name="action_platform_note_step_4_change_variable_level_by_1_and_repeat">step 4: change variable level by 1 and repeat</string>
 
     <!-- Action Shooter Strings -->
     <string name="action_shooter_project_variable_timer">timer</string>
@@ -492,6 +507,23 @@
     <string name="action_shooter_look_button_play_again">button play again</string>
     <string name="action_shooter_sprite_score_display">score display</string>
     <string name="action_shooter_look_score_display">score display</string>
+
+    <string name="action_shooter_project_variable_ship_position_x">ship position x</string>
+    <string name="action_shooter_broadcast_message_title">title</string>
+    <string name="action_shooter_broadcast_message_instruction">instruction</string>
+    <string name="action_shooter_broadcast_message_start">start</string>
+    <string name="action_shooter_note_sets_the_timer_and_the_score_and_places_it">sets the timer and the score and places it</string>
+    <string name="action_shooter_note_todo_you_can_change_the_timer_to_another_value">ToDo: You can change the timer to another value</string>
+    <string name="action_shooter_note_todo_change_the_second_number_according_to_the_amount_of_asteroids_looks">ToDo: Change the second number according to the amount of asteroids looks</string>
+    <string name="action_shooter_note_extra_task_speed_up_after_a_certain_amount_of_time_and_show_the_level_up_object.">Extra task: speed up after a certain amount of time and show the level up object.</string>
+    <string name="action_shooter_note_extra_task_speed_up_after_a_certain_amount_of_time_and_show_level_up_object">Extra task: speed up after a certain amount of time and show level up object</string>
+    <string name="action_shooter_note_movement_of_the_ship">movement of the ship</string>
+    <string name="action_shooter_note_step_1_create_a_new_variable_level">step 1: create a new variable level</string>
+    <string name="action_shooter_note_step_2_add_a_forever_loop_and_a_ifclause">step 2: add a forever loop and a if-clause</string>
+    <string name="action_shooter_note_step_3_if_timer_reaches_a_certain_amount_of_time_show_this_object_for_one_second">step 3: if timer reaches a certain amount of time show this object for one second</string>
+    <string name="action_shooter_note_step_5_speed_up_the_asteroids_if_the_level_raises">step 5: speed up the asteroids if the level raises</string>
+    <string name="action_shooter_note_step_6_add_additional_levels">step 6: add additional levels</string>
+
 
     <!-- Interactive Book Strings -->
     <string name="interactive_book_scene_cover_page">Cover page</string>
@@ -657,7 +689,7 @@
 
     <!-- Lego EV3 Strings -->
     <string name="lego_ev3_project_variable_move">move</string>
-    <string name="lego_ev3_project_variable_detecded">detecded</string>
+    <string name="lego_ev3_project_variable_detected">detected</string>
     <string name="lego_ev3_scene_start">Start</string>
     <string name="lego_ev3_sprite_background">Background</string>
     <string name="lego_ev3_look_title">title</string>
@@ -754,7 +786,7 @@
 
     <!-- Lego NXT Strings -->
     <string name="lego_nxt_project_variable_move">move</string>
-    <string name="lego_nxt_project_variable_detecded">detected</string>
+    <string name="lego_nxt_project_variable_detected">detected</string>
     <string name="lego_nxt_scene_start">Start</string>
     <string name="lego_nxt_sprite_background">Background</string>
     <string name="lego_nxt_look_title">title</string>

@@ -294,7 +294,7 @@
   <string name="action_platform_look_button_play">botón jugar</string>
   <string name="action_platform_sprite_button_instruction">botón instrucción</string>
   <string name="action_platform_look_button_instruction">botón instrucción</string>
-  <string name="action_platform_scene_game_instruction__add_your_own">Instrucciones del juego: Agregue tus instrucciones</string>
+  <string name="action_platform_scene_game_instruction__add_your_own">Instrucciones del juego - Agregue tus instrucciones</string>
   <string name="action_platform_look_game">juego</string>
   <string name="action_platform_sprite_instruction__add_your_instruction">instrucciones - añade tus instrucciones</string>
   <string name="action_platform_look_game_instruction_example">ejemplo de instrucciones del juego</string>
@@ -395,6 +395,21 @@
   <string name="action_platform_look_end">fin</string>
   <string name="action_platform_sprite_button_play_again">botón Jugar de Nuevo</string>
   <string name="action_platform_look_button_play_again">botón Jugar de Nuevo</string>
+  <string name="action_platform_project_variable_animation_number">número de animación</string>
+  <string name="action_platform_broadcast_message_title">título</string>
+  <string name="action_platform_broadcast_message_instruction">instrucción</string>
+  <string name="action_platform_broadcast_message_start">inicio</string>
+  <string name="action_platform_note_multiplies_the_score">multiplica la puntuación</string>
+  <string name="action_platform_note_score_gets_multiplied_every_time_the_jumper_is_falling_down">la puntuación se multiplica cada vez que el saltador está cayendo</string>
+  <string name="action_platform_note_saves_the_position_of_the_jumper_permanently">Guarda permanentemente la posición del jumper</string>
+  <string name="action_platform_note_animation_of_the_jumper">animación del jumper</string>
+  <string name="action_platform_note_defines_the_falling_of_the_jumper">define la caída del jumper</string>
+  <string name="action_platform_note_sets_the_jumping_power_of_the_jumper">establece el poder saltando del jumper</string>
+  <string name="action_platform_note_step_3_else_broadcast_message_game_over">paso 3: sino difundir el mensaje \"fin de partida\"</string>
+  <string name="action_platform_note_step_1_create_a_new_variable_level">paso 1: crear una nueva variable de nivel</string>
+  <string name="action_platform_note_step_2_add_a_forever_loop_and_an_ifcondition">paso 2: agregar un bucle \"para siempre\" y una condición \"if\"</string>
+  <string name="action_platform_note_step_3_if_the_score_reaches_a_certain_amount_like_200_400_600_800_or_1000_show_this_object_for_1_second">paso 3: Si la puntuación llega a una cierta cantidad como 200, 400, 600, 800 o 1000 mostrar este objeto durante 1 segundo</string>
+  <string name="action_platform_note_step_4_change_variable_level_by_1_and_repeat">paso 4: cambiar variable nivel 1 y repitir</string>
   <!-- Action Shooter Strings -->
   <string name="action_shooter_project_variable_timer">temporizador</string>
   <string name="action_shooter_project_variable_score">puntuación</string>
@@ -408,10 +423,9 @@
   <string name="action_shooter_look_button_play">botón jugar</string>
   <string name="action_shooter_sprite_button_instruction">botón instrucción</string>
   <string name="action_shooter_look_button_instruction">botón instrucción</string>
-  <string name="action_shooter_scene_game_instruction__add_a_new_instruction">Instrucciones del juego - agregue una
-    nueva instrucción</string>
+  <string name="action_shooter_scene_game_instruction__add_a_new_instruction">Instrucciones del juego - agregue una nueva instrucción</string>
   <string name="action_shooter_look_game">juego</string>
-  <string name="action_shooter_sprite_game_instruction__add_your_own">instrucciones del juego: Agrega tus instrucciones</string>
+  <string name="action_shooter_sprite_game_instruction__add_your_own">instrucciones del juego - Agrega tus instrucciones</string>
   <string name="action_shooter_look_example_question">ejemplo de pregunta</string>
   <string name="action_shooter_look_template_question">Plantilla de Pregunta</string>
   <string name="action_shooter_sprite_button_back">button back</string>
@@ -487,6 +501,21 @@
   <string name="action_shooter_look_button_play_again">botón Jugar de Nuevo</string>
   <string name="action_shooter_sprite_score_display">pantalla de puntuación</string>
   <string name="action_shooter_look_score_display">pantalla de puntuación</string>
+  <string name="action_shooter_project_variable_ship_position_x">posición x de la nave</string>
+  <string name="action_shooter_broadcast_message_title">título</string>
+  <string name="action_shooter_broadcast_message_instruction">instrucción</string>
+  <string name="action_shooter_broadcast_message_start">inicio</string>
+  <string name="action_shooter_note_sets_the_timer_and_the_score_and_places_it">establece el temporizador y la puntuación y la posicionalo</string>
+  <string name="action_shooter_note_todo_you_can_change_the_timer_to_another_value">ToDo: Puede cambiar el reloj a otro valor</string>
+  <string name="action_shooter_note_todo_change_the_second_number_according_to_the_amount_of_asteroids_looks">ToDo: Cambia el segundo número según la cantidad de apariencias de asteroides que se veran</string>
+  <string name="action_shooter_note_extra_task_speed_up_after_a_certain_amount_of_time_and_show_the_level_up_object.">Tarea extra: acelerar después de una cierta cantidad de tiempo y mostrar el nivel de objeto.</string>
+  <string name="action_shooter_note_extra_task_speed_up_after_a_certain_amount_of_time_and_show_level_up_object">Tarea extra: acelerar después de una cierta cantidad de tiempo y mostrar el nivel de objeto</string>
+  <string name="action_shooter_note_movement_of_the_ship">movimiento de la nave</string>
+  <string name="action_shooter_note_step_1_create_a_new_variable_level">paso 1: crear una nueva variable de nivel</string>
+  <string name="action_shooter_note_step_2_add_a_forever_loop_and_a_ifclause">paso 2: agregar un bucle \"para siempre\" y una condición \"if\"</string>
+  <string name="action_shooter_note_step_3_if_timer_reaches_a_certain_amount_of_time_show_this_object_for_one_second">paso 3: Si el temporizador llega a un cierta cantidad de tiempo mostrar este objeto por un segundo</string>
+  <string name="action_shooter_note_step_5_speed_up_the_asteroids_if_the_level_raises">paso 5: acelerar la velocidad de los asteroides si el nivel aumenta</string>
+  <string name="action_shooter_note_step_6_add_additional_levels">paso 6: Añadir niveles adicionales</string>
   <!-- Interactive Book Strings -->
   <string name="interactive_book_scene_cover_page">Portada</string>
   <string name="interactive_book_sprite_background">Fondo</string>
@@ -649,7 +678,7 @@
   <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_x_to_the_variable_acceleration_and_multiply_with_1000">paso 5: Añadir un nuevo bloque para establecer la velocidad de X a la variable aceleración y multiplicar con 1000</string>
   <!-- Lego EV3 Strings -->
   <string name="lego_ev3_project_variable_move">mover</string>
-  <string name="lego_ev3_project_variable_detecded">detectado</string>
+  <string name="lego_ev3_project_variable_detected">detectado</string>
   <string name="lego_ev3_scene_start">Empezar</string>
   <string name="lego_ev3_sprite_background">Fondo</string>
   <string name="lego_ev3_look_title">título</string>
@@ -745,7 +774,7 @@
   <string name="lego_ev3_look_button_play_again">botón Jugar de Nuevo</string>
   <!-- Lego NXT Strings -->
   <string name="lego_nxt_project_variable_move">mover</string>
-  <string name="lego_nxt_project_variable_detecded">detectado</string>
+  <string name="lego_nxt_project_variable_detected">detectado</string>
   <string name="lego_nxt_scene_start">Empezar</string>
   <string name="lego_nxt_sprite_background">Fondo</string>
   <string name="lego_nxt_look_title">título</string>

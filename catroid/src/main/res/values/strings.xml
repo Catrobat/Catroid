@@ -1601,4 +1601,7 @@
     <string name="crash_dialog_always_send">Always send</string>
     <string name="crash_dialog_send">Send</string>
     <!--  -->
+
+    <!-- Accessibility -->
+
 </resources>

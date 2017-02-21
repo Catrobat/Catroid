@@ -1365,4 +1365,55 @@
   <string name="crash_dialog_always_send">Enviar siempre</string>
   <string name="crash_dialog_send">Enviar</string>
   <!--  -->
+
+  <!-- Acessibility -->
+  <string name="preference_title_access">Accesibilidad</string>
+  <string name="preference_description_access">Elije un perfil y configura los ajustes personales para el Pocket-Coded-UI</string>
+  <string name="preference_access_title_activity_access">Preferencias de accesibilidad</string>
+  <string name="preference_access_profiles">Perfiles</string>
+  <string name="preference_access_predefined_profiles">Perfiles predefinidos</string>
+  <string name="preference_access_active_profile">Perfil activo</string>
+  <string name="preference_access_selected_profile">Perfil seleccionado</string>
+  <string name="preference_access_change_profile">Cambiar a perfiles predefinidos</string>
+  <string name="preference_access_apply_profile">Aplicar este perfil</string>
+  <string name="preference_access_settings">Configuración</string>
+  <string name="preference_access_title_large_text">Texto grande</string>
+  <string name="preference_access_summary_large_text">La opción \"texto grande\" aumenta el tamaño del texto.</string>
+  <string name="preference_access_choose_fontface">Elegir un tipo de letra</string>
+  <string name="preference_access_title_fontface">Tipo de letra</string>
+  <string name="preference_access_summary_fontface">\"Tipo de letra\" te permite elegir el estilo de letra que tu prefieras.</string>
+  <string name="preference_access_title_fontface_standard">Estándar</string>
+  <string name="preference_access_title_fontface_serif">Serif</string>
+  <string name="preference_access_title_fontface_dyslexic">Disléxico</string>
+  <string name="preference_access_title_high_contrast">Alto contraste</string>
+  <string name="preference_access_summary_high_contrast">Aumenta el contraste y hace más fácil leer el texto sobre los bloques.</string>
+  <string name="preference_access_title_additional_icons">Iconos adicionales</string>
+  <string name="preference_access_summary_additional_icons">Añade iconos a categorías y bloques para mejorar el reconocimiento.</string>
+  <string name="preference_access_title_large_icons">Iconos grandes</string>
+  <string name="preference_access_summary_large_icons">Aumenta el tamaño de los iconos.</string>
+  <string name="preference_access_title_high_contrast_icons">Contraste del icono</string>
+  <string name="preference_access_summary_high_contrast_icons">Cambia los iconos del bloque a iconos de alto contraste.        </string>
+  <string name="preference_access_title_largeelementspacing">Elemento de espaciado grande</string>
+  <string name="preference_access_summary_largeelementspacing">La separación del elemento grande aumenta el espacio entre los elementos táctiles.</string>
+  <string name="preference_access_title_starter_bricks">Bloques de iniciación</string>
+  <string name="preference_access_summary_starter_bricks">Muestra sólo los bloques de iniciación para facilitar el aprendizaje.</string>
+  <string name="preference_access_title_dragndrop_delay">Retraso de \"Arrastrar y soltar\"</string>
+  <string name="preference_access_summary_dragndrop_delay">Añadir retraso al \"Arrastrar y soltar\" de los bloques.</string>
+  <string name="preference_access_title_profile_standard">Estándar</string>
+  <string name="preference_access_summary_profile_standard">La configuración estándar</string>
+  <string name="preference_access_title_profile_myprofile">Mi Perfil</string>
+  <string name="preference_access_summary_profile_myprofile">Mi configuración personal</string>
+  <string name="preference_access_title_profile_1">Argus</string>
+  <string name="preference_access_summary_profile_1">Mejora visual: alto contraste, iconos adicionales</string>
+  <string name="preference_access_title_profile_2">Odin</string>
+  <string name="preference_access_summary_profile_2">Mejora visual: texto grande, iconos grandes, elemento de espaciado grande, alto contraste</string>
+  <string name="preference_access_title_profile_3">Fenrir</string>
+  <string name="preference_access_summary_profile_3">Mejora de entrada: espacio elemento grande, retraso de \"Arrastrar y soltar\"</string>
+  <string name="preference_access_title_profile_4">Tiro</string>
+  <string name="preference_access_summary_profile_4">Aprendizaje: bloques de arranque</string>
+  <string name="preference_access_title_created_profile">Perfil creado</string>
+  <string name="preference_access_summary_created_profile">¡Has creado un nuevo perfil! Los cambios que realices puedes encontrarlos en \'Mi perfil\'</string>
+  <string name="preference_access_title_restart">Perfil aplicado</string>
+  <string name="preference_access_summary_restart">Pocket Code se va a reiniciar para aplicar los cambios que hiciste.</string>
+  <!--  -->
 </resources>
