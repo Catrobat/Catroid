@@ -90,12 +90,13 @@ public class ShowTextBrick extends UserVariableBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_show_variable_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
-				break;
-
 			case R.id.brick_show_variable_edit_text_y:
 				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
+				break;
+
+			case R.id.brick_show_variable_edit_text_x:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
 				break;
 		}
 	}
