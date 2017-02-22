@@ -425,13 +425,11 @@ public class ProjectActivity extends BaseActivity {
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCENES:
 				ProjectManager.getInstance().setSceneToPlay(currentProject.getDefaultScene());
-				ProjectManager.getInstance().setStartScene(currentProject.getDefaultScene());
 				startPreStageActivity();
 				break;
 			case FRAGMENT_SPRITES:
 				if (currentScene.getName().equals(currentProject.getDefaultScene().getName())) {
 					ProjectManager.getInstance().setSceneToPlay(currentScene);
-					ProjectManager.getInstance().setStartScene(currentScene);
 					startPreStageActivity();
 					return;
 				}

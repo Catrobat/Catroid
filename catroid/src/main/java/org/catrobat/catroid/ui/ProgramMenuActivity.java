@@ -220,7 +220,6 @@ public class ProgramMenuActivity extends BaseActivity {
 
 		if (currentScene.getName().equals(currentProject.getDefaultScene().getName())) {
 			ProjectManager.getInstance().setSceneToPlay(currentScene);
-			ProjectManager.getInstance().setStartScene(currentScene);
 			startPreStageActivity();
 			return;
 		}
