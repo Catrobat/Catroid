@@ -103,8 +103,7 @@
         android:gravity="center|bottom"
         android:clickable="true"
         android:focusable="true"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/cast_text"
@@ -116,8 +115,8 @@
 
         <Button
             android:id="@+id/cast_introduction_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="80dp"
             android:text="@string/ok"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
