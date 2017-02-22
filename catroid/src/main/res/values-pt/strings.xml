@@ -298,12 +298,12 @@
   <!-- Project activity view -->
   <string name="project_name">Programa:</string>
   <string name="my_projects_activity_title">Programas</string>
-  <string name="number_of_objects">Objects:</string>
+  <string name="number_of_objects">Objects: %1$d</string>
   <string name="start_scene_name">%1$s (First Scene)</string>
-  <string name="number_of_scripts">Scripts:</string>
-  <string name="number_of_bricks">Bricks:</string>
-  <string name="number_of_looks">Aparências:</string>
-  <string name="number_of_sounds">Sons:</string>
+  <string name="number_of_scripts">Scripts: %1$d</string>
+  <string name="number_of_bricks">Bricks: %1$d</string>
+  <string name="number_of_looks">Aparências: %1$d</string>
+  <string name="number_of_sounds">Sons: %1$d</string>
   <string name="show_details">Show details</string>
   <string name="hide_details">Hide details</string>
   <string name="insert_below">Insert below</string>

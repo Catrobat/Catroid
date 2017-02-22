@@ -131,6 +131,35 @@ public class SpriteTest extends AndroidTestCase {
 
 		assertEquals("Wrong script list size", 1, sprite.getNumberOfScripts());
 		assertEquals("Wrong script remained", secondScript, sprite.getScript(0));
+		assertEquals("Wrong number of Bricks and Scripts", 1, sprite.getNumberOfBricksAndScripts());
+	}
+
+	public void testAddScriptCorrectTotalNumber() {
+		Sprite sprite = new SingleSprite("new SingleSprite");
+		Script firstScript = new StartScript();
+		Script secondScript = new StartScript();
+
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+
+		assertEquals("Wrong number of Scripts", 2, sprite.getNumberOfBricksAndScripts());
+		sprite.removeAllScripts();
+		assertEquals("Wrong number of Bricks and Scripts", 0, sprite.getNumberOfBricksAndScripts());
+	}
+
+	public void testRemoveBrickOfCorrectTotalNumber() {
+		Sprite sprite = new SingleSprite("new SingleSprite");
+		Script firstScript = new StartScript();
+		Script secondScript = new StartScript();
+		UserBrick outerUserBrick = new UserBrick(new UserScriptDefinitionBrick());
+
+		firstScript.addBrick(outerUserBrick);
+		firstScript.removeBrick(outerUserBrick);
+		secondScript.addBrick(outerUserBrick);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+
+		assertEquals("Wrong number of Bricks and Scripts", 3, sprite.getNumberOfBricksAndScripts());
 	}
 
 	public void testGetScriptIndex() {

@@ -266,12 +266,12 @@
   <!-- Project activity view -->
   <string name="project_name">プログラム：</string>
   <string name="my_projects_activity_title">プログラム</string>
-  <string name="number_of_objects">オブジェクト:</string>
+  <string name="number_of_objects">オブジェクト: %1$d</string>
   <string name="start_scene_name">%1$s (最初のシーン)</string>
-  <string name="number_of_scripts">スクリプト：</string>
-  <string name="number_of_bricks">ブロック：</string>
-  <string name="number_of_looks">外見：</string>
-  <string name="number_of_sounds">サウンド：</string>
+  <string name="number_of_scripts">スクリプト： %1$d</string>
+  <string name="number_of_bricks">ブロック： %1$d</string>
+  <string name="number_of_looks">外見： %1$d</string>
+  <string name="number_of_sounds">サウンド： %1$d</string>
   <string name="show_details">詳細を表示</string>
   <string name="hide_details">詳細を隠す</string>
   <string name="insert_below">下に挿入</string>

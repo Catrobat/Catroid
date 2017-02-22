@@ -128,7 +128,7 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 			resetNonGroupViews(holder);
 
 			int childrenCount = getChildrenCountOfGroup(groupPosition);
-			holder.scripts.setText(context.getResources().getString(R.string.number_of_objects).concat(" ").concat(Integer.toString(childrenCount)));
+			holder.scripts.setText(context.getResources().getString(R.string.number_of_objects, childrenCount));
 
 			setGroupSpriteExpandedState(groupPosition, isExpanded);
 		} else {
@@ -446,14 +446,13 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 		holder.text.setText(sprite.getName());
 		setImage(holder, sprite);
 
-		holder.scripts.setText(context.getResources().getString(R.string.number_of_scripts).concat(" ").concat(Integer.toString(sprite.getNumberOfScripts())));
+		holder.scripts.setText(context.getResources().getString(R.string.number_of_scripts, sprite.getNumberOfScripts()));
 
-		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks).concat(" ").concat(Integer
-				.toString(sprite.getNumberOfBricks())));
+		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks, sprite.getNumberOfBricksAndScripts()));
 
-		holder.looks.setText(context.getResources().getString(R.string.number_of_looks).concat(" ").concat(Integer.toString(sprite.getLookDataList().size())));
+		holder.looks.setText(context.getResources().getString(R.string.number_of_looks, sprite.getLookDataList().size()));
 
-		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds).concat(" ").concat(Integer.toString(sprite.getSoundList().size())));
+		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds, sprite.getSoundList().size()));
 
 		setDetailsVisibility(holder);
 	}

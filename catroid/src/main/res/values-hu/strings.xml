@@ -300,12 +300,12 @@
   <!-- Project activity view -->
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programok</string>
-  <string name="number_of_objects">Objects:</string>
+  <string name="number_of_objects">Objects: %1$d</string>
   <string name="start_scene_name">%1$s (First Scene)</string>
-  <string name="number_of_scripts">Szkriptek:</string>
-  <string name="number_of_bricks">Építőelemek:</string>
-  <string name="number_of_looks">Kinézet:</string>
-  <string name="number_of_sounds">Hangok:</string>
+  <string name="number_of_scripts">Szkriptek: %1$d</string>
+  <string name="number_of_bricks">Építőelemek: %1$d</string>
+  <string name="number_of_looks">Kinézet: %1$d</string>
+  <string name="number_of_sounds">Hangok: %1$d</string>
   <string name="show_details">Show details</string>
   <string name="hide_details">Hide details</string>
   <string name="insert_below">Insert below</string>

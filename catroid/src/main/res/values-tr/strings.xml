@@ -298,12 +298,12 @@
   <!-- Project activity view -->
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programlar</string>
-  <string name="number_of_objects">Objects:</string>
+  <string name="number_of_objects">Objects: %1$d</string>
   <string name="start_scene_name">%1$s (First Scene)</string>
-  <string name="number_of_scripts">Komut dosyaları:</string>
-  <string name="number_of_bricks">Tuğlalar:</string>
-  <string name="number_of_looks">Görünüş:</string>
-  <string name="number_of_sounds">Sesler:</string>
+  <string name="number_of_scripts">Komut dosyaları: %1$d</string>
+  <string name="number_of_bricks">Tuğlalar: %1$d</string>
+  <string name="number_of_looks">Görünüş: %1$d</string>
+  <string name="number_of_sounds">Sesler: %1$d</string>
   <string name="show_details">Show details</string>
   <string name="hide_details">Hide details</string>
   <string name="insert_below">Insert below</string>
