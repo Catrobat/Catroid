@@ -168,6 +168,7 @@ public final class Constants {
 			+ ".downloadStatePref";
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
+	public static final String SCRATCH_IMAGE_BASE_URL = "https://uploads.scratch.mit.edu/projects/thumbnails/";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
 	public static final String SCRATCH_CONVERTER_WEB_SOCKET = "ws://" + SCRATCH_CONVERTER_HOST + "/convertersocket";
 	public static final String SCRATCH_CONVERTER_BASE_URL = "http://" + SCRATCH_CONVERTER_HOST + "/";
@@ -178,8 +179,8 @@ public final class Constants {
 	public static final int SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_DAY = 9;
 	public static final int SCRATCH_HTTP_REQUEST_MIN_TIMEOUT = 1_000; // in ms
 	public static final int SCRATCH_HTTP_REQUEST_MAX_NUM_OF_RETRIES = 2;
-	public static final int SCRATCH_IMAGE_DEFAULT_WIDTH = 150;
-	public static final int SCRATCH_IMAGE_DEFAULT_HEIGHT = 150;
+	public static final int SCRATCH_IMAGE_DEFAULT_WIDTH = 480;
+	public static final int SCRATCH_IMAGE_DEFAULT_HEIGHT = 360;
 	public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
