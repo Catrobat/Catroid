@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.matchers;
+package org.catrobat.catroid.uiespresso.util.matchers;
 
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
