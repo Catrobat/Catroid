@@ -39,13 +39,7 @@ public class ArduinoListener implements IFirmata.Listener {
 
 	private static final String TAG = ArduinoListener.class.getSimpleName();
 
-	private int analogPin0 = 0;
-	private int analogPin1 = 0;
-	private int analogPin2 = 0;
-	private int analogPin3 = 0;
-	private int analogPin4 = 0;
-	private int analogPin5 = 0;
-
+	private int[] analogPinValue = new int[ArduinoImpl.NUMBER_OF_ANALOG_PINS];
 	private int[] portValue = new int[ArduinoImpl.NUMBER_OF_DIGITAL_PORTS];
 
 	@Override
@@ -56,26 +50,7 @@ public class ArduinoListener implements IFirmata.Listener {
 
 		Log.d(TAG, String.format("Received Analog Message: %d | Value: %d", message.getPin(), message.getValue()));
 
-		switch (message.getPin()) {
-			case ArduinoImpl.PIN_ANALOG_0:
-				analogPin0 = message.getValue();
-				break;
-			case ArduinoImpl.PIN_ANALOG_1:
-				analogPin1 = message.getValue();
-				break;
-			case ArduinoImpl.PIN_ANALOG_2:
-				analogPin2 = message.getValue();
-				break;
-			case ArduinoImpl.PIN_ANALOG_3:
-				analogPin3 = message.getValue();
-				break;
-			case ArduinoImpl.PIN_ANALOG_4:
-				analogPin4 = message.getValue();
-				break;
-			case ArduinoImpl.PIN_ANALOG_5:
-				analogPin5 = message.getValue();
-				break;
-		}
+		analogPinValue[message.getPin()] = message.getValue();
 	}
 
 	@Override
@@ -126,32 +101,15 @@ public class ArduinoListener implements IFirmata.Listener {
 		//Log.d(TAG, "Unkown Byte received. Byte value: " + byteValue);
 	}
 
-	public int getAnalogPin0() {
-		return analogPin0;
-	}
-
-	public int getAnalogPin1() {
-		return analogPin1;
-	}
-
-	public int getAnalogPin2() {
-		return analogPin2;
-	}
-
-	public int getAnalogPin3() {
-		return analogPin3;
-	}
-
-	public int getAnalogPin4() {
-		return analogPin4;
-	}
-
-	public int getAnalogPin5() {
-		return analogPin5;
+	public int getAnalogPinValue(int pin) {
+		if (ArduinoImpl.isValidAnalogPin(pin)) {
+			return analogPinValue[pin];
+		}
+		return 0;
 	}
 
 	public int getDigitalPinValue(int pin) {
-		if (ArduinoImpl.isValidPin(pin)) {
+		if (ArduinoImpl.isValidDigitalPin(pin)) {
 			int port = ArduinoImpl.getPortFromPin(pin);
 			int index = ArduinoImpl.getIndexOfPinOnPort(pin);
 			return Utils.getBit(portValue[port], index);
@@ -160,7 +118,7 @@ public class ArduinoListener implements IFirmata.Listener {
 	}
 
 	public void setDigitalPinValue(int pin, int value) {
-		if (ArduinoImpl.isValidPin(pin)) {
+		if (ArduinoImpl.isValidDigitalPin(pin)) {
 			int port = ArduinoImpl.getPortFromPin(pin);
 			int index = ArduinoImpl.getIndexOfPinOnPort(pin);
 			this.portValue[port] = Utils.setBit(portValue[port], index, value);
