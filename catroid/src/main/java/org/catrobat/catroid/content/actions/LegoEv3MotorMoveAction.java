@@ -37,30 +37,39 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class LegoEv3MotorMoveAction extends TemporalAction {
-	private static final int MIN_SPEED = -100;
-	private static final int MAX_SPEED = 100;
+	private static final int MIN_POWER = -100;
+	private static final int MAX_POWER = 100;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
 	private Motor motorEnum;
-	private Formula speed;
+	private Formula power;
+	private Formula period;
 	private Sprite sprite;
 
 	@Override
 	protected void update(float percent) {
-		int speedValue;
+		int powerValue;
+		float periodValue;
 
 		try {
-			speedValue = speed.interpretInteger(sprite);
+			powerValue = power.interpretInteger(sprite);
 		} catch (InterpretationException interpretationException) {
-			speedValue = 0;
+			powerValue = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
-		if (speedValue < MIN_SPEED) {
-			speedValue = MIN_SPEED;
-		} else if (speedValue > MAX_SPEED) {
-			speedValue = MAX_SPEED;
+		if (powerValue < MIN_POWER) {
+			powerValue = MIN_POWER;
+		} else if (powerValue > MAX_POWER) {
+			powerValue = MAX_POWER;
+		}
+
+		try {
+			periodValue = period.interpretFloat(sprite);
+		} catch (InterpretationException interpretationException) {
+			periodValue = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
 		LegoEV3 ev3 = btService.getDevice(BluetoothDevice.LEGO_EV3);
@@ -88,15 +97,21 @@ public class LegoEv3MotorMoveAction extends TemporalAction {
 				break;
 		}
 
-		ev3.moveMotorSpeed(outputField, 0, speedValue);
+		int periodValueInMs = (int) (periodValue * 1000);
+
+		ev3.moveMotorTime(outputField, 0, powerValue, 0, periodValueInMs, 0, true);
 	}
 
 	public void setMotorEnum(Motor motorEnum) {
 		this.motorEnum = motorEnum;
 	}
 
-	public void setSpeed(Formula speed) {
-		this.speed = speed;
+	public void setPower(Formula power) {
+		this.power = power;
+	}
+
+	public void setPeriod(Formula period) {
+		this.period = period;
 	}
 
 	public void setSprite(Sprite sprite) {

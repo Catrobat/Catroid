@@ -1412,7 +1412,7 @@ public final class Utils {
 	}
 
 	public static String getStringResourceName(String key, String value) {
-		return removeInvalidCharacters(key.concat(value)).toLowerCase(Locale.US);
+		return removeInvalidCharacters(key + value).toLowerCase(Locale.US);
 	}
 
 	private static String removeInvalidCharacters(String string) {

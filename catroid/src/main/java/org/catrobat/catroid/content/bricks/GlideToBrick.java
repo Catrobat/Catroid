@@ -176,7 +176,6 @@ public class GlideToBrick extends FormulaBrick {
 				break;
 
 			case R.id.brick_glide_to_edit_text_duration:
-			default:
 				FormulaEditorFragment.showFragment(view, this, BrickField.DURATION_IN_SECONDS);
 				break;
 		}
