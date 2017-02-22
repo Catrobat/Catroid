@@ -195,14 +195,18 @@ def copyScreenshotAsIcon() {
 
             println "Found automatic screenshot: " + it.getPath()
         } else if (it.getName().equals("manual_screenshot.png")) {
-            screenshot = it
-
-            println "Found manual screenshot: " + it.getPath()
+            def bytes = it.getBytes()[0..7]
+            def pngMagicNumber = [-119, 80, 78, 71, 13, 10, 26, 10]
+            if (bytes == pngMagicNumber) {
+                screenshot = it
+                println "Found valid manual screenshot: " + it.getPath()
+            }
         }
     }
 
     if (screenshot == null && !automaticScreenshots.isEmpty() && automaticScreenshots.get(0).exists()) {
         screenshot = automaticScreenshots.get(0)
+        println "Picking automatic screenshot: " + screenshot.getPath()
     }
 
     if (screenshot != null && screenshot.exists()) {
