@@ -120,13 +120,12 @@ public class PlaceAtBrick extends FormulaBrick {
 
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_place_at_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
+			case R.id.brick_place_at_edit_text_x:
+				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
 				break;
 
-			case R.id.brick_place_at_edit_text_x:
-			default:
-				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
+			case R.id.brick_place_at_edit_text_y:
+				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
 				break;
 		}
 	}
