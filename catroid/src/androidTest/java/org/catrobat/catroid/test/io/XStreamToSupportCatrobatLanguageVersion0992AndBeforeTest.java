@@ -32,7 +32,7 @@ import org.catrobat.catroid.utils.UtilZip;
 
 import java.util.Locale;
 
-public class BackwardCompatibleCatrobatLanguageXStreamTest extends InstrumentationTestCase {
+public class XStreamToSupportCatrobatLanguageVersion0992AndBeforeTest extends InstrumentationTestCase {
 
 	private static final String ZIP_FILENAME_FALLING_BALLS = "Falling_balls.catrobat";
 	private static final String ZIP_FILENAME_COLOR_LEANER_BALLOONS = "Color_Learner_-_Balloons.catrobat";

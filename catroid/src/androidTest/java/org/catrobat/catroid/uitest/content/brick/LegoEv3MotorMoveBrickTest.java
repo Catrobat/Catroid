@@ -42,8 +42,10 @@ import java.util.ArrayList;
 
 public class LegoEv3MotorMoveBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-	private static final int INITIAL_SPEED = -70;
-	private static final int SET_SPEED = 25;
+	private static final int INITIAL_POWER = -70;
+	private static final int SET_POWER = 25;
+	private static final double INITIAL_DURATION = 1.7;
+	private static final double SET_DURATION = 0.2;
 
 	private Project project;
 	private LegoEv3MotorMoveBrick motorBrick;
@@ -77,14 +79,19 @@ public class LegoEv3MotorMoveBrickTest extends BaseActivityInstrumentationTestCa
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.ev3_motor_move)));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_motor_speed_to)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.ev3_motor_power_to)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.ev3_motor_move_for_period)));
 
 		String[] motors = getActivity().getResources().getStringArray(R.array.ev3_motor_chooser);
 		assertTrue("Spinner items list too short!", motors.length == 5);
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.ev3_motor_move_speed_edit_text, SET_SPEED, Brick.BrickField.LEGO_EV3_SPEED,
+				R.id.ev3_motor_move_power_edit_text, SET_POWER, Brick.BrickField.LEGO_EV3_POWER,
 				motorBrick);
+
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.ev3_motor_move_period_edit_text, SET_DURATION,
+				Brick.BrickField.LEGO_EV3_PERIOD_IN_SECONDS, motorBrick);
 	}
 
 	private void createProject() {
@@ -93,7 +100,7 @@ public class LegoEv3MotorMoveBrickTest extends BaseActivityInstrumentationTestCa
 		Script script = new StartScript();
 
 		motorBrick = new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A,
-				INITIAL_SPEED);
+				INITIAL_POWER, (float) INITIAL_DURATION);
 
 		script.addBrick(motorBrick);
 

@@ -49,8 +49,8 @@
 
         <ImageView
             android:id="@+id/dialog_upload_progress_success_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/dialog_upload_progess_message"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />

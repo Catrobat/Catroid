@@ -140,6 +140,14 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
 
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
+		} else {
+			motorSpinner.setClickable(false);
+			motorSpinner.setEnabled(false);
+		}
+
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 

@@ -378,11 +378,12 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createLegoEv3SingleMotorMoveAction(Sprite sprite,
-			LegoEv3MotorMoveBrick.Motor motorEnum, Formula speed) {
+			LegoEv3MotorMoveBrick.Motor motorEnum, Formula power, Formula period) {
 		LegoEv3MotorMoveAction action = action(LegoEv3MotorMoveAction.class);
 		action.setSprite(sprite);
 		action.setMotorEnum(motorEnum);
-		action.setSpeed(speed);
+		action.setPower(power);
+		action.setPeriod(period);
 		return action;
 	}
 
