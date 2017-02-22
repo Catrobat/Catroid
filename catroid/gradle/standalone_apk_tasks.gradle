@@ -213,14 +213,6 @@ def copyScreenshotAsIcon() {
                 fileName.replace(screenshot.getName(), 'icon.png')
             }
         }
-
-        copy {
-            from screenshot.getPath();
-            into project.ext.resPath
-            rename { String fileName ->
-                fileName.replace(screenshot.getName(), 'splash_screen.png')
-            }
-        }
     }
 }
 
