@@ -71,13 +71,13 @@ public class NoteNameTest extends AndroidTestCase {
 	public void testIsSigned1() {
 		NoteName noteName = NoteName.C1;
 
-		assertFalse("Note not signed correctly", noteName.isBlackKey());
+		assertFalse("Note not signed correctly", noteName.isSigned());
 	}
 
 	public void testIsSigned2() {
 		NoteName noteName = NoteName.C1S;
 
-		assertTrue("Note not signed correctly", noteName.isBlackKey());
+		assertTrue("Note not signed correctly", noteName.isSigned());
 	}
 
 	public void testGetNoteNameFromMidiValue1() {
