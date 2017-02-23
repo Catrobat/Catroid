@@ -20,49 +20,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uiespresso;
+
+package org.catrobat.catroid.uiespresso.content.brick;
 
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uiespresso.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.testBrickTextFieldWithFormulaEditor;
 
 @RunWith(AndroidJUnit4.class)
-public class FormulaEditorTest {
-
+public class SetColorBrickTest {
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
-		UiTestUtils.createProject("formulaEditorInputTest");
+		BrickTestUtils.createProjectAndGetStartScript("setColorBrickTest1").addBrick(new SetColorBrick(0f));
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void numericValuesTest() {
-		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-
-		//typeText not working for formula editor, so use CustomActions.typeInValue
-		onView(withId(R.id.formula_editor_edit_field)).perform(CustomActions.typeInValue("12345,678"));
-
-		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
-	}
-
-	@After
-	public void tearDown() throws Exception {
+	public void setColorBrickTest() {
+		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
+		checkIfBrickAtPositionShowsString(1, R.string.brick_set_color);
+		testBrickTextFieldWithFormulaEditor(1, R.id.brick_set_color_edit_text, 1);
 	}
 }
