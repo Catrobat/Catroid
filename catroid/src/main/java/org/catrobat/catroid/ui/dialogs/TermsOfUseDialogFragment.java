@@ -59,7 +59,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 			isOnPreStageActivity = fragmentDialogArguments.getBoolean(DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT, false);
 		}
 
-		View view = View.inflate(getActivity(), R.layout.dialog_terms_of_use, null);
+		final View view = View.inflate(getActivity(), R.layout.dialog_terms_of_use, null);
 
 		TextView termsOfUseTextView = (TextView) view.findViewById(R.id.dialog_terms_of_use_text_view_info);
 		TextView termsOfUseUrlTextView = (TextView) view.findViewById(R.id.dialog_terms_of_use_text_view_url);
@@ -130,7 +130,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 					Log.e(DIALOG_FRAGMENT_TAG, "onShow() Activity was null!");
 					return;
 				}
-				TextSizeUtil.enlargeViewGroup((ViewGroup) termsOfUseDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) view.getRootView());
 			}
 		});
 

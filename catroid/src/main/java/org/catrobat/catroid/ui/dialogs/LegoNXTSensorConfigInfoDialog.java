@@ -48,7 +48,7 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_lego_nxt_sensor_config_info, null);
+		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_lego_nxt_sensor_config_info, null);
 
 		disableShowInfoDialog = (CheckBox) dialogView.findViewById(R.id
 				.lego_nxt_sensor_config_info_disable_show_dialog);
@@ -87,7 +87,7 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 					return;
 				}
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

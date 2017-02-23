@@ -66,7 +66,7 @@ public class NewLookDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = View.inflate(getActivity(), R.layout.dialog_new_look, null);
+		final View dialogView = View.inflate(getActivity(), R.layout.dialog_new_look, null);
 		setupPaintroidButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
@@ -87,7 +87,7 @@ public class NewLookDialog extends DialogFragment {
 					return;
 				}
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

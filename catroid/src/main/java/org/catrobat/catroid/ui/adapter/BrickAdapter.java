@@ -1065,7 +1065,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			@Override
 			public void onShow(final DialogInterface dialogInterface) {
-				TextSizeUtil.enlargeViewGroup((ViewGroup) alertDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) view.getRootView());
 			}
 		});
 

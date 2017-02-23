@@ -60,7 +60,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_login, null);
+		final View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_login, null);
 
 		usernameEditText = (EditText) rootView.findViewById(R.id.dialog_login_username);
 		passwordEditText = (EditText) rootView.findViewById(R.id.dialog_login_password);
@@ -117,7 +117,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 					}
 				});
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) loginDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) rootView.getRootView());
 			}
 		});
 

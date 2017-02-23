@@ -75,7 +75,7 @@ public class NewProjectDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_project, null);
+		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_project, null);
 
 		newProjectEditText = (EditText) dialogView.findViewById(R.id.project_name_edittext);
 
@@ -139,7 +139,7 @@ public class NewProjectDialog extends DialogFragment {
 					}
 				});
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) newProjectDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

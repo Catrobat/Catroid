@@ -104,7 +104,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_overwrite_media, null);
+		final View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_overwrite_media, null);
 
 		replaceButton = (RadioButton) dialogView.findViewById(R.id.dialog_overwrite_media_radio_replace);
 		replaceButton.setOnClickListener(this);
@@ -168,7 +168,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 					}
 				});
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

@@ -74,7 +74,7 @@ public class NewSceneDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_scene, null);
+		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_scene, null);
 
 		newSceneEditText = (EditText) dialogView.findViewById(R.id.scene_name_edittext);
 
@@ -119,7 +119,7 @@ public class NewSceneDialog extends DialogFragment {
 						handleOkButtonClick();
 					}
 				});
-				TextSizeUtil.enlargeViewGroup((ViewGroup) newSceneDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

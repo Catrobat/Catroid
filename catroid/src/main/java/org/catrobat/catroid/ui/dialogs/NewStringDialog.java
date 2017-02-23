@@ -96,7 +96,7 @@ public class NewStringDialog extends DialogFragment {
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(newStringEditText, InputMethodManager.SHOW_IMPLICIT);
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) newStringDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

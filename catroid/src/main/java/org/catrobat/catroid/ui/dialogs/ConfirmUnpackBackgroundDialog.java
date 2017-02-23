@@ -66,7 +66,7 @@ public class ConfirmUnpackBackgroundDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_unpack_background, null);
+		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_unpack_background, null);
 
 		final Dialog confirmUnpackBackgroundDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.unpack)
@@ -99,7 +99,7 @@ public class ConfirmUnpackBackgroundDialog extends DialogFragment {
 						handleOkButtonClick();
 					}
 				});
-				TextSizeUtil.enlargeViewGroup((ViewGroup) confirmUnpackBackgroundDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

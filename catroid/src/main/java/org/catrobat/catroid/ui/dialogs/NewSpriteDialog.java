@@ -157,7 +157,7 @@ public class NewSpriteDialog extends DialogFragment {
 						}
 					}
 				});
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 		dialog.setCanceledOnTouchOutside(true);

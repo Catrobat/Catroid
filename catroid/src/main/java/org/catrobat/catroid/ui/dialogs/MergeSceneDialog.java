@@ -67,7 +67,7 @@ public class MergeSceneDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_merge_scene, null);
+		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_merge_scene, null);
 
 		nameEditText = (EditText) dialogView.findViewById(R.id.scene_merge_name_edittext);
 		Spinner spinnerFirstScene = (Spinner) dialogView.findViewById(R.id.merge_scene_spinner_first);
@@ -164,7 +164,7 @@ public class MergeSceneDialog extends DialogFragment {
 						handleOkButtonClick();
 					}
 				});
-				TextSizeUtil.enlargeViewGroup((ViewGroup) mergeSceneDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 		return mergeSceneDialog;

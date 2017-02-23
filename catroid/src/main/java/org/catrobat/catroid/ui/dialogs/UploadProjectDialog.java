@@ -67,7 +67,7 @@ public class UploadProjectDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_upload_project, null);
+		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_upload_project, null);
 
 		tagDialog = new UploadProjectTagsDialog();
 		GetTagsTask task = new GetTagsTask(getActivity());
@@ -106,7 +106,7 @@ public class UploadProjectDialog extends DialogFragment {
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(projectUploadName, InputMethodManager.SHOW_IMPLICIT);
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

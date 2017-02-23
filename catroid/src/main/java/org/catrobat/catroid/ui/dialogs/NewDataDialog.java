@@ -127,7 +127,7 @@ public class NewDataDialog extends DialogFragment {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				handleOnShow(dialogNewData);
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogNewData.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 
