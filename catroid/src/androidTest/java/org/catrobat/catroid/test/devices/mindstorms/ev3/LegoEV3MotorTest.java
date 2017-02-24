@@ -59,8 +59,8 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		int inputSpeed = -70;
 		byte outputField = (byte) 0x01;
 
-		int expectedSpeed = (EV3CommandByte.EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & inputSpeed) |
-				EV3CommandByte.EV3CommandParamByteCode.PARAM_SHORT_SIGN_NEGATIVE.getByte();
+		int expectedSpeed = (EV3CommandByte.EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & inputSpeed)
+				| EV3CommandByte.EV3CommandParamByteCode.PARAM_SHORT_SIGN_NEGATIVE.getByte();
 
 		byte expectedOutputField = (byte) 0x01;
 
