@@ -976,7 +976,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 	public void showNewObjectGroupDialog() {
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
 		builder.setTitle(R.string.new_group);
-		View view = View.inflate(getActivity(), R.layout.new_group_dialog, null);
+		final View view = View.inflate(getActivity(), R.layout.new_group_dialog, null);
 		builder.setView(view);
 		final EditText groupNameEditText = (EditText) view.findViewById(R.id.new_group_dialog_group_name);
 		int currentNumberOfGroups = spriteAdapter.getNumberOfGroups();
@@ -1031,7 +1031,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialogInterface) {
-				TextSizeUtil.enlargeViewGroup((ViewGroup) alertDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) view.getRootView());
 			}
 		});
 
@@ -1042,7 +1042,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 	private void showNameForGroupAlreadyGivenDialog() {
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
 		builder.setTitle(R.string.new_group);
-		View view = View.inflate(getActivity(), R.layout.new_group_name_given_dialog, null);
+		final View view = View.inflate(getActivity(), R.layout.new_group_name_given_dialog, null);
 		builder.setView(view);
 
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -1060,7 +1060,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialogInterface) {
-				TextSizeUtil.enlargeViewGroup((ViewGroup) alertDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) view.getRootView());
 			}
 		});
 

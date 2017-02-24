@@ -71,7 +71,7 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
+		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
 
 		final Dialog orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.project_orientation_title)
@@ -100,7 +100,7 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 						handleOkButtonClick();
 					}
 				});
-				TextSizeUtil.enlargeViewGroup((ViewGroup) orientationDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);

@@ -134,7 +134,7 @@ public class UserBrickEditElementDialog extends DialogFragment {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				handleOnShow(dialogNewVariable);
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogNewVariable.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

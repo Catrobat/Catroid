@@ -59,7 +59,7 @@ public class UserBrickNameDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_userbrick_name, null);
+		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_userbrick_name, null);
 
 		newUserBrickEditText = (EditText) dialogView.findViewById(R.id.dialog_userbrick_name_edittext);
 
@@ -124,7 +124,7 @@ public class UserBrickNameDialog extends DialogFragment {
 					}
 				});
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) newUserBrickDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

@@ -884,7 +884,7 @@ public class ScriptActivity extends BaseActivity {
 
 	public void showEmptyActionModeDialog(String actionMode) {
 		@SuppressLint("InflateParams")
-		View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_action_mode_empty, null);
+		final View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_action_mode_empty, null);
 		TextView actionModeEmptyText = (TextView) dialogView.findViewById(R.id.dialog_action_mode_emtpy_text);
 
 		if (actionMode.equals(getString(R.string.backpack))) {
@@ -914,7 +914,7 @@ public class ScriptActivity extends BaseActivity {
 		actionModeEmptyDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
-				TextSizeUtil.enlargeViewGroup((ViewGroup) actionModeEmptyDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 	}

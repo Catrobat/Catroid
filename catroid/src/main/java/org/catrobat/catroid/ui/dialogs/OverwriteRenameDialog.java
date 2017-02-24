@@ -81,7 +81,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_overwrite_project, null);
+		final View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_overwrite_project, null);
 
 		replaceButton = (RadioButton) dialogView.findViewById(R.id.dialog_overwrite_project_radio_replace);
 		replaceButton.setOnClickListener(this);
@@ -119,7 +119,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 						handleOkButton();
 					}
 				});
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

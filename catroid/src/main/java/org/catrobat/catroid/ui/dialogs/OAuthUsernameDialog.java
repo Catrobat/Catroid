@@ -61,7 +61,7 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_sign_in_oauth_username, null);
+		final View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_sign_in_oauth_username, null);
 
 		usernameEditText = (EditText) rootView.findViewById(R.id.dialog_signin_oauth_username);
 		usernameEditText.setText("");
@@ -91,7 +91,7 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 					}
 				});
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) chooseUsernameDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) rootView.getRootView());
 			}
 		});
 

@@ -44,7 +44,7 @@ public class RatingDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_rate_pocketcode, null);
+		final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_rate_pocketcode, null);
 
 		final Dialog rateUsDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(getString(R.string.rating_dialog_title))
 				.setPositiveButton(R.string.rating_dialog_rate_now, new DialogInterface.OnClickListener() {
@@ -84,7 +84,7 @@ public class RatingDialog extends DialogFragment {
 					return;
 				}
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) rateUsDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) view.getRootView());
 			}
 		});
 

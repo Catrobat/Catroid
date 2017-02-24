@@ -44,7 +44,7 @@ public class AboutDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		View view = View.inflate(getActivity(), R.layout.dialog_about, null);
+		final View view = View.inflate(getActivity(), R.layout.dialog_about, null);
 
 		TextView aboutUrlTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_url);
 		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -83,7 +83,7 @@ public class AboutDialogFragment extends DialogFragment {
 					return;
 				}
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) aboutDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) view.getRootView());
 			}
 		});
 

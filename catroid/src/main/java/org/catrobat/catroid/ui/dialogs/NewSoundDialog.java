@@ -60,7 +60,7 @@ public class NewSoundDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity())
+		final View dialogView = LayoutInflater.from(getActivity())
 				.inflate(R.layout.dialog_new_sound, (ViewGroup) getView(), false);
 		setupRecordButton(dialogView);
 		setupGalleryButton(dialogView);
@@ -80,7 +80,7 @@ public class NewSoundDialog extends DialogFragment {
 					Log.e(TAG, "onShow() Activity was null!");
 					return;
 				}
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 		return dialog;

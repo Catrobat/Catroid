@@ -59,7 +59,7 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register, null);
+		final View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_register, null);
 
 		usernameEditText = (EditText) rootView.findViewById(R.id.dialog_register_username);
 		emailEditText = (EditText) rootView.findViewById(R.id.dialog_register_email);
@@ -111,7 +111,7 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 					}
 				});
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) registrationDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) rootView.getRootView());
 			}
 		});
 

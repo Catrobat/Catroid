@@ -107,7 +107,7 @@ public class SignInDialog extends DialogFragment implements
 			((ProjectActivity) getActivity()).setSignInDialog(this);
 		}
 
-		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_sign_in, null);
+		final View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_sign_in, null);
 		TextView termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
 
 		initializeGooglePlus();
@@ -133,7 +133,7 @@ public class SignInDialog extends DialogFragment implements
 					Log.e(DIALOG_FRAGMENT_TAG, "onShow() Activity was null!");
 					return;
 				}
-				TextSizeUtil.enlargeViewGroup((ViewGroup) signInDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) rootView.getRootView());
 			}
 		});
 

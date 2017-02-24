@@ -121,7 +121,7 @@ public class RenameVariableDialog extends DialogFragment {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				handleOnShow(dialogRenameVariable);
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogRenameVariable.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 

@@ -64,7 +64,7 @@ public class MergeNameDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_merge_name, null);
+		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_merge_name, null);
 
 		nameEditText = (EditText) dialogView.findViewById(R.id.project_name_edittext);
 
@@ -128,7 +128,7 @@ public class MergeNameDialog extends DialogFragment {
 					}
 				});
 
-				TextSizeUtil.enlargeViewGroup((ViewGroup) newProjectDialog.getWindow().getDecorView().getRootView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
 		return newProjectDialog;
