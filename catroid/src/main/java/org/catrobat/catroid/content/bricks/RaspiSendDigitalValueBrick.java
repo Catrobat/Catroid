@@ -132,12 +132,13 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_raspi_set_digital_pin_edit_text:
-				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_NUMBER);
-				break;
-
 			case R.id.brick_raspi_set_digital_value_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_VALUE);
+				break;
+
+			case R.id.brick_raspi_set_digital_pin_edit_text:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_NUMBER);
 				break;
 		}
 	}
