@@ -129,6 +129,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_NXT_FREQUENCY);
 				break;
 			case R.id.nxt_tone_duration_edit_text:
+			default:
 				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 				break;
 		}

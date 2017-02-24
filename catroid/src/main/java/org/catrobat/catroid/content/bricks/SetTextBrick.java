@@ -157,6 +157,7 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 				break;
 
 			case R.id.brick_set_text_edit_text:
+			default:
 				FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
 				break;
 		}
