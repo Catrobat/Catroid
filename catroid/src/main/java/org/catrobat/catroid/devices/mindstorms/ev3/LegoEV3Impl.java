@@ -202,24 +202,25 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 		}
 	}
 
-	public void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake) {
+	public void moveMotorSpeed(byte outputField, int chainLayer, int speed) {
 
-		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_TIME_POWER);
+		EV3Command setSpeedCommand = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_SPEED);
 		mindstormsConnection.incCommandCounter();
 
-		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
-		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, outputField);
+		setSpeedCommand.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+		setSpeedCommand.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, outputField);
+		setSpeedCommand.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, speed);
 
-		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, power);
+		EV3Command startMotorCommand = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType
+				.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_START);
+		mindstormsConnection.incCommandCounter();
 
-		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step1TimeInMs);
-		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step2TimeInMs);
-		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step3TimeInMs);
-
-		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, (brake ? 0x01 : 0x00));
+		startMotorCommand.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+		startMotorCommand.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, outputField);
 
 		try {
-			mindstormsConnection.send(command);
+			mindstormsConnection.send(setSpeedCommand);
+			mindstormsConnection.send(startMotorCommand);
 		} catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}

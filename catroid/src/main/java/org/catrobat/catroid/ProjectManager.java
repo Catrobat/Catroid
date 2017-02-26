@@ -84,6 +84,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Project project;
 	private Scene currentScene;
 	private Scene sceneToPlay;
+	private Scene startScene;
 	private Script currentScript;
 	private Sprite currentSprite;
 	private Sprite previousSprite;
@@ -387,6 +388,17 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void setSceneToPlay(Scene scene) {
 		sceneToPlay = scene;
+	}
+
+	public Scene getStartScene() {
+		if (startScene == null) {
+			startScene = getCurrentScene();
+		}
+		return startScene;
+	}
+
+	public void setStartScene(Scene scene) {
+		startScene = scene;
 	}
 
 	public Scene getCurrentScene() {
