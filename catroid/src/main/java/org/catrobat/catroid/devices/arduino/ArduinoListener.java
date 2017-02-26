@@ -46,7 +46,7 @@ public class ArduinoListener implements IFirmata.Listener {
 	private int analogPin4 = 0;
 	private int analogPin5 = 0;
 
-	private int[] portValue = new int[(ArduinoImpl.NUMBER_OF_DIGITAL_PINS + ArduinoImpl.PINS_IN_A_PORT - 1) / ArduinoImpl.PINS_IN_A_PORT];
+	private int[] portValue = new int[ArduinoImpl.NUMBER_OF_DIGITAL_PORTS];
 
 	@Override
 	public void onAnalogMessageReceived(AnalogMessage message) {
