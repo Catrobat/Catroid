@@ -855,7 +855,7 @@
   <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
   <string name="error_load_image_special_chars">Bild kann nicht geladen werden. Enthält der Dateiname Sonderzeichen (z. B. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Beim Laden des Klanges ist ein Fehler aufgetreten.</string>
-  <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
+  <string name="error_internet_connection">Keine Internetverbindung</string>
   <string name="error_no_internet">Bitte stelle eine Internetverbindung her.</string>
   <string name="error_project_compatability">Das Programm ist nicht mit dieser Version von Pocket Code kompatibel.</string>
   <string name="error_outdated_pocketcode_version">Die Pocket Code Version ist zu alt. Jetzt updaten?</string>

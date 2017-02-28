@@ -885,7 +885,7 @@
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">A avut loc o eroare la încărcarea sunetului.</string>
-  <string name="error_internet_connection">A avut loc o eroare necunoscută. Verificați conexiunea internet.</string>
+  <string name="error_internet_connection">Fără conexiune internet.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Programul nu este compatibil cu această versiune de Pocket Code.</string>
   <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>

@@ -868,7 +868,7 @@
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Ses yüklenirken bir hata oluştu.</string>
-  <string name="error_internet_connection">Bilinmeyen bir hata oluştu. Internet bağlantınızı kontrol edin.</string>
+  <string name="error_internet_connection">internet bağlantısı yok.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Bu program Cep Kodu\'nun bu sürümü ile uyumlu değil.</string>
   <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>

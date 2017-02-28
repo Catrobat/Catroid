@@ -834,7 +834,7 @@
   <string name="error_load_image">Se ha producido un error al subir la imagen.</string>
   <string name="error_load_image_special_chars">No se puede cargar la imagen. ¿El nombre de archivo contiene caracteres especiales (por ejemplo, $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Error al cargar el sonido.</string>
-  <string name="error_internet_connection">Se produjo un error desconocido. Compruebe su conexión a Internet.</string>
+  <string name="error_internet_connection">sin conexión a Internet</string>
   <string name="error_no_internet">Compruebe su conexión a Internet.</string>
   <string name="error_project_compatability">El programa no es compatible con esta versión de bolsillo código.</string>
   <string name="error_outdated_pocketcode_version">La versión de Pocket Code es demasiado antigua. ¿Desea actualizarla ahora?</string>

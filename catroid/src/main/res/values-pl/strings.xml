@@ -862,7 +862,7 @@
   <string name="error_load_image">Podczas ładowania obrazu wystąpił błąd.</string>
   <string name="error_load_image_special_chars">Nie można załadować obrazu. Czy nazwa pliku zawiera znaki specjalne (np. $, % &amp; ,&#8230;)? </string>
   <string name="error_load_sound">Podczas ładowania dźwięku wystąpił błąd.</string>
-  <string name="error_internet_connection">Wystąpił nieznany błąd. Sprawdź połączenie z Internetem.</string>
+  <string name="error_internet_connection">Brak połączenia z internetem.</string>
   <string name="error_no_internet">Sprawdź swoje połączenie internetowe.</string>
   <string name="error_project_compatability">Program nie jest zgodny z tą wersją Pocket Code.</string>
   <string name="error_outdated_pocketcode_version">Masz starą wersję Pocket Code. Zaktualizować teraz?</string>

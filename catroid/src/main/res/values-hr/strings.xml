@@ -894,7 +894,7 @@ su otpakovani!</item>
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Došlo je do pogreške tijekom učitavanja zvuka.</string>
-  <string name="error_internet_connection">Dogodila se nepoznata pogreška. Provjerite vezu s internetom.</string>
+  <string name="error_internet_connection">nema internet priključak.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Program nije kompatibilan s ovom verzijom Pocket Code-a.</string>
   <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>
