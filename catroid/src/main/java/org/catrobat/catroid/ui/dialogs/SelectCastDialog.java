@@ -67,13 +67,6 @@ public class SelectCastDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		if (CastManager.getInstance().currentlyConnecting() || CastManager.getInstance().isConnected()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			/*if (CastManager.getInstance().pausedViewEmpty()) {
-				builder.setMessage(activity.getString(R.string.cast_stop_casting_to) + " "
-						+ CastManager.getInstance().getSelectedDevice().getFriendlyName() + "?");
-			} else {
-				builder.setMessage(activity.getString(R.string.cast_ready_to_cast) + " "
-						+ CastManager.getInstance().getSelectedDevice().getFriendlyName());
-			}*/
 			builder.setMessage(activity.getString(R.string.cast_ready_to_cast) + " "
 					+ CastManager.getInstance().getSelectedDevice().getFriendlyName());
 			builder.setPositiveButton(R.string.disconnect, new DialogInterface.OnClickListener() {

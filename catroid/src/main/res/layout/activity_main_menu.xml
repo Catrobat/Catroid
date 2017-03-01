@@ -93,7 +93,7 @@
             android:text="@string/main_menu_upload" />
 
     </LinearLayout>
-
+    <!--Cast introduction screen-->
     <RelativeLayout
         android:id="@+id/cast_view"
         android:layout_width="match_parent"

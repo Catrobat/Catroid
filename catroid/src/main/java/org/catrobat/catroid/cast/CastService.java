@@ -67,7 +67,7 @@ public class CastService extends CastRemoteDisplayLocalService {
 			presentation.show();
 		} catch (Exception ex) {
 			ToastUtil.showError(getApplicationContext(), getString(R.string.cast_error_not_connected_msg));
-			//TODO When does this happen?
+			//When does this happen?
 			dismissPresentation();
 		}
 	}
