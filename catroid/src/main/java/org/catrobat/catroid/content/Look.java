@@ -373,8 +373,8 @@ public class Look extends Image {
 	}
 
 	private void flipLookDataIfNeeded(int mode) {
-		boolean orientedLeft = sprite.look.getDirectionInUserInterfaceDimensionUnit() < 0;
-		boolean differentModeButFlipped = mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && sprite.look.isFlipped();
+		boolean orientedLeft = getDirectionInUserInterfaceDimensionUnit() < 0;
+		boolean differentModeButFlipped = mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && isFlipped();
 		boolean facingLeftButNotFlipped = mode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft;
 		if (differentModeButFlipped || facingLeftButNotFlipped) {
 			getLookData().getTextureRegion().flip(true, false);
