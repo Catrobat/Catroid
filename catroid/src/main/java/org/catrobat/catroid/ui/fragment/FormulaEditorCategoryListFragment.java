@@ -53,6 +53,7 @@ import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorChooseSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
 import org.catrobat.catroid.utils.DividerUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -506,6 +507,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			public void onGlobalLayout() {
 				getListView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				DividerUtil.setDivider(getActivity(), getListView());
+				TextSizeUtil.enlargeViewGroup((ViewGroup) getView());
 			}
 		});
 		return view;

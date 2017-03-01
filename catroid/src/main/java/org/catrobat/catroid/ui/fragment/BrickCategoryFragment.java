@@ -41,6 +41,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +101,7 @@ public class BrickCategoryFragment extends ListFragment {
 			}
 		});
 		DividerUtil.setDivider(getActivity(), getListView());
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getView());
 	}
 
 	@Override
