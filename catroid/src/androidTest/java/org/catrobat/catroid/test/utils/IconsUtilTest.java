@@ -57,7 +57,7 @@ public final class IconsUtilTest extends AndroidTestCase {
 		assertNotNull("Control pos drawable not found.", correctDrawable);
 
 		Bitmap bitmap = ((BitmapDrawable) drawables[0]).getBitmap();
-		assertEquals("Icon size did not match the expected size.", IconsUtil.smallIconSize, drawables[0].getBounds());
+		assertEquals("Icon size did not match the expected size.", IconsUtil.smallIconSizeBricks, drawables[0].getBounds());
 		assertNotNull("No current bitmap.", bitmap);
 
 		Bitmap correctBitmap = ((BitmapDrawable) correctDrawable).getBitmap();
@@ -80,7 +80,7 @@ public final class IconsUtilTest extends AndroidTestCase {
 		assertNotNull("Control pos drawable not found.", correctDrawable);
 
 		Bitmap bitmap = ((BitmapDrawable) drawables[0]).getBitmap();
-		assertEquals("Icon size did not match the expected size.", IconsUtil.largeIconSize, drawables[0].getBounds());
+		assertEquals("Icon size did not match the expected size.", IconsUtil.largeIconSizeBricks, drawables[0].getBounds());
 		assertNotNull("No current bitmap.", bitmap);
 
 		Bitmap correctBitmap = ((BitmapDrawable) correctDrawable).getBitmap();
@@ -103,7 +103,7 @@ public final class IconsUtilTest extends AndroidTestCase {
 		assertNotNull("Control pos drawable not found.", correctDrawable);
 
 		Bitmap bitmap = ((BitmapDrawable) drawables[0]).getBitmap();
-		assertEquals("Icon size did not match the expected size.", IconsUtil.smallIconSize, drawables[0].getBounds());
+		assertEquals("Icon size did not match the expected size.", IconsUtil.smallIconSizeBricks, drawables[0].getBounds());
 		assertNotNull("No current bitmap.", bitmap);
 
 		Bitmap correctBitmap = ((BitmapDrawable) correctDrawable).getBitmap();
