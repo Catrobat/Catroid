@@ -1501,7 +1501,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		TextView emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_sound_text_heading);
 		TextView emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(
-				R.id.fragment_sound_text_description);
+				R.id.backpack_text_description);
 
 		// The Views are gone, we can still make assumptions about them
 		assertEquals("Empty View heading is not correct", solo.getString(R.string.sounds), emptyViewHeading.getText()

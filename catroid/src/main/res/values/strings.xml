@@ -493,11 +493,10 @@
 
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move Brick</string>
-    <string name="brick_context_dialog_show_source">Show Source Brick</string>
+    <string name="brick_context_dialog_edit_source">Edit Source Brick</string>
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
-    <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
     <string name="brick_context_dialog_comment_in">Enable Brick</string>
@@ -1441,11 +1440,16 @@
     <!-- -->
 
     <!-- User Bricks strings -->
+    <plurals name="brick_plural">
+        <item quantity="one">"brick"</item>
+        <item quantity="other">"bricks"</item>
+    </plurals>
     <string name="define">Define</string>
-    <string name="new_user_brick">New Brick</string>
+    <string name="new_user_brick">My Brick</string>
     <string name="new_user_brick_variable">Variable</string>
     <string name="new_user_brick_name">Please choose a brick name:</string>
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
+    <string name="user_brick_name_given">Brick name already given. Please choose another one.</string>
 
     <!-- Merge strings -->
     <string name="merge_button">Merge with</string>

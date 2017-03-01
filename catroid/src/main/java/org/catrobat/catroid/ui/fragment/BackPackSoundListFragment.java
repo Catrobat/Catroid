@@ -199,10 +199,31 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 
 	@Override
 	protected void showDeleteDialog(boolean singleItem) {
+		int titleId;
+		if (soundAdapter.getCheckedItems().size() == 1 || singleItem) {
+			titleId = R.string.dialog_confirm_delete_sound_title;
+		} else {
+			titleId = R.string.dialog_confirm_delete_multiple_sounds_title;
+		}
+		showDeleteDialog(titleId, singleItem);
 	}
 
 	@Override
 	protected void deleteCheckedItems(boolean singleItem) {
+		if (singleItem) {
+			deleteSound();
+			return;
+		}
+		for (SoundInfo soundInfo : soundAdapter.getCheckedItems()) {
+			soundInfoToEdit = soundInfo;
+			deleteSound();
+		}
+	}
+
+	private void deleteSound() {
+		BackPackListManager.getInstance().removeItemFromSoundBackPack(soundInfoToEdit);
+		checkEmptyBackgroundBackPack();
+		soundAdapter.notifyDataSetChanged();
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {

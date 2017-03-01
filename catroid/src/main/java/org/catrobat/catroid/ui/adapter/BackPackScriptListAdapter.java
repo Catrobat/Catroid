@@ -46,14 +46,14 @@ public class BackPackScriptListAdapter extends CheckBoxListAdapter<String> {
 		View listItemView = super.getView(position, convertView, parent);
 
 		ListItemViewHolder listItemViewHolder = (ListItemViewHolder) listItemView.getTag();
-		String scriptName = getItem(position);
+		String groupName = getItem(position);
 
-		listItemViewHolder.name.setText(scriptName);
+		listItemViewHolder.name.setText(groupName);
 		listItemViewHolder.image.setImageResource(ic_program_menu_scripts);
 
 		if (showDetails) {
 			listItemViewHolder.details.setVisibility(View.VISIBLE);
-			int brickCount = BackPackListManager.getInstance().getBackPackedScripts().get(scriptName).size();
+			int brickCount = BackPackListManager.getInstance().getBackPackedScripts().get(groupName).size();
 			listItemViewHolder.leftTopDetails.setText(getContext().getResources().getString(R.string.number_of_bricks)
 					.concat(" ").concat(Integer.toString(brickCount)));
 			listItemViewHolder.leftBottomDetails.setVisibility(View.GONE);

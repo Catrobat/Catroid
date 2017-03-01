@@ -28,6 +28,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -549,7 +550,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = actionFactory.parallel();
+		ParallelAction whenParallelAction = Actions.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);
@@ -745,8 +746,18 @@ public class Sprite implements Serializable, Cloneable {
 		nfcTagList = list;
 	}
 
-	public int getNextNewUserBrickId() {
-		return userBricks.size();
+	public int getNextNewUserBrickId(String text) {
+		int id = 1;
+		boolean newIdFound = false;
+
+		while (!newIdFound) {
+			newIdFound = true;
+			if (userBrickNameExists(text + id)) {
+				newIdFound = false;
+				id++;
+			}
+		}
+		return id;
 	}
 
 	@Override
@@ -923,6 +934,15 @@ public class Sprite implements Serializable, Cloneable {
 		for (LookData lookData : getLookDataList()) {
 			lookData.getCollisionInformation().calculate();
 		}
+	}
+
+	public boolean userBrickNameExists(String userBrickName) {
+		for (UserBrick userBrick : userBricks) {
+			if (userBrick.getDefinitionBrick().getName().equals(userBrickName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public class PenConfiguration {

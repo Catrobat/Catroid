@@ -34,7 +34,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -59,6 +58,8 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -76,10 +77,6 @@ import java.util.concurrent.locks.Lock;
 
 public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListener, OnClickListener,
 		ActionModeActivityAdapterInterface {
-
-	public enum ActionModeEnum {
-		NO_ACTION, COPY_DELETE, BACKPACK, COMMENT_OUT
-	}
 
 	private static final String TAG = BrickAdapter.class.getSimpleName();
 	public int listItemCount = 0;
@@ -109,8 +106,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private int clickItemPosition = 0;
 	private AlertDialog alertDialog = null;
-
-	private ActionModeEnum actionMode = ActionModeEnum.NO_ACTION;
 
 	public BrickAdapter(ScriptFragment scriptFragment, Sprite sprite, BrickDragAndDropListView listView) {
 		this.scriptFragment = scriptFragment;
@@ -176,18 +171,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		notifyDataSetChanged();
 	}
 
-	public ActionModeEnum getActionMode() {
-		return actionMode;
-	}
-
-	public void setActionMode(ActionModeEnum actionMode) {
-		this.actionMode = actionMode;
-	}
-
-	public List<Brick> getBrickList() {
-		return brickList;
-	}
-
 	public void setBrickList(List<Brick> brickList) {
 		this.brickList = brickList;
 	}
@@ -227,11 +210,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			brickList.add(to, draggedBrick);
 			to = getNewPositionForScriptBrick(to, draggedBrick);
 			dragTargetPosition = to;
-			if (currentPosition != to) {
-				retryScriptDragging = true;
-			} else {
-				retryScriptDragging = false;
-			}
+			retryScriptDragging = currentPosition != to;
 		}
 		to = getNewPositionIfEndingBrickIsThere(to, draggedBrick);
 
@@ -343,11 +322,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		if (brick instanceof ScriptBrick) {
 			return true;
 		}
-		if (brick instanceof NestingBrick && !nestingBrickList.contains(brick)) {
-			return true;
-		}
-
-		return false;
+		return brick instanceof NestingBrick && !nestingBrickList.contains(brick);
 	}
 
 	@Override
@@ -970,15 +945,17 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		if (brickList.get(itemPosition) instanceof ScriptBrick) {
 			int scriptIndex = getScriptIndexFromProject(itemPosition);
 			ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
+		} else if ((brickList.get(itemPosition) instanceof UserBrick)) {
+			items.add(context.getText(R.string.brick_context_dialog_edit_source));
+		} else if (brickList.get(itemPosition) instanceof NestingBrick) {
+			items.add(context.getText(R.string.brick_context_dialog_animate_bricks));
 		}
 
 		if (!(brickList.get(itemPosition) instanceof DeadEndBrick)
 				&& !(brickList.get(itemPosition) instanceof ScriptBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_move_brick));
 		}
-		if (brickList.get(itemPosition) instanceof NestingBrick) {
-			items.add(context.getText(R.string.brick_context_dialog_animate_bricks));
-		}
+
 		if (!(brickList.get(itemPosition) instanceof ScriptBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_copy_brick));
 			items.add(context.getText(R.string.brick_context_dialog_delete_brick));
@@ -986,14 +963,17 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			items.add(context.getText(R.string.brick_context_dialog_delete_script));
 			items.add(context.getText(R.string.backpack_add));
 		}
+
 		if (brickHasAFormula(brickList.get(itemPosition))) {
 			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
 		}
+
 		if (brickList.get(itemPosition).isCommentedOut()) {
 			items.add(context.getText(R.string.brick_context_dialog_comment_in));
 		} else {
 			items.add(context.getText(R.string.brick_context_dialog_comment_out));
 		}
+
 		if (!(brickList.get(itemPosition) instanceof UserBrick)
 				&& !isBrickWithoutDescription(brickList.get(itemPosition))) {
 			items.add(context.getText(R.string.brick_context_dialog_help));
@@ -1020,6 +1000,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				CharSequence clickedItemText = items.get(item);
 				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
 					view.performLongClick();
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_edit_source))) {
+					launchAddBrickAndSelectBrickAt(context, itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_copy_brick))) {
 					copyBrickListAndProject(itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))
@@ -1064,7 +1046,36 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 	}
 
-	protected void copyBrickListAndProject(int itemPosition) {
+	private void launchAddBrickAndSelectBrickAt(Context context, int index) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+
+		int[] temp = getScriptAndBrickIndexFromProject(index);
+		Script script = ProjectManager.getInstance().getCurrentSprite().getScript(temp[0]);
+
+		if (script != null) {
+			Brick brick = script.getBrick(temp[1]);
+
+			if (brick instanceof UserBrick) {
+				UserBrick selectedUserBrick = (UserBrick) brick;
+				selectedUserBrick.updateUserBrickParametersAndVariables();
+				launchUserBrickScriptActivity(context, selectedUserBrick);
+			}
+		}
+	}
+
+	private void launchUserBrickScriptActivity(Context context, UserBrick userBrick) {
+		if (context instanceof ScriptActivity) {
+			((ScriptActivity) context).removeFormulaEditorFragment();
+		}
+
+		Intent intent = new Intent(context, UserBrickScriptActivity.class);
+		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
+		context.startActivity(intent);
+	}
+
+	private void copyBrickListAndProject(int itemPosition) {
 		Brick origin = (Brick) (brickDragAndDropListView.getItemAtPosition(itemPosition));
 		Brick copy;
 		try {
@@ -1216,10 +1227,11 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		notifyDataSetChanged();
 	}
 
-	public void setCheckbox(Brick brick, boolean enabled) {
-		CheckBox checkBox = brick.getCheckBox();
-		if (checkBox != null) {
-			checkBox.setChecked(enabled);
+	public void checkCommentedOutItems() {
+		for (Brick brick : brickList) {
+			if (brick.isCommentedOut()) {
+				setCheckbox(brick, true);
+			}
 		}
 	}
 
@@ -1242,35 +1254,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		for (Brick brick : brickList) {
 			setCheckbox(brick, false);
 			handleCheck(brick, false);
-		}
-	}
-
-	public void checkCommentedOutItems() {
-		for (Brick brick : brickList) {
-			if (brick.isCommentedOut()) {
-				setCheckbox(brick, true);
-			}
-		}
-	}
-
-	public void setCheckboxVisibility() {
-		for (Brick brick : brickList) {
-			switch (actionMode) {
-				case NO_ACTION:
-					BrickViewProvider.setCheckboxVisibility(brick, View.GONE);
-					break;
-				case BACKPACK:
-					if (brick instanceof ScriptBrick) {
-						BrickViewProvider.setCheckboxVisibility(brick, View.VISIBLE);
-					} else {
-						BrickViewProvider.setCheckboxVisibility(brick, View.INVISIBLE);
-					}
-					break;
-				case COPY_DELETE:
-				case COMMENT_OUT:
-					BrickViewProvider.setCheckboxVisibility(brick, View.VISIBLE);
-					break;
-			}
 		}
 	}
 
@@ -1341,13 +1324,17 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 					int alphaValue = checked ? BrickViewProvider.ALPHA_GREYED : BrickViewProvider.ALPHA_FULL;
 					BrickViewProvider.setAlphaForBrick(currentBrick, alphaValue);
 					setCheckbox(currentBrick, checked);
-					BrickViewProvider.setCheckboxClickability(currentBrick, !checked);
+					if (!scriptFragment.isInUserBrickOverview()) {
+						BrickViewProvider.setCheckboxClickability(currentBrick, !checked);
+					}
 					break;
 				case COMMENT_OUT:
 					currentBrick.setCommentedOut(checked);
 					BrickViewProvider.setSaturationOnBrick(currentBrick, checked);
 					setCheckbox(currentBrick, checked);
-					BrickViewProvider.setCheckboxClickability(currentBrick, !checked);
+					if (!scriptFragment.isInUserBrickOverview()) {
+						BrickViewProvider.setCheckboxClickability(currentBrick, !checked);
+					}
 					break;
 			}
 		}
@@ -1356,7 +1343,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 	}
 
-	void enableCorrespondingScriptBrick(int indexBegin) {
+	private void enableCorrespondingScriptBrick(int indexBegin) {
 		for (int i = indexBegin; i >= 0; i--) {
 			Brick currentBrick = brickList.get(i);
 			if (currentBrick instanceof ScriptBrick) {
@@ -1364,12 +1351,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				BrickViewProvider.setSaturationOnBrick(currentBrick, false);
 				break;
 			}
-		}
-	}
-
-	private void addElementToCheckedBricks(Brick brick) {
-		if (!(checkedBricks.contains(brick)) && !(brick instanceof UserScriptDefinitionBrick)) {
-			checkedBricks.add(brick);
 		}
 	}
 
@@ -1390,18 +1371,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			ProjectManager.getInstance().setCurrentScript(lastScript);
 			updateProjectBrickList();
 		}
-	}
-
-	public List<Brick> getCheckedBricks() {
-		return checkedBricks;
-	}
-
-	public List<Brick> getReversedCheckedBrickList() {
-		List<Brick> reverseCheckedList = new ArrayList<>();
-		for (int counter = checkedBricks.size() - 1; counter >= 0; counter--) {
-			reverseCheckedList.add(checkedBricks.get(counter));
-		}
-		return reverseCheckedList;
 	}
 
 	public UserBrick getUserBrick() {

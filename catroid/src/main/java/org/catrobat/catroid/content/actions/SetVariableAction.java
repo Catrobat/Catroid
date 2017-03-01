@@ -26,7 +26,9 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -57,6 +59,11 @@ public class SetVariableAction extends TemporalAction {
 			Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
 		}
 		userVariable.setValue(value);
+
+		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		if (userBrick != null) {
+			userBrick.updateUserVariableValues(ProjectManager.getInstance().getSceneToPlay());
+		}
 	}
 
 	public void setUserVariable(UserVariable userVariable) {

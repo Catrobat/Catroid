@@ -99,7 +99,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		if (adapter.getActionMode() != BrickAdapter.ActionModeEnum.NO_ACTION) {
 			return;
 		}
-		if (adapter.isDragging) {
+		if (adapter instanceof BrickAdapter && ((BrickAdapter) adapter).isDragging) {
 			return;
 		}
 		showFormulaEditorToEditFormula(view);

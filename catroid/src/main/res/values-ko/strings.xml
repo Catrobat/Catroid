@@ -445,7 +445,6 @@
   <string name="brick_context_dialog_delete_brick">블럭 삭제</string>
   <string name="brick_context_dialog_copy_brick">블럭 복사</string>
   <string name="brick_context_dialog_animate_bricks">블럭 애니메이션</string>
-  <string name="brick_context_dialog_add_to_script">스크립트 추가</string>
   <string name="brick_context_dialog_formula_edit_brick">수식 편집</string>
   <string name="brick_context_dialog_delete_script">스크립트 삭제</string>
   <string name="brick_context_dialog_comment_in">활성화 블럭</string>

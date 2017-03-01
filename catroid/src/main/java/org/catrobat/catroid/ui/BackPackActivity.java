@@ -49,6 +49,7 @@ import org.catrobat.catroid.ui.fragment.BackPackSceneListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSpriteListFragment;
+import org.catrobat.catroid.ui.fragment.BackPackUserBrickListFragment;
 
 public class BackPackActivity extends BaseActivity {
 	public static final int FRAGMENT_BACKPACK_SCRIPTS = 0;
@@ -56,6 +57,7 @@ public class BackPackActivity extends BaseActivity {
 	public static final int FRAGMENT_BACKPACK_SOUNDS = 2;
 	public static final int FRAGMENT_BACKPACK_SPRITES = 3;
 	public static final int FRAGMENT_BACKPACK_SCENES = 4;
+	public static final int FRAGMENT_BACKPACK_USERBRICKS = 5;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 	private static int currentFragmentPosition;
@@ -65,6 +67,7 @@ public class BackPackActivity extends BaseActivity {
 	private BackPackScriptListFragment backPackScriptListFragment = null;
 	private BackPackSpriteListFragment backPackSpriteListFragment = null;
 	private BackPackSceneListFragment backPackSceneListFragment = null;
+	private BackPackUserBrickListFragment backPackUserBrickListFragment = null;
 	private BackPackActivityFragment currentFragment = null;
 	private String currentFragmentTag;
 
@@ -172,6 +175,10 @@ public class BackPackActivity extends BaseActivity {
 				break;
 			case FRAGMENT_BACKPACK_SCENES:
 				fragment = backPackSceneListFragment;
+				break;
+			case FRAGMENT_BACKPACK_USERBRICKS:
+				fragment = backPackUserBrickListFragment;
+				break;
 		}
 		return fragment;
 	}
@@ -218,6 +225,14 @@ public class BackPackActivity extends BaseActivity {
 				currentFragment = backPackSceneListFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_SCENES;
 				currentFragmentTag = BackPackSceneListFragment.TAG;
+				break;
+			case FRAGMENT_BACKPACK_USERBRICKS:
+				if (backPackUserBrickListFragment == null) {
+					backPackUserBrickListFragment = new BackPackUserBrickListFragment();
+				}
+				currentFragment = backPackUserBrickListFragment;
+				currentFragmentPosition = FRAGMENT_BACKPACK_USERBRICKS;
+				currentFragmentTag = BackPackUserBrickListFragment.TAG;
 				break;
 		}
 	}

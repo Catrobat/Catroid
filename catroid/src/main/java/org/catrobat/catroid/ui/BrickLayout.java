@@ -86,7 +86,7 @@ public class BrickLayout extends ViewGroup {
 	}
 
 	protected void allocateLineData() {
-		lines = new LinkedList<LineData>();
+		lines = new LinkedList<>();
 		for (int i = 0; i < linesToAllocate; i++) {
 			allocateNewLine();
 		}
@@ -109,15 +109,15 @@ public class BrickLayout extends ViewGroup {
 		int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
 		int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
 
-		int lineThicknessWithHorizontalSpacing = 0;
-		int lineThickness = 0;
+		int lineThicknessWithHorizontalSpacing;
+		int lineThickness;
 		int lineLengthWithHorizontalSpacing = 0;
 		int lineLength = 0;
 
-		int prevLinePosition = 0;
+		int prevLinePosition;
 
-		int controlMaxLength = 0;
-		int controlMaxThickness = 0;
+		int controlMaxLength;
+		int controlMaxThickness;
 
 		for (LineData lineData : lines) {
 			lineData.allowableTextFieldWidth = 0;
@@ -179,9 +179,9 @@ public class BrickLayout extends ViewGroup {
 			if (newLine) {
 				int childWidthNotCountingField = (layoutParams.textField ? childWidth : 0);
 				int endingWidthOfLineMinusFields = (lineLength - (childWidthNotCountingField + horizontalSpacing + currentLine.totalTextFieldWidth));
-				float allowalbeWidth = (float) (sizeWidth - (endingWidthOfLineMinusFields))
+				float allowableWidth = (float) (sizeWidth - (endingWidthOfLineMinusFields))
 						/ currentLine.numberOfTextFields;
-				currentLine.allowableTextFieldWidth = (int) Math.floor(allowalbeWidth);
+				currentLine.allowableTextFieldWidth = (int) Math.floor(allowableWidth);
 
 				currentLine = getNextLine(currentLine);
 
@@ -202,8 +202,8 @@ public class BrickLayout extends ViewGroup {
 		}
 
 		int endingWidthOfLineMinusFields = (lineLength - currentLine.totalTextFieldWidth);
-		float allowalbeWidth = (float) (sizeWidth - endingWidthOfLineMinusFields) / currentLine.numberOfTextFields;
-		currentLine.allowableTextFieldWidth = (int) Math.floor(allowalbeWidth);
+		float allowableWidth = (float) (sizeWidth - endingWidthOfLineMinusFields) / currentLine.numberOfTextFields;
+		currentLine.allowableTextFieldWidth = (int) Math.floor(allowableWidth);
 
 		int minAllowableTextFieldWidth = Integer.MAX_VALUE;
 		for (LineData lineData : lines) {
@@ -228,7 +228,6 @@ public class BrickLayout extends ViewGroup {
 		lineThicknessWithHorizontalSpacing = 0;
 		lineThickness = 0;
 		lineLengthWithHorizontalSpacing = 0;
-		lineLength = 0;
 
 		prevLinePosition = 0;
 
@@ -524,7 +523,7 @@ public class BrickLayout extends ViewGroup {
 		public LinkedList<ElementData> elements;
 
 		public LineData() {
-			elements = new LinkedList<ElementData>();
+			elements = new LinkedList<>();
 		}
 	}
 
@@ -570,10 +569,6 @@ public class BrickLayout extends ViewGroup {
 
 		public LayoutParams(ViewGroup.LayoutParams layoutParams) {
 			super(layoutParams);
-		}
-
-		public boolean horizontalSpacingSpecified() {
-			return horizontalSpacing != NO_SPACING;
 		}
 
 		public boolean verticalSpacingSpecified() {

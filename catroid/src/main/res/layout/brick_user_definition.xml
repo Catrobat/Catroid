@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/brick_control_user_2h"
+        android:background="@drawable/brick_control_2h"
         android:orientation="horizontal" >
     </LinearLayout>
 

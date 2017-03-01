@@ -36,12 +36,14 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.BrickLayout;
+import org.catrobat.catroid.ui.adapter.UserBrickAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -110,10 +112,10 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	public void updateUserBrickParametersAndVariables() {
 		updateUserBrickParameters();
-		updateUserVariableValues();
+		updateUserVariableValues(ProjectManager.getInstance().getCurrentScene());
 	}
 
-	public void updateUserBrickParameters() {
+	private void updateUserBrickParameters() {
 		List<UserBrickParameter> newParameters = new ArrayList<>();
 		List<UserScriptDefinitionBrickElement> elements = getUserScriptDefinitionBrickElements();
 
@@ -136,7 +138,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		userBrickParameters = newParameters;
 	}
 
-	public void copyFormulasMatchingNames(List<UserBrickParameter> originalParameters, List<UserBrickParameter> copiedParameters) {
+	private void copyFormulasMatchingNames(List<UserBrickParameter> originalParameters, List<UserBrickParameter> copiedParameters) {
 		for (UserBrickParameter originalParameter : originalParameters) {
 			UserScriptDefinitionBrickElement originalElement = originalParameter.getElement();
 			if (!originalElement.isVariable()) {
@@ -153,8 +155,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		}
 	}
 
-	private void updateUserVariableValues() {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+	public void updateUserVariableValues(Scene scene) {
+		DataContainer dataContainer = scene.getDataContainer();
 		List<UserVariable> variables = new ArrayList<>();
 
 		for (UserBrickParameter userBrickParameter : userBrickParameters) {
@@ -210,9 +212,13 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_user_checkbox);
-		onLayoutChanged(view);
+		onLayoutChanged(view, isUserBrickAdapter(baseAdapter));
 
 		return view;
+	}
+
+	private static boolean isUserBrickAdapter(BaseAdapter baseAdapter) {
+		return baseAdapter instanceof UserBrickAdapter;
 	}
 
 	private void setUserBrickParametersParent() {
@@ -226,11 +232,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_user, null);
-		onLayoutChanged(prototypeView);
+		onLayoutChanged(prototypeView, true);
 		return prototypeView;
 	}
 
-	public void onLayoutChanged(View currentView) {
+	private void onLayoutChanged(View currentView, boolean showVariableNames) {
 		boolean prototype = (currentView == prototypeView);
 
 		Context context = currentView.getContext();
@@ -246,13 +252,15 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			if (element.isLineBreak()) {
 				continue;
 			} else if (element.isVariable()) {
-				UserBrickParameter parameter = getUserBrickParameterByUserBrickElement(element);
 				currentEditText = new EditText(context);
-
 				currentEditText.setId(id);
 				currentEditText.setTextAppearance(context, R.style.BrickEditText);
 
-				if (parameter != null) {
+				UserBrickParameter parameter = getUserBrickParameterByUserBrickElement(element);
+
+				if (showVariableNames) {
+					currentEditText.setText(element.getText());
+				} else if (parameter != null) {
 					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentEditText.getId());
 					String formulaString = parameter.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentEditText.getContext());
 					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).refreshTextField(currentEditText, formulaString);
@@ -314,7 +322,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		updateUserVariableValues();
+		updateUserVariableValues(ProjectManager.getInstance().getSceneToPlay());
 		List<SequenceAction> returnActionList = new ArrayList<>();
 
 		ActionFactory actionFactory = sprite.getActionFactory();

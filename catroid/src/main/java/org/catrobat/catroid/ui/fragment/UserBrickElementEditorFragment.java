@@ -64,14 +64,13 @@ import java.util.List;
 
 public class UserBrickElementEditorFragment extends Fragment implements OnKeyListener,
 		DragAndDropBrickLayoutListener, UserBrickEditElementDialog.DialogListener, LineBreakListener {
+
 	private static final String TAG = UserBrickElementEditorFragment.class.getSimpleName();
 
 	public static final String BRICK_DATA_EDITOR_FRAGMENT_TAG = "brick_data_editor_fragment";
 	private static final String BRICK_BUNDLE_ARGUMENT = "current_brick";
-	private Context context;
 	private UserScriptDefinitionBrick currentBrick;
 	private int indexOfCurrentlyEditedElement;
-	private LinearLayout editorBrickSpace;
 	private View brickView;
 	private View fragmentView;
 	private String actionBarTitleToRestore;
@@ -151,12 +150,12 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 		fragmentView.setFocusableInTouchMode(true);
 		fragmentView.requestFocus();
 
-		context = getActivity();
+		Context context = getActivity();
 		brickView = View.inflate(context, R.layout.brick_user_editable, null);
 
 		updateBrickView();
 
-		editorBrickSpace = (LinearLayout) fragmentView.findViewById(R.id.brick_data_editor_brick_space);
+		LinearLayout editorBrickSpace = (LinearLayout) fragmentView.findViewById(R.id.brick_data_editor_brick_space);
 
 		editorBrickSpace.addView(brickView);
 
@@ -180,9 +179,6 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 				if (action.equals(resources.getString(R.string.add_line_break))) {
 					addLineBreak();
 				}
-				if (action.equals(resources.getString(R.string.close))) {
-					onUserDismiss();
-				}
 			}
 		});
 
@@ -191,7 +187,7 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 
 	public void addTextDialog() {
 		int indexOfNewText = currentBrick.addUIText("");
-		editElementDialog("", false, R.string.add_text, R.string.text_hint);
+		editElementDialog("", false, R.string.add_text, R.string.text_hint, false, false);
 		indexOfCurrentlyEditedElement = indexOfNewText;
 		updateBrickView();
 	}
@@ -205,12 +201,13 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		String variableName = dataContainer.getUniqueVariableName(getActivity());
 		int indexOfNewVariableText = currentBrick.addUILocalizedVariable(variableName);
-		editElementDialog(variableName, false, R.string.add_variable, R.string.variable_hint);
+		editElementDialog(variableName, false, R.string.add_variable, R.string.variable_hint, false, true);
 		indexOfCurrentlyEditedElement = indexOfNewVariableText;
 		updateBrickView();
 	}
 
-	public void editElementDialog(CharSequence text, boolean editMode, int title, int defaultText) {
+	public void editElementDialog(String text, boolean editMode, int title, int defaultText,
+			boolean isFunctionName, boolean isVariable) {
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
@@ -218,15 +215,18 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 		List<UserVariable> globalVariables = dataContainer.getProjectVariables();
 		List<UserVariable> userBrickVariables = dataContainer.getOrCreateVariableListForUserBrick(currentUserBrick);
 
-		ArrayList<String> takenVariables = new ArrayList<>();
-		for (UserVariable variable : userBrickVariables) {
-			takenVariables.add(variable.getName());
-		}
-		for (UserVariable variable : spriteVariables) {
-			takenVariables.add(variable.getName());
-		}
-		for (UserVariable variable : globalVariables) {
-			takenVariables.add(variable.getName());
+		if (isVariable) {
+			ArrayList<String> takenVariables = new ArrayList<>();
+			for (UserVariable variable : userBrickVariables) {
+				takenVariables.add(variable.getName());
+			}
+			for (UserVariable variable : spriteVariables) {
+				takenVariables.add(variable.getName());
+			}
+			for (UserVariable variable : globalVariables) {
+				takenVariables.add(variable.getName());
+			}
+			UserBrickEditElementDialog.setTakenVariables(takenVariables);
 		}
 
 		UserBrickEditElementDialog dialog = new UserBrickEditElementDialog(fragmentView);
@@ -234,9 +234,10 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 		dialog.show(getActivity().getFragmentManager(),
 				UserBrickEditElementDialog.DIALOG_FRAGMENT_TAG);
 
-		UserBrickEditElementDialog.setTakenVariables(takenVariables);
 		UserBrickEditElementDialog.setTitle(title);
 		UserBrickEditElementDialog.setText(text);
+		UserBrickEditElementDialog.setFunctionName(isFunctionName);
+		UserBrickEditElementDialog.setIsVariable(isVariable);
 		UserBrickEditElementDialog.setHintText(defaultText);
 		UserBrickEditElementDialog.setEditMode(editMode);
 		dialog.setUserBrickElementEditorFragment(this);
@@ -250,7 +251,7 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 				String oldString = element.getText();
 				String newString = text.toString();
 				currentBrick.renameUIElement(element, oldString, newString, getActivity());
-			} else if (element.getText().toString().isEmpty()) {
+			} else if (element.getText().isEmpty()) {
 				currentBrick.getUserScriptDefinitionBrickElements().remove(element);
 			}
 		}
@@ -278,7 +279,8 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 		if (element != null && !element.isLineBreak()) {
 			int title = element.isVariable() ? R.string.edit_variable : R.string.edit_text;
 			int defaultText = element.isVariable() ? R.string.variable_hint : R.string.text_hint;
-			editElementDialog(element.getText(), true, title, defaultText);
+			boolean isFunctionName = id == 0;
+			editElementDialog(element.getText(), true, title, defaultText, isFunctionName, element.isVariable());
 			indexOfCurrentlyEditedElement = id;
 		}
 	}
@@ -308,6 +310,7 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 			layout.removeAllViews();
 		}
 
+		boolean isBrickName = true;
 		for (UserScriptDefinitionBrickElement element : currentBrick.getUserScriptDefinitionBrickElements()) {
 			View dataView;
 			if (element.isLineBreak()) {
@@ -326,12 +329,20 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 				textView.setText(element.getText());
 			}
 			Button button = (Button) dataView.findViewById(R.id.button);
-			button.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					deleteButtonClicked((View) view.getParent());
-				}
-			});
+
+			if (isBrickName) {
+				isBrickName = false;
+				TextView separator = (TextView) dataView.findViewById(R.id.separator);
+				separator.setVisibility(View.GONE);
+				button.setVisibility(View.GONE);
+			} else {
+				button.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						deleteButtonClicked((View) view.getParent());
+					}
+				});
+			}
 
 			layout.addView(dataView);
 

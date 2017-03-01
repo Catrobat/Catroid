@@ -32,7 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.adapter.BrickBaseAdapter;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public abstract class BrickBaseType implements Brick {
 	private static final String TAG = BrickBaseType.class.getSimpleName();
 	public transient View view;
 	protected transient CheckBox checkbox;
-	protected transient BrickAdapter adapter;
+	protected transient BrickBaseAdapter adapter;
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
 
@@ -59,10 +59,7 @@ public abstract class BrickBaseType implements Brick {
 
 	@Override
 	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
-		if (this.getClass().equals(brick.getClass())) {
-			return true;
-		}
-		return false;
+		return this.getClass().equals(brick.getClass());
 	}
 
 	@Override
@@ -81,7 +78,7 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
+	public void setBrickAdapter(BrickBaseAdapter adapter) {
 		this.adapter = adapter;
 	}
 
@@ -111,6 +108,7 @@ public abstract class BrickBaseType implements Brick {
 		checkbox.setEnabled(enabled);
 
 		final Brick instance = this;
+
 		checkbox.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

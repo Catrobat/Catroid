@@ -732,7 +732,7 @@ public final class LookController {
 		FragmentTransaction fragmentTransaction = scriptActivity.getFragmentManager().beginTransaction();
 		fragmentTransaction.hide(fragment);
 		fragmentTransaction.show(scriptActivity.getFragmentManager().findFragmentByTag(ScriptFragment.TAG));
-		fragmentTransaction.commitAllowingStateLoss();
+		fragmentTransaction.commit();
 
 		scriptActivity.setIsLookFragmentFromSetLookBrickNewFalse();
 		scriptActivity.setIsLookFragmentHandleAddButtonHandled(false);

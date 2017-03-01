@@ -34,13 +34,19 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -53,8 +59,10 @@ public class UserBricksExecutionTest extends BaseActivityInstrumentationTestCase
 
 	private Project project;
 	private Sprite sprite;
-	int xChangeValue = 5;
-	int yChangeValue = 10;
+	private int xChangeValue = 5;
+	private int yChangeValue = 10;
+	private String projectName = "testProject";
+	private String variableName = "local_var";
 
 	public UserBricksExecutionTest() {
 		super(MainMenuActivity.class);
@@ -63,19 +71,31 @@ public class UserBricksExecutionTest extends BaseActivityInstrumentationTestCase
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronousTask", false);
 		sprite = new SingleSprite("testSprite");
-		project = new Project(null, "testProject");
+		project = new Project(null, projectName);
 
 		project.getDefaultScene().addSprite(new SingleSprite("background"));
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		createProject();
 		UiTestUtils.prepareStageForTest();
 	}
 
+	public void testUserVariableAsUserBrickParameter() {
+		createUserVariableProject();
+
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		checkSpritePosition(0, 0);
+		playProject();
+		checkSpritePosition(xChangeValue, 0);
+	}
+
 	public void testUserBrickParallelExecutionInStage() {
+		createParallelProject();
+
+		ProjectManager.getInstance().setCurrentSprite(sprite);
 		checkSpritePosition(0, 0);
 		playProject();
 		checkSpritePosition(xChangeValue * 3, yChangeValue * 3);
@@ -89,7 +109,7 @@ public class UserBricksExecutionTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Unexpected sprite y position: ", (float) expectedY, y);
 	}
 
-	private void createProject() {
+	private void createParallelProject() {
 		String variableOneName = "variable1";
 		String variableTwoName = "variable2";
 
@@ -101,6 +121,7 @@ public class UserBricksExecutionTest extends BaseActivityInstrumentationTestCase
 		Formula variableTwoFormula = new Formula(new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, variableTwoName, null));
 		ChangeXByNBrick xBrick = new ChangeXByNBrick(variableOneFormula);
 		ChangeYByNBrick yBrick = new ChangeYByNBrick(variableTwoFormula);
+
 		definitionBrick.getUserScript().addBrick(xBrick);
 		definitionBrick.getUserScript().addBrick(yBrick);
 
@@ -127,6 +148,39 @@ public class UserBricksExecutionTest extends BaseActivityInstrumentationTestCase
 
 		setVariableFormula(xBrick, variableOneName);
 		setVariableFormula(yBrick, variableTwoName);
+
+		StorageHandler.getInstance().saveProject(project);
+	}
+
+	private void createUserVariableProject() {
+		String userBrickParameterVariableName = "variable1";
+
+		UserScriptDefinitionBrick definitionBrick = new UserScriptDefinitionBrick();
+		definitionBrick.addUIText("test");
+		definitionBrick.addUILocalizedVariable(userBrickParameterVariableName);
+		Formula variableOneFormula = new Formula(new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, userBrickParameterVariableName, null));
+		ChangeXByNBrick xBrick = new ChangeXByNBrick(variableOneFormula);
+		definitionBrick.getUserScript().addBrick(xBrick);
+
+		UserBrick userBrick = new UserBrick(definitionBrick);
+		userBrick.updateUserBrickParametersAndVariables();
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		DataContainer dataContainer = projectManager.getCurrentProject().getDefaultScene().getDataContainer();
+		dataContainer.addSpriteUserVariable(variableName);
+		UserVariable spriteUserVariable = dataContainer.getUserVariable(variableName, sprite);
+
+		StartScript script = new StartScript();
+		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(xChangeValue), spriteUserVariable);
+		script.addBrick(setVariableBrick);
+		script.addBrick(userBrick);
+		sprite.addScript(script);
+
+		setVariableFormula(userBrick.getUserBrickParameters().get(0), variableName);
+		setVariableFormula(xBrick, userBrickParameterVariableName);
+		userBrick.updateUserBrickParametersAndVariables();
+
+		StorageHandler.getInstance().saveProject(project);
 	}
 
 	private void setValueFormula(UserBrick userBrick, Integer xValue, Integer yValue) {
@@ -155,13 +209,17 @@ public class UserBricksExecutionTest extends BaseActivityInstrumentationTestCase
 
 	private void playProject() {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		String continueString = solo.getString(R.string.main_menu_continue);
-		solo.waitForText(continueString);
-		solo.clickOnButton(continueString);
+		String programsString = solo.getString(R.string.main_menu_programs);
+		solo.waitForText(programsString);
+		solo.clickOnButton(programsString);
+		solo.waitForActivity(MyProjectsActivity.class);
+		solo.waitForText(projectName);
+		solo.clickOnText(projectName);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2000);
+		solo.sleep(500);
 	}
 }

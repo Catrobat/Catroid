@@ -479,7 +479,6 @@
   <string name="brick_context_dialog_delete_brick">Elimina mattoncino</string>
   <string name="brick_context_dialog_copy_brick">Copia mattoncino</string>
   <string name="brick_context_dialog_animate_bricks">Anima le parti del mattoncino</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">Modifica Formula</string>
   <string name="brick_context_dialog_delete_script">Elimina lo script</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>

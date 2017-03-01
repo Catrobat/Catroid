@@ -56,7 +56,6 @@ public class AddBrickFragment extends ListFragment {
 	private CharSequence previousActionBarTitle;
 	private PrototypeBrickAdapter adapter;
 	private CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
-	public static AddBrickFragment addButtonHandler = null;
 
 	private static int listIndexToFocus = -1;
 

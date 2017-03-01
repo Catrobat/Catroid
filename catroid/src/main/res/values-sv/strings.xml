@@ -479,7 +479,6 @@
   <string name="brick_context_dialog_delete_brick">Ta bort Klossen</string>
   <string name="brick_context_dialog_copy_brick">Kopiera klossen</string>
   <string name="brick_context_dialog_animate_bricks">Animera kloss-delar</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">Redigera formel</string>
   <string name="brick_context_dialog_delete_script">Ta bort skriptet</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>

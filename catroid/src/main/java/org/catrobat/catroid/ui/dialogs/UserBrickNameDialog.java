@@ -44,6 +44,7 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class UserBrickNameDialog extends DialogFragment {
@@ -63,7 +64,8 @@ public class UserBrickNameDialog extends DialogFragment {
 		newUserBrickEditText = (EditText) dialogView.findViewById(R.id.dialog_userbrick_name_edittext);
 
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		String text = getActivity().getString(R.string.new_user_brick) + " " + currentSprite.getNextNewUserBrickId();
+		String text = getActivity().getString(R.string.new_user_brick) + " ";
+		text += currentSprite.getNextNewUserBrickId(text);
 		newUserBrickEditText.setText(text);
 
 		newUserBrickDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
@@ -106,10 +108,16 @@ public class UserBrickNameDialog extends DialogFragment {
 
 					@Override
 					public void afterTextChanged(Editable s) {
-						if (newUserBrickEditText.length() == 0) {
-							((AlertDialog) newUserBrickDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+						Button okButton = ((AlertDialog) newUserBrickDialog).getButton(Dialog.BUTTON_POSITIVE);
+						String text = newUserBrickEditText.getText().toString().trim();
+
+						if (text.length() == 0) {
+							okButton.setEnabled(false);
+						} else if (ProjectManager.getInstance().getCurrentSprite().userBrickNameExists(text)) {
+							ToastUtil.showError(getActivity(), R.string.user_brick_name_given);
+							okButton.setEnabled(false);
 						} else {
-							((AlertDialog) newUserBrickDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
+							okButton.setEnabled(true);
 						}
 					}
 				});
@@ -130,11 +138,6 @@ public class UserBrickNameDialog extends DialogFragment {
 
 	protected void handleOkButtonClick() {
 		String userBrickName = newUserBrickEditText.getText().toString().trim();
-
-		if (getActivity() == null) {
-			Log.e(TAG, "handleOkButtonClick() Activity was null!");
-			return;
-		}
 
 		if (userBrickName.isEmpty()) {
 			Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.error_no_userbrick_name_entered);

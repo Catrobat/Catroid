@@ -69,4 +69,9 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 		BrickViewProvider.setSpinnerClickability(view, false);
 		return view;
 	}
+
+	@Override
+	public void handleCheck(Brick instance, boolean checked) {
+		//not supported
+	}
 }

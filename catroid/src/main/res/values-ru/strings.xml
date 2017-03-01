@@ -492,7 +492,6 @@
   <string name="brick_context_dialog_delete_brick">Удалить</string>
   <string name="brick_context_dialog_copy_brick">Скопировать блок</string>
   <string name="brick_context_dialog_animate_bricks">Подстветить части блока</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">Изменить</string>
   <string name="brick_context_dialog_delete_script">Удалить скрипт</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>

@@ -466,7 +466,6 @@
   <string name="brick_context_dialog_delete_brick">刪除程式塊</string>
   <string name="brick_context_dialog_copy_brick">複製程式塊</string>
   <string name="brick_context_dialog_animate_bricks">動畫程式塊元件</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">編輯公式</string>
   <string name="brick_context_dialog_delete_script">刪除腳本</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>

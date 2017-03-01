@@ -465,11 +465,10 @@
   <string name="nfc_facedetection_support">Die Kombination von NFC und Gesichtserkennung kann zu Leistungsproblemen führen!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
-  <string name="brick_context_dialog_show_source">Zeige Quellbaustein</string>
+  <string name="brick_context_dialog_edit_source">Bearbeite Quellbaustein</string>
   <string name="brick_context_dialog_delete_brick">Baustein löschen</string>
   <string name="brick_context_dialog_copy_brick">Baustein kopieren</string>
   <string name="brick_context_dialog_animate_bricks">Baustein-Teile animieren</string>
-  <string name="brick_context_dialog_add_to_script">Zum Skript hinzufügen</string>
   <string name="brick_context_dialog_formula_edit_brick">Formel bearbeiten</string>
   <string name="brick_context_dialog_delete_script">Skript löschen</string>
   <string name="brick_context_dialog_comment_in">Baustein aktivieren</string>
@@ -1234,8 +1233,8 @@
   <string name="brick_hide_variable">Verstecke Variable</string>
   <!-- User Bricks strings -->
   <string name="define">definiere</string>
-  <string name="new_user_brick">Neuer Baustein</string>
-  <string name="new_user_brick_variable">Variable 1</string>
+  <string name="new_user_brick">Mein Baustein</string>
+  <string name="new_user_brick_variable">Variable</string>
   <string name="new_user_brick_name">Bitte wähle einen Benutzerbausteinnamen:</string>
   <string name="recursive_user_brick_forbidden">Hinzufügen eines Userbricks in einem Userbrick ist noch nicht erlaubt!</string>
   <!-- Merge strings -->

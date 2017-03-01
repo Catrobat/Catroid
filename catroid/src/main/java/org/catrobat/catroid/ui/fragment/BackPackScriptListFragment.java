@@ -55,7 +55,7 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 	private ListView listView;
 
 	private String scriptToEdit;
-	private int selectedScriptPosition;
+	private int selectedScriptGroupPosition;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -140,7 +140,7 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, view, menuInfo);
 
-		scriptToEdit = scriptAdapter.getItem(selectedScriptPosition);
+		scriptToEdit = scriptAdapter.getItem(selectedScriptGroupPosition);
 		menu.setHeaderTitle(scriptToEdit);
 
 		getActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
@@ -161,13 +161,13 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 
 	@Override
 	public void handleOnItemClick(int position, View view, Object listItem) {
-		selectedScriptPosition = position;
+		selectedScriptGroupPosition = position;
 		listView.showContextMenuForChild(view);
 	}
 
 	@Override
 	public void handleOnItemLongClick(int position, View view) {
-		selectedScriptPosition = position;
+		selectedScriptGroupPosition = position;
 		listView.showContextMenuForChild(view);
 	}
 
@@ -197,8 +197,8 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 
 	private void deleteScript() {
 		BackPackListManager.getInstance().removeItemFromScriptBackPack(scriptToEdit);
-		checkEmptyBackgroundBackPack();
 		scriptAdapter.remove(scriptToEdit);
+		checkEmptyBackgroundBackPack();
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {

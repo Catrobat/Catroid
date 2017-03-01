@@ -481,7 +481,6 @@ il faut
   <string name="brick_context_dialog_delete_brick">Supprimer élément</string>
   <string name="brick_context_dialog_copy_brick">Copier élément</string>
   <string name="brick_context_dialog_animate_bricks">Animer l\'élément</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">Modifier la formule</string>
   <string name="brick_context_dialog_delete_script">Supprimer script</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>

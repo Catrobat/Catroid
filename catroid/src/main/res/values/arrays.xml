@@ -151,7 +151,6 @@
  		<item >@string/add_text</item >
  		<item >@string/add_variable</item >
  		<item >@string/add_line_break</item >
- 		<item >@string/close</item >
  	</string-array >
 
     <!-- Phiro tone spinner -->

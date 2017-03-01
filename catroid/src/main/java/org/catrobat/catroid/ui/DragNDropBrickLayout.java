@@ -283,15 +283,18 @@ public class DragNDropBrickLayout extends BrickLayout {
 		viewToWindowSpaceX = (int) ev.getRawX() - x;
 		viewToWindowSpaceY = (int) ev.getRawY() - y;
 
+		int itemPosition = click(x, y);
+
 		switch (action) {
 			case MotionEvent.ACTION_DOWN:
-				int itemPosition = click(x, y);
-				if (itemPosition != -1) {
+				if (itemPosition > 0) {
 					beginDrag(x, y, itemPosition);
+				} else if (itemPosition == 0) {
+					dragBeganMillis = System.currentTimeMillis();
 				}
 				break;
 			case MotionEvent.ACTION_MOVE:
-				if (dragging) {
+				if (dragging && itemPosition > 0) {
 					drag(x, y);
 				}
 				break;
@@ -300,6 +303,11 @@ public class DragNDropBrickLayout extends BrickLayout {
 			default:
 				if (dragging) {
 					drop();
+				} else if (itemPosition == 0) {
+					dragEndMillis = System.currentTimeMillis();
+					if (dragEndMillis - dragBeganMillis < MIN_MILLISECONDS_FOR_TAP) {
+						parent.click(0);
+					}
 				}
 				break;
 		}
@@ -372,7 +380,7 @@ public class DragNDropBrickLayout extends BrickLayout {
 			secondDragFrame = false;
 		}
 
-		if (justStartedDragging || lastInsertableSpaceIndex != insertableSpaceIndex) {
+		if (justStartedDragging || lastInsertableSpaceIndex != insertableSpaceIndex && insertableSpaceIndex >= 0) {
 
 			repositionCursors(insertableSpaceIndex);
 
@@ -581,7 +589,7 @@ public class DragNDropBrickLayout extends BrickLayout {
 		public int width;
 		public int height;
 
-		public WeirdFloatingWindowData(View view, int width, int height) {
+		WeirdFloatingWindowData(View view, int width, int height) {
 			this.view = view;
 			this.width = width;
 			this.height = height;

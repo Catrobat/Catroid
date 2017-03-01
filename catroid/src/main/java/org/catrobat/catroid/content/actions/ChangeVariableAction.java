@@ -26,7 +26,9 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
@@ -60,6 +62,11 @@ public class ChangeVariableAction extends Action {
 			originalValue = ((Double) originalValue).isNaN() ? 0d : originalValue;
 			value = ((Double) value).isNaN() ? 0d : value;
 			userVariable.setValue(((Double) originalValue) + ((Double) value));
+
+			UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
+			if (userBrick != null) {
+				userBrick.updateUserVariableValues(ProjectManager.getInstance().getSceneToPlay());
+			}
 			return true;
 		}
 		return true;

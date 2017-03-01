@@ -146,6 +146,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -159,6 +160,7 @@ import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.fragment.UserBrickFragment;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
@@ -206,8 +208,8 @@ public final class UiTestUtils {
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
-	public static final String TEST_USER_BRICK_NAME = "New Brick 0";
-	public static final String SECOND_TEST_USER_BRICK_NAME = "New Brick 1";
+	public static final String TEST_USER_BRICK_NAME = "My Brick 1";
+	public static final String SECOND_TEST_USER_BRICK_NAME = "My Brick 2";
 	public static final String TEST_USER_BRICK_VARIABLE = "Variable 0";
 	public static final String NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
 	public static final String NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2 = "../*T?E\"S/T:%22T<E>S?T\\T\\E|S%äö|üß";
@@ -713,9 +715,13 @@ public final class UiTestUtils {
 		clickOnBottomBar(solo, R.id.button_add);
 		solo.sleep(1000);
 		clickOnBrickCategory(solo, solo.getCurrentActivity().getString(categoryStringId));
-		boolean fragmentAppeared = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 5000);
+		boolean fragmentAppeared = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 2000);
 		if (!fragmentAppeared) {
-			fail("add brick fragment should appear");
+			fragmentAppeared = solo.waitForFragmentByTag(UserBrickFragment.TAG, 2000);
+		}
+
+		if (!fragmentAppeared) {
+			fail("userbrick fragment should appear");
 		}
 
 		if (categoryStringId == R.string.category_user_bricks) {
@@ -731,19 +737,11 @@ public final class UiTestUtils {
 			fail(brickName + " should appear. Failed to scroll to find it.");
 		}
 
-		if (categoryStringId == R.string.category_user_bricks) {
-			String stringOnAddToScriptButton = solo.getCurrentActivity().getString(
-					R.string.brick_context_dialog_add_to_script);
-			if (!solo.waitForText(stringOnAddToScriptButton, 0, 2000)) {
-				fail("Text '" + stringOnAddToScriptButton + "' not shown in 5 secs!");
-			}
-			solo.clickOnText(stringOnAddToScriptButton);
-		}
 		solo.sleep(600);
 	}
 
 	public static void deleteFirstUserBrick(Solo solo, String brickName) {
-		boolean fragmentAppeared = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 5000);
+		boolean fragmentAppeared = solo.waitForFragmentByTag(UserBrickFragment.TAG, 5000);
 		if (!fragmentAppeared) {
 			fail("add brick fragment should appear");
 		}
@@ -774,7 +772,7 @@ public final class UiTestUtils {
 		}
 
 		String stringOnShowSourceButton = solo.getCurrentActivity()
-				.getString(R.string.brick_context_dialog_show_source);
+				.getString(R.string.brick_context_dialog_edit_source);
 		solo.waitForText(stringOnShowSourceButton);
 		solo.clickOnText(stringOnShowSourceButton);
 
@@ -1092,7 +1090,7 @@ public final class UiTestUtils {
 		return brickList;
 	}
 
-	public static List<Brick> createTestProjectWithUserBrick() {
+	public static Project createTestProjectWithUserBrick() {
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
@@ -1136,7 +1134,7 @@ public final class UiTestUtils {
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		StorageHandler.getInstance().saveProject(project);
 
-		return brickList;
+		return project;
 	}
 
 	public static void createTestProjectWithNestedUserBrick() {
@@ -1814,7 +1812,7 @@ public final class UiTestUtils {
 	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId) {
 
-		solo.sleep(1000);
+		solo.sleep(500);
 		ArrayList<View> views = solo.getCurrentViews();
 		ArrayList<Integer> ids = new ArrayList<>();
 		for (View view : views) {
@@ -1822,10 +1820,10 @@ public final class UiTestUtils {
 		}
 
 		if (ids.contains(menuItemId)) {
-			solo.waitForView(menuItemId, 0, 20000, false);
+			solo.waitForView(menuItemId, 0, 1000, false);
 			UiTestUtils.clickOnActionBar(solo, menuItemId);
 		} else if (overflowMenuItemName != null) {
-			solo.waitForText(overflowMenuItemName, 0, 20000, false);
+			solo.waitForText(overflowMenuItemName, 0, 1000, false);
 
 			if (overflowMenuItemName.equals(solo.getString(R.string.unpack))
 					|| overflowMenuItemName.equals(solo.getString(R.string.unpack_keep))) {
@@ -2113,6 +2111,34 @@ public final class UiTestUtils {
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 	}
 
+	public static void getIntoSpritesFromMainMenu(Solo solo, String projectName, String sceneName, int spriteIndex) {
+		Log.d(TAG, "waitForMainMenuActivity: " + solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
+		solo.sleep(300);
+
+		String projectsString = solo.getString(R.string.main_menu_programs);
+		solo.waitForText(projectsString);
+
+		solo.clickOnText(projectsString);
+
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForText(projectName);
+		solo.clickOnText(projectName);
+
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		if (sceneName != null) {
+			solo.clickOnText(sceneName);
+		}
+		solo.waitForView(ListView.class);
+
+		solo.sleep(200);
+
+		solo.clickInList(spriteIndex);
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+
+		solo.waitForText(solo.getString(R.string.scripts));
+		solo.clickOnText(solo.getString(R.string.scripts));
+	}
+
 	public static void getIntoSpritesFromMainMenu(Solo solo, String sceneName) {
 		Log.d(TAG, "waitForMainMenuActivity: " + solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
 		solo.sleep(300);
@@ -2196,6 +2222,10 @@ public final class UiTestUtils {
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		solo.sleep(200);
+	}
+
+	public static void getIntoScriptActivityFromMainMenu(Solo solo, Project project) {
+		getIntoSpritesFromMainMenu(solo, project.getName(), null, 0);
 	}
 
 	public static void getIntoScriptActivityFromMainMenu(Solo solo) {
@@ -2634,13 +2664,17 @@ public final class UiTestUtils {
 	}
 
 	public static void switchToProgrammesBackground(Solo solo, String programName, String spriteName) {
-		clickOnHomeActionBarButton(solo);
+		while (!solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 500)) {
+			solo.goBack();
+		}
+
+		solo.waitForText(solo.getString(R.string.programs));
 		solo.clickOnText(solo.getString(R.string.programs));
-		solo.sleep(500);
+		solo.waitForText(programName);
 		UiTestUtils.clickOnTextInList(solo, programName);
-		solo.sleep(500);
+		solo.waitForText(spriteName);
 		UiTestUtils.clickOnTextInList(solo, spriteName);
-		solo.sleep(500);
+		solo.waitForText(solo.getString(R.string.background));
 		solo.clickOnText(solo.getString(R.string.background));
 		solo.sleep(500);
 	}
