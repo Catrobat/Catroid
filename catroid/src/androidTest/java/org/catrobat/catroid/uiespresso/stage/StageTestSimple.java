@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uiespresso;
+package org.catrobat.catroid.uiespresso.stage;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -36,9 +36,9 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.uiespresso.matchers.StageMatchers;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.catrobat.catroid.utils.UtilUi;
 import org.junit.Before;
 import org.junit.Rule;

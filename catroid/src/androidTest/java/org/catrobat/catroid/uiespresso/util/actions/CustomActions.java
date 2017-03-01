@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uiespresso.actions;
+package org.catrobat.catroid.uiespresso.util.actions;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;

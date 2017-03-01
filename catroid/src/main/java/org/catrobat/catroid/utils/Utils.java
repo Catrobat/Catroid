@@ -342,36 +342,11 @@ public final class Utils {
 		return jobID > 0 ? jobID : Constants.INVALID_SCRATCH_PROGRAM_ID;
 	}
 
-	public static int[] extractImageSizeFromScratchImageURL(final String url) {
-		// example: https://cdn2.scratch.mit.edu/get_image/project/10205819_480x360.png?v=1368470695.0 -> [480, 360]
-		int[] defaultSize = new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
-
-		String urlWithoutQuery = url.split("\\?")[0];
-		String[] urlStringParts = urlWithoutQuery.split("_");
-		if (urlStringParts.length == 0) {
-			return defaultSize;
-		}
-
-		final String[] sizeParts = urlStringParts[urlStringParts.length - 1].replace(".png", "").split("x");
-		if (sizeParts.length != 2) {
-			return defaultSize;
-		}
-
-		try {
-			int width = Integer.parseInt(sizeParts[0]);
-			int height = Integer.parseInt(sizeParts[1]);
-			return new int[] { width, height };
-		} catch (NumberFormatException ex) {
-			return new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
-		}
-	}
-
 	public static String changeSizeOfScratchImageURL(final String url, int newHeight) {
 		// example: https://cdn2.scratch.mit.edu/get_image/project/10205819_480x360.png
 		//    ->    https://cdn2.scratch.mit.edu/get_image/project/10205819_240x180.png
-		final int[] imageSize = extractImageSizeFromScratchImageURL(url);
-		final int width = imageSize[0];
-		final int height = imageSize[1];
+		final int width = Constants.SCRATCH_IMAGE_DEFAULT_WIDTH;
+		final int height = Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT;
 		final int newWidth = Math.round(((float) width) / ((float) height) * newHeight);
 
 		return url.replace(width + "x", Integer.toString(newWidth) + "x")
@@ -1112,5 +1087,23 @@ public final class Utils {
 			uniqueMap.put(objectInstance.getClass(), objectInstance);
 		}
 		return new ArrayList<>(uniqueMap.values());
+	}
+
+	public static int setBit(int number, int index, int value) {
+		if ((index >= 0) && (index < 32)) {
+			if (value == 0) {
+				return number & ~(1 << index);
+			} else {
+				return number | (1 << index);
+			}
+		}
+		return number;
+	}
+
+	public static int getBit(int number, int index) {
+		if ((index >= 0) && (index < 32)) {
+			return (number >> index) & 0x1;
+		}
+		return 0;
 	}
 }
