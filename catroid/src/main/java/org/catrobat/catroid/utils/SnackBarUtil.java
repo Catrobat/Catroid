@@ -25,6 +25,7 @@ package org.catrobat.catroid.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
@@ -51,6 +52,7 @@ public final class SnackBarUtil {
 
 		if (!wasHintAlreadyShown(activity, messageId) && areHintsEnabled(activity)) {
 			SnackBar.Builder snackBarBuilder = new SnackBar.Builder(activity)
+					.withTypeFace(Typeface.SANS_SERIF)
 					.withMessage(message)
 					.withActionMessage(activity.getResources().getString(R.string.got_it))
 					.withTextColorId(R.color.solid_black)
