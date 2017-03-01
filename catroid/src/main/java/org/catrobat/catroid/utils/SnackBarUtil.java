@@ -32,6 +32,7 @@ import android.support.annotation.StringRes;
 import android.view.ViewGroup;
 
 import com.github.mrengineer13.snackbar.SnackBar;
+import com.github.mrengineer13.snackbar.SnackBar.Style;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -55,8 +56,8 @@ public final class SnackBarUtil {
 					.withTypeFace(Typeface.SANS_SERIF)
 					.withMessage(message)
 					.withActionMessage(activity.getResources().getString(R.string.got_it))
-					.withTextColorId(R.color.solid_black)
-					.withBackgroundColorId(R.color.holo_blue_light)
+					.withStyle(Style.INFO)
+					.withTextColorId(R.color.main_menu_button_text_color)
 					.withOnClickListener(new SnackBar.OnMessageClickListener() {
 						@Override
 						public void onMessageClick(Parcelable token) {
