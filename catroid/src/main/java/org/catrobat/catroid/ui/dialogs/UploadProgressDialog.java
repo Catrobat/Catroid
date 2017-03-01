@@ -37,6 +37,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -95,7 +96,13 @@ public class UploadProgressDialog extends DialogFragment {
 		dialog.setCanceledOnTouchOutside(false);
 		dialog.setCancelable(false);
 		dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(getString(R.string.done));
-		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);    
+
+		Button done_button = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+		Button show_program_button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+
+		done_button.setWidth(50);
+		show_program_button.setWidth(50);
 
 		uploadProject(currentProjectName, currentProjectDescription);
 		//QUICKFIX: upload response currently not working
