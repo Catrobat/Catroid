@@ -29,6 +29,7 @@ import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mrengineer13.snackbar.SnackBar;
@@ -41,6 +42,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class SnackBarUtil {
+
+	private static ViewGroup activeSnack = null;
 
 	private SnackBarUtil() {
 	}
@@ -66,23 +69,36 @@ public final class SnackBarUtil {
 					})
 					.withDuration(SnackBar.PERMANENT_SNACK);
 			ViewGroup viewGroup = (ViewGroup) snackBarBuilder.show().getContainerView();
+			activeSnack = viewGroup;
 			TextSizeUtil.enlargeViewGroup(viewGroup);
 		}
 	}
 
-	private static void setHintShown(Activity activity, String messageId) {
+	public static void hideActiveSnack() {
+		if (activeSnack != null) {
+			activeSnack.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	public static void showActiveSnack() {
+		if (activeSnack != null) {
+			activeSnack.setVisibility(View.VISIBLE);
+		}
+	}
+
+	public static void setHintShown(Activity activity, String messageId) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 		Set<String> hintList = getStringSetFromSharedPreferences(activity);
 		hintList.add(messageId);
 		prefs.edit().putStringSet(SnackBarUtil.SHOWN_HINT_LIST, hintList).commit();
 	}
 
-	private static boolean wasHintAlreadyShown(Activity activity, String messageId) {
+	public static boolean wasHintAlreadyShown(Activity activity, String messageId) {
 		Set<String> hintList = getStringSetFromSharedPreferences(activity);
 		return hintList.contains(messageId);
 	}
 
-	private static boolean areHintsEnabled(Activity activity) {
+	public static boolean areHintsEnabled(Activity activity) {
 		return PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(SettingsActivity.SETTINGS_SHOW_HINTS, false);
 	}
 
