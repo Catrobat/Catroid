@@ -38,6 +38,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -95,7 +96,7 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	}
 
 	private ArrayAdapter<String> createSpinnerAdapter(Context context) {
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+		DynamicTextSizeArrayAdapter<String> arrayAdapter = new DynamicTextSizeArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		arrayAdapter.add(context.getString(R.string.brick_set_rotation_style_lr));
 		arrayAdapter.add(context.getString(R.string.brick_set_rotation_style_normal));
@@ -202,6 +203,8 @@ public class SetRotationStyleBrick extends BrickBaseType {
 					return false;
 				}
 			});
+			TextSizeUtil.enlargeTextView((TextView) dropDownView);
+
 			return dropDownView;
 		}
 	}

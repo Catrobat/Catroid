@@ -37,6 +37,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -117,7 +118,8 @@ public class CameraBrick extends BrickBaseType {
 		spinnerValues[OFF] = context.getString(R.string.video_brick_camera_off);
 		spinnerValues[ON] = context.getString(R.string.video_brick_camera_on);
 
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerValues);
+		DynamicTextSizeArrayAdapter<String> spinnerAdapter = new DynamicTextSizeArrayAdapter<String>(context, android.R.layout
+				.simple_spinner_item, spinnerValues);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		return spinnerAdapter;

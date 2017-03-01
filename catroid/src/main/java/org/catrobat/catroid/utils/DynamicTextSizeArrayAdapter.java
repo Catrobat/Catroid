@@ -20,55 +20,36 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.utils;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.util.AttributeSet;
-import android.widget.Spinner;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class BrickSpinner extends Spinner {
+import java.util.List;
 
-	private static final int SHADOW_RADIUS = 3;
-	private static final int SHADOW_REPEAT = 3;
-	private static boolean drawShadowBorder = false;
+public class DynamicTextSizeArrayAdapter<T> extends ArrayAdapter<T> {
 
-	public BrickSpinner(Context context) {
-		super(context);
+	public DynamicTextSizeArrayAdapter(Context context, int resource) {
+		super(context, resource);
 	}
 
-	public BrickSpinner(Context context, AttributeSet attributeSet) {
-		super(context, attributeSet);
+	public DynamicTextSizeArrayAdapter(Context context, int resource, T[] objects) {
+		super(context, resource, objects);
 	}
 
-	public BrickSpinner(Context context, AttributeSet attributeSet, int defStyle) {
-		super(context, attributeSet, defStyle);
+	public DynamicTextSizeArrayAdapter(Context context, int resource, List<T> objects) {
+		super(context, resource, objects);
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas) {
-		TextView textView = (TextView) getSelectedView();
-		if (drawShadowBorder) {
-			if (textView != null) {
-				textView.getPaint().setShadowLayer(SHADOW_RADIUS, 0, 0, Color.BLACK);
-				textView.getPaint().setShader(null);
-			}
+	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+		View dropDownView = super.getDropDownView(position, convertView, parent);
+		TextSizeUtil.enlargeTextView((TextView) dropDownView);
 
-			for (int i = 0; i < SHADOW_REPEAT; i++) {
-				super.onDraw(canvas);
-			}
-		} else {
-			super.onDraw(canvas);
-		}
-
-		if (textView != null) {
-			TextSizeUtil.enlargeTextView(textView);
-		}
-	}
-
-	public static void enableShadowBorder() {
-		drawShadowBorder = true;
+		return dropDownView;
 	}
 }

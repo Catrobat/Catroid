@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -104,7 +105,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 		Spinner pinSpinner = (Spinner) prototypeView.findViewById(R.id.brick_raspi_when_pinspinner);
 
-		ArrayAdapter<String> messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		DynamicTextSizeArrayAdapter<String> messageAdapter = new DynamicTextSizeArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(this.pinString);
 		pinSpinner.setAdapter(messageAdapter);
@@ -120,7 +121,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 		String revision = SettingsActivity.getRaspiRevision(context);
 		ArrayList<Integer> availableGPIOs = RaspberryPiService.getInstance().getGpioList(revision);
-		ArrayAdapter<String> messageAdapter2 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		DynamicTextSizeArrayAdapter<String> messageAdapter2 = new DynamicTextSizeArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		messageAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		for (Integer gpio : availableGPIOs) {
 			messageAdapter2.add(gpio.toString());
@@ -173,7 +174,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	}
 
 	private ArrayAdapter<String> getValueSpinnerArrayAdapter(Context context) {
-		ArrayAdapter<String> messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		DynamicTextSizeArrayAdapter<String> messageAdapter = new DynamicTextSizeArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(context.getString(R.string.brick_raspi_pressed_text));
 		messageAdapter.add(context.getString(R.string.brick_raspi_released_text));

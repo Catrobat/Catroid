@@ -46,6 +46,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -179,7 +180,7 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 	}
 
 	private ArrayAdapter<String> createSceneAdapter(Context context) {
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		DynamicTextSizeArrayAdapter<String> arrayAdapter = new DynamicTextSizeArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		String dummyScene = context.getString(R.string.new_broadcast_message);
 		arrayAdapter.add(dummyScene);
@@ -303,6 +304,7 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 					return false;
 				}
 			});
+			TextSizeUtil.enlargeTextView((TextView) dropDownView);
 
 			return dropDownView;
 		}

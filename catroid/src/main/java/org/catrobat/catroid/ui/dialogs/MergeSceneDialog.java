@@ -39,7 +39,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -47,6 +46,7 @@ import android.widget.Spinner;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.merge.MergeManager;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -73,11 +73,11 @@ public class MergeSceneDialog extends DialogFragment {
 		Spinner spinnerFirstScene = (Spinner) dialogView.findViewById(R.id.merge_scene_spinner_first);
 		Spinner spinnerSecondScene = (Spinner) dialogView.findViewById(R.id.merge_scene_spinner_second);
 
-		ArrayAdapter<String> firstAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item,
-				ProjectManager.getInstance().getCurrentProject().getSceneOrder());
+		DynamicTextSizeArrayAdapter<String> firstAdapter = new DynamicTextSizeArrayAdapter<String>(getActivity(), android.R.layout
+				.simple_spinner_item, ProjectManager.getInstance().getCurrentProject().getSceneOrder());
 		firstAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		ArrayAdapter<String> secondAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item,
-				ProjectManager.getInstance().getCurrentProject().getSceneOrder());
+		DynamicTextSizeArrayAdapter<String> secondAdapter = new DynamicTextSizeArrayAdapter<String>(getActivity(), android.R.layout
+				.simple_spinner_item, ProjectManager.getInstance().getCurrentProject().getSceneOrder());
 		secondAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerFirstScene.setAdapter(firstAdapter);
 		spinnerSecondScene.setAdapter(secondAdapter);

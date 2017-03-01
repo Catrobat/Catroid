@@ -27,12 +27,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -66,7 +66,7 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 		spinner.setFocusableInTouchMode(false);
 		spinner.setFocusable(false);
 
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(),
+		DynamicTextSizeArrayAdapter<String> arrayAdapter = new DynamicTextSizeArrayAdapter<String>(view.getContext(),
 				android.R.layout.simple_spinner_item, getSpinnerItems(view));
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -106,7 +106,7 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 
 		Spinner spinner = (Spinner) prototypeView.findViewById(R.id.brick_drone_spinner_ID);
 
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(prototypeView.getContext(),
+		DynamicTextSizeArrayAdapter<String> arrayAdapter = new DynamicTextSizeArrayAdapter<String>(prototypeView.getContext(),
 				android.R.layout.simple_spinner_item, getSpinnerItems(prototypeView));
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 

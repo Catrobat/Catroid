@@ -46,6 +46,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -152,7 +153,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	}
 
 	private ArrayAdapter<LookData> createLookAdapter(Context context) {
-		ArrayAdapter<LookData> arrayAdapter = new ArrayAdapter<LookData>(context, android.R.layout.simple_spinner_item);
+		DynamicTextSizeArrayAdapter<LookData> arrayAdapter = new DynamicTextSizeArrayAdapter<LookData>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		LookData dummyLookData = new LookData();
 		dummyLookData.setLookName(context.getString(R.string.new_broadcast_message));
@@ -306,6 +307,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 					return false;
 				}
 			});
+			TextSizeUtil.enlargeTextView((TextView) dropDownView);
 
 			return dropDownView;
 		}

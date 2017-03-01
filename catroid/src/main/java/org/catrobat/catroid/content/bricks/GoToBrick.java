@@ -297,6 +297,7 @@ public class GoToBrick extends BrickBaseType {
 					return false;
 				}
 			});
+			TextSizeUtil.enlargeTextView((TextView) dropDownView);
 
 			return dropDownView;
 		}
