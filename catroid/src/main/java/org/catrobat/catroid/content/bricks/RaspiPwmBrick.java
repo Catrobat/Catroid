@@ -128,16 +128,17 @@ public class RaspiPwmBrick extends FormulaBrick {
 
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_raspi_pwm_pin_edit_text:
-				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_NUMBER);
-				break;
-
 			case R.id.brick_raspi_pwm_frequency_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_PWM_FREQUENCY);
 				break;
 
 			case R.id.brick_raspi_pwm_percentage_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_PWM_PERCENTAGE);
+				break;
+
+			case R.id.brick_raspi_pwm_pin_edit_text:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_NUMBER);
 				break;
 		}
 	}

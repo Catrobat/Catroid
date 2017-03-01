@@ -80,6 +80,9 @@
     <string name="nothing_to_rename">Nothing to rename</string>
     <string name="unpack_background">Program\'s background will be replaced</string>
     <string name="degrees">degrees</string>
+    <string name="landscape">landscape</string>
+    <string name="portrait">portrait</string>
+    <string name="unknown">unknown</string>
     <!--  -->
 
 
@@ -466,6 +469,9 @@
     <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
     <!--  -->
 
+    <!-- Pocketmusic activity -->
+    <string name="pocketmusic_recorded_filename">Pocketmusic</string>
+    <!--  -->
 
     <!-- PreStage activity -->
     <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
@@ -1330,11 +1336,11 @@
     <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
     <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
     <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 touch sensor</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared sensor</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 color sensor</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 color sensor ambient</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3_touch</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3_infrared</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_color_ambient</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_color_reflected</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -1379,6 +1385,7 @@
     <string name="formula_editor_device_phiro">Phiro</string>
     <string name="formula_editor_device_raspberry">Raspberry Pi</string>
     <string name="formula_editor_device_drone">Drone</string>
+    <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_string">Abc</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>

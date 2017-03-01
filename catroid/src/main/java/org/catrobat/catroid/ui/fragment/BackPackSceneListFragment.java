@@ -201,6 +201,7 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 
 		unpackScenes(sceneList);
 		clearCheckedItems();
+		getActivity().finish();
 	}
 
 	private boolean conflictingResolutionsDetected(List<Scene> sceneList) {
@@ -225,6 +226,7 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 			public void onClick(DialogInterface dialog, int id) {
 				unpackScenes(sceneList);
 				clearCheckedItems();
+				getActivity().finish();
 			}
 		});
 		builder.setNegativeButton(R.string.abort, new DialogInterface.OnClickListener() {
