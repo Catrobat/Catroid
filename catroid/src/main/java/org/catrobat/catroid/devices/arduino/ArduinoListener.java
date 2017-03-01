@@ -24,6 +24,8 @@ package org.catrobat.catroid.devices.arduino;
 
 import android.util.Log;
 
+import org.catrobat.catroid.utils.Utils;
+
 import name.antonsmirnov.firmata.IFirmata;
 import name.antonsmirnov.firmata.message.AnalogMessage;
 import name.antonsmirnov.firmata.message.DigitalMessage;
@@ -44,7 +46,7 @@ public class ArduinoListener implements IFirmata.Listener {
 	private int analogPin4 = 0;
 	private int analogPin5 = 0;
 
-	int[] portValue = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	private int[] portValue = new int[(ArduinoImpl.NUMBER_OF_DIGITAL_PINS + ArduinoImpl.PINS_IN_A_PORT - 1) / ArduinoImpl.PINS_IN_A_PORT];
 
 	@Override
 	public void onAnalogMessageReceived(AnalogMessage message) {
@@ -85,26 +87,10 @@ public class ArduinoListener implements IFirmata.Listener {
 		Log.d(TAG, String.format("Received Digital Message: port: %d, value: %d",
 				message.getPort(), message.getValue()));
 
-		switch (message.getPort()) {
-			case ArduinoImpl.PORT_DIGITAL_0:
-				portValue [2] = (message.getValue() & 0x4) == 0 ? 0 : 1;
-				portValue [3] = (message.getValue() & 0x8) == 0 ? 0 : 1;
-				portValue [4] = (message.getValue() & 0x16) == 0 ? 0 : 1;
-				portValue [5] = (message.getValue() & 0x32) == 0 ? 0 : 1;
-				portValue [6] = (message.getValue() & 0x64) == 0 ? 0 : 1;
-				break;
-			case ArduinoImpl.PORT_DIGITAL_1:
-				portValue [8] = (message.getValue() & 0x1) == 0 ? 0 : 1;
-				portValue [9] = (message.getValue() & 0x2) == 0 ? 0 : 1;
-				portValue [10] = (message.getValue() & 0x4) == 0 ? 0 : 1;
-				portValue [11] = (message.getValue() & 0x8) == 0 ? 0 : 1;
-				portValue [12] = (message.getValue() & 0x16) == 0 ? 0 : 1;
-				portValue [13] = (message.getValue() & 0x32) == 0 ? 0 : 1;
-				break;
-		}
+		portValue[message.getPort()] = message.getValue();
 
-		for (int i = 0; i <= 13; i++) {
-			Log.d(TAG, String.format("Digital Port Values: %d", portValue[i]));
+		for (int i = 0; i < ArduinoImpl.NUMBER_OF_DIGITAL_PINS; i++) {
+			Log.d(TAG, String.format("Digital Pin %d Value: %d", i, getDigitalPinValue(i)));
 		}
 	}
 
@@ -164,11 +150,24 @@ public class ArduinoListener implements IFirmata.Listener {
 		return analogPin5;
 	}
 
-	public int getPortValue(int pin) {
-		return portValue[pin];
+	public int getDigitalPinValue(int pin) {
+		if (ArduinoImpl.isValidPin(pin)) {
+			int port = ArduinoImpl.getPortFromPin(pin);
+			int index = ArduinoImpl.getIndexOfPinOnPort(pin);
+			return Utils.getBit(portValue[port], index);
+		}
+		return 0;
 	}
 
-	public void setPortValue(int pin, int value) {
-		this.portValue[pin] = value;
+	public void setDigitalPinValue(int pin, int value) {
+		if (ArduinoImpl.isValidPin(pin)) {
+			int port = ArduinoImpl.getPortFromPin(pin);
+			int index = ArduinoImpl.getIndexOfPinOnPort(pin);
+			this.portValue[port] = Utils.setBit(portValue[port], index, value);
+		}
+	}
+
+	public int getPortValue(int port) {
+		return portValue[port];
 	}
 }

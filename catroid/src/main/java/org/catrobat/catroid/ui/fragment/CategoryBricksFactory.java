@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
+import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -78,6 +79,11 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -116,6 +122,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
@@ -196,6 +203,8 @@ public class CategoryBricksFactory {
 			tempList = setupDataCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
 			tempList = setupLegoNxtCategoryList();
+		} else if (category.equals(context.getString(R.string.category_lego_ev3))) {
+			tempList = setupLegoEv3CategoryList();
 		} else if (category.equals(context.getString(R.string.category_arduino))) {
 			tempList = setupArduinoCategoryList();
 		} else if (category.equals(context.getString(R.string.category_drone))) {
@@ -264,6 +273,9 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new CloneBrick());
 		controlBrickList.add(new DeleteThisCloneBrick());
 		controlBrickList.add(new WhenClonedBrick());
+		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+			controlBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
+		}
 
 		return controlBrickList;
 	}
@@ -376,6 +388,7 @@ public class CategoryBricksFactory {
 			soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 					BrickValues.PHIRO_DURATION));
 		}
+		soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
 		return soundBrickList;
 	}
@@ -446,6 +459,7 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 		return dataBrickList;
 	}
 
@@ -459,6 +473,19 @@ public class CategoryBricksFactory {
 		legoNXTBrickList.add(new LegoNxtPlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION));
 
 		return legoNXTBrickList;
+	}
+
+	private List<Brick> setupLegoEv3CategoryList() {
+		List<Brick> legoEV3BrickList = new ArrayList<Brick>();
+		legoEV3BrickList.add(new LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A,
+				BrickValues.LEGO_ANGLE));
+		legoEV3BrickList.add(new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A,
+				BrickValues.LEGO_SPEED));
+		legoEV3BrickList.add(new LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));
+		legoEV3BrickList.add(new LegoEv3PlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION, BrickValues.LEGO_VOLUME));
+		legoEV3BrickList.add(new LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_GREEN));
+
+		return legoEV3BrickList;
 	}
 
 	private List<Brick> setupDroneCategoryList() {
@@ -627,6 +654,8 @@ public class CategoryBricksFactory {
 
 		if (brick instanceof AskBrick) {
 			category = res.getString(R.string.category_looks);
+		} else if (brick instanceof AskSpeechBrick) {
+			category = res.getString(R.string.category_sound);
 		} else if (brick instanceof WhenClonedBrick) {
 			category = res.getString(R.string.category_control);
 		} else if (brick instanceof WhenBackgroundChangesBrick) {

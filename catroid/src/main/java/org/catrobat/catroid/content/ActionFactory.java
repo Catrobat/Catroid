@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
+import org.catrobat.catroid.content.actions.AskSpeechAction;
 import org.catrobat.catroid.content.actions.BackgroundNotifyAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
@@ -77,10 +78,14 @@ import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
 import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
-import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
+import org.catrobat.catroid.content.actions.LegoEv3MotorMoveAction;
+import org.catrobat.catroid.content.actions.LegoEv3MotorStopAction;
+import org.catrobat.catroid.content.actions.LegoEv3MotorTurnAngleAction;
+import org.catrobat.catroid.content.actions.LegoEv3PlayToneAction;
+import org.catrobat.catroid.content.actions.LegoEv3SetLedAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
@@ -110,6 +115,7 @@ import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.catrobat.catroid.content.actions.SetNfcTagAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetRotationStyleAction;
@@ -117,10 +123,10 @@ import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.content.actions.SetTextAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
 import org.catrobat.catroid.content.actions.SetVariableAction;
+import org.catrobat.catroid.content.actions.SetVisibleAction;
 import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
-import org.catrobat.catroid.content.actions.ShowAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StampAction;
@@ -138,6 +144,10 @@ import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -250,7 +260,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSetRotationStyleAction(Sprite sprite, Formula mode) {
+	public Action createSetRotationStyleAction(Sprite sprite, int mode) {
 		SetRotationStyleAction action = Actions.action(SetRotationStyleAction.class);
 		action.setRotationStyle(mode);
 		action.setSprite(sprite);
@@ -324,8 +334,9 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createHideAction(Sprite sprite) {
-		HideAction action = Actions.action(HideAction.class);
+		SetVisibleAction action = Actions.action(SetVisibleAction.class);
 		action.setSprite(sprite);
+		action.setVisible(false);
 		return action;
 	}
 
@@ -363,6 +374,46 @@ public class ActionFactory extends Actions {
 		action.setHertz(hertz);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
+		return action;
+	}
+
+	public Action createLegoEv3SingleMotorMoveAction(Sprite sprite,
+			LegoEv3MotorMoveBrick.Motor motorEnum, Formula speed) {
+		LegoEv3MotorMoveAction action = action(LegoEv3MotorMoveAction.class);
+		action.setSprite(sprite);
+		action.setMotorEnum(motorEnum);
+		action.setSpeed(speed);
+		return action;
+	}
+
+	public Action createLegoEv3MotorStopAction(LegoEv3MotorStopBrick.Motor motorEnum) {
+		LegoEv3MotorStopAction action = action(LegoEv3MotorStopAction.class);
+		action.setMotorEnum(motorEnum);
+		return action;
+	}
+
+	public Action createLegoEv3SetLedAction(LegoEv3SetLedBrick.LedStatus ledStatusEnum) {
+		LegoEv3SetLedAction action = action(LegoEv3SetLedAction.class);
+		action.setLedStatusEnum(ledStatusEnum);
+		return action;
+	}
+
+	public Action createLegoEv3PlayToneAction(Sprite sprite, Formula hertz, Formula
+			durationInSeconds, Formula volumeInPercent) {
+		LegoEv3PlayToneAction action = action(LegoEv3PlayToneAction.class);
+		action.setHertz(hertz);
+		action.setSprite(sprite);
+		action.setDurationInSeconds(durationInSeconds);
+		action.setVolumeInPercent(volumeInPercent);
+		return action;
+	}
+
+	public Action createLegoEv3MotorTurnAngleAction(Sprite sprite,
+			LegoEv3MotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
+		LegoEv3MotorTurnAngleAction action = action(LegoEv3MotorTurnAngleAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setDegrees(degrees);
 		return action;
 	}
 
@@ -568,8 +619,9 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createShowAction(Sprite sprite) {
-		ShowAction action = Actions.action(ShowAction.class);
+		SetVisibleAction action = Actions.action(SetVisibleAction.class);
 		action.setSprite(sprite);
+		action.setVisible(true);
 		return action;
 	}
 
@@ -616,6 +668,14 @@ public class ActionFactory extends Actions {
 
 	public Action createAskAction(Sprite sprite, Formula questionFormula, UserVariable answerVariable) {
 		AskAction action = Actions.action(AskAction.class);
+		action.setSprite(sprite);
+		action.setQuestionFormula(questionFormula);
+		action.setAnswerVariable(answerVariable);
+		return action;
+	}
+
+	public Action createAskSpeechAction(Sprite sprite, Formula questionFormula, UserVariable answerVariable) {
+		AskSpeechAction action = Actions.action(AskSpeechAction.class);
 		action.setSprite(sprite);
 		action.setQuestionFormula(questionFormula);
 		action.setAnswerVariable(answerVariable);
@@ -912,11 +972,12 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createHideVariableAction(UserVariable userVariable) {
+	public Action createHideVariableAction(Sprite sprite, UserVariable userVariable) {
 		HideTextAction action = action(HideTextAction.class);
 		action.setVariableToHide(userVariable);
 		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		action.setUserBrick(userBrick);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -1022,5 +1083,13 @@ public class ActionFactory extends Actions {
 			default:
 				return Actions.action(StopAllScriptsAction.class);
 		}
+	}
+
+	public Action createSetNfcTagAction(Sprite sprite, Formula nfcNdefMessage, int nfcNdefSpinnerSelection) {
+		SetNfcTagAction setNfcTagAction = Actions.action(SetNfcTagAction.class);
+		setNfcTagAction.setSprite(sprite);
+		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
+		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
+		return setNfcTagAction;
 	}
 }

@@ -252,7 +252,9 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		Log.i("Foreground dispatch", "Discovered tag with intent: " + intent);
 		Log.d(TAG, "activity:" + getActivity().getClass().getSimpleName());
 		Log.d(TAG, "got intent:" + intent.getAction());
-		String uid = NfcHandler.getUid(intent);
+		String uid = NfcHandler.getTagIdFromIntent(intent);
+		NfcHandler.setLastNfcTagId(uid);
+		NfcHandler.setLastNfcTagMessage(NfcHandler.getMessageFromIntent(intent));
 		if (uid != null) {
 			NfcTagData newNfcTagData = new NfcTagData();
 			String newTagName = Utils.getUniqueNfcTagName(getString(R.string.default_tag_name));
@@ -260,7 +262,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			newNfcTagData.setNfcTagUid(uid);
 			adapter.add(newNfcTagData);
 			adapter.notifyDataSetChanged();
-			//getActivity().setIntent(new Intent());
 		} else {
 			Log.d(TAG, "no nfc tag found");
 		}
@@ -456,7 +457,8 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 	@Override
 	public void showRenameDialog() {
-		RenameNfcTagDialog renameNfcTagDialog = RenameNfcTagDialog.newInstance(selectedNfcTag.getNfcTagName());
+		RenameNfcTagDialog renameNfcTagDialog = new RenameNfcTagDialog(R.string.rename_nfctag_dialog, R
+				.string.nfctag_name, selectedNfcTag.getNfcTagName());
 		renameNfcTagDialog.show(getFragmentManager(), RenameNfcTagDialog.DIALOG_FRAGMENT_TAG);
 	}
 

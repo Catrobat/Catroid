@@ -26,6 +26,7 @@
     <color name="solid_black">#000</color>
     <color name="solid_white">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
+    <color name="light_grey">#CCCCCC</color>
     <color name="actionbar_title_color">#6F8E9B</color>
     <color name="application_background_color">#04222C</color>
     <color name="transparent">#00000000</color>
@@ -96,5 +97,10 @@
     <color name="drone_rotation_color">#FF0284E7</color>,
     <color name="drone_tilt_color">#FFE01B</color>
     <color name="drone_holo_blue_bright">#33B5E5</color>
+
+    <!-- Pocketmusic colors -->
+    <color name="turquoise_play_line">#FF008b96</color>
+    <color name="opaque_turquoise_play_line">#FF80c5ca</color>
+    <color name="opaque_turquoise_play_line_dark">#FF5EA3A8</color>
 
 </resources>

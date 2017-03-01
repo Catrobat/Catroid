@@ -45,16 +45,13 @@ public class CameraBrick extends BrickBaseType {
 
 	private transient View prototypeView;
 
-	private String[] spinnerValues;
 	private int spinnerSelectionID;
 
 	public CameraBrick() {
-		spinnerValues = new String[2];
 		spinnerSelectionID = ON;
 	}
 
 	public CameraBrick(int onOrOff) {
-		spinnerValues = new String[2];
 		spinnerSelectionID = onOrOff;
 	}
 
@@ -104,6 +101,7 @@ public class CameraBrick extends BrickBaseType {
 	}
 
 	private ArrayAdapter<String> createArrayAdapter(Context context) {
+		String[] spinnerValues = new String[2];
 		spinnerValues[OFF] = context.getString(R.string.video_brick_camera_off);
 		spinnerValues[ON] = context.getString(R.string.video_brick_camera_on);
 

@@ -32,10 +32,12 @@ import java.io.OutputStream;
 public class MindstormsConnectionImpl implements MindstormsConnection {
 
 	private BluetoothConnection bluetoothConnection;
-	private OutputStream nxtOutputStream = null;
-	private DataInputStream nxtInputStream = null;
+	private OutputStream legoOutputStream = null;
+	private DataInputStream legoInputStream = null;
 
 	private boolean isConnected = false;
+
+	private short commandCounter = 1;
 
 	public MindstormsConnectionImpl(BluetoothConnection btConnection) {
 		this.bluetoothConnection = btConnection;
@@ -45,8 +47,8 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 	public void init() {
 
 		try {
-			nxtInputStream = new DataInputStream(bluetoothConnection.getInputStream());
-			nxtOutputStream = bluetoothConnection.getOutputStream();
+			legoInputStream = new DataInputStream(bluetoothConnection.getInputStream());
+			legoOutputStream = bluetoothConnection.getOutputStream();
 			isConnected = true;
 		} catch (IOException e) {
 			isConnected = false;
@@ -66,8 +68,8 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 
 		bluetoothConnection.disconnect();
 
-		nxtInputStream = null;
-		nxtOutputStream = null;
+		legoInputStream = null;
+		legoOutputStream = null;
 	}
 
 	@Override
@@ -87,13 +89,23 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 
 			System.arraycopy(message, 0, data, 2, messageLength);
 
-			synchronized (nxtOutputStream) {
-				nxtOutputStream.write(data, 0, messageLength + 2);
-				nxtOutputStream.flush();
+			synchronized (legoOutputStream) {
+				legoOutputStream.write(data, 0, messageLength + 2);
+				legoOutputStream.flush();
 			}
 		} catch (IOException e) {
 			throw new MindstormsException(e, "Error on message send.");
 		}
+	}
+
+	@Override
+	public short getCommandCounter() {
+		return commandCounter;
+	}
+
+	@Override
+	public void incCommandCounter() {
+		commandCounter++;
 	}
 
 	protected byte[] receive() {
@@ -101,11 +113,11 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 		byte[] payload;
 
 		try {
-			nxtInputStream.readFully(data, 0, 2);
+			legoInputStream.readFully(data, 0, 2);
 			int expectedLength = ((data[0] & 0xFF) | (data[1] & 0xFF) << 8);
 			payload = new byte[expectedLength];
 
-			nxtInputStream.readFully(payload, 0, expectedLength);
+			legoInputStream.readFully(payload, 0, expectedLength);
 		} catch (IOException e) {
 			throw new MindstormsException(e, "Read Error");
 		}

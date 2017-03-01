@@ -42,6 +42,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
+import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -66,7 +67,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float[] rotationVector = new float[3];
 	private float[] accelerationXYZ = new float[3];
 	private float signAccelerationZ = 0f;
-	private float[] gravity = new float[]{0f, 0f, 0f};
+	private float[] gravity = new float[] { 0f, 0f, 0f };
 	private boolean useLinearAccelerationFallback = false;
 	private boolean useRotationVectorFallback = false;
 	private float linearAccelerationX = 0f;
@@ -242,7 +243,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		FaceDetectionHandler.unregisterOnFaceDetectionStatusListener(instance);
 	}
 
-	public static Double getSensorValue(Sensors sensor) {
+	public static Object getSensorValue(Sensors sensor) {
 		if (instance.sensorManager == null) {
 			return 0d;
 		}
@@ -433,6 +434,16 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				}
 				break;
 
+			case EV3_SENSOR_1:
+			case EV3_SENSOR_2:
+			case EV3_SENSOR_3:
+			case EV3_SENSOR_4:
+				LegoEV3 ev3 = btService.getDevice(BluetoothDevice.LEGO_EV3);
+				if (ev3 != null) {
+					return Double.valueOf(ev3.getSensorValue(sensor));
+				}
+				break;
+
 			case PHIRO_BOTTOM_LEFT:
 			case PHIRO_BOTTOM_RIGHT:
 			case PHIRO_FRONT_LEFT:
@@ -507,9 +518,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				} else {
 					return 0.0;
 				}
+			case NFC_TAG_MESSAGE:
+				return String.valueOf(NfcHandler.getLastNfcTagMessage());
 
 			case NFC_TAG_ID:
-				return (double) NfcHandler.getLastNfcTagId();
+				return String.valueOf(NfcHandler.getLastNfcTagId());
 		}
 		return 0d;
 	}

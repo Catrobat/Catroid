@@ -27,6 +27,7 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -49,8 +50,8 @@ public class GoNStepsBackAction extends TemporalAction {
 		}
 
 		int zPosition = sprite.look.getZIndex();
-		if (stepsValue.intValue() > 0 && (zPosition - stepsValue.intValue()) < 1) {
-			sprite.look.setZIndex(1);
+		if (stepsValue.intValue() > 0 && (zPosition - stepsValue.intValue()) < Constants.Z_INDEX_FIRST_SPRITE) {
+			sprite.look.setZIndex(Constants.Z_INDEX_FIRST_SPRITE);
 		} else if (stepsValue.intValue() < 0 && (zPosition - stepsValue.intValue()) < zPosition) {
 			toFront();
 		} else {
@@ -73,12 +74,7 @@ public class GoNStepsBackAction extends TemporalAction {
 
 	private void goNStepsBack(int steps) {
 		int zPosition = sprite.look.getZIndex();
-		int newSpriteZIndex = zPosition - steps;
-
-		if (newSpriteZIndex < 1) {
-
-			newSpriteZIndex = 1;
-		}
+		int newSpriteZIndex = Math.max(zPosition - steps, Constants.Z_INDEX_FIRST_SPRITE);
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
 

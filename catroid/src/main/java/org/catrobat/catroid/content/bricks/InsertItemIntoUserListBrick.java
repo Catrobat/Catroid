@@ -181,18 +181,20 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	@Override
 	public Brick clone() {
 		InsertItemIntoUserListBrick clonedBrick = new InsertItemIntoUserListBrick(getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).clone(), getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).clone(), userList);
-		clonedBrick.setBackPackedData(new UserListBrick.BackPackedData(backPackedData));
+		clonedBrick.setBackPackedData(new BackPackedListData(backPackedData));
 		return clonedBrick;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_insert_item_into_userlist_at_index_edit_text:
-				FormulaEditorFragment.showFragment(view, this, BrickField.INSERT_ITEM_INTO_USERLIST_INDEX);
-				break;
 			case R.id.brick_insert_item_into_userlist_value_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.INSERT_ITEM_INTO_USERLIST_VALUE);
+				break;
+
+			case R.id.brick_insert_item_into_userlist_at_index_edit_text:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.INSERT_ITEM_INTO_USERLIST_INDEX);
 				break;
 		}
 	}

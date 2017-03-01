@@ -168,7 +168,7 @@ public class NewSpriteDialog extends DialogFragment {
 
 	private AlertDialog createDialogStepTwo(AlertDialog.Builder dialogBuilder) {
 		AlertDialog dialog = dialogBuilder.setPositiveButton(R.string.ok, null)
-				.setNegativeButton(R.string.cancel_button, null).create();
+				.setNegativeButton(R.string.cancel, null).create();
 
 		dialogView.findViewById(R.id.dialog_new_object_step_1_layout).setVisibility(View.GONE);
 		dialogView.findViewById(R.id.dialog_new_object_second_row).setVisibility(View.GONE);
@@ -339,11 +339,14 @@ public class NewSpriteDialog extends DialogFragment {
 		mediaButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getActivity(), WebViewActivity.class);
-				String url = Constants.LIBRARY_LOOKS_URL;
-				intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
-				intent.putExtra(WebViewActivity.CALLING_ACTIVITY, SpritesListFragment.TAG);
-				startActivityForResult(intent, REQUEST_MEDIA_LIBRARY);
+				if (Utils.isNetworkAvailable(view.getContext(), true)) {
+					Intent intent = new Intent(getActivity(), WebViewActivity.class);
+					String url = Constants.LIBRARY_LOOKS_URL;
+
+					intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+					intent.putExtra(WebViewActivity.CALLING_ACTIVITY, SpritesListFragment.TAG);
+					startActivityForResult(intent, REQUEST_MEDIA_LIBRARY);
+				}
 			}
 		});
 	}

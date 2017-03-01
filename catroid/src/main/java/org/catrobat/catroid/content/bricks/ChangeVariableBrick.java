@@ -180,7 +180,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	public ChangeVariableBrick clone() {
 		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getFormulaWithBrickField(
 				BrickField.VARIABLE_CHANGE).clone(), userVariable);
-		clonedBrick.setBackPackedData(new UserVariableBrick.BackPackedData(backPackedData));
+		clonedBrick.setBackPackedData(new BackPackedVariableData(backPackedData));
 		return clonedBrick;
 	}
 

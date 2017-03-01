@@ -49,10 +49,15 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
+    packagingOptions {
+        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+    }
     buildTypes {
 
         debug {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
@@ -66,6 +71,7 @@ android {
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
@@ -147,6 +153,23 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
 
+    androidTestCompile ('com.android.support.test:runner:0.5') {
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+
+    compile ('com.android.support.test.espresso:espresso-core:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+    compile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
 
@@ -170,14 +193,19 @@ android {
         targetSdkVersion 22
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 34
+        versionCode 35
         println "VersionCode is " + versionCode
-        versionName "0.9.27"
+        versionName "0.9.28"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
         multiDexEnabled true
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
     }
 
     lintOptions {

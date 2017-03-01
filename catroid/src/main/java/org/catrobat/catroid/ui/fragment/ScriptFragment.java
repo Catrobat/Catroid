@@ -73,7 +73,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -98,7 +98,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private View selectAllActionModeButton;
 
 	private BrickAdapter adapter;
-	private DragAndDropListView listView;
+	private BrickDragAndDropListView listView;
 
 	private Sprite sprite;
 	private Script scriptToEdit;
@@ -256,7 +256,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = View.inflate(getActivity(), R.layout.fragment_script, null);
-		listView = (DragAndDropListView) rootView.findViewById(android.R.id.list);
+		listView = (BrickDragAndDropListView) rootView.findViewById(android.R.id.list);
 
 		setupUiForUserBricks();
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
@@ -285,7 +285,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
 		menu.findItem(R.id.unpacking).setVisible(false);
-		menu.findItem(R.id.unpacking_keep).setVisible(false);
+
 		if (getActivity() instanceof UserBrickScriptActivity || isInUserBrickOverview()) {
 			backpackMenuIsVisible = false;
 		}
@@ -358,7 +358,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	public DragAndDropListView getListView() {
+	public BrickDragAndDropListView getListView() {
 		return listView;
 	}
 

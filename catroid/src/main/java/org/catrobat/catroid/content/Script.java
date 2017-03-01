@@ -50,11 +50,8 @@ public abstract class Script implements Serializable {
 
 	protected boolean commentedOut = false;
 
-	private transient volatile boolean paused;
-
 	public Script() {
 		brickList = new ArrayList<>();
-		init();
 	}
 
 	public abstract Script copyScriptForSprite(Sprite copySprite);
@@ -80,22 +77,17 @@ public abstract class Script implements Serializable {
 	}
 
 	protected Object readResolve() {
-		init();
 		return this;
 	}
 
 	public abstract ScriptBrick getScriptBrick();
-
-	private void init() {
-		paused = false;
-	}
 
 	public void run(Sprite sprite, SequenceAction sequence) {
 		if (this.isCommentedOut()) {
 			return;
 		}
 
-		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
+		ArrayList<SequenceAction> sequenceList = new ArrayList<>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
 			if (brickList.get(i).isCommentedOut()) {
@@ -154,20 +146,18 @@ public abstract class Script implements Serializable {
 		}
 	}
 
+	public void removeBricks(List<Brick> bricksToRemove) {
+		for (Brick brick : bricksToRemove) {
+			removeBrick(brick);
+		}
+	}
+
 	public void removeBrick(Brick brick) {
 		brickList.remove(brick);
 	}
 
 	public ArrayList<Brick> getBrickList() {
 		return brickList;
-	}
-
-	public void setPaused(boolean paused) {
-		this.paused = paused;
-	}
-
-	public boolean isPaused() {
-		return paused;
 	}
 
 	public int getRequiredResources() {
@@ -267,5 +257,16 @@ public abstract class Script implements Serializable {
 				brick.setCommentedOut(commentedOut);
 			}
 		}
+	}
+
+	public List<Brick> getBricksRequiringResources(int resource) {
+		List<Brick> resourceBrickList = new ArrayList<Brick>();
+
+		for (Brick brick : brickList) {
+			if ((brick.getRequiredResources() & resource) != 0) {
+				resourceBrickList.add(brick);
+			}
+		}
+		return resourceBrickList;
 	}
 }

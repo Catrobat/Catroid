@@ -32,6 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
@@ -48,7 +49,6 @@ import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -80,7 +80,6 @@ public class Sprite implements Serializable, Cloneable {
 	private static SpriteFactory spriteFactory = new SpriteFactory();
 
 	public transient Look look = new Look(this);
-	public transient boolean isPaused;
 	public transient boolean isBackpackObject = false;
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
@@ -386,7 +385,6 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.isBackpackObject = false;
 		cloneSprite.convertToSingleSprite = false;
 		cloneSprite.convertToGroupItemSprite = false;
-		cloneSprite.isPaused = false;
 		cloneSprite.isMobile = this.isMobile;
 
 		cloneSprite.look = this.look;
@@ -634,20 +632,6 @@ public class Sprite implements Serializable, Cloneable {
 		look.addAction(whenParallelAction);
 	}
 
-	public void pause() {
-		for (Script s : scriptList) {
-			s.setPaused(true);
-		}
-		this.isPaused = true;
-	}
-
-	public void resume() {
-		for (Script s : scriptList) {
-			s.setPaused(false);
-		}
-		this.isPaused = false;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -779,6 +763,9 @@ public class Sprite implements Serializable, Cloneable {
 				}
 			}
 		}
+		if (hasCollision()) {
+			renameSpriteInCollisionFormulas(newSpriteName, CatroidApplication.getAppContext());
+		}
 		setName(newSpriteName);
 	}
 
@@ -834,42 +821,10 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
-	public void renameCopiedSpriteInCollisionFormulas(String oldName, String newName, Context context) {
-
-		for (Script currentScript : getScriptList()) {
-			if (currentScript == null) {
-				return;
-			}
-			List<Brick> brickList = currentScript.getBrickList();
-			for (Brick brick : brickList) {
-				if (brick instanceof UserBrick) {
-					List<Formula> formulaList = ((UserBrick) brick).getFormulas();
-					for (Formula formula : formulaList) {
-						formula.updateCollisionFormulas(oldName, newName, context);
-					}
-				}
-				if (brick instanceof FormulaBrick) {
-					List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
-					for (Formula formula : formulaList) {
-						formula.updateCollisionFormulas(oldName, newName, context);
-					}
-				}
-			}
-		}
-	}
-
 	public boolean hasCollision() {
-		for (Script script : getScriptList()) {
-			for (Brick brick : script.brickList) {
-				if (brick instanceof FormulaBrick) {
-					FormulaBrick formulaBrick = (FormulaBrick) brick;
-					for (Formula formula : formulaBrick.getFormulas()) {
-						if (formula.containsElement(FormulaElement.ElementType.COLLISION_FORMULA)) {
-							return true;
-						}
-					}
-				}
-			}
+		boolean hasCollision = (this.getRequiredResources() & Brick.COLLISION) > 0;
+		if (hasCollision) {
+			return true;
 		}
 		Scene scene = ProjectManager.getInstance().getCurrentScene();
 		for (Sprite sprite : scene.getSpriteList()) {
@@ -882,6 +837,15 @@ public class Sprite implements Serializable, Cloneable {
 
 	public boolean hasToCollideWith(Sprite other) {
 		for (Script script : getScriptList()) {
+			Brick scriptBrick = script.getScriptBrick();
+			if (scriptBrick instanceof FormulaBrick) {
+				FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
+				for (Formula formula : formulaBrick.getFormulas()) {
+					if (formula.containsSpriteInCollision(other.getName())) {
+						return true;
+					}
+				}
+			}
 			for (Brick brick : script.brickList) {
 				if (brick instanceof FormulaBrick) {
 					FormulaBrick formulaBrick = (FormulaBrick) brick;
@@ -894,6 +858,65 @@ public class Sprite implements Serializable, Cloneable {
 			}
 		}
 		return false;
+	}
+
+	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
+		for (Script script : getScriptList()) {
+			Brick scriptBrick = script.getScriptBrick();
+			if (scriptBrick instanceof FormulaBrick) {
+				FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
+				for (Formula formula : formulaBrick.getFormulas()) {
+					formula.updateCollisionFormulasToVersion(catroidLanguageVersion);
+				}
+			}
+			for (Brick brick : script.getBrickList()) {
+				if (brick instanceof UserBrick) {
+					UserBrick formulaBrick = (UserBrick) brick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						formula.updateCollisionFormulasToVersion(catroidLanguageVersion);
+					}
+				} else if (brick instanceof FormulaBrick) {
+					FormulaBrick formulaBrick = (FormulaBrick) brick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						formula.updateCollisionFormulasToVersion(catroidLanguageVersion);
+					}
+				}
+			}
+		}
+	}
+
+	private void renameSpriteInCollisionFormulas(String newName, Context context) {
+		String oldName = getName();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		for (Sprite sprite : spriteList) {
+			for (Script currentScript : sprite.getScriptList()) {
+				if (currentScript == null) {
+					return;
+				}
+				Brick scriptBrick = currentScript.getScriptBrick();
+				if (scriptBrick instanceof FormulaBrick) {
+					FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						formula.updateCollisionFormulas(oldName, newName, context);
+					}
+				}
+				List<Brick> brickList = currentScript.getBrickList();
+				for (Brick brick : brickList) {
+					if (brick instanceof UserBrick) {
+						List<Formula> formulaList = ((UserBrick) brick).getFormulas();
+						for (Formula formula : formulaList) {
+							formula.updateCollisionFormulas(oldName, newName, context);
+						}
+					}
+					if (brick instanceof FormulaBrick) {
+						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
+						for (Formula formula : formulaList) {
+							formula.updateCollisionFormulas(oldName, newName, context);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void createCollisionPolygons() {
@@ -926,5 +949,14 @@ public class Sprite implements Serializable, Cloneable {
 
 	public void setIsMobile(boolean isMobile) {
 		this.isMobile = isMobile;
+	}
+
+	public List<Brick> getBricksRequiringResource(int resource) {
+		List<Brick> resourceBrickList = new ArrayList<Brick>();
+
+		for (Script script : scriptList) {
+			resourceBrickList.addAll(script.getBricksRequiringResources(resource));
+		}
+		return resourceBrickList;
 	}
 }

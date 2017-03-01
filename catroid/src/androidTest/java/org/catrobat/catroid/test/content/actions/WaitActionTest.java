@@ -25,8 +25,6 @@ package org.catrobat.catroid.test.content.actions;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
@@ -42,26 +40,6 @@ public class WaitActionTest extends AndroidTestCase {
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
-		} while (!action.act(currentTimeInMilliSeconds / 1000f));
-
-		assertTrue("Unexpected waited time!", (action.getTime() - waitOneSecond) > 0.5f);
-	}
-
-	public void testPauseResume() throws InterruptedException {
-		Sprite testSprite = new SingleSprite("testSprite");
-		float waitOneSecond = 1.0f;
-
-		ActionFactory factory = testSprite.getActionFactory();
-		WaitAction action = (WaitAction) factory.createDelayAction(testSprite, new Formula(waitOneSecond));
-		testSprite.look.addAction(action);
-		long currentTimeInMilliSeconds = System.currentTimeMillis();
-		do {
-			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
-			if (currentTimeInMilliSeconds > 400) {
-				testSprite.pause();
-				Thread.sleep(200);
-				testSprite.resume();
-			}
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
 
 		assertTrue("Unexpected waited time!", (action.getTime() - waitOneSecond) > 0.5f);

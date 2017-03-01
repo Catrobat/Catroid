@@ -421,7 +421,6 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		testScript.addBrick(comeToFrontBrick);
 
 		otherScript.addBrick(placeAtBrick); // secondSprite
-		otherScript.setPaused(true);
 		// -------------------------------
 
 		firstSprite.addScript(testScript);

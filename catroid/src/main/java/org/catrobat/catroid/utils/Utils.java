@@ -65,6 +65,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
@@ -94,10 +95,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
+
+	private enum RemixUrlParsingState {
+		STARTING, TOKEN, BETWEEN
+	}
 
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 
@@ -211,6 +217,92 @@ public final class Utils {
 		}
 	}
 
+	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
+		String escapedFirstProgramName = headerOfFirstProgram.getProgramName();
+		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
+				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
+		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
+				Constants.REMIX_URL_SUFIX_REPLACE_INDICATOR);
+		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SEPARATOR,
+				Constants.REMIX_URL_REPLACE_SEPARATOR);
+
+		String escapedSecondProgramName = headerOfSecondProgram.getProgramName();
+		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
+				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
+		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
+				Constants.REMIX_URL_SUFIX_REPLACE_INDICATOR);
+		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_SEPARATOR,
+				Constants.REMIX_URL_REPLACE_SEPARATOR);
+
+		StringBuilder remixUrlString = new StringBuilder(escapedFirstProgramName);
+
+		if (!headerOfFirstProgram.getRemixParentsUrlString().equals("")) {
+			remixUrlString
+					.append(' ')
+					.append(Constants.REMIX_URL_PREFIX_INDICATOR)
+					.append(headerOfFirstProgram.getRemixParentsUrlString())
+					.append(Constants.REMIX_URL_SUFIX_INDICATOR);
+		}
+
+		remixUrlString
+				.append(Constants.REMIX_URL_SEPARATOR)
+				.append(' ')
+				.append(escapedSecondProgramName);
+
+		if (!headerOfSecondProgram.getRemixParentsUrlString().equals("")) {
+			remixUrlString
+					.append(' ')
+					.append(Constants.REMIX_URL_PREFIX_INDICATOR)
+					.append(headerOfSecondProgram.getRemixParentsUrlString())
+					.append(Constants.REMIX_URL_SUFIX_INDICATOR);
+		}
+
+		return remixUrlString.toString();
+	}
+
+	// based on: http://stackoverflow.com/a/27295688
+	public static List<String> extractRemixUrlsFromString(String text) {
+		RemixUrlParsingState state = RemixUrlParsingState.STARTING;
+		ArrayList<String> extractedUrls = new ArrayList<>();
+		StringBuffer temp = new StringBuffer("");
+
+		for (int index = 0; index < text.length(); index++) {
+			char currentCharacter = text.charAt(index);
+			switch (currentCharacter) {
+				case Constants.REMIX_URL_PREFIX_INDICATOR:
+					if (state == RemixUrlParsingState.STARTING) {
+						state = RemixUrlParsingState.BETWEEN;
+					} else if (state == RemixUrlParsingState.TOKEN) {
+						temp.delete(0, temp.length());
+						state = RemixUrlParsingState.BETWEEN;
+					}
+					break;
+
+				case Constants.REMIX_URL_SUFIX_INDICATOR:
+					if (state == RemixUrlParsingState.TOKEN) {
+						String extractedUrl = temp.toString().trim();
+						if (!extractedUrl.contains(String.valueOf(Constants.REMIX_URL_SEPARATOR))
+								&& extractedUrl.length() > 0) {
+							extractedUrls.add(extractedUrl);
+						}
+						temp.delete(0, temp.length());
+						state = RemixUrlParsingState.BETWEEN;
+					}
+					break;
+
+				default:
+					state = RemixUrlParsingState.TOKEN;
+					temp.append(currentCharacter);
+			}
+		}
+
+		if (extractedUrls.size() == 0 && !text.contains(String.valueOf(Constants.REMIX_URL_SEPARATOR))) {
+			extractedUrls.add(text);
+		}
+
+		return extractedUrls;
+	}
+
 	public static Date getScratchSecondReleasePublishedDate() {
 		final Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, Constants.SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_YEAR);
@@ -250,36 +342,11 @@ public final class Utils {
 		return jobID > 0 ? jobID : Constants.INVALID_SCRATCH_PROGRAM_ID;
 	}
 
-	public static int[] extractImageSizeFromScratchImageURL(final String url) {
-		// example: https://cdn2.scratch.mit.edu/get_image/project/10205819_480x360.png?v=1368470695.0 -> [480, 360]
-		int[] defaultSize = new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
-
-		String urlWithoutQuery = url.split("\\?")[0];
-		String[] urlStringParts = urlWithoutQuery.split("_");
-		if (urlStringParts.length == 0) {
-			return defaultSize;
-		}
-
-		final String[] sizeParts = urlStringParts[urlStringParts.length - 1].replace(".png", "").split("x");
-		if (sizeParts.length != 2) {
-			return defaultSize;
-		}
-
-		try {
-			int width = Integer.parseInt(sizeParts[0]);
-			int height = Integer.parseInt(sizeParts[1]);
-			return new int[] { width, height };
-		} catch (NumberFormatException ex) {
-			return new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
-		}
-	}
-
 	public static String changeSizeOfScratchImageURL(final String url, int newHeight) {
 		// example: https://cdn2.scratch.mit.edu/get_image/project/10205819_480x360.png
 		//    ->    https://cdn2.scratch.mit.edu/get_image/project/10205819_240x180.png
-		final int[] imageSize = extractImageSizeFromScratchImageURL(url);
-		final int width = imageSize[0];
-		final int height = imageSize[1];
+		final int width = Constants.SCRATCH_IMAGE_DEFAULT_WIDTH;
+		final int height = Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT;
 		final int newWidth = Math.round(((float) width) / ((float) height) * newHeight);
 
 		return url.replace(width + "x", Integer.toString(newWidth) + "x")
@@ -633,8 +700,8 @@ public final class Utils {
 		return searchForNonExistingLookName(lookData, 0, forBackPack);
 	}
 
-	private static String searchForNonExistingLookName(LookData originalLookData, int nextNumber, boolean
-			forBackPack) {
+	private static String searchForNonExistingLookName(LookData originalLookData,
+			int nextNumber, boolean forBackPack) {
 		String newName;
 		List<LookData> lookDataList;
 		if (forBackPack) {
@@ -1012,5 +1079,31 @@ public final class Utils {
 
 	public static String getNumberStringForBricks(float value) {
 		return (int) value == value ? "" + (int) value : "" + value;
+	}
+
+	public static <T> List<T> distinctListByClassOfObjects(List<T> listToDistinct) {
+		Map<Class, T> uniqueMap = new HashMap<>();
+		for (T objectInstance : listToDistinct) {
+			uniqueMap.put(objectInstance.getClass(), objectInstance);
+		}
+		return new ArrayList<>(uniqueMap.values());
+	}
+
+	public static int setBit(int number, int index, int value) {
+		if ((index >= 0) && (index < 32)) {
+			if (value == 0) {
+				return number & ~(1 << index);
+			} else {
+				return number | (1 << index);
+			}
+		}
+		return number;
+	}
+
+	public static int getBit(int number, int index) {
+		if ((index >= 0) && (index < 32)) {
+			return (number >> index) & 0x1;
+		}
+		return 0;
 	}
 }

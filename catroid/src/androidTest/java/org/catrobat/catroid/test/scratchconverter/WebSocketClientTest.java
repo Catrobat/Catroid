@@ -310,6 +310,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 				connectCallback.onCompleted(new Exception(expectedCancelExceptionMessage), webSocketMock);
 				verify(connectAuthCallbackMock, times(1)).onConnectionFailure(any(ClientException.class));
 				verifyNoMoreInteractions(connectAuthCallbackMock);
+				verifyZeroInteractions(webSocketMock);
 				return null;
 			}
 		}).when(asyncHttpClientMock).websocket(anyString(), anyString(), any(WebSocketConnectCallback.class));

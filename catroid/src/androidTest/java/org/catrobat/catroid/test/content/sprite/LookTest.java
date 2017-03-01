@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.content.sprite;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
@@ -36,6 +38,7 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.TouchUtil;
 
 public class LookTest extends InstrumentationTestCase {
@@ -384,5 +387,35 @@ public class LookTest extends InstrumentationTestCase {
 		float squareRootOfScalar = (float) Math.sqrt(squareX + squareY);
 
 		assertEquals("Wrong distance to value!", touchPosition, squareRootOfScalar);
+	}
+
+	public void testTouchDownFlipped() {
+		final int width = 1;
+		final int height = 1;
+
+		Look look = new Look(sprite) {
+			{
+				pixmap = TestUtils.createRectanglePixmap(width, height, Color.RED);
+			}
+		};
+		look.setSize(width, height);
+
+		assertTrue("Flipped look not touched", look.doTouchDown(0, 0, 0));
+	}
+
+	public void testTouchDownFlippedWithAlpha() {
+		final int width = 2;
+		final int height = 1;
+
+		Look look = new Look(sprite) {
+			{
+				pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+				pixmap.drawPixel(0, 0, Color.RED.toIntBits());
+			}
+		};
+		look.setSize(width, height);
+
+		assertTrue("Look not touched", look.doTouchDown(0, 0, 0));
+		assertFalse("Look touched on alpha shouldn't trigger touch down", look.doTouchDown(1, 0, 0));
 	}
 }

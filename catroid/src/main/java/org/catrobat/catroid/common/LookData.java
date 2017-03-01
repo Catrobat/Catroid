@@ -52,19 +52,23 @@ public class LookData implements Serializable, Cloneable {
 	@XStreamAsAttribute
 	protected String name;
 	protected String fileName;
-	protected transient Bitmap thumbnailBitmap;
+	private transient Bitmap thumbnailBitmap;
 	protected transient Integer width;
 	protected transient Integer height;
-	protected static final transient int THUMBNAIL_WIDTH = 150;
-	protected static final transient int THUMBNAIL_HEIGHT = 150;
+	private static final transient int THUMBNAIL_WIDTH = 150;
+	private static final transient int THUMBNAIL_HEIGHT = 150;
 	protected transient Pixmap pixmap = null;
-	protected transient Pixmap originalPixmap = null;
-	protected transient TextureRegion textureRegion = null;
+	transient TextureRegion textureRegion = null;
 
-	protected transient CollisionInformation collisionInformation = null;
+	private transient CollisionInformation collisionInformation = null;
 	public transient boolean isBackpackLookData = false;
 
 	public LookData() {
+	}
+
+	public LookData(String name, String fileName) {
+		setLookName(name);
+		setLookFilename(fileName);
 	}
 
 	public void draw(Batch batch, float alpha) {
@@ -72,11 +76,17 @@ public class LookData implements Serializable, Cloneable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof LookData)) {
-			return false;
-		}
+
 		if (obj == this) {
 			return true;
+		}
+
+		if (obj == null) {
+			return false;
+		}
+
+		if (!(obj instanceof LookData)) {
+			return false;
 		}
 
 		LookData lookData = (LookData) obj;
@@ -93,10 +103,8 @@ public class LookData implements Serializable, Cloneable {
 
 	@Override
 	public LookData clone() {
-		LookData cloneLookData = new LookData();
+		LookData cloneLookData = new LookData(this.name, this.fileName);
 
-		cloneLookData.name = this.name;
-		cloneLookData.fileName = this.fileName;
 		String filePath = getPathToImageDirectory() + "/" + fileName;
 		cloneLookData.isBackpackLookData = false;
 		try {
@@ -110,7 +118,6 @@ public class LookData implements Serializable, Cloneable {
 
 	public void resetLookData() {
 		pixmap = null;
-		originalPixmap = null;
 		textureRegion = null;
 	}
 
@@ -119,10 +126,6 @@ public class LookData implements Serializable, Cloneable {
 			textureRegion = new TextureRegion(new Texture(getPixmap()));
 		}
 		return textureRegion;
-	}
-
-	public void setTextureRegion() {
-		this.textureRegion = new TextureRegion(new Texture(getPixmap()));
 	}
 
 	public Pixmap getPixmap() {
@@ -143,13 +146,6 @@ public class LookData implements Serializable, Cloneable {
 
 	public void setPixmap(Pixmap pixmap) {
 		this.pixmap = pixmap;
-	}
-
-	public Pixmap getOriginalPixmap() {
-		if (originalPixmap == null) {
-			originalPixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
-		}
-		return originalPixmap;
 	}
 
 	public String getAbsolutePath() {
@@ -203,12 +199,12 @@ public class LookData implements Serializable, Cloneable {
 		return fileName.substring(0, 32);
 	}
 
-	protected String getPathToImageDirectory() {
-		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				getSceneNameByLookData(), Constants.IMAGE_DIRECTORY);
+	String getPathToImageDirectory() {
+		return Utils.buildPath(Utils.buildScenePath(ProjectManager.getInstance().getCurrentProject().getName(),
+				getSceneNameByLookData()), Constants.IMAGE_DIRECTORY);
 	}
 
-	protected String getSceneNameByLookData() {
+	private String getSceneNameByLookData() {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				if (sprite.getLookDataList().contains(this)) {
@@ -226,8 +222,8 @@ public class LookData implements Serializable, Cloneable {
 
 	public Bitmap getThumbnailBitmap() {
 		if (thumbnailBitmap == null) {
-			thumbnailBitmap = ImageEditing.getScaledBitmapFromPath(getAbsolutePath(), THUMBNAIL_HEIGHT,
-					THUMBNAIL_WIDTH, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
+			thumbnailBitmap = ImageEditing.getScaledBitmapFromPath(getAbsolutePath(), THUMBNAIL_WIDTH,
+					THUMBNAIL_HEIGHT, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
 		}
 		return thumbnailBitmap;
 	}
@@ -260,9 +256,5 @@ public class LookData implements Serializable, Cloneable {
 			collisionInformation = new CollisionInformation(this);
 		}
 		return collisionInformation;
-	}
-
-	public void setCollisionInformation(CollisionInformation collisionInformation) {
-		this.collisionInformation = collisionInformation;
 	}
 }

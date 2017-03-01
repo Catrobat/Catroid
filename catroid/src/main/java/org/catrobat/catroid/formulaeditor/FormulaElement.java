@@ -25,20 +25,22 @@ package org.catrobat.catroid.formulaeditor;
 import android.content.res.Resources;
 import android.util.Log;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.sensing.CollisionDetection;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.io.Serializable;
@@ -194,14 +196,8 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			contained |= rightChild.containsSpriteInCollision(name);
 		}
-		if (type == ElementType.COLLISION_FORMULA) {
-			String collisionTag = CatroidApplication.getAppContext().getString(R.string
-					.formula_editor_function_collision);
-			String firstSprite = value.substring(0, value.indexOf(collisionTag) - 1);
-			String secondSprite = value.substring(value.indexOf(collisionTag) + collisionTag.length() + 1, value.length());
-			if (firstSprite.equals(name) || secondSprite.equals(name)) {
-				contained = true;
-			}
+		if (type == ElementType.COLLISION_FORMULA && value.equals(name)) {
+			contained = true;
 		}
 		return contained;
 	}
@@ -214,15 +210,24 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			rightChild.updateCollisionFormula(oldName, newName);
 		}
-		if (type == ElementType.COLLISION_FORMULA && value.contains(oldName)) {
-			String collisionTag = CatroidApplication.getAppContext().getString(R.string
-					.formula_editor_function_collision);
-			String firstSprite = value.substring(0, value.indexOf(collisionTag) - 1);
-			String secondSprite = value.substring(value.indexOf(collisionTag) + collisionTag.length() + 1, value.length());
-			if (firstSprite.equals(oldName)) {
-				value = newName + " " + collisionTag + " " + secondSprite;
-			} else if (secondSprite.equals(oldName)) {
-				value = firstSprite + " " + collisionTag + " " + newName;
+		if (type == ElementType.COLLISION_FORMULA && value.equals(oldName)) {
+			value = newName;
+		}
+	}
+
+	public void updateCollisionFormulaToVersion(float catroidLanguageVersion) {
+		if (catroidLanguageVersion == 0.993f) {
+			if (leftChild != null) {
+				leftChild.updateCollisionFormulaToVersion(catroidLanguageVersion);
+			}
+			if (rightChild != null) {
+				rightChild.updateCollisionFormulaToVersion(catroidLanguageVersion);
+			}
+			if (type == ElementType.COLLISION_FORMULA) {
+				String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(value);
+				if (secondSpriteName != null) {
+					value = secondSpriteName;
+				}
 			}
 		}
 	}
@@ -260,7 +265,7 @@ public class FormulaElement implements Serializable {
 				break;
 			case COLLISION_FORMULA:
 				try {
-					returnValue = interpretCollision(value);
+					returnValue = interpretCollision(sprite, value);
 				} catch (Exception exception) {
 					returnValue = 0d;
 					Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
@@ -269,26 +274,29 @@ public class FormulaElement implements Serializable {
 		return normalizeDegeneratedDoubleValues(returnValue);
 	}
 
-	private Object interpretCollision(String formula) {
-		int start = 0;
-		String collidesWithTag = CatroidApplication.getAppContext().getString(R.string
-				.formula_editor_function_collision);
-		int end = formula.indexOf(collidesWithTag) - 1;
-		String firstSpriteName = formula.substring(start, end);
+	private Object interpretCollision(Sprite firstSprite, String formula) {
 
-		start = end + collidesWithTag.length() + 2;
-		end = formula.length();
-		String secondSpriteName = formula.substring(start, end);
-
-		Look firstLook;
-		Look secondLook;
+		String secondSpriteName = formula;
+		Sprite secondSprite;
 		try {
-			firstLook = ProjectManager.getInstance().getCurrentScene().getSpriteBySpriteName(firstSpriteName).look;
-			secondLook = ProjectManager.getInstance().getCurrentScene().getSpriteBySpriteName(secondSpriteName).look;
+			secondSprite = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(secondSpriteName);
 		} catch (Resources.NotFoundException exception) {
 			return 0d;
 		}
+		Look firstLook = firstSprite.look;
+		Look secondLook;
+		if (secondSprite instanceof GroupSprite) {
+			List<Sprite> groupSprites = GroupSprite.getSpritesFromGroupWithGroupName(secondSpriteName);
+			for (Sprite sprite : groupSprites) {
+				secondLook = sprite.look;
+				if (CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook) == 1d) {
+					return 1d;
+				}
+			}
+			return 0d;
+		}
 
+		secondLook = secondSprite.look;
 		return CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook);
 	}
 
@@ -816,7 +824,7 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LAYER:
-				returnValue = (double) sprite.look.getZIndex();
+				returnValue = (double) sprite.look.getZIndex() - Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS;
 				break;
 			case OBJECT_ROTATION:
 				returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
@@ -849,6 +857,21 @@ public class FormulaElement implements Serializable {
 				break;
 			case OBJECT_DISTANCE_TO:
 				returnValue = (double) sprite.look.getDistanceToTouchPositionInUserInterfaceDimensions();
+				break;
+			case NFC_TAG_MESSAGE:
+				returnValue = NfcHandler.getLastNfcTagMessage();
+				break;
+			case NFC_TAG_ID:
+				returnValue = NfcHandler.getLastNfcTagId();
+				break;
+			case COLLIDES_WITH_EDGE:
+				//if the stage is not setUp yet, there can't be a collision
+				returnValue = StageActivity.stageListener.firstFrameDrawn ? CollisionDetection.collidesWithEdge(sprite
+						.look) : 0d;
+				break;
+			case COLLIDES_WITH_FINGER:
+				returnValue = CollisionDetection.collidesWithFinger(sprite.look);
+				break;
 		}
 		return returnValue;
 	}
@@ -1098,6 +1121,13 @@ public class FormulaElement implements Serializable {
 					resources |= Brick.BLUETOOTH_LEGO_NXT;
 					break;
 
+				case EV3_SENSOR_1:
+				case EV3_SENSOR_2:
+				case EV3_SENSOR_3:
+				case EV3_SENSOR_4:
+					resources |= Brick.BLUETOOTH_LEGO_EV3;
+					break;
+
 				case PHIRO_FRONT_LEFT:
 				case PHIRO_FRONT_RIGHT:
 				case PHIRO_SIDE_LEFT:
@@ -1120,8 +1150,16 @@ public class FormulaElement implements Serializable {
 					resources |= Brick.ARDRONE_SUPPORT;
 					break;
 
+				case NFC_TAG_MESSAGE:
 				case NFC_TAG_ID:
 					resources |= Brick.NFC_ADAPTER;
+					break;
+
+				case COLLIDES_WITH_EDGE:
+					resources |= Brick.COLLISION;
+					break;
+				case COLLIDES_WITH_FINGER:
+					resources |= Brick.COLLISION;
 					break;
 
 				default:
