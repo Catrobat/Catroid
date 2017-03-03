@@ -42,14 +42,13 @@ public class NoteView extends ImageView implements View.OnClickListener {
 	private TrackRowView trackRowView;
 
 	public NoteView(Context context) {
-		this(context, ContextCompat.getColor(context, R.color.white), null, 0);
+		this(context, null, 0);
 	}
 
-	public NoteView(Context context, int backgroundColor, TrackRowView trackRowView, int horizontalIndexInGridRowPosition) {
+	public NoteView(Context context, TrackRowView trackRowView, int horizontalIndexInGridRowPosition) {
 		super(context);
 		setOnClickListener(this);
 		setAdjustViewBounds(true);
-		setBackgroundColor(backgroundColor);
 		setScaleType(ScaleType.CENTER_INSIDE);
 		initNoteDrawable();
 		this.trackRowView = trackRowView;
