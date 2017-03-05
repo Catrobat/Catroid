@@ -594,6 +594,7 @@
     <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
     <string name="show_password">Show Password</string>
     <string name="register_password_mismatch">Passwords do not match</string>
+    <string name="register_username_email">Username cannot be an email id!</string>
     <string name="sign_in_error">Error during Sign In</string>
     <!--  -->
 
