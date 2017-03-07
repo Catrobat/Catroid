@@ -103,11 +103,11 @@ public class UploadProgressDialog extends DialogFragment {
 		dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(getString(R.string.done));
 		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 
-		Button done_button = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-		Button show_program_button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+		Button doneButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+		Button showProgramButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
 
-		done_button.setWidth(50);
-		show_program_button.setWidth(50);
+		doneButton.setWidth(50);
+		showProgramButton.setWidth(50);
 
 		uploadProject(currentProjectName, currentProjectDescription);
 		//QUICKFIX: upload response currently not working

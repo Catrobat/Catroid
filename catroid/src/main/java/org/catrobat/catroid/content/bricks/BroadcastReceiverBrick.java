@@ -49,6 +49,7 @@ import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -204,6 +205,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 				broadcastMessage = newMessage;
 				MessageContainer.addMessage(newMessage);
 				setSpinnerSelection(spinner);
+				TrackingUtil.trackCreateBroadcastMessage(broadcastMessage);
 				return true;
 			}
 
