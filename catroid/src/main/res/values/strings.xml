@@ -496,7 +496,6 @@
         issues!</string>
     <!--  -->
 
-
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move Brick</string>
     <string name="brick_context_dialog_show_source">Show Source Brick</string>
@@ -827,7 +826,7 @@
     <string name="brick_note_default_value">"add comment here…"</string>
     <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
     <string name="brick_say_bubble_default_value">"Hello!"</string>
-    <string name="brick_broadcast_default_value">"new message"</string>
+    <string name="brick_broadcast_default_value">"message 1"</string>
     <string name="brick_add_item_to_userlist_add">Add</string>
     <string name="brick_add_item_to_userlist">to list</string>
     <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
@@ -987,6 +986,7 @@
     <string name="error_no_network_one_brick">Following brick will use the network:</string>
     <string name="error_no_network_multiple_bricks">Following bricks will use the network:</string>
     <string name="error_no_network_title">No network</string>
+    <string name="error_no_whatsapp">WhatsApp not installed</string>
     <!--  -->
 
 
