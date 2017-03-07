@@ -827,7 +827,7 @@
     <string name="brick_note_default_value">"add comment here…"</string>
     <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
     <string name="brick_say_bubble_default_value">"Hello!"</string>
-    <string name="brick_broadcast_default_value">"message 1"</string>
+    <string name="brick_broadcast_default_value">"new message"</string>
     <string name="brick_add_item_to_userlist_add">Add</string>
     <string name="brick_add_item_to_userlist">to list</string>
     <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
