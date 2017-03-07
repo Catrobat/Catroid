@@ -29,7 +29,6 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.google.common.base.Preconditions;
-import com.google.firebase.crash.FirebaseCrash;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -123,7 +122,6 @@ public class FetchScratchProgramDetailsTask extends AsyncTask<Long, Void, Scratc
 
 				return null;
 			} catch (WebconnectionException e) {
-				FirebaseCrash.report(e);
 				Log.e(TAG, e.getMessage() + "\n" + e.getStackTrace());
 				delay = minTimeout + (int) (minTimeout * Math.random() * (attempt + 1));
 				Log.i(TAG, "Retry #" + (attempt + 1) + " to fetch scratch project list scheduled in "
