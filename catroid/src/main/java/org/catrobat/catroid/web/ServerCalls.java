@@ -34,6 +34,7 @@ import com.facebook.login.LoginBehavior;
 import com.google.android.gms.common.images.WebImage;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Closeables;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.squareup.okhttp.ConnectionSpec;
@@ -229,6 +230,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			try {
 				sharedDate = formatter.parse(sharedDateString);
 			} catch (ParseException ex) {
+				FirebaseCrash.report(ex);
 				sharedDate = null;
 			}
 
@@ -236,6 +238,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			try {
 				modifiedDate = formatter.parse(modifiedDateString);
 			} catch (ParseException ex) {
+				FirebaseCrash.report(ex);
 				modifiedDate = null;
 			}
 
@@ -282,6 +285,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Log.d(TAG, "OK! Request cancelled");
 			throw exception;
 		} catch (Exception exception) {
+			FirebaseCrash.report(exception);
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
@@ -302,6 +306,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Log.d(TAG, "OK! Request cancelled");
 			throw exception;
 		} catch (Exception exception) {
+			FirebaseCrash.report(exception);
 			Log.e(TAG, Log.getStackTraceString(exception));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -346,6 +351,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Log.d(TAG, "OK! Request cancelled");
 			throw exception;
 		} catch (Exception exception) {
+			FirebaseCrash.report(exception);
 			Log.e(TAG, Log.getStackTraceString(exception));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -481,9 +487,11 @@ public final class ServerCalls implements ScratchDataFetcher {
 			sharedPreferences.edit().putString(Constants.TOKEN, newToken).commit();
 			sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
 		} catch (JsonSyntaxException jsonSyntaxException) {
+			FirebaseCrash.report(jsonSyntaxException);
 			Log.e(TAG, Log.getStackTraceString(jsonSyntaxException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JsonSyntaxException");
 		} catch (IOException ioException) {
+			FirebaseCrash.report(ioException);
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "I/O Exception");
 		}
@@ -536,6 +544,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			bufferedSink.writeAll(response.body().source());
 			bufferedSink.close();
 		} catch (IOException ioException) {
+			FirebaseCrash.report(ioException);
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
@@ -574,6 +583,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			bufferedSink.writeAll(response.body().source());
 			bufferedSink.close();
 		} catch (IOException ioException) {
+			FirebaseCrash.report(ioException);
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
@@ -596,6 +606,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 			return Utils.convertInputStreamToByteArray(inputStream);
 		} catch (Throwable ex) {
+			FirebaseCrash.report(ex);
 			Log.e(TAG, ex.getMessage());
 			throw ex;
 		} finally {
@@ -627,6 +638,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 				throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
 			}
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
 		}
@@ -650,6 +662,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Response response = okHttpClient.newCall(request).execute();
 			return response.body().string();
 		} catch (IOException ioException) {
+			FirebaseCrash.report(ioException);
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
@@ -665,6 +678,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Response response = okHttpClient.newCall(request).execute();
 			return response.body().string();
 		} catch (IOException ioException) {
+			FirebaseCrash.report(ioException);
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
@@ -692,6 +706,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Log.d(TAG, "Request cancelled");
 			throw interruptedException;
 		} catch (IOException ioException) {
+			FirebaseCrash.report(ioException);
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
@@ -709,6 +724,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Log.d(TAG, "TAG-RESPONSE: " + response);
 			return response;
 		} catch (WebconnectionException exception) {
+			FirebaseCrash.report(exception);
 			Log.e(TAG, Log.getStackTraceString(exception));
 			return "";
 		}
@@ -776,6 +792,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 			return registered;
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -825,6 +842,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 			return true;
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -879,6 +897,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return tokenAvailable;
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -901,6 +920,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return jsonObject.getBoolean(EMAIL_AVAILABLE);
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -923,6 +943,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return jsonObject.getBoolean(USERNAME_AVAILABLE);
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -951,6 +972,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return jsonObject;
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -990,6 +1012,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return true;
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -1023,6 +1046,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return true;
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -1053,6 +1077,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return true;
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -1087,6 +1112,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return true;
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -1118,6 +1144,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return true;
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -1140,6 +1167,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			return jsonObject.getBoolean(FACEBOOK_SERVER_TOKEN_INVALID);
 		} catch (JSONException jsonException) {
+			FirebaseCrash.report(jsonException);
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
@@ -1152,6 +1180,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Log.v(TAG, "URL to use: " + serverUrl);
 			getRequest(serverUrl);
 		} catch (WebconnectionException exception) {
+			FirebaseCrash.report(exception);
 			Log.e(TAG, Log.getStackTraceString(exception));
 		}
 	}

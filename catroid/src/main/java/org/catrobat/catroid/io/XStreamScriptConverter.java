@@ -24,6 +24,7 @@ package org.catrobat.catroid.io;
 
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.converters.reflection.ReflectionConverter;
@@ -64,6 +65,7 @@ public class XStreamScriptConverter extends ReflectionConverter {
 				Script script = (Script) reflectionProvider.newInstance(cls);
 				return super.doUnmarshal(script, reader, context);
 			} catch (ClassNotFoundException exception) {
+				FirebaseCrash.report(exception);
 				Log.e(TAG, "Script class not found : " + result.toString(), exception);
 			}
 		}

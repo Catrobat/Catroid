@@ -25,6 +25,7 @@ package org.catrobat.catroid.io;
 
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -68,6 +69,7 @@ public class BackpackScriptSerializerAndDeserializer implements JsonSerializer<S
 			try {
 				return context.deserialize(element, Class.forName(PACKAGE_NAME_PHYSICS + type));
 			} catch (ClassNotFoundException e2) {
+				FirebaseCrash.report(e2);
 				Log.e(TAG, "Could not deserialize backpacked script element!");
 				throw new JsonParseException("Unknown element type: " + type, e2);
 			}

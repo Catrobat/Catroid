@@ -37,6 +37,7 @@ import android.util.Log;
 
 import com.google.android.gms.common.images.WebImage;
 import com.google.common.base.Preconditions;
+import com.google.firebase.crash.FirebaseCrash;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -487,6 +488,7 @@ public class ScratchConversionManager implements ConversionManager {
 					new JSONObject(downloadStates).toString());
 			editor.commit();
 		} catch (JSONException e) {
+			FirebaseCrash.report(e);
 			Log.e(TAG, e.getMessage());
 		}
 	}
@@ -516,6 +518,7 @@ public class ScratchConversionManager implements ConversionManager {
 			}
 			return Job.DownloadState.valueOf(Integer.parseInt(result));
 		} catch (JSONException e) {
+			FirebaseCrash.report(e);
 			Log.e(TAG, e.getMessage());
 		}
 		return Job.DownloadState.NOT_READY;
