@@ -359,6 +359,7 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	public static void applyAccessibilitySettings(Context context) {
+		TextSizeUtil.mapTextSizesToDeviceSize();
 		IconsUtil.mapIconSizesToDeviceSize();
 		if (getAccessibilityLargeTextEnabled(context)) {
 			TextSizeUtil.enableTextSizeUtil();
