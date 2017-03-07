@@ -80,7 +80,7 @@ public class ArduinoListener implements IFirmata.Listener {
 
 	@Override
 	public void onDigitalMessageReceived(DigitalMessage message) {
-		if (message.getValue() > 64 || message.getValue() < 0) {
+		if (message.getValue() > 0xFF || message.getValue() < 0) {
 			return;
 		}
 
