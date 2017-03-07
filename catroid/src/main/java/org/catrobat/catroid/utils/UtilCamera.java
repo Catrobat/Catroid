@@ -27,8 +27,6 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.util.Log;
 
-import com.google.firebase.crash.FirebaseCrash;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
@@ -68,7 +66,6 @@ public final class UtilCamera {
 			try {
 				StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);
 			} catch (FileNotFoundException e) {
-				FirebaseCrash.report(e);
 				Log.e(TAG, "Could not find file to save bitmap.", e);
 			}
 
@@ -98,7 +95,6 @@ public final class UtilCamera {
 					break;
 			}
 		} catch (IOException e) {
-			FirebaseCrash.report(e);
 			Log.e(TAG, "Could not find file to initialize ExifInterface.", e);
 		}
 		return rotate;

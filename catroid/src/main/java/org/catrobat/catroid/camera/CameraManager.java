@@ -31,8 +31,6 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.google.firebase.crash.FirebaseCrash;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -160,7 +158,6 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 			camera.release();
 			return true;
 		} catch (Exception exception) {
-			FirebaseCrash.report(exception);
 			Log.e(TAG, "failed checking for flash", exception);
 			return false;
 		}
@@ -245,7 +242,6 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 			try {
 				currentCamera.startPreview();
 			} catch (Exception e) {
-				FirebaseCrash.report(e);
 				Log.e(TAG, e.getMessage());
 				return false;
 			}
@@ -293,7 +289,6 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 			cameraParameters.setPreviewSize(previewWidth, previewHeight);
 			currentCamera.setParameters(cameraParameters);
 		} catch (RuntimeException runtimeException) {
-			FirebaseCrash.report(runtimeException);
 			Log.e(TAG, "Creating camera caused an exception", runtimeException);
 			return false;
 		}
@@ -303,7 +298,6 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 			try {
 				setTexture();
 			} catch (IOException iOException) {
-				FirebaseCrash.report(iOException);
 				Log.e(TAG, "Setting preview texture failed!", iOException);
 				return false;
 			}
@@ -411,7 +405,6 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 					currentCamera.startPreview();
 				}
 			} catch (IOException e) {
-				FirebaseCrash.report(e);
 				Log.e(TAG, "reset Texture failed at stopPreview");
 				Log.e(TAG, e.getMessage());
 			}

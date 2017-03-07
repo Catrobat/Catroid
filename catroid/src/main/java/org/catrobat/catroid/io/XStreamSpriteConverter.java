@@ -24,7 +24,6 @@ package org.catrobat.catroid.io;
 
 import android.util.Log;
 
-import com.google.firebase.crash.FirebaseCrash;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.converters.reflection.ReflectionConverter;
@@ -66,7 +65,6 @@ public class XStreamSpriteConverter extends ReflectionConverter {
 				Sprite sprite = (Sprite) reflectionProvider.newInstance(cls);
 				return super.doUnmarshal(sprite, reader, context);
 			} catch (ClassNotFoundException exception) {
-				FirebaseCrash.report(exception);
 				Log.e(TAG, "Sprite class not found : " + result.toString(), exception);
 			}
 		} else {

@@ -24,7 +24,6 @@ package org.catrobat.catroid.io;
 
 import android.util.Log;
 
-import com.google.firebase.crash.FirebaseCrash;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.converters.reflection.ReflectionConverter;
@@ -64,7 +63,6 @@ public class XStreamSettingConverter extends ReflectionConverter {
 			Setting setting = (Setting) reflectionProvider.newInstance(cls);
 			return super.doUnmarshal(setting, reader, context);
 		} catch (ClassNotFoundException exception) {
-			FirebaseCrash.report(exception);
 			Log.e(TAG, "Setting class not found : " + result.toString(), exception);
 		}
 		return super.doUnmarshal(result, reader, context);
