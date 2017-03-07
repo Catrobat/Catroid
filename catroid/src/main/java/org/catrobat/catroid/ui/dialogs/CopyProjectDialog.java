@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,60 +22,42 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.os.Bundle;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.ProjectListFragment;
 import org.catrobat.catroid.utils.CopyProjectTask;
 import org.catrobat.catroid.utils.Utils;
 
-public class CopyProjectDialog extends ListFragmentDialog {
+public class CopyProjectDialog extends TextDialog {
 
-	private static final String BUNDLE_ARGUMENTS_CURRENT_NAME = "current_project_name";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_copy_project";
 
-	private String currentProjectName;
-
-	public CopyProjectDialog() {
-	}
-
-	public static CopyProjectDialog newInstance(String oldProjectName) {
-		CopyProjectDialog dialog = new CopyProjectDialog();
-		Bundle arguments = new Bundle();
-		arguments.putString(BUNDLE_ARGUMENTS_CURRENT_NAME, oldProjectName);
-		dialog.setArguments(arguments);
-		return dialog;
+	public CopyProjectDialog(int title, int inputLabel, String previousText) {
+		super(title, inputLabel, previousText, false);
 	}
 
 	@Override
-	protected void initialize() {
-		currentProjectName = getArguments().getString(BUNDLE_ARGUMENTS_CURRENT_NAME);
-		input.setText(currentProjectName);
-		inputTitle.setText(R.string.new_project_name);
-	}
-
-	@Override
-	protected boolean handleOkButton() {
+	protected boolean handlePositiveButtonClick() {
 		String newProjectName = input.getText().toString().trim();
 
-		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProjectName)) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+		boolean newNameConsistsOfSpacesOnly = newProjectName.isEmpty();
+
+		if (newNameConsistsOfSpacesOnly) {
+			input.setError(getString(R.string.name_consists_of_spaces_only));
 			return false;
 		}
 
-		new CopyProjectTask((ProjectListFragment) getTargetFragment()).execute(newProjectName, currentProjectName);
+		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProjectName)) {
+			input.setError(getString(R.string.error_project_exists));
+			return false;
+		}
+
+		new CopyProjectTask((ProjectListFragment) getTargetFragment()).execute(newProjectName, previousText);
 		dismiss();
 
 		return false;
 	}
 
 	@Override
-	protected String getTitle() {
-		return getString(R.string.dialog_copy_project_title);
-	}
-
-	@Override
-	protected String getHint() {
-		return null;
+	protected void handleNegativeButtonClick() {
 	}
 }

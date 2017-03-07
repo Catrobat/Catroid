@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,6 +62,11 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 		getScriptSafe();
 		formulaMap = this.script.getFormulaMap();
 		addAllowedBrickField(BrickField.IF_CONDITION);
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return getConditionFormula().getRequiredResources();
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -168,7 +168,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	@Override
 	public Brick clone() {
 		DeleteItemOfUserListBrick clonedBrick = new DeleteItemOfUserListBrick(getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).clone(), userList);
-		clonedBrick.setBackPackedData(new BackPackedData(backPackedData));
+		clonedBrick.setBackPackedData(new BackPackedListData(backPackedData));
 		return clonedBrick;
 	}
 

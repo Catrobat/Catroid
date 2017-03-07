@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -108,5 +108,13 @@ public final class TouchUtil {
 		for (Sprite sprite : spriteList) {
 			sprite.createTouchDownAction();
 		}
+	}
+
+	public static ArrayList<PointF> getCurrentTouchingPoints() {
+		ArrayList<PointF> points = new ArrayList<>();
+		for (int index : currentlyTouchingPointersToTouchIndex.values()) {
+			points.add(touches.get(index));
+		}
+		return points;
 	}
 }

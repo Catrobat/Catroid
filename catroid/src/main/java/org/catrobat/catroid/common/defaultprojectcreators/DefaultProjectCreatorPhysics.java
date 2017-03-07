@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -104,9 +104,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.physics_background_480_800, context, true,
 				backgroundImageScaleFactor);
 
-		LookData backgroundLookData = new LookData();
-		backgroundLookData.setLookName(backgroundName);
-		backgroundLookData.setLookFilename(backgroundFile.getName());
+		LookData backgroundLookData = new LookData(backgroundName, backgroundFile.getName());
 
 		// Background sprite
 		Sprite backgroundSprite = defaultPhysicsProject.getDefaultScene().getSpriteList().get(0);
@@ -278,10 +276,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		File file = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, fileName, fileId, context, true,
 				backgroundImageScaleFactor);
 
-		LookData lookData = new LookData();
-		lookData.setLookName(fileName);
-		lookData.setLookFilename(file.getName());
-
+		LookData lookData = new LookData(fileName, file.getName());
 		List<LookData> looks = sprite.getLookDataList();
 		looks.add(lookData);
 
@@ -336,10 +331,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		String filename = "button_pressed";
 		File file = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, filename, R.drawable
 				.physics_button_pressed, context, true, backgroundImageScaleFactor);
-		LookData lookData = new LookData();
-		lookData.setLookName(filename);
-		lookData.setLookFilename(file.getName());
-
+		LookData lookData = new LookData(filename, file.getName());
 		List<LookData> looks = sprite.getLookDataList();
 		looks.add(lookData);
 

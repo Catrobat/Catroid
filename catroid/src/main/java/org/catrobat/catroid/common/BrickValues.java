@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -90,7 +90,6 @@ public final class BrickValues {
 	public static final float LEGO_DURATION = 1.0f;
 	public static final int LEGO_FREQUENCY = 2;
 	public static final int LEGO_VOLUME = 100;
-	public static final int LEGO_POWER = 100;
 
 	//Constants Drone
 	public static final int DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS = 1000;
@@ -150,6 +149,20 @@ public final class BrickValues {
 	public static final String RASPI_RELEASED_EVENT = "released";
 	public static final double RASPI_PWM_INITIAL_PERCENTAGE = 50.0;
 	public static final double RASPI_PWM_INITIAL_FREQUENCY = 100.0;
+
+	//Constants NFC
+	public static final short TNF_MIME_MEDIA = 0;
+	public static final short TNF_WELL_KNOWN_HTTP = 1;
+	public static final short TNF_WELL_KNOWN_HTTPS = 2;
+	public static final short TNF_WELL_KNOWN_SMS = 3;
+	public static final short TNF_WELL_KNOWN_TEL = 4;
+	public static final short TNF_WELL_KNOWN_MAILTO = 5;
+	public static final short TNF_EXTERNAL_TYPE = 6;
+	public static final short TNF_EMPTY = 7;
+	public static final byte NDEF_PREFIX_HTTP = 0x03;
+	public static final byte NDEF_PREFIX_HTTPS = 0x04;
+	public static final byte NDEF_PREFIX_TEL = 0x05;
+	public static final byte NDEF_PREFIX_MAILTO = 0x06;
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {

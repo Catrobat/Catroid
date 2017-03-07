@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -141,32 +141,18 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 					projectName, backgroundFile.getName(), birdWingUpFile.getName(), birdWingDownFile.getName(),
 					soundFile1.getName(), soundFile2.getName()));
 
-			LookData backgroundLookData = new LookData();
-			backgroundLookData.setLookName(backgroundName);
-			backgroundLookData.setLookFilename(backgroundFile.getName());
+			LookData backgroundLookData = new LookData(backgroundName, backgroundFile.getName());
 
 			Sprite backgroundSprite = defaultProject.getDefaultScene().getSpriteList().get(0);
 			backgroundSprite.getLookDataList().add(backgroundLookData);
 
-			LookData birdWingUpLookData = new LookData();
-			birdWingUpLookData.setLookName(birdWingUpLookName);
-			birdWingUpLookData.setLookFilename(birdWingUpFile.getName());
+			LookData birdWingUpLookData = new LookData(birdWingUpLookName, birdWingUpFile.getName());
+			LookData birdWingDownLookData = new LookData(birdWingDownLookName, birdWingDownFile.getName());
 
-			LookData birdWingDownLookData = new LookData();
-			birdWingDownLookData.setLookName(birdWingDownLookName);
-			birdWingDownLookData.setLookFilename(birdWingDownFile.getName());
+			LookData cloudLookData = new LookData(cloudName, cloudFile.getName());
 
-			LookData cloudLookData = new LookData();
-			cloudLookData.setLookName(cloudName);
-			cloudLookData.setLookFilename(cloudFile.getName());
-
-			SoundInfo soundInfo1 = new SoundInfo();
-			soundInfo1.setTitle(tweet1);
-			soundInfo1.setSoundFileName(soundFile1.getName());
-
-			SoundInfo soundInfo2 = new SoundInfo();
-			soundInfo2.setTitle(tweet2);
-			soundInfo2.setSoundFileName(soundFile2.getName());
+			SoundInfo soundInfo1 = new SoundInfo(tweet1, soundFile1.getName());
+			SoundInfo soundInfo2 = new SoundInfo(tweet2, soundFile2.getName());
 
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo1.getChecksum(), soundInfo1.getAbsolutePath());
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());

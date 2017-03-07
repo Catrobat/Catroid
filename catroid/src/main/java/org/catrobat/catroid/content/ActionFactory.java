@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
+import org.catrobat.catroid.content.actions.AskSpeechAction;
 import org.catrobat.catroid.content.actions.BackgroundNotifyAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
@@ -114,6 +115,7 @@ import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.catrobat.catroid.content.actions.SetNfcTagAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetRotationStyleAction;
@@ -376,12 +378,11 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createLegoEv3SingleMotorMoveAction(Sprite sprite,
-			LegoEv3MotorMoveBrick.Motor motorEnum, Formula power, Formula period) {
+			LegoEv3MotorMoveBrick.Motor motorEnum, Formula speed) {
 		LegoEv3MotorMoveAction action = action(LegoEv3MotorMoveAction.class);
 		action.setSprite(sprite);
 		action.setMotorEnum(motorEnum);
-		action.setPower(power);
-		action.setPeriod(period);
+		action.setSpeed(speed);
 		return action;
 	}
 
@@ -667,6 +668,14 @@ public class ActionFactory extends Actions {
 
 	public Action createAskAction(Sprite sprite, Formula questionFormula, UserVariable answerVariable) {
 		AskAction action = Actions.action(AskAction.class);
+		action.setSprite(sprite);
+		action.setQuestionFormula(questionFormula);
+		action.setAnswerVariable(answerVariable);
+		return action;
+	}
+
+	public Action createAskSpeechAction(Sprite sprite, Formula questionFormula, UserVariable answerVariable) {
+		AskSpeechAction action = Actions.action(AskSpeechAction.class);
 		action.setSprite(sprite);
 		action.setQuestionFormula(questionFormula);
 		action.setAnswerVariable(answerVariable);
@@ -963,11 +972,12 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createHideVariableAction(UserVariable userVariable) {
+	public Action createHideVariableAction(Sprite sprite, UserVariable userVariable) {
 		HideTextAction action = action(HideTextAction.class);
 		action.setVariableToHide(userVariable);
 		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		action.setUserBrick(userBrick);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -1073,5 +1083,13 @@ public class ActionFactory extends Actions {
 			default:
 				return Actions.action(StopAllScriptsAction.class);
 		}
+	}
+
+	public Action createSetNfcTagAction(Sprite sprite, Formula nfcNdefMessage, int nfcNdefSpinnerSelection) {
+		SetNfcTagAction setNfcTagAction = Actions.action(SetNfcTagAction.class);
+		setNfcTagAction.setSprite(sprite);
+		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
+		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
+		return setNfcTagAction;
 	}
 }

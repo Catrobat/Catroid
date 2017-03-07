@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -107,7 +107,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.enterText(0, UiTestUtils.PROJECTNAME2);
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		solo.clickOnButton(solo.getString(R.string.cancel));
 	}
 
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
@@ -186,7 +186,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnCheckBox(maxNumberChecked);
 		assertFalse("The number of checked tags should be limited to 3!", solo.isCheckBoxChecked(maxNumberChecked));
 
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		solo.clickOnButton(solo.getString(R.string.cancel));
 	}
 
 	private void createTestProject() {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -98,7 +99,7 @@ public class ParserTestObject extends AndroidTestCase {
 		assertEquals("Formula interpretation is not as expected (rotation)", LOOK_ROTATION,
 				interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
 		assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
-				interpretSensor(Sensors.OBJECT_LAYER).intValue());
+				interpretSensor(Sensors.OBJECT_LAYER).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
 	}
 
 	public void testNotExistingLookSensorValues() {

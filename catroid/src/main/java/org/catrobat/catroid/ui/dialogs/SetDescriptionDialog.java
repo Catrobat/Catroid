@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,105 +22,46 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.ui.fragment.ProjectListFragment;
-import org.catrobat.catroid.utils.Utils;
 
-public class SetDescriptionDialog extends MultiLineTextDialog {
+public class SetDescriptionDialog extends TextDialog {
 
-	private static final String BUNDLE_ARGUMENTS_PROJECT_NAME = "BUNDLE_ARGUMENTS_PROJECT_NAME";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_set_description";
 
-	private ProjectManager projectManager;
-	private String projectToChangeName;
+	private ChangeDescriptionInterface descriptionInterface;
 
-	public static SetDescriptionDialog newInstance(String projectToChangeName) {
-		SetDescriptionDialog dialog = new SetDescriptionDialog();
-
-		Bundle arguments = new Bundle();
-		arguments.putString(BUNDLE_ARGUMENTS_PROJECT_NAME, projectToChangeName);
-		dialog.setArguments(arguments);
-
-		return dialog;
+	public SetDescriptionDialog(int title, int inputLabel, String previousText, ChangeDescriptionInterface
+			descriptionInterface) {
+		super(title, inputLabel, previousText, true);
+		this.descriptionInterface = descriptionInterface;
 	}
 
 	@Override
-	protected void initialize() {
-		projectManager = ProjectManager.getInstance();
-		projectToChangeName = getArguments().getString(BUNDLE_ARGUMENTS_PROJECT_NAME);
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-
-		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
-			input.setText(projectManager.getCurrentProject().getDescription());
-		} else {
-			try {
-				projectManager.loadProject(projectToChangeName, getActivity());
-				input.setText(projectManager.getCurrentProject().getDescription());
-				projectManager.loadProject(currentProjectName, getActivity());
-			} catch (ProjectException projectException) {
-				Log.e(DIALOG_FRAGMENT_TAG, "Getting description of an incompatible project isn't possible",
-						projectException);
-				Utils.showErrorDialog(getActivity(), R.string.error_load_project);
-				dismiss();
-				return;
-			}
-		}
+	protected View inflateLayout() {
+		final LayoutInflater inflater = getActivity().getLayoutInflater();
+		View view = inflater.inflate(R.layout.dialog_text_input, null);
+		EditText input = (EditText) view.findViewById(R.id.edit_text);
+		input.setSingleLine(false);
+		return view;
 	}
 
 	@Override
-	protected boolean handleOkButton() {
-		String description = input.getText().toString();
-		String currentProjectName = projectManager.getCurrentProject().getName();
-
-		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
-			setDescription(description);
-			((ProjectListFragment) getTargetFragment()).clearCheckedItems();
-			dismiss();
-			return false;
-		}
-
-		try {
-			projectManager.loadProject(projectToChangeName, getActivity());
-			setDescription(description);
-			projectManager.loadProject(currentProjectName, getActivity());
-			((ProjectListFragment) getTargetFragment()).clearCheckedItems();
-			((ProjectListFragment) getTargetFragment()).initializeList();
-		} catch (ProjectException projectException) {
-			Log.e(DIALOG_FRAGMENT_TAG, "Changing description of an incompatible project isn\'t possible.",
-					projectException);
-			Utils.showErrorDialog(getActivity(), R.string.error_changing_description_of_incompatible_project);
-			((ProjectListFragment) getTargetFragment()).clearCheckedItems();
-			dismiss();
-			return false;
-		}
-
-		dismiss();
+	protected boolean handlePositiveButtonClick() {
+		String newDescription = input.getText().toString().trim();
+		descriptionInterface.setDescription(newDescription);
 		return true;
 	}
 
 	@Override
-	protected String getTitle() {
-		return getString(R.string.set_description);
+	protected void handleNegativeButtonClick() {
 	}
 
-	@Override
-	protected String getHint() {
-		return null;
-	}
+	public interface ChangeDescriptionInterface {
 
-	private void setDescription(String description) {
-		projectManager.getCurrentProject().setDescription(description);
-		projectManager.saveProject(getActivity().getApplicationContext());
-		((ProjectListFragment) getTargetFragment()).clearCheckedItems();
-		((ProjectListFragment) getTargetFragment()).initializeList();
+		void setDescription(String description);
 	}
 }

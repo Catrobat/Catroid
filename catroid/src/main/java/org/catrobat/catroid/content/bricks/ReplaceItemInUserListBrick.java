@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -174,18 +174,20 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	@Override
 	public Brick clone() {
 		ReplaceItemInUserListBrick clonedBrick = new ReplaceItemInUserListBrick(getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).clone(), getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX).clone(), userList);
-		clonedBrick.setBackPackedData(new UserListBrick.BackPackedData(backPackedData));
+		clonedBrick.setBackPackedData(new BackPackedListData(backPackedData));
 		return clonedBrick;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_replace_item_in_userlist_at_index_edit_text:
-				FormulaEditorFragment.showFragment(view, this, BrickField.REPLACE_ITEM_IN_USERLIST_INDEX);
-				break;
 			case R.id.brick_replace_item_in_userlist_value_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.REPLACE_ITEM_IN_USERLIST_VALUE);
+				break;
+
+			case R.id.brick_replace_item_in_userlist_at_index_edit_text:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.REPLACE_ITEM_IN_USERLIST_INDEX);
 				break;
 		}
 	}

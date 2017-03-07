@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
+import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -121,6 +122,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
@@ -271,6 +273,9 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new CloneBrick());
 		controlBrickList.add(new DeleteThisCloneBrick());
 		controlBrickList.add(new WhenClonedBrick());
+		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+			controlBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
+		}
 
 		return controlBrickList;
 	}
@@ -383,6 +388,7 @@ public class CategoryBricksFactory {
 			soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 					BrickValues.PHIRO_DURATION));
 		}
+		soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
 		return soundBrickList;
 	}
@@ -453,6 +459,7 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 		return dataBrickList;
 	}
 
@@ -473,7 +480,7 @@ public class CategoryBricksFactory {
 		legoEV3BrickList.add(new LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A,
 				BrickValues.LEGO_ANGLE));
 		legoEV3BrickList.add(new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A,
-				BrickValues.LEGO_POWER, BrickValues.LEGO_DURATION));
+				BrickValues.LEGO_SPEED));
 		legoEV3BrickList.add(new LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));
 		legoEV3BrickList.add(new LegoEv3PlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION, BrickValues.LEGO_VOLUME));
 		legoEV3BrickList.add(new LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_GREEN));
@@ -647,6 +654,8 @@ public class CategoryBricksFactory {
 
 		if (brick instanceof AskBrick) {
 			category = res.getString(R.string.category_looks);
+		} else if (brick instanceof AskSpeechBrick) {
+			category = res.getString(R.string.category_sound);
 		} else if (brick instanceof WhenClonedBrick) {
 			category = res.getString(R.string.category_control);
 		} else if (brick instanceof WhenBackgroundChangesBrick) {

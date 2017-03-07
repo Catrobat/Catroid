@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,11 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	public SoundInfo() {
 	}
 
+	public SoundInfo(String name, String fileName) {
+		setTitle(name);
+		setSoundFileName(fileName);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof SoundInfo)) {
@@ -69,10 +74,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 	@Override
 	public SoundInfo clone() {
-		SoundInfo cloneSoundInfo = new SoundInfo();
-
-		cloneSoundInfo.name = this.name;
-		cloneSoundInfo.fileName = this.fileName;
+		SoundInfo cloneSoundInfo = new SoundInfo(this.name, this.fileName);
 
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(getAbsolutePath());

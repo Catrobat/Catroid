@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -132,11 +132,8 @@ public class PhysicsLook extends Look {
 				super.setRotation(0f);
 				boolean orientedRight = realRotation > 180 || realRotation == 0;
 				boolean orientedLeft = realRotation <= 180 && realRotation != 0;
-				if (isFlipped && orientedRight || !isFlipped && orientedLeft) {
-					if (lookData != null) {
-						lookData.getTextureRegion().flip(true, false);
-					}
-					isFlipped = !isFlipped;
+				if (((isFlipped() && orientedRight) || (!isFlipped() && orientedLeft)) && lookData != null) {
+					lookData.getTextureRegion().flip(true, false);
 				}
 				break;
 			case ROTATION_STYLE_ALL_AROUND:

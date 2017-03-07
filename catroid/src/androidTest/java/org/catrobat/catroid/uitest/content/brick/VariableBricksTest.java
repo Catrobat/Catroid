@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -110,16 +110,16 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnView(view1);
 		solo.scrollToTop();
 		solo.clickOnView(solo.getView(TextView.class, 0));
-		solo.waitForText(solo.getString(R.string.cancel_button));
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		solo.waitForText(solo.getString(R.string.cancel));
+		solo.clickOnButton(solo.getString(R.string.cancel));
 		solo.waitForText(spinnerText1);
 
 		View view2 = solo.getView(Spinner.class, 1);
 		solo.clickOnView(view2);
 		solo.scrollToTop();
 		solo.clickOnView(solo.getView(TextView.class, 0));
-		solo.waitForText(solo.getString(R.string.cancel_button));
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		solo.waitForText(solo.getString(R.string.cancel));
+		solo.clickOnButton(solo.getString(R.string.cancel));
 		solo.waitForText(spinnerText2);
 
 		setValueVar = (UserVariable) setVariableSpinner.getSelectedItem();

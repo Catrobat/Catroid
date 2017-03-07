@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -212,7 +212,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		fillNativeRegistrationDialog(username, true);
 
 		solo.waitForText(uploadDialogTitle);
-		String cancel = solo.getString(R.string.cancel_button);
+		String cancel = solo.getString(R.string.cancel);
 		if (solo.searchText(cancel)) {
 			solo.clickOnText(cancel);
 		}

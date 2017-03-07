@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -77,7 +77,11 @@ task buildStandalone() << {
     println "manifestFile: " + manifestFile.absolutePath
     def manifestText = manifestFile.text
 
-    manifestText = manifestText.replaceAll("@string/app_name", getProjectName());
+    String projectName = getProjectName();
+    projectName = projectName.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+            .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
+
+    manifestText = manifestText.replaceAll("@string/app_name", projectName);
     manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
     manifestFile.write(manifestText)
 
@@ -182,16 +186,27 @@ def removeUnecessaryPermissions() {
 }
 
 def copyScreenshotAsIcon() {
-    File screenshot = file(project.ext.standaloneTmpPath + "manual_screenshot.png")
-    if(!screenshot.exists()){
-        screenshot = file(project.ext.standaloneTmpPath + "automatic_screenshot.png")
-    }
-    copy {
-        from screenshot.getPath()
-        into project.ext.resPath
-        rename { String fileName ->
-            fileName.replace(screenshot.getName(), 'icon.png')
+    def automaticScreenshots = []
+    File screenshot
+    File standaloneTmpPath = file(project.ext.standaloneTmpPath)
+    standaloneTmpPath.traverse(type: groovy.io.FileType.ANY) {
+        if (it.getName().equals("automatic_screenshot.png")) {
+            automaticScreenshots.add(it)
+
+            println "Found automatic screenshot: " + it.getPath()
+        } else if (it.getName().equals("manual_screenshot.png")) {
+            def bytes = it.getBytes()[0..7]
+            def pngMagicNumber = [-119, 80, 78, 71, 13, 10, 26, 10]
+            if (bytes == pngMagicNumber) {
+                screenshot = it
+                println "Found valid manual screenshot: " + it.getPath()
+            }
         }
+    }
+
+    if (screenshot == null && !automaticScreenshots.isEmpty() && automaticScreenshots.get(0).exists()) {
+        screenshot = automaticScreenshots.get(0)
+        println "Picking automatic screenshot: " + screenshot.getPath()
     }
 
     copy {

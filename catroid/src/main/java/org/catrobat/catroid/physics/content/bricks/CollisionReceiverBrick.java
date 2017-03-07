@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -139,7 +139,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(getDisplayedAnythingString(context));
 		int resources = Brick.NO_RESOURCES;
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 			if (!spriteName.equals(sprite.getName())) {
 				resources |= sprite.getRequiredResources();
 				if ((resources & Brick.PHYSICS) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {

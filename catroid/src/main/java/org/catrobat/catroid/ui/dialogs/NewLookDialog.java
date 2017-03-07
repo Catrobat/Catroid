@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.utils.Utils;
 
 public class NewLookDialog extends DialogFragment {
 
@@ -153,8 +154,10 @@ public class NewLookDialog extends DialogFragment {
 		mediaLibraryButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				fragment.addLookMediaLibrary();
-				NewLookDialog.this.dismiss();
+				if (Utils.isNetworkAvailable(view.getContext(), true)) {
+					fragment.addLookMediaLibrary();
+					NewLookDialog.this.dismiss();
+				}
 			}
 		});
 	}

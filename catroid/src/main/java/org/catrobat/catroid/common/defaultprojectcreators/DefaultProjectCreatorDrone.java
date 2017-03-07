@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -257,11 +257,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		whenProjectStartsScript.addBrick(setSizeBrick);
 		whenProjectStartsScript.addBrick(turnLeftBrick);
 
-		LookData lookData = new LookData();
-		lookData.setLookName(spriteName + " icon");
-
-		lookData.setLookFilename(lookFile.getName());
-
+		LookData lookData = new LookData(spriteName + " icon", lookFile.getName());
 		sprite.getLookDataList().add(lookData);
 
 		sprite.addScript(whenSpriteTappedScript);

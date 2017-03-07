@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,54 +23,40 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.Button;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class RenameNfcTagDialog extends TextDialog {
 
-	private static final String BUNDLE_ARGUMENTS_OLD_NFCTAG_NAME = "old_nfctag_name";
 	public static final String EXTRA_NEW_NFCTAG_TITLE = "new_nfctag_name";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_nfctag";
 
-	private String oldNfcTagName;
-
-	public static RenameNfcTagDialog newInstance(String oldNfcTagName) {
-		RenameNfcTagDialog dialog = new RenameNfcTagDialog();
-
-		Bundle arguments = new Bundle();
-		arguments.putString(BUNDLE_ARGUMENTS_OLD_NFCTAG_NAME, oldNfcTagName);
-		dialog.setArguments(arguments);
-
-		return dialog;
+	public RenameNfcTagDialog(int title, int inputLabel, String previousText) {
+		super(title, inputLabel, previousText, false);
 	}
 
 	@Override
-	protected void initialize() {
-		oldNfcTagName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_NFCTAG_NAME);
-		input.setText(oldNfcTagName);
-		inputTitle.setText(R.string.nfctag_name);
-	}
-
-	@Override
-	protected boolean handleOkButton() {
+	protected boolean handlePositiveButtonClick() {
 		String newNfcTagName = input.getText().toString().trim();
 
-		if (newNfcTagName.equals(oldNfcTagName)) {
-			dismiss();
+		if (newNfcTagName.equals(previousText)) {
+			return true;
 		}
 
-		if (newNfcTagName != null && !newNfcTagName.equalsIgnoreCase("") && !newNfcTagName.equalsIgnoreCase(getString(R.string.brick_when_nfc_default_all))) {
+		boolean newNameConsistsOfSpacesOnly = newNfcTagName.isEmpty();
+
+		if (newNameConsistsOfSpacesOnly) {
+			input.setError(getString(R.string.name_consists_of_spaces_only));
+			return false;
+		}
+
+		if (!newNfcTagName.equalsIgnoreCase(getString(R.string.brick_when_nfc_default_all))) {
 			newNfcTagName = Utils.getUniqueNfcTagName(newNfcTagName);
 		} else {
-			Utils.showErrorDialog(getActivity(), R.string.nfctagname_invalid);
-			dismiss();
+			input.setError(getString(R.string.nfctagname_invalid));
+			return false;
 		}
 
 		Intent intent = new Intent(ScriptActivity.ACTION_NFCTAG_RENAMED);
@@ -81,35 +67,6 @@ public class RenameNfcTagDialog extends TextDialog {
 	}
 
 	@Override
-	protected String getTitle() {
-		return getString(R.string.rename_nfctag_dialog);
-	}
-
-	@Override
-	protected String getHint() {
-		return null;
-	}
-
-	@Override
-	protected TextWatcher getInputTextChangedListener(final Button buttonPositive) {
-		return new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-					ToastUtil.showError(getActivity(), R.string.notification_invalid_text_entered);
-					buttonPositive.setEnabled(false);
-				} else {
-					buttonPositive.setEnabled(true);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
-		};
+	protected void handleNegativeButtonClick() {
 	}
 }

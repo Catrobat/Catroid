@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -148,6 +148,7 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 				break;
 
 			case R.id.brick_set_text_edit_text:
+			default:
 				FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
 				break;
 		}

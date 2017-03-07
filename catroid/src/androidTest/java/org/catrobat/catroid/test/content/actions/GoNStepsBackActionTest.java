@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
@@ -144,8 +145,9 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
-		assertEquals("GoNStepsBackBrick execution failed. Z position should be zero.", 1, sprite.look.getZIndex());
-		assertEquals("Unexpected sprite Z position", 2, sprite2.look.getZIndex());
+		assertEquals("GoNStepsBackBrick execution failed. Z position should be zero.", Constants.Z_INDEX_FIRST_SPRITE, sprite.look
+				.getZIndex());
+		assertEquals("Unexpected sprite Z position", 1, sprite2.look.getZIndex());
 
 		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals("An unwanted Integer overflow occured during GoNStepsBackBrick execution.", 2,
@@ -155,13 +157,13 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createGoNStepsBackAction(sprite2, new Formula(String.valueOf(STEPS))).act(1.0f);
 		assertEquals("Unexpected initial sprite Z position", 0, background.look.getZIndex());
-		assertEquals("Unexpected sprite Z position", 1, sprite2.look.getZIndex());
-		assertEquals("Unexpected sprite Z position", 2, sprite.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", Constants.Z_INDEX_FIRST_SPRITE, sprite2.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", 1, sprite.look.getZIndex());
 
 		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
 		assertEquals("Unexpected initial sprite Z position", 0, background.look.getZIndex());
-		assertEquals("Unexpected sprite Z position", 1, sprite2.look.getZIndex());
-		assertEquals("Unexpected sprite Z position", 2, sprite.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", Constants.Z_INDEX_FIRST_SPRITE, sprite2.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", 1, sprite.look.getZIndex());
 	}
 
 	public void testNullFormula() {

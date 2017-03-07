@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -228,6 +228,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.TIME_SECOND);
 			case R.string.formula_editor_nfc_tag_id:
 				return buildSensor(Sensors.NFC_TAG_ID);
+			case R.string.formula_editor_nfc_tag_message:
+				return buildSensor(Sensors.NFC_TAG_MESSAGE);
 
 			//NXT SENSOR
 			case R.string.formula_editor_sensor_lego_nxt_1:
@@ -345,6 +347,10 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_BACKGROUND_NAME);
 			case R.string.formula_editor_object_distance_to:
 				return buildObject(Sensors.OBJECT_DISTANCE_TO);
+			case R.string.formula_editor_function_collides_with_edge:
+				return buildObject(Sensors.COLLIDES_WITH_EDGE);
+			case R.string.formula_editor_function_touched:
+				return buildObject(Sensors.COLLIDES_WITH_FINGER);
 		}
 		return null;
 	}

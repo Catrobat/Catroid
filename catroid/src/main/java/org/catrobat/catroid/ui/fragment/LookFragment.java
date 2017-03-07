@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -577,8 +577,10 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	public void addLookMediaLibrary() {
 		Intent intent = new Intent(activity, WebViewActivity.class);
 		String url;
-		if (ProjectManager.getInstance().getCurrentSprite().getName().compareTo(getString(R.string.background)) == 0) {
-			url = Constants.LIBRARY_BACKGROUNDS_URL;
+		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(getString(R.string.background))) {
+			url = ProjectManager.getInstance().isCurrentProjectLandscapeMode()
+					? Constants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE
+					: Constants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 		} else {
 			url = Constants.LIBRARY_LOOKS_URL;
 		}
@@ -872,7 +874,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public void showRenameDialog() {
-		RenameLookDialog renameLookDialog = RenameLookDialog.newInstance(selectedLookData.getLookName());
+		RenameLookDialog renameLookDialog = new RenameLookDialog(R.string.rename_look_dialog, R.string
+				.lookname, selectedLookData.getLookName());
 		renameLookDialog.show(getFragmentManager(), RenameLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 

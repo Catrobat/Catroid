@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -156,12 +156,13 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_drone_move_edit_text_second:
-				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-				break;
-
 			case R.id.brick_drone_move_edit_text_power:
 				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_POWER_IN_PERCENT);
+				break;
+
+			case R.id.brick_drone_move_edit_text_second:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 				break;
 		}
 	}

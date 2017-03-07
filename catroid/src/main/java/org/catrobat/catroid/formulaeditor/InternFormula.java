@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -150,6 +150,13 @@ public class InternFormula {
 	public void updateCollisionFormula(String oldName, String newName, Context context) {
 		for (InternToken internToken : internTokenFormulaList) {
 			internToken.updateCollisionFormula(oldName, newName);
+		}
+		generateExternFormulaStringAndInternExternMapping(context);
+	}
+
+	public void updateCollisionFormulaToVersion(Context context, float catroidLanguageVersion) {
+		for (InternToken internToken : internTokenFormulaList) {
+			internToken.updateCollisionFormulaToVersion(catroidLanguageVersion);
 		}
 		generateExternFormulaStringAndInternExternMapping(context);
 	}
@@ -715,35 +722,28 @@ public class InternFormula {
 	private CursorTokenPropertiesAfterModification setCursorPositionAndSelectionAfterInput(int insertedInternTokenIndex) {
 		InternToken insertedInternToken = internTokenFormulaList.get(insertedInternTokenIndex);
 
-		switch (insertedInternToken.getInternTokenType()) {
-			case FUNCTION_NAME:
-				List<InternToken> functionInternTokenList = InternFormulaUtils.getFunctionByName(
-						internTokenFormulaList, insertedInternTokenIndex);
+		if (insertedInternToken.getInternTokenType() == InternTokenType.FUNCTION_NAME) {
+			List<InternToken> functionInternTokenList = InternFormulaUtils.getFunctionByName(
+					internTokenFormulaList, insertedInternTokenIndex);
 
-				if (functionInternTokenList.size() < 4) {
-					cursorPositionInternTokenIndex = insertedInternTokenIndex + functionInternTokenList.size() - 1;
-					cursorPositionInternToken = null;
-					return CursorTokenPropertiesAfterModification.RIGHT;
-				}
-
+			if (functionInternTokenList.size() >= 4) {
 				List<List<InternToken>> functionParameters = InternFormulaUtils
 						.getFunctionParameterInternTokensAsLists(functionInternTokenList);
-
 				List<InternToken> functionFirstParameter = functionParameters.get(0);
 
 				internFormulaTokenSelection = new InternFormulaTokenSelection(TokenSelectionType.USER_SELECTION,
 						insertedInternTokenIndex + 2, insertedInternTokenIndex + functionFirstParameter.size() + 1);
-
 				cursorPositionInternTokenIndex = internFormulaTokenSelection.getEndIndex();
-				cursorPositionInternToken = null;
-				return CursorTokenPropertiesAfterModification.RIGHT;
-
-			default:
-				cursorPositionInternTokenIndex = insertedInternTokenIndex;
-				cursorPositionInternToken = null;
+			} else {
+				cursorPositionInternTokenIndex = insertedInternTokenIndex + functionInternTokenList.size() - 1;
 				internFormulaTokenSelection = null;
-				return CursorTokenPropertiesAfterModification.RIGHT;
+			}
+		} else {
+			cursorPositionInternTokenIndex = insertedInternTokenIndex;
+			internFormulaTokenSelection = null;
 		}
+		cursorPositionInternToken = null;
+		return CursorTokenPropertiesAfterModification.RIGHT;
 	}
 
 	private CursorTokenPropertiesAfterModification replaceCursorPositionInternTokenByTokenList(

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.formulaeditor;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -96,7 +97,7 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 
 			Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
 			assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
-					lookZPositionFormula.interpretInteger(testSprite).intValue());
+					lookZPositionFormula.interpretInteger(testSprite).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
 		} catch (InterpretationException interpretationException) {
 			fail("Could not interprete Formula.");
 		}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -132,6 +132,7 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -1246,6 +1247,53 @@ public final class UiTestUtils {
 	public static List<Brick> createTestProjectWithUserVariables() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new SingleSprite("cat");
+		projectManager.setCurrentSprite(firstSprite);
+
+		String globalVariableName = "global_var";
+		String spriteVariableName = "sprite_var";
+		FormulaElement variableElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, globalVariableName, null);
+		FormulaElement variableElementSprite = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, spriteVariableName, null);
+
+		String globalListName = "global_list";
+		String spriteListName = "sprite_list";
+		FormulaElement listElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_LIST, globalListName, null);
+		FormulaElement listElementSprite = new FormulaElement(FormulaElement.ElementType.USER_LIST, spriteListName, null);
+
+		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
+		dataContainer.addProjectUserVariable(globalVariableName);
+		dataContainer.addSpriteUserVariableToSprite(firstSprite, spriteVariableName);
+		dataContainer.addProjectUserList(globalListName);
+		dataContainer.addSpriteUserList(spriteListName);
+
+		ArrayList<Brick> brickList = new ArrayList<>();
+		brickList.add(new SetXBrick(new Formula(variableElementGlobal)));
+		brickList.add(new SetYBrick(new Formula(variableElementSprite)));
+		brickList.add(new SetXBrick(new Formula(listElementGlobal)));
+		brickList.add(new SetYBrick(new Formula(listElementSprite)));
+
+		Script testScript = new StartScript();
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+		WhenStartedBrick scriptBrick = new WhenStartedBrick(testScript);
+		testScript.setBrick(scriptBrick);
+		brickList.add(0, scriptBrick);
+
+		firstSprite.addScript(testScript);
+
+		project.getDefaultScene().addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static List<Brick> createTestProjectWithUserVariablesAndUserBrick() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new SingleSprite("cat");
 
 		String globalVariableName = "global_var";
 		String spriteVariableName = "sprite_var";
@@ -1779,8 +1827,7 @@ public final class UiTestUtils {
 		} else if (overflowMenuItemName != null) {
 			solo.waitForText(overflowMenuItemName, 0, 20000, false);
 
-			if (overflowMenuItemName.equals(solo.getString(R.string.unpack))
-					|| overflowMenuItemName.equals(solo.getString(R.string.unpack_keep))) {
+			if (overflowMenuItemName.equals(solo.getString(R.string.unpack))) {
 				solo.clickOnActionBarItem(menuItemId);
 			} else {
 				solo.clickOnMenuItem(overflowMenuItemName, true);

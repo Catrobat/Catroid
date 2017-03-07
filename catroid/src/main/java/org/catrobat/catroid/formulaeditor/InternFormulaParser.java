@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,7 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.util.Log;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 
@@ -275,15 +273,9 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement collision() throws InternFormulaParserException {
-		int start = 0;
-		String collidesWithTag = CatroidApplication.getAppContext().getString(R.string
-				.formula_editor_function_collision);
-		int end = currentToken.getTokenStringValue().indexOf(collidesWithTag) - 1;
-		String firstSpriteName = currentToken.getTokenStringValue().substring(start, end);
-		start = end + collidesWithTag.length() + 2;
-		end = currentToken.getTokenStringValue().length();
-		String secondSpriteName = currentToken.getTokenStringValue().substring(start, end);
 
+		String firstSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		String secondSpriteName = currentToken.getTokenStringValue();
 		boolean formulaOk;
 		int spriteCount = 0;
 

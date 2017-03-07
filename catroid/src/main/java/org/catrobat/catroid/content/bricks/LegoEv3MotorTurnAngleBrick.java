@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -139,14 +139,6 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			motorSpinner.setClickable(true);
-			motorSpinner.setEnabled(true);
-		} else {
-			motorSpinner.setClickable(false);
-			motorSpinner.setEnabled(false);
-		}
 
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

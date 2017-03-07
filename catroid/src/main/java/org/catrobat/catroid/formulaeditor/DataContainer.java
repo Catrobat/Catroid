@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -36,7 +34,6 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,24 +42,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class DataContainer implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class DataContainer extends BaseDataContainer {
 	public static final transient int USER_VARIABLE_SPRITE = 0;
 	public static final transient int USER_VARIABLE_PROJECT = 1;
 	public static final transient int USER_VARIABLE_USERBRICK = 2;
 	public static final transient int USER_LIST_SPRITE = 4;
 	public static final transient int USER_LIST_PROJECT = 5;
 	public static final transient int USER_DATA_EMPTY = 6;
-
-	@XStreamAlias("objectVariableList")
-	private Map<Sprite, List<UserVariable>> spriteVariables;
-
-	@XStreamAlias("userBrickVariableList")
-	private Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
-
-	@XStreamAlias("objectListOfList")
-	private Map<Sprite, List<UserList>> spriteListOfLists;
 
 	private transient Project project;
 

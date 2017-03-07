@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -107,6 +107,8 @@ public class EV3CommandByte {
 		OP_SOUND(0x94), OP_SOUND_TEST(0x95),
 
 		OP_INPUT_DEVICE(0x99), OP_INPUT_READ(0x9A), OP_INPUT_READ_SI(0x9D),
+
+		OP_OUTPUT_POWER(0xA4), OP_OUTPUT_SPEED(0xA5), OP_OUTPUT_START(0xA6),
 
 		OP_OUTPUT_STEP_SPEED(0xAE), OP_OUTPUT_STEP_POWER(0xAC), OP_OUTPUT_TIME_SPEED(0xAF), OP_OUTPUT_TIME_POWER(0xAD),
 

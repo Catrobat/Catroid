@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -128,16 +128,17 @@ public class RaspiPwmBrick extends FormulaBrick {
 
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_raspi_pwm_pin_edit_text:
-				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_NUMBER);
-				break;
-
 			case R.id.brick_raspi_pwm_frequency_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_PWM_FREQUENCY);
 				break;
 
 			case R.id.brick_raspi_pwm_percentage_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_PWM_PERCENTAGE);
+				break;
+
+			case R.id.brick_raspi_pwm_pin_edit_text:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_NUMBER);
 				break;
 		}
 	}

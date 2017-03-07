@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,6 +57,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
@@ -439,6 +440,33 @@ public final class TestUtils {
 		return project;
 	}
 
+	public static Project createProjectWithOldCollisionFormulas(String name, Context context, String firstSprite,
+			String secondSprite, String thirdSprite, String collisionTag) {
+		Project project = new Project(context, name);
+		project.setCatrobatLanguageVersion(0.992f);
+		Sprite sprite1 = new Sprite(firstSprite);
+		Sprite sprite2 = new Sprite(secondSprite);
+		Sprite sprite3 = new Sprite(thirdSprite);
+
+		Script firstScript = new StartScript();
+
+		FormulaElement element1 = new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA, firstSprite + " "
+				+ collisionTag + " " + thirdSprite, null);
+		Formula formula1 = new Formula(element1);
+		IfLogicBeginBrick ifBrick = new IfLogicBeginBrick(formula1);
+
+		firstScript.addBrick(ifBrick);
+		sprite1.addScript(firstScript);
+
+		project.getDefaultScene().addSprite(sprite1);
+		project.getDefaultScene().addSprite(sprite2);
+		project.getDefaultScene().addSprite(sprite3);
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.setCurrentProject(project);
+		return project;
+	}
+
 	public static void sleep(int time) {
 		try {
 			Thread.sleep((long) time);
@@ -452,5 +480,36 @@ public final class TestUtils {
 		pixmap.setColor(color);
 		pixmap.fillRectangle(0, 0, width, height);
 		return pixmap;
+	}
+
+	public static void copyAssetProjectZipFile(Context context, String fileName, String destinationFolder) {
+		File dstFolder = new File(destinationFolder);
+		dstFolder.mkdirs();
+
+		InputStream inputStream = null;
+		FileOutputStream outputStream = null;
+		try {
+			inputStream = context.getResources().getAssets().open(fileName);
+			outputStream = new FileOutputStream(destinationFolder + "/" + fileName);
+			byte[] buffer = new byte[1024];
+			int read;
+			while ((read = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, read);
+			}
+			outputStream.flush();
+		} catch (IOException exception) {
+			Log.e(TAG, "cannot copy asset project", exception);
+		} finally {
+			try {
+				if (inputStream != null) {
+					inputStream.close();
+				}
+				if (outputStream != null) {
+					outputStream.close();
+				}
+			} catch (IOException exception) {
+				Log.e(TAG, "Error closing streams", exception);
+			}
+		}
 	}
 }

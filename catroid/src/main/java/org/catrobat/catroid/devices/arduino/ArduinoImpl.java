@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,7 @@ import name.antonsmirnov.firmata.serial.StreamingSerialAdapter;
 public class ArduinoImpl implements Arduino {
 
 	public static final int NUMBER_OF_DIGITAL_PINS = 14;
+	public static final int PINS_IN_A_PORT = 8;
 
 	public static final int PIN_ANALOG_0 = 0;
 	public static final int PIN_ANALOG_1 = 1;
@@ -226,40 +227,17 @@ public class ArduinoImpl implements Arduino {
 
 	@Override
 	public void setDigitalArduinoPin(int digitalPinNumber, int pinValue) {
-		int digitalPort = 0;
-		double value;
-		if (digitalPinNumber < 8) {
-			if (pinValue > 0) {
-				value = Math.pow(2, (double) digitalPinNumber);
-				sendDigitalFirmataMessage(digitalPort, digitalPinNumber, (int) value);
-				arduinoListener.setPortValue(digitalPinNumber, 1);
-			} else {
-				sendDigitalFirmataMessage(digitalPort, digitalPinNumber, 0);
-				arduinoListener.setPortValue(digitalPinNumber, 0);
-			}
-		} else {
-			digitalPort = 1;
-			if (pinValue > 0) {
-				value = Math.pow(2, (double) digitalPinNumber - 8);
-				sendDigitalFirmataMessage(digitalPort, digitalPinNumber, (int) value);
-				arduinoListener.setPortValue(digitalPinNumber, 1);
-			} else {
-				sendDigitalFirmataMessage(digitalPort, digitalPinNumber, 0);
-				arduinoListener.setPortValue(digitalPinNumber, 0);
-			}
-		}
+		int digitalPort = getPortFromPin(digitalPinNumber);
+
+		arduinoListener.setDigitalPinValue(digitalPinNumber, pinValue);
+
+		sendDigitalFirmataMessage(digitalPort, digitalPinNumber, arduinoListener.getPortValue(digitalPort));
 	}
 
 	@Override
 	public double getDigitalArduinoPin(int digitalPinNumber) {
 		sendFirmataMessage(new SetPinModeMessage(digitalPinNumber, SetPinModeMessage.PIN_MODE.INPUT.getMode()));
-		int port;
-
-		if (digitalPinNumber >= 8) {
-			port = 1;
-		} else {
-			port = 0;
-		}
+		int port = getPortFromPin(digitalPinNumber);
 
 		sendFirmataMessage(new ReportDigitalPortMessage(port, true));
 
@@ -269,7 +247,7 @@ public class ArduinoImpl implements Arduino {
 			Log.d(TAG, "Error Arduino sensor thread sleep()");
 		}
 
-		double result = arduinoListener.getPortValue(digitalPinNumber);
+		double result = arduinoListener.getDigitalPinValue(digitalPinNumber);
 
 		sendFirmataMessage(new ReportDigitalPortMessage(port, false));
 
@@ -293,6 +271,18 @@ public class ArduinoImpl implements Arduino {
 				return arduinoListener.getAnalogPin5();
 		}
 		return 0;
+	}
+
+	public static boolean isValidPin(int pin) {
+		return (pin >= 0) && (pin < NUMBER_OF_DIGITAL_PINS);
+	}
+
+	public static int getPortFromPin(int pin) {
+		return pin / PINS_IN_A_PORT;
+	}
+
+	public static int getIndexOfPinOnPort(int pin) {
+		return pin % PINS_IN_A_PORT;
 	}
 
 	private void sendAnalogFirmataMessage(int pin, int value) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.catrobat.catroid.stage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
@@ -46,6 +47,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
@@ -56,15 +58,19 @@ import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.NoNetworkDialog;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -105,7 +111,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 
 		SensorHandler sensorHandler = SensorHandler.getInstance(getApplicationContext());
 
-		if ((requiredResources & Brick.SENSOR_ACCELERATION) > 0) {
+		if ((requiredResources & Brick.SENSOR_ACCELERATION) != 0) {
 			if (sensorHandler.accelerationAvailable()) {
 				resourceInitialized();
 			} else {
@@ -113,7 +119,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.SENSOR_INCLINATION) > 0) {
+		if ((requiredResources & Brick.SENSOR_INCLINATION) != 0) {
 			if (sensorHandler.inclinationAvailable()) {
 				resourceInitialized();
 			} else {
@@ -121,7 +127,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.SENSOR_COMPASS) > 0) {
+		if ((requiredResources & Brick.SENSOR_COMPASS) != 0) {
 			if (sensorHandler.compassAvailable()) {
 				resourceInitialized();
 			} else {
@@ -129,7 +135,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.SENSOR_GPS) > 0) {
+		if ((requiredResources & Brick.SENSOR_GPS) != 0) {
 			if (SensorHandler.gpsAvailable()) {
 				resourceInitialized();
 			} else {
@@ -139,25 +145,25 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
+		if ((requiredResources & Brick.TEXT_TO_SPEECH) != 0) {
 			Intent checkIntent = new Intent();
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) != 0) {
 			connectBTDevice(BluetoothDevice.LEGO_NXT);
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_LEGO_EV3) > 0) {
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_EV3) != 0) {
 			connectBTDevice(BluetoothDevice.LEGO_EV3);
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_PHIRO) > 0) {
+		if ((requiredResources & Brick.BLUETOOTH_PHIRO) != 0) {
 			connectBTDevice(BluetoothDevice.PHIRO);
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) != 0) {
 			connectBTDevice(BluetoothDevice.ARDUINO);
 		}
 
@@ -169,7 +175,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_BACK) > 0) {
+		if ((requiredResources & Brick.CAMERA_BACK) != 0) {
 			if (CameraManager.getInstance().hasBackCamera()) {
 				resourceInitialized();
 			} else {
@@ -177,7 +183,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_FRONT) > 0) {
+		if ((requiredResources & Brick.CAMERA_FRONT) != 0) {
 			if (CameraManager.getInstance().hasFrontCamera()) {
 				resourceInitialized();
 			} else {
@@ -185,7 +191,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.VIDEO) > 0) {
+		if ((requiredResources & Brick.VIDEO) != 0) {
 			if (CameraManager.getInstance().hasFrontCamera()
 					|| CameraManager.getInstance().hasBackCamera()) {
 				resourceInitialized();
@@ -194,11 +200,11 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_FLASH) > 0) {
+		if ((requiredResources & Brick.CAMERA_FLASH) != 0) {
 			flashInitialize();
 		}
 
-		if ((requiredResources & Brick.VIBRATOR) > 0) {
+		if ((requiredResources & Brick.VIBRATOR) != 0) {
 			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 			if (vibrator != null) {
 				VibratorUtil.setContext(this.getBaseContext());
@@ -210,7 +216,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		}
 
 		FaceDetectionHandler.resetFaceDedection();
-		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+		if ((requiredResources & Brick.FACE_DETECTION) != 0) {
 			boolean success = FaceDetectionHandler.startFaceDetection();
 			if (success) {
 				resourceInitialized();
@@ -218,8 +224,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 				resourceFailed(Brick.FACE_DETECTION);
 			}
 		}
-		if ((requiredResources & Brick.NFC_ADAPTER) > 0) {
-			if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+		if ((requiredResources & Brick.NFC_ADAPTER) != 0) {
+			if ((requiredResources & Brick.FACE_DETECTION) != 0) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage(getString(R.string.nfc_facedetection_support)).setCancelable(false)
 						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -235,16 +241,44 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.COLLISION) > 0) {
+		if ((requiredResources & Brick.COLLISION) != 0) {
 			GatherCollisionInformationTask task = new GatherCollisionInformationTask(this);
 			task.execute();
+		}
+
+		if ((requiredResources & Brick.NETWORK_CONNECTION) != 0) {
+			final Context finalBaseContext = this.getBaseContext();
+			if (!Utils.isNetworkAvailable(finalBaseContext)) {
+				List<Brick> networkBrickList = getBricksRequiringResource(Brick.NETWORK_CONNECTION);
+				networkBrickList = Utils.distinctListByClassOfObjects(networkBrickList);
+				NoNetworkDialog networkDialog = new NoNetworkDialog(this, networkBrickList);
+				networkDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialogInterface) {
+						resourceFailed();
+					}
+				});
+				networkDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+					@Override
+					public void onDismiss(DialogInterface dialogInterface) {
+						if (Utils.isNetworkAvailable(finalBaseContext)) {
+							resourceInitialized();
+						} else {
+							resourceFailed();
+						}
+					}
+				});
+				networkDialog.show();
+			} else {
+				resourceInitialized();
+			}
 		}
 
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
 		}
 
-		if ((requiredResources & Brick.SOCKET_RASPI) > 0) {
+		if ((requiredResources & Brick.SOCKET_RASPI) != 0) {
 			connectRaspberrySocket();
 		}
 	}
@@ -522,7 +556,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	}
 
 	public static void textToSpeech(String text, File speechFile, OnUtteranceCompletedListener listener,
-									HashMap<String, String> speakParameter) {
+			HashMap<String, String> speakParameter) {
 		if (text == null) {
 			text = "";
 		}
@@ -561,6 +595,18 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
 		}
 		resourceInitialized();
+	}
+
+	private static List<Brick> getBricksRequiringResource(int resource) {
+		List<Brick> brickList = new ArrayList<Brick>();
+		List<Scene> sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
+
+		for (Scene scene : sceneList) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				brickList.addAll(sprite.getBricksRequiringResource(resource));
+			}
+		}
+		return brickList;
 	}
 
 	@Override

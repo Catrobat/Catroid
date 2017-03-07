@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,7 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.formulaeditor.BaseDataContainer;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
@@ -161,7 +162,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		List<UserVariable> userVariableList = variablesContainer.getProjectVariables();
 		@SuppressWarnings("unchecked")
 		Map<Sprite, List<UserVariable>> spriteVariablesMap = (Map<Sprite, List<UserVariable>>) Reflection
-				.getPrivateField(DataContainer.class, variablesContainer, "spriteVariables");
+				.getPrivateField(BaseDataContainer.class, variablesContainer, "spriteVariables");
 
 		assertEquals("Wrong number of variables", 0, userVariableList.size());
 		assertEquals("Wrong number of variables", 0, spriteVariablesMap.size());

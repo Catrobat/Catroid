@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -124,12 +124,13 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_arduino_set_digital_pin_edit_text:
-				FormulaEditorFragment.showFragment(view, this, BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
-				break;
-
 			case R.id.brick_arduino_set_digital_value_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.ARDUINO_DIGITAL_PIN_VALUE);
+				break;
+
+			case R.id.brick_arduino_set_digital_pin_edit_text:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
 				break;
 		}
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ public interface Brick extends Serializable, Cloneable {
 		TRANSPARENCY, TRANSPARENCY_CHANGE, SIZE, SIZE_CHANGE, VOLUME, VOLUME_CHANGE, X_DESTINATION, Y_DESTINATION, STEPS,
 		DURATION_IN_SECONDS, DEGREES, TURN_RIGHT_DEGREES, TURN_LEFT_DEGREES, TIME_TO_WAIT_IN_SECONDS, VARIABLE,
 		VARIABLE_CHANGE, PEN_SIZE, IF_CONDITION, TIMES_TO_REPEAT, VIBRATE_DURATION_IN_SECONDS, USER_BRICK, NOTE, SPEAK,
-		SHOWTEXT, HIDETEXT, STRING, ROTATION_STYLE, REPEAT_UNTIL_CONDITION, ASK_QUESTION,
+		SHOWTEXT, HIDETEXT, STRING, ROTATION_STYLE, REPEAT_UNTIL_CONDITION, ASK_QUESTION, NFC_NDEF_MESSAGE, ASK_SPEECH_QUESTION,
 
 		LEGO_NXT_SPEED, LEGO_NXT_DEGREES, LEGO_NXT_FREQUENCY, LEGO_NXT_DURATION_IN_SECONDS,
 
@@ -68,7 +68,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	//use bitwise | for using multiple resources in a brick
 	int NO_RESOURCES = 0x0;
-	//int SOUND_MANAGER = 0x1;
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
 	int PHYSICS = 0x8;
@@ -89,8 +88,7 @@ public interface Brick extends Serializable, Cloneable {
 	int SENSOR_GPS = 0x40000;
 	int COLLISION = 0x80000;
 	int BLUETOOTH_LEGO_EV3 = 0x100000;
-
-	//	public static final int BLUETOOTH_ARDUINO = 0x20000;
+	int NETWORK_CONNECTION = 0x200000;
 
 	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 

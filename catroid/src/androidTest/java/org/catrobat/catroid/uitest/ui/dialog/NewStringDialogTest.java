@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -72,7 +72,7 @@ public class NewStringDialogTest extends BaseActivityInstrumentationTestCase<Mai
 	}
 
 	public void testNegativeButton() {
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		solo.clickOnButton(solo.getString(R.string.cancel));
 		assertTrue("New " + NewStringDialog.class.getSimpleName() + " should be closed!", solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
 		assertEquals("Wrong string in Formula Editor edit text!", "\'" + NOTE + "\' ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
 	}

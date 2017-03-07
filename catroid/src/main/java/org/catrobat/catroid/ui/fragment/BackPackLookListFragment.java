@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -208,6 +208,7 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 		if (singleItem) {
 			unpackLook();
 			showUnpackingCompleteToast(1);
+			getActivity().finish();
 			return;
 		}
 		for (LookData lookData : lookAdapter.getCheckedItems()) {
@@ -216,6 +217,7 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 		}
 		showUnpackingCompleteToast(lookAdapter.getCheckedItems().size());
 		clearCheckedItems();
+		getActivity().finish();
 	}
 
 	private void unpackLook() {

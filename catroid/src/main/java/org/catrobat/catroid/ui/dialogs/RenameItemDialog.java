@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,78 +22,56 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.os.Bundle;
+import org.catrobat.catroid.R;
 
-import org.catrobat.catroid.ui.fragment.ListActivityFragment;
-import org.catrobat.catroid.utils.Utils;
-
-public class RenameItemDialog extends ListFragmentDialog {
+public class RenameItemDialog extends TextDialog {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename";
 
-	private static final String BUNDLE_ARGUMENTS_DIALOG_TITLE = "title_id";
-	private static final String BUNDLE_ARGUMENTS_INPUT_TITLE = "input_tag_id";
-	private static final String BUNDLE_ARGUMENTS_DIALOG_ERROR = "error_id";
-	private static final String BUNDLE_ARGUMENTS_CURRENT_NAME = "current_name";
+	private RenameItemInterface renameItemInterface;
 
-	private int titleId;
-	private int inputTitleId;
-	private int errorId;
-	private String currentName;
-
-	public static RenameItemDialog newInstance(int titleId, int inputTitleId, int errorId, String currentName) {
-		RenameItemDialog dialog = new RenameItemDialog();
-
-		Bundle arguments = new Bundle();
-		arguments.putInt(BUNDLE_ARGUMENTS_DIALOG_TITLE, titleId);
-		arguments.putInt(BUNDLE_ARGUMENTS_INPUT_TITLE, inputTitleId);
-		arguments.putInt(BUNDLE_ARGUMENTS_DIALOG_ERROR, errorId);
-		arguments.putString(BUNDLE_ARGUMENTS_CURRENT_NAME, currentName);
-		dialog.setArguments(arguments);
-
-		return dialog;
+	public RenameItemDialog(int title, int inputLabel, String previousItemName, RenameItemInterface
+			renameItemInterface) {
+		super(title, inputLabel, previousItemName, false);
+		this.renameItemInterface = renameItemInterface;
 	}
 
 	@Override
-	protected void initialize() {
-		titleId = getArguments().getInt(BUNDLE_ARGUMENTS_DIALOG_TITLE);
-		inputTitleId = getArguments().getInt(BUNDLE_ARGUMENTS_INPUT_TITLE);
-		inputTitle.setText(inputTitleId);
-		errorId = getArguments().getInt(BUNDLE_ARGUMENTS_DIALOG_ERROR);
-		currentName = getArguments().getString(BUNDLE_ARGUMENTS_CURRENT_NAME);
-		input.setText(currentName);
-	}
-
-	@Override
-	protected boolean handleOkButton() {
+	protected boolean handlePositiveButtonClick() {
 		String newName = input.getText().toString().trim();
 
-		if (newName.equals(currentName)) {
-			dismiss();
+		if (newName.equals(previousText)) {
+			renameItemInterface.clearCheckedItems();
+			return true;
+		}
+
+		boolean newNameConsistsOfSpacesOnly = newName.isEmpty();
+
+		if (newNameConsistsOfSpacesOnly) {
+			input.setError(getString(R.string.name_consists_of_spaces_only));
 			return false;
 		}
 
-		if (((ListActivityFragment) getTargetFragment()).itemNameExists(newName)) {
-			Utils.showErrorDialog(getActivity(), errorId);
+		if (renameItemInterface.itemNameExists(newName)) {
+			input.setError(getString(R.string.name_already_exists));
 			return false;
+		} else {
+			renameItemInterface.clearCheckedItems();
+			renameItemInterface.renameItem(newName);
+			return true;
 		}
-
-		if (newName.isEmpty()) {
-			Utils.showErrorDialog(getActivity(), errorId);
-			return false;
-		}
-
-		((ListActivityFragment) getTargetFragment()).renameItem(newName);
-		return true;
 	}
 
 	@Override
-	protected String getTitle() {
-		return getString(titleId);
+	protected void handleNegativeButtonClick() {
+		renameItemInterface.clearCheckedItems();
 	}
 
-	@Override
-	protected String getHint() {
-		return null;
+	public interface RenameItemInterface {
+
+		void clearCheckedItems();
+		boolean itemNameExists(String newItemName);
+		void renameItem(String newItemName);
 	}
 }
+

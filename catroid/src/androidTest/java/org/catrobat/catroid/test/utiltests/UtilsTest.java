@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -500,5 +500,105 @@ public class UtilsTest extends AndroidTestCase {
 
 		spriteList.add(catroidSprite);
 		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(defaultProject, getContext()));
+	}
+
+	public void testSetBitAllOnesSetIndex0To1() {
+		assertEquals("Setting an already set bit should not change numberToModify",
+				0b11111111, Utils.setBit(0b11111111, 0, 1));
+	}
+
+	public void testSetBitAllButOneZerosSetIndex3To1() {
+		assertEquals("Setting an already set bit should not change numberToModify",
+				0b00001000, Utils.setBit(0b00001000, 3, 1));
+	}
+
+	public void testSetBitAllZerosSetIndex7To0() {
+		assertEquals("Clearing an already cleared bit should not change numberToModify",
+				0b00000000, Utils.setBit(0b00000000, 7, 0));
+	}
+
+	public void testSetBitAllButOneOnesSetIndex4To0() {
+		assertEquals("Clearing an already cleared bit should not change numberToModify",
+				0b11011111, Utils.setBit(0b11011111, 5, 0));
+	}
+
+	public void testSetBitAllZerosSetIndex0To1() {
+		assertEquals("Didn't set bit as expected",
+				0b00000001, Utils.setBit(0b00000000, 0, 1));
+	}
+
+	public void testSetBitAllOnesSetIndex0To0() {
+		assertEquals("Didn't clear bit as expected",
+				0b11111110, Utils.setBit(0b11111111, 0, 0));
+	}
+
+	public void testSetBitAllZerosSetIndex7To1() {
+		assertEquals("Didn't set bit as expected",
+				0b10000000, Utils.setBit(0b00000000, 7, 1));
+	}
+
+	public void testSetBitAllOnesSetIndex7To0() {
+		assertEquals("Didn't clear bit as expected",
+				0b01111111, Utils.setBit(0b11111111, 7, 0));
+	}
+
+	public void testSetBitNegativeIndex() {
+		assertEquals("Negative index should not modify numberToModify",
+				0, Utils.setBit(0, -3, 1));
+	}
+
+	public void testSetBitMaxIndex() {
+		assertEquals("Didn't set bit as expected",
+				0x80000000, Utils.setBit(0x00000000, 31, 1));
+	}
+
+	public void testSetBitTooLargeIndex() {
+		assertEquals("Too large index (>=32) should not modify numberToModify",
+				0, Utils.setBit(0, 32, 1));
+	}
+
+	public void testSetBitNonbinaryValue() {
+		assertEquals("Any value other than 0 should set the bit specified by index",
+				0b00000001, Utils.setBit(0b00000000, 0, 4));
+	}
+
+	public void testGetBitGet0FromIndex0() {
+		assertEquals("Didn't get expected bit value",
+				0, Utils.getBit(0b11111110, 0));
+	}
+
+	public void testGetBitGet1FromIndex0() {
+		assertEquals("Didn't get expected bit value",
+				1, Utils.getBit(0b00000001, 0));
+	}
+
+	public void testGetBitGet0FromIndex7() {
+		assertEquals("Didn't get expected bit value",
+				0, Utils.getBit(0b01111111, 7));
+	}
+
+	public void testGetBitGet1FromIndex7() {
+		assertEquals("Didn't get expected bit value",
+				1, Utils.getBit(0b10000000, 7));
+	}
+
+	public void testGetBitGet0FromMaxIndex() {
+		assertEquals("Didn't get expected bit value",
+				0, Utils.getBit(0x7FFFFFFF, 31));
+	}
+
+	public void testGetBitGet1FromMaxIndex() {
+		assertEquals("Didn't get expected bit value",
+				1, Utils.getBit(0x80000000, 31));
+	}
+
+	public void testGetBitNegativeIndex() {
+		assertEquals("Negative index should return 0",
+				0, Utils.getBit(0xFFFFFFFF, -3));
+	}
+
+	public void testGetBitTooLargeIndex() {
+		assertEquals("Too large index (>=32) should return 0",
+				0, Utils.getBit(0xFFFFFFFF, 32));
 	}
 }

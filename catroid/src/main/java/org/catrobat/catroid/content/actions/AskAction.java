@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,9 @@ public class AskAction extends Action {
 
 	private void askQuestion() {
 
+		if (StageActivity.messageHandler == null) {
+			return;
+		}
 		String question = "";
 		try {
 			if (questionFormula != null) {
@@ -58,9 +61,6 @@ public class AskAction extends Action {
 		ArrayList<Object> params = new ArrayList<>();
 		params.add(this);
 		params.add(question);
-		if (StageActivity.messageHandler == null) {
-			return;
-		}
 		Message message = StageActivity.messageHandler.obtainMessage(StageActivity.ASK_MESSAGE, params);
 		message.sendToTarget();
 

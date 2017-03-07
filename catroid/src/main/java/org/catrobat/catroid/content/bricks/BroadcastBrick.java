@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -135,23 +134,19 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	// TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
 	protected void showNewMessageDialog(final Spinner spinner) {
 		final Context context = spinner.getContext();
-		BrickTextDialog editDialog = new BrickTextDialog() {
+		BrickTextDialog editDialog = new BrickTextDialog(R.string.dialog_new_broadcast_message_title, R.string
+				.dialog_new_broadcast_message_name, context.getString(R.string.new_broadcast_message)) {
 
 			@Override
-			protected void initialize() {
-				inputTitle.setText(R.string.dialog_new_broadcast_message_name);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
+			protected boolean handlePositiveButtonClick() {
 				String newMessage = input.getText().toString().trim();
-				if (newMessage.isEmpty() || newMessage.equals(context.getString(R.string.new_broadcast_message))) {
+				if (newMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					dismiss();
 					return false;
 				}
 
 				if (newMessage.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR)) {
-					Utils.showErrorDialog(getActivity(), R.string.brick_broadcast_invalid_symbol);
+					input.setError(getString(R.string.brick_broadcast_invalid_symbol));
 					return false;
 				}
 
@@ -165,11 +160,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 			public void onDismiss(DialogInterface dialog) {
 				setSpinnerSelection(spinner);
 				super.onDismiss(dialog);
-			}
-
-			@Override
-			protected String getTitle() {
-				return getString(R.string.dialog_new_broadcast_message_title);
 			}
 		};
 

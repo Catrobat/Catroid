@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,13 +67,13 @@ public class UploadProjectTagsDialog extends DialogFragment implements GetTagsTa
 							checkedTags.remove(tagChoices[indexSelected]);
 						}
 					}
-				}).setPositiveButton(getText(R.string.next_button), new DialogInterface.OnClickListener() {
+				}).setPositiveButton(getText(R.string.next), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						ProjectManager.getInstance().getCurrentProject().setTags(checkedTags);
 						handleOKButton();
 					}
-				}).setNegativeButton(getText(R.string.cancel_button), new DialogInterface.OnClickListener() {
+				}).setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						handleCancelButtonClick();

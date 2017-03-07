@@ -1,6 +1,6 @@
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -180,6 +180,24 @@
         <item name="android:layout_width" >wrap_content</item >
         <item name="android:layout_height" >wrap_content</item >
         <item name="android:layout_alignWithParentIfMissing" >true</item >
+    </style >
+
+    <style name="ShowDetailsTitle" >
+        <item name="android:textColor" >@color/list_view_item_title_text_color</item >
+        <item name="android:textSize" >20sp</item >
+        <item name="android:layout_alignWithParentIfMissing" >true</item >
+        <item name="android:paddingLeft" >10sp</item>
+        <item name="android:paddingRight" >10sp</item>
+        <item name="android:paddingTop" >10sp</item>
+    </style >
+
+    <style name="ShowDetailsValue" >
+        <item name="android:textColor" >@color/list_view_item_details_text_color</item >
+        <item name="android:textSize" >18sp</item >
+        <item name="android:layout_alignWithParentIfMissing" >true</item >
+        <item name="android:paddingLeft" >15sp</item>
+        <item name="android:paddingRight" >15sp</item>
+        <item name="android:paddingTop" >1sp</item>
     </style >
 
     <style name="ProgramMenuButton" >

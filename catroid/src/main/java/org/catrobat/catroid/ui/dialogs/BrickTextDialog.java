@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,40 +22,19 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.content.Intent;
-import android.os.Bundle;
+public class BrickTextDialog extends TextDialog {
 
-import org.catrobat.catroid.ui.ScriptActivity;
-
-public abstract class BrickTextDialog extends TextDialog {
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
+	public BrickTextDialog(int title, int inputLabel, String previousText) {
+		super(title, inputLabel, previousText, false);
 	}
 
 	@Override
-	public void onDestroyView() {
-		if (getDialog() != null && getRetainInstance()) {
-			getDialog().setOnDismissListener(null);
-		}
-		super.onDestroyView();
+	protected boolean handlePositiveButtonClick() {
+		return false;
 	}
 
 	@Override
-	protected String getHint() {
-		return null;
-	}
-
-	@Override
-	protected String getTitle() {
-		return null;
-	}
-
-	@Override
-	protected void onOkButtonHandled() {
-		super.onOkButtonHandled();
-		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+	protected void handleNegativeButtonClick() {
+		dismiss();
 	}
 }

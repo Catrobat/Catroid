@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,11 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +41,7 @@ import java.util.concurrent.locks.Lock;
 
 public class MyProjectsActivity extends BaseActivity {
 
+	public static final String TAG = MyProjectsActivity.class.getSimpleName();
 	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -51,9 +55,35 @@ public class MyProjectsActivity extends BaseActivity {
 
 		BottomBar.hidePlayButton(this);
 
-		projectListFragment = (ProjectListFragment) getFragmentManager().findFragmentById(
-				R.id.fragment_container);
+		loadFragment(ProjectListFragment.class, false);
+		projectListFragment = (ProjectListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
 		SnackbarUtil.showHintSnackbar(this, R.string.hint_merge);
+	}
+
+	public void loadFragment(Class<? extends Fragment> fragmentClass, boolean addCurrentFragmentToBackStack) {
+		loadFragment(fragmentClass, null, addCurrentFragmentToBackStack);
+	}
+
+	public void loadFragment(Class<? extends Fragment> fragmentClass, Bundle bundle, boolean addCurrentFragmentToBackStack) {
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+
+		try {
+			Fragment newFragment = fragmentClass.newInstance();
+			fragmentTransaction.replace(R.id.fragment_container, newFragment, fragmentClass.getSimpleName());
+
+			if (addCurrentFragmentToBackStack) {
+				fragmentTransaction.addToBackStack(null);
+			}
+
+			if (bundle != null) {
+				newFragment.setArguments(bundle);
+			}
+
+			fragmentTransaction.commit();
+			getFragmentManager().executePendingTransactions();
+		} catch (Exception e) {
+			Log.e(TAG, "Error while loading fragment" + e);
+		}
 	}
 
 	@Override

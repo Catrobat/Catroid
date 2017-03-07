@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -83,7 +83,7 @@ public class NewSceneDialog extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 					}
-				}).setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 					}
