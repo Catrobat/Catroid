@@ -342,8 +342,7 @@ public class WebViewActivity extends BaseActivity {
 		try {
 			packageManager.getPackageInfo(PACKAGE_NAME_WHATSAPP, PackageManager.GET_ACTIVITIES);
 			return true;
-		}
-		catch (PackageManager.NameNotFoundException e) {
+		} catch (PackageManager.NameNotFoundException e) {
 			return false;
 		}
 	}
