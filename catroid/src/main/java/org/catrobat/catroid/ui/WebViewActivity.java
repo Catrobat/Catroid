@@ -42,6 +42,7 @@ import android.view.KeyEvent;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -51,6 +52,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.UnsupportedEncodingException;
@@ -122,6 +124,8 @@ public class WebViewActivity extends BaseActivity {
 				+ version + " Platform/" + platform);
 
 		webView.loadUrl(url);
+
+		webView.addJavascriptInterface(new MyJavaScriptInterface(), "Android");
 
 		webView.setDownloadListener(new DownloadListener() {
 			@Override
@@ -228,6 +232,13 @@ public class WebViewActivity extends BaseActivity {
 				return true;
 			}
 			return false;
+		}
+
+		@Override
+		public void onLoadResource(WebView view, String url) {
+			if (url.equals("https://www.pmdnolb.cloud/?r=service/upload_program")) {
+				webView.loadUrl("javascript:Android.trackNolbProjectSubmission(document.getElementById('nolb-submission-project-id').value);");
+			}
 		}
 
 		@Override
@@ -339,6 +350,14 @@ public class WebViewActivity extends BaseActivity {
 		} else {
 			CookieManager.getInstance().removeAllCookies(null);
 			CookieManager.getInstance().flush();
+		}
+	}
+
+	private class MyJavaScriptInterface {
+
+		@JavascriptInterface
+		public void trackNolbProjectSubmission(String projectID) {
+			TrackingUtil.trackSubmitProject(projectID);
 		}
 	}
 }

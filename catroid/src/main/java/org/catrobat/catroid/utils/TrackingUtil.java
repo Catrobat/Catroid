@@ -452,6 +452,36 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(TrackingConstants.BRICK_HELP, trackingData);
 	}
 
+	public static void trackCreateBroadcastMessage(String message) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.MESSAGE, message));
+		createJsonAndLogCustomEvent(TrackingConstants.CREATE_BROADCAST_MESSAGE, trackingData);
+	}
+
+	public static void trackSubmitProject(String programId) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_ID, programId));
+		createJsonAndLogCustomEvent(TrackingConstants.SUBMIT_PROGRAM, trackingData);
+	}
+
+	public static void trackEnableHints(String enabled) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.ALLOW_HINTS, enabled));
+		createJsonAndLogCustomEvent(TrackingConstants.HINTS_OPTION, trackingData);
+	}
+
 	private static List<Pair<String, String>> createProjectTrackingList() {
 		Project program = ProjectManager.getInstance().getCurrentProject();
 		String programName = program != null ? program.getName() : TrackingConstants.NO_PROGRAM;

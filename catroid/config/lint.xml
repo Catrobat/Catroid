@@ -63,8 +63,7 @@
 
     <issue id="Registered">
         <ignore path="src/main/java/org/catrobat/catroid/ui/MainMenuActivity.java"/>
-        <ignore
-            path="src/createatschool/java/org/catrobat/catroid/createatschool/ui/CreateAtSchoolMainMenuActivity.java"/>
+        <ignore path="src/createatschool/java/org/catrobat/catroid/createatschool/ui/CreateAtSchoolMainMenuActivity.java"/>
     </issue>
 
     <issue id="IconDuplicates">
@@ -82,6 +81,10 @@
 
     <issue id="TypographyDashes">
         <ignore regexp=".*/createatschool/res/values.*/strings.xml$"/>
+    </issue>
+
+    <issue id="AddJavascriptInterface">
+        <ignore path="src/main/java/org/catrobat/catroid/ui/WebViewActivity.java"/>
     </issue>
 
 </lint>

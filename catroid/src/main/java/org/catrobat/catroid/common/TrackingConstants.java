@@ -48,6 +48,7 @@ public final class TrackingConstants {
 	public static final String PROGRAM_NAME = "programName";
 	public static final String FIRST_PROGRAM_NAME = "firstProgramName";
 	public static final String SECOND_PROGRAM_NAME = "secondProgramName";
+	public static final String PROGRAM_ID = "programId";
 	public static final String SCENE_NAME = "sceneName";
 	public static final String NEW_SCENE_NAME = "newSceneName";
 	public static final String FIRST_SCENE_NAME = "firstScene";
@@ -61,6 +62,7 @@ public final class TrackingConstants {
 	public static final String BRICK_NAME = "brickName";
 	public static final String BRICK_FIELD = "brickField";
 	public static final String FORMULA = "formula";
+	public static final String MESSAGE = "message";
 
 	public static final String NO_PROGRAM = "noProgram";
 	public static final String NO_SCENE = "noScene";
@@ -106,6 +108,7 @@ public final class TrackingConstants {
 	public static final String CREATE_LOOK = "createLook";
 	public static final String CREATE_LIST = "createList";
 	public static final String CREATE_VARIABLE = "createVariable";
+	public static final String CREATE_BROADCAST_MESSAGE = "createBroadcastMessage";
 
 	public static final String COPY_PROGRAM = "copyProgram";
 	public static final String COPY_SPRITE = "copyObject";
@@ -144,6 +147,9 @@ public final class TrackingConstants {
 	public static final String BRICK_HELP = "openBrickHelpOption";
 	public static final String EDIT_LOOK = "editLook";
 	public static final String DROP_BRICK = "dropBrick";
+	public static final String SUBMIT_PROGRAM = "submitProgram";
+	public static final String HINTS_OPTION = "hintsOption";
+	public static final String ALLOW_HINTS = "allowHints";
 
 	public static final String MAIN_MENU_CONTINUE = "ContinueButton";
 
