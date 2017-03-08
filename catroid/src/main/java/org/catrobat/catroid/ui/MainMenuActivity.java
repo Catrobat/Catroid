@@ -243,14 +243,13 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!STANDALONE_MODE) {
 			findViewById(R.id.progress_circle).setVisibility(View.GONE);
 			findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
-		}
-		PreStageActivity.shutdownPersistentResources();
-		if (!STANDALONE_MODE) {
+
+			PreStageActivity.shutdownPersistentResources();
+
 			setMainMenuButtonContinueText();
 			findViewById(R.id.main_menu_button_continue).setEnabled(true);
-		} else {
-			FlashUtil.initializeFlash();
 		}
+
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 		if (projectName != null) {
 			loadProjectInBackground(projectName);
