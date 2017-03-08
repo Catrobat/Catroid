@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -44,6 +45,7 @@ import org.catrobat.catroid.ui.adapter.AccessibilityCheckboxAdapter;
 import org.catrobat.catroid.ui.adapter.AccessibilityCheckboxAdapter.AccessibilityCheckbox;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.xmlpull.v1.XmlPullParser;
@@ -121,6 +123,8 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 				SnackBarUtil.showHintSnackBar(AccessibilityPreferencesActivity.this, R.string.hint_accessibility);
 			}
 		});
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 
 	@Override

@@ -29,11 +29,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class AccessibilityProfilesActivity extends BaseActivity {
 
@@ -47,6 +49,8 @@ public class AccessibilityProfilesActivity extends BaseActivity {
 		setUpActionBar();
 		setReturnByPressingBackButton(true);
 		SnackBarUtil.showHintSnackBar(this, R.string.hint_accessibility_profiles);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 
 	@Override
