@@ -209,11 +209,13 @@ def copyScreenshotAsIcon() {
         println "Picking automatic screenshot: " + screenshot.getPath()
     }
 
-    copy {
-        from screenshot.getPath();
-        into project.ext.resPath
-        rename { String fileName ->
-            fileName.replace(screenshot.getName(), 'splash_screen.png')
+    if (screenshot != null && screenshot.exists()) {
+        copy {
+            from screenshot.getPath()
+            into project.ext.resPath
+            rename { String fileName ->
+                fileName.replace(screenshot.getName(), 'icon.png')
+            }
         }
     }
 }
