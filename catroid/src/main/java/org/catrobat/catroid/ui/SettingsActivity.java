@@ -36,6 +36,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
@@ -56,11 +57,20 @@ import org.catrobat.catroid.utils.Utils;
 
 public class SettingsActivity extends PreferenceActivity {
 
+	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS = "setting_mindstorms_nxt_bricks";
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
+	public static final String SETTINGS_MINDSTORMS_NXT_CATEGORY = "setting_mindstorms_nxt_category";
+	public static final String SETTINGS_MINDSTORMS_NXT_CATEGORY_SUMMARY = "setting_mindstorms_nxt_category_summary";
+	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS = "setting_mindstorms_ev3_bricks";
 	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED = "settings_mindstorms_ev3_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_ev3_show_sensor_info_box_disabled";
+	public static final String SETTINGS_MINDSTORMS_EV3_CATEGORY = "setting_mindstorms_ev3_category";
+	public static final String SETTINGS_MINDSTORMS_EV3_CATEGORY_SUMMARY = "setting_mindstorms_ev3_category_summary";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS_ENABLED = "setting_parrot_ar_drone_bricks_enabled";
+	public static final String SETTINGS_PARROT_AR_DRONE_CATEGORY = "setting_parrot_ar_drone_category";
+	public static final String SETTINGS_PARROT_AR_DRONE_CATEGORY_SUMMARY = "setting_parrot_ar_drone_category_summary";
 	public static final String SETTINGS_ACCESSIBILITY_SETTINGS = "preference_button_access";
 	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
@@ -94,6 +104,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String RASPI_HOST = "setting_raspi_host_preference";
 	public static final String RASPI_PORT = "setting_raspi_port_preference";
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
+	public static final String RASPI_HELP = "settings_raspi_help";
 
 	public static final String ACCESS_APPLICATION_FONT = "SANS_SERIF";
 	public static final String ACCESS_PATH_FONT_SERIF = "fonts/CrimsonText-Roman.ttf";
@@ -146,6 +157,7 @@ public class SettingsActivity extends PreferenceActivity {
 		updateActionBar();
 
 		screen = getPreferenceScreen();
+		setTextSize();
 
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
 			PreferenceScreen legoNxtPreference = (PreferenceScreen) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
@@ -358,6 +370,54 @@ public class SettingsActivity extends PreferenceActivity {
 				return true;
 			}
 		});
+	}
+
+	private void setTextSize() {
+		if (!getAccessibilityLargeTextEnabled(getApplicationContext())) {
+			return;
+		}
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
+		TextSizeUtil.enlargePreferenceScreen(this, SETTINGS_MINDSTORMS_NXT_BRICKS);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED);
+		TextSizeUtil.enlargePreferenceCategory(this, SETTINGS_MINDSTORMS_NXT_CATEGORY);
+		TextSizeUtil.enlargePreference(this, SETTINGS_MINDSTORMS_NXT_CATEGORY_SUMMARY);
+		TextSizeUtil.enlargeListPreference(this, NXT_SENSOR_1);
+		TextSizeUtil.enlargeListPreference(this, NXT_SENSOR_2);
+		TextSizeUtil.enlargeListPreference(this, NXT_SENSOR_3);
+		TextSizeUtil.enlargeListPreference(this, NXT_SENSOR_4);
+		TextSizeUtil.enlargePreferenceScreen(this, SETTINGS_MINDSTORMS_EV3_BRICKS);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED);
+		TextSizeUtil.enlargePreferenceCategory(this, SETTINGS_MINDSTORMS_EV3_CATEGORY);
+		TextSizeUtil.enlargePreference(this, SETTINGS_MINDSTORMS_EV3_CATEGORY_SUMMARY);
+		TextSizeUtil.enlargeListPreference(this, EV3_SENSOR_1);
+		TextSizeUtil.enlargeListPreference(this, EV3_SENSOR_2);
+		TextSizeUtil.enlargeListPreference(this, EV3_SENSOR_3);
+		TextSizeUtil.enlargeListPreference(this, EV3_SENSOR_4);
+		TextSizeUtil.enlargePreferenceScreen(this, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS_ENABLED);
+		TextSizeUtil.enlargePreferenceCategory(this, SETTINGS_PARROT_AR_DRONE_CATEGORY);
+		TextSizeUtil.enlargePreference(this, SETTINGS_PARROT_AR_DRONE_CATEGORY_SUMMARY);
+		TextSizeUtil.enlargeListPreference(this, DRONE_CONFIGS);
+		TextSizeUtil.enlargeListPreference(this, DRONE_ALTITUDE_LIMIT);
+		TextSizeUtil.enlargeListPreference(this, DRONE_VERTICAL_SPEED);
+		TextSizeUtil.enlargeListPreference(this, DRONE_ROTATION_SPEED);
+		TextSizeUtil.enlargeListPreference(this, DRONE_TILT_ANGLE);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_ARDUINO_BRICKS);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_NFC_BRICKS);
+		TextSizeUtil.enlargePreferenceScreen(this, RASPI_SETTINGS_SCREEN);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_RASPI_BRICKS);
+		TextSizeUtil.enlargePreferenceCategory(this, RASPI_CONNECTION_SETTINGS_CATEGORY);
+		TextSizeUtil.enlargePreferenceScreen(this, RASPI_HELP);
+		TextSizeUtil.enlargeEditTextPreference(this, RASPI_HOST);
+		TextSizeUtil.enlargeEditTextPreference(this, RASPI_PORT);
+		TextSizeUtil.enlargeListPreference(this, RASPI_VERSION_SPINNER);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_PHIRO_BRICKS);
+		TextSizeUtil.enlargePreferenceScreen(this, ACCESS_BUTTON);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_HINTS);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_CRASH_REPORTS);
 	}
 
 	public static void applyAccessibilitySettings(Context context) {

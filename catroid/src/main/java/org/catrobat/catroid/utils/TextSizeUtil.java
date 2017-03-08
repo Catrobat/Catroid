@@ -26,6 +26,13 @@ package org.catrobat.catroid.utils;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Build;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
+import android.preference.PreferenceScreen;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -175,6 +182,36 @@ public final class TextSizeUtil {
 		int end = spanString.length();
 		spanString.setSpan(new RelativeSizeSpan(getModifier()), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		item.setTitle(spanString);
+	}
+
+	public static void enlargePreference(PreferenceActivity prefrenceActivity, String key) {
+		Preference preference = (Preference) prefrenceActivity.findPreference(key);
+		preference.setLayoutResource(R.layout.preference_enlarged);
+	}
+
+	public static void enlargePreferenceScreen(PreferenceActivity prefrenceActivity, String key) {
+		PreferenceScreen preferenceScreen = (PreferenceScreen) prefrenceActivity.findPreference(key);
+		preferenceScreen.setLayoutResource(R.layout.preference_enlarged);
+	}
+
+	public static void enlargeCheckBoxPreference(PreferenceActivity prefrenceActivity, String key) {
+		CheckBoxPreference checkBoxPreference = (CheckBoxPreference) prefrenceActivity.findPreference(key);
+		checkBoxPreference.setLayoutResource(R.layout.preference_enlarged);
+	}
+
+	public static void enlargePreferenceCategory(PreferenceActivity prefrenceActivity, String key) {
+		PreferenceCategory preferenceCategory = (PreferenceCategory) prefrenceActivity.findPreference(key);
+		preferenceCategory.setLayoutResource(R.layout.preferencecategory_enlarged);
+	}
+
+	public static void enlargeListPreference(PreferenceActivity prefrenceActivity, String key) {
+		ListPreference listPreference = (ListPreference) prefrenceActivity.findPreference(key);
+		listPreference.setLayoutResource(R.layout.preference_enlarged);
+	}
+
+	public static void enlargeEditTextPreference(PreferenceActivity prefrenceActivity, String key) {
+		EditTextPreference editTextPreference = (EditTextPreference) prefrenceActivity.findPreference(key);
+		editTextPreference.setLayoutResource(R.layout.preference_enlarged);
 	}
 
 	public static TextAppearanceSpan getTextAppearanceSpanForMainMenu(Context context) {

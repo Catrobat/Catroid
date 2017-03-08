@@ -40,8 +40,10 @@
             android:title="@string/preference_disable_nxt_info_dialog"
             android:summary="@string/preference_disable_nxt_info_dialog_description"/>
 
-        <PreferenceCategory android:title="@string/preference_title_mindstorms_nxt_sensors">
-            <Preference android:summary="@string/preference_title_mindstorms_nxt_sensors_description" />
+        <PreferenceCategory android:title="@string/preference_title_mindstorms_nxt_sensors"
+            android:key="setting_mindstorms_nxt_category">
+            <Preference android:summary="@string/preference_title_mindstorms_nxt_sensors_description"
+                android:key="setting_mindstorms_nxt_category_summary"/>
 
             <ListPreference android:key="setting_mindstorms_nxt_sensor_1"
                 android:title="@string/nxt_choose_sensor_1"
@@ -86,8 +88,10 @@
             android:title="@string/preference_disable_nxt_info_dialog"
             android:summary="@string/preference_disable_ev3_info_dialog_description"/>
 
-        <PreferenceCategory android:title="@string/preference_title_mindstorms_ev3_sensors">
-            <Preference android:summary="@string/preference_title_mindstorms_ev3_sensors_description" />
+        <PreferenceCategory android:title="@string/preference_title_mindstorms_ev3_sensors"
+            android:key="setting_mindstorms_ev3_category">
+            <Preference android:summary="@string/preference_title_mindstorms_ev3_sensors_description"
+                android:key="setting_mindstorms_ev3_category_summary"/>
 
             <ListPreference android:key="setting_mindstorms_ev3_sensor_1"
                 android:title="@string/ev3_choose_sensor_1"
@@ -123,13 +127,15 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="setting_parrot_ar_drone_bricks"
+            android:key="setting_parrot_ar_drone_bricks_enabled"
             android:summary="@string/preference_description_quadcopter_bricks"
             android:title="@string/preference_title_enable_quadcopter_bricks" />
 
 
-        <PreferenceCategory android:title="@string/preference_title_drone_config_properties">
-            <Preference android:summary="@string/preference_title_drone_properties_setting_description" />
+        <PreferenceCategory android:title="@string/preference_title_drone_config_properties"
+            android:key="setting_parrot_ar_drone_category">
+            <Preference android:summary="@string/preference_title_drone_properties_setting_description"
+                android:key="setting_parrot_ar_drone_category_summary"/>
 
             <ListPreference android:key="setting_drone_basic_configs"
                 android:title="@string/brick_drone_set_config"
@@ -183,6 +189,7 @@
             android:title="@string/raspi_settings_title_name"
             android:key="setting_raspi_connection_settings_category">
             <PreferenceScreen
+                android:key="settings_raspi_help"
                 android:title="@string/preference_raspi_help"
                 android:summary="@string/preference_raspi_help_summary">
                 <intent
