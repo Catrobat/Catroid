@@ -129,26 +129,17 @@ public class Look extends Image {
 		Look.actionsToRestart.add(action);
 	}
 
-	public Look copyLookForSprite(final Sprite cloneSprite) {
-		Look cloneLook = cloneSprite.look;
-
-		cloneLook.alpha = this.alpha;
-		cloneLook.brightness = this.brightness;
-		cloneLook.setLookVisible(isLookVisible());
-		cloneLook.whenParallelAction = null;
-		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
-
-		cloneLook.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
+	public void copyTo(final Look destination) {
+		destination.setLookVisible(this.isLookVisible());
+		destination.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
 				this.getYInUserInterfaceDimensionUnit());
-		cloneLook.setTransparencyInUserInterfaceDimensionUnit(this.getTransparencyInUserInterfaceDimensionUnit());
-		cloneLook.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
+		destination.setSizeInUserInterfaceDimensionUnit(this.getSizeInUserInterfaceDimensionUnit());
+		destination.setTransparencyInUserInterfaceDimensionUnit(this.getTransparencyInUserInterfaceDimensionUnit());
+		destination.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
 
-		int rotationMode = this.getRotationMode();
-		cloneLook.setRotationMode(rotationMode);
-		cloneLook.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
-		cloneLook.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
-
-		return cloneLook;
+		destination.setRotationMode(this.getRotationMode());
+		destination.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
+		destination.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public boolean doTouchDown(float x, float y, int pointer) {
