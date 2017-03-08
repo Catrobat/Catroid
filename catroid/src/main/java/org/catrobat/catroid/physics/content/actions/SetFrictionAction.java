@@ -39,17 +39,12 @@ public class SetFrictionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		Float newFriction;
 		try {
-			newFriction = friction == null ? Float.valueOf(0f) : friction.interpretFloat(sprite);
+			Float newFriction = friction == null ? Float.valueOf(0f) : friction.interpretFloat(sprite);
+			physicsObject.setFriction(newFriction / 100.0f);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-			return;
 		}
-		if (newFriction < 0) {
-			newFriction = 0f;
-		}
-		physicsObject.setFriction(newFriction / 100.0f);
 	}
 
 	public void setSprite(Sprite sprite) {

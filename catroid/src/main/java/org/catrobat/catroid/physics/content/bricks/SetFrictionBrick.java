@@ -50,11 +50,6 @@ public class SetFrictionBrick extends FormulaBrick {
 	}
 
 	public SetFrictionBrick(float friction) {
-		if (friction < 0) {
-			friction = 0;
-		} else if (friction > 100) {
-			friction = 100;
-		}
 		initializeBrickFields(new Formula(friction));
 	}
 
