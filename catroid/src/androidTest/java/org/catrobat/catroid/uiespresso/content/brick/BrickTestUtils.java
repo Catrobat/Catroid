@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 
@@ -41,9 +42,12 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.core.Is.is;
 
 public final class BrickTestUtils {
 	private BrickTestUtils() {
@@ -55,7 +59,23 @@ public final class BrickTestUtils {
 	}
 
 	public static void checkIfBrickAtPositionShowsString(int position, int stringResourceId) {
-		onScriptList().atPosition(position).onChildView(withText(stringResourceId)).check(matches(isDisplayed()));
+		onScriptList().atPosition(position).onChildView(withText(stringResourceId))
+				.check(matches(isDisplayed()));
+	}
+
+	public static void checkIfSpinnerOnBrickAtPositionShowsString(int spinnerResourceId, int position, int
+			stringResourceId) {
+		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+				.check(matches(withSpinnerText(stringResourceId)));
+	}
+
+	public static void clickAndSelectFromSpinnerOnBrickAtPosition(int spinnerResourceId, int position, int
+			stringResourceId) {
+		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+				.perform(click());
+
+		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResources().getString(stringResourceId))))
+				.perform(click());
 	}
 
 	public static Script createProjectAndGetStartScript(String projectName) {
