@@ -39,6 +39,7 @@
             android:id="@+id/portrait"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="0.33"
             android:drawableLeft="@drawable/dialog_orientation_portrait"
             android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
             android:padding="@dimen/dialog_radio_button_padding" ></RadioButton>
@@ -47,9 +48,19 @@
             android:id="@+id/landscape_mode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="0.33"
             android:drawableLeft="@drawable/dialog_orientation_landscape"
             android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
             android:padding="@dimen/dialog_radio_button_padding"></RadioButton>
+     <RadioButton
+         android:visibility="gone"
+         android:id="@+id/cast"
+         android:layout_width="wrap_content"
+         android:layout_height="match_parent"
+         android:layout_weight="0.33"
+         android:drawableLeft="@drawable/ic_tv_black_24dp"
+         android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
+         android:padding="@dimen/dialog_radio_button_padding"></RadioButton>
 
     </RadioGroup>
 </ScrollView>

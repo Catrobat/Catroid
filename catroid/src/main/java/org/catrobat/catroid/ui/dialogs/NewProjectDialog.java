@@ -171,7 +171,7 @@ public class NewProjectDialog extends DialogFragment {
 		if (defaultDroneProjectRadioButton.isChecked()) {
 			createEmptyProject = false;
 			try {
-				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, true, false);
+				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, true, false, false);
 			} catch (IllegalArgumentException illegalArgumentException) {
 				Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 				return;

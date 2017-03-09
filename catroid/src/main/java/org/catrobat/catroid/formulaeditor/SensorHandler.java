@@ -39,6 +39,7 @@ import com.parrot.freeflight.service.DroneControlService;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
@@ -455,6 +456,14 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					return Double.valueOf(phiro.getSensorValue(sensor));
 				}
 				break;
+
+			case GAMEPAD_A_PRESSED:
+			case GAMEPAD_B_PRESSED:
+			case GAMEPAD_DOWN_PRESSED:
+			case GAMEPAD_LEFT_PRESSED:
+			case GAMEPAD_RIGHT_PRESSED:
+			case GAMEPAD_UP_PRESSED:
+				return CastManager.getInstance().isButtonPressed(sensor) ? 1.0 : 0.0;
 
 			case LAST_FINGER_INDEX:
 				return Double.valueOf(TouchUtil.getLastTouchIndex());

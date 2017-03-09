@@ -72,6 +72,12 @@
         android:title="@string/move"
         android:visible="false"/>
     <item
+        android:id="@+id/cast_button"
+        android:showAsAction="ifRoom"
+        android:title="@string/cast_button_menu_item_title"
+        android:icon="@drawable/ic_cast_white"
+        android:visible="false"/>
+    <item
         android:id="@+id/merge_scene"
         android:showAsAction="never"
         android:title="@string/merge_scene_option"

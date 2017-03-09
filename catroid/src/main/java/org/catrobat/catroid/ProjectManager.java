@@ -327,16 +327,19 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode, boolean castEnabled)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
+			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode, castEnabled);
 		} else {
 			if (drone) {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DRONE);
+			} else if (castEnabled) {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_CAST);
 			} else {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DEFAULT);

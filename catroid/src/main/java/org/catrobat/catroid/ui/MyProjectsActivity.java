@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectListFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -97,6 +98,9 @@ public class MyProjectsActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_myprojects, menu);
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 

@@ -34,6 +34,7 @@ import android.widget.AdapterView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -43,6 +44,7 @@ public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
+	//private Menu mainMenu;
 	private boolean returnByPressingBackButton;
 
 	@Override
@@ -54,6 +56,20 @@ public abstract class BaseActivity extends Activity {
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		Utils.checkIfCrashRecoveryAndFinishActivity(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
+		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		CastManager.getInstance().initializeCast(this);
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().addCallback();
+		}
 	}
 
 	@Override
@@ -72,6 +88,12 @@ public abstract class BaseActivity extends Activity {
 		if (getTitleActionBar() != null) {
 			getActionBar().setTitle(getTitleActionBar());
 		}
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
+		}
+
+		invalidateOptionsMenu();
 	}
 
 	@Override
@@ -114,6 +136,9 @@ public abstract class BaseActivity extends Activity {
 			case R.id.menu_logout:
 				Utils.logoutUser(this);
 				return true;
+			case R.id.cast_button:
+				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog();
+				break;
 			case R.id.menu_login:
 				ProjectManager.getInstance().showSignInDialog(this, false);
 				return true;
