@@ -72,7 +72,8 @@ public class StageTestSimple {
 		byte[] blue = { 0, (byte) 162, (byte) 232, (byte) 255 };
 
 		//color matcher only accepts a GL20View, this can be aquired by getting the only focusable element in the stage
-		onView(isFocusable()).check(matches(StageMatchers.isColorAtPx(blue, 1, 1)));
+		onView(isFocusable())
+				.check(matches(StageMatchers.isColorAtPx(blue, 1, 1)));
 	}
 
 	public Project createProjectWithBlueSprite(String projectName) {

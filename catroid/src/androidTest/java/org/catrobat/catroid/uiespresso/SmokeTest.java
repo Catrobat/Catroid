@@ -70,19 +70,25 @@ public class SmokeTest {
 
 	@Test
 	public void newProject() {
-		onView(withId(R.id.main_menu_button_new)).perform(click());
+		onView(withId(R.id.main_menu_button_new))
+				.perform(click());
 
 		//check if dialog title is displayed
-		onView(withText(R.string.new_project_dialog_title)).check(matches(isDisplayed()));
+		onView(withText(R.string.new_project_dialog_title))
+				.check(matches(isDisplayed()));
 
 		//enter new project name
-		onView(withId(R.id.project_name_edittext)).perform(typeText("TestProject"));
-		onView(withText(R.string.ok)).perform(click());
+		onView(withId(R.id.project_name_edittext))
+				.perform(typeText("TestProject"));
+		onView(withText(R.string.ok))
+				.perform(click());
 
 		//check if orientation dialog is displayed
-		onView(withText(R.string.project_orientation_title)).check(matches(isDisplayed()));
+		onView(withText(R.string.project_orientation_title))
+				.check(matches(isDisplayed()));
 		//onView(withId(R.id.landscape_mode)).perform(click());
-		onView(withText(R.string.ok)).perform(click());
+		onView(withText(R.string.ok))
+				.perform(click());
 
 		//check if user ends up in right activity either by checking activity itself:
 		assertTrue(UiTestUtils.getCurrentActivity() instanceof ProjectActivity);
@@ -92,10 +98,12 @@ public class SmokeTest {
 		//onView(withText(toUpperCase(R.string.sprites))).check(matches(isDisplayed()));
 
 		//add sprite
-		onView(withId(R.id.button_add)).perform(click());
+		onView(withId(R.id.button_add))
+				.perform(click());
 
 		//check if new object dialog is displayed
-		onView(withText(R.string.new_sprite_dialog_title)).check(matches(isDisplayed()));
+		onView(withText(R.string.new_sprite_dialog_title))
+				.check(matches(isDisplayed()));
 		//cancel by back
 		pressBack();
 
