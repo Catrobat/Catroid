@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -72,7 +72,6 @@ public final class CastManager {
 	private MediaRouter mediaRouter;
 	private MediaRouteSelector mediaRouteSelector;
 	private MyMediaRouterCallback callback;
-	//private ArrayList<String> routeNames = new ArrayList<>();
 	private ArrayAdapter<MediaRouter.RouteInfo> deviceAdapter;
 	private CastDevice selectedDevice;
 	private boolean isConnected = false;
@@ -139,14 +138,6 @@ public final class CastManager {
 		return selectedDevice;
 	}
 
-	public boolean pausedViewEmpty() {
-		if (pausedView != null) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public synchronized void initializeCast(Activity activity) {
 
 		initializingActivity = activity;
@@ -155,12 +146,10 @@ public final class CastManager {
 			return;
 		}
 		deviceAdapter = new CastDevicesAdapter(activity, R.layout.fragment_cast_device_list_item, routeInfos);
-		//deviceAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, routeNames);
 		mediaRouter = MediaRouter.getInstance(activity.getApplicationContext());
 		mediaRouteSelector = new MediaRouteSelector.Builder()
 				.addControlCategory(CastMediaControlIntent.categoryForCast(Constants.REMOTE_DISPLAY_APP_ID))
 				.build();
-		//addCallback();
 		setCallback();
 	}
 
@@ -285,38 +274,12 @@ public final class CastManager {
 	}
 
 	public synchronized void openDeviceSelectorOrDisconnectDialog(Activity activity) {
-		/*if (isConnected || currentlyConnecting()) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			if (pausedView != null) {
-				builder.setMessage(activity.getString(R.string.cast_stop_casting_to) + " "
-						+ selectedDevice.getFriendlyName() + "?");
-			} else {
-				builder.setMessage(activity.getString(R.string.cast_ready_to_cast) + " "
-						+ selectedDevice.getFriendlyName());
-			}
-			builder.setPositiveButton(R.string.disconnect, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialogInterface, int i) {
-					synchronized (this) {
-						mediaRouter.unselect(MediaRouter.UNSELECT_REASON_STOPPED);
-					}
-				}
-			});
-			builder.create().show();
-		} else {
-			//mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
-			SelectCastDialog dialog = new SelectCastDialog(deviceAdapter, activity);
-			dialog.openDialog();
-		}*/
 		SelectCastDialog dialog = new SelectCastDialog(deviceAdapter, activity);
 		dialog.openDialog();
 	}
 
 	public synchronized void setCastButton(MenuItem castButton) {
 		this.castButton = castButton;
-		/*if (routeNames.size() > 0) {
-			castButton.setVisible(true);
-		}*/
 		castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
 				.AVAILABILITY_FLAG_REQUIRE_MATCH));
 		setIsConnected(isConnected);
@@ -384,13 +347,10 @@ public final class CastManager {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
 					if (routeInfo.equals(info)) {
 						routeInfos.remove(i);
-						//routeNames.remove(i);
 					}
 				}
 				routeInfos.add(info);
-				//routeNames.add(info.getName());
 				if (castButton != null) {
-					//castButton.setVisible(true);
 					castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
 							.AVAILABILITY_FLAG_REQUIRE_MATCH));
 				}
@@ -406,9 +366,7 @@ public final class CastManager {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
 					if (routeInfo.equals(info)) {
 						routeInfos.remove(i);
-						//routeNames.remove(i);
 						if (castButton != null && routeInfos.size() == 0) {
-							//castButton.setVisible(false);
 							castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
 									.AVAILABILITY_FLAG_REQUIRE_MATCH));
 						}
@@ -426,7 +384,6 @@ public final class CastManager {
 				selectedDevice = CastDevice.getFromBundle(info.getExtras());
 				startCastService(initializingActivity);
 				lastConnectionTry = System.currentTimeMillis();
-
 				// Show a msg if still connecting after CAST_CONNECTION_TIMEOUT milliseconds
 				// and abort connection.
 				(new Handler()).postDelayed(new Runnable() {
@@ -435,7 +392,6 @@ public final class CastManager {
 						synchronized (this) {
 							if (currentlyConnecting() && CastRemoteDisplayLocalService.getInstance() != null
 									&& System.currentTimeMillis() - lastConnectionTry >= Constants.CAST_CONNECTION_TIMEOUT) {
-
 								CastRemoteDisplayLocalService.stopService();
 								ToastUtil.showError(initializingActivity,
 										initializingActivity.getString(R.string.cast_connection_timout_msg));
@@ -455,7 +411,7 @@ public final class CastManager {
 
 			if (stageViewDisplayedOnCast != null) {
 				// Meaning that there is currently a stage being displayed on the remote screen
-				// TODO needs sync?
+				// needs sync?
 				gamepadActivity.onBackPressed();
 			}
 			stageViewDisplayedOnCast = null;

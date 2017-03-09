@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ public enum MusicalInstrument {
 
 	private int program;
 
-	MusicalInstrument(int program) {
+	private MusicalInstrument(int program) {
 		this.program = program;
 	}
 
@@ -64,9 +64,5 @@ public enum MusicalInstrument {
 
 	public int getProgram() {
 		return program;
-	}
-
-	public byte getInstrumentByte() {
-		return (byte) program;
 	}
 }

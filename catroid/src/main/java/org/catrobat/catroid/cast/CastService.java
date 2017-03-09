@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,7 +67,7 @@ public class CastService extends CastRemoteDisplayLocalService {
 			presentation.show();
 		} catch (Exception ex) {
 			ToastUtil.showError(getApplicationContext(), getString(R.string.cast_error_not_connected_msg));
-			//TODO When does this happen?
+			//When does this happen?
 			dismissPresentation();
 		}
 	}

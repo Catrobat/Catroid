@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,12 +40,14 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -90,6 +92,7 @@ import java.io.OutputStream;
 import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 
+import tourguide.tourguide.Overlay;
 import tourguide.tourguide.TourGuide;
 
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
@@ -114,7 +117,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	CountingIdlingResource idlingResource = new CountingIdlingResource(TAG);
 
-	//private SharedPreferences sharedpreferences = null;
+	private SharedPreferences sharedpreferences = null;
 
 	public TourGuide tourGuideHandler;
 
@@ -155,9 +158,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 				loadProgramFromExternalSource(loadExternalProjectUri);
 			}
 
-			//sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 			if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-				/*if (sharedpreferences.getBoolean("firstRun", true)) {
+				if (sharedpreferences.getBoolean("firstRun", true)) {
 					sharedpreferences.edit().putBoolean("firstRun", false).commit();
 
 					TextView textView = (TextView) findViewById(R.id.cast_text);
@@ -189,7 +192,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 					});
 				} else {
 					findViewById(R.id.cast_view).setVisibility(View.GONE);
-				}*/
+				}
 				if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 					CastManager.getInstance().initializeCast(this);
 				}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -201,6 +201,7 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 
 		unpackScenes(sceneList);
 		clearCheckedItems();
+		getActivity().finish();
 	}
 
 	private boolean conflictingResolutionsDetected(List<Scene> sceneList) {
@@ -225,6 +226,7 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 			public void onClick(DialogInterface dialog, int id) {
 				unpackScenes(sceneList);
 				clearCheckedItems();
+				getActivity().finish();
 			}
 		});
 		builder.setNegativeButton(R.string.abort, new DialogInterface.OnClickListener() {

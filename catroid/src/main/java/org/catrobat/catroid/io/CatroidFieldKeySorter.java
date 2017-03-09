@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.FieldKey;
 import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -42,13 +43,26 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 
 	@Override
 	public Map sort(final Class type, final Map keyedByFieldKey) {
-		XStreamFieldKeyOrder fieldKeyOrderAnnotation = (XStreamFieldKeyOrder) type.getAnnotation(XStreamFieldKeyOrder.class);
+		XStreamFieldKeyOrder fieldKeyOrderAnnotation = findAnnotationInClassHierarchy(type, XStreamFieldKeyOrder.class);
 		if (fieldKeyOrderAnnotation != null) {
 			List<String> fieldOrder = Arrays.asList(fieldKeyOrderAnnotation.value());
 			return sortByList(fieldOrder, keyedByFieldKey);
 		} else {
 			return sortAlphabeticallyByClassHierarchy(keyedByFieldKey);
 		}
+	}
+
+	private <E extends Annotation> E findAnnotationInClassHierarchy(Class<?> clazz, Class<? extends E> annotation) {
+		Class<?> currentClass = clazz;
+		while (currentClass != Object.class) {
+			E currentClassAnnotation = currentClass.getAnnotation(annotation);
+			if (currentClassAnnotation != null) {
+				return currentClassAnnotation;
+			} else {
+				currentClass = currentClass.getSuperclass();
+			}
+		}
+		return null;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

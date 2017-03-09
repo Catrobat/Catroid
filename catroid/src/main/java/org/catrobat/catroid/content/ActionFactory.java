@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -378,12 +378,11 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createLegoEv3SingleMotorMoveAction(Sprite sprite,
-			LegoEv3MotorMoveBrick.Motor motorEnum, Formula power, Formula period) {
+			LegoEv3MotorMoveBrick.Motor motorEnum, Formula speed) {
 		LegoEv3MotorMoveAction action = action(LegoEv3MotorMoveAction.class);
 		action.setSprite(sprite);
 		action.setMotorEnum(motorEnum);
-		action.setPower(power);
-		action.setPeriod(period);
+		action.setSpeed(speed);
 		return action;
 	}
 

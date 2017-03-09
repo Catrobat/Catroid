@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,17 +39,12 @@ public class SetFrictionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		Float newFriction;
 		try {
-			newFriction = friction == null ? Float.valueOf(0f) : friction.interpretFloat(sprite);
+			Float newFriction = friction == null ? Float.valueOf(0f) : friction.interpretFloat(sprite);
+			physicsObject.setFriction(newFriction / 100.0f);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-			return;
 		}
-		if (newFriction < 0) {
-			newFriction = 0f;
-		}
-		physicsObject.setFriction(newFriction / 100.0f);
 	}
 
 	public void setSprite(Sprite sprite) {

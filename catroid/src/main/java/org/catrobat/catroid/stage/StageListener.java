@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -385,8 +385,8 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		this.stageDialog = stageDialog;
-		if (!project.getDefaultScene().getName().equals(scene.getName())) {
-			transitionToScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene().getName());
+		if (!ProjectManager.getInstance().getStartScene().getName().equals(scene.getName())) {
+			transitionToScene(ProjectManager.getInstance().getStartScene().getName());
 		}
 		stageBackupMap.clear();
 

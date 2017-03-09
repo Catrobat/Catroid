@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -114,16 +114,5 @@
         android:layout_margin="20dp"
         android:contentDescription="@string/stage_dialog_maximize"
         android:src="@drawable/stage_dialog_button_stretch_selector" />
-
-        <ImageButton
-            android:id="@+id/cast_button_stage_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/stage_dialog_background_color"
-            android:layout_margin="25dp"
-            android:src="@drawable/ic_cast_connected_white"
-            android:visibility="gone" />
 
 </RelativeLayout>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,13 +67,8 @@ public class SelectCastDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		if (CastManager.getInstance().currentlyConnecting() || CastManager.getInstance().isConnected()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			if (CastManager.getInstance().pausedViewEmpty()) {
-				builder.setMessage(activity.getString(R.string.cast_stop_casting_to) + " "
-						+ CastManager.getInstance().getSelectedDevice().getFriendlyName() + "?");
-			} else {
-				builder.setMessage(activity.getString(R.string.cast_ready_to_cast) + " "
-						+ CastManager.getInstance().getSelectedDevice().getFriendlyName());
-			}
+			builder.setMessage(activity.getString(R.string.cast_ready_to_cast) + " "
+					+ CastManager.getInstance().getSelectedDevice().getFriendlyName());
 			builder.setPositiveButton(R.string.disconnect, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i) {

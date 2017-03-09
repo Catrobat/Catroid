@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -327,7 +327,7 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 		SetLookBrick setLookBrick = new SetLookBrick();
 
 		LegoEv3MotorMoveBrick legoMotorActionBrick = new LegoEv3MotorMoveBrick(
-				LegoEv3MotorMoveBrick.Motor.MOTOR_B_C, 100, 1.5f);
+				LegoEv3MotorMoveBrick.Motor.MOTOR_B_C, 100);
 		WaitBrick firstWaitBrick = new WaitBrick(500);
 
 		LegoEv3PlayToneBrick legoPlayToneBrick = new LegoEv3PlayToneBrick(50, 1.5f, 50);

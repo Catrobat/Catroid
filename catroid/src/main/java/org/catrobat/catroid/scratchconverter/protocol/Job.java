@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,8 +27,8 @@ import android.net.Uri;
 
 import com.google.android.gms.common.images.WebImage;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.protocol.JsonKeys.JsonJobDataKeys;
-import org.catrobat.catroid.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -125,7 +125,7 @@ public class Job {
 				: data.getString(JsonJobDataKeys.IMAGE_URL.toString());
 		WebImage image = null;
 		if (imageURL != null) {
-			final int[] imageSize = Utils.extractImageSizeFromScratchImageURL(imageURL);
+			final int[] imageSize = new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
 			image = new WebImage(Uri.parse(imageURL), imageSize[0], imageSize[1]);
 		}
 		final short progress = (short) data.getInt(JsonJobDataKeys.PROGRESS.toString());
