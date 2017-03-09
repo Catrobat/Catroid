@@ -112,6 +112,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	private CharSequence previousActionBarTitle;
 	private VariableOrUserListDeletedReceiver variableOrUserListDeletedReceiver;
 	private static OnFormulaChangedListener onFormulaChangedListener;
+	private boolean hasFormulaBeenChanged = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -626,7 +627,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 					currentFormula.refreshTextField(brickView);
 				}
 				formulaEditorEditText.formulaSaved();
-				showToast(R.string.formula_editor_changes_saved, false);
+				hasFormulaBeenChanged = true;
 				return true;
 			case PARSER_STACK_OVERFLOW:
 				return checkReturnWithoutSaving(PARSER_STACK_OVERFLOW);
@@ -674,6 +675,10 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	public boolean onKey(View view, int keyCode, KeyEvent event) {
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
+				if (hasFormulaBeenChanged) {
+					showToast(R.string.formula_editor_changes_saved, false);
+					hasFormulaBeenChanged = false;
+				}
 				exitFormulaEditorFragment();
 				return true;
 		}
@@ -700,6 +705,8 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							if (saveFormulaIfPossible()) {
+								showToast(R.string.formula_editor_changes_saved, false);
+								hasFormulaBeenChanged = false;
 								onUserDismiss();
 							}
 						}
@@ -712,6 +719,8 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	private void endFormulaEditor() {
 		if (formulaEditorEditText.hasChanges()) {
 			if (saveFormulaIfPossible()) {
+				showToast(R.string.formula_editor_changes_saved, false);
+				hasFormulaBeenChanged = false;
 				updateUserBricksIfNecessary();
 				onUserDismiss();
 			}
