@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -81,7 +82,8 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
 
 		onView(withId(R.id.formula_editor_edit_field))
-				.check(matches(withText("1234567890.1 ")));
+				.check(matches(withText("1234567890"
+						+ UiTestUtils.getResources().getString(R.string.formula_editor_decimal_mark) + "1 ")));
 	}
 
 	@Test

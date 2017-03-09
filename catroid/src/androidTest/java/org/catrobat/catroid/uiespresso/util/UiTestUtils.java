@@ -24,7 +24,9 @@ package org.catrobat.catroid.uiespresso.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.Nullable;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.util.Log;
 
@@ -56,6 +58,10 @@ public final class UiTestUtils {
 	}
 
 	private static final String TAG = UiTestUtils.class.getSimpleName();
+
+	public static Resources getResources() {
+		return InstrumentationRegistry.getTargetContext().getResources();
+	}
 
 	@Nullable
 	public static Activity getCurrentActivity() {
