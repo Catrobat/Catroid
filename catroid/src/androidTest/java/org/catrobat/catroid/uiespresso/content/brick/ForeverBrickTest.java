@@ -64,10 +64,12 @@ public class ForeverBrickTest {
 	public void foreverBrickTest() {
 		//multiple ways to check this, full verbose espresso way of checking:
 		onData(instanceOf(Brick.class)).inAdapterView(ScriptListMatchers.isScriptListView()).atPosition(1)
-				.onChildView(withText(R.string.brick_forever)).check(matches(isDisplayed()));
+				.onChildView(withText(R.string.brick_forever))
+				.check(matches(isDisplayed()));
 
 		//shortened with utility function to get scriptlist datainteraction object:
-		onScriptList().atPosition(1).onChildView(withText(R.string.brick_forever)).check(matches(isDisplayed()));
+		onScriptList().atPosition(1).onChildView(withText(R.string.brick_forever))
+				.check(matches(isDisplayed()));
 
 		//shortened even more with utility function
 		checkIfBrickAtPositionShowsString(1, R.string.brick_forever);
