@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ public interface LegoEV3 extends Mindstorms, BluetoothDevice {
 
 	void moveMotorStepsSpeed(byte outputField, int chainLayer, int speed, int step1Tacho, int step2Tacho,
 			int step3Tacho, boolean brake);
-	void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake);
+	void moveMotorSpeed(byte outputField, int chainLayer, int speed);
 	void stopMotor(byte outputField, int chainLayer, boolean brake);
 
 	void setLed(int ledStatus);

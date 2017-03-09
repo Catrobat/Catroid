@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -80,11 +80,11 @@
                 <TextView
                     android:id="@+id/lego_motor_action_to_text"
                     style="@style/BrickText.Multiple"
-                    android:text="@string/ev3_motor_power_to" >
+                    android:text="@string/nxt_motor_speed_to" >
                 </TextView >
 
                 <TextView
-                    android:id="@+id/ev3_motor_move_power_edit_text"
+                    android:id="@+id/ev3_motor_move_speed_edit_text"
                     style="@style/BrickEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -101,44 +101,12 @@
                 </TextView >
 
                 <TextView
-                    android:id="@+id/brick_ev3_motor_move_power_text"
+                    android:id="@+id/brick_ev3_motor_move_speed_text"
                     style="@style/BrickText"
                     android:layout_marginLeft="3sp"
-                    android:text="@string/ev3_motor_power" >
+                    android:text="@string/nxt_motor_speed" >
                 </TextView >
 
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_below="@+id/brick_ev3_motor_move_second_line"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/brick_ev3_motor_move_period_text"
-                    style="@style/BrickText.SingleLine"
-                    app:layout_newLine="true"
-                    android:text="@string/ev3_motor_move_for_period" >
-                </TextView >
-
-                <TextView
-                    android:id="@+id/ev3_motor_move_period_edit_text"
-                    style="@style/BrickEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_inputType="number"
-                    app:layout_textField="true"
-                    android:clickable="false"
-                    android:maxEms="5" >
-                </TextView >
-
-                <TextView
-                    android:id="@+id/brick_ev3_motor_move_seconds"
-                    style="@style/BrickText.SingleLine"
-                    android:text="@string/ev3_seconds" >
-                </TextView >
             </LinearLayout>
         </RelativeLayout>
     </org.catrobat.catroid.ui.BrickLayout >

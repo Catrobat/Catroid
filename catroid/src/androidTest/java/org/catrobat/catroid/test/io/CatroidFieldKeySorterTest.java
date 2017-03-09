@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -196,5 +196,40 @@ public class CatroidFieldKeySorterTest extends AndroidTestCase {
 	private static class MissingFieldInAnnotation {
 		private int a;
 		private int b;
+	}
+
+	public void testSortByAnnotationIsInBaseClass() {
+		xstream.toXML(new SubClassWithoutAnnotation());
+
+		MoreAsserts.assertEquals("Sorted fields differ",
+				new String[] { "b", "a" }, fieldKeySorter.getFieldNames(SubClassWithoutAnnotation.class));
+	}
+
+	public void testMissingFieldInSubClassWithoutAnnotationThrowsException() {
+		try {
+			xstream.toXML(new SubClassWithNewMemberButWithoutAnnotation());
+			fail("XStream didn't throw an exception for missing field c in annotation");
+		} catch (XStreamMissingSerializableFieldException expected) {
+		}
+	}
+
+	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+	// CHECKSTYLE DISABLE IndentationCheck FOR 4 LINES
+	@XStreamFieldKeyOrder({
+			"b",
+			"a"
+	})
+	@SuppressWarnings("PMD.UnusedPrivateField")
+	private static class BaseClassWithAnnotation {
+		private int a;
+		private int b;
+	}
+
+	private static class SubClassWithoutAnnotation extends BaseClassWithAnnotation {
+	}
+
+	@SuppressWarnings("PMD.UnusedPrivateField")
+	private static class SubClassWithNewMemberButWithoutAnnotation extends BaseClassWithAnnotation {
+		private int c;
 	}
 }

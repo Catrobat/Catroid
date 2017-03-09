@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -129,26 +129,17 @@ public class Look extends Image {
 		Look.actionsToRestart.add(action);
 	}
 
-	public Look copyLookForSprite(final Sprite cloneSprite) {
-		Look cloneLook = cloneSprite.look;
-
-		cloneLook.alpha = this.alpha;
-		cloneLook.brightness = this.brightness;
-		cloneLook.setLookVisible(isLookVisible());
-		cloneLook.whenParallelAction = null;
-		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
-
-		cloneLook.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
+	public void copyTo(final Look destination) {
+		destination.setLookVisible(this.isLookVisible());
+		destination.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
 				this.getYInUserInterfaceDimensionUnit());
-		cloneLook.setTransparencyInUserInterfaceDimensionUnit(this.getTransparencyInUserInterfaceDimensionUnit());
-		cloneLook.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
+		destination.setSizeInUserInterfaceDimensionUnit(this.getSizeInUserInterfaceDimensionUnit());
+		destination.setTransparencyInUserInterfaceDimensionUnit(this.getTransparencyInUserInterfaceDimensionUnit());
+		destination.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
 
-		int rotationMode = this.getRotationMode();
-		cloneLook.setRotationMode(rotationMode);
-		cloneLook.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
-		cloneLook.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
-
-		return cloneLook;
+		destination.setRotationMode(this.getRotationMode());
+		destination.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
+		destination.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public boolean doTouchDown(float x, float y, int pointer) {
@@ -373,8 +364,8 @@ public class Look extends Image {
 	}
 
 	private void flipLookDataIfNeeded(int mode) {
-		boolean orientedLeft = sprite.look.getDirectionInUserInterfaceDimensionUnit() < 0;
-		boolean differentModeButFlipped = mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && sprite.look.isFlipped();
+		boolean orientedLeft = getDirectionInUserInterfaceDimensionUnit() < 0;
+		boolean differentModeButFlipped = mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && isFlipped();
 		boolean facingLeftButNotFlipped = mode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft;
 		if (differentModeButFlipped || facingLeftButNotFlipped) {
 			getLookData().getTextureRegion().flip(true, false);

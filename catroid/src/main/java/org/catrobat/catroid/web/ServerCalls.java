@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -241,8 +241,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			WebImage image = null;
 			if (imageURL != null) {
-				int[] imageSize = Utils.extractImageSizeFromScratchImageURL(imageURL);
-				image = new WebImage(Uri.parse(imageURL), imageSize[0], imageSize[1]);
+				image = new WebImage(Uri.parse(imageURL), Constants.SCRATCH_IMAGE_DEFAULT_WIDTH,
+						Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT);
 			}
 
 			final ScratchProgramData programData = new ScratchProgramData(programID, title, owner, image);
@@ -269,8 +269,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 				WebImage remixImage = null;
 				if (remixImageURL != null) {
-					int[] remixImageSize = Utils.extractImageSizeFromScratchImageURL(remixImageURL);
-					remixImage = new WebImage(Uri.parse(remixImageURL), remixImageSize[0], remixImageSize[1]);
+					remixImage = new WebImage(Uri.parse(remixImageURL), Constants.SCRATCH_IMAGE_DEFAULT_WIDTH,
+							Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT);
 				}
 
 				programData.addRemixProgram(new ScratchProgramData(remixId, remixTitle, remixOwner, remixImage));
@@ -384,8 +384,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			WebImage image = null;
 			if (imageURL != null) {
-				int[] imageSize = Utils.extractImageSizeFromScratchImageURL(imageURL);
-				image = new WebImage(Uri.parse(imageURL), imageSize[0], imageSize[1]);
+				image = new WebImage(Uri.parse(imageURL), Constants.SCRATCH_IMAGE_DEFAULT_WIDTH,
+						Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT);
 			}
 
 			final ScratchProgramData programData = new ScratchProgramData(id, title, ownerUserName, image);

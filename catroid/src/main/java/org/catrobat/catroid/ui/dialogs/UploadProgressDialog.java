@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -96,6 +97,12 @@ public class UploadProgressDialog extends DialogFragment {
 		dialog.setCancelable(false);
 		dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(getString(R.string.done));
 		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+
+		Button doneButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+		Button showProgramButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+
+		doneButton.setWidth(50);
+		showProgramButton.setWidth(50);
 
 		uploadProject(currentProjectName, currentProjectDescription);
 		//QUICKFIX: upload response currently not working

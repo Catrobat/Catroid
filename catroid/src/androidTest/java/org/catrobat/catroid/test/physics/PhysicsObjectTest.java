@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -536,5 +536,29 @@ public class PhysicsObjectTest extends AndroidTestCase {
 				assertEquals("Vertex are different", expectedVertex, actualVertex);
 			}
 		}
+	}
+
+	public void testCloneValues() {
+		PhysicsObject origin = PhysicsTestUtils.createPhysicsObject(physicsWorld);
+		origin.setBounceFactor(1);
+		origin.setFriction(2);
+		origin.setMass(3);
+		origin.setRotationSpeed(4);
+		origin.setType(PhysicsObject.Type.FIXED);
+		origin.setVelocity(5, 6);
+		origin.setPosition(7, 8);
+		origin.setDirection(9);
+
+		PhysicsObject clone = PhysicsTestUtils.createPhysicsObject(physicsWorld);
+		origin.copyTo(clone);
+
+		assertEquals("Bounce factor differs", origin.getBounceFactor(), clone.getBounceFactor());
+		assertEquals("Friction differs", origin.getFriction(), clone.getFriction());
+		assertEquals("Mass differs", origin.getMass(), clone.getMass());
+		assertEquals("Rotation speed differs", origin.getRotationSpeed(), clone.getRotationSpeed());
+		assertEquals("Type differs", origin.getType(), clone.getType());
+		assertEquals("Velocity differs", origin.getVelocity(), clone.getVelocity());
+		assertEquals("Position differs", origin.getPosition(), clone.getPosition());
+		assertEquals("Direction differs", origin.getDirection(), clone.getDirection());
 	}
 }
