@@ -471,9 +471,9 @@ public class FormulaElement implements Serializable {
 				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.min(doubleValueOfLeftChild,
 						doubleValueOfRightChild);
 			case TRUE:
-				return 1d;
+				return Boolean.TRUE;
 			case FALSE:
-				return 0d;
+				return Boolean.FALSE;
 			case LETTER:
 				return interpretFunctionLetter(right, left);
 			case LENGTH:
@@ -739,53 +739,145 @@ public class FormulaElement implements Serializable {
 
 			switch (operator) {
 				case PLUS:
+					if (leftObject instanceof Boolean || rightObject instanceof Boolean) {
+						return Double.NaN;
+					}
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
 					return left + right;
 				case MINUS:
+					if (leftObject instanceof Boolean || rightObject instanceof Boolean) {
+						return Double.NaN;
+					}
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
 					return left - right;
 				case MULT:
+					if (leftObject instanceof Boolean || rightObject instanceof Boolean) {
+						return Double.NaN;
+					}
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
 					return left * right;
 				case DIVIDE:
+					if (leftObject instanceof Boolean || rightObject instanceof Boolean) {
+						return Double.NaN;
+					}
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
 					return left / right;
 				case POW:
+					if (leftObject instanceof Boolean || rightObject instanceof Boolean) {
+						return Double.NaN;
+					}
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
 					return java.lang.Math.pow(left, right);
 				case EQUAL:
+					if ((leftObject instanceof Boolean && !(rightObject instanceof Boolean)) || (!(leftObject instanceof Boolean) && rightObject instanceof Boolean)) {
+						return Double.NaN;
+					}
+					if (leftObject instanceof Boolean && rightObject instanceof Boolean) {
+						if (leftObject == rightObject) {
+							return Boolean.TRUE;
+						} else {
+							return Boolean.FALSE;
+						}
+					}
 					return interpretOperatorEqual(leftObject, rightObject);
 				case NOT_EQUAL:
-					return interpretOperatorEqual(leftObject, rightObject) == 1d ? 0d : 1d;
+					if ((leftObject instanceof Boolean && !(rightObject instanceof Boolean)) || (!(leftObject instanceof Boolean) && rightObject instanceof Boolean)) {
+						return Double.NaN;
+					}
+					if (leftObject instanceof Boolean && rightObject instanceof Boolean) {
+						if (leftObject != rightObject) {
+							return Boolean.TRUE;
+						} else {
+							return Boolean.FALSE;
+						}
+					}
+
+					return interpretOperatorEqual(leftObject, rightObject) == 1d ? Boolean.FALSE : Boolean.TRUE;
 				case GREATER_THAN:
+					if (leftObject instanceof Boolean || rightObject instanceof Boolean) {
+						return Double.NaN;
+					}
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return left.compareTo(right) > 0 ? 1d : 0d;
+					if (left.isNaN() || right.isNaN()) {
+						return Double.NaN;
+					}
+					return left.compareTo(right) > 0 ? Boolean.TRUE : Boolean.FALSE;
 				case GREATER_OR_EQUAL:
+					if ((leftObject instanceof Boolean && !(rightObject instanceof Boolean)) || (!(leftObject instanceof Boolean) && rightObject instanceof Boolean)) {
+						return Double.NaN;
+					}
+
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return left.compareTo(right) >= 0 ? 1d : 0d;
+					if (left.isNaN() || right.isNaN()) {
+						return Double.NaN;
+					}
+					return left.compareTo(right) >= 0 ? Boolean.TRUE : Boolean.FALSE;
 				case SMALLER_THAN:
+					if (leftObject instanceof Boolean || rightObject instanceof Boolean) {
+						return Double.NaN;
+					}
+
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return left.compareTo(right) < 0 ? 1d : 0d;
+
+					if (left.isNaN() || right.isNaN()) {
+						return Double.NaN;
+					}
+					return left.compareTo(right) < 0 ? Boolean.TRUE : Boolean.FALSE;
 				case SMALLER_OR_EQUAL:
+					if ((leftObject instanceof Boolean && !(rightObject instanceof Boolean)) || (!(leftObject instanceof Boolean) && rightObject instanceof Boolean)) {
+						return Double.NaN;
+					}
+
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return left.compareTo(right) <= 0 ? 1d : 0d;
+					if (left.isNaN() || right.isNaN()) {
+						return Double.NaN;
+					}
+					return left.compareTo(right) <= 0 ? Boolean.TRUE : Boolean.FALSE;
 				case LOGICAL_AND:
+					if ((leftObject instanceof Boolean && !(rightObject instanceof Boolean)) || (!(leftObject instanceof Boolean) && rightObject instanceof Boolean)) {
+						return Double.NaN;
+					}
+					if (leftObject instanceof Boolean && rightObject instanceof Boolean) {
+						if (leftObject == Boolean.TRUE && rightObject == Boolean.TRUE) {
+							return Boolean.TRUE;
+						} else {
+							return Boolean.FALSE;
+						}
+					}
+
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return (left * right) != 0d ? 1d : 0d;
+					if (left.isNaN() || right.isNaN()) {
+						return Double.NaN;
+					}
+					return (left * right) != 0d ? Boolean.TRUE : Boolean.FALSE;
 				case LOGICAL_OR:
+					if ((leftObject instanceof Boolean && !(rightObject instanceof Boolean)) || (!(leftObject instanceof Boolean) && rightObject instanceof Boolean)) {
+						return Double.NaN;
+					}
+					if (leftObject instanceof Boolean && rightObject instanceof Boolean) {
+						if (leftObject == Boolean.TRUE || rightObject == Boolean.TRUE) {
+							return Boolean.TRUE;
+						} else {
+							return Boolean.FALSE;
+						}
+					}
+
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return left != 0d || right != 0d ? 1d : 0d;
+					if (left.isNaN() || right.isNaN()) {
+						return Double.NaN;
+					}
+					return left != 0d || right != 0d ? Boolean.TRUE : Boolean.FALSE;
 			}
 		} else { //unary operators
 			Object rightObject;
@@ -800,6 +892,12 @@ public class FormulaElement implements Serializable {
 					Double result = interpretOperator(rightObject);
 					return -result;
 				case LOGICAL_NOT:
+					if (rightObject instanceof Boolean) {
+						if (rightObject == Boolean.TRUE) {
+							return Boolean.FALSE;
+						}
+						return Boolean.TRUE;
+					}
 					return interpretOperator(rightObject) == 0d ? 1d : 0d;
 			}
 		}
@@ -922,27 +1020,28 @@ public class FormulaElement implements Serializable {
 				return Double.NaN;
 			}
 		} else {
+			Double val = (Double) object;
+			if (val.isNaN()) {
+				return Double.NaN;
+			}
 			return (Double) object;
 		}
 	}
 
 	private Object normalizeDegeneratedDoubleValues(Object valueToCheck) {
 
-		if (valueToCheck instanceof String || valueToCheck instanceof Character) {
+		if (valueToCheck instanceof String || valueToCheck instanceof Character || valueToCheck instanceof Boolean) {
 			return valueToCheck;
 		}
-
 		if (valueToCheck == null) {
 			return 0.0;
 		}
-
 		if ((Double) valueToCheck == Double.NEGATIVE_INFINITY) {
 			return -Double.MAX_VALUE;
 		}
 		if ((Double) valueToCheck == Double.POSITIVE_INFINITY) {
 			return Double.MAX_VALUE;
 		}
-
 		return valueToCheck;
 	}
 
