@@ -1,0 +1,9 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="Catroid: An on-device visual programming system for Android devices&#10;Copyright (C) 2010-&amp;#36;today.year The Catrobat Team&#10;(&lt;http://developer.catrobat.org/credits&gt;)&#10;&#10;This program is free software: you can redistribute it and/or modify&#10;it under the terms of the GNU Affero General Public License as&#10;published by the Free Software Foundation, either version 3 of the&#10;License, or (at your option) any later version.&#10;&#10;An additional term exception under section 7 of the GNU Affero&#10;General Public License, version 3, is available at&#10;http://developer.catrobat.org/license_additional_term&#10;&#10;This program is distributed in the hope that it will be useful,&#10;but WITHOUT ANY WARRANTY; without even the implied warranty of&#10;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the&#10;GNU Affero General Public License for more details.&#10;&#10;You should have received a copy of the GNU Affero General Public License&#10;along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;." />
+    <option name="keyword" value="Catroid: An on-device visual programming system for Android devices" />
+    <option name="allowReplaceKeyword" value="2016" />
+    <option name="myName" value="Catroid" />
+    <option name="myLocal" value="true" />
+  </copyright>
+</component>
