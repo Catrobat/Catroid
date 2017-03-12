@@ -426,6 +426,8 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 			actionMode.setTitle(completeSpannedTitle);
 		}
+
+		TextSizeUtil.enlargeActionMode(actionMode);
 	}
 
 	public void updateNfcTagAdapter(NfcTagData newNfcTagData) {
@@ -537,6 +539,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 			setActionModeActive(true);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -571,6 +574,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -604,6 +608,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			mode.setTitle(R.string.delete);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 

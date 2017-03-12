@@ -50,6 +50,7 @@ import android.view.View.OnKeyListener;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -713,7 +714,23 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 								onUserDismiss();
 							}
 						}
-					}).create().show();
+					});
+
+			AlertDialog alertDialog = builder.create();
+			alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+				@Override
+				public void onShow(DialogInterface dialog) {
+					Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+					if (positiveButton != null) {
+						TextSizeUtil.enlargeButtonText(positiveButton);
+					}
+					Button negativeButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+					if (negativeButton != null) {
+						TextSizeUtil.enlargeButtonText(negativeButton);
+					}
+				}
+			});
+			alertDialog.show();
 		} else {
 			onUserDismiss();
 		}

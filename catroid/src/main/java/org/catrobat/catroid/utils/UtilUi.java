@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
@@ -63,6 +64,7 @@ public final class UtilUi {
 		View view = item.getActionView();
 		if (view.getId() == R.id.select_all) {
 			View selectAllView = View.inflate(inflater.getContext(), R.layout.action_mode_select_all, null);
+			TextSizeUtil.enlargeTextView((TextView) selectAllView);
 			item.setActionView(selectAllView);
 			return selectAllView;
 		}

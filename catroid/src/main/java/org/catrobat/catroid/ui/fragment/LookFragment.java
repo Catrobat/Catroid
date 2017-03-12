@@ -143,6 +143,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -174,6 +175,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 			setActionModeActive(true);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -215,6 +217,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -253,6 +256,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -795,6 +799,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 			actionMode.setTitle(completeSpannedTitle);
 		}
+
+		TextSizeUtil.enlargeActionMode(actionMode);
 	}
 
 	private void handleEditLook(View view) {

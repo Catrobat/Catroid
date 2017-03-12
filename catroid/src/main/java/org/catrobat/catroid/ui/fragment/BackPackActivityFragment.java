@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.DividerUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 public abstract class BackPackActivityFragment extends CheckBoxListFragment {
@@ -65,6 +66,7 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 			actionModeTitle = getString(R.string.unpack);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -99,6 +101,7 @@ public abstract class BackPackActivityFragment extends CheckBoxListFragment {
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 

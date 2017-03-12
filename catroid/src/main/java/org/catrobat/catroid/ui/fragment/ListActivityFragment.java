@@ -34,6 +34,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameItemDialog;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public abstract class ListActivityFragment extends CheckBoxListFragment implements ListItemActionsInterface,
 		RenameItemDialog.RenameItemInterface {
@@ -55,6 +56,7 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -88,6 +90,7 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -120,6 +123,8 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 			mode.setTitle(R.string.rename);
 
 			isRenameActionMode = true;
+
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -156,6 +161,7 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 

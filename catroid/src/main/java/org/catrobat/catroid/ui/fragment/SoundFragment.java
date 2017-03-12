@@ -517,6 +517,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 			actionMode.setTitle(completeSpannedTitle);
 		}
+
+		TextSizeUtil.enlargeActionMode(actionMode);
 	}
 
 	@Override
@@ -747,6 +749,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 			setActionModeActive(true);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -781,6 +784,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -816,6 +820,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			mode.setTitle(actionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -850,6 +855,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			mode.setTitle(R.string.delete);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 

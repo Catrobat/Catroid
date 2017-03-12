@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class UserListAdapterWrapper extends BaseAdapter {
 
@@ -80,6 +81,7 @@ public class UserListAdapterWrapper extends BaseAdapter {
 				text1 = (TextView) view.findViewById(android.R.id.text1);
 			}
 			text1.setText(R.string.brick_variable_spinner_create_new_variable);
+			TextSizeUtil.enlargeTextView(text1);
 		} else {
 			view = dataAdapter.getViewForUserListItem(position - 1, convertView, parent);
 		}
@@ -100,6 +102,7 @@ public class UserListAdapterWrapper extends BaseAdapter {
 				text1 = (TextView) view.findViewById(android.R.id.text1);
 			}
 			text1.setText(R.string.brick_variable_spinner_create_new_variable);
+			TextSizeUtil.enlargeTextView(text1);
 		} else {
 			view = dataAdapter.getDropDownViewForUserListItem(position - 1, convertView, parent);
 		}

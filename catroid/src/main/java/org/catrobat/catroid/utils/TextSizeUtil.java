@@ -32,6 +32,7 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.ActionMode;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -127,6 +128,19 @@ public final class TextSizeUtil {
 		if (!enlargedObjects.contains(textView)) {
 			textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textView.getTextSize() * getModifier());
 			enlargedObjects.add(textView);
+		}
+	}
+
+	public static void enlargeActionMode(ActionMode actionMode) {
+		if (modifier == 1.0f) {
+			return;
+		}
+
+		if (actionMode != null) {
+			TextView textView = new TextView(CatroidApplication.getAppContext());
+			textView.setText(actionMode.getTitle());
+			TextSizeUtil.enlargeTextView(textView);
+			actionMode.setCustomView(textView);
 		}
 	}
 

@@ -71,8 +71,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		spinner.setAdapter(arrayAdapter);
-
-		spinner.setAdapter(arrayAdapter);
 		spinner.setSelection(spinnerPosition);
 
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

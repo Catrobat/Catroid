@@ -36,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -105,8 +106,9 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 				context.getString(R.string.category_phiro));
 
 		setCheckboxView(R.id.brick_phiro_motor_stop_checkbox);
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
+
+		DynamicTextSizeArrayAdapter<CharSequence> motorAdapter = new DynamicTextSizeArrayAdapter(context,
+				android.R.layout.simple_spinner_item, context.getResources().getStringArray(R.array.brick_phiro_stop_motor_spinner));
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_stop_motor_spinner);

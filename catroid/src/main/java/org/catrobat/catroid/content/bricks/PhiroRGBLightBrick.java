@@ -42,6 +42,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.ColorSeekbar;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -178,8 +179,8 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 		editBlueValue.setOnClickListener(this);
 
-		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
+		DynamicTextSizeArrayAdapter<CharSequence> eyeAdapter = new DynamicTextSizeArrayAdapter(context,
+				android.R.layout.simple_spinner_item, context.getResources().getStringArray(R.array.brick_phiro_select_light_spinner));
 		eyeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner eyeSpinner = (Spinner) view.findViewById(R.id.brick_phiro_rgb_light_spinner);
 

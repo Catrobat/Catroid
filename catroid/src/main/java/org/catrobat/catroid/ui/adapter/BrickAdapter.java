@@ -34,6 +34,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -1065,7 +1066,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			@Override
 			public void onShow(final DialogInterface dialogInterface) {
-				TextSizeUtil.enlargeViewGroup((ViewGroup) view.getRootView());
+				TextSizeUtil.enlargeViewGroup(alertDialog.getListView());
 			}
 		});
 
@@ -1132,6 +1133,21 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		});
 
 		AlertDialog alertDialog = builder.create();
+
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+				if (positiveButton != null) {
+					TextSizeUtil.enlargeButtonText(positiveButton);
+				}
+				Button negativeButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+				if (negativeButton != null) {
+					TextSizeUtil.enlargeButtonText(negativeButton);
+				}
+			}
+		});
+
 		alertDialog.show();
 	}
 
