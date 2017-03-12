@@ -28,7 +28,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -137,10 +139,19 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 	private void setDialogTextView(final String newString) {
 		TextSizeUtil.enlargeTextView(computeTextView);
+
 		computeTextView.post(new Runnable() {
 			@Override
 			public void run() {
 				computeTextView.setText(newString);
+
+				ViewGroup.LayoutParams params = computeTextView.getLayoutParams();
+				int heightPixels = computeTextView.getLineCount() * computeTextView.getLineHeight();
+				int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, heightPixels / 2, context
+						.getResources().getDisplayMetrics());
+				params.width = ViewGroup.LayoutParams.FILL_PARENT;
+				params.height = height;
+				computeTextView.setLayoutParams(params);
 			}
 		});
 	}
