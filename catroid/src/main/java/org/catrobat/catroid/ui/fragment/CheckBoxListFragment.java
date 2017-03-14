@@ -39,6 +39,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.adapter.CheckBoxListAdapter;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilUi;
 
 public abstract class CheckBoxListFragment extends ListFragment implements CheckBoxListAdapter.ListItemCheckHandler {
@@ -140,6 +141,8 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 				actionModeTitle.length() + (1 + itemCount.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		actionMode.setTitle(completeSpannedTitle);
+
+		TextSizeUtil.enlargeActionMode(actionMode);
 	}
 
 	protected void addSelectAllActionModeButton(final ActionMode mode, Menu menu) {

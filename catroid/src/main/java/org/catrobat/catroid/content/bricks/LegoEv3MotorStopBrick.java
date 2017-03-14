@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 
 import java.util.List;
 
@@ -103,8 +104,8 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 
 		setCheckboxView(R.id.brick_ev3_motor_stop_checkbox);
 
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.ev3_stop_motor_chooser, android.R.layout.simple_spinner_item);
+		DynamicTextSizeArrayAdapter<CharSequence> motorAdapter = new DynamicTextSizeArrayAdapter(context,
+				android.R.layout.simple_spinner_item, context.getResources().getStringArray(R.array.ev3_stop_motor_chooser));
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.ev3_stop_motor_spinner);

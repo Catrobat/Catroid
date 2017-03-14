@@ -42,6 +42,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.SingleSeekbar;
+import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -146,8 +147,8 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 
 		editSpeed.setOnClickListener(this);
 
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_select_motor_spinner,
-				android.R.layout.simple_spinner_item);
+		DynamicTextSizeArrayAdapter<CharSequence> motorAdapter = new DynamicTextSizeArrayAdapter(context,
+				android.R.layout.simple_spinner_item, context.getResources().getStringArray(R.array.brick_phiro_select_motor_spinner));
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_motor_backward_action_spinner);
 

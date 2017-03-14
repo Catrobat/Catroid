@@ -78,6 +78,7 @@ import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
@@ -129,6 +130,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			mode.setTag(ACTION_MODE_DELETE);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -159,6 +161,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			mode.setTag(ACTION_MODE_COMMENT_OUT);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -194,6 +197,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			mode.setTag(ACTION_MODE_COPY);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -232,6 +236,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			mode.setTag(ACTION_MODE_BACKPACK);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -754,8 +759,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 					indexOfNumber, indexOfNumber + String.valueOf(numberOfSelectedItems).length(),
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
-
 		actionMode.setTitle(completeSpannedTitle);
+
+		TextSizeUtil.enlargeActionMode(actionMode);
 	}
 
 	private void handleInsertFromBackpack() {

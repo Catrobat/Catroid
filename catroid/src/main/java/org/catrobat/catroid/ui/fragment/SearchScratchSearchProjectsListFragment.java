@@ -58,6 +58,7 @@ import org.catrobat.catroid.ui.ScratchConverterActivity;
 import org.catrobat.catroid.ui.ScratchProgramDetailsActivity;
 import org.catrobat.catroid.ui.adapter.ScratchProgramAdapter;
 import org.catrobat.catroid.utils.ExpiringLruMemoryObjectCache;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.ScratchDataFetcher;
 
@@ -124,6 +125,8 @@ public class SearchScratchSearchProjectsListFragment extends Fragment
 			searchView.setVisibility(View.GONE);
 			audioButton.setVisibility(View.GONE);
 			setSearchResultsListViewMargin(0, 0, 0, 0);
+
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -366,6 +369,8 @@ public class SearchScratchSearchProjectsListFragment extends Fragment
 
 			actionMode.setTitle(completeSpannedTitle);
 		}
+
+		TextSizeUtil.enlargeActionMode(actionMode);
 	}
 
 	@Override

@@ -52,14 +52,13 @@
             android:text="@string/ev3_set_led_status" >
         </TextView >
 
-        <Spinner
+        <org.catrobat.catroid.utils.BrickSpinner
             android:id="@+id/brick_ev3_set_led_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_newLine="true"
             android:clickable="false"
-            android:focusable="false" >
-        </Spinner>
+            android:focusable="false" />
 
     </org.catrobat.catroid.ui.BrickLayout >
 

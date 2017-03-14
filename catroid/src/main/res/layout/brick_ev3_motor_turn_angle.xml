@@ -61,13 +61,12 @@
                     android:text="@string/ev3_brick_motor_turn_angle" >
                 </TextView >
 
-                <Spinner
+                <org.catrobat.catroid.utils.BrickSpinner
                     android:id="@+id/lego_ev3_motor_turn_angle_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="false"
-                    android:focusable="false" >
-                </Spinner >
+                    android:focusable="false" />
             </LinearLayout>
 
             <LinearLayout

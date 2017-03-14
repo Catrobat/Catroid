@@ -317,6 +317,8 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 
 			actionMode.setTitle(completeSpannedTitle);
 		}
+
+		TextSizeUtil.enlargeActionMode(actionMode);
 	}
 
 	@Override
@@ -766,6 +768,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			addSelectAllActionModeButton(mode, menu);
 			isDeleteActionMode = true;
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -799,6 +802,8 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			mode.setTitle(R.string.rename);
 			actionModeActive = true;
 			isRenameActionMode = true;
+
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -841,6 +846,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			addSelectAllActionModeButton(mode, menu);
 			isCopyActionMode = true;
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -880,6 +886,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			mode.setTitle(multiSelectActionModeTitle);
 			addSelectAllActionModeButton(mode, menu);
 
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 

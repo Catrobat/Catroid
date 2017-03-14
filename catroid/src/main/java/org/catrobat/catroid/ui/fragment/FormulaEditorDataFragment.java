@@ -48,6 +48,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -213,6 +214,8 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 				adapter.getAmountOfCheckedItems());
 
 		contextActionMode.setTitle(title);
+
+		TextSizeUtil.enlargeActionMode(contextActionMode);
 	}
 
 	@Override
@@ -271,6 +274,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 
 						final TextView textView = new TextView(getActivity());
 						textView.setText(R.string.deletion_alert_text);
+						textView.setPadding(50, 10, 50, 10);
 						TextSizeUtil.enlargeTextView(textView);
 						alertDialog.setTitle(R.string.deletion_alert_title);
 						alertDialog.setView(textView);
@@ -288,7 +292,23 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 							}
 						});
 
-						alertDialog.show();
+						AlertDialog alert = alertDialog.create();
+
+						alert.setOnShowListener(new DialogInterface.OnShowListener() {
+							@Override
+							public void onShow(DialogInterface dialog) {
+								Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+								if (positiveButton != null) {
+									TextSizeUtil.enlargeButtonText(positiveButton);
+								}
+								Button negativeButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+								if (negativeButton != null) {
+									TextSizeUtil.enlargeButtonText(negativeButton);
+								}
+							}
+						});
+
+						alert.show();
 					}
 				}
 				TextSizeUtil.enlargeOptionsItem(item);
@@ -408,6 +428,8 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 					R.plurals.formula_editor_data_fragment_context_action_item_selected, 0));
 			BottomBar.hideBottomBar(getActivity());
 			addSelectAllActionModeButton(mode, menu);
+
+			TextSizeUtil.enlargeActionMode(mode);
 			return true;
 		}
 
@@ -427,8 +449,14 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 			if (!adapter.isEmpty()) {
 
 				final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+
+				final TextView textView = new TextView(getActivity());
+				textView.setText(R.string.deletion_alert_text);
+				textView.setPadding(50, 10, 50, 10);
+				TextSizeUtil.enlargeTextView(textView);
 				alertDialog.setTitle(R.string.deletion_alert_title);
-				alertDialog.setMessage(R.string.deletion_alert_text);
+				alertDialog.setView(textView);
+
 				alertDialog.setPositiveButton(R.string.deletion_alert_yes,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
@@ -469,7 +497,24 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 						getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 					}
 				});
-				alertDialog.show();
+
+				AlertDialog alert = alertDialog.create();
+
+				alert.setOnShowListener(new DialogInterface.OnShowListener() {
+					@Override
+					public void onShow(DialogInterface dialog) {
+						Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+						if (positiveButton != null) {
+							TextSizeUtil.enlargeButtonText(positiveButton);
+						}
+						Button negativeButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+						if (negativeButton != null) {
+							TextSizeUtil.enlargeButtonText(negativeButton);
+						}
+					}
+				});
+
+				alert.show();
 			}
 		}
 	};

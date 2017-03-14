@@ -24,6 +24,7 @@ package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -92,6 +94,8 @@ public class SetVelocityBrick extends FormulaBrick {
 		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y).refreshTextField(view);
 
 		editY.setOnClickListener(this);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
 	}
 
