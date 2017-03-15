@@ -54,12 +54,15 @@ public class FormulaEditorTest {
 
 	@Test
 	public void numericValuesTest() {
-		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
+		onView(withId(R.id.brick_set_variable_edit_text))
+				.perform(click());
 
 		//typeText not working for formula editor, so use CustomActions.typeInValue
-		onView(withId(R.id.formula_editor_edit_field)).perform(CustomActions.typeInValue("12345,678"));
+		onView(withId(R.id.formula_editor_edit_field))
+				.perform(CustomActions.typeInValue("12345,678"));
 
-		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
+		onView(withId(R.id.formula_editor_keyboard_ok))
+				.perform(click());
 	}
 
 	@After

@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.util.matchers;
 
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -32,9 +31,6 @@ import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public final class ScriptListMatchers {
 	// Suppress default constructor for noninstantiability
@@ -54,25 +50,6 @@ public final class ScriptListMatchers {
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("Locate scriptlistView within view");
-			}
-		};
-	}
-
-	public static Matcher<View> isBrickWithTitle(final int brickTitle) {
-		return new TypeSafeMatcher<View>() {
-
-			@Override
-			protected boolean matchesSafely(View view) {
-				if (view instanceof LinearLayout) {
-					return matches(hasDescendant(withText(brickTitle)));
-					//return matches(hasDescendant(withText(brickTitle))) && matches(isDisplayed());
-				}
-				return false;
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("Is brick with title ");
 			}
 		};
 	}
