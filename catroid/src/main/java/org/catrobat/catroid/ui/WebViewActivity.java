@@ -31,12 +31,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
@@ -88,6 +90,7 @@ public class WebViewActivity extends BaseActivity {
 		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
 
 		webView = (WebView) findViewById(R.id.webView);
+		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.application_background_color, null));
 
 		webView.setWebChromeClient(new WebChromeClient() {
 			private ProgressDialog progressCircle;
