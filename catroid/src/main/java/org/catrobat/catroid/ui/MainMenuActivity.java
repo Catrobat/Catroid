@@ -40,12 +40,14 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -59,6 +61,7 @@ import com.facebook.login.LoginResult;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -88,6 +91,9 @@ import java.io.OutputStream;
 import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.TourGuide;
+
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
 
 	private static final String TAG = MainMenuActivity.class.getSimpleName();
@@ -109,6 +115,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private Menu mainMenu;
 
 	CountingIdlingResource idlingResource = new CountingIdlingResource(TAG);
+
+	private SharedPreferences sharedpreferences = null;
+
+	public TourGuide tourGuideHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +156,48 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			if (loadExternalProjectUri != null) {
 				loadProgramFromExternalSource(loadExternalProjectUri);
 			}
+
+			sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+				if (sharedpreferences.getBoolean("firstRun", true)) {
+					sharedpreferences.edit().putBoolean("firstRun", false).commit();
+
+					TextView textView = (TextView) findViewById(R.id.cast_text);
+
+					SpannableStringBuilder builder = new SpannableStringBuilder();
+					builder.append("Tap the Cast Icon (").append(" ");
+					builder.setSpan(new ImageSpan(getApplicationContext(), R.drawable.ic_cast_white),
+							builder.length() - 1, builder.length(), 0);
+					builder.append(") to stream media to your TV");
+
+					textView.setText(builder);
+
+					Button button = (Button) findViewById(R.id.cast_introduction_button);
+
+					Overlay overlay = new Overlay()
+							.disableClick(false)
+							.setStyle(Overlay.Style.Circle);
+
+					tourGuideHandler = TourGuide.init(this).with(TourGuide.Technique.Click)
+							.setOverlay(overlay)
+							.playOn(button);
+
+					button.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View v) {
+							View castView = findViewById(R.id.cast_view);
+							castView.setVisibility(View.GONE);
+							tourGuideHandler.cleanUp();
+						}
+					});
+				} else {
+					findViewById(R.id.cast_view).setVisibility(View.GONE);
+				}
+				if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+					CastManager.getInstance().initializeCast(this);
+				}
+			} else {
+				findViewById(R.id.cast_view).setVisibility(View.GONE);
+			}
 		}
 	}
 
@@ -162,6 +214,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, false);
 
 		SettingsActivity.setDroneChooserEnabled(this, false);
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
+		}
 
 		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 		final Activity activity = this;
@@ -212,6 +268,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			final int betaLabelColor = ContextCompat.getColor(this, R.color.beta_label_color);
 			spanTitle.setSpan(new ForegroundColorSpan(betaLabelColor), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			scratchConverterMenuItem.setTitle(spanTitle);
+		}
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
 		}
 		return super.onCreateOptionsMenu(menu);
 	}

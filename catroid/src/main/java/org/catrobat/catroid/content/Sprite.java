@@ -542,6 +542,19 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.scriptList = cloneScriptList;
 	}
 
+	public void createWhengamepadButtonScriptActionSequence(String action) {
+		//CAST
+		ParallelAction whenParallelAction = actionFactory.parallel();
+		for (Script s : scriptList) {
+			if (s instanceof WhenGamepadButtonScript && (((WhenGamepadButtonScript) s).getAction().equalsIgnoreCase(action))) {
+				SequenceAction sequence = createActionSequence(s);
+				whenParallelAction.addAction(sequence);
+			}
+		}
+		look.setWhenParallelAction(whenParallelAction);
+		look.addAction(whenParallelAction);
+	}
+
 	public Sprite cloneForBackPack() {
 		final Sprite cloneSprite = spriteFactory.newInstance(SpriteFactory.SPRITE_SINGLE);
 		cloneSprite.setName(name);

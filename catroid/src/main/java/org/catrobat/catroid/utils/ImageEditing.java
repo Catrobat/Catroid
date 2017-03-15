@@ -30,6 +30,7 @@ import android.graphics.Matrix;
 import com.badlogic.gdx.math.Vector2;
 import com.google.common.io.Closeables;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.io.StorageHandler;
 
@@ -228,8 +229,13 @@ public final class ImageEditing {
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inJustDecodeBounds = true;
 			BitmapFactory.decodeResource(context.getResources(), resourceId, options);
-			return calculateScaleFactor(options.outWidth, options.outHeight, ScreenValues.SCREEN_WIDTH,
-					ScreenValues.SCREEN_HEIGHT, true);
+			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				return calculateScaleFactor(options.outWidth, options.outHeight, ScreenValues.CAST_SCREEN_WIDTH,
+						ScreenValues.CAST_SCREEN_HEIGHT, true);
+			} else {
+				return calculateScaleFactor(options.outWidth, options.outHeight, ScreenValues.SCREEN_WIDTH,
+						ScreenValues.SCREEN_HEIGHT, true);
+			}
 		} else {
 			throw new IllegalArgumentException("resource is not an image");
 		}

@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical" >
@@ -93,5 +93,34 @@
             android:text="@string/main_menu_upload" />
 
     </LinearLayout>
+    <!--Cast introduction screen-->
+    <RelativeLayout
+        android:id="@+id/cast_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#D0000000"
+        android:gravity="center|bottom"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/cast_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="26sp"
+            android:textAlignment="center"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/cast_introduction_button"
+            android:layout_width="150dp"
+            android:layout_height="80dp"
+            android:text="@string/ok"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -31,6 +31,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
@@ -151,6 +152,7 @@ import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -211,6 +213,8 @@ public class CategoryBricksFactory {
 			tempList = setupDroneCategoryList();
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
 			tempList = setupPhiroProCategoryList();
+		} else if (category.equals(context.getString(R.string.category_cast))) {
+			tempList = setupChromecastCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_raspi))) {
 			tempList = setupRaspiCategoryList();
 		}
@@ -267,6 +271,10 @@ public class CategoryBricksFactory {
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
+		/*
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			controlBrickList.add(new WhenGamepadButtonBrick(null));
+		}*/
 
 		controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
 
@@ -316,6 +324,24 @@ public class CategoryBricksFactory {
 //
 //		return false;
 //	}
+
+	private List<Brick> setupChromecastCategoryList(Context context) {
+		List<Brick> chromecastBrickList = new ArrayList<Brick>();
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_A))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_B))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_up))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_down))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_left))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
+				.cast_gamepad_right))));
+
+		return chromecastBrickList;
+	}
 
 	private List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
 		List<Brick> motionBrickList = new ArrayList<>();

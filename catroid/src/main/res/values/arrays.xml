@@ -23,6 +23,16 @@
   -->
 <resources>
 
+    <!-- Cast Gamepad spinner -->
+    <string-array name="gamepad_buttons_array">
+        <item>@string/cast_gamepad_A</item>
+        <item>@string/cast_gamepad_B</item>
+        <item>@string/cast_gamepad_up</item>
+        <item>@string/cast_gamepad_down</item>
+        <item>@string/cast_gamepad_left</item>
+        <item>@string/cast_gamepad_right</item>
+    </string-array>
+
     <string-array name="raspi_version_spinner_names">
         <item>RaspberryPi Model A</item>
         <item>RaspberryPi Model B</item>

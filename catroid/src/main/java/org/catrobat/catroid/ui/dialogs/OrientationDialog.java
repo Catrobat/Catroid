@@ -39,6 +39,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -52,17 +53,22 @@ public class OrientationDialog extends DialogFragment {
 	private Dialog orientationDialog;
 	private String projectName;
 	private RadioButton landscapeMode;
+	private RadioButton cast;
 	private boolean createEmptyProject;
 	private boolean createLandscapeProject = false;
+	private boolean createCastProject = false;
 
 	private boolean openedFromProjectList = false;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
+		boolean castEnabled = SettingsActivity.isCastSharedPreferenceEnabled(getActivity());
+		int title = castEnabled ? R.string.project_select_screen_title : R.string.project_orientation_title;
 
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(R.string.project_orientation_title)
+				.setTitle(title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -90,16 +96,24 @@ public class OrientationDialog extends DialogFragment {
 				});
 			}
 		});
+
 		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);
+		cast = (RadioButton) dialogView.findViewById(R.id.cast);
+
+		if (castEnabled) {
+			cast.setVisibility(View.VISIBLE);
+		}
 
 		return orientationDialog;
 	}
 
 	protected void handleOkButtonClick() {
+
 		createLandscapeProject = landscapeMode.isChecked();
+		createCastProject = cast.isChecked();
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject, createCastProject);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;
