@@ -23,7 +23,10 @@
 package org.catrobat.catroid.test.ui;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.annotation.UiThreadTest;
+import android.support.test.rule.UiThreadTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,18 +36,29 @@ import android.widget.TextView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BrickLayout.LayoutParams;
 import org.catrobat.catroid.ui.BrickLayout.LayoutParams.InputType;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-public class EditTextAlignmentTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class EditTextAlignmentTest {
+
+	@Rule
+	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
 	private static LayoutInflater inflater;
 	private Context context;
 
-	@Override
-	protected void setUp() throws Exception {
-		context = getContext();
+	@Before
+	public void setUp() throws Exception {
+
+		context = InstrumentationRegistry.getTargetContext();
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
@@ -53,6 +67,8 @@ public class EditTextAlignmentTest extends AndroidTestCase {
 	 * and all bricks in R.id which have an EditText must have the same name as in R.layout plus "_edit_text" at the end
 	 * of their names
 	 */
+	@Test
+	@UiThreadTest
 	public void testAllBricks() throws IllegalArgumentException, IllegalAccessException {
 
 		Field[] layoutFields = R.layout.class.getFields();

@@ -137,7 +137,11 @@ public class MergeNameDialog extends DialogFragment {
 		if (StorageHandler.getInstance().projectExists(mergeName)) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 		} else {
-			if (!task.mergeProjects(nameEditText.getText().toString())) {
+			if (task.mergeProjects(mergeName)) {
+				String msg = task.getFirstProject().getName() + " " + getActivity().getString(R.string.merge_info) + " "
+						+ "" + 	task.getSecondProject().getName() + "!";
+				ToastUtil.showSuccess(getActivity(), msg);
+			} else {
 				ToastUtil.showError(getActivity(), R.string.error_merge);
 			}
 			this.dismiss();
