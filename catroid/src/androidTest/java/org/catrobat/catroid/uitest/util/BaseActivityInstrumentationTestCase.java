@@ -79,8 +79,10 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 	@Override
 	protected void setUp() throws Exception {
+		if (createSoloInSetUp) {
+			solo = new Solo(getInstrumentation(), getActivity());
+		}
 		Log.v(TAG, "setUp");
-		super.setUp();
 
 		systemAnimations = new SystemAnimations(getInstrumentation().getTargetContext());
 		systemAnimations.disableAll();
@@ -91,15 +93,12 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		if (clazz.getSimpleName().equalsIgnoreCase(MainMenuActivity.class.getSimpleName())) {
 			UiTestUtils.createEmptyProject();
 		}
-		if (createSoloInSetUp) {
-			solo = new Solo(getInstrumentation(), getActivity());
-		}
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
 
 		if (solo != null) {
 			solo.unlockScreen();
 		}
-
+		super.setUp();
 		Log.v(TAG, "setUp end");
 	}
 
