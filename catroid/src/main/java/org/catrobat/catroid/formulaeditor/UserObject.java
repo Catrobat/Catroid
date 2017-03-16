@@ -23,37 +23,24 @@
 package org.catrobat.catroid.formulaeditor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-public class UserList extends UserObject implements Serializable {
+public abstract class UserObject implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private transient List<Object> list;
+	private String name;
 
-	public UserList() {
-		list = new ArrayList<>();
+	public UserObject() {
 	}
 
-	public UserList(final String name) {
-		super(name);
-		this.list = new ArrayList<>();
+	public UserObject(String name) {
+		this.name = name;
 	}
 
-	public UserList(final String name, final List<Object> value) {
-		super(name);
-		this.list = value;
+	public String getName() {
+		return name;
 	}
 
-	public List<Object> getList() {
-		return list;
-	}
-
-	public void addListItem(Object listItem) {
-		this.list.add(listItem);
-	}
-
-	public void setList(List<Object> list) {
-		this.list = list;
+	public void setName(String name) {
+		this.name = name;
 	}
 }

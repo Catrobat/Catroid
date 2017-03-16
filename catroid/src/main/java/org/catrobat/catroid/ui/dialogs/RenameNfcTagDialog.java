@@ -26,9 +26,10 @@ import android.content.Intent;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.base.InputDialog;
 import org.catrobat.catroid.utils.Utils;
 
-public class RenameNfcTagDialog extends TextDialog {
+public class RenameNfcTagDialog extends InputDialog {
 
 	public static final String EXTRA_NEW_NFCTAG_TITLE = "new_nfctag_name";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_nfctag";

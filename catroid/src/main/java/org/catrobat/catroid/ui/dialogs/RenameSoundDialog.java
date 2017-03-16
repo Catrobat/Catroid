@@ -27,9 +27,10 @@ import android.content.Intent;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.base.InputDialog;
 import org.catrobat.catroid.utils.Utils;
 
-public class RenameSoundDialog extends TextDialog {
+public class RenameSoundDialog extends InputDialog {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_sound";
 	public static final String EXTRA_NEW_SOUND_TITLE = "new_sound_name";

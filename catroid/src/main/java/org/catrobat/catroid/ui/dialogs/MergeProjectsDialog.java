@@ -20,40 +20,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.ui.dialogs;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.dialogs.base.InputDialog;
 
-public class UserList extends UserObject implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class MergeProjectsDialog extends InputDialog {
 
-	private transient List<Object> list;
+	public static final String TAG = MergeProjectsDialog.class.getSimpleName();
+	private MergeProjectsInterface mergeProjectsInterface;
 
-	public UserList() {
-		list = new ArrayList<>();
+	public MergeProjectsDialog(MergeProjectsInterface mergeProjectsInterface) {
+		super(R.string.merge_programs, R.string.new_project_name, "", false);
+		this.mergeProjectsInterface = mergeProjectsInterface;
 	}
 
-	public UserList(final String name) {
-		super(name);
-		this.list = new ArrayList<>();
+	@Override
+	protected boolean handlePositiveButtonClick() {
+		String resultName = input.getText().toString().trim();
+
+		if (StorageHandler.getInstance().projectExists(resultName)) {
+			input.setError(getString(R.string.error_project_exists));
+		} else {
+			mergeProjectsInterface.mergeProjects(resultName);
+		}
+		return true;
 	}
 
-	public UserList(final String name, final List<Object> value) {
-		super(name);
-		this.list = value;
+	@Override
+	protected void handleNegativeButtonClick() {
 	}
 
-	public List<Object> getList() {
-		return list;
-	}
-
-	public void addListItem(Object listItem) {
-		this.list.add(listItem);
-	}
-
-	public void setList(List<Object> list) {
-		this.list = list;
+	public interface MergeProjectsInterface {
+		void mergeProjects(String name);
 	}
 }

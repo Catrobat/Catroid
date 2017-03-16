@@ -39,7 +39,7 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsCollision;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.ui.dialogs.BrickInputDialog;
 
 import java.util.List;
 
@@ -134,7 +134,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	// TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
 	protected void showNewMessageDialog(final Spinner spinner) {
 		final Context context = spinner.getContext();
-		BrickTextDialog editDialog = new BrickTextDialog(R.string.dialog_new_broadcast_message_title, R.string
+		BrickInputDialog editDialog = new BrickInputDialog(R.string.dialog_new_broadcast_message_title, R.string
 				.dialog_new_broadcast_message_name, context.getString(R.string.new_broadcast_message)) {
 
 			@Override

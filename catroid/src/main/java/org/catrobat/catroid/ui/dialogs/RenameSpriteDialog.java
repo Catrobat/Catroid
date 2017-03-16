@@ -27,8 +27,9 @@ import android.content.Intent;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.base.InputDialog;
 
-public class RenameSpriteDialog extends TextDialog {
+public class RenameSpriteDialog extends InputDialog {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_sprite";
 	public static final String EXTRA_NEW_SPRITE_NAME = "new_sprite_name";
