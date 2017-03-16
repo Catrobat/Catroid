@@ -27,7 +27,6 @@ import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ProjectData;
@@ -41,7 +40,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.adapter.ProjectListAdapter;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -149,11 +147,6 @@ public class MergeTask {
 			adapter.insert(new ProjectData(mergeProjectName, projectCodeFile.lastModified()), 0);
 			adapter.notifyDataSetChanged();
 		}
-
-		String msg = firstProject.getName() + " " + context.getString(R.string.merge_info) + " " + secondProject.getName()
-				+ "!";
-		ToastUtil.showSuccess(context, msg);
-
 		return true;
 	}
 
@@ -383,5 +376,13 @@ public class MergeTask {
 			return false;
 		}
 		return true;
+	}
+
+	public Project getFirstProject() {
+		return firstProject;
+	}
+
+	public Project getSecondProject() {
+		return secondProject;
 	}
 }

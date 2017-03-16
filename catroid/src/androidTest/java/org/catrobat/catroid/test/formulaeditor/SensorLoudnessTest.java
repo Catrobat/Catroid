@@ -22,24 +22,38 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.annotation.UiThreadTest;
+import android.support.test.rule.UiThreadTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
+import org.junit.After;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SensorLoudnessTest extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
-	@Override
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class SensorLoudnessTest {
+
+	@Rule
+	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
+
+	@After
 	public void tearDown() throws Exception {
 		SensorHandler.stopSensorListeners();
 		Reflection.setPrivateField(SensorLoudness.class, "instance", null);
-		super.tearDown();
 	}
 
+	@Test
+	@UiThreadTest
 	public void testMicRelease() {
-		//Initialize
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
 		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
