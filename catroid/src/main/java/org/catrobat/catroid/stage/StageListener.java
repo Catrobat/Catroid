@@ -258,7 +258,7 @@ public class StageListener implements ApplicationListener {
 	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
 		Sprite copy = cloneMe.cloneForCloneBrick();
 		copy.look.createBrightnessContrastHueShader();
-		stage.addActor(copy.look);
+		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
 		sprites.add(copy);
 		clonedSprites.add(copy);
 
