@@ -99,7 +99,7 @@ android {
             versionName '1.0'
 
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
-            buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true)}\""
+            buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true) }\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
             buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "false"
         }
@@ -116,8 +116,17 @@ configurations {
 }
 
 dependencies {
-    
+    compile 'com.google.guava:guava:19.0'
+    compile 'com.squareup.okhttp:okhttp:2.3.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.github.johnpersano:supertoasts:2.0@aar'
+    compile 'com.github.mrengineer13:snackbar:1.2.0'
 
+    compile 'com.koushikdutta.async:androidasync:2.+'
+    compile 'com.sothree.slidinguppanel:library:3.3.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'com.thoughtworks.xstream:xstream:1.4.7'
 
     def gdxVersion = '1.6.2'
     compile 'com.badlogicgames.gdx:gdx:' + gdxVersion
@@ -130,11 +139,20 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
 
-    
+    compile 'com.facebook.android:facebook-android-sdk:4.14.1'
+    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile 'com.google.firebase:firebase-crash:9.4.0'
+    compile 'com.android.support:multidex:1.0.1'
+
     compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
     compile fileTree(include: '*.jar', dir: 'src/main/libs')
     compile fileTree(include: '*.jar', dir: 'src/main/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'src/androidTest/libs')
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+
     androidTestCompile ('com.android.support.test:runner:0.5') {
         exclude group: 'com.android.support'
     }
@@ -152,30 +170,11 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
-    
-    compile 'com.google.guava:guava:19.0'
-    compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.github.johnpersano:supertoasts:2.0@aar'
-    compile 'com.github.mrengineer13:snackbar:1.2.0'
-    compile 'com.koushikdutta.async:androidasync:2.+'
-    compile 'com.sothree.slidinguppanel:library:3.3.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.thoughtworks.xstream:xstream:1.4.7'
-    compile 'com.facebook.android:facebook-android-sdk:4.14.1'
-    compile 'com.android.support:support-v4:24.1.1'
-    compile 'com.google.android.gms:play-services-auth:9.4.0'
-    compile 'com.google.firebase:firebase-crash:9.4.0'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support.constraint:constraint-layout:+'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
-    checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
+
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
+    checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
 }
 
 def getCurrentGitBranch() {

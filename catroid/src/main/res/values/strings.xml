@@ -30,7 +30,6 @@
     <string name="name_already_exists">This name already exists, please choose another one!</string>
     <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
     <string name="rename">Rename</string>
-    <string name="app_permission_description">Pocket Code would like to take some permissions which are required for the functioning of this app.</string>
     <string name="delete">Delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -1514,7 +1513,7 @@
     <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
         and download it.
         You can also download your program as standalone app.</string>
-    <string name="progress_upload_dialog_show_program">Show program</string>
+     <string name="progress_upload_dialog_show_program">Show program</string>
     <!--  -->
 
     <!-- Snackbar hints -->
