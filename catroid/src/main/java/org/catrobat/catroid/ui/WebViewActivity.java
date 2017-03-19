@@ -80,6 +80,9 @@ public class WebViewActivity extends BaseActivity {
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
 
+		progressDialog = new ProgressDialog(WebViewActivity.this);
+		progressDialog.setCancelable(false);
+
 		Intent intent = getIntent();
 		url = intent.getStringExtra(INTENT_PARAMETER_URL);
 		if (url == null) {
@@ -94,6 +97,8 @@ public class WebViewActivity extends BaseActivity {
 
 			@Override
 			public void onProgressChanged(WebView view, int progress) {
+
+				/*
 				if (progressCircle == null) {
 					progressCircle = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
 					progressCircle.setCancelable(true);
@@ -104,10 +109,19 @@ public class WebViewActivity extends BaseActivity {
 						Log.e(TAG, "Exception while showing progress circle", e);
 					}
 				}
+				*/
+
+				progressDialog.setMessage("Please Wait...");
+				if(progressDialog!=null)
+					progressDialog.show();
 
 				if (progress == 100) {
-					progressCircle.dismiss();
-					progressCircle = null;
+					//progressCircle.dismiss();
+					//progressCircle = null;
+					if(progressDialog!=null) {
+						progressDialog.dismiss();
+					}
+
 				}
 			}
 		});
