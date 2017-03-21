@@ -128,6 +128,7 @@
       <message key="name.invalidPattern" value="Package name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
     </module>
     <module name="ParameterName">
+      <property name="ignoreOverridden" value="true"/>
       <message key="name.invalidPattern" value="Parameter name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
     </module>
     <module name="StaticVariableName">
