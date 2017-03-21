@@ -96,6 +96,9 @@
     <module name="MutableException" />
     <module name="OneTopLevelClass" />
 
+    <!-- Javadoc -->
+    <module name="AtclauseOrder" />
+
     <!-- Miscellaneous -->
     <module name="ArrayTypeStyle" />
     <module name="AvoidEscapedUnicodeCharacters" />
