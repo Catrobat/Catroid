@@ -39,6 +39,9 @@
       <property name="allowSamelineSingleParameterlessAnnotation" value="false" />
       <property name="allowSamelineParameterizedAnnotation" value="false" />
     </module>
+    <module name="AnnotationUseStyle">
+      <property name="elementStyle" value="compact"/>
+    </module>
     <module name="MissingOverride" />
     <module name="SuppressWarnings" />
 
