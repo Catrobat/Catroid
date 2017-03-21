@@ -220,6 +220,7 @@
       <property name="tokens" value="COMMA, ELLIPSIS, ARRAY_DECLARATOR, RBRACK" />
       <property name="option" value="EOL" />
     </module>
+    <module name="SingleSpaceSeparator" />
     <module name="TypecastParenPad" />
     <module name="WhitespaceAfter" />
     <module name="WhitespaceAround" />
