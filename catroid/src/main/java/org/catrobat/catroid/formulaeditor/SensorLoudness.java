@@ -80,8 +80,8 @@ public final class SensorLoudness {
 			try {
 				recorder.start();
 				statusChecker.run();
-			} catch (IOException iOException) {
-				Log.d(TAG, "Could not start recorder", iOException);
+			} catch (IOException ioException) {
+				Log.d(TAG, "Could not start recorder", ioException);
 				listenerList.remove(listener);
 				recorder = new SoundRecorder("/dev/null");
 				return false;
@@ -103,9 +103,9 @@ public final class SensorLoudness {
 				if (recorder.isRecording()) {
 					try {
 						recorder.stop();
-					} catch (IOException iOException) {
+					} catch (IOException ioException) {
 						// ignored, nothing we can do
-						Log.d(TAG, "Could not stop recorder", iOException);
+						Log.d(TAG, "Could not stop recorder", ioException);
 					}
 					recorder = new SoundRecorder("/dev/null");
 				}

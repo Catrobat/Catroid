@@ -855,9 +855,9 @@ public final class Utils {
 		try {
 			GdxNativesLoader.load();
 			pixmap = new Pixmap(new FileHandle(imageFile));
-		} catch (GdxRuntimeException e) {
+		} catch (GdxRuntimeException gdxRuntimeException) {
 			return null;
-		} catch (Exception e1) {
+		} catch (Exception e) {
 			return null;
 		}
 		return pixmap;
