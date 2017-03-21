@@ -42,6 +42,7 @@
     <module name="AnnotationUseStyle">
       <property name="elementStyle" value="compact"/>
     </module>
+    <module name="MissingDeprecated" />
     <module name="MissingOverride" />
     <module name="SuppressWarnings" />
 
