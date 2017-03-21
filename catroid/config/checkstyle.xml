@@ -108,9 +108,7 @@
     <module name="UpperEll" />
 
     <!-- Modifiers -->
-    <module name="ModifierOrder">
-      <message key="mod.order" value="{0}'' modifier out of order with the JLS suggestions" />
-    </module>
+    <module name="ModifierOrder" />
     <module name="RedundantModifier" />
 
     <!-- Naming -->
