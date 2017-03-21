@@ -236,7 +236,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 
 		private boolean isTouchInDropDownView;
 
-		public SpinnerAdapterWrapper(Context context, ArrayAdapter<NfcTagData> spinnerAdapter) {
+		SpinnerAdapterWrapper(Context context, ArrayAdapter<NfcTagData> spinnerAdapter) {
 			this.context = context;
 			this.spinnerAdapter = spinnerAdapter;
 

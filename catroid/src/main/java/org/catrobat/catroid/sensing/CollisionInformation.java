@@ -124,8 +124,7 @@ public class CollisionInformation {
 					collisionPolygons = temporaryCollisionPolygons.toArray(new Polygon[temporaryCollisionPolygons
 							.size()]);
 					epsilon *= 1.2f;
-				}
-				while (getNumberOfVertices() > Constants.COLLISION_VERTEX_LIMIT);
+				} while (getNumberOfVertices() > Constants.COLLISION_VERTEX_LIMIT);
 
 				if (collisionPolygons.length == 0) {
 					Bitmap bitmap = BitmapFactory.decodeFile(path);

@@ -45,7 +45,7 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 
 		private int register;
 
-		private SensorRegister(int register) {
+		SensorRegister(int register) {
 			this.register = register;
 		}
 
@@ -59,7 +59,7 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 
 		private int command;
 
-		private UltrasonicCommand(int command) {
+		UltrasonicCommand(int command) {
 			this.command = command;
 		}
 

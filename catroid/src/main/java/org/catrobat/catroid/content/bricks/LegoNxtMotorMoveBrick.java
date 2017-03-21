@@ -51,7 +51,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	private transient Motor motorEnum;
 	private transient TextView editSpeed;
 
-	public static enum Motor {
+	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C
 	}
 

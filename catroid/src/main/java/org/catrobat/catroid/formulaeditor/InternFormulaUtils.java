@@ -358,7 +358,7 @@ public final class InternFormulaUtils {
 						currentParameterInternTokenList = new LinkedList<InternToken>();
 						break;
 					}
-
+					// fallthrough
 				default:
 					currentParameterInternTokenList.add(tempSearchToken);
 					break;

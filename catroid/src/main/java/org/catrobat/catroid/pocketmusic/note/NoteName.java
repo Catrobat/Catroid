@@ -42,7 +42,7 @@ public enum NoteName {
 	private int midi;
 	private boolean signed;
 
-	private NoteName(int midi, boolean signed) {
+	NoteName(int midi, boolean signed) {
 		this.midi = midi;
 		this.signed = signed;
 	}

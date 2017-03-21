@@ -619,7 +619,7 @@ public class Look extends Image {
 		private static final String CONTRAST_STRING_IN_SHADER = "contrast";
 		private static final String HUE_STRING_IN_SHADER = "hue";
 
-		public BrightnessContrastHueShader() {
+		BrightnessContrastHueShader() {
 			super(VERTEX_SHADER, FRAGMENT_SHADER);
 			ShaderProgram.pedantic = false;
 			if (isCompiled()) {

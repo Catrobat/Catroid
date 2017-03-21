@@ -115,7 +115,7 @@ public final class PhysicsShapeBuilder {
 		private Pixmap pixmap;
 		private float sizeAdjustmentScaleFactor = 1;
 
-		public ImageShapes(Pixmap pixmap) {
+		ImageShapes(Pixmap pixmap) {
 			if (pixmap == null) {
 				throw new RuntimeException("Pixmap must not null");
 			}

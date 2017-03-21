@@ -27,7 +27,7 @@ public enum MusicalKey {
 
 	private NoteName noteNameOnMiddleLine;
 
-	private MusicalKey(NoteName noteNameOnMiddleLine) {
+	MusicalKey(NoteName noteNameOnMiddleLine) {
 		this.noteNameOnMiddleLine = noteNameOnMiddleLine;
 	}
 

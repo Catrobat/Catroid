@@ -48,7 +48,7 @@ public class ProjectAndSceneScreenshotLoader {
 		public boolean isBackpackScene;
 		public ImageView imageView;
 
-		public ScreenshotData(String projectName, String sceneName, boolean isBackpackScene, ImageView imageView) {
+		ScreenshotData(String projectName, String sceneName, boolean isBackpackScene, ImageView imageView) {
 			this.projectName = projectName;
 			this.sceneName = sceneName;
 			this.isBackpackScene = isBackpackScene;

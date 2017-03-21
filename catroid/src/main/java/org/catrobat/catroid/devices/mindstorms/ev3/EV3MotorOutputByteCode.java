@@ -28,7 +28,7 @@ public enum EV3MotorOutputByteCode {
 
 	private int ev3MotorOutputValue;
 
-	private EV3MotorOutputByteCode(int ev3MotorOutputValue) {
+	EV3MotorOutputByteCode(int ev3MotorOutputValue) {
 		this.ev3MotorOutputValue = ev3MotorOutputValue;
 	}
 

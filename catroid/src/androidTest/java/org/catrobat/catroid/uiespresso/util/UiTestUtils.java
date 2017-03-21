@@ -188,7 +188,7 @@ public final class UiTestUtils {
 		}
 	}
 
-	public static enum FileTypes {
+	public enum FileTypes {
 		IMAGE, SOUND, ROOT, SCREENSHOT
 	}
 
