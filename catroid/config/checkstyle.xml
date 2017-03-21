@@ -185,7 +185,14 @@
       <property name="allowLineBreaks" value="true"/>
       <property name="tokens" value="COMMA, SEMI, POST_INC, POST_DEC, DOT, GENERIC_END, ELLIPSIS"/>
     </module>
-    <module name="OperatorWrap" />
+    <module name="OperatorWrap">
+      <property name="option" value="nl"/>
+      <property name="tokens" value="QUESTION, COLON, EQUAL, NOT_EQUAL, DIV, PLUS, MINUS, STAR, MOD, SR, BSR, GE, GT, SL, LE, LT, BXOR, BOR, LOR, BAND, LAND, LITERAL_INSTANCEOF, TYPE_EXTENSION_AND, METHOD_REF"/>
+    </module>
+    <module name="OperatorWrap">
+      <property name="option" value="eol"/>
+      <property name="tokens" value="ASSIGN, DIV_ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, STAR_ASSIGN, MOD_ASSIGN, SR_ASSIGN, BSR_ASSIGN, SL_ASSIGN, BXOR_ASSIGN, BOR_ASSIGN, BAND_ASSIGN"/>
+    </module>
     <module name="ParenPad" />
     <module name="SeparatorWrap">
       <property name="tokens" value="DOT, AT" />
