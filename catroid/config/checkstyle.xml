@@ -179,6 +179,9 @@
     <module name="PackageDeclaration" />
     <module name="UnusedImports" />
 
+    <!-- Size -->
+    <module name="OuterTypeNumber" />
+
     <!-- Whitespace -->
     <module name="EmptyForInitializerPad" />
     <module name="EmptyForIteratorPad">
