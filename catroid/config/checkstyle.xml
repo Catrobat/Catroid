@@ -161,6 +161,7 @@
       <message key="name.invalidPattern" value="Constant name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
     </module>
     <module name="CatchParameterName" />
+    <module name="InterfaceTypeParameterName" />
     <module name="AbbreviationAsWordInName">
       <property name="allowedAbbreviations" value="UUID" />
     </module>
