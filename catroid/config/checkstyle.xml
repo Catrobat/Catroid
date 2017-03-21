@@ -185,11 +185,11 @@
     <module name="OperatorWrap" />
     <module name="ParenPad" />
     <module name="SeparatorWrap">
-      <property name="tokens" value="DOT" />
+      <property name="tokens" value="DOT, AT" />
       <property name="option" value="nl" />
     </module>
     <module name="SeparatorWrap">
-      <property name="tokens" value="COMMA" />
+      <property name="tokens" value="COMMA, ELLIPSIS, ARRAY_DECLARATOR, RBRACK" />
       <property name="option" value="EOL" />
     </module>
     <module name="TypecastParenPad" />
