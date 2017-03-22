@@ -35,7 +35,6 @@ import org.junit.Test;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
-
 public class SetSizeToBrickTest {
 
 	private int brickPosition;
