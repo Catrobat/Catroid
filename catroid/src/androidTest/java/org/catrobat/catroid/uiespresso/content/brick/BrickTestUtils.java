@@ -107,6 +107,18 @@ public final class BrickTestUtils {
 				.check(matches(withText(Integer.toString(valueToBeEntered) + " ")));
 	}
 
+	public static void enterValueInFormulaTextFieldOnBrickAtPosition(double valueToBeEntered,
+			int editTextResourceId, int position) {
+		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
+				.perform(click());
+		onView(withId(R.id.formula_editor_edit_field))
+				.perform(CustomActions.typeInValue(Double.toString(valueToBeEntered)));
+		onView(withId(R.id.formula_editor_keyboard_ok))
+				.perform(click());
+		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
+				.check(matches(withText(Double.toString(valueToBeEntered) + " ")));
+	}
+
 	public static void enterStringInFormulaTextFieldOnBrickAtPosition(String stringToBeEntered,
 			int editTextResourceId, int position) {
 		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
