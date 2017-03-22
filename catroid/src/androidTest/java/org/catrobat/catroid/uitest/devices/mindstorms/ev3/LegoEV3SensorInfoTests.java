@@ -72,7 +72,7 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 	private void setSensors(EV3Sensor.Sensor sensor) {
 		SettingsActivity.setLegoMindstormsEV3SensorMapping(this.getInstrumentation().getTargetContext(),
-				new EV3Sensor.Sensor[] { sensor, sensor, sensor, sensor });
+				new EV3Sensor.Sensor[] {sensor, sensor, sensor, sensor});
 	}
 
 	public void testEV3SensorInfoDialog() throws InterruptedException {

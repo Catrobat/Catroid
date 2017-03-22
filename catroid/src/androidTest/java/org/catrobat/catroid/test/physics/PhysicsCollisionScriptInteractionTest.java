@@ -134,7 +134,7 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 				secondSpriteCollisionScript.getBroadcastMessage());
 
 		try {
-			Object[] values = { FIRST_SPRITE_NAME_NEW };
+			Object[] values = {FIRST_SPRITE_NAME_NEW};
 			Reflection.ParameterList paramList = new Reflection.ParameterList(values);
 			Reflection.invokeMethod(Sprite.class, firstSprite, SPRITE_RENAME_METHOD_NAME, paramList);
 
@@ -147,7 +147,7 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 					secondSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgSecondFirstNew,
 					secondSpriteCollisionScript.getBroadcastMessage());
 
-			values = new Object[] { SECOND_SPRITE_NAME_NEW };
+			values = new Object[] {SECOND_SPRITE_NAME_NEW};
 			paramList = new Reflection.ParameterList(values);
 			Reflection.invokeMethod(Sprite.class, secondSprite, SPRITE_RENAME_METHOD_NAME, paramList);
 

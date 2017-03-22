@@ -69,7 +69,7 @@ public final class UiTestUtils {
 
 	@Nullable
 	public static Activity getCurrentActivity() {
-		final Activity[] currentActivity = { null };
+		final Activity[] currentActivity = {null};
 		getInstrumentation().runOnMainSync(new Runnable() {
 			public void run() {
 				Collection<Activity> resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(RESUMED);

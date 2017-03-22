@@ -138,11 +138,11 @@ public class LookTest extends InstrumentationTestCase {
 	public void testBreakDownCatroidAngle() {
 		Look look = new Look(new SingleSprite("testsprite"));
 
-		float[] posigiveInputAngles = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f };
-		float[] posigiveHighInputAngles = { 360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f };
-		float[] posigiveHigherInputAngles = { 720.0f, 765.0f, 810.0f, 855.0f, 900.0f, 945.0f, 990.0f, 1035.0f, 1080.0f };
+		float[] posigiveInputAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
+		float[] posigiveHighInputAngles = {360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f};
+		float[] posigiveHigherInputAngles = {720.0f, 765.0f, 810.0f, 855.0f, 900.0f, 945.0f, 990.0f, 1035.0f, 1080.0f};
 
-		float[] expectedPosigiveCatroidAngles = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, -135.0f, -90.0f, -45.0f, 0.0f };
+		float[] expectedPosigiveCatroidAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, -135.0f, -90.0f, -45.0f, 0.0f};
 
 		for (int index = 0; index < posigiveInputAngles.length; index++) {
 			ParameterList params = new ParameterList(posigiveInputAngles[index]);
@@ -163,13 +163,13 @@ public class LookTest extends InstrumentationTestCase {
 					convertNegativeZeroToPosigiveZero(catroidAngle));
 		}
 
-		float[] negativeInputAngles = { -0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f };
-		float[] negativeHighInputAngles = { -360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
-				-720.0f };
-		float[] negativeHigherInputAngles = { -720.0f, -765.0f, -810.0f, -855.0f, -900.0f, -945.0f, -990.0f, -1035.0f,
-				-1080.0f };
+		float[] negativeInputAngles = {-0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f};
+		float[] negativeHighInputAngles = {-360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
+				-720.0f};
+		float[] negativeHigherInputAngles = {-720.0f, -765.0f, -810.0f, -855.0f, -900.0f, -945.0f, -990.0f, -1035.0f,
+				-1080.0f};
 
-		float[] expectedNegativeCatroidAngles = { 0.0f, -45.0f, -90.0f, -135.0f, 180.0f, 135.0f, 90.0f, 45.0f, 0.0f };
+		float[] expectedNegativeCatroidAngles = {0.0f, -45.0f, -90.0f, -135.0f, 180.0f, 135.0f, 90.0f, 45.0f, 0.0f};
 
 		for (int index = 0; index < negativeInputAngles.length; index++) {
 			ParameterList params = new ParameterList(negativeInputAngles[index]);
@@ -194,10 +194,10 @@ public class LookTest extends InstrumentationTestCase {
 	}
 
 	public void testCatroidAngleToStageAngle() {
-		float[] posigiveCatroidAngles = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f };
-		float[] posigiveHighCatroidAngles = { 360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f };
+		float[] posigiveCatroidAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
+		float[] posigiveHighCatroidAngles = {360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f};
 		//float[] expectedPosigiveStageAngles = { 90.0f, 45.0f, 0.0f, 315.0f, 270.0f, 225.0f, 180.0f, 135.0f, 90.0f };
-		float[] expectedPosigiveStageAngles = { 90.0f, 45.0f, 0.0f, -45.0f, -90.0f, 225.0f, 180.0f, 135.0f, 90.0f };
+		float[] expectedPosigiveStageAngles = {90.0f, 45.0f, 0.0f, -45.0f, -90.0f, 225.0f, 180.0f, 135.0f, 90.0f};
 
 		for (int index = 0; index < posigiveCatroidAngles.length; index++) {
 			ParameterList params = new ParameterList(posigiveCatroidAngles[index]);
@@ -213,11 +213,11 @@ public class LookTest extends InstrumentationTestCase {
 					expectedPosigiveStageAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
 		}
 
-		float[] negativeCatroidAngles = { -0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f };
-		float[] negativeHighCatroidAngles = { -360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
-				-720.0f };
+		float[] negativeCatroidAngles = {-0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f};
+		float[] negativeHighCatroidAngles = {-360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
+				-720.0f};
 		//float[] expectedNegativeStageAngles = { 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 0.0f, 45.0f, 90.0f };
-		float[] expectedNegativeStageAngles = { 90.0f, 135.0f, 180.0f, 225.0f, -90.0f, -45.0f, 0.0f, 45.0f, 90.0f };
+		float[] expectedNegativeStageAngles = {90.0f, 135.0f, 180.0f, 225.0f, -90.0f, -45.0f, 0.0f, 45.0f, 90.0f};
 
 		for (int index = 0; index < negativeCatroidAngles.length; index++) {
 			ParameterList params = new ParameterList(negativeCatroidAngles[index]);
@@ -235,10 +235,10 @@ public class LookTest extends InstrumentationTestCase {
 	}
 
 	public void testStageAngleToCatroidAngle() {
-		float[] posigiveStageAngles = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f };
-		float[] posigiveHighCatroiStagedAngles = { 360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f,
-				720.0f };
-		float[] expectedPosigiveCatroidAngles = { 90.0f, 45.0f, 0.0f, -45.0f, -90.0f, -135.0f, 180.0f, 135.0f, 90.0f };
+		float[] posigiveStageAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
+		float[] posigiveHighCatroiStagedAngles = {360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f,
+				720.0f};
+		float[] expectedPosigiveCatroidAngles = {90.0f, 45.0f, 0.0f, -45.0f, -90.0f, -135.0f, 180.0f, 135.0f, 90.0f};
 
 		for (int index = 0; index < posigiveStageAngles.length; index++) {
 			ParameterList params = new ParameterList(posigiveStageAngles[index]);
@@ -254,10 +254,10 @@ public class LookTest extends InstrumentationTestCase {
 					expectedPosigiveCatroidAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
 		}
 
-		float[] negativeStageAngles = { -0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f };
-		float[] negativeHighStageAngles = { -360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
-				-720.0f };
-		float[] expectedNegativeCatroidAngles = { 90.0f, 135.0f, 180.0f, -135.0f, -90.0f, -45.0f, 0.0f, 45.0f, 90.0f };
+		float[] negativeStageAngles = {-0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f};
+		float[] negativeHighStageAngles = {-360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
+				-720.0f};
+		float[] expectedNegativeCatroidAngles = {90.0f, 135.0f, 180.0f, -135.0f, -90.0f, -45.0f, 0.0f, 45.0f, 90.0f};
 
 		for (int index = 0; index < negativeStageAngles.length; index++) {
 			ParameterList params = new ParameterList(negativeStageAngles[index]);
@@ -275,9 +275,9 @@ public class LookTest extends InstrumentationTestCase {
 	}
 
 	public void testDirection() {
-		float[] degreesInUserInterfaceDimensionUnit = { 90f, 60f, 30f, 0f, -30f, -60f, -90f, -120f, -150f, 180f, 150f,
-				120f };
-		float[] degrees = { 0f, 30f, 60f, 90f, 120f, 150f, 180f, 210f, 240f, -90f, -60f, -30f };
+		float[] degreesInUserInterfaceDimensionUnit = {90f, 60f, 30f, 0f, -30f, -60f, -90f, -120f, -150f, 180f, 150f,
+				120f};
+		float[] degrees = {0f, 30f, 60f, 90f, 120f, 150f, 180f, 210f, 240f, -90f, -60f, -30f};
 
 		assertEquals("Wrong Array length", degrees.length, degreesInUserInterfaceDimensionUnit.length);
 		for (int index = 0; index < degrees.length; index++) {

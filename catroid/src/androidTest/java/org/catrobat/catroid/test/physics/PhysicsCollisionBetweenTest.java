@@ -59,7 +59,7 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 					(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
 							physicsCollisionTestListener, "physicsCollisionBroadcasts");
 			assertTrue("Map must contain one element", physicsCollisionBroadcasts.size() == 2);
-			Object[] parameters = { sprite, sprite2 };
+			Object[] parameters = {sprite, sprite2};
 			Reflection.ParameterList paramList = new Reflection.ParameterList(parameters);
 			String key = (String) Reflection.invokeMethod(PhysicsCollision.class, physicsCollisionTestListener,
 					"generateKey", paramList);

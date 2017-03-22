@@ -440,7 +440,7 @@ public class CollisionInformation {
 	public static Polygon[] createCollisionPolygonByHitbox(Bitmap bitmap) {
 		float width = bitmap.getWidth();
 		float height = bitmap.getHeight();
-		float[] vertices = { 0f, 0f, width, 0f, width, height, 0f, height };
+		float[] vertices = {0f, 0f, width, 0f, width, height, 0f, height};
 		Polygon polygon = new Polygon(vertices);
 		Polygon[] polygons = new Polygon[1];
 		polygons[0] = polygon;

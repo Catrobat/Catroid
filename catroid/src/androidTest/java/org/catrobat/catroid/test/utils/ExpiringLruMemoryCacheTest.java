@@ -60,7 +60,7 @@ public final class ExpiringLruMemoryCacheTest extends InstrumentationTestCase {
 		int maxNumOfEntries = 2;      // number of entries
 
 		// this bypasses the getInstance() singleton method
-		Class[] constructorArgs = new Class[] { Long.TYPE, LruCache.class, ExpiringLruMemoryCache.ClockInterface.class };
+		Class[] constructorArgs = new Class[] {Long.TYPE, LruCache.class, ExpiringLruMemoryCache.ClockInterface.class};
 		Constructor<ExpiringLruMemoryObjectCache> textCacheConstructor = ExpiringLruMemoryObjectCache.class.getDeclaredConstructor(constructorArgs);
 		textCacheConstructor.setAccessible(true);
 

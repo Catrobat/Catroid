@@ -2522,7 +2522,7 @@ public final class UiTestUtils {
 		}
 		intent.putExtra(NfcAdapter.EXTRA_ID, tagId);
 		if (ndefMessage != null) {
-			intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, new NdefMessage[] { ndefMessage });
+			intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, new NdefMessage[] {ndefMessage});
 			if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intentAction)) {
 				Uri uri = ndefMessage.getRecords()[0].toUri();
 				String mime = ndefMessage.getRecords()[0].toMimeType();
