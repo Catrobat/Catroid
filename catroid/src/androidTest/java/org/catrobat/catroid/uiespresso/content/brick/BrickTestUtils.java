@@ -95,16 +95,26 @@ public final class BrickTestUtils {
 		return script;
 	}
 
-	public static void enterValueInFormulaTextFieldOnBrickAtPosition(int valueToBeEntered,
+	public static <V extends Number> void enterValueInFormulaTextFieldOnBrickAtPosition(V valueToBeEntered,
 			int editTextResourceId, int position) {
+		String valueToSet = "";
+
+		if (valueToBeEntered instanceof Float) {
+			valueToSet = Float.toString(valueToBeEntered.floatValue());
+		} else if (valueToBeEntered instanceof Double) {
+			valueToSet = Double.toString(valueToBeEntered.doubleValue());
+		} else if (valueToBeEntered instanceof Integer) {
+			valueToSet = Integer.toString(valueToBeEntered.intValue());
+		}
+
 		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
 				.perform(click());
 		onView(withId(R.id.formula_editor_edit_field))
-				.perform(CustomActions.typeInValue(Integer.toString(valueToBeEntered)));
+				.perform(CustomActions.typeInValue(valueToSet));
 		onView(withId(R.id.formula_editor_keyboard_ok))
 				.perform(click());
 		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
-				.check(matches(withText(Integer.toString(valueToBeEntered) + " ")));
+				.check(matches(withText(valueToSet + " ")));
 	}
 
 	public static void enterStringInFormulaTextFieldOnBrickAtPosition(String stringToBeEntered,
