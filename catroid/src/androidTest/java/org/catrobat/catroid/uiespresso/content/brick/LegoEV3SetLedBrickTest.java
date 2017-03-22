@@ -35,7 +35,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickAndSelectFromSpinnerOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoEV3SetLedBrickTest {
@@ -57,7 +57,7 @@ public class LegoEV3SetLedBrickTest {
 	public void testLegoEV3SetLedBrick() {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.ev3_set_led_status);
-		clickAndSelectFromSpinnerOnBrickAtPosition(R.id.brick_ev3_set_led_spinner, brickPosition,
+		clickSelectCheckSpinnerValueOnBrick(R.id.brick_ev3_set_led_spinner, brickPosition,
 				R.string.ev3_led_status_orange);
 	}
 }

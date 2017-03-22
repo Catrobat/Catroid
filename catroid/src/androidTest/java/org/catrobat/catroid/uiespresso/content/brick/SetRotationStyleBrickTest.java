@@ -36,7 +36,7 @@ import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickAndSelectFromSpinnerOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
 
 @RunWith(AndroidJUnit4.class)
 public class SetRotationStyleBrickTest {
@@ -60,14 +60,10 @@ public class SetRotationStyleBrickTest {
 
 		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_set_rotation_style_spinner, brickPosition, R.string.brick_set_rotation_style_lr);
 
-		clickAndSelectFromSpinnerOnBrickAtPosition(R.id.brick_set_rotation_style_spinner, brickPosition, R.string
-				.brick_set_rotation_style_normal);
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_set_rotation_style_spinner, brickPosition, R.string
+		clickSelectCheckSpinnerValueOnBrick(R.id.brick_set_rotation_style_spinner, brickPosition, R.string
 				.brick_set_rotation_style_normal);
 
-		clickAndSelectFromSpinnerOnBrickAtPosition(R.id.brick_set_rotation_style_spinner, brickPosition, R.string
-				.brick_set_rotation_style_no);
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_set_rotation_style_spinner, brickPosition, R.string
+		clickSelectCheckSpinnerValueOnBrick(R.id.brick_set_rotation_style_spinner, brickPosition, R.string
 				.brick_set_rotation_style_no);
 	}
 }

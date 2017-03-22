@@ -36,7 +36,7 @@ import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickAndSelectFromSpinnerOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
@@ -67,17 +67,12 @@ public class LegoNxtMotorTurnAngleBrickTest {
 
 		checkIfSpinnerOnBrickAtPositionShowsString(R.id.lego_motor_turn_angle_spinner, brickPosition, R.string.nxt_motor_a);
 
-		clickAndSelectFromSpinnerOnBrickAtPosition(R.id.lego_motor_turn_angle_spinner, brickPosition, R.string
-				.nxt_motor_b);
-
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.lego_motor_turn_angle_spinner, brickPosition, R.string
-				.nxt_motor_b);
+		clickSelectCheckSpinnerValueOnBrick(R.id.lego_motor_turn_angle_spinner, brickPosition,
+				R.string.nxt_motor_b);
 
 		enterValueInFormulaTextFieldOnBrickAtPosition(turnAngleValue, R.id.motor_turn_angle_edit_text, brickPosition);
 
-		clickAndSelectFromSpinnerOnBrickAtPosition(R.id.lego_motor_turn_angle_spinner, brickPosition, R.string
-				.nxt_motor_c);
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.lego_motor_turn_angle_spinner, brickPosition, R.string
+		clickSelectCheckSpinnerValueOnBrick(R.id.lego_motor_turn_angle_spinner, brickPosition, R.string
 				.nxt_motor_c);
 
 		enterValueInFormulaTextFieldOnBrickAtPosition(turnAngleValue, R.id.motor_turn_angle_edit_text, brickPosition);

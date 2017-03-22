@@ -26,7 +26,7 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -35,12 +35,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterStringInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class LegoNXTMotorMoveBrickTest {
-	private int brickPosition;
+public class LegoEv3PlayToneBrickTest {
+	private static int brickPosition = 1;
+
+	public static int startFrequency = 1;
+	public static float startDuration = 1;
+	public static int startVolume = 100;
+	public static int testFrequency = 2;
+	public static float testDuration = 2;
+	public static int testVolume = 50;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -48,25 +54,23 @@ public class LegoNXTMotorMoveBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		brickPosition = 1;
-		int startVelocity = 10;
-		BrickTestUtils.createProjectAndGetStartScript("legoNXTMotorMoveBrickTest")
-				.addBrick(new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, startVelocity));
+		BrickTestUtils.createProjectAndGetStartScript("LegoEv3PlayToneBrickTest")
+				.addBrick(new LegoEv3PlayToneBrick(startFrequency, startDuration, startVolume));
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void testLegoNXTMoveMotorBrick() {
-		int velocityToChange = 20;
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.nxt_brick_motor_move);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_motor_action_spinner, brickPosition,
-				R.string.nxt_motor_b_and_c);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_motor_action_spinner, brickPosition,
-				R.string.nxt_motor_b);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_motor_action_spinner, brickPosition,
-				R.string.nxt_motor_c);
-		enterValueInFormulaTextFieldOnBrickAtPosition(velocityToChange, R.id.motor_action_speed_edit_text,
-				brickPosition);
+	public void legoEv3PlayToneBrickTest() {
+		checkIfBrickAtPositionShowsString(0, "When program starts");
+		checkIfBrickAtPositionShowsString(brickPosition, "Play EV3 tone");
+
+		enterStringInFormulaTextFieldOnBrickAtPosition(Float.toString(testDuration),
+				R.id.brick_ev3_tone_duration_edit_text, brickPosition);
+
+		enterStringInFormulaTextFieldOnBrickAtPosition(Integer.toString(testFrequency),
+				R.id.brick_ev3_tone_freq_edit_text, brickPosition);
+
+		enterStringInFormulaTextFieldOnBrickAtPosition(Integer.toString(testVolume), 
+				R.id.brick_ev3_tone_volume_edit_text, brickPosition);
 	}
 }

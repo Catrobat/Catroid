@@ -26,7 +26,7 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -35,12 +35,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils
+		.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterStringInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class LegoNXTMotorMoveBrickTest {
-	private int brickPosition;
+public class LegoEv3MotorTurnAngleBrickTest {
+
+	private static int brickPosition = 1;
+	private static int startAngle = 180;
+	private static String testAngle = "100";
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -48,25 +52,27 @@ public class LegoNXTMotorMoveBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		brickPosition = 1;
-		int startVelocity = 10;
-		BrickTestUtils.createProjectAndGetStartScript("legoNXTMotorMoveBrickTest")
-				.addBrick(new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, startVelocity));
+		BrickTestUtils.createProjectAndGetStartScript("LegoEv3MotorTurnAngleBrickTest").addBrick(new
+				LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A, startAngle));
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void testLegoNXTMoveMotorBrick() {
-		int velocityToChange = 20;
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.nxt_brick_motor_move);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_motor_action_spinner, brickPosition,
-				R.string.nxt_motor_b_and_c);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_motor_action_spinner, brickPosition,
-				R.string.nxt_motor_b);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_motor_action_spinner, brickPosition,
-				R.string.nxt_motor_c);
-		enterValueInFormulaTextFieldOnBrickAtPosition(velocityToChange, R.id.motor_action_speed_edit_text,
-				brickPosition);
+	public void legoEv3MotorTurnAngleBrickTest() {
+		checkIfBrickAtPositionShowsString(0, "When program starts");
+		checkIfBrickAtPositionShowsString(brickPosition, "Turn EV3 motor");
+
+		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition,
+				R.string.ev3_motor_a);
+		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition,
+				R.string.ev3_motor_b);
+		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition,
+				R.string.ev3_motor_c);
+		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition,
+				R.string.ev3_motor_d);
+		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition,
+				R.string.ev3_motor_b_and_c);
+
+		enterStringInFormulaTextFieldOnBrickAtPosition(testAngle, R.id.ev3_motor_turn_angle_edit_text, brickPosition);
 	}
 }
