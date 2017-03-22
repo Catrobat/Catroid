@@ -182,6 +182,12 @@
     <module name="EmptyForIteratorPad">
       <property name="option" value="space" />
     </module>
+    <module name="EmptyLineSeparator">
+      <property name="tokens" value="IMPORT, CLASS_DEF, INTERFACE_DEF"/>
+      <property name="allowNoEmptyLineBetweenFields" value="true"/>
+      <property name="allowMultipleEmptyLines" value="false"/>
+      <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
+    </module>
     <module name="GenericWhitespace" />
     <module name="MethodParamPad" />
     <module name="NoLineWrap" />
