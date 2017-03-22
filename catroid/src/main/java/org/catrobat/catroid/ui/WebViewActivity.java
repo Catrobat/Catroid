@@ -43,7 +43,6 @@ import android.view.KeyEvent;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -65,6 +64,7 @@ public class WebViewActivity extends BaseActivity {
 	public static final String MEDIA_FILE_PATH = "media_file_path";
 	public static final String CALLING_ACTIVITY = "calling_activity";
 	private static final String FILENAME_TAG = "fname=";
+	private ProgressDialog webViewLoadingDialog;
 
 	private WebView webView;
 	private boolean callMainMenu = false;
@@ -90,30 +90,6 @@ public class WebViewActivity extends BaseActivity {
 
 		webView = (WebView) findViewById(R.id.webView);
 		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.application_background_color, null));
-
-		webView.setWebChromeClient(new WebChromeClient() {
-			private ProgressDialog progressCircle;
-
-			@Override
-			public void onProgressChanged(WebView view, int progress) {
-				if (progressCircle == null) {
-					progressCircle = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
-					progressCircle.setCancelable(true);
-					progressCircle.setCanceledOnTouchOutside(false);
-					progressCircle.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
-					try {
-						progressCircle.show();
-					} catch (Exception e) {
-						Log.e(TAG, "Exception while showing progress circle", e);
-					}
-				}
-
-				if (progress == 100) {
-					progressCircle.dismiss();
-					progressCircle = null;
-				}
-			}
-		});
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
@@ -194,6 +170,14 @@ public class WebViewActivity extends BaseActivity {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
+			if (webViewLoadingDialog == null) {
+				webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
+				webViewLoadingDialog.setCancelable(true);
+				webViewLoadingDialog.setCanceledOnTouchOutside(false);
+				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+				webViewLoadingDialog.show();
+			}
+
 			if (callMainMenu && urlClient.equals(Constants.BASE_URL_HTTPS)) {
 				Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
 				startActivity(intent);
@@ -203,6 +187,10 @@ public class WebViewActivity extends BaseActivity {
 		@Override
 		public void onPageFinished(WebView view, String url) {
 			callMainMenu = true;
+			if (webViewLoadingDialog != null) {
+				webViewLoadingDialog.dismiss();
+				webViewLoadingDialog = null;
+			}
 		}
 
 		@Override
