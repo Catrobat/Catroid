@@ -103,8 +103,8 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 
 	public void testCollisionBroadcastMessageGeneration() {
 		Assert.assertEquals(String.format("The generated collision broadcast message is incorrect (%s != %s)",
-						COLLISION_BROADCAST_MESSAGE,
-						PhysicsCollision.generateBroadcastMessage(FIRST_SPRITE_NAME, SECOND_SPRITE_NAME)),
+				COLLISION_BROADCAST_MESSAGE,
+				PhysicsCollision.generateBroadcastMessage(FIRST_SPRITE_NAME, SECOND_SPRITE_NAME)),
 				COLLISION_BROADCAST_MESSAGE,
 				PhysicsCollision.generateBroadcastMessage(FIRST_SPRITE_NAME, SECOND_SPRITE_NAME));
 	}
@@ -125,12 +125,12 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 				FIRST_SPRITE_NAME_NEW);
 
 		Assert.assertEquals(String.format("collision broadcast message of first collision script is wrong before "
-								+ "renaming (%s != %s)", colBroadcastMsgFirstSecond,
-						firstSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgFirstSecond,
+						+ "renaming (%s != %s)", colBroadcastMsgFirstSecond,
+				firstSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgFirstSecond,
 				firstSpriteCollisionScript.getBroadcastMessage());
 		Assert.assertEquals(String.format("collision broadcast message of second collision script is wrong before "
-								+ "renaming (%s != %s)", colBroadcastMsgSecondFirst,
-						secondSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgSecondFirst,
+						+ "renaming (%s != %s)", colBroadcastMsgSecondFirst,
+				secondSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgSecondFirst,
 				secondSpriteCollisionScript.getBroadcastMessage());
 
 		try {
@@ -139,12 +139,12 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 			Reflection.invokeMethod(Sprite.class, firstSprite, SPRITE_RENAME_METHOD_NAME, paramList);
 
 			Assert.assertEquals(String.format("collision broadcast message of first collision script is wrong after "
-									+ "renaming first sprite (%s != %s)", colBroadcastMsgFirstNewSecond,
-							firstSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgFirstNewSecond,
+							+ "renaming first sprite (%s != %s)", colBroadcastMsgFirstNewSecond,
+					firstSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgFirstNewSecond,
 					firstSpriteCollisionScript.getBroadcastMessage());
 			Assert.assertEquals(String.format("collision broadcast message of second collision script is wrong after"
-									+ "renaming first sprite (%s != %s)", colBroadcastMsgSecondFirstNew,
-							secondSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgSecondFirstNew,
+							+ "renaming first sprite (%s != %s)", colBroadcastMsgSecondFirstNew,
+					secondSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgSecondFirstNew,
 					secondSpriteCollisionScript.getBroadcastMessage());
 
 			values = new Object[] { SECOND_SPRITE_NAME_NEW };
@@ -152,12 +152,12 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 			Reflection.invokeMethod(Sprite.class, secondSprite, SPRITE_RENAME_METHOD_NAME, paramList);
 
 			Assert.assertEquals(String.format("collision broadcast message of first collision script is wrong after "
-									+ "renaming second sprite (%s != %s)", colBroadcastMsgFirstNewSecondNew,
-							firstSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgFirstNewSecondNew,
+							+ "renaming second sprite (%s != %s)", colBroadcastMsgFirstNewSecondNew,
+					firstSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgFirstNewSecondNew,
 					firstSpriteCollisionScript.getBroadcastMessage());
 			Assert.assertEquals(String.format("collision broadcast message of second collision script is wrong after "
-									+ "renaming second sprite (%s != %s)", colBroadcastMsgSecondNewFirstNew,
-							secondSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgSecondNewFirstNew,
+							+ "renaming second sprite (%s != %s)", colBroadcastMsgSecondNewFirstNew,
+					secondSpriteCollisionScript.getBroadcastMessage()), colBroadcastMsgSecondNewFirstNew,
 					secondSpriteCollisionScript.getBroadcastMessage());
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage(), e);

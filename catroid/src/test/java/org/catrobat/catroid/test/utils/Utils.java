@@ -39,10 +39,10 @@ public final class Utils {
 	public static final String SRC_TEST = "src/test/java";
 	public static final String BLUETOOTH = "catroidBluetoothTestServer/src";
 
-	public static final String[] TEST_FILE_DIRECTORIES = {ANDROID_TEST_SRC, SRC_TEST};
-	public static final String[] TOAST_STACK_TRACE_TEST_DIRECTORIES = {SRC, SRC_TEST, BLUETOOTH};
-	public static final String[] VERSION_NAME_AND_CODE_TEST_DIRECTORIES = {ANDROID_TEST};
-	public static final String[] SLEEP_TEST_DIRECTORIES = { };
+	public static final String[] TEST_FILE_DIRECTORIES = { ANDROID_TEST_SRC, SRC_TEST };
+	public static final String[] TOAST_STACK_TRACE_TEST_DIRECTORIES = { SRC, SRC_TEST, BLUETOOTH };
+	public static final String[] VERSION_NAME_AND_CODE_TEST_DIRECTORIES = { ANDROID_TEST };
+	public static final String[] SLEEP_TEST_DIRECTORIES = {};
 
 	private Utils() {
 		throw new AssertionError();

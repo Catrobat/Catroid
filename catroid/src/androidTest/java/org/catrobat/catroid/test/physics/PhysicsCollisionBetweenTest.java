@@ -78,7 +78,7 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 			super.endContactCallback(contact);
 			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
 					(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
-					physicsCollisionTestListener, "physicsCollisionBroadcasts");
+							physicsCollisionTestListener, "physicsCollisionBroadcasts");
 			if (getContactDifference() == 0) {
 				assertTrue("Map must contain zero elements", physicsCollisionBroadcasts.size() == 0);
 			} else {

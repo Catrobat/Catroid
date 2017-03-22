@@ -191,7 +191,8 @@ public class ArduinoImpl implements Arduino {
 	}
 
 	@Override
-	public void pause() { }
+	public void pause() {
+	}
 
 	@Override
 	public void destroy() {

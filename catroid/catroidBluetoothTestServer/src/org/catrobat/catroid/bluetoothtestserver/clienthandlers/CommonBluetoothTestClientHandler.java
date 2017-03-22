@@ -54,7 +54,7 @@ public class CommonBluetoothTestClientHandler extends BTClientHandler {
 		byte[] testResult = payload;
 
 		BTServer.writeMessage("<-- Sending reply message \n");
-		outStream.write(new byte[] {(byte) (0xFF & testResult.length)});
+		outStream.write(new byte[] { (byte) (0xFF & testResult.length) });
 		outStream.write(testResult);
 		outStream.flush();
 	}

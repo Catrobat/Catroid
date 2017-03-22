@@ -381,8 +381,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				R.string.copy_sprite_name_suffix)), SECOND_TEST_SPRITE_NAME);
 
 		assertEquals(String.format("collision broadcast message of copied collision script is wrong before renaming "
-								+ "second sprite (%s != %s)", expectedMessage,
-						copiedCollisionScript.getBroadcastMessage()), expectedMessage,
+						+ "second sprite (%s != %s)", expectedMessage,
+				copiedCollisionScript.getBroadcastMessage()), expectedMessage,
 				copiedCollisionScript.getBroadcastMessage());
 	}
 

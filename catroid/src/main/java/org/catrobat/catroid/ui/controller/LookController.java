@@ -485,7 +485,8 @@ public final class LookController {
 									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
 							activity.startActivity(downloadPocketPaintIntent);
 						}
-					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					})
+					.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
