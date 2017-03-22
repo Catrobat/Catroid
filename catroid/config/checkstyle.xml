@@ -181,7 +181,10 @@
     <module name="NoWhitespaceAfter">
       <property name="tokens" value="BNOT, DEC, DOT, INC, LNOT, UNARY_MINUS, UNARY_PLUS, ARRAY_DECLARATOR" />
     </module>
-    <module name="NoWhitespaceBefore" />
+    <module name="NoWhitespaceBefore">
+      <property name="allowLineBreaks" value="true"/>
+      <property name="tokens" value="COMMA, SEMI, POST_INC, POST_DEC, DOT, GENERIC_END, ELLIPSIS"/>
+    </module>
     <module name="OperatorWrap" />
     <module name="ParenPad" />
     <module name="SeparatorWrap">
