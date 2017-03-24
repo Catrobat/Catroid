@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.pocketmusic.note.midi;
 
-import com.leff.midi.event.ChannelEvent;
-import com.leff.midi.event.NoteOff;
-import com.leff.midi.event.NoteOn;
+import com.pdrogfer.mididroid.event.ChannelEvent;
+import com.pdrogfer.mididroid.event.NoteOff;
+import com.pdrogfer.mididroid.event.NoteOn;
 
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;
 

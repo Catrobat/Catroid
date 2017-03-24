@@ -35,7 +35,7 @@ public class MusicalInstrumentTest extends AndroidTestCase {
 	}
 
 	public void testGetInstrumentFromProgram2() {
-		int invalidProgram = 128;
+		int invalidProgram = 0;
 
 		assertGetInstrumentFromProgram(invalidProgram, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 	}
