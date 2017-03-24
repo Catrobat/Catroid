@@ -31,10 +31,6 @@ import com.badlogic.gdx.utils.Array;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.stage.StageActivity;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class StopAllScriptsAction extends TemporalAction {
 
 	@Override
