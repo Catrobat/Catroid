@@ -27,6 +27,7 @@ task gitSkipWorktreeForIntellijConfigFiles << {
         'git update-index --skip-worktree .idea/encodings.xml'.execute().text.trim()
         'git update-index --skip-worktree .idea/vcs.xml'.execute().text.trim()
         'git update-index --skip-worktree Catroid.iml'.execute().text.trim()
+        'git update-index --skip-worktree catroid/catroid.iml'.execute().text.trim()
         'git update-index --skip-worktree catroid/src/test/catroidSourceTest.iml'.execute().text.trim()
         'git update-index --skip-worktree .idea/codeStyleSettings.xml'.execute().text.trim()
     } catch (IOException exception) {
