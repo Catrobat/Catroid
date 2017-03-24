@@ -31,6 +31,10 @@ import com.badlogic.gdx.utils.Array;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.stage.StageActivity;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class StopAllScriptsAction extends TemporalAction {
 
 	@Override
@@ -40,8 +44,10 @@ public class StopAllScriptsAction extends TemporalAction {
 			for (Action action : actor.getActions()) {
 				action.reset();
 			}
+			actor.getActions().clear();
 			if (actor instanceof Look) {
-				((Look)actor).setWhenParallelAction(null);
+				Look look = (Look) actor;
+				look.handleStopAllScripts();
 			}
 		}
 	}
