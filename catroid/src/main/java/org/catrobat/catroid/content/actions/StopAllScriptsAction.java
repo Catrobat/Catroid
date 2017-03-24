@@ -44,7 +44,6 @@ public class StopAllScriptsAction extends TemporalAction {
 			for (Action action : actor.getActions()) {
 				action.reset();
 			}
-			actor.getActions().clear();
 			if (actor instanceof Look) {
 				Look look = (Look) actor;
 				look.handleStopAllScripts();
