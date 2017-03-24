@@ -46,13 +46,14 @@
             android:layout_weight=".22" />
         <FrameLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight=".78"
             android:background="@color/solid_black">
-            <org.catrobat.catroid.pocketmusic.ui.TrackView
-                android:id="@+id/musicdroid_note_grid"
+            <org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView
+                android:id="@+id/tact_scroller"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:scrollbars="horizontal"/>
             <View
                 android:id="@+id/pocketmusic_play_line"
                 android:layout_width="2dp"

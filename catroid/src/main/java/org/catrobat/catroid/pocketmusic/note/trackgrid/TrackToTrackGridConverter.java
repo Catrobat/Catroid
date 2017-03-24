@@ -65,7 +65,7 @@ public final class TrackToTrackGridConverter {
 					int endBeatIndex = ((columnStartIndex + (int) ((tick - openTick)
 							/ minNoteLength.toTicks(beatsPerMinute))) - 1) / beat.getTopNumber();
 
-					GridRowPosition gridRowPosition = new GridRowPosition(columnStartIndex, length);
+					GridRowPosition gridRowPosition = new GridRowPosition(columnStartIndex % beat.getTopNumber(), length);
 
 					for (int i = startBeatIndex; i <= endBeatIndex; i++) {
 						if (null == gridRows.get(noteName).getGridRowPositions().get(i)) {
