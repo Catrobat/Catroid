@@ -41,6 +41,7 @@ import java.util.List;
 public class TrackRowView extends TableRow {
 
 	public static final int QUARTER_COUNT = 4;
+
 	private int tactPosition = 0;
 	private final MusicalBeat beat;
 	private List<NoteView> noteViews = new ArrayList<>(QUARTER_COUNT);
@@ -71,8 +72,22 @@ public class TrackRowView extends TableRow {
 	}
 
 	private void refreshNoteViews() {
+		final int whiteKeyColor;
+		final int blackKeyColor;
+		if (tactPosition % 2 == 0) {
+			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_even_bright);
+			blackKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_odd_bright);
+		} else {
+			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_even_dusk);
+			blackKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_odd_dusk);
+		}
 		for (NoteView noteView : noteViews) {
 			noteView.setNoteActive(false, false);
+			if (isBlackRow) {
+				noteView.setBackgroundColor(blackKeyColor);
+			} else {
+				noteView.setBackgroundColor(whiteKeyColor);
+			}
 		}
 		updateGridRow();
 	}
@@ -105,14 +120,9 @@ public class TrackRowView extends TableRow {
 		LayoutParams params = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
 		params.leftMargin = params.topMargin = params.rightMargin = params.bottomMargin = getResources()
 				.getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
-		int noteColor;
-		if (isBlackRow) {
-			noteColor = ContextCompat.getColor(getContext(), R.color.light_grey);
-		} else {
-			noteColor = ContextCompat.getColor(getContext(), R.color.white);
-		}
+
 		for (int i = 0; i < QUARTER_COUNT; i++) {
-			noteViews.add(new NoteView(getContext(), noteColor, this, i));
+			noteViews.add(new NoteView(getContext(), this, i));
 			addView(noteViews.get(i), params);
 		}
 	}
