@@ -50,7 +50,7 @@ public class GridRowPosition {
 	}
 
 	public long getStartTicksInTrack() {
-		return columnStartIndex * NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+		return columnStartIndex * noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 	}
 
 	@Override
