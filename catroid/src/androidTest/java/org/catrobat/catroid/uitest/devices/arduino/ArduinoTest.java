@@ -142,12 +142,12 @@ public class ArduinoTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 			switch (item[0]) {
 				case PIN_HIGH:
-					m = firmataUtils.getAnalogMesageData();
+					m = firmataUtils.getAnalogMessageData();
 					assertEquals("Wrong pin", item[1], m.getPin());
 					assertEquals("Wrong speed", percentToSpeed(item[2]), m.getData());
 					break;
 				case PIN_LOW:
-					m = firmataUtils.getAnalogMesageData();
+					m = firmataUtils.getAnalogMessageData();
 					assertEquals("Wrong pin", item[1], m.getPin());
 					assertEquals("Wrong speed", percentToSpeed(item[2]), m.getData());
 					break;

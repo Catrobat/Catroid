@@ -30,12 +30,22 @@ import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import java.nio.ByteBuffer;
 
 import name.antonsmirnov.firmata.BytesHelper;
+import name.antonsmirnov.firmata.writer.AnalogMessageWriter;
+import name.antonsmirnov.firmata.writer.DigitalMessageWriter;
+import name.antonsmirnov.firmata.writer.ReportAnalogPinMessageWriter;
+import name.antonsmirnov.firmata.writer.ReportDigitalPortMessageWriter;
+import name.antonsmirnov.firmata.writer.SetPinModeMessageWriter;
 
 public final class FirmataUtils {
 
-	private static final int SET_PIN_MODE_COMMAND = 0xF4;
-	private static final int REPORT_ANALOG_PIN_COMMAND = 0xC0;
-	private static final int ANALOG_MESSAGE_COMMAND = 0xE0;
+	private static final int DIGITAL_MESSAGE_COMMAND = DigitalMessageWriter.COMMAND; // 0x90
+	private static final int ANALOG_MESSAGE_COMMAND = AnalogMessageWriter.COMMAND; // 0xE0
+	private static final int REPORT_DIGITAL_PORT_COMMAND = ReportDigitalPortMessageWriter.COMMAND; // 0xD0
+	private static final int REPORT_ANALOG_PIN_COMMAND = ReportAnalogPinMessageWriter.COMMAND; // 0xC0
+	private static final int SET_PIN_MODE_COMMAND = SetPinModeMessageWriter.COMMAND; // 0xF4
+
+	private static final int BITMASK_COMMAND = 0xF0;
+	private static final int BITMASK_PIN = 0x0F;
 
 	private final ConnectionDataLogger logger;
 
@@ -44,7 +54,24 @@ public final class FirmataUtils {
 		this.logger = logger;
 	}
 
-	public FirmataMessage getAnalogMesageData() {
+	public FirmataMessage getDigitalMessageData() {
+
+		int portAndCommand = getNextMessage();
+
+		int port = getPinFromHeader(portAndCommand);
+		int command = getCommandFromHeader(portAndCommand);
+
+		Assert.assertEquals("This is no digital message command", DIGITAL_MESSAGE_COMMAND, command);
+
+		int lsb = getNextMessage();
+		int msb = getNextMessage();
+
+		int data = BytesHelper.DECODE_BYTE(lsb, msb);
+
+		return new FirmataMessage(command, port, data);
+	}
+
+	public FirmataMessage getAnalogMessageData() {
 
 		int pinAndCommand = getNextMessage();
 
@@ -71,6 +98,20 @@ public final class FirmataUtils {
 		return new FirmataMessage(command, pin, mode);
 	}
 
+	public FirmataMessage getReportDigitalPortMessage() {
+
+		int portAndCommand = getNextMessage();
+
+		int port = getPinFromHeader(portAndCommand);
+		int command = getCommandFromHeader(portAndCommand);
+
+		Assert.assertEquals("No report digital port message", REPORT_DIGITAL_PORT_COMMAND, command);
+
+		int data = getNextMessage();
+
+		return new FirmataMessage(command, port, data);
+	}
+
 	public FirmataMessage getReportAnalogPinMessage() {
 
 		int pinAndCommand = getNextMessage();
@@ -93,10 +134,10 @@ public final class FirmataUtils {
 	}
 
 	private int getPinFromHeader(int header) {
-		return header & 15;
+		return header & BITMASK_PIN;
 	}
 
 	private int getCommandFromHeader(int header) {
-		return header & 240;
+		return header & BITMASK_COMMAND;
 	}
 }
