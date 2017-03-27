@@ -45,13 +45,6 @@ public class ArduinoImplTest extends AndroidTestCase {
 	private ConnectionDataLogger logger;
 	private FirmataUtils firmataUtils;
 
-	private static final int MIN_PWM_PIN_GROUP_1 = 3;
-	private static final int MAX_PWM_PIN_GROUP_1 = 3;
-	private static final int MIN_PWM_PIN_GROUP_2 = 5;
-	private static final int MAX_PWM_PIN_GROUP_2 = 6;
-	private static final int MIN_PWM_PIN_GROUP_3 = 9;
-	private static final int MAX_PWM_PIN_GROUP_3 = 11;
-
 	private static final int MIN_ANALOG_SENSOR_PIN = 0;
 	private static final int MAX_ANALOG_SENSOR_PIN = 5;
 
@@ -228,21 +221,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 	}
 
 	private void doTestFirmataInitialization() {
-		for (int pin = MIN_PWM_PIN_GROUP_1; pin <= MAX_PWM_PIN_GROUP_1; ++pin) {
-			FirmataMessage m = firmataUtils.getSetPinModeMessage();
-
-			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
-			assertEquals("Wrong pin used to set pin mode", pin, m.getPin());
-			assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
-		}
-		for (int pin = MIN_PWM_PIN_GROUP_2; pin <= MAX_PWM_PIN_GROUP_2; ++pin) {
-			FirmataMessage m = firmataUtils.getSetPinModeMessage();
-
-			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
-			assertEquals("Wrong pin used to set pin mode", pin, m.getPin());
-			assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
-		}
-		for (int pin = MIN_PWM_PIN_GROUP_3; pin <= MAX_PWM_PIN_GROUP_3; ++pin) {
+		for (int pin : ArduinoImpl.PWM_PINS) {
 			FirmataMessage m = firmataUtils.getSetPinModeMessage();
 
 			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
