@@ -26,29 +26,28 @@ package org.catrobat.catroid.uiespresso.util.matchers;
 import android.view.View;
 import android.widget.ListView;
 
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
+import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public final class ScriptListMatchers {
-	private ScriptListMatchers() {
+public final class BrickCategoryListMatchers {
+	private BrickCategoryListMatchers() {
 		throw new AssertionError();
 	}
 
-	public static Matcher<View> isScriptListView() {
+	public static Matcher<View> isBrickCategoryView() {
 		return new TypeSafeMatcher<View>() {
 
 			@Override
 			protected boolean matchesSafely(View view) {
-				return view instanceof BrickDragAndDropListView && ((ListView) view).getAdapter()
-						instanceof BrickAdapter;
+				return view instanceof ListView && ((ListView) view).getAdapter()
+						instanceof BrickCategoryAdapter;
 			}
 
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("ScriptlistView");
+				description.appendText("BrickCategoryListView");
 			}
 		};
 	}
