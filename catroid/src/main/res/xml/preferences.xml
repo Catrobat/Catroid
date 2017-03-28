@@ -24,7 +24,10 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid">
-
+<Preference
+    android:key="setting_multilingual"
+    android:summary="@string/preference_description_language"
+    android:title="@string/preference_title_language"></Preference>
     <PreferenceScreen
         android:key="setting_mindstorms_nxt_bricks"
         android:summary="@string/preference_description_mindstorms_nxt_bricks"
