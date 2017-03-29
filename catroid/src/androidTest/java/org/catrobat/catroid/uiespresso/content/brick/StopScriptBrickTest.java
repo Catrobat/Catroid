@@ -35,8 +35,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickAndSelectFromSpinnerOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
 
 @RunWith(AndroidJUnit4.class)
 public class StopScriptBrickTest {
@@ -59,19 +58,13 @@ public class StopScriptBrickTest {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_stop_script);
 
-		clickAndSelectFromSpinnerOnBrickAtPosition(R.id.brick_stop_script_spinner, brickPosition, R.string
-				.brick_stop_this_script);
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_stop_script_spinner, brickPosition, R.string
+		clickSelectCheckSpinnerValueOnBrick(R.id.brick_stop_script_spinner, brickPosition, R.string
 				.brick_stop_this_script);
 
-		clickAndSelectFromSpinnerOnBrickAtPosition(R.id.brick_stop_script_spinner, brickPosition, R.string
-				.brick_stop_all_scripts);
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_stop_script_spinner, brickPosition, R.string
+		clickSelectCheckSpinnerValueOnBrick(R.id.brick_stop_script_spinner, brickPosition, R.string
 				.brick_stop_all_scripts);
 
-		clickAndSelectFromSpinnerOnBrickAtPosition(R.id.brick_stop_script_spinner, brickPosition, R.string
-				.brick_stop_other_scripts);
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_stop_script_spinner, brickPosition, R.string
+		clickSelectCheckSpinnerValueOnBrick(R.id.brick_stop_script_spinner, brickPosition, R.string
 				.brick_stop_other_scripts);
 	}
 }

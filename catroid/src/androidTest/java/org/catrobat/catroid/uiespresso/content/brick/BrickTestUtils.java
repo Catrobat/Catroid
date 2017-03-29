@@ -68,19 +68,19 @@ public final class BrickTestUtils {
 				.check(matches(isDisplayed()));
 	}
 
+	public static void clickSelectCheckSpinnerValueOnBrick(int spinnerResourceId, int
+			position, int stringResourceId) {
+		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+				.perform(click());
+		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
+				.perform(click());
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, stringResourceId);
+	}
+
 	public static void checkIfSpinnerOnBrickAtPositionShowsString(int spinnerResourceId, int position, int
 			stringResourceId) {
 		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
 				.check(matches(withSpinnerText(stringResourceId)));
-	}
-
-	public static void clickAndSelectFromSpinnerOnBrickAtPosition(int spinnerResourceId, int position, int
-			stringResourceId) {
-		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
-				.perform(click());
-
-		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
-				.perform(click());
 	}
 
 	public static Script createProjectAndGetStartScript(String projectName) {
