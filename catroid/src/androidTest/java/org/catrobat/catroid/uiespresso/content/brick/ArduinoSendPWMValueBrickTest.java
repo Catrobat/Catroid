@@ -39,8 +39,6 @@ import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enter
 
 @RunWith(AndroidJUnit4.class)
 public class ArduinoSendPWMValueBrickTest {
-	private static final int PIN_TO_CHANGE = 5;
-	private static final int VALUE_TO_CHANGE = 255;
 	private int brickPosition;
 
 	@Rule
@@ -58,9 +56,11 @@ public class ArduinoSendPWMValueBrickTest {
 
 	@Test
 	public void testArduinoSendPWMValueBrick() {
+		int pinNumber = 5;
+		int analogValue = 255;
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_arduino_select_analog_value);
-		enterValueInFormulaTextFieldOnBrickAtPosition(PIN_TO_CHANGE, R.id.brick_arduino_set_analog_pin_edit_text, brickPosition);
-		enterValueInFormulaTextFieldOnBrickAtPosition(VALUE_TO_CHANGE, R.id.brick_arduino_set_analog_value_edit_text, brickPosition);
+		enterValueInFormulaTextFieldOnBrickAtPosition(pinNumber, R.id.brick_arduino_set_analog_pin_edit_text, brickPosition);
+		enterValueInFormulaTextFieldOnBrickAtPosition(analogValue, R.id.brick_arduino_set_analog_value_edit_text, brickPosition);
 	}
 }

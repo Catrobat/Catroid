@@ -40,7 +40,6 @@ import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enter
 @RunWith(AndroidJUnit4.class)
 public class ChangeBrightnessByNBrickTest {
 	private int brickPosition;
-	private static final int BRIGHTNESS_TO_CHANGE = 15;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -56,9 +55,11 @@ public class ChangeBrightnessByNBrickTest {
 
 	@Test
 	public void testChangeBrightnessByNBrick() {
+		int brightnessValue = 15;
+
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_change_brightness);
-		enterValueInFormulaTextFieldOnBrickAtPosition(BRIGHTNESS_TO_CHANGE, R.id.brick_change_brightness_edit_text,
+		enterValueInFormulaTextFieldOnBrickAtPosition(brightnessValue, R.id.brick_change_brightness_edit_text,
 				brickPosition);
 	}
 }

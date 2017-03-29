@@ -39,9 +39,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enter
 
 @RunWith(AndroidJUnit4.class)
 public class SetTransparencyBrickTest {
-
 	private int brickPosition;
-	private final int newValue = 40;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -56,10 +54,11 @@ public class SetTransparencyBrickTest {
 
 	@Test
 	public void testStopAllSoundsBrick() {
+		int transparencyValue = 40;
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_transparency);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(newValue, R.id.brick_set_transparency_to_edit_text,
+		enterValueInFormulaTextFieldOnBrickAtPosition(transparencyValue, R.id.brick_set_transparency_to_edit_text,
 				brickPosition);
 	}
 }

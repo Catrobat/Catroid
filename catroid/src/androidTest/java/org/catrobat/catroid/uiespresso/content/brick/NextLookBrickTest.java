@@ -38,7 +38,6 @@ import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.check
 
 @RunWith(AndroidJUnit4.class)
 public class NextLookBrickTest {
-
 	private int brickPosition;
 
 	@Rule
