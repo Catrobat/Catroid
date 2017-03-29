@@ -97,6 +97,9 @@ public final class BrickTestUtils {
 
 	public static <V extends Number> void enterValueInFormulaTextFieldOnBrickAtPosition(V valueToBeEntered,
 			int editTextResourceId, int position) {
+		// When using double or float, integer-like values are parsed to values without decimal points,
+		// e.g 12.0 -> 12
+
 		String valueToSet = "";
 
 		if (valueToBeEntered instanceof Float) {
