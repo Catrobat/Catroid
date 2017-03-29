@@ -36,9 +36,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.check
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 public class SetSizeToBrickTest {
-
 	private int brickPosition;
-	private final int testValue = 20;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -55,9 +53,11 @@ public class SetSizeToBrickTest {
 
 	@Test
 	public void setSizeToBrickTest() throws InterpretationException {
+		int sizeValue = 20;
+
 		checkIfBrickAtPositionShowsString(0, "When program starts");
 		checkIfBrickAtPositionShowsString(brickPosition, "Set size to");
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(testValue, R.id.brick_set_size_to_edit_text, brickPosition);
+		enterValueInFormulaTextFieldOnBrickAtPosition(sizeValue, R.id.brick_set_size_to_edit_text, brickPosition);
 	}
 }

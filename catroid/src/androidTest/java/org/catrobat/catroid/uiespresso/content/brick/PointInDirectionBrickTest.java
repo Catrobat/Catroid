@@ -39,9 +39,6 @@ import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enter
 
 @RunWith(AndroidJUnit4.class)
 public class PointInDirectionBrickTest {
-
-	private static final double SET_DEGREE = 270.1;
-
 	private int brickPosition;
 
 	@Rule
@@ -59,8 +56,10 @@ public class PointInDirectionBrickTest {
 
 	@Test
 	public void testPointInDirectionBrick() {
+		double directionValueDegrees = 270.1;
+
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_point_in_direction);
-		enterValueInFormulaTextFieldOnBrickAtPosition(SET_DEGREE, R.id.brick_point_in_direction_edit_text, brickPosition);
+		enterValueInFormulaTextFieldOnBrickAtPosition(directionValueDegrees, R.id.brick_point_in_direction_edit_text, brickPosition);
 	}
 }

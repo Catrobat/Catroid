@@ -39,9 +39,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enter
 
 @RunWith(AndroidJUnit4.class)
 public class ChangeSizeByNBrickTest {
-
 	private int brickPosition;
-	private final int newValue = 40;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -56,9 +54,11 @@ public class ChangeSizeByNBrickTest {
 
 	@Test
 	public void testChangeSizeByNBrick() {
+		int sizeChangeValue = 40;
+
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_change_size_by);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(newValue, R.id.brick_change_size_by_edit_text, brickPosition);
+		enterValueInFormulaTextFieldOnBrickAtPosition(sizeChangeValue, R.id.brick_change_size_by_edit_text, brickPosition);
 	}
 }
