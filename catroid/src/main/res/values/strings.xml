@@ -987,6 +987,7 @@
     <string name="error_no_network_one_brick">Following brick will use the network:</string>
     <string name="error_no_network_multiple_bricks">Following bricks will use the network:</string>
     <string name="error_no_network_title">No network</string>
+    <string name="error_no_whatsapp">WhatsApp not installed</string>
     <!--  -->
 
 

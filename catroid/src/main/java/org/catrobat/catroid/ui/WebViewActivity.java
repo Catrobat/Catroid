@@ -30,6 +30,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -64,13 +65,14 @@ public class WebViewActivity extends BaseActivity {
 	public static final String MEDIA_FILE_PATH = "media_file_path";
 	public static final String CALLING_ACTIVITY = "calling_activity";
 	private static final String FILENAME_TAG = "fname=";
-	private ProgressDialog webViewLoadingDialog;
+	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	private WebView webView;
 	private boolean callMainMenu = false;
 	private String url;
 	private String callingActivity;
 	private ProgressDialog progressDialog;
+	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
 
 	@Override
@@ -196,10 +198,14 @@ public class WebViewActivity extends BaseActivity {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			if (url != null && url.startsWith(Constants.WHATSAPP_URI)) {
-				Uri uri = Uri.parse(url);
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				startActivity(intent);
+				if (isWhatsappInstalled()) {
+					Uri uri = Uri.parse(url);
+					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					startActivity(intent);
+				} else {
+					ToastUtil.showError(getApplicationContext(), R.string.error_no_whatsapp);
+				}
 				return true;
 			} else if (checkIfWebViewVisitExternalWebsite(url)) {
 				Uri uri = Uri.parse(url);
@@ -319,6 +325,16 @@ public class WebViewActivity extends BaseActivity {
 		} else {
 			CookieManager.getInstance().removeAllCookies(null);
 			CookieManager.getInstance().flush();
+		}
+	}
+
+	private boolean isWhatsappInstalled() {
+		PackageManager packageManager = getPackageManager();
+		try {
+			packageManager.getPackageInfo(PACKAGE_NAME_WHATSAPP, PackageManager.GET_ACTIVITIES);
+			return true;
+		} catch (PackageManager.NameNotFoundException e) {
+			return false;
 		}
 	}
 }
