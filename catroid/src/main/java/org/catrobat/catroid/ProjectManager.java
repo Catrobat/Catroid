@@ -644,8 +644,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		if (BuildConfig.CREATE_AT_SCHOOL) {
 			ProjectManager.getInstance().showLogInDialog(activity, false);
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-			sharedPreferences.edit().putBoolean(Constants.FORCE_SIGNIN, false).commit();
 		} else {
 			SignInDialog signInDialog = new SignInDialog();
 			signInDialog.show(activity.getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);

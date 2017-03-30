@@ -1448,4 +1448,9 @@ public final class Utils {
 		}
 		return new ArrayList<>(uniqueMap.values());
 	}
+
+	public static boolean isCreateAtSchoolUser(Context context) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		return sharedPreferences.getBoolean(Constants.CREATE_AT_SCHOOL_USER, false);
+	}
 }

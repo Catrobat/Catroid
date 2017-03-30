@@ -254,7 +254,6 @@ public final class Constants {
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
 
 	//create@school constants
-	public static final String FORCE_SIGNIN = "forceSignIn";
 	public static final String CREATE_AT_SCHOOL_USER = "nolbUser";
 	public static final String TMP_TEMPLATES_PATH = TMP_PATH + "/templates";
 

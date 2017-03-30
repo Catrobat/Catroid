@@ -734,10 +734,10 @@ public final class ServerCalls implements ScratchDataFetcher {
 			userEmail = emailForUiTests;
 		}
 
+		SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 		if (userEmail == null) {
 			userEmail = Constants.RESTRICTED_USER;
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			sharedPreferences.edit().putBoolean(Constants.RESTRICTED_USER, true).commit();
+			sharedPrefEditor.putBoolean(Constants.RESTRICTED_USER, true);
 		}
 
 		try {
@@ -771,10 +771,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 				if (isInvalidToken(tokenReceived)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
-				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
-				sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
-				sharedPreferences.edit().putString(Constants.EMAIL, userEmail).commit();
+				sharedPrefEditor.putString(Constants.TOKEN, tokenReceived);
+				sharedPrefEditor.putString(Constants.USERNAME, username);
+				sharedPrefEditor.putString(Constants.EMAIL, userEmail);
 			}
 
 			boolean registered;
@@ -785,6 +784,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
+			sharedPrefEditor.apply();
+
 			return registered;
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
@@ -815,33 +816,38 @@ public final class ServerCalls implements ScratchDataFetcher {
 			JSONObject jsonObject = new JSONObject(resultString);
 			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
 			String serverAnswer = jsonObject.optString(JSON_ANSWER);
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+
+			if (BuildConfig.CREATE_AT_SCHOOL) {
+				boolean createAtSchoolUser = jsonObject.optBoolean(Constants.CREATE_AT_SCHOOL_USER);
+				sharedPrefEditor.putBoolean(Constants.CREATE_AT_SCHOOL_USER, createAtSchoolUser);
+				if (!createAtSchoolUser) {
+					sharedPrefEditor.putString(Constants.TOKEN, Constants.NO_TOKEN);
+					sharedPrefEditor.putString(Constants.USERNAME, Constants.NO_USERNAME);
+					sharedPrefEditor.apply();
+					return false;
+				}
+			}
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				String tokenReceived = jsonObject.getString(JSON_TOKEN);
 				if (isInvalidToken(tokenReceived)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
-				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
-				sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+				sharedPrefEditor.putString(Constants.TOKEN, tokenReceived);
+				sharedPrefEditor.putString(Constants.USERNAME, username);
 			}
 
 			String eMail = jsonObject.optString(Constants.EMAIL);
 			if (!eMail.isEmpty()) {
-				sharedPreferences.edit().putString(Constants.EMAIL, eMail).commit();
+				sharedPrefEditor.putString(Constants.EMAIL, eMail);
 			}
 
 			if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
 
-			if (BuildConfig.CREATE_AT_SCHOOL) {
-				boolean createAtSchoolUser = jsonObject.optBoolean(Constants.CREATE_AT_SCHOOL_USER);
-				sharedPreferences.edit().putBoolean(Constants.CREATE_AT_SCHOOL_USER, createAtSchoolUser).commit();
-				if (!createAtSchoolUser) {
-					return false;
-				}
-			}
+			sharedPrefEditor.apply();
 
 			return true;
 		} catch (JSONException jsonException) {
