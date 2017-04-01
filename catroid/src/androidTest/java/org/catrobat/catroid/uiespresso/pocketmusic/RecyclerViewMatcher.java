@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.util.matchers;
+package org.catrobat.catroid.uiespresso.pocketmusic;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
@@ -53,9 +53,8 @@ public class RecyclerViewMatcher {
 				if (this.resources != null) {
 					try {
 						idDescription = this.resources.getResourceName(recyclerViewId);
-					} catch (Resources.NotFoundException var4) {
-						idDescription = String.format("%s (resource name not found)",
-								recyclerViewId);
+					} catch (Resources.NotFoundException ignored) {
+						idDescription = String.format("%s (resource name not found)", recyclerViewId);
 					}
 				}
 
