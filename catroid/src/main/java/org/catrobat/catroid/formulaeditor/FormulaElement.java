@@ -96,7 +96,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	public List<InternToken> getInternTokenList() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		switch (type) {
 			case BRACKET:
@@ -324,7 +324,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretMultipleItemsUserList(List<Object> userListValues) {
-		List<String> userListStringValues = new ArrayList<String>();
+		List<String> userListStringValues = new ArrayList<>();
 		boolean concatenateWithoutWhitespace = true;
 
 		for (Object listValue : userListValues) {
@@ -482,7 +482,7 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionJoin(sprite);
 			case ARDUINODIGITAL:
 				Arduino arduinoDigital = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
-				if (arduinoDigital != null && left != null) {
+				if (arduinoDigital != null && doubleValueOfLeftChild != null) {
 					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 13) {
 						return 0d;
 					}
@@ -491,7 +491,7 @@ public class FormulaElement implements Serializable {
 				break;
 			case ARDUINOANALOG:
 				Arduino arduinoAnalog = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
-				if (arduinoAnalog != null && left != null) {
+				if (arduinoAnalog != null && doubleValueOfLeftChild != null) {
 					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 5) {
 						return 0d;
 					}
@@ -500,19 +500,24 @@ public class FormulaElement implements Serializable {
 				break;
 			case RASPIDIGITAL:
 				RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
-				int pin = doubleValueOfLeftChild.intValue();
-				try {
-					return connection.getPin(pin) ? 1d : 0d;
-				} catch (Exception e) {
-					Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
+				if (doubleValueOfLeftChild != null) {
+					int pin = doubleValueOfLeftChild.intValue();
+					try {
+						return connection.getPin(pin) ? 1d : 0d;
+					} catch (Exception e) {
+						Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
+					}
 				}
 				break;
 			case MULTI_FINGER_TOUCHED:
-				return TouchUtil.isFingerTouching(doubleValueOfLeftChild.intValue()) ? 1d : 0d;
+				return (doubleValueOfLeftChild != null && TouchUtil.isFingerTouching(doubleValueOfLeftChild.intValue
+						())) ? 1d : 0d;
 			case MULTI_FINGER_X:
-				return Double.valueOf(TouchUtil.getX(doubleValueOfLeftChild.intValue()));
+				return doubleValueOfLeftChild != null ? (double) TouchUtil.getX(doubleValueOfLeftChild
+						.intValue()) : 0d;
 			case MULTI_FINGER_Y:
-				return Double.valueOf(TouchUtil.getY(doubleValueOfLeftChild.intValue()));
+				return doubleValueOfLeftChild != null ? (double) TouchUtil.getY(doubleValueOfLeftChild.intValue
+						()) : 0d;
 			case LIST_ITEM:
 				return interpretFunctionListItem(left, sprite);
 			case CONTAINS:
@@ -568,8 +573,10 @@ public class FormulaElement implements Serializable {
 			} catch (NumberFormatException numberFormatexception) {
 				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatexception);
 			}
-		} else {
+		} else if (left != null) {
 			index = ((Double) left).intValue();
+		} else {
+			return "";
 		}
 
 		index--;
@@ -662,15 +669,17 @@ public class FormulaElement implements Serializable {
 			} catch (NumberFormatException numberFormatexception) {
 				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatexception);
 			}
-		} else {
+		} else if (left != null) {
 			index = ((Double) left).intValue();
+		} else {
+			return "";
 		}
 
 		index--;
 
 		if (index < 0) {
 			return "";
-		} else if (index >= String.valueOf(right).length()) {
+		} else if (right == null || index >= String.valueOf(right).length()) {
 			return "";
 		}
 		return String.valueOf(String.valueOf(right).charAt(index));
@@ -997,12 +1006,9 @@ public class FormulaElement implements Serializable {
 	}
 
 	public boolean containsElement(ElementType elementType) {
-		if (type.equals(elementType)
+		return (type.equals(elementType)
 				|| (leftChild != null && leftChild.containsElement(elementType))
-				|| (rightChild != null && rightChild.containsElement(elementType))) {
-			return true;
-		}
-		return false;
+				|| (rightChild != null && rightChild.containsElement(elementType)));
 	}
 
 	public boolean isUserVariableWithTypeString(Sprite sprite) {
