@@ -134,6 +134,7 @@ public class PocketMusicActivity extends BaseActivity {
 
 				File initialFile = new File(soundInfo.getAbsolutePath());
 				try {
+					initialFile.getParentFile().mkdirs();
 					projectToMidiConverter.writeProjectAsMidi(project, initialFile);
 				} catch (IOException | MidiException e) {
 					Log.e(TAG, "Couldn't save midi file (" + soundInfo.getSoundFileName() + ").", e);
