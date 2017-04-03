@@ -185,6 +185,7 @@ public class MergeTask {
 		}
 
 		mergedProject.addScene(mergeResult);
+		mergedProject.removeUnusedMessages();
 		try {
 			StorageHandler.getInstance().copyImageFiles(mergeResult.getName(), mergeResult.getProject().getName(), firstScene.getName(), firstScene.getProject().getName());
 			StorageHandler.getInstance().copySoundFiles(mergeResult.getName(), mergeResult.getProject().getName(), firstScene.getName(), firstScene.getProject().getName());
@@ -312,7 +313,6 @@ public class MergeTask {
 		copySpriteScripts(firstScene);
 		current = secondScene;
 		copySpriteScripts(secondScene);
-		mergeResult.removeUnusedBroadcastMessages();
 	}
 
 	private void copySpriteScripts(Scene scene) {

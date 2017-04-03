@@ -30,7 +30,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
@@ -341,8 +340,7 @@ public class Scene implements Serializable {
 		return dataContainer;
 	}
 
-	public synchronized void removeUnusedBroadcastMessages() {
-		List<String> usedMessages = new ArrayList<>();
+	public synchronized void addUsedMessagesToList(List<String> usedMessages) {
 		for (Sprite currentSprite : spriteList) {
 			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
 				Script currentScript = currentSprite.getScript(scriptIndex);
@@ -366,7 +364,6 @@ public class Scene implements Serializable {
 				}
 			}
 		}
-		MessageContainer.removeUnusedMessages(usedMessages);
 	}
 
 	private void addBroadcastMessage(String broadcastMessageToAdd, List<String> broadcastMessages) {
