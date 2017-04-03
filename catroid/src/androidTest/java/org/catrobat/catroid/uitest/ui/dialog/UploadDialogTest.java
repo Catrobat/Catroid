@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -125,7 +125,6 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForText(solo.getString(R.string.register_error));
 		assertFalse("whitespaces are not stripped in username", solo.searchText("This value is not valid."));
 	}
-
 
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
 		UiTestUtils.createValidUser(getActivity());
