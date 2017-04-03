@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -108,6 +108,22 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 
 		solo.clickOnButton(solo.getString(R.string.cancel));
+	}
+
+	public void testLogInStripSpace() throws Throwable{
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		solo.waitForText("Sign In");
+
+		solo.clickOnText(solo.getString(R.string.login));
+		String testUser = "testUser" +" "+ System.currentTimeMillis();
+		String testPassword = "pwspws";
+		EditText firstEditText = (EditText) solo.getView(R.id.dialog_login_username);
+		EditText secondEditText = (EditText) solo.getView(R.id.dialog_login_password);
+		solo.enterText(firstEditText, testUser);
+		solo.enterText(secondEditText, testPassword);
+		solo.clickOnButton(solo.getString(R.string.login));
+		solo.waitForText(solo.getString(R.string.register_error));
+		assertFalse("whitespaces are not stripped in username", solo.searchText("This value is not valid."));
 	}
 
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {

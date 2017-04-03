@@ -225,8 +225,8 @@ android {
         textReport true
         xmlReport true
         htmlReport true
-        xmlOutput file("build/reports/lint.xml")
-        htmlOutput file("build/reports/lint.html")
+        xmlOutput file("build/reports/lint-report.xml")
+        htmlOutput file("build/reports/lint-report.html")
     }
 }
 
