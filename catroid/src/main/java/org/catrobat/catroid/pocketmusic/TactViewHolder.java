@@ -21,26 +21,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.catrobat.catroid.pocketmusic;
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.google.gms:google-services:3.0.0'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-        maven { url "https://jitpack.io" }
-    }
+public class TactViewHolder extends RecyclerView.ViewHolder {
+	public TactViewHolder(View itemView) {
+		super(itemView);
+	}
 }

@@ -46,7 +46,8 @@ public final class TrackGridToTrackConverter {
 
 				for (GridRowPosition position : positionsList) {
 
-					long startTicsInTrack = position.getStartTicksInTrack();
+					long startTicsInTrack = position.getStartTicksInTrack() + (key
+							* trackGrid.getBeat().getTopNumber() * beatsPerMinute * 8);
 					long noteLength = position.getNoteLength().toTicks(beatsPerMinute);
 
 					NoteEvent noteOnEvent = new NoteEvent(gridRow.getNoteName(), true);
