@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
@@ -55,7 +54,6 @@ import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
 import org.catrobat.catroid.utils.Utils;
@@ -74,7 +72,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -104,7 +101,7 @@ public class BrickValueParameterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("goToBrickTest1").addBrick(new GoToBrick());
+		BrickTestUtils.createProjectAndGetStartScript("brickDefaultValueParameterTest");
 		baseActivityTestRule.launchActivity(null);
 
 		SharedPreferences sharedPreferences = PreferenceManager
@@ -133,7 +130,6 @@ public class BrickValueParameterTest {
 	public void categoriesTest() {
 		onView(withId(R.id.button_add))
 				.perform(click());
-		onView(isRoot()).perform(CustomActions.wait(2000));
 
 		List<Integer> categoryResourceStrings = Arrays.asList(R.string.category_event,
 				R.string.category_control,
@@ -194,23 +190,21 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsEditTextWithText(AskSpeechBrick.class, R.id.brick_ask_speech_question_edit_text,
 				R.string.brick_ask_speech_default_question);
 		checkIfBrickShowsText(AskSpeechBrick.class, R.string.brick_ask_speech_store);
-		//TODO see testAskSpeechBrickInSoundDefaultValues below
-		onData(instanceOf(AskSpeechBrick.class)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
-				//.onChildView(withSpinnerText(R.string.new_broadcast_message))  //this breaks because of weird spinner
-				.onChildView(withId(R.id.brick_ask_speech_spinner))
-				.check(matches(isDisplayed()));
+		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(AskSpeechBrick.class, R.id.brick_ask_speech_spinner,
+				R.string.new_broadcast_message);
 	}
 
+	//Educational Test on how to deal with old/hacked spinner default values
+	//If test fails with a String is null exception when trying to get the current spinner text.
+	//(some spinners dont have a default "new" value, but are derived from another spinner and have an editText as a
+	// child that contains this "new" text)
 	@Test
-	public void testAskSpeechBrickInSoundDefaultValues() {
-		//TODO Fix whatever breaks the spinner text test on this brick
-		//TODO and then move it back up into testSoundBricksDefaultValues
+	public void testAskSpeechBrickInSoundSpinnerProblem() {
 		openCategory(R.string.category_sound);
-		checkIfBrickShowsText(AskSpeechBrick.class, R.string.brick_ask_speech_label);
-		checkIfBrickShowsEditTextWithText(AskSpeechBrick.class, R.id.brick_ask_speech_question_edit_text,
-				R.string.brick_ask_speech_default_question);
-		checkIfBrickShowsText(AskSpeechBrick.class, R.string.brick_ask_speech_store);
-		checkIfBrickShowsSpinnerWithText(AskSpeechBrick.class, R.id.brick_ask_speech_spinner, R.string.new_broadcast_message);
+		onData(instanceOf(AskSpeechBrick.class)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.onChildView(withId(R.id.brick_ask_speech_spinner))
+				.onChildView(withId(android.R.id.text1))
+				.check(matches(withText(R.string.new_broadcast_message)));
 	}
 
 	@Test
@@ -305,6 +299,18 @@ public class BrickValueParameterTest {
 		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.onChildView(withId(spinnerResourceId))
 				.check(matches(withSpinnerText(stringResourceId)));
+	}
+
+	//If above function fails with a String is null exception use this function below.
+	//(some spinners dont have a default "new" value, but are derived from another spinner and have an editText as a
+	// child that contains this "new" text)
+	//see educational test testAskSpeechBrickInSoundSpinnerProblem()
+	private void checkIfBrickShowsSpinnerWithEditTextOverlayWithText(Class brickClass, int spinnerResourceId,
+			int stringResourceId) {
+		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.onChildView(withId(spinnerResourceId))
+				.onChildView(withId(android.R.id.text1)) //could be omitted, but just to make clear whats going on
+				.check(matches(withText(stringResourceId)));
 	}
 
 	private void checkIfBrickShowsEditTextWithText(Class brickClass, int editTextResourceId, String text) {
