@@ -9,7 +9,6 @@
     <facet type="android" name="Android">
       <configuration>
         <option name="SELECTED_BUILD_VARIANT" value="catroidDebug" />
-        <option name="SELECTED_TEST_ARTIFACT" value="_android_test_" />
         <option name="ASSEMBLE_TASK_NAME" value="assembleCatroidDebug" />
         <option name="COMPILE_JAVA_TASK_NAME" value="compileCatroidDebugSources" />
         <afterSyncTasks>
