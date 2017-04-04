@@ -121,7 +121,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 	}
 
 	private void handleLoginButtonClick() {
-		String username = usernameEditText.getText().toString();
+		String username = usernameEditText.getText().toString().replaceAll("\\s", "");
 		String password = passwordEditText.getText().toString();
 
 		LoginTask loginTask = new LoginTask(getActivity(), username, password);
