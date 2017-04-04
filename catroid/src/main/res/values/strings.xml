@@ -1543,5 +1543,6 @@
     <string name="crash_dialog_text">Please help to improve Pocket Code by sending us anonymous crash reports!</string>
     <string name="crash_dialog_always_send">Always send</string>
     <string name="crash_dialog_send">Send</string>
+    <string name="plus" translatable="false">+</string>
     <!--  -->
 </resources>
