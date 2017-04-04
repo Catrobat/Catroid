@@ -43,7 +43,6 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
@@ -68,6 +67,13 @@ public final class BrickTestUtils {
 				.check(matches(isDisplayed()));
 	}
 
+	public static void checkIfSpinnerOnBrickAtPositionShowsString(int spinnerResourceId, int position, int
+			stringResourceId) {
+		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+				.onChildView(withText(stringResourceId))
+				.check(matches(isDisplayed()));
+	}
+
 	public static void clickSelectCheckSpinnerValueOnBrick(int spinnerResourceId, int
 			position, int stringResourceId) {
 		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
@@ -75,12 +81,6 @@ public final class BrickTestUtils {
 		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
 				.perform(click());
 		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, stringResourceId);
-	}
-
-	public static void checkIfSpinnerOnBrickAtPositionShowsString(int spinnerResourceId, int position, int
-			stringResourceId) {
-		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
-				.check(matches(withSpinnerText(stringResourceId)));
 	}
 
 	public static Script createProjectAndGetStartScript(String projectName) {
