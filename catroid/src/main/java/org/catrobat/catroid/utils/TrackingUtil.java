@@ -25,6 +25,8 @@ package org.catrobat.catroid.utils;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -541,8 +543,14 @@ public final class TrackingUtil {
 			for (Pair<String, String> data : trackingData) {
 				jsonObject.put(data.first, data.second);
 			}
+
+			Context context = CatroidApplication.getAppContext();
+			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			jsonObject.put(TrackingConstants.VERSION_CODE, packageInfo.versionCode);
 		} catch (JSONException exception) {
 			Log.e(TAG, "Could not serialize tracking data: " + exception.getMessage());
+		} catch (NameNotFoundException exception) {
+			Log.e(TAG, "Could not read versionCode to track: " + exception.getMessage());
 		}
 
 		logCustomEvent(trackingMessage, jsonObject);
