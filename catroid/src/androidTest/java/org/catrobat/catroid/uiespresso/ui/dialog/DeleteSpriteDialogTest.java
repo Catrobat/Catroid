@@ -41,8 +41,6 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
@@ -54,60 +52,77 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class RenameSpriteDialogTest {
+public class DeleteSpriteDialogTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ProjectActivity.class, true, false);
 
-	private String oldSpriteName = "secondSprite";
+	private String toBeDeletedSpriteName = "secondSprite";
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("renameSpriteDialogTest");
+		createProject("DeleteSpriteDialogTest");
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void renameSpriteDialogTest() {
-		String newSpriteName = "renamedSprite";
-		renameFirstSpriteTo(newSpriteName);
+	public void deleteSpriteDialogTest() {
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onView(withText(toBeDeletedSpriteName)).perform(click());
+		onView(withContentDescription("Done")).perform(click());
+
+		onView(withText(R.string.dialog_confirm_delete_object_title)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+
+		onView(withText(R.string.dialog_confirm_delete_object_message)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+				.check(matches(isDisplayed()));
+		onView(allOf(withId(android.R.id.button2), withText(R.string.no)))
+				.check(matches(isDisplayed()));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+				.perform(click());
+
+		onView(withText(toBeDeletedSpriteName))
+				.check(doesNotExist());
 	}
 
 	@Test
-	public void renameSpriteSwitchCaseDialogTest() {
-		String newSpriteName = "SeConDspRite";
-		renameFirstSpriteTo(newSpriteName);
-	}
-
-	private void renameFirstSpriteTo(String newSpriteName) {
+	public void cancelDeleteSpriteDialogTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-		onView(withText(R.string.rename)).perform(click());
+		onView(withText(R.string.delete)).perform(click());
 
-		onView(withText(oldSpriteName)).perform(click());
+		onView(withText(toBeDeletedSpriteName)).perform(click());
 		onView(withContentDescription("Done")).perform(click());
 
-		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
+		onView(withText(R.string.dialog_confirm_delete_object_title)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_text), withText(oldSpriteName), isDisplayed()))
-				.perform(replaceText(newSpriteName));
 
-		closeSoftKeyboard();
+		onView(withText(R.string.dialog_confirm_delete_object_message)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+				.check(matches(isDisplayed()));
+		onView(allOf(withId(android.R.id.button2), withText(R.string.no)))
+				.check(matches(isDisplayed()));
+
+		onView(allOf(withId(android.R.id.button2), withText(R.string.no)))
 				.perform(click());
 
-		onView(withText(newSpriteName))
+		onView(withText(toBeDeletedSpriteName))
 				.check(matches(isDisplayed()));
-		onView(withText(oldSpriteName))
-				.check(doesNotExist());
 	}
 
 	private void createProject(String projectName) {
 		Project project = new Project(null, projectName);
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
-		Sprite secondSprite = new SingleSprite(oldSpriteName);
+		Sprite secondSprite = new SingleSprite(toBeDeletedSpriteName);
 
 		project.getDefaultScene().addSprite(firstSprite);
 		project.getDefaultScene().addSprite(secondSprite);
