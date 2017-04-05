@@ -29,10 +29,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.TactViewHolder;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
@@ -47,8 +49,9 @@ import java.util.ArrayList;
 public class TactScrollRecyclerView extends RecyclerView {
 
 	private static final int TACTS_PER_SCREEN = 2;
-	private static final int MINIMUM_TACT_COUNT = 3;
-	private static final int ALWAYS_ONE_ADDITIONAL_TACT = 1;
+	private static final int MINIMUM_TACT_COUNT = 2;
+	private static final int TACT_VIEW_TYPE = 0;
+	private static final int PLUS_VIEW_TYPE = 1;
 	private TrackGrid trackGrid;
 	private ViewGroup.LayoutParams tactViewParams = new ViewGroup.LayoutParams(0, 0);
 	private boolean isPlaying;
@@ -85,7 +88,7 @@ public class TactScrollRecyclerView extends RecyclerView {
 
 	public void setTrack(Track track, int beatsPerMinute) {
 		this.trackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4, beatsPerMinute);
-		tactCount = Math.max(trackGrid.getTactCount() + ALWAYS_ONE_ADDITIONAL_TACT, MINIMUM_TACT_COUNT);
+		tactCount = Math.max(trackGrid.getTactCount(), MINIMUM_TACT_COUNT);
 	}
 
 	public TrackGrid getTrackGrid() {
@@ -114,22 +117,51 @@ public class TactScrollRecyclerView extends RecyclerView {
 
 	private class TactAdapter extends RecyclerView.Adapter<TactViewHolder> {
 
+		private static final int PLUS_BUTTON_ON_END = 1;
+		private final OnClickListener addTactClickListener = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				tactCount++;
+				notifyItemInserted(tactCount - 1);
+			}
+		};
+
 		@Override
 		public TactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			TrackView trackView = new TrackView(getContext(), trackGrid);
-			trackView.setLayoutParams(tactViewParams);
-			return new TactViewHolder(trackView);
+			View tactContent;
+			if (viewType == PLUS_BUTTON_ON_END) {
+				tactContent = LayoutInflater.from(parent.getContext()).inflate(R.layout.pocketmusic_add_tact_button,
+						parent, false);
+				tactContent.setLayoutParams(tactViewParams);
+				tactContent.setOnClickListener(addTactClickListener);
+			} else {
+				tactContent = new TrackView(getContext(), trackGrid);
+				tactContent.setLayoutParams(tactViewParams);
+			}
+
+			return new TactViewHolder(tactContent);
 		}
 
 		@Override
 		public void onBindViewHolder(TactViewHolder holder, int position) {
-			TrackView trackView = (TrackView) holder.itemView;
-			trackView.updateDataForTactPosition(position);
+			if (getItemViewType(position) == TACT_VIEW_TYPE) {
+				TrackView trackView = (TrackView) holder.itemView;
+				trackView.updateDataForTactPosition(position);
+			}
+		}
+
+		@Override
+		public int getItemViewType(int position) {
+			if (position == getItemCount() - 1) {
+				return PLUS_VIEW_TYPE;
+			} else {
+				return TACT_VIEW_TYPE;
+			}
 		}
 
 		@Override
 		public int getItemCount() {
-			return Math.max(tactCount, MINIMUM_TACT_COUNT);
+			return Math.max(tactCount, MINIMUM_TACT_COUNT) + PLUS_BUTTON_ON_END;
 		}
 	}
 
