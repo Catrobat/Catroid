@@ -1012,6 +1012,7 @@
     <string name="error_no_network_one_brick">Following brick will use the network:</string>
     <string name="error_no_network_multiple_bricks">Following bricks will use the network:</string>
     <string name="error_no_network_title">No network</string>
+    <string name="error_no_whatsapp">WhatsApp not installed</string>
     <!--  -->
 
 
@@ -1463,6 +1464,13 @@
         <item quantity="other">Items selected!</item>
     </plurals>
     <!--  -->
+
+    <!-- New Data Dialog -->
+    <string name="user_variablename_already_exists">Please choose another variable name.</string>
+    <string name="user_listname_already_exists">Please choose another list name.</string>
+    <string name="no_variablename_entered">Please enter a variable name.</string>
+    <string name="no_listname_entered">Please enter a list name.</string>
+    <!-- -->
 
     <!-- Brick Data Editor Strings -->
     <string name="brick_data_editor_title">Brick editor</string>

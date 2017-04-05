@@ -39,6 +39,7 @@ import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -59,7 +60,11 @@ public final class BrickTestUtils {
 	}
 
 	public static void checkIfBrickAtPositionShowsString(int position, int stringResourceId) {
-		onScriptList().atPosition(position).onChildView(withText(stringResourceId))
+		checkIfBrickAtPositionShowsString(position, UiTestUtils.getResourcesString(stringResourceId));
+	}
+
+	public static void checkIfBrickAtPositionShowsString(int position, String string) {
+		onScriptList().atPosition(position).onChildView(withText(string))
 				.check(matches(isDisplayed()));
 	}
 
@@ -74,7 +79,7 @@ public final class BrickTestUtils {
 		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
 				.perform(click());
 
-		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResources().getString(stringResourceId))))
+		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
 				.perform(click());
 	}
 
@@ -90,11 +95,31 @@ public final class BrickTestUtils {
 		return script;
 	}
 
-	public static void testBrickTextFieldWithFormulaEditor(int position, int editTextResourceId, int valueToBeEntered) {
-		onScriptList().atPosition(position).onChildView(withId(editTextResourceId)).perform(click());
-		onView(withId(R.id.formula_editor_edit_field)).perform(CustomActions.typeInValue(Integer.toString(valueToBeEntered)));
-		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
+	public static void enterValueInFormulaTextFieldOnBrickAtPosition(int valueToBeEntered,
+			int editTextResourceId, int position) {
+		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
+				.perform(click());
+		onView(withId(R.id.formula_editor_edit_field))
+				.perform(CustomActions.typeInValue(Integer.toString(valueToBeEntered)));
+		onView(withId(R.id.formula_editor_keyboard_ok))
+				.perform(click());
 		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
 				.check(matches(withText(Integer.toString(valueToBeEntered) + " ")));
+	}
+
+	public static void enterStringInFormulaTextFieldOnBrickAtPosition(String stringToBeEntered,
+			int editTextResourceId, int position) {
+		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
+				.perform(click());
+		onView(withId(R.id.formula_editor_keyboard_string))
+				.perform(click());
+		onView(withId(R.id.formula_editor_string_name_edit_text))
+				.perform(typeText(stringToBeEntered));
+		onView(withText(R.string.ok))
+				.perform(click());
+		onView(withId(R.id.formula_editor_keyboard_ok))
+				.perform(click());
+		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
+				.check(matches(withText("'" + stringToBeEntered + "' ")));
 	}
 }

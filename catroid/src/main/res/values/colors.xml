@@ -102,5 +102,9 @@
     <color name="turquoise_play_line">#FF008b96</color>
     <color name="opaque_turquoise_play_line">#FF80c5ca</color>
     <color name="opaque_turquoise_play_line_dark">#FF5EA3A8</color>
+    <color name="pocketmusic_even_bright">#FAFAFA</color>
+    <color name="pocketmusic_even_dusk">#BDBDBD</color>
+    <color name="pocketmusic_odd_bright">#EEEEEE</color>
+    <color name="pocketmusic_odd_dusk">#757575</color>
 
 </resources>

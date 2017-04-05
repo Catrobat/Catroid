@@ -32,13 +32,12 @@ import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRowPosition;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
+import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class TrackGridTestDataFactory {
-
-	private static final int ASSUMED_NOTE_COUNT_PER_TACT = 4;
 
 	private TrackGridTestDataFactory() {
 	}
@@ -48,7 +47,7 @@ public final class TrackGridTestDataFactory {
 		SparseArray<List<GridRowPosition>> gridRowContent = new SparseArray<>();
 
 		for (int columnStartIndex : columnStartIndices) {
-			int sparseArrayIndex = columnStartIndex / ASSUMED_NOTE_COUNT_PER_TACT;
+			int sparseArrayIndex = columnStartIndex / TrackRowView.QUARTER_COUNT;
 
 			List<GridRowPosition> gridRowPositions = gridRowContent.get(sparseArrayIndex);
 			if (gridRowPositions == null) {
@@ -56,7 +55,8 @@ public final class TrackGridTestDataFactory {
 				gridRowContent.put(sparseArrayIndex, gridRowPositions);
 			}
 
-			gridRowPositions.add(new GridRowPosition(columnStartIndex, NoteLength.QUARTER));
+			gridRowPositions.add(new GridRowPosition(columnStartIndex % TrackRowView.QUARTER_COUNT,
+					NoteLength.QUARTER));
 			gridRowContent.put(sparseArrayIndex, gridRowPositions);
 		}
 

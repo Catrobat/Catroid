@@ -24,14 +24,14 @@ package org.catrobat.catroid.pocketmusic.note.midi;
 
 import android.os.Environment;
 
-import com.leff.midi.MidiFile;
-import com.leff.midi.MidiTrack;
-import com.leff.midi.event.ChannelEvent;
-import com.leff.midi.event.ProgramChange;
-import com.leff.midi.event.meta.Tempo;
-import com.leff.midi.event.meta.Text;
-import com.leff.midi.event.meta.TimeSignature;
-import com.leff.midi.event.meta.TrackName;
+import com.pdrogfer.mididroid.MidiFile;
+import com.pdrogfer.mididroid.MidiTrack;
+import com.pdrogfer.mididroid.event.ChannelEvent;
+import com.pdrogfer.mididroid.event.ProgramChange;
+import com.pdrogfer.mididroid.event.meta.Tempo;
+import com.pdrogfer.mididroid.event.meta.Text;
+import com.pdrogfer.mididroid.event.meta.TimeSignature;
+import com.pdrogfer.mididroid.event.meta.TrackName;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;

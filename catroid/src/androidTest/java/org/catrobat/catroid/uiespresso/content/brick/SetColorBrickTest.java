@@ -35,10 +35,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.testBrickTextFieldWithFormulaEditor;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class SetColorBrickTest {
+	private int brickPosition;
+
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
@@ -46,13 +48,14 @@ public class SetColorBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		BrickTestUtils.createProjectAndGetStartScript("setColorBrickTest1").addBrick(new SetColorBrick(0f));
+		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
 	public void setColorBrickTest() {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(1, R.string.brick_set_color);
-		testBrickTextFieldWithFormulaEditor(1, R.id.brick_set_color_edit_text, 1);
+		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_color);
+		enterValueInFormulaTextFieldOnBrickAtPosition(1, R.id.brick_set_color_edit_text, brickPosition);
 	}
 }

@@ -142,16 +142,16 @@ public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActiv
 			switch (item[0]) {
 				case MOTOR_MOVE:
 
-					m = firmataUtils.getAnalogMesageData();
+					m = firmataUtils.getAnalogMessageData();
 					assertEquals("Wrong pin", item[1], m.getPin());
 					assertEquals("Wrong speed", percentToSpeed(item[2]), m.getData());
 					break;
 				case MOTOR_STOP:
-					m = firmataUtils.getAnalogMesageData();
+					m = firmataUtils.getAnalogMessageData();
 					assertEquals("Wrong pin", item[1], m.getPin());
 					assertEquals("Wrong speed", 0, m.getData());
 
-					m = firmataUtils.getAnalogMesageData();
+					m = firmataUtils.getAnalogMessageData();
 					assertEquals("Wrong pin", item[2], m.getPin());
 					assertEquals("Wrong speed", 0, m.getData());
 

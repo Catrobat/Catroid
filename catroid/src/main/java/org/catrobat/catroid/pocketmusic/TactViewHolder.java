@@ -21,36 +21,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.util.matchers;
+package org.catrobat.catroid.pocketmusic;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ListView;
 
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-
-public final class ScriptListMatchers {
-	// Suppress default constructor for noninstantiability
-	private ScriptListMatchers() {
-		throw new AssertionError();
-	}
-
-	public static Matcher<View> isScriptListView() {
-		return new TypeSafeMatcher<View>() {
-
-			@Override
-			protected boolean matchesSafely(View view) {
-				return view instanceof BrickDragAndDropListView && ((ListView) view).getAdapter()
-						instanceof BrickAdapter;
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("Locate scriptlistView within view");
-			}
-		};
+public class TactViewHolder extends RecyclerView.ViewHolder {
+	public TactViewHolder(View itemView) {
+		super(itemView);
 	}
 }

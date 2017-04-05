@@ -23,7 +23,9 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import android.graphics.Point;
-import android.test.InstrumentationTestCase;
+import android.support.test.annotation.UiThreadTest;
+import android.support.test.rule.UiThreadTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -48,12 +50,26 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParserTestSensors extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+@RunWith(AndroidJUnit4.class)
+public class ParserTestSensors {
+	@Rule
+	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
+
 	private static final String TAG = ParserTestSensors.class.getSimpleName();
 
 	private Project project;
@@ -61,9 +77,8 @@ public class ParserTestSensors extends InstrumentationTestCase {
 	Script startScript1;
 	private float delta = 0.001f;
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		createProject();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
@@ -74,14 +89,15 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
 	}
 
-	@Override
+	@After
 	public void tearDown() throws Exception {
 		SensorHandler.stopSensorListeners();
 		Reflection.setPrivateField(SensorHandler.class, "instance", null);
 		Reflection.setPrivateField(SensorLoudness.class, "instance", null);
-		super.tearDown();
 	}
 
+	@Test
+	@UiThreadTest
 	public void testSensorManagerNotInitialized() {
 		SensorHandler.registerListener(null);
 		SensorHandler.unregisterListener(null);
@@ -96,6 +112,8 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
+	@UiThreadTest
 	public void testSensorHandlerWithLookSensorValue() {
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
 		assertEquals("SensorHandler returned wrong value when Sensor is not found in List", 0d,
@@ -103,6 +121,8 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		SensorHandler.stopSensorListeners();
 	}
 
+	@Test
+	@UiThreadTest
 	public void testFaceDetection() {
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
 		FaceDetector faceDetector = (FaceDetector) Reflection.getPrivateField(FaceDetectionHandler.class,
@@ -175,6 +195,8 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		SensorHandler.stopSensorListeners();
 	}
 
+	@Test
+	@UiThreadTest
 	public void testMicRelease() {
 
 		SensorLoudness.getSensorLoudness();

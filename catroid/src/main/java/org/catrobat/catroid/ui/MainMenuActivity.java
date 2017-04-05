@@ -74,7 +74,6 @@ import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
-import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
@@ -302,14 +301,13 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!STANDALONE_MODE) {
 			findViewById(R.id.progress_circle).setVisibility(View.GONE);
 			findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
-		}
-		PreStageActivity.shutdownPersistentResources();
-		if (!STANDALONE_MODE) {
+
+			PreStageActivity.shutdownPersistentResources();
+
 			setMainMenuButtonContinueText();
 			findViewById(R.id.main_menu_button_continue).setEnabled(true);
-		} else {
-			FlashUtil.initializeFlash();
 		}
+
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 		if (projectName != null) {
 			loadProjectInBackground(projectName);

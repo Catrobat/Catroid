@@ -63,6 +63,10 @@ public final class UiTestUtils {
 		return InstrumentationRegistry.getTargetContext().getResources();
 	}
 
+	public static String getResourcesString(int stringId) {
+		return InstrumentationRegistry.getTargetContext().getResources().getString(stringId);
+	}
+
 	@Nullable
 	public static Activity getCurrentActivity() {
 		final Activity[] currentActivity = { null };
