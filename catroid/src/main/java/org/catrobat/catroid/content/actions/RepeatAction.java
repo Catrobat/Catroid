@@ -67,7 +67,7 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 		if (executedCount >= repeatCountValue && !isForeverRepeat) {
 			return true;
 		}
-		if (action.act(delta) && currentTime >= LOOP_DELAY) {
+		if (action != null && action.act(delta) && currentTime >= LOOP_DELAY) {
 
 			executedCount++;
 			if (executedCount >= repeatCountValue && !isForeverRepeat) {
