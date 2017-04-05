@@ -29,7 +29,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -58,36 +58,36 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class DeleteLookDialogTest {
+public class DeleteSoundDialogTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
 
-	private String toBeDeletedLookName = "testLook2";
+	private String toBeDeletedSoundName = "testLook2";
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("deleteLooksDialogTest");
+		createProject("deleteSoundDialogTest");
 
 		Intent intent = new Intent();
-		intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, ScriptActivity.FRAGMENT_LOOKS);
+		intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, ScriptActivity.FRAGMENT_SOUNDS);
 
 		baseActivityTestRule.launchActivity(intent);
 	}
 
 	@Test
-	public void deleteLookDialogTest() {
+	public void deleteSoundDialogTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		onView(withText(toBeDeletedLookName)).perform(click());
+		onView(withText(toBeDeletedSoundName)).perform(click());
 		onView(withContentDescription("Done")).perform(click());
 
-		onView(withText(R.string.dialog_confirm_delete_look_title)).inRoot(isDialog())
+		onView(withText(R.string.dialog_confirm_delete_sound_title)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_confirm_delete_look_message)).inRoot(isDialog())
+		onView(withText(R.string.dialog_confirm_delete_sound_message)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
@@ -98,22 +98,22 @@ public class DeleteLookDialogTest {
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
 				.perform(click());
 
-		onView(withText(toBeDeletedLookName))
+		onView(withText(toBeDeletedSoundName))
 				.check(doesNotExist());
 	}
 
 	@Test
-	public void cancelDeleteLookDialogTest() {
+	public void cancelDeleteSoundDialogTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		onView(withText(toBeDeletedLookName)).perform(click());
+		onView(withText(toBeDeletedSoundName)).perform(click());
 		onView(withContentDescription("Done")).perform(click());
 
-		onView(withText(R.string.dialog_confirm_delete_look_title)).inRoot(isDialog())
+		onView(withText(R.string.dialog_confirm_delete_sound_title)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_confirm_delete_look_message)).inRoot(isDialog())
+		onView(withText(R.string.dialog_confirm_delete_sound_message)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
@@ -124,7 +124,7 @@ public class DeleteLookDialogTest {
 		onView(allOf(withId(android.R.id.button2), withText(R.string.no)))
 				.perform(click());
 
-		onView(withText(toBeDeletedLookName))
+		onView(withText(toBeDeletedSoundName))
 				.check(matches(isDisplayed()));
 	}
 
@@ -137,31 +137,31 @@ public class DeleteLookDialogTest {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		File imageFile = UiTestUtils.saveFileToProject(
-				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_sunglasses.png",
-				org.catrobat.catroid.test.R.drawable.catroid_banzai, InstrumentationRegistry.getTargetContext(),
-				UiTestUtils.FileTypes.IMAGE
+		File soundFile = UiTestUtils.saveFileToProject(
+				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
+				org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getTargetContext(),
+				UiTestUtils.FileTypes.SOUND
 		);
 
-		File imageFile2 = UiTestUtils.saveFileToProject(
-				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_banzai.png",
-				org.catrobat.catroid.test.R.drawable.catroid_banzai, InstrumentationRegistry.getTargetContext(),
-				UiTestUtils.FileTypes.IMAGE
+		File soundFile2 = UiTestUtils.saveFileToProject(
+				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "testsoundui.mp3",
+				org.catrobat.catroid.test.R.raw.testsoundui, InstrumentationRegistry.getTargetContext(),
+				UiTestUtils.FileTypes.SOUND
 		);
 
-		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
-		LookData lookData = new LookData();
-		lookData.setLookFilename(imageFile.getName());
-		lookData.setLookName("testLook1");
-		lookDataList.add(lookData);
+		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle("testLook1");
+		soundInfoList.add(soundInfo);
 		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 
-		LookData lookData2 = new LookData();
-		lookData2.setLookFilename(imageFile2.getName());
-		lookData2.setLookName(toBeDeletedLookName);
-		lookDataList.add(lookData2);
+		SoundInfo soundInfo2 = new SoundInfo();
+		soundInfo2.setSoundFileName(soundFile2.getName());
+		soundInfo2.setTitle(toBeDeletedSoundName);
+		soundInfoList.add(soundInfo2);
 		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(lookData2.getChecksum(), lookData2.getAbsolutePath());
+				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 	}
 }
