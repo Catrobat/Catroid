@@ -41,6 +41,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -69,18 +70,57 @@ public final class BrickTestUtils {
 
 	public static void checkIfSpinnerOnBrickAtPositionShowsString(int spinnerResourceId, int position, int
 			stringResourceId) {
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position,
+				UiTestUtils.getResourcesString(stringResourceId));
+	}
+
+	public static void checkIfSpinnerOnBrickAtPositionShowsString(int spinnerResourceId, int position, String
+			expectedString) {
 		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
-				.onChildView(withText(stringResourceId))
+				.onChildView(withText(expectedString))
 				.check(matches(isDisplayed()));
 	}
 
-	public static void clickSelectCheckSpinnerValueOnBrick(int spinnerResourceId, int
-			position, int stringResourceId) {
+	public static void clickSelectCheckSpinnerValueOnBrick(int spinnerResourceId, int position, int stringResourceId) {
 		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
 				.perform(click());
 		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
 				.perform(click());
 		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, stringResourceId);
+	}
+
+	public static void createNewVariableOnSpinnerInitial(int spinnerResourceId, int position,
+			String variableName) {
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position,
+				R.string.brick_variable_spinner_create_new_variable);
+
+		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+					.onChildView(withText(R.string.brick_variable_spinner_create_new_variable))
+				.perform(click());
+
+		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, variableName);
+	}
+
+	public static void createNewVariableOnSpinner(int spinnerResourceId, int position, String variableName) {
+		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+				.perform(click());
+
+		onView(withText(R.string.brick_variable_spinner_create_new_variable))
+				.perform(click());
+
+		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
+		// todo: Uncomment when CAT-2359 is fixed
+		// checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, variableName);
+	}
+
+	public static void enterTextOnDialogue(int dialogueId, String textToEnter) {
+		onView(withId(dialogueId))
+				.check(matches(isDisplayed()));
+		onView(withId(dialogueId))
+				.perform(typeText(textToEnter));
+		onView(withId(android.R.id.button1))
+				.perform(click());
 	}
 
 	public static Script createProjectAndGetStartScript(String projectName) {
@@ -118,6 +158,32 @@ public final class BrickTestUtils {
 				.perform(click());
 		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
 				.check(matches(withText(valueToSet + " ")));
+	}
+
+	public static void createUserListFromDataFragment(String userListName, boolean forAllSprites) {
+		onView(withId(R.id.data_user_variables_headline))
+				.check(matches(isDisplayed()));
+		onView(withId(R.id.button_add))
+				.perform(click());
+
+		onView(withId(R.id.dialog_formula_editor_data_name_edit_text))
+				.perform(typeText(userListName));
+
+		onView(withId(R.id.dialog_formula_editor_data_is_list_checkbox))
+				.perform(click());
+		onView(withId(R.id.dialog_formula_editor_data_is_list_checkbox))
+				.check(matches(isChecked()));
+
+		if (forAllSprites) {
+			onView(withId(R.id.dialog_formula_editor_data_name_global_variable_radio_button))
+					.perform(click());
+		} else {
+			onView(withId(R.id.dialog_formula_editor_data_name_local_variable_radio_button))
+					.perform(click());
+		}
+		onView(withId(android.R.id.button1));
+		onView(withText(userListName))
+				.check(matches(isDisplayed()));
 	}
 
 	public static void enterStringInFormulaTextFieldOnBrickAtPosition(String stringToBeEntered,
