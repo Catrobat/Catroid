@@ -102,4 +102,18 @@ public class VariableBrickTest {
 		checkIfBrickAtPositionShowsString(setBrickPosition, R.string.brick_set_variable);
 		checkIfBrickAtPositionShowsString(changeBrickPosition, R.string.brick_change_variable);
 	}
+
+	@Test
+	public void testAfterDeleteBrickVariableStillVisible() {
+		final String variableName = "testVariable";
+		onView(withId(R.id.set_variable_spinner)).perform(click());
+		onView(withId(R.id.dialog_formula_editor_data_name_edit_text)).perform(typeText(variableName));
+		onView(withText(R.string.ok)).perform(click());
+		onView(withText(R.string.brick_set_variable)).perform(click());
+		onView(withText(R.string.brick_context_dialog_delete_brick)).perform(click());
+		onView(withText(R.string.yes)).perform(click());
+		checkIfBrickAtPositionShowsString(setBrickPosition, R.string.brick_change_variable);
+		onView(withId(R.id.change_variable_spinner)).perform(click());
+		onView(withText(variableName)).perform(click());
+	}
 }
