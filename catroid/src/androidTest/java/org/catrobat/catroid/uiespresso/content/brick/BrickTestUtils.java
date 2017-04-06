@@ -39,6 +39,8 @@ import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
@@ -137,9 +139,6 @@ public final class BrickTestUtils {
 
 	public static <V extends Number> void enterValueInFormulaTextFieldOnBrickAtPosition(V valueToBeEntered,
 			int editTextResourceId, int position) {
-		// When using double or float, integer-like values are parsed to values without decimal points,
-		// e.g 12.0 -> 12
-
 		String valueToSet = "";
 
 		if (valueToBeEntered instanceof Float) {
@@ -156,6 +155,9 @@ public final class BrickTestUtils {
 				.perform(CustomActions.typeInValue(valueToSet));
 		onView(withId(R.id.formula_editor_keyboard_ok))
 				.perform(click());
+
+		// When using double or float, but value is an integer, the textField will show it as an integer
+		// e.g 12.0 -> 12
 		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
 				.check(matches(withText(valueToSet + " ")));
 	}
@@ -167,10 +169,11 @@ public final class BrickTestUtils {
 				.perform(click());
 
 		onView(withId(R.id.dialog_formula_editor_data_name_edit_text))
-				.perform(typeText(userListName));
+				.perform(typeText(userListName), closeSoftKeyboard());
 
 		onView(withId(R.id.dialog_formula_editor_data_is_list_checkbox))
-				.perform(click());
+				.perform(scrollTo(), click());
+
 		onView(withId(R.id.dialog_formula_editor_data_is_list_checkbox))
 				.check(matches(isChecked()));
 
