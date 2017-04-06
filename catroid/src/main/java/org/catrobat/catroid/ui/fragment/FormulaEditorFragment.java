@@ -79,14 +79,9 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		ViewTreeObserver.OnGlobalLayoutListener {
 	private static final String TAG = FormulaEditorFragment.class.getSimpleName();
 
-	private static final int PARSER_OK = -1;
-	private static final int PARSER_STACK_OVERFLOW = -2;
-	private static final int PARSER_INPUT_SYNTAX_ERROR = -3;
-
 	private static final int SET_FORMULA_ON_CREATE_VIEW = 0;
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
 	private static final int TIME_WINDOW = 2000;
-
 	public static final int REQUEST_GPS = 1;
 
 	public static final String FORMULA_EDITOR_FRAGMENT_TAG = FormulaEditorFragment.class.getSimpleName();
@@ -198,7 +193,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		FormulaElement formulaParseTree = formulaToParse.parseFormula();
 
 		switch (formulaToParse.getErrorTokenIndex()) {
-			case PARSER_OK:
+			case InternFormulaParser.PARSER_OK:
 				currentFormula.setRoot(formulaParseTree);
 				if (onFormulaChangedListener != null) {
 					onFormulaChangedListener.onFormulaChanged(formulaBrick, currentBrickField, currentFormula);
@@ -243,7 +238,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			return;
 		}
 
-		formulaEditorFragment.formulaEditorEditText.overwriteCurrentFormula(newFormula.getInternFormulaState());
+		formulaEditorEditText.overwriteCurrentFormula(newFormula.getInternFormulaState());
 	}
 
 	public static void changeInputField(View view, Brick.BrickField brickField) {
@@ -618,23 +613,31 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		FormulaElement formulaParseTree = formulaToParse.parseFormula();
 
 		switch (formulaToParse.getErrorTokenIndex()) {
-			case PARSER_OK:
-				currentFormula.setRoot(formulaParseTree);
-				if (onFormulaChangedListener != null) {
-					onFormulaChangedListener.onFormulaChanged(formulaBrick, currentBrickField, currentFormula);
+			case InternFormulaParser.PARSER_OK:
+				return saveValidFormula(formulaParseTree);
+			case InternFormulaParser.PARSER_STACK_OVERFLOW:
+				return checkReturnWithoutSaving(InternFormulaParser.PARSER_STACK_OVERFLOW);
+			case InternFormulaParser.PARSER_NO_INPUT:
+				if (Brick.BrickField.isExpectingStringValue(currentBrickField)) {
+					return saveValidFormula(new FormulaElement(FormulaElement.ElementType.STRING, "", null));
 				}
-				if (formulaEditorBrick != null) {
-					currentFormula.refreshTextField(brickView);
-				}
-				formulaEditorEditText.formulaSaved();
-				hasFormulaBeenChanged = true;
-				return true;
-			case PARSER_STACK_OVERFLOW:
-				return checkReturnWithoutSaving(PARSER_STACK_OVERFLOW);
 			default:
 				formulaEditorEditText.setParseErrorCursorAndSelection();
-				return checkReturnWithoutSaving(PARSER_INPUT_SYNTAX_ERROR);
+				return checkReturnWithoutSaving(InternFormulaParser.PARSER_INPUT_SYNTAX_ERROR);
 		}
+	}
+
+	private boolean saveValidFormula(FormulaElement formulaElement) {
+		currentFormula.setRoot(formulaElement);
+		if (onFormulaChangedListener != null) {
+			onFormulaChangedListener.onFormulaChanged(formulaBrick, currentBrickField, currentFormula);
+		}
+		if (formulaEditorBrick != null) {
+			currentFormula.refreshTextField(brickView);
+		}
+		formulaEditorEditText.formulaSaved();
+		hasFormulaBeenChanged = true;
+		return true;
 	}
 
 	private boolean checkReturnWithoutSaving(int errorType) {
@@ -648,10 +651,10 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			return true;
 		} else {
 			switch (errorType) {
-				case PARSER_INPUT_SYNTAX_ERROR:
+				case InternFormulaParser.PARSER_INPUT_SYNTAX_ERROR:
 					showToast(R.string.formula_editor_parse_fail, true);
 					break;
-				case PARSER_STACK_OVERFLOW:
+				case InternFormulaParser.PARSER_STACK_OVERFLOW:
 					showToast(R.string.formula_editor_parse_fail_formula_too_long, true);
 					break;
 			}
