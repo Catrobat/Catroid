@@ -232,10 +232,11 @@ public class Sprite implements Serializable, Cloneable {
 		return matchingUserBricks;
 	}
 
-	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
+	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions,
+			boolean includeStartScripts) {
 		for (int scriptCounter = 0; scriptCounter < scriptList.size(); scriptCounter++) {
 			Script script = scriptList.get(scriptCounter);
-			if (script instanceof StartScript && !isClone) {
+			if (script instanceof StartScript && !isClone && includeStartScripts) {
 				Action sequenceAction = createActionSequence(script);
 				look.addAction(sequenceAction);
 				BroadcastHandler.getActionScriptMap().put(sequenceAction, script);
@@ -270,6 +271,10 @@ public class Sprite implements Serializable, Cloneable {
 				createWhenConditionBecomesTrueAction((WhenConditionScript) script);
 			}
 		}
+	}
+
+	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
+		createStartScriptActionSequenceAndPutToMap(scriptActions, true);
 	}
 
 	private void createWhenConditionBecomesTrueAction(WhenConditionScript script) {
