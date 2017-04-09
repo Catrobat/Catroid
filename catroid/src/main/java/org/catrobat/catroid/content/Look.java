@@ -43,7 +43,6 @@ import com.badlogic.gdx.utils.Array;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.ArrayList;
