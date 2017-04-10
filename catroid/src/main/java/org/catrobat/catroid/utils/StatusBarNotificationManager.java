@@ -310,6 +310,7 @@ public final class StatusBarNotificationManager {
 			String projectName = intent.getBundleExtra("bundle").getString("projectName");
 			String projectDescription = intent.getBundleExtra("bundle").getString("projectDescription");
 			String projectPath = intent.getBundleExtra("bundle").getString("projectPath");
+			String[] sceneNames = intent.getBundleExtra("bundle").getStringArray("sceneNames");
 			String token = intent.getBundleExtra("bundle").getString("token");
 			String username = intent.getBundleExtra("bundle").getString("username");
 			ResultReceiver receiver = intent.getBundleExtra("bundle").getParcelable("receiver");
@@ -321,7 +322,7 @@ public final class StatusBarNotificationManager {
 			reuploadIntent.putExtra("projectPath", projectPath);
 			reuploadIntent.putExtra("username", username);
 			reuploadIntent.putExtra("token", token);
-
+			reuploadIntent.putExtra("sceneNames", sceneNames);
 			return reuploadIntent;
 		}
 
