@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!--
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -110,6 +109,8 @@
 
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
+    <string name="preference_title_language">Language</string>
+    <string name="preference_description_language">Allow to change the language</string>
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control ARDrone 2.0 quadcopters</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
