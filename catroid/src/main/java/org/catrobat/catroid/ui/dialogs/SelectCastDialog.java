@@ -71,7 +71,7 @@ public class SelectCastDialog extends DialogFragment {
 					+ CastManager.getInstance().getSelectedDevice().getFriendlyName());
 			builder.setPositiveButton(R.string.disconnect, new DialogInterface.OnClickListener() {
 				@Override
-				public void onClick(DialogInterface dialogInterface, int i) {
+				public void onClick(DialogInterface dialogInterface, int which) {
 					synchronized (this) {
 						CastManager.getInstance().getMediaRouter().unselect(MediaRouter.UNSELECT_REASON_STOPPED);
 					}

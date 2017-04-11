@@ -323,18 +323,18 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupChromecastCategoryList(Context context) {
 		List<Brick> chromecastBrickList = new ArrayList<Brick>();
-		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
-				.cast_gamepad_A))));
-		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
-				.cast_gamepad_B))));
-		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
-				.cast_gamepad_up))));
-		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
-				.cast_gamepad_down))));
-		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
-				.cast_gamepad_left))));
-		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(context.getString(R.string
-				.cast_gamepad_right))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
+				context.getString(R.string.cast_gamepad_A))));
+//		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
+//				context.getString(R.string.cast_gamepad_B))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
+				context.getString(R.string.cast_gamepad_up))));
+/*		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
+				context.getString(R.string.cast_gamepad_down))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
+				context.getString(R.string.cast_gamepad_left))));
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
+				context.getString(R.string.cast_gamepad_right))));*/
 
 		return chromecastBrickList;
 	}

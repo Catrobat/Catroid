@@ -97,21 +97,27 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
 		actionSpinner.setFocusableInTouchMode(false);
 		actionSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			actionSpinner.setClickable(true);
+		actionSpinner.setEnabled(false);
+		actionSpinner.setClickable(true);
+ 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			actionSpinner.setEnabled(true);
-		} else {
-			actionSpinner.setClickable(false);
-			actionSpinner.setEnabled(false);
 		}
+//
+// 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+//			actionSpinner.setClickable(true);
+//			actionSpinner.setEnabled(true);
+//		} else {
+//			actionSpinner.setClickable(false);
+//			actionSpinner.setEnabled(false);
+//		}
 
 		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
 				R.array.gamepad_buttons_array, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		actionSpinner.setAdapter(arrayAdapter);
-		actionSpinner.setClickable(true);
-		actionSpinner.setFocusable(true);
+//		actionSpinner.setClickable(true);
+//		actionSpinner.setFocusable(true);
 
 		actionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -133,7 +139,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 		});
 
 		actionSpinner.setSelection(position);
-		actionSpinner.setFocusable(false);
+//		actionSpinner.setFocusable(false);
 		return view;
 	}
 

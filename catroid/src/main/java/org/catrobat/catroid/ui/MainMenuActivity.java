@@ -157,47 +157,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 				loadProgramFromExternalSource(loadExternalProjectUri);
 			}
 
-			sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-			if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-				if (sharedpreferences.getBoolean("firstRun", true)) {
-					sharedpreferences.edit().putBoolean("firstRun", false).commit();
-
-					TextView textView = (TextView) findViewById(R.id.cast_text);
-
-					SpannableStringBuilder builder = new SpannableStringBuilder();
-					builder.append("Tap the Cast Icon (").append(" ");
-					builder.setSpan(new ImageSpan(getApplicationContext(), R.drawable.ic_cast_white),
-							builder.length() - 1, builder.length(), 0);
-					builder.append(") to stream media to your TV");
-
-					textView.setText(builder);
-
-					Button button = (Button) findViewById(R.id.cast_introduction_button);
-
-					Overlay overlay = new Overlay()
-							.disableClick(false)
-							.setStyle(Overlay.Style.Circle);
-
-					tourGuideHandler = TourGuide.init(this).with(TourGuide.Technique.Click)
-							.setOverlay(overlay)
-							.playOn(button);
-
-					button.setOnClickListener(new View.OnClickListener() {
-						public void onClick(View v) {
-							View castView = findViewById(R.id.cast_view);
-							castView.setVisibility(View.GONE);
-							tourGuideHandler.cleanUp();
-						}
-					});
-				} else {
-					findViewById(R.id.cast_view).setVisibility(View.GONE);
-				}
-				if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-					CastManager.getInstance().initializeCast(this);
-				}
-			} else {
-				findViewById(R.id.cast_view).setVisibility(View.GONE);
-			}
+			setCastIntroductionScreen();
 		}
 	}
 
@@ -343,6 +303,51 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
 		loadProjectTask.execute();
+	}
+
+	private void setCastIntroductionScreen()
+	{
+		sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			if (sharedpreferences.getBoolean("firstRun", true)) {
+				sharedpreferences.edit().putBoolean("firstRun", false).commit();
+
+				TextView textView = (TextView) findViewById(R.id.cast_text);
+
+				SpannableStringBuilder builder = new SpannableStringBuilder();
+				builder.append("Tap the Cast Icon (").append(" ");
+				builder.setSpan(new ImageSpan(getApplicationContext(), R.drawable.ic_cast_white),
+						builder.length() - 1, builder.length(), 0);
+				builder.append(") to stream media to your TV");
+
+				textView.setText(builder);
+
+				Button button = (Button) findViewById(R.id.cast_introduction_button);
+
+				Overlay overlay = new Overlay()
+						.disableClick(false)
+						.setStyle(Overlay.Style.Circle);
+
+				tourGuideHandler = TourGuide.init(this).with(TourGuide.Technique.Click)
+						.setOverlay(overlay)
+						.playOn(button);
+
+				button.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						View castView = findViewById(R.id.cast_view);
+						castView.setVisibility(View.GONE);
+						tourGuideHandler.cleanUp();
+					}
+				});
+			} else {
+				findViewById(R.id.cast_view).setVisibility(View.GONE);
+			}
+			if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+				CastManager.getInstance().initializeCast(this);
+			}
+		} else {
+			findViewById(R.id.cast_view).setVisibility(View.GONE);
+		}
 	}
 
 	@Override
