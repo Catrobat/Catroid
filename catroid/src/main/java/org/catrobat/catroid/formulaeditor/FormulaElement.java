@@ -442,8 +442,8 @@ public class FormulaElement implements Serializable {
 			case SQRT:
 				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.sqrt(doubleValueOfLeftChild);
 			case RAND:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue :
-						interpretFunctionRand(doubleValueOfLeftChild, doubleValueOfRightChild);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
+						: interpretFunctionRand(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case ABS:
 				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.abs(doubleValueOfLeftChild);
 			case ROUND:
@@ -451,8 +451,8 @@ public class FormulaElement implements Serializable {
 			case PI:
 				return java.lang.Math.PI;
 			case MOD:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue :
-						interpretFunctionMod(doubleValueOfLeftChild, doubleValueOfRightChild);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
+						: interpretFunctionMod(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case ARCSIN:
 				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.asin(doubleValueOfLeftChild));
 			case ARCCOS:
@@ -462,8 +462,8 @@ public class FormulaElement implements Serializable {
 			case EXP:
 				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.exp(doubleValueOfLeftChild);
 			case POWER:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ?
-						defaultReturnValue : java.lang.Math.pow(doubleValueOfLeftChild, doubleValueOfRightChild);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
+						: java.lang.Math.pow(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case FLOOR:
 				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.floor(doubleValueOfLeftChild);
 			case CEIL:
@@ -514,14 +514,14 @@ public class FormulaElement implements Serializable {
 				}
 				break;
 			case MULTI_FINGER_TOUCHED:
-				return (doubleValueOfLeftChild != null && TouchUtil.isFingerTouching(doubleValueOfLeftChild.intValue
-						())) ? 1d : defaultReturnValue;
+				return (doubleValueOfLeftChild != null && TouchUtil.isFingerTouching(doubleValueOfLeftChild.intValue()))
+						? 1d : defaultReturnValue;
 			case MULTI_FINGER_X:
 				return doubleValueOfLeftChild != null ? (double) TouchUtil.getX(doubleValueOfLeftChild
 						.intValue()) : defaultReturnValue;
 			case MULTI_FINGER_Y:
-				return doubleValueOfLeftChild != null ? (double) TouchUtil.getY(doubleValueOfLeftChild.intValue
-						()) : defaultReturnValue;
+				return doubleValueOfLeftChild != null ? (double) TouchUtil.getY(doubleValueOfLeftChild.intValue())
+						: defaultReturnValue;
 			case LIST_ITEM:
 				return interpretFunctionListItem(left, sprite);
 			case CONTAINS:
