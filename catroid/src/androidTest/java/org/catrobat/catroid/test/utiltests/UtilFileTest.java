@@ -95,7 +95,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 		double expectedSizeInKilobytes = 84.2;
 		assertEquals("Unexpected file size String", String.format(Locale.getDefault(), "%.1f KB", expectedSizeInKilobytes),
-				UtilFile.getSizeAsString(testDirectory));
+				UtilFile.getSizeAsString(testDirectory,getInstrumentation().getContext()));
 
 		for (int i = 2; i < 48; i++) {
 			UtilFile.saveFileToProject("testDirectory", "testScene", i + "testsound.mp3",
@@ -104,7 +104,8 @@ public class UtilFileTest extends InstrumentationTestCase {
 		}
 		DecimalFormat decimalFormat = new DecimalFormat("#.0");
 		String expected = decimalFormat.format(2.0) + " MB";
-		assertEquals("Unexpected file size String", expected, UtilFile.getSizeAsString(testDirectory));
+		assertEquals("Unexpected file size String", expected, UtilFile.getSizeAsString(testDirectory,
+				getInstrumentation().getContext()));
 
 		PrintWriter printWriter = null;
 
@@ -123,7 +124,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 			}
 		}
 
-		assertEquals("Unexpected Filesize!", "7 Byte", UtilFile.getSizeAsString(testFile));
+		assertEquals("Unexpected Filesize!", "7 Byte", UtilFile.getSizeAsString(testFile,getInstrumentation().getContext()));
 
 		UtilFile.deleteDirectory(testDirectory);
 	}
