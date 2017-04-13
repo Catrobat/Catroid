@@ -693,6 +693,12 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_lego_nxt);
 			}
 		}
+		categoryBricks = setupLegoEv3CategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_lego_ev3);
+			}
+		}
 		categoryBricks = setupArduinoCategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
