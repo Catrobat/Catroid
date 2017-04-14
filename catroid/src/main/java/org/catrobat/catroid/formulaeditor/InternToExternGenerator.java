@@ -180,8 +180,6 @@ public class InternToExternGenerator {
 				.formula_editor_object_background_number);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_BACKGROUND_NAME.name(), R.string
 				.formula_editor_object_background_name);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_DISTANCE_TO.name(),
-				R.string.formula_editor_object_distance_to);
 
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.LOGICAL_NOT.name(), R.string.formula_editor_logic_not);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.NOT_EQUAL.name(), R.string.formula_editor_logic_notequal);
@@ -300,6 +298,11 @@ public class InternToExternGenerator {
 				String collisionTag = CatroidApplication.getAppContext().getString(R.string
 						.formula_editor_function_collision);
 				return collisionTag + "(" + internToken.getTokenStringValue() + ")";
+			case DISTANCE_TO_TOUCH_POSITION:
+			case DISTANCE_TO_SPRITE_POSITION:
+				String distanceTo = CatroidApplication.getAppContext().getString(R.string
+						.formula_editor_object_distance_to);
+				return distanceTo + "(" + internToken.getTokenStringValue() + ")";
 
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);

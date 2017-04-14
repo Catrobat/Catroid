@@ -29,6 +29,8 @@ import java.util.List;
 
 public class InternFormulaKeyboardAdapter {
 
+	public static final int FORMULA_EDITOR_DISTANCE_TO_TOUCH_POSITION_ID = 4;
+	public static final int FORMULA_EDITOR_DISTANCE_TO_SPRITE_POSITION_ID = 3;
 	public static final int FORMULA_EDITOR_COLLIDE_RESOURCE_ID = 2;
 	public static final int FORMULA_EDITOR_USER_LIST_RESOURCE_ID = 1;
 	public static final int FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID = 0;
@@ -42,6 +44,16 @@ public class InternFormulaKeyboardAdapter {
 		//COLLISION FORMULA
 		if ((resource == FORMULA_EDITOR_COLLIDE_RESOURCE_ID) && !name.isEmpty()) {
 			return buildCollideWithFormula(name);
+		}
+
+		//DISTANCE TO TOUCH POSITION FORMULA
+		if ((resource == FORMULA_EDITOR_DISTANCE_TO_TOUCH_POSITION_ID) && !name.isEmpty()) {
+			return buildDistanceToTouchPositionFormula(name);
+		}
+
+		//DISTANCE TO SPRITE POSITION FORMULA
+		if ((resource == FORMULA_EDITOR_DISTANCE_TO_SPRITE_POSITION_ID) && !name.isEmpty()) {
+			return buildDistanceToSpritePositionFormula(name);
 		}
 
 		//USER LISTS
@@ -345,8 +357,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_BACKGROUND_NUMBER);
 			case R.string.formula_editor_object_background_name:
 				return buildObject(Sensors.OBJECT_BACKGROUND_NAME);
-			case R.string.formula_editor_object_distance_to:
-				return buildObject(Sensors.OBJECT_DISTANCE_TO);
 			case R.string.formula_editor_function_collides_with_edge:
 				return buildObject(Sensors.COLLIDES_WITH_EDGE);
 			case R.string.formula_editor_function_touched:
@@ -382,6 +392,18 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildCollideWithFormula(String formula) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.COLLISION_FORMULA, formula));
+		return returnList;
+	}
+
+	private List<InternToken> buildDistanceToTouchPositionFormula(String formula) {
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(InternTokenType.DISTANCE_TO_TOUCH_POSITION, formula));
+		return returnList;
+	}
+
+	private List<InternToken> buildDistanceToSpritePositionFormula(String formula) {
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(InternTokenType.DISTANCE_TO_SPRITE_POSITION, formula));
 		return returnList;
 	}
 

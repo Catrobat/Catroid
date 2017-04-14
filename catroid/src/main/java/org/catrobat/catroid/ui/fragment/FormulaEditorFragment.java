@@ -815,6 +815,16 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 				spriteName);
 	}
 
+	public void addDistanceToTouchPositionFormulaToActiveFormula(String spriteName) {
+		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_DISTANCE_TO_TOUCH_POSITION_ID,
+				spriteName);
+	}
+
+	public void addDistanceToSpritePositionFormulaToActiveFormula(String spriteName) {
+		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_DISTANCE_TO_SPRITE_POSITION_ID,
+				spriteName);
+	}
+
 	public void addStringToActiveFormula(String string) {
 		formulaEditorEditText.handleKeyEvent(R.id.formula_editor_keyboard_string, string);
 	}

@@ -1364,7 +1364,8 @@
     <string name="formula_editor_object_look_name">look_name</string>
     <string name="formula_editor_object_background_number">background_number</string>
     <string name="formula_editor_object_background_name">background_name</string>
-    <string name="formula_editor_object_distance_to">distance to</string>
+    <string name="formula_editor_object_distance_to">distance_to</string>
+    <string name="formula_editor_object_distance_to_touch_position">touch position</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Object</string>
     <string name="formula_editor_functions">Functions</string>

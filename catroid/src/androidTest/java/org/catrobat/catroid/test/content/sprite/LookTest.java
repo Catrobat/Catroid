@@ -39,7 +39,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.TouchUtil;
 
 public class LookTest extends InstrumentationTestCase {
 	private Look look;
@@ -367,26 +366,25 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong color value!", 40.0f, look.getColorInUserInterfaceDimensionUnit());
 	}
 
-	public void testDistanceTo() {
-		look.setXInUserInterfaceDimensionUnit(25);
-		look.setYInUserInterfaceDimensionUnit(55);
-		float touchPosition = look.getDistanceToTouchPositionInUserInterfaceDimensions();
+	public void testGetDistanceToInUserInterfaceDimensions() {
+		float spriteAx = 25;
+		float spriteAy = 55;
+		float spriteBx = 100;
+		float spriteBy = 200;
 
-		float pointAx = look.getXInUserInterfaceDimensionUnit();
-		float pointAy = look.getYInUserInterfaceDimensionUnit();
-		int touchIndex = TouchUtil.getLastTouchIndex();
-		float pointBx = TouchUtil.getX(touchIndex);
-		float pointBy = TouchUtil.getY(touchIndex);
+		look.setXInUserInterfaceDimensionUnit(spriteAx);
+		look.setYInUserInterfaceDimensionUnit(spriteAy);
+		double distanceTo = look.getDistanceToInUserInterfaceDimensions(spriteBx, spriteBy);
 
-		float vectorX = pointBx - pointAx;
-		float vectorY = pointBy - pointAy;
+		float vectorX = spriteBx - spriteAx;
+		float vectorY = spriteBy - spriteAy;
 
-		double squareX = (float) Math.pow(vectorX, 2);
-		double squareY = (float) Math.pow(vectorY, 2);
+		double squareX = Math.pow(vectorX, 2);
+		double squareY = Math.pow(vectorY, 2);
 
-		float squareRootOfScalar = (float) Math.sqrt(squareX + squareY);
+		double squareRootOfScalar = Math.sqrt(squareX + squareY);
 
-		assertEquals("Wrong distance to value!", touchPosition, squareRootOfScalar);
+		assertEquals("Wrong distance to value!", distanceTo, squareRootOfScalar);
 	}
 
 	public void testTouchDownFlipped() {
