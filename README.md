@@ -23,6 +23,8 @@ Start setting up the working environment by following the instructions in our  [
 
 Also make sure to read our guidelines for [creating a pull request](https://github.com/Catrobat/Catroid/wiki/Creating-a-pull-request)
 
+Also make sure to read our guidelines for [creating a pull request](https://github.com/Catrobat/Catroid/wiki/Creating-a-pull-request)
+
 
 # Resources and links #
 * [Google Play Store Download](https://play.google.com/store/apps/details?id=org.catrobat.catroid)
