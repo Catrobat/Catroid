@@ -9,6 +9,8 @@ sed_replace.txt
 *.metadata
 
 #IntelliJ IDEA
+Catroid.iml
+catroidSourceTest/catroidSourceTest.iml
 .idea
 *.ipr
 *.iws
