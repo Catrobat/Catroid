@@ -98,11 +98,10 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			if (adapter.getCheckedItems().isEmpty()) {
-				clearCheckedItems();
-			} else {
+			if (!adapter.getCheckedItems().isEmpty()) {
 				copyCheckedItems();
 			}
+			clearCheckedItems();
 		}
 	};
 
