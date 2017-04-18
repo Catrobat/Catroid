@@ -461,4 +461,12 @@ public class Project implements Serializable {
 			}
 		}
 	}
+
+	public synchronized void removeUnusedMessages() {
+		List<String> usedMessages = new ArrayList<>();
+		for (Scene scene : getSceneList()) {
+			scene.addUsedMessagesToList(usedMessages);
+		}
+		MessageContainer.removeUnusedMessages(usedMessages);
+	}
 }
