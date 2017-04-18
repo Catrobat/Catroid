@@ -57,7 +57,7 @@ public final class IconsUtilTest extends AndroidTestCase {
 		assertNotNull("Control pos drawable not found.", correctDrawable);
 
 		Bitmap bitmap = ((BitmapDrawable) drawables[0]).getBitmap();
-		assertEquals("Icon size did not match the expected size.", IconsUtil.smallIconSizeBricks, drawables[0].getBounds());
+		assertEquals("Icon size did not match the expected size.", IconsUtil.getSmallIconSizeBricks(), drawables[0].getBounds());
 		assertNotNull("No current bitmap.", bitmap);
 
 		Bitmap correctBitmap = ((BitmapDrawable) correctDrawable).getBitmap();
@@ -74,13 +74,13 @@ public final class IconsUtilTest extends AndroidTestCase {
 		IconsUtil.addIcon(getContext(), textView, getContext().getString(R.string.category_control));
 
 		Drawable[] drawables = textView.getCompoundDrawables();
-		assertNotNull("TextView has no CompoundDrables.", drawables);
+		assertNotNull("TextView has no CompoundDrawables.", drawables);
 
 		Drawable correctDrawable = getContext().getResources().getDrawable(R.drawable.control_pos);
 		assertNotNull("Control pos drawable not found.", correctDrawable);
 
 		Bitmap bitmap = ((BitmapDrawable) drawables[0]).getBitmap();
-		assertEquals("Icon size did not match the expected size.", IconsUtil.largeIconSizeBricks, drawables[0].getBounds());
+		assertEquals("Icon size did not match the expected size.", IconsUtil.getLargeIconSizeBricks(), drawables[0].getBounds());
 		assertNotNull("No current bitmap.", bitmap);
 
 		Bitmap correctBitmap = ((BitmapDrawable) correctDrawable).getBitmap();
@@ -103,7 +103,7 @@ public final class IconsUtilTest extends AndroidTestCase {
 		assertNotNull("Control pos drawable not found.", correctDrawable);
 
 		Bitmap bitmap = ((BitmapDrawable) drawables[0]).getBitmap();
-		assertEquals("Icon size did not match the expected size.", IconsUtil.smallIconSizeBricks, drawables[0].getBounds());
+		assertEquals("Icon size did not match the expected size.", IconsUtil.getSmallIconSizeBricks(), drawables[0].getBounds());
 		assertNotNull("No current bitmap.", bitmap);
 
 		Bitmap correctBitmap = ((BitmapDrawable) correctDrawable).getBitmap();

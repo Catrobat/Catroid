@@ -25,13 +25,17 @@ package org.catrobat.catroid.createatschool.uitest.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.createatschool.ui.CreateAtSchoolMainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 public class CreateAtSchoolMainMenuActivityTest extends BaseActivityInstrumentationTestCase<CreateAtSchoolMainMenuActivity> {
@@ -53,7 +57,7 @@ public class CreateAtSchoolMainMenuActivityTest extends BaseActivityInstrumentat
 		solo.sleep(300);
 		login = solo.getString(R.string.login);
 		passwordForgotten = solo.getString(R.string.password_forgotten);
-		cancel = solo.getString(R.string.cancel_button);
+		cancel = solo.getString(R.string.cancel);
 		logoutSuccessful = solo.getString(R.string.logout_successful);
 	}
 
@@ -111,11 +115,16 @@ public class CreateAtSchoolMainMenuActivityTest extends BaseActivityInstrumentat
 		String testPassword = "password";
 		String testUserMail = testUserName + "@catrob.at";
 		UiTestUtils.createValidUserWithCredentials(getActivity(), testUserName, testPassword, testUserMail);
+		Utils.logoutUser(getActivity());
 
 		solo.waitForDialogToOpen();
 		UiTestUtils.fillNativeLoginDialog(solo, testUserName, testPassword);
 		solo.waitForDialogToOpen();
 		assertTrue("No NoCreateAtSchoolUserErrorDialog appeared!", solo.searchText(solo.getString(R.string.error_no_nolb_user)));
+
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		assertEquals("Token has been set but shouldn't be!", Constants.NO_TOKEN, sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN));
+		assertEquals("Username has been set but shouldn't be!", Constants.NO_USERNAME, sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME));
 	}
 
 	private static void goToHomeActivity(Activity activity) {

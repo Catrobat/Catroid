@@ -390,6 +390,13 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+
+		if (BuildConfig.CREATE_AT_SCHOOL && !Utils.isCreateAtSchoolUser(this)) {
+			SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+			sharedPrefEditor.putString(Constants.TOKEN, Constants.NO_TOKEN);
+			sharedPrefEditor.putString(Constants.USERNAME, Constants.NO_USERNAME);
+			sharedPrefEditor.apply();
+		}
 		ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 	}
 

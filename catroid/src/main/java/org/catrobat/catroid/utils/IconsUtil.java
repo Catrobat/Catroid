@@ -395,4 +395,12 @@ public final class IconsUtil {
 	public static Rect getLargeIconSizeMainMenu() {
 		return largeIconSizeMainMenu;
 	}
+
+	public static Rect getSmallIconSizeBricks() {
+		return smallIconSizeBricks;
+	}
+
+	public static Rect getLargeIconSizeBricks() {
+		return largeIconSizeBricks;
+	}
 }

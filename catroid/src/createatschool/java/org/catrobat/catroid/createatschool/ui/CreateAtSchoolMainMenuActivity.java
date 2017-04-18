@@ -25,9 +25,7 @@ package org.catrobat.catroid.createatschool.ui;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +33,6 @@ import android.widget.Button;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.IconsUtil;
@@ -48,9 +45,6 @@ public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		sharedPreferences.edit().putBoolean(Constants.FORCE_SIGNIN, true).commit();
 
 		if (isLargeSize()) {
 			IconsUtil.setLeftDrawableSize(getApplicationContext(), this.findViewById(android.R.id.content),
@@ -73,10 +67,7 @@ public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
 	protected void onResume() {
 		super.onResume();
 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean forceSignIn = sharedPreferences.getBoolean(Constants.FORCE_SIGNIN, false);
-
-		if (!Utils.isUserLoggedIn(this) && forceSignIn) {
+		if (!Utils.isUserLoggedIn(this) || !Utils.isCreateAtSchoolUser(this)) {
 			if (!Utils.isNetworkAvailable(this)) {
 				AlertDialog noInternetDialog = new CustomAlertDialogBuilder(this)
 						.setTitle(R.string.no_internet)
@@ -96,7 +87,6 @@ public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
 				});
 			} else {
 				ProjectManager.getInstance().showLogInDialog(this, false);
-				sharedPreferences.edit().putBoolean(Constants.FORCE_SIGNIN, false).commit();
 			}
 		}
 	}
