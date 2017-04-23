@@ -353,7 +353,7 @@ public class NewSpriteDialog extends DialogFragment {
 			public void onClick(View view) {
 				if (Utils.isNetworkAvailable(view.getContext(), true)) {
 					Intent intent = new Intent(getActivity(), WebViewActivity.class);
-					String url = Constants.LIBRARY_LOOKS_URL;
+					String url = Utils.addUsernameAndTokenInfoToUrl(Constants.LIBRARY_LOOKS_URL, getActivity());
 
 					intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 					intent.putExtra(WebViewActivity.CALLING_ACTIVITY, SpritesListFragment.TAG);
