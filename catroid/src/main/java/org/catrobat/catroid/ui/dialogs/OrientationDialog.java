@@ -56,9 +56,12 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_orientation_project";
 
 	private static final String TAG = OrientationDialog.class.getSimpleName();
+	private static final float GREYED_VALUE = 0.25f;
 
 	private String projectName;
 	private RadioButton landscapeMode;
+	private RadioButton portraitMode;
+
 	private boolean createEmptyProject;
 	private boolean createLandscapeProject = false;
 
@@ -104,6 +107,20 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 			}
 		});
 		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);
+		portraitMode =  (RadioButton) dialogView.findViewById(R.id.portrait);
+
+		if (templateData != null) {
+			if (templateData.getLandscape() == null) {
+				landscapeMode.setEnabled(false);
+				portraitMode.setChecked(true);
+				landscapeMode.setAlpha(GREYED_VALUE);
+			}
+			if (templateData.getPortrait() == null) {
+				portraitMode.setEnabled(false);
+				landscapeMode.setChecked(true);
+				landscapeMode.setAlpha(GREYED_VALUE);
+			}
+		}
 
 		return orientationDialog;
 	}
