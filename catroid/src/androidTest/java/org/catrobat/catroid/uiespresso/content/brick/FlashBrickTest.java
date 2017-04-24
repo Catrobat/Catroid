@@ -58,15 +58,7 @@ public class FlashBrickTest {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_flash);
 		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_flash_spinner, brickPosition, R.string.brick_flash_on);
-
 		clickSelectCheckSpinnerValueOnBrick(R.id.brick_flash_spinner, brickPosition, R.string
 				.brick_flash_off);
-
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_flash_spinner, brickPosition, R.string.brick_flash_off);
-
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_flash_spinner, brickPosition, R.string
-				.brick_flash_on);
-
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_flash_spinner, brickPosition, R.string.brick_flash_on);
 	}
 }

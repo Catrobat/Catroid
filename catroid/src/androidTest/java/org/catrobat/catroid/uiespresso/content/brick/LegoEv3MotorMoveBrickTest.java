@@ -48,7 +48,7 @@ public class LegoEv3MotorMoveBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		final int initialSpeed = 5;
+		int initialSpeed = 5;
 
 		BrickTestUtils.createProjectAndGetStartScript("legoMoveBrickTest1")
 				.addBrick(new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A, initialSpeed));
@@ -58,7 +58,7 @@ public class LegoEv3MotorMoveBrickTest {
 
 	@Test
 	public void testLegoEv3MotorMove() {
-		final int testMoveSpeedValue = 40;
+		int testMoveSpeedValue = 40;
 
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.ev3_motor_move);

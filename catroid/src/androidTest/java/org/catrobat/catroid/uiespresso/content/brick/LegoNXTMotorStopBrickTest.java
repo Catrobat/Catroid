@@ -34,7 +34,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfValuesAvailableInSpinnerOnBrick;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
 
 @RunWith(AndroidJUnit4.class)
@@ -57,13 +62,16 @@ public class LegoNXTMotorStopBrickTest {
 	public void testLegoNXTMotorStopBrick() {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.nxt_motor_stop);
-		clickSelectCheckSpinnerValueOnBrick(R.id.stop_motor_spinner, brickPosition,
-				R.string.nxt_motor_b_and_c);
-		clickSelectCheckSpinnerValueOnBrick(R.id.stop_motor_spinner, brickPosition,
-				R.string.nxt_motor_b);
-		clickSelectCheckSpinnerValueOnBrick(R.id.stop_motor_spinner, brickPosition,
-				R.string.nxt_motor_c);
-		clickSelectCheckSpinnerValueOnBrick(R.id.stop_motor_spinner, brickPosition,
+
+		checkIfSpinnerOnBrickAtPositionShowsString(R.id.stop_motor_spinner, brickPosition, R.string.nxt_motor_a);
+		clickSelectCheckSpinnerValueOnBrick(R.id.stop_motor_spinner, brickPosition, R.string.nxt_motor_b);
+
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.nxt_motor_a,
+				R.string.nxt_motor_b,
+				R.string.nxt_motor_c,
+				R.string.nxt_motor_b_and_c,
 				R.string.nxt_motor_all);
+		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.stop_motor_spinner, brickPosition);
 	}
 }

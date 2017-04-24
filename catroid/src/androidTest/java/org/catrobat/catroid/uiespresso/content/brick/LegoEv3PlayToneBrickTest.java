@@ -35,18 +35,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterStringInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoEv3PlayToneBrickTest {
-	private static int brickPosition = 1;
-
-	public static int startFrequency = 1;
-	public static float startDuration = 1;
-	public static int startVolume = 100;
-	public static int testFrequency = 2;
-	public static float testDuration = 2;
-	public static int testVolume = 50;
+	private int brickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -54,23 +47,32 @@ public class LegoEv3PlayToneBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		int startFrequency = 1;
+		float startDuration = 1;
+		int startVolume = 100;
+
 		BrickTestUtils.createProjectAndGetStartScript("LegoEv3PlayToneBrickTest")
 				.addBrick(new LegoEv3PlayToneBrick(startFrequency, startDuration, startVolume));
+		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
 	public void legoEv3PlayToneBrickTest() {
+		int testFrequency = 2;
+		double testDuration = 2.3;
+		int testVolume = 50;
+
 		checkIfBrickAtPositionShowsString(0, "When program starts");
 		checkIfBrickAtPositionShowsString(brickPosition, "Play EV3 tone");
 
-		enterStringInFormulaTextFieldOnBrickAtPosition(Float.toString(testDuration),
+		enterValueInFormulaTextFieldOnBrickAtPosition(testDuration,
 				R.id.brick_ev3_tone_duration_edit_text, brickPosition);
 
-		enterStringInFormulaTextFieldOnBrickAtPosition(Integer.toString(testFrequency),
+		enterValueInFormulaTextFieldOnBrickAtPosition(testFrequency,
 				R.id.brick_ev3_tone_freq_edit_text, brickPosition);
 
-		enterStringInFormulaTextFieldOnBrickAtPosition(Integer.toString(testVolume), 
+		enterValueInFormulaTextFieldOnBrickAtPosition(testVolume,
 				R.id.brick_ev3_tone_volume_edit_text, brickPosition);
 	}
 }

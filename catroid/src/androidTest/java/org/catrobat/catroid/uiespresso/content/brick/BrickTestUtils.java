@@ -36,8 +36,11 @@ import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 
+import java.util.List;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -89,6 +92,18 @@ public final class BrickTestUtils {
 		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
 				.perform(click());
 		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, stringResourceId);
+	}
+
+	public static void checkIfValuesAvailableInSpinnerOnBrick(List<Integer> stringResourceIdValues,
+			int spinnerResourceId, int brickPosition) {
+		onScriptList().atPosition(brickPosition).onChildView(withId(spinnerResourceId))
+				.perform(click());
+
+		for (Integer stringResourceId : stringResourceIdValues) {
+			onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
+					.check(matches(isDisplayed()));
+		}
+		pressBack();
 	}
 
 	public static void createNewVariableOnSpinnerInitial(int spinnerResourceId, int position,

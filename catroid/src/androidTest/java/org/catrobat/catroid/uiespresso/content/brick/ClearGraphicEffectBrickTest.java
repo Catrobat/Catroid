@@ -38,6 +38,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.check
 
 @RunWith(AndroidJUnit4.class)
 public class ClearGraphicEffectBrickTest {
+	private int brickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -47,12 +48,12 @@ public class ClearGraphicEffectBrickTest {
 	public void setUp() throws Exception {
 		BrickTestUtils.createProjectAndGetStartScript("clearGraphicEffectBrickTest1")
 				.addBrick(new ClearGraphicEffectBrick());
+		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
 	public void testClearGraphicEffectBrick() {
-		int brickPosition = 1;
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_clear_graphic_effect);
 	}
