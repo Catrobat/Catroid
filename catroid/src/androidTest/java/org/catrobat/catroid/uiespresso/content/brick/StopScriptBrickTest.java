@@ -34,7 +34,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfValuesAvailableInSpinnerOnBrick;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
 
 @RunWith(AndroidJUnit4.class)
@@ -61,10 +65,10 @@ public class StopScriptBrickTest {
 		clickSelectCheckSpinnerValueOnBrick(R.id.brick_stop_script_spinner, brickPosition, R.string
 				.brick_stop_this_script);
 
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_stop_script_spinner, brickPosition, R.string
-				.brick_stop_all_scripts);
-
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_stop_script_spinner, brickPosition, R.string
-				.brick_stop_other_scripts);
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.brick_stop_this_script,
+				R.string.brick_stop_all_scripts,
+				R.string.brick_stop_other_scripts);
+		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.brick_stop_script_spinner, brickPosition);
 	}
 }

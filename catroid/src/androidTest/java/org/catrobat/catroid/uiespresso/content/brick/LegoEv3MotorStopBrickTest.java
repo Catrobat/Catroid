@@ -34,12 +34,17 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfValuesAvailableInSpinnerOnBrick;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoEv3MotorStopBrickTest {
-	private static int brickPosition = 1;
+	private int brickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -49,6 +54,7 @@ public class LegoEv3MotorStopBrickTest {
 	public void setUp() throws Exception {
 		BrickTestUtils.createProjectAndGetStartScript("LegoEv3MotorStopBrickTest").addBrick(new
 				LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));
+		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -57,11 +63,16 @@ public class LegoEv3MotorStopBrickTest {
 		checkIfBrickAtPositionShowsString(0, "When program starts");
 		checkIfBrickAtPositionShowsString(brickPosition, "Stop EV3 motor");
 
-		clickSelectCheckSpinnerValueOnBrick(R.id.ev3_stop_motor_spinner, brickPosition, R.string.ev3_motor_a);
+		checkIfSpinnerOnBrickAtPositionShowsString(R.id.ev3_stop_motor_spinner, brickPosition, R.string.ev3_motor_a);
 		clickSelectCheckSpinnerValueOnBrick(R.id.ev3_stop_motor_spinner, brickPosition, R.string.ev3_motor_b);
-		clickSelectCheckSpinnerValueOnBrick(R.id.ev3_stop_motor_spinner, brickPosition, R.string.ev3_motor_c);
-		clickSelectCheckSpinnerValueOnBrick(R.id.ev3_stop_motor_spinner, brickPosition, R.string.ev3_motor_d);
-		clickSelectCheckSpinnerValueOnBrick(R.id.ev3_stop_motor_spinner, brickPosition, R.string.ev3_motor_b_and_c);
-		clickSelectCheckSpinnerValueOnBrick(R.id.ev3_stop_motor_spinner, brickPosition, R.string.ev3_motor_all);
+
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.ev3_motor_a,
+				R.string.ev3_motor_b,
+				R.string.ev3_motor_c,
+				R.string.ev3_motor_d,
+				R.string.ev3_motor_b_and_c,
+				R.string.ev3_motor_all);
+		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.ev3_stop_motor_spinner, brickPosition);
 	}
 }

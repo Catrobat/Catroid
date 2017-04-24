@@ -55,8 +55,8 @@ public class LegoNxtPlayToneBrickTest {
 
 	@Test
 	public void nxtPlayToneTest() {
-		final int testFrequency = 40;
-		final int testDuration = 3;
+		int testFrequency = 40;
+		int testDuration = 3;
 
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.nxt_play_tone);

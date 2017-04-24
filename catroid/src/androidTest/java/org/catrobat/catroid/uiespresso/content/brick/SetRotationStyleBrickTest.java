@@ -34,8 +34,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfValuesAvailableInSpinnerOnBrick;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
 
 @RunWith(AndroidJUnit4.class)
@@ -63,7 +67,9 @@ public class SetRotationStyleBrickTest {
 		clickSelectCheckSpinnerValueOnBrick(R.id.brick_set_rotation_style_spinner, brickPosition, R.string
 				.brick_set_rotation_style_normal);
 
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_set_rotation_style_spinner, brickPosition, R.string
-				.brick_set_rotation_style_no);
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.brick_set_rotation_style_normal,
+				R.string.brick_set_rotation_style_no);
+		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.brick_set_rotation_style_spinner, brickPosition);
 	}
 }

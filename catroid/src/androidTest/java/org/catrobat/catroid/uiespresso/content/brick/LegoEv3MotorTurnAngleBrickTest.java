@@ -34,17 +34,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils
-		.clickSelectCheckSpinnerValueOnBrick;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterStringInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfValuesAvailableInSpinnerOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoEv3MotorTurnAngleBrickTest {
 
-	private static int brickPosition = 1;
-	private static int startAngle = 180;
-	private static String testAngle = "100";
+	private static int brickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -52,27 +54,31 @@ public class LegoEv3MotorTurnAngleBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		int startAngle = 180;
 		BrickTestUtils.createProjectAndGetStartScript("LegoEv3MotorTurnAngleBrickTest").addBrick(new
 				LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A, startAngle));
+		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
 	public void legoEv3MotorTurnAngleBrickTest() {
+		int testAngle = 100;
+
 		checkIfBrickAtPositionShowsString(0, "When program starts");
 		checkIfBrickAtPositionShowsString(brickPosition, "Turn EV3 motor");
 
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition,
-				R.string.ev3_motor_a);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition,
-				R.string.ev3_motor_b);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition,
-				R.string.ev3_motor_c);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition,
-				R.string.ev3_motor_d);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition,
-				R.string.ev3_motor_b_and_c);
+		checkIfSpinnerOnBrickAtPositionShowsString(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition, R.string.ev3_motor_a);
+		clickSelectCheckSpinnerValueOnBrick(R.id.lego_ev3_motor_turn_angle_spinner, brickPosition, R.string.ev3_motor_b);
 
-		enterStringInFormulaTextFieldOnBrickAtPosition(testAngle, R.id.ev3_motor_turn_angle_edit_text, brickPosition);
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.ev3_motor_a,
+				R.string.ev3_motor_b,
+				R.string.ev3_motor_c,
+				R.string.ev3_motor_d,
+				R.string.ev3_motor_b_and_c);
+		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.lego_ev3_motor_turn_angle_spinner, brickPosition);
+
+		enterValueInFormulaTextFieldOnBrickAtPosition(testAngle, R.id.ev3_motor_turn_angle_edit_text, brickPosition);
 	}
 }
