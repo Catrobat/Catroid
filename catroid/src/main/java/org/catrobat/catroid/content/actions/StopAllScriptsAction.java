@@ -28,7 +28,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.stage.StageActivity;
+
+import java.util.List;
+import java.util.Map;
 
 public class StopAllScriptsAction extends TemporalAction {
 
@@ -38,6 +42,11 @@ public class StopAllScriptsAction extends TemporalAction {
 		for (Actor actor : stageActors) {
 			for (Action action : actor.getActions()) {
 				action.reset();
+			}
+			if (actor instanceof Look) {
+				Look look = (Look) actor;
+				Map<String, List<String>> scriptActions = look.createScriptActions();
+				StageActivity.stageListener.precomputeActionsForBroadcastEvents(scriptActions);
 			}
 		}
 	}

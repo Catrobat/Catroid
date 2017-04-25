@@ -96,7 +96,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	public List<InternToken> getInternTokenList() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		switch (type) {
 			case BRACKET:
@@ -324,7 +324,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretMultipleItemsUserList(List<Object> userListValues) {
-		List<String> userListStringValues = new ArrayList<String>();
+		List<String> userListStringValues = new ArrayList<>();
 		boolean concatenateWithoutWhitespace = true;
 
 		for (Object listValue : userListValues) {
@@ -395,9 +395,10 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunction(Functions function, Sprite sprite) {
+		final double defaultReturnValue = 0d;
+
 		Object left = null;
 		Object right = null;
-
 		Double doubleValueOfLeftChild = null;
 		Double doubleValueOfRightChild = null;
 
@@ -429,46 +430,49 @@ public class FormulaElement implements Serializable {
 
 		switch (function) {
 			case SIN:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.sin(Math.toRadians(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.sin(Math.toRadians(doubleValueOfLeftChild));
 			case COS:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.cos(Math.toRadians(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.cos(Math.toRadians(doubleValueOfLeftChild));
 			case TAN:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.tan(Math.toRadians(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.tan(Math.toRadians(doubleValueOfLeftChild));
 			case LN:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.log(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.log(doubleValueOfLeftChild);
 			case LOG:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.log10(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.log10(doubleValueOfLeftChild);
 			case SQRT:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.sqrt(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.sqrt(doubleValueOfLeftChild);
 			case RAND:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : interpretFunctionRand(doubleValueOfLeftChild, doubleValueOfRightChild);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
+						: interpretFunctionRand(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case ABS:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.abs(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.abs(doubleValueOfLeftChild);
 			case ROUND:
-				return doubleValueOfLeftChild == null ? 0d : (double) java.lang.Math.round(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : (double) java.lang.Math.round(doubleValueOfLeftChild);
 			case PI:
 				return java.lang.Math.PI;
 			case MOD:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : interpretFunctionMod(doubleValueOfLeftChild, doubleValueOfRightChild);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
+						: interpretFunctionMod(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case ARCSIN:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.asin(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.asin(doubleValueOfLeftChild));
 			case ARCCOS:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.acos(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.acos(doubleValueOfLeftChild));
 			case ARCTAN:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.atan(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.atan(doubleValueOfLeftChild));
 			case EXP:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.exp(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.exp(doubleValueOfLeftChild);
 			case POWER:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.pow(doubleValueOfLeftChild, doubleValueOfRightChild);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
+						: java.lang.Math.pow(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case FLOOR:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.floor(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.floor(doubleValueOfLeftChild);
 			case CEIL:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.ceil(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.ceil(doubleValueOfLeftChild);
 			case MAX:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.max(doubleValueOfLeftChild,
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue : java.lang.Math.max(doubleValueOfLeftChild,
 						doubleValueOfRightChild);
 			case MIN:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.min(doubleValueOfLeftChild,
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue : java.lang.Math.min(doubleValueOfLeftChild,
 						doubleValueOfRightChild);
 			case TRUE:
 				return 1d;
@@ -482,37 +486,42 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionJoin(sprite);
 			case ARDUINODIGITAL:
 				Arduino arduinoDigital = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
-				if (arduinoDigital != null && left != null) {
+				if (arduinoDigital != null && doubleValueOfLeftChild != null) {
 					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 13) {
-						return 0d;
+						return defaultReturnValue;
 					}
 					return arduinoDigital.getDigitalArduinoPin(doubleValueOfLeftChild.intValue());
 				}
 				break;
 			case ARDUINOANALOG:
 				Arduino arduinoAnalog = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
-				if (arduinoAnalog != null && left != null) {
+				if (arduinoAnalog != null && doubleValueOfLeftChild != null) {
 					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 5) {
-						return 0d;
+						return defaultReturnValue;
 					}
 					return arduinoAnalog.getAnalogArduinoPin(doubleValueOfLeftChild.intValue());
 				}
 				break;
 			case RASPIDIGITAL:
 				RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
-				int pin = doubleValueOfLeftChild.intValue();
-				try {
-					return connection.getPin(pin) ? 1d : 0d;
-				} catch (Exception e) {
-					Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
+				if (doubleValueOfLeftChild != null) {
+					int pin = doubleValueOfLeftChild.intValue();
+					try {
+						return connection.getPin(pin) ? 1d : 0d;
+					} catch (Exception e) {
+						Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
+					}
 				}
 				break;
 			case MULTI_FINGER_TOUCHED:
-				return TouchUtil.isFingerTouching(doubleValueOfLeftChild.intValue()) ? 1d : 0d;
+				return (doubleValueOfLeftChild != null && TouchUtil.isFingerTouching(doubleValueOfLeftChild.intValue()))
+						? 1d : defaultReturnValue;
 			case MULTI_FINGER_X:
-				return Double.valueOf(TouchUtil.getX(doubleValueOfLeftChild.intValue()));
+				return doubleValueOfLeftChild != null ? (double) TouchUtil.getX(doubleValueOfLeftChild
+						.intValue()) : defaultReturnValue;
 			case MULTI_FINGER_Y:
-				return Double.valueOf(TouchUtil.getY(doubleValueOfLeftChild.intValue()));
+				return doubleValueOfLeftChild != null ? (double) TouchUtil.getY(doubleValueOfLeftChild.intValue())
+						: defaultReturnValue;
 			case LIST_ITEM:
 				return interpretFunctionListItem(left, sprite);
 			case CONTAINS:
@@ -568,8 +577,10 @@ public class FormulaElement implements Serializable {
 			} catch (NumberFormatException numberFormatexception) {
 				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatexception);
 			}
-		} else {
+		} else if (left != null) {
 			index = ((Double) left).intValue();
+		} else {
+			return "";
 		}
 
 		index--;
@@ -662,15 +673,17 @@ public class FormulaElement implements Serializable {
 			} catch (NumberFormatException numberFormatexception) {
 				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatexception);
 			}
-		} else {
+		} else if (left != null) {
 			index = ((Double) left).intValue();
+		} else {
+			return "";
 		}
 
 		index--;
 
 		if (index < 0) {
 			return "";
-		} else if (index >= String.valueOf(right).length()) {
+		} else if (right == null || index >= String.valueOf(right).length()) {
 			return "";
 		}
 		return String.valueOf(String.valueOf(right).charAt(index));
@@ -997,12 +1010,9 @@ public class FormulaElement implements Serializable {
 	}
 
 	public boolean containsElement(ElementType elementType) {
-		if (type.equals(elementType)
+		return (type.equals(elementType)
 				|| (leftChild != null && leftChild.containsElement(elementType))
-				|| (rightChild != null && rightChild.containsElement(elementType))) {
-			return true;
-		}
-		return false;
+				|| (rightChild != null && rightChild.containsElement(elementType)));
 	}
 
 	public boolean isUserVariableWithTypeString(Sprite sprite) {

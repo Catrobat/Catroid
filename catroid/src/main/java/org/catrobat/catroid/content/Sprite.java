@@ -232,10 +232,11 @@ public class Sprite implements Serializable, Cloneable {
 		return matchingUserBricks;
 	}
 
-	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
+	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions,
+			boolean includeStartScripts) {
 		for (int scriptCounter = 0; scriptCounter < scriptList.size(); scriptCounter++) {
 			Script script = scriptList.get(scriptCounter);
-			if (script instanceof StartScript && !isClone) {
+			if (script instanceof StartScript && !isClone && includeStartScripts) {
 				Action sequenceAction = createActionSequence(script);
 				look.addAction(sequenceAction);
 				BroadcastHandler.getActionScriptMap().put(sequenceAction, script);
@@ -270,6 +271,10 @@ public class Sprite implements Serializable, Cloneable {
 				createWhenConditionBecomesTrueAction((WhenConditionScript) script);
 			}
 		}
+	}
+
+	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
+		createStartScriptActionSequenceAndPutToMap(scriptActions, true);
 	}
 
 	private void createWhenConditionBecomesTrueAction(WhenConditionScript script) {
@@ -360,7 +365,7 @@ public class Sprite implements Serializable, Cloneable {
 		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();
 		ProjectManager.getInstance().setCurrentSprite(cloneSprite);
 
-		cloneLooks(cloneSprite);
+		cloneLooks(cloneSprite, false);
 		cloneUserBricks(cloneSprite);
 		cloneSpriteVariables(ProjectManager.getInstance().getCurrentScene(), cloneSprite);
 		cloneScripts(cloneSprite);
@@ -498,9 +503,13 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void cloneLooks(Sprite cloneSprite) {
+		cloneLooks(cloneSprite, true);
+	}
+
+	private void cloneLooks(Sprite cloneSprite, boolean incrementUsage) {
 		List<LookData> cloneLookList = new ArrayList<>();
 		for (LookData element : this.lookList) {
-			cloneLookList.add(element.clone());
+			cloneLookList.add(element.clone(incrementUsage));
 		}
 		cloneSprite.lookList = cloneLookList;
 	}
@@ -549,7 +558,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = actionFactory.parallel();
+		ParallelAction whenParallelAction = ActionFactory.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);
@@ -952,7 +961,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public List<Brick> getBricksRequiringResource(int resource) {
-		List<Brick> resourceBrickList = new ArrayList<Brick>();
+		List<Brick> resourceBrickList = new ArrayList<>();
 
 		for (Script script : scriptList) {
 			resourceBrickList.addAll(script.getBricksRequiringResources(resource));

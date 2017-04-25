@@ -75,11 +75,11 @@ public class TrackRowView extends TableRow {
 		final int whiteKeyColor;
 		final int blackKeyColor;
 		if (tactPosition % 2 == 0) {
-			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_even_bright);
-			blackKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_odd_bright);
-		} else {
-			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_even_dusk);
+			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_odd_bright);
 			blackKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_odd_dusk);
+		} else {
+			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_even_bright);
+			blackKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_even_dusk);
 		}
 		for (NoteView noteView : noteViews) {
 			noteView.setNoteActive(false, false);
