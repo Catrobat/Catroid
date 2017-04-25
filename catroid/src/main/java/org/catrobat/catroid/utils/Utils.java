@@ -105,6 +105,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_AMP_USERNAME;
+
 public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
@@ -1452,5 +1454,17 @@ public final class Utils {
 	public static boolean isCreateAtSchoolUser(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		return sharedPreferences.getBoolean(Constants.CREATE_AT_SCHOOL_USER, false);
+	}
+
+	public static String addUsernameAndTokenInfoToUrl(String url, Context context) {
+		if (Utils.isUserLoggedIn(context)) {
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
+			url += CATROBAT_TOKEN_LOGIN_AMP_USERNAME + username + Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN + token;
+		}
+
+		return url;
 	}
 }

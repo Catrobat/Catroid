@@ -642,8 +642,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	public void addSoundMediaLibrary() {
 		Intent intent = new Intent(getActivity(), WebViewActivity.class);
-		String url = null;
-		url = Constants.LIBRARY_SOUNDS_URL;
+		String url = Utils.addUsernameAndTokenInfoToUrl(Constants.LIBRARY_SOUNDS_URL, getActivity());
+
 		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 		intent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
 		startActivityForResult(intent, SoundController.REQUEST_MEDIA_LIBRARY);

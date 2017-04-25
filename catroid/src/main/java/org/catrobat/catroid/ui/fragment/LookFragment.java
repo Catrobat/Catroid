@@ -616,6 +616,9 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		} else {
 			url = Constants.LIBRARY_LOOKS_URL;
 		}
+
+		url = Utils.addUsernameAndTokenInfoToUrl(url, getActivity());
+
 		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 		intent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
 		startActivityForResult(intent, LookController.REQUEST_MEDIA_LIBRARY);
