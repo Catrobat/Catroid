@@ -33,15 +33,15 @@ import java.util.List;
 public class InternFormula {
 	private static final String TAG = InternFormula.class.getSimpleName();
 
-	public static enum CursorTokenPosition {
+	public enum CursorTokenPosition {
 		LEFT, MIDDLE, RIGHT
 	}
 
-	public static enum CursorTokenPropertiesAfterModification {
+	public enum CursorTokenPropertiesAfterModification {
 		LEFT, RIGHT, SELECT, DO_NOT_MODIFY
 	}
 
-	public static enum TokenSelectionType {
+	public enum TokenSelectionType {
 		USER_SELECTION, PARSER_ERROR_SELECTION
 	}
 

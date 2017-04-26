@@ -59,6 +59,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.common.io.CharStreams;
 import com.robotium.solo.Condition;
 import com.robotium.solo.Solo;
 
@@ -173,6 +174,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
@@ -374,7 +376,7 @@ public final class UiTestUtils {
 		return setVariableBrick;
 	}
 
-	public static enum FileTypes {
+	public enum FileTypes {
 		IMAGE, SOUND, ROOT, SCREENSHOT
 	}
 
@@ -2055,7 +2057,7 @@ public final class UiTestUtils {
 		static final long serialVersionUID = 1L;
 		private final float catrobatLanguageVersion;
 
-		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
+		ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
 			super(null, name);
 			this.catrobatLanguageVersion = catrobatLanguageVersion;
 		}
@@ -2520,7 +2522,7 @@ public final class UiTestUtils {
 		}
 		intent.putExtra(NfcAdapter.EXTRA_ID, tagId);
 		if (ndefMessage != null) {
-			intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, new NdefMessage[] { ndefMessage });
+			intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, new NdefMessage[] {ndefMessage});
 			if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intentAction)) {
 				Uri uri = ndefMessage.getRecords()[0].toUri();
 				String mime = ndefMessage.getRecords()[0].toMimeType();
@@ -2589,13 +2591,9 @@ public final class UiTestUtils {
 
 	public static Map<String, String> readConfigFile(Context context) {
 		try {
-
-			InputStream stream = context.getAssets().open("oauth_config.xml");
-			int size = stream.available();
-			byte[] buffer = new byte[size];
-			stream.read(buffer);
-			stream.close();
-			String text = new String(buffer);
+			InputStreamReader reader = new InputStreamReader(context.getAssets().open("oauth_config.xml"));
+			String text = CharStreams.toString(reader);
+			reader.close();
 			facebookTestUserName = text.substring(text.indexOf(CONFIG_FACEBOOK_NAME) + CONFIG_FACEBOOK_NAME.length() + 1,
 					text.indexOf("/" + CONFIG_FACEBOOK_NAME) - 1);
 			facebookTestuserMail = text.substring(text.indexOf(CONFIG_FACEBOOK_MAIL) + CONFIG_FACEBOOK_MAIL.length() + 1,

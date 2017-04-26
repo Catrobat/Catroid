@@ -226,12 +226,12 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 						Vector2 vertex = new Vector2();
 						((PolygonShape) shape).getVertex(idx, vertex);
 
-						Object[] objectsX = { vertexXQueue.poll(), testScaleFactor };
+						Object[] objectsX = {vertexXQueue.poll(), testScaleFactor};
 						Reflection.ParameterList parameterListX = new Reflection.ParameterList(objectsX);
 						float scaledX = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 								parameterListX);
 
-						Object[] objectsY = { vertexYQueue.poll(), testScaleFactor };
+						Object[] objectsY = {vertexYQueue.poll(), testScaleFactor};
 						Reflection.ParameterList parameterListY = new Reflection.ParameterList(objectsY);
 						float scaledY = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 								parameterListY);

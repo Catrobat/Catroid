@@ -65,7 +65,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		return null;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private Map sortByList(final List<String> fieldOrder, final Map keyedByFieldKey) {
 		checkMissingSerializableField(fieldOrder, keyedByFieldKey.entrySet());
 		final Map map = new TreeMap(new Comparator() {
@@ -100,7 +100,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		return !Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private Map sortAlphabeticallyByClassHierarchy(final Map keyedByFieldKey) {
 		final Map map = new TreeMap(new Comparator() {
 			@Override

@@ -222,7 +222,7 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 
 		private boolean isTouchInDropDownView;
 
-		public SpinnerAdapterWrapper(Context context, ArrayAdapter<SoundInfo> spinnerAdapter) {
+		SpinnerAdapterWrapper(Context context, ArrayAdapter<SoundInfo> spinnerAdapter) {
 			this.context = context;
 			this.spinnerAdapter = spinnerAdapter;
 

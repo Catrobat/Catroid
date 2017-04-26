@@ -35,7 +35,7 @@ import java.util.Map;
 public final class PhysicsShapeBuilder {
 
 	private static final String TAG = PhysicsShapeBuilder.class.getSimpleName();
-	private static final float[] ACCURACY_LEVELS = { 0.125f, 0.25f, 0.50f, 0.75f, 1.0f };
+	private static final float[] ACCURACY_LEVELS = {0.125f, 0.25f, 0.50f, 0.75f, 1.0f};
 
 	private static PhysicsShapeBuilder instance = null;
 
@@ -115,7 +115,7 @@ public final class PhysicsShapeBuilder {
 		private Pixmap pixmap;
 		private float sizeAdjustmentScaleFactor = 1;
 
-		public ImageShapes(Pixmap pixmap) {
+		ImageShapes(Pixmap pixmap) {
 			if (pixmap == null) {
 				throw new RuntimeException("Pixmap must not null");
 			}

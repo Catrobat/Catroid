@@ -61,7 +61,7 @@ public class NewDataDialog extends DialogFragment {
 	DialogType dialogType = DialogType.SHOW_LIST_CHECKBOX;
 	private int spinnerPositionIfCancel;
 
-	public static enum DialogType {
+	public enum DialogType {
 		SHOW_LIST_CHECKBOX, USER_LIST, USER_VARIABLE
 	}
 

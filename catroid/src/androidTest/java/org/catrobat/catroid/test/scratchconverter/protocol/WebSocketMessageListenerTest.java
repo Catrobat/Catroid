@@ -326,7 +326,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 	}
 
 	public void testReceivingJobOutputMessage() {
-		final String[] expectedLines = new String[] { "line1", "line2" };
+		final String[] expectedLines = new String[] {"line1", "line2"};
 
 		doAnswer(new Answer<Void>() {
 			@Override

@@ -875,9 +875,6 @@ public class StageListener implements ApplicationListener {
 		public boolean cameraRunning;
 		public Map<Sprite, ShowBubbleActor> bubbleActorMap;
 		public PenActor penActor;
-
-		public StageBackup() {
-		}
 	}
 
 	private StageBackup saveToBackup() {

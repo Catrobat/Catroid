@@ -1425,7 +1425,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.sleep(800);
 
-		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
+		int[] checkboxIndicesToCheck = {solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2};
 		assertTrue("Bottom bar is visible" + solo.getCurrentViews(CheckBox.class).size(), solo.getCurrentViews(CheckBox.class).size() == 5);
 		int expectedNumberOfSounds = currentNumberOfSounds - checkboxIndicesToCheck.length;
 
@@ -1638,7 +1638,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
+		int[] checkboxIndicesToCheck = {solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2};
 
 		solo.scrollDown();
 		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);

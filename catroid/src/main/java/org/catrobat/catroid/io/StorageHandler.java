@@ -406,7 +406,7 @@ public final class StorageHandler {
 		xstream.alias("brick", IfLogicElseBrick.class);
 		xstream.alias("brick", IfLogicEndBrick.class);
 		xstream.alias("brick", IfThenLogicBeginBrick.class);
-		xstream.alias("brick", IfThenLogicEndBrick .class);
+		xstream.alias("brick", IfThenLogicEndBrick.class);
 		xstream.alias("brick", IfOnEdgeBounceBrick.class);
 		xstream.alias("brick", InsertItemIntoUserListBrick.class);
 		xstream.alias("brick", FlashBrick.class);

@@ -1709,7 +1709,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
+		int[] checkboxIndicesToCheck = {solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2};
 		int expectedNumberOfLooks = currentNumberOfLooks - checkboxIndicesToCheck.length;
 
 		solo.scrollDown();
@@ -1734,7 +1734,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
+		int[] checkboxIndicesToCheck = {solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2};
 
 		solo.scrollDown();
 		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);

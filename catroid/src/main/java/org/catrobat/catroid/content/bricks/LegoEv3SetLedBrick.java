@@ -42,7 +42,7 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 	private transient LedStatus ledStatusEnum;
 	private String ledStatus;
 
-	public static enum LedStatus {
+	public enum LedStatus {
 		LED_OFF, LED_GREEN, LED_RED, LED_ORANGE,
 		LED_GREEN_FLASHING, LED_RED_FLASHING, LED_ORANGE_FLASHING,
 		LED_GREEN_PULSE, LED_RED_PULSE, LED_ORANGE_PULSE

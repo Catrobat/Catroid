@@ -219,8 +219,8 @@ public class ReflectionTest extends AndroidTestCase {
 				Short.valueOf((short) 1));
 
 		Class<?>[] primitiveObjectsClass = (Class<?>[]) Reflection.getPrivateField(parameterList, "types");
-		Class<?>[] expectedPrimitiveObjectsClasses = new Class<?>[] { boolean.class, byte.class, char.class,
-				double.class, float.class, int.class, long.class, short.class };
+		Class<?>[] expectedPrimitiveObjectsClasses = new Class<?>[] {boolean.class, byte.class, char.class,
+				double.class, float.class, int.class, long.class, short.class};
 		assertTrue("Not all object classes are converted into primitve classes",
 				Arrays.deepEquals(expectedPrimitiveObjectsClasses, primitiveObjectsClass));
 	}

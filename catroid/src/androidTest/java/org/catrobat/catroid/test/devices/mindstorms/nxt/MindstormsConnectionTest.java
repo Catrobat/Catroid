@@ -68,7 +68,7 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 
 	public void testSendAndReceive() {
 
-		byte[] inputBuffer = new byte[] { 4, 0, 3, 4, 5, 7 };
+		byte[] inputBuffer = new byte[] {4, 0, 3, 4, 5, 7};
 		ByteArrayInputStream inStream = new ByteArrayInputStream(inputBuffer);
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 

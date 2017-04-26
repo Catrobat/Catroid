@@ -115,7 +115,7 @@ public class OnUtteranceCompletedListenerContainerTest extends AndroidTestCase {
 		private static final long serialVersionUID = 1L;
 		private boolean exists;
 
-		public FileMock(boolean exists) {
+		FileMock(boolean exists) {
 			super("");
 			this.exists = exists;
 		}

@@ -67,8 +67,8 @@ public class LegoNXTImplTest extends AndroidTestCase {
 	public void testSensorAssignment() throws InterruptedException {
 
 		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
-				new NXTSensor.Sensor[] { NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.SOUND,
-						NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.ULTRASONIC });
+				new NXTSensor.Sensor[] {NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.SOUND,
+						NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.ULTRASONIC});
 
 		nxt.initialise();
 
@@ -95,8 +95,8 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 	private void resetSensorMappingToDefault() throws InterruptedException {
 		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getContext(),
-				new NXTSensor.Sensor[] { NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
-						NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC });
+				new NXTSensor.Sensor[] {NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
+						NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC});
 	}
 
 	public void testSensorAssignmentChange() throws InterruptedException {

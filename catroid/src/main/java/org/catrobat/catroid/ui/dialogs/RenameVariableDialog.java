@@ -56,7 +56,7 @@ public class RenameVariableDialog extends DialogFragment {
 	private DataAdapter adapter;
 	private DialogType type;
 
-	public static enum DialogType {
+	public enum DialogType {
 		USER_LIST, USER_VARIABLE
 	}
 

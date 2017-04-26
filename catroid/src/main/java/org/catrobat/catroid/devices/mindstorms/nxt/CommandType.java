@@ -28,7 +28,7 @@ public enum CommandType {
 
 	private int commandTypeValue;
 
-	private CommandType(int commandTypeValue) {
+	CommandType(int commandTypeValue) {
 		this.commandTypeValue = commandTypeValue;
 	}
 
