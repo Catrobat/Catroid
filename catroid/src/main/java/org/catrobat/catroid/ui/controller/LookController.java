@@ -151,7 +151,8 @@ public final class LookController {
 	private void handleDetails(LookData lookData, LookViewHolder holder, LookBaseAdapter lookAdapter) {
 		if (lookAdapter.getShowDetails()) {
 			if (lookData.getAbsolutePath() != null) {
-				holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
+				holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath()),
+						lookAdapter.getContext()));
 			}
 			int[] measure = lookData.getMeasure();
 			String measureString = measure[0] + " x " + measure[1];
@@ -486,11 +487,11 @@ public final class LookController {
 							activity.startActivity(downloadPocketPaintIntent);
 						}
 					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
+			});
 			AlertDialog alert = builder.create();
 			alert.show();
 			return false;

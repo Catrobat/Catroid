@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!--
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -1544,5 +1543,15 @@
     <string name="crash_dialog_always_send">Always send</string>
     <string name="crash_dialog_send">Send</string>
     <string name="plus" translatable="false">+</string>
+    <!--  -->
+
+    <!--  -->
+    <string name="Byte_short">B</string>
+    <string name="kiloByte_short">KB</string>
+    <string name="MegaByte_short">MB</string>
+    <string name="GigaByte_short">GB</string>
+    <string name="TeraByte_short">TB</string>
+    <string name="PetaByte_short">PB</string>
+    <string name="ExaByte_short">EB</string>
     <!--  -->
 </resources>
