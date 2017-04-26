@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.annotations.FlakyTest;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -59,6 +60,7 @@ public class LegoNXTMotorStopBrickTest {
 	}
 
 	@Test
+	@FlakyTest
 	public void testLegoNXTMotorStopBrick() {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.nxt_motor_stop);

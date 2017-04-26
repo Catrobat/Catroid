@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.annotations.FlakyTest;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 
 import org.junit.Before;
@@ -55,6 +56,7 @@ public class SetVolumeToBrickTest {
 	}
 
 	@Test
+	@FlakyTest
 	public void testSetVolumeToBrickStringValue() {
 		String volumeToChange = "10.2";
 

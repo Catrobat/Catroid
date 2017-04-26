@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.annotations.FlakyTest;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -59,6 +60,7 @@ public class LegoEv3MotorStopBrickTest {
 	}
 
 	@Test
+	@FlakyTest(3)
 	public void legoEv3MotorStopBrickTest() {
 		checkIfBrickAtPositionShowsString(0, "When program starts");
 		checkIfBrickAtPositionShowsString(brickPosition, "Stop EV3 motor");

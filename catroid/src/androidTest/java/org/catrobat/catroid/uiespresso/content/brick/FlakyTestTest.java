@@ -26,7 +26,6 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.FlakyTest;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
@@ -35,17 +34,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Random;
+
+import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfValuesAvailableInSpinnerOnBrick;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
 
 @RunWith(AndroidJUnit4.class)
-public class SetRotationStyleBrickTest {
-	private int brickPosition;
+public class FlakyTestTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -53,25 +49,17 @@ public class SetRotationStyleBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("rotationStyleBrickTest1").addBrick(new SetRotationStyleBrick());
-		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("flakyTestTest");
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
 	@FlakyTest
-	public void testSetRotationStyle() {
+	public void flakyTestTest() {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_rotation_style);
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_set_rotation_style_spinner, brickPosition, R.string.brick_set_rotation_style_lr);
-
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_set_rotation_style_spinner, brickPosition, R.string
-				.brick_set_rotation_style_normal);
-
-		List<Integer> spinnerValuesResourceIds = Arrays.asList(
-				R.string.brick_set_rotation_style_normal,
-				R.string.brick_set_rotation_style_no);
-		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.brick_set_rotation_style_spinner, brickPosition);
+		Random randomGenerator = new Random();
+		int randomNumber = randomGenerator.nextInt(100);
+		assertTrue(randomNumber < 50);
 	}
 }

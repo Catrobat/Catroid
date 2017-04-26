@@ -29,6 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.annotations.FlakyTest;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -72,6 +73,7 @@ public class DeleteItemOfUserListBrickTest {
 	}
 
 	@Test
+	@FlakyTest
 	public void testDeleteItemOfUserListBrickBasicLayout() {
 		int newPosition = 3;
 		String userListName = "test1";
@@ -87,6 +89,7 @@ public class DeleteItemOfUserListBrickTest {
 	}
 
 	@Test
+	@FlakyTest
 	public void testDeleteItemOfUserListBrickMultipleLists() {
 		String firstUserListName = "test1";
 		String secondUserListName = "test2";
