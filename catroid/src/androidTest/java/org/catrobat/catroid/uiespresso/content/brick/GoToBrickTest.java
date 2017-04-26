@@ -36,7 +36,7 @@ import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickAndSelectFromSpinnerOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
 
 @RunWith(AndroidJUnit4.class)
 public class GoToBrickTest {
@@ -61,7 +61,7 @@ public class GoToBrickTest {
 		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_go_to_spinner, brickPosition, R.string
 				.brick_go_to_touch_position);
 
-		clickAndSelectFromSpinnerOnBrickAtPosition(R.id.brick_go_to_spinner, brickPosition, R.string
+		clickSelectCheckSpinnerValueOnBrick(R.id.brick_go_to_spinner, brickPosition, R.string
 				.brick_go_to_random_position);
 
 		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_go_to_spinner, brickPosition, R.string.brick_go_to_random_position);
