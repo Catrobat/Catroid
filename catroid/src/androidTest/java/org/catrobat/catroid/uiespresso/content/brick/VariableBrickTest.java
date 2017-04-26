@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.annotations.FlakyTest;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -79,6 +80,7 @@ public class VariableBrickTest {
 	}
 
 	@Test
+	@FlakyTest
 	public void testCreatingNewVariableAndChangeValue() {
 		final String variableName = "testVariable";
 		final int intToChange = 28;
@@ -95,6 +97,7 @@ public class VariableBrickTest {
 	}
 
 	@Test
+	@FlakyTest
 	public void testNewVariableCanceling() {
 		onView(withId(R.id.set_variable_spinner)).perform(click());
 		onView(withText(R.string.cancel)).perform(click());
