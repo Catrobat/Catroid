@@ -74,6 +74,7 @@ public class WebViewActivity extends BaseActivity {
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
+	private final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
