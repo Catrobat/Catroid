@@ -87,7 +87,7 @@ public class BrickLayout extends ViewGroup {
 
 	protected void allocateLineData() {
 		lines = new LinkedList<LineData>();
-		for (int i = 0; i < linesToAllocate; i++) {
+		for (int j = 0; j < linesToAllocate; j++) {
 			allocateNewLine();
 		}
 	}
