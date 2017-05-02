@@ -30,7 +30,7 @@ public enum NXTSensorType {
 
 	private int sensorTypeValue;
 
-	private NXTSensorType(int sensorTypeValue) {
+	NXTSensorType(int sensorTypeValue) {
 		this.sensorTypeValue = sensorTypeValue;
 	}
 

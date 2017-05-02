@@ -83,10 +83,10 @@ public class UploadProgressDialog extends DialogFragment {
 		progressBarDialog.setCancelable(false);
 		progressBarDialog.setCanceledOnTouchOutside(false);
 
-		progressBarDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), (DialogInterface
-				.OnClickListener) null);
-		progressBarDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.progress_upload_dialog_show_program), (DialogInterface
-				.OnClickListener) null);
+		progressBarDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
+				(DialogInterface.OnClickListener) null);
+		progressBarDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.progress_upload_dialog_show_program),
+				(DialogInterface.OnClickListener) null);
 
 		return progressBarDialog;
 	}
@@ -162,7 +162,7 @@ public class UploadProgressDialog extends DialogFragment {
 	@SuppressLint("ParcelCreator")
 	private class UploadReceiver extends ResultReceiver {
 
-		public UploadReceiver(Handler handler) {
+		UploadReceiver(Handler handler) {
 			super(handler);
 		}
 

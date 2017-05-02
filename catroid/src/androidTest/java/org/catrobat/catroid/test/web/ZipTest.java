@@ -45,7 +45,7 @@ public class ZipTest extends AndroidTestCase {
 		testfile.getParentFile().mkdirs();
 		testfile.createNewFile();
 
-		String[] paths = { pathToTest };
+		String[] paths = {pathToTest};
 
 		String zipFileName = Constants.TMP_PATH + "/testzip" + Constants.CATROBAT_EXTENSION;
 		File zipFile = new File(zipFileName);

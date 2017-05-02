@@ -28,7 +28,7 @@ public enum NoteLength {
 	WHOLE_DOT(4f + 2f), WHOLE(4f), HALF_DOT(2f + 1f), HALF(2f), QUARTER_DOT(1f + 1 / 2f),
 	QUARTER(1f), EIGHT_DOT(1 / 2f + 1 / 4f), EIGHT(1 / 2f), SIXTEENTH(1 / 4f);
 
-	private static final NoteLength[] SORTED_NOTE_LENGTHS = new NoteLength[] { SIXTEENTH, EIGHT, EIGHT_DOT, QUARTER, QUARTER_DOT, HALF, HALF_DOT, WHOLE, WHOLE_DOT };
+	private static final NoteLength[] SORTED_NOTE_LENGTHS = new NoteLength[] {SIXTEENTH, EIGHT, EIGHT_DOT, QUARTER, QUARTER_DOT, HALF, HALF_DOT, WHOLE, WHOLE_DOT};
 	private static final long DEFAULT_TICK_DURATION_MODIFIER = 8;
 	private static final NoteLength SMALLEST_NOTE_LENGTH = SIXTEENTH;
 

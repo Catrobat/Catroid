@@ -52,8 +52,8 @@ public final class Constants {
 	public static final char REMIX_URL_REPLACE_SEPARATOR = ';';
 
 	//Extensions:
-	public static final String[] IMAGE_EXTENSIONS = { ".png", ".jpg", ".jpeg", ".png", ".gif" };
-	public static final String[] SOUND_EXTENSIONS = { ".wav", ".mp3", ".mpga", ".wav", ".ogy" };
+	public static final String[] IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
+	public static final String[] SOUND_EXTENSIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";

@@ -43,7 +43,7 @@ public enum CommandByte {
 			LOOKUP.put(c.commandByteValue, c);
 		}
 	}
-	private CommandByte(int commandByteValue) {
+	CommandByte(int commandByteValue) {
 		this.commandByteValue = commandByteValue;
 	}
 

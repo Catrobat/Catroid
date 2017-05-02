@@ -905,7 +905,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 					return true;
 				}
-			default:
 				break;
 		}
 		return false;

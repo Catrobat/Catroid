@@ -103,7 +103,7 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 		assertNotNull("Device should be registered now. Bluetooth connection might failed. Is Bluetooth-Server running?", btDevice);
 		btDevice.connect();
 
-		byte[] expectedMessage = new byte[] { 1, 2, 3 };
+		byte[] expectedMessage = new byte[] {1, 2, 3};
 
 		btDevice.sendTestMessage(expectedMessage);
 		solo.sleep(2000); // wait some time till return message arrives
@@ -203,7 +203,7 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 
 		public void sendTestMessage(byte[] message) throws IOException {
 
-			outStream.write(new byte[] { (byte) (0xFF & message.length) });
+			outStream.write(new byte[] {(byte) (0xFF & message.length)});
 			outStream.write(message);
 			outStream.flush();
 		}

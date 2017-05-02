@@ -213,7 +213,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 
 		private boolean isTouchInDropDownView;
 
-		public SpinnerAdapterWrapper(Context context, ArrayAdapter<LookData> spinnerAdapter) {
+		SpinnerAdapterWrapper(Context context, ArrayAdapter<LookData> spinnerAdapter) {
 			this.context = context;
 			this.spinnerAdapter = spinnerAdapter;
 

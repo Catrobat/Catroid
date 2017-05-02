@@ -286,7 +286,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_on));
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
-		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
+		byte[] redPixel = {(byte) 255, 0, 0, (byte) 255};
 		byte[] stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
 				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
@@ -304,7 +304,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_off));
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
-		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
+		byte[] whitePixel = {(byte) 255, (byte) 255, (byte) 255, (byte) 255};
 		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
 				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
@@ -336,7 +336,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
-		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
+		byte[] whitePixel = {(byte) 255, (byte) 255, (byte) 255, (byte) 255};
 		byte[] screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1,
@@ -350,7 +350,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_maximize));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_continue));
 		solo.sleep(100);
-		byte[] blackPixel = { 0, 0, 0, (byte) 255 };
+		byte[] blackPixel = {0, 0, 0, (byte) 255};
 		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
 		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
 		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1,

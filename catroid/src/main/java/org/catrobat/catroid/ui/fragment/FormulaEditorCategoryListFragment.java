@@ -69,40 +69,40 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 
-	public static final String[] TAGS = { OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG };
+	public static final String[] TAGS = {OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG};
 	private String actionBarTitle;
 	private int[] itemsIds;
 	private int[] parameterIds;
 	private CategoryListAdapter adapter;
 
-	private static final int[] OBJECT_GENERAL_PROPERTIES_ITEMS = { R.string.formula_editor_object_transparency,
+	private static final int[] OBJECT_GENERAL_PROPERTIES_ITEMS = {R.string.formula_editor_object_transparency,
 			R.string.formula_editor_object_brightness, R.string.formula_editor_object_color/*,
-			R.string.formula_editor_object_distance_to*/ };
+			R.string.formula_editor_object_distance_to*/};
 
-	private static final int[] OBJECT_PHYSICAL_PROPERTIES_ITEMS = { R.string.formula_editor_object_x,
+	private static final int[] OBJECT_PHYSICAL_PROPERTIES_ITEMS = {R.string.formula_editor_object_x,
 			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
 			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer,
 			R.string.formula_editor_function_collision,
 			R.string.formula_editor_function_collides_with_edge, R.string.formula_editor_function_touched,
 			R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
-			R.string.formula_editor_object_angular_velocity };
+			R.string.formula_editor_object_angular_velocity};
 
-	private static final int[] OBJECT_ITEMS_LOOK = { R.string.formula_editor_object_look_number,
-			R.string.formula_editor_object_look_name };
+	private static final int[] OBJECT_ITEMS_LOOK = {R.string.formula_editor_object_look_number,
+			R.string.formula_editor_object_look_name};
 
-	private static final int[] OBJECT_ITEMS_BACKGROUND = { R.string.formula_editor_object_background_number,
-			R.string.formula_editor_object_background_name };
+	private static final int[] OBJECT_ITEMS_BACKGROUND = {R.string.formula_editor_object_background_number,
+			R.string.formula_editor_object_background_name};
 
-	private static final int[] LOGIC_BOOLEAN_OPERATORS_ITEMS = { R.string.formula_editor_logic_and,
+	private static final int[] LOGIC_BOOLEAN_OPERATORS_ITEMS = {R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
-			R.string.formula_editor_function_true, R.string.formula_editor_function_false };
+			R.string.formula_editor_function_true, R.string.formula_editor_function_false};
 
-	private static final int[] LOGIC_COMPARISON_OPERATORS_ITEMS = { R.string.formula_editor_logic_equal,
+	private static final int[] LOGIC_COMPARISON_OPERATORS_ITEMS = {R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
-			R.string.formula_editor_logic_greaterequal };
+			R.string.formula_editor_logic_greaterequal};
 
-	private static final int[] FUNCTIONS_MATH_ITEMS = { R.string.formula_editor_function_sin,
+	private static final int[] FUNCTIONS_MATH_ITEMS = {R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
 			R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
@@ -112,9 +112,9 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
 			R.string.formula_editor_function_power,
 			R.string.formula_editor_function_floor, R.string.formula_editor_function_ceil,
-			R.string.formula_editor_function_max, R.string.formula_editor_function_min };
+			R.string.formula_editor_function_max, R.string.formula_editor_function_min};
 
-	private static final int[] FUNCTIONS_MATH_PARAMETERS = { R.string.formula_editor_function_sin_parameter,
+	private static final int[] FUNCTIONS_MATH_PARAMETERS = {R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
 			R.string.formula_editor_function_ln_parameter, R.string.formula_editor_function_log_parameter,
 			R.string.formula_editor_function_pi_parameter, R.string.formula_editor_function_sqrt_parameter,
@@ -124,84 +124,84 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_function_arctan_parameter, R.string.formula_editor_function_exp_parameter,
 			R.string.formula_editor_function_power_parameter,
 			R.string.formula_editor_function_floor_parameter, R.string.formula_editor_function_ceil_parameter,
-			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter };
+			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter};
 
-	private static final int[] FUNCTIONS_STRINGS_ITEMS = { R.string.formula_editor_function_length,
-			R.string.formula_editor_function_letter, R.string.formula_editor_function_join };
+	private static final int[] FUNCTIONS_STRINGS_ITEMS = {R.string.formula_editor_function_length,
+			R.string.formula_editor_function_letter, R.string.formula_editor_function_join};
 
-	private static final int[] FUNCTIONS_STRINGS_PARAMETERS = { R.string.formula_editor_function_length_parameter,
-			R.string.formula_editor_function_letter_parameter, R.string.formula_editor_function_join_parameter };
+	private static final int[] FUNCTIONS_STRINGS_PARAMETERS = {R.string.formula_editor_function_length_parameter,
+			R.string.formula_editor_function_letter_parameter, R.string.formula_editor_function_join_parameter};
 
-	private static final int[] FUNCTIONS_LISTS_ITEMS = { R.string.formula_editor_function_number_of_items,
-			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains };
+	private static final int[] FUNCTIONS_LISTS_ITEMS = {R.string.formula_editor_function_number_of_items,
+			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains};
 
-	private static final int[] FUNCTIONS_LISTS_PARAMETERS = { R.string.formula_editor_function_number_of_items_parameter,
-			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter };
+	private static final int[] FUNCTIONS_LISTS_PARAMETERS = {R.string.formula_editor_function_number_of_items_parameter,
+			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter};
 
-	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness, R.string
-			.formula_editor_function_touched };
+	private static final int[] DEFAULT_SENSOR_ITEMS = {R.string.formula_editor_sensor_loudness, R.string
+			.formula_editor_function_touched};
 
-	private static final int[] DATE_AND_TIME_SENSOR_ITEMS = { R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month, R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
-			R.string.formula_editor_sensor_time_hour, R.string.formula_editor_sensor_time_minute, R.string.formula_editor_sensor_time_second };
+	private static final int[] DATE_AND_TIME_SENSOR_ITEMS = {R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month, R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
+			R.string.formula_editor_sensor_time_hour, R.string.formula_editor_sensor_time_minute, R.string.formula_editor_sensor_time_second};
 
-	private static final int[] ACCELERATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
-			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration };
+	private static final int[] ACCELERATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
+			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration};
 
-	private static final int[] INCLINATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_inclination,
-			R.string.formula_editor_sensor_y_inclination };
+	private static final int[] INCLINATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_inclination,
+			R.string.formula_editor_sensor_y_inclination};
 
-	private static final int[] COMPASS_SENSOR_ITEMS = { R.string.formula_editor_sensor_compass_direction };
+	private static final int[] COMPASS_SENSOR_ITEMS = {R.string.formula_editor_sensor_compass_direction};
 
-	private static final int[] GPS_SENSOR_ITEMS = { R.string.formula_editor_sensor_latitude, R.string
+	private static final int[] GPS_SENSOR_ITEMS = {R.string.formula_editor_sensor_latitude, R.string
 			.formula_editor_sensor_longitude, R.string.formula_editor_sensor_location_accuracy, R.string
-			.formula_editor_sensor_altitude };
+			.formula_editor_sensor_altitude};
 
-	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_touch,
+	private static final int[] NXT_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_nxt_touch,
 			R.string.formula_editor_sensor_lego_nxt_sound, R.string.formula_editor_sensor_lego_nxt_light,
-			R.string.formula_editor_sensor_lego_nxt_light_active, R.string.formula_editor_sensor_lego_nxt_ultrasonic };
+			R.string.formula_editor_sensor_lego_nxt_light_active, R.string.formula_editor_sensor_lego_nxt_ultrasonic};
 
-	private static final int[] NFC_TAG_ITEMS = { R.string.formula_editor_nfc_tag_id,
-			R.string.formula_editor_nfc_tag_message };
+	private static final int[] NFC_TAG_ITEMS = {R.string.formula_editor_nfc_tag_id,
+			R.string.formula_editor_nfc_tag_message};
 
-	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
+	private static final int[] SENSOR_ITEMS_DRONE = {R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
 			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
 			R.string.formula_editor_sensor_drone_usb_remaining_time, R.string.formula_editor_sensor_drone_camera_ready,
 			R.string.formula_editor_sensor_drone_record_ready, R.string.formula_editor_sensor_drone_recording,
-			R.string.formula_editor_sensor_drone_num_frames };
+			R.string.formula_editor_sensor_drone_num_frames};
 
-	private static final int[] EV3_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_ev3_sensor_touch,
+	private static final int[] EV3_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_ev3_sensor_touch,
 			R.string.formula_editor_sensor_lego_ev3_sensor_infrared, R.string.formula_editor_sensor_lego_ev3_sensor_color,
 			R.string.formula_editor_sensor_lego_ev3_sensor_color_ambient, R.string
-			.formula_editor_sensor_lego_ev3_sensor_color_reflected };
+			.formula_editor_sensor_lego_ev3_sensor_color_reflected};
 
-	private static final int[] PHIRO_SENSOR_ITEMS = { R.string.formula_editor_phiro_sensor_front_left,
+	private static final int[] PHIRO_SENSOR_ITEMS = {R.string.formula_editor_phiro_sensor_front_left,
 			R.string.formula_editor_phiro_sensor_front_right, R.string.formula_editor_phiro_sensor_side_left,
 			R.string.formula_editor_phiro_sensor_side_right, R.string.formula_editor_phiro_sensor_bottom_left,
-			R.string.formula_editor_phiro_sensor_bottom_right };
+			R.string.formula_editor_phiro_sensor_bottom_right};
 
-	private static final int[] ARDUINO_SENSOR_ITEMS = { R.string.formula_editor_function_arduino_read_pin_value_analog,
-			R.string.formula_editor_function_arduino_read_pin_value_digital };
+	private static final int[] ARDUINO_SENSOR_ITEMS = {R.string.formula_editor_function_arduino_read_pin_value_analog,
+			R.string.formula_editor_function_arduino_read_pin_value_digital};
 
-	private static final int[] FACE_DETECTION_SENSOR_ITEMS = { R.string.formula_editor_sensor_face_detected,
+	private static final int[] FACE_DETECTION_SENSOR_ITEMS = {R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
-			R.string.formula_editor_sensor_face_y_position };
+			R.string.formula_editor_sensor_face_y_position};
 
-	private static final int[] TOUCH_DEDECTION_SENSOR_ITEMS = { R.string.formula_editor_function_finger_x, R.string.formula_editor_function_finger_y,
+	private static final int[] TOUCH_DEDECTION_SENSOR_ITEMS = {R.string.formula_editor_function_finger_x, R.string.formula_editor_function_finger_y,
 			R.string.formula_editor_function_is_finger_touching, R.string.formula_editor_function_multi_finger_x,
 			R.string.formula_editor_function_multi_finger_y,
 			R.string.formula_editor_function_is_multi_finger_touching,
-			R.string.formula_editor_function_index_of_last_finger };
+			R.string.formula_editor_function_index_of_last_finger};
 
-	private static final int[] TOUCH_DEDECTION_PARAMETERS = { R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_no_parameter,
+	private static final int[] TOUCH_DEDECTION_PARAMETERS = {R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_touch_parameter,
 			R.string.formula_editor_function_touch_parameter,
 			R.string.formula_editor_function_touch_parameter,
-			R.string.formula_editor_function_no_parameter };
+			R.string.formula_editor_function_no_parameter};
 
-	private static final int[] RASPBERRY_SENSOR_ITEMS = { R.string.formula_editor_function_raspi_read_pin_value_digital };
+	private static final int[] RASPBERRY_SENSOR_ITEMS = {R.string.formula_editor_function_raspi_read_pin_value_digital};
 
-	private static final int[] RASPBERRY_SENSOR_PARAMETERS = { R.string.formula_editor_function_pin_default_parameter };
+	private static final int[] RASPBERRY_SENSOR_PARAMETERS = {R.string.formula_editor_function_pin_default_parameter};
 
 	private int[] concatAll(int[] first, int[]... rest) {
 		int totalLength = first.length;

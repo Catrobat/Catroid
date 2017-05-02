@@ -38,13 +38,13 @@ public class MindstormsNXTTestModel implements DeviceModel {
 	private static final byte SHOULD_REPLY = 0x0;
 	private static final byte NO_ERROR = 0x0;
 	private Random random = new Random(System.currentTimeMillis());
-	private byte[] batteryValue = { getRandomByte(256), getRandomByte(256) };
-	private byte[] keepAliveTime = { getRandomByte(256), getRandomByte(256), getRandomByte(256), getRandomByte(256) };
+	private byte[] batteryValue = {getRandomByte(256), getRandomByte(256)};
+	private byte[] keepAliveTime = {getRandomByte(256), getRandomByte(256), getRandomByte(256), getRandomByte(256)};
 
-	private byte[] portSensorType = { 0, 0, 0, 0 };
-	private byte[] portSensorMode = { 0, 0, 0, 0 };
+	private byte[] portSensorType = {0, 0, 0, 0};
+	private byte[] portSensorMode = {0, 0, 0, 0};
 
-	private byte[] sensorValue = { getRandomByte(256), getRandomByte(256) };
+	private byte[] sensorValue = {getRandomByte(256), getRandomByte(256)};
 
 	private byte ultrasonicSensorBytesReady = 0;
 

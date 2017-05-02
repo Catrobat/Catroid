@@ -38,7 +38,7 @@ public class InternFormulaParser {
 
 		private static final long serialVersionUID = 1L;
 
-		public InternFormulaParserException(String errorMessage) {
+		InternFormulaParserException(String errorMessage) {
 			super(errorMessage);
 		}
 	}

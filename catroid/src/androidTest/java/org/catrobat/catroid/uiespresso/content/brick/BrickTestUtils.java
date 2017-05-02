@@ -112,7 +112,7 @@ public final class BrickTestUtils {
 				R.string.brick_variable_spinner_create_new_variable);
 
 		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
-					.onChildView(withText(R.string.brick_variable_spinner_create_new_variable))
+				.onChildView(withText(R.string.brick_variable_spinner_create_new_variable))
 				.perform(click());
 
 		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);

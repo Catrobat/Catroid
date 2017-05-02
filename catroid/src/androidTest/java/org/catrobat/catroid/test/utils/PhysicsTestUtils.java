@@ -61,7 +61,7 @@ public final class PhysicsTestUtils {
 		}
 
 		if (shape != null) {
-			physicsObject.setShape(new Shape[] { shape });
+			physicsObject.setShape(new Shape[] {shape});
 		}
 		return physicsObject;
 	}

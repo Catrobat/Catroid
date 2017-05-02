@@ -100,7 +100,7 @@ public class BroadcastEvent extends Event {
 		setRun(true);
 	}
 
-	public static enum BroadcastType {
+	public enum BroadcastType {
 		broadcast, broadcastWait
 	}
 }

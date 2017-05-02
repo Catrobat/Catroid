@@ -552,7 +552,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 
 		final float expectedCatrobatLanguageVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 
-		final Job[] expectedJobs = new Job[] { expectedUnscheduledJob, expectedFinishedJob };
+		final Job[] expectedJobs = new Job[] {expectedUnscheduledJob, expectedFinishedJob};
 		final InfoMessage infoMessage = new InfoMessage(expectedCatrobatLanguageVersion, expectedJobs);
 
 		final DownloadCallback downloadCallbackMock = Mockito.mock(DownloadCallback.class);

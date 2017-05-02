@@ -242,7 +242,7 @@ public final class NfcHandler {
 			default:
 				ndefRecord = NdefRecord.createUri(message);
 		}
-		return new NdefMessage(new NdefRecord[] { ndefRecord });
+		return new NdefMessage(new NdefRecord[] {ndefRecord});
 	}
 
 	public static String deleteProtocolPrefixIfExist(String url) {

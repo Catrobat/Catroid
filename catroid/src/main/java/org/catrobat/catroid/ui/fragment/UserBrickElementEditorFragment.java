@@ -134,7 +134,7 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 			((ScriptActivity) activity).redrawBricks();
 		} else {
 			Log.e(TAG, "UserBrickDataEditor.onUserDismiss() called when the parent activity is not a UserBrickScriptActivity!\n"
-							+ "This should never happen, afaik. I don't know how to correctly reset the action bar...");
+					+ "This should never happen, afaik. I don't know how to correctly reset the action bar...");
 		}
 
 		ActionBar actionBar = activity.getActionBar();

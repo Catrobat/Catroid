@@ -107,7 +107,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	private Menu currentMenu;
 	private FormulaElement formulaElementForComputeDialog;
 
-	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
+	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
 	private int confirmSwitchEditTextCounter = 0;
 	private CharSequence previousActionBarTitle;
 	private VariableOrUserListDeletedReceiver variableOrUserListDeletedReceiver;

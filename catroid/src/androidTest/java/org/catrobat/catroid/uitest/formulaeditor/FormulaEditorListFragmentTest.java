@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 
 public class FormulaEditorListFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private static final int[] FUNCTIONS_ITEMS = { R.string.formula_editor_function_sin,
+	private static final int[] FUNCTIONS_ITEMS = {R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
 			R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
@@ -53,9 +53,9 @@ public class FormulaEditorListFragmentTest extends BaseActivityInstrumentationTe
 			R.string.formula_editor_function_max, R.string.formula_editor_function_min,
 			R.string.formula_editor_function_length, R.string.formula_editor_function_letter,
 			R.string.formula_editor_function_join, R.string.formula_editor_function_number_of_items,
-			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains };
+			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains};
 
-	private static final int[] FUNCTIONS_PARAMETERS = { R.string.formula_editor_function_sin_parameter,
+	private static final int[] FUNCTIONS_PARAMETERS = {R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
 			R.string.formula_editor_function_ln_parameter, R.string.formula_editor_function_log_parameter,
 			R.string.formula_editor_function_pi_parameter, R.string.formula_editor_function_sqrt_parameter,
@@ -67,7 +67,7 @@ public class FormulaEditorListFragmentTest extends BaseActivityInstrumentationTe
 			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter,
 			R.string.formula_editor_function_length_parameter, R.string.formula_editor_function_letter_parameter,
 			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_number_of_items_parameter,
-			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter };
+			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter};
 
 	public FormulaEditorListFragmentTest() {
 		super(MainMenuActivity.class);

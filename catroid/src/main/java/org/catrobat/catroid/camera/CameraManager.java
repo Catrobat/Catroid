@@ -297,8 +297,8 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		if (texture != null) {
 			try {
 				setTexture();
-			} catch (IOException iOException) {
-				Log.e(TAG, "Setting preview texture failed!", iOException);
+			} catch (IOException ioException) {
+				Log.e(TAG, "Setting preview texture failed!", ioException);
 				return false;
 			}
 		}
