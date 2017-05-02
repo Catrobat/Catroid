@@ -95,7 +95,7 @@ public class BrickValueParameterTest {
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
 
 	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
-			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED,	SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
+			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
 			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS));
 	private List<String> enabledByThisTestPeripheralCategories = new ArrayList<>();
 
@@ -179,11 +179,13 @@ public class BrickValueParameterTest {
 
 		//speak - edit text "hello"
 		checkIfBrickShowsText(SpeakBrick.class, R.string.brick_speak);
-		checkIfBrickShowsEditTextWithText(SpeakBrick.class, R.id.brick_speak_edit_text,	R.string.brick_speak_default_value);
+		checkIfBrickShowsEditTextWithText(SpeakBrick.class, R.id.brick_speak_edit_text,
+				R.string.brick_speak_default_value);
 
 		//speak and wait  - edit text "hello"
 		checkIfBrickShowsText(SpeakAndWaitBrick.class, R.string.brick_speak_and_wait);
-		checkIfBrickShowsEditTextWithText(SpeakAndWaitBrick.class, R.id.brick_speak_and_wait_edit_text,	R.string.brick_speak_default_value);
+		checkIfBrickShowsEditTextWithText(SpeakAndWaitBrick.class, R.id.brick_speak_and_wait_edit_text,
+				R.string.brick_speak_default_value);
 
 		//ask and store - edit text "whats your name" - spinner "new"
 		checkIfBrickShowsText(AskSpeechBrick.class, R.string.brick_ask_speech_label);
@@ -227,9 +229,10 @@ public class BrickValueParameterTest {
 		//if - edit text "1 st 2" - is true then ... else ...
 		int ifBrickPosition = 0;
 		checkIfBrickAtPositionShowsText(IfLogicBeginBrick.class, ifBrickPosition, R.string.brick_if_begin);
-		checkIfBrickAtPositionShowsEditTextWithText(IfLogicBeginBrick.class, ifBrickPosition, R.id.brick_if_begin_edit_text, "1 < 2");
-		checkIfBrickAtPositionShowsText(IfLogicBeginBrick.class, ifBrickPosition,  R.string.brick_if_begin_second_part);
-		checkIfBrickAtPositionShowsText(IfLogicBeginBrick.class, ifBrickPosition,  R.string.brick_if_else);
+		checkIfBrickAtPositionShowsEditTextWithText(IfLogicBeginBrick.class, ifBrickPosition,
+				R.id.brick_if_begin_edit_text, "1 < 2");
+		checkIfBrickAtPositionShowsText(IfLogicBeginBrick.class, ifBrickPosition, R.string.brick_if_begin_second_part);
+		checkIfBrickAtPositionShowsText(IfLogicBeginBrick.class, ifBrickPosition, R.string.brick_if_else);
 
 		// if - edit text "1 st 2" - is true then
 		checkIfBrickShowsText(IfThenLogicBeginBrick.class, R.string.brick_if_begin);
@@ -331,7 +334,7 @@ public class BrickValueParameterTest {
 				.check(matches(withText(text)));
 	}
 
-	private void checkIfBrickAtPositionShowsText(Class brickClass, int position,  int stringResourceId) {
+	private void checkIfBrickAtPositionShowsText(Class brickClass, int position, int stringResourceId) {
 		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.atPosition(position)
 				.onChildView(withText(stringResourceId))

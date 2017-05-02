@@ -52,10 +52,15 @@ public class TermsOfUseDialogTest {
 	public BaseActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(MainMenuActivity.class);
 
-	@Before
 	public void registerIdlingResource() {
 		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
 		Espresso.registerIdlingResources(idlingResource);
+	}
+
+	@Before
+	public void setUp() throws Exception {
+		baseActivityTestRule.launchActivity(null);
+		registerIdlingResource();
 	}
 
 	@Test
@@ -80,6 +85,10 @@ public class TermsOfUseDialogTest {
 	}
 
 	@After
+	public void tearDown() throws Exception {
+		unregisterResource();
+	}
+
 	public void unregisterResource() {
 		Espresso.unregisterIdlingResources(idlingResource);
 	}
