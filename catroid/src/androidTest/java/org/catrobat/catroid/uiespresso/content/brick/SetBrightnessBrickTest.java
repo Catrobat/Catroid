@@ -58,6 +58,6 @@ public class SetBrightnessBrickTest {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_brightness);
 		double newBrightness = 65.5;
-		enterValueInFormulaTextFieldOnBrickAtPosition(newBrightness , R.id.brick_set_brightness_edit_text, brickPosition);
+		enterValueInFormulaTextFieldOnBrickAtPosition(newBrightness, R.id.brick_set_brightness_edit_text, brickPosition);
 	}
 }
