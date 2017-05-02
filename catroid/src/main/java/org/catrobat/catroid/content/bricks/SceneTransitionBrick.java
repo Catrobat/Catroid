@@ -41,19 +41,22 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Translatable;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialog.OnNewSceneListener {
+public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialog.OnNewSceneListener, Translatable {
 	private static final long serialVersionUID = 1L;
 
 	private String sceneForTransition;
@@ -217,6 +220,13 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 
 	public void setSceneForTransition(String sceneForTransition) {
 		this.sceneForTransition = sceneForTransition;
+	}
+
+	@Override
+	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
+		String key = templateName + Constants.TRANSLATION_SCENE;
+		sceneForTransition = Utils.getStringResourceByName(Utils.getStringResourceName(key, sceneForTransition), sceneForTransition, context);
+		return null;
 	}
 
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {

@@ -1180,12 +1180,15 @@ public final class Utils {
 
 		for (Scene scene : project.getSceneList()) {
 			locateAndReplaceSceneStrings(scene, templateName, stringEntriesList, context);
+			for (Sprite sprite : scene.getSpriteList()) {
+				locateAndReplaceSpriteStrings(sprite, templateName, stringEntriesList, context);
+			}
+		}
 
+		for (Scene scene : project.getSceneList()) {
 			DataContainer dataContainer = scene.getDataContainer();
 
 			for (Sprite sprite : scene.getSpriteList()) {
-				locateAndReplaceSpriteStrings(sprite, templateName, stringEntriesList, context);
-
 				locateAndReplaceLookStrings(sprite, templateName, stringEntriesList, context);
 				locateAndReplaceSoundStrings(sprite, templateName, stringEntriesList, context);
 
