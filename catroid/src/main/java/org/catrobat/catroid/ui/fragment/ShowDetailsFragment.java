@@ -91,7 +91,8 @@ public class ShowDetailsFragment extends Fragment implements SetDescriptionDialo
 		screenshotLoader.loadAndShowScreenshot(projectData.projectName, sceneName, false, projectImage);
 		name.setText(projectData.projectName);
 		author.setText(getUserHandle());
-		size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectData.projectName))));
+		size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectData.projectName)),getActivity()
+				.getApplicationContext()));
 		lastAccess.setText(getLastAccess());
 		screenSize.setText(screen);
 		mode.setText(modeText);

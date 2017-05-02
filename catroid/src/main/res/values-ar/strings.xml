@@ -1447,4 +1447,14 @@
   <string name="crash_dialog_always_send">دائماً أرسل</string>
   <string name="crash_dialog_send">أرسل</string>
   <!--  -->
+
+  <!--  -->
+  <string name="Byte_short">بايت</string>
+  <string name="kiloByte_short">كيلوبايت</string>
+  <string name="MegaByte_short">ميغابايت</string>
+  <string name="GigaByte_short">غيغابايت</string>
+  <string name="TeraByte_short">تيرابايت</string>
+  <string name="PetaByte_short">بيتابايت</string>
+  <string name="ExaByte_short">إكسابايت</string>
+   <!--  -->
 </resources>

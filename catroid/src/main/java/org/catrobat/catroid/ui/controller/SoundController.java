@@ -280,7 +280,7 @@ public final class SoundController {
 
 	private void handleDetails(SoundBaseAdapter soundAdapter, SoundViewHolder holder, SoundInfo soundInfo) {
 		if (soundAdapter.getShowDetails()) {
-			holder.soundFileSizeTextView.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+			holder.soundFileSizeTextView.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath()),soundAdapter.getContext()));
 			holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
 			holder.soundFileSizePrefixTextView.setVisibility(TextView.VISIBLE);
 		} else {

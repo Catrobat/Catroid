@@ -1543,4 +1543,14 @@
     <string name="crash_dialog_always_send">Always send</string>
     <string name="crash_dialog_send">Send</string>
     <!--  -->
+
+     <!--  -->
+     <string name="Byte_short">B</string>
+     <string name="kiloByte_short">KB</string>
+     <string name="MegaByte_short">MB</string>
+     <string name="GigaByte_short">GB</string>
+     <string name="TeraByte_short">TB</string>
+     <string name="PetaByte_short">PB</string>
+     <string name="ExaByte_short">EB</string>
+     <!--  -->
 </resources>
