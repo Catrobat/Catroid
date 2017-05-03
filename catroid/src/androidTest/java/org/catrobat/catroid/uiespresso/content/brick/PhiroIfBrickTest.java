@@ -37,13 +37,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkBrickNotExists;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.deleteBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class PhiroIfBrickTest {
 	private int brickPosition;
 	private PhiroIfLogicBeginBrick ifBrick;
+	private Script script;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -59,7 +62,7 @@ public class PhiroIfBrickTest {
 		IfLogicEndBrick ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifBrick);
 		ifBrick.setIfElseBrick(ifLogicElseBrick);
 		ifBrick.setIfEndBrick(ifLogicEndBrick);
-		Script script = BrickTestUtils.createProjectAndGetStartScript("PhiroIfBrickTest");
+		script = BrickTestUtils.createProjectAndGetStartScript("PhiroIfBrickTest");
 		script.addBrick(ifBrick);
 		script.addBrick(ifLogicElseBrick);
 		script.addBrick(ifLogicEndBrick);
@@ -87,5 +90,15 @@ public class PhiroIfBrickTest {
 
 		checkIfBrickAtPositionShowsString(brickPosition + 1, R.string.brick_if_else);
 		checkIfBrickAtPositionShowsString(brickPosition + 2, R.string.brick_if_end);
+	}
+
+	@Test
+	public void testPhiroIfBrickDelete() {
+
+		deleteBrickAtPosition(brickPosition, R.string.brick_phiro_sensor_begin);
+
+		checkBrickNotExists(R.string.brick_phiro_sensor_begin);
+		checkBrickNotExists(R.string.brick_if_else);
+		checkBrickNotExists(R.string.brick_if_end);
 	}
 }

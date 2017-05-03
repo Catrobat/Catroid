@@ -45,6 +45,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -218,5 +219,17 @@ public final class BrickTestUtils {
 				.perform(click());
 		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
 				.check(matches(withText("'" + stringToBeEntered + "' ")));
+	}
+
+	public static void deleteBrickAtPosition(int position, int intBrickResouce) {
+		onScriptList().atPosition(position).onChildView(withText(intBrickResouce)).perform(click());
+		onView(withText(R.string.brick_context_dialog_delete_brick))
+				.perform(click());
+		onView(withText(R.string.yes))
+				.perform(click());
+	}
+
+	public static void checkBrickNotExists(int intResourceId) {
+		onView(withId(intResourceId)).check(doesNotExist());
 	}
 }
