@@ -47,7 +47,7 @@ public class AskActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
 		userVariableForAnswer = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(TEST_USERVARIABLE, null);
+				.getUserVariable(null, TEST_USERVARIABLE);
 		super.setUp();
 	}
 

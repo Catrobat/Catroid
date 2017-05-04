@@ -48,9 +48,9 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
@@ -378,7 +378,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 				if (dataContainer != null) {
 					List<UserBrick> matchingBricks = currentSprite.getUserBricksByDefinitionBrick(this, true, true);
 					for (UserBrick userBrick : matchingBricks) {
-						UserVariable userVariable = dataContainer.getUserVariable(oldName, userBrick, currentSprite);
+						UserVariable userVariable = dataContainer.getUserVariable(currentSprite, oldName, userBrick);
 						if (userVariable != null) {
 							userVariable.setName(newName);
 						}

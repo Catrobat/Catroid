@@ -20,27 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+package org.catrobat.catroid.formulaeditor.datacontainer;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
-import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class BaseDataContainer implements Serializable {
-	protected static final long serialVersionUID = 1L;
+class ProjectVariableBehaviour extends ProjectDataBehaviour<UserVariable> {
 
-	@XStreamAlias("objectVariableList")
-	public Map<Sprite, List<UserVariable>> spriteVariables;
+	private DataContainer dataContainer;
 
-	@XStreamAlias("userBrickVariableList")
-	Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
+	ProjectVariableBehaviour(DataContainer dataContainer) {
+		this.dataContainer = dataContainer;
+	}
 
-	@XStreamAlias("objectListOfList")
-	public Map<Sprite, List<UserList>> spriteListOfLists;
+	@Override
+	protected List<UserVariable> getDataList() {
+		return dataContainer.getProjectVariables();
+	}
+
+	@Override
+	protected UserVariable newInstance(String name) {
+		return new UserVariable(name);
+	}
+
+	@Override
+	protected String getDataName(UserVariable data) {
+		return data.getName();
+	}
+
+	@Override
+	protected void setDataName(UserVariable data, String name) {
+		data.setName(name);
+	}
 }

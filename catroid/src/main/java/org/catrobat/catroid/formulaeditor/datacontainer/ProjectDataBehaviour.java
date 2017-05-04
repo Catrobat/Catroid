@@ -21,24 +21,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.formulaeditor.datacontainer;
 
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import java.util.List;
 
-import java.io.Serializable;
+abstract class ProjectDataBehaviour<V> {
 
-public class BackPackedVariableData implements Serializable {
-	public UserVariable userVariable;
-	public DataContainer.DataType userVariableType;
+	protected abstract List<V> getDataList();
+	protected abstract V newInstance(String name);
+	protected abstract String getDataName(V data);
+	protected abstract void setDataName(V data, String name);
 
-	BackPackedVariableData() {
+	V add(String name) {
+		V dataToAdd = newInstance(name);
+		getDataList().add(dataToAdd);
+		return dataToAdd;
 	}
 
-	BackPackedVariableData(BackPackedVariableData backPackedData) {
-		if (backPackedData != null) {
-			this.userVariable = backPackedData.userVariable;
-			this.userVariableType = backPackedData.userVariableType;
+	V rename(String newName, String oldName) {
+		V dataToRename = find(oldName);
+		setDataName(dataToRename, newName);
+		return dataToRename;
+	}
+
+	boolean exists(String name) {
+		return find(name) != null;
+	}
+
+	V find(String name) {
+		for (V data : getDataList()) {
+			if (getDataName(data).equals(name)) {
+				return data;
+			}
 		}
+		return null;
 	}
 }

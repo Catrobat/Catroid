@@ -72,12 +72,12 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(TEST_USERVARIABLE, null);
+				.getUserVariable(null, TEST_USERVARIABLE);
 
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE_2);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE_2);
 		userVariable2 = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(TEST_USERVARIABLE_2, null);
+				.getUserVariable(null, TEST_USERVARIABLE_2);
 
 		super.setUp();
 	}

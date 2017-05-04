@@ -70,7 +70,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -273,7 +273,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void removeClonedSpriteFromStage(Sprite sprite) {
-		if (!sprite.isClone) {
+		if (!sprite.isClone()) {
 			return;
 		}
 

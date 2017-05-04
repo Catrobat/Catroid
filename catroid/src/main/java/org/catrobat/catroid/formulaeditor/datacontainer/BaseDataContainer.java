@@ -20,25 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.formulaeditor.datacontainer;
 
-package org.catrobat.catroid.content.bricks;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class BackPackedVariableData implements Serializable {
-	public UserVariable userVariable;
-	public DataContainer.DataType userVariableType;
+public class BaseDataContainer implements Serializable {
+	protected static final long serialVersionUID = 1L;
 
-	BackPackedVariableData() {
-	}
+	@XStreamAlias("objectVariableList")
+	public Map<Sprite, List<UserVariable>> spriteVariables;
 
-	BackPackedVariableData(BackPackedVariableData backPackedData) {
-		if (backPackedData != null) {
-			this.userVariable = backPackedData.userVariable;
-			this.userVariableType = backPackedData.userVariableType;
-		}
-	}
+	@XStreamAlias("userBrickVariableList")
+	Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
+
+	@XStreamAlias("objectListOfList")
+	public Map<Sprite, List<UserList>> spriteListOfLists;
 }

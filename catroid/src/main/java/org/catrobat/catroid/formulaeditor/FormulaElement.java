@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
@@ -302,7 +303,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretUserList(Sprite sprite) {
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-		UserList userList = dataContainer.getUserList(value, sprite);
+		UserList userList = dataContainer.getUserList(sprite, value);
 		if (userList == null) {
 			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
 		}
@@ -372,7 +373,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretUserVariable(Sprite sprite) {
 		DataContainer userVariables = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-		UserVariable userVariable = userVariables.getUserVariable(value, sprite);
+		UserVariable userVariable = userVariables.getUserVariable(sprite, value);
 		if (userVariable == null) {
 			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 		}
@@ -542,7 +543,7 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionContains(Object right, Sprite sprite) {
 		if (leftChild.getElementType() == ElementType.USER_LIST) {
 			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			UserList userList = dataContainer.getUserList(leftChild.getValue(), sprite);
+			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
 
 			if (userList == null) {
 				return 0d;
@@ -562,7 +563,7 @@ public class FormulaElement implements Serializable {
 		UserList userList = null;
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
 			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			userList = dataContainer.getUserList(rightChild.getValue(), sprite);
+			userList = dataContainer.getUserList(sprite, rightChild.getValue());
 		}
 
 		if (userList == null) {
@@ -637,7 +638,7 @@ public class FormulaElement implements Serializable {
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
 			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			UserList userList = dataContainer.getUserList(leftChild.getValue(), sprite);
+			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
 			if (userList == null) {
 				return 0d;
 			}
@@ -1019,7 +1020,7 @@ public class FormulaElement implements Serializable {
 		if (type == ElementType.USER_VARIABLE) {
 			DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
 					.getDataContainer();
-			UserVariable userVariable = userVariableContainer.getUserVariable(value, sprite);
+			UserVariable userVariable = userVariableContainer.getUserVariable(sprite, value);
 			Object userVariableValue = userVariable.getValue();
 			return userVariableValue instanceof String;
 		}
@@ -1029,7 +1030,7 @@ public class FormulaElement implements Serializable {
 	private int handleLengthUserVariableParameter(Sprite sprite) {
 		DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
 				.getDataContainer();
-		UserVariable userVariable = userVariableContainer.getUserVariable(leftChild.value, sprite);
+		UserVariable userVariable = userVariableContainer.getUserVariable(sprite, leftChild.value);
 
 		Object userVariableValue = userVariable.getValue();
 		if (userVariableValue instanceof String) {
@@ -1046,7 +1047,7 @@ public class FormulaElement implements Serializable {
 	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay()
 				.getDataContainer();
-		UserList userList = dataContainer.getUserList(leftChild.value, sprite);
+		UserList userList = dataContainer.getUserList(sprite, leftChild.value);
 
 		if (userList == null) {
 			return 0;
