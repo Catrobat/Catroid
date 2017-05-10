@@ -271,6 +271,7 @@ public class FormulaElement implements Serializable {
 					Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
 				}
 		}
+		Log.e("normalized value",""+normalizeDegeneratedDoubleValues(returnValue));
 		return normalizeDegeneratedDoubleValues(returnValue);
 	}
 
@@ -890,17 +891,31 @@ public class FormulaElement implements Serializable {
 		}
 		if (left instanceof Double && right instanceof String) {
 			try {
-				int compareResult = ((Double) left).compareTo(Double.valueOf((String) right));
-				if (compareResult == 0) {
-					return 1d;
+				Double tempLeft = (Double)left;
+				Double tempRight = Double.valueOf((String) right);
+				int compareResult = 1;// default is false
+				if(tempLeft == 0 || tempRight == 0){
+					compareResult = ((Double)Math.abs(tempLeft)).compareTo((Double)Math.abs(tempRight));
+				}else {
+					compareResult = (tempLeft).compareTo(tempRight);
 				}
+					if (compareResult == 0) {
+						return 1d;
+					}
 			} catch (NumberFormatException numberFormatException) {
 				return 0d;
 			}
 		}
 		if (left instanceof String && right instanceof Double) {
 			try {
-				int compareResult = Double.valueOf((String) left).compareTo((Double) right);
+				Double tempLeft = Double.parseDouble((String) left);
+				Double tempRight = (Double) right;
+				int compareResult = 1;// default is false
+				if(tempLeft == 0 || tempRight == 0){
+					compareResult = ((Double)Math.abs(tempLeft)).compareTo((Double)Math.abs(tempRight));
+				}else {
+					compareResult = (tempLeft).compareTo(tempRight);
+				}
 				if (compareResult == 0) {
 					return 1d;
 				}
