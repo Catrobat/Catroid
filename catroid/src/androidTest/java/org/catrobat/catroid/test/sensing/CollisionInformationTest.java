@@ -78,7 +78,7 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		Bitmap bitmap = Bitmap.createBitmap(200, 100, Bitmap.Config.ALPHA_8);
 		Polygon[] polygons = CollisionInformation.createCollisionPolygonByHitbox(bitmap);
 		Assert.assertTrue("Wrong vertices calculated", Arrays.equals(polygons[0].getVertices(),
-				new float[] { 0.0f, 0.0f, 200.0f, 0.0f, 200.0f, 100.0f, 0.0f, 100.0f }));
+				new float[] {0.0f, 0.0f, 200.0f, 0.0f, 200.0f, 100.0f, 0.0f, 100.0f}));
 	}
 
 	public void testGetCollisionPolygonFromPNGMeta() {
@@ -107,7 +107,7 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		Assert.assertEquals("Wrong amount of collisionPolygons", 1, collisionPolygons.length);
 		Assert.assertTrue("Wrong Collision Polygon",
 				Arrays.equals(collisionPolygons[0].getVertices(),
-						new float[] { 0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f }));
+						new float[] {0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f}));
 	}
 
 	public void testWriteReadCollisionVerticesToPNGMeta() {
@@ -130,9 +130,9 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 			Assert.fail("Couldn't load file, exception thrown!");
 		}
 
-		float[] firstVertices = new float[] { 0.0f, 0.0f, 111.0f, 0.0f, 111.0f, 222.0f };
-		float[] secondVertices = new float[] { 10.0f, 10.0f, 20.0f, 10.0f, 20.0f, 20.0f, 10.0f, 20.0f };
-		Polygon[] polygons = { new Polygon(firstVertices), new Polygon(secondVertices) };
+		float[] firstVertices = new float[] {0.0f, 0.0f, 111.0f, 0.0f, 111.0f, 222.0f};
+		float[] secondVertices = new float[] {10.0f, 10.0f, 20.0f, 10.0f, 20.0f, 20.0f, 10.0f, 20.0f};
+		Polygon[] polygons = {new Polygon(firstVertices), new Polygon(secondVertices)};
 		CollisionInformation.writeCollisionVerticesToPNGMeta(polygons, file.getAbsolutePath());
 		Polygon[] testPolygons = CollisionInformation.getCollisionPolygonFromPNGMeta(file.getAbsolutePath());
 
@@ -180,25 +180,25 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 	}
 
 	public void testCreateHorizontalAndVerticalVertices() {
-		boolean[][] grid = new boolean[][] { { false, false, true, true, true, false, false },
-				{ false, false, true, false, true, false, false },
-				{ true, true, true, true, true, true, true },
-				{ true, false, true, false, true, false, true },
-				{ true, true, true, true, true, true, true },
-				{ false, false, true, false, true, false, false },
-				{ false, false, true, true, true, false, false } };
+		boolean[][] grid = new boolean[][] {{false, false, true, true, true, false, false},
+				{false, false, true, false, true, false, false},
+				{true, true, true, true, true, true, true},
+				{true, false, true, false, true, false, true},
+				{true, true, true, true, true, true, true},
+				{false, false, true, false, true, false, false},
+				{false, false, true, true, true, false, false}};
 		int width = grid.length;
 		int height = grid[0].length;
-		float[] horizontalCorrect = new float[] { 2.0f, 0.0f, 5.0f, 0.0f, 3.0f, 1.0f, 4.0f, 1.0f, 0.0f, 2.0f, 2.0f, 2.0f,
+		float[] horizontalCorrect = new float[] {2.0f, 0.0f, 5.0f, 0.0f, 3.0f, 1.0f, 4.0f, 1.0f, 0.0f, 2.0f, 2.0f, 2.0f,
 				1.0f, 3.0f, 2.0f, 3.0f, 3.0f, 2.0f, 4.0f, 2.0f, 3.0f, 3.0f, 4.0f, 3.0f, 5.0f, 2.0f, 7.0f, 2.0f, 5.0f,
 				3.0f, 6.0f, 3.0f, 0.0f, 5.0f, 2.0f, 5.0f, 1.0f, 4.0f, 2.0f, 4.0f, 3.0f, 4.0f, 4.0f, 4.0f, 3.0f, 5.0f,
 				4.0f, 5.0f, 5.0f, 4.0f, 6.0f, 4.0f, 5.0f, 5.0f, 7.0f, 5.0f, 2.0f, 7.0f, 5.0f, 7.0f, 3.0f, 6.0f, 4.0f,
-				6.0f };
-		float[] verticalCorrect = new float[] { 0.0f, 2.0f, 0.0f, 5.0f, 1.0f, 3.0f, 1.0f, 4.0f, 2.0f, 0.0f, 2.0f, 2.0f,
+				6.0f};
+		float[] verticalCorrect = new float[] {0.0f, 2.0f, 0.0f, 5.0f, 1.0f, 3.0f, 1.0f, 4.0f, 2.0f, 0.0f, 2.0f, 2.0f,
 				3.0f, 1.0f, 3.0f, 2.0f, 2.0f, 3.0f, 2.0f, 4.0f, 3.0f, 3.0f, 3.0f, 4.0f, 2.0f, 5.0f, 2.0f, 7.0f, 3.0f,
 				5.0f, 3.0f, 6.0f, 5.0f, 0.0f, 5.0f, 2.0f, 4.0f, 1.0f, 4.0f, 2.0f, 4.0f, 3.0f, 4.0f, 4.0f, 5.0f, 3.0f,
 				5.0f, 4.0f, 4.0f, 5.0f, 4.0f, 6.0f, 5.0f, 5.0f, 5.0f, 7.0f, 7.0f, 2.0f, 7.0f, 5.0f, 6.0f, 3.0f, 6.0f,
-				4.0f };
+				4.0f};
 
 		ArrayList<CollisionPolygonVertex> horizontal = CollisionInformation.createHorizontalVertices(grid, width,
 				height);

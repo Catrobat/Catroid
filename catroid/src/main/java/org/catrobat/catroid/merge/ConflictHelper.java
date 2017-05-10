@@ -49,7 +49,7 @@ public final class ConflictHelper {
 		List<UserVariable> globalValues = mergeResult.getDataContainer().getProjectVariables();
 
 		for (Sprite sprite : mergeResult.getSpriteList()) {
-			List<UserVariable> localValues = mergeResult.getDataContainer().getVariableListForSprite(sprite);
+			List<UserVariable> localValues = mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite);
 
 			if (localValues.size() == 0) {
 				continue;
@@ -71,7 +71,7 @@ public final class ConflictHelper {
 		List<UserList> globalLists = mergeResult.getDataContainer().getProjectLists();
 
 		for (Sprite sprite : mergeResult.getSpriteList()) {
-			List<UserList> localLists = mergeResult.getDataContainer().getUserListListForSprite(sprite);
+			List<UserList> localLists = mergeResult.getDataContainer().getOrCreateUserListForSprite(sprite);
 			if (localLists.size() == 0) {
 				continue;
 			}

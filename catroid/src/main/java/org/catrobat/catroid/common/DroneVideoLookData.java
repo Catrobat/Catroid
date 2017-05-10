@@ -42,7 +42,7 @@ public class DroneVideoLookData extends LookData {
 
 	private transient boolean firstStart = true;
 	private transient GLBGVideoSprite videoTexture;
-	private transient int[] videoSize = { 0, 0 };
+	private transient int[] videoSize = {0, 0};
 	private transient int[] defaultVideoTextureSize;
 
 	@Override
@@ -71,7 +71,7 @@ public class DroneVideoLookData extends LookData {
 		// BUG: Height() should be 1280, but it is 1184, so we need an scaling factor of 1.081081
 		int virtualScreenHeight = (int) Math.round(1.081081 * ScreenValues.SCREEN_HEIGHT);
 
-		defaultVideoTextureSize = new int[] { virtualScreenHeight, ScreenValues.SCREEN_WIDTH };
+		defaultVideoTextureSize = new int[] {virtualScreenHeight, ScreenValues.SCREEN_WIDTH};
 
 		if (pixmap == null) {
 			pixmap = new Pixmap(virtualScreenHeight, ScreenValues.SCREEN_WIDTH, Pixmap.Format.RGB888);

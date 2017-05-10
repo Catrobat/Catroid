@@ -148,7 +148,7 @@ public final class SoundController {
 				}
 
 				final String selection = "_id=?";
-				final String[] selectionArgs = new String[] { split[1] };
+				final String[] selectionArgs = new String[] {split[1]};
 
 				return getDataColumn(context, contentUri, selection, selectionArgs);
 			}
@@ -172,7 +172,7 @@ public final class SoundController {
 
 		Cursor cursor = null;
 		final String column = "_data";
-		final String[] projection = { column };
+		final String[] projection = {column};
 
 		try {
 			cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
@@ -594,7 +594,7 @@ public final class SoundController {
 		if (arguments != null) {
 			audioUri = (Uri) arguments.get(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-		String[] projection = { MediaStore.Audio.Media.DATA };
+		String[] projection = {MediaStore.Audio.Media.DATA};
 		return new CursorLoader(activity, audioUri, projection, null, null, null);
 	}
 

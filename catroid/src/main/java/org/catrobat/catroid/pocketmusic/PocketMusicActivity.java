@@ -53,6 +53,7 @@ public class PocketMusicActivity extends BaseActivity {
 
 	private Project project;
 	private TactScrollRecyclerView tactScroller;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

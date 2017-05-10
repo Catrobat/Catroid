@@ -120,7 +120,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 	}
 
 	public void testCreatePhysicsObject() {
-		Object[] values = { new Sprite("testsprite") };
+		Object[] values = {new Sprite("testsprite")};
 		ParameterList paramList = new ParameterList(values);
 		PhysicsObject physicsObject = (PhysicsObject) Reflection.invokeMethod(physicsWorld, "createPhysicsObject",
 				paramList);

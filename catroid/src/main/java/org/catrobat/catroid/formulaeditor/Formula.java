@@ -32,6 +32,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.io.Serializable;
 import java.util.List;
@@ -295,7 +296,7 @@ public class Formula implements Serializable {
 			}
 		} else if (formulaTree.isUserVariableWithTypeString(sprite)) {
 			DataContainer userVariables = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			UserVariable userVariable = userVariables.getUserVariable(formulaTree.getValue(), sprite);
+			UserVariable userVariable = userVariables.getUserVariable(sprite, formulaTree.getValue());
 			return (String) userVariable.getValue();
 		} else {
 			Double interpretationResult;

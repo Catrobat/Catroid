@@ -178,6 +178,7 @@ public class MergeTask {
 		}
 
 		mergedProject.addScene(mergeResult);
+		mergedProject.removeUnusedMessages();
 		try {
 			StorageHandler.getInstance().copyImageFiles(mergeResult.getName(), mergeResult.getProject().getName(), firstScene.getName(), firstScene.getProject().getName());
 			StorageHandler.getInstance().copySoundFiles(mergeResult.getName(), mergeResult.getProject().getName(), firstScene.getName(), firstScene.getProject().getName());
@@ -305,7 +306,6 @@ public class MergeTask {
 		copySpriteScripts(firstScene);
 		current = secondScene;
 		copySpriteScripts(secondScene);
-		mergeResult.removeUnusedBroadcastMessages();
 	}
 
 	private void copySpriteScripts(Scene scene) {
@@ -322,14 +322,19 @@ public class MergeTask {
 		Sprite spriteInto = mergeResult.getSpriteBySpriteName(sprite.getName());
 
 		for (Script fromScript : sprite.getScriptList()) {
-			boolean equal = false;
-			for (Script intoScript : spriteInto.getScriptList()) {
-				equal |= isEqualScript(intoScript, fromScript);
-			}
-			if (spriteInto.getScriptList().size() == 0 || !equal) {
+			if (spriteInto.getScriptList().size() == 0 || !isEqualScript(spriteInto, fromScript)) {
 				mergeResult.getSpriteBySpriteName(sprite.getName()).addScript(fromScript);
 			}
 		}
+	}
+
+	private boolean isEqualScript(Sprite spriteInto, Script fromScript) {
+		for (Script intoScript : spriteInto.getScriptList()) {
+			if (isEqualScript(intoScript, fromScript)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void addSoundsAndLooks(Sprite sprite) {
@@ -360,20 +365,17 @@ public class MergeTask {
 		List<Brick> intoProjectBrickList = intoProjectScript.getBrickList();
 		List<Brick> fromProjectBrickList = fromProjectScript.getBrickList();
 
-		int counter = 0;
-		int numberOfEqualBricks = (intoProjectBrickList.size() < fromProjectBrickList.size()) ? intoProjectBrickList.size() : fromProjectBrickList.size();
+		if (intoProjectBrickList.size() != fromProjectBrickList.size()) {
+			return false;
+		}
 
-		for (int i = 0; i < numberOfEqualBricks; i++) {
+		for (int i = 0; i < intoProjectBrickList.size(); i++) {
 			Brick intoProjectBrick = intoProjectBrickList.get(i);
 			Brick fromProjectBrick = fromProjectBrickList.get(i);
 
-			if (intoProjectBrick.isEqualBrick(fromProjectBrick, mergeResult, current)) {
-				counter++;
+			if (!intoProjectBrick.isEqualBrick(fromProjectBrick, mergeResult, current)) {
+				return false;
 			}
-		}
-
-		if (counter != numberOfEqualBricks) {
-			return false;
 		}
 		return true;
 	}

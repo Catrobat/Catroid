@@ -37,10 +37,10 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.formulaeditor.BaseDataContainer;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.BaseDataContainer;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
@@ -477,5 +477,13 @@ public class Project implements Serializable {
 				sprite.updateCollisionFormulasToVersion(catroidLanguageVersion);
 			}
 		}
+	}
+
+	public synchronized void removeUnusedMessages() {
+		List<String> usedMessages = new ArrayList<>();
+		for (Scene scene : getSceneList()) {
+			scene.addUsedMessagesToList(usedMessages);
+		}
+		MessageContainer.removeUnusedMessages(usedMessages);
 	}
 }

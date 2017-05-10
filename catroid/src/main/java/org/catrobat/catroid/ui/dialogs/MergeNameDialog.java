@@ -139,7 +139,7 @@ public class MergeNameDialog extends DialogFragment {
 		} else {
 			if (task.mergeProjects(mergeName)) {
 				String msg = task.getFirstProject().getName() + " " + getActivity().getString(R.string.merge_info) + " "
-						+ "" + 	task.getSecondProject().getName() + "!";
+						+ "" + task.getSecondProject().getName() + "!";
 				ToastUtil.showSuccess(getActivity(), msg);
 			} else {
 				ToastUtil.showError(getActivity(), R.string.error_merge);

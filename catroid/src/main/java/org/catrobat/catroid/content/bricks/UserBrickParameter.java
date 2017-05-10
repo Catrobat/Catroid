@@ -31,8 +31,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 public class UserBrickParameter extends FormulaBrick {
@@ -88,7 +88,7 @@ public class UserBrickParameter extends FormulaBrick {
 		String variableName = element.getText();
 
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite,
-				getFormulaWithBrickField(BrickField.VARIABLE), dataContainer.getUserVariable(variableName, parent, sprite)));
+				getFormulaWithBrickField(BrickField.VARIABLE), dataContainer.getUserVariable(sprite, variableName, parent)));
 		return null;
 	}
 

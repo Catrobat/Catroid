@@ -29,7 +29,7 @@ public enum MusicalBeat {
 	private final int bottomNumber;
 	private final NoteLength noteLength;
 
-	private MusicalBeat(int topNumnber, int bottomNumber, NoteLength noteLength) {
+	MusicalBeat(int topNumnber, int bottomNumber, NoteLength noteLength) {
 		this.topNumber = topNumnber;
 		this.bottomNumber = bottomNumber;
 		this.noteLength = noteLength;

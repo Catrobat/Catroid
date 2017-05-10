@@ -238,7 +238,7 @@ public class PhysicsLook extends Look {
 		private boolean fixed = false;
 		private boolean nonColliding = false;
 
-		public PhysicsObjectStateHandler() {
+		PhysicsObjectStateHandler() {
 
 			positionCondition = new PhysicsObjectStateCondition() {
 				@Override

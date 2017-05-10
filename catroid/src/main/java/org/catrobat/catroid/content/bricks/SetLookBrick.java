@@ -219,7 +219,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 		private boolean isTouchInDropDownView;
 
-		public SpinnerAdapterWrapper(Context context, ArrayAdapter<LookData> spinnerAdapter) {
+		SpinnerAdapterWrapper(Context context, ArrayAdapter<LookData> spinnerAdapter) {
 			this.context = context;
 			this.spinnerAdapter = spinnerAdapter;
 

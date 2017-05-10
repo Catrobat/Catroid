@@ -69,7 +69,7 @@ public class StageTestSimple {
 		createProjectWithBlueSprite("blueProject");
 		baseActivityTestRule.launchActivity(null);
 
-		byte[] blue = { 0, (byte) 162, (byte) 232, (byte) 255 };
+		byte[] blue = {0, (byte) 162, (byte) 232, (byte) 255};
 
 		//color matcher only accepts a GL20View, this can be aquired by getting the only focusable element in the stage
 		onView(isFocusable())

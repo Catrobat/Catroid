@@ -51,7 +51,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	private transient Tone toneEnum;
 	private transient TextView editDuration;
 
-	public static enum Tone {
+	public enum Tone {
 		DO, RE, MI, FA, SO, LA, TI
 	}
 

@@ -164,7 +164,7 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	private static class SensorValueUpdater implements Runnable {
 		private NXTSensor sensor;
 
-		public SensorValueUpdater(NXTSensor sensor) {
+		SensorValueUpdater(NXTSensor sensor) {
 			this.sensor = sensor;
 		}
 
@@ -183,7 +183,7 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 			public ScheduledFuture scheduledFuture;
 			public NXTSensor sensor;
 
-			public SensorTuple(ScheduledFuture scheduledFuture, NXTSensor sensor) {
+			SensorTuple(ScheduledFuture scheduledFuture, NXTSensor sensor) {
 				this.scheduledFuture = scheduledFuture;
 				this.sensor = sensor;
 			}

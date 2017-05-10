@@ -27,6 +27,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
@@ -38,7 +39,7 @@ public class InternFormulaParser {
 
 		private static final long serialVersionUID = 1L;
 
-		public InternFormulaParserException(String errorMessage) {
+		InternFormulaParserException(String errorMessage) {
 			super(errorMessage);
 		}
 	}
@@ -261,7 +262,7 @@ public class InternFormulaParser {
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		if (dataContainer.getUserVariable(currentToken.getTokenStringValue(), currentBrick, currentSprite) == null) {
+		if (dataContainer.getUserVariable(currentSprite, currentToken.getTokenStringValue(), currentBrick) == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 
@@ -302,7 +303,7 @@ public class InternFormulaParser {
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		if (dataContainer.getUserList(currentToken.getTokenStringValue(), currentSprite) == null) {
+		if (dataContainer.getUserList(currentSprite, currentToken.getTokenStringValue()) == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 

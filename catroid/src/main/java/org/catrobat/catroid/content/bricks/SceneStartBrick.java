@@ -194,7 +194,7 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 
 		private boolean isTouchInDropDownView;
 
-		public SpinnerAdapterWrapper(Context context, ArrayAdapter<String> spinnerAdapter) {
+		SpinnerAdapterWrapper(Context context, ArrayAdapter<String> spinnerAdapter) {
 			this.context = context;
 			this.spinnerAdapter = spinnerAdapter;
 

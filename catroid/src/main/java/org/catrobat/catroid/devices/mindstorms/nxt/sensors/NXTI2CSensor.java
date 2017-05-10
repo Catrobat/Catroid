@@ -63,7 +63,7 @@ public abstract class NXTI2CSensor extends NXTSensor {
 		if (!hasInit) {
 			initialize();
 		}
-		byte[] command = { address, register, data };
+		byte[] command = {address, register, data};
 		write(command, (byte) 0, reply);
 	}
 
@@ -71,7 +71,7 @@ public abstract class NXTI2CSensor extends NXTSensor {
 		if (!hasInit) {
 			initialize();
 		}
-		byte[] command = { address, (byte) register };
+		byte[] command = {address, (byte) register};
 		return writeAndRead(command, (byte) rxLength);
 	}
 

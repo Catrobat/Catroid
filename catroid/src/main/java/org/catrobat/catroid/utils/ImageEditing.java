@@ -26,18 +26,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
-import com.google.common.io.Closeables;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.io.StorageHandler;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 import ar.com.hjg.pngj.IImageLine;
 import ar.com.hjg.pngj.PngReader;
@@ -49,6 +47,8 @@ import ar.com.hjg.pngj.chunks.PngChunk;
 import ar.com.hjg.pngj.chunks.PngChunkTextVar;
 
 public final class ImageEditing {
+
+	private static final String TAG = ImageEditing.class.getSimpleName();
 
 	public enum ResizeType {
 		STRETCH_TO_RECTANGLE, STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO
@@ -75,8 +75,7 @@ public final class ImageEditing {
 		float scaleWidth = (((float) xSize) / bitmap.getWidth());
 		float scaleHeight = (((float) ySize) / bitmap.getHeight());
 		matrix.postScale(scaleWidth, scaleHeight);
-		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-		return newBitmap;
+		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 	}
 
 	public static Bitmap getScaledBitmapFromPath(String imagePath, int outputRectangleWidth, int outputRectangleHeight,
@@ -84,98 +83,24 @@ public final class ImageEditing {
 		if (imagePath == null) {
 			return null;
 		}
-
 		int[] imageDimensions = getImageDimensions(imagePath);
-
 		int originalWidth = imageDimensions[0];
 		int originalHeight = imageDimensions[1];
-		int newWidth = originalHeight;
-		int newHeight = originalWidth;
-		int loadingSampleSize = 1;
 
-		double sampleSizeWidth = ((double) originalWidth) / (double) outputRectangleWidth;
-		double sampleSizeHeight = ((double) originalHeight) / (double) outputRectangleHeight;
-		double sampleSizeMinimum = Math.min(sampleSizeWidth, sampleSizeHeight);
-		double sampleSizeMaximum = Math.max(sampleSizeWidth, sampleSizeHeight);
+		int[] scaledImageDimensions = getScaledImageDimensions(originalWidth, originalHeight, outputRectangleWidth,
+				outputRectangleHeight, resizeType, justScaleDown);
+		int newWidth = scaledImageDimensions[0];
+		int newHeight = scaledImageDimensions[1];
 
-		if (resizeType == ResizeType.STRETCH_TO_RECTANGLE) {
-			newWidth = outputRectangleWidth;
-			newHeight = outputRectangleHeight;
-		} else if (resizeType == ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
-			newWidth = (int) Math.floor(originalWidth / sampleSizeMaximum);
-			newHeight = (int) Math.floor(originalHeight / sampleSizeMaximum);
-		} else if (resizeType == ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
-			newWidth = (int) Math.floor(originalWidth / sampleSizeMinimum);
-			newHeight = (int) Math.floor(originalHeight / sampleSizeMinimum);
-		}
-
-		loadingSampleSize = calculateInSampleSize(originalWidth, originalHeight, outputRectangleWidth, outputRectangleHeight);
+		int loadingSampleSize = calculateInSampleSize(originalWidth, originalHeight, outputRectangleWidth,
+				outputRectangleHeight);
 
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inSampleSize = loadingSampleSize;
 		bitmapOptions.inJustDecodeBounds = false;
-
 		Bitmap tempBitmap = BitmapFactory.decodeFile(imagePath, bitmapOptions);
 
 		return scaleBitmap(tempBitmap, newWidth, newHeight);
-	}
-
-	public static Bitmap getScaledBitmapOfLoadedBitmap(byte[] byteArray, int outputRectangleWidth,
-			int outputRectangleHeight, ResizeType resizeType,
-			boolean justScaleDown) {
-		if (byteArray == null) {
-			return null;
-		}
-
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
-		int[] imageDimensions = getImageDimensionsForLoadedImage(inputStream);
-		Closeables.closeQuietly(inputStream);
-
-		int originalWidth = imageDimensions[0];
-		int originalHeight = imageDimensions[1];
-		int newWidth = originalHeight;
-		int newHeight = originalWidth;
-		int loadingSampleSize = 1;
-
-		double sampleSizeWidth = ((double) originalWidth) / (double) outputRectangleWidth;
-		double sampleSizeHeight = ((double) originalHeight) / (double) outputRectangleHeight;
-		double sampleSizeMinimum = Math.min(sampleSizeWidth, sampleSizeHeight);
-		double sampleSizeMaximum = Math.max(sampleSizeWidth, sampleSizeHeight);
-
-		if (resizeType == ResizeType.STRETCH_TO_RECTANGLE) {
-			newWidth = outputRectangleWidth;
-			newHeight = outputRectangleHeight;
-		} else if (resizeType == ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
-			newWidth = (int) Math.floor(originalWidth / sampleSizeMaximum);
-			newHeight = (int) Math.floor(originalHeight / sampleSizeMaximum);
-		} else if (resizeType == ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
-			newWidth = (int) Math.floor(originalWidth / sampleSizeMinimum);
-			newHeight = (int) Math.floor(originalHeight / sampleSizeMinimum);
-		}
-
-		loadingSampleSize = calculateInSampleSize(originalWidth, originalHeight, outputRectangleWidth, outputRectangleHeight);
-
-		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-		bitmapOptions.inSampleSize = loadingSampleSize;
-		bitmapOptions.inJustDecodeBounds = false;
-
-		inputStream = new ByteArrayInputStream(byteArray);
-		Bitmap tempBitmap = BitmapFactory.decodeStream(inputStream, null, bitmapOptions);
-		Closeables.closeQuietly(inputStream);
-		return scaleBitmap(tempBitmap, newWidth, newHeight);
-	}
-
-	public static int[] getImageDimensionsForLoadedImage(InputStream inputStream) {
-		int[] imageDimensions = new int[2];
-
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeStream(inputStream, null, options);
-
-		imageDimensions[0] = options.outWidth;
-		imageDimensions[1] = options.outHeight;
-
-		return imageDimensions;
 	}
 
 	public static int[] getImageDimensions(String imagePath) {
@@ -189,6 +114,35 @@ public final class ImageEditing {
 		imageDimensions[1] = options.outHeight;
 
 		return imageDimensions;
+	}
+
+	private static int[] getScaledImageDimensions(int originalWidth, int originalHeight, int outputRectangleWidth, int
+			outputRectangleHeight,
+			ResizeType resizeType, boolean justScaleDown) {
+		int newWidth = originalWidth;
+		int newHeight = originalHeight;
+
+		double sampleSizeWidth = ((double) originalWidth) / (double) outputRectangleWidth;
+		double sampleSizeHeight = ((double) originalHeight) / (double) outputRectangleHeight;
+		double sampleSizeMinimum = Math.min(sampleSizeWidth, sampleSizeHeight);
+		double sampleSizeMaximum = Math.max(sampleSizeWidth, sampleSizeHeight);
+
+		if (!justScaleDown || originalHeight >= outputRectangleHeight || originalWidth >= outputRectangleWidth) {
+			if (resizeType == ResizeType.STRETCH_TO_RECTANGLE) {
+				newWidth = outputRectangleWidth;
+				newHeight = outputRectangleHeight;
+			} else if (resizeType == ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
+				newWidth = (int) Math.floor(originalWidth / sampleSizeMaximum);
+				newHeight = (int) Math.floor(originalHeight / sampleSizeMaximum);
+			} else if (resizeType == ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
+				newWidth = (int) Math.floor(originalWidth / sampleSizeMinimum);
+				newHeight = (int) Math.floor(originalHeight / sampleSizeMinimum);
+			}
+		}
+		int[] scaledImageDimensions = new int[2];
+		scaledImageDimensions[0] = newWidth;
+		scaledImageDimensions[1] = newHeight;
+		return scaledImageDimensions;
 	}
 
 	public static void overwriteImageFileWithNewBitmap(File imageFile) throws FileNotFoundException {
@@ -207,17 +161,20 @@ public final class ImageEditing {
 	public static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegree) {
 		Matrix rotateMatrix = new Matrix();
 		rotateMatrix.postRotate(rotationDegree);
-		Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), rotateMatrix,
-				true);
-		return rotatedBitmap;
+		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), rotateMatrix, true);
 	}
 
 	public static void scaleImageFile(File file, double scaleFactor) throws FileNotFoundException {
 		String path = file.getAbsolutePath();
 		int[] originalBackgroundImageDimensions = getImageDimensions(path);
-		Bitmap scaledBitmap = ImageEditing.getScaledBitmapFromPath(path,
+		scaleImageFile(file,
 				(int) (originalBackgroundImageDimensions[0] * scaleFactor),
-				(int) (originalBackgroundImageDimensions[1] * scaleFactor),
+				(int) (originalBackgroundImageDimensions[1] * scaleFactor));
+	}
+
+	public static void scaleImageFile(File file, int width, int height) throws FileNotFoundException {
+		String path = file.getAbsolutePath();
+		Bitmap scaledBitmap = ImageEditing.getScaledBitmapFromPath(path, width, height,
 				ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
 		StorageHandler.saveBitmapToImageFile(file, scaledBitmap);
 	}
@@ -279,15 +236,11 @@ public final class ImageEditing {
 
 	//method from developer.android.com
 	public static int calculateInSampleSize(int origWidth, int origHeight, int reqWidth, int reqHeight) {
-		// Raw height and width of image
-		final int height = origHeight;
-		final int width = origWidth;
 		int inSampleSize = 1;
 
-		if (height > reqHeight || width > reqWidth) {
-
-			final int halfHeight = height / 2;
-			final int halfWidth = width / 2;
+		if (origHeight > reqHeight || origWidth > reqWidth) {
+			final int halfHeight = origHeight / 2;
+			final int halfWidth = origWidth / 2;
 
 			// Calculate the largest inSampleSize value that is a power of 2 and keeps both
 			// height and width larger than the requested height and width.
@@ -296,7 +249,6 @@ public final class ImageEditing {
 				inSampleSize *= 2;
 			}
 		}
-
 		return inSampleSize;
 	}
 
@@ -337,7 +289,11 @@ public final class ImageEditing {
 		pngr.end();
 		pngw.end();
 
-		oldFile.delete();
-		newFile.renameTo(new File(absolutePath));
+		if (!oldFile.delete()) {
+			Log.e(TAG, "writeMetaDataStringToPNG: Failed to delete old file");
+		}
+		if (!newFile.renameTo(new File(absolutePath))) {
+			Log.e(TAG, "writeMetaDataStringToPNG: Failed to rename new file");
+		}
 	}
 }

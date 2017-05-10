@@ -44,12 +44,15 @@ import android.widget.ProgressBar;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
+
+import java.util.List;
 
 public class UploadProgressDialog extends DialogFragment {
 	public static final String DIALOG_PROGRESS_FRAGMENT_TAG = "dialog_upload_progress_tags";
@@ -80,10 +83,10 @@ public class UploadProgressDialog extends DialogFragment {
 		progressBarDialog.setCancelable(false);
 		progressBarDialog.setCanceledOnTouchOutside(false);
 
-		progressBarDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), (DialogInterface
-				.OnClickListener) null);
-		progressBarDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.progress_upload_dialog_show_program), (DialogInterface
-				.OnClickListener) null);
+		progressBarDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
+				(DialogInterface.OnClickListener) null);
+		progressBarDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.progress_upload_dialog_show_program),
+				(DialogInterface.OnClickListener) null);
 
 		return progressBarDialog;
 	}
@@ -159,7 +162,7 @@ public class UploadProgressDialog extends DialogFragment {
 	@SuppressLint("ParcelCreator")
 	private class UploadReceiver extends ResultReceiver {
 
-		public UploadReceiver(Handler handler) {
+		UploadReceiver(Handler handler) {
 			super(handler);
 		}
 
@@ -196,6 +199,7 @@ public class UploadProgressDialog extends DialogFragment {
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
+		String[] sceneNames = getSceneNamesAsArray(projectManager.getCurrentProject().getSceneList());
 
 		// TODO check this extras - e.g. project description isn't used by web
 		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
@@ -205,6 +209,7 @@ public class UploadProgressDialog extends DialogFragment {
 		uploadIntent.putExtra("username", username);
 		uploadIntent.putExtra("token", token);
 		uploadIntent.putExtra("provider", openAuthProvider);
+		uploadIntent.putExtra("sceneNames", sceneNames);
 
 		int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getActivity(),
 				uploadName);
@@ -218,5 +223,13 @@ public class UploadProgressDialog extends DialogFragment {
 			dialog.show(getFragmentManager(), RatingDialog.TAG);
 		}
 		sharedPreferences.edit().putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects).commit();
+	}
+
+	private String[] getSceneNamesAsArray(List<Scene> sceneList) {
+		String[] sceneNames = new String[sceneList.size()];
+		for (int i = 0; i < sceneNames.length; i++) {
+			sceneNames[i] = sceneList.get(i).getName();
+		}
+		return sceneNames;
 	}
 }

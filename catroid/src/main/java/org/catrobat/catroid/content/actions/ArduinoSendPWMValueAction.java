@@ -55,7 +55,7 @@ public class ArduinoSendPWMValueAction extends TemporalAction {
 			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0) : pinNumber.interpretInteger(sprite);
 		} catch (InterpretationException interpretationException) {
 			pinNumberInterpretation = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed." ,
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
 					interpretationException);
 		}
 

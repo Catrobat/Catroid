@@ -72,7 +72,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -275,7 +275,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void removeClonedSpriteFromStage(Sprite sprite) {
-		if (!sprite.isClone) {
+		if (!sprite.isClone()) {
 			return;
 		}
 
@@ -896,9 +896,6 @@ public class StageListener implements ApplicationListener {
 		public boolean cameraRunning;
 		public Map<Sprite, ShowBubbleActor> bubbleActorMap;
 		public PenActor penActor;
-
-		public StageBackup() {
-		}
 	}
 
 	private StageBackup saveToBackup() {

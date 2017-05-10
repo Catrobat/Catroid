@@ -183,8 +183,7 @@ public final class Utils {
 	}
 
 	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
-		return !success && exception != null && exception.getStatusCode() == WebconnectionException
-				.ERROR_NETWORK;
+		return !success && exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
 
 	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
@@ -193,8 +192,7 @@ public final class Utils {
 	}
 
 	public static boolean checkForNetworkError(WebconnectionException exception) {
-		return exception != null && exception.getStatusCode() == WebconnectionException
-				.ERROR_NETWORK;
+		return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
 
 	public static String formatDate(Date date, Locale locale) {
@@ -855,9 +853,9 @@ public final class Utils {
 		try {
 			GdxNativesLoader.load();
 			pixmap = new Pixmap(new FileHandle(imageFile));
-		} catch (GdxRuntimeException e) {
+		} catch (GdxRuntimeException gdxRuntimeException) {
 			return null;
-		} catch (Exception e1) {
+		} catch (Exception e) {
 			return null;
 		}
 		return pixmap;
