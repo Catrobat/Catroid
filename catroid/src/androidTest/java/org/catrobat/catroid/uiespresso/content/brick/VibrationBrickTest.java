@@ -23,18 +23,24 @@
 
 package org.catrobat.catroid.uiespresso.content.brick;
 
+import android.os.SystemClock;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uitest.util.SensorTestServerConnection;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 public class VibrationBrickTest {
 	private int brickPosition;
@@ -56,5 +62,23 @@ public class VibrationBrickTest {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_vibration);
 		enterValueInFormulaTextFieldOnBrickAtPosition(10, R.id.brick_vibration_edit_text, brickPosition);
+	}
+
+	@Test
+	public void testVibrationHardwareOn() {
+		enterValueInFormulaTextFieldOnBrickAtPosition(10, R.id.brick_vibration_edit_text, brickPosition);
+		onView(withId(R.id.button_play)).perform(click());
+
+		SystemClock.sleep(2500);
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
+	}
+
+	@Test
+	public void testVibrationHardwareOff() {
+		enterValueInFormulaTextFieldOnBrickAtPosition(2, R.id.brick_vibration_edit_text, brickPosition);
+		onView(withId(R.id.button_play)).perform(click());
+
+		SystemClock.sleep(3500);
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
 	}
 }
