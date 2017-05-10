@@ -47,14 +47,15 @@ public class ThinkSayBubbleAction extends TemporalAction {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
 		}
-		ShowBubbleActor showBubbleActor = new ShowBubbleActor(textToDisplay, sprite, type);
-
 		if (StageActivity.stageListener.getBubbleActorForSprite(sprite) != null) {
 			StageActivity.stageListener.getStage().getActors().removeValue(StageActivity.stageListener.getBubbleActorForSprite(sprite), true);
 			StageActivity.stageListener.removeBubbleActorForSprite(sprite);
 		}
-		StageActivity.stageListener.addActor(showBubbleActor);
-		StageActivity.stageListener.putBubbleActor(sprite, showBubbleActor);
+		if (!textToDisplay.equals("")) {
+			ShowBubbleActor showBubbleActor = new ShowBubbleActor(textToDisplay, sprite, type);
+			StageActivity.stageListener.addActor(showBubbleActor);
+			StageActivity.stageListener.putBubbleActor(sprite, showBubbleActor);
+		}
 	}
 
 	public void setSprite(Sprite sprite) {
