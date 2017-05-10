@@ -99,7 +99,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 		actionSpinner.setFocusable(false);
 		actionSpinner.setEnabled(false);
 		actionSpinner.setClickable(true);
- 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			actionSpinner.setEnabled(true);
 		}
 //

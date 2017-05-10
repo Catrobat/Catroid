@@ -61,7 +61,7 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 
-	@Override
+	/*@Override
 	protected void onStart() {
 		super.onStart();
 
@@ -70,7 +70,7 @@ public abstract class BaseActivity extends Activity {
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().addCallback();
 		}
-	}
+	}*/
 
 	@Override
 	protected void onDestroy() {
@@ -91,6 +91,7 @@ public abstract class BaseActivity extends Activity {
 
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
+			//CastManager.getInstance().setCastButtonFromBaseActivity();
 		}
 
 		invalidateOptionsMenu();

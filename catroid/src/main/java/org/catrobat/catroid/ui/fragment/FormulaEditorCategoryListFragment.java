@@ -203,7 +203,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 	private static final int[] RASPBERRY_SENSOR_PARAMETERS = {R.string.formula_editor_function_pin_default_parameter};
 
-	private static final int[] CAST_GAMEPAD_SENSOR_ITEMS = { R.string.formula_editor_sensor_gamepad_a_pressed,
+	private static final int[] CAST_GAMEPAD_SENSOR_ITEMS = {R.string.formula_editor_sensor_gamepad_a_pressed,
 			R.string.formula_editor_sensor_gamepad_b_pressed, R.string.formula_editor_sensor_gamepad_up_pressed,
 			R.string.formula_editor_sensor_gamepad_down_pressed, R.string.formula_editor_sensor_gamepad_left_pressed,
 			R.string.formula_editor_sensor_gamepad_right_pressed

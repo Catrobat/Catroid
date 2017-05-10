@@ -305,8 +305,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		loadProjectTask.execute();
 	}
 
-	private void setCastIntroductionScreen()
-	{
+	private void setCastIntroductionScreen() {
 		sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			if (sharedpreferences.getBoolean("firstRun", true)) {

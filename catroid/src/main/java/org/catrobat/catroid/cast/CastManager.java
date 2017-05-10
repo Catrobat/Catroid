@@ -277,6 +277,10 @@ public final class CastManager {
 		dialog.openDialog();
 	}
 
+	public void setCastButtonFromBaseActivity() {
+		setCastButton(this.castButton);
+	}
+
 	public synchronized void setCastButton(MenuItem castButton) {
 		this.castButton = castButton;
 		castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter

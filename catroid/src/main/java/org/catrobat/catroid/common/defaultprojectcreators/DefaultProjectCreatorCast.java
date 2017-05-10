@@ -51,13 +51,13 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
@@ -190,7 +190,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			DataContainer userVariables = defaultProject.getDefaultScene().getDataContainer();
 
 			userVariables.addProjectUserVariable(varDirection);
-			UserVariable direction = userVariables.getUserVariable(varDirection, backgroundSprite);
+			UserVariable direction = userVariables.getUserVariable(backgroundSprite, varDirection);
 
 			//Clouds
 			Sprite cloudSprite1 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName1);
