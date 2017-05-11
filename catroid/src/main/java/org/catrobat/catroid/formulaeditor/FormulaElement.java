@@ -906,7 +906,7 @@ public class FormulaElement implements Serializable {
 			try {
 				Double tempLeft = (Double) left;
 				Double tempRight = Double.valueOf((String) right);
-				int compareResult;// default is false
+				int compareResult; // default is false
 				if (tempLeft == 0 || tempRight == 0) {
 					compareResult = ((Double) Math.abs(tempLeft)).compareTo(Math.abs(tempRight));
 				} else {
@@ -923,7 +923,7 @@ public class FormulaElement implements Serializable {
 			try {
 				Double tempLeft = Double.parseDouble((String) left);
 				Double tempRight = (Double) right;
-				int compareResult;// default is false
+				int compareResult; // default is false
 				if (tempLeft == 0 || tempRight == 0) {
 					compareResult = ((Double) Math.abs(tempLeft)).compareTo(Math.abs(tempRight));
 				} else {
