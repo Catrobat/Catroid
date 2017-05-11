@@ -904,12 +904,12 @@ public class FormulaElement implements Serializable {
 		}
 		if (left instanceof Double && right instanceof String) {
 			try {
-				Double tempLeft = (Double)left;
+				Double tempLeft = (Double) left;
 				Double tempRight = Double.valueOf((String) right);
-				int compareResult = 1;// default is false
-				if(tempLeft == 0 || tempRight == 0){
-					compareResult = ((Double)Math.abs(tempLeft)).compareTo((Double)Math.abs(tempRight));
-				}else {
+				int compareResult;// default is false
+				if (tempLeft == 0 || tempRight == 0) {
+					compareResult = ((Double) Math.abs(tempLeft)).compareTo(Math.abs(tempRight));
+				} else {
 					compareResult = (tempLeft).compareTo(tempRight);
 				}
 				if (compareResult == 0) {
@@ -923,10 +923,10 @@ public class FormulaElement implements Serializable {
 			try {
 				Double tempLeft = Double.parseDouble((String) left);
 				Double tempRight = (Double) right;
-				int compareResult = 1;// default is false
-				if(tempLeft == 0 || tempRight == 0){
-					compareResult = ((Double)Math.abs(tempLeft)).compareTo((Double)Math.abs(tempRight));
-				}else {
+				int compareResult;// default is false
+				if (tempLeft == 0 || tempRight == 0) {
+					compareResult = ((Double) Math.abs(tempLeft)).compareTo(Math.abs(tempRight));
+				} else {
 					compareResult = (tempLeft).compareTo(tempRight);
 				}
 				if (compareResult == 0) {

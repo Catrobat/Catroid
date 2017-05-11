@@ -129,21 +129,21 @@ public class FormulaElementTest extends InstrumentationTestCase {
 				!formulaElement.containsElement(ElementType.NUMBER));
 	}
 
-	public void testInterpretOperatorEqual(){
+	public void testInterpretOperatorEqual() {
 		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
 				new FormulaElement(ElementType.NUMBER, Integer.toString(-0), null), new FormulaElement(ElementType
 				.NUMBER, Integer.toString(0), null));
-		assertEquals("interpretOperatorEqual: -0 should be equal to 0",1d,formulaElement.interpretRecursive(null));
+		assertEquals("interpretOperatorEqual: -0 should be equal to 0", 1d, formulaElement.interpretRecursive(null));
 
 		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
 				new FormulaElement(ElementType.NUMBER, "NaN", null), new FormulaElement(ElementType.NUMBER, "NaN",
 				null));
-		assertEquals("interpretOperatorEqual: NaN should be equal to NaN",1d,formulaElement.interpretRecursive(null));
+		assertEquals("interpretOperatorEqual: NaN should be equal to NaN", 1d, formulaElement.interpretRecursive(null));
 
 		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
 				new FormulaElement(ElementType.NUMBER, Integer.toString(0), null), new FormulaElement(ElementType.NUMBER,
 				Integer.toString(-0), null));
-		assertEquals("interpretOperatorEqual: 0 should be equal to -0",1d,formulaElement.interpretRecursive(null));
+		assertEquals("interpretOperatorEqual: 0 should be equal to -0", 1d, formulaElement.interpretRecursive(null));
 	}
 
 	public void testClone() {
