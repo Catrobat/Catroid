@@ -83,6 +83,7 @@
     <string name="landscape">landscape</string>
     <string name="portrait">portrait</string>
     <string name="unknown">unknown</string>
+    <string name="skip">skip</string>
     <!--  -->
 
 
@@ -1483,6 +1484,38 @@
     <string name="formula_editor_sensor_face_y_position">face_y_position</string>
     <string name="formula_editor_function_number_of_items">number_of_items</string>
     <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+
+    <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
+    <string name="formula_editor_intro_summary_formula_editor">The formula editor allows you to create mathematical and
+        logical formulas, that you can use in your bricks.\n\nYou can advance this little intro by touching
+        the \"Next\" button in the bottom right corner, and you can skip it by touching the \"SKIP\" button in the
+        bottom left corner.</string>
+    <string name="formula_editor_intro_title_input_field">Input field</string>
+    <string name="formula_editor_intro_summary_input_field">Here you can see your formula, and can also edit it
+        .</string>
+    <string name="formula_editor_intro_title_keyboard">Keyboard</string>
+    <string name="formula_editor_intro_summary_keyboard">Similar to a calculator, this is where you can create
+        your formula.</string>
+    <string name="formula_editor_intro_title_compute">Compute</string>
+    <string name="formula_editor_intro_summary_compute">To test your formula and display its current result, you can
+        use \"Compute\".</string>
+    <string name="formula_editor_intro_title_object">Object</string>
+    <string name="formula_editor_intro_summary_object">This is a collection of values that describe your
+        current object. Some of these values are for example the x- and y-coordinates, or the current speed.</string>
+    <string name="formula_editor_intro_title_functions">Functions</string>
+    <string name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
+        a multitude of mathematical functions.\nYou can find angle functions such as \"sin\" and \"cos\", but
+        also a random number generator.</string>
+    <string name="formula_editor_intro_title_logic">Logic</string>
+    <string name="formula_editor_intro_summary_logic">Logic is used to compare and connect values.\nTo compare
+        values you can use logical operations such as \"&gt;\"(greater than) or \"=\"(equals).\nTo connect values
+        you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
+    <string name="formula_editor_intro_title_device">Device</string>
+    <string name="formula_editor_intro_summary_device">In \"Device\" you can find information that your
+        smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
+    <string name="formula_editor_intro_title_data">Data</string>
+    <string name="formula_editor_intro_summary_data">Variables and lists that are used in your Pocket Code
+        program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
 
     <plurals name="formula_editor_data_fragment_context_action_item_selected">
         <item quantity="one">Item selected!</item>

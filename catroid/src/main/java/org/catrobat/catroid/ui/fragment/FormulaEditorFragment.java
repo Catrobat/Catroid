@@ -75,6 +75,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.NewStringDialog;
+import org.catrobat.catroid.utils.FormulaEditorIntroUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
@@ -197,6 +198,8 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			formulaEditorFragment.setInputFormula(brickField, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
 		}
 		fragTransaction.commit();
+
+		FormulaEditorIntroUtil.showIntro(view);
 	}
 
 	public static boolean saveFormulaForUserBrickParameterChange() {
@@ -315,6 +318,10 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 		BottomBar.showBottomBar(activity);
 		BottomBar.showPlayButton(activity);
+
+		if (FormulaEditorIntroUtil.isIntroVisible()) {
+			FormulaEditorIntroUtil.dismissIntro();
+		}
 	}
 
 	@Override
@@ -323,6 +330,8 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		fragmentView = inflater.inflate(R.layout.fragment_formula_editor, container, false);
 		fragmentView.setFocusableInTouchMode(true);
 		fragmentView.requestFocus();
+
+		FormulaEditorIntroUtil.initializeIntro(getActivity(), (ViewGroup) getView(), inflater);
 
 		context = getActivity();
 
@@ -413,7 +422,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 				}
 
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
 					view.setPressed(true);
 
 					switch (view.getId()) {
@@ -808,6 +816,8 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		Rect keyboardRec = new Rect();
 		formulaEditorBrick.getGlobalVisibleRect(brickRect);
 		formulaEditorKeyboard.getGlobalVisibleRect(keyboardRec);
+
+		FormulaEditorIntroUtil.prepareIntro(fragmentView);
 	}
 
 	public void addResourceToActiveFormula(int resource) {
