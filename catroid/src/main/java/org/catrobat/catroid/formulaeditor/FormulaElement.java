@@ -910,7 +910,7 @@ public class FormulaElement implements Serializable {
 				if (tempLeft == 0 || tempRight == 0) {
 					compareResult = ((Double) Math.abs(tempLeft)).compareTo(Math.abs(tempRight));
 				} else {
-					compareResult = (tempLeft).compareTo(tempRight);
+					compareResult = tempLeft.compareTo(tempRight);
 				}
 				if (compareResult == 0) {
 					return 1d;
@@ -927,7 +927,7 @@ public class FormulaElement implements Serializable {
 				if (tempLeft == 0 || tempRight == 0) {
 					compareResult = ((Double) Math.abs(tempLeft)).compareTo(Math.abs(tempRight));
 				} else {
-					compareResult = (tempLeft).compareTo(tempRight);
+					compareResult = tempLeft.compareTo(tempRight);
 				}
 				if (compareResult == 0) {
 					return 1d;
