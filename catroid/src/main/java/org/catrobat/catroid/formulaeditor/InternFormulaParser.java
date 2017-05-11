@@ -46,6 +46,7 @@ public class InternFormulaParser {
 
 	public static final int PARSER_OK = -1;
 	public static final int PARSER_STACK_OVERFLOW = -2;
+	public static final int PARSER_INPUT_SYNTAX_ERROR = -3;
 	public static final int PARSER_NO_INPUT = -4;
 	private static final int MAXIMUM_TOKENS_TO_PARSE = 1000;
 	private static final String TAG = InternFormulaParser.class.getSimpleName();
@@ -144,7 +145,7 @@ public class InternFormulaParser {
 		}
 
 		try {
-			List<InternToken> copyIternTokensToParse = new ArrayList<InternToken>(internTokensToParse);
+			List<InternToken> copyIternTokensToParse = new ArrayList<>(internTokensToParse);
 			if (InternFormulaUtils.applyBracketCorrection(copyIternTokensToParse)) {
 				internTokensToParse.clear();
 				internTokensToParse.addAll(copyIternTokensToParse);
