@@ -906,12 +906,7 @@ public class FormulaElement implements Serializable {
 			try {
 				Double tempLeft = (Double) left;
 				Double tempRight = Double.valueOf((String) right);
-				int compareResult; // default is false
-				if (tempLeft == 0 || tempRight == 0) {
-					compareResult = ((Double) Math.abs(tempLeft)).compareTo(Math.abs(tempRight));
-				} else {
-					compareResult = tempLeft.compareTo(tempRight);
-				}
+				int compareResult = getCompareResult(tempLeft, tempRight);
 				if (compareResult == 0) {
 					return 1d;
 				}
@@ -923,12 +918,7 @@ public class FormulaElement implements Serializable {
 			try {
 				Double tempLeft = Double.parseDouble((String) left);
 				Double tempRight = (Double) right;
-				int compareResult; // default is false
-				if (tempLeft == 0 || tempRight == 0) {
-					compareResult = ((Double) Math.abs(tempLeft)).compareTo(Math.abs(tempRight));
-				} else {
-					compareResult = tempLeft.compareTo(tempRight);
-				}
+				int compareResult = getCompareResult(tempLeft, tempRight);
 				if (compareResult == 0) {
 					return 1d;
 				}
@@ -940,6 +930,16 @@ public class FormulaElement implements Serializable {
 			return (((Double) left).compareTo((Double) right) == 0) ? 1d : 0d;
 		}
 		return 0d;
+	}
+
+	private int getCompareResult(Double tempLeft, Double tempRight) {
+		int compareResult;
+		if (tempLeft == 0 || tempRight == 0) {
+			compareResult = ((Double) Math.abs(tempLeft)).compareTo(Math.abs(tempRight));
+		} else {
+			compareResult = tempLeft.compareTo(tempRight);
+		}
+		return compareResult;
 	}
 
 	private Double interpretOperator(Object object) {
