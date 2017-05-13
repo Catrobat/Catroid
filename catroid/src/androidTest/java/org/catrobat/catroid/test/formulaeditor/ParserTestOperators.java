@@ -357,5 +357,4 @@ public class ParserTestOperators extends AndroidTestCase {
 				.NUMBER, String.valueOf(Double.NaN), null));
 		assertEquals("interpretOperatorEqual: NaN should be equal to NaN", 1d, formulaElement.interpretRecursive(null));
 	}
-
 }
