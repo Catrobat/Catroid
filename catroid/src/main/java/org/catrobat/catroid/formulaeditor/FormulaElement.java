@@ -932,12 +932,12 @@ public class FormulaElement implements Serializable {
 		return 0d;
 	}
 
-	private int getCompareResult(Double left, Double right) {
+	private int getCompareResult(Double tempLeft, Double tempRight) {
 		int compareResult;
-		if (left == 0 || right == 0) {
-			compareResult = ((Double) Math.abs(left)).compareTo(Math.abs(right));
+		if (tempLeft == 0 || tempRight == 0) {
+			compareResult = ((Double) Math.abs(tempLeft)).compareTo(Math.abs(tempRight));
 		} else {
-			compareResult = left.compareTo(right);
+			compareResult = tempLeft.compareTo(tempRight);
 		}
 		return compareResult;
 	}

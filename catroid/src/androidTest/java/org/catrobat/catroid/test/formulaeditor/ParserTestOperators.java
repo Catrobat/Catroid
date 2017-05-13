@@ -141,8 +141,7 @@ public class ParserTestOperators extends AndroidTestCase {
 	}
 
 	public void testEqual() {
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.EQUAL, InternTokenType
-						.NUMBER, "1",
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.EQUAL, InternTokenType.NUMBER, "1",
 				TRUE, testSprite);
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "5", Operators.EQUAL, InternTokenType.NUMBER, "1",
 				FALSE, testSprite);
@@ -358,4 +357,5 @@ public class ParserTestOperators extends AndroidTestCase {
 				.NUMBER, String.valueOf(Double.NaN), null));
 		assertEquals("interpretOperatorEqual: NaN should be equal to NaN", 1d, formulaElement.interpretRecursive(null));
 	}
+
 }
