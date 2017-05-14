@@ -164,6 +164,21 @@ public class ParserTestOperators extends AndroidTestCase {
 				InternTokenType.STRING, "055.77.77", FALSE, testSprite);
 	}
 
+	public void testNegativeZeroEqualsZero() {
+
+		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
+				new FormulaElement(ElementType.NUMBER, "-0", null),
+				new FormulaElement(ElementType.NUMBER, "0", null));
+
+		assertEquals("interpretOperatorEqual: -0 should be equal to 0", 1d, formulaElement.interpretRecursive(null));
+
+		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
+				new FormulaElement(ElementType.NUMBER, "0", null),
+				new FormulaElement(ElementType.NUMBER, "-0", null));
+
+		assertEquals("interpretOperatorEqual: 0 should be equal to -0", 1d, formulaElement.interpretRecursive(null));
+	}
+
 	public void testNotEqual() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.NOT_EQUAL, InternTokenType.NUMBER,
 				"1", FALSE, testSprite);
@@ -336,25 +351,5 @@ public class ParserTestOperators extends AndroidTestCase {
 		List<InternToken> second = new LinkedList<InternToken>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.MINUS, second, Double.NaN, testSprite);
-	}
-
-	public void testNegativeZeroEqualsZero() {
-
-		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
-				new FormulaElement(ElementType.NUMBER, Integer.toString(-0), null), new FormulaElement(ElementType
-				.NUMBER, Integer.toString(0), null));
-		assertEquals("interpretOperatorEqual: -0 should be equal to 0", 1d, formulaElement.interpretRecursive(null));
-
-		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
-				new FormulaElement(ElementType.NUMBER, Integer.toString(0), null), new FormulaElement(ElementType.NUMBER,
-				Integer.toString(-0), null));
-		assertEquals("interpretOperatorEqual: 0 should be equal to -0", 1d, formulaElement.interpretRecursive(null));
-	}
-
-	public void testEqualsNaN() {
-		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
-				new FormulaElement(ElementType.NUMBER, String.valueOf(Double.NaN), null), new FormulaElement(ElementType
-				.NUMBER, String.valueOf(Double.NaN), null));
-		assertEquals("interpretOperatorEqual: NaN should be equal to NaN", 1d, formulaElement.interpretRecursive(null));
 	}
 }

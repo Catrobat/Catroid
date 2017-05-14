@@ -891,45 +891,21 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Double interpretOperatorEqual(Object left, Object right) {
-
-		if (left instanceof String && right instanceof String) {
-			try {
-				return (Double.valueOf((String) left).compareTo(Double.valueOf((String) right))) == 0 ? 1d : 0;
-			} catch (NumberFormatException numberFormatException) {
-				int compareResult = ((String) left).compareTo((String) right);
-				if (compareResult == 0) {
-					return 1d;
-				}
+		try {
+			Double tempLeft = Double.valueOf(String.valueOf(left));
+			Double tempRight = Double.valueOf(String.valueOf(right));
+			int compareResult = getCompareResult(tempLeft, tempRight);
+			if (compareResult == 0) {
+				return 1d;
 			}
-		}
-		if (left instanceof Double && right instanceof String) {
-			try {
-				Double tempLeft = (Double) left;
-				Double tempRight = Double.valueOf((String) right);
-				int compareResult = getCompareResult(tempLeft, tempRight);
-				if (compareResult == 0) {
-					return 1d;
-				}
-			} catch (NumberFormatException numberFormatException) {
-				return 0d;
+			return 0d;
+		} catch (NumberFormatException numberFormatException) {
+			int compareResult = String.valueOf(left).compareTo(String.valueOf(right));
+			if (compareResult == 0) {
+				return 1d;
 			}
+			return 0d;
 		}
-		if (left instanceof String && right instanceof Double) {
-			try {
-				Double tempLeft = Double.parseDouble((String) left);
-				Double tempRight = (Double) right;
-				int compareResult = getCompareResult(tempLeft, tempRight);
-				if (compareResult == 0) {
-					return 1d;
-				}
-			} catch (NumberFormatException numberFormatException) {
-				return 0d;
-			}
-		}
-		if (left instanceof Double && right instanceof Double) {
-			return (((Double) left).compareTo((Double) right) == 0) ? 1d : 0d;
-		}
-		return 0d;
 	}
 
 	private int getCompareResult(Double left, Double right) {
