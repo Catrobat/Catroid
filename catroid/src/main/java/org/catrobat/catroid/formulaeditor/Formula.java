@@ -140,16 +140,23 @@ public class Formula implements Serializable {
 		Double returnValue = interpretDouble(sprite);
 		return returnValue.intValue();
 	}
-
 	public Double interpretDouble(Sprite sprite) throws InterpretationException {
 		try {
 			Object returnValue = formulaTree.interpretRecursive(sprite);
 			Double doubleReturnValue;
+
 			if (returnValue instanceof String) {
 				doubleReturnValue = Double.valueOf((String) returnValue);
 				if (doubleReturnValue.isNaN()) {
 					throw new InterpretationException("NaN in interpretDouble()");
 				}
+				return doubleReturnValue;
+			} else if (returnValue instanceof Boolean) {
+				if (returnValue == Boolean.TRUE) {
+					doubleReturnValue = 1d;
+					return doubleReturnValue;
+				}
+				doubleReturnValue = 0d;
 				return doubleReturnValue;
 			} else {
 				doubleReturnValue = (Double) returnValue;
