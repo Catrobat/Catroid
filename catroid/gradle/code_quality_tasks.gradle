@@ -40,11 +40,7 @@ task checkstyle(type: Checkstyle) {
 }
 
 task pmd(type: Pmd) {
-    // complete rulesets can be used with the abbrevation
-    // rulesets with specific excludes are moved to a config file containing just a single ruleset with exclude(s)
-    ruleSets = ['java-android', 'java-braces', 'java-sunsecure', 'java-unusedcode', 'catroid/config/pmd_basic.xml',
-                'catroid/config/pmd_empty.xml', 'catroid/config/pmd_strings.xml', 'catroid/config/pmd_unnecessary.xml',
-                'catroid/config/pmd_logging.xml', 'catroid/config/pmd_controversial.xml']
+    ruleSets = ['catroid/config/pmd.xml']
 
     source '.'
     include '**/*.java'

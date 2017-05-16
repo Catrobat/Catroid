@@ -93,7 +93,7 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(SET_USERVARIABLE_TO_BRICK_VALUE),
 				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
-						.getUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX, firstSprite)
+						.getUserVariable(firstSprite, USER_VARIABLE_NAME_UNDERLINE_PREFIX)
 		);
 
 		Script startScript1 = new StartScript();

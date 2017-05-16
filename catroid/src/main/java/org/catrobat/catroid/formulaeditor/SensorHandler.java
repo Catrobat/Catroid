@@ -426,19 +426,19 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case LOUDNESS:
 				return instance.loudness;
 			case DATE_YEAR:
-				return Calendar.getInstance().get(Calendar.YEAR);
+				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			case DATE_MONTH:
-				return Calendar.getInstance().get(Calendar.MONTH) + 1;
+				return Double.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1);
 			case DATE_DAY:
-				return Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+				return Double.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 			case DATE_WEEKDAY:
 				return startWeekWithMonday();
 			case TIME_HOUR:
-				return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+				return Double.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 			case TIME_MINUTE:
-				return Calendar.getInstance().get(Calendar.MINUTE);
+				return Double.valueOf(Calendar.getInstance().get(Calendar.MINUTE));
 			case TIME_SECOND:
-				return Calendar.getInstance().get(Calendar.SECOND);
+				return Double.valueOf(Calendar.getInstance().get(Calendar.SECOND));
 
 			case NXT_SENSOR_1:
 			case NXT_SENSOR_2:
@@ -447,7 +447,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 				LegoNXT nxt = btService.getDevice(BluetoothDevice.LEGO_NXT);
 				if (nxt != null) {
-					return nxt.getSensorValue(sensor);
+					return Double.valueOf(nxt.getSensorValue(sensor));
 				}
 				break;
 
@@ -457,7 +457,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case EV3_SENSOR_4:
 				LegoEV3 ev3 = btService.getDevice(BluetoothDevice.LEGO_EV3);
 				if (ev3 != null) {
-					return ev3.getSensorValue(sensor);
+					return Double.valueOf(ev3.getSensorValue(sensor));
 				}
 				break;
 
@@ -469,18 +469,18 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case PHIRO_SIDE_RIGHT:
 				Phiro phiro = btService.getDevice(BluetoothDevice.PHIRO);
 				if (phiro != null) {
-					return phiro.getSensorValue(sensor);
+					return Double.valueOf(phiro.getSensorValue(sensor));
 				}
 				break;
 
 			case LAST_FINGER_INDEX:
-				return TouchUtil.getLastTouchIndex();
+				return Double.valueOf(TouchUtil.getLastTouchIndex());
 			case FINGER_TOUCHED:
 				return TouchUtil.isFingerTouching(TouchUtil.getLastTouchIndex()) ? 1d : 0d;
 			case FINGER_X:
-				return TouchUtil.getX(TouchUtil.getLastTouchIndex());
+				return Double.valueOf(TouchUtil.getX(TouchUtil.getLastTouchIndex()));
 			case FINGER_Y:
-				return TouchUtil.getY(TouchUtil.getLastTouchIndex());
+				return Double.valueOf(TouchUtil.getY(TouchUtil.getLastTouchIndex()));
 
 			case DRONE_BATTERY_STATUS:
 				return (double) dcs.getDroneNavData().batteryStatus;

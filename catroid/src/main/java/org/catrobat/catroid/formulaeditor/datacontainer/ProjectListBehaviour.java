@@ -20,17 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+package org.catrobat.catroid.formulaeditor.datacontainer;
+
+import org.catrobat.catroid.formulaeditor.UserList;
 
 import java.util.List;
 
-public class SupportDataContainer extends BaseDataContainer {
+class ProjectListBehaviour extends ProjectDataBehaviour<UserList> {
 
-	@XStreamAlias("programVariableList")
-	public List<UserVariable> projectVariables;
+	private DataContainer dataContainer;
 
-	@XStreamAlias("programListOfLists")
-	public List<UserList> projectLists;
+	ProjectListBehaviour(DataContainer dataContainer) {
+		this.dataContainer = dataContainer;
+	}
+
+	@Override
+	protected List<UserList> getDataList() {
+		return dataContainer.getProjectLists();
+	}
+
+	@Override
+	protected UserList newInstance(String name) {
+		return new UserList(name);
+	}
+
+	@Override
+	protected String getDataName(UserList data) {
+		return data.getName();
+	}
+
+	@Override
+	protected void setDataName(UserList data, String name) {
+		data.setName(name);
+	}
 }
