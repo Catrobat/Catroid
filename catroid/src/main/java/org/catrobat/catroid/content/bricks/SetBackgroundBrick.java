@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 
-import java.util.Collections;
 import java.util.List;
 
 public class SetBackgroundBrick extends SetLookBrick {
@@ -44,15 +43,12 @@ public class SetBackgroundBrick extends SetLookBrick {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		Sprite backgroundSprite = ProjectManager.getInstance().getSceneToPlay().getSpriteList().get(0);
-		sequence.addAction(sprite.getActionFactory().createSetLookAction(backgroundSprite, look, wait));
-
-		return Collections.emptyList();
+		return super.addActionToSequence(backgroundSprite, sequence);
 	}
 
 	@Override
 	public Brick clone() {
-		SetBackgroundBrick clonedBrick = new SetBackgroundBrick();
-		clonedBrick.setLook(look);
+		SetBackgroundBrick clonedBrick = (SetBackgroundBrick) super.clone();
 		return clonedBrick;
 	}
 }

@@ -62,6 +62,13 @@
             android:id="@+id/brick_set_look_and_wait"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_and_wait" />
+
+        <TextView
+            android:id="@+id/brick_set_look_formula"
+            style="@style/BrickEditText"
+            app:layout_textField="true"
+            android:visibility="gone">
+        </TextView >
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

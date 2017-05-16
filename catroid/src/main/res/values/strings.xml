@@ -1427,6 +1427,7 @@
     <string name="formula_editor_sensor_face_y_position">face_y_position</string>
     <string name="formula_editor_function_number_of_items">number_of_items</string>
     <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+    <string name="formula_editor_spinner_entry">Formula Editor…</string>
 
     <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
     <string name="formula_editor_intro_summary_formula_editor">The formula editor allows you to create mathematical and

@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -48,6 +49,9 @@ public class SetLookActionTest extends InstrumentationTestCase {
 	private String projectName = "testProject";
 	private File testImage;
 	private Project project;
+	private Sprite sprite;
+	private LookData firstLookData;
+	private LookData secondLookData;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -68,6 +72,19 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), bitmapOptions);
+
+		sprite = new SingleSprite("new sprite");
+		project.getDefaultScene().addSprite(sprite);
+
+		firstLookData = new LookData();
+		secondLookData = new LookData();
+		firstLookData.setLookFilename(testImage.getName());
+		secondLookData.setLookFilename(testImage.getName());
+		firstLookData.setLookName("firstTestLook");
+		secondLookData.setLookName("secondTestLook");
+
+		sprite.getLookDataList().add(firstLookData);
+		sprite.getLookDataList().add(secondLookData);
 	}
 
 	@Override
@@ -88,16 +105,33 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ScreenValues.SCREEN_HEIGHT = 200;
 		ScreenValues.SCREEN_WIDTH = 200;
 
-		Sprite sprite = new SingleSprite("new sprite");
-		project.getDefaultScene().addSprite(sprite);
-		LookData lookData = new LookData();
-		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName("testImage");
-		sprite.getLookDataList().add(lookData);
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetLookAction(sprite, secondLookData);
+		action.act(1.0f);
+		assertEquals("Action didn't set the LookData", secondLookData, sprite.look.getLookData());
+	}
+
+	public void testSetLookWithFormulaNumber() {
+
+		sprite.look.setLookData(firstLookData);
+		Formula numberFormula = new Formula(2);
 
 		ActionFactory factory = sprite.getActionFactory();
-		Action action = factory.createSetLookAction(sprite, lookData);
+		Action action = factory.createSetLookAction(sprite, firstLookData, false, numberFormula);
 		action.act(1.0f);
-		assertEquals("Action didn't set the LookData", lookData, sprite.look.getLookData());
+		assertEquals("Action didn't set the LookData correctly from the number formula", secondLookData, sprite.look
+				.getLookData());
+	}
+
+	public void testSetLookWithFormulaString() {
+
+		sprite.look.setLookData(secondLookData);
+		Formula stringFormula = new Formula("firstTestLook");
+
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetLookAction(sprite, firstLookData, false, stringFormula);
+		action.act(1.0f);
+		assertEquals("Action didn't set the LookData correctly from the string formula", firstLookData, sprite.look
+				.getLookData());
 	}
 }

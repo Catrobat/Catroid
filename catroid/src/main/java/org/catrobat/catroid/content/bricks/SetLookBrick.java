@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -42,23 +43,30 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
 
 import java.util.List;
 
-public class SetLookBrick extends BrickBaseType implements OnLookDataListChangedAfterNewListener {
+public class SetLookBrick extends FormulaBrick implements OnLookDataListChangedAfterNewListener {
+	private static final transient String TAG = SetLookBrick.class.getSimpleName();
 	private static final long serialVersionUID = 1L;
+	private static final int SPINNER_POSITION_NEW_LOOK = 0;
+	private static final int SPINNER_POSITION_FORMULA_EDITOR = 1;
 	protected LookData look;
 	private transient View prototypeView;
 	private transient LookData oldSelectedLook;
+	protected boolean isFormulaEnabled;
 
 	protected transient boolean wait;
 
 	public SetLookBrick() {
 		wait = false;
+		addAllowedBrickField(BrickField.LOOK);
 	}
 
 	public void setLook(LookData lookData) {
@@ -115,12 +123,13 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0) {
+				if (position == SPINNER_POSITION_NEW_LOOK) {
 					look = null;
 				} else {
 					look = (LookData) parent.getItemAtPosition(position);
 					oldSelectedLook = look;
 				}
+				isFormulaEnabled = (position == SPINNER_POSITION_FORMULA_EDITOR);
 			}
 
 			@Override
@@ -139,15 +148,25 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 			view.findViewById(R.id.brick_set_look_and_wait).setVisibility(View.GONE);
 		}
 
+		if (isFormulaEnabled) {
+			lookBrickSpinner.setEnabled(false);
+		}
+
+		getFormulaWithBrickField(BrickField.LOOK).setTextFieldId(R.id.brick_set_look_formula);
 		return view;
 	}
 
 	private ArrayAdapter<LookData> createLookAdapter(Context context) {
 		ArrayAdapter<LookData> arrayAdapter = new ArrayAdapter<LookData>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		LookData dummyLookData = new LookData();
-		dummyLookData.setLookName(context.getString(R.string.new_broadcast_message));
-		arrayAdapter.add(dummyLookData);
+
+		LookData dummyLookDataNewLook = new LookData();
+		dummyLookDataNewLook.setLookName(context.getString(R.string.new_broadcast_message));
+		arrayAdapter.add(dummyLookDataNewLook);
+		LookData dummyLookDataFormulaEditor = new LookData();
+		dummyLookDataFormulaEditor.setLookName(getFormulaWithBrickField(BrickField.LOOK).getDisplayString(context));
+		arrayAdapter.add(dummyLookDataFormulaEditor);
+
 		for (LookData lookData : getSprite().getLookDataList()) {
 			arrayAdapter.add(lookData);
 		}
@@ -175,31 +194,47 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	@Override
 	public Brick clone() {
-		SetLookBrick clonedBrick = new SetLookBrick();
+		SetLookBrick clonedBrick;
+		try {
+			clonedBrick = (SetLookBrick) super.clone();
+		} catch (CloneNotSupportedException e) {
+			clonedBrick = new SetLookBrick();
+			Log.d(TAG, "Clone not supported, creating new SetLookBrick");
+		}
 		clonedBrick.setLook(look);
 		return clonedBrick;
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look, wait));
+		if (isFormulaEnabled) {
+			Formula formula = getFormulaWithBrickField(BrickField.LOOK);
+			sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look, wait, formula));
+		} else {
+			sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look, wait));
+		}
 		return null;
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
+		if (isFormulaEnabled) {
+			oldSelectedLook = look;
+			spinner.setSelection(SPINNER_POSITION_FORMULA_EDITOR);
+			return;
+		}
 		if (getSprite().getLookDataList().contains(look)) {
 			oldSelectedLook = look;
-			spinner.setSelection(getSprite().getLookDataList().indexOf(look) + 1, true);
+			spinner.setSelection(getSprite().getLookDataList().indexOf(look) + 2, true);
 		} else {
-			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 1) {
+			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 2) {
 				if (getSprite().getLookDataList().indexOf(oldSelectedLook) >= 0) {
 					spinner.setSelection(getSprite().getLookDataList()
-							.indexOf(oldSelectedLook) + 1, true);
+							.indexOf(oldSelectedLook) + SPINNER_POSITION_FORMULA_EDITOR + 1, true);
 				} else {
-					spinner.setSelection(1, true);
+					spinner.setSelection(SPINNER_POSITION_FORMULA_EDITOR + 1, true);
 				}
 			} else {
-				spinner.setSelection(0, true);
+				spinner.setSelection(SPINNER_POSITION_NEW_LOOK, true);
 			}
 		}
 	}
@@ -262,10 +297,15 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 		@Override
 		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
+			spinnerAdapter.getItem(SPINNER_POSITION_FORMULA_EDITOR).setLookName(getFormulaWithBrickField(BrickField
+					.LOOK).getDisplayString(context));
 			if (isTouchInDropDownView) {
 				isTouchInDropDownView = false;
-				if (paramInt == 0) {
+				if (paramInt == SPINNER_POSITION_NEW_LOOK) {
 					switchToLookFragmentFromScriptFragment();
+				} else if (paramInt == SPINNER_POSITION_FORMULA_EDITOR) {
+					isFormulaEnabled = true;
+					showFormulaEditorToEditFormula(view.findViewById(R.id.brick_set_look_formula));
 				}
 			}
 			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
@@ -288,6 +328,8 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 		@Override
 		public View getDropDownView(int paramInt, View paramView, ViewGroup paramViewGroup) {
+			((LookData) spinnerAdapter.getItem(SPINNER_POSITION_FORMULA_EDITOR)).setLookName(context.getString(R.string
+					.formula_editor_spinner_entry));
 			View dropDownView = spinnerAdapter.getDropDownView(paramInt, paramView, paramViewGroup);
 
 			dropDownView.setOnTouchListener(new OnTouchListener() {
@@ -329,5 +371,9 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	protected Sprite getSprite() {
 		return ProjectManager.getInstance().getCurrentSprite();
+	}
+
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.LOOK);
 	}
 }

@@ -31,8 +31,8 @@ public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
 
 	@Override
 	public Brick clone() {
-		SetBackgroundAndWaitBrick clonedBrick = new SetBackgroundAndWaitBrick();
-		clonedBrick.setLook(look);
+		SetBackgroundAndWaitBrick clonedBrick = (SetBackgroundAndWaitBrick) super.clone();
+		clonedBrick.wait = true;
 		return clonedBrick;
 	}
 }
