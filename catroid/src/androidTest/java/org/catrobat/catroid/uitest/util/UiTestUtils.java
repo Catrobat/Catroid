@@ -134,13 +134,13 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
 import org.catrobat.catroid.stage.StageActivity;
@@ -2768,12 +2768,12 @@ public final class UiTestUtils {
 		dataContainer.addProjectUserList("global_list");
 		dataContainer.addSpriteUserList("sprite_list");
 		UserList projectUserList = projectManager.getCurrentProject().getDefaultScene().getDataContainer()
-				.getUserList("global_list", null);
+				.getUserList(null, "global_list");
 		projectUserList.setList(INITIALIZED_LIST_VALUES);
 		UserList spriteUserList = projectManager.getCurrentProject().getDefaultScene().getDataContainer()
 				.getSpriteListOfLists(projectManager.getCurrentSprite()).get(0);
 		spriteUserList.setList(INITIALIZED_LIST_VALUES);
-		UserVariable spriteUserVariable = dataContainer.getUserVariable("sprite_var", projectManager.getCurrentSprite());
+		UserVariable spriteUserVariable = dataContainer.getUserVariable(projectManager.getCurrentSprite(), "sprite_var");
 		UserVariable projectUserVariable = dataContainer.getProjectVariables().get(0);
 
 		List<Brick> bricks = projectManager.getCurrentSprite().getListWithAllBricks();

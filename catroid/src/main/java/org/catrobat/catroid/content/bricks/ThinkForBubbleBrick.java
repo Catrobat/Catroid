@@ -156,13 +156,9 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		if (type == Constants.SAY_BRICK) {
-			sequence.addAction(sprite.getActionFactory().createSayForBubbleAction(sprite, getFormulaWithBrickField(BrickField.STRING)));
-			sequence.addAction(sprite.getActionFactory().createWaitForBubbleBrickAction(sprite, getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
-		} else {
-			sequence.addAction(sprite.getActionFactory().createThinkForBubbleAction(sprite, getFormulaWithBrickField(BrickField.STRING)));
-			sequence.addAction(sprite.getActionFactory().createWaitForBubbleBrickAction(sprite, getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
-		}
+		sequence.addAction(sprite.getActionFactory().createThinkSayForBubbleAction(sprite, getFormulaWithBrickField(BrickField
+				.STRING), type));
+		sequence.addAction(sprite.getActionFactory().createWaitForBubbleBrickAction(sprite, getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
 		return null;
 	}
 

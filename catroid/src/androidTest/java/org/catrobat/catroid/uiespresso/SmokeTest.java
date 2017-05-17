@@ -29,12 +29,14 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uiespresso.category.LevelSmoke;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -70,6 +72,7 @@ public class SmokeTest {
 	}
 
 	@Test
+	@Category(LevelSmoke.class)
 	public void newProject() {
 		onView(withId(R.id.main_menu_button_new))
 				.perform(click());

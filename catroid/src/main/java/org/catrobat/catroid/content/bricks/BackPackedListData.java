@@ -24,12 +24,13 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.io.Serializable;
 
 public class BackPackedListData implements Serializable {
 	public UserList userList;
-	public Integer userListType;
+	public DataContainer.DataType userListType;
 
 	BackPackedListData() {
 	}

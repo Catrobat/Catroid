@@ -37,10 +37,10 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BrickLayout;
 
 import java.util.ArrayList;
@@ -324,7 +324,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		sequence.addAction(actionFactory.createUserBrickAction(userSequence, this));
 		ProjectManager.getInstance().setCurrentUserBrick(this);
 
-		if (sprite.isClone) {
+		if (sprite.isClone()) {
 			sprite.addUserBrick(this);
 		}
 

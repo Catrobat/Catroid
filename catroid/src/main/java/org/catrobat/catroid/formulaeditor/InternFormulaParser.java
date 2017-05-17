@@ -27,6 +27,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
@@ -45,6 +46,7 @@ public class InternFormulaParser {
 
 	public static final int PARSER_OK = -1;
 	public static final int PARSER_STACK_OVERFLOW = -2;
+	public static final int PARSER_INPUT_SYNTAX_ERROR = -3;
 	public static final int PARSER_NO_INPUT = -4;
 	private static final int MAXIMUM_TOKENS_TO_PARSE = 1000;
 	private static final String TAG = InternFormulaParser.class.getSimpleName();
@@ -143,7 +145,7 @@ public class InternFormulaParser {
 		}
 
 		try {
-			List<InternToken> copyIternTokensToParse = new ArrayList<InternToken>(internTokensToParse);
+			List<InternToken> copyIternTokensToParse = new ArrayList<>(internTokensToParse);
 			if (InternFormulaUtils.applyBracketCorrection(copyIternTokensToParse)) {
 				internTokensToParse.clear();
 				internTokensToParse.addAll(copyIternTokensToParse);
@@ -256,12 +258,12 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userVariable() throws InternFormulaParserException {
-		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		if (dataContainer.getUserVariable(currentToken.getTokenStringValue(), currentBrick, currentSprite) == null) {
+		if (dataContainer.getUserVariable(currentSprite, currentToken.getTokenStringValue(), currentBrick) == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 
@@ -279,7 +281,7 @@ public class InternFormulaParser {
 		boolean formulaOk;
 		int spriteCount = 0;
 
-		for (Sprite sprite : ProjectManager.getInstance().getSceneToPlay().getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 			if (sprite.getName().compareTo(firstSpriteName) == 0 || sprite.getName().compareTo(secondSpriteName) == 0) {
 				spriteCount++;
 			}
@@ -299,10 +301,10 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userList() throws InternFormulaParserException {
-		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		if (dataContainer.getUserList(currentToken.getTokenStringValue(), currentSprite) == null) {
+		if (dataContainer.getUserList(currentSprite, currentToken.getTokenStringValue()) == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 

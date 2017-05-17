@@ -24,7 +24,7 @@ package org.catrobat.catroid.content;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import org.catrobat.catroid.formulaeditor.SupportDataContainer;
+import org.catrobat.catroid.formulaeditor.datacontainer.SupportDataContainer;
 
 import java.io.Serializable;
 import java.util.ArrayList;

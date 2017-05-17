@@ -64,12 +64,12 @@ public class WhenConditionBecomesTrueActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(COUNTER_VARIABLE_NAME);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(COUNTER_VARIABLE_NAME);
 		counterVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(COUNTER_VARIABLE_NAME, null);
+				.getUserVariable(null, COUNTER_VARIABLE_NAME);
 
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(CONDITION_VARIABLE_NAME);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(CONDITION_VARIABLE_NAME);
 		conditionVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(CONDITION_VARIABLE_NAME, null);
+				.getUserVariable(null, CONDITION_VARIABLE_NAME);
 	}
 
 	@Override

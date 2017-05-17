@@ -31,10 +31,12 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
+
+import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_DATA_EMPTY;
 
 public abstract class UserListBrick extends FormulaBrick implements NewDataDialog.NewUserListDialogListener {
 
@@ -129,8 +131,8 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 			if (sprite == null || !from.existSpriteList(userList, sprite)) {
 				return;
 			}
-			list = into.getDataContainer().addSpriteListIfDoesNotExist(userList.getName(),
-					into.getSpriteBySpriteName(sprite.getName()));
+			list = into.getDataContainer().addSpriteListIfDoesNotExist(
+					into.getSpriteBySpriteName(sprite.getName()), userList.getName());
 		}
 
 		if (list != null) {
@@ -163,7 +165,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
-		Integer type = DataContainer.USER_DATA_EMPTY;
+		DataContainer.DataType type = USER_DATA_EMPTY;
 		if (userList != null) {
 			type = currentScene.getDataContainer()
 					.getTypeOfUserList(getUserList().getName(), ProjectManager
