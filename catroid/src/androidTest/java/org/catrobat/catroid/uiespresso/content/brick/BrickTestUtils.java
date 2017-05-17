@@ -127,8 +127,8 @@ public final class BrickTestUtils {
 				.perform(click());
 
 		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
-		// todo: Uncomment when CAT-2359 is fixed
-		// checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, variableName);
+		// todo: CAT-2359 to fix this:
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, variableName);
 	}
 
 	public static void enterTextOnDialogue(int dialogueId, String textToEnter) {
