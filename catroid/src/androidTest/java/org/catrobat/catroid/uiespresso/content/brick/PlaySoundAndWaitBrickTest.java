@@ -29,7 +29,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
@@ -66,8 +66,8 @@ import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.onScr
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class PlaySoundBrickTest {
-	private String projectName = "playSoundBrickTest";
+public class PlaySoundAndWaitBrickTest {
+	private String projectName = "playSoundAndWaitBrickTest";
 
 	private static final int RESOURCE_SOUND = org.catrobat.catroid.test.R.raw.longsound;
 	private static final int RESOURCE_SOUND2 = org.catrobat.catroid.test.R.raw.testsoundui;
@@ -88,7 +88,7 @@ public class PlaySoundBrickTest {
 	public void setUp() throws Exception {
 		SoundManager.getInstance();
 		brickPosition = 1;
-		BrickTestUtils.createProjectAndGetStartScript(projectName).addBrick(new PlaySoundBrick());
+		BrickTestUtils.createProjectAndGetStartScript(projectName).addBrick(new PlaySoundAndWaitBrick());
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
@@ -127,16 +127,16 @@ public class PlaySoundBrickTest {
 	}
 
 	@Test
-	public void testPlaySoundBrickBasicLayout() {
+	public void testPlaySoundBrickAndWaitBasicLayout() {
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_play_sound);
+		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_play_sound_and_wait);
 	}
 
 	@Test
-	public void testPlaySoundBrickUpdateDelete() {
+	public void testPlaySoundBrickAndWaitUpdateDelete() {
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
@@ -152,7 +152,7 @@ public class PlaySoundBrickTest {
 
 	@Test
 	@Device
-	public void testPlaySoundBrickUpdateAddNew() {
+	public void testPlaySoundBrickAndWaitUpdateAddNew() {
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
@@ -168,16 +168,17 @@ public class PlaySoundBrickTest {
 	}
 
 	@Test
-	public void testPlaySoundBrickUpdateRename() {
+	public void testPlaySoundBrickAndWaitUpdateRename() {
 		String newName = "newName";
 
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
 		checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName);
-
 		pressBack();
+
 		renameSound(soundName, newName);
+
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 		checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, newName);
