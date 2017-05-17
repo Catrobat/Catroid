@@ -61,11 +61,16 @@ public final class SpinnerUtils {
 	}
 
 	public static void clickSelectCheckSpinnerValueOnBrick(int spinnerResourceId, int position, int stringResourceId) {
+		clickSelectCheckSpinnerValueOnBrick(spinnerResourceId, position,
+				UiTestUtils.getResourcesString(stringResourceId));
+	}
+
+	public static void clickSelectCheckSpinnerValueOnBrick(int spinnerResourceId, int position, String expectedString) {
 		BrickTestUtils.onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
 				.perform(click());
-		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
+		onData(allOf(is(instanceOf(String.class)), is(expectedString)))
 				.perform(click());
-		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, stringResourceId);
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, expectedString);
 	}
 
 	public static void checkIfValuesAvailableInSpinnerOnBrick(List<Integer> stringResourceIdValues,
