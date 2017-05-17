@@ -31,7 +31,7 @@ import static java.lang.annotation.ElementType.METHOD;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({METHOD, ANNOTATION_TYPE})
-public @interface FlakyTest {
+public @interface Flaky {
 	int value() default 3;
 }
 
