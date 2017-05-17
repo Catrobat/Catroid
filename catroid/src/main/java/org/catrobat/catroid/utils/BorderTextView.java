@@ -20,37 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.utils;
 
-task checkstyle(type: Checkstyle) {
-    configFile file('config/checkstyle.xml')
-    source '.'
-    include '**/*.java', '**/*.xml', '**/*.gradle'
-    exclude '**/gen/**', '**/build/**', 'libraryProjects/**', '**/.idea/**'
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.util.AttributeSet;
+import android.widget.TextView;
 
-    classpath = files()
+public class BorderTextView extends TextView {
 
-    // needed for console output of warnings/errors
-    showViolations true
-    ignoreFailures false
+	private static final int SHADOW_RADIUS = 3;
+	private static final int SHADOW_REPEAT = 3;
 
-    reports {
-        xml.enabled = true
-        xml.destination "build/reports/checkstyle.xml"
-    }
-}
+	public BorderTextView(Context context) {
+		super(context);
+	}
 
-task pmd(type: Pmd) {
-    ruleSets = ['catroid/config/pmd.xml']
+	public BorderTextView(Context context, AttributeSet attributeSet) {
+		super(context, attributeSet);
+	}
 
-    source '.'
-    include '**/*.java'
-    exclude '**/gen/**', '**/build/**', '**/res/**'
+	public BorderTextView(Context context, AttributeSet attributeSet, int defStyle) {
+		super(context, attributeSet, defStyle);
+	}
 
-    ignoreFailures false
+	@Override
+	protected void onDraw(Canvas canvas) {
+		getPaint().setShadowLayer(SHADOW_RADIUS, 0, 0, Color.BLACK);
+		getPaint().setShader(null);
 
-    reports {
-        xml.enabled = true
-        html.enabled = false
-        xml.destination "build/reports/pmd.xml"
-    }
+		for (int i = 0; i < SHADOW_REPEAT; i++) {
+			super.onDraw(canvas);
+		}
+	}
 }

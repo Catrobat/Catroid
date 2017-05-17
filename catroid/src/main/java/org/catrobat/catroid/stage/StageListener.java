@@ -173,7 +173,7 @@ public class StageListener implements ApplicationListener {
 	public boolean axesOn = false;
 
 	private byte[] thumbnail;
-	private Map<String, StageBackup> stageBackupMap = new HashMap();
+	private Map<String, StageBackup> stageBackupMap = new HashMap<>();
 
 	private InputListener inputListener = null;
 
@@ -720,7 +720,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		for (int i = 0; i < length; i += 4) {
-			colors[i / 4] = android.graphics.Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
+			colors[i / 4] = android.graphics.Color.argb(255, screenshot[i] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
 		}
 		fullScreenBitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
@@ -861,11 +861,13 @@ public class StageListener implements ApplicationListener {
 		look.remove();
 	}
 
-	public void putBubbleActor(Sprite sprite, ShowBubbleActor actor) {
-		bubbleActorMap.put(sprite, actor);
+	public void setBubbleActorForSprite(Sprite sprite, ShowBubbleActor showBubbleActor) {
+		addActor(showBubbleActor);
+		bubbleActorMap.put(sprite, showBubbleActor);
 	}
 
 	public void removeBubbleActorForSprite(Sprite sprite) {
+		getStage().getActors().removeValue(getBubbleActorForSprite(sprite), true);
 		bubbleActorMap.remove(sprite);
 	}
 

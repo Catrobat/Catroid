@@ -93,7 +93,7 @@ public class StageActivity extends AndroidApplication {
 	private StageAudioFocus stageAudioFocus;
 	private PendingIntent pendingIntent;
 	private NfcAdapter nfcAdapter;
-	private static BlockingDeque<NdefMessage> ndefMessageBlockingDeque = new LinkedBlockingDeque<NdefMessage>();
+	private static BlockingDeque<NdefMessage> ndefMessageBlockingDeque = new LinkedBlockingDeque<>();
 	private StageDialog stageDialog;
 	private boolean resizePossible;
 	private boolean askDialogUnanswered = false;
