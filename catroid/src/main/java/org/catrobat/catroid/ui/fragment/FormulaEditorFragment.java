@@ -630,6 +630,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 				if (Brick.BrickField.isExpectingStringValue(currentBrickField)) {
 					return saveValidFormula(new FormulaElement(FormulaElement.ElementType.STRING, "", null));
 				}
+				// fallthrough
 			default:
 				formulaEditorEditText.setParseErrorCursorAndSelection();
 				return checkReturnWithoutSaving(InternFormulaParser.PARSER_INPUT_SYNTAX_ERROR);

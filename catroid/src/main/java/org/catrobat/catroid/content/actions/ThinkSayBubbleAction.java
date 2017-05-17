@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
@@ -31,6 +33,7 @@ import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 
 public class ThinkSayBubbleAction extends TemporalAction {
+	private static final String TAG = ThinkSayBubbleAction.class.getSimpleName();
 
 	private Sprite sprite;
 	private Formula text;
@@ -42,7 +45,7 @@ public class ThinkSayBubbleAction extends TemporalAction {
 		try {
 			showBubbleActor = createBubbleActor();
 		} catch (InterpretationException e) {
-			e.printStackTrace();
+			Log.d(TAG, "Failed to create Bubble Actor", e);
 			return;
 		}
 
