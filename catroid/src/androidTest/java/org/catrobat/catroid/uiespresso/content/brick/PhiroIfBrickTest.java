@@ -37,9 +37,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkBrickNotExists;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfValuesAvailableInSpinnerOnBrick;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.deleteBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
@@ -54,9 +57,7 @@ public class PhiroIfBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-
 		brickPosition = 1;
-
 		ifBrick = new PhiroIfLogicBeginBrick();
 		IfLogicElseBrick ifLogicElseBrick = new IfLogicElseBrick(ifBrick);
 		IfLogicEndBrick ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifBrick);
@@ -71,32 +72,23 @@ public class PhiroIfBrickTest {
 
 	@Test
 	public void testPhiroIfBrick() {
-
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_phiro_sensor_begin);
-
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_sensor_action_spinner, brickPosition,
-				R.string.phiro_sensor_front_left);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_sensor_action_spinner, brickPosition,
-				R.string.phiro_sensor_front_right);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_sensor_action_spinner, brickPosition,
-				R.string.phiro_sensor_side_left);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_sensor_action_spinner, brickPosition,
-				R.string.phiro_sensor_side_right);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_sensor_action_spinner, brickPosition,
-				R.string.phiro_sensor_bottom_left);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_sensor_action_spinner, brickPosition,
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.phiro_sensor_front_left,
+				R.string.phiro_sensor_front_right,
+				R.string.phiro_sensor_side_left,
+				R.string.phiro_sensor_side_right,
+				R.string.phiro_sensor_bottom_left,
 				R.string.phiro_sensor_bottom_right);
-
+		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.brick_phiro_sensor_action_spinner, brickPosition);
 		checkIfBrickAtPositionShowsString(brickPosition + 1, R.string.brick_if_else);
 		checkIfBrickAtPositionShowsString(brickPosition + 2, R.string.brick_if_end);
 	}
 
 	@Test
 	public void testPhiroIfBrickDelete() {
-
 		deleteBrickAtPosition(brickPosition, R.string.brick_phiro_sensor_begin);
-
 		checkBrickNotExists(R.string.brick_phiro_sensor_begin);
 		checkBrickNotExists(R.string.brick_if_else);
 		checkBrickNotExists(R.string.brick_if_end);
