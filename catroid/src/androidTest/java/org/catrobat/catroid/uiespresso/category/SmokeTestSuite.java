@@ -23,13 +23,12 @@
 
 package org.catrobat.catroid.uiespresso.category;
 
-import org.catrobat.catroid.uiespresso.SmokeTest;
 import org.junit.experimental.categories.Categories;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Categories.class)
 @Categories.IncludeCategory({LevelSmoke.class})
-@Suite.SuiteClasses(SmokeTest.class)
+@Suite.SuiteClasses(AllEspressoTestSuite.class)
 public class SmokeTestSuite {
 }

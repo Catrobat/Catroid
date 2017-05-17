@@ -31,7 +31,7 @@ import android.util.Log;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.uiespresso.annotations.FlakyTest;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
@@ -95,7 +95,7 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 	}
 
 	private Statement statement(final Statement base, final Description description) {
-		FlakyTest flakyTest = description.getAnnotation(FlakyTest.class);
+		Flaky flakyTest = description.getAnnotation(Flaky.class);
 		int retryCount = 1;
 		if (flakyTest != null) {
 			retryCount = flakyTest.value();
