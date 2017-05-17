@@ -232,7 +232,7 @@ public class PlaySoundBrickTest {
 
 		closeSoftKeyboard();
 
-		// see CAT-2099 [https://jira.catrob.at/browse/CAT-2099]
+		// todo: see CAT-2099 [https://jira.catrob.at/browse/CAT-2099]
 		Assert.fail();
 		/*
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))

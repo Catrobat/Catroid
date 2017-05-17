@@ -103,8 +103,8 @@ public class DeleteItemOfUserListBrickTest {
 		createNewVariableOnSpinner(R.id.delete_item_of_userlist_spinner, brickPosition, secondUserListName);
 		userList = deleteItemOfUserListBrick.getUserList();
 		assertNotNull("UserList is null", userList);
-		// todo: uncomment when CAT-2359 is fixed
-		// assertTrue("UserList Name not as expected", userList.getName().equals(secondUserListName));
+		// todo: CAT-2359 to fix this
+		assertTrue("UserList Name not as expected", userList.getName().equals(secondUserListName));
 
 		onScriptList().atPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
 				.perform(click());
