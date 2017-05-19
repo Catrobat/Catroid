@@ -891,41 +891,31 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Double interpretOperatorEqual(Object left, Object right) {
+		try {
+			Double tempLeft = Double.valueOf(String.valueOf(left));
+			Double tempRight = Double.valueOf(String.valueOf(right));
+			int compareResult = getCompareResult(tempLeft, tempRight);
+			if (compareResult == 0) {
+				return 1d;
+			}
+			return 0d;
+		} catch (NumberFormatException numberFormatException) {
+			int compareResult = String.valueOf(left).compareTo(String.valueOf(right));
+			if (compareResult == 0) {
+				return 1d;
+			}
+			return 0d;
+		}
+	}
 
-		if (left instanceof String && right instanceof String) {
-			try {
-				return (Double.valueOf((String) left).compareTo(Double.valueOf((String) right))) == 0 ? 1d : 0;
-			} catch (NumberFormatException numberFormatException) {
-				int compareResult = ((String) left).compareTo((String) right);
-				if (compareResult == 0) {
-					return 1d;
-				}
-			}
+	private int getCompareResult(Double left, Double right) {
+		int compareResult;
+		if (left == 0 || right == 0) {
+			compareResult = ((Double) Math.abs(left)).compareTo(Math.abs(right));
+		} else {
+			compareResult = left.compareTo(right);
 		}
-		if (left instanceof Double && right instanceof String) {
-			try {
-				int compareResult = ((Double) left).compareTo(Double.valueOf((String) right));
-				if (compareResult == 0) {
-					return 1d;
-				}
-			} catch (NumberFormatException numberFormatException) {
-				return 0d;
-			}
-		}
-		if (left instanceof String && right instanceof Double) {
-			try {
-				int compareResult = Double.valueOf((String) left).compareTo((Double) right);
-				if (compareResult == 0) {
-					return 1d;
-				}
-			} catch (NumberFormatException numberFormatException) {
-				return 0d;
-			}
-		}
-		if (left instanceof Double && right instanceof Double) {
-			return (((Double) left).compareTo((Double) right) == 0) ? 1d : 0d;
-		}
-		return 0d;
+		return compareResult;
 	}
 
 	private Double interpretOperator(Object object) {

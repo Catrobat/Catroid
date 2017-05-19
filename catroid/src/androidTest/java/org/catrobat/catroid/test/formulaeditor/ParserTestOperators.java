@@ -27,6 +27,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
@@ -161,6 +162,21 @@ public class ParserTestOperators extends AndroidTestCase {
 				InternTokenType.STRING, "!`\"§$%&/()=????", FALSE, testSprite);
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "555.555", Operators.EQUAL,
 				InternTokenType.STRING, "055.77.77", FALSE, testSprite);
+	}
+
+	public void testNegativeZeroEqualsZero() {
+
+		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
+				new FormulaElement(ElementType.NUMBER, "-0", null),
+				new FormulaElement(ElementType.NUMBER, "0", null));
+
+		assertEquals("interpretOperatorEqual: -0 should be equal to 0", 1d, formulaElement.interpretRecursive(null));
+
+		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
+				new FormulaElement(ElementType.NUMBER, "0", null),
+				new FormulaElement(ElementType.NUMBER, "-0", null));
+
+		assertEquals("interpretOperatorEqual: 0 should be equal to -0", 1d, formulaElement.interpretRecursive(null));
 	}
 
 	public void testNotEqual() {
