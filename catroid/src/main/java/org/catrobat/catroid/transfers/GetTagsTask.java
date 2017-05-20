@@ -27,6 +27,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -85,6 +89,14 @@ public class GetTagsTask extends AsyncTask<String, Void, String> {
 		JSONArray tagsJson = json.getJSONArray(TAGS_JSON_KEY);
 		for (int i = 0; i < tagsJson.length(); i++) {
 			tags.add(tagsJson.getString(i));
+		}
+
+		if (BuildConfig.CREATE_AT_SCHOOL) {
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			String templateName = project.getXmlHeader().getTemplate();
+			if (!templateName.isEmpty()) {
+				tags.add(context.getString(R.string.tag_template));
+			}
 		}
 
 		return Collections.unmodifiableList(tags);

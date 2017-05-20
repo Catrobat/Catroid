@@ -395,6 +395,22 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals("Failed to extract remix URL of fourth program", expectedFourthProgramRemixUrl, result.get(1));
 	}
 
+	public void testRemixTemplates() {
+		final String expectedFirstTemplateRemixUrl = "Adventure";
+		final String expectedSecondTemplateRemixUrl = "Quiz";
+		final String expectedMergedTemplateString = expectedFirstTemplateRemixUrl + Constants.REMIX_URL_SEPARATOR + " " + expectedSecondTemplateRemixUrl;
+
+		final XmlHeader headerOfFirstProgram = new XmlHeader();
+		headerOfFirstProgram.setTemplate(expectedFirstTemplateRemixUrl);
+
+		final XmlHeader headerOfSecondProgram = new XmlHeader();
+		headerOfSecondProgram.setTemplate(expectedSecondTemplateRemixUrl);
+
+		final String remixUrlsString = Utils.generateRemixUrlsStringForTemplateProgram(headerOfFirstProgram, headerOfSecondProgram);
+
+		assertEquals("Failed to merge template strings", expectedMergedTemplateString, remixUrlsString);
+	}
+
 	private void addSpriteAndCompareToStandardProject() {
 		Sprite sprite = new SingleSprite("TestSprite");
 		defaultProject.getDefaultScene().addSprite(sprite);

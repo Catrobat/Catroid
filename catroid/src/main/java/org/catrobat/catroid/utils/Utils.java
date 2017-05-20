@@ -234,47 +234,54 @@ public final class Utils {
 		}
 	}
 
+	public static String generateRemixUrlsStringForTemplateProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
+		return generateRemixUrlString(headerOfFirstProgram.getTemplate(), headerOfSecondProgram.getTemplate(), "", "");
+	}
+
 	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
-		String escapedFirstProgramName = headerOfFirstProgram.getProgramName();
-		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
-				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
-		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
-				Constants.REMIX_URL_SUFIX_REPLACE_INDICATOR);
-		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SEPARATOR,
-				Constants.REMIX_URL_REPLACE_SEPARATOR);
+		return generateRemixUrlString(headerOfFirstProgram.getProgramName(), headerOfSecondProgram.getProgramName(),
+				headerOfFirstProgram.getRemixParentsUrlString(), headerOfSecondProgram.getRemixParentsUrlString());
+	}
 
-		String escapedSecondProgramName = headerOfSecondProgram.getProgramName();
-		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
-				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
-		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
-				Constants.REMIX_URL_SUFIX_REPLACE_INDICATOR);
-		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_SEPARATOR,
-				Constants.REMIX_URL_REPLACE_SEPARATOR);
+	private static String generateRemixUrlString(String firstName, String secondName, String firstRemixUrl, String secondRemixUrl) {
+		String escapedFirstName = escapeName(firstName);
+		String escapedSecondName = escapeName(secondName);
 
-		StringBuilder remixUrlString = new StringBuilder(escapedFirstProgramName);
+		StringBuilder remixUrlString = new StringBuilder(escapedFirstName);
 
-		if (!headerOfFirstProgram.getRemixParentsUrlString().equals("")) {
+		if (!firstRemixUrl.equals("")) {
 			remixUrlString
 					.append(' ')
 					.append(Constants.REMIX_URL_PREFIX_INDICATOR)
-					.append(headerOfFirstProgram.getRemixParentsUrlString())
-					.append(Constants.REMIX_URL_SUFIX_INDICATOR);
+					.append(firstRemixUrl)
+					.append(Constants.REMIX_URL_SUFFIX_INDICATOR);
 		}
 
 		remixUrlString
 				.append(Constants.REMIX_URL_SEPARATOR)
 				.append(' ')
-				.append(escapedSecondProgramName);
+				.append(escapedSecondName);
 
-		if (!headerOfSecondProgram.getRemixParentsUrlString().equals("")) {
+		if (!secondRemixUrl.equals("")) {
 			remixUrlString
 					.append(' ')
 					.append(Constants.REMIX_URL_PREFIX_INDICATOR)
-					.append(headerOfSecondProgram.getRemixParentsUrlString())
-					.append(Constants.REMIX_URL_SUFIX_INDICATOR);
+					.append(secondRemixUrl)
+					.append(Constants.REMIX_URL_SUFFIX_INDICATOR);
 		}
 
 		return remixUrlString.toString();
+	}
+
+	private static String escapeName(String name) {
+		name = name.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
+				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
+		name = name.replace(Constants.REMIX_URL_SUFFIX_INDICATOR,
+				Constants.REMIX_URL_SUFFIX_REPLACE_INDICATOR);
+		name = name.replace(Constants.REMIX_URL_SEPARATOR,
+				Constants.REMIX_URL_REPLACE_SEPARATOR);
+
+		return name;
 	}
 
 	// based on: http://stackoverflow.com/a/27295688
@@ -295,7 +302,7 @@ public final class Utils {
 					}
 					break;
 
-				case Constants.REMIX_URL_SUFIX_INDICATOR:
+				case Constants.REMIX_URL_SUFFIX_INDICATOR:
 					if (state == RemixUrlParsingState.TOKEN) {
 						String extractedUrl = temp.toString().trim();
 						if (!extractedUrl.contains(String.valueOf(Constants.REMIX_URL_SEPARATOR))

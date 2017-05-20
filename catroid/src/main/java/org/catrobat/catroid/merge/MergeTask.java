@@ -26,6 +26,7 @@ package org.catrobat.catroid.merge;
 import android.content.Context;
 import android.util.Log;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -290,6 +291,9 @@ public class MergeTask {
 		mergeHeader.setVirtualScreenHeight(mainHeader.virtualScreenHeight);
 
 		mergeHeader.setRemixParentsUrlString(Utils.generateRemixUrlsStringForMergedProgram(mainHeader, subHeader));
+		if (BuildConfig.CREATE_AT_SCHOOL) {
+			mergeHeader.setTemplate(Utils.generateRemixUrlsStringForTemplateProgram(mainHeader, subHeader));
+		}
 		mergedProject.setXmlHeader(mergeHeader);
 	}
 
