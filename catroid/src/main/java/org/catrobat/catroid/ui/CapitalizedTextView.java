@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+@SuppressLint("AppCompatCustomView")
 public class CapitalizedTextView extends TextView implements OnPreDrawListener {
 
 	public CapitalizedTextView(Context context) {

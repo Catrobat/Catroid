@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -38,6 +39,7 @@ import android.widget.EditText;
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
+@SuppressLint("AppCompatCustomView")
 public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	private static final BackgroundColorSpan COLOR_ERROR = new BackgroundColorSpan(0xFFF00000);
