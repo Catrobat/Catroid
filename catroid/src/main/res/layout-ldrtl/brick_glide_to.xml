@@ -50,6 +50,7 @@
             android:id="@+id/brick_glide_to_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_glide" >
         </TextView >
 
@@ -58,6 +59,7 @@
             style="@style/BrickEditText"
             android:layout_width="match_parent"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_inputType="number"
             app:layout_textField="true" >
         </TextView >
@@ -65,6 +67,7 @@
         <TextView
             android:id="@+id/brick_glide_to_seconds_text_view"
             android:scaleX="-1"
+            android:textDirection="rtl"
             style="@style/BrickText.SingleLine" >
         </TextView >
 
@@ -72,6 +75,7 @@
             android:id="@+id/brick_glide_to_x"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_newLine="true"
             android:text="@string/brick_glide_to_x" >
         </TextView >
@@ -80,6 +84,7 @@
             android:id="@+id/brick_glide_to_edit_text_x"
             style="@style/BrickEditText"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_inputType="number"
             app:layout_textField="true" >
         </TextView >
@@ -88,6 +93,7 @@
             android:id="@+id/brick_glide_to_y"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/y_label" >
         </TextView >
 
@@ -96,6 +102,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >

@@ -50,6 +50,7 @@
             android:id="@+id/brick_stop_script_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_stop_script" />
 
         <Spinner

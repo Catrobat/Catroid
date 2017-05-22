@@ -51,6 +51,7 @@
             android:id="@+id/brick_phiro_motor_forward_action_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_phiro_motor_forward_action" >
         </TextView >
 
@@ -69,6 +70,7 @@
             android:id="@+id/brick_phiro_motor_forward_action_speed"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/phiro_motor_speed" >
         </TextView >
 
@@ -78,6 +80,7 @@
             app:layout_inputType="number"
             app:layout_textField="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:clickable="false" >
         </TextView >
 
@@ -85,6 +88,7 @@
             android:id="@+id/brick_phiro_motor_forward_action_percent"
             style="@style/BrickText"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/percent_symbol" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >

@@ -50,6 +50,7 @@
             android:id="@+id/brick_move_n_steps_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_move" >
         </TextView >
 
@@ -59,12 +60,14 @@
             app:layout_inputType="number"
             app:layout_textField="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:maxEms="8" >
         </TextView >
 
         <TextView
             android:id="@+id/brick_move_n_steps_step_text_view"
             android:scaleX="-1"
+            android:textDirection="rtl"
             style="@style/BrickText.SingleLine" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >

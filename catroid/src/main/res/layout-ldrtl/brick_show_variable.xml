@@ -51,6 +51,7 @@
             android:id="@+id/brick_show_variable_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_show_variable" >
         </TextView >
 
@@ -67,6 +68,7 @@
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_show_variable_position" >
         </TextView >
 
@@ -74,6 +76,7 @@
             android:id="@+id/brick_show_variable_x_textview"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/x_label" >
         </TextView >
 
@@ -82,6 +85,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" >
         </TextView >
 
@@ -89,6 +93,7 @@
             android:id="@+id/brick_show_variable_y_textview"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/y_label" >
         </TextView >
 
@@ -97,6 +102,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" >
         </TextView >
 

@@ -49,6 +49,7 @@
         <TextView
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_when" >
         </TextView >
 

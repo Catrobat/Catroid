@@ -50,6 +50,7 @@
             android:id="@+id/brick_set_volume_to_text_view"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_set_volume_to" >
         </TextView >
 
@@ -58,6 +59,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true"
             android:ems="5" >
         </TextView >
@@ -66,6 +68,7 @@
             android:id="@+id/brick_set_volume_to_percent"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/percent_symbol" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >

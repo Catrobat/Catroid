@@ -50,6 +50,7 @@
             android:id="@+id/wait_until_label"
             style="@style/BrickText.Multiple"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_wait_until" >
         </TextView >
 
@@ -58,12 +59,14 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" />
 
         <TextView
             android:id="@+id/wait_until_label_second_part"
             style="@style/BrickText.Multiple"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:paddingLeft="5dip"
             android:text="@string/brick_wait_until_second_part" >
         </TextView >

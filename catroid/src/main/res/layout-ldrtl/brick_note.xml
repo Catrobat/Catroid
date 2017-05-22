@@ -49,6 +49,7 @@
             android:id="@+id/brick_note_text_view"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_note" >
         </TextView >
 
@@ -61,6 +62,7 @@
             app:layout_textField="true"
             android:gravity="left"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:maxLines="3"
             android:minLines="1" />
     </org.catrobat.catroid.ui.BrickLayout >

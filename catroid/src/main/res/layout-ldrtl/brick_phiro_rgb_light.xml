@@ -50,6 +50,7 @@
         android:id="@+id/brick_phiro_rgb_led_action_label"
         style="@style/BrickText.SingleLine"
         android:scaleX="-1"
+        android:textDirection="rtl"
         android:text="@string/brick_phiro_rgb_led_action" >
     </TextView>
 
@@ -68,6 +69,7 @@
         android:id="@+id/brick_phiro_rgb_led_red_text_view"
         style="@style/BrickText"
         android:scaleX="-1"
+        android:textDirection="rtl"
         android:text="@string/phiro_rgb_led_red" >
     </TextView>
 
@@ -75,6 +77,7 @@
         android:id="@+id/brick_phiro_rgb_led_action_red_edit_text"
         style="@style/BrickEditText"
         android:scaleX="-1"
+        android:textDirection="rtl"
         app:layout_inputType="number"
         app:layout_textField="true" >
     </TextView>
@@ -83,6 +86,7 @@
         android:id="@+id/brick_phiro_rgb_led_green_text_view"
         style="@style/BrickText"
         android:scaleX="-1"
+        android:textDirection="rtl"
         android:text="@string/phiro_rgb_led_green" >
     </TextView>
 
@@ -91,6 +95,7 @@
         style="@style/BrickEditText"
         app:layout_inputType="number"
         android:scaleX="-1"
+        android:textDirection="rtl"
         app:layout_textField="true" >
     </TextView>
 
@@ -98,6 +103,7 @@
         android:id="@+id/brick_phiro_rgb_led_blue_text_view"
         style="@style/BrickText"
         android:scaleX="-1"
+        android:textDirection="rtl"
         android:text="@string/phiro_rgb_led_blue" >
     </TextView>
 
@@ -106,6 +112,7 @@
         style="@style/BrickEditText"
         app:layout_inputType="number"
         android:scaleX="-1"
+        android:textDirection="rtl"
         app:layout_textField="true" >
     </TextView>
 

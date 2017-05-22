@@ -49,6 +49,7 @@
             android:id="@+id/brick_if_end_if_label"
             style="@style/BrickText"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_if_end" />
     </org.catrobat.catroid.ui.BrickLayout >
 

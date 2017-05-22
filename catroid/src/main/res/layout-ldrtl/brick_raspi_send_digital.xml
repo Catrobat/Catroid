@@ -51,6 +51,7 @@
             android:id="@+id/brick_raspi_set_digital_pin_text_view"
             style="@style/BrickText.Multiple"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_raspi_select_digital_value" />
 
         <TextView
@@ -58,12 +59,14 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" />
 
         <TextView
             android:id="@+id/brick_raspi_set_digital_value_text_view"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_newLine="true"
             android:text="@string/brick_raspi_set_pin_value_to" />
 
@@ -72,6 +75,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" />
 
     </org.catrobat.catroid.ui.BrickLayout>

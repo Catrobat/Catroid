@@ -51,6 +51,7 @@
             android:id="@+id/brick_speak_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_speak" >
         </TextView >
 
@@ -59,6 +60,7 @@
             style="@style/BrickEditText"
             android:layout_width="match_parent"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_inputType="text"
             app:layout_textField="true"
             android:gravity="left" >

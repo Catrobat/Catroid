@@ -50,6 +50,7 @@
             android:id="@+id/if_label"
             style="@style/BrickText.Multiple"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_if_begin" />
 
         <TextView
@@ -57,6 +58,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" />
 
         <TextView
@@ -64,12 +66,14 @@
             style="@style/BrickText.Multiple"
             android:paddingLeft="5dip"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_if_begin_second_part" />
 
         <TextView
             android:id="@+id/if_else_prototype_punctuation"
             style="@style/BrickText.Multiple"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_newLine="true"
             android:paddingLeft="5dip"
             android:text="@string/punctuation_mark" />
@@ -78,6 +82,7 @@
              android:id="@+id/if_prototype_else"
              style="@style/BrickText.Multiple"
              android:scaleX="-1"
+             android:textDirection="rtl"
              android:paddingLeft="5dip"
              android:text="@string/brick_if_else" />
 
@@ -85,6 +90,7 @@
            android:id="@+id/if_else_prototype_punctuation2"
            style="@style/BrickText.Multiple"
            android:scaleX="-1"
+           android:textDirection="rtl"
            android:paddingLeft="5dip"
            android:text="@string/punctuation_mark" />
     </org.catrobat.catroid.ui.BrickLayout >

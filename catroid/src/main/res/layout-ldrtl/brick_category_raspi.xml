@@ -28,6 +28,7 @@
         style="@style/BrickCategoryText.Raspi_ldrtl"
         android:textAlignment="viewStart"
         android:layout_gravity="start"
+        android:textDirection="rtl"
         android:text="@string/category_raspi" >
     </TextView>
 

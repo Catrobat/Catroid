@@ -51,6 +51,7 @@
             android:id="@+id/brick_arduino_set_digital_pin_text_view"
             style="@style/BrickText.Multiple"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_arduino_select_digital_value" />
 
         <TextView
@@ -58,6 +59,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" />
 
         <TextView
@@ -65,6 +67,7 @@
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_arduino_set_pin_value_to" />
 
         <TextView
@@ -72,6 +75,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" />
 
     </org.catrobat.catroid.ui.BrickLayout>

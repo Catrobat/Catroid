@@ -49,6 +49,7 @@
             android:id="@+id/brick_hide_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_hide" />
     </org.catrobat.catroid.ui.BrickLayout >
 

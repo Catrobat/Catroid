@@ -51,6 +51,7 @@
             android:id="@+id/brick_when_background_text_view"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_when_background" />
 
         <Spinner

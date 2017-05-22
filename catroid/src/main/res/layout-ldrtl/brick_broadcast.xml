@@ -51,6 +51,7 @@
             android:id="@+id/brick_broadcast_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_broadcast" />
 
         <Spinner

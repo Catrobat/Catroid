@@ -60,6 +60,7 @@
                 <TextView
                     android:id="@+id/brick_ev3_motor_turn_label"
                     style="@style/BrickText.Multiple"
+                    android:textDirection="rtl"
                     android:text="@string/ev3_brick_motor_turn_angle" >
                 </TextView >
 
@@ -82,6 +83,7 @@
                 <TextView
                     android:id="@+id/brick_ev3_motor_turn_angle"
                     style="@style/BrickText.Multiple"
+                    android:textDirection="rtl"
                     android:text="@string/ev3_motor_move_by" >
                 </TextView >
 
@@ -92,6 +94,7 @@
                     android:layout_height="wrap_content"
                     app:layout_inputType="number"
                     app:layout_textField="true"
+                    android:textDirection="rtl"
                     android:clickable="false"
                     android:maxEms="5" >
                 </TextView >
@@ -99,6 +102,7 @@
                 <TextView
                     android:id="@+id/brick_ev3_motor_turn_degree"
                     style="@style/BrickText"
+                    android:textDirection="rtl"
                     android:text="@string/degree_symbol" >
                 </TextView >
             </LinearLayout>

@@ -48,6 +48,7 @@
             android:id="@+id/brick_set_gravity_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_set_gravity_to" >
         </TextView >
 
@@ -55,6 +56,7 @@
             android:id="@+id/brick_set_gravity_x_textview"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_newLine="true"
             android:text="@string/x_label" >
         </TextView >
@@ -64,6 +66,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" >
         </TextView >
 
@@ -71,6 +74,7 @@
             android:id="@+id/brick_set_gravity_y_textview"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/y_label" >
         </TextView >
 
@@ -79,12 +83,14 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" >
         </TextView >
         <TextView
             android:id="@+id/brick_set_gravity_unit"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_set_gravity_unit" >
         </TextView >
 

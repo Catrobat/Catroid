@@ -51,6 +51,7 @@
             android:id="@+id/brick_speak_and_wait_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_speak" >
         </TextView >
 
@@ -60,6 +61,7 @@
             android:layout_width="match_parent"
             app:layout_inputType="text"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true"
             android:gravity="left" >
         </TextView >
@@ -68,6 +70,7 @@
             android:id="@+id/brick_speak_and_wait"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_speak_and_wait" >
         </TextView >
 

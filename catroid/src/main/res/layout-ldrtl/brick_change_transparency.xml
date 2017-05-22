@@ -51,6 +51,7 @@
             android:id="@+id/brick_change_transparency_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_change_ghost_effect" >
         </TextView >
 
@@ -58,6 +59,7 @@
             android:id="@+id/brick_change_transparency_by"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_newLine="true"
             android:text="@string/by_label" >
         </TextView >
@@ -67,6 +69,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true"
             android:maxEms="10" >
         </TextView >

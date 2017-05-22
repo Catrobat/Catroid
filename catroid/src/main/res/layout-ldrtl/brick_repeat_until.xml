@@ -49,6 +49,7 @@
             android:id="@+id/brick_repeat_until_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_repeat_until" >
         </TextView >
 
@@ -57,6 +58,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" >
         </TextView >
 
@@ -65,6 +67,7 @@
             style="@style/BrickText.Multiple"
             android:paddingLeft="5dip"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_wait_until_second_part" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >

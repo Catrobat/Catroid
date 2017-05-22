@@ -52,6 +52,7 @@
         <TextView
             android:id="@+id/brick_add_item_to_userlist_label"
             android:scaleX="-1"
+            android:textDirection="rtl"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_add_item_to_userlist_add" />
 
@@ -60,12 +61,14 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true"/>
 
         <TextView
             android:id="@+id/brick_add_item_to_userlist_textview"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_add_item_to_userlist" />
 
          <Spinner

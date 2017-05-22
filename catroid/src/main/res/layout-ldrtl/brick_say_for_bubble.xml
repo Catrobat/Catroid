@@ -50,6 +50,7 @@
             android:id="@+id/brick_say_for_bubble_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_say_bubble" >
         </TextView >
 
@@ -58,6 +59,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="string"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" >
         </TextView >
 
@@ -65,6 +67,7 @@
             android:id="@+id/brick_say_for_bubble_for"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_newLine="true"
             android:text="@string/brick_think_say_for_text" >
         </TextView >
@@ -75,6 +78,7 @@
             android:layout_width="match_parent"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" >
         </TextView >
 
@@ -82,6 +86,7 @@
             android:id="@+id/brick_say_for_bubble_seconds_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/phiro_seconds" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >

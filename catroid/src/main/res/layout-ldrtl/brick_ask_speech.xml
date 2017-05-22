@@ -50,18 +50,21 @@
             android:id="@+id/brick_ask_speech_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_ask_speech_label" />
 
         <TextView
             android:id="@+id/brick_ask_speech_question_edit_text"
             style="@style/BrickEditText"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:layout_width="match_parent" />
 
        <TextView
            android:id="@+id/brick_ask_store_speech_label"
            style="@style/BrickText.SingleLine"
            android:scaleX="-1"
+           android:textDirection="rtl"
            android:text="@string/brick_ask_speech_store"
            app:layout_newLine="true" />
 

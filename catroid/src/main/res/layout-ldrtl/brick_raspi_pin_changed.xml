@@ -59,6 +59,7 @@
                     <TextView
                         android:id="@+id/raspi_when_label"
                         style="@style/BrickText.Multiple"
+                        android:textDirection="rtl"
                         android:text="@string/brick_raspi_when_begin"
                         android:layout_weight="1">
                     </TextView >
@@ -79,6 +80,7 @@
                         android:id="@+id/brick_raspi_when_label_second_part"
                         style="@style/BrickText.Multiple"
                         android:paddingLeft="5dip"
+                        android:textDirection="rtl"
                         android:text="@string/brick_raspi_when_equals" >
                     </TextView >
 

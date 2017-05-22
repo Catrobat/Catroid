@@ -55,6 +55,7 @@
             <TextView
                 android:id="@+id/ValueTextView"
                 style="@style/BrickText.SingleLine"
+                android:textDirection="rtl"
                 android:text="@string/nxt_motor_stop" >
             </TextView >
 

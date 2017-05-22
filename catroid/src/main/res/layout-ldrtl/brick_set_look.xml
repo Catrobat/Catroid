@@ -51,6 +51,7 @@
             android:id="@+id/brick_set_look_prototype_text_view"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_set_look" />
 
         <Spinner
@@ -65,6 +66,7 @@
             android:id="@+id/brick_set_look_and_wait"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_and_wait" />
     </org.catrobat.catroid.ui.BrickLayout >
 

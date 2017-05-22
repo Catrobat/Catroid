@@ -49,6 +49,7 @@
             android:id="@+id/brick_delete_clone_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_delete_this_clone" />
     </org.catrobat.catroid.ui.BrickLayout>
 

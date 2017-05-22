@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="3dp"
         android:paddingRight="5dp"
+        android:textDirection="rtl"
         android:paddingTop="0dp"
         android:textColor="@color/solid_white"
         android:textSize="16sp"
@@ -52,6 +53,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="0dp"
         android:text="@string/separator"
+        android:textDirection="rtl"
         android:textColor="@color/solid_white"
         android:textSize="20sp" >
     </TextView>

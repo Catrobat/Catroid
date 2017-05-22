@@ -51,6 +51,7 @@
             android:id="@+id/brick_change_brightness_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_change_brightness" >
         </TextView >
 
@@ -59,6 +60,7 @@
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/by_label" >
         </TextView >
 
@@ -68,6 +70,7 @@
             app:layout_inputType="number"
             app:layout_textField="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:maxEms="10" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >

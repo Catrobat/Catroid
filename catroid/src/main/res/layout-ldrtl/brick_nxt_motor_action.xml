@@ -60,6 +60,7 @@
                 <TextView
                     android:id="@+id/lego_motor_action_label"
                     style="@style/BrickText.Multiple"
+                    android:textDirection="rtl"
                     android:text="@string/nxt_brick_motor_move" >
                 </TextView >
 
@@ -84,6 +85,7 @@
                 <TextView
                     android:id="@+id/lego_motor_action_to_text"
                     style="@style/BrickText.Multiple"
+                    android:textDirection="rtl"
                     android:text="@string/nxt_motor_speed_to" >
                 </TextView >
 
@@ -92,12 +94,14 @@
                     style="@style/BrickEditText"
                     app:layout_inputType="number"
                     app:layout_textField="true"
+                    android:textDirection="rtl"
                     android:clickable="false" >
                 </TextView >
 
                 <TextView
                     android:id="@+id/lego_motor_action_percent"
                     style="@style/BrickText"
+                    android:textDirection="rtl"
                     android:text="@string/percent_symbol" >
                 </TextView >
 
@@ -105,6 +109,7 @@
                     android:id="@+id/lego_motor_action_speed_text"
                     style="@style/BrickText"
                     android:layout_marginLeft="3sp"
+                    android:textDirection="rtl"
                     android:text="@string/nxt_motor_speed" >
                 </TextView >
             </LinearLayout>

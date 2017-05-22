@@ -50,6 +50,7 @@
             android:id="@+id/brick_vibration_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_vibration" >
         </TextView>
 
@@ -58,12 +59,15 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+
+            android:textDirection="rtl"
             app:layout_textField="true" >
         </TextView>
 
         <TextView
             android:id="@+id/brick_vibration_second_label"
             android:scaleX="-1"
+            android:textDirection="rtl"
             style="@style/BrickText.Multiple" >
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>

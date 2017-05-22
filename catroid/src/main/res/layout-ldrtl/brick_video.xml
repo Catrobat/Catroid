@@ -51,6 +51,7 @@
             android:id="@+id/brick_video_prototype_text_view"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_video" />
 
         <Spinner

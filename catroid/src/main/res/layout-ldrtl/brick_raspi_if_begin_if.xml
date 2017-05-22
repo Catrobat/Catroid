@@ -50,6 +50,7 @@
             android:id="@+id/raspi_if_label"
             style="@style/BrickText.Multiple"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_raspi_if_begin" >
         </TextView >
 
@@ -58,6 +59,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" />
 
         <TextView
@@ -65,6 +67,7 @@
             style="@style/BrickText.Multiple"
             android:paddingLeft="5dip"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_raspi_if_begin_second_part" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >

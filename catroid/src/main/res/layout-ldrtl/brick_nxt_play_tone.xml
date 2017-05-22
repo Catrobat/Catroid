@@ -51,6 +51,7 @@
             android:id="@+id/brick_nxt_play_tone_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/nxt_play_tone" />
 
         <!--- Duration -->
@@ -59,6 +60,7 @@
             android:id="@+id/brick_nxt_play_tone_duration"
             style="@style/BrickText.Multiple"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_newLine="true"
             android:text="@string/nxt_tone_duration" />
 
@@ -68,12 +70,14 @@
             app:layout_inputType="number"
             app:layout_textField="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:clickable="false"/>
 
         <TextView
             android:id="@+id/brick_nxt_play_tone_seconds"
             style="@style/BrickText.Multiple"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/nxt_seconds" />
 
         <!--- Frequency -->
@@ -83,6 +87,7 @@
             style="@style/BrickText.Multiple"
             app:layout_newLine="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/nxt_tone_frequency" >
         </TextView >
 
@@ -92,12 +97,14 @@
             app:layout_inputType="number"
             app:layout_textField="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:clickable="false" />
 
         <TextView
             android:id="@+id/brick_nxt_play_tone_hundred_hz"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/nxt_tone_hundred_hz" />
     </org.catrobat.catroid.ui.BrickLayout >
 

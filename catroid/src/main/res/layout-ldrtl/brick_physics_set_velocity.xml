@@ -49,6 +49,7 @@
             android:id="@+id/brick_set_velocity_textview"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_set_velocity_to" >
         </TextView >
 
@@ -56,6 +57,7 @@
             android:id="@+id/brick_set_velocity_x_textview"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_newLine="true"
             android:text="@string/x_label" >
         </TextView >
@@ -65,6 +67,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" >
         </TextView >
 
@@ -72,6 +75,7 @@
             android:id="@+id/brick_set_velocity_y_textview"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/y_label" >
         </TextView >
 
@@ -79,6 +83,7 @@
             android:id="@+id/brick_set_velocity_edit_text_y"
             style="@style/BrickEditText"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_inputType="number"
             app:layout_textField="true" >
         </TextView >
@@ -86,6 +91,7 @@
             android:id="@+id/brick_set_velocity_unit"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_set_velocity_unit" >
         </TextView >
 

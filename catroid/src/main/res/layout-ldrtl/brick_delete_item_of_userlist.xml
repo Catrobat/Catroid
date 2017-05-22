@@ -50,6 +50,7 @@
             android:id="@+id/brick_delete_item_of_userlist_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_delete_item_from_userlist_delete" />
         
         <Spinner
@@ -64,12 +65,14 @@
             android:id="@+id/brick_delete_item_of_userlist_textview"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_delete_item_from_userlist" />
 
         <TextView
             android:id="@+id/brick_delete_item_of_userlist_edit_text"
             style="@style/BrickEditText"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_inputType="number"
             app:layout_textField="true" />
         

@@ -50,6 +50,7 @@
             android:id="@+id/brick_when_nfc_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:paddingTop="25dp"
             android:text="@string/brick_when_nfc" />
 

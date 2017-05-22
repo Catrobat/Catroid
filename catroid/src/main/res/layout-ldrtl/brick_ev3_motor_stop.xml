@@ -55,6 +55,7 @@
             <TextView
                 android:id="@+id/ev3_motor_stop_text_view"
                 style="@style/BrickText.SingleLine"
+                android:textDirection="rtl"
                 android:text="@string/ev3_motor_stop" >
             </TextView >
 

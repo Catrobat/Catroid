@@ -50,6 +50,7 @@
             style="@style/BrickText.SingleLine"
             android:paddingTop="25dp"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_broadcast_receive" />
 
         <Spinner

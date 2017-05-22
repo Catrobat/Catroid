@@ -28,6 +28,7 @@
         style="@style/BrickCategoryText.Sounds_ldrtl"
         android:textAlignment="viewStart"
         android:layout_gravity="start"
+        android:textDirection="rtl"
         android:text="@string/category_sound" >
     </TextView>
 

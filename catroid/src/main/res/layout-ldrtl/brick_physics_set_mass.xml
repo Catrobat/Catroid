@@ -49,6 +49,7 @@
             android:id="@+id/brick_set_mass_text_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_set_mass" >
 		</TextView >
 	
@@ -57,6 +58,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true"
             android:maxEms="5" >
         </TextView >

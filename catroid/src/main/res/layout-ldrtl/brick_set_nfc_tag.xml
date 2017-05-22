@@ -50,6 +50,7 @@
             android:id="@+id/brick_set_nfc_tag_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_set_nfc_tag" />
 
         <EditText
@@ -59,6 +60,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:maxLines="3"
             android:minLines="1"
             app:layout_inputType="text"
@@ -69,6 +71,7 @@
             style="@style/BrickText.SingleLine"
             android:text="@string/ndef_record_label"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_newLine="true" />
 
         <Spinner

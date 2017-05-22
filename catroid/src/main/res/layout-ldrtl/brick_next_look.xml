@@ -50,6 +50,7 @@
             android:id="@+id/brick_next_look_text_view"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_next_look" />
     </org.catrobat.catroid.ui.BrickLayout >
 

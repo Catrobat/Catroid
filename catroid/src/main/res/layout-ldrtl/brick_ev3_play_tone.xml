@@ -51,6 +51,7 @@
             android:id="@+id/brick_ev3_tone_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/ev3_play_tone" >
         </TextView >
 
@@ -59,6 +60,7 @@
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/ev3_tone_duration_for" >
         </TextView >
 
@@ -69,6 +71,7 @@
             android:layout_height="wrap_content"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true"
             android:clickable="false"
             android:maxEms="5" >
@@ -78,6 +81,7 @@
             android:id="@+id/brick_ev3_tone_seconds"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/nxt_seconds" >
         </TextView >
 
@@ -86,6 +90,7 @@
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/nxt_tone_frequency" >
         </TextView >
 
@@ -96,6 +101,7 @@
             android:layout_height="wrap_content"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true"
             android:clickable="false"
             android:maxEms="5" >
@@ -105,6 +111,7 @@
             android:id="@+id/brick_ev3_tone_hundred_hz"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/nxt_tone_hundred_hz" >
         </TextView >
 
@@ -113,6 +120,7 @@
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/ev3_tone_volume" >
         </TextView >
 
@@ -123,6 +131,7 @@
             android:layout_height="wrap_content"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true"
             android:clickable="false"
             android:maxEms="5" >
@@ -132,6 +141,7 @@
             android:id="@+id/brick_ev3_tone_percentage"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/ev3_tone_percent" >
         </TextView >
 

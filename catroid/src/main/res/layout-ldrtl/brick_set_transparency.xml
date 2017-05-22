@@ -51,6 +51,7 @@
             android:id="@+id/brick_set_transparency_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_set_transparency" >
         </TextView >
 
@@ -58,6 +59,7 @@
             android:id="@+id/brick_set_transparency_to"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_newLine="true"
             android:text="@string/to_label" >
         </TextView >
@@ -67,6 +69,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true"
             android:maxEms="10" >
         </TextView >
@@ -75,6 +78,7 @@
             android:id="@+id/brick_set_transparency_percent"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/percent_symbol" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >

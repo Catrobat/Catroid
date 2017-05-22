@@ -50,6 +50,7 @@
             android:id="@+id/brick_change_variable_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/brick_change_variable" />
 
         <Spinner
@@ -64,6 +65,7 @@
             android:id="@+id/brick_change_variable_by"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/by_label" />
 
         <TextView
@@ -71,6 +73,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             android:scaleX="-1"
+            android:textDirection="rtl"
             app:layout_textField="true" />
     </org.catrobat.catroid.ui.BrickLayout >
 

@@ -51,6 +51,7 @@
             android:id="@+id/brick_ev3_set_led_label"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:text="@string/ev3_set_led_status" >
         </TextView >
 

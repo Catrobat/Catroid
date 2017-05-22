@@ -50,6 +50,7 @@
            android:id="@+id/brick_phiro_sensor_label"
            style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
            android:text="@string/brick_phiro_sensor_begin" >
         </TextView >
 
@@ -68,6 +69,7 @@
             android:id="@+id/phiro_sensor_label_second_part"
             style="@style/BrickText.SingleLine"
             android:scaleX="-1"
+            android:textDirection="rtl"
             android:paddingLeft="5dip"
             android:text="@string/brick_phiro_sensor_second_part" >
         </TextView >
