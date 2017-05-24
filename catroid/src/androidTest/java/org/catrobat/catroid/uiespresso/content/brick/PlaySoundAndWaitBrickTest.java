@@ -92,14 +92,14 @@ public class PlaySoundAndWaitBrickTest {
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
-				"longsound.mp3", RESOURCE_SOUND, InstrumentationRegistry.getTargetContext(),
+				"longsound.mp3", RESOURCE_SOUND, InstrumentationRegistry.getContext(),
 				UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(soundName);
 
 		soundFile2 = UiTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
-				"testsoundui.mp3", RESOURCE_SOUND2, InstrumentationRegistry.getTargetContext(),
+				"testsoundui.mp3", RESOURCE_SOUND2, InstrumentationRegistry.getContext(),
 				UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo2 = new SoundInfo();
 		soundInfo2.setSoundFileName(soundFile2.getName());
