@@ -32,7 +32,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
-import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
@@ -40,7 +39,7 @@ import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGridToTrackConverter;
-import org.catrobat.catroid.pocketmusic.ui.TrackView;
+import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.utils.Utils;
 
@@ -53,6 +52,7 @@ public class PocketMusicActivity extends BaseActivity {
 	private static final String TAG = PocketMusicActivity.class.getSimpleName();
 
 	private Project project;
+	private TactScrollRecyclerView tactScroller;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,10 +80,10 @@ public class PocketMusicActivity extends BaseActivity {
 		setContentView(R.layout.activity_pocketmusic);
 		ViewGroup content = (ViewGroup) findViewById(android.R.id.content);
 
-		TrackView trackView = (TrackView) findViewById(R.id.musicdroid_note_grid);
-		trackView.setTrack(project.getTrack("Track 1"), project.getBeatsPerMinute());
+		tactScroller = (TactScrollRecyclerView) findViewById(R.id.tact_scroller);
+		tactScroller.setTrack(project.getTrack("Track 1"), project.getBeatsPerMinute());
 
-		new ScrollController(content, project.getBeatsPerMinute());
+		new ScrollController(content, tactScroller, project.getBeatsPerMinute());
 	}
 
 	public SoundInfo getSoundInfoForTrack(boolean fileExists) {
@@ -118,8 +118,7 @@ public class PocketMusicActivity extends BaseActivity {
 
 			boolean fileExists = project.getFileName() != null;
 
-			TrackView tv = (TrackView) findViewById(R.id.musicdroid_note_grid);
-			Track track = TrackGridToTrackConverter.convertTrackGridToTrack(tv.getTrackGrid(), Project.DEFAULT_BEATS_PER_MINUTE);
+			Track track = TrackGridToTrackConverter.convertTrackGridToTrack(tactScroller.getTrackGrid(), Project.DEFAULT_BEATS_PER_MINUTE);
 
 			if (track.isEmpty() && fileExists) {
 				new File(project.getFileName()).delete();
@@ -136,6 +135,7 @@ public class PocketMusicActivity extends BaseActivity {
 
 				File initialFile = new File(soundInfo.getAbsolutePath());
 				try {
+					initialFile.getParentFile().mkdirs();
 					projectToMidiConverter.writeProjectAsMidi(project, initialFile);
 				} catch (IOException | MidiException e) {
 					Log.e(TAG, "Couldn't save midi file (" + soundInfo.getSoundFileName() + ").", e);
@@ -154,12 +154,8 @@ public class PocketMusicActivity extends BaseActivity {
 	}
 
 	private Project createEmptyProject() {
-		int bpm = 60;
-
-		Project project = new Project("Untitled song", MusicalBeat.BEAT_4_4, bpm);
-
-		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.VIOLIN);
-
+		Project project = new Project("Untitled song", MusicalBeat.BEAT_4_4, Project.DEFAULT_BEATS_PER_MINUTE);
+		Track track = new Track(MusicalKey.VIOLIN, Project.DEFAULT_INSTRUMENT);
 		project.putTrack("Track 1", track);
 
 		return project;

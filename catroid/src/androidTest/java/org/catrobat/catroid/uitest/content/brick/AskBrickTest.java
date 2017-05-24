@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -99,7 +99,7 @@ public class AskBrickTest extends ActivityInstrumentationTestCase2<StageActivity
 
 		instrument.waitForIdleSync();
 		assertEquals("Last Answer was not stored as expected.", mockRecognizedWords.get(0),
-				dataContainer.getUserVariable("answer", sprite).getValue());
+				dataContainer.getUserVariable(sprite, "answer").getValue());
 
 		instrument.waitForIdleSync();
 		assertTrue("Stage didn't finish after AskAnswer returned.",
@@ -110,9 +110,9 @@ public class AskBrickTest extends ActivityInstrumentationTestCase2<StageActivity
 	public void testCancelAndResetAskAnswer() {
 
 		//Variable should be set to "" when user cancels
-		dataContainer.getUserVariable("answer", sprite).setValue("preset");
+		dataContainer.getUserVariable(sprite, "answer").setValue("preset");
 		assertEquals("Uservariable was not saved via set", "preset",
-				dataContainer.getUserVariable("answer", sprite).getValue());
+				dataContainer.getUserVariable(sprite, "answer").getValue());
 
 		ArrayList<String> mockRecognizedWords = new ArrayList<String>();
 		mockRecognizedWords.add("mock");
@@ -132,7 +132,7 @@ public class AskBrickTest extends ActivityInstrumentationTestCase2<StageActivity
 		instrument.waitForIdleSync();
 
 		assertEquals("Canceld speech recognition did not reset variabel.", "",
-				dataContainer.getUserVariable("answer", sprite).getValue());
+				dataContainer.getUserVariable(sprite, "answer").getValue());
 		assertTrue("Stage didn't finish after AskBrick returned.",
 				ProjectManager.getInstance().getCurrentSprite().look.getAllActionsAreFinished());
 	}
@@ -146,8 +146,8 @@ public class AskBrickTest extends ActivityInstrumentationTestCase2<StageActivity
 		sprite = new Sprite("cat");
 		Script startscript = new StartScript();
 		AskSpeechBrick askBrick = new AskSpeechBrick("Wanna test?");
-		askBrick.setUserVariable(dataContainer.getUserVariable("answer", sprite));
-		Log.d("AskSpeechBrickTest", "setVariable to " + dataContainer.getUserVariable("answer", sprite).getValue());
+		askBrick.setUserVariable(dataContainer.getUserVariable(sprite, "answer"));
+		Log.d("AskSpeechBrickTest", "setVariable to " + dataContainer.getUserVariable(sprite, "answer").getValue());
 		WaitBrick waitBrick = new WaitBrick(2000);
 
 		startscript.addBrick(askBrick);

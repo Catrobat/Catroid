@@ -89,7 +89,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			ActivityInstrumentationTestCase2<T> {
 		public Solo solo;
 
-		public ActivityInstrumentationTestBase(Class<T> clazz) {
+		ActivityInstrumentationTestBase(Class<T> clazz) {
 			super(clazz);
 		}
 

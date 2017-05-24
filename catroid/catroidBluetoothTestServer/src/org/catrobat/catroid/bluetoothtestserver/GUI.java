@@ -80,7 +80,7 @@ public class GUI extends javax.swing.JFrame {
 	}
 
 	/**
-	 *  Standard constructor
+	 * Standard constructor
 	 */
 	public GUI() {
 		super();

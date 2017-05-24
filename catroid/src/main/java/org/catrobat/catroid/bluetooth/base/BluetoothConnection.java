@@ -30,7 +30,7 @@ import java.io.OutputStream;
 
 public interface BluetoothConnection {
 
-	static enum State {
+	enum State {
 		CONNECTED, NOT_CONNECTED, ERROR_BLUETOOTH_NOT_SUPPORTED, ERROR_BLUETOOTH_NOT_ON,
 		ERROR_ADAPTER, ERROR_DEVICE, ERROR_SOCKET, ERROR_STILL_BONDING, ERROR_NOT_BONDED, ERROR_CLOSING
 	}

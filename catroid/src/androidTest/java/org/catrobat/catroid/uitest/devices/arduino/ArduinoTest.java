@@ -142,12 +142,12 @@ public class ArduinoTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 			switch (item[0]) {
 				case PIN_HIGH:
-					m = firmataUtils.getAnalogMesageData();
+					m = firmataUtils.getAnalogMessageData();
 					assertEquals("Wrong pin", item[1], m.getPin());
 					assertEquals("Wrong speed", percentToSpeed(item[2]), m.getData());
 					break;
 				case PIN_LOW:
-					m = firmataUtils.getAnalogMesageData();
+					m = firmataUtils.getAnalogMessageData();
 					assertEquals("Wrong pin", item[1], m.getPin());
 					assertEquals("Wrong speed", percentToSpeed(item[2]), m.getData());
 					break;
@@ -168,12 +168,12 @@ public class ArduinoTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		ArduinoSendPWMValueBrick arduinoArduinoSendPWMValueBrick1 = new ArduinoSendPWMValueBrick(
 				PWM_PIN, PIN_HIGH);
-		commands.add(new int[] { PIN_HIGH, PWM_PIN, PIN_HIGH });
+		commands.add(new int[] {PIN_HIGH, PWM_PIN, PIN_HIGH});
 		WaitBrick firstWaitBrick = new WaitBrick(100);
 
 		ArduinoSendPWMValueBrick arduinoArduinoSendPWMValueBrick2 = new ArduinoSendPWMValueBrick(
 				PWM_PIN, PIN_LOW);
-		commands.add(new int[] { PIN_LOW, PWM_PIN, PIN_LOW });
+		commands.add(new int[] {PIN_LOW, PWM_PIN, PIN_LOW});
 
 		whenScript.addBrick(arduinoArduinoSendPWMValueBrick1);
 		whenScript.addBrick(firstWaitBrick);

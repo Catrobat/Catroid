@@ -92,6 +92,6 @@ public class PhysicsShapeBuilderStrategyRectangle implements PhysicsShapeBuilder
 		PolygonShape polygonShape = new PolygonShape();
 		polygonShape.setAsBox(box2dWidth, box2dHeight, center, 0.0f);
 
-		return new Shape[] { polygonShape };
+		return new Shape[] {polygonShape};
 	}
 }

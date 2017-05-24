@@ -63,7 +63,20 @@ public interface Brick extends Serializable, Cloneable {
 
 		ARDUINO_ANALOG_PIN_VALUE, ARDUINO_ANALOG_PIN_NUMBER, ARDUINO_DIGITAL_PIN_VALUE, ARDUINO_DIGITAL_PIN_NUMBER,
 
-		RASPI_DIGITAL_PIN_VALUE, RASPI_DIGITAL_PIN_NUMBER, RASPI_PWM_PERCENTAGE, RASPI_PWM_FREQUENCY
+		RASPI_DIGITAL_PIN_VALUE, RASPI_DIGITAL_PIN_NUMBER, RASPI_PWM_PERCENTAGE, RASPI_PWM_FREQUENCY;
+
+		public static final BrickField[] EXPECTS_STRING_VALUE = {VARIABLE, NOTE, SPEAK, STRING, ASK_QUESTION,
+				NFC_NDEF_MESSAGE, ASK_SPEECH_QUESTION, LIST_ADD_ITEM, INSERT_ITEM_INTO_USERLIST_VALUE,
+				REPLACE_ITEM_IN_USERLIST_VALUE};
+
+		public static boolean isExpectingStringValue(BrickField field) {
+			for (BrickField bf : EXPECTS_STRING_VALUE) {
+				if (bf.equals(field)) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 	//use bitwise | for using multiple resources in a brick

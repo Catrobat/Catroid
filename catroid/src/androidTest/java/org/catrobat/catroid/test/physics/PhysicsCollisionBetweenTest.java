@@ -55,11 +55,11 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 	public void beginContactCallback(Contact contact) {
 		try {
 			super.beginContactCallback(contact);
-			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = (Map<Integer,
-					PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
-					physicsCollisionTestListener, "physicsCollisionBroadcasts");
+			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
+					(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
+							physicsCollisionTestListener, "physicsCollisionBroadcasts");
 			assertTrue("Map must contain one element", physicsCollisionBroadcasts.size() == 2);
-			Object[] parameters = { sprite, sprite2 };
+			Object[] parameters = {sprite, sprite2};
 			Reflection.ParameterList paramList = new Reflection.ParameterList(parameters);
 			String key = (String) Reflection.invokeMethod(PhysicsCollision.class, physicsCollisionTestListener,
 					"generateKey", paramList);
@@ -76,9 +76,9 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 	public void endContactCallback(Contact contact) {
 		try {
 			super.endContactCallback(contact);
-			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = (Map<Integer,
-					PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
-					physicsCollisionTestListener, "physicsCollisionBroadcasts");
+			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
+					(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
+							physicsCollisionTestListener, "physicsCollisionBroadcasts");
 			if (getContactDifference() == 0) {
 				assertTrue("Map must contain zero elements", physicsCollisionBroadcasts.size() == 0);
 			} else {

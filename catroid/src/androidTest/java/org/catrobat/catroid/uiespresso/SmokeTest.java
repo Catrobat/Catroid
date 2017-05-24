@@ -29,12 +29,14 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uiespresso.category.LevelSmoke;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -56,7 +58,6 @@ public class SmokeTest {
 	public BaseActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(MainMenuActivity.class);
 
-	@Before
 	public void registerIdlingResource() {
 		//class under test, in this case the mainMenuActivity has to implement getIdlingResource that returns
 		//the idlingResource instance it has. (in this case its a countingIdlingResource)
@@ -66,9 +67,12 @@ public class SmokeTest {
 
 	@Before
 	public void setUp() throws Exception {
+		baseActivityTestRule.launchActivity(null);
+		registerIdlingResource();
 	}
 
 	@Test
+	@Category(LevelSmoke.class)
 	public void newProject() {
 		onView(withId(R.id.main_menu_button_new))
 				.perform(click());
@@ -113,9 +117,9 @@ public class SmokeTest {
 
 	@After
 	public void tearDown() throws Exception {
+		unregisterResource();
 	}
 
-	@After
 	public void unregisterResource() {
 		Espresso.unregisterIdlingResources(idlingResource);
 	}

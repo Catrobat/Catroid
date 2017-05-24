@@ -62,7 +62,7 @@ public final class NXTError {
 				LOOKUP.put(c.errorCodeValue, c);
 			}
 		}
-		private ErrorCode(int errorCodeValue) {
+		ErrorCode(int errorCodeValue) {
 			this.errorCodeValue = errorCodeValue;
 		}
 

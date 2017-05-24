@@ -59,7 +59,7 @@ public class AddItemToUserListActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
 		userList = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserList(TEST_USERLIST_NAME, null);
+				.getUserList(null, TEST_USERLIST_NAME);
 		userList.setList(INITIALIZED_LIST_VALUES);
 		super.setUp();
 	}

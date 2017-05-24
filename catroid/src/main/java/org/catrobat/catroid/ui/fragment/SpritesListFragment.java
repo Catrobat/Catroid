@@ -59,7 +59,7 @@ import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;

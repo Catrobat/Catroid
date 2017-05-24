@@ -36,15 +36,20 @@ import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 
+import java.util.List;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
@@ -71,16 +76,68 @@ public final class BrickTestUtils {
 
 	public static void checkIfSpinnerOnBrickAtPositionShowsString(int spinnerResourceId, int position, int
 			stringResourceId) {
-		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
-				.check(matches(withSpinnerText(stringResourceId)));
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position,
+				UiTestUtils.getResourcesString(stringResourceId));
 	}
 
-	public static void clickAndSelectFromSpinnerOnBrickAtPosition(int spinnerResourceId, int position, int
-			stringResourceId) {
+	public static void checkIfSpinnerOnBrickAtPositionShowsString(int spinnerResourceId, int position, String
+			expectedString) {
+		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+				.onChildView(withText(expectedString))
+				.check(matches(isDisplayed()));
+	}
+
+	public static void clickSelectCheckSpinnerValueOnBrick(int spinnerResourceId, int position, int stringResourceId) {
+		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+				.perform(click());
+		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
+				.perform(click());
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, stringResourceId);
+	}
+
+	public static void checkIfValuesAvailableInSpinnerOnBrick(List<Integer> stringResourceIdValues,
+			int spinnerResourceId, int brickPosition) {
+		onScriptList().atPosition(brickPosition).onChildView(withId(spinnerResourceId))
+				.perform(click());
+
+		for (Integer stringResourceId : stringResourceIdValues) {
+			onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
+					.check(matches(isDisplayed()));
+		}
+		pressBack();
+	}
+
+	public static void createNewVariableOnSpinnerInitial(int spinnerResourceId, int position,
+			String variableName) {
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position,
+				R.string.brick_variable_spinner_create_new_variable);
+
+		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+				.onChildView(withText(R.string.brick_variable_spinner_create_new_variable))
+				.perform(click());
+
+		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, variableName);
+	}
+
+	public static void createNewVariableOnSpinner(int spinnerResourceId, int position, String variableName) {
 		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
 				.perform(click());
 
-		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
+		onView(withText(R.string.brick_variable_spinner_create_new_variable))
+				.perform(click());
+
+		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
+		// todo: CAT-2359 to fix this:
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, variableName);
+	}
+
+	public static void enterTextOnDialogue(int dialogueId, String textToEnter) {
+		onView(withId(dialogueId))
+				.check(matches(isDisplayed()));
+		onView(withId(dialogueId))
+				.perform(typeText(textToEnter));
+		onView(withId(android.R.id.button1))
 				.perform(click());
 	}
 
@@ -114,8 +171,38 @@ public final class BrickTestUtils {
 				.perform(CustomActions.typeInValue(valueToSet));
 		onView(withId(R.id.formula_editor_keyboard_ok))
 				.perform(click());
+
+		// When using double or float, but value is an integer, the textField will show it as an integer
+		// e.g 12.0 -> 12
 		onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
 				.check(matches(withText(valueToSet + " ")));
+	}
+
+	public static void createUserListFromDataFragment(String userListName, boolean forAllSprites) {
+		onView(withId(R.id.data_user_variables_headline))
+				.check(matches(isDisplayed()));
+		onView(withId(R.id.button_add))
+				.perform(click());
+
+		onView(withId(R.id.dialog_formula_editor_data_name_edit_text))
+				.perform(typeText(userListName), closeSoftKeyboard());
+
+		onView(withId(R.id.dialog_formula_editor_data_is_list_checkbox))
+				.perform(scrollTo(), click());
+
+		onView(withId(R.id.dialog_formula_editor_data_is_list_checkbox))
+				.check(matches(isChecked()));
+
+		if (forAllSprites) {
+			onView(withId(R.id.dialog_formula_editor_data_name_global_variable_radio_button))
+					.perform(click());
+		} else {
+			onView(withId(R.id.dialog_formula_editor_data_name_local_variable_radio_button))
+					.perform(click());
+		}
+		onView(withId(android.R.id.button1));
+		onView(withText(userListName))
+				.check(matches(isDisplayed()));
 	}
 
 	public static void enterStringInFormulaTextFieldOnBrickAtPosition(String stringToBeEntered,
@@ -134,17 +221,11 @@ public final class BrickTestUtils {
 				.check(matches(withText("'" + stringToBeEntered + "' ")));
 	}
 
-	public static void clickSelectCheckSpinnerValueOnBrick(int spinnerResourceId, int position, int stringResourceId) {
-		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
-				.perform(click());
-		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
-				.perform(click());
-		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, stringResourceId);
-	}
 	public static void checkBrickNotExists(int intResourceId) {
 
 		onView(withId(intResourceId)).check(doesNotExist());
 	}
+
 	public static void deleteBrickAtPosition(int position, int intBrickResouce) {
 		onScriptList().atPosition(position).onChildView(withText(intBrickResouce)).perform(click());
 		onView(withText(R.string.brick_context_dialog_delete_brick))

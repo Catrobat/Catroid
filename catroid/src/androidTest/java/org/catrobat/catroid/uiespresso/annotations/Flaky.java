@@ -20,27 +20,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.uiespresso.annotations;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.METHOD;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class BaseDataContainer implements Serializable {
-	protected static final long serialVersionUID = 1L;
-
-	@XStreamAlias("objectVariableList")
-	public Map<Sprite, List<UserVariable>> spriteVariables;
-
-	@XStreamAlias("userBrickVariableList")
-	Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
-
-	@XStreamAlias("objectListOfList")
-	public Map<Sprite, List<UserList>> spriteListOfLists;
+@Retention(RetentionPolicy.RUNTIME)
+@Target({METHOD, ANNOTATION_TYPE})
+public @interface Flaky {
+	int value() default 3;
 }
+

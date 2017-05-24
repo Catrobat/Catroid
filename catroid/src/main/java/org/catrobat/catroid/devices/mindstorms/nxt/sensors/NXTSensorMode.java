@@ -27,7 +27,7 @@ public enum NXTSensorMode {
 
 	private int sensorModeValue;
 
-	private NXTSensorMode(int sensorModeValue) {
+	NXTSensorMode(int sensorModeValue) {
 		this.sensorModeValue = sensorModeValue;
 	}
 

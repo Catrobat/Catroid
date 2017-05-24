@@ -64,12 +64,12 @@ public class BackpackScriptSerializerAndDeserializer implements JsonSerializer<S
 
 		try {
 			return context.deserialize(element, Class.forName(PACKAGE_NAME + type));
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException classNotFoundException) {
 			try {
 				return context.deserialize(element, Class.forName(PACKAGE_NAME_PHYSICS + type));
-			} catch (ClassNotFoundException e2) {
+			} catch (ClassNotFoundException physicsClassNotFoundException) {
 				Log.e(TAG, "Could not deserialize backpacked script element!");
-				throw new JsonParseException("Unknown element type: " + type, e2);
+				throw new JsonParseException("Unknown element type: " + type, physicsClassNotFoundException);
 			}
 		}
 	}

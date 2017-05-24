@@ -48,7 +48,7 @@ public class ProjectAndSceneScreenshotLoader {
 		public boolean isBackpackScene;
 		public ImageView imageView;
 
-		public ScreenshotData(String projectName, String sceneName, boolean isBackpackScene, ImageView imageView) {
+		ScreenshotData(String projectName, String sceneName, boolean isBackpackScene, ImageView imageView) {
 			this.projectName = projectName;
 			this.sceneName = sceneName;
 			this.isBackpackScene = isBackpackScene;
@@ -105,6 +105,12 @@ public class ProjectAndSceneScreenshotLoader {
 		}
 	}
 
+	public File getScreenshotFile(String projectName, String sceneName, boolean isBackpackScene) {
+		ScreenshotData screenshotData = new ScreenshotData(projectName, sceneName, isBackpackScene, null);
+		ScreenshotLoader screenshotLoader = new ScreenshotLoader(screenshotData);
+		return screenshotLoader.getScreenshotFile();
+	}
+
 	class ScreenshotLoader implements Runnable {
 		ScreenshotData projectAndSceneScreenshotData;
 
@@ -119,40 +125,9 @@ public class ProjectAndSceneScreenshotLoader {
 			}
 
 			Activity uiActivity = (Activity) projectAndSceneScreenshotData.imageView.getContext();
-			String pathOfScreenshot;
-			if (projectAndSceneScreenshotData.sceneName != null) {
-				if (projectAndSceneScreenshotData.isBackpackScene) {
-					pathOfScreenshot = Utils.buildPath(Utils.buildBackpackScenePath(projectAndSceneScreenshotData.sceneName),
-							StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-				} else {
-					pathOfScreenshot = Utils.buildPath(Utils.buildScenePath(projectAndSceneScreenshotData
-									.projectName, projectAndSceneScreenshotData.sceneName),
-							StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-				}
-			} else {
-				pathOfScreenshot = Utils.buildPath(Utils.buildProjectPath(projectAndSceneScreenshotData.projectName),
-						StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-			}
 
-			File projectAndSceneImageFile = new File(pathOfScreenshot);
-
-			if (!(projectAndSceneImageFile.exists() && projectAndSceneImageFile.length() > 0)) {
-				projectAndSceneImageFile.delete();
-				if (projectAndSceneScreenshotData.sceneName != null) {
-					if (projectAndSceneScreenshotData.isBackpackScene) {
-						pathOfScreenshot = Utils.buildPath(Utils.buildBackpackScenePath(projectAndSceneScreenshotData.sceneName),
-								StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-					} else {
-						pathOfScreenshot = Utils.buildPath(Utils.buildScenePath(projectAndSceneScreenshotData
-										.projectName, projectAndSceneScreenshotData.sceneName),
-								StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-					}
-				} else {
-					pathOfScreenshot = Utils.buildPath(Utils.buildProjectPath(projectAndSceneScreenshotData.projectName),
-							StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-				}
-				projectAndSceneImageFile = new File(pathOfScreenshot);
-			}
+			File projectAndSceneImageFile = getScreenshotFile();
+			String pathOfScreenshot = projectAndSceneImageFile.getAbsolutePath();
 
 			final Bitmap projectAndSceneImage;
 			if (!projectAndSceneImageFile.exists() || ImageEditing.getImageDimensions(pathOfScreenshot)[0] < 0) {
@@ -192,6 +167,36 @@ public class ProjectAndSceneScreenshotLoader {
 				}
 			});
 		}
+
+		File getScreenshotFile() {
+			String pathOfManualScreenshot;
+			String pathOfAutomaticScreenshot;
+			if (projectAndSceneScreenshotData.sceneName != null) {
+				if (projectAndSceneScreenshotData.isBackpackScene) {
+					String backpackScenePath = Utils.buildBackpackScenePath(projectAndSceneScreenshotData.sceneName);
+					pathOfManualScreenshot = Utils.buildPath(backpackScenePath,
+							StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+					pathOfAutomaticScreenshot = Utils.buildPath(backpackScenePath,
+							StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+				} else {
+					String scenePath = Utils.buildScenePath(projectAndSceneScreenshotData.projectName,
+							projectAndSceneScreenshotData.sceneName);
+					pathOfManualScreenshot = Utils.buildPath(scenePath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+					pathOfAutomaticScreenshot = Utils.buildPath(scenePath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+				}
+			} else {
+				String projectPath = Utils.buildProjectPath(projectAndSceneScreenshotData.projectName);
+				pathOfManualScreenshot = Utils.buildPath(projectPath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+				pathOfAutomaticScreenshot = Utils.buildPath(projectPath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+			}
+
+			File projectAndSceneImageFile = new File(pathOfManualScreenshot);
+			if (!(projectAndSceneImageFile.exists() && projectAndSceneImageFile.length() > 0)) {
+				projectAndSceneImageFile.delete();
+				projectAndSceneImageFile = new File(pathOfAutomaticScreenshot);
+			}
+			return projectAndSceneImageFile;
+		}
 	}
 
 	boolean imageViewReused(ScreenshotData projectScreenshotData) {
@@ -203,10 +208,6 @@ public class ProjectAndSceneScreenshotLoader {
 		if (projectScreenshotData.sceneName != null) {
 			screenshotName = screenshotName.concat(projectScreenshotData.sceneName);
 		}
-
-		if (tag == null || !tag.equals(screenshotName)) {
-			return true;
-		}
-		return false;
+		return (tag == null || !tag.equals(screenshotName));
 	}
 }

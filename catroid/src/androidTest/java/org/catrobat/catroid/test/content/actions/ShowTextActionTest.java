@@ -30,9 +30,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 public class ShowTextActionTest extends AndroidTestCase {
 
@@ -65,10 +65,8 @@ public class ShowTextActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 		secondSpriteAction.act(1.0f);
 
-		UserVariable variableOfFirstSprite = dataContainer.findUserVariable(USER_VARIABLE.getName(), dataContainer
-				.getVariableListForSprite(sprite));
-		UserVariable variableOfSecondSprite = dataContainer.findUserVariable(USER_VARIABLE.getName(), dataContainer
-				.getVariableListForSprite(secondSprite));
+		UserVariable variableOfFirstSprite = dataContainer.findSpriteUserVariable(sprite, USER_VARIABLE.getName());
+		UserVariable variableOfSecondSprite = dataContainer.findSpriteUserVariable(secondSprite, USER_VARIABLE.getName());
 		assertTrue("UserVariable not set visible", variableOfFirstSprite.getVisible());
 		assertTrue("UserVariable not set visible", variableOfSecondSprite.getVisible());
 	}

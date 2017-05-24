@@ -90,10 +90,7 @@ public class LookData implements Serializable, Cloneable {
 		}
 
 		LookData lookData = (LookData) obj;
-		if (lookData.fileName.equals(this.fileName) && lookData.name.equals(this.name)) {
-			return true;
-		}
-		return false;
+		return (lookData.fileName.equals(this.fileName) && lookData.name.equals(this.name));
 	}
 
 	@Override
@@ -103,16 +100,21 @@ public class LookData implements Serializable, Cloneable {
 
 	@Override
 	public LookData clone() {
+		return clone(true);
+	}
+
+	public LookData clone(boolean incrementUsage) {
 		LookData cloneLookData = new LookData(this.name, this.fileName);
 
 		String filePath = getPathToImageDirectory() + "/" + fileName;
 		cloneLookData.isBackpackLookData = false;
-		try {
-			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
-		} catch (FileNotFoundException fileNotFoundexception) {
-			Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
+		if (incrementUsage) {
+			try {
+				ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
+			} catch (FileNotFoundException fileNotFoundexception) {
+				Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
+			}
 		}
-
 		return cloneLookData;
 	}
 
@@ -239,7 +241,7 @@ public class LookData implements Serializable, Cloneable {
 		width = options.outWidth;
 		height = options.outHeight;
 
-		return new int[] { width, height };
+		return new int[] {width, height};
 	}
 
 	@Override

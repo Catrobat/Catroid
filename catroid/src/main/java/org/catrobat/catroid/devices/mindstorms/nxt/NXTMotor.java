@@ -139,7 +139,7 @@ public class NXTMotor implements MindstormsMotor {
 
 		private int motorRegulationValue;
 
-		private MotorRegulation(int motorRegulationValue) {
+		MotorRegulation(int motorRegulationValue) {
 			this.motorRegulationValue = motorRegulationValue;
 		}
 
@@ -153,7 +153,7 @@ public class NXTMotor implements MindstormsMotor {
 
 		private int motorRunStateValue;
 
-		private MotorRunState(int motorRunStateValue) {
+		MotorRunState(int motorRunStateValue) {
 			this.motorRunStateValue = motorRunStateValue;
 		}
 

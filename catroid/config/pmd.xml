@@ -23,10 +23,19 @@
   -->
 
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    name="Catroid PMD unnecessary ruleset"
-    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
-    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd" >
-    <description >PMD Java Controversial Ruleset for Catroid/PocketCode</description >
+         name="Catroid PMD ruleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd" >
+    <description >PMD Ruleset for Catroid</description >
+
+    <rule ref="rulesets/java/android.xml" />
+
+    <rule ref="rulesets/java/basic.xml" >
+        <exclude name="UselessParentheses" />
+    </rule >
+
+    <rule ref="rulesets/java/braces.xml" />
+
     <rule ref="rulesets/java/controversial.xml" >
         <exclude name="AssignmentInOperand" />
         <exclude name="AtLeastOneConstructor" />
@@ -51,4 +60,24 @@
             <exclude-pattern>.*CatroidApplication.java</exclude-pattern>
         </exclude>
     </rule >
+
+    <rule ref="rulesets/java/empty.xml" >
+        <exclude name="EmptyCatchBlock" />
+    </rule >
+
+    <rule ref="rulesets/java/logging-java.xml" >
+        <exclude name="GuardLogStatementJavaUtil" />
+    </rule>
+
+    <rule ref="rulesets/java/strings.xml" >
+        <exclude name="AvoidDuplicateLiterals" />
+    </rule >
+
+    <rule ref="rulesets/java/sunsecure.xml" />
+
+    <rule ref="rulesets/java/unnecessary.xml" >
+        <exclude name="UselessParentheses" />
+    </rule >
+
+    <rule ref="rulesets/java/unusedcode.xml" />
 </ruleset >

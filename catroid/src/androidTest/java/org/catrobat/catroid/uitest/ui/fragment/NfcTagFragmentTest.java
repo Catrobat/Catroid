@@ -614,7 +614,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
+		int[] checkboxIndicesToCheck = {solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2};
 		int expectedNumberOfTags = currentNumberOfTags - checkboxIndicesToCheck.length;
 
 		solo.scrollDown();

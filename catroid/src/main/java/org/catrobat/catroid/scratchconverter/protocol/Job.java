@@ -125,7 +125,7 @@ public class Job {
 				: data.getString(JsonJobDataKeys.IMAGE_URL.toString());
 		WebImage image = null;
 		if (imageURL != null) {
-			final int[] imageSize = new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
+			final int[] imageSize = new int[] {Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT};
 			image = new WebImage(Uri.parse(imageURL), imageSize[0], imageSize[1]);
 		}
 		final short progress = (short) data.getInt(JsonJobDataKeys.PROGRESS.toString());

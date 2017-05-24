@@ -42,7 +42,7 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 	private transient Motor motorEnum;
 	private String motor;
 
-	public static enum Motor {
+	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C, ALL_MOTORS
 	}
 

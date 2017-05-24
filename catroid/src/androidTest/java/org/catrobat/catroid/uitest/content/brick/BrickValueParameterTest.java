@@ -281,7 +281,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		TextView setColorTextView = (TextView) solo.getView(R.id.brick_set_color_edit_text);
 		float setColorPrototypeValue = Float.parseFloat(setColorTextView.getText().toString());
 		assertEquals("Value in Brick SetColor is not correct", BrickValues.SET_COLOR_TO,
-					setColorPrototypeValue);
+				setColorPrototypeValue);
 
 		if (!solo.searchText(solo.getString(R.string.brick_change_color))) {
 			solo.scrollDownList(fragmentListView);
@@ -290,7 +290,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		TextView changeColorTextView = (TextView) solo.getView(R.id.brick_change_color_by_edit_text);
 		float changeColorPrototypeValue = Float.parseFloat(changeColorTextView.getText().toString());
 		assertEquals("Value in Brick ChangeColor is not correct", BrickValues.CHANGE_COLOR_BY,
-					changeColorPrototypeValue);
+				changeColorPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.brick_change_color));
 		solo.sleep(500);
@@ -299,10 +299,10 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 		TextView changeColorEditText = (TextView) solo.getView(R.id.brick_change_color_by_edit_text);
 		float changeColorEditTextValue = Float.parseFloat(changeColorEditText.getText().toString()
-					.replace(',', '.'));
+				.replace(',', '.'));
 
 		assertEquals("Value in Selected Brick ChangeBrightness is not correct",
-					(float) BrickValues.CHANGE_COLOR_BY, changeColorEditTextValue);
+				(float) BrickValues.CHANGE_COLOR_BY, changeColorEditTextValue);
 	}
 
 	public void testSoundBricksDefaultValues() {

@@ -30,7 +30,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
@@ -507,8 +506,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createClearBackgroundAction() {
-		ClearBackgroundAction action = Actions.action(ClearBackgroundAction.class);
-		return action;
+		return Actions.action(ClearBackgroundAction.class);
 	}
 
 	public Action createStampAction(Sprite sprite) {
@@ -718,35 +716,19 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createThinkBubbleAction(Sprite sprite, Formula text) {
+	public Action createThinkSayBubbleAction(Sprite sprite, Formula text, int type) {
 		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
 		action.setText(text);
 		action.setSprite(sprite);
-		action.setType(Constants.THINK_BRICK);
+		action.setType(type);
 		return action;
 	}
 
-	public Action createSayBubbleAction(Sprite sprite, Formula text) {
+	public Action createThinkSayForBubbleAction(Sprite sprite, Formula text, int type) {
 		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
 		action.setText(text);
 		action.setSprite(sprite);
-		action.setType(Constants.SAY_BRICK);
-		return action;
-	}
-
-	public Action createThinkForBubbleAction(Sprite sprite, Formula text) {
-		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
-		action.setText(text);
-		action.setSprite(sprite);
-		action.setType(Constants.THINK_BRICK);
-		return action;
-	}
-
-	public Action createSayForBubbleAction(Sprite sprite, Formula text) {
-		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
-		action.setText(text);
-		action.setSprite(sprite);
-		action.setType(Constants.SAY_BRICK);
+		action.setType(type);
 		return action;
 	}
 

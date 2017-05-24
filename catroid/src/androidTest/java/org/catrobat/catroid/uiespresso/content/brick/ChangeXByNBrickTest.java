@@ -40,7 +40,6 @@ import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enter
 @RunWith(AndroidJUnit4.class)
 public class ChangeXByNBrickTest {
 	private int brickPosition;
-	private static final int X_TO_CHANGE = 17;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -55,8 +54,10 @@ public class ChangeXByNBrickTest {
 
 	@Test
 	public void testChangeXByNBrick() {
+		int xChangeValue = 17;
+
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_change_x_by);
-		enterValueInFormulaTextFieldOnBrickAtPosition(X_TO_CHANGE, R.id.brick_change_x_edit_text, brickPosition);
+		enterValueInFormulaTextFieldOnBrickAtPosition(xChangeValue, R.id.brick_change_x_edit_text, brickPosition);
 	}
 }
