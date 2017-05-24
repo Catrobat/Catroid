@@ -221,17 +221,11 @@ public final class BrickTestUtils {
 				.check(matches(withText("'" + stringToBeEntered + "' ")));
 	}
 
-	public static void clickSelectCheckSpinnerValueOnBrick(int spinnerResourceId, int position, int stringResourceId) {
-		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
-				.perform(click());
-		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
-				.perform(click());
-		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, stringResourceId);
-	}
 	public static void checkBrickNotExists(int intResourceId) {
 
 		onView(withId(intResourceId)).check(doesNotExist());
 	}
+
 	public static void deleteBrickAtPosition(int position, int intBrickResouce) {
 		onScriptList().atPosition(position).onChildView(withText(intBrickResouce)).perform(click());
 		onView(withText(R.string.brick_context_dialog_delete_brick))

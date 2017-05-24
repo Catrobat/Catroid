@@ -34,8 +34,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfValuesAvailableInSpinnerOnBrick;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
@@ -59,23 +62,16 @@ public class PhiroPlayToneBrickTest {
 
 	@Test
 	public void testPhiroPlayToneBrick() {
-
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.phiro_tone_do,
+				R.string.phiro_tone_re,
+				R.string.phiro_tone_mi,
+				R.string.phiro_tone_fa,
+				R.string.phiro_tone_so,
+				R.string.phiro_tone_la);
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.phiro_play_tone);
-
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_select_tone_spinner, brickPosition,
-				R.string.phiro_tone_do);
-
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_select_tone_spinner, brickPosition,
-				R.string.phiro_tone_re);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_select_tone_spinner, brickPosition,
-				R.string.phiro_tone_mi);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_select_tone_spinner, brickPosition,
-				R.string.phiro_tone_fa);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_select_tone_spinner, brickPosition,
-				R.string.phiro_tone_so);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_select_tone_spinner, brickPosition,
-				R.string.phiro_tone_la);
+		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.brick_phiro_select_tone_spinner, brickPosition);
 		enterValueInFormulaTextFieldOnBrickAtPosition(TONE_DURATION, R.id.brick_phiro_play_tone_duration_edit_text,
 				brickPosition);
 	}

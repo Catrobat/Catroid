@@ -34,8 +34,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfValuesAvailableInSpinnerOnBrick;
 
 @RunWith(AndroidJUnit4.class)
 public class PhiroStopMotorBrickTest {
@@ -56,14 +59,12 @@ public class PhiroStopMotorBrickTest {
 
 	@Test
 	public void testPhiroStopMotorBrick() {
-
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.phiro_motor_right,
+				R.string.phiro_motor_left,
+				R.string.phiro_motor_both);
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.phiro_motor_stop);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_stop_motor_spinner, brickPosition,
-				R.string.phiro_motor_both);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_stop_motor_spinner, brickPosition,
-				R.string.phiro_motor_left);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_stop_motor_spinner, brickPosition,
-				R.string.phiro_motor_right);
+		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.brick_phiro_stop_motor_spinner, brickPosition);
 	}
 }
