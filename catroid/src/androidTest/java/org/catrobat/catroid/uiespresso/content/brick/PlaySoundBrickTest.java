@@ -32,8 +32,10 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.junit.After;
@@ -60,9 +62,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.onScriptList;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.onScriptList;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -91,16 +92,18 @@ public class PlaySoundBrickTest {
 		BrickTestUtils.createProjectAndGetStartScript(projectName).addBrick(new PlaySoundBrick());
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
-		soundFile = UiTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
+		soundFile = FileTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene()
+				.getName(),
 				"longsound.mp3", RESOURCE_SOUND, InstrumentationRegistry.getTargetContext(),
-				UiTestUtils.FileTypes.SOUND);
+				FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(soundName);
 
-		soundFile2 = UiTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
+		soundFile2 = FileTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene()
+				.getName(),
 				"testsoundui.mp3", RESOURCE_SOUND2, InstrumentationRegistry.getTargetContext(),
-				UiTestUtils.FileTypes.SOUND);
+				FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo2 = new SoundInfo();
 		soundInfo2.setSoundFileName(soundFile2.getName());
 		soundInfo2.setTitle(soundName2);
@@ -140,14 +143,14 @@ public class PlaySoundBrickTest {
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName);
+		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName);
 		pressBack();
 
 		deleteSoundByName(soundName);
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName2);
+		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName2);
 	}
 
 	@Test
@@ -156,14 +159,14 @@ public class PlaySoundBrickTest {
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName);
+		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName);
 
 		onScriptList().atPosition(brickPosition).onChildView(withId(R.id.playsound_spinner))
 				.perform(click());
 
 		recordNewSound(3000);
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition,
+		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition,
 				R.string.soundrecorder_recorded_filename);
 	}
 
@@ -174,13 +177,13 @@ public class PlaySoundBrickTest {
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName);
+		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName);
 
 		pressBack();
 		renameSound(soundName, newName);
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, newName);
+		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, newName);
 	}
 
 	private void deleteSoundByName(String soundName) {

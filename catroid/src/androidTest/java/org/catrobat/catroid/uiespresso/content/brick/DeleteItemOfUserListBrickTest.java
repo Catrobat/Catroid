@@ -30,6 +30,8 @@ import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
+import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,12 +46,11 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.createNewVariableOnSpinner;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.createNewVariableOnSpinnerInitial;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.onScriptList;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.onScriptList;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.createNewVariableOnSpinner;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.createNewVariableOnSpinnerInitial;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -80,7 +81,7 @@ public class DeleteItemOfUserListBrickTest {
 
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_delete_item_from_userlist);
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.delete_item_of_userlist_spinner, brickPosition,
+		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.delete_item_of_userlist_spinner, brickPosition,
 				R.string.brick_variable_spinner_create_new_variable);
 
 		enterValueInFormulaTextFieldOnBrickAtPosition(newPosition, R.id.brick_delete_item_of_userlist_edit_text,
