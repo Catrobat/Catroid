@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -36,12 +37,14 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterTextOnDialogue;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.onScriptList;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.onScriptList;
 
 @RunWith(AndroidJUnit4.class)
 public class SceneTransmitionBrickTest {
@@ -69,6 +72,15 @@ public class SceneTransmitionBrickTest {
 				.perform(click());
 		onView(withText(R.string.brick_variable_spinner_create_new_variable))
 				.perform(click());
-		enterTextOnDialogue(R.id.scene_name_edittext, newScene);
+		enterTextOnNewSceneDialogue(R.id.scene_name_edittext, newScene);
+	}
+
+	public static void enterTextOnNewSceneDialogue(int dialogueId, String textToEnter) {
+		onView(withId(dialogueId))
+				.check(matches(isDisplayed()));
+		onView(withId(dialogueId))
+				.perform(typeText(textToEnter));
+		onView(withId(android.R.id.button1))
+				.perform(click());
 	}
 }

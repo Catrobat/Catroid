@@ -24,9 +24,9 @@
 package org.catrobat.catroid.uiespresso.category;
 
 import org.catrobat.catroid.uiespresso.SmokeTest;
+import org.catrobat.catroid.uiespresso.annotations.FlakyTestTest;
 import org.catrobat.catroid.uiespresso.content.brick.ArduinoSendDigitalValueBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.ArduinoSendPWMValueBrickTest;
-import org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.content.brick.BrickValueParameterTest;
 import org.catrobat.catroid.uiespresso.content.brick.ChangeBrightnessByNBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.ChangeColorByNBrickTest;
@@ -37,7 +37,6 @@ import org.catrobat.catroid.uiespresso.content.brick.ChangeYByNBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.ClearGraphicEffectBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.ComeToFrontBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.DeleteItemOfUserListBrickTest;
-import org.catrobat.catroid.uiespresso.content.brick.FlakyTestTest;
 import org.catrobat.catroid.uiespresso.content.brick.FlashBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.ForeverBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.GlideToBrickTest;
@@ -76,6 +75,7 @@ import org.catrobat.catroid.uiespresso.content.brick.TurnRightBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.VariableBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.VibrationBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.WaitBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorKeyboardTest;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest;
 import org.catrobat.catroid.uiespresso.pocketmusic.PocketMusicActivityTest;

@@ -58,17 +58,12 @@ public class SmokeTest {
 	public BaseActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(MainMenuActivity.class);
 
-	public void registerIdlingResource() {
-		//class under test, in this case the mainMenuActivity has to implement getIdlingResource that returns
-		//the idlingResource instance it has. (in this case its a countingIdlingResource)
-		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
-		Espresso.registerIdlingResources(idlingResource);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		baseActivityTestRule.launchActivity(null);
-		registerIdlingResource();
+
+		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
+		Espresso.registerIdlingResources(idlingResource);
 	}
 
 	@Test
@@ -117,10 +112,6 @@ public class SmokeTest {
 
 	@After
 	public void tearDown() throws Exception {
-		unregisterResource();
-	}
-
-	public void unregisterResource() {
 		Espresso.unregisterIdlingResources(idlingResource);
 	}
 }
