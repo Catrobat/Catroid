@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -42,19 +41,19 @@
     </string-array>
 
     <!-- Mindroid motors spinner -->
-    <string-array name="nxt_motor_chooser" >
-        <item >@string/nxt_motor_a</item >
-        <item >@string/nxt_motor_b</item >
-        <item >@string/nxt_motor_c</item >
-        <item >@string/nxt_motor_b_and_c</item >
-    </string-array >
-    <string-array name="nxt_stop_motor_chooser" >
-        <item >@string/nxt_motor_a</item >
-        <item >@string/nxt_motor_b</item >
-        <item >@string/nxt_motor_c</item >
-        <item >@string/nxt_motor_b_and_c</item >
-        <item >@string/nxt_motor_all</item >
-    </string-array >
+    <string-array name="nxt_motor_chooser">
+        <item>@string/nxt_motor_a</item>
+        <item>@string/nxt_motor_b</item>
+        <item>@string/nxt_motor_c</item>
+        <item>@string/nxt_motor_b_and_c</item>
+    </string-array>
+    <string-array name="nxt_stop_motor_chooser">
+        <item>@string/nxt_motor_a</item>
+        <item>@string/nxt_motor_b</item>
+        <item>@string/nxt_motor_c</item>
+        <item>@string/nxt_motor_b_and_c</item>
+        <item>@string/nxt_motor_all</item>
+    </string-array>
     <string-array name="nxt_sensor_chooser">
         <item>@string/nxt_no_sensor</item>
         <item>@string/nxt_sensor_touch</item>
@@ -78,81 +77,81 @@
         <item>@string/ev3_sensor_color_reflected</item>
         <item>@string/ev3_sensor_infrared</item>
     </string-array>
-    <string-array name="ev3_motor_chooser" >
-        <item >@string/ev3_motor_a</item >
-        <item >@string/ev3_motor_b</item >
-        <item >@string/ev3_motor_c</item >
-        <item >@string/ev3_motor_d</item >
-        <item >@string/ev3_motor_b_and_c</item >
-    </string-array >
-    <string-array name="ev3_stop_motor_chooser" >
-        <item >@string/ev3_motor_a</item >
-        <item >@string/ev3_motor_b</item >
-        <item >@string/ev3_motor_c</item >
-        <item >@string/ev3_motor_d</item >
-        <item >@string/ev3_motor_b_and_c</item >
-        <item >@string/ev3_motor_all</item >
-    </string-array >
-    <string-array name="ev3_led_status_chooser" >
-        <item >@string/ev3_led_status_off</item>
-        <item >@string/ev3_led_status_green</item>
-        <item >@string/ev3_led_status_red</item>
-        <item >@string/ev3_led_status_orange</item>
-        <item >@string/ev3_led_status_green_flashing</item>
-        <item >@string/ev3_led_status_red_flashing</item>
-        <item >@string/ev3_led_status_orange_flashing</item>
-        <item >@string/ev3_led_status_green_pulse</item>
-        <item >@string/ev3_led_status_red_pulse</item>
-        <item >@string/ev3_led_status_orange_pulse</item>
+    <string-array name="ev3_motor_chooser">
+        <item>@string/ev3_motor_a</item>
+        <item>@string/ev3_motor_b</item>
+        <item>@string/ev3_motor_c</item>
+        <item>@string/ev3_motor_d</item>
+        <item>@string/ev3_motor_b_and_c</item>
+    </string-array>
+    <string-array name="ev3_stop_motor_chooser">
+        <item>@string/ev3_motor_a</item>
+        <item>@string/ev3_motor_b</item>
+        <item>@string/ev3_motor_c</item>
+        <item>@string/ev3_motor_d</item>
+        <item>@string/ev3_motor_b_and_c</item>
+        <item>@string/ev3_motor_all</item>
+    </string-array>
+    <string-array name="ev3_led_status_chooser">
+        <item>@string/ev3_led_status_off</item>
+        <item>@string/ev3_led_status_green</item>
+        <item>@string/ev3_led_status_red</item>
+        <item>@string/ev3_led_status_orange</item>
+        <item>@string/ev3_led_status_green_flashing</item>
+        <item>@string/ev3_led_status_red_flashing</item>
+        <item>@string/ev3_led_status_orange_flashing</item>
+        <item>@string/ev3_led_status_green_pulse</item>
+        <item>@string/ev3_led_status_red_pulse</item>
+        <item>@string/ev3_led_status_orange_pulse</item>
     </string-array>
 
     <!-- Drone settings spinner-->
-    <string-array name="drone_setting_default_config" >
-        <item >@string/drone_config_indoor_with_hull</item >
-        <item >@string/drone_config_indoor_without_hull</item >
-        <item >@string/drone_config_outdoor_with_hull</item >
-        <item >@string/drone_config_outdoor_without_hull</item >
-    </string-array >
+    <string-array name="drone_setting_default_config">
+        <item>@string/drone_config_indoor_with_hull</item>
+        <item>@string/drone_config_indoor_without_hull</item>
+        <item>@string/drone_config_outdoor_with_hull</item>
+        <item>@string/drone_config_outdoor_without_hull</item>
+    </string-array>
 
     <!-- Drone altitude preferences spinner-->
-    <string-array name="drone_altitude_spinner_items" >
-        <item >@string/drone_set_altitude_max_3m</item >
-        <item >@string/drone_set_altitude_max_5m</item >
-        <item >@string/drone_set_altitude_max_10m</item >
-        <item >@string/drone_set_altitude_max_100m</item >
-    </string-array >
+    <string-array name="drone_altitude_spinner_items">
+        <item>@string/drone_set_altitude_max_3m</item>
+        <item>@string/drone_set_altitude_max_5m</item>
+        <item>@string/drone_set_altitude_max_10m</item>
+        <item>@string/drone_set_altitude_max_100m</item>
+    </string-array>
 
     <!-- Drone tilt preferences spinner-->
-    <string-array name="drone_max_vertical_speed_items" >
-        <item >@string/drone_set_vertical_min</item >
-        <item >@string/drone_set_vertical_indoor</item >
-        <item >@string/drone_set_vertical_outdoor</item >
-        <item >@string/drone_set_vertical_max</item >
-    </string-array >
+    <string-array name="drone_max_vertical_speed_items">
+        <item>@string/drone_set_vertical_min</item>
+        <item>@string/drone_set_vertical_indoor</item>
+        <item>@string/drone_set_vertical_outdoor</item>
+        <item>@string/drone_set_vertical_max</item>
+    </string-array>
 
     <!-- Drone tilt preferences spinner-->
-    <string-array name="drone_max_rotation_speed_items" >
-        <item >@string/drone_set_rotation_min</item >
-        <item >@string/drone_set_rotation_indoor</item >
-        <item >@string/drone_set_rotation_outdoor</item >
-        <item >@string/drone_set_rotation_max</item >
-    </string-array >
+    <string-array name="drone_max_rotation_speed_items">
+        <item>@string/drone_set_rotation_min</item>
+        <item>@string/drone_set_rotation_indoor</item>
+        <item>@string/drone_set_rotation_outdoor</item>
+        <item>@string/drone_set_rotation_max</item>
+    </string-array>
 
     <!-- Drone tilt preferences spinner-->
-    <string-array name="drone_max_tilt_angle_items" >
-        <item >@string/drone_set_tilt_min</item >
-        <item >@string/drone_set_tilt_indoor</item >
-        <item >@string/drone_set_tilt_outdoor</item >
-        <item >@string/drone_set_tilt_max</item >
-    </string-array >
+    <string-array name="drone_max_tilt_angle_items">
+        <item>@string/drone_set_tilt_min</item>
+        <item>@string/drone_set_tilt_indoor</item>
+        <item>@string/drone_set_tilt_outdoor</item>
+        <item>@string/drone_set_tilt_max</item>
+    </string-array>
 
     <!-- User Brick UI Data Editor Fragment -->
-    <string-array name="data_editor_buttons" >
- 		<item >@string/add_text</item >
- 		<item >@string/add_variable</item >
- 		<item >@string/add_line_break</item >
- 		<item >@string/close</item >
- 	</string-array >
+    <string-array name="data_editor_buttons">
+ 		<item>@string/add_text</item>
+ 		<item>@string/add_variable</item>
+ 		<item>@string/add_line_break</item>
+ 		<item>@string/close</item>
+ 	</string-array>
 
     <!-- Phiro tone spinner -->
     <string-array name="brick_phiro_select_tone_spinner">
@@ -203,5 +202,56 @@
         <item>@string/brick_set_physics_object_type_no</item>
     </string-array>
 
-
+    <!--Multilingual activity  -->
+    <string-array name="Languages_items">
+         <item>Device Language</item>
+         <item>Azərbaycan</item>
+         <item>Bosanski</item>
+         <item>Català(Espanya)</item>
+         <item>Čeština</item>
+         <item>Српски(Latin)</item>
+         <item>Cрпски(Ћирилица)</item>
+         <item>Dansk</item>
+         <item>Deutsch</item>
+         <item>English(Australia)</item>
+         <item>English(Canada)</item>
+         <item>English(United Kingdom)</item>
+         <item>Español</item>
+         <item>Français</item>
+         <item>Galego</item>
+         <item>Hrvatski</item>
+         <item>Indonesia</item>
+         <item>Italiano</item>
+         <item>Magyar</item>
+         <item>Македонски</item>
+         <item>Malay</item>
+         <item>Nederlands(Nederland)</item>
+         <item>Norsk</item>
+         <item>Polski</item>
+         <item>Português(Brasil)</item>
+         <item>Português(Portugal)</item>
+         <item>Pусский</item>
+         <item>Română</item>
+         <item>Shqip</item>
+         <item>Slovenščina</item>
+         <item>Svenska</item>
+         <item>Tiếng Việt</item>
+         <item>Türkçe</item>
+         <item>മലയാളം</item>
+         <item>தமிழ்</item>
+         <item>తెలుగు</item>
+         <item>ไทย</item>
+         <item>ગુજરાતી</item>
+         <item>हिंदी</item>
+         <item>日本語 </item>
+         <item>한국어 </item>
+         <item>简体中文</item>
+         <item>中國傳統的</item>
+         <item>العربية</item>
+         <item>اردو</item>
+         <item>فارسی</item>
+         <item>پښتو</item>
+         <item>سنڌي</item>
+         <item>עִברִית</item>
+     </string-array>
 </resources>
