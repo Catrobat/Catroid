@@ -57,7 +57,6 @@ public class Bricks_RTL_Test extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.finishOpenedActivities();
 	}
 
-	//make sure that your SmartPhoneLanguage is Arabic or another RTL language
 	public void testBrickScale() throws Exception {
 		assertTrue(isRTL());
 		solo.assertCurrentActivity("Something wrong! this Activity is not MainMenuActivity", MainMenuActivity.class);
