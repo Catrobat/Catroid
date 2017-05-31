@@ -23,24 +23,35 @@
 
 package org.catrobat.catroid.uiespresso.content.brick;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.bricks.VibrationBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
+import org.catrobat.catroid.uiespresso.util.hardware.SensorTestArduinoServerConnection;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.File;
+import java.util.List;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class VibrationBrickTest {
+public class AudioHardwareTest {
 	private int brickPosition;
 
 	@Rule
@@ -49,16 +60,40 @@ public class VibrationBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		String soundName = "testSound1";
+		String projectName = "testProject";
+		File soundFile;
+		List<SoundInfo> soundInfoList;
 		brickPosition = 1;
-		Script script = BrickTestUtils.createProjectAndGetStartScript("vibrationBrickTest");
-		script.addBrick(new VibrationBrick());
+		Script script = BrickTestUtils.createProjectAndGetStartScript(projectName);
+		script.addBrick(new PlaySoundAndWaitBrick());
+
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+
+		soundFile = FileTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentProject()
+						.getDefaultScene().getName(),
+				"longsound.mp3",
+				org.catrobat.catroid.test.R.raw.longtestsound,
+				InstrumentationRegistry.getContext(),
+				FileTestUtils.FileTypes.SOUND);
+
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle(soundName);
+
+		soundInfoList.add(soundInfo);
+
 		baseActivityTestRule.launchActivity(null);
+
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 	}
 
 	@Test
-	public void testVibrationBrick() {
+	public void testAudioHardware() {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_vibration);
-		enterValueInFormulaTextFieldOnBrickAtPosition(10, R.id.brick_vibration_edit_text, brickPosition);
+		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_play_sound_and_wait);
+		onView(withId(R.id.button_play)).perform(click());
+		SensorTestArduinoServerConnection.checkAudioSensorValue(1);
 	}
 }
