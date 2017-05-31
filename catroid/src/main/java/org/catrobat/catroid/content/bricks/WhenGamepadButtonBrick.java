@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -53,10 +52,10 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 		this.whenGamepadButtonScript = whenGamepadButtonScript;
 		actions = CatroidApplication.getAppContext().getResources().getStringArray(R.array.gamepad_buttons_array);
 		if (whenGamepadButtonScript != null) {
-			this.action = whenGamepadButtonScript.getAction();
+			action = whenGamepadButtonScript.getAction();
 			for (int i = 0; i < actions.length; i++) {
-				if (actions[i].equals(this.action)) {
-					this.position = i;
+				if (actions[i].equals(action)) {
+					position = i;
 					break;
 				}
 			}
@@ -82,42 +81,17 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 		}
 
 		view = View.inflate(context, R.layout.brick_when_gamepad_button, null);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		final Brick brickInstance = this;
 		setCheckboxView(R.id.brick_when_gamepad_button_checkbox);
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
-		actionSpinner.setFocusableInTouchMode(false);
-		actionSpinner.setFocusable(false);
-		actionSpinner.setEnabled(false);
-		actionSpinner.setClickable(true);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			actionSpinner.setEnabled(true);
-		}
-//
-// 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-//			actionSpinner.setClickable(true);
-//			actionSpinner.setEnabled(true);
-//		} else {
-//			actionSpinner.setClickable(false);
-//			actionSpinner.setEnabled(false);
-//		}
 
 		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
 				R.array.gamepad_buttons_array, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		actionSpinner.setAdapter(arrayAdapter);
-//		actionSpinner.setClickable(true);
-//		actionSpinner.setFocusable(true);
 
 		actionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -139,7 +113,6 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 		});
 
 		actionSpinner.setSelection(position);
-//		actionSpinner.setFocusable(false);
 		return view;
 	}
 

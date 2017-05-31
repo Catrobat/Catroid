@@ -217,6 +217,8 @@ public final class Constants {
 	public static final String COLLISION_POLYGON_METADATA_PATTERN = "((((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+))\\|)*((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+)";
 	public static final float COLLISION_WITH_FINGER_TOUCH_RADIUS = 50;
 
+	public static final int CAST_IDLE_BACKGROUND_COLOR = 0x66000000;
+
 	// background sprite is always on index 0
 	public static final int Z_INDEX_BACKGROUND = 0;
 

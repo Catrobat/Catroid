@@ -44,7 +44,6 @@ public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
-	//private Menu mainMenu;
 	private boolean returnByPressingBackButton;
 
 	@Override
@@ -60,17 +59,6 @@ public abstract class BaseActivity extends Activity {
 			CastManager.getInstance().initializeCast(this);
 		}
 	}
-
-	/*@Override
-	protected void onStart() {
-		super.onStart();
-
-		CastManager.getInstance().initializeCast(this);
-
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-			CastManager.getInstance().addCallback();
-		}
-	}*/
 
 	@Override
 	protected void onDestroy() {
@@ -91,7 +79,6 @@ public abstract class BaseActivity extends Activity {
 
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
-			//CastManager.getInstance().setCastButtonFromBaseActivity();
 		}
 
 		invalidateOptionsMenu();

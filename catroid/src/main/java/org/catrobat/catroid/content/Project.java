@@ -28,7 +28,6 @@ import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
@@ -296,7 +295,10 @@ public class Project implements Serializable {
 	}
 
 	public int getRequiredResources() {
-		int resources = ProjectManager.getInstance().getCurrentProject().isCastProject() ? Brick.CAST_REQUIRED : Brick.NO_RESOURCES;
+		int resources = Brick.NO_RESOURCES;
+		if (isCastProject()) {
+			resources = Brick.CAST_REQUIRED;
+		}
 		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
 		ActionFactory actionFactory = new ActionFactory();
 

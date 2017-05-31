@@ -57,7 +57,6 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.BackgroundWaitHandler;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -130,15 +129,14 @@ public class StageActivity extends AndroidApplication {
 		configuration = new AndroidApplicationConfiguration();
 		configuration.r = configuration.g = configuration.b = configuration.a = 8;
 
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		if (!project.isCastProject()) {
-			initialize(stageListener, configuration);
-		} else {
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			setContentView(R.layout.activity_stage_gamepad);
 			CastManager.getInstance().initializeGamepadActivity(this);
 			CastManager.getInstance()
 					.addStageViewToLayout((GLSurfaceView20) initializeForView(stageListener, configuration));
+		} else {
+			initialize(stageListener, configuration);
 		}
 
 		if (graphics.getView() instanceof SurfaceView) {
@@ -436,7 +434,9 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().releaseCamera();
 		CameraManager.getInstance().setToDefaultCamera();
 		ProjectManager.getInstance().setSceneToPlay(ProjectManager.getInstance().getCurrentScene());
-		CastManager.getInstance().onStageDestroyed();
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().onStageDestroyed();
+		}
 		super.onDestroy();
 	}
 

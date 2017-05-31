@@ -62,6 +62,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.EnumMap;
 
+import static org.catrobat.catroid.common.Constants.CAST_IDLE_BACKGROUND_COLOR;
+
 public final class CastManager {
 
 	private static final CastManager INSTANCE = new CastManager();
@@ -80,6 +82,7 @@ public final class CastManager {
 	private RelativeLayout pausedView = null;
 	private MenuItem castButton;
 	private boolean pausedScreenShowing = false;
+	private boolean isCastDeviceAvailable;
 
 	private CastManager() {
 		isGamepadButtonPressed.put(Sensors.GAMEPAD_A_PRESSED, false);
@@ -263,9 +266,9 @@ public final class CastManager {
 		remoteLayout.setBackgroundColor(ContextCompat.getColor(initializingActivity, android.R.color.white));
 		remoteLayout.removeAllViews();
 		remoteLayout.addView(stageViewDisplayedOnCast);
-		Project p = ProjectManager.getInstance().getCurrentProject();
-		stageView.surfaceChanged(stageView.getHolder(), 0, p.getXmlHeader().getVirtualScreenWidth(),
-				p.getXmlHeader().getVirtualScreenHeight());
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),
+				project.getXmlHeader().getVirtualScreenHeight());
 	}
 
 	public synchronized boolean currentlyConnecting() {
@@ -275,10 +278,6 @@ public final class CastManager {
 	public synchronized void openDeviceSelectorOrDisconnectDialog(Activity activity) {
 		SelectCastDialog dialog = new SelectCastDialog(deviceAdapter, activity);
 		dialog.openDialog();
-	}
-
-	public void setCastButtonFromBaseActivity() {
-		setCastButton(this.castButton);
 	}
 
 	public synchronized void setCastButton(MenuItem castButton) {
@@ -314,7 +313,7 @@ public final class CastManager {
 				layoutParams.height = p.getXmlHeader().getVirtualScreenHeight();
 				layoutParams.width = p.getXmlHeader().getVirtualScreenWidth();
 				pausedView.setLayoutParams(layoutParams);
-				pausedView.setBackgroundColor(0x66000000);
+				pausedView.setBackgroundColor(CAST_IDLE_BACKGROUND_COLOR);
 				pausedScreenShowing = true;
 			}
 			pausedView.setVisibility(View.VISIBLE);
@@ -353,10 +352,8 @@ public final class CastManager {
 					}
 				}
 				routeInfos.add(info);
-				if (castButton != null) {
-					castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
+				castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
 							.AVAILABILITY_FLAG_REQUIRE_MATCH));
-				}
 				deviceAdapter.notifyDataSetChanged();
 			}
 		}
@@ -369,7 +366,7 @@ public final class CastManager {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
 					if (routeInfo.equals(info)) {
 						routeInfos.remove(i);
-						if (castButton != null && routeInfos.size() == 0) {
+						if (routeInfos.size() == 0) {
 							castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
 									.AVAILABILITY_FLAG_REQUIRE_MATCH));
 						}
@@ -387,12 +384,13 @@ public final class CastManager {
 				lastConnectionTry = System.currentTimeMillis();
 				// Show a msg if still connecting after CAST_CONNECTION_TIMEOUT milliseconds
 				// and abort connection.
+				isCastDeviceAvailable = (CastRemoteDisplayLocalService.getInstance() != null)
+						&& (System.currentTimeMillis() - lastConnectionTry >= Constants.CAST_CONNECTION_TIMEOUT);
 				(new Handler()).postDelayed(new Runnable() {
 					@Override
 					public void run() {
 						synchronized (this) {
-							if (currentlyConnecting() && CastRemoteDisplayLocalService.getInstance() != null
-									&& System.currentTimeMillis() - lastConnectionTry >= Constants.CAST_CONNECTION_TIMEOUT) {
+							if (currentlyConnecting() && isCastDeviceAvailable) {
 								CastRemoteDisplayLocalService.stopService();
 								ToastUtil.showError(initializingActivity,
 										initializingActivity.getString(R.string.cast_connection_timout_msg));

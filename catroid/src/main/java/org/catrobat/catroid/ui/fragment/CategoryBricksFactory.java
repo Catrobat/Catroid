@@ -288,53 +288,18 @@ public class CategoryBricksFactory {
 		List<UserBrick> userBrickList = ProjectManager.getInstance().getCurrentSprite().getUserBrickList();
 		ArrayList<Brick> newList = new ArrayList<>();
 
-//		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
-//		if (userBrickWeAreAddingTo != null) {
-//			// Maintain a Directed Acyclic Graph of UserBrick call order: Don't allow cycles.
-//			for (UserBrick brick : userBrickList) {
-//				if (!checkForCycle(brick, userBrickWeAreAddingTo)) {
-//					newList.add(brick);
-
-//				}
-//			}
-//		} else {
 		if (userBrickList != null) {
 			for (UserBrick brick : userBrickList) {
 				newList.add(brick);
 			}
 		}
-//		}
 		return newList;
 	}
-
-//	public boolean checkForCycle(UserBrick currentBrick, UserBrick parentBrick) {
-//		if (parentBrick.getId() == currentBrick.getId()) {
-//			return true;
-//		}
-//
-//		for (Brick childBrick : currentBrick.getDefinitionBrick().getUserScript().getBrickList()) {
-//			if (childBrick instanceof UserBrick && checkForCycle(((UserBrick) childBrick), parentBrick)) {
-//				return true;
-//			}
-//		}
-//
-//		return false;
-//	}
 
 	private List<Brick> setupChromecastCategoryList(Context context) {
 		List<Brick> chromecastBrickList = new ArrayList<Brick>();
 		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
 				context.getString(R.string.cast_gamepad_A))));
-//		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
-//				context.getString(R.string.cast_gamepad_B))));
-		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
-				context.getString(R.string.cast_gamepad_up))));
-/*		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
-				context.getString(R.string.cast_gamepad_down))));
-		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
-				context.getString(R.string.cast_gamepad_left))));
-		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
-				context.getString(R.string.cast_gamepad_right))));*/
 
 		return chromecastBrickList;
 	}

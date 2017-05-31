@@ -36,6 +36,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.media.MediaRouter;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -177,6 +178,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
+		} else if (CastManager.getInstance().isConnected()) {
+			CastManager.getInstance().getMediaRouter().unselect(MediaRouter.UNSELECT_REASON_STOPPED);
 		}
 
 		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
