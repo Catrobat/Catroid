@@ -26,70 +26,35 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
+import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.onScriptList;
-import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
-public class ForeverBrickTest {
+public class NextLookBrickTest {
+	private int brickPosition;
+
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
-		createProject();
+		BrickTestUtils.createProjectAndGetStartScript("nextLookTest1").addBrick(new NextLookBrick());
+		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void foreverBrickTest() {
-		//multiple ways to check this, full verbose espresso way of checking:
-		onData(instanceOf(Brick.class)).inAdapterView(ScriptListMatchers.isScriptListView()).atPosition(1)
-				.onChildView(withText(R.string.brick_forever))
-				.check(matches(isDisplayed()));
-
-		//shortened with utility function to get scriptlist datainteraction object:
-		onScriptList().atPosition(1).onChildView(withText(R.string.brick_forever))
-				.check(matches(isDisplayed()));
-
-		//shortened even more with utility function
-		checkIfBrickAtPositionShowsString(1, R.string.brick_forever);
-
-		//ok, now for the real test, check if all bricks are there in right order and displayed:
+	public void testNextLookBrick() {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(1, R.string.brick_forever);
-		checkIfBrickAtPositionShowsString(2, R.string.brick_loop_end);
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	public void createProject() {
-		Script startScript = BrickTestUtils.createProjectAndGetStartScript("foreverBrickTest1");
-		ForeverBrick foreverBrick = new ForeverBrick();
-		startScript.addBrick(foreverBrick);
-		startScript.addBrick(new LoopEndlessBrick(foreverBrick));
+		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_next_look);
 	}
 }
-

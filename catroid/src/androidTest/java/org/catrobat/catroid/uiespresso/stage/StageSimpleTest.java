@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.catrobat.catroid.utils.UtilUi;
 import org.junit.Before;
@@ -52,7 +52,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
 
 @RunWith(AndroidJUnit4.class)
-public class StageTestSimple {
+public class StageSimpleTest {
 	private static final int PROJECT_WIDTH = 480;
 	private static final int PROJECT_HEIGHT = 800;
 
@@ -99,10 +99,10 @@ public class StageTestSimple {
 		project.getDefaultScene().addSprite(blueSprite);
 
 		StorageHandler.getInstance().saveProject(project);
-		File blueImageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(),
+		File blueImageFile = FileTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(),
 				blueImageName,
 				org.catrobat.catroid.test.R.raw.blue_image, InstrumentationRegistry.getContext(),
-				UiTestUtils.FileTypes.IMAGE);
+				FileTestUtils.FileTypes.IMAGE);
 
 		blueLookData.setLookFilename(blueImageFile.getName());
 
