@@ -33,7 +33,7 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.993f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.994f);
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
@@ -47,10 +47,10 @@ public final class Constants {
 	public static final String IMAGE_STANDARD_EXTENSION = ".png";
 	public static final String SOUND_STANDARD_EXTENSION = ".wav";
 	public static final char REMIX_URL_PREFIX_INDICATOR = '[';
-	public static final char REMIX_URL_SUFIX_INDICATOR = ']';
+	public static final char REMIX_URL_SUFFIX_INDICATOR = ']';
 	public static final char REMIX_URL_SEPARATOR = ',';
 	public static final char REMIX_URL_PREFIX_REPLACE_INDICATOR = '(';
-	public static final char REMIX_URL_SUFIX_REPLACE_INDICATOR = ')';
+	public static final char REMIX_URL_SUFFIX_REPLACE_INDICATOR = ')';
 	public static final char REMIX_URL_REPLACE_SEPARATOR = ';';
 
 	//Extensions:

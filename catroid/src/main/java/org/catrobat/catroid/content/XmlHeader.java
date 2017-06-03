@@ -50,6 +50,8 @@ public class XmlHeader implements Serializable {
 	@SuppressWarnings("unused")
 	public boolean scenesEnabled = true;
 
+	private String template = "";
+
 	//==============================================================================================
 	// mutable fields only used by Catroweb (share.catrob.at website) so far
 	//==============================================================================================
@@ -232,5 +234,13 @@ public class XmlHeader implements Serializable {
 
 	public void setRemixParentsUrlString(String remixParentsUrlString) {
 		this.remixParentsUrlString = remixParentsUrlString;
+	}
+
+	public String getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(String template) {
+		this.template = template;
 	}
 }

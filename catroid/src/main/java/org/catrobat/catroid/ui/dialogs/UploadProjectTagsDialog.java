@@ -51,7 +51,6 @@ public class UploadProjectTagsDialog extends DialogFragment implements GetTagsTa
 
 	@Override
 	public Dialog onCreateDialog(final Bundle bundle) {
-
 		final List<String> checkedTags = new ArrayList<>();
 		final String[] tagChoices = tags.toArray(new String[tags.size()]);
 
