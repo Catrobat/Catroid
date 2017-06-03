@@ -24,15 +24,13 @@ package org.catrobat.catroid.content.actions;
 
 import android.util.Log;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-
-import java.util.List;
 
 public class GoNStepsBackAction extends TemporalAction {
 
@@ -53,42 +51,20 @@ public class GoNStepsBackAction extends TemporalAction {
 		if (stepsValue.intValue() > 0 && (zPosition - stepsValue.intValue()) < Constants.Z_INDEX_FIRST_SPRITE) {
 			sprite.look.setZIndex(Constants.Z_INDEX_FIRST_SPRITE);
 		} else if (stepsValue.intValue() < 0 && (zPosition - stepsValue.intValue()) < zPosition) {
-			toFront();
+			toFront(delta);
 		} else {
 			goNStepsBack(stepsValue.intValue());
 		}
 	}
 
-	private void toFront() {
-
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
-		int actualSpriteZIndex = sprite.look.getZIndex();
-
-		for (int i = 0; i < spriteList.size(); i++) {
-			if (spriteList.get(i).look.getZIndex() > actualSpriteZIndex) {
-				spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex() - 1);
-			}
-		}
-		sprite.look.setZIndex(spriteList.size() - 1);
+	private void toFront(float delta) {
+		Action comeToFrontAction = sprite.getActionFactory().createComeToFrontAction(sprite);
+		comeToFrontAction.act(delta);
 	}
 
 	private void goNStepsBack(int steps) {
 		int zPosition = sprite.look.getZIndex();
 		int newSpriteZIndex = Math.max(zPosition - steps, Constants.Z_INDEX_FIRST_SPRITE);
-
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
-
-		for (int i = 0; i < spriteList.size(); i++) {
-			if (steps > 0) {
-				if (spriteList.get(i).look.getZIndex() >= newSpriteZIndex && spriteList.get(i).look.getZIndex() < zPosition) {
-					spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex() + 1);
-				}
-			} else {
-				if (spriteList.get(i).look.getZIndex() <= newSpriteZIndex && spriteList.get(i).look.getZIndex() > zPosition) {
-					spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex() - 1);
-				}
-			}
-		}
 		sprite.look.setZIndex(newSpriteZIndex);
 	}
 
