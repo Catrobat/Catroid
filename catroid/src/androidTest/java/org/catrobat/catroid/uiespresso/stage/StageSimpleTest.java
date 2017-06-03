@@ -52,7 +52,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
 
 @RunWith(AndroidJUnit4.class)
-public class StageTestSimple {
+public class StageSimpleTest {
 	private static final int PROJECT_WIDTH = 480;
 	private static final int PROJECT_HEIGHT = 800;
 

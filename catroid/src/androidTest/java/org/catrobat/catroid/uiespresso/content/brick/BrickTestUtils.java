@@ -127,8 +127,8 @@ public final class BrickTestUtils {
 				.perform(click());
 
 		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
-		// todo: Uncomment when CAT-2359 is fixed
-		// checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, variableName);
+		// todo: CAT-2359 to fix this:
+		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, variableName);
 	}
 
 	public static void enterTextOnDialogue(int dialogueId, String textToEnter) {
@@ -199,7 +199,7 @@ public final class BrickTestUtils {
 			onView(withId(R.id.dialog_formula_editor_data_name_local_variable_radio_button))
 					.perform(click());
 		}
-		onView(withId(android.R.id.button1));
+		onView(withId(android.R.id.button1)).perform(click());
 		onView(withText(userListName))
 				.check(matches(isDisplayed()));
 	}

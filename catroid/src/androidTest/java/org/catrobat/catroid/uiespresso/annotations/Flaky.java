@@ -20,36 +20,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.uiespresso.annotations;
 
-package org.catrobat.catroid.uiespresso.util.matchers;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import android.view.View;
-import android.widget.ListView;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.METHOD;
 
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-
-public final class ScriptListMatchers {
-	private ScriptListMatchers() {
-		throw new AssertionError();
-	}
-
-	public static Matcher<View> isScriptListView() {
-		return new TypeSafeMatcher<View>() {
-
-			@Override
-			protected boolean matchesSafely(View view) {
-				return view instanceof BrickDragAndDropListView && ((ListView) view).getAdapter()
-						instanceof BrickAdapter;
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("ScriptlistView");
-			}
-		};
-	}
+@Retention(RetentionPolicy.RUNTIME)
+@Target({METHOD, ANNOTATION_TYPE})
+public @interface Flaky {
+	int value() default 3;
 }
+

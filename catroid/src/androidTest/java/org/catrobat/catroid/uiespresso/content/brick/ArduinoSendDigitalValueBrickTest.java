@@ -22,11 +22,10 @@
  */
 
 package org.catrobat.catroid.uiespresso.content.brick;
-
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.GoToBrick;
+import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -35,11 +34,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class GoToBrickTest {
+public class ArduinoSendDigitalValueBrickTest {
 	private int brickPosition;
 
 	@Rule
@@ -48,20 +46,21 @@ public class GoToBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("goToBrickTest1").addBrick(new GoToBrick());
 		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("arduinoSendDigitalValueBricktest1")
+				.addBrick(new ArduinoSendDigitalValueBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void goToBrickTest() {
+	public void testArduinoSendDigitalValueBrick() {
+		int valToChange = 17;
+		int pinToChange = 2;
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_go_to);
-
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_go_to_spinner, brickPosition, R.string
-				.brick_go_to_touch_position);
-
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_go_to_spinner, brickPosition, R.string
-				.brick_go_to_random_position);
+		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_arduino_select_digital_value);
+		enterValueInFormulaTextFieldOnBrickAtPosition(pinToChange, R.id.brick_arduino_set_digital_pin_edit_text,
+				brickPosition);
+		enterValueInFormulaTextFieldOnBrickAtPosition(valToChange, R.id.brick_arduino_set_digital_value_edit_text,
+				brickPosition);
 	}
 }
