@@ -33,12 +33,18 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
 import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -104,7 +110,7 @@ public class PocketMusicActivityTest {
 
 	@Before
 	public void startPocketMusicActivityWithEmptyProject() {
-		UiTestUtils.createProject("pocketMusicInputTest");
+		createProject("pocketMusicInputTest");
 		pocketMusicActivityRule.launchActivity(null);
 	}
 
@@ -179,5 +185,25 @@ public class PocketMusicActivityTest {
 	@Test
 	public void playButtonElementExists() {
 		onView(withId(R.id.pocketmusic_play_button)).check(matches(isDisplayed()));
+	}
+
+	public static Project createProject(String projectName) {
+		Project project = new Project(null, projectName);
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript();
+
+		SetVariableBrick setVariableBrick = new SetVariableBrick();
+		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
+		UserVariable userVariable = dataContainer.addProjectUserVariable("Global1");
+		setVariableBrick.setUserVariable(userVariable);
+
+		script.addBrick(setVariableBrick);
+		sprite.addScript(script);
+		project.getDefaultScene().addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+
+		return project;
 	}
 }
