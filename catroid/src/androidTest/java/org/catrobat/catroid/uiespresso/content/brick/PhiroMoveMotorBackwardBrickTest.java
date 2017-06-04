@@ -26,7 +26,7 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.GoToBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -35,12 +35,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class GoToBrickTest {
+public class PhiroMoveMotorBackwardBrickTest {
 	private int brickPosition;
+	private static final int SET_SPEED = 30;
+	private static final int SET_SPEED_INITIALLY = -70;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -48,20 +50,27 @@ public class GoToBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("goToBrickTest1").addBrick(new GoToBrick());
+
+		BrickTestUtils.createProjectAndGetStartScript("PhiroMoveMotorBackwardBrickTest")
+				.addBrick(new PhiroMotorMoveBackwardBrick(
+						PhiroMotorMoveBackwardBrick.Motor.MOTOR_RIGHT, SET_SPEED_INITIALLY));
 		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void goToBrickTest() {
+	public void testPhiroMoveMotorBackwardBrick() {
+
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_go_to);
+		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_phiro_motor_backward_action);
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_go_to_spinner, brickPosition, R.string
-				.brick_go_to_touch_position);
-
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_go_to_spinner, brickPosition, R.string
-				.brick_go_to_random_position);
+		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_motor_backward_action_spinner, brickPosition,
+				R.string.phiro_motor_right);
+		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_motor_backward_action_spinner, brickPosition,
+				R.string.phiro_motor_left);
+		clickSelectCheckSpinnerValueOnBrick(R.id.brick_phiro_motor_backward_action_spinner, brickPosition,
+				R.string.phiro_motor_both);
+		enterValueInFormulaTextFieldOnBrickAtPosition(SET_SPEED,
+				R.id.brick_phiro_motor_backward_action_speed_edit_text, brickPosition);
 	}
 }

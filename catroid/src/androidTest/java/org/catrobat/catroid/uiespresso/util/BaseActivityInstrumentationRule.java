@@ -26,15 +26,20 @@ import android.app.Activity;
 import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
+import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.uiespresso.annotations.FlakyTest;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 import java.io.File;
 
 public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
 	private SystemAnimations systemAnimations;
+	private static final String TAG = BaseActivityInstrumentationRule.class.getSimpleName();
 
 	public BaseActivityInstrumentationRule(Class<T> activityClass, boolean initialTouchMode, boolean launchActivity) {
 		super(activityClass, initialTouchMode, launchActivity);
@@ -81,5 +86,40 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 		if (uiTestFolder.exists()) {
 			deleteRecursive(uiTestFolder);
 		}
+	}
+
+	//http://stackoverflow.com/questions/8295100/how-to-re-run-failed-junit-tests-immediately
+	//http://stackoverflow.com/questions/1492856/easy-way-of-running-the-same-junit-test-over-and-over
+	public Statement apply(Statement base, Description description) {
+		return statement(base, description);
+	}
+
+	private Statement statement(final Statement base, final Description description) {
+		FlakyTest flakyTest = description.getAnnotation(FlakyTest.class);
+		int retryCount = 1;
+		if (flakyTest != null) {
+			retryCount = flakyTest.value();
+		}
+		final int flakyTestRetryCount = retryCount;
+
+		return new Statement() {
+			@Override
+			public void evaluate() throws Throwable {
+				Throwable caughtThrowable = null;
+
+				for (int i = 0; i < flakyTestRetryCount; i++) {
+					try {
+						base.evaluate();
+						return;
+					} catch (Throwable t) {
+						caughtThrowable = t;
+						Log.e(TAG, description.getDisplayName() + ": run " + (i + 1) + " failed");
+						getActivity().finish();
+					}
+				}
+				Log.e(TAG, description.getDisplayName() + ": giving up after " + flakyTestRetryCount + " failures");
+				throw caughtThrowable;
+			}
+		};
 	}
 }

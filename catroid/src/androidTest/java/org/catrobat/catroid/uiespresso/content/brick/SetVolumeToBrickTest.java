@@ -26,8 +26,9 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.GoToBrick;
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.annotations.FlakyTest;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -35,12 +36,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterStringInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class GoToBrickTest {
-	private int brickPosition;
+public class SetVolumeToBrickTest {
+	private static int brickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -48,20 +49,39 @@ public class GoToBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("goToBrickTest1").addBrick(new GoToBrick());
+		BrickTestUtils.createProjectAndGetStartScript("setVolumeToBrickTest1").addBrick(new SetVolumeToBrick());
 		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void goToBrickTest() {
+	@FlakyTest
+	public void testSetVolumeToBrickStringValue() {
+		String volumeToChange = "10.2";
+
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_go_to);
+		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_volume_to);
+		enterStringInFormulaTextFieldOnBrickAtPosition(volumeToChange, R.id.brick_set_volume_to_edit_text,
+				brickPosition);
+	}
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_go_to_spinner, brickPosition, R.string
-				.brick_go_to_touch_position);
+	@Test
+	public void testSetVolumeToBrickIntValue() {
+		int volumeToChange = 12;
 
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_go_to_spinner, brickPosition, R.string
-				.brick_go_to_random_position);
+		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
+		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_volume_to);
+		enterValueInFormulaTextFieldOnBrickAtPosition(volumeToChange, R.id.brick_set_volume_to_edit_text,
+				brickPosition);
+	}
+
+	@Test
+	public void testSetVolumeToBrickFloatValue() {
+		float volumeToChange = 12.4f;
+
+		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
+		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_volume_to);
+		BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition(volumeToChange, R.id.brick_set_volume_to_edit_text,
+				brickPosition);
 	}
 }
