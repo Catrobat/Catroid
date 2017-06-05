@@ -53,7 +53,9 @@ public class AboutDialogTest {
 			BaseActivityInstrumentationRule<>(MainMenuActivity.class);
 
 	@Before
-	public void registerIdlingResource() {
+	public void setUp() throws Exception {
+		baseActivityTestRule.launchActivity(null);
+
 		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
 		Espresso.registerIdlingResources(idlingResource);
 	}
@@ -86,7 +88,7 @@ public class AboutDialogTest {
 	}
 
 	@After
-	public void unregisterResource() {
+	public void tearDown() throws Exception {
 		Espresso.unregisterIdlingResources(idlingResource);
 	}
 }

@@ -21,27 +21,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick;
+package org.catrobat.catroid.uiespresso.annotations;
 
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Random;
+
+import static junit.framework.Assert.assertTrue;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.clickSelectCheckSpinnerValueOnBrick;
 
 @RunWith(AndroidJUnit4.class)
-public class GoToBrickTest {
-	private int brickPosition;
+public class FlakyTestTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -49,21 +49,17 @@ public class GoToBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		brickPosition = 1;
-		BrickTestUtils.createProjectAndGetStartScript("goToBrickTest1")
-				.addBrick(new GoToBrick());
+		BrickTestUtils.createProjectAndGetStartScript("flakyTestTest");
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void goToBrickTest() {
+	@Flaky(5)
+	public void flakyTestTest() {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_go_to);
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_go_to_spinner, brickPosition, R.string
-				.brick_go_to_touch_position);
-
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_go_to_spinner, brickPosition, R.string
-				.brick_go_to_random_position);
+		Random randomGenerator = new Random();
+		int randomNumber = randomGenerator.nextInt(100);
+		assertTrue(randomNumber < 50);
 	}
 }
