@@ -45,7 +45,8 @@ public class HideBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("hideBrickTest1").addBrick(new HideBrick());
+		BrickTestUtils.createProjectAndGetStartScript("hideBrickTest1")
+				.addBrick(new HideBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 

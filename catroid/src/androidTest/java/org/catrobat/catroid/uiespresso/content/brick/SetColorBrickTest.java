@@ -48,8 +48,9 @@ public class SetColorBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("setColorBrickTest1").addBrick(new SetColorBrick(0f));
 		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("setColorBrickTest1")
+				.addBrick(new SetColorBrick(0f));
 		baseActivityTestRule.launchActivity(null);
 	}
 

@@ -49,8 +49,9 @@ public class GoToBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("goToBrickTest1").addBrick(new GoToBrick());
 		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("goToBrickTest1")
+				.addBrick(new GoToBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 

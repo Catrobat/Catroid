@@ -57,9 +57,10 @@ public class GlideToBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		glideToBrick = new GlideToBrick(0, 0, 0);
-		BrickTestUtils.createProjectAndGetStartScript("glideToBrickTest1").addBrick(glideToBrick);
 		brickPosition = 1;
+		glideToBrick = new GlideToBrick(0, 0, 0);
+		BrickTestUtils.createProjectAndGetStartScript("glideToBrickTest1")
+				.addBrick(glideToBrick);
 		baseActivityTestRule.launchActivity(null);
 	}
 

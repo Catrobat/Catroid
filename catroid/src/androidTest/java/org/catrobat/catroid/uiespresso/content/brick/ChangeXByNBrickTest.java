@@ -48,8 +48,9 @@ public class ChangeXByNBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("changeXByNBrickTest1").addBrick(new ChangeXByNBrick());
 		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("changeXByNBrickTest1")
+				.addBrick(new ChangeXByNBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 

@@ -48,9 +48,9 @@ public class ChangeBrightnessByNBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		brickPosition = 1;
 		BrickTestUtils.createProjectAndGetStartScript("changeBrightnessByNBrickTest1")
 						.addBrick(new ChangeBrightnessByNBrick());
-		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 

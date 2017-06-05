@@ -47,9 +47,9 @@ public class ClearGraphicEffectBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		brickPosition = 1;
 		BrickTestUtils.createProjectAndGetStartScript("clearGraphicEffectBrickTest1")
 				.addBrick(new ClearGraphicEffectBrick());
-		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 

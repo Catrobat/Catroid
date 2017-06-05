@@ -48,8 +48,9 @@ public class GoNStepsBackTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("goNStepsBackTest").addBrick(new GoNStepsBackBrick());
 		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("goNStepsBackTest")
+				.addBrick(new GoNStepsBackBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 

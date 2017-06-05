@@ -48,8 +48,9 @@ public class NoteBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("noteBrickTest1").addBrick(new NoteBrick());
 		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("noteBrickTest1")
+				.addBrick(new NoteBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 

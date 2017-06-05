@@ -54,7 +54,7 @@ public class FlakyTestTest {
 	}
 
 	@Test
-	@Flaky
+	@Flaky(5)
 	public void flakyTestTest() {
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 

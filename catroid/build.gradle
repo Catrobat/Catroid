@@ -45,6 +45,20 @@ apply from: 'gradle/standalone_apk_tasks.gradle'
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
 
+def appId = 'org.catrobat.catroid'
+def appName = '@string/app_name'
+
+// When -Pindependent was provided on the gradle command the APP name is changed.
+// This allows to have multiple Catroid versions installed in parallel for testing purposes.
+// Furthermore these installations do not interfere with the actual Catroid app.
+if (project.hasProperty('independent')) {
+    def today = new Date()
+    appId += '.independent_' + today.format('YYYYMMdd_HHmm')
+    appName = property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
+}
+ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
+ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
+
 android {
     dexOptions {
         javaMaxHeapSize "4g"
@@ -86,7 +100,7 @@ android {
     }
     productFlavors {
         catroid {
-            applicationId 'org.catrobat.catroid'
+            applicationId appId
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
@@ -94,7 +108,7 @@ android {
         }
 
         standalone {
-            applicationId 'org.catrobat.catroid.' + getPackageNameSuffix()
+            applicationId appId + '.' + getPackageNameSuffix()
             versionCode 1
             versionName '1.0'
 
@@ -192,8 +206,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
-        applicationId 'org.catrobat.catroid'
-        testApplicationId "org.catrobat.catroid.test"
+        applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         versionCode 35
         println "VersionCode is " + versionCode
@@ -202,6 +215,7 @@ android {
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
         multiDexEnabled true
+        manifestPlaceholders += [appName: appName]
     }
 
     packagingOptions {

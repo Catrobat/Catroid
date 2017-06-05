@@ -114,7 +114,9 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 					} catch (Throwable t) {
 						caughtThrowable = t;
 						Log.e(TAG, description.getDisplayName() + ": run " + (i + 1) + " failed");
-						getActivity().finish();
+						if (getActivity() != null) {
+							getActivity().finish();
+						}
 					}
 				}
 				Log.e(TAG, description.getDisplayName() + ": giving up after " + flakyTestRetryCount + " failures");

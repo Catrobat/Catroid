@@ -49,7 +49,8 @@ public class ChangeSizeByNBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		BrickTestUtils.createProjectAndGetStartScript("changeSizeByNBricktest1").addBrick(new ChangeSizeByNBrick(10));
+		BrickTestUtils.createProjectAndGetStartScript("changeSizeByNBricktest1")
+				.addBrick(new ChangeSizeByNBrick(10));
 		baseActivityTestRule.launchActivity(null);
 	}
 

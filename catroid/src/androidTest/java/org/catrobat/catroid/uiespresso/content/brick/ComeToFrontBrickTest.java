@@ -47,8 +47,9 @@ public class ComeToFrontBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("comeToFrontTest1").addBrick(new ComeToFrontBrick());
 		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("comeToFrontTest1")
+				.addBrick(new ComeToFrontBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 
