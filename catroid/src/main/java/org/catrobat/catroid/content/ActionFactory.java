@@ -588,6 +588,12 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createSetLookAction(Sprite sprite, LookData lookData, boolean wait, Formula formula) {
+		SetLookAction action = (SetLookAction) createSetLookAction(sprite, lookData, wait);
+		action.setFormula(formula);
+		return action;
+	}
+
 	public Action createSetSizeToAction(Sprite sprite, Formula size) {
 		SetSizeToAction action = Actions.action(SetSizeToAction.class);
 		action.setSprite(sprite);
