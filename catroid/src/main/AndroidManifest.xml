@@ -183,6 +183,10 @@
              android:name=".ui.BaseActivity"
              android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.Multilingual"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".ui.ProgramMenuActivity"
             android:screenOrientation="portrait" />
         <activity
