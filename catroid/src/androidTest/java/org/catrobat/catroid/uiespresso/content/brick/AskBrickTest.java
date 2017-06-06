@@ -48,8 +48,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterStringInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
 import static org.catrobat.catroid.uiespresso.util.matchers.UserVariableTestUtils.userVariableEqualsWithinTimeout;
 import static org.hamcrest.CoreMatchers.allOf;
@@ -74,10 +73,14 @@ public class AskBrickTest {
 	public void testAskBrick() {
 		int askBrickPosition = 1;
 		String question = "Will it work?";
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(askBrickPosition, R.string.brick_ask_label);
-		checkIfBrickAtPositionShowsString(askBrickPosition, R.string.brick_ask_store);
-		enterStringInFormulaTextFieldOnBrickAtPosition(question, R.id.brick_ask_question_edit_text, askBrickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+
+		onBrickAtPosition(askBrickPosition).checkShowsText(R.string.brick_ask_label);
+		onBrickAtPosition(askBrickPosition).checkShowsText(R.string.brick_ask_store);
+
+		onBrickAtPosition(askBrickPosition).onFormulaTextFiled(R.id.brick_ask_question_edit_text)
+				.performEnterString(question)
+				.checkShowsText(question);
 	}
 
 	@Test

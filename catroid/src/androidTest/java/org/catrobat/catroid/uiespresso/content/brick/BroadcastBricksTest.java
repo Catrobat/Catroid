@@ -64,9 +64,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.onScriptList;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -88,9 +86,9 @@ public class BroadcastBricksTest {
 
 	@Test
 	public void checkBroadcastBricksStartUp() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(broadcastSendPosition, R.string.brick_broadcast);
-		checkIfBrickAtPositionShowsString(broadcastReceivePosition, R.string.brick_broadcast_receive);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(broadcastSendPosition).checkShowsText(R.string.brick_broadcast);
+		onBrickAtPosition(broadcastReceivePosition).checkShowsText(R.string.brick_broadcast_receive);
 	}
 
 	@Test
@@ -118,14 +116,15 @@ public class BroadcastBricksTest {
 		pressBack();
 		onView(withId(R.id.stage_dialog_button_back))
 				.perform(click());
-		onScriptList().atPosition(broadcastSendPosition).onChildView(withId(R.id.brick_broadcast_spinner))
+		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
 				.perform(click());
 
 		onView(withText(uselessMessage)).check(doesNotExist());
 
 		pressBack();
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_broadcast_spinner, broadcastSendPosition, defaultMessage);
+		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
+				.checkShowsText(defaultMessage);
 	}
 
 	@Test
@@ -140,15 +139,16 @@ public class BroadcastBricksTest {
 		pressBack();
 		onView(withId(R.id.stage_dialog_button_back))
 				.perform(click());
-		onScriptList().atPosition(broadcastReceivePosition).onChildView(withId(R.id.brick_broadcast_receive_spinner))
+
+		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
 				.perform(click());
 
 		onView(withText(uselessMessage)).check(doesNotExist());
 
 		pressBack();
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_broadcast_receive_spinner, broadcastReceivePosition,
-				defaultMessage);
+		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
+				.checkShowsText(defaultMessage);
 	}
 
 	public Script createProjectAndGetStartScriptWithImages(String projectName) {
@@ -200,8 +200,8 @@ public class BroadcastBricksTest {
 		return script;
 	}
 
-	public static void createNewMessageOnSpinner(int spinnerResourceId, int position, String massage) {
-		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+	public static void createNewMessageOnSpinner(int spinnerResourceId, int position, String message) {
+		onBrickAtPosition(position).onSpinner(spinnerResourceId)
 				.perform(click());
 
 		onView(withText(R.string.brick_variable_spinner_create_new_variable))
@@ -212,19 +212,23 @@ public class BroadcastBricksTest {
 		onView(withId(R.id.edit_text))
 				.perform(clearText());
 		onView(withId(R.id.edit_text))
-				.perform(typeText(massage));
+				.perform(typeText(message));
 		onView(withId(android.R.id.button1))
 				.perform(click());
 		// todo: CAT-2359 to fix this:
-		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, massage);
+		onBrickAtPosition(position).onSpinner(spinnerResourceId)
+				.checkShowsText(message);
 	}
 
 	public static void clickSelectCheckSpinnerValueOnBrick(int spinnerResourceId, int position, String
 			stringResource) {
-		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+		onBrickAtPosition(position).onSpinner(spinnerResourceId)
 				.perform(click());
+
 		onData(allOf(is(instanceOf(String.class)), is(stringResource)))
 				.perform(click());
-		checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, stringResource);
+
+		onBrickAtPosition(position).onSpinner(spinnerResourceId)
+				.checkShowsText(stringResource);
 	}
 }

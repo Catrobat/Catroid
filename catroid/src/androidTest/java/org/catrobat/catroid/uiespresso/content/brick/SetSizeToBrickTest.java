@@ -33,8 +33,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 public class SetSizeToBrickTest {
 	private int brickPosition;
@@ -56,9 +55,11 @@ public class SetSizeToBrickTest {
 	public void setSizeToBrickTest() throws InterpretationException {
 		int sizeValue = 20;
 
-		checkIfBrickAtPositionShowsString(0, "When program starts");
-		checkIfBrickAtPositionShowsString(brickPosition, "Set size to");
+		onBrickAtPosition(0).checkShowsText("When program starts");
+		onBrickAtPosition(brickPosition).checkShowsText("Set size to");
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(sizeValue, R.id.brick_set_size_to_edit_text, brickPosition);
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_set_size_to_edit_text)
+				.performEnterNumber(sizeValue)
+				.checkShowsNumber(sizeValue);
 	}
 }

@@ -35,8 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class ChangeXByNBrickTest {
@@ -58,8 +57,11 @@ public class ChangeXByNBrickTest {
 	public void testChangeXByNBrick() {
 		int xChangeValue = 17;
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_change_x_by);
-		enterValueInFormulaTextFieldOnBrickAtPosition(xChangeValue, R.id.brick_change_x_edit_text, brickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_change_x_by);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_change_x_edit_text)
+				.performEnterNumber(xChangeValue)
+				.checkShowsNumber(xChangeValue);
 	}
 }

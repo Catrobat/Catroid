@@ -35,8 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoNxtPlayToneBrickTest {
@@ -59,10 +58,15 @@ public class LegoNxtPlayToneBrickTest {
 		int testFrequency = 40;
 		int testDuration = 3;
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.nxt_play_tone);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.nxt_play_tone);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(testFrequency, R.id.nxt_tone_freq_edit_text, brickPosition);
-		enterValueInFormulaTextFieldOnBrickAtPosition(testDuration, R.id.nxt_tone_duration_edit_text, brickPosition);
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.nxt_tone_freq_edit_text)
+				.performEnterNumber(testFrequency)
+				.checkShowsNumber(testFrequency);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.nxt_tone_duration_edit_text)
+				.performEnterNumber(testDuration)
+				.checkShowsNumber(testDuration);
 	}
 }

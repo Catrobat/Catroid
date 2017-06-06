@@ -38,7 +38,7 @@ import java.util.Random;
 
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class FlakyTestTest {
@@ -56,7 +56,7 @@ public class FlakyTestTest {
 	@Test
 	@Flaky(5)
 	public void flakyTestTest() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 
 		Random randomGenerator = new Random();
 		int randomNumber = randomGenerator.nextInt(100);

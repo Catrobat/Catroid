@@ -35,8 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class RepeatBrickTest {
@@ -55,8 +54,11 @@ public class RepeatBrickTest {
 
 	@Test
 	public void repeatBrickTest() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_repeat);
-		enterValueInFormulaTextFieldOnBrickAtPosition(42, R.id.brick_repeat_edit_text, brickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_repeat);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_repeat_edit_text)
+				.performEnterNumber(42)
+				.checkShowsNumber(42);
 	}
 }

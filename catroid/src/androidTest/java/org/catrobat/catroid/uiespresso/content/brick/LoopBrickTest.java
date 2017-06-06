@@ -63,9 +63,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.onScriptList;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterStringInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -100,7 +98,7 @@ public class LoopBrickTest {
 
 		deleteBrickAtPosition(1);
 
-		checkIfBrickAtPositionShowsString(1, R.string.brick_change_y_by);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_change_y_by);
 		onView(withText(R.string.brick_loop_end))
 				.check(doesNotExist());
 
@@ -115,11 +113,11 @@ public class LoopBrickTest {
 	public void foreverBrickTest() throws InterpretationException {
 		addBrickAtPosition(ForeverBrick.class, 2, R.string.category_control);
 
-		checkIfBrickAtPositionShowsString(1, R.string.brick_repeat);
-		checkIfBrickAtPositionShowsString(2, R.string.brick_forever);
-		checkIfBrickAtPositionShowsString(3, R.string.brick_change_y_by);
-		checkIfBrickAtPositionShowsString(4, R.string.brick_loop_end);
-		checkIfBrickAtPositionShowsString(5, R.string.brick_loop_end);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_repeat);
+		onBrickAtPosition(2).checkShowsText(R.string.brick_forever);
+		onBrickAtPosition(3).checkShowsText(R.string.brick_change_y_by);
+		onBrickAtPosition(4).checkShowsText(R.string.brick_loop_end);
+		onBrickAtPosition(5).checkShowsText(R.string.brick_loop_end);
 
 		deleteBrickAtPosition(2);
 
@@ -134,18 +132,18 @@ public class LoopBrickTest {
 		addBrickAtPosition(ForeverBrick.class, 2, R.string.category_control);
 		addBrickAtPosition(ForeverBrick.class, 3, R.string.category_control);
 
-		checkIfBrickAtPositionShowsString(2, R.string.brick_forever);
-		checkIfBrickAtPositionShowsString(3, R.string.brick_forever);
+		onBrickAtPosition(2).checkShowsText(R.string.brick_forever);
+		onBrickAtPosition(3).checkShowsText(R.string.brick_forever);
 
 		dragBrickAtPositionToBottom(3);
 
-		checkIfBrickAtPositionShowsString(1, R.string.brick_repeat);
-		checkIfBrickAtPositionShowsString(2, R.string.brick_forever);
-		checkIfBrickAtPositionShowsString(3, R.string.brick_loop_end);
-		checkIfBrickAtPositionShowsString(4, R.string.brick_loop_end);
-		checkIfBrickAtPositionShowsString(5, R.string.brick_forever);
-		checkIfBrickAtPositionShowsString(6, R.string.brick_change_y_by);
-		checkIfBrickAtPositionShowsString(7, R.string.brick_loop_end);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_repeat);
+		onBrickAtPosition(2).checkShowsText(R.string.brick_forever);
+		onBrickAtPosition(3).checkShowsText(R.string.brick_loop_end);
+		onBrickAtPosition(4).checkShowsText(R.string.brick_loop_end);
+		onBrickAtPosition(5).checkShowsText(R.string.brick_forever);
+		onBrickAtPosition(6).checkShowsText(R.string.brick_change_y_by);
+		onBrickAtPosition(7).checkShowsText(R.string.brick_loop_end);
 
 		deleteBrickAtPosition(2);
 		deleteBrickAtPosition(3);
@@ -171,7 +169,11 @@ public class LoopBrickTest {
 				.check(doesNotExist());
 
 		addBrickAtPosition(RepeatBrick.class, 1, R.string.category_control);
-		enterStringInFormulaTextFieldOnBrickAtPosition("3", R.id.brick_repeat_edit_text, 1);
+
+		onBrickAtPosition(1).onFormulaTextFiled(R.id.brick_repeat_edit_text)
+				.performEnterString("3")
+				.checkShowsText("3");
+
 		addBrickAtPosition(ChangeYByNBrick.class, 1, R.string.category_motion);
 
 		dragBrickAtPositionToTop(2);
@@ -182,18 +184,18 @@ public class LoopBrickTest {
 
 	@Test
 	public void testCopyLoopBrickTest() throws InterpretationException {
-		onScriptList().atPosition(1).perform(click());
+		onBrickAtPosition(1).perform(click());
 
 		onView(withText(R.string.brick_context_dialog_copy_brick))
 				.perform(click());
 
-		onScriptList().atPosition(1).perform(click());
+		onBrickAtPosition(1).perform(click());
 
-		checkIfBrickAtPositionShowsString(1, R.string.brick_repeat);
-		checkIfBrickAtPositionShowsString(2, R.string.brick_loop_end);
-		checkIfBrickAtPositionShowsString(3, R.string.brick_repeat);
-		checkIfBrickAtPositionShowsString(4, R.string.brick_change_y_by);
-		checkIfBrickAtPositionShowsString(5, R.string.brick_loop_end);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_repeat);
+		onBrickAtPosition(2).checkShowsText(R.string.brick_loop_end);
+		onBrickAtPosition(3).checkShowsText(R.string.brick_repeat);
+		onBrickAtPosition(4).checkShowsText(R.string.brick_change_y_by);
+		onBrickAtPosition(5).checkShowsText(R.string.brick_loop_end);
 
 		deleteBrickAtPosition(1);
 
@@ -201,7 +203,7 @@ public class LoopBrickTest {
 	}
 
 	public void dragBrickAtPositionToEdge(int position, final boolean dragToTop) {
-		onScriptList().atPosition(position)
+		onBrickAtPosition(position)
 				.perform(longClick()).perform(new GeneralSwipeAction(Swipe.FAST,
 				GeneralLocation.TOP_CENTER,
 				new CoordinatesProvider() {
@@ -245,7 +247,7 @@ public class LoopBrickTest {
 	}
 
 	public void deleteBrickAtPosition(int position) {
-		onScriptList().atPosition(position)
+		onBrickAtPosition(position)
 				.perform(click());
 		onView(withText(R.string.brick_context_dialog_delete_brick))
 				.perform(click());
@@ -261,14 +263,14 @@ public class LoopBrickTest {
 				.perform(click());
 		onData(is(instanceOf(brickHeaderClass))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.perform(click());
-		onScriptList().atPosition(insertPosition)
+		onBrickAtPosition(insertPosition)
 				.perform(click());
 	}
 
 	public void checkSetUpBrickArrangement() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(1, R.string.brick_repeat);
-		checkIfBrickAtPositionShowsString(2, R.string.brick_change_y_by);
-		checkIfBrickAtPositionShowsString(3, R.string.brick_loop_end);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_repeat);
+		onBrickAtPosition(2).checkShowsText(R.string.brick_change_y_by);
+		onBrickAtPosition(3).checkShowsText(R.string.brick_loop_end);
 	}
 }

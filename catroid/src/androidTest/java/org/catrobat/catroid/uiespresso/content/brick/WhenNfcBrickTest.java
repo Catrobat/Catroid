@@ -80,9 +80,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.onScriptList;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.util.UiNFCTestUtils.checkNfcSpinnerContains;
 import static org.catrobat.catroid.uiespresso.util.UiNFCTestUtils.clickSpinnerValueOnBrick;
 import static org.hamcrest.Matchers.allOf;
@@ -164,11 +162,13 @@ public class WhenNfcBrickTest {
 
 	@Test
 	public void testBasicLayout() {
-		checkIfBrickAtPositionShowsString(nfcBrickPosition, R.string.brick_when_nfc);
+		onBrickAtPosition(nfcBrickPosition).checkShowsText(R.string.brick_when_nfc);
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.set_variable_spinner, setVariableIDPosition, UiNFCTestUtils.READ_TAG_ID);
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.set_variable_spinner, setVariableMessagePosition,
-				UiNFCTestUtils.READ_TAG_MESSAGE);
+		onBrickAtPosition(setVariableIDPosition).onSpinner(R.id.set_variable_spinner)
+				.checkShowsText(UiNFCTestUtils.READ_TAG_ID);
+
+		onBrickAtPosition(setVariableMessagePosition).onSpinner(R.id.set_variable_spinner)
+				.checkShowsText(UiNFCTestUtils.READ_TAG_MESSAGE);
 	}
 
 	@Test
@@ -224,7 +224,7 @@ public class WhenNfcBrickTest {
 		spinnerValuesResourceIdsNotContained = Arrays.asList();
 		checkNfcSpinnerContains(nfcBrickPosition, spinnerValuesResourceIdsContained, spinnerValuesResourceIdsNotContained);
 
-		onScriptList().atPosition(nfcBrickPosition).onChildView(withId(R.id.brick_when_nfc_spinner))
+		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
 				.perform(click());
 		onView(withText(R.string.default_tag_name))
 				.check(matches(isDisplayed()));
@@ -244,8 +244,9 @@ public class WhenNfcBrickTest {
 
 	@Test
 	public void testSelectTagAndPlay() {
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_when_nfc_spinner, nfcBrickPosition,
-				R.string.brick_when_nfc_default_all);
+		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.checkShowsText(R.string.brick_when_nfc_default_all);
+
 		clickSpinnerValueOnBrick(R.id.brick_when_nfc_spinner, nfcBrickPosition, R.string.test_tag_name_1);
 
 		onView(withId(R.id.button_play))
@@ -255,8 +256,10 @@ public class WhenNfcBrickTest {
 				tagDataList.get(0).getNfcTagName());
 		pressBack();
 		pressBack();
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_when_nfc_spinner, nfcBrickPosition,
-				R.string.test_tag_name_1);
+
+		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.checkShowsText(R.string.test_tag_name_1);
+
 		clickSpinnerValueOnBrick(R.id.brick_when_nfc_spinner, nfcBrickPosition, R.string.test_tag_name_2);
 
 		onView(withId(R.id.button_play))
@@ -266,8 +269,9 @@ public class WhenNfcBrickTest {
 				tagDataList.get(1).getNfcTagName());
 		pressBack();
 		pressBack();
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_when_nfc_spinner, nfcBrickPosition, R.string
-				.test_tag_name_2);
+
+		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.checkShowsText(R.string.test_tag_name_2);
 	}
 
 	@Test

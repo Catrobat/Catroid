@@ -35,8 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class SetTransparencyBrickTest {
@@ -56,11 +55,12 @@ public class SetTransparencyBrickTest {
 	@Test
 	public void testStopAllSoundsBrick() {
 		int transparencyValue = 40;
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_transparency);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_transparency);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(transparencyValue, R.id.brick_set_transparency_to_edit_text,
-				brickPosition);
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_set_transparency_to_edit_text)
+				.performEnterNumber(transparencyValue)
+				.checkShowsNumber(transparencyValue);
 	}
 }
 

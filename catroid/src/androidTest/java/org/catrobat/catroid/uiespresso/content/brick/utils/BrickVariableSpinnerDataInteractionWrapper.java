@@ -21,19 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick;
+package org.catrobat.catroid.uiespresso.content.brick.utils;
 
-import android.support.test.runner.AndroidJUnit4;
+import android.support.test.espresso.DataInteraction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -43,38 +35,42 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-
-@RunWith(AndroidJUnit4.class)
-public class SceneTransmitionBrickTest {
-	private int brickPosition;
-
-	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
-
-	@Before
-	public void setUp() throws Exception {
-		String myscene = "testScene";
-		BrickTestUtils.createProjectAndGetStartScript("sceneTransmitionBrickTest")
-				.addBrick(new SceneTransitionBrick(myscene));
-		brickPosition = 1;
-		baseActivityTestRule.launchActivity(null);
+public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerDataInteractionWrapper {
+	public BrickVariableSpinnerDataInteractionWrapper(DataInteraction dataInteraction) {
+		super(dataInteraction);
 	}
 
-	@Test
-	public void sceneTransmitionBrickTest() {
-		String newScene = "testScene2";
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_scene_transition);
-		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_scene_transition_spinner))
+	public BrickVariableSpinnerDataInteractionWrapper checkShowsText(String text) {
+		dataInteraction.onChildView(withText(text))
+				.check(matches(isDisplayed()));
+		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);
+	}
+
+	public BrickVariableSpinnerDataInteractionWrapper performNewVariableInitial(String variableName) {
+		checkShowsText(R.string.brick_variable_spinner_create_new_variable);
+
+		dataInteraction.onChildView(withText(R.string.brick_variable_spinner_create_new_variable))
 				.perform(click());
+
+		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
+
+		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);
+	}
+
+	public BrickVariableSpinnerDataInteractionWrapper performNewVariable(String variableName) {
+		dataInteraction.perform(click());
+
 		onView(withText(R.string.brick_variable_spinner_create_new_variable))
 				.perform(click());
-		enterTextOnNewSceneDialogue(R.id.scene_name_edittext, newScene);
+
+		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
+		// todo: CAT-2359 to fix this:
+		checkShowsText(variableName);
+
+		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
-	public static void enterTextOnNewSceneDialogue(int dialogueId, String textToEnter) {
+	private static void enterTextOnDialogue(int dialogueId, String textToEnter) {
 		onView(withId(dialogueId))
 				.check(matches(isDisplayed()));
 		onView(withId(dialogueId))

@@ -30,16 +30,13 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterStringInFormulaTextFieldOnBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class SetVolumeToBrickTest {
@@ -59,31 +56,37 @@ public class SetVolumeToBrickTest {
 	@Test
 	@Flaky
 	public void testSetVolumeToBrickStringValue() {
-		String volumeToChange = "10.2";
+		Double volumeToChange = 10.2;
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_volume_to);
-		enterStringInFormulaTextFieldOnBrickAtPosition(volumeToChange, R.id.brick_set_volume_to_edit_text,
-				brickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_volume_to);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_set_volume_to_edit_text)
+				.performEnterNumber(volumeToChange)
+				.checkShowsNumber(volumeToChange);
 	}
 
 	@Test
 	public void testSetVolumeToBrickIntValue() {
 		int volumeToChange = 12;
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_volume_to);
-		enterValueInFormulaTextFieldOnBrickAtPosition(volumeToChange, R.id.brick_set_volume_to_edit_text,
-				brickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_volume_to);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_set_volume_to_edit_text)
+				.performEnterNumber(volumeToChange)
+				.checkShowsNumber(volumeToChange);
 	}
 
 	@Test
 	public void testSetVolumeToBrickFloatValue() {
 		float volumeToChange = 12.4f;
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_volume_to);
-		FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition(volumeToChange, R.id.brick_set_volume_to_edit_text,
-				brickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_volume_to);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_set_volume_to_edit_text)
+				.performEnterNumber(volumeToChange)
+				.checkShowsNumber(volumeToChange);
 	}
 }

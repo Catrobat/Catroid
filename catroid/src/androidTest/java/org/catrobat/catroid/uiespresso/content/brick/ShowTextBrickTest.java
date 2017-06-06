@@ -43,8 +43,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class ShowTextBrickTest {
@@ -74,21 +73,32 @@ public class ShowTextBrickTest {
 		final int positionX = 30;
 		final int positionY = 40;
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(setBrickPosition, R.string.brick_set_variable);
-		checkIfBrickAtPositionShowsString(showBrickPosition, R.string.brick_show_variable);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(setBrickPosition).checkShowsText(R.string.brick_set_variable);
+		onBrickAtPosition(showBrickPosition).checkShowsText(R.string.brick_show_variable);
 
-		onView(withId(R.id.set_variable_spinner)).perform(click());
-		onView(withId(R.id.dialog_formula_editor_data_name_edit_text)).perform(typeText(variableName));
-		onView(withText(R.string.ok)).perform(click());
-		enterValueInFormulaTextFieldOnBrickAtPosition(intToChange, R.id.brick_set_variable_edit_text,
-				setBrickPosition);
+		onView(withId(R.id.set_variable_spinner))
+				.perform(click());
+		onView(withId(R.id.dialog_formula_editor_data_name_edit_text))
+				.perform(typeText(variableName));
+		onView(withText(R.string.ok))
+				.perform(click());
 
-		onView(withId(R.id.show_variable_spinner)).perform(click());
-		onView(withText(variableName)).perform(click());
-		enterValueInFormulaTextFieldOnBrickAtPosition(positionX, R.id.brick_show_variable_edit_text_x,
-				showBrickPosition);
-		enterValueInFormulaTextFieldOnBrickAtPosition(positionY, R.id.brick_show_variable_edit_text_y,
-				showBrickPosition);
+		onBrickAtPosition(setBrickPosition).onFormulaTextFiled(R.id.brick_set_variable_edit_text)
+				.performEnterNumber(intToChange)
+				.checkShowsNumber(intToChange);
+
+		onView(withId(R.id.show_variable_spinner))
+				.perform(click());
+		onView(withText(variableName))
+				.perform(click());
+
+		onBrickAtPosition(showBrickPosition).onFormulaTextFiled(R.id.brick_show_variable_edit_text_x)
+				.performEnterNumber(positionX)
+				.checkShowsNumber(positionX);
+
+		onBrickAtPosition(showBrickPosition).onFormulaTextFiled(R.id.brick_show_variable_edit_text_y)
+				.performEnterNumber(positionY)
+				.checkShowsNumber(positionY);
 	}
 }

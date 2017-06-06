@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,9 +39,7 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.checkIfValuesAvailableInSpinnerOnBrick;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class SetRotationStyleBrickTest {
@@ -62,17 +59,21 @@ public class SetRotationStyleBrickTest {
 	@Test
 	@Flaky
 	public void testSetRotationStyle() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_set_rotation_style);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_rotation_style);
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_set_rotation_style_spinner, brickPosition, R.string.brick_set_rotation_style_lr);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_rotation_style_spinner)
+				.checkShowsText(R.string.brick_set_rotation_style_lr);
 
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_set_rotation_style_spinner, brickPosition, R.string
-				.brick_set_rotation_style_normal);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_rotation_style_spinner)
+				.performSelect(R.string.brick_set_rotation_style_normal)
+				.checkShowsText(R.string.brick_set_rotation_style_normal);
 
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.brick_set_rotation_style_normal,
 				R.string.brick_set_rotation_style_no);
-		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.brick_set_rotation_style_spinner, brickPosition);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_rotation_style_spinner)
+				.checkValuesAvailable(spinnerValuesResourceIds);
 	}
 }

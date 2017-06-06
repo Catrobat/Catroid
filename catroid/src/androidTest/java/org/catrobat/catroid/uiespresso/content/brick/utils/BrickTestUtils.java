@@ -23,19 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
-import android.support.test.espresso.DataInteraction;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -47,24 +41,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.hamcrest.Matchers.instanceOf;
-
 public final class BrickTestUtils {
 	private BrickTestUtils() {
 		throw new AssertionError();
-	}
-
-	public static DataInteraction onScriptList() {
-		return onData(instanceOf(Brick.class)).inAdapterView(ScriptListMatchers.isScriptListView());
-	}
-
-	public static void checkIfBrickAtPositionShowsString(int position, int stringResourceId) {
-		checkIfBrickAtPositionShowsString(position, UiTestUtils.getResourcesString(stringResourceId));
-	}
-
-	public static void checkIfBrickAtPositionShowsString(int position, String string) {
-		onScriptList().atPosition(position).onChildView(withText(string))
-				.check(matches(isDisplayed()));
 	}
 
 	public static Script createProjectAndGetStartScript(String projectName) {

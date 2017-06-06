@@ -31,7 +31,6 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,11 +45,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.onScriptList;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.createNewVariableOnSpinner;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.createNewVariableOnSpinnerInitial;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -79,14 +74,19 @@ public class DeleteItemOfUserListBrickTest {
 		int newPosition = 3;
 		String userListName = "test1";
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_delete_item_from_userlist);
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.delete_item_of_userlist_spinner, brickPosition,
-				R.string.brick_variable_spinner_create_new_variable);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_delete_item_from_userlist);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(newPosition, R.id.brick_delete_item_of_userlist_edit_text,
-				brickPosition);
-		createNewVariableOnSpinnerInitial(R.id.delete_item_of_userlist_spinner, brickPosition, userListName);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.delete_item_of_userlist_spinner)
+				.checkShowsText(R.string.brick_variable_spinner_create_new_variable);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_delete_item_of_userlist_edit_text)
+				.performEnterNumber(newPosition)
+				.checkShowsNumber(newPosition);
+
+		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
+				.performNewVariableInitial(userListName)
+				.checkShowsText(userListName);
 	}
 
 	@Test
@@ -96,18 +96,23 @@ public class DeleteItemOfUserListBrickTest {
 		String secondUserListName = "test2";
 		UserList userList;
 
-		createNewVariableOnSpinnerInitial(R.id.delete_item_of_userlist_spinner, brickPosition, firstUserListName);
+		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
+				.performNewVariableInitial(firstUserListName);
+
 		userList = deleteItemOfUserListBrick.getUserList();
 		assertNotNull("UserList is null", userList);
 		assertTrue("UserList Name not as expected", userList.getName().equals(firstUserListName));
 
-		createNewVariableOnSpinner(R.id.delete_item_of_userlist_spinner, brickPosition, secondUserListName);
+		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
+				.performNewVariable(secondUserListName)
+				.checkShowsText(secondUserListName);
+
 		userList = deleteItemOfUserListBrick.getUserList();
 		assertNotNull("UserList is null", userList);
 		// todo: CAT-2359 to fix this
 		assertTrue("UserList Name not as expected", userList.getName().equals(secondUserListName));
 
-		onScriptList().atPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
+		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
 				.perform(click());
 
 		onView(withId(R.id.formula_editor_keyboard_data))
@@ -128,7 +133,7 @@ public class DeleteItemOfUserListBrickTest {
 	@Test
 	public void testCreateUserListInFormulaEditor() {
 		String userListName = "test1";
-		onScriptList().atPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
+		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
 				.perform(click());
 		onView(withId(R.id.formula_editor_keyboard_data))
 				.perform(click());
