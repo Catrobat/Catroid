@@ -60,7 +60,8 @@ public class SoundListAdapter extends CheckBoxListAdapter<SoundInfo> {
 			listItemViewHolder.leftBottomDetails.setVisibility(View.VISIBLE);
 			listItemViewHolder.rightBottomDetails.setVisibility(View.VISIBLE);
 			listItemViewHolder.leftBottomDetails.setText(getContext().getString(R.string.size));
-			listItemViewHolder.rightBottomDetails.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+			listItemViewHolder.rightBottomDetails.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath
+					()),getContext()));
 		} else {
 			listItemViewHolder.leftBottomDetails.setVisibility(View.GONE);
 			listItemViewHolder.rightBottomDetails.setVisibility(View.GONE);
