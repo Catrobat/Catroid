@@ -47,7 +47,7 @@ public final class SensorTestServerConnection {
 
 	// Enter the right IP address and port number to connect and request sensor values.
 	// PMD DISABLE AvoidUsingHardCodedIP FOR 1 LINES
-	private static final String ARDUINO_SERVER_IP = "129.27.202.103"; //NOPMD
+	private static final String ARDUINO_SERVER_IP = "192.168.1.16"; //NOPMD
 	private static final int SERVER_PORT = 6789;
 
 	private static final int NFC_EMULATE = 0;

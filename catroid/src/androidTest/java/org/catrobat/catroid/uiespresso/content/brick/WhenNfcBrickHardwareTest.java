@@ -23,27 +23,31 @@
 
 package org.catrobat.catroid.uiespresso.content.brick;
 
-import android.os.SystemClock;
+import android.support.test.filters.FlakyTest;
+import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.bricks.FlashBrick;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenNfcScript;
+import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uitest.util.SensorTestServerConnection;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
 
-public class FlashBrickTest {
+@RunWith(AndroidJUnit4.class)
+public class WhenNfcBrickHardwareTest {
 	private int brickPosition;
 
 	@Rule
@@ -53,37 +57,25 @@ public class FlashBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		Script script = BrickTestUtils.createProjectAndGetStartScript("flashBrickTest");
-		script.addBrick(new FlashBrick());
+		Project project = new Project(null, "whenNfcBrickHardware");
+		Sprite sprite = new Sprite("testSprite");
+		WhenNfcScript script = new WhenNfcScript();
+		script.addBrick(new VibrationBrick());
+		sprite.addScript(script);
+		project.getDefaultScene().addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
 		baseActivityTestRule.launchActivity(null);
 	}
 
-	@Test
-	public void testFlashBrick() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_flash);
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_flash_spinner, brickPosition, R.string.brick_flash_on);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_flash_spinner, brickPosition, R.string.brick_flash_off);
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_flash_spinner, brickPosition, R.string.brick_flash_off);
-	}
+	@FlakyTest
+	public void testWhenNfcHardware() {
+		checkIfBrickAtPositionShowsString(0, R.string.brick_when_nfc);
+		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_vibration);
+		enterValueInFormulaTextFieldOnBrickAtPosition(5, R.id.brick_vibration_edit_text, brickPosition);
 
-	@Test
-	public void testActualFlashOnBrick() {
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_flash_spinner, brickPosition, R.string.brick_flash_on);
 		onView(withId(R.id.button_play)).perform(click());
-
-		SystemClock.sleep(2500);
-		SensorTestServerConnection.checkLightSensorValue(SensorTestServerConnection
-				.SET_LED_ON_VALUE);
-	}
-
-	@Test
-	public void testActualFlashOffBrick() {
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_flash_spinner, brickPosition, R.string.brick_flash_off);
-		onView(withId(R.id.button_play)).perform(click());
-
-		SystemClock.sleep(2500);
-		SensorTestServerConnection.checkLightSensorValue(SensorTestServerConnection
-				.SET_LED_OFF_VALUE);
+		SensorTestServerConnection.emulateNfcTag(true, "123456", "");
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
 	}
 }
