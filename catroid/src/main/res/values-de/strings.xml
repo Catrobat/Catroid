@@ -49,19 +49,19 @@
   <string name="close">Schließen</string>
   <string name="error">Fehler</string>
   <string name="please_wait">Bitte warten</string>
-  <string name="loading">Lade&#8230;</string>
-  <string name="search_hint">Suche&#8230;</string>
+  <string name="loading">Lade&#x2026;</string>
+  <string name="search_hint">Suche&#x2026;</string>
   <string name="no_internet">Kein Internet</string>
-  <string name="loading_check_token">Token wird auf unserem Server überprüft&#8230;</string>
-  <string name="loading_check_facebook_data">Facebook Daten werden abgerufen&#8230;</string>
-  <string name="loading_check_email">E-Mail-Verfügbarkeit wird auf unserem Server überprüft&#8230;</string>
-  <string name="loading_check_oauth_token">OAuth-Token wird auf unserem Server überprüft&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Facebook Tokengültigkeit wird auf unserem Server überprüft&#8230;</string>
-  <string name="loading_check_oauth_username">Verfügbarkeit des Benutzernamens wird überprüft&#8230;</string>
-  <string name="loading_facebook_exchange_token">Facebook Token wird mit unserem Server ausgetauscht&#8230;</string>
-  <string name="loading_facebook_login">Facebook Login auf unserem Server abgeschlossen&#8230;</string>
-  <string name="loading_google_exchange_code">Google+ Code wird mit unserem Server ausgetauscht&#8230;</string>
-  <string name="loading_google_login">Google+ Anmeldung ist auf unserem Server abgeschlossen&#8230;</string>
+  <string name="loading_check_token">Token wird auf unserem Server überprüft&#x2026;</string>
+  <string name="loading_check_facebook_data">Facebook Daten werden abgerufen&#x2026;</string>
+  <string name="loading_check_email">E-Mail-Verfügbarkeit wird auf unserem Server überprüft&#x2026;</string>
+  <string name="loading_check_oauth_token">OAuth-Token wird auf unserem Server überprüft&#x2026;</string>
+  <string name="loading_check_facebook_token_validity">Facebook Tokengültigkeit wird auf unserem Server überprüft&#x2026;</string>
+  <string name="loading_check_oauth_username">Verfügbarkeit des Benutzernamens wird überprüft&#x2026;</string>
+  <string name="loading_facebook_exchange_token">Facebook Token wird mit unserem Server ausgetauscht&#x2026;</string>
+  <string name="loading_facebook_login">Facebook Login auf unserem Server abgeschlossen&#x2026;</string>
+  <string name="loading_google_exchange_code">Google+ Code wird mit unserem Server ausgetauscht&#x2026;</string>
+  <string name="loading_google_login">Google+ Anmeldung ist auf unserem Server abgeschlossen&#x2026;</string>
   <string name="background">Hintergrund</string>
   <string name="stage">Bühne</string>
   <string name="ok">OK</string>
@@ -167,15 +167,15 @@
   <string name="connection_failed">Verbindung zum Server fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
   <string name="authentication_failed">Authentifizierung fehlgeschlagen. Bitte kontaktiere das Pocket Code Team!</string>
   <plurals name="scratch_conversion_scheduled_x">
-    <item quantity="one">1 Programm zur Warteschlange hinzugefügt&#8230;</item>
-    <item quantity="other">%d Programme zur Warteschlange hinzugefügt&#8230;</item>
+    <item quantity="one">1 Programm zur Warteschlange hinzugefügt&#x2026;</item>
+    <item quantity="other">%d Programme zur Warteschlange hinzugefügt&#x2026;</item>
   </plurals>
-  <string name="scratch_conversion_started">Konvertierung gestarted&#8230;</string>
+  <string name="scratch_conversion_started">Konvertierung gestarted&#x2026;</string>
   <string name="convert">Konvertieren</string>
-  <string name="converting">Konvertierung in Bearbeitung&#8230;</string>
+  <string name="converting">Konvertierung in Bearbeitung&#x2026;</string>
   <string name="status_scheduled">Konvertierung in Bearbeitung</string>
-  <string name="status_waiting_for_worker">Suche nach freien Arbeiter&#8230; Bitte warten&#8230;</string>
-  <string name="status_started">Konvertierung läuft&#8230;</string>
+  <string name="status_waiting_for_worker">Suche nach freien Arbeiter&#x2026; Bitte warten&#x2026;</string>
+  <string name="status_started">Konvertierung läuft&#x2026;</string>
   <string name="status_conversion_finished">Konvertierung beendet</string>
   <plurals name="status_in_progress_x_jobs">
     <item quantity="one">In Bearbeitung: 1 Programm</item>
@@ -187,7 +187,7 @@
   </plurals>
   <string name="status_conversion_failed">Konvertierung fehlgeschlagen!</string>
   <string name="status_conversion_canceled">Konvertierung abgebrochen!</string>
-  <string name="status_downloading">Download läuft&#8230;</string>
+  <string name="status_downloading">Download läuft&#x2026;</string>
   <string name="status_download_finished">Download abgeschlossen!</string>
   <string name="status_download_canceled">Download abgebrochen!</string>
   <string name="list_view_section_title_in_progress">In Bearbeitung</string>
@@ -561,12 +561,12 @@
   <string name="stage_dialog_screenshot">Bildvorschau</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">Neu&#8230;</string>
+  <string name="new_broadcast_message">Neu&#x2026;</string>
   <string name="dialog_new_broadcast_message_title">Neue Nachricht</string>
   <string name="dialog_new_broadcast_message_name">Nachricht:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">Neu&#8230;</string>
+  <string name="new_nfc_tag">Neu&#x2026;</string>
   <string name="brick_when_nfc_default_all">Alle</string>
   <!-- -->
   <!-- Brick categories -->
@@ -736,7 +736,7 @@
   <string name="brick_broadcast_invalid_symbol">"Die Nachricht ist reserviert für:\n\"Wenn physische Kollision zwischen\"-Baustein\nBitte versuche es erneut!"</string>
   <string name="brick_set_variable">Setze Variable</string>
   <string name="brick_change_variable">Ändere Variable</string>
-  <string name="brick_variable_spinner_create_new_variable">Neu&#8230;</string>
+  <string name="brick_variable_spinner_create_new_variable">Neu&#x2026;</string>
   <string name="brick_note_default_value">"Kommentar hier hinzufügen…"</string>
   <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
   <string name="brick_say_bubble_default_value">"Hallo!"</string>
@@ -861,7 +861,7 @@
   <string name="error_load_project">Beim Laden des Programms ist ein Fehler aufgetreten.</string>
   <string name="error_screenshot_failed">Beim Speichern des Bildvorschaues ist ein Fehler aufgetreten.</string>
   <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
-  <string name="error_load_image_special_chars">Bild kann nicht geladen werden. Enthält der Dateiname Sonderzeichen (z. B. $, %, &amp;, &#8230;)? </string>
+  <string name="error_load_image_special_chars">Bild kann nicht geladen werden. Enthält der Dateiname Sonderzeichen (z. B. $, %, &amp;, &#x2026;)? </string>
   <string name="error_load_sound">Beim Laden des Klanges ist ein Fehler aufgetreten.</string>
   <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
   <string name="error_no_internet">Bitte stelle eine Internetverbindung her.</string>
@@ -892,10 +892,10 @@
   <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
   <string name="title_paired_devices">Verbundene Geräte</string>
   <string name="title_other_devices">Neue Geräte</string>
-  <string name="searching_devices">Suche Geräte&#8230;</string>
+  <string name="searching_devices">Suche Geräte&#x2026;</string>
   <string name="button_scan">Bluetooth Geräte suchen</string>
   <string name="select_device">Wähle Gerät:</string>
-  <string name="connecting_please_wait">Verbinde zum Gerät.\nBitte warten&#8230;</string>
+  <string name="connecting_please_wait">Verbinde zum Gerät.\nBitte warten&#x2026;</string>
   <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
   <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>

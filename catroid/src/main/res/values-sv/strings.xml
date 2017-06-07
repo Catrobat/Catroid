@@ -49,19 +49,19 @@
   <string name="close">Stäng</string>
   <string name="error">Fel</string>
   <string name="please_wait">Please wait</string>
-  <string name="loading">Laddar&#8230;</string>
-  <string name="search_hint">Search&#8230;</string>
+  <string name="loading">Laddar&#x2026;</string>
+  <string name="search_hint">Search&#x2026;</string>
   <string name="no_internet">No Internet</string>
-  <string name="loading_check_token">Token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
-  <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
-  <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#8230;</string>
-  <string name="loading_facebook_login">Facebook login is completed on our server&#8230;</string>
-  <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
-  <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
+  <string name="loading_check_token">Token is checked on our server&#x2026;</string>
+  <string name="loading_check_facebook_data">Facebook data is retrieved&#x2026;</string>
+  <string name="loading_check_email">E-Mail availability is checked on our server&#x2026;</string>
+  <string name="loading_check_oauth_token">OAuth token is checked on our server&#x2026;</string>
+  <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#x2026;</string>
+  <string name="loading_check_oauth_username">Username availability is checked on our server&#x2026;</string>
+  <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#x2026;</string>
+  <string name="loading_facebook_login">Facebook login is completed on our server&#x2026;</string>
+  <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#x2026;</string>
+  <string name="loading_google_login">Google+ login is completed on our server&#x2026;</string>
   <string name="background">Bakgrund</string>
   <string name="stage">Stage</string>
   <string name="ok">Okej</string>
@@ -168,15 +168,15 @@
   <string name="connection_failed">Connection to server failed, please retry later!</string>
   <string name="authentication_failed">Authentication failed, please contact the Pocket Code team!</string>
   <plurals name="scratch_conversion_scheduled_x">
-    <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
-    <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
+    <item quantity="one">Scheduled 1 Scratch program&#x2026;</item>
+    <item quantity="other">Scheduled %d Scratch programs&#x2026;</item>
   </plurals>
-  <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
+  <string name="scratch_conversion_started">Started to convert Scratch program&#x2026;</string>
   <string name="convert">Convert</string>
-  <string name="converting">Converting&#8230;</string>
+  <string name="converting">Converting&#x2026;</string>
   <string name="status_scheduled">Scheduled</string>
-  <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-  <string name="status_started">Started&#8230;</string>
+  <string name="status_waiting_for_worker">Looking for a free worker&#x2026; Please wait&#x2026;</string>
+  <string name="status_started">Started&#x2026;</string>
   <string name="status_conversion_finished">Conversion finished</string>
   <plurals name="status_in_progress_x_jobs">
     <item quantity="one">In progress: 1 job</item>
@@ -188,7 +188,7 @@
   </plurals>
   <string name="status_conversion_failed">Conversion failed!</string>
   <string name="status_conversion_canceled">Conversion canceled!</string>
-  <string name="status_downloading">Downloading&#8230;</string>
+  <string name="status_downloading">Downloading&#x2026;</string>
   <string name="status_download_finished">Download finished!</string>
   <string name="status_download_canceled">Download canceled!</string>
   <string name="list_view_section_title_in_progress">In progress</string>
@@ -569,12 +569,12 @@
   <string name="stage_dialog_screenshot">Preview</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">Nya&#8230;</string>
+  <string name="new_broadcast_message">Nya&#x2026;</string>
   <string name="dialog_new_broadcast_message_title">Nytt meddelande</string>
   <string name="dialog_new_broadcast_message_name">meddelande:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">Nya&#8230;</string>
+  <string name="new_nfc_tag">Nya&#x2026;</string>
   <string name="brick_when_nfc_default_all">all</string>
   <!-- -->
   <!-- Brick categories -->
@@ -744,7 +744,7 @@
   <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">sätt Variabeln</string>
   <string name="brick_change_variable">Ändra variabeln</string>
-  <string name="brick_variable_spinner_create_new_variable">Nya&#8230;</string>
+  <string name="brick_variable_spinner_create_new_variable">Nya&#x2026;</string>
   <string name="brick_note_default_value">"Lägg till kommentar här…"</string>
   <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
   <string name="brick_say_bubble_default_value">"Hallå!"</string>
@@ -870,7 +870,7 @@
   <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
   <string name="error_load_image">Ett fel inträffade när bilden laddades.</string>
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
-        characters (e.g. $, %, &amp;, &#8230;)? </string>
+        characters (e.g. $, %, &amp;, &#x2026;)? </string>
   <string name="error_load_sound">Ett fel uppstod vid inläsning av ljudet.</string>
   <string name="error_internet_connection">Ett okänt fel inträffade. Kontrollera din Internetanslutning.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
@@ -902,10 +902,10 @@
   <string name="notification_blueth_err">Bluetooth kunde inte aktiveras, avslutande skede</string>
   <string name="title_paired_devices">Ihopkopplade enheter</string>
   <string name="title_other_devices">Nya enheter</string>
-  <string name="searching_devices">Looking for devices&#8230;</string>
+  <string name="searching_devices">Looking for devices&#x2026;</string>
   <string name="button_scan">Sök Bluetooth-enheter</string>
   <string name="select_device">Select Device:</string>
-  <string name="connecting_please_wait">Ansluter till din enhet. \nVar god vänta&#8230;</string>
+  <string name="connecting_please_wait">Ansluter till din enhet. \nVar god vänta&#x2026;</string>
   <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">Det gick inte att ansluta till enheten!</string>
   <string name="none_found">Inga oparade enheter finns</string>

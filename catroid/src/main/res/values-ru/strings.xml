@@ -49,19 +49,19 @@
   <string name="close">Закрыть</string>
   <string name="error">Ошибка</string>
   <string name="please_wait">Пожалуйста, подождите</string>
-  <string name="loading">Загрузка&#8230;</string>
-  <string name="search_hint">Поиск&#8230;</string>
+  <string name="loading">Загрузка&#x2026;</string>
+  <string name="search_hint">Поиск&#x2026;</string>
   <string name="no_internet">Интернет-соединение отсутствует</string>
-  <string name="loading_check_token">Token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_data">Получение данных с Facebook&#8230;</string>
-  <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
-  <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#8230;</string>
-  <string name="loading_facebook_login">Facebook login is completed on our server&#8230;</string>
-  <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
-  <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
+  <string name="loading_check_token">Token is checked on our server&#x2026;</string>
+  <string name="loading_check_facebook_data">Получение данных с Facebook&#x2026;</string>
+  <string name="loading_check_email">E-Mail availability is checked on our server&#x2026;</string>
+  <string name="loading_check_oauth_token">OAuth token is checked on our server&#x2026;</string>
+  <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#x2026;</string>
+  <string name="loading_check_oauth_username">Username availability is checked on our server&#x2026;</string>
+  <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#x2026;</string>
+  <string name="loading_facebook_login">Facebook login is completed on our server&#x2026;</string>
+  <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#x2026;</string>
+  <string name="loading_google_login">Google+ login is completed on our server&#x2026;</string>
   <string name="background">Фон</string>
   <string name="stage">Сцена</string>
   <string name="ok">ОК</string>
@@ -165,16 +165,16 @@
   <string name="connection_failed">Connection to server failed, please retry later!</string>
   <string name="authentication_failed">Authentication failed, please contact the Pocket Code team!</string>
   <plurals name="scratch_conversion_scheduled_x">
-    <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
-    <item quantity="few">Scheduled %d Scratch programs&#8230;</item>
-    <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
+    <item quantity="one">Scheduled 1 Scratch program&#x2026;</item>
+    <item quantity="few">Scheduled %d Scratch programs&#x2026;</item>
+    <item quantity="other">Scheduled %d Scratch programs&#x2026;</item>
   </plurals>
-  <string name="scratch_conversion_started">Конвертация Scratch программы запущена&#8230;</string>
+  <string name="scratch_conversion_started">Конвертация Scratch программы запущена&#x2026;</string>
   <string name="convert">Конвертировать</string>
-  <string name="converting">Конвертация&#8230;</string>
+  <string name="converting">Конвертация&#x2026;</string>
   <string name="status_scheduled">Scheduled</string>
-  <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-  <string name="status_started">Started&#8230;</string>
+  <string name="status_waiting_for_worker">Looking for a free worker&#x2026; Please wait&#x2026;</string>
+  <string name="status_started">Started&#x2026;</string>
   <string name="status_conversion_finished">Conversion finished</string>
   <plurals name="status_in_progress_x_jobs">
     <item quantity="one">In progress: 1 job</item>
@@ -188,7 +188,7 @@
   </plurals>
   <string name="status_conversion_failed">Конвертация не удалась!</string>
   <string name="status_conversion_canceled">Конвертация отменена!</string>
-  <string name="status_downloading">Загрузка&#8230;</string>
+  <string name="status_downloading">Загрузка&#x2026;</string>
   <string name="status_download_finished">Загрузка завершена!</string>
   <string name="status_download_canceled">Загрузка отменена!</string>
   <string name="list_view_section_title_in_progress">In progress</string>
@@ -563,12 +563,12 @@
   <string name="stage_dialog_screenshot">Предварительный просмотр</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">новое&#8230;</string>
+  <string name="new_broadcast_message">новое&#x2026;</string>
   <string name="dialog_new_broadcast_message_title">Новый сигнал</string>
   <string name="dialog_new_broadcast_message_name">сигнал:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">новое&#8230;</string>
+  <string name="new_nfc_tag">новое&#x2026;</string>
   <string name="brick_when_nfc_default_all">all</string>
   <!-- -->
   <!-- Brick categories -->
@@ -742,7 +742,7 @@
   <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">Присвоить</string>
   <string name="brick_change_variable">Изменить значение</string>
-  <string name="brick_variable_spinner_create_new_variable">новое&#8230;</string>
+  <string name="brick_variable_spinner_create_new_variable">новое&#x2026;</string>
   <string name="brick_note_default_value">"Добавить комментарий здесь…"</string>
   <string name="brick_think_bubble_default_value">"Хмммм!"</string>
   <string name="brick_say_bubble_default_value">"Привет!"</string>
@@ -868,7 +868,7 @@
   <string name="error_screenshot_failed">Произошла ошибка при сохранении изображения с предварительным просмотром.</string>
   <string name="error_load_image">Произошла ошибка во время загрузки иображения.</string>
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
-        characters (e.g. $, %, &amp;, &#8230;)? </string>
+        characters (e.g. $, %, &amp;, &#x2026;)? </string>
   <string name="error_load_sound">Произошла ошибка при загрузке звука.</string>
   <string name="error_internet_connection">Произошла неизвестная ошибка. Проверьте подключение к интернету.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
@@ -899,10 +899,10 @@
   <string name="notification_blueth_err">Bluetooth не мог быть подключен, закрывание сцены</string>
   <string name="title_paired_devices">Парные устройства</string>
   <string name="title_other_devices">Новые устройства</string>
-  <string name="searching_devices">Поиск устройств&#8230;</string>
+  <string name="searching_devices">Поиск устройств&#x2026;</string>
   <string name="button_scan">Поиск bluetooth устрйств</string>
   <string name="select_device">Выберите устройство:</string>
-  <string name="connecting_please_wait">Подключение к вашему устройству.\nПодождите, пожалуйста&#8230;</string>
+  <string name="connecting_please_wait">Подключение к вашему устройству.\nПодождите, пожалуйста&#x2026;</string>
   <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">Подключение к устройству не удалось!</string>
   <string name="none_found">Нет найдено непарных устройств</string>

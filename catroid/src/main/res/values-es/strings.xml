@@ -49,19 +49,19 @@
   <string name="close">Cerrar</string>
   <string name="error">Error</string>
   <string name="please_wait">Espere por favor</string>
-  <string name="loading">Cargando&#8230;</string>
-  <string name="search_hint">Búsqueda&#8230;</string>
+  <string name="loading">Cargando&#x2026;</string>
+  <string name="search_hint">Búsqueda&#x2026;</string>
   <string name="no_internet">Sin internet</string>
-  <string name="loading_check_token">Token esta validado en nuestro servidor&#8230;</string>
-  <string name="loading_check_facebook_data">Se recuperan datos de Facebook&#8230;</string>
-  <string name="loading_check_email">Se comprueba la disponibilidad de correo electrónico en nuestro servidor&#8230;</string>
-  <string name="loading_check_oauth_token">OAuth token es verificada en nuestro servidor&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Validez del facebook token se comprueba en nuestro servidor&#8230;</string>
-  <string name="loading_check_oauth_username">Se comprueba la disponibilidad del nombre de usuario en nuestro servidor&#8230;</string>
-  <string name="loading_facebook_exchange_token">Token de facebook se intercambia en nuestro servidor&#8230;</string>
-  <string name="loading_facebook_login">Inicio de sesión Facebook se completo en nuestro servidor&#8230;</string>
-  <string name="loading_google_exchange_code">Código de Google + se intercambia en nuestro servidor&#8230;</string>
-  <string name="loading_google_login">Google + inicio de sesión se completa en nuestro servidor&#8230;</string>
+  <string name="loading_check_token">Token esta validado en nuestro servidor&#x2026;</string>
+  <string name="loading_check_facebook_data">Se recuperan datos de Facebook&#x2026;</string>
+  <string name="loading_check_email">Se comprueba la disponibilidad de correo electrónico en nuestro servidor&#x2026;</string>
+  <string name="loading_check_oauth_token">OAuth token es verificada en nuestro servidor&#x2026;</string>
+  <string name="loading_check_facebook_token_validity">Validez del facebook token se comprueba en nuestro servidor&#x2026;</string>
+  <string name="loading_check_oauth_username">Se comprueba la disponibilidad del nombre de usuario en nuestro servidor&#x2026;</string>
+  <string name="loading_facebook_exchange_token">Token de facebook se intercambia en nuestro servidor&#x2026;</string>
+  <string name="loading_facebook_login">Inicio de sesión Facebook se completo en nuestro servidor&#x2026;</string>
+  <string name="loading_google_exchange_code">Código de Google + se intercambia en nuestro servidor&#x2026;</string>
+  <string name="loading_google_login">Google + inicio de sesión se completa en nuestro servidor&#x2026;</string>
   <string name="background">Fondo</string>
   <string name="stage">Escenario</string>
   <string name="ok">OK</string>
@@ -157,15 +157,15 @@
   <string name="connection_failed">Conexión al servidor fallida, ¡por favor vuelva a intentarlo más tarde!</string>
   <string name="authentication_failed">Autenticación fallida, ¡póngase en contacto con el equipo de Pocket Code!</string>
   <plurals name="scratch_conversion_scheduled_x">
-    <item quantity="one">Agendado 1 programa de Scratch&#8230;</item>
-    <item quantity="other">Agendados %d programas de Scratch&#8230;</item>
+    <item quantity="one">Agendado 1 programa de Scratch&#x2026;</item>
+    <item quantity="other">Agendados %d programas de Scratch&#x2026;</item>
   </plurals>
-  <string name="scratch_conversion_started">Se comenzó la conversión del programa Scratch&#8230;</string>
+  <string name="scratch_conversion_started">Se comenzó la conversión del programa Scratch&#x2026;</string>
   <string name="convert">Convertir</string>
-  <string name="converting">Convirtiendo&#8230;</string>
+  <string name="converting">Convirtiendo&#x2026;</string>
   <string name="status_scheduled">Agendado</string>
-  <string name="status_waiting_for_worker">En busca de un trabajador libre&#8230; Espere&#8230;</string>
-  <string name="status_started">Iniciado&#8230;</string>
+  <string name="status_waiting_for_worker">En busca de un trabajador libre&#x2026; Espere&#x2026;</string>
+  <string name="status_started">Iniciado&#x2026;</string>
   <string name="status_conversion_finished">Conversión finalizada</string>
   <plurals name="status_in_progress_x_jobs">
     <item quantity="one">En progreso: 1 trabajo</item>
@@ -177,7 +177,7 @@
   </plurals>
   <string name="status_conversion_failed">Error de conversión!</string>
   <string name="status_conversion_canceled">Conversión cancelada!</string>
-  <string name="status_downloading">Descargando&#8230;</string>
+  <string name="status_downloading">Descargando&#x2026;</string>
   <string name="status_download_finished">Descarga completada!</string>
   <string name="status_download_canceled">Descarga cancelada!</string>
   <string name="list_view_section_title_in_progress">En progreso</string>
@@ -544,12 +544,12 @@
   <string name="stage_dialog_screenshot">Previsualización</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">Nuevo&#8230;</string>
+  <string name="new_broadcast_message">Nuevo&#x2026;</string>
   <string name="dialog_new_broadcast_message_title">Mensaje nuevo</string>
   <string name="dialog_new_broadcast_message_name">Mensaje:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">Nuevo&#8230;</string>
+  <string name="new_nfc_tag">Nuevo&#x2026;</string>
   <string name="brick_when_nfc_default_all">todo</string>
   <!-- -->
   <!-- Brick categories -->
@@ -719,7 +719,7 @@
   <string name="brick_broadcast_invalid_symbol">"Mensaje reservado para: \n \"cuando haya una colisión física entre\"-Bloque\n¡Por Favor inténtalo nuevamente!"</string>
   <string name="brick_set_variable">Establezca una variable</string>
   <string name="brick_change_variable">Cambie la variable</string>
-  <string name="brick_variable_spinner_create_new_variable">Nuevo&#8230;</string>
+  <string name="brick_variable_spinner_create_new_variable">Nuevo&#x2026;</string>
   <string name="brick_note_default_value">"añada comentario aquí…"</string>
   <string name="brick_think_bubble_default_value">"¡Hmmmm!"</string>
   <string name="brick_say_bubble_default_value">"¡Hola!"</string>
@@ -844,7 +844,7 @@
   <string name="error_load_project">Un error ha ocurrido durante el proceso de carga.</string>
   <string name="error_screenshot_failed">Se ha producido un error al guardar la imagen.</string>
   <string name="error_load_image">Se ha producido un error al subir la imagen.</string>
-  <string name="error_load_image_special_chars">No se puede cargar la imagen. ¿El nombre de archivo contiene caracteres especiales (por ejemplo, $, %, &amp;, &#8230;)? </string>
+  <string name="error_load_image_special_chars">No se puede cargar la imagen. ¿El nombre de archivo contiene caracteres especiales (por ejemplo, $, %, &amp;, &#x2026;)? </string>
   <string name="error_load_sound">Error al cargar el sonido.</string>
   <string name="error_internet_connection">Se produjo un error desconocido. Compruebe su conexión a Internet.</string>
   <string name="error_no_internet">Compruebe su conexión a Internet.</string>
@@ -875,10 +875,10 @@
   <string name="notification_blueth_err">Bluetooth no puede está disponible, fase de cierre</string>
   <string name="title_paired_devices">Dispositivos emparejados</string>
   <string name="title_other_devices">Nuevos dispositivos</string>
-  <string name="searching_devices">En busca de dispositivos&#8230;</string>
+  <string name="searching_devices">En busca de dispositivos&#x2026;</string>
   <string name="button_scan">Búsqueda de dispositivos Bluetooth</string>
   <string name="select_device">Seleccionar dispositivo:</string>
-  <string name="connecting_please_wait">Conexión a la espera del dispositivo. \nPlease&#8230;</string>
+  <string name="connecting_please_wait">Conexión a la espera del dispositivo. \nPlease&#x2026;</string>
   <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">Error en la conexión al dispositivo.</string>
   <string name="none_found">No hay dispositivos emparejados</string>

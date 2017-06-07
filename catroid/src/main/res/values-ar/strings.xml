@@ -49,19 +49,19 @@
   <string name="close">إغلاق</string>
   <string name="error">خطأ</string>
   <string name="please_wait">الرجاء الانتظار</string>
-  <string name="loading">تحميل&#8230;</string>
-  <string name="search_hint">جاري البحث&#8230;</string>
+  <string name="loading">تحميل&#x2026;</string>
+  <string name="search_hint">جاري البحث&#x2026;</string>
   <string name="no_internet">لا يوجد إتصال بالإنترنت</string>
-  <string name="loading_check_token">Token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_data">يتم استرداد بيانات الفيس بوك&#8230;</string>
-  <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
-  <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#8230;</string>
-  <string name="loading_facebook_login">Facebook login is completed on our server&#8230;</string>
-  <string name="loading_google_exchange_code">تم تبادل جوجل + التعليمات البرمجية على الخادم&#8230;</string>
-  <string name="loading_google_login">تم إكمال عملية جوجل +تسجيل الدخول على الخادم&#8230;</string>
+  <string name="loading_check_token">Token is checked on our server&#x2026;</string>
+  <string name="loading_check_facebook_data">يتم استرداد بيانات الفيس بوك&#x2026;</string>
+  <string name="loading_check_email">E-Mail availability is checked on our server&#x2026;</string>
+  <string name="loading_check_oauth_token">OAuth token is checked on our server&#x2026;</string>
+  <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#x2026;</string>
+  <string name="loading_check_oauth_username">Username availability is checked on our server&#x2026;</string>
+  <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#x2026;</string>
+  <string name="loading_facebook_login">Facebook login is completed on our server&#x2026;</string>
+  <string name="loading_google_exchange_code">تم تبادل جوجل + التعليمات البرمجية على الخادم&#x2026;</string>
+  <string name="loading_google_login">تم إكمال عملية جوجل +تسجيل الدخول على الخادم&#x2026;</string>
   <string name="background">خلفية الشاشة</string>
   <string name="stage">المسرح</string>
   <string name="ok">موافق</string>
@@ -162,18 +162,18 @@
   <string name="authentication_failed">لقد فشل عملية المصادقة ، الرجاء الاتصال بفريق \"البوكت كوود\"!</string>
   <plurals name="scratch_conversion_scheduled_x">
     <item quantity="zero">لقد تم جدولة برنامج سكراتش واحد…</item>
-    <item quantity="one">لقد تم جدولة برنامجي سكراتش&#8230;</item>
-    <item quantity="two">لقد تم جدولة %d برامج سكراتش&#8230;</item>
-    <item quantity="few">لقد تم جدولة %d برامج سكراتش&#8230;</item>
-    <item quantity="many">لقد تم جدولة %d برامج سكراتش&#8230;</item>
-    <item quantity="other">لقد تم جدولة %d برامج سكراتش&#8230;</item>
+    <item quantity="one">لقد تم جدولة برنامجي سكراتش&#x2026;</item>
+    <item quantity="two">لقد تم جدولة %d برامج سكراتش&#x2026;</item>
+    <item quantity="few">لقد تم جدولة %d برامج سكراتش&#x2026;</item>
+    <item quantity="many">لقد تم جدولة %d برامج سكراتش&#x2026;</item>
+    <item quantity="other">لقد تم جدولة %d برامج سكراتش&#x2026;</item>
   </plurals>
-  <string name="scratch_conversion_started">بدأت عملية تحويل برنامج السكراتش&#8230;</string>
+  <string name="scratch_conversion_started">بدأت عملية تحويل برنامج السكراتش&#x2026;</string>
   <string name="convert">تحويل</string>
-  <string name="converting">تحويل&#8230;</string>
+  <string name="converting">تحويل&#x2026;</string>
   <string name="status_scheduled">مُجدول</string>
-  <string name="status_waiting_for_worker">البحث عن عامل مجاناً&#8230; الرجاء الانتظار&#8230;</string>
-  <string name="status_started">بدأت&#8230;</string>
+  <string name="status_waiting_for_worker">البحث عن عامل مجاناً&#x2026; الرجاء الانتظار&#x2026;</string>
+  <string name="status_started">بدأت&#x2026;</string>
   <string name="status_conversion_finished">عملية التحويل قد انتهت</string>
   <plurals name="status_in_progress_x_jobs">
     <item quantity="zero">بصدد الإنجاز تحويل مهمة واحدة</item>
@@ -193,7 +193,7 @@
   </plurals>
   <string name="status_conversion_failed">فشلت عملية التحويل!</string>
   <string name="status_conversion_canceled">تم إلغاء التحويل!</string>
-  <string name="status_downloading">جاري التحميل&#8230;</string>
+  <string name="status_downloading">جاري التحميل&#x2026;</string>
   <string name="status_download_finished">انتهت عملية التحميل!</string>
   <string name="status_download_canceled">تم إلغاء التحميل!</string>
   <string name="list_view_section_title_in_progress">بصدد الإنجاز</string>
@@ -600,12 +600,12 @@
   <string name="stage_dialog_screenshot">معاينة</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">جديد&#8230;</string>
+  <string name="new_broadcast_message">جديد&#x2026;</string>
   <string name="dialog_new_broadcast_message_title">رسالة جديدة</string>
   <string name="dialog_new_broadcast_message_name">رسالة:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">جديد&#8230;</string>
+  <string name="new_nfc_tag">جديد&#x2026;</string>
   <string name="brick_when_nfc_default_all">الكل</string>
   <!-- -->
   <!-- Brick categories -->
@@ -791,7 +791,7 @@
   <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">تعيين قيمة</string>
   <string name="brick_change_variable">تغيير قيمة</string>
-  <string name="brick_variable_spinner_create_new_variable">جديد&#8230;</string>
+  <string name="brick_variable_spinner_create_new_variable">جديد&#x2026;</string>
   <string name="brick_note_default_value">"أضف تعليق هنا…"</string>
   <string name="brick_think_bubble_default_value">"همممم!"</string>
   <string name="brick_say_bubble_default_value">"مرحباً!"</string>
@@ -916,7 +916,7 @@
   <string name="error_load_project">حدث خطأ أثناء تحميل البرنامج.</string>
   <string name="error_screenshot_failed">حدث خطأ أثناء حفظ صورة المعاينة.</string>
   <string name="error_load_image">حدث خطأ أثناء تحميل الصورة.</string>
-  <string name="error_load_image_special_chars">لا يمكن تحميل الصورة. هل يحتوي اسم الملف على أحرف خاصة (مثل $, %, &amp;,&#8230;)؟ </string>
+  <string name="error_load_image_special_chars">لا يمكن تحميل الصورة. هل يحتوي اسم الملف على أحرف خاصة (مثل $, %, &amp;,&#x2026;)؟ </string>
   <string name="error_load_sound">حدث خطأ أثناء تحميل الصوت.</string>
   <string name="error_internet_connection">حدث خطأ غير معروف. تحقق من اتصال الإنترنت الخاص بك.</string>
   <string name="error_no_internet">الرجاء إنشاء اتصال بإلانترنت.</string>
@@ -948,10 +948,10 @@
   <string name="notification_blueth_err">لا يمكن تفعيل تقنية bluetooth، إغلاق المرحلة</string>
   <string name="title_paired_devices">الأجهزة المقترنة</string>
   <string name="title_other_devices">أجهزة جديدة</string>
-  <string name="searching_devices">جاري البحث عن الأجهزة&#8230;</string>
+  <string name="searching_devices">جاري البحث عن الأجهزة&#x2026;</string>
   <string name="button_scan">البحث عن أجهزة Bluetooth</string>
   <string name="select_device">حدد الجهاز:</string>
-  <string name="connecting_please_wait">الاتصال بالجهاز الخاص بك الرجاء الانتظار&#8230;</string>
+  <string name="connecting_please_wait">الاتصال بالجهاز الخاص بك الرجاء الانتظار&#x2026;</string>
   <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">فشل الاتصال بالجهاز!</string>
   <string name="none_found">لم يتم العثور على أجهزة غير مقترن </string>
