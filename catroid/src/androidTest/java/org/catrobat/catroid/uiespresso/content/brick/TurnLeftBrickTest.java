@@ -35,8 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class TurnLeftBrickTest {
@@ -57,9 +56,11 @@ public class TurnLeftBrickTest {
 	public void testTurnLeftBrick() {
 		int leftValueToChange = 25;
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_turn_left);
-		enterValueInFormulaTextFieldOnBrickAtPosition(leftValueToChange, R.id.brick_turn_left_edit_text,
-				brickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_turn_left);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_turn_left_edit_text)
+				.performEnterNumber(leftValueToChange)
+				.checkShowsNumber(leftValueToChange);
 	}
 }

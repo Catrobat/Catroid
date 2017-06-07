@@ -41,8 +41,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class AddItemToUserListTest {
@@ -61,13 +60,15 @@ public class AddItemToUserListTest {
 
 	@Test
 	public void testAddItemToUserListBrick() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_add_item_to_userlist);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_add_item_to_userlist);
 		onView(withId(R.id.brick_add_item_to_userlist_edit_text)).perform(click());
 		onView(withText("Data")).perform(click());
 		BrickTestUtils.createUserListFromDataFragment("newList", true);
 		pressBack();
 		pressBack();
-		enterValueInFormulaTextFieldOnBrickAtPosition(42, R.id.brick_add_item_to_userlist_edit_text, brickPosition);
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_add_item_to_userlist_edit_text)
+				.performEnterNumber(42)
+				.checkShowsNumber(42);
 	}
 }

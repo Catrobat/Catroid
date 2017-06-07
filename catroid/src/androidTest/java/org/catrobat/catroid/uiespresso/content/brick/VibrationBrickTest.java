@@ -33,8 +33,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 public class VibrationBrickTest {
 	private int brickPosition;
@@ -53,8 +52,11 @@ public class VibrationBrickTest {
 
 	@Test
 	public void testVibrationBrick() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_vibration);
-		enterValueInFormulaTextFieldOnBrickAtPosition(10, R.id.brick_vibration_edit_text, brickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_vibration);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_vibration_edit_text)
+				.performEnterNumber(10)
+				.checkShowsNumber(10);
 	}
 }

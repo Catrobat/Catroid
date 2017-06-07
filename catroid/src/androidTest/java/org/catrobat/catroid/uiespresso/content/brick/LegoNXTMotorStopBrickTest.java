@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,9 +39,7 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.checkIfValuesAvailableInSpinnerOnBrick;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoNXTMotorStopBrickTest {
@@ -63,11 +60,15 @@ public class LegoNXTMotorStopBrickTest {
 	@Test
 	@Flaky
 	public void testLegoNXTMotorStopBrick() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.nxt_motor_stop);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.nxt_motor_stop);
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.stop_motor_spinner, brickPosition, R.string.nxt_motor_a);
-		clickSelectCheckSpinnerValueOnBrick(R.id.stop_motor_spinner, brickPosition, R.string.nxt_motor_b);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.stop_motor_spinner)
+				.checkShowsText(R.string.nxt_motor_a);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.stop_motor_spinner)
+				.performSelect(R.string.nxt_motor_b)
+				.checkShowsText(R.string.nxt_motor_b);
 
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.nxt_motor_a,
@@ -75,6 +76,8 @@ public class LegoNXTMotorStopBrickTest {
 				R.string.nxt_motor_c,
 				R.string.nxt_motor_b_and_c,
 				R.string.nxt_motor_all);
-		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.stop_motor_spinner, brickPosition);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.stop_motor_spinner)
+				.checkValuesAvailable(spinnerValuesResourceIds);
 	}
 }

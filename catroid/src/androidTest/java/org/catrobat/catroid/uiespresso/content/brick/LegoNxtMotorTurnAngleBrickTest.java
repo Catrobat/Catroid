@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,10 +39,7 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.checkIfValuesAvailableInSpinnerOnBrick;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoNxtMotorTurnAngleBrickTest {
@@ -67,19 +63,27 @@ public class LegoNxtMotorTurnAngleBrickTest {
 	public void nxtMotorTurnAngleTest() {
 		int turnAngleValue = 40;
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.nxt_brick_motor_turn_angle);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.nxt_brick_motor_turn_angle);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(turnAngleValue, R.id.motor_turn_angle_edit_text, brickPosition);
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.motor_turn_angle_edit_text)
+				.performEnterNumber(turnAngleValue)
+				.checkShowsNumber(turnAngleValue);
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.lego_motor_turn_angle_spinner, brickPosition, R.string.nxt_motor_a);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_motor_turn_angle_spinner, brickPosition, R.string.nxt_motor_b);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_motor_turn_angle_spinner)
+				.checkShowsText(R.string.nxt_motor_a);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_motor_turn_angle_spinner)
+				.performSelect(R.string.nxt_motor_b)
+				.checkShowsText(R.string.nxt_motor_b);
 
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.nxt_motor_a,
 				R.string.nxt_motor_b,
 				R.string.nxt_motor_c,
 				R.string.nxt_motor_b_and_c);
-		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.lego_motor_turn_angle_spinner, brickPosition);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_motor_turn_angle_spinner)
+				.checkValuesAvailable(spinnerValuesResourceIds);
 	}
 }

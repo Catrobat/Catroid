@@ -35,8 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoEv3PlayToneBrickTest {
@@ -64,16 +63,19 @@ public class LegoEv3PlayToneBrickTest {
 		double testDuration = 2.3;
 		int testVolume = 50;
 
-		checkIfBrickAtPositionShowsString(0, "When program starts");
-		checkIfBrickAtPositionShowsString(brickPosition, "Play EV3 tone");
+		onBrickAtPosition(0).checkShowsText("When program starts");
+		onBrickAtPosition(brickPosition).checkShowsText("Play EV3 tone");
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(testDuration,
-				R.id.brick_ev3_tone_duration_edit_text, brickPosition);
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_ev3_tone_duration_edit_text)
+				.performEnterNumber(testDuration)
+				.checkShowsNumber(testDuration);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(testFrequency,
-				R.id.brick_ev3_tone_freq_edit_text, brickPosition);
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_ev3_tone_freq_edit_text)
+				.performEnterNumber(testFrequency)
+				.checkShowsNumber(testFrequency);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(testVolume,
-				R.id.brick_ev3_tone_volume_edit_text, brickPosition);
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_ev3_tone_volume_edit_text)
+				.performEnterNumber(testVolume)
+				.checkShowsNumber(testVolume);
 	}
 }

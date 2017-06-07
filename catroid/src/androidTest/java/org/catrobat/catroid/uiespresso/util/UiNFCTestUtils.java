@@ -39,7 +39,6 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.NfcTagAdapter;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
-import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 
 import java.util.List;
 
@@ -48,10 +47,9 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.onScriptList;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 public final class UiNFCTestUtils {
 	// Suppress default constructor for non-instantiability
@@ -116,18 +114,19 @@ public final class UiNFCTestUtils {
 	}
 
 	public static void gotoNfcFragment(int nfcBrickPosition) {
-		onScriptList().atPosition(nfcBrickPosition).onChildView(withId(R.id.brick_when_nfc_spinner))
+		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
 				.perform(click());
 		onView(withText(R.string.new_nfc_tag))
 				.perform(click());
 	}
 
 	public static void clickSpinnerValueOnBrick(int spinnerResourceId, int position, int stringResourceId) {
-		onScriptList().atPosition(position).onChildView(withId(spinnerResourceId))
+		onBrickAtPosition(position).onSpinner(spinnerResourceId)
 				.perform(click());
 		onView(withText(UiTestUtils.getResourcesString(stringResourceId)))
 				.perform(click());
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(spinnerResourceId, position, stringResourceId);
+		onBrickAtPosition(position).onSpinner(spinnerResourceId)
+				.checkShowsText(stringResourceId);
 	}
 
 	public static NfcTagFragment getNfcTagFragment(Activity callingActivity) {
@@ -137,7 +136,7 @@ public final class UiNFCTestUtils {
 
 	public static void checkNfcSpinnerContains(int nfcBrickPosition, List<String>
 			spinnerValuesResourceIdsContained, List<String> spinnerValuesResourceIdsNotContained) {
-		onScriptList().atPosition(nfcBrickPosition).onChildView(withId(R.id.brick_when_nfc_spinner))
+		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
 				.perform(click());
 
 		for (String spinnerValue : spinnerValuesResourceIdsContained) {

@@ -32,8 +32,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 public class ChangeTransparencyByNBrickTest {
 	private int brickPosition;
@@ -53,9 +52,11 @@ public class ChangeTransparencyByNBrickTest {
 	@Test
 	public void testChangeTransparencyByNBrick() {
 		float valToChange = 30.5f;
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_change_ghost_effect);
-		enterValueInFormulaTextFieldOnBrickAtPosition(valToChange, R.id.brick_change_transparency_edit_text,
-				brickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_change_ghost_effect);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_change_transparency_edit_text)
+				.performEnterNumber(valToChange)
+				.checkShowsNumber(valToChange);
 	}
 }

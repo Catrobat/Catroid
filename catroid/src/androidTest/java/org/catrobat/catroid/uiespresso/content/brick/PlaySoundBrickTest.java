@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
@@ -62,8 +61,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.onScriptList;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -134,8 +132,8 @@ public class PlaySoundBrickTest {
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_play_sound);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_play_sound);
 	}
 
 	@Test
@@ -143,14 +141,17 @@ public class PlaySoundBrickTest {
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.playsound_spinner)
+				.checkShowsText(soundName);
+
 		pressBack();
 
 		deleteSoundByName(soundName);
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName2);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.playsound_spinner)
+				.checkShowsText(soundName2);
 	}
 
 	@Test
@@ -159,15 +160,16 @@ public class PlaySoundBrickTest {
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.playsound_spinner)
+				.checkShowsText(soundName);
 
-		onScriptList().atPosition(brickPosition).onChildView(withId(R.id.playsound_spinner))
+		onBrickAtPosition(brickPosition).onChildView(withId(R.id.playsound_spinner))
 				.perform(click());
 
 		recordNewSound(3000);
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition,
-				R.string.soundrecorder_recorded_filename);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.playsound_spinner)
+				.checkShowsText(R.string.soundrecorder_recorded_filename);
 	}
 
 	@Test
@@ -177,13 +179,16 @@ public class PlaySoundBrickTest {
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, soundName);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.playsound_spinner)
+				.checkShowsText(soundName);
 
 		pressBack();
 		renameSound(soundName, newName);
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.playsound_spinner, brickPosition, newName);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.playsound_spinner)
+				.checkShowsText(newName);
 	}
 
 	private void deleteSoundByName(String soundName) {

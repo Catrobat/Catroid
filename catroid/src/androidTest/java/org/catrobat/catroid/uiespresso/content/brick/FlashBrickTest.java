@@ -29,15 +29,13 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class FlashBrickTest {
@@ -56,10 +54,14 @@ public class FlashBrickTest {
 
 	@Test
 	public void testFlashBrick() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_flash);
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_flash_spinner, brickPosition, R.string.brick_flash_on);
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_flash_spinner, brickPosition, R.string
-				.brick_flash_off);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_flash);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_flash_spinner)
+				.checkShowsText(R.string.brick_flash_on);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_flash_spinner)
+				.performSelect(R.string.brick_flash_off)
+				.checkShowsText(R.string.brick_flash_off);
 	}
 }

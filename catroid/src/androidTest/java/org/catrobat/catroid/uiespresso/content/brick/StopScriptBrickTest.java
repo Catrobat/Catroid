@@ -39,9 +39,7 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.checkIfValuesAvailableInSpinnerOnBrick;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class StopScriptBrickTest {
@@ -62,16 +60,19 @@ public class StopScriptBrickTest {
 	@Flaky
 	public void testStopScriptBrick() {
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_stop_script);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_stop_script);
 
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_stop_script_spinner, brickPosition, R.string
-				.brick_stop_this_script);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_stop_script_spinner)
+				.performSelect(R.string.brick_stop_this_script)
+				.checkShowsText(R.string.brick_stop_this_script);
 
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.brick_stop_this_script,
 				R.string.brick_stop_all_scripts,
 				R.string.brick_stop_other_scripts);
-		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.brick_stop_script_spinner, brickPosition);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_stop_script_spinner)
+				.checkValuesAvailable(spinnerValuesResourceIds);
 	}
 }

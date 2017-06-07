@@ -40,8 +40,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 public class VariableBrickTest {
 	private int setBrickPosition;
@@ -65,19 +64,25 @@ public class VariableBrickTest {
 	public void testVariableBricks() {
 		int intToChange = 5;
 		double doubleToChange = 10.6;
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(setBrickPosition, R.string.brick_set_variable);
-		checkIfBrickAtPositionShowsString(changeBrickPosition, R.string.brick_change_variable);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(setBrickPosition).checkShowsText(R.string.brick_set_variable);
+		onBrickAtPosition(changeBrickPosition).checkShowsText(R.string.brick_change_variable);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(intToChange, R.id.brick_set_variable_edit_text,
-				setBrickPosition);
-		enterValueInFormulaTextFieldOnBrickAtPosition(doubleToChange, R.id.brick_set_variable_edit_text,
-				setBrickPosition);
+		onBrickAtPosition(setBrickPosition).onFormulaTextFiled(R.id.brick_set_variable_edit_text)
+				.performEnterNumber(intToChange)
+				.checkShowsNumber(intToChange);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(intToChange, R.id.brick_change_variable_edit_text,
-				changeBrickPosition);
-		enterValueInFormulaTextFieldOnBrickAtPosition(doubleToChange, R.id.brick_change_variable_edit_text,
-				changeBrickPosition);
+		onBrickAtPosition(setBrickPosition).onFormulaTextFiled(R.id.brick_set_variable_edit_text)
+				.performEnterNumber(doubleToChange)
+				.checkShowsNumber(doubleToChange);
+
+		onBrickAtPosition(changeBrickPosition).onFormulaTextFiled(R.id.brick_change_variable_edit_text)
+				.performEnterNumber(intToChange)
+				.checkShowsNumber(intToChange);
+
+		onBrickAtPosition(changeBrickPosition).onFormulaTextFiled(R.id.brick_change_variable_edit_text)
+				.performEnterNumber(doubleToChange)
+				.checkShowsNumber(doubleToChange);
 	}
 
 	@Test
@@ -85,25 +90,34 @@ public class VariableBrickTest {
 	public void testCreatingNewVariableAndChangeValue() {
 		final String variableName = "testVariable";
 		final int intToChange = 28;
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(setBrickPosition, R.string.brick_set_variable);
-		checkIfBrickAtPositionShowsString(changeBrickPosition, R.string.brick_change_variable);
-		onView(withId(R.id.set_variable_spinner)).perform(click());
-		onView(withId(R.id.dialog_formula_editor_data_name_edit_text)).perform(typeText(variableName));
-		onView(withText(R.string.ok)).perform(click());
-		onView(withId(R.id.set_variable_spinner)).perform(click());
-		onView(withText(variableName)).perform(click());
-		enterValueInFormulaTextFieldOnBrickAtPosition(intToChange, R.id.brick_set_variable_edit_text,
-				setBrickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(setBrickPosition).checkShowsText(R.string.brick_set_variable);
+		onBrickAtPosition(changeBrickPosition).checkShowsText(R.string.brick_change_variable);
+		onView(withId(R.id.set_variable_spinner))
+				.perform(click());
+		onView(withId(R.id.dialog_formula_editor_data_name_edit_text))
+				.perform(typeText(variableName));
+		onView(withText(R.string.ok))
+				.perform(click());
+		onView(withId(R.id.set_variable_spinner))
+				.perform(click());
+		onView(withText(variableName))
+				.perform(click());
+
+		onBrickAtPosition(setBrickPosition).onFormulaTextFiled(R.id.brick_set_variable_edit_text)
+				.performEnterNumber(intToChange)
+				.checkShowsNumber(intToChange);
 	}
 
 	@Test
 	@Flaky
 	public void testNewVariableCanceling() {
-		onView(withId(R.id.set_variable_spinner)).perform(click());
-		onView(withText(R.string.cancel)).perform(click());
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(setBrickPosition, R.string.brick_set_variable);
-		checkIfBrickAtPositionShowsString(changeBrickPosition, R.string.brick_change_variable);
+		onView(withId(R.id.set_variable_spinner))
+				.perform(click());
+		onView(withText(R.string.cancel))
+				.perform(click());
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(setBrickPosition).checkShowsText(R.string.brick_set_variable);
+		onBrickAtPosition(changeBrickPosition).checkShowsText(R.string.brick_change_variable);
 	}
 }

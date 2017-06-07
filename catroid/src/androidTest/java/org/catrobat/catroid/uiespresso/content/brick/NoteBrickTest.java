@@ -35,8 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterStringInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class NoteBrickTest {
@@ -58,8 +57,11 @@ public class NoteBrickTest {
 	public void noteBrickTest() {
 		final String testNodeText = "Hello world!";
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_note);
-		enterStringInFormulaTextFieldOnBrickAtPosition(testNodeText, R.id.brick_note_edit_text, brickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_note);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_note_edit_text)
+				.performEnterString(testNodeText)
+				.checkShowsText(testNodeText);
 	}
 }

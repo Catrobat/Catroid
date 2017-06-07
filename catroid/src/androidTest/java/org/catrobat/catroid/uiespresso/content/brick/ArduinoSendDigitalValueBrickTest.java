@@ -22,6 +22,7 @@
  */
 
 package org.catrobat.catroid.uiespresso.content.brick;
+
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -34,8 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class ArduinoSendDigitalValueBrickTest {
@@ -57,11 +57,15 @@ public class ArduinoSendDigitalValueBrickTest {
 	public void testArduinoSendDigitalValueBrick() {
 		int valToChange = 17;
 		int pinToChange = 2;
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_arduino_select_digital_value);
-		enterValueInFormulaTextFieldOnBrickAtPosition(pinToChange, R.id.brick_arduino_set_digital_pin_edit_text,
-				brickPosition);
-		enterValueInFormulaTextFieldOnBrickAtPosition(valToChange, R.id.brick_arduino_set_digital_value_edit_text,
-				brickPosition);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_arduino_select_digital_value);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_arduino_set_digital_pin_edit_text)
+				.performEnterNumber(pinToChange)
+				.checkShowsNumber(pinToChange);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_arduino_set_digital_value_edit_text)
+				.performEnterNumber(valToChange)
+				.checkShowsNumber(valToChange);
 	}
 }

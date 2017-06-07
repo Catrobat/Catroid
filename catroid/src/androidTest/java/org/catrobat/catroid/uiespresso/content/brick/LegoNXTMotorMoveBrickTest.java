@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,10 +39,7 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.checkIfValuesAvailableInSpinnerOnBrick;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoNXTMotorMoveBrickTest {
@@ -66,20 +62,27 @@ public class LegoNXTMotorMoveBrickTest {
 	@Flaky(3)
 	public void testLegoNXTMoveMotorBrick() {
 		int velocityToChange = 20;
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.nxt_brick_motor_move);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.nxt_brick_motor_move);
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.lego_motor_action_spinner, brickPosition, R.string.nxt_motor_a);
-		clickSelectCheckSpinnerValueOnBrick(R.id.lego_motor_action_spinner, brickPosition, R.string.nxt_motor_b);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_motor_action_spinner)
+				.checkShowsText(R.string.nxt_motor_a);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_motor_action_spinner)
+				.performSelect(R.string.ev3_motor_b)
+				.checkShowsText(R.string.ev3_motor_b);
 
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.nxt_motor_a,
 				R.string.nxt_motor_b,
 				R.string.nxt_motor_c,
 				R.string.nxt_motor_b_and_c);
-		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.lego_motor_action_spinner, brickPosition);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(velocityToChange, R.id.motor_action_speed_edit_text,
-				brickPosition);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_motor_action_spinner)
+				.checkValuesAvailable(spinnerValuesResourceIds);
+
+		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.motor_action_speed_edit_text)
+				.performEnterNumber(velocityToChange)
+				.checkShowsNumber(velocityToChange);
 	}
 }

@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,9 +39,7 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.checkIfValuesAvailableInSpinnerOnBrick;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.SpinnerUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoEv3MotorStopBrickTest {
@@ -63,11 +60,15 @@ public class LegoEv3MotorStopBrickTest {
 	@Test
 	@Flaky(3)
 	public void legoEv3MotorStopBrickTest() {
-		checkIfBrickAtPositionShowsString(0, "When program starts");
-		checkIfBrickAtPositionShowsString(brickPosition, "Stop EV3 motor");
+		onBrickAtPosition(0).checkShowsText("When program starts");
+		onBrickAtPosition(brickPosition).checkShowsText("Stop EV3 motor");
 
-		SpinnerUtils.checkIfSpinnerOnBrickAtPositionShowsString(R.id.ev3_stop_motor_spinner, brickPosition, R.string.ev3_motor_a);
-		clickSelectCheckSpinnerValueOnBrick(R.id.ev3_stop_motor_spinner, brickPosition, R.string.ev3_motor_b);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.ev3_stop_motor_spinner)
+				.checkShowsText(R.string.ev3_motor_a);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.ev3_stop_motor_spinner)
+				.performSelect(R.string.ev3_motor_b)
+				.checkShowsText(R.string.ev3_motor_b);
 
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.ev3_motor_a,
@@ -76,6 +77,8 @@ public class LegoEv3MotorStopBrickTest {
 				R.string.ev3_motor_d,
 				R.string.ev3_motor_b_and_c,
 				R.string.ev3_motor_all);
-		checkIfValuesAvailableInSpinnerOnBrick(spinnerValuesResourceIds, R.id.ev3_stop_motor_spinner, brickPosition);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.ev3_stop_motor_spinner)
+				.checkValuesAvailable(spinnerValuesResourceIds);
 	}
 }
