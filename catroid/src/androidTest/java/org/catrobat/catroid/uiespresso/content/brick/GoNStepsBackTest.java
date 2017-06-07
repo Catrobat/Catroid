@@ -58,7 +58,7 @@ public class GoNStepsBackTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_go_back);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_go_back_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_go_back_edit_text)
 				.performEnterNumber(10)
 				.checkShowsNumber(10);
 	}

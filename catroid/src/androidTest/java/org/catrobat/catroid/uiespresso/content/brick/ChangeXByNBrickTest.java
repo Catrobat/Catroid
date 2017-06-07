@@ -60,7 +60,7 @@ public class ChangeXByNBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_change_x_by);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_change_x_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_change_x_edit_text)
 				.performEnterNumber(xChangeValue)
 				.checkShowsNumber(xChangeValue);
 	}

@@ -59,7 +59,7 @@ public class ChangeSizeByNBrickTest {
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_change_size_by);
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_change_size_by_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_change_size_by_edit_text)
 			.performEnterNumber(sizeChangeValue).checkShowsNumber(sizeChangeValue);
 	}
 }

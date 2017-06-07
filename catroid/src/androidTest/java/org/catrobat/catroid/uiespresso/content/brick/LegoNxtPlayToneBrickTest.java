@@ -61,11 +61,11 @@ public class LegoNxtPlayToneBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.nxt_play_tone);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.nxt_tone_freq_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.nxt_tone_freq_edit_text)
 				.performEnterNumber(testFrequency)
 				.checkShowsNumber(testFrequency);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.nxt_tone_duration_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.nxt_tone_duration_edit_text)
 				.performEnterNumber(testDuration)
 				.checkShowsNumber(testDuration);
 	}

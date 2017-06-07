@@ -61,11 +61,11 @@ public class ArduinoSendPWMValueBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_arduino_select_analog_value);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_arduino_set_analog_pin_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_arduino_set_analog_pin_edit_text)
 				.performEnterNumber(pinNumber)
 				.checkShowsNumber(pinNumber);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_arduino_set_analog_value_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_arduino_set_analog_value_edit_text)
 				.performEnterNumber(analogValue)
 				.checkShowsNumber(analogValue);
 	}

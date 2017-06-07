@@ -84,7 +84,7 @@ public class ShowTextBrickTest {
 		onView(withText(R.string.ok))
 				.perform(click());
 
-		onBrickAtPosition(setBrickPosition).onFormulaTextFiled(R.id.brick_set_variable_edit_text)
+		onBrickAtPosition(setBrickPosition).onFormulaTextField(R.id.brick_set_variable_edit_text)
 				.performEnterNumber(intToChange)
 				.checkShowsNumber(intToChange);
 
@@ -93,11 +93,11 @@ public class ShowTextBrickTest {
 		onView(withText(variableName))
 				.perform(click());
 
-		onBrickAtPosition(showBrickPosition).onFormulaTextFiled(R.id.brick_show_variable_edit_text_x)
+		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_edit_text_x)
 				.performEnterNumber(positionX)
 				.checkShowsNumber(positionX);
 
-		onBrickAtPosition(showBrickPosition).onFormulaTextFiled(R.id.brick_show_variable_edit_text_y)
+		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_edit_text_y)
 				.performEnterNumber(positionY)
 				.checkShowsNumber(positionY);
 	}

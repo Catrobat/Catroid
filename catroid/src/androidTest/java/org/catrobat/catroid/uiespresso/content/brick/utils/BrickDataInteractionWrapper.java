@@ -24,6 +24,8 @@
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
 import android.support.test.espresso.DataInteraction;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
@@ -61,17 +63,20 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 		return new BrickDataInteractionWrapper(dataInteraction);
 	}
 
-	public BrickFormulaEditTextDataInteractionWrapper onFormulaTextFiled(int editTextResourceId) {
+	public BrickFormulaEditTextDataInteractionWrapper onFormulaTextField(int editTextResourceId) {
+		dataInteraction.onChildView(withId(editTextResourceId)).check(matches(instanceOf(TextView.class)));
 		return new BrickFormulaEditTextDataInteractionWrapper(
 				dataInteraction.onChildView(withId(editTextResourceId)));
 	}
 
 	public BrickSpinnerDataInteractionWrapper onSpinner(int spinnerResourceId) {
+		dataInteraction.onChildView(withId(spinnerResourceId)).check(matches(instanceOf(Spinner.class)));
 		return new BrickSpinnerDataInteractionWrapper(
 				dataInteraction.onChildView(withId(spinnerResourceId)));
 	}
 
 	public BrickVariableSpinnerDataInteractionWrapper onVariableSpinner(int spinnerResourceId) {
+		dataInteraction.onChildView(withId(spinnerResourceId)).check(matches(instanceOf(Spinner.class)));
 		return new BrickVariableSpinnerDataInteractionWrapper(
 				dataInteraction.onChildView(withId(spinnerResourceId)));
 	}

@@ -72,15 +72,15 @@ public class GlideToBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_glide_to_x);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_glide_to_edit_text_duration)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_duration)
 				.performEnterNumber(duration)
 				.checkShowsNumber(duration);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_glide_to_edit_text_x)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_x)
 				.performEnterNumber(xPosition)
 				.checkShowsNumber(xPosition);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_glide_to_edit_text_y)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_y)
 				.performEnterNumber(yPosition)
 				.checkShowsNumber(yPosition);
 
@@ -98,12 +98,12 @@ public class GlideToBrickTest {
 
 	@Test
 	public void glideToBrickTestPluralSeconds() {
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_glide_to_edit_text_duration)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_duration)
 				.performEnterNumber(1).checkShowsNumber(1);
 
 		onBrickAtPosition(brickPosition).checkShowsText(UiTestUtils.getResources().getQuantityString(R.plurals.second_plural, 1));
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_glide_to_edit_text_duration)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_duration)
 				.performEnterNumber(5)
 				.checkShowsNumber(5);
 

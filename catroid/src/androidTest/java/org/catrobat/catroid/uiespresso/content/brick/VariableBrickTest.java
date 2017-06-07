@@ -68,19 +68,19 @@ public class VariableBrickTest {
 		onBrickAtPosition(setBrickPosition).checkShowsText(R.string.brick_set_variable);
 		onBrickAtPosition(changeBrickPosition).checkShowsText(R.string.brick_change_variable);
 
-		onBrickAtPosition(setBrickPosition).onFormulaTextFiled(R.id.brick_set_variable_edit_text)
+		onBrickAtPosition(setBrickPosition).onFormulaTextField(R.id.brick_set_variable_edit_text)
 				.performEnterNumber(intToChange)
 				.checkShowsNumber(intToChange);
 
-		onBrickAtPosition(setBrickPosition).onFormulaTextFiled(R.id.brick_set_variable_edit_text)
+		onBrickAtPosition(setBrickPosition).onFormulaTextField(R.id.brick_set_variable_edit_text)
 				.performEnterNumber(doubleToChange)
 				.checkShowsNumber(doubleToChange);
 
-		onBrickAtPosition(changeBrickPosition).onFormulaTextFiled(R.id.brick_change_variable_edit_text)
+		onBrickAtPosition(changeBrickPosition).onFormulaTextField(R.id.brick_change_variable_edit_text)
 				.performEnterNumber(intToChange)
 				.checkShowsNumber(intToChange);
 
-		onBrickAtPosition(changeBrickPosition).onFormulaTextFiled(R.id.brick_change_variable_edit_text)
+		onBrickAtPosition(changeBrickPosition).onFormulaTextField(R.id.brick_change_variable_edit_text)
 				.performEnterNumber(doubleToChange)
 				.checkShowsNumber(doubleToChange);
 	}
@@ -104,7 +104,7 @@ public class VariableBrickTest {
 		onView(withText(variableName))
 				.perform(click());
 
-		onBrickAtPosition(setBrickPosition).onFormulaTextFiled(R.id.brick_set_variable_edit_text)
+		onBrickAtPosition(setBrickPosition).onFormulaTextField(R.id.brick_set_variable_edit_text)
 				.performEnterNumber(intToChange)
 				.checkShowsNumber(intToChange);
 	}

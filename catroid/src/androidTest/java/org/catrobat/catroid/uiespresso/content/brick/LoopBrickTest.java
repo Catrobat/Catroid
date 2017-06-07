@@ -170,7 +170,7 @@ public class LoopBrickTest {
 
 		addBrickAtPosition(RepeatBrick.class, 1, R.string.category_control);
 
-		onBrickAtPosition(1).onFormulaTextFiled(R.id.brick_repeat_edit_text)
+		onBrickAtPosition(1).onFormulaTextField(R.id.brick_repeat_edit_text)
 				.performEnterString("3")
 				.checkShowsText("3");
 

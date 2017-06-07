@@ -61,7 +61,7 @@ public class PointInDirectionBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_point_in_direction);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_point_in_direction_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_point_in_direction_edit_text)
 				.performEnterNumber(directionValueDegrees)
 				.checkShowsNumber(directionValueDegrees);
 	}

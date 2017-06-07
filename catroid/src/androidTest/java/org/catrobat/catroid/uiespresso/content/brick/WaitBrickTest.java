@@ -59,7 +59,7 @@ public class WaitBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_wait);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_wait_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_wait_edit_text)
 				.performEnterNumber(waitValueToChange)
 				.checkShowsNumber(waitValueToChange);
 	}

@@ -60,7 +60,7 @@ public class SpeakBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_speak);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_speak_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_speak_edit_text)
 				.performEnterString(testSpeakString)
 				.checkShowsText(testSpeakString);
 	}

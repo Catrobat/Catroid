@@ -57,7 +57,7 @@ public class RepeatBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_repeat);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_repeat_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_repeat_edit_text)
 				.performEnterNumber(42)
 				.checkShowsNumber(42);
 	}

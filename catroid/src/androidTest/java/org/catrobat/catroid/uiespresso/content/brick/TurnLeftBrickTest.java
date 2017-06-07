@@ -59,7 +59,7 @@ public class TurnLeftBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_turn_left);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_turn_left_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_turn_left_edit_text)
 				.performEnterNumber(leftValueToChange)
 				.checkShowsNumber(leftValueToChange);
 	}

@@ -60,11 +60,11 @@ public class ArduinoSendDigitalValueBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_arduino_select_digital_value);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_arduino_set_digital_pin_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_arduino_set_digital_pin_edit_text)
 				.performEnterNumber(pinToChange)
 				.checkShowsNumber(pinToChange);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_arduino_set_digital_value_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_arduino_set_digital_value_edit_text)
 				.performEnterNumber(valToChange)
 				.checkShowsNumber(valToChange);
 	}

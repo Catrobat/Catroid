@@ -66,15 +66,15 @@ public class LegoEv3PlayToneBrickTest {
 		onBrickAtPosition(0).checkShowsText("When program starts");
 		onBrickAtPosition(brickPosition).checkShowsText("Play EV3 tone");
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_ev3_tone_duration_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_ev3_tone_duration_edit_text)
 				.performEnterNumber(testDuration)
 				.checkShowsNumber(testDuration);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_ev3_tone_freq_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_ev3_tone_freq_edit_text)
 				.performEnterNumber(testFrequency)
 				.checkShowsNumber(testFrequency);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_ev3_tone_volume_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_ev3_tone_volume_edit_text)
 				.performEnterNumber(testVolume)
 				.checkShowsNumber(testVolume);
 	}
