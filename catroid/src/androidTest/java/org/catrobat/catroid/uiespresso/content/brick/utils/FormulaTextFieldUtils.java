@@ -66,6 +66,7 @@ public final class FormulaTextFieldUtils {
 
 	public static void enterStringInFormulaTextFieldOnBrickAtPosition(String stringToBeEntered,
 			int editTextResourceId, int position) {
+
 		BrickTestUtils.onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
 				.perform(click());
 		onView(withId(R.id.formula_editor_keyboard_string))
