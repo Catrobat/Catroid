@@ -27,7 +27,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
@@ -60,37 +59,15 @@ public class WhenStartedBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-
 		BrickTestUtils.createProjectAndGetStartScript("WhenStartedBrickTest");
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
 	public void whenStartedBrick() {
-
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
 		deleteStartBrick();
 		onView(withId(R.string.brick_when_started)).check(doesNotExist());
-
-		checkChildBrickAddsWhenBrick();
-		checkTwoWhenBricksInSciptlist();
-	}
-
-	public void checkTwoWhenBricksInSciptlist() {
-		addBrickAtPosition(WaitBrick.class, 1, R.string.category_control);
-		addBrickAtPosition(WhenStartedBrick.class, 1, R.string.category_event);
-		checkIfBrickAtPositionShowsString(1, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-
-		deleteStartBrick();
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(1, R.string.brick_wait);
-		deleteStartBrick();
-		onView(withId(R.string.brick_when_started)).check(doesNotExist());
-		onView(withId(R.string.brick_wait)).check(doesNotExist());
-	}
-
-	public void checkChildBrickAddsWhenBrick() {
 
 		addBrickAtPosition(WaitBrick.class, 1, R.string.category_control);
 		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
