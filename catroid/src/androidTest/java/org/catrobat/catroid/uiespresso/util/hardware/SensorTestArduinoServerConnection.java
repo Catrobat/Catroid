@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.util;
+package org.catrobat.catroid.uiespresso.util.hardware;
 
 import android.util.Log;
 
@@ -36,9 +36,9 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 @SuppressWarnings("AvoidUsingHardCodedIP")
-public final class SensorTestServerConnection {
+public final class SensorTestArduinoServerConnection {
 
-	private static final String TAG = SensorTestServerConnection.class.getSimpleName();
+	private static final String TAG = SensorTestArduinoServerConnection.class.getSimpleName();
 
 	// fields to provide ethernet connection to the arduino server
 	private static Socket clientSocket = null;
@@ -47,13 +47,14 @@ public final class SensorTestServerConnection {
 
 	// Enter the right IP address and port number to connect and request sensor values.
 	// PMD DISABLE AvoidUsingHardCodedIP FOR 1 LINES
-	private static final String ARDUINO_SERVER_IP = "129.27.202.103"; //NOPMD
+	private static final String ARDUINO_SERVER_IP = "192.168.1.16"; //NOPMD
 	private static final int SERVER_PORT = 6789;
 
 	private static final int NFC_EMULATE = 0;
 	private static final int GET_VIBRATION_VALUE_ID = 1;
 	private static final int GET_LIGHT_VALUE_ID = 2;
 	private static final int CALIBRATE_VIBRATION_SENSOR_ID = 3;
+	private static final int GET_AUDIO_VALUE_ID = 4;
 
 	public static final int SET_LED_ON_VALUE = 1;
 	public static final int SET_LED_OFF_VALUE = 0;
@@ -61,16 +62,21 @@ public final class SensorTestServerConnection {
 	public static final int SET_VIBRATION_ON_VALUE = 1;
 	public static final int SET_VIBRATION_OFF_VALUE = 0;
 
+	public static final int SET_AUDIO_ON_VALUE = 1;
+	public static final int SET_AUDIO_OFF_VALUE = 0;
+
 	public static final int NETWORK_DELAY_MS = 500;
 
-	private SensorTestServerConnection() {
+	private SensorTestArduinoServerConnection() {
 	}
 
 	public static void connectToArduinoServer() throws IOException {
 		Log.d(TAG, "Trying to connect to server...");
 
+
 		clientSocket = new Socket(ARDUINO_SERVER_IP, SERVER_PORT);
-		clientSocket.setKeepAlive(true);
+		//clientSocket.setKeepAlive(true);
+
 		Log.d(TAG, "Connected to: " + ARDUINO_SERVER_IP + " on port " + SERVER_PORT);
 		sendToServer = new DataOutputStream(clientSocket.getOutputStream());
 		receiveFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -110,6 +116,7 @@ public final class SensorTestServerConnection {
 
 			//assertTrue("Emulation timed out!", response.contains("TIMEDOUT"));
 			clientSocket.close();
+			closeConnection();
 		} catch (IOException ioException) {
 			Log.e(TAG, "Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
@@ -143,6 +150,40 @@ public final class SensorTestServerConnection {
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("LIGHT_END"));
 			assertTrue(assertString, response.charAt(0) == expectedChar);
+			closeConnection();
+		} catch (IOException ioException) {
+			throw new AssertionFailedError("Data exchange failed! Check server connection!");
+		} catch (InterruptedException e) {
+			Log.w(TAG, "InterruptedException", e);
+		}
+	}
+
+	public static void checkAudioSensorValue(int expected) {
+		char expectedChar;
+		String assertString;
+		String response;
+		if (expected == SET_AUDIO_ON_VALUE) {
+			expectedChar = '1';
+			assertString = "Error: Audio is turned off!";
+		} else {
+			expectedChar = '0';
+			assertString = "Error: Audio is turned on!";
+		}
+		try {
+			connectToArduinoServer();
+			Thread.sleep(NETWORK_DELAY_MS);
+			Log.d(TAG, "requesting sensor value: ");
+			sendToServer.writeByte(Integer.toHexString(GET_AUDIO_VALUE_ID).charAt(0));
+			sendToServer.flush();
+			Thread.sleep(NETWORK_DELAY_MS);
+			response = receiveFromServer.readLine();
+			Log.d(TAG, "response received! " + response);
+			clientSocket.close();
+
+			assertFalse("Wrong Command!", response.contains("ERROR"));
+			assertTrue("Wrong data received!", response.contains("AUDIO_END"));
+			assertTrue(assertString, response.charAt(0) == expectedChar);
+			closeConnection();
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
@@ -176,6 +217,7 @@ public final class SensorTestServerConnection {
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("VIBRATION_END"));
 			assertTrue(assertString, response.charAt(0) == expectedChar);
+			closeConnection();
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
