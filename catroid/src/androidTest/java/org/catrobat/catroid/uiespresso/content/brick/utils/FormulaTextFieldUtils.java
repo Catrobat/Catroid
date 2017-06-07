@@ -27,6 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -65,12 +66,13 @@ public final class FormulaTextFieldUtils {
 
 	public static void enterStringInFormulaTextFieldOnBrickAtPosition(String stringToBeEntered,
 			int editTextResourceId, int position) {
+
 		BrickTestUtils.onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
 				.perform(click());
 		onView(withId(R.id.formula_editor_keyboard_string))
 				.perform(click());
 		onView(withId(R.id.formula_editor_string_name_edit_text))
-				.perform(typeText(stringToBeEntered));
+				.perform(clearText(), typeText(stringToBeEntered));
 		onView(withText(R.string.ok))
 				.perform(click());
 		onView(withId(R.id.formula_editor_keyboard_ok))
