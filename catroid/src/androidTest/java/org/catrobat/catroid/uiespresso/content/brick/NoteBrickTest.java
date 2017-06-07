@@ -60,7 +60,7 @@ public class NoteBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_note);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_note_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_note_edit_text)
 				.performEnterString(testNodeText)
 				.checkShowsText(testNodeText);
 	}

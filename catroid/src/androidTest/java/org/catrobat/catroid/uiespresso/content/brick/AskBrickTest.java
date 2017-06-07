@@ -78,7 +78,7 @@ public class AskBrickTest {
 		onBrickAtPosition(askBrickPosition).checkShowsText(R.string.brick_ask_label);
 		onBrickAtPosition(askBrickPosition).checkShowsText(R.string.brick_ask_store);
 
-		onBrickAtPosition(askBrickPosition).onFormulaTextFiled(R.id.brick_ask_question_edit_text)
+		onBrickAtPosition(askBrickPosition).onFormulaTextField(R.id.brick_ask_question_edit_text)
 				.performEnterString(question)
 				.checkShowsText(question);
 	}

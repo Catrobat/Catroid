@@ -67,7 +67,7 @@ public class AddItemToUserListTest {
 		BrickTestUtils.createUserListFromDataFragment("newList", true);
 		pressBack();
 		pressBack();
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_add_item_to_userlist_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_add_item_to_userlist_edit_text)
 				.performEnterNumber(42)
 				.checkShowsNumber(42);
 	}

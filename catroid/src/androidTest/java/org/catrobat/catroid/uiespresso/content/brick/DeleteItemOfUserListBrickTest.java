@@ -80,7 +80,7 @@ public class DeleteItemOfUserListBrickTest {
 		onBrickAtPosition(brickPosition).onSpinner(R.id.delete_item_of_userlist_spinner)
 				.checkShowsText(R.string.brick_variable_spinner_create_new_variable);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_delete_item_of_userlist_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_delete_item_of_userlist_edit_text)
 				.performEnterNumber(newPosition)
 				.checkShowsNumber(newPosition);
 

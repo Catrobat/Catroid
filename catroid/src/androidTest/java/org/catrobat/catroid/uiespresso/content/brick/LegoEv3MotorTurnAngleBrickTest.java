@@ -84,7 +84,7 @@ public class LegoEv3MotorTurnAngleBrickTest {
 		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_ev3_motor_turn_angle_spinner)
 				.checkValuesAvailable(spinnerValuesResourceIds);
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.ev3_motor_turn_angle_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.ev3_motor_turn_angle_edit_text)
 				.performEnterNumber(testAngle)
 				.checkShowsNumber(testAngle);
 	}

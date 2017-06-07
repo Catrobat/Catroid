@@ -59,7 +59,7 @@ public class SetBrightnessBrickTest {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_brightness);
 		double newBrightness = 65.5;
 
-		onBrickAtPosition(brickPosition).onFormulaTextFiled(R.id.brick_set_brightness_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_brightness_edit_text)
 				.performEnterNumber(newBrightness)
 				.checkShowsNumber(newBrightness);
 	}
