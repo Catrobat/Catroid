@@ -638,6 +638,11 @@
     <string name="brick_when_nfc_default_all">all</string>
     <!-- -->
 
+    <!-- NFC test tags -->
+    <string name="test_tag_name_1">tagNameTest1</string>
+    <string name="test_tag_name_2">tagNameTest2</string>
+    <!-- -->
+
 
     <!-- Brick categories -->
     <string name="categories">Categories</string>
