@@ -26,8 +26,9 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -35,10 +36,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class ChangeSizeByNBrickTest {
+public class StopScriptBrickTest {
 	private int brickPosition;
 
 	@Rule
@@ -48,18 +52,27 @@ public class ChangeSizeByNBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		BrickTestUtils.createProjectAndGetStartScript("changeSizeByNBricktest1")
-				.addBrick(new ChangeSizeByNBrick(10));
+		BrickTestUtils.createProjectAndGetStartScript("StopScriptBrick").addBrick(new StopScriptBrick(0));
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void testChangeSizeByNBrick() {
-		int sizeChangeValue = 40;
+	@Flaky
+	public void testStopScriptBrick() {
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_change_size_by);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_change_size_by_edit_text)
-			.performEnterNumber(sizeChangeValue).checkShowsNumber(sizeChangeValue);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_stop_script);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_stop_script_spinner)
+				.performSelect(R.string.brick_stop_this_script)
+				.checkShowsText(R.string.brick_stop_this_script);
+
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.brick_stop_this_script,
+				R.string.brick_stop_all_scripts,
+				R.string.brick_stop_other_scripts);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_stop_script_spinner)
+				.checkValuesAvailable(spinnerValuesResourceIds);
 	}
 }

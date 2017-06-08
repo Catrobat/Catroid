@@ -43,8 +43,7 @@ import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.FormulaTextFieldUtils.enterValueInFormulaTextFieldOnBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class GlideToBrickTest {
@@ -70,12 +69,20 @@ public class GlideToBrickTest {
 		int xPosition = 123;
 		int yPosition = 567;
 
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_glide_to_x);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_glide_to_x);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(duration, R.id.brick_glide_to_edit_text_duration, brickPosition);
-		enterValueInFormulaTextFieldOnBrickAtPosition(xPosition, R.id.brick_glide_to_edit_text_x, brickPosition);
-		enterValueInFormulaTextFieldOnBrickAtPosition(yPosition, R.id.brick_glide_to_edit_text_y, brickPosition);
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_duration)
+				.performEnterNumber(duration)
+				.checkShowsNumber(duration);
+
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_x)
+				.performEnterNumber(xPosition)
+				.checkShowsNumber(xPosition);
+
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_y)
+				.performEnterNumber(yPosition)
+				.checkShowsNumber(yPosition);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
@@ -91,12 +98,15 @@ public class GlideToBrickTest {
 
 	@Test
 	public void glideToBrickTestPluralSeconds() {
-		enterValueInFormulaTextFieldOnBrickAtPosition(1, R.id.brick_glide_to_edit_text_duration, brickPosition);
-		checkIfBrickAtPositionShowsString(brickPosition,
-				UiTestUtils.getResources().getQuantityString(R.plurals.second_plural, 1));
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_duration)
+				.performEnterNumber(1).checkShowsNumber(1);
 
-		enterValueInFormulaTextFieldOnBrickAtPosition(5, R.id.brick_glide_to_edit_text_duration, brickPosition);
-		checkIfBrickAtPositionShowsString(brickPosition,
-				UiTestUtils.getResources().getQuantityString(R.plurals.second_plural, 5));
+		onBrickAtPosition(brickPosition).checkShowsText(UiTestUtils.getResources().getQuantityString(R.plurals.second_plural, 1));
+
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_duration)
+				.performEnterNumber(5)
+				.checkShowsNumber(5);
+
+		onBrickAtPosition(brickPosition).checkShowsText(UiTestUtils.getResources().getQuantityString(R.plurals.second_plural, 5));
 	}
 }

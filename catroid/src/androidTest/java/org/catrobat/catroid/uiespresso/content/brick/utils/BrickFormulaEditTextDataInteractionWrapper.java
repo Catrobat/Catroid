@@ -23,23 +23,38 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
+import android.support.test.espresso.DataInteraction;
+
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
+import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public final class FormulaTextFieldUtils {
-	private FormulaTextFieldUtils() {
-		throw new AssertionError();
+public class BrickFormulaEditTextDataInteractionWrapper extends DataInteractionWrapper {
+	public BrickFormulaEditTextDataInteractionWrapper(DataInteraction dataInteraction) {
+		super(dataInteraction);
 	}
 
-	public static <V extends Number> void enterValueInFormulaTextFieldOnBrickAtPosition(V valueToBeEntered,
-			int editTextResourceId, int position) {
+	public BrickFormulaEditTextDataInteractionWrapper checkShowsText(String text) {
+		dataInteraction.check(matches(withText("'" + text + "' ")));
+		return new BrickFormulaEditTextDataInteractionWrapper(dataInteraction);
+	}
+
+	public <V extends Number> BrickFormulaEditTextDataInteractionWrapper checkShowsNumber(V value) {
+		dataInteraction.check(matches(withText(value + " ")));
+		return new BrickFormulaEditTextDataInteractionWrapper(dataInteraction);
+	}
+
+	public <V extends Number> BrickFormulaEditTextDataInteractionWrapper performEnterNumber(V valueToBeEntered) {
+		dataInteraction.perform(click());
 		String valueToSet = "";
 
 		if (valueToBeEntered instanceof Float) {
@@ -50,8 +65,6 @@ public final class FormulaTextFieldUtils {
 			valueToSet = Integer.toString(valueToBeEntered.intValue());
 		}
 
-		BrickTestUtils.onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
-				.perform(click());
 		onView(withId(R.id.formula_editor_edit_field))
 				.perform(CustomActions.typeInValue(valueToSet));
 		onView(withId(R.id.formula_editor_keyboard_ok))
@@ -59,23 +72,34 @@ public final class FormulaTextFieldUtils {
 
 		// When using double or float, but value is an integer, the textField will show it as an integer
 		// e.g 12.0 -> 12
-		BrickTestUtils.onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
-				.check(matches(withText(valueToSet + " ")));
+		return new BrickFormulaEditTextDataInteractionWrapper(dataInteraction);
 	}
 
-	public static void enterStringInFormulaTextFieldOnBrickAtPosition(String stringToBeEntered,
-			int editTextResourceId, int position) {
-		BrickTestUtils.onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
-				.perform(click());
+	public BrickFormulaEditTextDataInteractionWrapper performEnterString(String stringToBeEntered) {
+		dataInteraction.perform(click());
+
 		onView(withId(R.id.formula_editor_keyboard_string))
 				.perform(click());
 		onView(withId(R.id.formula_editor_string_name_edit_text))
-				.perform(typeText(stringToBeEntered));
+				.perform(clearText(), typeText(stringToBeEntered));
 		onView(withText(R.string.ok))
 				.perform(click());
 		onView(withId(R.id.formula_editor_keyboard_ok))
 				.perform(click());
-		BrickTestUtils.onScriptList().atPosition(position).onChildView(withId(editTextResourceId))
-				.check(matches(withText("'" + stringToBeEntered + "' ")));
+		return new BrickFormulaEditTextDataInteractionWrapper(dataInteraction);
+	}
+
+	public BrickFormulaEditTextDataInteractionWrapper performEnterString(int stringResourceId) {
+		dataInteraction.perform(click());
+
+		onView(withId(R.id.formula_editor_keyboard_string))
+				.perform(click());
+		onView(withId(R.id.formula_editor_string_name_edit_text))
+				.perform(typeText(UiTestUtils.getResourcesString(stringResourceId)));
+		onView(withText(R.string.ok))
+				.perform(click());
+		onView(withId(R.id.formula_editor_keyboard_ok))
+				.perform(click());
+		return new BrickFormulaEditTextDataInteractionWrapper(dataInteraction);
 	}
 }
