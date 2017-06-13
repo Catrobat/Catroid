@@ -28,14 +28,24 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
+import org.catrobat.catroid.uitest.util.SensorTestServerConnection;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 
 @RunWith(AndroidJUnit4.class)
 public class FlashBrickTest {
@@ -47,8 +57,8 @@ public class FlashBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("flashBrickTest1").addBrick(new FlashBrick());
 		brickPosition = 1;
+		createProjectAndGetStartScript("flashBrickTest").addBrick(new FlashBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -60,8 +70,36 @@ public class FlashBrickTest {
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_flash_spinner)
 				.checkShowsText(R.string.brick_flash_on);
 
+		List<Integer> spinnerValues = new ArrayList<>();
+		spinnerValues.add(R.string.brick_flash_on);
+		spinnerValues.add(R.string.brick_flash_off);
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_flash_spinner)
-				.performSelect(R.string.brick_flash_off)
-				.checkShowsText(R.string.brick_flash_off);
+				.checkValuesAvailable(spinnerValues);
+	}
+
+	@Test
+	public void testActualFlashOnBrick() {
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_flash_spinner)
+				.performSelect(R.string.brick_flash_on);
+		onView(withId(R.id.button_play))
+				.perform(click());
+
+		onView(isRoot()).perform(CustomActions.wait(2500));
+
+		SensorTestServerConnection.checkLightSensorValue(SensorTestServerConnection
+				.SET_LED_ON_VALUE);
+	}
+
+	@Test
+	public void testActualFlashOffBrick() {
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_flash_spinner)
+				.performSelect(R.string.brick_flash_off);
+		onView(withId(R.id.button_play))
+				.perform(click());
+
+		onView(isRoot()).perform(CustomActions.wait(2500));
+
+		SensorTestServerConnection.checkLightSensorValue(SensorTestServerConnection
+				.SET_LED_OFF_VALUE);
 	}
 }

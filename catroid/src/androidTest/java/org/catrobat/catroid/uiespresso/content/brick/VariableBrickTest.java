@@ -42,6 +42,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
+//TODO incomplete Test! runswith...
+
 public class VariableBrickTest {
 	private int setBrickPosition;
 	private int changeBrickPosition;
@@ -119,5 +121,21 @@ public class VariableBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(setBrickPosition).checkShowsText(R.string.brick_set_variable);
 		onBrickAtPosition(changeBrickPosition).checkShowsText(R.string.brick_change_variable);
+	}
+
+	@Test
+	public void testAfterDeleteBrickVariableStillVisible() {
+		final String variableName = "testVariable";
+		onView(withId(R.id.set_variable_spinner)).perform(click());
+		onView(withId(R.id.dialog_formula_editor_data_name_edit_text)).perform(typeText(variableName));
+		onView(withText(R.string.ok)).perform(click());
+		onView(withText(R.string.brick_set_variable)).perform(click());
+		onView(withText(R.string.brick_context_dialog_delete_brick)).perform(click());
+		onView(withText(R.string.yes)).perform(click());
+
+		onBrickAtPosition(setBrickPosition).checkShowsText(R.string.brick_change_variable);
+
+		onBrickAtPosition(setBrickPosition).onSpinner(R.id.change_variable_spinner)
+				.performSelect(variableName);
 	}
 }

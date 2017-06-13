@@ -23,33 +23,39 @@
 
 package org.catrobat.catroid.uiespresso.content.brick;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
-import org.junit.After;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
+import org.catrobat.catroid.uiespresso.util.hardware.SensorTestArduinoServerConnection;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import java.io.File;
+import java.util.List;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.hamcrest.Matchers.instanceOf;
+
+//TODO incomplete Test!
 
 @RunWith(AndroidJUnit4.class)
-public class ForeverBrickTest {
+public class AudioHardwareTest {
+	private int brickPosition;
+
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
@@ -61,34 +67,39 @@ public class ForeverBrickTest {
 	}
 
 	@Test
-	public void foreverBrickTest() {
-		//multiple ways to check this, full verbose espresso way of checking:
-		onData(instanceOf(Brick.class)).inAdapterView(ScriptListMatchers.isScriptListView()).atPosition(1)
-				.onChildView(withText(R.string.brick_forever))
-				.check(matches(isDisplayed()));
-
-		//shortened with utility function to get scriptlist datainteraction object:
-		onBrickAtPosition(1).onChildView(withText(R.string.brick_forever))
-				.check(matches(isDisplayed()));
-
-		//shortened even more with utility function
-		onBrickAtPosition(1).checkShowsText(R.string.brick_forever);
-
-		//ok, now for the real test, check if all bricks are there in right order and displayed:
+	public void testAudioHardware() {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(1).checkShowsText(R.string.brick_forever);
-		onBrickAtPosition(2).checkShowsText(R.string.brick_loop_end);
-	}
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_play_sound_and_wait);
 
-	@After
-	public void tearDown() throws Exception {
+		onView(withId(R.id.button_play)).perform(click());
+		SensorTestArduinoServerConnection.checkAudioSensorValue(1);
 	}
 
 	private void createProject() {
-		Script startScript = BrickTestUtils.createProjectAndGetStartScript("foreverBrickTest1");
-		ForeverBrick foreverBrick = new ForeverBrick();
-		startScript.addBrick(foreverBrick);
-		startScript.addBrick(new LoopEndlessBrick(foreverBrick));
+		String soundName = "testSound1";
+		String projectName = "testProject";
+		File soundFile;
+		List<SoundInfo> soundInfoList;
+		brickPosition = 1;
+		Script script = BrickTestUtils.createProjectAndGetStartScript(projectName);
+		script.addBrick(new PlaySoundAndWaitBrick());
+
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+
+		soundFile = FileTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentProject()
+						.getDefaultScene().getName(),
+				"longsound.mp3",
+				org.catrobat.catroid.test.R.raw.longtestsound,
+				InstrumentationRegistry.getContext(),
+				FileTestUtils.FileTypes.SOUND);
+
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle(soundName);
+
+		soundInfoList.add(soundInfo);
+
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 	}
 }
-

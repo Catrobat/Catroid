@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.content.brick;
 
-import android.os.SystemClock;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -36,14 +36,17 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -54,6 +57,7 @@ import static org.catrobat.catroid.uiespresso.util.matchers.UserVariableTestUtil
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 
+@RunWith(AndroidJUnit4.class)
 public class AskBrickTest {
 
 	private UserVariable userVariable;
@@ -88,7 +92,8 @@ public class AskBrickTest {
 		String testAnswer = "";
 		onView(withId(R.id.button_play))
 				.perform(click());
-		SystemClock.sleep(1000);
+		onView(isRoot()).perform(CustomActions.wait(1000));
+
 		onView(withText(R.string.brick_ask_dialog_submit))
 				.perform(click());
 
@@ -109,7 +114,7 @@ public class AskBrickTest {
 		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, testAnswer, 2000));
 	}
 
-	public void createProject(String projectName) {
+	private void createProject(String projectName) {
 		String userVariableName = "TempVariable";
 		project = new Project(null, projectName);
 		Sprite sprite1 = new Sprite("testSprite");

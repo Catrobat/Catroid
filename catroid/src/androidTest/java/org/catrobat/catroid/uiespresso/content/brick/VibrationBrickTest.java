@@ -29,11 +29,20 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
+import org.catrobat.catroid.uitest.util.SensorTestServerConnection;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+
+//TODO incomplete Test!!
 
 public class VibrationBrickTest {
 	private int brickPosition;
@@ -52,11 +61,39 @@ public class VibrationBrickTest {
 
 	@Test
 	public void testVibrationBrick() {
+		int someArbitraryNumber = 10;
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_vibration);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_vibration_edit_text)
-				.performEnterNumber(10)
-				.checkShowsNumber(10);
+				.performEnterNumber(someArbitraryNumber);
+	}
+
+	@Test
+	public void testVibrationHardwareOn() {
+		int someArbitraryNumber = 10;
+
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_vibration_edit_text)
+				.performEnterNumber(someArbitraryNumber);
+
+		onView(withId(R.id.button_play)).perform(click());
+
+		onView(isRoot()).perform(CustomActions.wait(2500));
+
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
+	}
+
+	@Test
+	public void testVibrationHardwareOff() {
+		int someArbitraryNumber = 2;
+
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_vibration_edit_text)
+				.performEnterNumber(someArbitraryNumber);
+
+		onView(withId(R.id.button_play)).perform(click());
+
+		onView(isRoot()).perform(CustomActions.wait(3500));
+
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
 	}
 }
