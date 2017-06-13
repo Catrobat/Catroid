@@ -26,69 +26,74 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
-import org.junit.After;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
+import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.core.Is.is;
+
+//TODO incomplete Test! ks
 
 @RunWith(AndroidJUnit4.class)
-public class ForeverBrickTest {
+public class WhenStartedBrickTest {
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
-		createProject();
+		BrickTestUtils.createProjectAndGetStartScript("WhenStartedBrickTest");
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void foreverBrickTest() {
-		//multiple ways to check this, full verbose espresso way of checking:
-		onData(instanceOf(Brick.class)).inAdapterView(ScriptListMatchers.isScriptListView()).atPosition(1)
-				.onChildView(withText(R.string.brick_forever))
-				.check(matches(isDisplayed()));
-
-		//shortened with utility function to get scriptlist datainteraction object:
-		onBrickAtPosition(1).onChildView(withText(R.string.brick_forever))
-				.check(matches(isDisplayed()));
-
-		//shortened even more with utility function
-		onBrickAtPosition(1).checkShowsText(R.string.brick_forever);
-
-		//ok, now for the real test, check if all bricks are there in right order and displayed:
+	public void whenStartedBrick() {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(1).checkShowsText(R.string.brick_forever);
-		onBrickAtPosition(2).checkShowsText(R.string.brick_loop_end);
+		deleteStartBrick();
+		onView(withId(R.string.brick_when_started)).check(doesNotExist());
+
+		addBrickAtPosition(WaitBrick.class, 1, R.string.category_control);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		deleteStartBrick();
+		onView(withId(R.string.brick_when_started)).check(doesNotExist());
+		onView(withId(R.string.brick_wait)).check(doesNotExist());
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	public void addBrickAtPosition(Class<?> brickHeaderClass, int insertPosition, int brickCategoryId) {
+		onView(withId(R.id.button_add))
+				.perform(click());
+		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(brickCategoryId))))
+				.inAdapterView(BrickCategoryListMatchers.isBrickCategoryView())
+				.perform(click());
+		onData(is(instanceOf(brickHeaderClass))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.perform(click());
+		onBrickAtPosition(insertPosition)
+				.perform(click());
 	}
 
-	private void createProject() {
-		Script startScript = BrickTestUtils.createProjectAndGetStartScript("foreverBrickTest1");
-		ForeverBrick foreverBrick = new ForeverBrick();
-		startScript.addBrick(foreverBrick);
-		startScript.addBrick(new LoopEndlessBrick(foreverBrick));
+	void deleteStartBrick() {
+		onBrickAtPosition(0).perform(click());
+		onView(withText(R.string.brick_context_dialog_delete_script))
+				.perform(click());
+		onView(withText(R.string.yes))
+				.perform(click());
 	}
 }
-

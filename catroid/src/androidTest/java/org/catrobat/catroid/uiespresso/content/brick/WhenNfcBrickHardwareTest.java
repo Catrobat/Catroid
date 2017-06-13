@@ -23,22 +23,32 @@
 
 package org.catrobat.catroid.uiespresso.content.brick;
 
+import android.support.test.filters.FlakyTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenNfcScript;
+import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uitest.util.SensorTestServerConnection;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
+//TODO incomplete Test!
+
 @RunWith(AndroidJUnit4.class)
-public class ChangeTransparencyByNBrickTest {
+public class WhenNfcBrickHardwareTest {
 	private int brickPosition;
 
 	@Rule
@@ -48,19 +58,29 @@ public class ChangeTransparencyByNBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		BrickTestUtils.createProjectAndGetStartScript("changeTransparencyByNBricktest1")
-				.addBrick(new ChangeTransparencyByNBrick());
+		Project project = new Project(null, "whenNfcBrickHardware");
+		Sprite sprite = new Sprite("testSprite");
+		WhenNfcScript script = new WhenNfcScript();
+		script.addBrick(new VibrationBrick());
+		sprite.addScript(script);
+		project.getDefaultScene().addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
 		baseActivityTestRule.launchActivity(null);
 	}
 
-	@Test
-	public void testChangeTransparencyByNBrick() {
-		float valToChange = 30.5f;
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_change_ghost_effect);
+	@FlakyTest
+	public void testWhenNfcHardware() {
+		int someArbitraryNumber = 5;
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_change_transparency_edit_text)
-				.performEnterNumber(valToChange)
-				.checkShowsNumber(valToChange);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_nfc);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_vibration);
+
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_vibration_edit_text)
+				.performEnterNumber(someArbitraryNumber);
+
+		onView(withId(R.id.button_play)).perform(click());
+		SensorTestServerConnection.emulateNfcTag(true, "123456", "");
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
 	}
 }

@@ -26,20 +26,26 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.bricks.CameraBrick;
+import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 
 @RunWith(AndroidJUnit4.class)
-public class ChangeTransparencyByNBrickTest {
-	private int brickPosition;
+public class CameraBrickTest {
+	private int cameraBrickPosition;
+	private int chooseCameraBrickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -47,20 +53,37 @@ public class ChangeTransparencyByNBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		brickPosition = 1;
-		BrickTestUtils.createProjectAndGetStartScript("changeTransparencyByNBricktest1")
-				.addBrick(new ChangeTransparencyByNBrick());
+		Script script = createProjectAndGetStartScript("cameraBrickTest");
+		cameraBrickPosition = 1;
+		chooseCameraBrickPosition = 2;
+		script.addBrick(new CameraBrick());
+		script.addBrick(new ChooseCameraBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void testChangeTransparencyByNBrick() {
-		float valToChange = 30.5f;
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_change_ghost_effect);
+	public void testCameraBrick() {
+		onBrickAtPosition(cameraBrickPosition).checkShowsText(R.string.brick_video);
+		onBrickAtPosition(cameraBrickPosition).onSpinner(R.id.brick_video_spinner)
+				.checkShowsText(R.string.video_brick_camera_on);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_change_transparency_edit_text)
-				.performEnterNumber(valToChange)
-				.checkShowsNumber(valToChange);
+		List<Integer> spinnerValues = new ArrayList<>();
+		spinnerValues.add(R.string.video_brick_camera_on);
+		spinnerValues.add(R.string.video_brick_camera_off);
+		onBrickAtPosition(cameraBrickPosition).onSpinner(R.id.brick_video_spinner)
+			.checkValuesAvailable(spinnerValues);
+	}
+
+	@Test
+	public void testChooseCameraBrick() {
+		onBrickAtPosition(chooseCameraBrickPosition).checkShowsText(R.string.brick_choose_camera);
+		onBrickAtPosition(chooseCameraBrickPosition).onSpinner(R.id.brick_choose_camera_spinner)
+				.checkShowsText(R.string.choose_camera_front);
+
+		List<Integer> spinnerValues = new ArrayList<>();
+		spinnerValues.add(R.string.choose_camera_front);
+		spinnerValues.add(R.string.choose_camera_back);
+		onBrickAtPosition(chooseCameraBrickPosition).onSpinner(R.id.brick_choose_camera_spinner)
+				.checkValuesAvailable(spinnerValues);
 	}
 }

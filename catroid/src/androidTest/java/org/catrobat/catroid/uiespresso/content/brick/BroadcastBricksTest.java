@@ -24,6 +24,7 @@
 package org.catrobat.catroid.uiespresso.content.brick;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -49,6 +50,7 @@ import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
@@ -69,6 +71,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
 
+@RunWith(AndroidJUnit4.class)
 public class BroadcastBricksTest {
 	private String defaultMessage = "defaultMessage";
 	private int broadcastSendPosition = 4;
@@ -151,7 +154,7 @@ public class BroadcastBricksTest {
 				.checkShowsText(defaultMessage);
 	}
 
-	public Script createProjectAndGetStartScriptWithImages(String projectName) {
+	private Script createProjectAndGetStartScriptWithImages(String projectName) {
 		Project project = new Project(null, projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();

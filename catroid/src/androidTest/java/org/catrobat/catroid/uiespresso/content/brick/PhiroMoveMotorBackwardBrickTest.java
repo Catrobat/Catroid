@@ -26,7 +26,7 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
@@ -35,10 +35,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
+//TODO incomplete Test! ks
+
 @RunWith(AndroidJUnit4.class)
-public class ChangeTransparencyByNBrickTest {
+public class PhiroMoveMotorBackwardBrickTest {
 	private int brickPosition;
 
 	@Rule
@@ -46,21 +51,35 @@ public class ChangeTransparencyByNBrickTest {
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		int initialSpeed = -70;
+
+		PhiroMotorMoveBackwardBrick phiroMotorMoveBackwardBrick =
+				new PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_RIGHT, initialSpeed);
+
+		BrickTestUtils.createProjectAndGetStartScript("PhiroMoveMotorBackwardBrickTest")
+				.addBrick(phiroMotorMoveBackwardBrick);
+
 		brickPosition = 1;
-		BrickTestUtils.createProjectAndGetStartScript("changeTransparencyByNBricktest1")
-				.addBrick(new ChangeTransparencyByNBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	public void testChangeTransparencyByNBrick() {
-		float valToChange = 30.5f;
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_change_ghost_effect);
+	public void testPhiroMoveMotorBackwardBrick() {
+		int setSpeed = 30;
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_change_transparency_edit_text)
-				.performEnterNumber(valToChange)
-				.checkShowsNumber(valToChange);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_phiro_motor_backward_action);
+
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.phiro_motor_right,
+				R.string.phiro_motor_left,
+				R.string.phiro_motor_both);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_phiro_motor_backward_action_spinner)
+				.checkValuesAvailable(spinnerValuesResourceIds);
+
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_motor_backward_action_speed_edit_text)
+				.performEnterNumber(setSpeed)
+				.checkShowsNumber(setSpeed);
 	}
 }
