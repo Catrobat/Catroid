@@ -118,7 +118,6 @@ public class StageListener implements ApplicationListener {
 	private boolean reloadProject = false;
 	public boolean firstFrameDrawn = false;
 
-	private static boolean checkIfAutomaticScreenshotShouldBeTaken = true;
 	private boolean makeAutomaticScreenshot = false;
 	private boolean makeScreenshot = false;
 	private String pathForSceneScreenshot;
@@ -244,10 +243,9 @@ public class StageListener implements ApplicationListener {
 		}
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		skipFirstFrameForAutomaticScreenshot = true;
-		if (checkIfAutomaticScreenshotShouldBeTaken) {
-			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME) || scene
-					.screenshotExists(SCREENSHOT_AUTOMATIC_FILE_NAME) || scene.screenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
-		}
+		makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME) && scene
+				.screenshotExists(SCREENSHOT_AUTOMATIC_FILE_NAME) && scene.screenshotExists
+				(SCREENSHOT_MANUAL_FILE_NAME);
 		if (drawDebugCollisionPolygons) {
 			collisionPolygonDebugRenderer.setProjectionMatrix(camera.combined);
 			collisionPolygonDebugRenderer.setAutoShapeType(true);
@@ -506,10 +504,10 @@ public class StageListener implements ApplicationListener {
 
 			/*
 			 * Necessary for UiTests, when EMMA - code coverage is enabled.
-			 * 
+			 *
 			 * Without setting DYNAMIC_SAMPLING_RATE_FOR_ACTIONS to false(via reflection), before
 			 * the UiTest enters the stage, random segmentation faults(triggered by EMMA) will occur.
-			 * 
+			 *
 			 * Can be removed, when EMMA is replaced by an other code coverage tool, or when a
 			 * future EMMA - update will fix the bugs.
 			 */
@@ -704,7 +702,20 @@ public class StageListener implements ApplicationListener {
 		while (makeScreenshot) {
 			Thread.yield();
 		}
-		return saveScreenshot(this.screenshot, SCREENSHOT_MANUAL_FILE_NAME);
+
+		if(saveScreenshot(this.screenshot, SCREENSHOT_MANUAL_FILE_NAME)) {
+			deleteAutomaticScreenshot();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void deleteAutomaticScreenshot() {
+		FileHandle automaticScreenshot = Gdx.files.absolute(pathForSceneScreenshot + SCREENSHOT_AUTOMATIC_FILE_NAME);
+		if(automaticScreenshot.exists()) {
+			automaticScreenshot.delete();
+		}
 	}
 
 	private boolean saveScreenshot(byte[] screenshot, String fileName) {
@@ -773,10 +784,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		initScreenMode();
-
-		if (checkIfAutomaticScreenshotShouldBeTaken) {
-			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
-		}
+		makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 	}
 
 	public void clearBackground() {
