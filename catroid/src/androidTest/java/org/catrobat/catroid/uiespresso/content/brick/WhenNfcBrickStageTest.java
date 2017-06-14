@@ -46,7 +46,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.matchers.UserVariableTestUtils;
+import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

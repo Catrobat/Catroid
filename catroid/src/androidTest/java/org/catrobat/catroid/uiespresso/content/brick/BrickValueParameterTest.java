@@ -28,7 +28,12 @@ import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
@@ -50,6 +55,7 @@ import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
+import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
@@ -67,10 +73,12 @@ import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
+import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
@@ -85,6 +93,8 @@ import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PenDownBrick;
+import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
@@ -112,6 +122,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
@@ -147,7 +158,6 @@ import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
 import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
@@ -186,6 +196,8 @@ import static org.hamcrest.core.Is.is;
 @RunWith(AndroidJUnit4.class)
 public class BrickValueParameterTest {
 
+	private String nameSpriteOne = "testSpriteOne";
+
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
@@ -197,7 +209,7 @@ public class BrickValueParameterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("brickDefaultValueParameterTest");
+		createProject("brickDefaultValueParameterTest");
 		baseActivityTestRule.launchActivity(null);
 
 		SharedPreferences sharedPreferences = PreferenceManager
@@ -270,7 +282,7 @@ public class BrickValueParameterTest {
 
 		//Broadcast
 		checkIfBrickAtPositionShowsText(BroadcastBrick.class, 0, R.string.brick_broadcast);
-		checkIfBrickAtPositionShowsSpinnerWithEditTextOverlayWithText(BroadcastBrick.class, 0,
+		checkIfBrickAtPositionShowsSpinnerWithText(BroadcastBrick.class, 0,
 				R.id.brick_broadcast_spinner,
 				R.string.brick_broadcast_default_value);
 
@@ -334,8 +346,8 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(GoToBrick.class, R.string.brick_go_to);
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(GoToBrick.class, R.id.brick_go_to_spinner, R.string.brick_go_to_touch_position);
 
-		//If on edge, bounce (same problem as with Pen category: only available for sprite scripts)
-		// checkIfBrickShowsText(IfOnEdgeBounceBrick.class, R.string.brick_if_on_edge_bounce);
+		//If on edge, bounce
+		checkIfBrickShowsText(IfOnEdgeBounceBrick.class, R.string.brick_if_on_edge_bounce);
 
 		//Move  steps
 		checkIfBrickShowsText(MoveNStepsBrick.class, R.string.brick_move);
@@ -360,7 +372,7 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(PointToBrick.class, R.string.brick_point_to);
 		checkIfBrickShowsSpinnerWithText(PointToBrick.class,
 				R.id.brick_point_to_spinner,
-				R.string.brick_variable_spinner_create_new_variable);
+				nameSpriteOne);
 
 		//Set rotation style
 		checkIfBrickShowsText(SetRotationStyleBrick.class, R.string.brick_set_rotation_style);
@@ -376,12 +388,12 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(GlideToBrick.class, "100");
 		checkIfBrickShowsText(GlideToBrick.class, "200");
 
-		//Go back (same problem as with Pen category: only available for sprite scripts)
-		//checkIfBrickShowsText(GoNStepsBackBrick.class, R.string.brick_go_back);
-		//checkIfBrickShowsText(GoNStepsBackBrick.class, "1");
+		//Go back
+		checkIfBrickShowsText(GoNStepsBackBrick.class, R.string.brick_go_back);
+		checkIfBrickShowsText(GoNStepsBackBrick.class, "1");
 
-		//Go to front (same problem as with Pen category: only available for sprite scripts)
-		//checkIfBrickShowsText(ComeToFrontBrick.class, R.string.brick_come_to_front);
+		//Go to front
+		checkIfBrickShowsText(ComeToFrontBrick.class, R.string.brick_come_to_front);
 
 		//Vibrate for second
 		checkIfBrickShowsText(VibrationBrick.class, R.string.brick_vibration);
@@ -479,7 +491,7 @@ public class BrickValueParameterTest {
 	@Test
 	public void testLooksBricksDefaultValues() {
 		openCategory(R.string.category_looks);
-//
+
 		checkIfBrickAtPositionShowsText(SetLookBrick.class, 0, R.string.brick_set_look);
 		checkIfBrickAtPositionShowsSpinnerWithText(SetLookBrick.class, 0,
 				R.id.brick_set_look_spinner,
@@ -582,18 +594,17 @@ public class BrickValueParameterTest {
 				R.string.brick_flash_on);
 	}
 
-	// TODO: 05.04.17  pen category only contains "clear" when opened through background
 	@Test
 	public void testPenBricksDefaultValues() {
 		openCategory(R.string.category_pen);
 
-		//checkIfBrickShowsText(PenDownBrick.class, R.string.brick_pen_down);
+		checkIfBrickShowsText(PenDownBrick.class, R.string.brick_pen_down);
 
-		//checkIfBrickShowsText(PenUpBrick.class, R.string.brick_pen_up);
+		checkIfBrickShowsText(PenUpBrick.class, R.string.brick_pen_up);
 
-		//checkIfBrickAtPositionShowsText(SetPenSizeBrick.class, 0, R.string.brick_pen_size);
+		checkIfBrickAtPositionShowsText(SetPenSizeBrick.class, 0, R.string.brick_pen_size);
 
-		//checkIfBrickShowsText(SetPenSizeBrick.class, "4");
+		checkIfBrickShowsText(SetPenSizeBrick.class, "4");
 
 		checkIfBrickShowsText(ClearBackgroundBrick.class, R.string.brick_clear_background);
 	}
@@ -1070,6 +1081,7 @@ public class BrickValueParameterTest {
 				.perform(click());
 	}
 
+	//Checks for labels
 	private void checkIfBrickShowsText(Class brickClass, String text) {
 		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.onChildView(withText(text))
@@ -1080,42 +1092,14 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(brickClass, UiTestUtils.getResourcesString(stringResourceId));
 	}
 
-	private void checkIfBrickShowsSpinnerWithText(Class brickClass, int spinnerResourceId, int stringResourceId) {
-		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
-				.onChildView(withId(spinnerResourceId))
-				.check(matches(withSpinnerText(stringResourceId)));
-	}
-
-	//If above function fails with a String is null exception use this function below.
-	//(some spinners dont have a default "new" value, but are derived from another spinner and have an editText as a
-	// child that contains this "new" text)
-	//see educational test testAskSpeechBrickInSoundSpinnerProblem()
-	private void checkIfBrickShowsSpinnerWithEditTextOverlayWithText(Class brickClass, int spinnerResourceId,
-			int stringResourceId) {
-		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
-				.onChildView(withId(spinnerResourceId))
-				.onChildView(withId(android.R.id.text1)) //could be omitted, but just to make clear whats going on
-				.check(matches(withText(stringResourceId)));
-	}
-
-	private void checkIfBrickAtPositionShowsSpinnerWithEditTextOverlayWithText(Class brickClass, int position, int
-			spinnerResourceId,
-			int stringResourceId) {
+	private void checkIfBrickAtPositionShowsText(Class brickClass, int position, int stringResourceId) {
 		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.atPosition(position)
-				.onChildView(withId(spinnerResourceId))
-				.check(matches(withSpinnerText(stringResourceId)));
+				.onChildView(withText(stringResourceId))
+				.check(matches(isDisplayed()));
 	}
 
-	private void checkIfBrickAtPositionShowsSpinnerWithText(Class brickClass, int position,
-			int spinnerResourceId, int stringResourceId) {
-		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
-				.atPosition(position)
-				.onChildView(withId(spinnerResourceId))
-				.onChildView(withId(android.R.id.text1)) //could be omitted, but just to make clear whats going on
-				.check(matches(withText(stringResourceId)));
-	}
-
+	//Checks for Edit Text values
 	private void checkIfBrickShowsEditTextWithText(Class brickClass, int editTextResourceId, String text) {
 		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.onChildView(withId(editTextResourceId))
@@ -1134,10 +1118,52 @@ public class BrickValueParameterTest {
 				.check(matches(withText(text)));
 	}
 
-	private void checkIfBrickAtPositionShowsText(Class brickClass, int position, int stringResourceId) {
+	//Checks for spinner values
+	private void checkIfBrickShowsSpinnerWithText(Class brickClass, int spinnerResourceId, int stringResourceId) {
+		checkIfBrickShowsSpinnerWithText(brickClass, spinnerResourceId,
+				UiTestUtils.getResourcesString(stringResourceId));
+	}
+
+	private void checkIfBrickShowsSpinnerWithText(Class brickClass, int spinnerResourceId, String text) {
+		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.onChildView(withId(spinnerResourceId))
+				.check(matches(withSpinnerText(text)));
+	}
+
+	//If above function fails with a String is null exception use this function below.
+	//(some spinners dont have a default "new" value, but are derived from another spinner and have an editText as a
+	// child that contains this "new" text)
+	//see educational test testAskSpeechBrickInSoundSpinnerProblem()
+	private void checkIfBrickShowsSpinnerWithEditTextOverlayWithText(Class brickClass, int spinnerResourceId,
+			int stringResourceId) {
+		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.onChildView(withId(spinnerResourceId))
+				.onChildView(withId(android.R.id.text1)) //could be omitted, but just to make clear whats going on
+				.check(matches(withText(stringResourceId)));
+	}
+
+	private void checkIfBrickAtPositionShowsSpinnerWithText(Class brickClass, int position,
+			int spinnerResourceId, int stringResourceId) {
 		onData(instanceOf(brickClass)).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.atPosition(position)
-				.onChildView(withText(stringResourceId))
-				.check(matches(isDisplayed()));
+				.onChildView(withId(spinnerResourceId))
+				.onChildView(withId(android.R.id.text1)) //could be omitted, but just to make clear whats going on
+				.check(matches(withText(stringResourceId)));
+	}
+
+	private void createProject(String projectName) {
+		String nameSpriteTwo = "testSpriteTwo";
+
+		Project project = new Project(null, projectName);
+		Sprite spriteOne = new Sprite(nameSpriteOne);
+		project.getDefaultScene().addSprite(spriteOne);
+
+		Sprite spriteTwo = new Sprite(nameSpriteTwo);
+		Script script = new StartScript();
+		spriteTwo.addScript(script);
+
+		project.getDefaultScene().addSprite(spriteTwo);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(spriteTwo);
 	}
 }

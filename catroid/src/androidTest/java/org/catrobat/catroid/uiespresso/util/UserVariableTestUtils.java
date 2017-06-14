@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.util.matchers;
+package org.catrobat.catroid.uiespresso.util;
 
 import junit.framework.Assert;
 

@@ -53,7 +53,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
-import static org.catrobat.catroid.uiespresso.util.matchers.UserVariableTestUtils.userVariableEqualsWithinTimeout;
+import static org.catrobat.catroid.uiespresso.util.UserVariableTestUtils.userVariableEqualsWithinTimeout;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 
