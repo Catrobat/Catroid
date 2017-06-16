@@ -194,6 +194,13 @@ public class WebViewActivity extends BaseActivity {
 					} catch (ClassNotFoundException e) {
 						Log.e(TAG, e.getMessage());
 					}
+				} else if (BuildConfig.PHIRO_CODE) {
+					try {
+						intent = new Intent(getBaseContext(), Class.forName("org.catrobat.catroid.phiro.ui"
+								+ ".PhiroMainMenuActivity"));
+					} catch (ClassNotFoundException e) {
+						Log.e(TAG, e.getMessage());
+					}
 				} else {
 					intent = new Intent(getBaseContext(), MainMenuActivity.class);
 				}

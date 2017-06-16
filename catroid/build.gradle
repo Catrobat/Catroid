@@ -106,21 +106,26 @@ android {
     }
 
     defaultConfig {
-        manifestPlaceholders = [ launchActivity:"org.catrobat.catroid.ui.MainMenuActivity",
+        manifestPlaceholders = [ appName: appName,
+                                 launchActivity:"org.catrobat.catroid.ui.MainMenuActivity",
                                  applicationIdForTests:"org.catrobat.catroid"]
 
+        buildConfigField "boolean", "DATA_TRACKING", "false"
         buildConfigField "boolean", "CREATE_AT_SCHOOL", "false"
         buildConfigField "boolean", "RESTRICTED_LOGIN", "false"
+        buildConfigField "boolean", "PHIRO_CODE", "false"
+
         buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
+
+        buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+        buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+        buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
     }
 
     productFlavors {
         catroid {
             applicationId appId
-            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
         }
 
         standalone {
@@ -128,27 +133,37 @@ android {
             versionCode 1
             versionName '1.0'
 
-            buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true)}\""
+            buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
         }
 
         createatschool {
-            applicationId 'org.catrobat.catroid.createatschool'
+            appId = 'org.catrobat.catroid.createatschool'
+            applicationId appId
             versionCode 9
 
-            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "DATA_TRACKING", "true"
             buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
-            buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
 
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
 
-            manifestPlaceholders = [ launchActivity:"org.catrobat.catroid.createatschool" +
+            manifestPlaceholders = [ appName: appName,
+                                     launchActivity:"org.catrobat.catroid.createatschool" +
                     ".ui.CreateAtSchoolMainMenuActivity", applicationIdForTests:"org.catrobat.catroid.createatschool" ]
+        }
+
+        phiro {
+            appId = 'org.catrobat.catroid.phiro'
+            applicationId appId
+            versionCode 1
+
+            buildConfigField "boolean", "PHIRO_CODE", "true"
+
+            manifestPlaceholders = [ appName: appName,
+                                     launchActivity: "org.catrobat.catroid.phiro" +
+                    ".ui.PhiroMainMenuActivity", applicationIdForTests:"org.catrobat.catroid.phiro" ]
         }
     }
 }
@@ -254,7 +269,6 @@ android {
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
         multiDexEnabled true
-        manifestPlaceholders += [appName: appName]
     }
 
     packagingOptions {

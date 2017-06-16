@@ -199,10 +199,7 @@ public final class UtilZip {
 			unpackedDirectory.renameTo(destination);
 		}
 
-		File zipFile = new File(zipFileName);
-		if (zipFile.exists()) {
-			zipFile.delete();
-		}
+		UtilFile.deleteFile(zipFileName);
 	}
 
 	public static void unzipProgram(Context context) {

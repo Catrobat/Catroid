@@ -57,13 +57,16 @@ import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class FormulaEditorCategoryListFragment extends ListFragment implements Dialog.OnKeyListener, CategoryListAdapter.OnListItemClickListener {
 
-	public static final String TAG = FormulaEditorCategoryListFragment.class.getSimpleName();
+	public static String flavoredTag = "ui.fragment.FormulaEditorCategoryListFragment";
+	public static String tag = FormulaEditorCategoryListFragment.class.getSimpleName();
+
 	public static final String OBJECT_TAG = "objectFragment";
 	public static final String FUNCTION_TAG = "functionFragment";
 	public static final String LOGIC_TAG = "logicFragment";
@@ -78,11 +81,13 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	private int[] parameterIds;
 	private CategoryListAdapter adapter;
 
-	private static final int[] OBJECT_GENERAL_PROPERTIES_ITEMS = {R.string.formula_editor_object_transparency,
+	protected Map<String, FormulaEditorCategory> categoryMap = new HashMap<>();
+
+	protected static final int[] OBJECT_GENERAL_PROPERTIES_ITEMS = {R.string.formula_editor_object_transparency,
 			R.string.formula_editor_object_brightness, R.string.formula_editor_object_color/*,
 			R.string.formula_editor_object_distance_to*/};
 
-	private static final int[] OBJECT_PHYSICAL_PROPERTIES_ITEMS = {R.string.formula_editor_object_x,
+	protected static final int[] OBJECT_PHYSICAL_PROPERTIES_ITEMS = {R.string.formula_editor_object_x,
 			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
 			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer,
 			R.string.formula_editor_function_collision,
@@ -90,22 +95,22 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
 			R.string.formula_editor_object_angular_velocity};
 
-	private static final int[] OBJECT_ITEMS_LOOK = {R.string.formula_editor_object_look_number,
+	protected static final int[] OBJECT_ITEMS_LOOK = {R.string.formula_editor_object_look_number,
 			R.string.formula_editor_object_look_name};
 
-	private static final int[] OBJECT_ITEMS_BACKGROUND = {R.string.formula_editor_object_background_number,
+	protected static final int[] OBJECT_ITEMS_BACKGROUND = {R.string.formula_editor_object_background_number,
 			R.string.formula_editor_object_background_name};
 
-	private static final int[] LOGIC_BOOLEAN_OPERATORS_ITEMS = {R.string.formula_editor_logic_and,
+	protected static final int[] LOGIC_BOOLEAN_OPERATORS_ITEMS = {R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
 			R.string.formula_editor_function_true, R.string.formula_editor_function_false};
 
-	private static final int[] LOGIC_COMPARISON_OPERATORS_ITEMS = {R.string.formula_editor_logic_equal,
+	protected static final int[] LOGIC_COMPARISON_OPERATORS_ITEMS = {R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
 			R.string.formula_editor_logic_greaterequal};
 
-	private static final int[] FUNCTIONS_MATH_ITEMS = {R.string.formula_editor_function_sin,
+	protected static final int[] FUNCTIONS_MATH_ITEMS = {R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
 			R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
@@ -117,7 +122,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_function_floor, R.string.formula_editor_function_ceil,
 			R.string.formula_editor_function_max, R.string.formula_editor_function_min};
 
-	private static final int[] FUNCTIONS_MATH_PARAMETERS = {R.string.formula_editor_function_sin_parameter,
+	protected static final int[] FUNCTIONS_MATH_PARAMETERS = {R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
 			R.string.formula_editor_function_ln_parameter, R.string.formula_editor_function_log_parameter,
 			R.string.formula_editor_function_pi_parameter, R.string.formula_editor_function_sqrt_parameter,
@@ -129,84 +134,84 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_function_floor_parameter, R.string.formula_editor_function_ceil_parameter,
 			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter};
 
-	private static final int[] FUNCTIONS_STRINGS_ITEMS = {R.string.formula_editor_function_length,
+	protected static final int[] FUNCTIONS_STRINGS_ITEMS = {R.string.formula_editor_function_length,
 			R.string.formula_editor_function_letter, R.string.formula_editor_function_join};
 
-	private static final int[] FUNCTIONS_STRINGS_PARAMETERS = {R.string.formula_editor_function_length_parameter,
+	protected static final int[] FUNCTIONS_STRINGS_PARAMETERS = {R.string.formula_editor_function_length_parameter,
 			R.string.formula_editor_function_letter_parameter, R.string.formula_editor_function_join_parameter};
 
-	private static final int[] FUNCTIONS_LISTS_ITEMS = {R.string.formula_editor_function_number_of_items,
+	protected static final int[] FUNCTIONS_LISTS_ITEMS = {R.string.formula_editor_function_number_of_items,
 			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains};
 
-	private static final int[] FUNCTIONS_LISTS_PARAMETERS = {R.string.formula_editor_function_number_of_items_parameter,
+	protected static final int[] FUNCTIONS_LISTS_PARAMETERS = {R.string.formula_editor_function_number_of_items_parameter,
 			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter};
 
-	private static final int[] DEFAULT_SENSOR_ITEMS = {R.string.formula_editor_sensor_loudness, R.string
+	protected static final int[] DEFAULT_SENSOR_ITEMS = {R.string.formula_editor_sensor_loudness, R.string
 			.formula_editor_function_touched};
 
-	private static final int[] DATE_AND_TIME_SENSOR_ITEMS = {R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month, R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
+	protected static final int[] DATE_AND_TIME_SENSOR_ITEMS = {R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month, R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
 			R.string.formula_editor_sensor_time_hour, R.string.formula_editor_sensor_time_minute, R.string.formula_editor_sensor_time_second};
 
-	private static final int[] ACCELERATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
+	protected static final int[] ACCELERATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration};
 
-	private static final int[] INCLINATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_inclination,
+	protected static final int[] INCLINATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_inclination,
 			R.string.formula_editor_sensor_y_inclination};
 
-	private static final int[] COMPASS_SENSOR_ITEMS = {R.string.formula_editor_sensor_compass_direction};
+	protected static final int[] COMPASS_SENSOR_ITEMS = {R.string.formula_editor_sensor_compass_direction};
 
-	private static final int[] GPS_SENSOR_ITEMS = {R.string.formula_editor_sensor_latitude, R.string
+	protected static final int[] GPS_SENSOR_ITEMS = {R.string.formula_editor_sensor_latitude, R.string
 			.formula_editor_sensor_longitude, R.string.formula_editor_sensor_location_accuracy, R.string
 			.formula_editor_sensor_altitude};
 
-	private static final int[] NXT_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_nxt_touch,
+	protected static final int[] NXT_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_nxt_touch,
 			R.string.formula_editor_sensor_lego_nxt_sound, R.string.formula_editor_sensor_lego_nxt_light,
 			R.string.formula_editor_sensor_lego_nxt_light_active, R.string.formula_editor_sensor_lego_nxt_ultrasonic};
 
-	private static final int[] NFC_TAG_ITEMS = {R.string.formula_editor_nfc_tag_id,
+	protected static final int[] NFC_TAG_ITEMS = {R.string.formula_editor_nfc_tag_id,
 			R.string.formula_editor_nfc_tag_message};
 
-	private static final int[] SENSOR_ITEMS_DRONE = {R.string.formula_editor_sensor_drone_battery_status,
+	protected static final int[] SENSOR_ITEMS_DRONE = {R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
 			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
 			R.string.formula_editor_sensor_drone_usb_remaining_time, R.string.formula_editor_sensor_drone_camera_ready,
 			R.string.formula_editor_sensor_drone_record_ready, R.string.formula_editor_sensor_drone_recording,
 			R.string.formula_editor_sensor_drone_num_frames};
 
-	private static final int[] EV3_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_ev3_sensor_touch,
+	protected static final int[] EV3_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_ev3_sensor_touch,
 			R.string.formula_editor_sensor_lego_ev3_sensor_infrared, R.string.formula_editor_sensor_lego_ev3_sensor_color,
 			R.string.formula_editor_sensor_lego_ev3_sensor_color_ambient, R.string
 			.formula_editor_sensor_lego_ev3_sensor_color_reflected};
 
-	private static final int[] PHIRO_SENSOR_ITEMS = {R.string.formula_editor_phiro_sensor_front_left,
+	protected static final int[] PHIRO_SENSOR_ITEMS = {R.string.formula_editor_phiro_sensor_front_left,
 			R.string.formula_editor_phiro_sensor_front_right, R.string.formula_editor_phiro_sensor_side_left,
 			R.string.formula_editor_phiro_sensor_side_right, R.string.formula_editor_phiro_sensor_bottom_left,
 			R.string.formula_editor_phiro_sensor_bottom_right};
 
-	private static final int[] ARDUINO_SENSOR_ITEMS = {R.string.formula_editor_function_arduino_read_pin_value_analog,
+	protected static final int[] ARDUINO_SENSOR_ITEMS = {R.string.formula_editor_function_arduino_read_pin_value_analog,
 			R.string.formula_editor_function_arduino_read_pin_value_digital};
 
-	private static final int[] FACE_DETECTION_SENSOR_ITEMS = {R.string.formula_editor_sensor_face_detected,
+	protected static final int[] FACE_DETECTION_SENSOR_ITEMS = {R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position};
 
-	private static final int[] TOUCH_DEDECTION_SENSOR_ITEMS = {R.string.formula_editor_function_finger_x, R.string.formula_editor_function_finger_y,
+	protected static final int[] TOUCH_DEDECTION_SENSOR_ITEMS = {R.string.formula_editor_function_finger_x, R.string.formula_editor_function_finger_y,
 			R.string.formula_editor_function_is_finger_touching, R.string.formula_editor_function_multi_finger_x,
 			R.string.formula_editor_function_multi_finger_y,
 			R.string.formula_editor_function_is_multi_finger_touching,
 			R.string.formula_editor_function_index_of_last_finger};
 
-	private static final int[] TOUCH_DEDECTION_PARAMETERS = {R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_no_parameter,
+	protected static final int[] TOUCH_DEDECTION_PARAMETERS = {R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_touch_parameter,
 			R.string.formula_editor_function_touch_parameter,
 			R.string.formula_editor_function_touch_parameter,
 			R.string.formula_editor_function_no_parameter};
 
-	private static final int[] RASPBERRY_SENSOR_ITEMS = {R.string.formula_editor_function_raspi_read_pin_value_digital};
+	protected static final int[] RASPBERRY_SENSOR_ITEMS = {R.string.formula_editor_function_raspi_read_pin_value_digital};
 
-	private static final int[] RASPBERRY_SENSOR_PARAMETERS = {R.string.formula_editor_function_pin_default_parameter};
+	protected static final int[] RASPBERRY_SENSOR_PARAMETERS = {R.string.formula_editor_function_pin_default_parameter};
 
-	private static final int[] CAST_GAMEPAD_SENSOR_ITEMS = {R.string.formula_editor_sensor_gamepad_a_pressed,
+	protected static final int[] CAST_GAMEPAD_SENSOR_ITEMS = {R.string.formula_editor_sensor_gamepad_a_pressed,
 			R.string.formula_editor_sensor_gamepad_b_pressed, R.string.formula_editor_sensor_gamepad_up_pressed,
 			R.string.formula_editor_sensor_gamepad_down_pressed, R.string.formula_editor_sensor_gamepad_left_pressed,
 			R.string.formula_editor_sensor_gamepad_right_pressed
@@ -329,8 +334,165 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		initCategories();
 
 		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
+	}
+
+	private void initCategories() {
+		initObjects();
+		initFunctions();
+		initLogic();
+		initSensors();
+	}
+
+	private void initObjects() {
+		if (categoryMap.containsKey(OBJECT_TAG)) {
+			return;
+		}
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+
+		FormulaEditorCategory category = new FormulaEditorCategory();
+		category.addHeader(getString(R.string.formula_editor_object_general));
+		category.addItems(OBJECT_GENERAL_PROPERTIES_ITEMS);
+		if (projectManager.getCurrentScene().isBackgroundObject(currentSprite)) {
+			category.addItems(OBJECT_ITEMS_BACKGROUND);
+		} else {
+			category.addItems(OBJECT_ITEMS_LOOK);
+		}
+		category.addHeader(getString(R.string.formula_editor_object_movement));
+		category.addItems(OBJECT_PHYSICAL_PROPERTIES_ITEMS);
+		categoryMap.put(OBJECT_TAG, category);
+	}
+
+	private void initFunctions() {
+		if (categoryMap.containsKey(FUNCTION_TAG)) {
+			return;
+		}
+
+		FormulaEditorCategory category = new FormulaEditorCategory();
+		category.addHeader(getString(R.string.formula_editor_functions_maths));
+		category.addItems(FUNCTIONS_MATH_ITEMS);
+		category.addParameters(FUNCTIONS_MATH_PARAMETERS);
+
+		category.addHeader(getString(R.string.formula_editor_functions_strings));
+		category.addItems(FUNCTIONS_STRINGS_ITEMS);
+		category.addParameters(FUNCTIONS_STRINGS_PARAMETERS);
+
+		category.addHeader(getString(R.string.formula_editor_functions_lists));
+		category.addItems(FUNCTIONS_LISTS_ITEMS);
+		category.addParameters(FUNCTIONS_LISTS_PARAMETERS);
+
+		categoryMap.put(FUNCTION_TAG, category);
+	}
+
+	private void initLogic() {
+		if (categoryMap.containsKey(LOGIC_TAG)) {
+			return;
+		}
+
+		FormulaEditorCategory category = new FormulaEditorCategory();
+		category.addHeader(getString(R.string.formula_editor_logic_boolean));
+		category.addItems(LOGIC_BOOLEAN_OPERATORS_ITEMS);
+
+		category.addHeader(getString(R.string.formula_editor_logic_comparison));
+		category.addItems(LOGIC_COMPARISON_OPERATORS_ITEMS);
+
+		categoryMap.put(LOGIC_TAG, category);
+	}
+
+	private void initSensors() {
+		if (categoryMap.containsKey(SENSOR_TAG)) {
+			return;
+		}
+
+		Context context = this.getActivity().getApplicationContext();
+
+		FormulaEditorCategory category = new FormulaEditorCategory();
+		category.addHeader(getString(R.string.formula_editor_device));
+		category.addItems(DEFAULT_SENSOR_ITEMS);
+		category.addParameters(createEmptyParametersList(DEFAULT_SENSOR_ITEMS.length));
+
+		if (SensorHandler.getInstance(context).accelerationAvailable()) {
+			category.addItems(ACCELERATION_SENSOR_ITEMS);
+			category.addParameters(createEmptyParametersList(ACCELERATION_SENSOR_ITEMS.length));
+		}
+
+		if (SensorHandler.getInstance(context).inclinationAvailable()) {
+			category.addItems(INCLINATION_SENSOR_ITEMS);
+			category.addParameters(createEmptyParametersList(INCLINATION_SENSOR_ITEMS.length));
+		}
+
+		if (SensorHandler.getInstance(context).compassAvailable()) {
+			category.addItems(COMPASS_SENSOR_ITEMS);
+			category.addParameters(createEmptyParametersList(COMPASS_SENSOR_ITEMS.length));
+		}
+
+		category.addItems(GPS_SENSOR_ITEMS);
+		category.addParameters(createEmptyParametersList(GPS_SENSOR_ITEMS.length));
+
+		category.addHeader(getString(R.string.formula_editor_device_touch_detection));
+		category.addItems(TOUCH_DEDECTION_SENSOR_ITEMS);
+		category.addParameters(TOUCH_DEDECTION_PARAMETERS);
+
+		if (CameraManager.getInstance().hasBackCamera() || CameraManager.getInstance().hasFrontCamera()) {
+			category.addHeader(getString(R.string.formula_editor_device_face_detection));
+			category.addItems(FACE_DETECTION_SENSOR_ITEMS);
+			category.addParameters(createEmptyParametersList(FACE_DETECTION_SENSOR_ITEMS.length));
+		}
+
+		category.addHeader(getString(R.string.formula_editor_device_date_and_time));
+		category.addItems(DATE_AND_TIME_SENSOR_ITEMS);
+
+		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
+			category.addHeader(getString(R.string.formula_editor_device_lego));
+			category.addItems(NXT_SENSOR_ITEMS);
+			category.addParameters(createEmptyParametersList(NXT_SENSOR_ITEMS.length));
+		}
+
+		if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(context)) {
+			category.addItems(EV3_SENSOR_ITEMS);
+		}
+
+		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+			category.addHeader(getString(R.string.formula_editor_device_phiro));
+			category.addItems(PHIRO_SENSOR_ITEMS);
+			category.addParameters(createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
+		}
+
+		if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
+			category.addHeader(getString(R.string.formula_editor_device_arduino));
+			category.addItems(ARDUINO_SENSOR_ITEMS);
+			category.addParameters(createEmptyParametersList(ARDUINO_SENSOR_ITEMS.length));
+		}
+
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
+			category.addHeader(getString(R.string.formula_editor_device_drone));
+			category.addItems(SENSOR_ITEMS_DRONE);
+			category.addParameters(createEmptyParametersList(SENSOR_ITEMS_DRONE.length));
+		}
+
+		if (SettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
+			category.addHeader(getString(R.string.formula_editor_device_raspberry));
+			category.addItems(RASPBERRY_SENSOR_PARAMETERS);
+			category.addParameters(RASPBERRY_SENSOR_PARAMETERS);
+		}
+
+		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+			category.addHeader(getString(R.string.formula_editor_device_nfc));
+			category.addItems(NFC_TAG_ITEMS);
+			category.addParameters(createEmptyParametersList(NFC_TAG_ITEMS.length));
+		}
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			category.addHeader(getString(R.string.formula_editor_device_cast));
+			category.addItems(CAST_GAMEPAD_SENSOR_ITEMS);
+			category.addParameters(createEmptyParametersList(CAST_GAMEPAD_SENSOR_ITEMS.length));
+		}
+
+		categoryMap.put(SENSOR_TAG, category);
 	}
 
 	@Override
@@ -339,125 +501,9 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 		String tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
-		itemsIds = new int[] {};
-		parameterIds = new int[] {};
-		Map<Integer, String> header = new TreeMap<>();
-
-		if (tag.equals(OBJECT_TAG)) {
-			header.put(0, getString(R.string.formula_editor_object_general));
-			itemsIds = OBJECT_GENERAL_PROPERTIES_ITEMS;
-
-			ProjectManager projectManager = ProjectManager.getInstance();
-			Sprite currentSprite = projectManager.getCurrentSprite();
-			if (projectManager.getCurrentScene().isBackgroundObject(currentSprite)) {
-				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_BACKGROUND);
-			} else {
-				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_LOOK);
-			}
-			header.put(itemsIds.length, getString(R.string.formula_editor_object_movement));
-			itemsIds = concatAll(itemsIds, OBJECT_PHYSICAL_PROPERTIES_ITEMS);
-		} else if (tag.equals(FUNCTION_TAG)) {
-			header.put(0, getString(R.string.formula_editor_functions_maths));
-			itemsIds = FUNCTIONS_MATH_ITEMS;
-			parameterIds = FUNCTIONS_MATH_PARAMETERS;
-
-			header.put(itemsIds.length, getString(R.string.formula_editor_functions_strings));
-			itemsIds = concatAll(itemsIds, FUNCTIONS_STRINGS_ITEMS);
-			parameterIds = concatAll(parameterIds, FUNCTIONS_STRINGS_PARAMETERS);
-
-			header.put(itemsIds.length, getString(R.string.formula_editor_functions_lists));
-			itemsIds = concatAll(itemsIds, FUNCTIONS_LISTS_ITEMS);
-			parameterIds = concatAll(parameterIds, FUNCTIONS_LISTS_PARAMETERS);
-		} else if (tag.equals(LOGIC_TAG)) {
-			header.put(0, getString(R.string.formula_editor_logic_boolean));
-			itemsIds = LOGIC_BOOLEAN_OPERATORS_ITEMS;
-
-			header.put(itemsIds.length, getString(R.string.formula_editor_logic_comparison));
-			itemsIds = concatAll(itemsIds, LOGIC_COMPARISON_OPERATORS_ITEMS);
-		} else if (tag.equals(SENSOR_TAG)) {
-			header.put(0, getString(R.string.formula_editor_device_sensors));
-			itemsIds = DEFAULT_SENSOR_ITEMS;
-			parameterIds = createEmptyParametersList(DEFAULT_SENSOR_ITEMS.length);
-
-			Context context = this.getActivity().getApplicationContext();
-
-			if (SensorHandler.getInstance(context).accelerationAvailable()) {
-				itemsIds = concatAll(itemsIds, ACCELERATION_SENSOR_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(ACCELERATION_SENSOR_ITEMS.length));
-			}
-
-			if (SensorHandler.getInstance(context).inclinationAvailable()) {
-				itemsIds = concatAll(itemsIds, INCLINATION_SENSOR_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(INCLINATION_SENSOR_ITEMS.length));
-			}
-
-			if (SensorHandler.getInstance(context).compassAvailable()) {
-				itemsIds = concatAll(itemsIds, COMPASS_SENSOR_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(COMPASS_SENSOR_ITEMS.length));
-			}
-
-			itemsIds = concatAll(itemsIds, GPS_SENSOR_ITEMS);
-			parameterIds = concatAll(parameterIds, createEmptyParametersList(GPS_SENSOR_ITEMS.length));
-
-			header.put(itemsIds.length, getString(R.string.formula_editor_device_touch_detection));
-			itemsIds = concatAll(itemsIds, TOUCH_DEDECTION_SENSOR_ITEMS);
-			parameterIds = concatAll(parameterIds, TOUCH_DEDECTION_PARAMETERS);
-
-			if (CameraManager.getInstance().hasBackCamera() || CameraManager.getInstance().hasFrontCamera()) {
-				header.put(itemsIds.length, getString(R.string.formula_editor_device_face_detection));
-				itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(FACE_DETECTION_SENSOR_ITEMS.length));
-			}
-
-			header.put(itemsIds.length, getString(R.string.formula_editor_device_date_and_time));
-			itemsIds = concatAll(itemsIds, DATE_AND_TIME_SENSOR_ITEMS);
-
-			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
-				header.put(itemsIds.length, getString(R.string.formula_editor_device_lego));
-				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(NXT_SENSOR_ITEMS.length));
-			}
-
-			if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(context)) {
-				itemsIds = concatAll(itemsIds, EV3_SENSOR_ITEMS);
-			}
-
-			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
-				header.put(itemsIds.length, getString(R.string.formula_editor_device_phiro));
-				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
-			}
-
-			if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
-				header.put(itemsIds.length, getString(R.string.formula_editor_device_arduino));
-				itemsIds = concatAll(itemsIds, ARDUINO_SENSOR_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(ARDUINO_SENSOR_ITEMS.length));
-			}
-
-			if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
-				header.put(itemsIds.length, getString(R.string.formula_editor_device_drone));
-				itemsIds = concatAll(itemsIds, SENSOR_ITEMS_DRONE);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(SENSOR_ITEMS_DRONE.length));
-			}
-
-			if (SettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
-				header.put(itemsIds.length, getString(R.string.formula_editor_device_raspberry));
-				itemsIds = concatAll(itemsIds, RASPBERRY_SENSOR_ITEMS);
-				parameterIds = concatAll(parameterIds, RASPBERRY_SENSOR_PARAMETERS);
-			}
-
-			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
-				header.put(itemsIds.length, getString(R.string.formula_editor_device_nfc));
-				itemsIds = concatAll(itemsIds, NFC_TAG_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_ITEMS.length));
-			}
-
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
-				header.put(itemsIds.length, getString(R.string.formula_editor_device_cast));
-				itemsIds = concatAll(itemsIds, CAST_GAMEPAD_SENSOR_ITEMS);
-				parameterIds = concatAll(parameterIds, createEmptyParametersList(CAST_GAMEPAD_SENSOR_ITEMS.length));
-			}
-		}
+		itemsIds = categoryMap.get(tag).categoryItemIds;
+		parameterIds = categoryMap.get(tag).categoryParameterIds;
+		Map<Integer, String> header = categoryMap.get(tag).headerOrderMap;
 
 		List<String> items = new ArrayList<>();
 
@@ -471,17 +517,16 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		adapter.setOnListItemClickListener(this);
 	}
 
-	private int[] createEmptyParametersList(int length) {
+	protected int[] createEmptyParametersList(int length) {
 		int[] noParametersList = new int[length];
 
 		for (int i = 0; i < length; i++) {
 			//Dirty hack until further insight is gained
 			try {
-				Log.i(TAG, "Trying to get string resource: " + getString(R.string
-						.formula_editor_function_no_parameter));
+				Log.i(tag, "Trying to get string resource: " + getString(R.string.formula_editor_function_no_parameter));
 				noParametersList[i] = R.string.formula_editor_function_no_parameter;
 			} catch (Resources.NotFoundException exception) {
-				Log.e(TAG, "formula_editor_function_no_parameter not found!" + Log.getStackTraceString(exception));
+				Log.e(tag, "formula_editor_function_no_parameter not found!" + Log.getStackTraceString(exception));
 			}
 		}
 
@@ -552,5 +597,35 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		fragTransaction.show(getActivity().getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
 		fragTransaction.commit();
+	}
+
+	public class FormulaEditorCategory {
+		private int[] categoryItemIds = new int[] {};
+		private int[] categoryParameterIds = new int[] {};
+		private Map<Integer, String> headerOrderMap = new TreeMap<>();
+
+		public void addHeader(String text) {
+			int position = 0;
+			if (categoryItemIds != null) {
+				position = categoryItemIds.length;
+			}
+			headerOrderMap.put(position, text);
+		}
+
+		public void addItems(int[] items) {
+			if (categoryItemIds == null) {
+				System.arraycopy(items, 0, categoryItemIds, 0, items.length);
+			} else {
+				categoryItemIds = concatAll(categoryItemIds, items);
+			}
+		}
+
+		public void addParameters(int[] parameters) {
+			if (categoryParameterIds == null) {
+				System.arraycopy(parameters, 0, categoryParameterIds, 0, parameters.length);
+			} else {
+				categoryParameterIds = concatAll(categoryParameterIds, parameters);
+			}
+		}
 	}
 }

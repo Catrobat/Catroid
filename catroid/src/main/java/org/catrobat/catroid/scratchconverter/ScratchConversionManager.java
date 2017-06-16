@@ -150,6 +150,13 @@ public class ScratchConversionManager implements ConversionManager {
 				} catch (ClassNotFoundException e) {
 					Log.e(TAG, e.getMessage());
 				}
+			} else if (BuildConfig.PHIRO_CODE) {
+				try {
+					intent = new Intent(currentActivity.getApplicationContext(), Class.forName("org.catrobat.catroid.phiro.ui"
+							+ ".PhiroMainMenuActivity"));
+				} catch (ClassNotFoundException e) {
+					Log.e(TAG, e.getMessage());
+				}
 			} else {
 				intent = new Intent(currentActivity.getApplicationContext(), MainMenuActivity.class);
 			}

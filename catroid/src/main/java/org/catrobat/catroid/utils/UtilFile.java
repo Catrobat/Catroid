@@ -261,15 +261,7 @@ public final class UtilFile {
 		}
 		InputStream in = context.getResources().openRawResource(resourceId);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(copiedFile), Constants.BUFFER_8K);
-		byte[] buffer = new byte[Constants.BUFFER_8K];
-		int length;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
-		}
-
-		in.close();
-		out.flush();
-		out.close();
+		writeToStream(in, out);
 
 		if (!prependMd5ToFilename) {
 			return copiedFile;
@@ -385,6 +377,34 @@ public final class UtilFile {
 		}
 		reader.close();
 		return builder.toString();
+	}
+
+	public static void copyAssetProjectZipFile(Context context, String fileName, String destinationFolder) throws IOException {
+		File dstFolder = new File(destinationFolder);
+		dstFolder.mkdirs();
+
+		InputStream in = context.getResources().getAssets().open(fileName);
+		FileOutputStream out = new FileOutputStream(destinationFolder + "/" + fileName);
+		writeToStream(in, out);
+	}
+
+	public static void deleteFile(String fileName) {
+		File zipFile = new File(fileName);
+		if (zipFile.exists()) {
+			zipFile.delete();
+		}
+	}
+
+	private static void writeToStream(InputStream in, OutputStream out) throws IOException {
+		byte[] buffer = new byte[Constants.BUFFER_8K];
+		int length;
+		while ((length = in.read(buffer)) > 0) {
+			out.write(buffer, 0, length);
+		}
+
+		in.close();
+		out.flush();
+		out.close();
 	}
 
 	public enum FileType {

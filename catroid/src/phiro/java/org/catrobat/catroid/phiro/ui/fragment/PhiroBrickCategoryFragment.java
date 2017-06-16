@@ -20,39 +20,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.createatschool.ui;
+package org.catrobat.catroid.phiro.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 
-public abstract class CreateAtSchoolBaseActivity extends BaseActivity {
-
-	private boolean returnToTemplatesList;
+public class PhiroBrickCategoryFragment extends BrickCategoryFragment {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
+		initCategories();
 		super.onCreate(savedInstanceState);
-		returnToTemplatesList = false;
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				if (returnToTemplatesList) {
-					Intent intent = new Intent(this, TemplatesActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-				}
-				break;
+	private void initCategories() {
+		brickCategories.clear();
+
+		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
+			brickCategories.add(R.layout.brick_category_phiro);
 		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	public void setReturnToTemplatesList(boolean returnToTemplatesList) {
-		this.returnToTemplatesList = returnToTemplatesList;
 	}
 }

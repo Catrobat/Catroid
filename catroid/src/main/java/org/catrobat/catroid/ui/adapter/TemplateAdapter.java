@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.createatschool.ui.adapter;
+package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -42,7 +42,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.TemplateContainer;
 import org.catrobat.catroid.common.TemplateData;
-import org.catrobat.catroid.createatschool.transfers.FetchTemplatesTask;
+import org.catrobat.catroid.transfers.FetchTemplatesTask;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 

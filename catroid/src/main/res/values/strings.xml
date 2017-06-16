@@ -1676,7 +1676,7 @@
        symbol.</string>
     <string name="hint_accessibility">Change the listed settings as you wish or switch to predefined profiles to choose a god to help you with these settings.</string>
     <string name="hint_accessibility_profiles">Choose a guide to help you with Create@School. Which one fits to you?</string>
-    <string name="hint_templates" tools:ignore="UnusedResources">Choose one of the predefined templates and modify it.</string>
+    <string name="hint_templates">Choose one of the predefined templates and modify it.</string>
     <!--  -->
 
     <!-- Crash report dialog -->
@@ -1688,9 +1688,9 @@
     <!--  -->
 
     <!-- Templates -->
-    <string name="templates_activity_title" tools:ignore="UnusedResources">Templates</string>
-    <string name="fetching_templates" tools:ignore="UnusedResources">Fetching templates</string>
-    <string name="error_fetching_templates" tools:ignore="UnusedResources">Error fetching templates</string>
+    <string name="templates_activity_title">Templates</string>
+    <string name="fetching_templates">Fetching templates</string>
+    <string name="error_fetching_templates">Error fetching templates</string>
 
     <!-- Action Template Strings -->
     <string name="action_project_variable_timer" tools:ignore="UnusedResources">timer</string>

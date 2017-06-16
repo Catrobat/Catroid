@@ -48,6 +48,7 @@ import org.catrobat.catroid.utils.Utils;
 public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
+	private boolean returnToTemplatesList;
 	private String titleActionBar;
 	private boolean returnByPressingBackButton;
 	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
@@ -57,6 +58,7 @@ public abstract class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
+		returnToTemplatesList = false;
 		returnByPressingBackButton = false;
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
@@ -117,12 +119,14 @@ public abstract class BaseActivity extends Activity {
 					startActivity(intent);
 				} else if (returnByPressingBackButton) {
 					onBackPressed();
-				} else {
-					return false;
+				} else if (returnToTemplatesList) {
+					Intent intent = new Intent(this, TemplatesActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
 				}
-				break;
+				return false;
 			case R.id.settings:
-				Intent settingsIntent = new Intent(this, SettingsActivity.class);
+				Intent settingsIntent = createSettingsIntent();
 				startActivity(settingsIntent);
 				break;
 			case R.id.menu_scratch_converter:
@@ -174,6 +178,15 @@ public abstract class BaseActivity extends Activity {
 		return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(RECOVERED_FROM_CRASH, false);
 	}
 
+	private Intent createSettingsIntent() {
+		if (BuildConfig.PHIRO_CODE) {
+			Intent intent = new Intent();
+			intent.setClassName(getPackageName(), getPackageName() + ".ui.PhiroSettingsActivity");
+			return intent;
+		}
+		return new Intent(this, SettingsActivity.class);
+	}
+
 	// Taken from http://stackoverflow.com/a/11270668
 	private void launchMarket() {
 		if (!Utils.isNetworkAvailable(this, true)) {
@@ -218,5 +231,9 @@ public abstract class BaseActivity extends Activity {
 
 	public void setTitleActionBar(String titleActionBar) {
 		this.titleActionBar = titleActionBar;
+	}
+
+	public void setReturnToTemplatesList(boolean returnToTemplatesList) {
+		this.returnToTemplatesList = returnToTemplatesList;
 	}
 }

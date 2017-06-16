@@ -132,7 +132,10 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			initializeFacebookSdk();
 		}
 
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
+		for (int preference : SettingsActivity.preferences) {
+			PreferenceManager.setDefaultValues(this, preference, true);
+		}
+
 		UtilUi.updateScreenWidthAndHeight(this);
 
 		if (STANDALONE_MODE) {
@@ -354,6 +357,15 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		startActivity(intent);
 	}
 
+	public void handleTemplatesButton(View view) {
+		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+		Intent intent = new Intent(this, TemplatesActivity.class);
+		startActivity(intent);
+	}
+
 	public void handleHelpButton(View view) {
 		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
 			return;
@@ -375,16 +387,12 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			return;
 		}
 		TrackingUtil.trackStartWebSessionExplore();
-		if (Utils.isUserLoggedIn(this)) {
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-			String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-			String url = Constants.CATROBAT_TOKEN_LOGIN_URL + username + Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN + token;
-			startWebViewActivity(url);
-		} else {
-			startWebViewActivity(Constants.BASE_URL_HTTPS);
-		}
+		String url = Constants.FLAVORED_BASE_URL_HTTPS;
+		//TODO: check wo überall geflavored..
+		//TODO: check: google-services.json für phirocode + createatschool
+		url = Utils.addUsernameAndTokenInfoToUrl(url, this);
+		startWebViewActivity(url);
 	}
 
 	public void startWebViewActivity(String url) {

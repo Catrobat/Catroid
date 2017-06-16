@@ -227,7 +227,9 @@ public class UploadProgressDialog extends DialogFragment {
 			RatingDialog dialog = new RatingDialog();
 			dialog.show(getFragmentManager(), RatingDialog.TAG);
 		}
-		sharedPreferences.edit().putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects).commit();
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects);
+		editor.apply();
 	}
 
 	private String[] getSceneNamesAsArray(List<Scene> sceneList) {

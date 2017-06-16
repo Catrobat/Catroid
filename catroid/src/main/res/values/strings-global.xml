@@ -27,8 +27,8 @@
    
     <!-- Language independent -->
     <string name="catroid_extension_pathPattern" translatable="false">.*\\.catrobat.*</string>
-
     <string name="android_version_prefix" translateable="false">Andr.</string>
+    <string name="flavor">pocketcode</string>
     <!--  -->
 
 

@@ -247,6 +247,11 @@
             android:label="@string/add_sound_music"
             android:icon="@drawable/ic_pocketmusic"/>
 
+        <activity
+            android:name="org.catrobat.catroid.ui.TemplatesActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
         <service android:name=".transfers.MediaDownloadService" />

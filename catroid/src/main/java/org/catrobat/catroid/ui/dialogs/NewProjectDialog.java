@@ -45,7 +45,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -146,7 +145,7 @@ public class NewProjectDialog extends DialogFragment {
 		defaultProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_default_radio_button);
 		defaultDroneProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_default_drone_radio_button);
 
-		if (BuildConfig.CREATE_AT_SCHOOL && openedFromTemplatesList) {
+		if (openedFromTemplatesList) {
 			RadioGroup radioButtonGroup = (RadioGroup) dialogView.findViewById(R.id.project_radio_group);
 			Button emptyProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_empty_radio_button);
 

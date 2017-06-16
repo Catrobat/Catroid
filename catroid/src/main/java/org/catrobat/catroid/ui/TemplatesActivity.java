@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.createatschool.ui;
+package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.os.Bundle;
@@ -30,10 +30,9 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
-public class TemplatesActivity extends CreateAtSchoolBaseActivity {
+public class TemplatesActivity extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

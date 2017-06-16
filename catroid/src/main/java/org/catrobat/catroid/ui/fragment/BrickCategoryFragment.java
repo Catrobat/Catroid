@@ -50,14 +50,18 @@ import java.util.concurrent.locks.Lock;
 
 public class BrickCategoryFragment extends ListFragment {
 
-	public static final String BRICK_CATEGORY_FRAGMENT_TAG = "brick_category_fragment";
+	public static String flavoredTag = "ui.fragment.BrickCategoryFragment";
+	public static String tag = BrickCategoryFragment.class.getSimpleName();
 
 	private CharSequence previousActionBarTitle;
 	private OnCategorySelectedListener scriptFragment;
 	private BrickCategoryAdapter adapter;
-	private BrickAdapter brickAdapter;
+
+	protected BrickAdapter brickAdapter;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
+
+	protected static List<Integer> brickCategories = new ArrayList<>();
 
 	public void setOnCategorySelectedListener(OnCategorySelectedListener listener) {
 		scriptFragment = listener;
@@ -71,6 +75,61 @@ public class BrickCategoryFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		initBrickCategories();
+	}
+
+	private void initBrickCategories() {
+		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_event);
+		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_event);
+		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_control);
+		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_motion);
+		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_sound);
+		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_looks);
+
+		if (!CategoryBricksFactory.getStarterBricksEnabled()) {
+			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_pen);
+		}
+
+		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_data);
+
+		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
+			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_lego_nxt);
+		}
+
+		if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(getActivity())) {
+			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_lego_ev3);
+		}
+
+		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null
+				&& !CategoryBricksFactory.getStarterBricksEnabled()) {
+			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_userbricks);
+		}
+
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
+			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_drone);
+		}
+
+		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
+			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_phiro);
+		}
+
+		if (SettingsActivity.isArduinoSharedPreferenceEnabled(getActivity())) {
+			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_arduino);
+		}
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_chromecast);
+		}
+
+		if (SettingsActivity.isRaspiSharedPreferenceEnabled(getActivity())) {
+			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_raspi);
+		}
+	}
+
+	private void addToBrickCategoriesIfNotAlreadyContained(int category) {
+		if (!brickCategories.contains(category)) {
+			brickCategories.add(category);
+		}
 	}
 
 	@Override
@@ -152,47 +211,10 @@ public class BrickCategoryFragment extends ListFragment {
 
 	private void setupBrickCategories() {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
+
 		List<View> categories = new ArrayList<>();
-		categories.add(inflater.inflate(R.layout.brick_category_event, null));
-		categories.add(inflater.inflate(R.layout.brick_category_control, null));
-		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
-		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
-		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
-		if (!CategoryBricksFactory.getStarterBricksEnabled()) {
-			categories.add(inflater.inflate(R.layout.brick_category_pen, null));
-		}
-		categories.add(inflater.inflate(R.layout.brick_category_data, null));
-
-		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
-			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
-		}
-
-		if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(getActivity())) {
-			categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null));
-		}
-
-		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null
-				&& !CategoryBricksFactory.getStarterBricksEnabled()) {
-			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
-		}
-
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
-			categories.add(inflater.inflate(R.layout.brick_category_drone, null));
-		}
-
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
-			categories.add(inflater.inflate(R.layout.brick_category_phiro, null));
-		}
-
-		if (SettingsActivity.isArduinoSharedPreferenceEnabled(getActivity())) {
-			categories.add(inflater.inflate(R.layout.brick_category_arduino, null));
-		}
-
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
-			categories.add(inflater.inflate(R.layout.brick_category_chromecast, null));
-		}
-		if (SettingsActivity.isRaspiSharedPreferenceEnabled(getActivity())) {
-			categories.add(inflater.inflate(R.layout.brick_category_raspi, null));
+		for (Integer category : brickCategories) {
+			categories.add(inflater.inflate(category, null));
 		}
 
 		adapter = new BrickCategoryAdapter(categories);

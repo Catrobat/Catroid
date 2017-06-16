@@ -82,7 +82,6 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
-	PreferenceScreen screen = null;
 
 	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
 	public static final String NXT_SENSOR_2 = "setting_mindstorms_nxt_sensor_2";
@@ -145,13 +144,36 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
 
+	public static int[] preferences = {
+			R.xml.preferences_nxt,
+			R.xml.preferences_ev3,
+			R.xml.preferences_drone,
+			R.xml.preferences_arduino,
+			R.xml.preferences_nfc,
+			R.xml.preferences_raspberry,
+			R.xml.preferences_phiro,
+			R.xml.preferences_cast,
+			R.xml.preferences_accessibility,
+			R.xml.preferences_hints,
+			R.xml.preferences_crash_reports
+	};
+
+	protected PreferenceScreen screen = null;
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		addPreferencesFromResource(R.xml.preferences);
+		for (int preference : preferences) {
+			addPreferencesFromResource(preference);
+		}
 
+		setupPreferences();
+	}
+
+	@SuppressWarnings("deprecation")
+	protected void setupPreferences() {
 		setAnonymousCrashReportPreference();
 		setNXTSensors();
 		setEV3Sensors();
@@ -163,6 +185,10 @@ public class SettingsActivity extends PreferenceActivity {
 		screen = getPreferenceScreen();
 		setTextSize();
 
+		removeDisabledPreferences();
+	}
+
+	private void removeDisabledPreferences() {
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
 			PreferenceScreen legoNxtPreference = (PreferenceScreen) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
 			legoNxtPreference.setEnabled(false);
@@ -527,19 +553,19 @@ public class SettingsActivity extends PreferenceActivity {
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value);
-		editor.commit();
+		editor.apply();
 	}
 
 	public static void setArduinoSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_ARDUINO_BRICKS, value);
-		editor.commit();
+		editor.apply();
 	}
 
 	public static void setRaspiSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_RASPI_BRICKS, value);
-		editor.commit();
+		editor.apply();
 	}
 
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {
@@ -553,7 +579,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static void setNfcSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_NFC_BRICKS, value);
-		editor.commit();
+		editor.apply();
 	}
 
 	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
@@ -571,14 +597,16 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
-		getSharedPreferences(context).edit().putBoolean(settingsString, value).commit();
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(settingsString, value);
+		editor.apply();
 	}
 
 	private static boolean getBooleanSharedPreference(boolean defaultValue, String settingsString, Context context) {
 		return getSharedPreferences(context).getBoolean(settingsString, defaultValue);
 	}
 
-	private static SharedPreferences getSharedPreferences(Context context) {
+	protected static SharedPreferences getSharedPreferences(Context context) {
 		return PreferenceManager.getDefaultSharedPreferences(context);
 	}
 

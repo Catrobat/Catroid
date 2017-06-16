@@ -61,7 +61,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackCreateProgram(String projectName, Boolean landscapeMode, boolean exampleProgram) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -73,7 +73,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackCreateObject(String newSpriteName, String spriteSource) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -92,7 +92,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackStartWebSessionExplore() {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -102,7 +102,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackStopWebSessionExplore() {
-		if (!BuildConfig.CREATE_AT_SCHOOL || !timerMap.containsKey(TrackingConstants.SESSION_WEB_EXPLORE)) {
+		if (!BuildConfig.DATA_TRACKING || !timerMap.containsKey(TrackingConstants.SESSION_WEB_EXPLORE)) {
 			return;
 		}
 
@@ -113,7 +113,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackStartWebSessionTutorial() {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -123,7 +123,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackStopWebSessionTutorial() {
-		if (!BuildConfig.CREATE_AT_SCHOOL || !timerMap.containsKey(TrackingConstants.SESSION_WEB_TUTORIAL)) {
+		if (!BuildConfig.DATA_TRACKING || !timerMap.containsKey(TrackingConstants.SESSION_WEB_TUTORIAL)) {
 			return;
 		}
 
@@ -134,7 +134,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackStartPocketPaintSessionCreateObject() {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -144,7 +144,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackPocketPaintSessionLook(String timerId, String trackingMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -155,7 +155,7 @@ public final class TrackingUtil {
 
 	public static void trackCreateLook(String lookName, String lookSource, String customEventMessage, String
 			customEventMessageStop, String timerId) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -174,7 +174,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackCreateSound(String soundName, String soundSource, long lengthMilliseconds) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -186,7 +186,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackAddBrick(Fragment addBrickFragment, Brick brickToBeAdded) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -205,7 +205,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackBrick(String brickName, String trackMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -215,7 +215,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackData(String name, String variableScope, String trackMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -226,7 +226,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackMenuButtonProject(String projectName, String trackMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -236,7 +236,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackProject(String name, String trackMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -246,7 +246,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackDeleteSprite(Sprite spriteToEdit) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -260,7 +260,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackSprite(String name, String trackMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -270,7 +270,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackLook(String lookName, String trackMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -280,7 +280,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackSound(String soundName, String trackMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -290,7 +290,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackDropBrick(Brick draggedBrick) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -300,7 +300,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackScene(String projectName, String sceneName, String trackMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -311,7 +311,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackMerge(String firstProject, String secondProject) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -322,7 +322,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackFormula(FormulaBrick formulaBrick, String brickField, String formula, String trackingMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -336,7 +336,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackStartExecution() {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -346,7 +346,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackStopExecution() {
-		if (!BuildConfig.CREATE_AT_SCHOOL || !timerMap.containsKey(TrackingConstants.SESSION_PROGRAM_EXECUTION)) {
+		if (!BuildConfig.DATA_TRACKING || !timerMap.containsKey(TrackingConstants.SESSION_PROGRAM_EXECUTION)) {
 			return;
 		}
 
@@ -360,7 +360,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackBackpackSprite(String name, String trackingMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -370,7 +370,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackBackpackScenes(String name, String trackingMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -380,7 +380,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackMergeScenes(String firstScene, String secondScene, String name) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -396,7 +396,7 @@ public final class TrackingUtil {
 
 	public static void trackBackpackBricks(List<Script> scriptsToAdd, int brickAmount, String groupName,
 			String trackingMessage) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -421,7 +421,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackUseTemplate(String templateName, boolean landscape) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -432,7 +432,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackApplyAccessibilityPreferences(String profileName, String settingName) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -443,7 +443,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackUseBrickHelp(Brick brick) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -453,7 +453,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackCreateBroadcastMessage(String message) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -463,7 +463,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackSubmitProject(String programId) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -473,7 +473,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackEnableHints(String enabled) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -513,7 +513,7 @@ public final class TrackingUtil {
 	}
 
 	public static void trackLoginInitSessionEvent(Context context) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 
@@ -525,7 +525,7 @@ public final class TrackingUtil {
 	}
 
 	static void trackLogoutEndSessionEvent(Context context) {
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.DATA_TRACKING) {
 			return;
 		}
 

@@ -24,8 +24,6 @@
 package org.catrobat.catroid.createatschool.ui;
 
 import android.app.AlertDialog;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,22 +34,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.Utils;
 
-import static org.catrobat.catroid.utils.IconsUtil.isLargeSize;
-
 public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (isLargeSize()) {
-			IconsUtil.setLeftDrawableSize(getApplicationContext(), this.findViewById(android.R.id.content),
-					IconsUtil.getLargeIconSizeMainMenu(), R.id.main_menu_button_templates, R.drawable.ic_main_menu_templates);
-		}
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,14 +75,5 @@ public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
 				ProjectManager.getInstance().showLogInDialog(this, false);
 			}
 		}
-	}
-
-	public void handleTemplatesButton(View view) {
-		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
-		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-		Intent intent = new Intent(this, TemplatesActivity.class);
-		startActivity(intent);
 	}
 }

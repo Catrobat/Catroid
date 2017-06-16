@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen
+        android:key="setting_parrot_ar_drone_bricks"
+        android:summary="@string/preference_description_quadcopter_bricks"
+        android:title="@string/preference_title_enable_quadcopter_bricks" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="setting_parrot_ar_drone_bricks_enabled"
+            android:summary="@string/preference_description_quadcopter_bricks"
+            android:title="@string/preference_title_enable_quadcopter_bricks" />
+
+
+        <PreferenceCategory android:title="@string/preference_title_drone_config_properties"
+            android:key="setting_parrot_ar_drone_category">
+            <Preference android:summary="@string/preference_title_drone_properties_setting_description"
+                android:key="setting_parrot_ar_drone_category_summary"/>
+
+            <ListPreference android:key="setting_drone_basic_configs"
+                android:title="@string/brick_drone_set_config"
+                android:defaultValue="SECOND"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_drone_altitude_limit"
+                android:title="@string/brick_drone_set_altitude"
+                android:defaultValue="SECOND"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_drone_vertical_speed"
+                android:title="@string/brick_drone_set_vertical_speed"
+                android:defaultValue="SECOND"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_drone_rotation_speed"
+                android:title="@string/brick_drone_set_rotation_speed"
+                android:defaultValue="SECOND"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_drone_tilt_angle"
+                android:title="@string/brick_drone_set_tilt_limit"
+                android:defaultValue="SECOND"
+                android:summary="%s"/>
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+
+</PreferenceScreen>

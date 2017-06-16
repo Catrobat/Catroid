@@ -34,15 +34,5 @@
         android:theme="@style/Theme.Catroid"
         tools:replace="android:name">
 
-            <activity
-                android:name="org.catrobat.catroid.createatschool.ui.TemplatesActivity"
-                android:launchMode="standard"
-                android:screenOrientation="portrait" />
-
-            <activity
-                android:name="org.catrobat.catroid.createatschool.ui.CreateAtSchoolBaseActivity"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="adjustPan" />
-
     </application>
 </manifest>

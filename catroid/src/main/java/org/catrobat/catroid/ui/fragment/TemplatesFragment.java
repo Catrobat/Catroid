@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.createatschool.ui.fragment;
+package org.catrobat.catroid.ui.fragment;
 
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.common.TemplateData;
-import org.catrobat.catroid.createatschool.ui.adapter.TemplateAdapter;
+import org.catrobat.catroid.ui.adapter.TemplateAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;

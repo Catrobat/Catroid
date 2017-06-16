@@ -793,7 +793,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
 		if (fragment == null) {
-			fragment = new FormulaEditorCategoryListFragment();
+			fragment = FragmentFactory.createFormulaEditorCategoryListFragment(getActivity());
 			Bundle bundle = new Bundle();
 			bundle.putString(FormulaEditorCategoryListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
 					context.getString(actionbarResId));

@@ -64,6 +64,7 @@
     <issue id="Registered">
         <ignore path="src/main/java/org/catrobat/catroid/ui/MainMenuActivity.java"/>
         <ignore path="src/createatschool/java/org/catrobat/catroid/createatschool/ui/CreateAtSchoolMainMenuActivity.java"/>
+        <ignore path="src/phiro/java/org/catrobat/catroid/phiro/ui/PhiroMainMenuActivity.java"/>
     </issue>
 
     <issue id="IconDuplicates">
@@ -73,6 +74,7 @@
 
     <issue id="GoogleAppIndexingWarning">
         <ignore path="src/createatschool/AndroidManifest.xml"/>
+        <ignore path="src/phiro/AndroidManifest.xml"/>
     </issue>
 
     <issue id="InconsistentLayout">

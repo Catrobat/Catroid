@@ -170,8 +170,7 @@ public class AddBrickFragment extends ListFragment {
 			}
 
 			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-			Fragment categoryFragment = getFragmentManager().findFragmentByTag(
-					BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+			Fragment categoryFragment = getFragmentManager().findFragmentByTag(BrickCategoryFragment.flavoredTag);
 			if (categoryFragment != null) {
 				fragmentTransaction.remove(categoryFragment);
 				getFragmentManager().popBackStack();
@@ -186,8 +185,7 @@ public class AddBrickFragment extends ListFragment {
 
 			fragmentTransaction.commit();
 		} catch (CloneNotSupportedException exception) {
-			Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed",
-					exception);
+			Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed", exception);
 			ToastUtil.showError(getActivity(), R.string.error_adding_brick);
 		}
 	}

@@ -26,7 +26,6 @@
     <style name="Theme.Catroid" parent="android:Theme.Holo" >
         <item name="android:actionBarStyle" >@style/Widget.Catroid.ActionBar</item >
         <item name="android:windowBackground" >@color/application_background_color</item >
-        <item name="android:typeface">sans</item>
     </style >
 
     <style name="Widget.Catroid.ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse" >
@@ -227,7 +226,6 @@
 
     <style name="BrickText.SingleLine" >
         <item name="android:maxLines" >1</item >
-        <item name="android:singleLine" >true</item>
     </style >
 
     <style name="BrickText.Multiple" >
@@ -241,7 +239,7 @@
         <item name="android:clickable" >false</item >
         <item name="android:minWidth" >@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item >
         <item name="android:gravity" >right</item >
-        <item name="android:minEms" >2</item >
+        <item name="android:minEms" >1</item >
         <item name="android:layout_gravity" >center_vertical</item >
         <item name="android:layout_width" >wrap_content</item >
         <item name="android:layout_height" >wrap_content</item >
