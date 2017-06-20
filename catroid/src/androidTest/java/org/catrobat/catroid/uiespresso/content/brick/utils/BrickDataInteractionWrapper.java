@@ -24,6 +24,9 @@
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.action.CoordinatesProvider;
+import android.support.test.espresso.action.Press;
+import android.support.test.espresso.action.Swipe;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -79,5 +82,12 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 		dataInteraction.onChildView(withId(spinnerResourceId)).check(matches(instanceOf(Spinner.class)));
 		return new BrickVariableSpinnerDataInteractionWrapper(
 				dataInteraction.onChildView(withId(spinnerResourceId)));
+	}
+
+	public void performDragNDrop(CoordinatesProvider destinationCoordinatesProvider) {
+		dataInteraction.perform(new DragNDropBrickAction(Swipe.FAST,
+				BrickCoordinatesProvider.UPPER_LEFT_CORNER,
+				destinationCoordinatesProvider,
+				Press.FINGER));
 	}
 }
