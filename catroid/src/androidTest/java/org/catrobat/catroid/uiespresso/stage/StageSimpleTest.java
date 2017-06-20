@@ -62,11 +62,11 @@ public class StageSimpleTest {
 
 	@Before
 	public void setUp() throws Exception {
+		createProjectWithBlueSprite("blueProject");
 	}
 
 	@Test
 	public void checkForBlueSpriteColor() {
-		createProjectWithBlueSprite("blueProject");
 		baseActivityTestRule.launchActivity(null);
 
 		byte[] blue = {0, (byte) 162, (byte) 232, (byte) 255};
