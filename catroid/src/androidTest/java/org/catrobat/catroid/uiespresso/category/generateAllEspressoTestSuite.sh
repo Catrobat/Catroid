@@ -28,7 +28,7 @@ echo "/*
 echo "package org.catrobat.catroid.uiespresso.category;\n" >> AllEspressoTestSuite.java
 
 #put imports
-find .. -name '*Test.java' | sed 's/\.\.\//import org.catrobat.catroid.uiespresso./' | sed 's/\//\./g' | sed 's/.java/;/' >> AllEspressoTestSuite.java
+find .. -name '*Test.java' | sed 's/\.\.\//import org.catrobat.catroid.uiespresso./' | sed 's/\//\./g' | sed 's/.java/;/' | sort >> AllEspressoTestSuite.java
 
 #put annotations
 echo "import org.junit.runner.RunWith;\nimport org.junit.runners.Suite;\n\n@RunWith(Suite.class)\n@Suite.SuiteClasses({" >> AllEspressoTestSuite.java
