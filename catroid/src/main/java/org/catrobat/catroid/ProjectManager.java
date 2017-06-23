@@ -236,6 +236,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.993f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.993f) {
+				project.updateSetPenColorFormulas();
 				project.setCatrobatLanguageVersion(0.994f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.994f) {

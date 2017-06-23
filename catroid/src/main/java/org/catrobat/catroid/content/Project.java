@@ -481,6 +481,14 @@ public class Project implements Serializable {
 		}
 	}
 
+	public void updateSetPenColorFormulas() {
+		for (Scene scene : sceneList) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.updateSetPenColorFormulas();
+			}
+		}
+	}
+
 	public synchronized void removeUnusedMessages() {
 		List<String> usedMessages = new ArrayList<>();
 		for (Scene scene : getSceneList()) {
