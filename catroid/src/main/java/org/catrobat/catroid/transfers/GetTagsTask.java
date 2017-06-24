@@ -28,7 +28,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.web.ServerCalls;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +60,7 @@ public class GetTagsTask extends AsyncTask<String, Void, String> {
 
 	@Override
 	protected String doInBackground(String... arg0) {
-		if (!Utils.isNetworkAvailable(context)) {
+		if (!UtilWebConnection.isNetworkAvailable(context)) {
 			return "No network";
 		}
 		return ServerCalls.getInstance().getTags(UtilDeviceInfo.getUserLanguageCode());

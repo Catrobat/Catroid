@@ -20,38 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.transfers;
+package org.catrobat.catroid.web;
 
-import android.content.Context;
-import android.os.AsyncTask;
+import android.net.NetworkInfo;
 
-import org.catrobat.catroid.web.UtilWebConnection;
-import org.catrobat.catroid.web.ServerCalls;
+public class NetworkInfoWrapper {
+    private NetworkInfo networkInfo;
 
-public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
+    public NetworkInfoWrapper(NetworkInfo networkInfo) {
+        this.networkInfo = networkInfo;
+    }
 
-	private Context context;
-	private String username;
+    public NetworkInfo getNetworkInfo() {
+        return this.networkInfo;
+    }
 
-	public LogoutTask(Context activity, String username) {
-		this.context = activity;
-		this.username = username;
-	}
+    public boolean isConnectedOrConnecting() {
+        if(networkInfo == null) {
+            return false;
+        }
 
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		if (context == null) {
-			return;
-		}
-	}
-
-	@Override
-	protected Boolean doInBackground(Void... arg0) {
-		if (!UtilWebConnection.isNetworkAvailable(context)) {
-			return false;
-		}
-		ServerCalls.getInstance().logout(username);
-		return true;
-	}
+        return networkInfo.isConnectedOrConnecting();
+    }
 }

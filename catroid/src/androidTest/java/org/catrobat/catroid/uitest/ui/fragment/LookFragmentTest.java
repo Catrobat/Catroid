@@ -62,6 +62,7 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -946,7 +947,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int retryCounter = 0;
 		WifiManager wifiManager = (WifiManager) this.getActivity().getSystemService(Context.WIFI_SERVICE);
 		wifiManager.setWifiEnabled(false);
-		while (Utils.isNetworkAvailable(getActivity())) {
+		while (UtilWebConnection.isNetworkAvailable(getActivity())) {
 			solo.sleep(2000);
 			if (retryCounter > 30) {
 				break;
@@ -960,7 +961,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.sleep(TIME_TO_WAIT);
 		assertTrue("Should be in Look Fragment", solo.waitForText(FIRST_TEST_LOOK_NAME));
 		wifiManager.setWifiEnabled(true);
-		while (!Utils.isNetworkAvailable(getActivity())) {
+		while (!UtilWebConnection.isNetworkAvailable(getActivity())) {
 			solo.sleep(2000);
 			if (retryCounter > 30) {
 				break;

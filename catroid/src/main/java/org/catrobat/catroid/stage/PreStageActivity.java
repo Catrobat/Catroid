@@ -62,6 +62,7 @@ import org.catrobat.catroid.ui.dialogs.NoNetworkDialog;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -248,7 +249,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 
 		if ((requiredResources & Brick.NETWORK_CONNECTION) != 0) {
 			final Context finalBaseContext = this.getBaseContext();
-			if (!Utils.isNetworkAvailable(finalBaseContext)) {
+			if (!UtilWebConnection.isNetworkAvailable(finalBaseContext)) {
 				List<Brick> networkBrickList = getBricksRequiringResource(Brick.NETWORK_CONNECTION);
 				networkBrickList = Utils.distinctListByClassOfObjects(networkBrickList);
 				NoNetworkDialog networkDialog = new NoNetworkDialog(this, networkBrickList);
@@ -261,7 +262,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 				networkDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 					@Override
 					public void onDismiss(DialogInterface dialogInterface) {
-						if (Utils.isNetworkAvailable(finalBaseContext)) {
+						if (UtilWebConnection.isNetworkAvailable(finalBaseContext)) {
 							resourceInitialized();
 						} else {
 							resourceFailed();

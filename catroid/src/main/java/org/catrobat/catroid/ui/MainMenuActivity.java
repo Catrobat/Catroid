@@ -75,6 +75,7 @@ import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.rauschig.jarchivelib.Archiver;
@@ -156,6 +157,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
+		idlingResource.increment();
 		AppEventsLogger.activateApp(this);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
@@ -165,7 +167,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 		final Activity activity = this;
-		idlingResource.increment();
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
@@ -273,6 +274,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
+		idlingResource.increment();
 		loadProjectTask.execute();
 	}
 
@@ -288,6 +290,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
+		idlingResource.decrement();
 		if (STANDALONE_MODE) {
 			Log.d("STANDALONE", "onLoadProjectSucess -> startStage");
 			startStageProject();
@@ -315,7 +318,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleHelpButton(View view) {
-		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+		if (UtilWebConnection.isNetworkAvailable(view.getContext()) == false) {
+			UtilUi.showNoWebConnectionDialog(view.getContext());
 			return;
 		}
 
@@ -327,7 +331,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleWebButton(View view) {
-		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+		if (UtilWebConnection.isNetworkAvailable(view.getContext()) == false) {
+			UtilUi.showNoWebConnectionDialog(view.getContext());
 			return;
 		}
 
@@ -354,7 +359,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleUploadButton(View view) {
-		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+		if (UtilWebConnection.isNetworkAvailable(view.getContext()) == false) {
+			UtilUi.showNoWebConnectionDialog(view.getContext());
 			return;
 		}
 
@@ -400,6 +406,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	@Override
 	public void onLoadProjectFailure() {
 		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
+		idlingResource.decrement();
 	}
 
 	public void initializeFacebookSdk() {
@@ -528,7 +535,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	private void startStageProject() {
-		//ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}

@@ -164,35 +164,9 @@ public final class Utils {
 		preferences.edit().remove(BaseExceptionHandler.EXCEPTION_FOR_REPORT).commit();
 	}
 
-	public static boolean isNetworkAvailable(Context context, boolean createDialog) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		boolean isAvailable = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-		if (!isAvailable && createDialog) {
-			new CustomAlertDialogBuilder(context).setTitle(R.string.no_internet)
-					.setMessage(R.string.error_no_internet).setPositiveButton(R.string.ok, null)
-					.show();
-		}
-
-		return isAvailable;
-	}
-
-	public static boolean isNetworkAvailable(Context context) {
-		return isNetworkAvailable(context, false);
-	}
-
-	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
-		return !success && exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
-	}
-
 	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
 			boolean userSignedIn) {
 		return (!success && exception != null) || context == null || !userSignedIn;
-	}
-
-	public static boolean checkForNetworkError(WebconnectionException exception) {
-		return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
 
 	public static String formatDate(Date date, Locale locale) {

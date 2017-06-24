@@ -28,7 +28,8 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -60,7 +61,7 @@ public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... params) {
 		try {
-			if (!Utils.isNetworkAvailable(context)) {
+			if (!UtilWebConnection.isNetworkAvailable(context)) {
 				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
@@ -77,8 +78,8 @@ public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 	protected void onPostExecute(Boolean deleted) {
 		super.onPostExecute(deleted);
 
-		if (Utils.checkForNetworkError(exception)) {
-			showDialog(R.string.error_internet_connection);
+		if (UtilWebConnection.checkForNetworkError(exception)) {
+			UtilUi.showNoWebConnectionDialog(context);
 			return;
 		}
 

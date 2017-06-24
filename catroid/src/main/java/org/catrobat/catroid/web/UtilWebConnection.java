@@ -20,38 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.transfers;
+package org.catrobat.catroid.web;
 
 import android.content.Context;
-import android.os.AsyncTask;
+import android.net.ConnectivityManager;
 
-import org.catrobat.catroid.web.UtilWebConnection;
-import org.catrobat.catroid.web.ServerCalls;
+public final class UtilWebConnection {
+    private static final String TAG = UtilWebConnection.class.getSimpleName();
 
-public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
+    // Suppress default constructor for noninstantiability
+    private UtilWebConnection() {
+        throw new AssertionError();
+    }
 
-	private Context context;
-	private String username;
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfoWrapper activeNetworkInfo = new NetworkInfoWrapper(connectivityManager.getActiveNetworkInfo());
+        boolean isAvailable = activeNetworkInfo.isConnectedOrConnecting();
+        return isAvailable;
+    }
 
-	public LogoutTask(Context activity, String username) {
-		this.context = activity;
-		this.username = username;
-	}
-
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		if (context == null) {
-			return;
-		}
-	}
-
-	@Override
-	protected Boolean doInBackground(Void... arg0) {
-		if (!UtilWebConnection.isNetworkAvailable(context)) {
-			return false;
-		}
-		ServerCalls.getInstance().logout(username);
-		return true;
-	}
+    public static boolean checkForNetworkError(WebconnectionException exception) {
+        return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
+    }
 }

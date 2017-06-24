@@ -52,6 +52,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.NetworkInfoWrapper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -219,8 +220,8 @@ public class WebViewActivity extends BaseActivity {
 		@Override
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 			ConnectivityManager cm = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-			boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+			NetworkInfoWrapper activeNetwork = new NetworkInfoWrapper(cm.getActiveNetworkInfo());
+			boolean isConnected = activeNetwork.isConnectedOrConnecting();
 
 			int errorMessage;
 			if (!isConnected) {
