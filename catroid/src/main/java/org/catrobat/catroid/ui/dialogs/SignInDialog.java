@@ -65,7 +65,8 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.web.ServerCalls;
 
 import java.util.Arrays;
@@ -156,11 +157,12 @@ public class SignInDialog extends DialogFragment implements
 		facebookLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (Utils.isNetworkAvailable(getActivity())) {
+				if(UtilWebConnection.noConnection(getActivity())) {
+					UtilUi.showNoWebConnectionDialog(getActivity());
+				}
+				else {
 					Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
 					LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
-				} else {
-					Utils.isNetworkAvailable(getActivity(), true);
 				}
 			}
 		});
@@ -168,10 +170,11 @@ public class SignInDialog extends DialogFragment implements
 		gplusLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (Utils.isNetworkAvailable(getActivity())) {
+				if(UtilWebConnection.noConnection(getActivity())) {
+					UtilUi.showNoWebConnectionDialog(getActivity());
+				}
+				else {
 					handleGooglePlusLoginButtonClick(view);
-				} else {
-					Utils.isNetworkAvailable(getActivity(), true);
 				}
 			}
 		});
@@ -243,7 +246,8 @@ public class SignInDialog extends DialogFragment implements
 	}
 
 	private void handleLoginButtonClick() {
-		if (!Utils.isNetworkAvailable(getActivity(), true)) {
+		if (UtilWebConnection.noConnection(getActivity())) {
+			UtilUi.showNoWebConnectionDialog(getActivity());
 			return;
 		}
 
@@ -253,7 +257,8 @@ public class SignInDialog extends DialogFragment implements
 	}
 
 	private void handleRegisterButtonClick() {
-		if (!Utils.isNetworkAvailable(getActivity(), true)) {
+		if (UtilWebConnection.noConnection(getActivity())) {
+			UtilUi.showNoWebConnectionDialog(getActivity());
 			return;
 		}
 

@@ -62,8 +62,8 @@ import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.UtilWebConnection;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -397,7 +397,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		int retryCounter = 0;
 		WifiManager wifiManager = (WifiManager) this.getActivity().getSystemService(Context.WIFI_SERVICE);
 		wifiManager.setWifiEnabled(false);
-		while (Utils.isNetworkAvailable(getActivity())) {
+		while (UtilWebConnection.isNetworkAvailable(getActivity())) {
 			solo.sleep(2000);
 			if (retryCounter > 30) {
 				break;
@@ -410,7 +410,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(mediaLibraryText);
 		assertTrue("Should be in Sprites Fragment", solo.waitForText(SPRITE_NAME));
 		wifiManager.setWifiEnabled(true);
-		while (!Utils.isNetworkAvailable(getActivity())) {
+		while (UtilWebConnection.noConnection(getActivity())) {
 			solo.sleep(2000);
 			if (retryCounter > 30) {
 				break;

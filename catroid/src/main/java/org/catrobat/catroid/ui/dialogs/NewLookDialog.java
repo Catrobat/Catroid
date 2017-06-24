@@ -37,7 +37,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.web.UtilWebConnection;
 
 public class NewLookDialog extends DialogFragment {
 
@@ -154,7 +155,10 @@ public class NewLookDialog extends DialogFragment {
 		mediaLibraryButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (Utils.isNetworkAvailable(view.getContext(), true)) {
+				if(UtilWebConnection.noConnection(view.getContext())) {
+					UtilUi.showNoWebConnectionDialog(view.getContext());
+				}
+				else {
 					fragment.addLookMediaLibrary();
 					NewLookDialog.this.dismiss();
 				}

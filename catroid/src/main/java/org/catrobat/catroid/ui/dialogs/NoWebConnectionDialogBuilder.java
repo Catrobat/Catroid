@@ -20,38 +20,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.transfers;
+package org.catrobat.catroid.ui.dialogs;
 
 import android.content.Context;
-import android.os.AsyncTask;
+import org.catrobat.catroid.R;
 
-import org.catrobat.catroid.web.UtilWebConnection;
-import org.catrobat.catroid.web.ServerCalls;
+public class NoWebConnectionDialogBuilder extends CustomAlertDialogBuilder {
 
-public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
+    public NoWebConnectionDialogBuilder(Context context) {
+        super(context);
+        super.setTitle(R.string.no_internet)
+                .setMessage(R.string.error_no_internet)
+                .setPositiveButton(R.string.ok, null);
+    }
 
-	private Context context;
-	private String username;
-
-	public LogoutTask(Context activity, String username) {
-		this.context = activity;
-		this.username = username;
-	}
-
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		if (context == null) {
-			return;
-		}
-	}
-
-	@Override
-	protected Boolean doInBackground(Void... arg0) {
-		if (UtilWebConnection.noConnection(context)) {
-			return false;
-		}
-		ServerCalls.getInstance().logout(username);
-		return true;
-	}
 }

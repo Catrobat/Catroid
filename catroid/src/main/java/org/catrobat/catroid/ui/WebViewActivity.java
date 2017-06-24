@@ -32,8 +32,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -69,7 +67,6 @@ public class WebViewActivity extends BaseActivity {
 
 	private WebView webView;
 	private boolean callMainMenu = false;
-	private String url;
 	private String callingActivity;
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
@@ -81,10 +78,12 @@ public class WebViewActivity extends BaseActivity {
 		setContentView(R.layout.activity_webview);
 
 		ActionBar actionBar = getActionBar();
-		actionBar.hide();
+		if (actionBar != null) {
+			actionBar.hide();
+		}
 
 		Intent intent = getIntent();
-		url = intent.getStringExtra(INTENT_PARAMETER_URL);
+		String url = intent.getStringExtra(INTENT_PARAMETER_URL);
 		if (url == null) {
 			url = Constants.BASE_URL_HTTPS;
 		}
@@ -214,22 +213,6 @@ public class WebViewActivity extends BaseActivity {
 				return true;
 			}
 			return false;
-		}
-
-		@Override
-		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-			ConnectivityManager cm = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-			boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
-			int errorMessage;
-			if (!isConnected) {
-				errorMessage = R.string.error_internet_connection;
-			} else {
-				errorMessage = R.string.error_unknown_error;
-			}
-			ToastUtil.showError(getBaseContext(), errorMessage);
-			finish();
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
