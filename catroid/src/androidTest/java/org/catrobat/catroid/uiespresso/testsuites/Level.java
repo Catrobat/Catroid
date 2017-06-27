@@ -21,15 +21,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.annotations.category;
+package org.catrobat.catroid.uiespresso.testsuites;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public interface Level {
+	interface Detailed {
+	}
 
-//@Network for all tests that do require an internet connection and or any network services, etc.
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Network {
+	interface Functional {
+	}
+
+	interface Smoke {
+	}
 }

@@ -21,15 +21,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.annotations.category;
+package org.catrobat.catroid.uiespresso.testsuites;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public interface Cat {
+	//AppUi for all  tests focusing on the pocket code application, so the menus, fragments, lists, and their functionality
+	interface AppUi {
+	}
 
-//@AppUi for all  tests focusing on the pocket code application, so the menus, fragments, lists, and their functionality
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface AppUi {
+	//CatrobatLanguage for all  tests focusing on catrobat language correctness (eg. tests verify in stage correctness
+	//of some catrobat program
+	interface CatrobatLanguage {
+	}
+
+	//Device for all tests that are required to run / are only runnable on a physical android device
+	interface Device {
+	}
+
+	//Gadgets for all  tests focusing on peripheral hardware and gadgets (eg. RasPi, Drone, LegoNXT, etc.)
+	interface Gadgets {
+	}
+
+	//Network for all tests that do require an internet connection and or any network services, etc.
+	interface Network {
+	}
+
+	//SensorBox include all tests utilizing the Sensor testing box
+	interface SensorBox {
+	}
 }

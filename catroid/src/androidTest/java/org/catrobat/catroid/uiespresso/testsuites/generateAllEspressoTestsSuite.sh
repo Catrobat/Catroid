@@ -1,4 +1,7 @@
-/*
+#!/bin/bash
+
+#put header
+echo "/*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
@@ -19,16 +22,21 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package org.catrobat.catroid.uiespresso.annotations.category;
+ */\n" > AllEspressoTestsSuite.java
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+#put packagename
+echo "package org.catrobat.catroid.uiespresso.testsuites;\n" >> AllEspressoTestsSuite.java
 
-//@Device for all tests that are required to run / are only runnable on a physical android device
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Device {
-}
+#put imports
+find .. -name '*Test.java' | sed 's/\.\.\//import org.catrobat.catroid.uiespresso./' | sed 's/\//\./g' | sed 's/.java/;/' | sort >> AllEspressoTestsSuite.java
+
+#put annotations
+echo "import org.junit.runner.RunWith;\nimport org.junit.runners.Suite;\n\n@RunWith(Suite.class)\n@Suite.SuiteClasses({" >> AllEspressoTestsSuite.java
+
+#put classes to be importet
+find .. -name '*Test.java' | sed 's/^.*\///' | sed 's/java/class/' | sed 's/$/,/' | sed '$s/,//' | sed 's/^/		/' >> AllEspressoTestsSuite.java
+
+#put class
+echo "})\npublic class AllEspressoTestsSuite {\n}" >> AllEspressoTestsSuite.java
+
+exit
