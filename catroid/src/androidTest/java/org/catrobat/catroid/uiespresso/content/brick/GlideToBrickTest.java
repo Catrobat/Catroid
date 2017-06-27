@@ -34,11 +34,14 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
@@ -63,6 +66,7 @@ public class GlideToBrickTest {
 		baseActivityTestRule.launchActivity(null);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void glideToBrickTest() throws InterpretationException {
 		int duration = 2;
@@ -96,6 +100,7 @@ public class GlideToBrickTest {
 		assertEquals(yPosition, (int) formula.interpretInteger(sprite));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void glideToBrickTestPluralSeconds() {
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_glide_to_edit_text_duration)

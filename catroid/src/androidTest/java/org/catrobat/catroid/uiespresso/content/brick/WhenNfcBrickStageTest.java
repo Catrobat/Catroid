@@ -43,11 +43,14 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.util.List;
 
@@ -59,11 +62,11 @@ public class WhenNfcBrickStageTest {
 	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(StageActivity.class, true, false);
 
-	private final NdefMessage ndefMessage1;
-	private final NdefMessage ndefMessage2;
+	private NdefMessage ndefMessage1;
+	private NdefMessage ndefMessage2;
 
-	private final NfcTagData firstTagData;
-	private final NfcTagData secondTagData;
+	private NfcTagData firstTagData;
+	private NfcTagData secondTagData;
 
 	private UserVariable readTagId;
 	private UserVariable readTagMessage;
@@ -72,19 +75,6 @@ public class WhenNfcBrickStageTest {
 	private static List<NfcTagData> tagDataList;
 
 	private WhenNfcScript scriptUnderTest;
-
-	public WhenNfcBrickStageTest() throws InterpretationException {
-		ndefMessage1 = NfcHandler.createMessage(UiNFCTestUtils.NFC_NDEF_STRING_1, BrickValues.TNF_MIME_MEDIA);
-		ndefMessage2 = NfcHandler.createMessage(UiNFCTestUtils.NFC_NDEF_STRING_2, BrickValues.TNF_MIME_MEDIA);
-
-		firstTagData = new NfcTagData();
-		firstTagData.setNfcTagName(TAG_NAME_TEST1);
-		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
-
-		secondTagData = new NfcTagData();
-		secondTagData.setNfcTagName(TAG_NAME_TEST2);
-		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
-	}
 
 	private WhenNfcScript createProjectWithNfcAndSetVariable() {
 		Project project = new Project(null, "nfcStageTestProject");
@@ -130,9 +120,21 @@ public class WhenNfcBrickStageTest {
 
 	@Before
 	public void setUp() throws Exception {
+		ndefMessage1 = NfcHandler.createMessage(UiNFCTestUtils.NFC_NDEF_STRING_1, BrickValues.TNF_MIME_MEDIA);
+		ndefMessage2 = NfcHandler.createMessage(UiNFCTestUtils.NFC_NDEF_STRING_2, BrickValues.TNF_MIME_MEDIA);
+
+		firstTagData = new NfcTagData();
+		firstTagData.setNfcTagName(TAG_NAME_TEST1);
+		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
+
+		secondTagData = new NfcTagData();
+		secondTagData.setNfcTagName(TAG_NAME_TEST2);
+		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
+
 		scriptUnderTest = createProjectWithNfcAndSetVariable();
 	}
 
+	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.SettingsAndPermissions.class})
 	@Test
 	public void testTriggerAll() throws InterpretationException {
 		scriptUnderTest.setMatchAll(true);
@@ -157,6 +159,7 @@ public class WhenNfcBrickStageTest {
 		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(numDetectedTags, 2.0, 2000));
 	}
 
+	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.SettingsAndPermissions.class})
 	@Test
 	public void testTriggerOne() throws InterpretationException {
 		scriptUnderTest.setMatchAll(false);

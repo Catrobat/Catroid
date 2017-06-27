@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
@@ -43,6 +44,7 @@ import org.catrobat.catroid.utils.UtilUi;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -65,6 +67,7 @@ public class StageSimpleTest {
 		createProjectWithBlueSprite("blueProject");
 	}
 
+	@Category({Cat.Educational.class})
 	@Test
 	public void checkForBlueSpriteColor() {
 		baseActivityTestRule.launchActivity(null);
