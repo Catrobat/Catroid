@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.category;
+package org.catrobat.catroid.uiespresso.testsuites;
 
 import org.catrobat.catroid.uiespresso.SmokeTest;
 import org.catrobat.catroid.uiespresso.annotations.FlakyTestTest;

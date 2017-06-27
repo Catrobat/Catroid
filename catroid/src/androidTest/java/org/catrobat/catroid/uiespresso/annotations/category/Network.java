@@ -21,14 +21,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.category;
+package org.catrobat.catroid.uiespresso.annotations.category;
 
-import org.junit.experimental.categories.Categories;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@RunWith(Categories.class)
-@Categories.IncludeCategory({LevelSmoke.class})
-@Suite.SuiteClasses(AllEspressoTestSuite.class)
-public class SmokeTestSuite {
+//@Network for all tests that do require an internet connection and or any network services, etc.
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface Network {
 }

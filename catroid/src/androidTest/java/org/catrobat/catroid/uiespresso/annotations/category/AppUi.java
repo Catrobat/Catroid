@@ -21,7 +21,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.category;
+package org.catrobat.catroid.uiespresso.annotations.category;
 
-public interface LevelDetailed {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+//@AppUi for all  tests focusing on the pocket code application, so the menus, fragments, lists, and their functionality
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface AppUi {
 }

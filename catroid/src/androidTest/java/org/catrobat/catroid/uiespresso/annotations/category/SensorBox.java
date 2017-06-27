@@ -21,7 +21,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.category;
+package org.catrobat.catroid.uiespresso.annotations.category;
 
-public interface LevelSmoke {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+//@SensorBox include all tests utilizing the Sensor testing box
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface SensorBox {
 }
