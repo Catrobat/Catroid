@@ -207,5 +207,5 @@ import org.junit.runners.Suite;
 		DeleteLookDialogTest.class,
 		AboutDialogTest.class
 })
-public class AllEspressoTestSuite {
+public class AllEspressoTestsSuite {
 }

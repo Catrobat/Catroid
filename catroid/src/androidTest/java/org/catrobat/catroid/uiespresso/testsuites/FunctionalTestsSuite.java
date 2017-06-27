@@ -21,14 +21,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.annotations.level;
+package org.catrobat.catroid.uiespresso.testsuites;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.junit.experimental.categories.Categories;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface LevelFunctional {
+@RunWith(Categories.class)
+@Categories.IncludeCategory({Level.Smoke.class, Level.Functional.class})
+
+@Suite.SuiteClasses(AllEspressoTestsSuite.class)
+public class FunctionalTestsSuite {
 }

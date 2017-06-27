@@ -1,7 +1,4 @@
-#!/bin/bash
-
-#put header
-echo "/*
+/*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
@@ -22,21 +19,16 @@ echo "/*
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */\n" > AllEspressoTestSuite.java
+ */
 
-#put packagename
-echo "package org.catrobat.catroid.uiespresso.category;\n" >> AllEspressoTestSuite.java
+package org.catrobat.catroid.uiespresso.testsuites;
 
-#put imports
-find .. -name '*Test.java' | sed 's/\.\.\//import org.catrobat.catroid.uiespresso./' | sed 's/\//\./g' | sed 's/.java/;/' | sort >> AllEspressoTestSuite.java
+import org.junit.experimental.categories.Categories;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-#put annotations
-echo "import org.junit.runner.RunWith;\nimport org.junit.runners.Suite;\n\n@RunWith(Suite.class)\n@Suite.SuiteClasses({" >> AllEspressoTestSuite.java
-
-#put classes to be importet
-find .. -name '*Test.java' | sed 's/^.*\///' | sed 's/java/class/' | sed 's/$/,/' | sed '$s/,//' | sed 's/^/		/' >> AllEspressoTestSuite.java
-
-#put class
-echo "})\npublic class AllEspressoTestSuite {\n}" >> AllEspressoTestSuite.java
-
-exit
+@RunWith(Categories.class)
+@Categories.IncludeCategory({Level.Smoke.class})
+@Suite.SuiteClasses(AllEspressoTestsSuite.class)
+public class SmokeTestsSuite {
+}
