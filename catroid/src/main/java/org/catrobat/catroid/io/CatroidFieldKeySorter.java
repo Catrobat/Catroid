@@ -28,6 +28,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.FieldKey;
 import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
 
+import org.catrobat.catroid.utils.CrashReporter;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -133,6 +135,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 			}
 		} catch (SecurityException | NoSuchFieldException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
+			CrashReporter.logException(exception);
 		}
 		return fieldName;
 	}
