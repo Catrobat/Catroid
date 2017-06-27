@@ -51,7 +51,7 @@ public abstract class BaseActivity extends Activity {
 		titleActionBar = null;
 		returnToProjectsList = false;
 		returnByPressingBackButton = false;
-		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
+		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler());
 		Utils.checkIfCrashRecoveryAndFinishActivity(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}

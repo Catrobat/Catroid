@@ -35,8 +35,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.BaseExceptionHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.Utils;
 
 public class SendReportDialog extends DialogFragment {
@@ -65,7 +65,7 @@ public class SendReportDialog extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().remove(
-								BaseExceptionHandler.EXCEPTION_FOR_REPORT).commit();
+								CrashReporter.EXCEPTION_FOR_REPORT).commit();
 					}
 				}).create();
 
