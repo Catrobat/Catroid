@@ -38,14 +38,6 @@ public class ComeToFrontAction extends TemporalAction {
 	protected void update(float delta) {
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
-		int actualSpriteZIndex = sprite.look.getZIndex();
-
-		for (int i = 0; i < spriteList.size(); i++) {
-			if (spriteList.get(i).look.getZIndex() > actualSpriteZIndex) {
-				spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex()
-						+ Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS - 1);
-			}
-		}
 		sprite.look.setZIndex(spriteList.size() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS - 1);
 	}
 

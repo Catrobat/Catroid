@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 import org.junit.After;
@@ -44,8 +45,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.onScriptList;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -68,16 +68,16 @@ public class ForeverBrickTest {
 				.check(matches(isDisplayed()));
 
 		//shortened with utility function to get scriptlist datainteraction object:
-		onScriptList().atPosition(1).onChildView(withText(R.string.brick_forever))
+		onBrickAtPosition(1).onChildView(withText(R.string.brick_forever))
 				.check(matches(isDisplayed()));
 
 		//shortened even more with utility function
-		checkIfBrickAtPositionShowsString(1, R.string.brick_forever);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_forever);
 
 		//ok, now for the real test, check if all bricks are there in right order and displayed:
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(1, R.string.brick_forever);
-		checkIfBrickAtPositionShowsString(2, R.string.brick_loop_end);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_forever);
+		onBrickAtPosition(2).checkShowsText(R.string.brick_loop_end);
 	}
 
 	@After

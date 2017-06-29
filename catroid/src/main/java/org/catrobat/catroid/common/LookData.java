@@ -95,7 +95,7 @@ public class LookData implements Serializable, Cloneable {
 
 	@Override
 	public int hashCode() {
-		return name.hashCode() + fileName.hashCode() + super.hashCode();
+		return fileName.hashCode() + super.hashCode();
 	}
 
 	@Override

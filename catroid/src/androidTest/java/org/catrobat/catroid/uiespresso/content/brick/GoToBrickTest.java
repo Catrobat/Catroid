@@ -28,15 +28,14 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfSpinnerOnBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.clickSelectCheckSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class GoToBrickTest {
@@ -48,22 +47,22 @@ public class GoToBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("goToBrickTest1").addBrick(new GoToBrick());
 		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("goToBrickTest1")
+				.addBrick(new GoToBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
 	public void goToBrickTest() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(brickPosition, R.string.brick_go_to);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_go_to);
 
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_go_to_spinner, brickPosition, R.string
-				.brick_go_to_touch_position);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_go_to_spinner)
+				.checkShowsText(R.string.brick_go_to_touch_position);
 
-		clickSelectCheckSpinnerValueOnBrick(R.id.brick_go_to_spinner, brickPosition, R.string
-				.brick_go_to_random_position);
-
-		checkIfSpinnerOnBrickAtPositionShowsString(R.id.brick_go_to_spinner, brickPosition, R.string.brick_go_to_random_position);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_go_to_spinner)
+				.performSelect(R.string.brick_go_to_random_position)
+				.checkShowsText(R.string.brick_go_to_random_position);
 	}
 }
