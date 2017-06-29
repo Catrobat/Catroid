@@ -79,7 +79,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.concurrent.locks.Lock;
 
-public class ProjectActivity extends BaseActivity {
+public class ProjectActivity extends BaseCastActivity {
 
 	private static final String TAG = ProjectActivity.class.getSimpleName();
 
@@ -234,9 +234,7 @@ public class ProjectActivity extends BaseActivity {
 				menu.findItem(R.id.backpack).setVisible(true);
 			}
 		}
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
-		}
+
 		return super.onCreateOptionsMenu(menu);
 	}
 

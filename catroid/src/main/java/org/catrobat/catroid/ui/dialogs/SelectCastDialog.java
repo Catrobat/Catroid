@@ -109,10 +109,10 @@ public class SelectCastDialog extends DialogFragment {
 				public void run() {
 					synchronized (this) {
 						if (dialog != null && dialog.isShowing() && deviceAdapter.isEmpty()) {
-							TextView t = (TextView) dialog.findViewById(R.id.cast_searching_for_cast_text_view);
+							TextView textview = (TextView) dialog.findViewById(R.id.cast_searching_for_cast_text_view);
 							String text = activity.getText(R.string.cast_searching_for_cast_devices).toString()
 									+ activity.getText(R.string.cast_trouble_finding_devices_tip);
-							t.setText(text);
+							textview.setText(text);
 						}
 					}
 				}
