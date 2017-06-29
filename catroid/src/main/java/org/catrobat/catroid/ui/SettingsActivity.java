@@ -41,6 +41,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -92,6 +93,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		addPreferencesFromResource(R.xml.preferences);
 
+		setAnonymousCrashReportPreference();
 		setNXTSensors();
 		setEV3Sensors();
 		setDronePreferences();
@@ -143,6 +145,18 @@ public class SettingsActivity extends PreferenceActivity {
 			nfcPreference.setEnabled(false);
 			screen.removePreference(nfcPreference);
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private void setAnonymousCrashReportPreference() {
+		CheckBoxPreference reportCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_CRASH_REPORTS);
+		reportCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object isChecked) {
+				setAutoCrashReportingEnabled(getApplicationContext(), (Boolean) isChecked);
+				return true;
+			}
+		});
 	}
 
 	@SuppressWarnings("deprecation")
@@ -364,10 +378,14 @@ public class SettingsActivity extends PreferenceActivity {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
 	}
 
-	public static void setAutoCrashReportingEnabled(Context context, boolean value) {
+	public static void setAutoCrashReportingEnabled(Context context, boolean isEnabled) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_CRASH_REPORTS, value);
+		editor.putBoolean(SETTINGS_CRASH_REPORTS, isEnabled);
 		editor.commit();
+
+		if (isEnabled) {
+			CrashReporter.initialize(context);
+		}
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {

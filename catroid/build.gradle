@@ -24,17 +24,21 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'io.fabric.tools:gradle:1.21.5'
     }
 }
 
 repositories {
     jcenter()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 
@@ -67,6 +71,7 @@ android {
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
     }
+
     buildTypes {
 
         debug {
@@ -80,8 +85,9 @@ android {
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
-            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "false"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
+            ext.enableCrashlytics = false
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -94,17 +100,18 @@ android {
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
-            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "true"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
     }
+
     productFlavors {
         catroid {
             applicationId appId
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "true"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
         }
 
         standalone {
@@ -115,7 +122,7 @@ android {
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true) }\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
-            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "false"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
         }
     }
 }
@@ -157,7 +164,6 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.14.1'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
-    compile 'com.google.firebase:firebase-crash:9.4.0'
     compile 'com.android.support:multidex:1.0.1'
 
     compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
@@ -190,6 +196,9 @@ dependencies {
 
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
     checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
 }
 
 def getCurrentGitBranch() {

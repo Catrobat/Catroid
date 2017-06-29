@@ -50,10 +50,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.facebook.AccessToken;
 import com.google.common.base.Splitter;
-import com.google.firebase.crash.FirebaseCrash;
-import com.google.gson.Gson;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -70,9 +67,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
-import org.catrobat.catroid.ui.BaseExceptionHandler;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -137,31 +131,11 @@ public final class Utils {
 	}
 
 	public static boolean checkIfCrashRecoveryAndFinishActivity(final Activity context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		if (preferences.getBoolean(BaseExceptionHandler.RECOVERED_FROM_CRASH, false)) {
-			if (BuildConfig.FIREBASE_CRASH_REPORT_ENABLED
-					&& preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false)) {
-				sendCaughtException(context);
-			}
-			if (!(context instanceof MainMenuActivity)) {
-				context.finish();
-			} else {
-				preferences.edit().putBoolean(BaseExceptionHandler.RECOVERED_FROM_CRASH, false).commit();
-				return true;
-			}
-		}
-		return false;
+		return CrashReporter.checkIfCrashRecoveryAndFinishActivity(context);
 	}
 
 	public static void sendCaughtException(Context context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		Gson gson = new Gson();
-		String json = preferences.getString(BaseExceptionHandler.EXCEPTION_FOR_REPORT, "");
-		Throwable exception = gson.fromJson(json, Throwable.class);
-
-		FirebaseCrash.report(exception);
-
-		preferences.edit().remove(BaseExceptionHandler.EXCEPTION_FOR_REPORT).commit();
+		CrashReporter.sendUnhandledCaughtException();
 	}
 
 	public static boolean isNetworkAvailable(Context context, boolean createDialog) {
