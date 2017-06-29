@@ -36,5 +36,4 @@ public abstract class BaseCastActivity extends BaseActivity {
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
-
 }
