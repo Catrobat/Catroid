@@ -34,6 +34,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -76,6 +77,7 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.NewStringDialog;
 import org.catrobat.catroid.utils.FormulaEditorIntroUtil;
+import org.catrobat.catroid.utils.SimpleBrickUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
@@ -90,6 +92,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 	private static final int SET_FORMULA_ON_CREATE_VIEW = 0;
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
+	private static final int SET_FORMULA_ON_SIMPLE_CREATE_VIEW = 2;
 	private static final int TIME_WINDOW = 2000;
 
 	public static final int REQUEST_GPS = 1;
@@ -104,6 +107,13 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	private static LinearLayout formulaEditorBrick;
 	private static View brickView;
 	private View fragmentView;
+
+	private static Button formulaButtonObject;
+	private static Button formulaButtonFunction;
+	private static Button formulaButtonLogic;
+	private static Button formulaButtonSensors;
+	private static Button formulaButtonData;
+	private static boolean brickInitialise = false;
 
 	private static FormulaBrick formulaBrick;
 	private FormulaBrick clonedFormulaBrick;
@@ -164,7 +174,10 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		}
 	}
 
-	private static void showFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField, boolean showCustomView) {
+	private static void showFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField, boolean
+			showCustomView, boolean showSimpleBrickView) {
+
+		SimpleBrickUtil.isInFormulaEditor = true;
 
 		Activity activity = (Activity) view.getContext();
 		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getFragmentManager()
@@ -176,6 +189,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		if (formulaEditorFragment == null) {
 			formulaEditorFragment = new FormulaEditorFragment();
 			formulaEditorFragment.showCustomView = showCustomView;
+			formulaEditorFragment.showSimpleBrickView = showSimpleBrickView;
 			Bundle bundle = new Bundle();
 			bundle.putSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT, formulaBrick);
 			bundle.putString(BRICKFIELD_BUNDLE_ARGUMENT, brickField.name());
@@ -187,6 +201,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			BottomBar.hideBottomBar(activity);
 		} else if (formulaEditorFragment.isHidden()) {
 			formulaEditorFragment.showCustomView = showCustomView;
+			formulaEditorFragment.showSimpleBrickView = showSimpleBrickView;
 			formulaEditorFragment.updateBrickViewAndFormula(formulaBrick, brickField);
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(formulaEditorFragment);
@@ -200,6 +215,40 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		fragTransaction.commit();
 
 		FormulaEditorIntroUtil.showIntro(view);
+		setSimpleBrickView(activity);
+	}
+
+	public static void setSimpleBrickView(Activity activity) {
+		if (brickInitialise) {
+			if (showSimpleBrickView) {
+				formulaButtonObject.setEnabled(false);
+				formulaButtonObject.setBackgroundColor(Color.GRAY);
+				formulaButtonFunction.setEnabled(false);
+				formulaButtonFunction.setBackgroundColor(Color.GRAY);
+				formulaButtonLogic.setEnabled(false);
+				formulaButtonLogic.setBackgroundColor(Color.GRAY);
+				formulaButtonSensors.setEnabled(false);
+				formulaButtonSensors.setBackgroundColor(Color.GRAY);
+				formulaButtonData.setEnabled(false);
+				formulaButtonData.setBackgroundColor(Color.GRAY);
+			} else {
+				formulaButtonObject.setEnabled(true);
+				formulaButtonObject.setBackground(activity.getResources().getDrawable(R
+						.drawable.formula_editor_keyboard_button));
+				formulaButtonFunction.setEnabled(true);
+				formulaButtonFunction.setBackground(activity.getResources().getDrawable(R
+						.drawable.formula_editor_keyboard_button));
+				formulaButtonLogic.setEnabled(true);
+				formulaButtonLogic.setBackground(activity.getResources().getDrawable(R
+						.drawable.formula_editor_keyboard_button));
+				formulaButtonSensors.setEnabled(true);
+				formulaButtonSensors.setBackground(activity.getResources().getDrawable(R
+						.drawable.formula_editor_keyboard_button));
+				formulaButtonData.setEnabled(true);
+				formulaButtonData.setBackground(activity.getResources().getDrawable(R
+						.drawable.formula_editor_keyboard_button));
+			}
+		}
 	}
 
 	public static boolean saveFormulaForUserBrickParameterChange() {
@@ -232,13 +281,18 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	}
 
 	private boolean showCustomView = false;
+	private static boolean showSimpleBrickView = false;
 
 	public static void showFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField) {
-		showFragment(view, formulaBrick, brickField, false);
+		showFragment(view, formulaBrick, brickField, false, false);
+	}
+
+	public static void showSimpleBrickFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField) {
+		showFragment(view, formulaBrick, brickField, false, true);
 	}
 
 	public static void showCustomFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField) {
-		showFragment(view, formulaBrick, brickField, true);
+		showFragment(view, formulaBrick, brickField, true, false);
 	}
 
 	public static void overwriteFormula(View view, Formula newFormula) {
@@ -297,7 +351,11 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		updateBrickView();
 		currentBrickField = brickField;
 		currentFormula = clonedFormulaBrick.getFormulaWithBrickField(brickField);
-		setInputFormula(currentBrickField, SET_FORMULA_ON_CREATE_VIEW);
+		if (showSimpleBrickView) {
+			setInputFormula(currentBrickField, SET_FORMULA_ON_SIMPLE_CREATE_VIEW);
+		} else {
+			setInputFormula(currentBrickField, SET_FORMULA_ON_CREATE_VIEW);
+		}
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 	}
@@ -322,6 +380,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		if (FormulaEditorIntroUtil.isIntroVisible()) {
 			FormulaEditorIntroUtil.dismissIntro();
 		}
+		SimpleBrickUtil.isInFormulaEditor = false;
 	}
 
 	@Override
@@ -347,12 +406,28 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
-		setInputFormula(currentBrickField, SET_FORMULA_ON_CREATE_VIEW);
+		SensorHandler.startSensorListener(context);
+
+		if (showSimpleBrickView) {
+			setInputFormula(currentBrickField, SET_FORMULA_ON_SIMPLE_CREATE_VIEW);
+		} else {
+			setInputFormula(currentBrickField, SET_FORMULA_ON_CREATE_VIEW);
+		}
 
 		setHasOptionsMenu(true);
 		setUpActionBar();
 
 		handleCustomView();
+
+		formulaButtonObject = (Button) fragmentView.findViewById(R.id.formula_editor_keyboard_object);
+		formulaButtonFunction = (Button) fragmentView.findViewById(R.id.formula_editor_keyboard_function);
+		formulaButtonLogic = (Button) fragmentView.findViewById(R.id.formula_editor_keyboard_logic);
+		formulaButtonSensors = (Button) fragmentView.findViewById(R.id.formula_editor_keyboard_sensors);
+		formulaButtonData = (Button) fragmentView.findViewById(R.id.formula_editor_keyboard_data);
+
+		brickInitialise = true;
+
+		setSimpleBrickView(getActivity());
 
 		return fragmentView;
 	}
@@ -588,6 +663,12 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 		switch (mode) {
 			case SET_FORMULA_ON_CREATE_VIEW:
+				formulaEditorEditText.enterNewFormula(currentFormula.getInternFormulaState());
+				currentFormula.highlightTextField(brickView);
+				refreshFormulaPreviewString();
+				break;
+
+			case SET_FORMULA_ON_SIMPLE_CREATE_VIEW:
 				formulaEditorEditText.enterNewFormula(currentFormula.getInternFormulaState());
 				currentFormula.highlightTextField(brickView);
 				refreshFormulaPreviewString();
@@ -845,6 +926,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 	public void addStringToActiveFormula(String string) {
 		formulaEditorEditText.handleKeyEvent(R.id.formula_editor_keyboard_string, string);
+		clonedFormulaBrick.setFormulaWithBrickField(currentBrickField, currentFormula);
 	}
 
 	public String getSelectedFormulaText() {

@@ -51,6 +51,7 @@ import java.util.List;
 public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = FormulaElement.class.getSimpleName();
 
 	public static enum ElementType {
 		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA
@@ -936,11 +937,15 @@ public class FormulaElement implements Serializable {
 			return 0.0;
 		}
 
-		if ((Double) valueToCheck == Double.NEGATIVE_INFINITY) {
-			return -Double.MAX_VALUE;
-		}
-		if ((Double) valueToCheck == Double.POSITIVE_INFINITY) {
-			return Double.MAX_VALUE;
+		try {
+			if ((Double) valueToCheck == Double.NEGATIVE_INFINITY) {
+				return -Double.MAX_VALUE;
+			}
+			if ((Double) valueToCheck == Double.POSITIVE_INFINITY) {
+				return Double.MAX_VALUE;
+			}
+		} catch (ClassCastException exception) {
+			Log.e(TAG, exception.getMessage());
 		}
 
 		return valueToCheck;

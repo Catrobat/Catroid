@@ -35,6 +35,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.SimpleBrickUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
@@ -173,6 +174,7 @@ public class ProjectUploadService extends IntentService {
 			StatusBarNotificationManager.getInstance().showUploadRejectedNotification(notificationId, statusCode, serverAnswer, uploadBackupBundle);
 		} else {
 			ToastUtil.showSuccess(this, R.string.notification_upload_finished);
+			SimpleBrickUtil.uploadProject = false;
 		}
 
 		Utils.invalidateLoginTokenIfUserRestricted(getApplicationContext());

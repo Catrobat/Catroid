@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/brick_wait_until_checkbox_simple"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
+    <org.catrobat.catroid.ui.BrickLayout
+        android:id="@+id/brick_wait_until_layout"
+        style="@style/BrickContainer.Control.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+
+    <RelativeLayout
+        android:id="@+id/brick_wait_begin_layout_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+
+                <org.catrobat.catroid.utils.BrickTextView
+                    android:id="@+id/wait_until_label_simple"
+                    style="@style/BrickText.Multiple"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/brick_wait_begin_first_part_text_view"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/brick_wait_until" />
+
+                <org.catrobat.catroid.utils.BrickTextView
+                    android:id="@+id/brick_wait_begin_first_part_text_view"
+                    style="@style/BrickEditText"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/wait_until_label_simple"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:layout_toStartOf="@+id/brick_wait_begin_operator_spinner"
+                    android:layout_toLeftOf="@+id/brick_wait_begin_operator_spinner"
+                    android:layout_toRightOf="@+id/wait_until_label_simple" />
+
+                <org.catrobat.catroid.utils.BrickSpinner
+                    android:id="@+id/brick_wait_begin_operator_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/brick_wait_begin_first_part_text_view"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:gravity="center" />
+
+                <org.catrobat.catroid.utils.BrickTextView
+                    android:id="@+id/brick_wait_begin_second_part_text_view"
+                    style="@style/BrickEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/brick_wait_begin_first_part_text_view"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:gravity="center" />
+
+                <org.catrobat.catroid.utils.BrickTextView
+                    android:id="@+id/wait_until_label_second_part"
+                    style="@style/BrickText.Multiple"
+                    android:paddingLeft="5dip"
+                    android:text="@string/brick_wait_until_second_part"
+                    android:layout_alignBaseline="@+id/brick_wait_begin_second_part_text_view"
+                    android:layout_alignBottom="@+id/brick_wait_begin_second_part_text_view"
+                    android:layout_toRightOf="@+id/brick_wait_begin_second_part_text_view"
+                    android:layout_toEndOf="@+id/brick_wait_begin_second_part_text_view"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp" />
+        </RelativeLayout>
+
+    </org.catrobat.catroid.ui.BrickLayout>
+
+</LinearLayout>

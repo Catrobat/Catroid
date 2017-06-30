@@ -340,4 +340,8 @@ public class InternToExternGenerator {
 	public static int getMappedString(String token) {
 		return INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.get(token);
 	}
+
+	public static HashMap<String, Integer> getInternToExternHashMap() {
+		return INTERN_EXTERN_LANGUAGE_CONVERTER_MAP;
+	}
 }

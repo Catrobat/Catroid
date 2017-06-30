@@ -26,10 +26,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndSimpleBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
@@ -71,6 +76,12 @@ public abstract class Script implements Serializable {
 				setIfThenBrickReferences((IfThenLogicEndBrick) copiedBrick, (IfThenLogicEndBrick) brick);
 			} else if (copiedBrick instanceof LoopEndBrick) {
 				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
+			}
+
+			if (copiedBrick instanceof IfLogicEndSimpleBrick) {
+				setIfBrickSimpleReferences((IfLogicEndSimpleBrick) copiedBrick, (IfLogicEndSimpleBrick) brick);
+			} else if (copiedBrick instanceof IfThenLogicEndSimpleBrick) {
+				setIfThenBrickSimpleReferences((IfThenLogicEndSimpleBrick) copiedBrick, (IfThenLogicEndSimpleBrick) brick);
 			}
 			cloneBrickList.add(copiedBrick);
 		}
@@ -236,6 +247,29 @@ public abstract class Script implements Serializable {
 
 		copiedIfBeginBrick.setIfThenEndBrick(copiedIfEndBrick);
 		copiedIfEndBrick.setIfThenBeginBrick(copiedIfBeginBrick);
+	}
+
+	protected void setIfBrickSimpleReferences(IfLogicEndSimpleBrick copiedIfEndBrick, IfLogicEndSimpleBrick
+			originalIfEndBrick) {
+		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
+		IfLogicBeginSimpleBrick copiedIfBeginBrick = ((IfLogicBeginSimpleBrick) ifBrickList.get(0)).getCopy();
+		IfLogicElseSimpleBrick copiedIfElseBrick = ((IfLogicElseSimpleBrick) ifBrickList.get(1)).getCopy();
+
+		copiedIfBeginBrick.setIfElseSimpleBrick(copiedIfElseBrick);
+		copiedIfBeginBrick.setIfEndSimpleBrick(copiedIfEndBrick);
+		copiedIfElseBrick.setIfBeginSimpleBrick(copiedIfBeginBrick);
+		copiedIfElseBrick.setIfEndSimpleBrick(copiedIfEndBrick);
+		copiedIfEndBrick.setIfBeginSimpleBrick(copiedIfBeginBrick);
+		copiedIfEndBrick.setIfElseSimpleBrick(copiedIfElseBrick);
+	}
+
+	protected void setIfThenBrickSimpleReferences(IfThenLogicEndSimpleBrick copiedIfEndBrick, IfThenLogicEndSimpleBrick
+			originalIfEndBrick) {
+		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
+		IfThenLogicBeginSimpleBrick copiedIfBeginBrick = (IfThenLogicBeginSimpleBrick) ((IfThenLogicBeginSimpleBrick) ifBrickList.get(0)).getCopy();
+
+		copiedIfBeginBrick.setIfThenEndSimpleBrick(copiedIfEndBrick);
+		copiedIfEndBrick.setIfThenBeginSimpleBrick(copiedIfBeginBrick);
 	}
 
 	protected void setLoopBrickReferences(LoopEndBrick copiedBrick, LoopEndBrick originalBrick) {

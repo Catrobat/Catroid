@@ -118,11 +118,16 @@ import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndSimpleBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
@@ -409,6 +414,11 @@ public final class StorageHandler {
 		xstream.alias("brick", IfLogicEndBrick.class);
 		xstream.alias("brick", IfThenLogicBeginBrick.class);
 		xstream.alias("brick", IfThenLogicEndBrick.class);
+		xstream.alias("brick", IfLogicBeginSimpleBrick.class);
+		xstream.alias("brick", IfLogicElseSimpleBrick.class);
+		xstream.alias("brick", IfLogicEndSimpleBrick.class);
+		xstream.alias("brick", IfThenLogicBeginSimpleBrick.class);
+		xstream.alias("brick", IfThenLogicEndSimpleBrick.class);
 		xstream.alias("brick", IfOnEdgeBounceBrick.class);
 		xstream.alias("brick", InsertItemIntoUserListBrick.class);
 		xstream.alias("brick", FlashBrick.class);
@@ -723,8 +733,6 @@ public final class StorageHandler {
 			return false;
 		}
 
-		Log.d(TAG, "saveProject " + project.getName());
-
 		codeFileSanityCheck(project.getName());
 
 		loadSaveLock.lock();
@@ -735,6 +743,7 @@ public final class StorageHandler {
 
 		try {
 			projectXml = XML_HEADER.concat(xstream.toXML(project));
+
 			tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 			currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
 

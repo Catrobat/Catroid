@@ -58,6 +58,8 @@ import org.catrobat.catroid.utils.TrackingUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.catrobat.catroid.utils.SimpleBrickUtil.latestData;
+
 public class NewDataDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_data_catroid";
@@ -166,7 +168,6 @@ public class NewDataDialog extends DialogFragment {
 		String name = nameEditText.getText().toString();
 		switch (dialogType) {
 			case SHOW_LIST_CHECKBOX:
-
 				if (isListCheckbox.isChecked()) {
 					addUserList(name, local, global);
 				} else {
@@ -180,6 +181,7 @@ public class NewDataDialog extends DialogFragment {
 				addUserVariable(name, local, global);
 				break;
 		}
+		latestData = name;
 	}
 
 	private void addUserList(String name, RadioButton local, RadioButton global) {

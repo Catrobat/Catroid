@@ -130,6 +130,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String ACCESS_LARGE_ELEMENT_SPACING = "setting_access_large_element_spacing";
 	public static final String ACCESS_STARTER_BRICKS = "setting_access_starter_bricks";
 	public static final String ACCESS_DRAGNDROP_DELAY = "setting_access_dragndrop_delay";
+	public static final String ACCESS_SIMPLE_BRICK = "setting_access_simple_brick";
 	public static final String ACCESS_MYPROFILE_LARGE_TEXT = "setting_access_myprofile_large_text";
 	public static final String ACCESS_MYPROFILE_FONTFACE = "setting_myprofile_access_fontface";
 	public static final String ACCESS_MYPROFILE_HIGH_CONTRAST = "setting_myprofile_access_high_contrast";
@@ -139,6 +140,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String ACCESS_MYPROFILE_LARGE_ELEMENT_SPACING = "setting_access_myprofile_large_element_spacing";
 	public static final String ACCESS_MYPROFILE_STARTER_BRICKS = "setting_access_myprofile_starter_bricks";
 	public static final String ACCESS_MYPROFILE_DRAGNDROP_DELAY = "setting_access_myprofile_dragndrop_delay";
+	public static final String ACCESS_MYPROFILE_SIMPLE_BRICK = "setting_access_myprofile_simple_brick";
 
 	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
 
@@ -453,6 +455,9 @@ public class SettingsActivity extends PreferenceActivity {
 			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_SERIF);
 		} else if (getAccessibilityFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_DYSLEXIC);
+		}
+		if (getAccessibilitySimpleBrickEnabled(context)) {
+			CategoryBricksFactory.enableSimpleBricks();
 		}
 	}
 
@@ -837,6 +842,17 @@ public class SettingsActivity extends PreferenceActivity {
 		return preferences.getBoolean(ACCESS_DRAGNDROP_DELAY, false);
 	}
 
+	public static void setAccessibilitySimpleBrickEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_SIMPLE_BRICK, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilitySimpleBrickEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_SIMPLE_BRICK, false);
+	}
+
 	public static void setAccessibilityMyProfileLargeTextEnabled(Context context, boolean enable) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(ACCESS_MYPROFILE_LARGE_TEXT, enable);
@@ -934,6 +950,17 @@ public class SettingsActivity extends PreferenceActivity {
 	public static boolean getAccessibilityMyProfileDragndropDelayEnabled(Context context) {
 		SharedPreferences preferences = getSharedPreferences(context);
 		return preferences.getBoolean(ACCESS_MYPROFILE_DRAGNDROP_DELAY, false);
+	}
+
+	public static void setAccessibilityMyProfileSimpleBrickEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(ACCESS_MYPROFILE_SIMPLE_BRICK, enable);
+		editor.commit();
+	}
+
+	public static boolean getAccessibilityMyProfileSimpleBrickEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(ACCESS_MYPROFILE_SIMPLE_BRICK, false);
 	}
 
 	@Override
