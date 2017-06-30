@@ -176,6 +176,8 @@
     <string name="preference_access_summary_starter_bricks">Shows only starter bricks for ease of learning.</string>
     <string name="preference_access_title_dragndrop_delay">Drag\'n\'drop delay</string>
     <string name="preference_access_summary_dragndrop_delay">Adds delay to the drag\'n\'drop of bricks.</string>
+    <string name="preference_access_title_simple_brick">Simple bricks</string>
+    <string name="preference_access_summary_simple_brick">Add simple bricks for loops and conditions</string>
     <string name="preference_access_title_profile_standard">Standard</string>
     <string name="preference_access_summary_profile_standard">The standard settings</string>
     <string name="preference_access_title_profile_myprofile">My Profile</string>
@@ -898,6 +900,13 @@
     <string name="brick_replace_item_in_userlist_with_value">with</string>
     <!--  -->
 
+    <!-- simple brick -->
+    <string name="simple_brick_new_data_dialog">New…</string>
+    <string name="simple_brick_group_object">Object</string>
+    <string name="simple_brick_group_device">Device</string>
+    <string name="simple_brick_group_data">Data</string>
+    <string name="simple_brick_group_number">Number</string>
+    <!--  -->
 
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>

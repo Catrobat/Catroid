@@ -24,62 +24,167 @@
 
 <profiles>
     <profile name="setting_access_profile_standard">
-        <parameter name="setting_access_large_text" value="false"/>
-        <parameter name="setting_access_fontface" value="standard"/>
-        <parameter name="setting_access_high_contrast" value="false"/>
-        <parameter name="setting_access_additional_icons" value="false"/>
-        <parameter name="setting_access_large_icons" value="false"/>
-        <parameter name="setting_access_high_contrast_icons" value="false"/>
-        <parameter name="setting_access_large_element_spacing" value="false"/>
-        <parameter name="setting_access_starter_bricks" value="false"/>
-        <parameter name="setting_access_dragndrop_delay" value="false"/>
+        <parameter
+            name="setting_access_large_text"
+            value="false" />
+        <parameter
+            name="setting_access_fontface"
+            value="standard" />
+        <parameter
+            name="setting_access_high_contrast"
+            value="false" />
+        <parameter
+            name="setting_access_additional_icons"
+            value="false" />
+        <parameter
+            name="setting_access_large_icons"
+            value="false" />
+        <parameter
+            name="setting_access_high_contrast_icons"
+            value="false" />
+        <parameter
+            name="setting_access_large_element_spacing"
+            value="false" />
+        <parameter
+            name="setting_access_starter_bricks"
+            value="false" />
+        <parameter
+            name="setting_access_dragndrop_delay"
+            value="false" />
+        <parameter
+            name="setting_access_simple_brick"
+            value="false" />
     </profile>
 
     <profile name="setting_access_profile_1">
-        <parameter name="setting_access_large_text" value="false"/>
-        <parameter name="setting_access_fontface" value="standard"/>
-        <parameter name="setting_access_high_contrast" value="true"/>
-        <parameter name="setting_access_additional_icons" value="true"/>
-        <parameter name="setting_access_large_icons" value="false"/>
-        <parameter name="setting_access_high_contrast_icons" value="true"/>
-        <parameter name="setting_access_large_element_spacing" value="false"/>
-        <parameter name="setting_access_starter_bricks" value="false"/>
-        <parameter name="setting_access_dragndrop_delay" value="false"/>
+        <parameter
+            name="setting_access_large_text"
+            value="false" />
+        <parameter
+            name="setting_access_fontface"
+            value="standard" />
+        <parameter
+            name="setting_access_high_contrast"
+            value="true" />
+        <parameter
+            name="setting_access_additional_icons"
+            value="true" />
+        <parameter
+            name="setting_access_large_icons"
+            value="false" />
+        <parameter
+            name="setting_access_high_contrast_icons"
+            value="true" />
+        <parameter
+            name="setting_access_large_element_spacing"
+            value="false" />
+        <parameter
+            name="setting_access_starter_bricks"
+            value="false" />
+        <parameter
+            name="setting_access_dragndrop_delay"
+            value="false" />
+        <parameter
+            name="setting_access_simple_brick"
+            value="false" />
     </profile>
 
     <profile name="setting_access_profile_2">
-        <parameter name="setting_access_large_text" value="true"/>
-        <parameter name="setting_access_fontface" value="serif"/>
-        <parameter name="setting_access_high_contrast" value="true"/>
-        <parameter name="setting_access_additional_icons" value="false"/>
-        <parameter name="setting_access_large_icons" value="true"/>
-        <parameter name="setting_access_high_contrast_icons" value="false"/>
-        <parameter name="setting_access_large_element_spacing" value="true"/>
-        <parameter name="setting_access_starter_bricks" value="false"/>
-        <parameter name="setting_access_dragndrop_delay" value="false"/>
+        <parameter
+            name="setting_access_large_text"
+            value="true" />
+        <parameter
+            name="setting_access_fontface"
+            value="serif" />
+        <parameter
+            name="setting_access_high_contrast"
+            value="true" />
+        <parameter
+            name="setting_access_additional_icons"
+            value="false" />
+        <parameter
+            name="setting_access_large_icons"
+            value="true" />
+        <parameter
+            name="setting_access_high_contrast_icons"
+            value="false" />
+        <parameter
+            name="setting_access_large_element_spacing"
+            value="true" />
+        <parameter
+            name="setting_access_starter_bricks"
+            value="false" />
+        <parameter
+            name="setting_access_dragndrop_delay"
+            value="false" />
+        <parameter
+            name="setting_access_simple_brick"
+            value="false" />
     </profile>
 
      <profile name="setting_access_profile_3">
-        <parameter name="setting_access_large_text" value="false"/>
-        <parameter name="setting_access_fontface" value="standard"/>
-        <parameter name="setting_access_high_contrast" value="false"/>
-        <parameter name="setting_access_additional_icons" value="false"/>
-        <parameter name="setting_access_large_icons" value="false"/>
-        <parameter name="setting_access_high_contrast_icons" value="false"/>
-        <parameter name="setting_access_large_element_spacing" value="true"/>
-        <parameter name="setting_access_starter_bricks" value="false"/>
-        <parameter name="setting_access_dragndrop_delay" value="true"/>
+        <parameter
+            name="setting_access_large_text"
+            value="false" />
+        <parameter
+            name="setting_access_fontface"
+            value="standard" />
+        <parameter
+            name="setting_access_high_contrast"
+            value="false" />
+        <parameter
+            name="setting_access_additional_icons"
+            value="false" />
+        <parameter
+            name="setting_access_large_icons"
+            value="false" />
+        <parameter
+            name="setting_access_high_contrast_icons"
+            value="false" />
+        <parameter
+            name="setting_access_large_element_spacing"
+            value="true" />
+        <parameter
+            name="setting_access_starter_bricks"
+            value="false" />
+        <parameter
+            name="setting_access_dragndrop_delay"
+            value="true" />
+         <parameter
+             name="setting_access_simple_brick"
+             value="true" />
     </profile>
 
      <profile name="setting_access_profile_4">
-        <parameter name="setting_access_large_text" value="false"/>
-        <parameter name="setting_access_fontface" value="standard"/>
-        <parameter name="setting_access_high_contrast" value="false"/>
-        <parameter name="setting_access_additional_icons" value="false"/>
-        <parameter name="setting_access_large_icons" value="false"/>
-        <parameter name="setting_access_high_contrast_icons" value="false"/>
-        <parameter name="setting_access_large_element_spacing" value="false"/>
-        <parameter name="setting_access_starter_bricks" value="true"/>
-        <parameter name="setting_access_dragndrop_delay" value="false"/>
+        <parameter
+            name="setting_access_large_text"
+            value="false" />
+        <parameter
+            name="setting_access_fontface"
+            value="standard" />
+        <parameter
+            name="setting_access_high_contrast"
+            value="false" />
+        <parameter
+            name="setting_access_additional_icons"
+            value="false" />
+        <parameter
+            name="setting_access_large_icons"
+            value="false" />
+        <parameter
+            name="setting_access_high_contrast_icons"
+            value="false" />
+        <parameter
+            name="setting_access_large_element_spacing"
+            value="false" />
+        <parameter
+            name="setting_access_starter_bricks"
+            value="true" />
+        <parameter
+            name="setting_access_dragndrop_delay"
+            value="false" />
+         <parameter
+             name="setting_access_simple_brick"
+             value="true" />
     </profile>
 </profiles>

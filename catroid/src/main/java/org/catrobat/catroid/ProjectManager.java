@@ -46,10 +46,15 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndSimpleBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -793,6 +798,31 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				return false;
 			}
 		}
+
+		if (currentBrick instanceof IfThenLogicBeginSimpleBrick) {
+			IfThenLogicEndSimpleBrick endBrick = ((IfThenLogicBeginSimpleBrick) currentBrick)
+					.getIfThenEndSimpleBrick();
+			if (endBrick == null || endBrick.getIfBeginSimpleBrick() == null
+					|| !endBrick.getIfBeginSimpleBrick().equals(currentBrick)) {
+				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
+						+ currentBrick);
+				return false;
+			}
+		} else if (currentBrick instanceof IfLogicBeginSimpleBrick) {
+			IfLogicElseSimpleBrick elseBrick = ((IfLogicBeginSimpleBrick) currentBrick).getIfElseSimpleBrick();
+			IfLogicEndSimpleBrick endBrick = ((IfLogicBeginSimpleBrick) currentBrick).getIfEndSimpleBrick();
+			if (elseBrick == null || endBrick == null || elseBrick.getIfEndSimpleBrick() == null
+					|| elseBrick.getIfEndSimpleBrick() == null || endBrick.getIfBeginSimpleBrick() == null
+					|| endBrick.getIfElseSimpleBrick() == null
+					|| !elseBrick.getIfBeginSimpleBrick().equals(currentBrick)
+					|| !elseBrick.getIfEndSimpleBrick().equals(endBrick)
+					|| !endBrick.getIfBeginSimpleBrick().equals(currentBrick)
+					|| !endBrick.getIfElseSimpleBrick().equals(elseBrick)) {
+				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
+						+ currentBrick);
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -863,6 +893,57 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 
 		for (Brick brick : loopBeginList) {
+			bricksWithInvalidReferences.add(brick);
+		}
+
+		ArrayList<IfLogicBeginSimpleBrick> ifBeginSimpleList = new ArrayList<>();
+		ArrayList<IfThenLogicBeginSimpleBrick> ifThenBeginSimpleList = new ArrayList<>();
+
+		for (Brick currentBrick : script.getBrickList()) {
+			if (currentBrick instanceof IfThenLogicBeginSimpleBrick) {
+				ifThenBeginSimpleList.add((IfThenLogicBeginSimpleBrick) currentBrick);
+			} else if (currentBrick instanceof IfLogicBeginSimpleBrick) {
+				ifBeginSimpleList.add((IfLogicBeginSimpleBrick) currentBrick);
+			} else if (currentBrick instanceof IfLogicElseSimpleBrick) {
+				if (ifBeginSimpleList.isEmpty()) {
+					Log.e(TAG, "Removing IfLogicElseBrick without reference to an IfBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
+				IfLogicBeginSimpleBrick ifBeginSimpleBrick = ifBeginSimpleList.get(ifBeginSimpleList.size() - 1);
+				ifBeginSimpleBrick.setIfElseSimpleBrick((IfLogicElseSimpleBrick) currentBrick);
+				((IfLogicElseSimpleBrick) currentBrick).setIfBeginSimpleBrick(ifBeginSimpleBrick);
+			} else if (currentBrick instanceof IfThenLogicEndSimpleBrick) {
+				if (ifThenBeginSimpleList.isEmpty()) {
+					Log.e(TAG, "Removing IfThenLogicEndBrick without reference to an IfBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
+				IfThenLogicBeginSimpleBrick ifBeginSimpleBrick = ifThenBeginSimpleList.get(ifThenBeginSimpleList.size() - 1);
+				ifBeginSimpleBrick.setIfThenEndSimpleBrick((IfThenLogicEndSimpleBrick) currentBrick);
+				((IfThenLogicEndSimpleBrick) currentBrick).setIfThenBeginSimpleBrick(ifBeginSimpleBrick);
+				ifThenBeginList.remove(ifBeginSimpleBrick);
+			} else if (currentBrick instanceof IfLogicEndSimpleBrick) {
+				if (ifBeginSimpleList.isEmpty()) {
+					Log.e(TAG, "Removing IfLogicEndBrick without reference to an IfBeginBrick");
+					bricksWithInvalidReferences.add(currentBrick);
+					continue;
+				}
+				IfLogicBeginSimpleBrick ifBeginSimpleBrick = ifBeginSimpleList.get(ifBeginSimpleList.size() - 1);
+				IfLogicElseSimpleBrick elseSimpleBrick = ifBeginSimpleBrick.getIfElseSimpleBrick();
+				ifBeginSimpleBrick.setIfEndSimpleBrick((IfLogicEndSimpleBrick) currentBrick);
+				elseSimpleBrick.setIfEndSimpleBrick((IfLogicEndSimpleBrick) currentBrick);
+				((IfLogicEndSimpleBrick) currentBrick).setIfBeginSimpleBrick(ifBeginSimpleBrick);
+				((IfLogicEndSimpleBrick) currentBrick).setIfElseSimpleBrick(elseSimpleBrick);
+				ifBeginSimpleList.remove(ifBeginSimpleBrick);
+			}
+		}
+
+		for (Brick brick : ifBeginSimpleList) {
+			bricksWithInvalidReferences.add(brick);
+		}
+
+		for (Brick brick : ifThenBeginSimpleList) {
 			bricksWithInvalidReferences.add(brick);
 		}
 

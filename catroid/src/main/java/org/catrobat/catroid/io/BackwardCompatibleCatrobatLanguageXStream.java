@@ -81,11 +81,16 @@ import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndSimpleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -299,6 +304,23 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfoMap.put("ifThenLogicBeginBrick", brickInfo);
 
 		brickInfo = new BrickInfo(IfThenLogicEndBrick.class.getSimpleName());
+		brickInfoMap.put("ifThenLogicEndBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfLogicBeginSimpleBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("ifCondition", BrickField.IF_CONDITION);
+		brickInfoMap.put("ifLogicBeginBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfLogicElseSimpleBrick.class.getSimpleName());
+		brickInfoMap.put("ifLogicElseBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfLogicEndSimpleBrick.class.getSimpleName());
+		brickInfoMap.put("ifLogicEndBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfThenLogicBeginSimpleBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("ifCondition", BrickField.IF_CONDITION);
+		brickInfoMap.put("ifThenLogicBeginBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfThenLogicEndSimpleBrick.class.getSimpleName());
 		brickInfoMap.put("ifThenLogicEndBrick", brickInfo);
 
 		brickInfo = new BrickInfo(IfOnEdgeBounceBrick.class.getSimpleName());
@@ -873,6 +895,10 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 				|| sourceNode.getNodeName().equals("ifLogicElseBrick")
 				|| sourceNode.getNodeName().equals("ifLogicEndBrick")) {
 			return;
+		} else if (sourceNode.getNodeName().equals("loopEndlessSimpleBrick") || sourceNode.getNodeName().equals("loopEndSimpleBrick")
+				|| sourceNode.getNodeName().equals("ifLogicElseSimpleBrick")
+				|| sourceNode.getNodeName().equals("ifLogicEndSimpleBrick")) {
+			return;
 		}
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
 		for (int i = 0; i < namedNodeMap.getLength(); i++) {
@@ -963,6 +989,10 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 								} else if (brickChild.getNodeName().equals("loopEndBrick")
 										|| brickChild.getNodeName().equals("ifElseBrick")
 										|| brickChild.getNodeName().equals("ifEndBrick")) {
+									continue;
+								} else if (brickChild.getNodeName().equals("loopEndSimpleBrick")
+										|| brickChild.getNodeName().equals("ifElseSimpleBrick")
+										|| brickChild.getNodeName().equals("ifEndSimpleBrick")) {
 									continue;
 								} else {
 									newBrickNode.appendChild(brickChild);

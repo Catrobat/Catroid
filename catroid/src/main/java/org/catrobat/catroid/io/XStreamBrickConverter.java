@@ -32,7 +32,10 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.mapper.Mapper;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.utils.SimpleBrickUtil;
 
 public class XStreamBrickConverter extends ReflectionConverter {
 
@@ -52,13 +55,17 @@ public class XStreamBrickConverter extends ReflectionConverter {
 
 	@Override
 	protected void doMarshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
-		writer.addAttribute(TYPE, source.getClass().getSimpleName());
+		if (SimpleBrickUtil.uploadProject || !SettingsActivity.getAccessibilitySimpleBrickEnabled(CatroidApplication
+				.getAppContext())) {
+			writer.addAttribute(TYPE, SimpleBrickUtil.convertXML(source));
+		} else {
+			writer.addAttribute(TYPE, source.getClass().getSimpleName());
+		}
 		super.doMarshal(source, writer, context);
 	}
 
 	@Override
 	public Object doUnmarshal(Object result, HierarchicalStreamReader reader, UnmarshallingContext context) {
-
 		String type = reader.getAttribute(TYPE);
 		for (int index = 0; index < BRICKS_PACKAGE_NAMES.length; index++) {
 			try {

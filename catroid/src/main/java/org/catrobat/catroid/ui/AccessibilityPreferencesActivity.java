@@ -190,6 +190,11 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 		dragndropDelay.summary = getResources().getString(R.string.preference_access_summary_dragndrop_delay);
 		list.add(dragndropDelay);
 
+		AccessibilityCheckbox simpleBrick = new AccessibilityCheckbox();
+		simpleBrick.title = getResources().getString(R.string.preference_access_title_simple_brick);
+		simpleBrick.summary = getResources().getString(R.string.preference_access_summary_simple_brick);
+		list.add(simpleBrick);
+
 		return list;
 	}
 
@@ -305,6 +310,7 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 		String largeElementSpacing = getResources().getString(R.string.preference_access_title_largeelementspacing);
 		String starterBricks = getResources().getString(R.string.preference_access_title_starter_bricks);
 		String dragDropDelay = getResources().getString(R.string.preference_access_title_dragndrop_delay);
+		String simpleBrick = getResources().getString(R.string.preference_access_title_simple_brick);
 
 		for (int i = 0; i < adapter.getCount(); i++) {
 			AccessibilityCheckbox checkbox = adapter.getItem(i);
@@ -328,6 +334,8 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 				activePreferences += starterBricks + ",";
 			} else if (checkbox.title.equals(dragDropDelay)) {
 				activePreferences += dragDropDelay + ",";
+			} else if (checkbox.title.equals(simpleBrick)) {
+				activePreferences += simpleBrick + ",";
 			}
 		}
 
@@ -410,6 +418,8 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 				SettingsActivity.setAccessibilityStarterBricksEnabled(context, checkbox.value);
 			} else if (checkbox.title.equals(getResources().getString(R.string.preference_access_title_dragndrop_delay))) {
 				SettingsActivity.setAccessibilityDragndropDelayEnabled(context, checkbox.value);
+			} else if (checkbox.title.equals(getResources().getString(R.string.preference_access_title_simple_brick))) {
+				SettingsActivity.setAccessibilitySimpleBrickEnabled(context, checkbox.value);
 			}
 		}
 		if (selectedFontface == FONTFACE_STANDARD) {
@@ -441,6 +451,8 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 				SettingsActivity.setAccessibilityMyProfileStarterBricksEnabled(context, checkbox.value);
 			} else if (checkbox.title.equals(getResources().getString(R.string.preference_access_title_dragndrop_delay))) {
 				SettingsActivity.setAccessibilityMyProfileDragndropDelayEnabled(context, checkbox.value);
+			} else if (checkbox.title.equals(getResources().getString(R.string.preference_access_title_simple_brick))) {
+				SettingsActivity.setAccessibilityMyProfileSimpleBrickEnabled(context, checkbox.value);
 			}
 		}
 		if (selectedFontface == FONTFACE_STANDARD) {
@@ -472,6 +484,8 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 				checkbox.value = SettingsActivity.getAccessibilityStarterBricksEnabled(context);
 			} else if (checkbox.title.equals(getResources().getString(R.string.preference_access_title_dragndrop_delay))) {
 				checkbox.value = SettingsActivity.getAccessibilityDragndropDelayEnabled(context);
+			} else if (checkbox.title.equals(getResources().getString(R.string.preference_access_title_simple_brick))) {
+				checkbox.value = SettingsActivity.getAccessibilitySimpleBrickEnabled(context);
 			}
 		}
 		if (SettingsActivity.getAccessibilityFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_STANDARD)) {
@@ -503,6 +517,8 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 				checkbox.value = SettingsActivity.getAccessibilityMyProfileStarterBricksEnabled(context);
 			} else if (checkbox.title.equals(getResources().getString(R.string.preference_access_title_dragndrop_delay))) {
 				checkbox.value = SettingsActivity.getAccessibilityMyProfileDragndropDelayEnabled(context);
+			} else if (checkbox.title.equals(getResources().getString(R.string.preference_access_title_simple_brick))) {
+				checkbox.value = SettingsActivity.getAccessibilityMyProfileSimpleBrickEnabled(context);
 			}
 		}
 		if (SettingsActivity.getAccessibilityMyProfileFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_STANDARD)) {
@@ -632,6 +648,12 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 				selectedFontface = FONTFACE_SERIF;
 			} else if (fontface.equals(SettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 				selectedFontface = FONTFACE_DYSLEXIC;
+			}
+		} else if (attributeName.equals(SettingsActivity.ACCESS_SIMPLE_BRICK)) {
+			AccessibilityCheckbox checkBox = getAccessibilityCheckBox(getResources().getString(
+					R.string.preference_access_title_simple_brick));
+			if (checkBox != null) {
+				checkBox.value = checkBoxValue;
 			}
 		}
 	}

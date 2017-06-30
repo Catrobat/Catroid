@@ -76,8 +76,10 @@ import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginSimpleBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginSimpleBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
@@ -111,6 +113,7 @@ import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
+import org.catrobat.catroid.content.bricks.RepeatUntilSimpleBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
@@ -146,6 +149,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
+import org.catrobat.catroid.content.bricks.WaitUntilSimpleBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
@@ -179,6 +183,7 @@ import java.util.Locale;
 public class CategoryBricksFactory {
 
 	private static boolean starterBricksEnabled;
+	private static boolean simpleBricksEnabled;
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
 
@@ -263,16 +268,47 @@ public class CategoryBricksFactory {
 		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
 
+		FormulaElement defaultSimpleIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.GREATER_THAN
+				.toString(), null);
+		defaultSimpleIf.setLeftChild(new FormulaElement(ElementType.SENSOR, Sensors.LOUDNESS.name(), null));
+		defaultSimpleIf.setRightChild(new FormulaElement(ElementType.NUMBER, "10", null));
+
+		FormulaElement defaultFirstIf = new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.LOUDNESS.name(), null);
+		FormulaElement defaultSecondIf = new FormulaElement(FormulaElement.ElementType.NUMBER, "10", null);
+		FormulaElement defaultOperatorIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.GREATER_THAN.toString(), null);
+
 		List<Brick> controlBrickList = new ArrayList<>();
 		if (!starterBricksEnabled) {
 			controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 			controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 			controlBrickList.add(new ForeverBrick());
+
 			controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
+			if (getSimpleBricksEnabled()) {
+				controlBrickList.add(new IfLogicBeginSimpleBrick(new Formula(defaultSimpleIf), new Formula(defaultFirstIf),
+						new Formula(defaultSecondIf), new Formula(defaultOperatorIf)));
+			}
+
 			controlBrickList.add(new IfThenLogicBeginBrick(new Formula(defaultIf)));
+			if (getSimpleBricksEnabled()) {
+				controlBrickList.add(new IfThenLogicBeginSimpleBrick(new Formula(defaultSimpleIf), new Formula(defaultFirstIf),
+						new Formula(defaultSecondIf), new Formula(defaultOperatorIf)));
+			}
+
 			controlBrickList.add(new WaitUntilBrick(new Formula(defaultIf)));
+			if (getSimpleBricksEnabled()) {
+				controlBrickList.add(new WaitUntilSimpleBrick(new Formula(defaultSimpleIf), new Formula(defaultFirstIf),
+						new Formula(defaultSecondIf), new Formula(defaultOperatorIf)));
+			}
+
 			controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
+
 			controlBrickList.add(new RepeatUntilBrick(new Formula(defaultIf)));
+			if (getSimpleBricksEnabled()) {
+				controlBrickList.add(new RepeatUntilSimpleBrick(new Formula(defaultSimpleIf), new Formula(defaultFirstIf),
+						new Formula(defaultSecondIf), new Formula(defaultOperatorIf)));
+			}
+
 			controlBrickList.add(new SceneTransitionBrick(null));
 			controlBrickList.add(new SceneStartBrick(null));
 
@@ -748,5 +784,13 @@ public class CategoryBricksFactory {
 
 	public static boolean getStarterBricksEnabled() {
 		return starterBricksEnabled;
+	}
+
+	public static void enableSimpleBricks() {
+		simpleBricksEnabled = true;
+	}
+
+	public static boolean getSimpleBricksEnabled() {
+		return simpleBricksEnabled;
 	}
 }
