@@ -58,7 +58,7 @@ import org.catrobat.catroid.utils.TextSizeUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PointToBrick extends BrickBaseType {
+public class PointToBrick extends BrickBaseType implements BrickWithSpriteReference {
 
 	public static final String EXTRA_NEW_SPRITE_NAME = "EXTRA_NEW_SPRITE_NAME";
 
@@ -361,19 +361,21 @@ public class PointToBrick extends BrickBaseType {
 		}
 	}
 
-	public Sprite getPointedObject() {
+	@Override
+	public Sprite getSprite() {
 		return pointedObject;
 	}
 
-	public void setPointedObject(Sprite pointedObject) {
-		this.pointedObject = pointedObject;
+	@Override
+	public void setSprite(Sprite sprite) {
+		this.pointedObject = sprite;
 	}
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
 		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpackHiddenSprite(getPointedObject());
-		setPointedObject(backPackedSprite);
+		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpackHiddenSprite(getSprite());
+		setSprite(backPackedSprite);
 		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}
 }
