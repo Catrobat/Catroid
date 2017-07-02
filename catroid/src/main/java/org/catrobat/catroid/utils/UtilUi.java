@@ -36,7 +36,6 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.NoWebConnectionDialogBuilder;
 
 public final class UtilUi {

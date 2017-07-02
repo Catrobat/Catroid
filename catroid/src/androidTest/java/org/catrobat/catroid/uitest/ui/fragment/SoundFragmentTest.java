@@ -58,8 +58,8 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.UtilWebConnection;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -95,12 +95,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private SoundInfo soundInfo2;
 
 	private File externalSoundFile;
-	private File soundFile;
 
 	private List<SoundInfo> soundInfoList;
-
-	private CheckBox firstCheckBox;
-	private CheckBox secondCheckBox;
 
 	private ProjectManager projectManager;
 
@@ -128,7 +124,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		projectManager = ProjectManager.getInstance();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "longsound.mp3",
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
@@ -1779,8 +1775,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
-		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
+		CheckBox firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
+		CheckBox secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}

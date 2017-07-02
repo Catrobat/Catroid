@@ -41,9 +41,6 @@ public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (context == null) {
-			return;
-		}
 	}
 
 	@Override

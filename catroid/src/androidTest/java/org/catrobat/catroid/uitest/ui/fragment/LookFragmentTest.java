@@ -62,8 +62,8 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilUi;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.UtilWebConnection;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -109,9 +109,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private File paintroidImageFile;
 
 	private List<LookData> lookDataList;
-
-	private CheckBox firstCheckBox;
-	private CheckBox secondCheckBox;
 
 	private ProjectManager projectManager;
 
@@ -2142,8 +2139,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
-		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
+		CheckBox firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
+		CheckBox secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}
