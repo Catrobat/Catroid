@@ -182,7 +182,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 				Utils.showErrorDialog(getActivity(), R.string.error_load_project);
 			} catch (OutdatedVersionProjectException outdatedVersionException) {
 				Log.e(TAG, "Projectcode version is outdated", outdatedVersionException);
-				Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
+				Utils.showErrorDialog(getActivity(), R.string.error_outdated_version);
 			} catch (CompatibilityProjectException compatibilityException) {
 				Log.e(TAG, "Project is not compatible", compatibilityException);
 				Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);

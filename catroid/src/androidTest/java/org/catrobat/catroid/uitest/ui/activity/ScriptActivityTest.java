@@ -205,7 +205,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		solo.sendKey(Solo.MENU);
 		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
 		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
-		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
+		assertFalse("about is visible", solo.waitForText(solo.getString(R.string.main_menu_about), 1, 1000, false));
 	}
 
 	private void checkMainMenuButton() {

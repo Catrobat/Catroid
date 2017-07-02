@@ -63,7 +63,7 @@ public class AboutDialogTest {
 	@Test
 	public void aboutDialogTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-		onView(withText(R.string.main_menu_about_pocketcode)).perform(click());
+		onView(withText(R.string.main_menu_about)).perform(click());
 
 		onView(withText(R.string.dialog_about_title))
 				.check(matches(isDisplayed()));
@@ -71,7 +71,7 @@ public class AboutDialogTest {
 		onView(withText(R.string.dialog_about_license_info))
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_about_pocketcode_license_link_text))
+		onView(withText(R.string.dialog_about_license_link_text))
 				.check(matches(isDisplayed()));
 
 		onView(withText(R.string.dialog_about_catrobat_link_text))

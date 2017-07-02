@@ -54,7 +54,7 @@ public class SendReportDialog extends DialogFragment {
 			}
 		});
 		Dialog reportDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(getString(R.string
-				.pocket_code_has_crashed))
+				.app_has_crashed))
 				.setPositiveButton(R.string.crash_dialog_send, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
