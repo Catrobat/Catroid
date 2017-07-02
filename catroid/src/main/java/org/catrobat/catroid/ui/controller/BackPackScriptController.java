@@ -219,9 +219,9 @@ public final class BackPackScriptController {
 
 	private void handlePointToBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
 		PointToBrick brick = (PointToBrick) brickOfScript;
-		Sprite unpackedPointToSprite = BackPackSpriteController.getInstance().unpack(brick.getPointedObject(),
+		Sprite unpackedPointToSprite = BackPackSpriteController.getInstance().unpack(brick.getSprite(),
 				deleteUnpackedItems, true, true, false);
-		brick.setPointedObject(unpackedPointToSprite);
+		brick.setSprite(unpackedPointToSprite);
 	}
 
 	private void handleUserBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
