@@ -51,10 +51,10 @@ public class LegoNxtMotorTurnAngleBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		brickPosition = 1;
 		final int initialAngle = 90;
 		BrickTestUtils.createProjectAndGetStartScript("legoNxtMotorTurnAngleBrickTest1").addBrick(new
 				LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, initialAngle));
-		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 

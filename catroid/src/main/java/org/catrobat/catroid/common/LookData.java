@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.sensing.CollisionInformation;
+import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -95,7 +96,7 @@ public class LookData implements Serializable, Cloneable {
 
 	@Override
 	public int hashCode() {
-		return name.hashCode() + fileName.hashCode() + super.hashCode();
+		return fileName.hashCode() + super.hashCode();
 	}
 
 	@Override
@@ -113,6 +114,7 @@ public class LookData implements Serializable, Cloneable {
 				ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
 			} catch (FileNotFoundException fileNotFoundexception) {
 				Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
+				CrashReporter.logException(fileNotFoundexception);
 			}
 		}
 		return cloneLookData;
@@ -141,6 +143,7 @@ public class LookData implements Serializable, Cloneable {
 				}
 			} catch (NullPointerException nullPointerException) {
 				Log.e(TAG, "gdx.files throws NullPointerException", nullPointerException);
+				CrashReporter.logException(nullPointerException);
 			}
 		}
 		return pixmap;

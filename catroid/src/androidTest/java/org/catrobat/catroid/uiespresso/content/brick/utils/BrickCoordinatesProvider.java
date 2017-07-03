@@ -45,7 +45,7 @@ public enum BrickCoordinatesProvider implements CoordinatesProvider{
 			final int[] viewsCoordinates = new int[2];
 			view.getLocationOnScreen(viewsCoordinates);
 			int displayHeight = view.getContext().getResources().getDisplayMetrics().heightPixels;
-			float dragDestinationCoordinate = viewsCoordinates[1] + view.getHeight() * 2.2f;
+			float dragDestinationCoordinate = viewsCoordinates[1] + view.getHeight() * (HEIGHT_MULTIPLICATOR + 1);
 			if (dragDestinationCoordinate > displayHeight) {
 				dragDestinationCoordinate = displayHeight;
 			}
@@ -60,7 +60,7 @@ public enum BrickCoordinatesProvider implements CoordinatesProvider{
 		public float[] calculateCoordinates(View view) {
 			final int[] viewsCoordinates = new int[2];
 			view.getLocationOnScreen(viewsCoordinates);
-			float dragDestinationCoordinate = viewsCoordinates[1] - view.getHeight() * 1.2f;
+			float dragDestinationCoordinate = viewsCoordinates[1] - view.getHeight() * HEIGHT_MULTIPLICATOR;
 			if (dragDestinationCoordinate < 0) {
 				dragDestinationCoordinate = 0;
 			}
@@ -71,4 +71,8 @@ public enum BrickCoordinatesProvider implements CoordinatesProvider{
 	};
 
 	private static final String TAG = BrickCoordinatesProvider.class.getSimpleName();
+
+	//since it is unknown how tall the brick below/above is, we assume that dragging the brick 1.2 times its own height
+	//should be sufficient to move it over the neighboring brick
+	private static final float HEIGHT_MULTIPLICATOR = 1.2f;
 }

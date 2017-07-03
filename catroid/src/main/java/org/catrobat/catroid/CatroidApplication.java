@@ -29,6 +29,8 @@ import android.util.Log;
 
 import com.parrot.freeflight.settings.ApplicationSettings;
 
+import org.catrobat.catroid.utils.CrashReporter;
+
 public class CatroidApplication extends MultiDexApplication {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
@@ -43,6 +45,7 @@ public class CatroidApplication extends MultiDexApplication {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		CrashReporter.initialize(this);
 		Log.d(TAG, "CatroidApplication onCreate");
 		settings = new ApplicationSettings(this);
 		CatroidApplication.context = getApplicationContext();

@@ -47,13 +47,13 @@ public class LegoEv3PlayToneBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		brickPosition = 1;
 		int startFrequency = 1;
 		float startDuration = 1;
 		int startVolume = 100;
 
 		BrickTestUtils.createProjectAndGetStartScript("LegoEv3PlayToneBrickTest")
 				.addBrick(new LegoEv3PlayToneBrick(startFrequency, startDuration, startVolume));
-		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 

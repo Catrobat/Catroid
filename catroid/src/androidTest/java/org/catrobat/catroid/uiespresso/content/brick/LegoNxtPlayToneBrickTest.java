@@ -47,9 +47,9 @@ public class LegoNxtPlayToneBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		brickPosition = 1;
 		BrickTestUtils.createProjectAndGetStartScript("legoNxtPlayToneBrickTest1").addBrick(new
 				LegoNxtPlayToneBrick());
-		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 

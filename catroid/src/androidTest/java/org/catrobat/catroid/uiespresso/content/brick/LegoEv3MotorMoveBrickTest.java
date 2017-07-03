@@ -48,11 +48,10 @@ public class LegoEv3MotorMoveBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		brickPosition = 1;
 		int initialSpeed = 5;
-
 		BrickTestUtils.createProjectAndGetStartScript("legoMoveBrickTest1")
 				.addBrick(new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A, initialSpeed));
-		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 

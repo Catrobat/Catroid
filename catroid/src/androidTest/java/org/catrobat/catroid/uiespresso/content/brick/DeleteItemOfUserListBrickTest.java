@@ -45,9 +45,10 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static junit.framework.Assert.assertEquals;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class DeleteItemOfUserListBrickTest {
@@ -60,11 +61,10 @@ public class DeleteItemOfUserListBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		brickPosition = 1;
 		deleteItemOfUserListBrick = new DeleteItemOfUserListBrick();
-
 		BrickTestUtils.createProjectAndGetStartScript("deleteItemOfUserListBrickTest1")
 				.addBrick(deleteItemOfUserListBrick);
-		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -100,17 +100,17 @@ public class DeleteItemOfUserListBrickTest {
 				.performNewVariableInitial(firstUserListName);
 
 		userList = deleteItemOfUserListBrick.getUserList();
-		assertNotNull("UserList is null", userList);
-		assertTrue("UserList Name not as expected", userList.getName().equals(firstUserListName));
+		assertNotNull(userList);
+		assertEquals(userList.getName(), firstUserListName);
 
+		// todo: CAT-2359 to fix this
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
 				.performNewVariable(secondUserListName)
 				.checkShowsText(secondUserListName);
 
 		userList = deleteItemOfUserListBrick.getUserList();
-		assertNotNull("UserList is null", userList);
-		// todo: CAT-2359 to fix this
-		assertTrue("UserList Name not as expected", userList.getName().equals(secondUserListName));
+		assertNotNull(userList);
+		assertEquals(userList.getName(), secondUserListName);
 
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
 				.perform(click());
@@ -126,8 +126,8 @@ public class DeleteItemOfUserListBrickTest {
 				.check(doesNotExist());
 
 		userList = deleteItemOfUserListBrick.getUserList();
-		assertNotNull("UserList is null", userList);
-		assertTrue("UserList Name not as expected", userList.getName().equals(firstUserListName));
+		assertNotNull(userList);
+		assertEquals(userList.getName(), firstUserListName);
 	}
 
 	@Test

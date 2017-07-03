@@ -28,7 +28,6 @@ import android.nfc.NdefMessage;
 import junit.framework.Assert;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.content.Project;
@@ -43,15 +42,17 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uiespresso.util.UiNFCTestUtils;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.List;
+
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST1;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST2;
 
 public class WhenNfcBrickStageTest {
 	@Rule
@@ -77,11 +78,11 @@ public class WhenNfcBrickStageTest {
 		ndefMessage2 = NfcHandler.createMessage(UiNFCTestUtils.NFC_NDEF_STRING_2, BrickValues.TNF_MIME_MEDIA);
 
 		firstTagData = new NfcTagData();
-		firstTagData.setNfcTagName(UiTestUtils.getResourcesString(R.string.test_tag_name_1));
+		firstTagData.setNfcTagName(TAG_NAME_TEST1);
 		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
 
 		secondTagData = new NfcTagData();
-		secondTagData.setNfcTagName(UiTestUtils.getResourcesString(R.string.test_tag_name_2));
+		secondTagData.setNfcTagName(TAG_NAME_TEST2);
 		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
 	}
 

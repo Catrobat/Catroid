@@ -52,10 +52,10 @@ public class LegoEv3MotorTurnAngleBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		int startAngle = 180;
-		BrickTestUtils.createProjectAndGetStartScript("LegoEv3MotorTurnAngleBrickTest").addBrick(new
-				LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A, startAngle));
 		brickPosition = 1;
+		int startAngle = 180;
+		BrickTestUtils.createProjectAndGetStartScript("LegoEv3MotorTurnAngleBrickTest")
+				.addBrick(new LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A, startAngle));
 		baseActivityTestRule.launchActivity(null);
 	}
 

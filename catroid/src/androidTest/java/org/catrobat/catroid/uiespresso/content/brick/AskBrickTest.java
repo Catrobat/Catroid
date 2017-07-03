@@ -54,14 +54,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
 import static org.catrobat.catroid.uiespresso.util.UserVariableTestUtils.userVariableEqualsWithinTimeout;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 
 @RunWith(AndroidJUnit4.class)
 public class AskBrickTest {
 
 	private UserVariable userVariable;
-	private Project project;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -76,12 +74,12 @@ public class AskBrickTest {
 	@Test
 	public void testAskBrick() {
 		int askBrickPosition = 1;
-		String question = "Will it work?";
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 
 		onBrickAtPosition(askBrickPosition).checkShowsText(R.string.brick_ask_label);
 		onBrickAtPosition(askBrickPosition).checkShowsText(R.string.brick_ask_store);
 
+		String question = "Will it work?";
 		onBrickAtPosition(askBrickPosition).onFormulaTextField(R.id.brick_ask_question_edit_text)
 				.performEnterString(question)
 				.checkShowsText(question);
@@ -92,12 +90,12 @@ public class AskBrickTest {
 		String testAnswer = "";
 		onView(withId(R.id.button_play))
 				.perform(click());
-		onView(isRoot()).perform(CustomActions.wait(1000));
+		onView(isRoot()).perform(CustomActions.wait(500));
 
 		onView(withText(R.string.brick_ask_dialog_submit))
 				.perform(click());
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, testAnswer, 2000));
+		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, testAnswer, 1000));
 	}
 
 	@Test
@@ -105,18 +103,19 @@ public class AskBrickTest {
 		String testAnswer = "TestA";
 		onView(withId(R.id.button_play))
 				.perform(click());
+		onView(isRoot()).perform(CustomActions.wait(500));
 
-		onView(allOf(withClassName(endsWith("EditText"))))
+		onView(withClassName(endsWith("EditText")))
 				.perform(typeText(testAnswer));
 		onView(withText(R.string.brick_ask_dialog_submit))
 				.perform(click());
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, testAnswer, 2000));
+		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, testAnswer, 1000));
 	}
 
 	private void createProject(String projectName) {
 		String userVariableName = "TempVariable";
-		project = new Project(null, projectName);
+		Project project = new Project(null, projectName);
 		Sprite sprite1 = new Sprite("testSprite");
 		Script sprite1StartScript = new StartScript();
 		sprite1StartScript.addBrick(new AskBrick(getResourcesString(R.string.brick_ask_default_question)));

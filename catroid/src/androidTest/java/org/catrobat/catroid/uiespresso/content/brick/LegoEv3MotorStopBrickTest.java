@@ -51,14 +51,14 @@ public class LegoEv3MotorStopBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("LegoEv3MotorStopBrickTest").addBrick(new
-				LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));
 		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("LegoEv3MotorStopBrickTest")
+				.addBrick(new LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Test
-	@Flaky(3)
+	@Flaky
 	public void legoEv3MotorStopBrickTest() {
 		onBrickAtPosition(0).checkShowsText("When program starts");
 		onBrickAtPosition(brickPosition).checkShowsText("Stop EV3 motor");

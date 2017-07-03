@@ -51,8 +51,8 @@ public class StopScriptBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("StopScriptBrick").addBrick(new StopScriptBrick(0));
 		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("StopScriptBrick").addBrick(new StopScriptBrick(0));
 		baseActivityTestRule.launchActivity(null);
 	}
 

@@ -48,9 +48,9 @@ public class LegoEV3SetLedBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
+		brickPosition = 1;
 		BrickTestUtils.createProjectAndGetStartScript("legoEV3SetLedBrickTest")
 				.addBrick(new LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_GREEN));
-		brickPosition = 1;
 		baseActivityTestRule.launchActivity(null);
 	}
 

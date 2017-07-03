@@ -23,44 +23,20 @@
 
 package org.catrobat.catroid.ui;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
-import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.utils.CrashReporter;
 
 public class BaseExceptionHandler implements
 		java.lang.Thread.UncaughtExceptionHandler {
 
 	private static final String TAG = BaseExceptionHandler.class.getSimpleName();
 
-	public static final int EXIT_CODE = 10;
-	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
-	public static final String EXCEPTION_FOR_REPORT = "EXCEPTION_FOR_REPORT";
-
-	private final SharedPreferences preferences;
-
-	public BaseExceptionHandler(Activity context) {
-		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-	}
+	private static final int EXIT_CODE = 10;
 
 	public void uncaughtException(Thread thread, Throwable exception) {
 		Log.e(TAG, "unhandled exception", exception);
-
-		SharedPreferences.Editor prefsEditor = preferences.edit();
-		if (BuildConfig.FIREBASE_CRASH_REPORT_ENABLED) {
-			Gson gson = new Gson();
-			String check = preferences.getString(BaseExceptionHandler.EXCEPTION_FOR_REPORT, "");
-			if (check.isEmpty()) {
-				String json = gson.toJson(exception);
-				prefsEditor.putString(EXCEPTION_FOR_REPORT, json);
-				prefsEditor.commit();
-			}
-		}
-		preferences.edit().putBoolean(RECOVERED_FROM_CRASH, true).commit();
+		CrashReporter.storeUnhandledException(exception);
 		System.exit(EXIT_CODE);
 		android.os.Process.killProcess(android.os.Process.myPid());
 	}

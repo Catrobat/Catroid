@@ -23,49 +23,35 @@
 
 package org.catrobat.catroid.uiespresso.util.wrappers;
 
-import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.FailureHandler;
 import android.support.test.espresso.Root;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.AdapterViewProtocol;
-import android.view.View;
 
 import org.hamcrest.Matcher;
 
-public abstract class DataInteractionWrapper {
+public abstract class ViewInteractionWrapper {
 
-	protected DataInteraction dataInteraction;
+	protected ViewInteraction viewInteraction;
 
-	public DataInteractionWrapper(DataInteraction dataInteraction) {
-		this.dataInteraction = dataInteraction;
+	public ViewInteractionWrapper(ViewInteraction viewInteraction) {
+		this.viewInteraction = viewInteraction;
 	}
 
-	public final DataInteraction onChildView(Matcher<View> childMatcher) {
-		return dataInteraction.onChildView(childMatcher);
+	public final ViewInteraction perform(final ViewAction... viewActions) {
+		return viewInteraction.perform(viewActions);
 	}
 
-	public final DataInteraction inRoot(Matcher<Root> rootMatcher) {
-		return dataInteraction.inRoot(rootMatcher);
+	public final ViewInteraction withFailureHandler(FailureHandler failureHandler) {
+		return viewInteraction.withFailureHandler(failureHandler);
 	}
 
-	public final DataInteraction inAdapterView(Matcher<View> adapterMatcher) {
-		return dataInteraction.inAdapterView(adapterMatcher);
+	public final ViewInteraction inRoot(Matcher<Root> rootMatcher) {
+		return viewInteraction.inRoot(rootMatcher);
 	}
 
-	public final DataInteraction atPosition(Integer atPosition) {
-		return dataInteraction.atPosition(atPosition);
-	}
-
-	public final DataInteraction usingAdapterViewProtocol(AdapterViewProtocol adapterViewProtocol) {
-		return dataInteraction.usingAdapterViewProtocol(adapterViewProtocol);
-	}
-
-	public final ViewInteraction perform(ViewAction... actions) {
-		return dataInteraction.perform(actions);
-	}
-
-	public final ViewInteraction check(ViewAssertion assertion) {
-		return dataInteraction.check(assertion);
+	public final ViewInteraction check(final ViewAssertion viewAssert) {
+		return viewInteraction.check(viewAssert);
 	}
 }

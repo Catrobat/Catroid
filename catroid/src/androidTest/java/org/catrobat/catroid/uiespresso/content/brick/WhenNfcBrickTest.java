@@ -23,9 +23,12 @@
 
 package org.catrobat.catroid.uiespresso.content.brick;
 
+import android.app.Activity;
 import android.nfc.NdefMessage;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
+import android.widget.ListView;
 
 import junit.framework.Assert;
 
@@ -48,12 +51,14 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.NfcTagAdapter;
+import org.catrobat.catroid.ui.adapter.NfcTagBaseAdapter;
+import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uiespresso.util.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
-import org.catrobat.catroid.uiespresso.util.matchers.NFCTagDataNameMatchers;
-import org.catrobat.catroid.uiespresso.util.matchers.NFCTagListMatchers;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -81,8 +86,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.util.UiNFCTestUtils.checkNfcSpinnerContains;
-import static org.catrobat.catroid.uiespresso.util.UiNFCTestUtils.clickSpinnerValueOnBrick;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST1;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST2;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.onNfcBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
@@ -137,12 +143,12 @@ public class WhenNfcBrickTest {
 		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		NfcTagData firstTagData = new NfcTagData();
 
-		firstTagData.setNfcTagName(UiTestUtils.getResourcesString(R.string.test_tag_name_1));
+		firstTagData.setNfcTagName(TAG_NAME_TEST1);
 		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
 		tagDataList.add(firstTagData);
 
 		NfcTagData secondTagData = new NfcTagData();
-		secondTagData.setNfcTagName(UiTestUtils.getResourcesString(R.string.test_tag_name_2));
+		secondTagData.setNfcTagName(TAG_NAME_TEST2);
 		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
 		tagDataList.add(secondTagData);
 
@@ -173,18 +179,21 @@ public class WhenNfcBrickTest {
 
 	@Test
 	public void testAddNewTag() {
-		List<String> spinnerValuesResourceIdsContained = getStringsFromResourceIds(
+		List<String> spinnerValuesStringsContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
-				R.string.new_nfc_tag,
-				R.string.test_tag_name_1,
-				R.string.test_tag_name_2);
-		List<String> spinnerValuesResourceIdsNotContained = Arrays.asList(
+				R.string.new_nfc_tag);
+		spinnerValuesStringsContained.addAll(Arrays.asList(TAG_NAME_TEST1, TAG_NAME_TEST2));
+
+		List<String> spinnerValuesStringsNotContained = Arrays.asList(
 				UiNFCTestUtils.THIRD_TEST_TAG_ID,
 				UiNFCTestUtils.FOURTH_TEST_TAG_ID);
-		checkNfcSpinnerContains(nfcBrickPosition, spinnerValuesResourceIdsContained, spinnerValuesResourceIdsNotContained);
 
-		UiNFCTestUtils.gotoNfcFragment(nfcBrickPosition);
-		NfcTagAdapter adapter = UiNFCTestUtils.getNfcTagAdapter(baseActivityTestRule.getActivity());
+		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.checkTagNamesAvailable(spinnerValuesStringsContained)
+				.checkTagNamesNotDisplayed(spinnerValuesStringsNotContained);
+
+		gotoNfcFragment(nfcBrickPosition);
+		NfcTagAdapter adapter = getNfcTagAdapter(baseActivityTestRule.getActivity());
 		adapter.setShowDetails(true);
 
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.THIRD_TEST_TAG_ID, null, null, baseActivityTestRule.getActivity());
@@ -196,16 +205,19 @@ public class WhenNfcBrickTest {
 		assertEquals(3, numberOfTagsInList);
 		pressBack();
 
-		spinnerValuesResourceIdsContained = getStringsFromResourceIds(
+		spinnerValuesStringsContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
 				R.string.new_nfc_tag,
-				R.string.test_tag_name_1,
-				R.string.test_tag_name_2,
 				R.string.default_tag_name);
-		spinnerValuesResourceIdsNotContained = Arrays.asList(UiNFCTestUtils.FOURTH_TEST_TAG_ID);
-		checkNfcSpinnerContains(nfcBrickPosition, spinnerValuesResourceIdsContained, spinnerValuesResourceIdsNotContained);
+		spinnerValuesStringsContained.addAll(Arrays.asList(TAG_NAME_TEST1, TAG_NAME_TEST2));
 
-		UiNFCTestUtils.gotoNfcFragment(nfcBrickPosition);
+		spinnerValuesStringsNotContained = Arrays.asList(UiNFCTestUtils.FOURTH_TEST_TAG_ID);
+
+		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.checkTagNamesAvailable(spinnerValuesStringsContained)
+				.checkTagNamesNotDisplayed(spinnerValuesStringsNotContained);
+
+		gotoNfcFragment(nfcBrickPosition);
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.FOURTH_TEST_TAG_ID, null, null, baseActivityTestRule.getActivity());
 		onView(withText(NfcHandler.byteArrayToHex(UiNFCTestUtils.FOURTH_TEST_TAG_ID.getBytes())))
 				.check(matches(isDisplayed()));
@@ -214,15 +226,18 @@ public class WhenNfcBrickTest {
 
 		pressBack();
 
-		spinnerValuesResourceIdsContained = getStringsFromResourceIds(
+		spinnerValuesStringsContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
 				R.string.new_nfc_tag,
-				R.string.test_tag_name_1,
-				R.string.test_tag_name_2,
 				R.string.default_tag_name);
-		spinnerValuesResourceIdsContained.add(UiTestUtils.getResourcesString(R.string.default_tag_name) + "_1");
-		spinnerValuesResourceIdsNotContained = Arrays.asList();
-		checkNfcSpinnerContains(nfcBrickPosition, spinnerValuesResourceIdsContained, spinnerValuesResourceIdsNotContained);
+		spinnerValuesStringsContained.addAll(Arrays.asList(TAG_NAME_TEST1, TAG_NAME_TEST2));
+
+		spinnerValuesStringsContained.add(UiTestUtils.getResourcesString(R.string.default_tag_name) + "_1");
+		spinnerValuesStringsNotContained = Arrays.asList();
+
+		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.checkTagNamesAvailable(spinnerValuesStringsContained)
+				.checkTagNamesNotDisplayed(spinnerValuesStringsNotContained);
 
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
 				.perform(click());
@@ -232,7 +247,7 @@ public class WhenNfcBrickTest {
 
 	@Test
 	public void testNfcSensorVariable() throws InterpretationException {
-		UiNFCTestUtils.gotoNfcFragment(nfcBrickPosition);
+		gotoNfcFragment(nfcBrickPosition);
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.FIRST_TEST_TAG_ID, ndefMessage1, null, baseActivityTestRule.getActivity());
 
 		onView(withId(R.id.button_play))
@@ -247,7 +262,8 @@ public class WhenNfcBrickTest {
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
 				.checkShowsText(R.string.brick_when_nfc_default_all);
 
-		clickSpinnerValueOnBrick(R.id.brick_when_nfc_spinner, nfcBrickPosition, R.string.test_tag_name_1);
+		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.performSelect(TAG_NAME_TEST1);
 
 		onView(withId(R.id.button_play))
 				.perform(click());
@@ -258,9 +274,10 @@ public class WhenNfcBrickTest {
 		pressBack();
 
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
-				.checkShowsText(R.string.test_tag_name_1);
+				.checkShowsText(TAG_NAME_TEST1);
 
-		clickSpinnerValueOnBrick(R.id.brick_when_nfc_spinner, nfcBrickPosition, R.string.test_tag_name_2);
+		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.performSelect(TAG_NAME_TEST2);
 
 		onView(withId(R.id.button_play))
 				.perform(click());
@@ -271,28 +288,34 @@ public class WhenNfcBrickTest {
 		pressBack();
 
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
-				.checkShowsText(R.string.test_tag_name_2);
+				.checkShowsText(TAG_NAME_TEST2);
 	}
 
 	@Test
 	public void testSpinnerUpdatesDelete() {
-		List<String> spinnerValuesResourceIdsContained = getStringsFromResourceIds(
+		List<String> spinnerValuesStringsContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
-				R.string.new_nfc_tag,
-				R.string.test_tag_name_1,
-				R.string.test_tag_name_2);
-		List<String> spinnerValuesResourceIdsNotContained = Arrays.asList();
-		checkNfcSpinnerContains(nfcBrickPosition, spinnerValuesResourceIdsContained, spinnerValuesResourceIdsNotContained);
-		UiNFCTestUtils.gotoNfcFragment(nfcBrickPosition);
-		contextMenuActionDelete(UiTestUtils.getResourcesString(R.string.test_tag_name_1));
+				R.string.new_nfc_tag);
+		spinnerValuesStringsContained.addAll(Arrays.asList(TAG_NAME_TEST1, TAG_NAME_TEST2));
+
+		List<String> spinnerValuesStringsNotContained = Arrays.asList();
+
+		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.checkTagNamesAvailable(spinnerValuesStringsContained)
+				.checkTagNamesNotDisplayed(spinnerValuesStringsNotContained);
+
+		gotoNfcFragment(nfcBrickPosition);
+		contextMenuActionDelete(TAG_NAME_TEST1);
 		pressBack();
-		spinnerValuesResourceIdsContained = getStringsFromResourceIds(
+		spinnerValuesStringsContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
-				R.string.new_nfc_tag,
-				R.string.test_tag_name_2);
-		spinnerValuesResourceIdsNotContained = getStringsFromResourceIds(R.string.test_tag_name_1);
-		checkNfcSpinnerContains(nfcBrickPosition, spinnerValuesResourceIdsContained,
-				spinnerValuesResourceIdsNotContained);
+				R.string.new_nfc_tag);
+		spinnerValuesStringsContained.add(TAG_NAME_TEST2);
+		spinnerValuesStringsNotContained = Arrays.asList(TAG_NAME_TEST1);
+
+		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.checkTagNamesAvailable(spinnerValuesStringsContained)
+				.checkTagNamesNotDisplayed(spinnerValuesStringsNotContained);
 	}
 
 	@Test
@@ -300,21 +323,28 @@ public class WhenNfcBrickTest {
 		String renamedTag = "tag_renamed";
 		List<String> spinnerValuesContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
-				R.string.new_nfc_tag,
-				R.string.test_tag_name_1,
-				R.string.test_tag_name_2);
+				R.string.new_nfc_tag);
+		spinnerValuesContained.addAll(Arrays.asList(TAG_NAME_TEST1, TAG_NAME_TEST2));
+
 		List<String> spinnerValuesNotContained = Arrays.asList();
-		checkNfcSpinnerContains(nfcBrickPosition, spinnerValuesContained, spinnerValuesNotContained);
-		UiNFCTestUtils.gotoNfcFragment(nfcBrickPosition);
-		contextMenuActionRename(UiTestUtils.getResourcesString(R.string.test_tag_name_1), renamedTag);
+
+		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.checkTagNamesAvailable(spinnerValuesContained)
+				.checkTagNamesNotDisplayed(spinnerValuesNotContained);
+
+		gotoNfcFragment(nfcBrickPosition);
+		contextMenuActionRename(TAG_NAME_TEST1, renamedTag);
 		pressBack();
 		spinnerValuesContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
-				R.string.new_nfc_tag,
-				R.string.test_tag_name_2);
+				R.string.new_nfc_tag);
+		spinnerValuesContained.addAll(Arrays.asList(renamedTag, TAG_NAME_TEST2));
 		spinnerValuesContained.add(renamedTag);
-		spinnerValuesNotContained = getStringsFromResourceIds(R.string.test_tag_name_1);
-		checkNfcSpinnerContains(nfcBrickPosition, spinnerValuesContained, spinnerValuesNotContained);
+		spinnerValuesNotContained = Arrays.asList(TAG_NAME_TEST1);
+
+		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.checkTagNamesAvailable(spinnerValuesContained)
+				.checkTagNamesNotDisplayed(spinnerValuesNotContained);
 	}
 
 	private void contextMenuActionDelete(String tagName) {
@@ -358,5 +388,59 @@ public class WhenNfcBrickTest {
 			stringList.add(UiTestUtils.getResourcesString(resourceId));
 		}
 		return stringList;
+	}
+
+	private static final class NFCTagListMatchers {
+		private NFCTagListMatchers() {
+			throw new AssertionError();
+		}
+
+		public static Matcher<View> isNFCTagListView() {
+			return new TypeSafeMatcher<View>() {
+				@Override
+				public void describeTo(Description description) {
+					description.appendText("NFCTagListView");
+				}
+
+				@Override
+				protected boolean matchesSafely(View view) {
+					return view instanceof ListView && ((ListView) view).getAdapter() instanceof NfcTagBaseAdapter;
+				}
+			};
+		}
+	}
+
+	private static final class NFCTagDataNameMatchers {
+		private NFCTagDataNameMatchers() {
+			throw new AssertionError();
+		}
+
+		public static Matcher<NfcTagData> isNFCTagDataName(final String expectedTagName) {
+			return new TypeSafeMatcher<NfcTagData>() {
+				@Override
+				protected boolean matchesSafely(NfcTagData nfcTagData) {
+					String nfcTagName = nfcTagData.getNfcTagName();
+					return nfcTagName.equals(expectedTagName);
+				}
+
+				@Override
+				public void describeTo(Description description) {
+					description.appendText("NFCTagDataName");
+				}
+			};
+		}
+	}
+
+	private void gotoNfcFragment(int nfcBrickPosition) {
+		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
+				.perform(click());
+		onView(withText(R.string.new_nfc_tag))
+				.perform(click());
+	}
+
+	private NfcTagAdapter getNfcTagAdapter(Activity callingActivity) {
+		ScriptActivity activity = (ScriptActivity) callingActivity;
+		return (NfcTagAdapter) (activity.getFragment(ScriptActivity.FRAGMENT_NFCTAGS))
+				.getListAdapter();
 	}
 }
