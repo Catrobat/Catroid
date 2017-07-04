@@ -136,7 +136,7 @@ public class Scene implements Serializable {
 		clonedScene.dataContainer = new DataContainer(project);
 		ProjectManager.getInstance().setCurrentScene(this);
 		for (Sprite sprite : spriteList) {
-			Sprite cloneSprite = sprite.cloneForScene();
+			Sprite cloneSprite = sprite.clone();
 			for (UserBrick userBrick : cloneSprite.getUserBrickList()) {
 				ProjectManager.getInstance().setCurrentScene(clonedScene);
 				userBrick.updateUserBrickParametersAndVariables();
