@@ -154,7 +154,9 @@ public class AddBrickFragment extends ListFragment {
 
 	public void addBrickToScript(Brick brickToBeAdded) {
 		try {
-			scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded.clone());
+			brickToBeAdded = brickToBeAdded.clone();
+			scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded
+			);
 
 			if (brickToBeAdded instanceof ScriptBrick) {
 				Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe();
