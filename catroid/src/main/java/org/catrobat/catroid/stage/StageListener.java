@@ -57,8 +57,6 @@ import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
-import org.catrobat.catroid.common.BroadcastSequenceMap;
-import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
@@ -371,9 +369,11 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		transitionToScene(sceneName);
-		BroadcastSequenceMap.clear(sceneName);
-		BroadcastWaitSequenceMap.clear(sceneName);
-		BroadcastWaitSequenceMap.clearCurrentBroadcastEvent();
+		for (Sprite sprite : sceneToStart.getSpriteList()) {
+			sprite.getBroadcastSequenceMap().clear(sceneName);
+			sprite.getBroadcastWaitSequenceMap().clear(sceneName, sprite);
+			sprite.getBroadcastWaitSequenceMap().clearCurrentBroadcastEvent();
+		}
 		SoundManager.getInstance().clear();
 		stageBackupMap.remove(sceneName);
 		scene.firstStart = true;

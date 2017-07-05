@@ -23,20 +23,19 @@
 
 package org.catrobat.catroid.ui;
 
-import android.util.Log;
-
 import org.catrobat.catroid.utils.CrashReporter;
 
 public class BaseExceptionHandler implements
 		java.lang.Thread.UncaughtExceptionHandler {
 
-	private static final String TAG = BaseExceptionHandler.class.getSimpleName();
-
 	private static final int EXIT_CODE = 10;
 
 	public void uncaughtException(Thread thread, Throwable exception) {
-		Log.e(TAG, "unhandled exception", exception);
 		CrashReporter.storeUnhandledException(exception);
+		exit();
+	}
+
+	protected void exit() {
 		System.exit(EXIT_CODE);
 		android.os.Process.killProcess(android.os.Process.myPid());
 	}

@@ -66,6 +66,7 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 		super.setUp();
 
 		sprite2 = new Sprite("TestSprite2");
+		project.getDefaultScene().addSprite(sprite2);
 		sprite2.look = new PhysicsLook(sprite2, physicsWorld);
 		sprite2.setActionFactory(new ActionPhysicsFactory());
 

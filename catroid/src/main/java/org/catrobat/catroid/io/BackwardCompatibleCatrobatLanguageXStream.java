@@ -685,7 +685,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfoMap.put("setPenColorBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenGamepadButtonBrick.class.getSimpleName());
-		brickInfoMap.put("WhenGamepadButtonBrick", brickInfo);
+		brickInfoMap.put("whenGamepadButtonBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {
@@ -703,7 +703,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		scriptInfoMap.put("whenNfcScript", WhenNfcScript.class.getSimpleName());
 		scriptInfoMap.put("collisionScript", CollisionScript.class.getSimpleName());
 		scriptInfoMap.put("whenTouchDownScript", WhenTouchDownScript.class.getSimpleName());
-		scriptInfoMap.put("WhemGamepadButtonScript", WhenGamepadButtonScript.class.getSimpleName());
+		scriptInfoMap.put("whenGamepadButtonScript", WhenGamepadButtonScript.class.getSimpleName());
 	}
 
 	private void modifyXMLToSupportUnknownFields(File file) {

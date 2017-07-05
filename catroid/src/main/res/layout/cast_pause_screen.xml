@@ -33,5 +33,4 @@
         android:text="@string/cast_screen_pause_text"
         android:layout_centerInParent="true"/>
 
-
 </RelativeLayout>

@@ -69,7 +69,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class DefaultProjectCreatorCast extends DefaultProjectCreator {
-	private static final String TAG = DefaultProjectCreatorDefault.class.getSimpleName();
+	private static final String TAG = DefaultProjectCreatorCast.class.getSimpleName();
 
 	private static SpriteFactory spriteFactory = new SpriteFactory();
 
