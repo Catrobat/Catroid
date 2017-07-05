@@ -65,6 +65,8 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
+import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -614,7 +616,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void showSignInDialog(Activity activity, Boolean showUploadDialogWhenDone) {
-		if (!Utils.isNetworkAvailable(activity, true)) {
+		if (UtilWebConnection.noConnection(activity)) {
+			UtilUi.showNoWebConnectionDialog(activity);
 			return;
 		}
 

@@ -35,7 +35,8 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.web.UtilWebConnection;
 
 public class NewSoundDialog extends DialogFragment {
 
@@ -122,7 +123,10 @@ public class NewSoundDialog extends DialogFragment {
 		mediaLibraryButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (Utils.isNetworkAvailable(view.getContext(), true)) {
+				if(UtilWebConnection.noConnection(view.getContext())) {
+					UtilUi.showNoWebConnectionDialog(view.getContext());
+				}
+				else {
 					fragment.addSoundMediaLibrary();
 					NewSoundDialog.this.dismiss();
 				}

@@ -29,7 +29,8 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -71,7 +72,7 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(String... params) {
 		try {
-			if (!Utils.isNetworkAvailable(activity)) {
+			if (UtilWebConnection.noConnection(activity)) {
 				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
@@ -93,8 +94,8 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(exception)) {
-			showDialog(R.string.error_internet_connection);
+		if (UtilWebConnection.checkForNetworkError(exception)) {
+			UtilUi.showNoWebConnectionDialog(activity);
 			return;
 		}
 

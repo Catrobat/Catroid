@@ -306,8 +306,8 @@ public class BrickValueParameterTest {
 		onData(instanceOf(CollisionReceiverBrick.class)).inAdapterView(BrickPrototypeListMatchers
 				.isBrickPrototypeView())
 				.onChildView(withId(R.id.brick_collision_receive_spinner))
-				.onChildView(withText(CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR + "anything" + CollisionReceiverBrick
-						.ANYTHING_ESCAPE_CHAR))
+				.onChildView(withText(CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR.concat(baseActivityTestRule
+						.getActivity().getString(R.string.collision_with_anything)).concat(CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR)))
 				.check(matches(isDisplayed()));
 
 		//When Background changes to
@@ -783,7 +783,7 @@ public class BrickValueParameterTest {
 				+ " ");
 		checkIfBrickShowsText(DroneMoveUpBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
 				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+				+ UiTestUtils.getResourcesString(R.string.brick_drone_percent_power));
 		checkIfBrickShowsText(DroneMoveUpBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveUpBrick.class, "20.0");
 
@@ -794,7 +794,7 @@ public class BrickValueParameterTest {
 				+ " ");
 		checkIfBrickShowsText(DroneMoveDownBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
 				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+				+ UiTestUtils.getResourcesString(R.string.brick_drone_percent_power));
 		checkIfBrickShowsText(DroneMoveDownBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveDownBrick.class, "20.0");
 
@@ -805,7 +805,7 @@ public class BrickValueParameterTest {
 				+ " ");
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
 				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+				+ UiTestUtils.getResourcesString(R.string.brick_drone_percent_power));
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, "20.0");
 
@@ -816,7 +816,7 @@ public class BrickValueParameterTest {
 				+ " ");
 		checkIfBrickShowsText(DroneMoveRightBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
 				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+				+ UiTestUtils.getResourcesString(R.string.brick_drone_percent_power));
 		checkIfBrickShowsText(DroneMoveRightBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveRightBrick.class, "20.0");
 
@@ -827,7 +827,7 @@ public class BrickValueParameterTest {
 				+ " ");
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
 				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+				+ UiTestUtils.getResourcesString(R.string.brick_drone_percent_power));
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, "20.0");
 
@@ -838,7 +838,7 @@ public class BrickValueParameterTest {
 				+ " ");
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
 				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+				+ UiTestUtils.getResourcesString(R.string.brick_drone_percent_power));
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, "20.0");
 
@@ -849,7 +849,7 @@ public class BrickValueParameterTest {
 				+ " ");
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
 				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+				+ UiTestUtils.getResourcesString(R.string.brick_drone_percent_power));
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, "1");
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, "20.0");
 
@@ -860,7 +860,7 @@ public class BrickValueParameterTest {
 				+ " ");
 		checkIfBrickShowsText(DroneTurnRightBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
 				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+				+ UiTestUtils.getResourcesString(R.string.brick_drone_percent_power));
 		checkIfBrickShowsText(DroneTurnRightBrick.class, "1");
 		checkIfBrickShowsText(DroneTurnRightBrick.class, "20.0");
 
