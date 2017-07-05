@@ -61,7 +61,6 @@ import static org.hamcrest.core.StringEndsWith.endsWith;
 
 @RunWith(AndroidJUnit4.class)
 public class AskBrickTest {
-
 	private UserVariable userVariable;
 
 	@Rule
