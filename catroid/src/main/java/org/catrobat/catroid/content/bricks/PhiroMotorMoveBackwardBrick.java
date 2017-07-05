@@ -69,9 +69,11 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 		initializeBrickFields(new Formula(speedValue));
 	}
 
-	public PhiroMotorMoveBackwardBrick(Motor motor, Formula speedFormula) {
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
+	public PhiroMotorMoveBackwardBrick(String motor, Formula speedFormula) {
+		if (motor != null) {
+			this.motor = motor;
+			readResolve();
+		}
 
 		initializeBrickFields(speedFormula);
 	}
@@ -113,7 +115,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 
 	@Override
 	public Brick clone() {
-		return new PhiroMotorMoveBackwardBrick(motorEnum,
+		return new PhiroMotorMoveBackwardBrick(motor,
 				getFormulaWithBrickField(BrickField.PHIRO_SPEED).clone());
 	}
 
@@ -156,7 +158,9 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
 
 		return view;

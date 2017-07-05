@@ -66,12 +66,6 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		LegoEv3SetLedBrick copyBrick = (LegoEv3SetLedBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_ev3_set_led, null);
 
@@ -86,11 +80,6 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 		ledStatusSpinner.setAdapter(ledStatusAdapter);
 		ledStatusSpinner.setSelection(ledStatusEnum.ordinal());
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new LegoEv3SetLedBrick(ledStatusEnum);
 	}
 
 	@Override
@@ -122,6 +111,9 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 		}
 
 		ledStatusSpinner.setAdapter(ledStatusAdapter);
+		if (ledStatusEnum == null) {
+			readResolve();
+		}
 		ledStatusSpinner.setSelection(ledStatusEnum.ordinal());
 		return view;
 	}

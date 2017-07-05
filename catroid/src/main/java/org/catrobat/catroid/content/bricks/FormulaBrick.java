@@ -45,9 +45,9 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	ConcurrentFormulaHashMap formulaMap;
 
 	@XStreamOmitField
-	private List<BackPackedListData> backPackedListData;
+	private List<BackPackedListData> backPackedListData = new ArrayList<>();
 	@XStreamOmitField
-	private List<BackPackedVariableData> backPackedVariableData;
+	private List<BackPackedVariableData> backPackedVariableData = new ArrayList<>();
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
 		if (formulaMap != null && formulaMap.containsKey(brickField)) {
