@@ -30,8 +30,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.support.annotation.VisibleForTesting;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 
 public class CloudMessaging {
@@ -39,12 +43,39 @@ public class CloudMessaging {
 	private final Context context;
 	private final NotificationBuilderProvider notificationBuilderProvider;
 	private final NotificationManager notificationManager;
+	private static boolean isCloudNotificationsEnabled;
+	private static CloudMessagingInterface messagingService = new FirebaseCloudMessaging();
 
 	public CloudMessaging(Context context, NotificationBuilderProvider notificationBuilderProvider,
 			NotificationManager notificationManager) {
 		this.context = context;
 		this.notificationBuilderProvider = notificationBuilderProvider;
 		this.notificationManager = notificationManager;
+		isCloudNotificationsEnabled = BuildConfig.FEATURE_CLOUD_MESSAGING_ENABLED;
+	}
+
+	public static boolean initialize(Context context) {
+		boolean isEnabled = isCloudNotificationsEnabled(context);
+		if (isEnabled) {
+			messagingService.subscribe();
+		} else {
+			messagingService.unsubscribe();
+		}
+		return isEnabled;
+	}
+
+	@VisibleForTesting
+	public static void setCloudMessagingInterface(CloudMessagingInterface cloudMessagingInterface) {
+		messagingService = cloudMessagingInterface;
+	}
+
+	@VisibleForTesting
+	public static void setIsCloudNotificationsEnabled(boolean isEnabled) {
+		isCloudNotificationsEnabled = isEnabled;
+	}
+
+	private static boolean isCloudNotificationsEnabled(Context context) {
+		return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SettingsActivity.SETTINGS_CLOUD_NOTIFICATIONS, false) && isCloudNotificationsEnabled;
 	}
 
 	public void showNotification(CloudMessage cloudMessage) {

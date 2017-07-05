@@ -39,6 +39,7 @@ import android.view.MenuItem;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cloudmessaging.CloudMessaging;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
@@ -87,6 +88,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
 	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
+	public static final String SETTINGS_CLOUD_NOTIFICATIONS = "setting_enable_cloud_notifications";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -96,6 +98,7 @@ public class SettingsActivity extends PreferenceActivity {
 		addPreferencesFromResource(R.xml.preferences);
 
 		setAnonymousCrashReportPreference();
+		setCloudNotificationPreference();
 		setNXTSensors();
 		setEV3Sensors();
 		setDronePreferences();
@@ -160,6 +163,12 @@ public class SettingsActivity extends PreferenceActivity {
 			crashlyticsPreference.setEnabled(false);
 			screen.removePreference(crashlyticsPreference);
 		}
+
+		if (!BuildConfig.FEATURE_CLOUD_MESSAGING_ENABLED) {
+			CheckBoxPreference cloudMessagingPreference = (CheckBoxPreference) findPreference(SETTINGS_CLOUD_NOTIFICATIONS);
+			cloudMessagingPreference.setEnabled(false);
+			screen.removePreference(cloudMessagingPreference);
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -169,6 +178,18 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object isChecked) {
 				setAutoCrashReportingEnabled(getApplicationContext(), (Boolean) isChecked);
+				return true;
+			}
+		});
+	}
+
+	@SuppressWarnings("deprecation")
+	private void setCloudNotificationPreference() {
+		CheckBoxPreference reportCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_CLOUD_NOTIFICATIONS);
+		reportCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object isChecked) {
+				setCloudNotificationsEnabled(getApplicationContext(), (Boolean) isChecked);
 				return true;
 			}
 		});
@@ -404,6 +425,12 @@ public class SettingsActivity extends PreferenceActivity {
 		if (isEnabled) {
 			CrashReporter.initialize(context);
 		}
+	}
+
+	public static void setCloudNotificationsEnabled(Context context, boolean isEnabled) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_CLOUD_NOTIFICATIONS, isEnabled).commit();
+		CloudMessaging.initialize(context);
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {

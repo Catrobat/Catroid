@@ -51,6 +51,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CAST_GLOBALLY_ENABLED;
+import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CLOUD_NOTIFICATIONS;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CRASH_REPORTS;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
@@ -74,7 +75,7 @@ public class SettingsActivityTest {
 			SETTINGS_SHOW_PHIRO_BRICKS, SETTINGS_SHOW_NFC_BRICKS, SETTINGS_SHOW_HINTS, SETTINGS_CRASH_REPORTS,
 			SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED,
-			SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS,
+			SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_CLOUD_NOTIFICATIONS,
 			SETTINGS_SHOW_RASPI_BRICKS,
 			SETTINGS_CAST_GLOBALLY_ENABLED));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
