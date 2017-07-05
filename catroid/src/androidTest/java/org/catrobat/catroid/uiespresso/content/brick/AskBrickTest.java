@@ -35,12 +35,15 @@ import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -71,6 +74,7 @@ public class AskBrickTest {
 		baseActivityTestRule.launchActivity(null);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testAskBrick() {
 		int askBrickPosition = 1;
@@ -85,6 +89,7 @@ public class AskBrickTest {
 				.checkShowsText(question);
 	}
 
+	@Category({Cat.CatrobatLanguage.class, Level.Functional.class})
 	@Test
 	public void testAskBrickEmptyAnswer() {
 		String testAnswer = "";
@@ -98,6 +103,7 @@ public class AskBrickTest {
 		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, testAnswer, 1000));
 	}
 
+	@Category({Cat.CatrobatLanguage.class, Level.Functional.class})
 	@Test
 	public void testAskBrickNormalAnswer() {
 		String testAnswer = "TestA";

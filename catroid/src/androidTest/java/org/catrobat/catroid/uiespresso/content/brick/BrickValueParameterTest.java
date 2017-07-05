@@ -158,6 +158,8 @@ import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
 import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
@@ -167,6 +169,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -234,6 +237,7 @@ public class BrickValueParameterTest {
 		enabledByThisTestPeripheralCategories.clear();
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void categoriesTest() {
 		onView(withId(R.id.button_add))
@@ -262,6 +266,7 @@ public class BrickValueParameterTest {
 		}
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testEventBricksDefaultValues() {
 		openCategory(R.string.category_event);
@@ -315,6 +320,7 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(WhenClonedBrick.class, R.string.brick_when_cloned);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testMotionBricksDefaultValues() {
 		openCategory(R.string.category_motion);
@@ -445,6 +451,7 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(SetFrictionBrick.class, R.string.percent_symbol);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testSoundBricksDefaultValues() {
 		openCategory(R.string.category_sound);
@@ -488,6 +495,7 @@ public class BrickValueParameterTest {
 				R.string.new_broadcast_message);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testLooksBricksDefaultValues() {
 		openCategory(R.string.category_looks);
@@ -594,6 +602,7 @@ public class BrickValueParameterTest {
 				R.string.brick_flash_on);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testPenBricksDefaultValues() {
 		openCategory(R.string.category_pen);
@@ -609,6 +618,7 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(ClearBackgroundBrick.class, R.string.brick_clear_background);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testDataBricksDefaultValues() {
 		openCategory(R.string.category_data);
@@ -675,6 +685,7 @@ public class BrickValueParameterTest {
 				R.string.brick_variable_spinner_create_new_variable);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void testLegoNXTBricksDefaultValues() {
 		openCategory(R.string.category_lego_nxt);
@@ -710,6 +721,7 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, "2");
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void testLegoEV3BricksDefaultValues() {
 		openCategory(R.string.category_lego_ev3);
@@ -753,6 +765,7 @@ public class BrickValueParameterTest {
 				R.string.ev3_led_status_green);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void testDroneBricksDefaultValues() {
 		openCategory(R.string.category_drone);
@@ -854,6 +867,7 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(DroneSwitchCameraBrick.class, R.string.brick_drone_switch_camera);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void testPhiroBricksDefaultValues() {
 		openCategory(R.string.category_phiro);
@@ -945,6 +959,7 @@ public class BrickValueParameterTest {
 				.set_variable_spinner, R.string.brick_variable_spinner_create_new_variable);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void testArduinoBricksDefaultValues() {
 		openCategory(R.string.category_arduino);
@@ -960,6 +975,7 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(ArduinoSendPWMValueBrick.class, "255");
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void testRaspiBricksDefaultValues() {
 		openCategory(R.string.category_raspi);
@@ -993,6 +1009,7 @@ public class BrickValueParameterTest {
 	//If test fails with a String is null exception when trying to get the current spinner text.
 	//(some spinners dont have a default "new" value, but are derived from another spinner and have an editText as a
 	// child that contains this "new" text)
+	@Category({Cat.Educational.class})
 	@Test
 	public void testAskSpeechBrickInSoundSpinnerProblem() {
 		openCategory(R.string.category_sound);
@@ -1002,6 +1019,7 @@ public class BrickValueParameterTest {
 				.check(matches(withText(R.string.new_broadcast_message)));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testControlBricksDefaultValues() {
 		openCategory(R.string.category_control);

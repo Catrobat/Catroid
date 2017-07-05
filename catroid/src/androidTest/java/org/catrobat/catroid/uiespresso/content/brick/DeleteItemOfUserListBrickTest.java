@@ -31,10 +31,13 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -68,6 +71,7 @@ public class DeleteItemOfUserListBrickTest {
 		baseActivityTestRule.launchActivity(null);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	@Flaky
 	public void testDeleteItemOfUserListBrickBasicLayout() {
@@ -89,6 +93,7 @@ public class DeleteItemOfUserListBrickTest {
 				.checkShowsText(userListName);
 	}
 
+	@Category({Cat.AppUi.class, Level.Detailed.class})
 	@Test
 	@Flaky
 	public void testDeleteItemOfUserListBrickMultipleLists() {
@@ -130,6 +135,7 @@ public class DeleteItemOfUserListBrickTest {
 		assertEquals(userList.getName(), firstUserListName);
 	}
 
+	@Category({Cat.AppUi.class, Level.Detailed.class})
 	@Test
 	public void testCreateUserListInFormulaEditor() {
 		String userListName = "test1";
