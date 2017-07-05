@@ -244,6 +244,13 @@
         <service android:name="com.parrot.freeflight.service.DroneControlService" />
         <service android:name=".utils.StatusBarNotificationManager$NotificationActionService" />
         <service android:name=".cast.CastService" android:exported="false"/>
+        <service
+            android:exported="false"
+            android:name=".cloudmessaging.CustomFirebaseMessagingService">
+             <intent-filter>
+                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+             </intent-filter>
+        </service>
 
     </application>
 </manifest>
