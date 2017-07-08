@@ -1197,6 +1197,11 @@
     <!-- defaultJumpingSumoValues -->
     <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
     <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+
+    <!-- Jumping Sumo Bricks -->
+    <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
+    <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
+    <string name="brick_jumping_sumo_percent_power">% power</string>
     <!--  -->
 
     <!-- Phiro bricks -->
