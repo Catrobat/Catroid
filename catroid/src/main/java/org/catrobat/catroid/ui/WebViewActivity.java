@@ -71,6 +71,7 @@ public class WebViewActivity extends BaseActivity {
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
+	private String urlToOpen;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class WebViewActivity extends BaseActivity {
 		if (url == null) {
 			url = Constants.BASE_URL_HTTPS;
 		}
+		urlToOpen = url;
 		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
 
 		webView = (WebView) findViewById(R.id.webView);
@@ -319,5 +321,9 @@ public class WebViewActivity extends BaseActivity {
 		} catch (PackageManager.NameNotFoundException e) {
 			return false;
 		}
+	}
+
+	public String getUrl() {
+		return urlToOpen;
 	}
 }

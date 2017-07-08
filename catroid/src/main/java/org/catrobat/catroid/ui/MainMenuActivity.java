@@ -69,6 +69,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.ui.dialogs.NoWebConnectionDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -316,7 +317,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	public void handleHelpButton(View view) {
 		if (UtilWebConnection.noConnection(view.getContext())) {
-			UtilUi.showNoWebConnectionDialog(view.getContext());
+			new NoWebConnectionDialogBuilder(view.getContext())
+					.show();
 			return;
 		}
 
@@ -329,7 +331,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	public void handleWebButton(View view) {
 		if (UtilWebConnection.noConnection(view.getContext())) {
-			UtilUi.showNoWebConnectionDialog(view.getContext());
+			new NoWebConnectionDialogBuilder(view.getContext())
+					.show();
 			return;
 		}
 
@@ -357,7 +360,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	public void handleUploadButton(View view) {
 		if (UtilWebConnection.noConnection(view.getContext())) {
-			UtilUi.showNoWebConnectionDialog(view.getContext());
+			new NoWebConnectionDialogBuilder(view.getContext())
+					.show();
 			return;
 		}
 

@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.uiespresso.ui.activity;
 
+import android.app.Activity;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
@@ -36,17 +38,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.lang.reflect.InvocationTargetException;
-
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.Espresso.registerIdlingResources;
 import static android.support.test.espresso.Espresso.unregisterIdlingResources;
-import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -65,9 +66,8 @@ public class MainMenuActivityButtonsTest {
 	}
 
 	@Test
-	public void buttonContinueOpensProjectActivity() throws ClassNotFoundException,
-			NoSuchMethodException, NoSuchFieldException,
-			InvocationTargetException, IllegalAccessException {
+	public void buttonContinueOpensProjectActivity() {
+
 		onView(withId(R.id.main_menu_button_continue))
 				.perform(click());
 
@@ -98,7 +98,10 @@ public class MainMenuActivityButtonsTest {
 		onView(withId(R.id.main_menu_button_help))
 				.perform(click());
 
-		assertTrue(UiTestUtils.getCurrentActivity() instanceof WebViewActivity);
+		Activity activity = UiTestUtils.getCurrentActivity();
+		assertTrue(isWebViewActivity(activity));
+		String url = ((WebViewActivity)activity).getUrl();
+		assertTrue(url.contains(Constants.CATROBAT_HELP_URL));
 
 		pressBack();
 	}
@@ -108,7 +111,10 @@ public class MainMenuActivityButtonsTest {
 		onView(withId(R.id.main_menu_button_web))
 				.perform(click());
 
-		assertTrue(UiTestUtils.getCurrentActivity() instanceof WebViewActivity);
+		Activity activity = UiTestUtils.getCurrentActivity();
+		assertTrue(isWebViewActivity(activity));
+		String url = ((WebViewActivity)activity).getUrl();
+		assertTrue(url.contains(Constants.BASE_URL_HTTPS));
 
 		pressBack();
 	}
@@ -127,5 +133,9 @@ public class MainMenuActivityButtonsTest {
 	@After
 	public void tearDown() {
 		unregisterIdlingResources(mainMenuIdlingResource);
+	}
+
+	private boolean isWebViewActivity(Activity activity) {
+		return activity != null && activity instanceof WebViewActivity;
 	}
 }

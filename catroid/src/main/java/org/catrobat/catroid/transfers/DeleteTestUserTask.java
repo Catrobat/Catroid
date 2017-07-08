@@ -26,9 +26,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.ui.dialogs.NoWebConnectionDialogBuilder;
 import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -79,25 +77,13 @@ public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 		super.onPostExecute(deleted);
 
 		if (UtilWebConnection.checkForNetworkError(exception)) {
-			UtilUi.showNoWebConnectionDialog(context);
+			new NoWebConnectionDialogBuilder(context)
+					.show();
 			return;
 		}
 
 		if (onDeleteTestUserCompleteListener != null) {
 			onDeleteTestUserCompleteListener.onDeleteTestUserComplete(deleted);
-		}
-	}
-
-	private void showDialog(int messageId) {
-		if (context == null) {
-			return;
-		}
-		if (exception.getMessage() == null) {
-			new CustomAlertDialogBuilder(context).setMessage(messageId).setPositiveButton(R.string.ok, null)
-					.show();
-		} else {
-			new CustomAlertDialogBuilder(context).setMessage(exception.getMessage())
-					.setPositiveButton(R.string.ok, null).show();
 		}
 	}
 

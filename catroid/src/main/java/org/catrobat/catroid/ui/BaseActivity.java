@@ -35,9 +35,9 @@ import android.widget.AdapterView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
+import org.catrobat.catroid.ui.dialogs.NoWebConnectionDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.utils.Utils;
 
@@ -128,7 +128,8 @@ public abstract class BaseActivity extends Activity {
 	// Taken from http://stackoverflow.com/a/11270668
 	private void launchMarket() {
 		if (UtilWebConnection.noConnection(this)) {
-			UtilUi.showNoWebConnectionDialog(this);
+			new NoWebConnectionDialogBuilder(this)
+					.show();
 			return;
 		}
 
@@ -172,7 +173,4 @@ public abstract class BaseActivity extends Activity {
 		return titleActionBar;
 	}
 
-	public void setTitleActionBar(String titleActionBar) {
-		this.titleActionBar = titleActionBar;
-	}
 }

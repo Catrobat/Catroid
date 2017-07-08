@@ -65,9 +65,8 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.utils.UtilUi;
-import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.UtilWebConnection;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -158,7 +157,8 @@ public class SignInDialog extends DialogFragment implements
 			@Override
 			public void onClick(View v) {
 				if(UtilWebConnection.noConnection(getActivity())) {
-					UtilUi.showNoWebConnectionDialog(getActivity());
+					new NoWebConnectionDialogBuilder(getActivity())
+							.show();
 				}
 				else {
 					Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
@@ -171,7 +171,8 @@ public class SignInDialog extends DialogFragment implements
 			@Override
 			public void onClick(View view) {
 				if(UtilWebConnection.noConnection(getActivity())) {
-					UtilUi.showNoWebConnectionDialog(getActivity());
+					new NoWebConnectionDialogBuilder(getActivity())
+							.show();
 				}
 				else {
 					handleGooglePlusLoginButtonClick(view);
@@ -247,7 +248,8 @@ public class SignInDialog extends DialogFragment implements
 
 	private void handleLoginButtonClick() {
 		if (UtilWebConnection.noConnection(getActivity())) {
-			UtilUi.showNoWebConnectionDialog(getActivity());
+			new NoWebConnectionDialogBuilder(getActivity())
+					.show();
 			return;
 		}
 
@@ -258,7 +260,8 @@ public class SignInDialog extends DialogFragment implements
 
 	private void handleRegisterButtonClick() {
 		if (UtilWebConnection.noConnection(getActivity())) {
-			UtilUi.showNoWebConnectionDialog(getActivity());
+			new NoWebConnectionDialogBuilder(getActivity())
+					.show();
 			return;
 		}
 

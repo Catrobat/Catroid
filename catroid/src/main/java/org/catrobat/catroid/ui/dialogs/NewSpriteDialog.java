@@ -342,7 +342,8 @@ public class NewSpriteDialog extends DialogFragment {
 			@Override
 			public void onClick(View view) {
 				if(UtilWebConnection.noConnection(view.getContext())) {
-					UtilUi.showNoWebConnectionDialog(view.getContext());
+					new NoWebConnectionDialogBuilder(view.getContext())
+							.show();
 				}
 				else {
 					Intent intent = new Intent(getActivity(), WebViewActivity.class);

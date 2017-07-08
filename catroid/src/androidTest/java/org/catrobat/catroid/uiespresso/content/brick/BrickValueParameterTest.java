@@ -301,8 +301,9 @@ public class BrickValueParameterTest {
 		onData(instanceOf(CollisionReceiverBrick.class)).inAdapterView(BrickPrototypeListMatchers
 				.isBrickPrototypeView())
 				.onChildView(withId(R.id.brick_collision_receive_spinner))
-				.onChildView(withText(CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR.concat(baseActivityTestRule
-						.getActivity().getString(R.string.collision_with_anything)).concat(CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR)))
+				.onChildView(withText(CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR
+						+ UiTestUtils.getResourcesString(R.string.collision_with_anything)
+						+ CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR))
 				.check(matches(isDisplayed()));
 
 		//When Background changes to

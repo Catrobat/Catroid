@@ -32,9 +32,9 @@ import android.util.Log;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.NoWebConnectionDialogBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -111,7 +111,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (UtilWebConnection.checkForNetworkError(exception)) {
-			UtilUi.showNoWebConnectionDialog(context);
+			new NoWebConnectionDialogBuilder(context)
+					.show();
 			return;
 		}
 

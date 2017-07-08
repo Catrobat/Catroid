@@ -30,7 +30,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.ui.dialogs.NoWebConnectionDialogBuilder;
 import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -104,7 +104,8 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (UtilWebConnection.checkForNetworkError(exception)) {
-			UtilUi.showNoWebConnectionDialog(context);
+			new NoWebConnectionDialogBuilder(context)
+					.show();
 			return;
 		}
 

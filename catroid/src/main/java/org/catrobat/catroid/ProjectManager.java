@@ -63,9 +63,9 @@ import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListene
 import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.NoWebConnectionDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
-import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.utils.Utils;
 
@@ -617,7 +617,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void showSignInDialog(Activity activity, Boolean showUploadDialogWhenDone) {
 		if (UtilWebConnection.noConnection(activity)) {
-			UtilUi.showNoWebConnectionDialog(activity);
+			new NoWebConnectionDialogBuilder(activity)
+					.show();
 			return;
 		}
 
