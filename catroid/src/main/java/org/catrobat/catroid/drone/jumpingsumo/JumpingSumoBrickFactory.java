@@ -20,26 +20,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.drone.jumpingsumo;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.service.DroneControlService;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
 
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
+public final class JumpingSumoBrickFactory {
 
-public class DroneTakeoffAndLandAction extends TemporalAction {
-
-	@Override
-	protected void begin() {
-		super.begin();
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
-		if (dcs != null) {
-			dcs.triggerTakeOff();
-		}
+	private JumpingSumoBrickFactory() {
 	}
 
-	@Override
-	protected void update(float percent) {
-		//Nothing to do
+	public enum JumpingSumoBricks {
+		JUMPING_SUMO_FORWARD, JUMPING_SUMO_BACKWARD
+	}
+
+	public static BrickBaseType getInstanceOfJumpingSumoBrick(JumpingSumoBricks brick, int timeInMilliseconds,
+														byte powerInPercent) {
+
+		switch (brick) {
+			case JUMPING_SUMO_FORWARD:
+				return new JumpingSumoMoveForwardBrick(timeInMilliseconds, powerInPercent);
+			case JUMPING_SUMO_BACKWARD:
+				return new JumpingSumoMoveBackwardBrick(timeInMilliseconds, powerInPercent);
+			default:
+				return null;
+		}
 	}
 }
