@@ -130,14 +130,6 @@ public final class Utils {
 		return true;
 	}
 
-	public static boolean checkIfCrashRecoveryAndFinishActivity(final Activity context) {
-		return CrashReporter.checkIfCrashRecoveryAndFinishActivity(context);
-	}
-
-	public static void sendCaughtException(Context context) {
-		CrashReporter.sendUnhandledCaughtException();
-	}
-
 	public static boolean isNetworkAvailable(Context context, boolean createDialog) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);

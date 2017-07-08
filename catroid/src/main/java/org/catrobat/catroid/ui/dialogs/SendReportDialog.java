@@ -37,7 +37,6 @@ import android.widget.CompoundButton;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.CrashReporter;
-import org.catrobat.catroid.utils.Utils;
 
 public class SendReportDialog extends DialogFragment {
 	public static final String TAG = "dialog_send_report";
@@ -58,7 +57,7 @@ public class SendReportDialog extends DialogFragment {
 				.setPositiveButton(R.string.crash_dialog_send, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						Utils.sendCaughtException(getActivity());
+						CrashReporter.sendUnhandledCaughtException();
 					}
 				})
 				.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
