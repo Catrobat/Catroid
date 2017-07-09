@@ -25,6 +25,7 @@ package org.catrobat.catroid.uiespresso.annotations;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
@@ -36,6 +37,8 @@ import org.junit.runner.RunWith;
 import java.util.Random;
 
 import static junit.framework.Assert.assertTrue;
+
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class FlakyTestTest {
@@ -53,6 +56,8 @@ public class FlakyTestTest {
 	@Test
 	@Flaky(5)
 	public void flakyTestTest() {
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+
 		Random randomGenerator = new Random();
 		int randomNumber = randomGenerator.nextInt(100);
 		assertTrue(randomNumber < 50);

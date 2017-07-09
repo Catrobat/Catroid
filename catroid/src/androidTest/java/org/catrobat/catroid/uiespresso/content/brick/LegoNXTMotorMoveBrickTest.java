@@ -30,10 +30,13 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.Arrays;
@@ -58,8 +61,9 @@ public class LegoNXTMotorMoveBrickTest {
 		baseActivityTestRule.launchActivity(null);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
-	@Flaky(3)
+	@Flaky
 	public void testLegoNXTMoveMotorBrick() {
 		int velocityToChange = 20;
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);

@@ -52,7 +52,10 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.NfcTagAdapter;
 import org.catrobat.catroid.ui.adapter.NfcTagBaseAdapter;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
@@ -62,6 +65,7 @@ import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -98,7 +102,7 @@ public class WhenNfcBrickTest {
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
 
-	private final NdefMessage ndefMessage1;
+	private NdefMessage ndefMessage1;
 	private UserVariable readTagId;
 	private UserVariable readTagMessage;
 	private UserVariable numDetectedTags;
@@ -108,64 +112,14 @@ public class WhenNfcBrickTest {
 	private int setVariableIDPosition;
 	private int setVariableMessagePosition;
 
-	public WhenNfcBrickTest() throws InterpretationException {
-		ndefMessage1 = NfcHandler.createMessage(UiNFCTestUtils.NFC_NDEF_STRING_1, BrickValues.TNF_MIME_MEDIA);
-	}
-
-	private Script createProjectWithNfcAndSetVariable() {
-		Project project = new Project(null, "nfcTestProject");
-
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-
-		readTagId = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_ID);
-		readTagMessage = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_MESSAGE);
-		numDetectedTags = dataContainer.addProjectUserVariable(UiNFCTestUtils.NUM_DETECTED_TAGS);
-
-		Sprite sprite = new Sprite("testSprite");
-		WhenNfcScript script = new WhenNfcScript();
-
-		SetVariableBrick setVariableBrickId = new SetVariableBrick(Sensors.NFC_TAG_ID);
-		setVariableBrickId.setUserVariable(readTagId);
-		script.addBrick(setVariableBrickId);
-
-		SetVariableBrick setVariableBrickMessage = new SetVariableBrick(Sensors.NFC_TAG_MESSAGE);
-		setVariableBrickMessage.setUserVariable(readTagMessage);
-		script.addBrick(setVariableBrickMessage);
-
-		ChangeVariableBrick changeVariableBrickNumDetectedTags = new ChangeVariableBrick(new Formula(1), numDetectedTags);
-		script.addBrick(changeVariableBrickNumDetectedTags);
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-
-		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
-		NfcTagData firstTagData = new NfcTagData();
-
-		firstTagData.setNfcTagName(TAG_NAME_TEST1);
-		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
-		tagDataList.add(firstTagData);
-
-		NfcTagData secondTagData = new NfcTagData();
-		secondTagData.setNfcTagName(TAG_NAME_TEST2);
-		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
-		tagDataList.add(secondTagData);
-
-		numDetectedTags.setValue(0);
-		nfcBrickPosition = 0;
-		setVariableIDPosition = 1;
-		setVariableMessagePosition = 2;
-		scriptUnderTest = script;
-		return script;
-	}
-
 	@Before
 	public void setUp() throws Exception {
+		ndefMessage1 = NfcHandler.createMessage(UiNFCTestUtils.NFC_NDEF_STRING_1, BrickValues.TNF_MIME_MEDIA);
 		createProjectWithNfcAndSetVariable();
 		baseActivityTestRule.launchActivity(null);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.SettingsAndPermissions.class})
 	@Test
 	public void testBasicLayout() {
 		onBrickAtPosition(nfcBrickPosition).checkShowsText(R.string.brick_when_nfc);
@@ -177,7 +131,9 @@ public class WhenNfcBrickTest {
 				.checkShowsText(UiNFCTestUtils.READ_TAG_MESSAGE);
 	}
 
+	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.SettingsAndPermissions.class})
 	@Test
+	@Flaky
 	public void testAddNewTag() {
 		List<String> spinnerValuesStringsContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
@@ -245,6 +201,7 @@ public class WhenNfcBrickTest {
 				.check(matches(isDisplayed()));
 	}
 
+	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.SettingsAndPermissions.class})
 	@Test
 	public void testNfcSensorVariable() throws InterpretationException {
 		gotoNfcFragment(nfcBrickPosition);
@@ -257,6 +214,7 @@ public class WhenNfcBrickTest {
 		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagMessage, "0.0", 2000));
 	}
 
+	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.Gadgets.class})
 	@Test
 	public void testSelectTagAndPlay() {
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
@@ -291,7 +249,9 @@ public class WhenNfcBrickTest {
 				.checkShowsText(TAG_NAME_TEST2);
 	}
 
+	@Category({Cat.AppUi.class, Level.Detailed.class, Cat.SettingsAndPermissions.class})
 	@Test
+	@Flaky
 	public void testSpinnerUpdatesDelete() {
 		List<String> spinnerValuesStringsContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
@@ -318,7 +278,9 @@ public class WhenNfcBrickTest {
 				.checkTagNamesNotDisplayed(spinnerValuesStringsNotContained);
 	}
 
+	@Category({Cat.AppUi.class, Level.Detailed.class, Cat.SettingsAndPermissions.class})
 	@Test
+	@Flaky
 	public void testSpinnerUpdatesRename() {
 		String renamedTag = "tag_renamed";
 		List<String> spinnerValuesContained = getStringsFromResourceIds(
@@ -442,5 +404,53 @@ public class WhenNfcBrickTest {
 		ScriptActivity activity = (ScriptActivity) callingActivity;
 		return (NfcTagAdapter) (activity.getFragment(ScriptActivity.FRAGMENT_NFCTAGS))
 				.getListAdapter();
+	}
+
+	private Script createProjectWithNfcAndSetVariable() {
+		Project project = new Project(null, "nfcTestProject");
+
+		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
+
+		readTagId = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_ID);
+		readTagMessage = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_MESSAGE);
+		numDetectedTags = dataContainer.addProjectUserVariable(UiNFCTestUtils.NUM_DETECTED_TAGS);
+
+		Sprite sprite = new Sprite("testSprite");
+		WhenNfcScript script = new WhenNfcScript();
+
+		SetVariableBrick setVariableBrickId = new SetVariableBrick(Sensors.NFC_TAG_ID);
+		setVariableBrickId.setUserVariable(readTagId);
+		script.addBrick(setVariableBrickId);
+
+		SetVariableBrick setVariableBrickMessage = new SetVariableBrick(Sensors.NFC_TAG_MESSAGE);
+		setVariableBrickMessage.setUserVariable(readTagMessage);
+		script.addBrick(setVariableBrickMessage);
+
+		ChangeVariableBrick changeVariableBrickNumDetectedTags = new ChangeVariableBrick(new Formula(1), numDetectedTags);
+		script.addBrick(changeVariableBrickNumDetectedTags);
+
+		sprite.addScript(script);
+		project.getDefaultScene().addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+
+		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		NfcTagData firstTagData = new NfcTagData();
+
+		firstTagData.setNfcTagName(TAG_NAME_TEST1);
+		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
+		tagDataList.add(firstTagData);
+
+		NfcTagData secondTagData = new NfcTagData();
+		secondTagData.setNfcTagName(TAG_NAME_TEST2);
+		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
+		tagDataList.add(secondTagData);
+
+		numDetectedTags.setValue(0);
+		nfcBrickPosition = 0;
+		setVariableIDPosition = 1;
+		setVariableMessagePosition = 2;
+		scriptUnderTest = script;
+		return script;
 	}
 }

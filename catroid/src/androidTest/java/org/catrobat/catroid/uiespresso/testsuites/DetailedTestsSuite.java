@@ -21,22 +21,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui;
+package org.catrobat.catroid.uiespresso.testsuites;
 
-import org.catrobat.catroid.utils.CrashReporter;
+import org.junit.experimental.categories.Categories;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-public class BaseExceptionHandler implements
-		java.lang.Thread.UncaughtExceptionHandler {
+@RunWith(Categories.class)
+@Categories.IncludeCategory({Level.Smoke.class, Level.Functional.class, Level.Detailed.class})
 
-	private static final int EXIT_CODE = 10;
-
-	public void uncaughtException(Thread thread, Throwable exception) {
-		CrashReporter.storeUnhandledException(exception);
-		exit();
-	}
-
-	protected void exit() {
-		System.exit(EXIT_CODE);
-		android.os.Process.killProcess(android.os.Process.myPid());
-	}
+@Suite.SuiteClasses(AllEspressoTestsSuite.class)
+public class DetailedTestsSuite {
 }

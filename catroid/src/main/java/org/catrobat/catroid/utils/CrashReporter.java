@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -35,7 +34,6 @@ import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
 
 import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 
 import io.fabric.sdk.android.Fabric;
@@ -44,10 +42,8 @@ public final class CrashReporter {
 
 	private static final String TAG = CrashReporter.class.getSimpleName();
 
-	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
-	public static final String EXCEPTION_FOR_REPORT = "EXCEPTION_FOR_REPORT";
-
 	private static SharedPreferences preferences;
+	public static final String EXCEPTION_FOR_REPORT = "EXCEPTION_FOR_REPORT";
 	private static boolean isCrashReportEnabled = BuildConfig.CRASHLYTICS_CRASH_REPORT_ENABLED;
 
 	private CrashReporter() {
@@ -65,20 +61,12 @@ public final class CrashReporter {
 			Log.d(TAG, "INITIALIZED!");
 			return true;
 		}
-		Log.d(TAG, "INITIALIZATION FAILED! [ Anonymous Report : " + isAnonymousReportEnabled() + " Crash Report : " + isCrashReportEnabled + " ]");
+		Log.d(TAG, "INITIALIZATION FAILED! [ Report : " + isReportingEnabled() + "]");
 		return false;
 	}
 
-	private static boolean isAnonymousReportEnabled() {
-		return preferences != null && preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false);
-	}
-
-	private static boolean isRecoveredFromCrash() {
-		return preferences != null && preferences.getBoolean(RECOVERED_FROM_CRASH, false);
-	}
-
 	private static boolean isReportingEnabled() {
-		return isAnonymousReportEnabled() && isCrashReportEnabled;
+		return preferences != null && preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false) && isCrashReportEnabled;
 	}
 
 	@VisibleForTesting
@@ -96,28 +84,13 @@ public final class CrashReporter {
 		return false;
 	}
 
-	public static boolean checkIfCrashRecoveryAndFinishActivity(final Activity context) {
-		Log.d(TAG, "AFTER_EXCEPTION : checkIfCrashRecoveryAndFinishActivity()");
-		if (isRecoveredFromCrash()) {
-			if (isReportingEnabled()) {
-				sendUnhandledCaughtException();
-			}
-			if (!(context instanceof MainMenuActivity)) {
-				context.finish();
-			} else {
-				preferences.edit().putBoolean(RECOVERED_FROM_CRASH, false).commit();
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public static void sendUnhandledCaughtException() {
-		Log.d(TAG, "AFTER_EXCEPTION : sendCaughtException()");
-		Gson gson = new Gson();
 		String json = preferences.getString(EXCEPTION_FOR_REPORT, "");
-		Throwable exception = gson.fromJson(json, Throwable.class);
-		if (logException(exception)) {
+		if (isReportingEnabled() && !json.isEmpty()) {
+			Log.d(TAG, "AFTER_EXCEPTION : sendCaughtException()");
+			Gson gson = new Gson();
+			Throwable exception = gson.fromJson(json, Throwable.class);
+			logException(exception);
 			preferences.edit().remove(EXCEPTION_FOR_REPORT).commit();
 		}
 	}
@@ -133,6 +106,5 @@ public final class CrashReporter {
 				prefsEditor.commit();
 			}
 		}
-		preferences.edit().putBoolean(RECOVERED_FROM_CRASH, true).commit();
 	}
 }

@@ -1,4 +1,9 @@
-/*
+#!/bin/bash
+
+IMPORTS="$(find .. -name '*Test.java' | sed 's/\.\.\//import org.catrobat.catroid.uiespresso./' | sed 's/\//\./g' | sed 's/.java/;/' | sort)"
+IMPORTED_CLASSES="$(find .. -name '*Test.java' | sed 's/^.*\///' | sed 's/java/class/' | sed 's/$/,/' | sed '$s/,//' | sed 's/^/		/')"
+
+echo "/*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
@@ -21,22 +26,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui;
+package org.catrobat.catroid.uiespresso.testsuites;
 
-import org.catrobat.catroid.utils.CrashReporter;
+${IMPORTS}
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-public class BaseExceptionHandler implements
-		java.lang.Thread.UncaughtExceptionHandler {
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+${IMPORTED_CLASSES}
+})
+public class AllEspressoTestsSuite {
+}" > AllEspressoTestsSuite.java
 
-	private static final int EXIT_CODE = 10;
-
-	public void uncaughtException(Thread thread, Throwable exception) {
-		CrashReporter.storeUnhandledException(exception);
-		exit();
-	}
-
-	protected void exit() {
-		System.exit(EXIT_CODE);
-		android.os.Process.killProcess(android.os.Process.myPid());
-	}
-}
+exit
