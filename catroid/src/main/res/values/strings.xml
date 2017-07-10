@@ -1199,6 +1199,7 @@
     <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
     <string name="brick_jumping_sumo_percent_power">% power</string>
     <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
+    <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
     <!--  -->
 
     <!-- defaultJumpingSumoValues -->
@@ -1207,6 +1208,8 @@
     <string name="default_jumping_sumo_project_sprites_forward">Forward</string>
     <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
     <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
+    <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
     <!--  -->
 
     <!-- Jumping Sumo animation strings -->
@@ -1218,6 +1221,14 @@
     <string name="animation_spinjump">Spinjump</string>
     <string name="animation_spiral">Spiral</string>
     <string name="animation_slalom">Slalom</string>
+    <!--  -->
+
+    <!-- Jumping Sumo sound strings -->
+    <string name="jumping_sumo_volume">Volume</string>
+    <string name="sound_default">Normal</string>
+    <string name="sound_robot">Robot</string>
+    <string name="sound_insect">Insect</string>
+    <string name="sound_monster">Monster</string>
     <!--  -->
 
     <!-- Phiro bricks -->
