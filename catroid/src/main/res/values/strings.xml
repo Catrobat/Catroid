@@ -716,7 +716,9 @@
 
     <!-- Looks bricks -->
     <string name="brick_set_look">Switch to look</string>
+    <string name="brick_set_look_by_index">Switch to look with number</string>
     <string name="brick_set_background">Set background</string>
+    <string name="brick_set_background_by_index">Set background to number</string>
     <string name="brick_and_wait">and wait</string>
     <string name="brick_when_background">When background changes to</string>
     <string name="brick_set_size_to">Set size to</string>

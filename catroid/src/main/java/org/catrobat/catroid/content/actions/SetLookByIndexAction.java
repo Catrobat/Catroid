@@ -20,67 +20,47 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+import android.util.Log;
 
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.BackgroundWaitHandler;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class SetLookAction extends Action {
+public class SetLookByIndexAction extends SetLookAction {
 
-	protected LookData look;
-	protected Sprite sprite;
+	private Formula formula;
 
-	protected boolean wait = false;
-	protected boolean setLookDone = false;
-	protected boolean scriptsAreCompleted = false;
-
+	@Override
 	protected void doLookUpdate() {
-		if (wait) {
-			BackgroundWaitHandler.addObserver(look, this);
-		}
+		updateLookFromFormula();
+
 		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
+			if (wait) {
+				BackgroundWaitHandler.addObserver(look, this);
+			}
 			sprite.look.setLookData(look);
 			setLookDone = true;
 		}
 	}
 
-	@Override
-	public boolean act(float delta) {
-		if (!setLookDone) {
-			doLookUpdate();
+	private void updateLookFromFormula() {
+		int lookPosition = -1;
+
+		try {
+			lookPosition = formula.interpretInteger(sprite);
+		} catch (InterpretationException ex) {
+			Log.d(getClass().getSimpleName(), "Formula Interpretation for look index failed", ex);
 		}
 
-		if (wait) {
-			return scriptsAreCompleted;
-		} else {
-			return true;
-		}
-	}
-
-	@Override
-	public void restart() {
-		setLookDone = false;
-		if (wait) {
-			scriptsAreCompleted = false;
+		if (lookPosition > 0 && lookPosition <= sprite.getLookDataList().size()) {
+			look = sprite.getLookDataList().get(lookPosition - 1);
 		}
 	}
 
-	public void setLookData(LookData look) {
-		this.look = look;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setWait(boolean wait) {
-		this.wait = wait;
-	}
-
-	public void notifyScriptsCompleted() {
-		scriptsAreCompleted = true;
+	public void setFormula(Formula formula) {
+		this.formula = formula;
 	}
 }
