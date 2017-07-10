@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
