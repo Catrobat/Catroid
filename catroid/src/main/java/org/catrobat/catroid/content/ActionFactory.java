@@ -88,6 +88,8 @@ import org.catrobat.catroid.content.actions.JumpingSumoNoSoundAction;
 import org.catrobat.catroid.content.actions.JumpingSumoRotateLeftAction;
 import org.catrobat.catroid.content.actions.JumpingSumoRotateRightAction;
 import org.catrobat.catroid.content.actions.JumpingSumoSoundAction;
+import org.catrobat.catroid.content.actions.JumpingSumoTakingPictureAction;
+import org.catrobat.catroid.content.actions.JumpingSumoTurnAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorStopAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorTurnAngleAction;
@@ -1008,6 +1010,14 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		action.setDegree(degree);
 		return action;
+	}
+
+	public Action createJumpingSumoTurnAction() {
+		return action(JumpingSumoTurnAction.class);
+	}
+
+	public Action createJumpingSumoTakingPictureAction() {
+		return action(JumpingSumoTakingPictureAction.class);
 	}
 
 	public Action createSetTextAction(Sprite sprite, Formula x, Formula y, Formula text) {
