@@ -80,6 +80,8 @@ import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
 import org.catrobat.catroid.content.actions.JumpingSumoAnimationAction;
+import org.catrobat.catroid.content.actions.JumpingSumoJumpHighAction;
+import org.catrobat.catroid.content.actions.JumpingSumoJumpLongAction;
 import org.catrobat.catroid.content.actions.JumpingSumoMoveBackwardAction;
 import org.catrobat.catroid.content.actions.JumpingSumoMoveForwardAction;
 import org.catrobat.catroid.content.actions.JumpingSumoNoSoundAction;
@@ -982,6 +984,14 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		action.setVolume(volume);
 		return action;
+	}
+
+	public Action createJumpingSumoJumpLongAction() {
+		return action(JumpingSumoJumpLongAction.class);
+	}
+
+	public Action createJumpingSumoJumpHighAction() {
+		return action(JumpingSumoJumpHighAction.class);
 	}
 
 	public Action createSetTextAction(Sprite sprite, Formula x, Formula y, Formula text) {

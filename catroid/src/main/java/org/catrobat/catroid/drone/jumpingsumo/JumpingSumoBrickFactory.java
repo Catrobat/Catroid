@@ -24,6 +24,8 @@ package org.catrobat.catroid.drone.jumpingsumo;
 
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoJumpHighBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoJumpLongBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoNoSoundBrick;
@@ -35,12 +37,12 @@ public final class JumpingSumoBrickFactory {
 	}
 
 	public enum JumpingSumoBricks {
-		JUMPING_SUMO_FORWARD, JUMPING_SUMO_BACKWARD, JUMPING_SUMO_ANIMATIONS, JUMPING_SUMO_SOUND, JUMPING_SUMO_NO_SOUND
+		JUMPING_SUMO_FORWARD, JUMPING_SUMO_BACKWARD, JUMPING_SUMO_ANIMATIONS, JUMPING_SUMO_SOUND, JUMPING_SUMO_NO_SOUND,
+		JUMPING_SUMO_JUMP_LONG, JUMPING_SUMO_JUMP_HIGH
 	}
 
 	public static BrickBaseType getInstanceOfJumpingSumoBrick(JumpingSumoBricks brick, int timeInMilliseconds,
 														byte powerInPercent, byte volumeInPercent) {
-
 		switch (brick) {
 			case JUMPING_SUMO_FORWARD:
 				return new JumpingSumoMoveForwardBrick(timeInMilliseconds, powerInPercent);
@@ -52,6 +54,10 @@ public final class JumpingSumoBrickFactory {
 				return new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.DEFAULT, volumeInPercent);
 			case JUMPING_SUMO_NO_SOUND:
 				return new JumpingSumoNoSoundBrick();
+			case JUMPING_SUMO_JUMP_HIGH:
+				return new JumpingSumoJumpLongBrick();
+			case JUMPING_SUMO_JUMP_LONG:
+				return new JumpingSumoJumpHighBrick();
 			default:
 				return null;
 		}

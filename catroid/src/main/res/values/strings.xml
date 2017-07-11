@@ -1201,6 +1201,8 @@
     <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
     <string name="brick_jumping_sumo_sound">Sound</string>
+    <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
+    <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <!--  -->
 
     <!-- defaultJumpingSumoValues -->
