@@ -139,6 +139,14 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
 				(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 
+		String animationName = context.getString(R.string.default_jumping_sumo_project_sprites_animation);
+
+		File animationFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, animationName + Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_animations, context, true,
+				0.75);
+
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(animationName, JumpingSumoBrickFactory.JumpingSumoBricks.JUMPING_SUMO_ANIMATIONS,
+				0, (int) (325 / landscapePortraitFactor), animationFile, 0, (byte) 0));
+
 		return defaultJumpingSumoProject;
 	}
 
