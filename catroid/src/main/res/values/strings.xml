@@ -1179,6 +1179,8 @@
     <!--  -->
 
     <!-- defaultJumpingSumoValues -->
+    <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
     <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
     <!--  -->
 
