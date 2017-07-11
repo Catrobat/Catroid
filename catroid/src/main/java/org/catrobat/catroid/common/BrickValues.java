@@ -121,6 +121,7 @@ public final class BrickValues {
 	public static final int JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS = 1000;
 	public static final int JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT = 80;
 	public static final int JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT = 50;
+	public static final int JUMPING_SUMO_ROTATE_DEFAULT_DEGREE = 90;
 
 	//Constants Variables
 	public static final double SET_VARIABLE = 1d;
