@@ -1179,6 +1179,13 @@
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <!--  -->
 
+    <!-- defaultJumpingSumoValues -->
+    <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+    <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
+    <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+    <!--  -->
+
     <!-- Phiro bricks -->
     <!-- motor -->
     <string name="phiro_motor_stop">Stop Phiro motor</string>
