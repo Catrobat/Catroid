@@ -186,7 +186,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project = oldProject;
 				currentScene = oldProject.getDefaultScene();
 				sceneToPlay = currentScene;
-				throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_pocketcode_version));
+				throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_version));
 			}
 		} else {
 			if (project.getCatrobatLanguageVersion() == 0.8f) {
