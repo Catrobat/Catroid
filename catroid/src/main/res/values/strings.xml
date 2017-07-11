@@ -1151,6 +1151,13 @@
     <string name="brick_drone_percent_power">power</string>
     <!--  -->
 
+    <!-- Jumping Sumo Bricks -->
+    <string name="brick_jumping_sumo_rotate">Rotate Jumping Sumo</string>
+    <string name="brick_jumping_sumo_rotate_text">°</string>
+    <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
+    <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+    <!--  -->
+
     <!-- Phiro bricks -->
     <!-- motor -->
     <string name="phiro_motor_stop">Stop Phiro motor</string>
