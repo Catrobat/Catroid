@@ -209,6 +209,26 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 						.JUMPING_SUMO_ROTATE_RIGHT, (int) (-200 / landscapePortraitFactor), 0, turnRightFile, 0, (byte)
 				BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (byte) 0, (float) 90/*Math.PI / 2*/));
 
+		String flipName = context.getString(R.string.default_jumping_sumo_project_sprites_flip);
+
+		File flipFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, flipName
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_flip, context, true,
+				iconImageScaleFactor);
+
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(flipName, JumpingSumoBrickFactory.JumpingSumoBricks
+						.JUMPING_SUMO_TURN, (int) (500 / landscapePortraitFactor), (int)
+				(-250 / landscapePortraitFactor), flipFile, 0, (byte) 0, (byte) 0, 0));
+
+		String pictureName = context.getString(R.string.default_jumping_sumo_project_sprites_picture);
+
+		File pictureFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, pictureName
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_camera, context, true,
+				iconImageScaleFactor);
+
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(pictureName, JumpingSumoBrickFactory.JumpingSumoBricks
+				.JUMPING_SUMO_PICTURE, (int) (500 / landscapePortraitFactor), (int)
+				(325 / landscapePortraitFactor), pictureFile, 0, (byte) 0, (byte) 0, 0));
+
 		return defaultJumpingSumoProject;
 	}
 

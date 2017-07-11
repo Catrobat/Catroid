@@ -1222,6 +1222,8 @@
     <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
     <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
     <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
+    <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
+    <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
     <!--  -->
 
     <!-- Jumping Sumo animation strings -->
@@ -1240,6 +1242,7 @@
     <string name="sound_robot">Robot</string>
     <string name="sound_insect">Insect</string>
     <string name="sound_monster">Monster</string>
+    <!--  -->
 
     <!-- Phiro bricks -->
     <!-- motor -->
