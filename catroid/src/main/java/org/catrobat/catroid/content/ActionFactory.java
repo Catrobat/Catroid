@@ -80,6 +80,8 @@ import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
+import org.catrobat.catroid.content.actions.JumpingSumoRotateLeftAction;
+import org.catrobat.catroid.content.actions.JumpingSumoRotateRightAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorStopAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorTurnAngleAction;
@@ -946,6 +948,20 @@ public class ActionFactory extends Actions {
 
 	public Action createDroneGoEmergencyAction() {
 		return action(DroneEmergencyAction.class);
+	}
+
+	public Action createJumpingSumoRotateLeftAction(Sprite sprite, Formula degree) {
+		JumpingSumoRotateLeftAction action = action(JumpingSumoRotateLeftAction.class);
+		action.setSprite(sprite);
+		action.setDegree(degree);
+		return action;
+	}
+
+	public Action createJumpingSumoRotateRightAction(Sprite sprite, Formula degree) {
+		JumpingSumoRotateRightAction action = action(JumpingSumoRotateRightAction.class);
+		action.setSprite(sprite);
+		action.setDegree(degree);
+		return action;
 	}
 
 	public Action createSetTextAction(Sprite sprite, Formula x, Formula y, Formula text) {
