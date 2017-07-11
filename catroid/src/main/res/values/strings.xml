@@ -1213,6 +1213,8 @@
     <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
     <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
     <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+    <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
+    <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
     <!--  -->
 
     <!-- Jumping Sumo animation strings -->
