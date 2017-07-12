@@ -128,7 +128,7 @@ public class SignInDialog extends DialogFragment implements
 				});
 
 		String termsOfUseUrl = getString(R.string.about_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
-				getString(R.string.register_pocketcode_terms_of_use_text));
+				getString(R.string.register_code_terms_of_use_text));
 		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
 
