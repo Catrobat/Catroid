@@ -116,6 +116,9 @@ public final class BrickValues {
 	public static final int DRONE_TILT_OUTDOOR = 20;
 	public static final int DRONE_TILT_MAX = 30;
 
+	//Constants Jumping Sumo
+	public static final int JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT = 50;
+
 	//Constants Variables
 	public static final double SET_VARIABLE = 1d;
 	public static final double CHANGE_VARIABLE = 1d;
