@@ -1151,10 +1151,6 @@
     <string name="brick_drone_percent_power">power</string>
     <!--  -->
 
-    <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-    <!--  -->
-
     <!-- defaultJumpingSumoValues -->
     <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
     <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
