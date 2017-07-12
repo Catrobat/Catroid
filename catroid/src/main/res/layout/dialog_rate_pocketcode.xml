@@ -34,7 +34,7 @@
         <TextView
             android:id="@+id/dialog_rate_us_text"
             style="@style/DefaultDialog.Item"
-            android:text="@string/rating_dialog_text"
+            android:text="@string/rating_google_play_dialog_text"
             android:textColor="@color/spritelist_details_text_color" />
 
     </RelativeLayout>

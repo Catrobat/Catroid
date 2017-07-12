@@ -80,7 +80,7 @@
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_pocketmusic"
                 android:gravity="center"
-                android:text="@string/add_sound_pocketmusic"
+                android:text="@string/add_sound_music"
                 android:textSize="12sp" />
         </LinearLayout >
     </LinearLayout>

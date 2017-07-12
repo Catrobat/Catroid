@@ -34,7 +34,7 @@
     <item
         android:id="@+id/menu_about"
         android:showAsAction="withText"
-        android:title="@string/main_menu_about_pocketcode" />
+        android:title="@string/main_menu_about" />
     <item
         android:id="@+id/menu_scratch_converter"
         android:showAsAction="withText"
