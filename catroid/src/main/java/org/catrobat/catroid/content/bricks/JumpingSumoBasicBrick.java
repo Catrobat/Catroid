@@ -32,8 +32,6 @@ import org.catrobat.catroid.R;
 
 public abstract class JumpingSumoBasicBrick extends BrickBaseType {
 
-	private static final String TAG = JumpingSumoBasicBrick.class.getSimpleName();
-
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
