@@ -39,8 +39,6 @@ public class JumpingSumoNoSoundAction extends TemporalAction {
 	private byte normalizedVolume;
 	protected Context context;
 
-	private Formula volumeInPercent;
-
 	private static final int NO_VOLUME = 0;
 
 	private static final String TAG = JumpingSumoNoSoundBrick.class.getSimpleName();
