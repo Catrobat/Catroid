@@ -145,12 +145,6 @@ public class SettingsActivity extends PreferenceActivity {
 			nfcPreference.setEnabled(false);
 			screen.removePreference(nfcPreference);
 		}
-
-		if (!BuildConfig.CRASHLYTICS_CRASH_REPORT_ENABLED) {
-			CheckBoxPreference crashlyticsPreference = (CheckBoxPreference) findPreference(SETTINGS_CRASH_REPORTS);
-			crashlyticsPreference.setEnabled(false);
-			screen.removePreference(crashlyticsPreference);
-		}
 	}
 
 	@SuppressWarnings("deprecation")
