@@ -950,10 +950,9 @@ public class ActionFactory extends Actions {
 		return action(DroneEmergencyAction.class);
 	}
 
-	public Action createJumpingSumoAnimationAction(Sprite sprite, JumpingSumoAnimationsBrick.Animation animationEnum) {
+	public Action createJumpingSumoAnimationAction(JumpingSumoAnimationsBrick.Animation animationEnum) {
 		JumpingSumoAnimationAction action = action(JumpingSumoAnimationAction.class);
 		action.setAnimationEnum(animationEnum);
-		action.setSprite(sprite);
 		return action;
 	}
 
