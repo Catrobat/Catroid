@@ -133,7 +133,7 @@ ext {
 }
 
 configurations {
-    //compile.exclude group: 'org.apache.sanselan' //compile problem with parrot arsdk
+    compile.exclude group: 'org.apache.sanselan' //compile problem with parrot arsdk
     compile.exclude group: 'xpp3' //compile problem with xstream
     natives
 }
