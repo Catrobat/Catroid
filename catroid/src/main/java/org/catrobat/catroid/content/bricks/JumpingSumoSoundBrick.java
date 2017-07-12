@@ -50,7 +50,6 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
 	private String sound;
 	private transient Sounds soundenum;
 	private transient TextView editVolume;
@@ -179,7 +178,6 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				soundenum = Sounds.values()[position];
 				sound = soundenum.name();
-				adapterView = arg0;
 			}
 
 			@Override

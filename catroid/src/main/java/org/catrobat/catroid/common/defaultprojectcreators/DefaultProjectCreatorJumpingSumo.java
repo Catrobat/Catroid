@@ -124,8 +124,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(soundName, JumpingSumoBrickFactory.JumpingSumoBricks
 				.JUMPING_SUMO_SOUND, (int) (250 / landscapePortraitFactor), (int)
-				(325 / landscapePortraitFactor), soundFile, (byte) 0, (byte) 0, (byte) BrickValues
-				.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT, 0));
+				(325 / landscapePortraitFactor), soundFile, (byte) BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
 
 		//No Sound brick
 		String noSoundName = context.getString(R.string.default_jumping_sumo_project_sprites_no_sound);
@@ -143,11 +142,11 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks
 			jumpingSumoBrick,	int xPosition, int yPosition, File lookFile) {
-		return createJumpingSumoSprite(spriteName, jumpingSumoBrick, xPosition, yPosition, lookFile, 0, (byte) 0, (byte) 0, 0);
+		return createJumpingSumoSprite(spriteName, jumpingSumoBrick, xPosition, yPosition, lookFile, (byte) 0);
 	}
 
 	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks jumpingSumoBrick, int xPosition,
-			int yPosition, File lookFile, int timeInMilliseconds, byte powerInPercent, byte volumeInPercent, float degree) {
+			int yPosition, File lookFile, byte volumeInPercent) {
 
 		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), spriteName);
 
@@ -173,23 +172,6 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		sprite.getLookDataList().add(lookData);
 
 		sprite.addScript(whenSpriteTappedScript);
-		sprite.addScript(whenProjectStartsScript);
-
-		return sprite;
-	}
-
-	private Sprite createJumpingSumoBatterySprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks
-			jumpingSumoBrick, int xPosition,
-			int yPosition, int timeInMilliseconds, byte powerInPercent, byte volumeInPercent, float degree) {
-
-		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), spriteName);
-
-		BrickBaseType brick = JumpingSumoBrickFactory.getInstanceOfJumpingSumoBrick(jumpingSumoBrick, volumeInPercent);
-
-		Script whenProjectStartsScript = new StartScript();
-
-		whenProjectStartsScript.addBrick(brick);
-
 		sprite.addScript(whenProjectStartsScript);
 
 		return sprite;
