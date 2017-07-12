@@ -93,7 +93,7 @@
   <string name="main_menu_help">Pomoc</string>
   <string name="main_menu_web">Przeglądaj</string>
   <string name="main_menu_upload">Wyślij</string>
-  <string name="main_menu_about_pocketcode">O Pocket Code</string>
+  <string name="main_menu_about">O Pocket Code</string>
   <string name="main_menu_terms_of_use">Warunki użytkowania i korzystania z usługi</string>
   <string name="main_menu_rate_app">Oceń nas!</string>
   <string name="main_menu_play_store_not_installed">Nie znaleziono aplikacji Sklep Play</string>
@@ -143,7 +143,7 @@
   <string name="error_request_timeout">Upss! Nasz serwer nie jest dostępny w tej chwili, Proszę spróbować później!</string>
   <string name="error_scratch_program_conversion_failed">Upss! Nie można przekonwertować programu Scratch, spróbuj ponownie później!</string>
   <string name="error_specific_scratch_program_conversion_failed_x">Upss! Nie można przekonwertować %1$s, spróbuj ponownie później!</string>
-  <string name="error_scratch_converter_outdated_pocketcode_version">Twoja aplikacja Pocket Code jest przestarzała. Nasz konwerter Scratcha obsługuje tylko najnowsza wersja Pocket Code. Proszę zaktualizować go w sklepie Google Play!</string>
+  <string name="error_scratch_converter_outdated_app_version">Twoja aplikacja Pocket Code jest przestarzała. Nasz konwerter Scratcha obsługuje tylko najnowsza wersja Pocket Code. Proszę zaktualizować go w sklepie Google Play!</string>
   <string name="error_cannot_open_not_existing_scratch_program">Nie można otworzyć tego programu Scratch. Wydaje się, że anulowano konwersję/pobieranie programu Scratch lub w międzyczasie zmieniłeś nazwę/usunąłeś program!</string>
   <string name="error_cannot_open_currently_downloading_scratch_program">Nie można otworzyć tego programu Scratch podczas jego pobierania! Spróbuj ponownie później!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">Nie można otworzyć ten program podstaw, ponieważ nie został jeszcze pobrany! Spróbuj ponownie później!</string>
@@ -246,7 +246,7 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <!-- About Dialog -->
   <string name="dialog_about_title">O Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code to środowisko programowania i interpreter dla urządzeń z systemem Android z wizualnym językiem programowania Catrobat.\n\n Kod źródłowy Pocket Code jest głównie na licencji GNU AGPL v3. Szczegóły licencji - patrz poniższy link. \n</string>
-  <string name="dialog_about_pocketcode_license_link_text">Licencja kodu źródłowego Pocket Code</string>
+  <string name="dialog_about_license_link_text">Licencja kodu źródłowego Pocket Code</string>
   <string name="dialog_about_catrobat_link_text">O Catrobat</string>
   <!--  -->
   <!-- Project activity view -->
@@ -422,7 +422,7 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <string name="soundrecorder_text_view">Puknij obrazek mikrofonu, aby rozpocząć i zakończyć nagrywanie.</string>
   <!--  -->
   <!-- Pocketmusic activity -->
-  <string name="pocketmusic_recorded_filename">PocketMuzyka</string>
+  <string name="music_recorded_filename">PocketMuzyka</string>
   <!--  -->
   <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">Zamiana tekstu na głos nie zainstalowana!\nCzy chcesz ją zainstalować?</string>
@@ -472,7 +472,7 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <string name="new_sound_dialog_title">Dodaj dźwięk</string>
   <string name="add_sound_from_recorder">Nagraj dźwięk</string>
   <string name="add_sound_choose_file">Wybierz plik</string>
-  <string name="add_sound_pocketmusic">PocketMuzyka</string>
+  <string name="add_sound_music">PocketMuzyka</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nowy program</string>
   <string name="new_project_dialog_hint">Mój program</string>
@@ -516,7 +516,7 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <string name="user_logged_in">Pomyślnie zalogowano</string>
   <string name="register_error">Nieprawidłowy login</string>
   <string name="register_terms">Rejestrując się, zgadzasz się na nasze</string>
-  <string name="register_pocketcode_terms_of_use_text">Warunki użytkowania i korzystania z usługi</string>
+  <string name="register_code_terms_of_use_text">Warunki użytkowania i korzystania z usługi</string>
   <string name="login">Logowanie</string>
   <string name="register">Zarejestruj się</string>
   <string name="or">lub</string>
@@ -863,7 +863,7 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <string name="error_internet_connection">Wystąpił nieznany błąd. Sprawdź połączenie z Internetem.</string>
   <string name="error_no_internet">Sprawdź swoje połączenie internetowe.</string>
   <string name="error_project_compatability">Program nie jest zgodny z tą wersją Pocket Code.</string>
-  <string name="error_outdated_pocketcode_version">Masz starą wersję Pocket Code. Zaktualizować teraz?</string>
+  <string name="error_outdated_version">Masz starą wersję Pocket Code. Zaktualizować teraz?</string>
   <string name="error_copy_project">Podczas kopiowania programu wystąpił błąd.</string>
   <string name="error_upload_project_with_default_name">Nie można wysłać programu o nazwie \"Mój pierwszy program\". Zmień nazwę programu.</string>
   <string name="error_upload_default_project">Nie można wysłać tego programu, bo to jest taki sam jak \"Mój pierwszy program\". Proszę zmodyfikuj go i spróbuj ponownie.</string>
@@ -1341,13 +1341,13 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <string name="brick_choose_camera">Użyj aparatu</string>
   <string name="choose_camera_front">z przodu</string>
   <string name="choose_camera_back">z tyłu</string>
-  <string name="error_flash_front_camera">"Lampę błyskową można użyć tylko z tyłu aparatu. Proszę dodać blok \"Użyj aparatu\" i zmienić na \"z tyłu\". "</string>
+  <string name="error_flash_camera">"Lampę błyskową można użyć tylko z tyłu aparatu. Proszę dodać blok \"Użyj aparatu\" i zmienić na \"z tyłu\". "</string>
   <string name="brick_wait_until">Poczekaj, aż</string>
   <string name="brick_wait_until_second_part">jest prawdą</string>
   <!-- -->
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Oceń Pocket Code</string>
-  <string name="rating_dialog_text">Jeśli lubisz Pocket Code, oceń nas w Google Play!</string>
+  <string name="rating_google_play_dialog_text">Jeśli lubisz Pocket Code, oceń nas w Google Play!</string>
   <string name="rating_dialog_rate_now">Teraz</string>
   <string name="rating_dialog_rate_later">Później</string>
   <string name="rating_dialog_rate_never">Nigdy</string>
@@ -1378,7 +1378,7 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <string name="hint_scenes">Program może składać się z różnych niezależnych scen. Aby dodać nową scenę, naciśnij symbol \"+\".</string>
   <!--  -->
   <!-- Crash report dialog -->
-  <string name="pocket_code_has_crashed">Pocket Code zawiesił się!</string>
+  <string name="app_has_crashed">Pocket Code zawiesił się!</string>
   <string name="crash_dialog_text">Pomóż poprawić Pocket Code wysyłając anonimowe raporty o awariach!</string>
   <string name="crash_dialog_always_send">Zawsze wysyłaj</string>
   <string name="crash_dialog_send">Wyślij</string>

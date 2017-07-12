@@ -47,7 +47,7 @@ public class AboutDialogFragment extends DialogFragment {
 		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
 		String aboutUrl = getString(R.string.about_link_template, Constants.ABOUT_POCKETCODE_LICENSE_URL,
-				getString(R.string.dialog_about_pocketcode_license_link_text));
+				getString(R.string.dialog_about_license_link_text));
 
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
 

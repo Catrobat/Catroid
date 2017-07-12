@@ -366,7 +366,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			header.put(itemsIds.length, getString(R.string.formula_editor_logic_comparison));
 			itemsIds = concatAll(itemsIds, LOGIC_COMPARISON_OPERATORS_ITEMS);
 		} else if (tag.equals(SENSOR_TAG)) {
-			header.put(0, getString(R.string.formula_editor_device));
+			header.put(0, getString(R.string.formula_editor_device_sensors));
 			itemsIds = DEFAULT_SENSOR_ITEMS;
 			parameterIds = createEmptyParametersList(DEFAULT_SENSOR_ITEMS.length);
 
