@@ -93,7 +93,7 @@ public class PocketMusicActivity extends BaseActivity {
 			soundInfo.setTitle(project.getName());
 			soundInfo.setSoundFileName(project.getFileName());
 		} else {
-			soundInfo.setTitle(getString(R.string.pocketmusic_recorded_filename));
+			soundInfo.setTitle(getString(R.string.music_recorded_filename));
 
 			Random randomGenerator = new Random();
 			soundInfo.setSoundFileName("MUS-" + Math.abs(randomGenerator.nextInt()) + ".midi");

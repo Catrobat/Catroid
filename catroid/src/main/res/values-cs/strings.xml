@@ -93,7 +93,7 @@
   <string name="main_menu_help">Nápověda</string>
   <string name="main_menu_web">Prozkoumat</string>
   <string name="main_menu_upload">Nahrát</string>
-  <string name="main_menu_about_pocketcode">O Pocket Code</string>
+  <string name="main_menu_about">O Pocket Code</string>
   <string name="main_menu_terms_of_use">Terms of use and services</string>
   <string name="main_menu_rate_app">Ohodnoť nás!</string>
   <string name="main_menu_play_store_not_installed">Aplikace Play Store nenalezena</string>
@@ -144,7 +144,7 @@
   <string name="error_scratch_program_conversion_failed">Jejda! Nepodařilo se převést Scratch program, opakujte akci později!</string>
   <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
         again later!</string>
-  <string name="error_scratch_converter_outdated_pocketcode_version">Your Pocket Code app is outdated. Our Scratch
+  <string name="error_scratch_converter_outdated_app_version">Your Pocket Code app is outdated. Our Scratch
         converter only supports the latest Pocket Code version. Please update it on the Google Play Store!</string>
   <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
         have canceled the conversion/download of the Scratch program or you have renamed/deleted the program in the
@@ -264,7 +264,7 @@
         programming language Catrobat.\n\n
         The source code of Pocket Code is mainly licensed under the GNU AGPL v3 License. 
         For further details on the license see the link below.\n</string>
-  <string name="dialog_about_pocketcode_license_link_text">Licence zdrojového kódu Pocket Code</string>
+  <string name="dialog_about_license_link_text">Licence zdrojového kódu Pocket Code</string>
   <string name="dialog_about_catrobat_link_text">O Catrobat</string>
   <!--  -->
   <!-- Project activity view -->
@@ -442,7 +442,7 @@
   <string name="soundrecorder_text_view">Klepněte na ikonu pro spuštění a zastavení nahrávání.</string>
   <!--  -->
   <!-- Pocketmusic activity -->
-  <string name="pocketmusic_recorded_filename">PocketMusic</string>
+  <string name="music_recorded_filename">PocketMusic</string>
   <!--  -->
   <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
@@ -493,7 +493,7 @@
   <string name="new_sound_dialog_title">Přidat zvuk</string>
   <string name="add_sound_from_recorder">Nahrát zvuk</string>
   <string name="add_sound_choose_file">Vybrat soubor</string>
-  <string name="add_sound_pocketmusic">PocketMusic</string>
+  <string name="add_sound_music">PocketMusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nový Program</string>
   <string name="new_project_dialog_hint">Můj Program</string>
@@ -537,7 +537,7 @@
   <string name="user_logged_in">Úspěšně přihlášen/a</string>
   <string name="register_error">Neplatné přihlášení</string>
   <string name="register_terms">Registrací souhlasíte s našimi</string>
-  <string name="register_pocketcode_terms_of_use_text">Terms of use and services</string>
+  <string name="register_code_terms_of_use_text">Terms of use and services</string>
   <string name="login">Přihlásit</string>
   <string name="register">Register</string>
   <string name="or">OR</string>
@@ -886,7 +886,7 @@
   <string name="error_internet_connection">Došlo k neznámé chybě. Zkontrolujte připojení k Internetu.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Tento program není kompatibilní s touto verzí Pocket Code.</string>
-  <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>
+  <string name="error_outdated_version">The Pocket Code version is outdated. Update now?</string>
   <string name="error_copy_project">Došlo k chybě při kopírování programu.</string>
   <string name="error_upload_project_with_default_name">Nelze nahrát program s názvem \"Můj první program\". Prosím, přejmenuj program.</string>
   <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
@@ -1368,14 +1368,14 @@
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
+  <string name="error_flash_camera">"The flash can be used with the back camera only. Please add a \"Use
         camera\" brick and change to your device\'s back camera. "</string>
   <string name="brick_wait_until">Wait until</string>
   <string name="brick_wait_until_second_part">is true</string>
   <!-- -->
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Rate Pocket Code</string>
-  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+  <string name="rating_google_play_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
   <string name="rating_dialog_rate_now">Now</string>
   <string name="rating_dialog_rate_later">Later</string>
   <string name="rating_dialog_rate_never">Never</string>
@@ -1412,7 +1412,7 @@
         symbol.</string>
   <!--  -->
   <!-- Crash report dialog -->
-  <string name="pocket_code_has_crashed">Pocket Code has crashed!</string>
+  <string name="app_has_crashed">Pocket Code has crashed!</string>
   <string name="crash_dialog_text">Please help to improve Pocket Code by sending us anonymous crash reports!</string>
   <string name="crash_dialog_always_send">Always send</string>
   <string name="crash_dialog_send">Send</string>

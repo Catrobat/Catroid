@@ -94,7 +94,7 @@
   <string name="main_menu_help">ヘルプ</string>
   <string name="main_menu_web">探索</string>
   <string name="main_menu_upload">アップロード</string>
-  <string name="main_menu_about_pocketcode">ポケットコードについて</string>
+  <string name="main_menu_about">ポケットコードについて</string>
   <string name="main_menu_terms_of_use">利用とサービスの規約</string>
   <string name="main_menu_rate_app">アプリを評価して！</string>
   <string name="main_menu_play_store_not_installed">Play ストア アプリが見つかりません</string>
@@ -143,7 +143,7 @@
   <string name="error_request_timeout">現時点ではサーバーに到達不能です。後でやり直してください!</string>
   <string name="error_scratch_program_conversion_failed">スクラッチ プログラムの変換に失敗しました。もう一度やり直してください!</string>
   <string name="error_specific_scratch_program_conversion_failed_x">%1$s への変換に失敗しました。後でもう一度やり直してください!</string>
-  <string name="error_scratch_converter_outdated_pocketcode_version">ポケットコード アプリが古いです。スクラッチ コンバーターはポケットコードの最新バージョンのみをサポートしています。Google Play ストアで更新してください!</string>
+  <string name="error_scratch_converter_outdated_app_version">ポケットコード アプリが古いです。スクラッチ コンバーターはポケットコードの最新バージョンのみをサポートしています。Google Play ストアで更新してください!</string>
   <string name="error_cannot_open_not_existing_scratch_program">このスクラッチ プログラムを開くことができません。スクラッチ プログラムの変換/ダウンロードをキャンセルしたか、プログラムの名前を変更/削除した可能性があります!</string>
   <string name="error_cannot_open_currently_downloading_scratch_program">ダウンロード中はこのスクラッチ プログラムを開くことができません! 後でもう一度試してください!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">ダウンロードされるまではこのスクラッチ プログラムを開くことができません! 後でもう一度試してください!</string>
@@ -233,7 +233,7 @@
   <string name="dialog_about_license_info">ポケットコードは、Android 向けビジュアルプログラミング言語 Catrobat のプログラミング環境とインタプリタです。\n\n
 ポケットコードのソースコードは、主に GNU AGPL v3 の下でライセンスされています。
 ライセンスの詳細については、下記リンクを参照してください。\n</string>
-  <string name="dialog_about_pocketcode_license_link_text">ポケットコード ソースコード ライセンス</string>
+  <string name="dialog_about_license_link_text">ポケットコード ソースコード ライセンス</string>
   <string name="dialog_about_catrobat_link_text">キャトロバットについて</string>
   <!--  -->
   <!-- Project activity view -->
@@ -397,7 +397,7 @@
   <string name="soundrecorder_text_view">録音を開始しとか停止に、上記のアイコンを押します。</string>
   <!--  -->
   <!-- Pocketmusic activity -->
-  <string name="pocketmusic_recorded_filename">Pocketmusic</string>
+  <string name="music_recorded_filename">Pocketmusic</string>
   <!--  -->
   <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">音声合成エンジンがインストールされていません!\n今すぐインストールしますか?</string>
@@ -448,7 +448,7 @@
   <string name="new_sound_dialog_title">サウンドを追加</string>
   <string name="add_sound_from_recorder">サウンドの録音</string>
   <string name="add_sound_choose_file">ファイルを選択</string>
-  <string name="add_sound_pocketmusic">Pocketmusic</string>
+  <string name="add_sound_music">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">新規プログラムの名前</string>
   <string name="new_project_dialog_hint">私のプログラム</string>
@@ -492,7 +492,7 @@
   <string name="user_logged_in">ログインに成功しました</string>
   <string name="register_error">ログインが無効です</string>
   <string name="register_terms">登録により、同意します。</string>
-  <string name="register_pocketcode_terms_of_use_text">利用とサービスの規約</string>
+  <string name="register_code_terms_of_use_text">利用とサービスの規約</string>
   <string name="login">ログイン</string>
   <string name="register">登録</string>
   <string name="or">OR</string>
@@ -832,7 +832,7 @@
   <string name="error_internet_connection">不明なエラーが発生しました。インターネット接続を確認してください</string>
   <string name="error_no_internet">インターネット接続を確立してください。</string>
   <string name="error_project_compatability">プログラムは、このバージョンのポケット コードと互換性がありません。</string>
-  <string name="error_outdated_pocketcode_version">ポケットコードのバージョンが古すぎます。今すぐ更新しますか?</string>
+  <string name="error_outdated_version">ポケットコードのバージョンが古すぎます。今すぐ更新しますか?</string>
   <string name="error_copy_project">プログラムのコピー中にエラーが発生しました。</string>
   <string name="error_upload_project_with_default_name">名前 \'私の最初のプログラム\' でプログラムをアップロードできません。プログラムの名前を変更してください。</string>
   <string name="error_upload_default_project">\'私の最初のプログラム\' と同じため、このプログラムをアップロードできません。変更して、もう一度やり直してください。</string>
@@ -1311,13 +1311,13 @@
   <string name="brick_choose_camera">使用カメラ</string>
   <string name="choose_camera_front">前面</string>
   <string name="choose_camera_back">背面</string>
-  <string name="error_flash_front_camera">"フラッシュは背面のカメラでのみ使用できます。\"使用カメラ\"ブロックを追加して、デバイスの背面のカメラに変更してください。"</string>
+  <string name="error_flash_camera">"フラッシュは背面のカメラでのみ使用できます。\"使用カメラ\"ブロックを追加して、デバイスの背面のカメラに変更してください。"</string>
   <string name="brick_wait_until">次まで待つ</string>
   <string name="brick_wait_until_second_part">が真</string>
   <!-- -->
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">ポケットコードを評価する</string>
-  <string name="rating_dialog_text">ポケット コードをお楽しみいただけた場合は、Google Play で評価してください!</string>
+  <string name="rating_google_play_dialog_text">ポケット コードをお楽しみいただけた場合は、Google Play で評価してください!</string>
   <string name="rating_dialog_rate_now">今すぐ</string>
   <string name="rating_dialog_rate_later">後で</string>
   <string name="rating_dialog_rate_never">しない</string>
@@ -1349,7 +1349,7 @@
   <string name="hint_scenes">プログラムは、さまざまな独立したシーンで構成することができます。\"+\" 記号をタップして、新しいシーンを追加します。</string>
   <!--  -->
   <!-- Crash report dialog -->
-  <string name="pocket_code_has_crashed">ポケットコードがクラッシュしました!</string>
+  <string name="app_has_crashed">ポケットコードがクラッシュしました!</string>
   <string name="crash_dialog_text">私たちに匿名のクラッシュ レポートを送信して、ポケット コードの改善をご支援ください!</string>
   <string name="crash_dialog_always_send">常に送信</string>
   <string name="crash_dialog_send">送信</string>
