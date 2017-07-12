@@ -124,8 +124,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnLeftName, JumpingSumoBrickFactory
 						.JumpingSumoBricks.JUMPING_SUMO_ROTATE_LEFT, (int) (-500 / landscapePortraitFactor), 0,
-				turnLeftFile, 0, (byte) 0,
-						(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (float) 90/*Math.PI /
+				turnLeftFile, (float) 90/*Math.PI /
 						2*/));
 
 		//turn right brick
@@ -136,20 +135,13 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				iconImageScaleFactor);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnRightName, JumpingSumoBrickFactory.JumpingSumoBricks
-						.JUMPING_SUMO_ROTATE_RIGHT, (int) (-200 / landscapePortraitFactor), 0, turnRightFile, 0, (byte) 0, (byte)
-				BrickValues
-						.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (float) 90/*Math.PI / 2*/));
+						.JUMPING_SUMO_ROTATE_RIGHT, (int) (-200 / landscapePortraitFactor), 0, turnRightFile, (float) 90/*Math.PI / 2*/));
 
 		return defaultJumpingSumoProject;
 	}
 
-	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks
-			jumpingSumoBrick,	int xPosition, int yPosition, File lookFile) {
-		return createJumpingSumoSprite(spriteName, jumpingSumoBrick, xPosition, yPosition, lookFile, 0, (byte) 0, (byte) 0, 0);
-	}
-
 	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks jumpingSumoBrick, int xPosition,
-			int yPosition, File lookFile, int timeInMilliseconds, byte powerInPercent, byte volumeInPercent, float degree) {
+			int yPosition, File lookFile, float degree) {
 
 		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), spriteName);
 
@@ -175,23 +167,6 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		sprite.getLookDataList().add(lookData);
 
 		sprite.addScript(whenSpriteTappedScript);
-		sprite.addScript(whenProjectStartsScript);
-
-		return sprite;
-	}
-
-	private Sprite createJumpingSumoBatterySprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks
-			jumpingSumoBrick, int xPosition,
-			int yPosition, int timeInMilliseconds, byte powerInPercent, byte volumeInPercent, float degree) {
-
-		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), spriteName);
-
-		BrickBaseType brick = JumpingSumoBrickFactory.getInstanceOfJumpingSumoBrick(jumpingSumoBrick, degree);
-
-		Script whenProjectStartsScript = new StartScript();
-
-		whenProjectStartsScript.addBrick(brick);
-
 		sprite.addScript(whenProjectStartsScript);
 
 		return sprite;

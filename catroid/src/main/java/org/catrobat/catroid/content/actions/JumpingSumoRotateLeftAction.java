@@ -39,7 +39,6 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 	private Sprite sprite;
 	private Formula degree;
 	private float newDegree;
-	private long duration = 2000;
 
 	protected static final float JUMPING_SUMO_ROTATE_ZERO = 0.0f;
 
@@ -53,10 +52,6 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 
 	public void setDegree(Formula degree) {
 		this.degree = degree;
-	}
-
-	public void setDelay(long delay) {
-		this.duration = delay;
 	}
 
 	@Override
@@ -84,7 +79,7 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 		try {
 			state = deviceController.getState();
 		} catch (ARControllerException e) {
-			e.printStackTrace();
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", e);
 		}
 		if (state != ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING) {
 			Log.e(TAG, "Device not running. State: " + state);
