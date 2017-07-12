@@ -100,6 +100,7 @@ public interface Brick extends Serializable, Cloneable {
 	int VIDEO = 0x20000;
 	int SENSOR_GPS = 0x40000;
 	int COLLISION = 0x80000;
+	int JUMPING_SUMO = 0x1000000;
 	int BLUETOOTH_LEGO_EV3 = 0x100000;
 	int NETWORK_CONNECTION = 0x200000;
 
