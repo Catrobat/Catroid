@@ -38,16 +38,11 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 	private JumpingSumoDeviceController controller;
 
 	private JumpingSumoAnimationsBrick.Animation animationEnum;
-	private Sprite sprite;
 
 	private static final String TAG = JumpingSumoAnimationAction.class.getSimpleName();
 
 	public void setAnimationEnum(JumpingSumoAnimationsBrick.Animation animationEnum) {
 		this.animationEnum = animationEnum;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
 	}
 
 	@Override

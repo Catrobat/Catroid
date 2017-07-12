@@ -43,7 +43,6 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
 	private String animation;
 	private transient Animation animationenum;
 
@@ -127,7 +126,6 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				animationenum = Animation.values()[position];
 				animation = animationenum.name();
-				adapterView = arg0;
 			}
 
 			@Override
@@ -142,7 +140,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoAnimationAction(sprite, animationenum));
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoAnimationAction(animationenum));
 		return null;
 	}
 }
