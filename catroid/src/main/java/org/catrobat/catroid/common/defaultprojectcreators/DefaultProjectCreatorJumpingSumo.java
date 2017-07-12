@@ -197,8 +197,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnLeftName, JumpingSumoBrickFactory
 						.JumpingSumoBricks.JUMPING_SUMO_ROTATE_LEFT, (int) (-500 / landscapePortraitFactor), 0,
 				turnLeftFile, 0, (byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (byte) 0,
-				(float) 90/*Math.PI /
-						2*/));
+				(float) 90/*Math.PI / 2*/));
 
 		String turnRightName = context.getString(R.string.default_jumping_sumo_project_sprites_turn_right);
 

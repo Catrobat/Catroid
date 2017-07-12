@@ -39,7 +39,6 @@ import java.util.List;
 public class JumpingSumoRotateRightBrick extends JumpingSumoRotateBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = JumpingSumoRotateRightBrick.class.getSimpleName();
 
 	public JumpingSumoRotateRightBrick(float degree) {
 		super(degree);
