@@ -93,7 +93,7 @@
   <string name="main_menu_help">Hilfe</string>
   <string name="main_menu_web">Erkunden</string>
   <string name="main_menu_upload">Hochladen</string>
-  <string name="main_menu_about_pocketcode">Über Pocket Code</string>
+  <string name="main_menu_about">Über Pocket Code</string>
   <string name="main_menu_terms_of_use">Terms of use and services</string>
   <string name="main_menu_rate_app">Bewerte uns!</string>
   <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
@@ -145,7 +145,7 @@
   <string name="error_scratch_program_conversion_failed">Hoppla! Konvertierung des Scratch Programms
       fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
   <string name="error_specific_scratch_program_conversion_failed_x">Hoppla! Konvertierung von %1$s fehlgeschlagen. Bitte probiere es später noch einmal!</string>
-  <string name="error_scratch_converter_outdated_pocketcode_version">Deine Pocket Code App ist nicht mehr aktuell.
+  <string name="error_scratch_converter_outdated_app_version">Deine Pocket Code App ist nicht mehr aktuell.
         Unser Scratch Konverter unterstützt nur die aktuellste Pocket Code Version. Bitte lade die aktuelle Pocket Code
     Version im Google Play Store herunter!</string>
   <string name="error_cannot_open_not_existing_scratch_program">Dieses Scratch Programm kann nicht geöffnet werden. Es
@@ -259,7 +259,7 @@
         Programmiersprache Catrobat.\n\n
         Der Quellcode von Pocket Code unterliegt hauptsälich der GNU AGPL v3 Lizenz. 
        Für weitere Informationen klicken Sie auf den untenstehenden Link.\n</string>
-  <string name="dialog_about_pocketcode_license_link_text">Pocket Code Source Code Lizenz</string>
+  <string name="dialog_about_license_link_text">Pocket Code Source Code Lizenz</string>
   <string name="dialog_about_catrobat_link_text">Über Catrobat</string>
   <!--  -->
   <!-- Project activity view -->
@@ -429,7 +429,7 @@
   <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme tippe auf das Symbol oben.</string>
   <!--  -->
   <!-- Pocketmusic activity -->
-  <string name="pocketmusic_recorded_filename">Pocketmusic</string>
+  <string name="music_recorded_filename">Pocketmusic</string>
   <!--  -->
   <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
@@ -479,7 +479,7 @@
   <string name="new_sound_dialog_title">Klang hinzufügen</string>
   <string name="add_sound_from_recorder">Klang aufnehmen</string>
   <string name="add_sound_choose_file">Klang auswählen</string>
-  <string name="add_sound_pocketmusic">Pocketmusic</string>
+  <string name="add_sound_music">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Neues Programm</string>
   <string name="new_project_dialog_hint">Mein Programm</string>
@@ -523,7 +523,7 @@
   <string name="user_logged_in">Erfolgreich eigeloggt</string>
   <string name="register_error">Login ungültig</string>
   <string name="register_terms">Mit der Registrierung akzeptierst du unsere</string>
-  <string name="register_pocketcode_terms_of_use_text">Nutzungsbedingungen und Leistungen</string>
+  <string name="register_code_terms_of_use_text">Nutzungsbedingungen und Leistungen</string>
   <string name="login">Einloggen</string>
   <string name="register">Registrieren</string>
   <string name="or">ODER</string>
@@ -866,7 +866,7 @@
   <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
   <string name="error_no_internet">Bitte stelle eine Internetverbindung her.</string>
   <string name="error_project_compatability">Das Programm ist nicht mit dieser Version von Pocket Code kompatibel.</string>
-  <string name="error_outdated_pocketcode_version">Die Pocket Code Version ist zu alt. Jetzt updaten?</string>
+  <string name="error_outdated_version">Die Pocket Code Version ist zu alt. Jetzt updaten?</string>
   <string name="error_copy_project">Beim kopieren des Programms ist ein Fehler aufgetreten.</string>
   <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
   <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
@@ -1343,13 +1343,13 @@
   <string name="brick_choose_camera">Verwende Kamera</string>
   <string name="choose_camera_front">vordere</string>
   <string name="choose_camera_back">hintere</string>
-  <string name="error_flash_front_camera">Du kannst den Blitz nur mit der hinteren Kamera verwenden. Bitte füge einen \"Verwende Kamera\" Baustein für die hintere Kamera deines Gerätes hinzu.</string>
+  <string name="error_flash_camera">Du kannst den Blitz nur mit der hinteren Kamera verwenden. Bitte füge einen \"Verwende Kamera\" Baustein für die hintere Kamera deines Gerätes hinzu.</string>
   <string name="brick_wait_until">Warte bis</string>
   <string name="brick_wait_until_second_part">wahr ist</string>
   <!-- -->
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Bewerte Pocket Code</string>
-  <string name="rating_dialog_text">Wenn dir Pocket Code gefällt, gibt uns bitte eine Bewertung auf Google Play!</string>
+  <string name="rating_google_play_dialog_text">Wenn dir Pocket Code gefällt, gibt uns bitte eine Bewertung auf Google Play!</string>
   <string name="rating_dialog_rate_now">Jetzt</string>
   <string name="rating_dialog_rate_later">Später</string>
   <string name="rating_dialog_rate_never">Nie</string>
@@ -1380,7 +1380,7 @@
   <string name="hint_scenes">Ein Programm kann aus verschiedenen unabhängigen Szenen bestehen. Um eine neue Szene hinzuzufügen, tippe auf \"+\" Symbol.</string>
   <!--  -->
   <!-- Crash report dialog -->
-  <string name="pocket_code_has_crashed">Pocked Code ist abgestürzt!</string>
+  <string name="app_has_crashed">Pocked Code ist abgestürzt!</string>
   <string name="crash_dialog_text">Bitte hilf uns dabei Pocket Code zu verbessern indem du uns anonyme Absturzberichte sendest!</string>
   <string name="crash_dialog_always_send">Immer senden</string>
   <string name="crash_dialog_send">Senden</string>

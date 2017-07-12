@@ -443,7 +443,7 @@ public class StageActivity extends AndroidApplication {
 		manageLoadAndFinish();
 
 		final AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
-		builder.setMessage(R.string.error_flash_front_camera).setCancelable(false)
+		builder.setMessage(R.string.error_flash_camera).setCancelable(false)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
