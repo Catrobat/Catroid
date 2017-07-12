@@ -1148,6 +1148,29 @@
     <string name="brick_drone_percent_power">power</string>
     <!--  -->
 
+    <!-- Jumping Sumo Bricks -->
+    <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
+    <!--  -->
+
+    <!-- defaultJumpingSumoValues -->
+    <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+    <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
+    <!--  -->
+
+    <!-- Jumping Sumo animation strings -->
+    <string name="animation_spin">Spin</string>
+    <string name="animation_tab">Tab</string>
+    <string name="animation_slowshake">Slowshake</string>
+    <string name="animation_metronome">Metronome</string>
+    <string name="animation_ondulation">Ondulation</string>
+    <string name="animation_spinjump">Spinjump</string>
+    <string name="animation_spintoposture">SpinToPosture</string>
+    <string name="animation_spiral">Spiral</string>
+    <string name="animation_slalom">Slalom</string>
+    <string name="animation_stop">Stop</string>
+    <!--  -->
+
     <!-- Phiro bricks -->
     <!-- motor -->
     <string name="phiro_motor_stop">Stop Phiro motor</string>
