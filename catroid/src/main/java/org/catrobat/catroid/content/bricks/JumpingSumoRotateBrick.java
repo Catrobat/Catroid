@@ -37,7 +37,6 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public abstract class JumpingSumoRotateBrick extends FormulaBrick {
-	private static final String TAG = JumpingSumoRotateBrick.class.getSimpleName();
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
