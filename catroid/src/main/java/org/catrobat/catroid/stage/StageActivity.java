@@ -46,11 +46,13 @@ import android.widget.EditText;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -127,7 +129,15 @@ public class StageActivity extends AndroidApplication {
 		configuration = new AndroidApplicationConfiguration();
 		configuration.r = configuration.g = configuration.b = configuration.a = 8;
 
-		initialize(stageListener, configuration);
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			setContentView(R.layout.activity_stage_gamepad);
+			CastManager.getInstance().initializeGamepadActivity(this);
+			CastManager.getInstance()
+					.addStageViewToLayout((GLSurfaceView20) initializeForView(stageListener, configuration));
+		} else {
+			initialize(stageListener, configuration);
+		}
 
 		if (graphics.getView() instanceof SurfaceView) {
 			SurfaceView glView = (SurfaceView) graphics.getView();
@@ -288,6 +298,10 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().pausePreviewAsync();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().setRemoteLayoutToPauseScreen(getApplicationContext());
+		}
 	}
 
 	public void resume() {
@@ -343,6 +357,10 @@ public class StageActivity extends AndroidApplication {
 				&& nfcAdapter != null) {
 			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
 		}
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().resumeRemoteLayoutFromPauseScreen();
+		}
 	}
 
 	public boolean getResizePossible() {
@@ -362,7 +380,8 @@ public class StageActivity extends AndroidApplication {
 		float screenAspectRatio = ScreenValues.getAspectRatio();
 
 		if ((virtualScreenWidth == ScreenValues.SCREEN_WIDTH && virtualScreenHeight == ScreenValues.SCREEN_HEIGHT)
-				|| Float.compare(screenAspectRatio, aspectRatio) == 0) {
+				|| Float.compare(screenAspectRatio, aspectRatio) == 0
+				|| ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			resizePossible = false;
 			stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH;
 			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
@@ -415,6 +434,9 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().releaseCamera();
 		CameraManager.getInstance().setToDefaultCamera();
 		ProjectManager.getInstance().setSceneToPlay(ProjectManager.getInstance().getCurrentScene());
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().onStageDestroyed();
+		}
 		super.onDestroy();
 	}
 

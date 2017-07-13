@@ -84,6 +84,7 @@
     <string name="portrait">portrait</string>
     <string name="unknown">unknown</string>
     <string name="skip">skip</string>
+    <string name="disconnect">Disconnect</string>
     <!--  -->
 
 
@@ -123,6 +124,9 @@
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
     <string name="preference_description_phiro_bricks">Allow to control Phiro robots</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+    <string name="preference_title_cast_feature_globally_enabled">Enable cast features</string>
+    <string name="preference_description_cast_feature_globally_enabled">Show cast button and allow cast project creation</string>
+
     <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
     <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
     <string name="preference_description_crash_reports">Allow to send crash reports automatically</string>
@@ -541,6 +545,7 @@
     <string name="new_project_default">Create example program</string>
     <string name="new_project_default_drone">Create example Drone program</string>
     <string name="project_orientation_title">Orientation:</string>
+    <string name="project_select_screen_title">Screen</string>
     <!--  -->
 
     <!-- New scene dialog -->
@@ -651,6 +656,7 @@
     <string name="category_drone">AR.Drone</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
+    <string name="category_cast">Cast</string>
     <string name="category_raspi">Raspberry Pi</string>
     <!--  -->
 
@@ -775,6 +781,8 @@
     <string name="brick_when_condition_when">When</string>
     <string name="brick_when_becomes_true">becomes true</string>
     <string name="brick_wait">Wait</string>
+    <string name="brick_when_gamepad_button">When gamepad button</string >
+    <string name="brick_when_gamepad_button_tapped" >tapped</string >
     <string name="brick_when_nfc">When NFC</string>
     <string name="brick_stop_script">Stop</string>
     <string name="brick_stop_this_script">this script</string>
@@ -851,6 +859,22 @@
     <string name="default_project_sprites_bird_name_wing_down">Bird wings down</string>
     <string name="default_project_sprites_tweet_1">Tweet1</string>
     <string name="default_project_sprites_tweet_2">Tweet2</string>
+
+    <!-- defaultCastValues -->
+    <string name="default_cast_project_background_name">Background</string>
+    <string name="default_cast_project_cloud_name">Clouds</string>
+    <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
+    <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
+    <string name="default_cast_project_sprites_bird_name">Bird</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up_left">Bird Wings up left</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
+    <string name="default_cast_project_sprites_tweet_1">Tweet1</string>
+    <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
+    <string name="default_cast_project_var_direction">direction</string>
+    <string name="default_cast_project_name">My first Cast program</string>
+
 
     <!-- defaultDroneValues -->
     <string name="default_drone_project_name">My first Drone program</string>
@@ -1340,6 +1364,12 @@
     <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_color</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_color_ambient</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_color_reflected</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed">gamepad_a_pressed</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed">gamepad_b_pressed</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed">gamepad_up_pressed</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed">gamepad_down_pressed</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed">gamepad_left_pressed</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed">gamepad_right_pressed</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -1386,6 +1416,7 @@
     <string name="formula_editor_device_raspberry">Raspberry Pi</string>
     <string name="formula_editor_device_drone">Drone</string>
     <string name="formula_editor_device_nfc">NFC</string>
+    <string name="formula_editor_device_cast">Cast</string>
     <string name="formula_editor_string">Abc</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -1523,6 +1554,25 @@
         camera\" brick and change to your device\'s camera that has a flash."</string>
     <string name="brick_wait_until">Wait until</string>
     <string name="brick_wait_until_second_part">is true</string>
+    <!-- -->
+
+    <!-- Cast strings -->
+    <string name="cast_gamepad_A">A</string>
+    <string name="cast_gamepad_B">B</string>
+    <string name="cast_gamepad_up">up</string>
+    <string name="cast_gamepad_down">down</string>
+    <string name="cast_gamepad_left">left</string>
+    <string name="cast_gamepad_right">right</string>
+    <string name="cast_error_not_connected_msg">Please connect to your Chromecast first</string>
+    <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses cast bricks and can\'t be started locally</string>
+    <string name="cast_device_selector_dialog_title">Cast to</string>
+    <string name="cast_button_menu_item_title">Cast button</string>
+    <string name="cast_ready_to_cast">Ready to cast to</string>
+    <string name="cast_enable_cast_feature">Cast features disabled. Please enable cast features in the settings.</string>
+    <string name="cast_searching_for_cast_devices">Searching for cast devices</string>
+    <string name="cast_trouble_finding_devices_tip">.\nNot seeing your device? Try turning your phone\'s Wifi off and on.</string>
+    <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
+    <string name="cast_screen_pause_text">Paused</string>
     <!-- -->
 
     <!-- Rating Dialog -->

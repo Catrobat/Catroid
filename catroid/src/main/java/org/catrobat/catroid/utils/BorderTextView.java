@@ -22,12 +22,14 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+@SuppressLint("AppCompatCustomView")
 public class BorderTextView extends TextView {
 
 	private static final int SHADOW_RADIUS = 3;

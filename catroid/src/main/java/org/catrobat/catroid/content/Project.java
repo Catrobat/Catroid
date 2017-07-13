@@ -78,7 +78,8 @@ public class Project implements Serializable {
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
-	public Project(Context context, String name, boolean landscapeMode) {
+	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
+
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
@@ -96,6 +97,10 @@ public class Project implements Serializable {
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 		setDeviceData(context);
 
+		if (isCastProject) {
+			setChromecastFields();
+		}
+
 		MessageContainer.clear();
 		//This is used for tests
 		if (context == null) {
@@ -105,6 +110,10 @@ public class Project implements Serializable {
 			sceneList.add(new Scene(context, context.getString(R.string.default_scene_name, 1), this));
 		}
 		xmlHeader.scenesEnabled = true;
+	}
+
+	public Project(Context context, String name, boolean landscapeMode) {
+		this(context, name, landscapeMode, false);
 	}
 
 	public Project(Context context, String name) {
@@ -218,6 +227,13 @@ public class Project implements Serializable {
 		return null;
 	}
 
+	public void setChromecastFields() {
+		xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
+		xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
+		xmlHeader.setlandscapeMode(true);
+		xmlHeader.setIsCastProject(true);
+	}
+
 	private void ifLandscapeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
@@ -280,6 +296,9 @@ public class Project implements Serializable {
 
 	public int getRequiredResources() {
 		int resources = Brick.NO_RESOURCES;
+		if (isCastProject()) {
+			resources = Brick.CAST_REQUIRED;
+		}
 		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
 		ActionFactory actionFactory = new ActionFactory();
 
@@ -442,6 +461,10 @@ public class Project implements Serializable {
 				return;
 			}
 		}
+	}
+
+	public boolean isCastProject() {
+		return xmlHeader.isCastProject();
 	}
 
 	public void refreshSpriteReferences() {

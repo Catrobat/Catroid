@@ -50,6 +50,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CRASH_REPORTS;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
@@ -74,7 +75,8 @@ public class SettingsActivityTest {
 			SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED,
 			SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS,
-			SETTINGS_SHOW_RASPI_BRICKS));
+			SETTINGS_SHOW_RASPI_BRICKS,
+			SETTINGS_CAST_GLOBALLY_ENABLED));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
 
 	@Before
@@ -117,6 +119,7 @@ public class SettingsActivityTest {
 		checkPreference(R.string.preference_title_enable_nfc_bricks, SETTINGS_SHOW_NFC_BRICKS);
 		checkPreference(R.string.preference_title_enable_hints, SETTINGS_SHOW_HINTS);
 		checkPreference(R.string.preference_title_enable_crash_reports, SETTINGS_CRASH_REPORTS);
+		checkPreference(R.string.preference_title_cast_feature_globally_enabled, SETTINGS_CAST_GLOBALLY_ENABLED);
 	}
 
 	@Test

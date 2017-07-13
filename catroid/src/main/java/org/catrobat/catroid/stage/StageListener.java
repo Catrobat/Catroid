@@ -66,7 +66,9 @@ import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
@@ -786,8 +788,8 @@ public class StageListener implements ApplicationListener {
 	private void initScreenMode() {
 		switch (project.getScreenMode()) {
 			case STRETCH:
-				screenshotWidth = ScreenValues.SCREEN_WIDTH;
-				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
+				screenshotWidth = ScreenValues.getScreenWidthForProject(project);
+				screenshotHeight = ScreenValues.getScreenHeightForProject(project);
 				screenshotX = 0;
 				screenshotY = 0;
 				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);
@@ -826,6 +828,25 @@ public class StageListener implements ApplicationListener {
 	private void disposeStageButKeepActors() {
 		stage.unfocusAll();
 		batch.dispose();
+	}
+
+	public void gamepadPressed(String buttonType) {
+
+		for (Sprite sprite : sprites) {
+			if (hasSpriteGamepadScript(sprite)) {
+				sprite.createWhengamepadButtonScriptActionSequence(buttonType);
+			}
+		}
+	}
+
+	public static boolean hasSpriteGamepadScript(Sprite sprite) {
+
+		for (Script script : sprite.getScriptList()) {
+			if (script instanceof WhenGamepadButtonScript) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void addActor(Actor actor) {

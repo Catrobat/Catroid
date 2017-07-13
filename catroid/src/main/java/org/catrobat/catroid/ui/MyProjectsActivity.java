@@ -39,7 +39,7 @@ import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.concurrent.locks.Lock;
 
-public class MyProjectsActivity extends BaseActivity {
+public class MyProjectsActivity extends BaseCastActivity {
 
 	public static final String TAG = MyProjectsActivity.class.getSimpleName();
 	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";

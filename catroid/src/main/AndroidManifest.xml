@@ -243,6 +243,7 @@
         <service android:name=".transfers.MediaDownloadService" />
         <service android:name="com.parrot.freeflight.service.DroneControlService" />
         <service android:name=".utils.StatusBarNotificationManager$NotificationActionService" />
+        <service android:name=".cast.CastService" android:exported="false"/>
 
     </application>
 </manifest>
