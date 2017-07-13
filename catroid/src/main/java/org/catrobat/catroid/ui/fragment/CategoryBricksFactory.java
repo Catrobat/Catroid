@@ -120,9 +120,12 @@ import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
@@ -385,6 +388,7 @@ public class CategoryBricksFactory {
 
 		if (!isBackgroundSprite) {
 			looksBrickList.add(new SetLookBrick());
+			looksBrickList.add(new SetLookByIndexBrick(BrickValues.SET_LOOK_BY_INDEX));
 		}
 		looksBrickList.add(new NextLookBrick());
 		looksBrickList.add(new PreviousLookBrick());
@@ -408,7 +412,9 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new ClearGraphicEffectBrick());
 		looksBrickList.add(new WhenBackgroundChangesBrick());
 		looksBrickList.add(new SetBackgroundBrick());
+		looksBrickList.add(new SetBackgroundByIndexBrick(BrickValues.SET_LOOK_BY_INDEX));
 		looksBrickList.add(new SetBackgroundAndWaitBrick());
+		looksBrickList.add(new SetBackgroundByIndexAndWaitBrick(BrickValues.SET_LOOK_BY_INDEX));
 		looksBrickList.add(new CameraBrick());
 		looksBrickList.add(new ChooseCameraBrick());
 		looksBrickList.add(new FlashBrick());

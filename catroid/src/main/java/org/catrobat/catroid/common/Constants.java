@@ -31,7 +31,7 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.993f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.994f);
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds

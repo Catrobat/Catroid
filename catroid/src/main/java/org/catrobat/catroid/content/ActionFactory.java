@@ -114,6 +114,7 @@ import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.catrobat.catroid.content.actions.SetLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetNfcTagAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
@@ -584,6 +585,19 @@ public class ActionFactory extends Actions {
 
 	public Action createSetLookAction(Sprite sprite, LookData lookData, boolean wait) {
 		SetLookAction action = (SetLookAction) createSetLookAction(sprite, lookData);
+		action.setWait(wait);
+		return action;
+	}
+
+	public Action createSetLookByIndexAction(Sprite sprite, Formula formula) {
+		SetLookByIndexAction action = Actions.action(SetLookByIndexAction.class);
+		action.setSprite(sprite);
+		action.setFormula(formula);
+		return action;
+	}
+
+	public Action createSetLookByIndexAction(Sprite sprite, Formula formula, boolean wait) {
+		SetLookByIndexAction action = (SetLookByIndexAction) createSetLookByIndexAction(sprite, formula);
 		action.setWait(wait);
 		return action;
 	}
