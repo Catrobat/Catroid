@@ -60,6 +60,8 @@ import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
@@ -100,6 +102,7 @@ public class StageActivity extends AndroidApplication {
 	private static int numberOfSpritesCloned;
 
 	public static Handler messageHandler;
+	private JumpingSumoDeviceController controller;
 	public static Map<Integer, IntentListener> intentListeners = new HashMap<>();
 	public static Random randomGenerator = new Random();
 
@@ -112,6 +115,7 @@ public class StageActivity extends AndroidApplication {
 
 		numberOfSpritesCloned = 0;
 		setupAskHandler();
+		controller = JumpingSumoDeviceController.getInstance();
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -159,6 +163,7 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus = new StageAudioFocus(this);
 
 		CameraManager.getInstance().setStageActivity(this);
+		JumpingSumoInitializer.getInstance().setStageActivity(this);
 
 		BackgroundWaitHandler.reset();
 		SnackbarUtil.showHintSnackbar(this, R.string.hint_stage);
@@ -304,6 +309,15 @@ public class StageActivity extends AndroidApplication {
 		}
 	}
 
+	public boolean jumpingSumoDisconnect() {
+		boolean success;
+		if (!controller.isConnected()) {
+			return true;
+		}
+		success = JumpingSumoInitializer.getInstance().disconnect();
+		return success;
+	}
+
 	public void resume() {
 		if (askDialogUnanswered) {
 			return;
@@ -426,6 +440,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	protected void onDestroy() {
 		Log.d(TAG, "onDestroy()");
+		jumpingSumoDisconnect();
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).destroy();
 		FlashUtil.destroy();
 		VibratorUtil.destroy();
@@ -486,6 +501,13 @@ public class StageActivity extends AndroidApplication {
 				}
 			}
 		});
+	}
+
+	public void jsDestroy() {
+		stageListener.finish();
+		manageLoadAndFinish();
+		exit();
+
 	}
 
 	public static int getAndIncrementNumberOfClonedSprites() {

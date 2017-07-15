@@ -1330,6 +1330,9 @@ public final class StorageHandler {
 		if ((resources & Brick.ARDRONE_SUPPORT) > 0) {
 			permissionsSet.add(Constants.ARDRONE_SUPPORT);
 		}
+		if ((resources & Brick.JUMPING_SUMO) > 0) {
+			permissionsSet.add(Constants.JUMPING_SUMO_SUPPORT);
+		}
 		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
 			permissionsSet.add(Constants.BLUETOOTH_PHIRO_PRO);
 		}

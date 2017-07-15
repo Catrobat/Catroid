@@ -214,6 +214,8 @@ public class CategoryBricksFactory {
 			tempList = setupArduinoCategoryList();
 		} else if (category.equals(context.getString(R.string.category_drone))) {
 			tempList = setupDroneCategoryList();
+		} else if (category.equals(context.getString(R.string.category_jumping_sumo))) {
+			tempList = setupJumpingSumoCategoryList();
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
 			tempList = setupPhiroProCategoryList();
 		} else if (category.equals(context.getString(R.string.category_cast))) {
@@ -509,6 +511,12 @@ public class CategoryBricksFactory {
 				BrickValues.STRING_VALUE));*/
 
 		return droneBrickList;
+	}
+
+	private List<Brick> setupJumpingSumoCategoryList() {
+		List<Brick> jumpingSumoBrickList = new ArrayList<>();
+
+		return jumpingSumoBrickList;
 	}
 
 	private List<Brick> setupPhiroProCategoryList() {

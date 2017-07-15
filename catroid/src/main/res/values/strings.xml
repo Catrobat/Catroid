@@ -114,8 +114,10 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_language">Language</string>
     <string name="preference_description_language">Allow to change PocketCode Language</string>
-    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
+    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control AR.Drone 2.0 quadcopters</string>
+    <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
+    <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
     <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
@@ -272,6 +274,12 @@
         Terms of
         Use and Services.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+    <!--  -->
+
+    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
     <!--  -->
 
     <!-- About Dialog -->
@@ -486,6 +494,8 @@
     <string name="prestage_resource_not_available_title">Component not available</string>
     <string name="prestage_resource_not_available_text">This program cannot be run on your device. The following
         components are unavailable:\n\n</string>
+    <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
+        are the only Controller for the Drone.</string>
     <string name="prestage_no_flash_available">\u2022 Flash\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
@@ -495,6 +505,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
     <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
     <string name="no_nfc_available">NFC not available</string>
@@ -547,6 +558,7 @@
     <string name="new_project_empty">Create empty program</string>
     <string name="new_project_default">Create example program</string>
     <string name="new_project_default_drone">Create example Drone program</string>
+    <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
     <string name="project_orientation_title">Orientation:</string>
     <string name="project_select_screen_title">Screen</string>
     <!--  -->
@@ -656,7 +668,8 @@
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
-    <string name="category_drone">AR.Drone</string>
+    <string name="category_drone">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo">Jumping Sumo</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
@@ -851,7 +864,6 @@
     <string name="brick_replace_item_in_userlist_with_value">with</string>
     <!--  -->
 
-
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>
     <string name="default_scene_name">Scene %1$d</string>
@@ -1002,6 +1014,12 @@
     <string name="error_no_drone_connected">Connect your wifi to the AR.Drone and try again.</string>
     <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
     <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
+    <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
+    <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
+    <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
+    <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+    <string name="error_jumpingsumo_battery">Insert a charged battery and try again.</string>
+    <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
     <string name="error_drone_wrong_platform_title">No AR.Drone support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
@@ -1152,7 +1170,6 @@
     <string name="ev3_led_status_orange_pulse">Orange pulse</string>
     <!--  -->
 
-
     <!-- Drone Bricks -->
     <string name="brick_drone_takeoff_land">Take off / Land</string>
     <string name="brick_drone_play_led_animation">Play flash animation</string>
@@ -1177,6 +1194,12 @@
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
     <string name="brick_drone_with">with</string>
     <string name="brick_drone_percent_power">power</string>
+    <!--  -->
+
+    <!-- defaultJumpingSumoValues -->
+    <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+    <string name="user_variable_name_battery_status">Battery:</string>
     <!--  -->
 
     <!-- Phiro bricks -->

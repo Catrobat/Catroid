@@ -20,26 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.drone.jumpingsumo;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.service.DroneControlService;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
+public final class JumpingSumoDataContainer {
 
-public class DroneTakeoffAndLandAction extends TemporalAction {
+	public static final String TAG = JumpingSumoDataContainer.class.getSimpleName();
+	private static JumpingSumoDataContainer ourInstance = new JumpingSumoDataContainer();
 
-	@Override
-	protected void begin() {
-		super.begin();
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
-		if (dcs != null) {
-			dcs.triggerTakeOff();
-		}
-	}
-
-	@Override
-	protected void update(float percent) {
-		//Nothing to do
+	public static JumpingSumoDataContainer getInstance() {
+		return ourInstance;
 	}
 }

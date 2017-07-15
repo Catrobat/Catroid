@@ -71,6 +71,14 @@
                 android:layout_gravity="bottom"
                 android:text="@string/new_project_default_drone"
                 android:visibility="gone" />
+
+            <RadioButton
+                android:id="@+id/project_default_jumping_sumo_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@string/new_project_default_jumping_sumo"
+                android:visibility="gone" />
         </RadioGroup>
     </RelativeLayout>
 </ScrollView>

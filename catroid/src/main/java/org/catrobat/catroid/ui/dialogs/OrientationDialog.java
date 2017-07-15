@@ -113,7 +113,8 @@ public class OrientationDialog extends DialogFragment {
 		createCastProject = cast.isChecked();
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject, createCastProject);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false,
+					createLandscapeProject, createCastProject, false);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;
