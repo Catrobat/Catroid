@@ -36,7 +36,6 @@ public final class JumpingSumoServiceWrapper {
 
 	private static JumpingSumoServiceWrapper instance = null;
 	private static JumpingSumoInitializer jumpingSumoInitializer = null;
-	private static final String TAG = JumpingSumoServiceWrapper.class.getSimpleName();
 
 	private JumpingSumoServiceWrapper() {
 	}

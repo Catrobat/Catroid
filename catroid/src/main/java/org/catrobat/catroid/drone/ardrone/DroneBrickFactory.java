@@ -45,7 +45,7 @@ public final class DroneBrickFactory {
 	public enum DroneBricks {
 		DRONE_TAKE_OFF_LAND_BRICK,
 		DRONE_PLAY_LED_ANIMATION_BRICK,
-		DRONE_FLIP_BRICK,
+		//DRONE_FLIP_BRICK,
 		DRONE_GO_EMERGENCY,
 		DRONE_MOVE_DOWN_BRICK,
 		DRONE_MOVE_UP_BRICK,
@@ -65,8 +65,8 @@ public final class DroneBrickFactory {
 			case DRONE_TAKE_OFF_LAND_BRICK:
 				return new DroneTakeOffLandBrick();
 
-			case DRONE_FLIP_BRICK:
-				return new DroneFlipBrick();
+			/*case DRONE_FLIP_BRICK:
+				return new DroneFlipBrick();*/
 
 			case DRONE_PLAY_LED_ANIMATION_BRICK:
 				return new DronePlayLedAnimationBrick();

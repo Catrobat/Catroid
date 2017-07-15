@@ -124,7 +124,7 @@ public class JumpingSumoInitializer {
 			public void run() {
 				if (jumpingSumoCount == 0) {
 					showUnCancellableErrorDialog(prestageStageActivity,
-							prestageStageActivity.getString(R.string.error_drone_low_battery),
+							prestageStageActivity.getString(R.string.error_no_jumpingsumo_connected_title),
 							prestageStageActivity.getString(R.string.error_no_jumpingsumo_connected));
 				} else {
 					prestageStageActivity.resourceInitialized();
@@ -145,9 +145,9 @@ public class JumpingSumoInitializer {
 
 	private void notifyBatteryChanged(int battery) {
 		Log.d(TAG, "Jumping Sumo Battery: " + battery);
-		JumpingSumoDataContainer batteryStatus = JumpingSumoDataContainer.getInstance();
+		//JumpingSumoDataContainer batteryStatus = JumpingSumoDataContainer.getInstance();
 
-		Object value = prestageStageActivity.getString(R.string.user_variable_name_battery_status) + " " + battery + prestageStageActivity.getString(R.string.percent_symbol);
+		//Object value = prestageStageActivity.getString(R.string.user_variable_name_battery_status) + " " + battery + prestageStageActivity.getString(R.string.percent_symbol);
 		//batteryStatus.setBatteryStatus(value);
 		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD && !messageShown) {
 			messageShown = true;
@@ -160,12 +160,6 @@ public class JumpingSumoInitializer {
 				checkJumpingSumoAvailability(prestageStageActivity);
 				Log.e(TAG, "Jumping Sumo Battery too low");
 			}
-		}
-	}
-
-	private void notifyFrameReceived(ARFrame frame) {
-		if (false) {
-			Log.d(TAG, "Frame Hash" + frame.hashCode());
 		}
 	}
 
@@ -187,7 +181,7 @@ public class JumpingSumoInitializer {
 				try {
 					state = deviceController.getState();
 				} catch (ARControllerException e) {
-					e.printStackTrace();
+					Log.e(TAG, "Exception " + e);
 				}
 				if (error != ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
 					Log.e(TAG, "Exception " + error);
@@ -249,7 +243,7 @@ public class JumpingSumoInitializer {
 		builder.setNeutralButton(R.string.close, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				context.pause();
+				context.jumpingSumoDisconnect();
 				context.jsDestroy();
 			}
 		});
@@ -275,8 +269,7 @@ public class JumpingSumoInitializer {
 		@Override
 		public void onStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARCONTROLLER_ERROR_ENUM error) {
 			deviceState = newState;
-
-			if ((deviceState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+			if (deviceState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING)) {
 				jsDiscoverer.removeListener(discovererListener);
 			}
 		}
@@ -313,7 +306,6 @@ public class JumpingSumoInitializer {
 
 		@Override
 		public ARCONTROLLER_ERROR_ENUM onFrameReceived(ARDeviceController deviceController, final ARFrame frame) {
-			notifyFrameReceived(frame);
 			return ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK;
 		}
 

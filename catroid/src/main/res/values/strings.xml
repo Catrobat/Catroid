@@ -269,7 +269,7 @@
     <!-- Terms of Use Dialog Parrot ARDrone-->
     <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Services</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
-        AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
+        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
         Catrobat\'s
         Terms of
         Use and Services.</string>
@@ -898,7 +898,7 @@
     <string name="default_drone_project_sprites_takeoff">Take off</string>
 
     <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-    <string name="default_drone_project_sprites_rotate">Rotate</string>
+    <!-- <string name="default_drone_project_sprites_rotate">Rotate</string> -->
     <string name="default_drone_project_sprites_up">Up</string>
     <string name="default_drone_project_sprites_down">Down</string>n
     <string name="default_drone_project_sprites_left">Left</string>
@@ -971,10 +971,11 @@
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more cameras are not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-    <string name="drone_emergency_angle">AR.Drone Euler angles went too high. Motors shutdown to prevent dangerous behavior.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
+        behavior.</string>
     <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
     <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
-    <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
+    <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
     <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
     <string name="drone_emergency_title">Emergency</string>
     <!--  -->
@@ -1010,9 +1011,9 @@
     <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
     <string name="error_adding_brick">An error occurred while adding this brick.</string>
     <string name="error_copying_brick">An error occurred while copying this brick.</string>
-    <string name="error_no_drone_connected_title">Cannot find AR.Drone.</string>
-    <string name="error_no_drone_connected">Connect your wifi to the AR.Drone and try again.</string>
-    <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
+    <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
+    <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
+    <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
     <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
     <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
     <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
@@ -1020,8 +1021,8 @@
     <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
     <string name="error_jumpingsumo_battery">Insert a charged battery and try again.</string>
     <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
-    <string name="error_drone_wrong_platform_title">No AR.Drone support.</string>
-    <string name="error_drone_wrong_platform">We cannot run an AR.Drone project on your device.</string>
+    <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
+    <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
@@ -1171,35 +1172,34 @@
     <!--  -->
 
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land">Take off / Land</string>
-    <string name="brick_drone_play_led_animation">Play flash animation</string>
-    <string name="brick_drone_move_left">Move left</string>
-    <string name="brick_drone_move_right">Move right</string>
-    <string name="brick_drone_move_forward">Move forward</string>
-    <string name="brick_drone_move_backward">Move backward</string>
-    <string name="brick_drone_move_up">Move up</string>
-    <string name="brick_drone_move_down">Move down</string>
-    <string name="brick_drone_flip">Flip</string>
-    <string name="brick_drone_emergency">Emergency</string>
-    <string name="brick_drone_turn_right">Turn right</string>
-    <string name="brick_drone_turn_left">Turn left</string>
-    <string name="brick_drone_turn_left_magneto">Turn left [angle]</string>
-    <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
-    <string name="brick_drone_angle">Angle</string>
-    <string name="brick_drone_set_config">Set config</string>
-    <string name="brick_drone_switch_camera">Switch drone camera</string>
-    <string name="brick_drone_set_altitude">Altitude limit</string>
+    <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
+    <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+    <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
+    <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
+    <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
+    <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
+    <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
+    <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
+    <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
+    <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
+    <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
+    <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
+    <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
+    <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
+    <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
+    <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
+    <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
+    <string name="brick_drone_set_altitude">Altitude limit </string>
     <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
     <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
-    <string name="brick_drone_with">with</string>
+    <string name="brick_drone_with">seconds with</string>
     <string name="brick_drone_percent_power">power</string>
     <!--  -->
 
     <!-- defaultJumpingSumoValues -->
     <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
     <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
-    <string name="user_variable_name_battery_status">Battery:</string>
     <!--  -->
 
     <!-- Phiro bricks -->

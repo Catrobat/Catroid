@@ -526,10 +526,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		if (requiredResourceCounter == 0) {
 			if (failedResources.isEmpty()) {
 				Log.d(TAG, "Start Stage");
-				if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability()) {
-					if (!verifyJSConnection()) {
+				if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability() && (!verifyJSConnection())) {
 						return;
-					}
 				}
 				startStage();
 			} else {
@@ -671,7 +669,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			ARDeviceController deviceController = controller.getDeviceController();
 			state = deviceController.getState();
 		} catch (ARControllerException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Error could not connect to drone", e);
 		}
 		if (state != ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING) {
 			resourceFailed(Brick.JUMPING_SUMO);
