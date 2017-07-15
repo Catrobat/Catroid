@@ -82,6 +82,8 @@ import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoNoSoundBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -521,6 +523,9 @@ public class CategoryBricksFactory {
 		jumpingSumoBrickList.add(new JumpingSumoMoveBackwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues
 				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 		jumpingSumoBrickList.add(new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN));
+		jumpingSumoBrickList.add(new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.DEFAULT, BrickValues
+				.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
+		jumpingSumoBrickList.add(new JumpingSumoNoSoundBrick());
 
 		return jumpingSumoBrickList;
 	}
