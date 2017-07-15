@@ -39,7 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JumpingSumoDiscoverer {
-	private static final String TAG = JumpingSumoDiscoverer.class.getSimpleName();
 
 	public interface Listener {
 		/**
