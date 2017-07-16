@@ -173,7 +173,11 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
 
     compile 'com.facebook.android:facebook-android-sdk:4.14.1'
+
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:support-v4:24.1.1'
+
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.billthefarmer:mididriver:v1.13'
