@@ -28,13 +28,11 @@
     <string name="cancel">Cancel</string>
     <string name="next">Next</string>
     <string name="done">Done</string>
-    <string name="name_already_exists">This name already exists, please choose another one!</string>
-    <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
+
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="copy">Copy</string>
     <string name="cut">Cut</string>
     <string name="move">Move</string>
     <string name="backpack_add">Add to backpack</string>
@@ -104,6 +102,22 @@
     <string name="main_menu_scratch_converter">Scratch Converter</string>
     <string name="logout_successful">Logout successful</string>
     <!--  -->
+
+    <!-- Copy Paste -->
+    <string name="copy">Copy</string>
+    <string name="paste">Paste</string>
+
+    <!-- General Dialog Terms -->
+    <string name="name_already_exists">This name already exists, please choose another one!</string>
+    <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
+
+    <!-- New Item Dialog -->
+    <string name="save">save</string>
+    <string name="new_name_hint">new name</string>
+    <string name="new_scene">new scene</string>
+    <string name="new_object">new object</string>
+    <string name="new_look">new look</string>
+    <string name="new_sound">new sound</string>
 
     <!-- Marketing activity -->
     <string name="marketing_created_with">Created with</string>
@@ -661,13 +675,13 @@
     <!--  -->
 
     <!-- Motion bricks -->
-    <string name="brick_place_at">"Place at "</string>
+    <string name="brick_place_at">"place at "</string>
     <string name="x_label">"X: "</string>
     <string name="y_label">"Y: "</string>
-    <string name="brick_set_x">"Set X to "</string>
-    <string name="brick_set_y">"Set Y to "</string>
-    <string name="brick_change_x_by">"Change X by "</string>
-    <string name="brick_change_y_by">"Change Y by "</string>
+    <string name="brick_set_x">"set X to "</string>
+    <string name="brick_set_y">"set Y to "</string>
+    <string name="brick_change_x_by">"change X by "</string>
+    <string name="brick_change_y_by">"change Y by "</string>
     <string name="brick_go_back">Go back</string>
     <string name="brick_set_rotation_style">"Set rotation style "</string>
     <string name="brick_set_rotation_style_lr">left-right only</string>

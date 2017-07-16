@@ -115,4 +115,10 @@
     <dimen name="pocketmusic_trackrow_margin">0.5dp</dimen>
     <dimen name="plus_button_size">82sp</dimen>
 
+    <!-- ListView -->
+    <dimen name="item_height">70dp</dimen>
+
+    <!-- Brick Dimensions -->
+    <dimen name="reorder_icon_dimens">40dp</dimen>
+
 </resources>
