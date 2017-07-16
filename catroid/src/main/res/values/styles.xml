@@ -23,21 +23,32 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.Catroid" parent="android:Theme.Holo" >
-        <item name="android:actionBarStyle" >@style/Widget.Catroid.ActionBar</item >
-        <item name="android:windowBackground" >@color/application_background_color</item >
+    <style name="Catroid" parent="Theme.AppCompat.Light.NoActionBar" >
+        <!-- Colors -->
+        <item name="colorAccent">@color/accent_color</item>
+        <!-- Contextual Action Bar Overlay -->
+        <item name="windowActionModeOverlay">true</item>
+        <!-- Contextual Action Mode -->
+        <item name="android:actionModeBackground">@color/contextual_actionbar</item>
     </style >
 
-    <style name="Widget.Catroid.ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse" >
-        <item name="android:background" >@drawable/actionbar_background</item >
-        <item name="android:homeAsUpIndicator" >@drawable/ic_actionbar_back</item >
-        <item name="android:titleTextStyle" >@style/Widget.Catroid.ActionBar.Title</item >
-        <item name="android:height" >@dimen/actionbar_height</item >
-    </style >
+    <!-- Action Bar and Options Menu overlay -->
+    <style name="Catroid.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Catroid.OptionsMenu" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Widget.Catroid.ActionBar.Title" parent="android:TextAppearance.Holo.Widget.ActionBar.Title" >
-        <item name="android:textColor" >@color/actionbar_title_color</item >
-    </style >
+    <!-- Brick Styles -->
+    <style name="Brick">
+        <item name="android:minHeight">@dimen/item_height</item>
+    </style>
+    <style name="LookBrick" parent="Brick">
+        <item name="android:background">@color/look_brick</item>
+    </style>
+    <style name="MotionBrick" parent="Brick">
+        <item name="android:background">@color/motion_brick</item>
+    </style>
+        <style name="ScriptBrick" parent="Brick">
+        <item name="android:background">@color/script_brick</item>
+    </style>
 
     <style name="DefaultDialog" parent="android:Theme.Dialog" >
         <item name="android:layout_width" >wrap_content</item >
@@ -130,14 +141,6 @@
     </style >
 
     <style name="ListViewShadowed" >
-        <item name="android:cacheColorHint" >@color/solid_black</item >
-        <item name="android:drawSelectorOnTop" >false</item >
-        <item name="android:drawingCacheQuality" >high</item >
-        <item name="android:fadingEdgeLength" >10dp</item >
-        <item name="android:fastScrollEnabled" >true</item >
-        <!-- TODO Causing error needs api 14: <item name="android:requiresFadingEdge">vertical</item> -->
-        <item name="android:scrollingCache" >@string/scrolling_cache_enabled</item >
-        <item name="android:animationCache" >@string/animation_cache_enabled</item >
     </style >
 
     <style name="MainMenuButton" >

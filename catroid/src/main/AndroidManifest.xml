@@ -38,6 +38,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -85,7 +86,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="${appName}"
-        android:theme="@style/Theme.Catroid"
+        android:theme="@style/Catroid"
         android:supportsRtl="true">
 
         <meta-data
@@ -99,7 +100,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
-            android:name=".ui.MainMenuActivity"
+            android:name=".gui.activity.ProjectListActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -149,6 +150,15 @@
                     android:pathPrefix="/catrobat.com:catroid" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".gui.activity.SceneListActivity"/>
+        <activity
+            android:name=".gui.activity.SpriteListActivity"/>
+        <activity
+            android:name=".gui.activity.SpriteActivity"/>
+        <activity
+            android:name=".gui.activity.SettingsActivity" />
         <activity
             android:name=".ui.BackPackActivity"
             android:noHistory="true"

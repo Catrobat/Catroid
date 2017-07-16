@@ -21,11 +21,14 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<!-- Strings that need no translation -->
-<resources>
 
-    <!-- Settings -->
-    <string name="scrolling_cache_enabled">true</string>
-    <string name="animation_cache_enabled">true</string>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</resources>
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        app:showAsAction="never"/>
+  
+</menu>

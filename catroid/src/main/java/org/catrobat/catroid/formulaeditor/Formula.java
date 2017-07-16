@@ -31,13 +31,14 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.data.brick.BrickFieldObject;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class Formula implements Serializable {
+public class Formula implements Serializable, BrickFieldObject {
 
 	private static final long serialVersionUID = 1L;
 	private FormulaElement formulaTree;
@@ -125,6 +126,11 @@ public class Formula implements Serializable {
 			formulaTree = new FormulaElement(ElementType.STRING, value, null);
 			internFormula = new InternFormula(formulaTree.getInternTokenList());
 		}
+	}
+
+	@Override
+	public String getDisplayText(Context context) {
+		return getTrimmedFormulaString(context);
 	}
 
 	public void setDisplayText(String text) {
