@@ -47,7 +47,7 @@ public abstract class BaseActivity extends Activity {
 	private boolean returnToProjectsList;
 	private String titleActionBar;
 	private boolean returnByPressingBackButton;
-	private static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
+	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public abstract class BaseActivity extends Activity {
 		titleActionBar = null;
 		returnToProjectsList = false;
 		returnByPressingBackButton = false;
-		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler());
+		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {

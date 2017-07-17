@@ -23,15 +23,28 @@
 
 package org.catrobat.catroid.ui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import org.catrobat.catroid.utils.CrashReporter;
+
+import static org.catrobat.catroid.ui.BaseActivity.RECOVERED_FROM_CRASH;
 
 public class BaseExceptionHandler implements
 		java.lang.Thread.UncaughtExceptionHandler {
 
 	private static final int EXIT_CODE = 10;
 
+	private final SharedPreferences preferences;
+
+	public BaseExceptionHandler(Context context) {
+		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	}
+
 	public void uncaughtException(Thread thread, Throwable exception) {
 		CrashReporter.storeUnhandledException(exception);
+		preferences.edit().putBoolean(RECOVERED_FROM_CRASH, true).commit();
 		exit();
 	}
 
