@@ -81,9 +81,11 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		initializeBrickFields(new Formula(red), new Formula(green), new Formula(blue));
 	}
 
-	public PhiroRGBLightBrick(Eye eye, Formula red, Formula green, Formula blue) {
-		this.eyeEnum = eye;
-		this.eye = eyeEnum.name();
+	public PhiroRGBLightBrick(String eye, Formula red, Formula green, Formula blue) {
+		if (eye != null) {
+			this.eye = eye;
+			readResolve();
+		}
 
 		initializeBrickFields(red, green, blue);
 	}
@@ -132,7 +134,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 	@Override
 	public Brick clone() {
-		return new PhiroRGBLightBrick(eyeEnum,
+		return new PhiroRGBLightBrick(eye,
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).clone(),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).clone(),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).clone());
@@ -188,7 +190,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
+		if (eyeEnum == null) {
+			readResolve();
+		}
 		eyeSpinner.setSelection(eyeEnum.ordinal());
 
 		return view;

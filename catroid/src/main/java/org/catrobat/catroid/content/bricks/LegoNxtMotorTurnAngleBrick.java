@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -101,14 +100,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 
 		legoSpinner.setAdapter(motorAdapter);
 		legoSpinner.setSelection(motorEnum.ordinal());
-		legoSpinner.setGravity(Gravity.CENTER);
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new LegoNxtMotorTurnAngleBrick(motorEnum,
-				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).clone());
 	}
 
 	@Override
@@ -152,9 +144,10 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
-		motorSpinner.setGravity(Gravity.CENTER);
 
 		return view;
 	}

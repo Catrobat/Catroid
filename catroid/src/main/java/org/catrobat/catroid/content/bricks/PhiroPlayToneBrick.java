@@ -106,12 +106,6 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new PhiroPlayToneBrick(toneEnum,
-				getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS).clone());
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
@@ -145,7 +139,9 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
+		if (toneEnum == null) {
+			readResolve();
+		}
 		toneSpinner.setSelection(toneEnum.ordinal());
 
 		return view;
