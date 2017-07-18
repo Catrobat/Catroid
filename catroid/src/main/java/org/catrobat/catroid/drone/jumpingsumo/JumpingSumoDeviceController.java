@@ -20,26 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.drone.jumpingsumo;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.service.DroneControlService;
+import com.parrot.arsdk.arcontroller.ARDeviceController;
 
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
+public final class JumpingSumoDeviceController {
+	private static JumpingSumoDeviceController ourInstance = new JumpingSumoDeviceController();
+	private ARDeviceController deviceController = null;
 
-public class DroneTakeoffAndLandAction extends TemporalAction {
-
-	@Override
-	protected void begin() {
-		super.begin();
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
-		if (dcs != null) {
-			dcs.triggerTakeOff();
-		}
+	public static JumpingSumoDeviceController getInstance() {
+		return ourInstance;
 	}
 
-	@Override
-	protected void update(float percent) {
-		//Nothing to do
+	private JumpingSumoDeviceController() {
+	}
+
+	public void setDeviceController(ARDeviceController controller) {
+		deviceController = controller;
+	}
+
+	public ARDeviceController getDeviceController() {
+		return deviceController;
+	}
+
+	public boolean isConnected() {
+		return (deviceController != null);
 	}
 }

@@ -164,6 +164,20 @@
  		<item >@string/close</item >
  	</string-array >
 
+    <!-- Jumping Sumo animation spinner -->
+    <string-array name="brick_jumping_sumo_select_animation_spinner">
+        <item>@string/animation_spin</item>
+        <item>@string/animation_tab</item>
+        <item>@string/animation_slowshake</item>
+        <item>@string/animation_metronome</item>
+        <item>@string/animation_ondulation</item>
+        <item>@string/animation_spinjump</item>
+        <item>@string/animation_spintoposture</item>
+        <item>@string/animation_spiral</item>
+        <item>@string/animation_slalom</item>
+        <item>@string/animation_stop</item>
+    </string-array>
+
     <!-- Phiro tone spinner -->
     <string-array name="brick_phiro_select_tone_spinner">
         <item>@string/phiro_tone_do</item>

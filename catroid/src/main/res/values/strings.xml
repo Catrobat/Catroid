@@ -653,7 +653,8 @@
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
-    <string name="category_drone">AR.Drone</string>
+    <string name="category_drone">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo">Jumping Sumo</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
@@ -1172,6 +1173,25 @@
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
     <string name="brick_drone_with">with</string>
     <string name="brick_drone_percent_power">power</string>
+    <!--  -->
+
+    <!-- defaultJumpingSumoValues -->
+    <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+    <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
+    <!--  -->
+
+    <!-- Jumping Sumo animation strings -->
+    <string name="animation_spin">Spin</string>
+    <string name="animation_tab">Tab</string>
+    <string name="animation_slowshake">Slowshake</string>
+    <string name="animation_metronome">Metronome</string>
+    <string name="animation_ondulation">Ondulation</string>
+    <string name="animation_spinjump">Spinjump</string>
+    <string name="animation_spintoposture">SpinToPosture</string>
+    <string name="animation_spiral">Spiral</string>
+    <string name="animation_slalom">Slalom</string>
+    <string name="animation_stop">Stop</string>
     <!--  -->
 
     <!-- Phiro bricks -->
