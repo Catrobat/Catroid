@@ -22,19 +22,38 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.service.DroneControlService;
+import com.parrot.arsdk.arcontroller.ARDeviceController;
 
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
+import org.catrobat.catroid.content.bricks.JumpingSumoNoSoundBrick;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
+import org.catrobat.catroid.formulaeditor.Formula;
 
-public class DroneTakeoffAndLandAction extends TemporalAction {
+public class JumpingSumoNoSoundAction extends TemporalAction {
+
+	private ARDeviceController deviceController;
+	private JumpingSumoDeviceController controller;
+	private byte normalizedVolume;
+	protected Context context;
+
+	private static final int NO_VOLUME = 0;
+
+	private static final String TAG = JumpingSumoNoSoundBrick.class.getSimpleName();
 
 	@Override
 	protected void begin() {
 		super.begin();
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
-		if (dcs != null) {
-			dcs.triggerTakeOff();
+		controller = JumpingSumoDeviceController.getInstance();
+		deviceController = controller.getDeviceController();
+
+		normalizedVolume = (byte) +NO_VOLUME;
+
+		if (deviceController != null) {
+			deviceController.getFeatureJumpingSumo().sendAudioSettingsMasterVolume(normalizedVolume);
+			Log.d(TAG, "No_Sound");
 		}
 	}
 

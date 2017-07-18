@@ -80,6 +80,8 @@ import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
+import org.catrobat.catroid.content.actions.JumpingSumoNoSoundAction;
+import org.catrobat.catroid.content.actions.JumpingSumoSoundAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorStopAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorTurnAngleAction;
@@ -144,6 +146,7 @@ import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -946,6 +949,18 @@ public class ActionFactory extends Actions {
 
 	public Action createDroneGoEmergencyAction() {
 		return action(DroneEmergencyAction.class);
+	}
+
+	public Action createJumpingSumoNoSoundAction() {
+		return action(JumpingSumoNoSoundAction.class);
+	}
+
+	public Action createJumpingSumoSoundAction(Sprite sprite, JumpingSumoSoundBrick.Sounds soundEnum, Formula volume) {
+		JumpingSumoSoundAction action = action(JumpingSumoSoundAction.class);
+		action.setSoundEnum(soundEnum);
+		action.setSprite(sprite);
+		action.setVolume(volume);
+		return action;
 	}
 
 	public Action createSetTextAction(Sprite sprite, Formula x, Formula y, Formula text) {

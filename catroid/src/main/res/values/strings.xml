@@ -653,7 +653,8 @@
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
-    <string name="category_drone">AR.Drone</string>
+    <string name="category_drone">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo">Jumping Sumo</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
@@ -1172,6 +1173,25 @@
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
     <string name="brick_drone_with">with</string>
     <string name="brick_drone_percent_power">power</string>
+    <!--  -->
+
+    <!-- Jumping Sumo Bricks -->
+    <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+    <!--  -->
+
+    <!-- defaultJumpingSumoValues -->
+    <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+    <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+    <!--  -->
+
+    <!-- Jumping Sumo sound strings -->
+    <string name="jumping_sumo_volume">Volume</string>
+    <string name="sound_default">Normal</string>
+    <string name="sound_robot">Robot</string>
+    <string name="sound_insect">Insect</string>
+    <string name="sound_monster">Monster</string>
     <!--  -->
 
     <!-- Phiro bricks -->
