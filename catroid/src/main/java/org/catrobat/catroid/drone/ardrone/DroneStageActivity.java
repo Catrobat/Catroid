@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.drone;
+package org.catrobat.catroid.drone.ardrone;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

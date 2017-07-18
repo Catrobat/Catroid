@@ -20,26 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.bricks;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.service.DroneControlService;
+import android.view.View;
 
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class DroneTakeoffAndLandAction extends TemporalAction {
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+
+import java.util.List;
+
+public class JumpingSumoJumpLongBrick extends JumpingSumoBasicBrick {
+	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void begin() {
-		super.begin();
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
-		if (dcs != null) {
-			dcs.triggerTakeOff();
-		}
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoJumpLongAction());
+		return null;
 	}
 
 	@Override
-	protected void update(float percent) {
-		//Nothing to do
+	protected String getBrickLabel(View view) {
+		return view.getResources().getString(R.string.brick_jumping_sumo_jump_long);
 	}
 }

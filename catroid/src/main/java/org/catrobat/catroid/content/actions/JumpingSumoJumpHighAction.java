@@ -22,22 +22,32 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.service.DroneControlService;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_JUMP_TYPE_ENUM;
+import com.parrot.arsdk.arcontroller.ARDeviceController;
 
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 
-public class DroneTakeoffAndLandAction extends TemporalAction {
+public class JumpingSumoJumpHighAction extends TemporalAction {
+
+	private ARDeviceController deviceController;
+	private JumpingSumoDeviceController controller;
+	private static final String TAG = JumpingSumoJumpHighAction.class.getSimpleName();
 
 	@Override
 	protected void begin() {
 		super.begin();
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
-		if (dcs != null) {
-			dcs.triggerTakeOff();
+		controller = JumpingSumoDeviceController.getInstance();
+		deviceController = controller.getDeviceController();
+		if (deviceController != null) {
+			deviceController.getFeatureJumpingSumo().sendAnimationsJump(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_JUMP_TYPE_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_JUMP_TYPE_HIGH);
+			Log.d(TAG, "send jump high command JS down");
+		} else {
+			Log.d(TAG, "error: send jump high command JS");
 		}
 	}
-
 	@Override
 	protected void update(float percent) {
 		//Nothing to do
