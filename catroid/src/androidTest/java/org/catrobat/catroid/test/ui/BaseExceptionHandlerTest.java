@@ -34,17 +34,19 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.junit.Before;
 
+import static org.catrobat.catroid.ui.BaseActivity.RECOVERED_FROM_CRASH;
 import static org.catrobat.catroid.utils.CrashReporter.EXCEPTION_FOR_REPORT;
 
 public class BaseExceptionHandlerTest extends AndroidTestCase {
 
+	private Context context;
 	private SharedPreferences sharedPreferences;
 	private SharedPreferences.Editor editor;
 
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		Context context = InstrumentationRegistry.getTargetContext();
+		context = InstrumentationRegistry.getTargetContext();
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		editor = sharedPreferences.edit();
 		editor.clear();
@@ -65,7 +67,7 @@ public class BaseExceptionHandlerTest extends AndroidTestCase {
 	public void testExceptionStoredOnCallingUncaughtException() {
 		assertTrue(sharedPreferences.getString(EXCEPTION_FOR_REPORT, "").isEmpty());
 
-		BaseExceptionHandler baseExceptionHandler = new BaseExceptionHandler() {
+		BaseExceptionHandler baseExceptionHandler = new BaseExceptionHandler(context) {
 			@Override
 			protected void exit() {
 			}
@@ -74,5 +76,18 @@ public class BaseExceptionHandlerTest extends AndroidTestCase {
 		baseExceptionHandler.uncaughtException(null, new RuntimeException("Test Error"));
 
 		assertFalse(sharedPreferences.getString(EXCEPTION_FOR_REPORT, "").isEmpty());
+	}
+
+	public void testSetRecoveredFromCrashFlag() {
+		assertFalse(sharedPreferences.getBoolean(RECOVERED_FROM_CRASH, false));
+
+		BaseExceptionHandler baseExceptionHandler = new BaseExceptionHandler(context) {
+			@Override
+			protected void exit() {
+			}
+		};
+		baseExceptionHandler.uncaughtException(null, new RuntimeException("Test Error"));
+
+		assertTrue(sharedPreferences.getBoolean(RECOVERED_FROM_CRASH, false));
 	}
 }
