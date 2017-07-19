@@ -59,6 +59,14 @@ public class LookAdapter extends LookBaseAdapter implements ActionModeActivityAd
 			return INVALID_ID;
 		}
 		LookData item = getItem(position);
+
+		if (!idMap.containsKey(item)) {
+			idMap.clear();
+			for (int i = 0; i < getCount(); i++) {
+				idMap.put(getItem(i), i);
+			}
+		}
+
 		return idMap.get(item);
 	}
 
