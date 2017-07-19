@@ -62,6 +62,8 @@ import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilCamera;
+import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -339,7 +341,11 @@ public class NewSpriteDialog extends DialogFragment {
 		mediaButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (Utils.isNetworkAvailable(view.getContext(), true)) {
+				if(UtilWebConnection.noConnection(view.getContext())) {
+					new NoWebConnectionDialogBuilder(view.getContext())
+							.show();
+				}
+				else {
 					Intent intent = new Intent(getActivity(), WebViewActivity.class);
 					String url = Constants.LIBRARY_LOOKS_URL;
 

@@ -62,7 +62,7 @@ import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
@@ -109,7 +109,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	private static final int DRAG_AND_DROP_Y_OFFSET = 100;
 
 	private Sprite sprite;
-	private Sprite sprite2;
 	private Project project;
 
 	private String continueMenu;
@@ -138,7 +137,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		sprite = new SingleSprite(SPRITE_NAME);
-		sprite2 = new SingleSprite(SPRITE_NAME2);
+		Sprite sprite2 = new SingleSprite(SPRITE_NAME2);
 		project.getDefaultScene().addSprite(sprite);
 		project.getDefaultScene().addSprite(sprite2);
 		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
@@ -397,7 +396,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		int retryCounter = 0;
 		WifiManager wifiManager = (WifiManager) this.getActivity().getSystemService(Context.WIFI_SERVICE);
 		wifiManager.setWifiEnabled(false);
-		while (Utils.isNetworkAvailable(getActivity())) {
+		while (UtilWebConnection.isNetworkAvailable(getActivity())) {
 			solo.sleep(2000);
 			if (retryCounter > 30) {
 				break;
@@ -410,8 +409,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(mediaLibraryText);
 		assertTrue("Should be in Sprites Fragment", solo.waitForText(SPRITE_NAME));
 		wifiManager.setWifiEnabled(true);
-		while (!Utils.isNetworkAvailable(getActivity())) {
-			solo.sleep(2000);
+		while (UtilWebConnection.noConnection(getActivity())) {
 			if (retryCounter > 30) {
 				break;
 			}

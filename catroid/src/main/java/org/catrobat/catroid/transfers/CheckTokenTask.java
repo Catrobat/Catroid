@@ -28,8 +28,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.ui.dialogs.NoWebConnectionDialogBuilder;
+import org.catrobat.catroid.web.UtilWebConnection;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -69,7 +69,7 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			if (!Utils.isNetworkAvailable(activity)) {
+			if (UtilWebConnection.noConnection(activity)) {
 				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
@@ -90,8 +90,9 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(success, exception)) {
-			showDialog(R.string.error_internet_connection);
+		if (!success && UtilWebConnection.checkForNetworkError(exception)) {
+			new NoWebConnectionDialogBuilder(activity)
+					.show();
 			return;
 		}
 		if (!success) {
@@ -105,19 +106,6 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 
 		if (onCheckTokenCompleteListener != null) {
 			onCheckTokenCompleteListener.onCheckTokenSuccess(activity);
-		}
-	}
-
-	private void showDialog(int messageId) {
-		if (activity == null) {
-			return;
-		}
-		if (exception.getMessage() == null) {
-			new CustomAlertDialogBuilder(activity).setMessage(messageId).setPositiveButton(R.string.ok, null)
-					.show();
-		} else {
-			new CustomAlertDialogBuilder(activity).setMessage(exception.getMessage())
-					.setPositiveButton(R.string.ok, null).show();
 		}
 	}
 
