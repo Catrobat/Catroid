@@ -37,6 +37,7 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 	private Sprite sprite;
 	private Formula degree;
 	private float newDegree;
+	private float duration;
 
 	protected static final float JUMPING_SUMO_ROTATE_ZERO = 0.0f;
 
@@ -50,6 +51,10 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 
 	public void setDegree(Formula degree) {
 		this.degree = degree;
+	}
+
+	public void setDelay(float delay) {
+		this.duration = delay;
 	}
 
 	@Override
@@ -73,8 +78,10 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 	protected void move() {
 		if (deviceController != null) {
 			newDegree = (float) (newDegree * Math.PI / 180);
-			deviceController.getFeatureJumpingSumo().sendPilotingAddCapOffset(newDegree);
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 1);
+			deviceController.getFeatureJumpingSumo().sendPilotingAddCapOffset(newDegree);
+			duration = 1.0f;
+			super.setDuration(duration);
 			Log.d(TAG, "send move command JS");
 		} else {
 			Log.d(TAG, "error: send move command JS");
