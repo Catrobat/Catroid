@@ -172,10 +172,8 @@
         <item>@string/animation_metronome</item>
         <item>@string/animation_ondulation</item>
         <item>@string/animation_spinjump</item>
-        <item>@string/animation_spintoposture</item>
         <item>@string/animation_spiral</item>
         <item>@string/animation_slalom</item>
-        <item>@string/animation_stop</item>
     </string-array>
 
     <!-- Phiro tone spinner -->

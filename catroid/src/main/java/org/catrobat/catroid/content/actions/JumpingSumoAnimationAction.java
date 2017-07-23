@@ -38,11 +38,16 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 	private JumpingSumoDeviceController controller;
 
 	private JumpingSumoAnimationsBrick.Animation animationEnum;
+	private float duration;
 
 	private static final String TAG = JumpingSumoAnimationAction.class.getSimpleName();
 
 	public void setAnimationEnum(JumpingSumoAnimationsBrick.Animation animationEnum) {
 		this.animationEnum = animationEnum;
+	}
+
+	public void setDelay(float delay) {
+		this.duration = delay;
 	}
 
 	@Override
@@ -60,33 +65,43 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 			switch (animationEnum) {
 				case SPIN:
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SPIN);
+					duration = 2.8f;
+					super.setDuration(duration);
 					break;
 				case TAB:
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_TAP);
+					duration = 1.2f;
+					super.setDuration(duration);
 					break;
 				case SLOWSHAKE:
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SLOWSHAKE);
+					duration = 2.2f;
+					super.setDuration(duration);
 					break;
 				case METRONOME:
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_METRONOME);
+					duration = 3.2f;
+					super.setDuration(duration);
 					break;
 				case ONDULATION:
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ONDULATION);
+					duration = 1.6f;
+					super.setDuration(duration);
 					break;
 				case SPINJUMP:
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SPINJUMP);
-					break;
-				case SPINTOPOSTURE:
-					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SPINTOPOSTURE);
+					duration = 5.5f;
+					super.setDuration(duration);
 					break;
 				case SPIRAL:
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SPIRAL);
+					duration = 9.6f;
+					super.setDuration(duration);
 					break;
 				case SLALOM:
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SLALOM);
-					break;
-				case STOP:
-					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_STOP);
+					duration = 2.1f;
+					super.setDuration(duration);
 					break;
 			}
 		} else {

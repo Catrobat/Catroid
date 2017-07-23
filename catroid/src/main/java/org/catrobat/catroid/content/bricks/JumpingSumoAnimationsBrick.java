@@ -45,9 +45,10 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	private transient View prototypeView;
 	private String animation;
 	private transient Animation animationenum;
+	private float delay;
 
 	public enum Animation {
-		SPIN, TAB, SLOWSHAKE, METRONOME, ONDULATION, SPINJUMP, SPINTOPOSTURE, SPIRAL, SLALOM, STOP
+		SPIN, TAB, SLOWSHAKE, METRONOME, ONDULATION, SPINJUMP, SPIRAL, SLALOM
 	}
 
 	public JumpingSumoAnimationsBrick(Animation animation) {
@@ -140,7 +141,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoAnimationAction(animationenum));
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoAnimationAction(animationenum, delay));
 		return null;
 	}
 }

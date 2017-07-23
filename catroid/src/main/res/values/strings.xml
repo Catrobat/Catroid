@@ -1216,10 +1216,8 @@
     <string name="animation_metronome">Metronome</string>
     <string name="animation_ondulation">Ondulation</string>
     <string name="animation_spinjump">Spinjump</string>
-    <string name="animation_spintoposture">SpinToPosture</string>
     <string name="animation_spiral">Spiral</string>
     <string name="animation_slalom">Slalom</string>
-    <string name="animation_stop">Stop</string>
     <!--  -->
 
     <!-- Phiro bricks -->
