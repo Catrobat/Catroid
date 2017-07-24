@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,7 +36,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -106,14 +104,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 
 		legoSpinner.setAdapter(motorAdapter);
 		legoSpinner.setSelection(motorEnum.ordinal());
-		legoSpinner.setGravity(Gravity.CENTER);
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new LegoNxtMotorTurnAngleBrick(motorEnum,
-				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).clone());
 	}
 
 	@Override
@@ -163,9 +154,10 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
-		motorSpinner.setGravity(Gravity.CENTER);
 
 		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
@@ -176,9 +168,5 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorTurnAngleAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES)));
 		return null;
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

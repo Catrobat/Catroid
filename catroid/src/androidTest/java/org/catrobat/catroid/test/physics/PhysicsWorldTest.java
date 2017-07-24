@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -120,7 +120,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 	}
 
 	public void testCreatePhysicsObject() {
-		Object[] values = { new Sprite("testsprite") };
+		Object[] values = {new Sprite("testsprite")};
 		ParameterList paramList = new ParameterList(values);
 		PhysicsObject physicsObject = (PhysicsObject) Reflection.invokeMethod(physicsWorld, "createPhysicsObject",
 				paramList);

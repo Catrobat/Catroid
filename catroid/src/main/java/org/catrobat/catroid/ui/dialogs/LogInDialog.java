@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -146,7 +146,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 	}
 
 	private void handleLoginButtonClick() {
-		String username = usernameEditText.getText().toString();
+		String username = usernameEditText.getText().toString().replaceAll("\\s", "");
 		String password = passwordEditText.getText().toString();
 
 		LoginTask loginTask = new LoginTask(getActivity(), username, password);

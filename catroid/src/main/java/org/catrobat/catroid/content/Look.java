@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,10 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
@@ -103,7 +106,7 @@ public class Look extends Image {
 		this.addListener(new BroadcastListener() {
 			@Override
 			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastEvent(broadcastMessage);
+				doHandleBroadcastEvent(event.getSenderSprite(), broadcastMessage);
 			}
 
 			@Override
@@ -129,26 +132,17 @@ public class Look extends Image {
 		Look.actionsToRestart.add(action);
 	}
 
-	public Look copyLookForSprite(final Sprite cloneSprite) {
-		Look cloneLook = cloneSprite.look;
-
-		cloneLook.alpha = this.alpha;
-		cloneLook.brightness = this.brightness;
-		cloneLook.setLookVisible(isLookVisible());
-		cloneLook.whenParallelAction = null;
-		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
-
-		cloneLook.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
+	public void copyTo(final Look destination) {
+		destination.setLookVisible(this.isLookVisible());
+		destination.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
 				this.getYInUserInterfaceDimensionUnit());
-		cloneLook.setTransparencyInUserInterfaceDimensionUnit(this.getTransparencyInUserInterfaceDimensionUnit());
-		cloneLook.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
+		destination.setSizeInUserInterfaceDimensionUnit(this.getSizeInUserInterfaceDimensionUnit());
+		destination.setTransparencyInUserInterfaceDimensionUnit(this.getTransparencyInUserInterfaceDimensionUnit());
+		destination.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
 
-		int rotationMode = this.getRotationMode();
-		cloneLook.setRotationMode(rotationMode);
-		cloneLook.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
-		cloneLook.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
-
-		return cloneLook;
+		destination.setRotationMode(this.getRotationMode());
+		destination.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
+		destination.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public boolean doTouchDown(float x, float y, int pointer) {
@@ -191,7 +185,7 @@ public class Look extends Image {
 			super.setVisible(true);
 		}
 
-		if (lookData instanceof DroneVideoLookData && lookData != null) {
+		if (lookData instanceof DroneVideoLookData) {
 			lookData.draw(batch, alpha);
 		}
 
@@ -373,8 +367,8 @@ public class Look extends Image {
 	}
 
 	private void flipLookDataIfNeeded(int mode) {
-		boolean orientedLeft = sprite.look.getDirectionInUserInterfaceDimensionUnit() < 0;
-		boolean differentModeButFlipped = mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && sprite.look.isFlipped();
+		boolean orientedLeft = getDirectionInUserInterfaceDimensionUnit() < 0;
+		boolean differentModeButFlipped = mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && isFlipped();
 		boolean facingLeftButNotFlipped = mode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft;
 		if (differentModeButFlipped || facingLeftButNotFlipped) {
 			getLookData().getTextureRegion().flip(true, false);
@@ -532,7 +526,7 @@ public class Look extends Image {
 		if (val < 0) {
 			val = COLOR_SCALE + val;
 		}
-		hue = ((float) val) / COLOR_SCALE;
+		hue = val / COLOR_SCALE;
 		colorChanged = true;
 		imageChanged = true;
 	}
@@ -565,8 +559,8 @@ public class Look extends Image {
 		return breakDownCatroidAngle(catroidAngle);
 	}
 
-	protected void doHandleBroadcastEvent(String broadcastMessage) {
-		BroadcastHandler.doHandleBroadcastEvent(this, broadcastMessage);
+	protected void doHandleBroadcastEvent(Sprite senderSprite, String broadcastMessage) {
+		BroadcastHandler.doHandleBroadcastEvent(this, senderSprite, broadcastMessage);
 	}
 
 	protected void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
@@ -625,7 +619,7 @@ public class Look extends Image {
 		private static final String CONTRAST_STRING_IN_SHADER = "contrast";
 		private static final String HUE_STRING_IN_SHADER = "hue";
 
-		public BrightnessContrastHueShader() {
+		BrightnessContrastHueShader() {
 			super(VERTEX_SHADER, FRAGMENT_SHADER);
 			ShaderProgram.pedantic = false;
 			if (isCompiled()) {
@@ -648,6 +642,13 @@ public class Look extends Image {
 			setUniformf(HUE_STRING_IN_SHADER, hue);
 			end();
 		}
+	}
+
+	public Map<String, List<String>> createScriptActions() {
+		this.setWhenParallelAction(null);
+		Map<String, List<String>> scriptActions = new HashMap<>();
+		sprite.createStartScriptActionSequenceAndPutToMap(scriptActions, false);
+		return scriptActions;
 	}
 
 	public Polygon[] getCurrentCollisionPolygon() {

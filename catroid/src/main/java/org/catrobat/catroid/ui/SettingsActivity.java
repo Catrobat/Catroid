@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -48,9 +49,10 @@ import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.utils.BrickEditText;
 import org.catrobat.catroid.utils.BrickSpinner;
 import org.catrobat.catroid.utils.BrickTextView;
+import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -73,11 +75,12 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_PARROT_AR_DRONE_CATEGORY_SUMMARY = "setting_parrot_ar_drone_category_summary";
 	public static final String SETTINGS_ACCESSIBILITY_SETTINGS = "preference_button_access";
 	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
-	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
+	public static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
 	public static final String SETTINGS_SHOW_RASPI_BRICKS = "setting_raspi_bricks";
 	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
+	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
 	PreferenceScreen screen = null;
 
@@ -85,13 +88,13 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String NXT_SENSOR_2 = "setting_mindstorms_nxt_sensor_2";
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
-	public static final String[] NXT_SENSORS = { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
+	public static final String[] NXT_SENSORS = {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
 
 	public static final String EV3_SENSOR_1 = "setting_mindstorms_ev3_sensor_1";
 	public static final String EV3_SENSOR_2 = "setting_mindstorms_ev3_sensor_2";
 	public static final String EV3_SENSOR_3 = "setting_mindstorms_ev3_sensor_3";
 	public static final String EV3_SENSOR_4 = "setting_mindstorms_ev3_sensor_4";
-	public static final String[] EV3_SENSORS = { EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4 };
+	public static final String[] EV3_SENSORS = {EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4};
 
 	public static final String DRONE_CONFIGS = "setting_drone_basic_configs";
 	public static final String DRONE_ALTITUDE_LIMIT = "setting_drone_altitude_limit";
@@ -149,6 +152,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		addPreferencesFromResource(R.xml.preferences);
 
+		setAnonymousCrashReportPreference();
 		setNXTSensors();
 		setEV3Sensors();
 		setDronePreferences();
@@ -195,6 +199,13 @@ public class SettingsActivity extends PreferenceActivity {
 			screen.removePreference(arduinoPreference);
 		}
 
+		//disable Cast features before API 19 - KitKat
+		if ((!BuildConfig.FEATURE_CAST_ENABLED) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)) {
+			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
+			globalCastPreference.setEnabled(false);
+			screen.removePreference(globalCastPreference);
+		}
+
 		if (!BuildConfig.FEATURE_RASPI_ENABLED) {
 			PreferenceScreen raspiPreference = (PreferenceScreen) findPreference(RASPI_SETTINGS_SCREEN);
 			raspiPreference.setEnabled(false);
@@ -208,6 +219,24 @@ public class SettingsActivity extends PreferenceActivity {
 			nfcPreference.setEnabled(false);
 			screen.removePreference(nfcPreference);
 		}
+
+		if (!BuildConfig.CRASHLYTICS_CRASH_REPORT_ENABLED) {
+			CheckBoxPreference crashlyticsPreference = (CheckBoxPreference) findPreference(SETTINGS_CRASH_REPORTS);
+			crashlyticsPreference.setEnabled(false);
+			screen.removePreference(crashlyticsPreference);
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private void setAnonymousCrashReportPreference() {
+		CheckBoxPreference reportCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_CRASH_REPORTS);
+		reportCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object isChecked) {
+				setAutoCrashReportingEnabled(getApplicationContext(), (Boolean) isChecked);
+				return true;
+			}
+		});
 	}
 
 	@SuppressWarnings("deprecation")
@@ -246,7 +275,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		boolean areChoosersEnabled = getDroneChooserEnabled(this);
 
-		final String[] dronePreferences = new String[] { DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE };
+		final String[] dronePreferences = new String[] {DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
 		for (String dronePreference : dronePreferences) {
 			ListPreference listPreference = (ListPreference) findPreference(dronePreference);
 
@@ -325,7 +354,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
 
-		final String[] sensorPreferences = new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
+		final String[] sensorPreferences = new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
 		for (int i = 0; i < sensorPreferences.length; ++i) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
 			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
@@ -338,7 +367,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		boolean areChoosersEnabled = getMindstormsEV3SensorChooserEnabled(this);
 
-		final String[] sensorPreferences = new String[] { EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4 };
+		final String[] sensorPreferences = new String[] {EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4};
 		for (int i = 0; i < sensorPreferences.length; i++) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
 			listPreference.setEntryValues(EV3Sensor.Sensor.getSensorCodes());
@@ -354,7 +383,7 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				TrackingUtil.trackEnableHints(newValue.toString());
-				preference.getEditor().remove(SnackBarUtil.SHOWN_HINT_LIST).commit();
+				preference.getEditor().remove(SnackbarUtil.SHOWN_HINT_LIST).commit();
 				return true;
 			}
 		});
@@ -416,6 +445,7 @@ public class SettingsActivity extends PreferenceActivity {
 		TextSizeUtil.enlargeListPreference(this, RASPI_VERSION_SPINNER);
 		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_PHIRO_BRICKS);
 		TextSizeUtil.enlargePreferenceScreen(this, ACCESS_BUTTON);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_CAST_GLOBALLY_ENABLED);
 		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_HINTS);
 		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_CRASH_REPORTS);
 	}
@@ -490,6 +520,10 @@ public class SettingsActivity extends PreferenceActivity {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS, context);
 	}
 
+	public static boolean isCastSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_CAST_GLOBALLY_ENABLED, context);
+	}
+
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value);
@@ -526,10 +560,14 @@ public class SettingsActivity extends PreferenceActivity {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
 	}
 
-	public static void setAutoCrashReportingEnabled(Context context, boolean value) {
+	public static void setAutoCrashReportingEnabled(Context context, boolean isEnabled) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_CRASH_REPORTS, value);
+		editor.putBoolean(SETTINGS_CRASH_REPORTS, isEnabled);
 		editor.commit();
+
+		if (isEnabled) {
+			CrashReporter.initialize(context);
+		}
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
@@ -547,7 +585,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static NXTSensor.Sensor[] getLegoMindstormsNXTSensorMapping(Context context) {
 
 		final String[] sensorPreferences =
-				new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
+				new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
 
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
@@ -561,7 +599,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static EV3Sensor.Sensor[] getLegoMindstormsEV3SensorMapping(Context context) {
 
 		final String[] sensorPreferences =
-				new String[] { EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4 };
+				new String[] {EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4};
 
 		EV3Sensor.Sensor[] sensorMapping = new EV3Sensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
@@ -631,7 +669,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static DroneConfigPreference.Preferences[] getDronePreferenceMapping(Context context) {
 
 		final String[] dronePreferences =
-				new String[] { DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE };
+				new String[] {DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
 
 		DroneConfigPreference.Preferences[] preferenceMapping = new DroneConfigPreference.Preferences[5];
 		for (int i = 0; i < 5; i++) {
@@ -650,6 +688,10 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static void enableARDroneBricks(Context context, Boolean newValue) {
 		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
+	}
+
+	public static void setCastFeatureAvailability(Context context, boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, newValue).commit();
 	}
 
 	public static void setLegoMindstormsNXTBricks(Context context, Boolean newValue) {

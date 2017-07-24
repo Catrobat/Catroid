@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -52,17 +51,17 @@ public class SetPenColorBrick extends FormulaBrick {
 	private transient TextView editGreenValue;
 	private transient TextView editBlueValue;
 
-	private transient ColorSeekbar colorSeekbar = new ColorSeekbar(this, BrickField.PHIRO_LIGHT_RED,
-			BrickField.PHIRO_LIGHT_GREEN, BrickField.PHIRO_LIGHT_BLUE);
+	private transient ColorSeekbar colorSeekbar = new ColorSeekbar(this, BrickField.PEN_COLOR_RED,
+			BrickField.PEN_COLOR_GREEN, BrickField.PEN_COLOR_BLUE);
 
 	protected Object readResolve() {
 		return this;
 	}
 
 	public SetPenColorBrick() {
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE);
+		addAllowedBrickField(BrickField.PEN_COLOR_RED);
+		addAllowedBrickField(BrickField.PEN_COLOR_GREEN);
+		addAllowedBrickField(BrickField.PEN_COLOR_BLUE);
 	}
 
 	public SetPenColorBrick(int red, int green, int blue) {
@@ -74,19 +73,17 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	private void initializeBrickFields(Formula red, Formula green, Formula blue) {
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE);
-		setFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED, red);
-		setFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN, green);
-		setFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE, blue);
+		addAllowedBrickField(BrickField.PEN_COLOR_RED);
+		addAllowedBrickField(BrickField.PEN_COLOR_GREEN);
+		addAllowedBrickField(BrickField.PEN_COLOR_BLUE);
+		setFormulaWithBrickField(BrickField.PEN_COLOR_RED, red);
+		setFormulaWithBrickField(BrickField.PEN_COLOR_GREEN, green);
+		setFormulaWithBrickField(BrickField.PEN_COLOR_BLUE, blue);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).getRequiredResources();
+		return NO_RESOURCES;
 	}
 
 	@Override
@@ -107,9 +104,9 @@ public class SetPenColorBrick extends FormulaBrick {
 
 	@Override
 	public Brick clone() {
-		return new SetPenColorBrick(getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).clone(),
-				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).clone(),
-				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).clone());
+		return new SetPenColorBrick(getFormulaWithBrickField(BrickField.PEN_COLOR_RED).clone(),
+				getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN).clone(),
+				getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).clone());
 	}
 
 	@Override
@@ -134,20 +131,20 @@ public class SetPenColorBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_set_pen_color_checkbox);
 		editRedValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).setTextFieldId(R.id.brick_set_pen_color_action_red_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).refreshTextField(view);
+		getFormulaWithBrickField(BrickField.PEN_COLOR_RED).setTextFieldId(R.id.brick_set_pen_color_action_red_edit_text);
+		getFormulaWithBrickField(BrickField.PEN_COLOR_RED).refreshTextField(view);
 
 		editRedValue.setOnClickListener(this);
 
 		editGreenValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_green_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).setTextFieldId(R.id.brick_set_pen_color_action_green_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).refreshTextField(view);
+		getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN).setTextFieldId(R.id.brick_set_pen_color_action_green_edit_text);
+		getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN).refreshTextField(view);
 
 		editGreenValue.setOnClickListener(this);
 
 		editBlueValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_blue_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).setTextFieldId(R.id.brick_set_pen_color_action_blue_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).refreshTextField(view);
+		getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).setTextFieldId(R.id.brick_set_pen_color_action_blue_edit_text);
+		getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).refreshTextField(view);
 
 		editBlueValue.setOnClickListener(this);
 		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
@@ -165,33 +162,35 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	private boolean areAllBrickFieldsNumbers() {
-		return (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).getRoot().getElementType() == FormulaElement.ElementType.NUMBER)
-				&& (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).getRoot().getElementType() == FormulaElement.ElementType.NUMBER)
-				&& (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).getRoot().getElementType() == FormulaElement.ElementType.NUMBER);
+		return (getFormulaWithBrickField(BrickField.PEN_COLOR_RED).getRoot().getElementType() == FormulaElement.ElementType.NUMBER)
+				&& (getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN).getRoot().getElementType() == FormulaElement.ElementType.NUMBER)
+				&& (getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).getRoot().getElementType() == FormulaElement.ElementType.NUMBER);
 	}
 
 	private BrickField getClickedBrickField(View view) {
 		switch (view.getId()) {
 			case R.id.brick_set_pen_color_action_green_edit_text:
-				return BrickField.PHIRO_LIGHT_GREEN;
+				return BrickField.PEN_COLOR_GREEN;
 			case R.id.brick_set_pen_color_action_blue_edit_text:
-				return BrickField.PHIRO_LIGHT_BLUE;
+				return BrickField.PEN_COLOR_BLUE;
 			case R.id.brick_set_pen_color_action_red_edit_text:
 			default:
-				return BrickField.PHIRO_LIGHT_RED;
+				return BrickField.PEN_COLOR_RED;
 		}
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetPenColorAction(sprite,
-				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED),
-				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN),
-				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE)));
+				getFormulaWithBrickField(BrickField.PEN_COLOR_RED),
+				getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN),
+				getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE)));
 		return null;
 	}
 
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
+	public void correctBrickFieldsFromPhiro() {
+		replaceFormulaBrickField(BrickField.PHIRO_LIGHT_RED, BrickField.PEN_COLOR_RED);
+		replaceFormulaBrickField(BrickField.PHIRO_LIGHT_GREEN, BrickField.PEN_COLOR_GREEN);
+		replaceFormulaBrickField(BrickField.PHIRO_LIGHT_BLUE, BrickField.PEN_COLOR_BLUE);
 	}
 }

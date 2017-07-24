@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -84,7 +84,7 @@ public class ProjectListAdapter extends CheckBoxListAdapter<ProjectData> {
 	}
 
 	private void setSize(ListItemViewHolder listItemViewHolder) {
-		int[] attributes = { android.R.attr.textSize };
+		int[] attributes = {android.R.attr.textSize};
 		TypedArray typedArray = getContext().obtainStyledAttributes(R.style.look_fragment_main, attributes);
 		float originalTextSize = Float.valueOf(typedArray.getString(0).replace("sp", ""));
 		listItemViewHolder.checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, originalTextSize * TextSizeUtil.getModifier());

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.AccessibilityCheckboxAdapter;
 import org.catrobat.catroid.ui.adapter.AccessibilityCheckboxAdapter.AccessibilityCheckbox;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -120,7 +120,7 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 			public void onGlobalLayout() {
 				contentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				Utils.setListViewHeightBasedOnItemsAndTheirWidth(listView);
-				SnackBarUtil.showHintSnackBar(AccessibilityPreferencesActivity.this, R.string.hint_accessibility);
+				SnackbarUtil.showHintSnackBar(AccessibilityPreferencesActivity.this, R.string.hint_accessibility);
 			}
 		});
 
@@ -233,7 +233,8 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 	}
 
 	public void showFontfaceDialog(View view) {
-		final String[] fontfaces = { getResources().getString(R.string.preference_access_title_fontface_standard),
+		final String[] fontfaces = {
+				getResources().getString(R.string.preference_access_title_fontface_standard),
 				getResources().getString(R.string.preference_access_title_fontface_serif),
 				getResources().getString(R.string.preference_access_title_fontface_dyslexic) };
 

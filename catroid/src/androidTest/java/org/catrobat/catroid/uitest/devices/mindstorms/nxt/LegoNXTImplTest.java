@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -83,7 +83,7 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 
 	private void disableSensors() {
 		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getInstrumentation().getTargetContext(),
-				new NXTSensor.Sensor[] { NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR });
+				new NXTSensor.Sensor[] {NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR});
 	}
 
 	@Device
@@ -215,24 +215,24 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		LegoNxtMotorMoveBrick legoMotorActionBrick = new LegoNxtMotorMoveBrick(
 				LegoNxtMotorMoveBrick.Motor.MOTOR_B_C, 100);
-		commands.add(new int[] { MOTOR_ACTION, 1, 100 });
-		commands.add(new int[] { MOTOR_ACTION, 2, 100 });
+		commands.add(new int[] {MOTOR_ACTION, 1, 100});
+		commands.add(new int[] {MOTOR_ACTION, 2, 100});
 		WaitBrick firstWaitBrick = new WaitBrick(500);
 
 		LegoNxtMotorStopBrick legoMotorStopBrick = new LegoNxtMotorStopBrick(
 				LegoNxtMotorStopBrick.Motor.MOTOR_B_C);
-		commands.add(new int[] { MOTOR_STOP, 1 });
-		commands.add(new int[] { MOTOR_STOP, 2 });
+		commands.add(new int[] {MOTOR_STOP, 1});
+		commands.add(new int[] {MOTOR_STOP, 2});
 		WaitBrick secondWaitBrick = new WaitBrick(500);
 
 		LegoNxtMotorTurnAngleBrick legoMotorTurnAngleBrick = new LegoNxtMotorTurnAngleBrick(
 				LegoNxtMotorTurnAngleBrick.Motor.MOTOR_C, 515);
-		commands.add(new int[] { MOTOR_TURN, 2, 515 });
+		commands.add(new int[] {MOTOR_TURN, 2, 515});
 
 		WaitBrick thirdWaitBrick = new WaitBrick(500);
 		LegoNxtPlayToneBrick legoPlayToneBrick = new LegoNxtPlayToneBrick(50, 1.5f);
 		//Tone does not return a command
-		commands.add(new int[] { PLAY_TONE, 5000, 1500 });
+		commands.add(new int[] {PLAY_TONE, 5000, 1500});
 
 		whenScript.addBrick(legoMotorActionBrick);
 		whenScript.addBrick(firstWaitBrick);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -69,12 +69,6 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		PhiroMotorStopBrick copyBrick = (PhiroMotorStopBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_phiro_motor_stop, null);
 		Spinner phiroProSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_stop_motor_spinner);
@@ -86,11 +80,6 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 		phiroProSpinner.setAdapter(motorAdapter);
 		phiroProSpinner.setSelection(motorEnum.ordinal());
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new PhiroMotorStopBrick(motorEnum);
 	}
 
 	@Override
@@ -115,6 +104,9 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 		motorSpinner.setOnItemSelectedListener(this);
 
 		motorSpinner.setAdapter(motorAdapter);
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
 
 		TextSizeUtil.enlargeViewGroup((ViewGroup) view);

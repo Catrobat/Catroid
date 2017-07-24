@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,10 +67,10 @@ public abstract class FaceDetector {
 	}
 
 	protected void onFaceDetected(Point position, int size) {
-		float[] positionXFloatValue = new float[] { position.x };
+		float[] positionXFloatValue = new float[] {position.x};
 		boolean invertY = !CameraManager.getInstance().isCurrentCameraFacingBack();
-		float[] positionYFloatValue = new float[] { invertY ? -position.y : position.y };
-		float[] sizeFloatValue = new float[] { size };
+		float[] positionYFloatValue = new float[] {invertY ? -position.y : position.y};
+		float[] sizeFloatValue = new float[] {size};
 		SensorCustomEvent xPositionEvent = new SensorCustomEvent(Sensors.FACE_X_POSITION, positionXFloatValue);
 		SensorCustomEvent yPositionEvent = new SensorCustomEvent(Sensors.FACE_Y_POSITION, positionYFloatValue);
 		SensorCustomEvent sizeEvent = new SensorCustomEvent(Sensors.FACE_SIZE, sizeFloatValue);
@@ -84,7 +84,7 @@ public abstract class FaceDetector {
 	protected void onFaceDetected(boolean faceDetected) {
 		if (this.faceDetected != faceDetected) {
 			this.faceDetected = faceDetected;
-			float[] detectedFloatValue = new float[] { faceDetected ? 1 : 0 };
+			float[] detectedFloatValue = new float[] {faceDetected ? 1 : 0};
 			SensorCustomEvent event = new SensorCustomEvent(Sensors.FACE_DETECTED, detectedFloatValue);
 			for (SensorCustomEventListener listener : faceDetectionStatusListeners) {
 				listener.onCustomSensorChanged(event);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -115,7 +115,7 @@ public class BluetoothConnectionImpl implements BluetoothConnection {
 				Log.d(TAG, "Try connecting again");
 				// try another method for connection, this should work on the HTC desire, credits to Michael Biermann
 				Method mMethod = bluetoothDevice.getClass()
-						.getMethod(REFLECTION_METHOD_NAME, new Class[] { int.class });
+						.getMethod(REFLECTION_METHOD_NAME, new Class[] {int.class});
 				this.bluetoothSocket = (BluetoothSocket) mMethod.invoke(bluetoothDevice, Integer.valueOf(1));
 				this.bluetoothSocket.connect();
 				return (state = State.CONNECTED);

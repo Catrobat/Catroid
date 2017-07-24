@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -68,7 +68,7 @@ import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
@@ -429,7 +429,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		setSpinnersEnabled(true);
 		isDragging = false;
 
-		SnackBarUtil.showHintSnackBar(((Activity) getContext()), R.string.hint_brick_added);
+		SnackbarUtil.showHintSnackBar(((Activity) getContext()), R.string.hint_brick_added);
 	}
 
 	private void addScriptToProject(int position, ScriptBrick scriptBrick) {

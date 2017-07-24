@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -37,13 +38,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -67,12 +68,14 @@ public class WebViewActivity extends BaseActivity {
 	public static final String MEDIA_FILE_PATH = "media_file_path";
 	public static final String CALLING_ACTIVITY = "calling_activity";
 	private static final String FILENAME_TAG = "fname=";
+	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	private WebView webView;
 	private boolean callMainMenu = false;
 	private String url;
 	private String callingActivity;
 	private ProgressDialog progressDialog;
+	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
 
 	@Override
@@ -91,29 +94,7 @@ public class WebViewActivity extends BaseActivity {
 		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
 
 		webView = (WebView) findViewById(R.id.webView);
-
-		webView.setWebChromeClient(new WebChromeClient() {
-			private ProgressDialog progressCircle;
-
-			@Override
-			public void onProgressChanged(WebView view, int progress) {
-				if (progressCircle == null) {
-					progressCircle = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
-					progressCircle.setCancelable(true);
-					progressCircle.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
-					try {
-						progressCircle.show();
-					} catch (Exception e) {
-						Log.e(TAG, "Exception while showing progress circle", e);
-					}
-				}
-
-				if (progress == 100) {
-					progressCircle.dismiss();
-					progressCircle = null;
-				}
-			}
-		});
+		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.application_background_color, null));
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
@@ -196,6 +177,14 @@ public class WebViewActivity extends BaseActivity {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
+			if (webViewLoadingDialog == null) {
+				webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
+				webViewLoadingDialog.setCancelable(true);
+				webViewLoadingDialog.setCanceledOnTouchOutside(false);
+				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+				webViewLoadingDialog.show();
+			}
+
 			if (callMainMenu && urlClient.equals(Constants.BASE_URL_HTTPS)) {
 				Intent intent = null;
 				if (BuildConfig.CREATE_AT_SCHOOL) {
@@ -215,15 +204,23 @@ public class WebViewActivity extends BaseActivity {
 		@Override
 		public void onPageFinished(WebView view, String url) {
 			callMainMenu = true;
+			if (webViewLoadingDialog != null) {
+				webViewLoadingDialog.dismiss();
+				webViewLoadingDialog = null;
+			}
 		}
 
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			if (url != null && url.startsWith(Constants.WHATSAPP_URI)) {
-				Uri uri = Uri.parse(url);
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				startActivity(intent);
+				if (isWhatsappInstalled()) {
+					Uri uri = Uri.parse(url);
+					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					startActivity(intent);
+				} else {
+					ToastUtil.showError(getApplicationContext(), R.string.error_no_whatsapp);
+				}
 				return true;
 			} else if (checkIfWebViewVisitExternalWebsite(url)) {
 				Uri uri = Uri.parse(url);
@@ -350,6 +347,16 @@ public class WebViewActivity extends BaseActivity {
 		} else {
 			CookieManager.getInstance().removeAllCookies(null);
 			CookieManager.getInstance().flush();
+		}
+	}
+
+	private boolean isWhatsappInstalled() {
+		PackageManager packageManager = getPackageManager();
+		try {
+			packageManager.getPackageInfo(PACKAGE_NAME_WHATSAPP, PackageManager.GET_ACTIVITIES);
+			return true;
+		} catch (PackageManager.NameNotFoundException e) {
+			return false;
 		}
 	}
 

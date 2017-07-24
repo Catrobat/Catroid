@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,18 +21,11 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_sound"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <ListView
-        android:id="@android:id/list"
-        style="@style/ListViewShadowed"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:divider="@android:color/transparent"
-        android:verticalScrollbarPosition="left"/>
-
-</FrameLayout>
+<ListView android:id="@android:id/list"
+    style="@style/ListViewShadowed"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="3dp"
+    android:divider="@android:color/transparent"
+    android:verticalScrollbarPosition="right" />

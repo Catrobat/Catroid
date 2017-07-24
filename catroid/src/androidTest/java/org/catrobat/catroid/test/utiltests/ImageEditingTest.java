@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -103,6 +103,12 @@ public class ImageEditingTest extends TestCase {
 
 		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), maxBitmapWidth,
 				maxBitmapHeight, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
+
+		assertEquals("Loaded bitmap has incorrect height", 200, loadedBitmap.getHeight());
+		assertEquals("Loaded bitmap has incorrect width", 100, loadedBitmap.getWidth());
+
+		loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), maxBitmapWidth,
+				maxBitmapHeight, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
 
 		assertEquals("Loaded bitmap has incorrect height", 500, loadedBitmap.getHeight());
 		assertEquals("Loaded bitmap has incorrect width", 250, loadedBitmap.getWidth());

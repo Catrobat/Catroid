@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,24 +33,23 @@ import android.widget.ImageButton;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
-import org.catrobat.catroid.pocketmusic.ui.TrackView;
+import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
 
 public class ScrollController {
 
-	private static final int LAST_NOTE_IN_TRACK_VIEW = 4;
+	private static final int LAST_NOTE_IN_TRACK_VIEW = 8;
 
 	private ObjectAnimator playLineAnimator;
 	private final View playLine;
 	private final ImageButton playButton;
-	private final TrackView trackView;
+	private final TactScrollRecyclerView scrollingView;
 	private final int beatsPerMinute;
-	private int currentPlayLineIndex = 0;
 
-	public ScrollController(ViewGroup pocketmusicMainLayout, int beatsPerMinute) {
+	public ScrollController(ViewGroup pocketmusicMainLayout, TactScrollRecyclerView tactScrollRecyclerView, int beatsPerMinute) {
 		this.beatsPerMinute = beatsPerMinute;
+		this.scrollingView = tactScrollRecyclerView;
 		this.playLine = pocketmusicMainLayout.findViewById(R.id.pocketmusic_play_line);
 		this.playButton = (ImageButton) pocketmusicMainLayout.findViewById(R.id.pocketmusic_play_button);
-		this.trackView = (TrackView) pocketmusicMainLayout.findViewById(R.id.musicdroid_note_grid);
 		init();
 	}
 
@@ -61,20 +60,15 @@ public class ScrollController {
 
 	@SuppressWarnings("unused")
 	private void setGlobalPlayPosition(float xPosition) {
-		int buttonWidth = trackView.getWidth() / LAST_NOTE_IN_TRACK_VIEW;
+		int buttonWidth = scrollingView.getWidth() / LAST_NOTE_IN_TRACK_VIEW;
 		int newPlayLineIndex = (int) (xPosition / buttonWidth);
 
 		playLine.setX(xPosition);
-
-		if (newPlayLineIndex == 0 || newPlayLineIndex > currentPlayLineIndex) {
-			currentPlayLineIndex = newPlayLineIndex;
-			onNoteLengthOutRun(newPlayLineIndex);
-		}
 	}
 
 	private void initializeAnimator() {
 		final long singleButtonDuration = NoteLength.QUARTER.toMilliseconds(beatsPerMinute);
-		playLineAnimator = ObjectAnimator.ofFloat(this, "globalPlayPosition", 0, trackView.getWidth());
+		playLineAnimator = ObjectAnimator.ofFloat(this, "globalPlayPosition", 0, scrollingView.getWidth());
 		playLineAnimator.setDuration(singleButtonDuration * LAST_NOTE_IN_TRACK_VIEW);
 		playLineAnimator.setInterpolator(new LinearInterpolator());
 
@@ -83,27 +77,25 @@ public class ScrollController {
 			public void onAnimationStart(Animator animation) {
 				playButton.setImageResource(R.drawable.ic_stop_24dp);
 				playLine.setVisibility(View.VISIBLE);
-				trackView.setClickable(false);
+				scrollingView.setPlaying(true);
 			}
 
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				playButton.setImageResource(R.drawable.ic_play);
 				playLine.setVisibility(View.GONE);
-				trackView.clearColorGridColumn(currentPlayLineIndex);
-				trackView.setClickable(true);
-				currentPlayLineIndex = 0;
+				scrollingView.setPlaying(false);
 			}
 		});
 	}
 
 	private void initializePlayLine() {
 
-		trackView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+		scrollingView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 			@Override
 			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
 				initializeAnimator();
-				trackView.removeOnLayoutChangeListener(this);
+				scrollingView.removeOnLayoutChangeListener(this);
 			}
 		});
 
@@ -118,14 +110,5 @@ public class ScrollController {
 				}
 			}
 		});
-	}
-
-	private void onNoteLengthOutRun(int index) {
-		if (index >= 0 & index < LAST_NOTE_IN_TRACK_VIEW) {
-			trackView.colorGridColumn(index);
-		}
-		if (index > 0 && index <= LAST_NOTE_IN_TRACK_VIEW) {
-			trackView.clearColorGridColumn(index - 1);
-		}
 	}
 }

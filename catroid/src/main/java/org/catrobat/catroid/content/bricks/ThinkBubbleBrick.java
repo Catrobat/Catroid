@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -109,22 +108,13 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		if (type == Constants.SAY_BRICK) {
-			sequence.addAction(sprite.getActionFactory().createSayBubbleAction(sprite,
-					getFormulaWithBrickField(BrickField.STRING)));
-		} else {
-			sequence.addAction(sprite.getActionFactory().createThinkBubbleAction(sprite,
-					getFormulaWithBrickField(BrickField.STRING)));
-		}
+		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite, getFormulaWithBrickField(BrickField
+				.STRING), type));
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

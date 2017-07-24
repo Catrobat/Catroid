@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -48,12 +47,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +65,7 @@ public class NewDataDialog extends DialogFragment {
 	DialogType dialogType = DialogType.SHOW_LIST_CHECKBOX;
 	private int spinnerPositionIfCancel;
 
-	public static enum DialogType {
+	public enum DialogType {
 		SHOW_LIST_CHECKBOX, USER_LIST, USER_VARIABLE
 	}
 
@@ -113,12 +113,7 @@ public class NewDataDialog extends DialogFragment {
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.cancel();
 					}
-				}).setPositiveButton(R.string.ok, new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						handleOkButton(dialogView);
-					}
-				}).create();
+				}).setPositiveButton(R.string.ok, null).create();
 
 		dialogNewData.setCanceledOnTouchOutside(true);
 		dialogNewData.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -128,6 +123,17 @@ public class NewDataDialog extends DialogFragment {
 			public void onShow(DialogInterface dialog) {
 				handleOnShow(dialogNewData);
 				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
+
+				Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+				button.setOnClickListener(new View.OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						if (handleOkButton(dialogView)) {
+							dialogNewData.dismiss();
+						}
+					}
+				});
 			}
 		});
 
@@ -154,7 +160,7 @@ public class NewDataDialog extends DialogFragment {
 		}
 	}
 
-	private void handleOkButton(View dialogView) {
+	private boolean handleOkButton(View dialogView) {
 		EditText nameEditText = (EditText) dialogView
 				.findViewById(R.id.dialog_formula_editor_data_name_edit_text);
 		RadioButton local = (RadioButton) dialogView
@@ -163,22 +169,66 @@ public class NewDataDialog extends DialogFragment {
 				.findViewById(R.id.dialog_formula_editor_data_name_global_variable_radio_button);
 		CheckBox isListCheckbox = (CheckBox) dialogView.findViewById(R.id.dialog_formula_editor_data_is_list_checkbox);
 
-		String name = nameEditText.getText().toString();
+		String name = nameEditText.getText().toString().trim();
+
+		if (name.equalsIgnoreCase("")) {
+			switch (dialogType) {
+				case SHOW_LIST_CHECKBOX:
+					if (isListCheckbox.isChecked()) {
+						Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.no_listname_entered);
+					} else {
+						Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.no_variablename_entered);
+					}
+					break;
+				case USER_LIST:
+					Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.no_listname_entered);
+					break;
+				case USER_VARIABLE:
+					Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.no_variablename_entered);
+					break;
+			}
+			nameEditText.getText().clear();
+			return false;
+		}
+
 		switch (dialogType) {
 			case SHOW_LIST_CHECKBOX:
-
 				if (isListCheckbox.isChecked()) {
-					addUserList(name, local, global);
+					if (isListNameValid(name)) {
+						addUserList(name, local, global);
+						return true;
+					} else {
+						Utils.showErrorDialog(getActivity(), R.string.formula_editor_existing_variable, R.string.user_listname_already_exists);
+						return false;
+					}
 				} else {
-					addUserVariable(name, local, global);
+					if (isVariableNameValid(name)) {
+						addUserVariable(name, local, global);
+						return true;
+					} else {
+						Utils.showErrorDialog(getActivity(), R.string.formula_editor_existing_variable, R.string.user_variablename_already_exists);
+						return false;
+					}
 				}
-				break;
 			case USER_LIST:
-				addUserList(name, local, global);
-				break;
+				if (isListNameValid(name)) {
+					addUserList(name, local, global);
+					return true;
+				} else {
+					Utils.showErrorDialog(getActivity(), R.string.formula_editor_existing_variable, R.string.user_listname_already_exists);
+					return false;
+				}
 			case USER_VARIABLE:
-				addUserVariable(name, local, global);
-				break;
+				if (isVariableNameValid(name)) {
+					addUserVariable(name, local, global);
+					return true;
+				} else {
+					Utils.showErrorDialog(getActivity(), R.string.formula_editor_existing_variable, R.string
+							.user_variablename_already_exists);
+					return false;
+				}
+			default:
+				return false;
 		}
 	}
 
@@ -256,59 +306,13 @@ public class NewDataDialog extends DialogFragment {
 			@Override
 			public void afterTextChanged(Editable editable) {
 				String name = editable.toString();
-				checkName(name, positiveButton, isListCheckbox);
+				if (name.length() == 0) {
+					positiveButton.setEnabled(false);
+				} else {
+					positiveButton.setEnabled(true);
+				}
 			}
 		});
-
-		isListCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-				checkName(dialogEditText.getText().toString(), positiveButton, isListCheckbox);
-			}
-		});
-	}
-
-	private void checkName(String name, Button positiveButton, CheckBox isListCheckbox) {
-		switch (dialogType) {
-			case SHOW_LIST_CHECKBOX:
-
-				if (isListCheckbox.isChecked()) {
-					if (isListNameValid(name)) {
-						positiveButton.setEnabled(true);
-					} else {
-						ToastUtil.showError(getActivity(), R.string.formula_editor_existing_data_item);
-						positiveButton.setEnabled(false);
-					}
-				} else {
-					if (isVariableNameValid(name)) {
-						positiveButton.setEnabled(true);
-					} else {
-						ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
-						positiveButton.setEnabled(false);
-					}
-				}
-				break;
-			case USER_LIST:
-				if (isListNameValid(name)) {
-					positiveButton.setEnabled(true);
-				} else {
-					ToastUtil.showError(getActivity(), R.string.formula_editor_existing_data_item);
-					positiveButton.setEnabled(false);
-				}
-				break;
-			case USER_VARIABLE:
-				if (isVariableNameValid(name)) {
-					positiveButton.setEnabled(true);
-				} else {
-					ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
-					positiveButton.setEnabled(false);
-				}
-				break;
-		}
-
-		if (name.length() == 0) {
-			positiveButton.setEnabled(false);
-		}
 	}
 
 	private boolean isListNameValid(String name) {
@@ -318,10 +322,10 @@ public class NewDataDialog extends DialogFragment {
 
 		if (global.isChecked()) {
 			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-			return !currentData.existListInAnySprite(name, sprites) && !currentData.existProjectListWithName(name);
+			return !currentData.existListInAnySprite(sprites, name) && !currentData.existProjectListWithName(name);
 		} else {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			return !currentData.existProjectListWithName(name) && !currentData.existSpriteListByName(name, currentSprite);
+			return !currentData.existProjectListWithName(name) && !currentData.existSpriteListByName(currentSprite, name);
 		}
 	}
 
@@ -332,10 +336,10 @@ public class NewDataDialog extends DialogFragment {
 
 		if (global.isChecked()) {
 			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-			return !currentData.existVariableInAnySprite(name, sprites) && !currentData.existProjectVariableWithName(name);
+			return !currentData.variableExistsInAnySprite(sprites, name) && !currentData.existProjectVariableWithName(name);
 		} else {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			return !currentData.existProjectVariableWithName(name) && !currentData.existSpriteVariableByName(name, currentSprite);
+			return !currentData.existProjectVariableWithName(name) && !currentData.spriteVariableExistsByName(currentSprite, name);
 		}
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -287,7 +287,7 @@ public class ScratchConversionManager implements ConversionManager {
 				if (Constants.CURRENT_CATROBAT_LANGUAGE_VERSION < supportedCatrobatLanguageVersion) {
 					AlertDialog.Builder builder = new CustomAlertDialogBuilder(currentActivity);
 					builder.setTitle(R.string.warning);
-					builder.setMessage(R.string.error_scratch_converter_outdated_pocketcode_version);
+					builder.setMessage(R.string.error_scratch_converter_outdated_app_version);
 					builder.setNeutralButton(R.string.close, null);
 					Dialog errorDialog = builder.create();
 					errorDialog.show();

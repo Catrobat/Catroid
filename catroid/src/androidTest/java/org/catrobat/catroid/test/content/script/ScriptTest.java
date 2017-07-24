@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,10 +41,10 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.catrobat.catroid.formulaeditor.DataContainer.USER_LIST_PROJECT;
-import static org.catrobat.catroid.formulaeditor.DataContainer.USER_LIST_SPRITE;
-import static org.catrobat.catroid.formulaeditor.DataContainer.USER_VARIABLE_PROJECT;
-import static org.catrobat.catroid.formulaeditor.DataContainer.USER_VARIABLE_SPRITE;
+import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_LIST_PROJECT;
+import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_LIST_SPRITE;
+import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_VARIABLE_PROJECT;
+import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_VARIABLE_SPRITE;
 import static org.catrobat.catroid.uitest.util.UiTestUtils.DEFAULT_TEST_PROJECT_NAME;
 
 public class ScriptTest extends AndroidTestCase {
@@ -99,19 +99,19 @@ public class ScriptTest extends AndroidTestCase {
 		SetYBrick setYListBrick = (SetYBrick) backPackedScripts.get(0).getBrick(3);
 
 		assertNotNull("No UserVariable was backpacked", setXVariableBrick.getBackPackedVariableData().get(0).userVariable);
-		assertEquals("Wrong UserVariable type backpacked", (Integer) USER_VARIABLE_PROJECT,
+		assertEquals("Wrong UserVariable type backpacked", USER_VARIABLE_PROJECT,
 				setXVariableBrick.getBackPackedVariableData().get(0).userVariableType);
 
 		assertNotNull("No UserVariable was backpacked", setYVariableBrick.getBackPackedVariableData().get(0).userVariable);
-		assertEquals("Wrong UserVariable type backpacked", (Integer) USER_VARIABLE_SPRITE,
+		assertEquals("Wrong UserVariable type backpacked", USER_VARIABLE_SPRITE,
 				setYVariableBrick.getBackPackedVariableData().get(0).userVariableType);
 
 		assertNotNull("No UserList was backpacked", setXListBrick.getBackPackedListData().get(0).userList);
-		assertEquals("Wrong UserList type backpacked", (Integer) USER_LIST_PROJECT,
+		assertEquals("Wrong UserList type backpacked", USER_LIST_PROJECT,
 				setXListBrick.getBackPackedListData().get(0).userListType);
 
 		assertNotNull("No UserList was backpacked", setYListBrick.getBackPackedListData().get(0).userList);
-		assertEquals("Wrong UserList type backpacked", (Integer) USER_LIST_SPRITE,
+		assertEquals("Wrong UserList type backpacked", USER_LIST_SPRITE,
 				setYListBrick.getBackPackedListData().get(0).userListType);
 	}
 }

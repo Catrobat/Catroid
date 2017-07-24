@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,11 +60,11 @@ import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.stage.StageActivity;
@@ -158,10 +158,10 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		Double setVariable2ToValue = Double.valueOf(8d);
 
 		SetVariableBrick setVariableBrick1 = new SetVariableBrick(new Formula(setVariable1ToValue),
-				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().getUserVariable("p", secondSprite));
+				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().getUserVariable(secondSprite, "p"));
 
 		SetVariableBrick setVariableBrick2 = new SetVariableBrick(new Formula(setVariable2ToValue),
-				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().getUserVariable("q", secondSprite));
+				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().getUserVariable(secondSprite, "q"));
 
 		Script startScript1 = new StartScript();
 		secondSprite.addScript(startScript1);
@@ -182,10 +182,10 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		ProjectManager.getInstance().setCurrentSprite(copiedSprite);
 
 		double q = (Double) ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
-				.getUserVariable("q", copiedSprite).getValue();
+				.getUserVariable(copiedSprite, "q").getValue();
 
 		double p = (Double) ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
-				.getUserVariable("p", copiedSprite).getValue();
+				.getUserVariable(copiedSprite, "p").getValue();
 
 		assertEquals("The local uservariable q does not exist after copying the sprite!", 0.0, q);
 		assertEquals("The local uservariable p does not exist after copying the sprite!", 0.0, p);
@@ -214,19 +214,19 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		SetVariableBrick setVariableBrick1 = new SetVariableBrick(new Formula(setVariable1ToValue),
 				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
-						.getUserVariable(firstUserVariableName, secondSprite));
+						.getUserVariable(secondSprite, firstUserVariableName));
 
 		SetVariableBrick setVariableBrick2 = new SetVariableBrick(new Formula(setVariable2ToValue),
 				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
-						.getUserVariable(secondUserVariableName, secondSprite));
+						.getUserVariable(secondSprite, secondUserVariableName));
 
 		ChangeVariableBrick changeVariableBrick1 = new ChangeVariableBrick(new Formula(
 				setVariable1ToValue), ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
-				.getUserVariable(firstUserVariableName, secondSprite));
+				.getUserVariable(secondSprite, firstUserVariableName));
 
 		ChangeVariableBrick changeVariableBrick2 = new ChangeVariableBrick(new Formula(
 				setVariable2ToValue), ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
-				.getUserVariable(secondUserVariableName, secondSprite));
+				.getUserVariable(secondSprite, secondUserVariableName));
 
 		Script startScript1 = new StartScript();
 		secondSprite.addScript(startScript1);
@@ -381,8 +381,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				R.string.copy_sprite_name_suffix)), SECOND_TEST_SPRITE_NAME);
 
 		assertEquals(String.format("collision broadcast message of copied collision script is wrong before renaming "
-								+ "second sprite (%s != %s)", expectedMessage,
-						copiedCollisionScript.getBroadcastMessage()), expectedMessage,
+						+ "second sprite (%s != %s)", expectedMessage,
+				copiedCollisionScript.getBroadcastMessage()), expectedMessage,
 				copiedCollisionScript.getBroadcastMessage());
 	}
 
@@ -1460,12 +1460,12 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		}
 
 		DataContainer variablesContainer = projectManager.getCurrentProject().getDefaultScene().getDataContainer();
-		UserVariable firstVariable = variablesContainer.getUserVariable("global", firstSprite);
-		UserVariable copiedVariable = variablesContainer.getUserVariable("global", copiedSprite);
+		UserVariable firstVariable = variablesContainer.getUserVariable(firstSprite, "global");
+		UserVariable copiedVariable = variablesContainer.getUserVariable(copiedSprite, "global");
 		assertSame("Formula is not copied right!", firstVariable, copiedVariable);
 
-		firstVariable = variablesContainer.getUserVariable("local", firstSprite);
-		copiedVariable = variablesContainer.getUserVariable("local", copiedSprite);
+		firstVariable = variablesContainer.getUserVariable(firstSprite, "local");
+		copiedVariable = variablesContainer.getUserVariable(copiedSprite, "local");
 		assertNotSame("Formula is not copied right!", firstVariable, copiedVariable);
 	}
 

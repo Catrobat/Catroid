@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
   <property name="severity" value="warning" />
 
   <module name="TreeWalker">
-    <property name="tabWidth" value="1" />
+    <property name="tabWidth" value="4" />
 
     <!-- To enable SuppressWithNearbyCommentFilter -->
     <module name="FileContentsHolder" />
@@ -39,6 +39,10 @@
       <property name="allowSamelineSingleParameterlessAnnotation" value="false" />
       <property name="allowSamelineParameterizedAnnotation" value="false" />
     </module>
+    <module name="AnnotationUseStyle">
+      <property name="elementStyle" value="compact"/>
+    </module>
+    <module name="MissingDeprecated" />
     <module name="MissingOverride" />
     <module name="SuppressWarnings" />
 
@@ -49,14 +53,15 @@
       <property name="commentFormat" value="This is expected" />
       <property name="exceptionVariableName" value="expected|ignore|ok" />
     </module>
-    <module name="LeftCurly">
-      <property name="maxLineLength" value="9999" />
-    </module>
+    <module name="LeftCurly" />
     <module name="NeedBraces" />
-    <module name="RightCurly" />
+    <module name="RightCurly">
+      <property name="option" value="same" />
+      <property name="tokens" value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_DO"/>
+    </module>
     <module name="RightCurly">
       <property name="option" value="alone" />
-      <property name="tokens" value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, LITERAL_DO, STATIC_INIT, INSTANCE_INIT" />
+      <property name="tokens" value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT, INSTANCE_INIT" />
     </module>
 
     <!-- Coding -->
@@ -92,24 +97,25 @@
     <module name="MutableException" />
     <module name="OneTopLevelClass" />
 
+    <!-- Javadoc -->
+    <module name="AtclauseOrder" />
+
     <!-- Miscellaneous -->
     <module name="ArrayTypeStyle" />
     <module name="AvoidEscapedUnicodeCharacters" />
     <module name="Indentation">
-      <property name="basicOffset" value="1" />
+      <property name="basicOffset" value="4" />
       <property name="braceAdjustment" value="0" />
-      <property name="caseIndent" value="1" />
-      <property name="throwsIndent" value="2" />
-      <property name="lineWrappingIndentation" value="2" />
-      <property name="arrayInitIndent" value="1" />
+      <property name="caseIndent" value="4" />
+      <property name="throwsIndent" value="8" />
+      <property name="lineWrappingIndentation" value="8" />
+      <property name="arrayInitIndent" value="4" />
     </module>
     <module name="OuterTypeFilename" />
     <module name="UpperEll" />
 
     <!-- Modifiers -->
-    <module name="ModifierOrder">
-      <message key="mod.order" value="{0}'' modifier out of order with the JLS suggestions" />
-    </module>
+    <module name="ModifierOrder" />
     <module name="RedundantModifier" />
 
     <!-- Naming -->
@@ -129,6 +135,7 @@
       <message key="name.invalidPattern" value="Package name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
     </module>
     <module name="ParameterName">
+      <property name="ignoreOverridden" value="true"/>
       <message key="name.invalidPattern" value="Parameter name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
     </module>
     <module name="StaticVariableName">
@@ -154,14 +161,14 @@
     <module name="ConstantName">
       <message key="name.invalidPattern" value="Constant name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
     </module>
+    <module name="CatchParameterName" />
+    <module name="InterfaceTypeParameterName" />
     <module name="AbbreviationAsWordInName">
       <property name="allowedAbbreviations" value="UUID" />
     </module>
 
     <!-- Package and Imports -->
-    <module name="AvoidStarImport">
-      <property name="excludes" value="junit.framework.Assert" />
-    </module>
+    <module name="AvoidStarImport" />
     <module name="ImportOrder">
       <property name="option" value="bottom" />
       <property name="groups" value="android,com,cucumber,edu,junit,net,org,java,javax" />
@@ -172,31 +179,51 @@
     <module name="PackageDeclaration" />
     <module name="UnusedImports" />
 
+    <!-- Size -->
+    <module name="OuterTypeNumber" />
+
     <!-- Whitespace -->
     <module name="EmptyForInitializerPad" />
     <module name="EmptyForIteratorPad">
       <property name="option" value="space" />
     </module>
+    <module name="EmptyLineSeparator">
+      <property name="tokens" value="IMPORT, CLASS_DEF, INTERFACE_DEF"/>
+      <property name="allowNoEmptyLineBetweenFields" value="true"/>
+      <property name="allowMultipleEmptyLines" value="false"/>
+      <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
+    </module>
     <module name="GenericWhitespace" />
     <module name="MethodParamPad" />
     <module name="NoLineWrap" />
-    <module name="NoWhitespaceAfter">
-      <property name="tokens" value="BNOT, DEC, DOT, INC, LNOT, UNARY_MINUS, UNARY_PLUS, ARRAY_DECLARATOR" />
+    <module name="NoWhitespaceAfter" />
+    <module name="NoWhitespaceBefore">
+      <property name="allowLineBreaks" value="true"/>
+      <property name="tokens" value="COMMA, SEMI, POST_INC, POST_DEC, DOT, GENERIC_END, ELLIPSIS"/>
     </module>
-    <module name="NoWhitespaceBefore" />
-    <module name="OperatorWrap" />
+    <module name="OperatorWrap">
+      <property name="option" value="nl"/>
+      <property name="tokens" value="QUESTION, COLON, EQUAL, NOT_EQUAL, DIV, PLUS, MINUS, STAR, MOD, SR, BSR, GE, GT, SL, LE, LT, BXOR, BOR, LOR, BAND, LAND, LITERAL_INSTANCEOF, TYPE_EXTENSION_AND, METHOD_REF"/>
+    </module>
+    <module name="OperatorWrap">
+      <property name="option" value="eol"/>
+      <property name="tokens" value="ASSIGN, DIV_ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, STAR_ASSIGN, MOD_ASSIGN, SR_ASSIGN, BSR_ASSIGN, SL_ASSIGN, BXOR_ASSIGN, BOR_ASSIGN, BAND_ASSIGN"/>
+    </module>
     <module name="ParenPad" />
     <module name="SeparatorWrap">
-      <property name="tokens" value="DOT" />
+      <property name="tokens" value="DOT, AT" />
       <property name="option" value="nl" />
     </module>
     <module name="SeparatorWrap">
-      <property name="tokens" value="COMMA" />
+      <property name="tokens" value="COMMA, ELLIPSIS, ARRAY_DECLARATOR, RBRACK" />
       <property name="option" value="EOL" />
     </module>
+    <module name="SingleSpaceSeparator" />
     <module name="TypecastParenPad" />
     <module name="WhitespaceAfter" />
-    <module name="WhitespaceAround" />
+    <module name="WhitespaceAround">
+      <property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, DO_WHILE, EQUAL, GE, GT, LAMBDA, LAND, LE, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, SL, SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR, STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND" />
+    </module>
     
     <module name="RegexpSinglelineJava">
       <property name="format" value="^\t* " />

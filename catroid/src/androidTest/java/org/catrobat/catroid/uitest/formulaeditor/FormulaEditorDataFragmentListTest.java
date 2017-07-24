@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -94,7 +94,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 
 		AddItemToUserListBrick addItemToUserListBrick = new AddItemToUserListBrick(new Formula(ADD_VALUE_TO_LIST),
 				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
-						.getUserList(USER_LIST_NAME, firstSprite)
+						.getUserList(firstSprite, USER_LIST_NAME)
 		);
 
 		Script startScript1 = new StartScript();

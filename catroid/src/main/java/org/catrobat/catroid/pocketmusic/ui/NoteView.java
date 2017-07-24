@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.pocketmusic.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -32,6 +33,7 @@ import android.widget.ImageView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
 
+@SuppressLint("AppCompatCustomView")
 public class NoteView extends ImageView implements View.OnClickListener {
 
 	private static final int HIDDEN = 0;
@@ -42,14 +44,13 @@ public class NoteView extends ImageView implements View.OnClickListener {
 	private TrackRowView trackRowView;
 
 	public NoteView(Context context) {
-		this(context, ContextCompat.getColor(context, R.color.white), null, 0);
+		this(context, null, 0);
 	}
 
-	public NoteView(Context context, int backgroundColor, TrackRowView trackRowView, int horizontalIndexInGridRowPosition) {
+	public NoteView(Context context, TrackRowView trackRowView, int horizontalIndexInGridRowPosition) {
 		super(context);
 		setOnClickListener(this);
 		setAdjustViewBounds(true);
-		setBackgroundColor(backgroundColor);
 		setScaleType(ScaleType.CENTER_INSIDE);
 		initNoteDrawable();
 		this.trackRowView = trackRowView;
@@ -62,6 +63,16 @@ public class NoteView extends ImageView implements View.OnClickListener {
 		noteDrawable.mutate();
 		noteDrawable.setAlpha(HIDDEN);
 		setImageDrawable(noteDrawable);
+	}
+
+	public void setNoteActive(boolean active, boolean updateData) {
+		if (toggled != active) {
+			toggled = active;
+			showNote();
+			if (updateData) {
+				updateGridRow();
+			}
+		}
 	}
 
 	@Override

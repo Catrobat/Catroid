@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
@@ -119,9 +120,12 @@ import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
@@ -150,6 +154,7 @@ import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -212,6 +217,8 @@ public class CategoryBricksFactory {
 			tempList = setupDroneCategoryList();
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
 			tempList = setupPhiroProCategoryList();
+		} else if (category.equals(context.getString(R.string.category_cast))) {
+			tempList = setupChromecastCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_raspi))) {
 			tempList = setupRaspiCategoryList();
 		}
@@ -300,38 +307,21 @@ public class CategoryBricksFactory {
 		List<UserBrick> userBrickList = ProjectManager.getInstance().getCurrentSprite().getUserBrickList();
 		ArrayList<Brick> newList = new ArrayList<>();
 
-//		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
-//		if (userBrickWeAreAddingTo != null) {
-//			// Maintain a Directed Acyclic Graph of UserBrick call order: Don't allow cycles.
-//			for (UserBrick brick : userBrickList) {
-//				if (!checkForCycle(brick, userBrickWeAreAddingTo)) {
-//					newList.add(brick);
-
-//				}
-//			}
-//		} else {
 		if (userBrickList != null) {
 			for (UserBrick brick : userBrickList) {
 				newList.add(brick);
 			}
 		}
-//		}
 		return newList;
 	}
 
-//	public boolean checkForCycle(UserBrick currentBrick, UserBrick parentBrick) {
-//		if (parentBrick.getId() == currentBrick.getId()) {
-//			return true;
-//		}
-//
-//		for (Brick childBrick : currentBrick.getDefinitionBrick().getUserScript().getBrickList()) {
-//			if (childBrick instanceof UserBrick && checkForCycle(((UserBrick) childBrick), parentBrick)) {
-//				return true;
-//			}
-//		}
-//
-//		return false;
-//	}
+	private List<Brick> setupChromecastCategoryList(Context context) {
+		List<Brick> chromecastBrickList = new ArrayList<Brick>();
+		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
+				context.getString(R.string.cast_gamepad_A))));
+
+		return chromecastBrickList;
+	}
 
 	private List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
 		List<Brick> motionBrickList = new ArrayList<>();
@@ -432,9 +422,11 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupLooksCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> looksBrickList = new ArrayList<>();
+
 		if (!starterBricksEnabled) {
 			if (!isBackgroundSprite) {
 				looksBrickList.add(new SetLookBrick());
+				looksBrickList.add(new SetLookByIndexBrick(BrickValues.SET_LOOK_BY_INDEX));
 			}
 			looksBrickList.add(new NextLookBrick());
 			looksBrickList.add(new PreviousLookBrick());
@@ -458,7 +450,9 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new ClearGraphicEffectBrick());
 			looksBrickList.add(new WhenBackgroundChangesBrick());
 			looksBrickList.add(new SetBackgroundBrick());
+			looksBrickList.add(new SetBackgroundByIndexBrick(BrickValues.SET_LOOK_BY_INDEX));
 			looksBrickList.add(new SetBackgroundAndWaitBrick());
+			looksBrickList.add(new SetBackgroundByIndexAndWaitBrick(BrickValues.SET_LOOK_BY_INDEX));
 			looksBrickList.add(new CameraBrick());
 			looksBrickList.add(new ChooseCameraBrick());
 			looksBrickList.add(new FlashBrick());

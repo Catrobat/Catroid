@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -72,7 +72,7 @@ public final class FormulaEditorIntroUtil {
 	public static void initializeIntro(Activity currentActivity, ViewGroup parentView, LayoutInflater inflater) {
 		activity = currentActivity;
 
-		if (!SnackBarUtil.areHintsEnabled(activity) || isIntroVisible()) {
+		if (!SnackbarUtil.areHintsEnabled(activity) || isIntroVisible()) {
 			return;
 		}
 
@@ -111,7 +111,7 @@ public final class FormulaEditorIntroUtil {
 	}
 
 	public static void prepareIntro(View fragmentView) {
-		if (activity == null || !SnackBarUtil.areHintsEnabled(activity)) {
+		if (activity == null || !SnackbarUtil.areHintsEnabled(activity)) {
 			return;
 		}
 
@@ -127,11 +127,11 @@ public final class FormulaEditorIntroUtil {
 	}
 
 	public static void showIntro(View fragmentView) {
-		if (activity == null || !SnackBarUtil.areHintsEnabled(activity)) {
+		if (activity == null || !SnackbarUtil.areHintsEnabled(activity)) {
 			return;
 		}
 
-		if (!SnackBarUtil.wasHintAlreadyShown(activity, introId) && prepared && !isIntroVisible()) {
+		if (!SnackbarUtil.wasHintAlreadyShown(activity, introId) && prepared && !isIntroVisible()) {
 			introWindow.showAtLocation(fragmentView, Gravity.CENTER, 0, 0);
 		}
 	}
@@ -146,7 +146,7 @@ public final class FormulaEditorIntroUtil {
 		dismissIntro();
 		currentPage = 0;
 		prepared = false;
-		SnackBarUtil.setHintShown(activity, introId);
+		SnackbarUtil.setHintShown(activity, introId);
 	}
 
 	public static boolean isIntroVisible() {
@@ -213,7 +213,7 @@ public final class FormulaEditorIntroUtil {
 	}
 
 	private static void setScreenshotBitmaps(View fragmentView) {
-		SnackBarUtil.hideActiveSnack();
+		SnackbarUtil.hideActiveSnack();
 
 		View screenShotView = fragmentView.getRootView();
 		screenShotView.setDrawingCacheEnabled(true);
@@ -233,7 +233,7 @@ public final class FormulaEditorIntroUtil {
 		ImageView introImageView = (ImageView) introWindow.getContentView().findViewById(R.id.intro_background_image);
 		introImageView.setImageBitmap(screenshotDark);
 
-		SnackBarUtil.showActiveSnack();
+		SnackbarUtil.showActiveSnack();
 	}
 
 	private static void nextPage() {

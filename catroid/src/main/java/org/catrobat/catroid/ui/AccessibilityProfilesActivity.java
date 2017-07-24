@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class AccessibilityProfilesActivity extends BaseActivity {
@@ -48,7 +48,7 @@ public class AccessibilityProfilesActivity extends BaseActivity {
 		setContentView(R.layout.activity_accessibility_profiles);
 		setUpActionBar();
 		setReturnByPressingBackButton(true);
-		SnackBarUtil.showHintSnackBar(this, R.string.hint_accessibility_profiles);
+		SnackbarUtil.showHintSnackBar(this, R.string.hint_accessibility_profiles);
 
 		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}

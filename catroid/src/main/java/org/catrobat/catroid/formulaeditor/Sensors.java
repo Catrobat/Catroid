@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,8 @@ public enum Sensors {
 	OBJECT_Y_VELOCITY(true), OBJECT_ANGULAR_VELOCITY(true),
 	LAST_FINGER_INDEX, FINGER_X, FINGER_Y, FINGER_TOUCHED, OBJECT_LOOK_NUMBER(true), OBJECT_LOOK_NAME(true),
 	OBJECT_BACKGROUND_NUMBER(true), OBJECT_BACKGROUND_NAME(true),
-	NFC_TAG_ID(true), NFC_TAG_MESSAGE(true);
+	NFC_TAG_ID(true), NFC_TAG_MESSAGE(true), GAMEPAD_A_PRESSED, GAMEPAD_B_PRESSED, GAMEPAD_UP_PRESSED,
+	GAMEPAD_DOWN_PRESSED, GAMEPAD_LEFT_PRESSED, GAMEPAD_RIGHT_PRESSED;
 
 	public final boolean isObjectSensor;
 	public static final String TAG = Sensors.class.getSimpleName();

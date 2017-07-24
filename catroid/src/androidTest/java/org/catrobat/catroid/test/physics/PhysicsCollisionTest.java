@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,11 +36,11 @@ public class PhysicsCollisionTest extends InstrumentationTestCase {
 		Sprite sprite1 = new Sprite("testsprite_1234()77//Njasd%&klf");
 		Sprite sprite2 = new Sprite("spritetest_9087124356iguaöwdzf() //OGZLUSDüKJGFLHKsd");
 
-		Object[] values1 = { sprite1, sprite2 };
+		Object[] values1 = {sprite1, sprite2};
 		Reflection.ParameterList paramList = new Reflection.ParameterList(values1);
 		String key1 = (String) Reflection.invokeMethod(PhysicsCollision.class, physicsCollision, "generateKey", paramList);
 
-		Object[] values2 = { sprite2, sprite1 };
+		Object[] values2 = {sprite2, sprite1};
 		paramList = new Reflection.ParameterList(values2);
 		String key2 = (String) Reflection.invokeMethod(PhysicsCollision.class, physicsCollision, "generateKey", paramList);
 

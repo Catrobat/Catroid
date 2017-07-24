@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -68,7 +68,7 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 
 	public void testSendAndReceive() {
 
-		byte[] inputBuffer = new byte[] { 4, 0, 3, 4, 5, 7 };
+		byte[] inputBuffer = new byte[] {4, 0, 3, 4, 5, 7};
 		ByteArrayInputStream inStream = new ByteArrayInputStream(inputBuffer);
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 

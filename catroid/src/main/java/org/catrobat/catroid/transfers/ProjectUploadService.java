@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,9 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
@@ -44,6 +46,7 @@ import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ProjectUploadService extends IntentService {
@@ -54,6 +57,7 @@ public class ProjectUploadService extends IntentService {
 	private String projectPath;
 	private String projectName;
 	private String projectDescription;
+	private String[] sceneNames;
 	private String token;
 	private String provider;
 	private String serverAnswer;
@@ -74,6 +78,7 @@ public class ProjectUploadService extends IntentService {
 		this.projectPath = intent.getStringExtra("projectPath");
 		this.projectName = intent.getStringExtra("uploadName");
 		this.projectDescription = intent.getStringExtra("projectDescription");
+		this.sceneNames = intent.getStringArrayExtra("sceneNames");
 		this.token = intent.getStringExtra("token");
 		this.username = intent.getStringExtra("username");
 		this.provider = intent.getStringExtra("provider");
@@ -106,6 +111,18 @@ public class ProjectUploadService extends IntentService {
 				return;
 			}
 
+			ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(getApplicationContext());
+			for (String scene : sceneNames) {
+				File screenshotFile = screenshotLoader.getScreenshotFile(projectName, scene, false);
+				if (screenshotFile.exists() && screenshotFile.length() > 0) {
+					try {
+						ImageEditing.scaleImageFile(screenshotFile, 480, 480);
+					} catch (FileNotFoundException ex) {
+						Log.e(TAG, Log.getStackTraceString(ex));
+					}
+				}
+			}
+
 			for (int i = 0; i < paths.length; i++) {
 				paths[i] = Utils.buildPath(directoryPath.getAbsolutePath(), paths[i]);
 			}
@@ -127,12 +144,16 @@ public class ProjectUploadService extends IntentService {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String userEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
 
-			if (provider.equals(Constants.FACEBOOK)) {
-				userEmail = sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL);
-			} else if (provider.equals(Constants.GOOGLE_PLUS)) {
-				userEmail = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
-			} else if (provider.equals(Constants.NO_OAUTH_PROVIDER)) {
-				userEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+			switch (provider) {
+				case Constants.FACEBOOK:
+					userEmail = sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL);
+					break;
+				case Constants.GOOGLE_PLUS:
+					userEmail = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
+					break;
+				case Constants.NO_OAUTH_PROVIDER:
+					userEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+					break;
 			}
 
 			if (userEmail.equals(Constants.NO_EMAIL)) {
@@ -144,6 +165,7 @@ public class ProjectUploadService extends IntentService {
 			uploadBackupBundle.putString("projectName", projectName);
 			uploadBackupBundle.putString("projectDescription", projectDescription);
 			uploadBackupBundle.putString("projectPath", projectPath);
+			uploadBackupBundle.putStringArray("sceneNames", sceneNames);
 			uploadBackupBundle.putString("userEmail", userEmail);
 			uploadBackupBundle.putString("language", language);
 			uploadBackupBundle.putString("token", token);

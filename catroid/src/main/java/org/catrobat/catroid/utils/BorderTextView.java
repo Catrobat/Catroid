@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,14 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+@SuppressLint("AppCompatCustomView")
 public class BorderTextView extends TextView {
 
 	private static final int SHADOW_RADIUS = 3;

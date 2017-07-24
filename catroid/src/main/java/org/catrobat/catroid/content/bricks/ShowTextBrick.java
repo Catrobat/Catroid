@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,9 +42,9 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.Translatable;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
@@ -197,10 +197,25 @@ public class ShowTextBrick extends UserVariableBrick implements Translatable {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_show_variable, null);
-		TextView textViewX = (TextView) prototypeView.findViewById(R.id.brick_show_variable_edit_text_x);
-		textViewX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
-		TextView textViewY = (TextView) prototypeView.findViewById(R.id.brick_show_variable_edit_text_y);
-		textViewY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
+
+		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.show_variable_spinner);
+		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
+				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
+
+		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
+				dataAdapter);
+
+		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
+		variableSpinner.setAdapter(userVariableAdapterWrapper);
+		setSpinnerSelection(variableSpinner, null);
+
+		TextView textViewPositionX = (TextView) prototypeView.findViewById(R.id.brick_show_variable_edit_text_x);
+		textViewPositionX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
+		TextView textViewPositionY = (TextView) prototypeView.findViewById(R.id.brick_show_variable_edit_text_y);
+		textViewPositionY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
+
 		return prototypeView;
 	}
 
@@ -238,7 +253,7 @@ public class ShowTextBrick extends UserVariableBrick implements Translatable {
 		String variableName = userVariable.getName();
 
 		String key = scene.getDataContainer().getTypeOfUserVariable(variableName, sprite)
-				== DataContainer.USER_VARIABLE_SPRITE
+				== DataContainer.DataType.USER_VARIABLE_SPRITE
 				? templateName + Constants.TRANSLATION_SPRITE_VARIABLE
 				: templateName + Constants.TRANSLATION_PROJECT_VARIABLE;
 		setUserVariableName(Utils.getStringResourceByName(Utils.getStringResourceName(key, variableName), variableName, context));

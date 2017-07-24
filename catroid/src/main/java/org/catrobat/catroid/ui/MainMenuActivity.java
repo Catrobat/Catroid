@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.media.MediaRouter;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -63,6 +64,7 @@ import com.facebook.login.LoginResult;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
@@ -76,7 +78,6 @@ import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.DownloadUtil;
-import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.TextSizeUtil;
@@ -90,7 +91,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 
-public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
+public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectCompleteListener {
 
 	private static final String TAG = MainMenuActivity.class.getSimpleName();
 
@@ -166,6 +167,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			if (loadExternalProjectUri != null) {
 				loadProgramFromExternalSource(loadExternalProjectUri);
 			}
+
+			if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+				CastManager.getInstance().initializeCast(this);
+			}
 		}
 		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 		DividerUtil.setDivider(this, (LinearLayout) findViewById(R.id.main_menu_buttons_container));
@@ -184,6 +189,12 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, false);
 
 		SettingsActivity.setDroneChooserEnabled(this, false);
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
+		} else if (CastManager.getInstance().isConnected()) {
+			CastManager.getInstance().getMediaRouter().unselect(MediaRouter.UNSELECT_REASON_STOPPED);
+		}
 
 		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 		final Activity activity = this;
@@ -240,6 +251,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			scratchConverterMenuItem.setTitle(spanTitle);
 		}
 		TextSizeUtil.enlargeOptionsMenu(menu);
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -269,14 +281,13 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!STANDALONE_MODE) {
 			findViewById(R.id.progress_circle).setVisibility(View.GONE);
 			findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
-		}
-		PreStageActivity.shutdownPersistentResources();
-		if (!STANDALONE_MODE) {
+
+			PreStageActivity.shutdownPersistentResources();
+
 			setMainMenuButtonContinueText();
 			findViewById(R.id.main_menu_button_continue).setEnabled(true);
-		} else {
-			FlashUtil.initializeFlash();
 		}
+
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 		if (projectName != null) {
 			loadProjectInBackground(projectName);

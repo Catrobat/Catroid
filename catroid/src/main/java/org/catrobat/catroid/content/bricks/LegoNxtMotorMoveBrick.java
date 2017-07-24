@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,7 +36,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -56,7 +54,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	private transient Motor motorEnum;
 	private transient TextView editSpeed;
 
-	public static enum Motor {
+	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C
 	}
 
@@ -107,13 +105,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 		legoSpinner.setAdapter(motorAdapter);
 		legoSpinner.setSelection(motorEnum.ordinal());
-		legoSpinner.setGravity(Gravity.CENTER);
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new LegoNxtMotorMoveBrick(motorEnum, getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).clone());
 	}
 
 	@Override
@@ -164,9 +156,10 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 				// TODO Auto-generated method stub
 			}
 		});
-
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
-		motorSpinner.setGravity(Gravity.CENTER);
 
 		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
@@ -177,9 +170,5 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorMoveAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED)));
 		return null;
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

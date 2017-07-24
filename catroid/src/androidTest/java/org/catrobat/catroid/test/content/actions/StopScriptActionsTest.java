@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -88,7 +88,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 	public void testStopCurrentScript() {
 		String variableName = "testVariable";
 		project.getDefaultScene().getDataContainer().addProjectUserVariable(variableName);
-		UserVariable userVariable = project.getDefaultScene().getDataContainer().getUserVariable(variableName, null);
+		UserVariable userVariable = project.getDefaultScene().getDataContainer().getUserVariable(null, variableName);
 		Sprite sprite = new Sprite("sprite");
 
 		Script script = new StartScript();
@@ -119,7 +119,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 			sprite.look.act(10.0f);
 		}
 
-		userVariable = project.getDefaultScene().getDataContainer().getUserVariable(variableName, null);
+		userVariable = project.getDefaultScene().getDataContainer().getUserVariable(null, variableName);
 
 		assertEquals("Script didn't stop", 50.0, userVariable.getValue());
 	}
@@ -127,7 +127,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 	public void testStopOtherScripts() {
 		String varName = "testVar";
 		project.getDefaultScene().getDataContainer().addProjectUserVariable(varName);
-		UserVariable userVar = project.getDefaultScene().getDataContainer().getUserVariable(varName, null);
+		UserVariable userVar = project.getDefaultScene().getDataContainer().getUserVariable(null, varName);
 
 		Sprite sprite = new Sprite("sprite");
 		Script script = new StartScript();
@@ -159,7 +159,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 			sprite.look.act(1.0f);
 		}
 
-		userVar = project.getDefaultScene().getDataContainer().getUserVariable(varName, null);
+		userVar = project.getDefaultScene().getDataContainer().getUserVariable(null, varName);
 
 		assertEquals("Script didn't stop", 2.0, userVar.getValue());
 	}

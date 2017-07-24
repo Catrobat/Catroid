@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -40,7 +41,7 @@ import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ public class BrickCategoryFragment extends ListFragment {
 
 				if (scriptFragment != null) {
 					scriptFragment.onCategorySelected(adapter.getItem(position));
-					SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_bricks);
+					SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_bricks);
 				}
 			}
 		});
@@ -187,6 +188,9 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_arduino, null));
 		}
 
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			categories.add(inflater.inflate(R.layout.brick_category_chromecast, null));
+		}
 		if (SettingsActivity.isRaspiSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_raspi, null));
 		}

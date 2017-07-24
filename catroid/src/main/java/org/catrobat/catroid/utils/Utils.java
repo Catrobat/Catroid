@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,8 +52,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.facebook.AccessToken;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.google.firebase.crash.FirebaseCrash;
-import com.google.gson.Gson;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -72,15 +70,12 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
-import org.catrobat.catroid.ui.BaseExceptionHandler;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -153,35 +148,6 @@ public final class Utils {
 		return true;
 	}
 
-	public static boolean checkIfCrashRecoveryAndFinishActivity(final Activity context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		if (preferences.getBoolean(BaseExceptionHandler.RECOVERED_FROM_CRASH, false)) {
-			if (BuildConfig.FIREBASE_CRASH_REPORT_ENABLED
-					&& preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false)) {
-				sendCaughtException(context);
-			}
-
-			if (!(context instanceof MainMenuActivity)) {
-				context.finish();
-			} else {
-				preferences.edit().putBoolean(BaseExceptionHandler.RECOVERED_FROM_CRASH, false).commit();
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static void sendCaughtException(Context context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		Gson gson = new Gson();
-		String json = preferences.getString(BaseExceptionHandler.EXCEPTION_FOR_REPORT, "");
-		Throwable exception = gson.fromJson(json, Throwable.class);
-
-		FirebaseCrash.report(exception);
-
-		preferences.edit().remove(BaseExceptionHandler.EXCEPTION_FOR_REPORT).commit();
-	}
-
 	public static boolean isNetworkAvailable(Context context, boolean createDialog) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -201,8 +167,7 @@ public final class Utils {
 	}
 
 	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
-		return !success && exception != null && exception.getStatusCode() == WebconnectionException
-				.ERROR_NETWORK;
+		return !success && exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
 
 	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
@@ -359,36 +324,11 @@ public final class Utils {
 		return jobID > 0 ? jobID : Constants.INVALID_SCRATCH_PROGRAM_ID;
 	}
 
-	public static int[] extractImageSizeFromScratchImageURL(final String url) {
-		// example: https://cdn2.scratch.mit.edu/get_image/project/10205819_480x360.png?v=1368470695.0 -> [480, 360]
-		int[] defaultSize = new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
-
-		String urlWithoutQuery = url.split("\\?")[0];
-		String[] urlStringParts = urlWithoutQuery.split("_");
-		if (urlStringParts.length == 0) {
-			return defaultSize;
-		}
-
-		final String[] sizeParts = urlStringParts[urlStringParts.length - 1].replace(".png", "").split("x");
-		if (sizeParts.length != 2) {
-			return defaultSize;
-		}
-
-		try {
-			int width = Integer.parseInt(sizeParts[0]);
-			int height = Integer.parseInt(sizeParts[1]);
-			return new int[] { width, height };
-		} catch (NumberFormatException ex) {
-			return new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
-		}
-	}
-
 	public static String changeSizeOfScratchImageURL(final String url, int newHeight) {
 		// example: https://cdn2.scratch.mit.edu/get_image/project/10205819_480x360.png
 		//    ->    https://cdn2.scratch.mit.edu/get_image/project/10205819_240x180.png
-		final int[] imageSize = extractImageSizeFromScratchImageURL(url);
-		final int width = imageSize[0];
-		final int height = imageSize[1];
+		final int width = Constants.SCRATCH_IMAGE_DEFAULT_WIDTH;
+		final int height = Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT;
 		final int newWidth = Math.round(((float) width) / ((float) height) * newHeight);
 
 		return url.replace(width + "x", Integer.toString(newWidth) + "x")
@@ -930,9 +870,9 @@ public final class Utils {
 		try {
 			GdxNativesLoader.load();
 			pixmap = new Pixmap(new FileHandle(imageFile));
-		} catch (GdxRuntimeException e) {
+		} catch (GdxRuntimeException gdxRuntimeException) {
 			return null;
-		} catch (Exception e1) {
+		} catch (Exception e) {
 			return null;
 		}
 		return pixmap;
@@ -1253,7 +1193,7 @@ public final class Utils {
 			List<String> spriteListsToReplaceInFormulas, DataContainer dataContainer) {
 
 		String key = templateName + Constants.TRANSLATION_SPRITE_VARIABLE;
-		for (UserVariable variable : dataContainer.getVariableListForSprite(sprite)) {
+		for (UserVariable variable : dataContainer.getOrCreateVariableListForSprite(sprite)) {
 
 			String variableName = variable.getName();
 			addIfNotInList(stringEntriesList, createStringEntry(key, variableName));
@@ -1261,7 +1201,7 @@ public final class Utils {
 		}
 
 		key = templateName + Constants.TRANSLATION_SPRITE_LIST;
-		for (UserList list : dataContainer.getUserListListForSprite(sprite)) {
+		for (UserList list : dataContainer.getOrCreateUserListForSprite(sprite)) {
 
 			addIfNotInList(stringEntriesList, createStringEntry(key, list.getName()));
 			spriteListsToReplaceInFormulas.add(list.getName());
@@ -1272,12 +1212,12 @@ public final class Utils {
 			DataContainer dataContainer, Context context) {
 
 		String key = templateName + Constants.TRANSLATION_SPRITE_VARIABLE;
-		for (UserVariable variable : dataContainer.getVariableListForSprite(sprite)) {
+		for (UserVariable variable : dataContainer.getOrCreateVariableListForSprite(sprite)) {
 			variable.setName(getStringResourceByName(getStringResourceName(key, variable.getName()), variable.getName(), context));
 		}
 
 		key = templateName + Constants.TRANSLATION_SPRITE_LIST;
-		for (UserList list : dataContainer.getUserListListForSprite(sprite)) {
+		for (UserList list : dataContainer.getOrCreateUserListForSprite(sprite)) {
 			list.setName(getStringResourceByName(getStringResourceName(key, list.getName()), list.getName(), context));
 		}
 	}
@@ -1452,6 +1392,24 @@ public final class Utils {
 			uniqueMap.put(objectInstance.getClass(), objectInstance);
 		}
 		return new ArrayList<>(uniqueMap.values());
+	}
+
+	public static int setBit(int number, int index, int value) {
+		if ((index >= 0) && (index < 32)) {
+			if (value == 0) {
+				return number & ~(1 << index);
+			} else {
+				return number | (1 << index);
+			}
+		}
+		return number;
+	}
+
+	public static int getBit(int number, int index) {
+		if ((index >= 0) && (index < 32)) {
+			return (number >> index) & 0x1;
+		}
+		return 0;
 	}
 
 	public static boolean isCreateAtSchoolUser(Context context) {

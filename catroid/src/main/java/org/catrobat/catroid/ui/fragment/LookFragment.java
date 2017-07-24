@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -82,7 +82,7 @@ import org.catrobat.catroid.ui.dialogs.NewLookDialog;
 import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilCamera;
@@ -277,7 +277,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_looks);
+		SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_looks);
 
 		return inflater.inflate(R.layout.fragment_look, container, false);
 	}
@@ -609,7 +609,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	public void addLookMediaLibrary() {
 		Intent intent = new Intent(activity, WebViewActivity.class);
 		String url;
-		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(getString(R.string.background))) {
+
+		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
 			url = ProjectManager.getInstance().isCurrentProjectLandscapeMode()
 					? Constants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE
 					: Constants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
@@ -934,7 +935,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 					return true;
 				}
-			default:
 				break;
 		}
 		return false;

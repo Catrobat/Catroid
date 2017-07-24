@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -85,7 +85,7 @@ import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
@@ -153,7 +153,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_sounds);
+		SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_sounds);
 
 		return inflater.inflate(R.layout.fragment_sounds, container, false);
 	}
@@ -935,7 +935,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 					return true;
 				}
-			default:
 				break;
 		}
 		return false;

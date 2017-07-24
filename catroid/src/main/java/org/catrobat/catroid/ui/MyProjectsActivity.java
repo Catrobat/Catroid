@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,12 +37,12 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectListFragment;
 import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.concurrent.locks.Lock;
 
-public class MyProjectsActivity extends BaseActivity {
+public class MyProjectsActivity extends BaseCastActivity {
 
 	public static final String TAG = MyProjectsActivity.class.getSimpleName();
 	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";
@@ -62,7 +62,7 @@ public class MyProjectsActivity extends BaseActivity {
 
 		loadFragment(ProjectListFragment.class, false);
 		projectListFragment = (ProjectListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
-		SnackBarUtil.showHintSnackBar(this, R.string.hint_merge);
+		SnackbarUtil.showHintSnackBar(this, R.string.hint_merge);
 		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 

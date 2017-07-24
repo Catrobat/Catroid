@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ProjectData;
@@ -41,7 +40,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.adapter.ProjectListAdapter;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -149,11 +147,6 @@ public class MergeTask {
 			adapter.insert(new ProjectData(mergeProjectName, projectCodeFile.lastModified()), 0);
 			adapter.notifyDataSetChanged();
 		}
-
-		String msg = firstProject.getName() + " " + context.getString(R.string.merge_info) + " " + secondProject.getName()
-				+ "!";
-		ToastUtil.showSuccess(context, msg);
-
 		return true;
 	}
 
@@ -329,14 +322,19 @@ public class MergeTask {
 		Sprite spriteInto = mergeResult.getSpriteBySpriteName(sprite.getName());
 
 		for (Script fromScript : sprite.getScriptList()) {
-			boolean equal = false;
-			for (Script intoScript : spriteInto.getScriptList()) {
-				equal |= isEqualScript(intoScript, fromScript);
-			}
-			if (spriteInto.getScriptList().size() == 0 || !equal) {
+			if (spriteInto.getScriptList().size() == 0 || !isEqualScript(spriteInto, fromScript)) {
 				mergeResult.getSpriteBySpriteName(sprite.getName()).addScript(fromScript);
 			}
 		}
+	}
+
+	private boolean isEqualScript(Sprite spriteInto, Script fromScript) {
+		for (Script intoScript : spriteInto.getScriptList()) {
+			if (isEqualScript(intoScript, fromScript)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void addSoundsAndLooks(Sprite sprite) {
@@ -367,21 +365,26 @@ public class MergeTask {
 		List<Brick> intoProjectBrickList = intoProjectScript.getBrickList();
 		List<Brick> fromProjectBrickList = fromProjectScript.getBrickList();
 
-		int counter = 0;
-		int numberOfEqualBricks = (intoProjectBrickList.size() < fromProjectBrickList.size()) ? intoProjectBrickList.size() : fromProjectBrickList.size();
+		if (intoProjectBrickList.size() != fromProjectBrickList.size()) {
+			return false;
+		}
 
-		for (int i = 0; i < numberOfEqualBricks; i++) {
+		for (int i = 0; i < intoProjectBrickList.size(); i++) {
 			Brick intoProjectBrick = intoProjectBrickList.get(i);
 			Brick fromProjectBrick = fromProjectBrickList.get(i);
 
-			if (intoProjectBrick.isEqualBrick(fromProjectBrick, mergeResult, current)) {
-				counter++;
+			if (!intoProjectBrick.isEqualBrick(fromProjectBrick, mergeResult, current)) {
+				return false;
 			}
 		}
-
-		if (counter != numberOfEqualBricks) {
-			return false;
-		}
 		return true;
+	}
+
+	public Project getFirstProject() {
+		return firstProject;
+	}
+
+	public Project getSecondProject() {
+		return secondProject;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,7 +59,7 @@ import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
@@ -74,7 +74,7 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicExpandableListView;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
@@ -127,7 +127,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		super.onCreateView(inflater, container, savedInstanceState);
 		View spriteListFragment = inflater.inflate(R.layout.fragment_sprites_list, container, false);
 		TextSizeUtil.enlargeViewGroup((ViewGroup) spriteListFragment);
-		SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_objects);
+		SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_objects);
 		return spriteListFragment;
 	}
 

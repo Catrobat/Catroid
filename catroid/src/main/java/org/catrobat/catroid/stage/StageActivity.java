@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,11 +47,13 @@ import android.widget.EditText;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -67,7 +69,7 @@ import org.catrobat.catroid.ui.MarketingActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.VibratorUtil;
@@ -92,7 +94,7 @@ public class StageActivity extends AndroidApplication {
 	private StageAudioFocus stageAudioFocus;
 	private PendingIntent pendingIntent;
 	private NfcAdapter nfcAdapter;
-	private static BlockingDeque<NdefMessage> ndefMessageBlockingDeque = new LinkedBlockingDeque<NdefMessage>();
+	private static BlockingDeque<NdefMessage> ndefMessageBlockingDeque = new LinkedBlockingDeque<>();
 	private StageDialog stageDialog;
 	private boolean resizePossible;
 	private boolean askDialogUnanswered = false;
@@ -129,7 +131,15 @@ public class StageActivity extends AndroidApplication {
 		configuration = new AndroidApplicationConfiguration();
 		configuration.r = configuration.g = configuration.b = configuration.a = 8;
 
-		initialize(stageListener, configuration);
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			setContentView(R.layout.activity_stage_gamepad);
+			CastManager.getInstance().initializeGamepadActivity(this);
+			CastManager.getInstance()
+					.addStageViewToLayout((GLSurfaceView20) initializeForView(stageListener, configuration));
+		} else {
+			initialize(stageListener, configuration);
+		}
 
 		if (graphics.getView() instanceof SurfaceView) {
 			SurfaceView glView = (SurfaceView) graphics.getView();
@@ -153,7 +163,7 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().setStageActivity(this);
 
 		BackgroundWaitHandler.reset();
-		SnackBarUtil.showHintSnackBar(this, R.string.hint_stage);
+		SnackbarUtil.showHintSnackBar(this, R.string.hint_stage);
 	}
 
 	private void setupAskHandler() {
@@ -239,6 +249,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onBackPressed() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+			PreStageActivity.shutdownPersistentResources();
 			Intent marketingIntent = new Intent(StageActivity.this, MarketingActivity.class);
 			startActivity(marketingIntent);
 			finish();
@@ -295,6 +306,10 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().pausePreviewAsync();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().setRemoteLayoutToPauseScreen(getApplicationContext());
+		}
 	}
 
 	public void resume() {
@@ -350,6 +365,10 @@ public class StageActivity extends AndroidApplication {
 				&& nfcAdapter != null) {
 			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
 		}
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().resumeRemoteLayoutFromPauseScreen();
+		}
 	}
 
 	public boolean getResizePossible() {
@@ -369,7 +388,8 @@ public class StageActivity extends AndroidApplication {
 		float screenAspectRatio = ScreenValues.getAspectRatio();
 
 		if ((virtualScreenWidth == ScreenValues.SCREEN_WIDTH && virtualScreenHeight == ScreenValues.SCREEN_HEIGHT)
-				|| Float.compare(screenAspectRatio, aspectRatio) == 0) {
+				|| Float.compare(screenAspectRatio, aspectRatio) == 0
+				|| ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			resizePossible = false;
 			stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH;
 			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
@@ -422,6 +442,9 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().releaseCamera();
 		CameraManager.getInstance().setToDefaultCamera();
 		ProjectManager.getInstance().setSceneToPlay(ProjectManager.getInstance().getCurrentScene());
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().onStageDestroyed();
+		}
 		super.onDestroy();
 	}
 
@@ -450,7 +473,7 @@ public class StageActivity extends AndroidApplication {
 		manageLoadAndFinish();
 
 		final AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
-		builder.setMessage(R.string.error_flash_front_camera).setCancelable(false)
+		builder.setMessage(R.string.error_flash_camera).setCancelable(false)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {

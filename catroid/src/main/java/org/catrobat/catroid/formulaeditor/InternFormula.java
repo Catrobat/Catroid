@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,15 +33,15 @@ import java.util.List;
 public class InternFormula {
 	private static final String TAG = InternFormula.class.getSimpleName();
 
-	public static enum CursorTokenPosition {
+	public enum CursorTokenPosition {
 		LEFT, MIDDLE, RIGHT
 	}
 
-	public static enum CursorTokenPropertiesAfterModification {
+	public enum CursorTokenPropertiesAfterModification {
 		LEFT, RIGHT, SELECT, DO_NOT_MODIFY
 	}
 
-	public static enum TokenSelectionType {
+	public enum TokenSelectionType {
 		USER_SELECTION, PARSER_ERROR_SELECTION
 	}
 
