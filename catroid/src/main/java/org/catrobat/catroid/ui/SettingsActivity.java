@@ -445,6 +445,7 @@ public class SettingsActivity extends PreferenceActivity {
 		TextSizeUtil.enlargeListPreference(this, RASPI_VERSION_SPINNER);
 		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_PHIRO_BRICKS);
 		TextSizeUtil.enlargePreferenceScreen(this, ACCESS_BUTTON);
+		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_CAST_GLOBALLY_ENABLED);
 		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_HINTS);
 		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_CRASH_REPORTS);
 	}

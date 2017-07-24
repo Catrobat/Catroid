@@ -232,6 +232,12 @@
     </PreferenceScreen>
 
     <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="setting_cast_globally_enabled"
+        android:summary="@string/preference_description_cast_feature_globally_enabled"
+        android:title="@string/preference_title_cast_feature_globally_enabled" />
+
+    <CheckBoxPreference
         android:defaultValue="@string/SNACKBAR_HINTS_ENABLED"
         android:key="setting_enable_hints"
         android:summary="@string/preference_description_hints"
@@ -242,11 +248,5 @@
         android:key="setting_enable_crash_reports"
         android:summary="@string/preference_description_crash_reports"
         android:title="@string/preference_title_enable_crash_reports" />
-
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="setting_cast_globally_enabled"
-        android:summary="@string/preference_description_cast_feature_globally_enabled"
-        android:title="@string/preference_title_cast_feature_globally_enabled" />
 
 </PreferenceScreen>

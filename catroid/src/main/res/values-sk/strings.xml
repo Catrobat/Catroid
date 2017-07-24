@@ -25,18 +25,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
-  <string name="cancel">Batal</string>
+  <string name="cancel">Cancel</string>
   <string name="next">Next</string>
-  <string name="done">Selesai</string>
+  <string name="done">Done</string>
   <string name="name_already_exists">This name already exists, please choose another one!</string>
   <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
-  <string name="rename">Ganti nama</string>
-  <string name="delete">Hapus</string>
-  <string name="yes">Ya</string>
-  <string name="no">Tidak</string>
-  <string name="copy">Salin</string>
+  <string name="rename">Rename</string>
+  <string name="delete">Delete</string>
+  <string name="yes">Yes</string>
+  <string name="no">No</string>
+  <string name="copy">Copy</string>
   <string name="cut">Cut</string>
-  <string name="move">Pindah</string>
+  <string name="move">Move</string>
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Backpack</string>
   <string name="packing">Pack</string>
@@ -44,10 +44,10 @@
   <string name="unpack_bg">Unpack as background</string>
   <string name="unpack_object">Unpack as object</string>
   <string name="copy_addition">copy</string>
-  <string name="close">Tutup</string>
-  <string name="error">Galat</string>
+  <string name="close">Close</string>
+  <string name="error">Error</string>
   <string name="please_wait">Please wait</string>
-  <string name="loading">Memuat&#8230;</string>
+  <string name="loading">Loading&#8230;</string>
   <string name="search_hint">Search&#8230;</string>
   <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
@@ -60,13 +60,13 @@
   <string name="loading_facebook_login">Facebook login is completed on our server&#8230;</string>
   <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
   <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
-  <string name="background">Latar belakang</string>
+  <string name="background">Background</string>
   <string name="stage">Stage</string>
-  <string name="ok">OKE</string>
-  <string name="play">Main</string>
-  <string name="settings">Pengaturan</string>
-  <string name="redo">Ulangi</string>
-  <string name="undo">Urung</string>
+  <string name="ok">OK</string>
+  <string name="play">Play</string>
+  <string name="settings">Settings</string>
+  <string name="redo">Redo</string>
+  <string name="undo">Undo</string>
   <string name="name_exists">Name already exists</string>
   <string name="no_name">No name</string>
   <string name="is_empty">is empty</string>
@@ -87,12 +87,12 @@
   <string name="disconnect">Disconnect</string>
   <!--  -->
   <!-- Main menu activity -->
-  <string name="main_menu_new">Baru</string>
-  <string name="main_menu_continue">Lanjutkan</string>
-  <string name="main_menu_programs">Program</string>
-  <string name="main_menu_help">Bantuan</string>
-  <string name="main_menu_web">Jelajah</string>
-  <string name="main_menu_upload">Unggah</string>
+  <string name="main_menu_new">New</string>
+  <string name="main_menu_continue">Continue</string>
+  <string name="main_menu_programs">Programs</string>
+  <string name="main_menu_help">Help</string>
+  <string name="main_menu_web">Explore</string>
+  <string name="main_menu_upload">Upload</string>
   <string name="main_menu_about">About this app</string>
   <string name="main_menu_terms_of_use">Terms of Use and Services</string>
   <string name="main_menu_rate_app">Rate us!</string>
@@ -107,7 +107,7 @@
   <string name="marketing_app_details">Details about this app</string>
   <string name="marketing_more_on_google_play">More apps on Google Play</string>
   <!-- Settings activity -->
-  <string name="preference_title">Pengaturan</string>
+  <string name="preference_title">Settings</string>
   <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
   <string name="preference_description_quadcopter_bricks">Allow to control AR.Drone 2.0 quadcopters</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
@@ -159,6 +159,8 @@
   <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s! Older Scratch before %2$s
         programs are not supported!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
+    <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
+    <item quantity="few">Cannot convert more than %d programs simultaneously!</item>
     <item quantity="other">Cannot convert more than %d programs simultaneously!</item>
   </plurals>
   <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
@@ -168,6 +170,8 @@
   <string name="connection_failed">Connection to server failed, please retry later!</string>
   <string name="authentication_failed">Authentication failed, please contact the Catrobat team!</string>
   <plurals name="scratch_conversion_scheduled_x">
+    <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
+    <item quantity="few">Scheduled %d Scratch programs&#8230;</item>
     <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
   </plurals>
   <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
@@ -178,9 +182,13 @@
   <string name="status_started">Started&#8230;</string>
   <string name="status_conversion_finished">Conversion finished</string>
   <plurals name="status_in_progress_x_jobs">
+    <item quantity="one">In progress: 1 job</item>
+    <item quantity="few">In progress: %d jobs</item>
     <item quantity="other">In progress: %d jobs</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
+    <item quantity="one">Completed: 1 job</item>
+    <item quantity="few">Completed: %d jobs</item>
     <item quantity="other">Completed: %d jobs</item>
   </plurals>
   <string name="status_conversion_failed">Conversion failed!</string>
@@ -210,23 +218,29 @@
   <!-- ScratchReconvertDialog Strings -->
   <string name="reconvert_text">This program has been converted %1$s ago.</string>
   <plurals name="minutes">
+    <item quantity="one">1 minute</item>
+    <item quantity="few">%d minutes</item>
     <item quantity="other">%d minutes</item>
   </plurals>
   <plurals name="hours">
+    <item quantity="one">1 hour</item>
+    <item quantity="few">%d hours</item>
     <item quantity="other">%d hours</item>
   </plurals>
   <plurals name="days">
+    <item quantity="one">1 day</item>
+    <item quantity="few">%d days</item>
     <item quantity="other">%d days</item>
   </plurals>
   <string name="reconvert_dialog_download">Download already converted program</string>
   <string name="reconvert_dialog_reconvert">Reconvert this program</string>
   <!--  -->
   <!-- New Object Dialog -->
-  <string name="dialog_new_object_pocketpaint">Membuat gambar</string>
-  <string name="dialog_new_object_gallery">Pilih gambar</string>
+  <string name="dialog_new_object_pocketpaint">Draw image</string>
+  <string name="dialog_new_object_gallery">Select image</string>
   <string name="dialog_new_object_camera">Take picture</string>
-  <string name="dialog_new_object_look_preview">Lihat Tinjauan</string>
-  <string name="dialog_new_object_name">Nama objek</string>
+  <string name="dialog_new_object_look_preview">look preview</string>
+  <string name="dialog_new_object_name">Object name</string>
   <string name="dialog_new_object_switch_title">New object created</string>
   <string name="dialog_new_object_switch_message">Switch to new object?</string>
   <!--  -->
@@ -255,28 +269,29 @@
         The source code of this app is mainly licensed under the GNU AGPL v3 License.
         For further details on the license see the link below.\n</string>
   <string name="dialog_about_license_link_text">Source Code License</string>
-  <string name="dialog_about_catrobat_link_text">Tentang Catrobat</string>
+  <string name="dialog_about_catrobat_link_text">About Catrobat</string>
   <!--  -->
   <!-- Project activity view -->
   <string name="project_name">Program:</string>
-  <string name="my_projects_activity_title">Program</string>
+  <string name="my_projects_activity_title">Programs</string>
   <string name="number_of_objects">Objects:</string>
   <string name="start_scene_name">%1$s (First Scene)</string>
-  <string name="number_of_scripts">Script:</string>
+  <string name="number_of_scripts">Scripts:</string>
   <string name="number_of_bricks">Bricks:</string>
-  <string name="number_of_looks">Penampilan:</string>
-  <string name="number_of_sounds">Suara:</string>
+  <string name="number_of_looks">Looks:</string>
+  <string name="number_of_sounds">Sounds:</string>
   <string name="show_details">Show details</string>
   <string name="hide_details">Hide details</string>
   <string name="insert_below">Insert below</string>
-  <string name="sprite">Objek</string>
-  <string name="sprites">Objek</string>
-  <string name="spritelist_background_headline">Latar belakang</string>
+  <string name="sprite">Object</string>
+  <string name="sprites">Objects</string>
+  <string name="spritelist_background_headline">Background</string>
   <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
   <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
   <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
-  <string name="select_all">Pilih Semua</string>
+  <string name="select_all">Select all</string>
   <string name="deselect_all">Deselect all</string>
+  <string name="backpack_replace_object">The object %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_scene">The scene %1$s already exists in the backpack. Do you want to replace
         it?</string>
   <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
@@ -292,13 +307,13 @@
   <string name="copy_sprite_name_suffix">_Copy</string>
   <!--  -->
   <!-- Script activity -->
-  <string name="scripts">Script</string>
-  <string name="look">Lihat</string>
-  <string name="looks">Penampilan</string>
-  <string name="sound">Suara</string>
-  <string name="sounds">Suara</string>
-  <string name="backgrounds">Latar belakang</string>
-  <string name="size">Ukuran:</string>
+  <string name="scripts">Scripts</string>
+  <string name="look">Look</string>
+  <string name="looks">Looks</string>
+  <string name="sound">Sound</string>
+  <string name="sounds">Sounds</string>
+  <string name="backgrounds">Backgrounds</string>
+  <string name="size">Size:</string>
   <string name="script_group">Script group</string>
   <string name="script_groups">Script groups</string>
   <string name="script_group_name_given">A group with this name already exists. Please choose a different one!</string>
@@ -306,7 +321,7 @@
         different one!</string>
   <!--  -->
   <!-- Script fragment -->
-  <string name="fragment_script_text_description">Tekan \"+\" untuk menambahkan skrip</string>
+  <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
   <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
   <string name="dialog_confirm_delete_script_title">Delete this script?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
@@ -314,42 +329,49 @@
   <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these groups?</string>
   <string name="dialog_confirm_delete_brick_message">This cannot be undone!</string>
   <plurals name="number_of_bricks_to_delete">
+    <item quantity="one">Delete %d brick</item>
+    <item quantity="few">Delete %d bricks</item>
     <item quantity="other">Delete %d bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
+    <item quantity="one">Copy %d brick</item>
+    <item quantity="few">Copy %d bricks</item>
     <item quantity="other">Copy %d bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
+    <item quantity="one">Backpack %d brick</item>
+    <item quantity="few">Backpack %d bricks</item>
     <item quantity="other">Backpack %d bricks</item>
   </plurals>
   <!--  -->
   <!-- Look fragment -->
-  <string name="fragment_look_text_description">Tekan \"+\" untuk menambah tampilan</string>
-  <string name="fragment_background_text_description">Tekan \"+\" untuk menambah latar belakang</string>
-  <string name="rename_look_dialog">Mengubah nama tampilan</string>
-  <string name="pocket_paint_not_installed_title">Pocket Paint tidak terinstal!</string>
-  <string name="pocket_paint_not_installed">Apakah Anda ingin menginstalnya?</string>
-  <string name="default_look_name">Lihat</string>
+  <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
+  <string name="fragment_background_text_description">Tap \"+\" to add backgrounds</string>
+  <string name="rename_look_dialog">Rename look</string>
+  <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
+  <string name="pocket_paint_not_installed">Do you want to install it?</string>
+  <string name="default_look_name">look</string>
   <string name="delete_look_dialog">Delete look?</string>
-  <string name="select_look_from_gallery">Pilih gambar</string>
-  <string name="select_look_from_camera">Pilih foto</string>
-  <string name="look_measure">Ukur:</string>
+  <string name="select_look_from_gallery">Select image</string>
+  <string name="select_look_from_camera">Select photo</string>
+  <string name="look_measure">Measure:</string>
   <string name="dialog_confirm_delete_look_title">Delete this look?</string>
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
   <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
   <string name="lookname">Look name:</string>
+  <string name="backpack_replace_look">The look %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!--  -->
   <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">Tekan \"+\" untuk menambah suara</string>
-  <string name="rename_sound_dialog">Ubah nama suara</string>
+  <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
+  <string name="rename_sound_dialog">Rename sound</string>
   <string name="backpack_title">Your backpack</string>
   <string name="sound_play">play</string>
-  <string name="sound_stop">Stop</string>
+  <string name="sound_stop">stop</string>
   <string name="sound_select_source">Select a sound</string>
   <string name="sound_time_seperator">/</string>
   <string name="delete_sound_dialog">Delete sound?</string>
-  <string name="length">Panjang:</string>
+  <string name="length">Length:</string>
   <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
   <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
   <string name="dialog_confirm_delete_sound_message">This cannot be undone!</string>
@@ -378,7 +400,7 @@
   <string name="default_tag_name">nfc_tag</string>
   <string name="tnf_empty">Empty</string>
   <string name="tnf_external_type">External type</string>
-  <string name="tnf_mime_media">Teks</string>
+  <string name="tnf_mime_media">Text</string>
   <string name="tnf_well_known_http">HTTP</string>
   <string name="tnf_well_known_https">HTTPS</string>
   <string name="tnf_well_known_tel">Phone number</string>
@@ -386,40 +408,46 @@
   <string name="tnf_well_known_mailto">E-Mail</string>
   <!--  -->
   <plurals name="unpacking_items_plural">
-    <item quantity="other">sudah dibuka!</item>
+    <item quantity="one">was unpacked!</item>
+    <item quantity="few">were unpacked!</item>
+    <item quantity="other">were unpacked!</item>
   </plurals>
   <plurals name="packing_items_plural">
+    <item quantity="one">was backpacked!</item>
+    <item quantity="few">were backpacked!</item>
     <item quantity="other">were backpacked!</item>
   </plurals>
   <plurals name="scripts_plural">
+    <item quantity="one">Script</item>
+    <item quantity="few">Scripts</item>
     <item quantity="other">Scripts</item>
   </plurals>
   <!-- My Projects activity -->
-  <string name="last_used">Akses terakhir:</string>
-  <string name="description">Keterangan:</string>
-  <string name="set_description">Atur keterangan</string>
-  <string name="rename_project">Ubah nama Program</string>
-  <string name="copy_project_finished"> tersalin.</string>
+  <string name="last_used">Last access:</string>
+  <string name="description">Description:</string>
+  <string name="set_description">Set description</string>
+  <string name="rename_project">Rename program</string>
+  <string name="copy_project_finished"> copied.</string>
   <string name="program">Program</string>
-  <string name="programs">Program</string>
+  <string name="programs">Programs</string>
   <string name="scene">Scene</string>
   <string name="scenes">Scenes</string>
   <string name="dialog_confirm_delete_program_title">Delete this program?</string>
   <string name="dialog_confirm_delete_multiple_programs_title">Delete these programs?</string>
   <string name="dialog_confirm_delete_scene_title">Delete this scene?</string>
   <string name="dialog_confirm_delete_multiple_scenes_title">Delete these scenes?</string>
-  <string name="details_date_today">Hari ini</string>
-  <string name="details_date_yesterday">Kemarin</string>
-  <string name="dialog_copy_project_title">Salin program</string>
+  <string name="details_date_today">Today</string>
+  <string name="details_date_yesterday">Yesterday</string>
+  <string name="dialog_copy_project_title">Copy program</string>
   <!--  -->
   <!-- Soundrecorder activity -->
-  <string name="soundrecorder_name">Perekam Pocket Code</string>
-  <string name="soundrecorder_error">Rekaman suara gagal</string>
-  <string name="soundrecorder_recorded_filename">rekam</string>
-  <string name="soundrecorder_text_view">Tekan ikon di atas untuk memulai dan menghentikan perekaman.</string>
+  <string name="soundrecorder_name">Sound Recorder</string>
+  <string name="soundrecorder_error">Sound recording failed</string>
+  <string name="soundrecorder_recorded_filename">record</string>
+  <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
   <!--  -->
   <!-- Music activity -->
-  <string name="music_recorded_filename">Musik</string>
+  <string name="music_recorded_filename">Music</string>
   <!--  -->
   <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
@@ -443,25 +471,25 @@
         issues!</string>
   <!--  -->
   <!-- Brick context dialog -->
-  <string name="brick_context_dialog_move_brick">Pindahkan Brick</string>
-  <string name="brick_context_dialog_show_source">Tampilkan sumber Brick</string>
-  <string name="brick_context_dialog_delete_brick">Hapus Bata</string>
-  <string name="brick_context_dialog_copy_brick">Salin Batu bata</string>
-  <string name="brick_context_dialog_animate_bricks">Menghidupkan bagian-bata</string>
+  <string name="brick_context_dialog_move_brick">Move Brick</string>
+  <string name="brick_context_dialog_show_source">Show Source Brick</string>
+  <string name="brick_context_dialog_delete_brick">Delete Brick</string>
+  <string name="brick_context_dialog_copy_brick">Copy Brick</string>
+  <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
   <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
-  <string name="brick_context_dialog_formula_edit_brick">Edit Rumus</string>
-  <string name="brick_context_dialog_delete_script">Hapus tulisan</string>
+  <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
+  <string name="brick_context_dialog_delete_script">Delete Script</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>
   <string name="brick_context_dialog_comment_out">Disable Brick</string>
-  <string name="brick_context_dialog_help">Bantuan</string>
+  <string name="brick_context_dialog_help">Help</string>
   <string name="comment_in_out">Disable/Enable</string>
   <string name="comment_in_out_impossible">Nothing to Disable/Enable</string>
   <!--  -->
   <!-- New look dialog -->
-  <string name="new_look_dialog_title">Tambahkan tampilan</string>
+  <string name="new_look_dialog_title">Add Look</string>
   <string name="add_look_from_camera">Take picture</string>
-  <string name="add_look_draw_new_image">Membuat gambar</string>
-  <string name="add_look_choose_image">Pilih gambar</string>
+  <string name="add_look_draw_new_image">Draw image</string>
+  <string name="add_look_choose_image">Select image</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look name:</string>
   <string name="look_rename_overwrite">A look with this name already exists. Please choose a different one!</string>
@@ -473,10 +501,10 @@
   <string name="add_sound_choose_file">Select File</string>
   <string name="add_sound_music">Music Composer</string>
   <!-- New project dialog -->
-  <string name="new_project_dialog_title">Program Baru</string>
-  <string name="new_project_dialog_hint">Program saya</string>
+  <string name="new_project_dialog_title">New Program</string>
+  <string name="new_project_dialog_hint">My Program</string>
   <string name="new_project_description_dialog_hint">My description</string>
-  <string name="new_project_name">Nama program:</string>
+  <string name="new_project_name">Program name</string>
   <string name="new_project_empty">Create empty program</string>
   <string name="new_project_default">Create example program</string>
   <string name="new_project_default_drone">Create example Drone program</string>
@@ -499,33 +527,33 @@
   <string name="play_scene_dialog_current">Current (%1$s)</string>
   <!--  -->
   <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_default_sprite_name">Objek saya</string>
-  <string name="new_sprite_dialog_title">Objek baru</string>
+  <string name="new_sprite_dialog_default_sprite_name">My Object</string>
+  <string name="new_sprite_dialog_title">New Object</string>
   <string name="spritename_already_exists">Please choose another object name.</string>
-  <string name="rename_sprite_dialog">Mengubah nama objek</string>
-  <string name="spritename_invalid">Nama objek ini tidak valid</string>
+  <string name="rename_sprite_dialog">Rename Object</string>
+  <string name="spritename_invalid">This object name is invalid</string>
   <string name="no_spritename_entered">Please enter an object name.</string>
-  <string name="sprite_name">Nama objek:</string>
+  <string name="sprite_name">Object name:</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Sign In</string>
-  <string name="username">Nama pengguna:</string>
-  <string name="password">Kata sandi:</string>
+  <string name="username">Username:</string>
+  <string name="password">Password:</string>
   <string name="password_forgotten">Password forgotten?</string>
-  <string name="new_user_registered">Account baru telah dibuat</string>
+  <string name="new_user_registered">New account created</string>
   <string name="user_logged_in">Successfully logged in</string>
   <string name="register_error">Invalid login</string>
-  <string name="register_terms">Dengan mendaftar, Anda setuju dengan</string>
+  <string name="register_terms">By registering you agree to our</string>
   <string name="register_code_terms_of_use_text">Terms of Use and Services</string>
   <string name="login">Login</string>
-  <string name="register">Daftar</string>
-  <string name="or">ATAU</string>
+  <string name="register">Register</string>
+  <string name="or">OR</string>
   <string name="password_confirm">Confirm Password</string>
   <string name="accountName">E-Mail</string>
   <string name="signin_thanks">Thank you for signing up!</string>
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
-  <string name="signin_choose_username_hint">Nama pengguna tidak boleh nama asli Anda.</string>
+  <string name="signin_choose_username_hint">The username should not be your real name.</string>
   <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
   <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
@@ -545,69 +573,73 @@
   <string name="overwrite_rename_default">Rename existing media</string>
   <!-- -->
   <!-- Stage menu dialog -->
-  <string name="stage_dialog_back">Kembali</string>
+  <string name="stage_dialog_back">Back</string>
   <string name="stage_dialog_resume">Resume</string>
   <string name="stage_dialog_restart">Restart</string>
   <string name="stage_dialog_axes_on">Axes on</string>
   <string name="stage_dialog_axes_off">Axes off</string>
-  <string name="stage_dialog_maximize">Memaksimalkan \nStretch</string>
+  <string name="stage_dialog_maximize">Maximize/\nStretch</string>
   <string name="stage_dialog_screenshot">Preview</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">Baru&#8230;</string>
-  <string name="dialog_new_broadcast_message_title">Pesan baru</string>
-  <string name="dialog_new_broadcast_message_name">pesan:</string>
+  <string name="new_broadcast_message">New&#8230;</string>
+  <string name="dialog_new_broadcast_message_title">New message</string>
+  <string name="dialog_new_broadcast_message_name">message:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">Baru&#8230;</string>
+  <string name="new_nfc_tag">New&#8230;</string>
   <string name="brick_when_nfc_default_all">all</string>
   <!-- -->
   <!-- Brick categories -->
-  <string name="categories">Kategori</string>
-  <string name="category_motion">Gerak</string>
-  <string name="category_looks">Tampilan</string>
+  <string name="categories">Categories</string>
+  <string name="category_motion">Motion</string>
+  <string name="category_looks">Looks</string>
   <string name="category_pen">Pen</string>
-  <string name="category_sound">Suara</string>
-  <string name="category_control">Kontrol</string>
+  <string name="category_sound">Sound</string>
+  <string name="category_control">Control</string>
   <string name="category_event">Event</string>
-  <string name="category_user_bricks">Batu bata saya</string>
+  <string name="category_user_bricks">My Bricks</string>
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_lego_ev3">Lego EV3</string>
-  <string name="category_drone">ARDrone</string>
+  <string name="category_drone">AR.Drone</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">Arduino</string>
   <string name="category_cast">Cast</string>
   <string name="category_raspi">Raspberry Pi</string>
   <!--  -->
   <!-- Motion bricks -->
-  <string name="brick_place_at">"Tempatkan di "</string>
+  <string name="brick_place_at">"Place at "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
-  <string name="brick_set_x">"Set X ke "</string>
-  <string name="brick_set_y">"Set Y ke "</string>
-  <string name="brick_change_x_by">"Ubah X dengan "</string>
-  <string name="brick_change_y_by">"Ubah Y dengan "</string>
-  <string name="brick_go_back">Kembali</string>
+  <string name="brick_set_x">"Set X to "</string>
+  <string name="brick_set_y">"Set Y to "</string>
+  <string name="brick_change_x_by">"Change X by "</string>
+  <string name="brick_change_y_by">"Change Y by "</string>
+  <string name="brick_go_back">Go back</string>
   <string name="brick_set_rotation_style">"Set rotation style "</string>
   <string name="brick_set_rotation_style_lr">left-right only</string>
   <string name="brick_set_rotation_style_normal">all-around</string>
   <string name="brick_set_rotation_style_no">don\'t rotate</string>
   <plurals name="brick_go_back_layer_plural">
-    <item quantity="other">lapisan</item>
+    <item quantity="one">layer</item>
+    <item quantity="few">layers</item>
+    <item quantity="other">layers</item>
   </plurals>
-  <string name="brick_come_to_front">Pergi ke depan</string>
-  <string name="brick_if_on_edge_bounce">Jika pada tepi, lompat</string>
-  <string name="brick_move">Pindah</string>
+  <string name="brick_come_to_front">Go to front</string>
+  <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
+  <string name="brick_move">Move</string>
   <plurals name="brick_move_n_step_plural">
-    <item quantity="other">langkah</item>
+    <item quantity="one">step</item>
+    <item quantity="few">steps</item>
+    <item quantity="other">steps</item>
   </plurals>
-  <string name="brick_turn_left">Belok kiri</string>
-  <string name="brick_turn_right">Belok kanan</string>
-  <string name="brick_point_in_direction">Menunjukkan arah</string>
-  <string name="brick_point_to">Menunjuk ke arah</string>
-  <string name="brick_glide">Meluncur</string>
-  <string name="brick_glide_to_x">ke X:</string>
+  <string name="brick_turn_left">Turn left</string>
+  <string name="brick_turn_right">Turn right</string>
+  <string name="brick_point_in_direction">Point in direction</string>
+  <string name="brick_point_to">Point towards</string>
+  <string name="brick_glide">Glide</string>
+  <string name="brick_glide_to_x">to X:</string>
   <string name="brick_go_to">Go to</string>
   <string name="brick_go_to_touch_position">Touch position</string>
   <string name="brick_go_to_random_position">Random position</string>
@@ -630,33 +662,33 @@
   <string name="brick_rotate_left">"Rotate left "</string>
   <string name="brick_rotate_right">"Rotate right "</string>
   <!-- Looks bricks -->
-  <string name="brick_set_look">Beralih ke tampilan</string>
+  <string name="brick_set_look">Switch to look</string>
   <string name="brick_set_look_by_index">Switch to look with number</string>
-  <string name="brick_set_background">Atur Latarbelakang</string>
+  <string name="brick_set_background">Set background</string>
   <string name="brick_set_background_by_index">Set background to number</string>
   <string name="brick_and_wait">and wait</string>
   <string name="brick_when_background">When background changes to</string>
-  <string name="brick_set_size_to">Atur ukuran ke</string>
-  <string name="brick_change_size_by">Ubah ukuran menjadi</string>
-  <string name="brick_hide">Sembunyi</string>
-  <string name="brick_show">Tampilkan</string>
-  <string name="brick_set_transparency">"Atur transparansi "</string>
-  <string name="brick_change_ghost_effect">"Ubah transparasi "</string>
-  <string name="brick_set_brightness">"Atur kecerahan "</string>
-  <string name="brick_change_brightness">"Ubah kecerahan "</string>
+  <string name="brick_set_size_to">Set size to</string>
+  <string name="brick_change_size_by">Change size by</string>
+  <string name="brick_hide">Hide</string>
+  <string name="brick_show">Show</string>
+  <string name="brick_set_transparency">"Set transparency "</string>
+  <string name="brick_change_ghost_effect">"Change transparency "</string>
+  <string name="brick_set_brightness">"Set brightness "</string>
+  <string name="brick_change_brightness">"Change brightness "</string>
   <string name="brick_set_color">"Set color "</string>
   <string name="brick_change_color">"Change color "</string>
-  <string name="by_label">oleh</string>
-  <string name="to_label">untuk</string>
-  <string name="brick_clear_graphic_effect">Hapus efek grafik</string>
-  <string name="brick_next_look">Tampilan berikutnya</string>
-  <string name="brick_next_background">Latar belakang berikutnya</string>
+  <string name="by_label">by</string>
+  <string name="to_label">to</string>
+  <string name="brick_clear_graphic_effect">Clear graphic effects</string>
+  <string name="brick_next_look">Next look</string>
+  <string name="brick_next_background">Next background</string>
   <string name="brick_previous_look">Previous look</string>
   <string name="brick_previous_background">Previous background</string>
   <string name="brick_flash">Turn flashlight</string>
   <string name="brick_flash_on">on</string>
   <string name="brick_flash_off">off</string>
-  <string name="brick_vibration">Bergetar untuk</string>
+  <string name="brick_vibration">Vibrate for</string>
   <string name="brick_ask_label">Ask</string>
   <string name="brick_ask_store">and store written answer in</string>
   <string name="brick_ask_default_question">\'What\'s your name?\'</string>
@@ -672,24 +704,24 @@
   <string name="brick_pen_size">Set pen size to</string>
   <string name="brick_pen_color">Set pen color to</string>
   <string name="brick_clear_background">Clear</string>
-  <string name="brick_stamp">Stempel</string>
+  <string name="brick_stamp">Stamp</string>
   <!--  -->
   <!-- Sound bricks -->
-  <string name="brick_play_sound">Mulai suara</string>
+  <string name="brick_play_sound">Start sound</string>
   <string name="brick_play_sound_and_wait">Start sound and wait</string>
-  <string name="brick_stop_all_sounds">Hentikan semua suara</string>
-  <string name="brick_set_volume_to">Atur volume</string>
-  <string name="brick_change_volume_by">Mengubah volume oleh</string>
-  <string name="brick_speak">Berbicara</string>
-  <string name="brick_speak_default_value">"Halo!"</string>
+  <string name="brick_stop_all_sounds">Stop all sounds</string>
+  <string name="brick_set_volume_to">Set volume to</string>
+  <string name="brick_change_volume_by">Change volume by</string>
+  <string name="brick_speak">Speak</string>
+  <string name="brick_speak_default_value">"Hello!"</string>
   <string name="brick_speak_and_wait">and wait</string>
   <!--  -->
   <!-- Control bricks -->
   <string name="brick_when_started">When program starts</string>
-  <string name="brick_when">Saat diketuk</string>
+  <string name="brick_when">When tapped</string>
   <string name="brick_when_condition_when">When</string>
   <string name="brick_when_becomes_true">becomes true</string>
-  <string name="brick_wait">Tunggu</string>
+  <string name="brick_wait">Wait</string>
   <string name="brick_when_gamepad_button">When gamepad button</string>
   <string name="brick_when_gamepad_button_tapped">tapped</string>
   <string name="brick_when_nfc">When NFC</string>
@@ -698,21 +730,23 @@
   <string name="brick_stop_all_scripts">all scripts</string>
   <string name="brick_stop_other_scripts">other scripts of this object</string>
   <plurals name="second_plural">
-    <item quantity="other">"detik "</item>
+    <item quantity="one">"second "</item>
+    <item quantity="few">"seconds "</item>
+    <item quantity="other">"seconds "</item>
   </plurals>
   <string name="brick_collision_receive">When physical collision with</string>
   <string name="collision_with_anything">anything</string>
   <string name="brick_broadcast_receive">When you receive</string>
-  <string name="brick_broadcast">Siaran</string>
-  <string name="brick_broadcast_wait">Siaran dan tunggu</string>
+  <string name="brick_broadcast">Broadcast</string>
+  <string name="brick_broadcast_wait">Broadcast and wait</string>
   <string name="brick_scene_transition">Continue scene</string>
   <string name="brick_scene_start">Start scene</string>
-  <string name="brick_note">Catatan</string>
+  <string name="brick_note">Note</string>
   <string name="brick_think_bubble">Think</string>
   <string name="brick_say_bubble">Say</string>
   <string name="brick_think_say_for_text">for</string>
-  <string name="brick_forever">Selamanya</string>
-  <string name="brick_repeat">Pengulangan</string>
+  <string name="brick_forever">Forever</string>
+  <string name="brick_repeat">Repeat</string>
   <string name="brick_repeat_until">Repeat until</string>
   <string name="brick_when_touched">When screen is touched</string>
   <string name="brick_clone">Create clone of</string>
@@ -720,7 +754,9 @@
   <string name="brick_when_cloned">When you start as a clone</string>
   <string name="brick_delete_this_clone">Delete this clone</string>
   <plurals name="time_plural">
-    <item quantity="other">kali</item>
+    <item quantity="one">time</item>
+    <item quantity="few">times</item>
+    <item quantity="other">times</item>
   </plurals>
   <string name="brick_loop_end">End of loop</string>
   <string name="brick_if_begin">If</string>
@@ -729,27 +765,27 @@
   <string name="brick_if_end">End If</string>
   <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">Set variable</string>
-  <string name="brick_change_variable">Ubah variabel</string>
-  <string name="brick_variable_spinner_create_new_variable">Baru&#8230;</string>
-  <string name="brick_note_default_value">"tambahkan komentar di sini…"</string>
+  <string name="brick_change_variable">Change variable</string>
+  <string name="brick_variable_spinner_create_new_variable">New&#8230;</string>
+  <string name="brick_note_default_value">"add comment here…"</string>
   <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
-  <string name="brick_say_bubble_default_value">"Halo!"</string>
-  <string name="brick_broadcast_default_value">"pesan 1"</string>
-  <string name="brick_add_item_to_userlist_add">Tambahkan</string>
-  <string name="brick_add_item_to_userlist">ke daftar</string>
-  <string name="brick_delete_item_from_userlist_delete">Menghapus item dari daftar</string>
-  <string name="brick_delete_item_from_userlist">pada posisi</string>
-  <string name="brick_insert_item_into_userlist_insert_into">Sisipkan</string>
-  <string name="brick_insert_item_into_userlist_into_list">ke daftar</string>
-  <string name="brick_insert_item_into_userlist_at_position">pada posisi</string>
-  <string name="brick_replace_item_in_userlist_replace_in_list">Ganti item dalam daftar</string>
-  <string name="brick_replace_item_in_userlist_item_at_index">pada posisi</string>
-  <string name="brick_replace_item_in_userlist_with_value">dengan</string>
+  <string name="brick_say_bubble_default_value">"Hello!"</string>
+  <string name="brick_broadcast_default_value">"new message"</string>
+  <string name="brick_add_item_to_userlist_add">Add</string>
+  <string name="brick_add_item_to_userlist">to list</string>
+  <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
+  <string name="brick_delete_item_from_userlist">at position</string>
+  <string name="brick_insert_item_into_userlist_insert_into">Insert</string>
+  <string name="brick_insert_item_into_userlist_into_list">into list</string>
+  <string name="brick_insert_item_into_userlist_at_position">at position</string>
+  <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
+  <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
+  <string name="brick_replace_item_in_userlist_with_value">with</string>
   <!--  -->
   <!-- defaultValues -->
-  <string name="default_project_name">Program pertama saya</string>
+  <string name="default_project_name">My first program</string>
   <string name="default_scene_name">Scene %1$d</string>
-  <string name="default_project_background_name">Latar belakang</string>
+  <string name="default_project_background_name">Background</string>
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>
   <string name="default_project_cloud_sprite_name_2">Clouds2</string>
@@ -759,7 +795,7 @@
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
   <!-- defaultCastValues -->
-  <string name="default_cast_project_background_name">Latar belakang</string>
+  <string name="default_cast_project_background_name">Background</string>
   <string name="default_cast_project_cloud_name">Clouds</string>
   <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
   <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
@@ -770,23 +806,23 @@
   <string name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
   <string name="default_cast_project_sprites_tweet_1">Tweet1</string>
   <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
-  <string name="default_cast_project_var_direction">arah</string>
+  <string name="default_cast_project_var_direction">direction</string>
   <string name="default_cast_project_name">My first Cast program</string>
   <!-- defaultDroneValues -->
-  <string name="default_drone_project_name">Program Drone pertama</string>
+  <string name="default_drone_project_name">My first Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Putar</string>
-  <string name="default_drone_project_sprites_up">Atas</string>
-  <string name="default_drone_project_sprites_down">Bawah</string>
-  <string name="default_drone_project_sprites_left">Kiri</string>
-  <string name="default_drone_project_sprites_right">Kanan</string>
-  <string name="default_drone_project_sprites_forward">Lanjut</string>
-  <string name="default_drone_project_sprites_back">Kembali</string>
-  <string name="default_drone_project_sprites_turn_left">Belok Kiri</string>
-  <string name="default_drone_project_sprites_turn_right">Belok Kanan</string>
+  <string name="default_drone_project_sprites_rotate">Rotate</string>
+  <string name="default_drone_project_sprites_up">Up</string>
+  <string name="default_drone_project_sprites_down">Down</string>
+  <string name="default_drone_project_sprites_left">Left</string>
+  <string name="default_drone_project_sprites_right">Right</string>
+  <string name="default_drone_project_sprites_forward">Forward</string>
+  <string name="default_drone_project_sprites_back">Back</string>
+  <string name="default_drone_project_sprites_turn_left">Turn left</string>
+  <string name="default_drone_project_sprites_turn_right">Turn right</string>
   <string name="default_drone_project_sprites_emergency">Emergency</string>
-  <string name="drone_brick_set_text">Teks</string>
+  <string name="drone_brick_set_text">Text</string>
   <string name="drone_brick_set_x">X:</string>
   <!--  -->
   <!-- Drone config spinner values  -->
@@ -815,30 +851,30 @@
   <string name="drone_set_tilt_outdoor">20 degrees </string>
   <string name="drone_set_tilt_max">30 degrees</string>
   <!-- Notifications -->
-  <string name="notification_invalid_text_entered">Masukkan nilai</string>
+  <string name="notification_invalid_text_entered">Please enter a value</string>
   <string name="notification_screenshot_ok">Preview image saved</string>
-  <string name="notification_download_project_cancel">Batalkan unduhan program</string>
+  <string name="notification_download_project_cancel">Canceled downloading program</string>
   <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting program</string>
-  <string name="notification_copy_title_pending">"Menyalin "</string>
-  <string name="notification_copy_pending">Menyalin dalam proses</string>
-  <string name="notification_copy_finished">Salinan selesai</string>
-  <string name="notification_upload_title_pending">"Mengunggah "</string>
-  <string name="notification_upload_title_finished">"Melihat kepda "</string>
-  <string name="notification_upload_pending">Pengunggahan dalam proses</string>
-  <string name="notification_upload_finished">Unggahan berhasil</string>
-  <string name="notification_upload_rejected">Program yang diunggah ditolak</string>
-  <string name="notification_upload_retry">Coba Lagi</string>
+  <string name="notification_copy_title_pending">"Copying "</string>
+  <string name="notification_copy_pending">Copy in progress</string>
+  <string name="notification_copy_finished">Copy completed</string>
+  <string name="notification_upload_title_pending">"Uploading "</string>
+  <string name="notification_upload_title_finished">"Look at "</string>
+  <string name="notification_upload_pending">Upload in progress</string>
+  <string name="notification_upload_finished">Upload successful</string>
+  <string name="notification_upload_rejected">Uploaded program rejected</string>
+  <string name="notification_upload_retry">Retry</string>
   <string name="notification_open_play_store">Open Play Store</string>
-  <string name="notification_download_title_pending">"Unduh "</string>
-  <string name="notification_download_pending">Sedang mengunduh</string>
-  <string name="notification_download_finished">Berhasil mengunduh</string>
-  <string name="notification_title_open">"Buka "</string>
+  <string name="notification_download_title_pending">"Downloading "</string>
+  <string name="notification_download_pending">Download in progress</string>
+  <string name="notification_download_finished">Download successful</string>
+  <string name="notification_title_open">"Open "</string>
   <string name="notification_low_battery">Attention. Battery is low. Current status =</string>
   <string name="project_rename">(Your program will be renamed.)</string>
-  <string name="size_of_project">Ukuran:</string>
-  <string name="upload_button">Unggah</string>
-  <string name="upload_project_dialog_title">Mengunggah Program</string>
-  <string name="upload_description">Keterangan:</string>
+  <string name="size_of_project">Size:</string>
+  <string name="upload_button">Upload</string>
+  <string name="upload_project_dialog_title">Upload program</string>
+  <string name="upload_description">Description:</string>
   <string name="upload_tag_dialog_title">Choose up to three categories</string>
   <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
   <string name="drone_emergency_camera">One or more cameras are not responding.</string>
@@ -859,33 +895,33 @@
   <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
   <string name="error_scene_not_copied">An error occurred while copying a scene.</string>
   <string name="error_scene_backpack">An error occurred in scene backpack.</string>
-  <string name="error_delete_project">Terjadi kesalahan saat menghapus program</string>
-  <string name="error_unknown_project">Program dengan nama itu tidak ada.</string>
-  <string name="error_project_upload">Terjadi kesalahan pada saat memuat program.</string>
-  <string name="error_project_download">Terjadi kesalahan saat mengunduh program.</string>
-  <string name="error_new_project">Terjadi kesalahan saat membuat program baru.</string>
-  <string name="error_rename_project">Terjadi kesalahan saat mengganti nama program sebelum mengunggah.</string>
+  <string name="error_delete_project">An error occurred while deleting the program.</string>
+  <string name="error_unknown_project">A program with that name does not exist.</string>
+  <string name="error_project_upload">An error occurred while uploading the program.</string>
+  <string name="error_project_download">An error occurred while downloading the program.</string>
+  <string name="error_new_project">An error occurred while creating a new program.</string>
+  <string name="error_rename_project">An error occurred while renaming the program before uploading it.</string>
   <string name="error_rename_scene">An error occurred while renaming the scene.</string>
-  <string name="error_load_project">Terjadi kesalahan saat memuat program.</string>
+  <string name="error_load_project">An error occurred while loading the program.</string>
   <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
-  <string name="error_load_image">Terjadi kesalahan saat memuat gambar.</string>
+  <string name="error_load_image">An error occurred while loading the image.</string>
   <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
         characters (e.g. $, %, &amp;, &#8230;)? </string>
-  <string name="error_load_sound">Terjadi kesalahan saat memuat suara.</string>
-  <string name="error_internet_connection">Terjadi kesalahan yang tidak diketahui. Periksa koneksi Internet Anda.</string>
+  <string name="error_load_sound">An error occurred while loading the sound.</string>
+  <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
-  <string name="error_project_compatability">Program ini tidak sesuai dengan versi Pocket kode.</string>
+  <string name="error_project_compatability">The program is not compatible with this version of the app.</string>
   <string name="error_outdated_version">This app version is outdated. Update now?</string>
-  <string name="error_copy_project">Terjadi kesalahan saat menyalin program.</string>
-  <string name="error_upload_project_with_default_name">Anda tidak bisa mengunggah sebuah program dengan nama \'Program pertama saya\'. Harap ubah nama program.</string>
-  <string name="error_upload_default_project">Anda tidak bisa mengunggah program ini karena itu sama dengan \'Program pertama saya\'. Silakan mengubahnya, dan coba lagi.</string>
-  <string name="error_adding_brick">Terjadi kesalahan saat menambahkan bata ini</string>
-  <string name="error_copying_brick">Terjadi kesalahan saat menyalin bata ini</string>
-  <string name="error_no_drone_connected_title">Tidak dapat menemukan ARDrone</string>
-  <string name="error_no_drone_connected">Hubungkan wifi ke ARDrone dan coba lagi.</string>
-  <string name="error_drone_low_battery_title">Baterai drone rendah: %d%%</string>
-  <string name="error_drone_low_battery">Masukkan baterai yang penuh dan coba lagi.</string>
-  <string name="error_drone_wrong_platform_title">Tidak ada dukungan ARDrone</string>
+  <string name="error_copy_project">An error occurred while copying the program.</string>
+  <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
+  <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
+  <string name="error_adding_brick">An error occurred while adding this brick.</string>
+  <string name="error_copying_brick">An error occurred while copying this brick.</string>
+  <string name="error_no_drone_connected_title">Cannot find AR.Drone.</string>
+  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone and try again.</string>
+  <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
+  <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
+  <string name="error_drone_wrong_platform_title">No AR.Drone support.</string>
   <string name="error_drone_wrong_platform">We cannot run an AR.Drone project on your device.</string>
   <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
   <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
@@ -900,26 +936,26 @@
   <string name="error_no_whatsapp">WhatsApp not installed</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
-  <string name="notification_blueth_err">Bluetooth bisa tidak diaktifkan, menutup panggung</string>
-  <string name="title_paired_devices">Pasangan perangkat</string>
-  <string name="title_other_devices">Perangkat baru</string>
+  <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
+  <string name="title_paired_devices">Paired devices</string>
+  <string name="title_other_devices">New devices</string>
   <string name="searching_devices">Looking for devices&#8230;</string>
-  <string name="button_scan">Mencari perangkat Bluetooth</string>
+  <string name="button_scan">Search Bluetooth devices</string>
   <string name="select_device">Select device:</string>
-  <string name="connecting_please_wait">Menghubungkan ke perangkat Anda.\nSilahkan tunggu&#8230;</string>
+  <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
   <!-- <string name="pairing_message">After pairing, connect.</string> -->
-  <string name="bt_connection_failed">Sambungan ke perangkat gagal!</string>
-  <string name="none_found">Tidak ada perangkat terhubung yang ditemukan</string>
-  <string name="none_paired">Tidak ada perangkat terhubung yang ditemukan</string>
+  <string name="bt_connection_failed">Connection to device failed!</string>
+  <string name="none_found">No unpaired devices found</string>
+  <string name="none_paired">No paired devices found</string>
   <!--  -->
   <!-- Arduino Bricks -->
   <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
   <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
-  <string name="brick_arduino_set_pin_value_to">untuk</string>
+  <string name="brick_arduino_set_pin_value_to">to</string>
   <!--  -->
   <!-- Raspi Bricks -->
   <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
-  <string name="brick_raspi_set_pin_value_to">untuk</string>
+  <string name="brick_raspi_set_pin_value_to">to</string>
   <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
   <string name="brick_raspi_if_begin_second_part">is true then</string>
   <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
@@ -934,21 +970,21 @@
   <!--  -->
   <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">Set NXT motor</string>
-  <string name="nxt_motor_speed_to">untuk</string>
+  <string name="nxt_motor_speed_to">to</string>
   <string name="nxt_motor_speed">speed</string>
   <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
-  <string name="nxt_motor_move_by">oleh</string>
+  <string name="nxt_motor_move_by">by</string>
   <string name="nxt_motor_stop">Stop NXT motor</string>
   <string name="nxt_play_tone">Play NXT tone</string>
   <string name="nxt_tone_duration">Duration</string>
-  <string name="nxt_tone_frequency">Frekuensi</string>
-  <string name="nxt_tone_hundred_hz">x100Hz</string>
+  <string name="nxt_tone_frequency">Frequency</string>
+  <string name="nxt_tone_hundred_hz">×100Hz</string>
   <string name="nxt_seconds">seconds</string>
   <string name="nxt_motor_a">A</string>
   <string name="nxt_motor_b">B</string>
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">B+C</string>
-  <string name="nxt_motor_all">Semua</string>
+  <string name="nxt_motor_all">All</string>
   <string name="nxt_choose_sensor_1">Sensor connected on port 1</string>
   <string name="nxt_choose_sensor_2">Sensor connected on port 2</string>
   <string name="nxt_choose_sensor_3">Sensor connected on port 3</string>
@@ -992,7 +1028,7 @@
   <string name="ev3_motor_c">C</string>
   <string name="ev3_motor_d">D</string>
   <string name="ev3_motor_b_and_c">B+C</string>
-  <string name="ev3_motor_all">Semua</string>
+  <string name="ev3_motor_all">All</string>
   <string name="ev3_play_tone">Play EV3 tone</string>
   <string name="ev3_tone_duration_for">for</string>
   <string name="ev3_tone_volume">Volume</string>
@@ -1000,11 +1036,11 @@
   <string name="ev3_motor_stop">Stop EV3 motor</string>
   <string name="ev3_motor_move">Set EV3 motor</string>
   <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
-  <string name="ev3_motor_move_by">oleh</string>
+  <string name="ev3_motor_move_by">by</string>
   <string name="ev3_set_led_status">Set EV3 LED status</string>
   <string name="ev3_led_status_off">Off</string>
-  <string name="ev3_led_status_green">Hijau</string>
-  <string name="ev3_led_status_red">Merah</string>
+  <string name="ev3_led_status_green">Green</string>
+  <string name="ev3_led_status_red">Red</string>
   <string name="ev3_led_status_orange">Orange</string>
   <string name="ev3_led_status_green_flashing">Green flashing</string>
   <string name="ev3_led_status_red_flashing">Red flashing</string>
@@ -1016,26 +1052,26 @@
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Take off / Land</string>
   <string name="brick_drone_play_led_animation">Play flash animation</string>
-  <string name="brick_drone_move_left">Bergerak ke kiri</string>
-  <string name="brick_drone_move_right">Bergerak ke kanan</string>
-  <string name="brick_drone_move_forward">Bergerak maju</string>
-  <string name="brick_drone_move_backward">Bergerak mundur</string>
-  <string name="brick_drone_move_up">Naik</string>
-  <string name="brick_drone_move_down">Turun</string>
-  <string name="brick_drone_flip">Balik</string>
+  <string name="brick_drone_move_left">Move left</string>
+  <string name="brick_drone_move_right">Move right</string>
+  <string name="brick_drone_move_forward">Move forward</string>
+  <string name="brick_drone_move_backward">Move backward</string>
+  <string name="brick_drone_move_up">Move up</string>
+  <string name="brick_drone_move_down">Move down</string>
+  <string name="brick_drone_flip">Flip</string>
   <string name="brick_drone_emergency">Emergency</string>
-  <string name="brick_drone_turn_right">Belok kanan</string>
-  <string name="brick_drone_turn_left">Belok kiri</string>
-  <string name="brick_drone_turn_left_magneto">Belok kiri [angle]</string>
-  <string name="brick_drone_turn_right_magneto">Belok kanan [angle]</string>
-  <string name="brick_drone_angle">Sudut</string>
+  <string name="brick_drone_turn_right">Turn right</string>
+  <string name="brick_drone_turn_left">Turn left</string>
+  <string name="brick_drone_turn_left_magneto">Turn left [angle]</string>
+  <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
+  <string name="brick_drone_angle">Angle</string>
   <string name="brick_drone_set_config">Set config</string>
   <string name="brick_drone_switch_camera">Switch drone camera</string>
   <string name="brick_drone_set_altitude">Altitude limit</string>
   <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
   <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
-  <string name="brick_drone_with">dengan</string>
+  <string name="brick_drone_with">with</string>
   <string name="brick_drone_percent_power">power</string>
   <!--  -->
   <!-- Phiro bricks -->
@@ -1054,9 +1090,9 @@
   <string name="phiro_seconds">seconds</string>
   <!-- light -->
   <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
-  <string name="phiro_rgb_led_red">Merah</string>
-  <string name="phiro_rgb_led_green">Hijau</string>
-  <string name="phiro_rgb_led_blue">Biru</string>
+  <string name="phiro_rgb_led_red">Red</string>
+  <string name="phiro_rgb_led_green">Green</string>
+  <string name="phiro_rgb_led_blue">Blue</string>
   <!--  -->
   <!-- Phiro tone strings -->
   <string name="phiro_tone_do">Do</string>
@@ -1068,13 +1104,13 @@
   <string name="phiro_tone_ti">Ti</string>
   <!--  -->
   <!-- Phiro motor strings -->
-  <string name="phiro_motor_left">Kiri</string>
-  <string name="phiro_motor_right">Kanan</string>
+  <string name="phiro_motor_left">Left</string>
+  <string name="phiro_motor_right">Right</string>
   <string name="phiro_motor_both">Both</string>
   <!--  -->
   <!-- Phiro light strings -->
-  <string name="phiro_light_left">Kiri</string>
-  <string name="phiro_light_right">Kanan</string>
+  <string name="phiro_light_left">Left</string>
+  <string name="phiro_light_right">Right</string>
   <string name="phiro_light_both">Both</string>
   <!--  -->
   <!-- Phiro sensor strings -->
@@ -1086,24 +1122,24 @@
   <string name="phiro_sensor_bottom_right">Bottom Right Sensor</string>
   <!--  -->
   <!-- Phiro RGBColor Chooser strings -->
-  <string name="color_red">Merah</string>
-  <string name="color_green">Hijau</string>
-  <string name="color_blue">Biru</string>
+  <string name="color_red">Red</string>
+  <string name="color_green">Green</string>
+  <string name="color_blue">Blue</string>
   <string name="color_preview">Color Preview</string>
   <!-- -->
   <!-- Formula Editor Strings -->
   <string name="formula_editor_data">Data</string>
-  <string name="formula_editor_true">Benar</string>
-  <string name="formula_editor_false">Salah</string>
+  <string name="formula_editor_true">True</string>
+  <string name="formula_editor_false">False</string>
   <string name="formula_editor_decimal_mark">.</string>
-  <string name="formula_editor_title">Editor Formula</string>
-  <string name="formula_editor_changes_saved">Perubahan disimpan!</string>
-  <string name="formula_editor_changes_discarded">Perubahan dibuang!</string>
+  <string name="formula_editor_title">Formula Editor</string>
+  <string name="formula_editor_changes_saved">Changes saved!</string>
+  <string name="formula_editor_changes_discarded">Changes discarded!</string>
   <string name="formula_editor_parse_fail">Formula is not valid!</string>
-  <string name="formula_nothing_selected">Mendefinisikan nilai input</string>
-  <string name="formula_editor_parse_fail_formula_too_long">Formula terlalu panjang!</string>
-  <string name="formula_editor_choose_object_variable">Properti dari objek ini</string>
-  <string name="formula_editor_existing_variable">Nama sudah digunakan!</string>
+  <string name="formula_nothing_selected">Define input value</string>
+  <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
+  <string name="formula_editor_choose_object_variable">Properties of this object</string>
+  <string name="formula_editor_existing_variable">Name already in use!</string>
   <string name="formula_editor_bracket_open">(</string>
   <string name="formula_editor_bracket_close">)</string>
   <string name="formula_editor_function_sin">sin</string>
@@ -1121,11 +1157,11 @@
   <string name="formula_editor_object_color">color</string>
   <string name="formula_editor_function_sqrt">sqrt</string>
   <string name="formula_editor_function_sqrt_parameter">(0)</string>
-  <string name="formula_editor_function_rand">acak</string>
+  <string name="formula_editor_function_rand">random</string>
   <string name="formula_editor_function_rand_parameter">(0,1)</string>
   <string name="formula_editor_function_abs">abs</string>
   <string name="formula_editor_function_abs_parameter">(0)</string>
-  <string name="formula_editor_function_round">putaran</string>
+  <string name="formula_editor_function_round">round</string>
   <string name="formula_editor_function_round_parameter">(0)</string>
   <string name="formula_editor_function_mod">mod</string>
   <string name="formula_editor_function_mod_parameter">(1,1)</string>
@@ -1145,16 +1181,16 @@
   <string name="formula_editor_function_ceil_parameter">(0.3)</string>
   <string name="formula_editor_function_max">max</string>
   <string name="formula_editor_function_max_parameter">(0,1)</string>
-  <string name="formula_editor_function_min">menit</string>
+  <string name="formula_editor_function_min">min</string>
   <string name="formula_editor_function_min_parameter">(0,1)</string>
-  <string name="formula_editor_function_true">BENAR</string>
-  <string name="formula_editor_function_false">SALAH</string>
-  <string name="formula_editor_function_length">panjang</string>
-  <string name="formula_editor_function_length_parameter">(\'halo dunia!\')</string>
-  <string name="formula_editor_function_letter">surat</string>
-  <string name="formula_editor_function_letter_parameter">(1, \'halo dunia!\')</string>
-  <string name="formula_editor_function_join">bergabung</string>
-  <string name="formula_editor_function_join_parameter">(\'halo\',\'dunia\')</string>
+  <string name="formula_editor_function_true">TRUE</string>
+  <string name="formula_editor_function_false">FALSE</string>
+  <string name="formula_editor_function_length">length</string>
+  <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
+  <string name="formula_editor_function_letter">letter</string>
+  <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
+  <string name="formula_editor_function_join">join</string>
+  <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1168,24 +1204,24 @@
   <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
   <string name="formula_editor_function_no_parameter"></string>
   <string name="formula_editor_function_touch_parameter">(1)</string>
-  <string name="formula_editor_function_list_item">elemen</string>
-  <string name="formula_editor_function_list_item_parameter">(1,*daftar nama*)</string>
-  <string name="formula_editor_function_contains">berisi</string>
-  <string name="formula_editor_function_contains_parameter">(*daftar nama*,1)</string>
+  <string name="formula_editor_function_list_item">element</string>
+  <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
+  <string name="formula_editor_function_contains">contains</string>
+  <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
   <string name="formula_editor_function_collision">touches_object</string>
   <string name="formula_editor_function_collides_with_edge">touches_edge</string>
   <string name="formula_editor_function_touched">touches_finger</string>
-  <string name="formula_editor_sensor_x_acceleration">percepatan_x</string>
-  <string name="formula_editor_sensor_y_acceleration">percepatan_y</string>
-  <string name="formula_editor_sensor_z_acceleration">percepatan_z</string>
-  <string name="formula_editor_sensor_compass_direction">arah_kompas</string>
+  <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
+  <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
+  <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
+  <string name="formula_editor_sensor_compass_direction">compass_direction</string>
   <string name="formula_editor_sensor_latitude">latitude</string>
   <string name="formula_editor_sensor_longitude">longitude</string>
   <string name="formula_editor_sensor_location_accuracy">location_accuracy</string>
   <string name="formula_editor_sensor_altitude">altitude</string>
-  <string name="formula_editor_sensor_x_inclination">kecenderungan_x</string>
-  <string name="formula_editor_sensor_y_inclination">kecenderungan_y</string>
-  <string name="formula_editor_sensor_loudness">kenyaringan</string>
+  <string name="formula_editor_sensor_x_inclination">inclination_x</string>
+  <string name="formula_editor_sensor_y_inclination">inclination_y</string>
+  <string name="formula_editor_sensor_loudness">loudness</string>
   <string name="formula_editor_sensor_date_year">year</string>
   <string name="formula_editor_sensor_date_month">month</string>
   <string name="formula_editor_sensor_date_day">day</string>
@@ -1235,13 +1271,13 @@
   <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
   <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_nfc_tag_message">nfc_tag_message</string>
-  <string name="formula_editor_object_x">posisi_x</string>
-  <string name="formula_editor_object_y">posisi_y</string>
-  <string name="formula_editor_object_transparency">transparansi</string>
-  <string name="formula_editor_object_brightness">kecerahan</string>
-  <string name="formula_editor_object_size">ukuran</string>
-  <string name="formula_editor_object_rotation">arah</string>
-  <string name="formula_editor_object_layer">lapisan</string>
+  <string name="formula_editor_object_x">position_x</string>
+  <string name="formula_editor_object_y">position_y</string>
+  <string name="formula_editor_object_transparency">transparency</string>
+  <string name="formula_editor_object_brightness">brightness</string>
+  <string name="formula_editor_object_size">size</string>
+  <string name="formula_editor_object_rotation">direction</string>
+  <string name="formula_editor_object_layer">layer</string>
   <string name="formula_editor_object_x_velocity">x_velocity</string>
   <string name="formula_editor_object_y_velocity">y_velocity</string>
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
@@ -1250,21 +1286,21 @@
   <string name="formula_editor_object_background_number">background_number</string>
   <string name="formula_editor_object_background_name">background_name</string>
   <string name="formula_editor_object_distance_to">distance to</string>
-  <string name="formula_editor_compute">Menghitung</string>
-  <string name="formula_editor_object">Objek</string>
+  <string name="formula_editor_compute">Compute</string>
+  <string name="formula_editor_object">Object</string>
   <string name="formula_editor_functions">Functions</string>
-  <string name="formula_editor_logic">Logika</string>
+  <string name="formula_editor_logic">Logic</string>
   <string name="formula_editor_device">Device</string>
   <string name="formula_editor_device_sensors">Device sensors</string>
-  <string name="formula_editor_variables">Variabel</string>
+  <string name="formula_editor_variables">Variables</string>
   <string name="formula_editor_functions_maths">Maths</string>
-  <string name="formula_editor_functions_strings">Teks</string>
-  <string name="formula_editor_functions_lists">Daftar</string>
+  <string name="formula_editor_functions_strings">Text</string>
+  <string name="formula_editor_functions_lists">Lists</string>
   <string name="formula_editor_logic_boolean">Logical (boolean) operators</string>
   <string name="formula_editor_logic_comparison">Comparison operators</string>
   <string name="formula_editor_object_general">General properties</string>
   <string name="formula_editor_object_movement">Movement properties</string>
-  <string name="formula_editor_device_face_detection">Deteksi wajah</string>
+  <string name="formula_editor_device_face_detection">Face detection</string>
   <string name="formula_editor_device_date_and_time">Date and time</string>
   <string name="formula_editor_device_touch_detection">Touch detection</string>
   <string name="formula_editor_device_lego">Lego</string>
@@ -1278,9 +1314,9 @@
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
   <string name="formula_editor_logic_greaterthan">&gt;</string>
-  <string name="formula_editor_logic_and">DAN</string>
-  <string name="formula_editor_logic_or">ATAU</string>
-  <string name="formula_editor_logic_not">TIDAK</string>
+  <string name="formula_editor_logic_and">AND</string>
+  <string name="formula_editor_logic_or">OR</string>
+  <string name="formula_editor_logic_not">NOT</string>
   <string name="formula_editor_logic_greaterequal">≥</string>
   <string name="formula_editor_logic_leserequal">≤</string>
   <string name="formula_editor_logic_equal">=</string>
@@ -1289,30 +1325,30 @@
   <string name="formula_editor_operator_minus">-</string>
   <string name="formula_editor_operator_divide">÷</string>
   <string name="formula_editor_operator_power">^</string>
-  <string name="formula_editor_image_button_description_delete">hapus</string>
-  <string name="formula_editor_variable_dialog_title">Variabel Baru</string>
-  <string name="formula_editor_list_dialog_title">Daftar Baru</string>
-  <string name="formula_editor_dialog_for_all_sprites">Untuk semua obyek</string>
-  <string name="formula_editor_dialog_for_this_sprite_only">Untuk objek ini saja</string>
+  <string name="formula_editor_image_button_description_delete">delete</string>
+  <string name="formula_editor_variable_dialog_title">New variable</string>
+  <string name="formula_editor_list_dialog_title">New list</string>
+  <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
+  <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
   <string name="formula_editor_dialog_change_text">Change text</string>
-  <string name="formula_editor_data_dialog_hint">Masukan nama</string>
-  <string name="formula_editor_discard_changes_dialog_message">Apakah Anda ingin menyimpan perubahan?</string>
-  <string name="formula_editor_discard_changes_dialog_title">Simpan perubahan?</string>
-  <string name="formula_editor_new_string_name">Teks baru</string>
-  <string name="formula_editor_new_string_dialog_hint">Masukkan teks baru di sini.</string>
-  <string name="formula_editor_data_dialog_title">Baru</string>
-  <string name="formula_editor_rename_variable_dialog_title">Ganti nama</string>
-  <string name="formula_editor_existing_data_item">Nama sudah digunakan!</string>
-  <string name="formula_editor_fragment_data_current_items">item saat ini</string>
-  <string name="formula_editor_data_dialog_is_list">Membuat daftar</string>
-  <string name="formula_editor_lists">Daftar</string>
-  <string name="formula_editor_variable_dialog_for_this_brick">Untuk bata ini</string>
-  <string name="formula_editor_sensor_face_detected">wajah_telah_terdeteksi</string>
-  <string name="formula_editor_sensor_face_size">ukuran-wajah</string>
-  <string name="formula_editor_sensor_face_x_position">posisi_wajah_x</string>
-  <string name="formula_editor_sensor_face_y_position">posisi_wajah_y</string>
-  <string name="formula_editor_function_number_of_items">jumlah_dari_item</string>
-  <string name="formula_editor_function_number_of_items_parameter">(*daftar nama*)</string>
+  <string name="formula_editor_data_dialog_hint">Enter name</string>
+  <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
+  <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
+  <string name="formula_editor_new_string_name">New text</string>
+  <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
+  <string name="formula_editor_data_dialog_title">New</string>
+  <string name="formula_editor_rename_variable_dialog_title">Rename</string>
+  <string name="formula_editor_existing_data_item">Name already in use!</string>
+  <string name="formula_editor_fragment_data_current_items">current items</string>
+  <string name="formula_editor_data_dialog_is_list">Make it a list</string>
+  <string name="formula_editor_lists">Lists</string>
+  <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string>
+  <string name="formula_editor_sensor_face_detected">face_is_visible</string>
+  <string name="formula_editor_sensor_face_size">face_size</string>
+  <string name="formula_editor_sensor_face_x_position">face_x_position</string>
+  <string name="formula_editor_sensor_face_y_position">face_y_position</string>
+  <string name="formula_editor_function_number_of_items">number_of_items</string>
+  <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
   <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
   <string name="formula_editor_intro_summary_formula_editor">The formula editor allows you to create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can advance this little intro by touching
@@ -1323,17 +1359,17 @@
   <string name="formula_editor_intro_title_keyboard">Keyboard</string>
   <string name="formula_editor_intro_summary_keyboard">Similar to a calculator, this is where you can create
         your formula.</string>
-  <string name="formula_editor_intro_title_compute">Menghitung</string>
+  <string name="formula_editor_intro_title_compute">Compute</string>
   <string name="formula_editor_intro_summary_compute">To test your formula and display its current result, you can
         use \"Compute\".</string>
-  <string name="formula_editor_intro_title_object">Objek</string>
+  <string name="formula_editor_intro_title_object">Object</string>
   <string name="formula_editor_intro_summary_object">This is a collection of values that describe your
         current object. Some of these values are for example the x- and y-coordinates, or the current speed.</string>
   <string name="formula_editor_intro_title_functions">Functions</string>
   <string name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
         a multitude of mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\", but
         also a random number generator or text and list functions.</string>
-  <string name="formula_editor_intro_title_logic">Logika</string>
+  <string name="formula_editor_intro_title_logic">Logic</string>
   <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo compare
         values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine logical formulas
         you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
@@ -1343,7 +1379,9 @@
   <string name="formula_editor_intro_title_data">Data</string>
   <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
-    <item quantity="other">Item dipilih!</item>
+    <item quantity="one">Item selected!</item>
+    <item quantity="few">Items selected!</item>
+    <item quantity="other">Items selected!</item>
   </plurals>
   <!--  -->
   <!-- New Data Dialog -->
@@ -1362,16 +1400,16 @@
   <string name="add_line_break">Add line break</string>
   <string name="edit_variable">Edit variable</string>
   <string name="variable_hint">Variable name</string>
-  <string name="brick_show_variable">Tampilkan variabel </string>
+  <string name="brick_show_variable">Show variable</string>
   <string name="brick_show_variable_position">"at "</string>
   <string name="brick_hide_variable">Hide variable</string>
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">Define</string>
-  <string name="new_user_brick">Bata Baru</string>
+  <string name="new_user_brick">New Brick</string>
   <string name="new_user_brick_variable">Variable</string>
   <string name="new_user_brick_name">Please choose a brick name:</string>
-  <string name="recursive_user_brick_forbidden">Menambahkan UserBrick untuk UserBrick yang belum diperbolehkan!</string>
+  <string name="recursive_user_brick_forbidden">Adding a user-defined brick to a user-defined brick is not allowed yet!</string>
   <!-- Merge strings -->
   <string name="merge_button">Merge with</string>
   <string name="name_merge_result">Enter name for result</string>
@@ -1460,6 +1498,6 @@
   <string name="app_has_crashed">The app has crashed!</string>
   <string name="crash_dialog_text">Please help to improve our app by sending us anonymous crash reports!</string>
   <string name="crash_dialog_always_send">Always send</string>
-  <string name="crash_dialog_send">Kirim</string>
+  <string name="crash_dialog_send">Send</string>
   <!--  -->
 </resources>
