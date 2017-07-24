@@ -44,6 +44,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
@@ -897,6 +898,17 @@ public class Sprite implements Serializable, Cloneable {
 					for (Formula formula : formulaBrick.getFormulas()) {
 						formula.updateCollisionFormulasToVersion(catroidLanguageVersion);
 					}
+				}
+			}
+		}
+	}
+
+	public void updateSetPenColorFormulas() {
+		for (Script script : getScriptList()) {
+			for (Brick brick : script.getBrickList()) {
+				if (brick instanceof SetPenColorBrick) {
+					SetPenColorBrick spcBrick = (SetPenColorBrick) brick;
+					spcBrick.correctBrickFieldsFromPhiro();
 				}
 			}
 		}

@@ -42,7 +42,7 @@ import java.util.List;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
-	ConcurrentFormulaHashMap formulaMap;
+	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
 
 	@XStreamOmitField
 	private List<BackPackedListData> backPackedListData = new ArrayList<>();
@@ -50,7 +50,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	private List<BackPackedVariableData> backPackedVariableData = new ArrayList<>();
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
-		if (formulaMap != null && formulaMap.containsKey(brickField)) {
+		if (formulaMap.containsKey(brickField)) {
 			return formulaMap.get(brickField);
 		} else {
 			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
@@ -58,7 +58,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	public void setFormulaWithBrickField(BrickField brickField, Formula formula) throws IllegalArgumentException {
-		if (formulaMap != null && formulaMap.containsKey(brickField)) {
+		if (formulaMap.containsKey(brickField)) {
 			formulaMap.replace(brickField, formula);
 		} else {
 			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
@@ -66,10 +66,15 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	protected void addAllowedBrickField(BrickField brickField) {
-		if (formulaMap == null) {
-			formulaMap = new ConcurrentFormulaHashMap();
-		}
 		formulaMap.putIfAbsent(brickField, new Formula(0));
+	}
+
+	protected void replaceFormulaBrickField(BrickField oldBrickField, BrickField newBrickField) {
+		if (formulaMap.containsKey(oldBrickField)) {
+			Formula brickFormula = formulaMap.get(oldBrickField);
+			formulaMap.remove(oldBrickField);
+			formulaMap.put(newBrickField, brickFormula);
+		}
 	}
 
 	@Override
@@ -80,9 +85,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	public List<Formula> getFormulas() {
-		if (formulaMap == null) {
-			return null;
-		}
 		List<Formula> formulas = new ArrayList<>();
 
 		for (BrickField brickField : formulaMap.keySet()) {
