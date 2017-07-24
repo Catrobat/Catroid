@@ -44,7 +44,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.AccessibilityCheckboxAdapter;
 import org.catrobat.catroid.ui.adapter.AccessibilityCheckboxAdapter.AccessibilityCheckbox;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -120,7 +120,7 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 			public void onGlobalLayout() {
 				contentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				Utils.setListViewHeightBasedOnItemsAndTheirWidth(listView);
-				SnackBarUtil.showHintSnackBar(AccessibilityPreferencesActivity.this, R.string.hint_accessibility);
+				SnackbarUtil.showHintSnackBar(AccessibilityPreferencesActivity.this, R.string.hint_accessibility);
 			}
 		});
 

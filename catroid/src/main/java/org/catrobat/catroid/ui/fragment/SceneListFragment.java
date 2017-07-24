@@ -46,7 +46,7 @@ import org.catrobat.catroid.ui.controller.BackPackSceneController;
 import org.catrobat.catroid.ui.dialogs.RenameItemDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -71,7 +71,7 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 		sceneListFragment.findViewById(R.id.sceneList_headline).setVisibility(View.VISIBLE);
 
 		TextSizeUtil.enlargeViewGroup((ViewGroup) sceneListFragment);
-		SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_scenes);
+		SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_scenes);
 
 		return sceneListFragment;
 	}

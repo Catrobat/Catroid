@@ -37,7 +37,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectListFragment;
 import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.concurrent.locks.Lock;
@@ -62,7 +62,7 @@ public class MyProjectsActivity extends BaseCastActivity {
 
 		loadFragment(ProjectListFragment.class, false);
 		projectListFragment = (ProjectListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
-		SnackBarUtil.showHintSnackBar(this, R.string.hint_merge);
+		SnackbarUtil.showHintSnackBar(this, R.string.hint_merge);
 		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 

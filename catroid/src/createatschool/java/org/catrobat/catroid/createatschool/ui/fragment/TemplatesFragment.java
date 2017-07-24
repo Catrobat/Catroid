@@ -34,7 +34,7 @@ import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.createatschool.ui.adapter.TemplateAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 
 public class TemplatesFragment extends ListFragment implements TemplateAdapter.OnTemplateEditListener {
 
@@ -59,7 +59,7 @@ public class TemplatesFragment extends ListFragment implements TemplateAdapter.O
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_projects_list, container);
-		SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_templates);
+		SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_templates);
 		return rootView;
 	}
 

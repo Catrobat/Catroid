@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackBarUtil;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ public class BrickCategoryFragment extends ListFragment {
 
 				if (scriptFragment != null) {
 					scriptFragment.onCategorySelected(adapter.getItem(position));
-					SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_bricks);
+					SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_bricks);
 				}
 			}
 		});
