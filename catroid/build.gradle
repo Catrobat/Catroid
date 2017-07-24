@@ -73,7 +73,6 @@ android {
     }
 
     buildTypes {
-
         debug {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
@@ -86,7 +85,6 @@ android {
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
         }
@@ -103,7 +101,6 @@ android {
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
     }
@@ -114,6 +111,7 @@ android {
 
         buildConfigField "boolean", "CREATE_AT_SCHOOL", "false"
         buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
     }
 
     productFlavors {
@@ -145,6 +143,8 @@ android {
             buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
             buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
+
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
 
             manifestPlaceholders = [ launchActivity:"org.catrobat.catroid.createatschool" +
                     ".ui.CreateAtSchoolMainMenuActivity", applicationIdForTests:"org.catrobat.catroid.createatschool" ]

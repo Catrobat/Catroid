@@ -45,7 +45,6 @@ public class TestTextSizeUtil extends AndroidTestCase {
 		super.setUp();
 		putNewEntryInMap(R.layout.activity_script);
 		putNewEntryInMap(R.layout.activity_prestage);
-		putNewEntryInMap(R.layout.activity_soundrecorder);
 
 		TextSizeUtil.enableTextSizeUtil();
 	}
