@@ -268,7 +268,6 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="dialog_confirm_delete_object_message">Cette action ne peut pas être annulée !</string>
   <string name="select_all">Tout sélectionner</string>
   <string name="deselect_all">Tout désélectionner</string>
-  <string name="backpack_replace_object">The object %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_scene">The scene %1$s already exists in the backpack. Do you want to replace
         it?</string>
   <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
@@ -332,7 +331,6 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="dialog_confirm_delete_multiple_looks_title">Supprimer ces vues ?</string>
   <string name="dialog_confirm_delete_look_message">Cette action ne peut pas être annulée !</string>
   <string name="lookname">Nom de la vue :</string>
-  <string name="backpack_replace_look">The look %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!--  -->
   <!-- Sound fragment -->

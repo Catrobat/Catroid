@@ -263,7 +263,6 @@
   <string name="dialog_confirm_delete_object_message">Dette kan ikke angres!</string>
   <string name="select_all">Marker alt</string>
   <string name="deselect_all">Fjern all markering</string>
-  <string name="backpack_replace_object">Objektet %1$s finnes allerede i backpack. Vil du erstatte det?</string>
   <string name="backpack_replace_scene">Scenen %1$s finnes allerede i backpack. Vil du erstatte den?</string>
   <string name="backpack_replace_object_multiple">Objektene finnes allerede i backpack. Vil du erstatte dem?</string>
   <string name="groups_create">Opprett gruppe</string>
@@ -325,7 +324,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Slette utseende?</string>
   <string name="dialog_confirm_delete_look_message">Dette kan ikke angres!</string>
   <string name="lookname">Utseende navn:</string>
-  <string name="backpack_replace_look">Utsende %1$s finnes allerede i backpack. Vil du erstatte den?</string>
   <string name="backpack_replace_look_multiple">Utseende finnes allerede i backpack. Vil du erstatte dem?</string>
   <!--  -->
   <!-- Sound fragment -->
