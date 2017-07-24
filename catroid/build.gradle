@@ -101,7 +101,7 @@ android {
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_CAST_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
@@ -223,9 +223,9 @@ android {
         targetSdkVersion 22
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 35
+        versionCode 36
         println "VersionCode is " + versionCode
-        versionName "0.9.28"
+        versionName "0.9.29"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
