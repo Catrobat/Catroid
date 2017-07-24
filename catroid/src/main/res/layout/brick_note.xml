@@ -50,7 +50,7 @@
             android:text="@string/brick_note" >
         </org.catrobat.catroid.utils.BrickTextView >
 
-        <org.catrobat.catroid.utils.BrickEditText
+        <EditText
             android:id="@+id/brick_note_edit_text"
             style="@style/BrickEditText"
             android:layout_width="match_parent"

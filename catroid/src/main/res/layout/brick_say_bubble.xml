@@ -50,7 +50,7 @@
             android:text="@string/brick_say_bubble" >
         </org.catrobat.catroid.utils.BrickTextView >
 
-        <org.catrobat.catroid.utils.BrickEditText
+        <EditText
             android:id="@+id/brick_say_bubble_edit_text"
             style="@style/BrickEditText"
             android:layout_width="match_parent"
