@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@ import com.facebook.login.LoginResult;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -84,7 +85,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.concurrent.locks.Lock;
 
-public class ProjectActivity extends BaseActivity {
+public class ProjectActivity extends BaseCastActivity {
 
 	private static final String TAG = ProjectActivity.class.getSimpleName();
 
@@ -339,7 +340,7 @@ public class ProjectActivity extends BaseActivity {
 		if (numberOfItemsInBackpack == 0) {
 			actionListener.startBackPackActionMode();
 		} else {
-			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpack) };
+			items = new CharSequence[] {getString(R.string.packing), getString(R.string.unpack)};
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -400,6 +401,13 @@ public class ProjectActivity extends BaseActivity {
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();
 			FaceDetectionHandler.stopFaceDetection();
+		}
+
+		if (requestCode != RESULT_OK && SettingsActivity.isCastSharedPreferenceEnabled(this)
+				&& ProjectManager.getInstance().getCurrentProject().isCastProject()
+				&& !CastManager.getInstance().isConnected()) {
+
+			CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
 		}
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,10 +31,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.ArrayList;
@@ -42,15 +42,15 @@ import java.util.List;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
-	ConcurrentFormulaHashMap formulaMap;
+	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
 
 	@XStreamOmitField
-	private List<BackPackedListData> backPackedListData;
+	private List<BackPackedListData> backPackedListData = new ArrayList<>();
 	@XStreamOmitField
-	private List<BackPackedVariableData> backPackedVariableData;
+	private List<BackPackedVariableData> backPackedVariableData = new ArrayList<>();
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
-		if (formulaMap != null && formulaMap.containsKey(brickField)) {
+		if (formulaMap.containsKey(brickField)) {
 			return formulaMap.get(brickField);
 		} else {
 			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
@@ -58,7 +58,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	public void setFormulaWithBrickField(BrickField brickField, Formula formula) throws IllegalArgumentException {
-		if (formulaMap != null && formulaMap.containsKey(brickField)) {
+		if (formulaMap.containsKey(brickField)) {
 			formulaMap.replace(brickField, formula);
 		} else {
 			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
@@ -66,10 +66,15 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	protected void addAllowedBrickField(BrickField brickField) {
-		if (formulaMap == null) {
-			formulaMap = new ConcurrentFormulaHashMap();
-		}
 		formulaMap.putIfAbsent(brickField, new Formula(0));
+	}
+
+	protected void replaceFormulaBrickField(BrickField oldBrickField, BrickField newBrickField) {
+		if (formulaMap.containsKey(oldBrickField)) {
+			Formula brickFormula = formulaMap.get(oldBrickField);
+			formulaMap.remove(oldBrickField);
+			formulaMap.put(newBrickField, brickFormula);
+		}
 	}
 
 	@Override
@@ -80,9 +85,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	public List<Formula> getFormulas() {
-		if (formulaMap == null) {
-			return null;
-		}
 		List<Formula> formulas = new ArrayList<>();
 
 		for (BrickField brickField : formulaMap.keySet()) {
@@ -111,11 +113,12 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public abstract void showFormulaEditorToEditFormula(View view);
 
-	public abstract void updateReferenceAfterMerge(Scene into, Scene from);
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
+	}
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		Integer type;
+		DataContainer.DataType type;
 		List<String> variableNames = new ArrayList<>();
 		List<String> listNames = new ArrayList<>();
 
@@ -136,7 +139,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 
 		for (String variableName : variableNames) {
-			UserVariable variable = dataContainer.getUserVariable(variableName, currentSprite);
+			UserVariable variable = dataContainer.getUserVariable(currentSprite, variableName);
 			if (variable == null) {
 				continue;
 			}
@@ -148,7 +151,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 
 		for (String listName : listNames) {
-			UserList userList = dataContainer.getUserList(listName, currentSprite);
+			UserList userList = dataContainer.getUserList(currentSprite, listName);
 			if (userList == null) {
 				continue;
 			}

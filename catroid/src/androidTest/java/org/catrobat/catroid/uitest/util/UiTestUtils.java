@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,6 +61,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.common.io.CharStreams;
 import com.robotium.solo.Condition;
 import com.robotium.solo.Solo;
 
@@ -135,13 +136,13 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
 import org.catrobat.catroid.stage.StageActivity;
@@ -175,6 +176,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
@@ -380,7 +382,7 @@ public final class UiTestUtils {
 		return setVariableBrick;
 	}
 
-	public static enum FileTypes {
+	public enum FileTypes {
 		IMAGE, SOUND, ROOT, SCREENSHOT
 	}
 
@@ -2080,7 +2082,7 @@ public final class UiTestUtils {
 		static final long serialVersionUID = 1L;
 		private final float catrobatLanguageVersion;
 
-		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
+		ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
 			super(null, name);
 			this.catrobatLanguageVersion = catrobatLanguageVersion;
 		}
@@ -2545,7 +2547,7 @@ public final class UiTestUtils {
 		}
 		intent.putExtra(NfcAdapter.EXTRA_ID, tagId);
 		if (ndefMessage != null) {
-			intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, new NdefMessage[] { ndefMessage });
+			intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, new NdefMessage[] {ndefMessage});
 			if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intentAction)) {
 				Uri uri = ndefMessage.getRecords()[0].toUri();
 				String mime = ndefMessage.getRecords()[0].toMimeType();
@@ -2614,13 +2616,9 @@ public final class UiTestUtils {
 
 	public static Map<String, String> readConfigFile(Context context) {
 		try {
-
-			InputStream stream = context.getAssets().open("oauth_config.xml");
-			int size = stream.available();
-			byte[] buffer = new byte[size];
-			stream.read(buffer);
-			stream.close();
-			String text = new String(buffer);
+			InputStreamReader reader = new InputStreamReader(context.getAssets().open("oauth_config.xml"));
+			String text = CharStreams.toString(reader);
+			reader.close();
 			facebookTestUserName = text.substring(text.indexOf(CONFIG_FACEBOOK_NAME) + CONFIG_FACEBOOK_NAME.length() + 1,
 					text.indexOf("/" + CONFIG_FACEBOOK_NAME) - 1);
 			facebookTestuserMail = text.substring(text.indexOf(CONFIG_FACEBOOK_MAIL) + CONFIG_FACEBOOK_MAIL.length() + 1,
@@ -2794,12 +2792,12 @@ public final class UiTestUtils {
 		dataContainer.addProjectUserList("global_list");
 		dataContainer.addSpriteUserList("sprite_list");
 		UserList projectUserList = projectManager.getCurrentProject().getDefaultScene().getDataContainer()
-				.getUserList("global_list", null);
+				.getUserList(null, "global_list");
 		projectUserList.setList(INITIALIZED_LIST_VALUES);
 		UserList spriteUserList = projectManager.getCurrentProject().getDefaultScene().getDataContainer()
 				.getSpriteListOfLists(projectManager.getCurrentSprite()).get(0);
 		spriteUserList.setList(INITIALIZED_LIST_VALUES);
-		UserVariable spriteUserVariable = dataContainer.getUserVariable("sprite_var", projectManager.getCurrentSprite());
+		UserVariable spriteUserVariable = dataContainer.getUserVariable(projectManager.getCurrentSprite(), "sprite_var");
 		UserVariable projectUserVariable = dataContainer.getProjectVariables().get(0);
 
 		List<Brick> bricks = projectManager.getCurrentSprite().getListWithAllBricks();

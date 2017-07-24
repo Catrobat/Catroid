@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -98,7 +98,7 @@ public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCa
 		Assert.assertEquals("Wrong amount of collisionPolygons", 1, collisionInformation.collisionPolygons.length);
 		Assert.assertTrue("Wrong Collision Polygon",
 				Arrays.equals(collisionInformation.collisionPolygons[0].getVertices(),
-						new float[] { 0.0f, 0.0f, 0.0f, 125.0f, 125.0f, 125.0f, 125.0f, 0.0f }));
+						new float[] {0.0f, 0.0f, 0.0f, 125.0f, 125.0f, 125.0f, 125.0f, 0.0f}));
 	}
 
 	public void testSimpleConvexPolygon() {
@@ -109,7 +109,7 @@ public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCa
 		Assert.assertEquals("Wrong amount of collisionPolygons", 1, collisionInformation.collisionPolygons.length);
 		Assert.assertTrue("Wrong Collision Polygon",
 				Arrays.equals(collisionInformation.collisionPolygons[0].getVertices(),
-						new float[] { 0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f }));
+						new float[] {0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f}));
 	}
 
 	public void testMultipleConcavePolygons() {
@@ -121,11 +121,11 @@ public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCa
 		Assert.assertEquals("Wrong amount of collisionPolygons", 2, collisionInformation.collisionPolygons.length);
 		Assert.assertTrue("Wrong first Collision Polygon",
 				Arrays.equals(collisionInformation.collisionPolygons[0].getVertices(),
-						new float[] { 0.0f, 110.0f, 0.0f, 185.0f, 91.0f, 185.0f, 91.0f, 136.0f, 34.0f, 136.0f, 34.0f, 110.0f }));
+						new float[] {0.0f, 110.0f, 0.0f, 185.0f, 91.0f, 185.0f, 91.0f, 136.0f, 34.0f, 136.0f, 34.0f, 110.0f}));
 		Assert.assertTrue("Wrong second Collision Polygon",
 				Arrays.equals(collisionInformation.collisionPolygons[1].getVertices(),
-						new float[] { 128.0f, 30.0f, 128.0f, 91.0f, 159.0f, 91.0f, 159.0f, 121.0f, 227.0f, 121.0f, 227.0f, 91.0f,
-								257.0f, 91.0f, 257.0f, 30.0f, 227.0f, 30.0f, 227.0f, 0.0f, 159.0f, 0.0f, 159.0f, 30.0f }));
+						new float[] {128.0f, 30.0f, 128.0f, 91.0f, 159.0f, 91.0f, 159.0f, 121.0f, 227.0f, 121.0f, 227.0f, 91.0f,
+								257.0f, 91.0f, 257.0f, 30.0f, 227.0f, 30.0f, 227.0f, 0.0f, 159.0f, 0.0f, 159.0f, 30.0f}));
 	}
 
 	public void testDonutPolygons() {
@@ -137,14 +137,14 @@ public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCa
 		Assert.assertEquals("Wrong amount of collisionPolygons", 2, collisionInformation.collisionPolygons.length);
 		Assert.assertTrue("Wrong first Collision Polygon",
 				Arrays.equals(collisionInformation.collisionPolygons[0].getVertices(),
-						new float[] { 0.0f, 228.0f, 9.0f, 321.0f, 57.0f, 411.0f, 136.0f, 474.0f, 228.0f, 500.0f, 305.0f,
+						new float[] {0.0f, 228.0f, 9.0f, 321.0f, 57.0f, 411.0f, 136.0f, 474.0f, 228.0f, 500.0f, 305.0f,
 								495.0f, 375.0f, 468.0f, 436.0f, 419.0f, 474.0f, 364.0f, 497.0f, 295.0f, 499.0f, 218.0f,
 								481.0f, 151.0f, 443.0f, 89.0f, 385.0f, 38.0f, 321.0f, 9.0f, 179.0f, 9.0f, 115.0f, 38.0f,
-								57.0f, 89.0f, 19.0f, 151.0f }));
+								57.0f, 89.0f, 19.0f, 151.0f}));
 		Assert.assertTrue("Wrong second Collision Polygon",
 				Arrays.equals(collisionInformation.collisionPolygons[1].getVertices(),
-						new float[] { 125.0f, 248.0f, 154.0f, 330.0f, 201.0f, 365.0f, 248.0f, 375.0f, 313.0f, 358.0f,
+						new float[] {125.0f, 248.0f, 154.0f, 330.0f, 201.0f, 365.0f, 248.0f, 375.0f, 313.0f, 358.0f,
 								365.0f, 299.0f, 374.0f, 234.0f, 346.0f, 170.0f, 285.0f, 130.0f, 206.0f, 133.0f, 150.0f,
-								175.0f }));
+								175.0f}));
 	}
 }

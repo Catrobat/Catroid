@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ public enum MusicalBeat {
 	private final int bottomNumber;
 	private final NoteLength noteLength;
 
-	private MusicalBeat(int topNumnber, int bottomNumber, NoteLength noteLength) {
+	MusicalBeat(int topNumnber, int bottomNumber, NoteLength noteLength) {
 		this.topNumber = topNumnber;
 		this.bottomNumber = bottomNumber;
 		this.noteLength = noteLength;

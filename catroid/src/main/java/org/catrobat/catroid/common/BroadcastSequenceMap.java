@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,47 +24,47 @@ package org.catrobat.catroid.common;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public final class BroadcastSequenceMap {
-	private static Map<String, HashMap<String, ArrayList<SequenceAction>>> broadcastSequenceMap = new HashMap<>();
+public class BroadcastSequenceMap {
+	private Map<String, Map<String, List<SequenceAction>>> broadcastSequenceMap = new HashMap<>();
 
-	private BroadcastSequenceMap() {
-		throw new AssertionError();
+	public boolean containsKey(String key, String sceneName) {
+		return broadcastSequenceMap.get(sceneName) != null && broadcastSequenceMap.get(sceneName).containsKey(key);
 	}
 
-	public static boolean containsKey(String key, String sceneName) {
-		if (!BroadcastSequenceMap.broadcastSequenceMap.containsKey(sceneName)) {
-			return false;
+	public List<SequenceAction> get(String key, String sceneName) {
+		Map<String, List<SequenceAction>> map = broadcastSequenceMap.get(sceneName);
+		if (map != null) {
+			return map.get(key);
 		}
-		return BroadcastSequenceMap.broadcastSequenceMap.get(sceneName).containsKey(key);
+		return null;
 	}
 
-	public static ArrayList<SequenceAction> get(String key, String sceneName) {
-		if (!BroadcastSequenceMap.broadcastSequenceMap.containsKey(sceneName)) {
-			return null;
-		}
-		return BroadcastSequenceMap.broadcastSequenceMap.get(sceneName).get(key);
-	}
-
-	public static ArrayList<SequenceAction> put(String sceneName, String key, ArrayList<SequenceAction> value) {
-		if (!broadcastSequenceMap.containsKey(sceneName)) {
-			HashMap<String, ArrayList<SequenceAction>> map = new HashMap<>();
+	public List<SequenceAction> put(String sceneName, String key, List<SequenceAction> values) {
+		Map<String, List<SequenceAction>> map = broadcastSequenceMap.get(sceneName);
+		if (map == null) {
+			map = new HashMap<>();
 			broadcastSequenceMap.put(sceneName, map);
 		}
-		return BroadcastSequenceMap.broadcastSequenceMap.get(sceneName).put(key, value);
+		return map.put(key, values);
 	}
 
-	public static void clear() {
-		BroadcastSequenceMap.broadcastSequenceMap.clear();
-	}
-
-	public static void clear(String sceneName) {
-		if (!BroadcastSequenceMap.broadcastSequenceMap.containsKey(sceneName)) {
-			return;
+	public void remove(String key, String sceneName) {
+		if (containsKey(key, sceneName)) {
+			broadcastSequenceMap.get(sceneName).remove(key);
 		}
-		BroadcastSequenceMap.broadcastSequenceMap.get(sceneName).clear();
+	}
+
+	public void clear() {
+		broadcastSequenceMap.clear();
+	}
+
+	public void clear(String sceneName) {
+		if (broadcastSequenceMap.containsKey(sceneName)) {
+			broadcastSequenceMap.get(sceneName).clear();
+		}
 	}
 }

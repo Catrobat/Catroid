@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,8 +27,12 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
+import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
@@ -81,6 +85,36 @@ public class SceneTest extends AndroidTestCase {
 		assertTrue("Scene was not cloned correctly", Utils.isStandardScene(projectManager.getCurrentProject(), cloneScene
 				.getName(), getContext()));
 		assertFalse("Scene was the same instance", cloneScene.equals(projectManager.getCurrentScene()));
+	}
+
+	public void testSameSpriteReferenceAfterCloning() {
+		Sprite sprite = new SingleSprite("testSprite");
+		Sprite secondSprite = new SingleSprite("secondSprite");
+
+		CloneBrick cloneBrick = new CloneBrick(secondSprite);
+		Script testScript = new StartScript();
+		testScript.addBrick(cloneBrick);
+		sprite.addScript(testScript);
+
+		Project project = new Project(getContext(), "project");
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
+		project.getDefaultScene().addSprite(sprite);
+		project.getDefaultScene().addSprite(secondSprite);
+
+		Sprite clonedSprite = secondSprite.shallowClone();
+		List<Sprite> spriteList = project.getDefaultScene().getSpriteList();
+		spriteList.set(1, clonedSprite);
+		spriteList.set(2, sprite);
+
+		assertSame("Sprites should be the same after moving in list!", spriteList.get(2), sprite);
+		assertNotSame("Sprites shouldn't be the same after cloning!", spriteList.get(1), secondSprite);
+		assertNotSame("Sprite reference shouldn't be the same after cloning!", cloneBrick.getSprite(), clonedSprite);
+
+		project.getDefaultScene().refreshSpriteReferences();
+
+		assertSame("Sprite reference should be the same after refreshing references!", cloneBrick.getSprite(), clonedSprite);
 	}
 
 	public void testRename() {

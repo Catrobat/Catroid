@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,8 +49,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.DragAndDropBrickLayoutListener;
@@ -134,7 +134,7 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 			((ScriptActivity) activity).redrawBricks();
 		} else {
 			Log.e(TAG, "UserBrickDataEditor.onUserDismiss() called when the parent activity is not a UserBrickScriptActivity!\n"
-							+ "This should never happen, afaik. I don't know how to correctly reset the action bar...");
+					+ "This should never happen, afaik. I don't know how to correctly reset the action bar...");
 		}
 
 		ActionBar actionBar = activity.getActionBar();

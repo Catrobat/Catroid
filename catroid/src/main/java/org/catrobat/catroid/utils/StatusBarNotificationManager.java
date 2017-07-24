@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -310,6 +310,7 @@ public final class StatusBarNotificationManager {
 			String projectName = intent.getBundleExtra("bundle").getString("projectName");
 			String projectDescription = intent.getBundleExtra("bundle").getString("projectDescription");
 			String projectPath = intent.getBundleExtra("bundle").getString("projectPath");
+			String[] sceneNames = intent.getBundleExtra("bundle").getStringArray("sceneNames");
 			String token = intent.getBundleExtra("bundle").getString("token");
 			String username = intent.getBundleExtra("bundle").getString("username");
 			ResultReceiver receiver = intent.getBundleExtra("bundle").getParcelable("receiver");
@@ -321,7 +322,7 @@ public final class StatusBarNotificationManager {
 			reuploadIntent.putExtra("projectPath", projectPath);
 			reuploadIntent.putExtra("username", username);
 			reuploadIntent.putExtra("token", token);
-
+			reuploadIntent.putExtra("sceneNames", sceneNames);
 			return reuploadIntent;
 		}
 

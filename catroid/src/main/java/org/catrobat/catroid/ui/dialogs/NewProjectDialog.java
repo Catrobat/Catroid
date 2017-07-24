@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -189,7 +189,7 @@ public class NewProjectDialog extends DialogFragment {
 		if (defaultDroneProjectRadioButton.isChecked()) {
 			createEmptyProject = false;
 			try {
-				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, true, false);
+				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, true, false, false);
 			} catch (IllegalArgumentException illegalArgumentException) {
 				Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 				return;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -581,7 +581,7 @@ public class DragNDropBrickLayout extends BrickLayout {
 		public int width;
 		public int height;
 
-		public WeirdFloatingWindowData(View view, int width, int height) {
+		WeirdFloatingWindowData(View view, int width, int height) {
 			this.view = view;
 			this.width = width;
 			this.height = height;

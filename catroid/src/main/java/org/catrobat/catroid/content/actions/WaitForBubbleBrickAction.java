@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 
 public class WaitForBubbleBrickAction extends WaitAction {
@@ -32,9 +31,7 @@ public class WaitForBubbleBrickAction extends WaitAction {
 
 	@Override
 	protected void end() {
-		ShowBubbleActor actor = StageActivity.stageListener.getBubbleActorForSprite(sprite);
-		if (actor != null) {
-			StageActivity.stageListener.getStage().getActors().removeValue(actor, true);
+		if (StageActivity.stageListener.getBubbleActorForSprite(sprite) != null) {
 			StageActivity.stageListener.removeBubbleActorForSprite(sprite);
 		}
 	}

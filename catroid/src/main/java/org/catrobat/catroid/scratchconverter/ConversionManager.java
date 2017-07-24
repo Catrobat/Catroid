@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ public interface ConversionManager extends ConnectAuthCallback, ConvertCallback,
 	void setCurrentActivity(Activity activity);
 	void connectAndAuthenticate();
 	void shutdown();
-	void convertProgram(final long jobID, final String title, final WebImage image, final boolean force);
+	void convertProgram(long jobID, String title, WebImage image, boolean force);
 	void addBaseInfoViewListener(BaseInfoViewListener baseInfoViewListener);
 	boolean removeBaseInfoViewListener(BaseInfoViewListener baseInfoViewListener);
 	void addGlobalJobViewListener(JobViewListener jobViewListener);

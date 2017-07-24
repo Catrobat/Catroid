@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,11 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.993f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.994f);
+
+	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
+	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
+	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
@@ -54,8 +58,8 @@ public final class Constants {
 	public static final char REMIX_URL_REPLACE_SEPARATOR = ';';
 
 	//Extensions:
-	public static final String[] IMAGE_EXTENSIONS = { ".png", ".jpg", ".jpeg", ".png", ".gif" };
-	public static final String[] SOUND_EXTENSIONS = { ".wav", ".mp3", ".mpga", ".wav", ".ogy" };
+	public static final String[] IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
+	public static final String[] SOUND_EXTENSIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
@@ -169,6 +173,7 @@ public final class Constants {
 			+ ".downloadStatePref";
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
+	public static final String SCRATCH_IMAGE_BASE_URL = "https://uploads.scratch.mit.edu/projects/thumbnails/";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
 	public static final String SCRATCH_CONVERTER_WEB_SOCKET = "ws://" + SCRATCH_CONVERTER_HOST + "/convertersocket";
 	public static final String SCRATCH_CONVERTER_BASE_URL = "http://" + SCRATCH_CONVERTER_HOST + "/";
@@ -179,8 +184,8 @@ public final class Constants {
 	public static final int SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_DAY = 9;
 	public static final int SCRATCH_HTTP_REQUEST_MIN_TIMEOUT = 1_000; // in ms
 	public static final int SCRATCH_HTTP_REQUEST_MAX_NUM_OF_RETRIES = 2;
-	public static final int SCRATCH_IMAGE_DEFAULT_WIDTH = 150;
-	public static final int SCRATCH_IMAGE_DEFAULT_HEIGHT = 150;
+	public static final int SCRATCH_IMAGE_DEFAULT_WIDTH = 480;
+	public static final int SCRATCH_IMAGE_DEFAULT_HEIGHT = 360;
 	public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
@@ -213,6 +218,8 @@ public final class Constants {
 	public static final float COLLISION_POLYGON_CREATION_EPSILON = 10.0f;
 	public static final String COLLISION_POLYGON_METADATA_PATTERN = "((((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+))\\|)*((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+)";
 	public static final float COLLISION_WITH_FINGER_TOUCH_RADIUS = 50;
+
+	public static final int CAST_IDLE_BACKGROUND_COLOR = 0x66000000;
 
 	// background sprite is always on index 0
 	public static final int Z_INDEX_BACKGROUND = 0;

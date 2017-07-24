@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
@@ -71,7 +72,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float[] rotationVector = new float[3];
 	private float[] accelerationXYZ = new float[3];
 	private float signAccelerationZ = 0f;
-	private float[] gravity = new float[] { 0f, 0f, 0f };
+	private float[] gravity = new float[] {0f, 0f, 0f};
 	private boolean useLinearAccelerationFallback = false;
 	private boolean useRotationVectorFallback = false;
 	private float linearAccelerationX = 0f;
@@ -425,7 +426,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				}
 			case LOUDNESS:
 				return instance.loudness;
-
 			case DATE_YEAR:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			case DATE_MONTH:
@@ -473,6 +473,14 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					return Double.valueOf(phiro.getSensorValue(sensor));
 				}
 				break;
+
+			case GAMEPAD_A_PRESSED:
+			case GAMEPAD_B_PRESSED:
+			case GAMEPAD_DOWN_PRESSED:
+			case GAMEPAD_LEFT_PRESSED:
+			case GAMEPAD_RIGHT_PRESSED:
+			case GAMEPAD_UP_PRESSED:
+				return CastManager.getInstance().isButtonPressed(sensor) ? 1.0 : 0.0;
 
 			case LAST_FINGER_INDEX:
 				return Double.valueOf(TouchUtil.getLastTouchIndex());

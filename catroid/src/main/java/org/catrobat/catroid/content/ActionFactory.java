@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
@@ -115,6 +114,7 @@ import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.catrobat.catroid.content.actions.SetLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetNfcTagAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
@@ -507,8 +507,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createClearBackgroundAction() {
-		ClearBackgroundAction action = Actions.action(ClearBackgroundAction.class);
-		return action;
+		return Actions.action(ClearBackgroundAction.class);
 	}
 
 	public Action createStampAction(Sprite sprite) {
@@ -586,6 +585,19 @@ public class ActionFactory extends Actions {
 
 	public Action createSetLookAction(Sprite sprite, LookData lookData, boolean wait) {
 		SetLookAction action = (SetLookAction) createSetLookAction(sprite, lookData);
+		action.setWait(wait);
+		return action;
+	}
+
+	public Action createSetLookByIndexAction(Sprite sprite, Formula formula) {
+		SetLookByIndexAction action = Actions.action(SetLookByIndexAction.class);
+		action.setSprite(sprite);
+		action.setFormula(formula);
+		return action;
+	}
+
+	public Action createSetLookByIndexAction(Sprite sprite, Formula formula, boolean wait) {
+		SetLookByIndexAction action = (SetLookByIndexAction) createSetLookByIndexAction(sprite, formula);
 		action.setWait(wait);
 		return action;
 	}
@@ -718,35 +730,19 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createThinkBubbleAction(Sprite sprite, Formula text) {
+	public Action createThinkSayBubbleAction(Sprite sprite, Formula text, int type) {
 		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
 		action.setText(text);
 		action.setSprite(sprite);
-		action.setType(Constants.THINK_BRICK);
+		action.setType(type);
 		return action;
 	}
 
-	public Action createSayBubbleAction(Sprite sprite, Formula text) {
+	public Action createThinkSayForBubbleAction(Sprite sprite, Formula text, int type) {
 		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
 		action.setText(text);
 		action.setSprite(sprite);
-		action.setType(Constants.SAY_BRICK);
-		return action;
-	}
-
-	public Action createThinkForBubbleAction(Sprite sprite, Formula text) {
-		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
-		action.setText(text);
-		action.setSprite(sprite);
-		action.setType(Constants.THINK_BRICK);
-		return action;
-	}
-
-	public Action createSayForBubbleAction(Sprite sprite, Formula text) {
-		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
-		action.setText(text);
-		action.setSprite(sprite);
-		action.setType(Constants.SAY_BRICK);
+		action.setType(type);
 		return action;
 	}
 

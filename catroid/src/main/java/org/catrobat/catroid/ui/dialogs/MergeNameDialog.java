@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -139,7 +139,11 @@ public class MergeNameDialog extends DialogFragment {
 		if (StorageHandler.getInstance().projectExists(mergeName)) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 		} else {
-			if (!task.mergeProjects(nameEditText.getText().toString())) {
+			if (task.mergeProjects(mergeName)) {
+				String msg = task.getFirstProject().getName() + " " + getActivity().getString(R.string.merge_info) + " "
+						+ "" + task.getSecondProject().getName() + "!";
+				ToastUtil.showSuccess(getActivity(), msg);
+			} else {
 				ToastUtil.showError(getActivity(), R.string.error_merge);
 			}
 			this.dismiss();

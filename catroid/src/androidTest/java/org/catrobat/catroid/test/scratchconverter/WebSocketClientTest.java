@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -552,7 +552,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 
 		final float expectedCatrobatLanguageVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 
-		final Job[] expectedJobs = new Job[] { expectedUnscheduledJob, expectedFinishedJob };
+		final Job[] expectedJobs = new Job[] {expectedUnscheduledJob, expectedFinishedJob};
 		final InfoMessage infoMessage = new InfoMessage(expectedCatrobatLanguageVersion, expectedJobs);
 
 		final DownloadCallback downloadCallbackMock = Mockito.mock(DownloadCallback.class);

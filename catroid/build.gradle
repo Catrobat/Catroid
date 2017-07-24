@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,21 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'io.fabric.tools:gradle:1.21.5'
     }
 }
 
 repositories {
     jcenter()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 
@@ -45,6 +49,20 @@ apply from: 'gradle/standalone_apk_tasks.gradle'
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
 
+def appId = 'org.catrobat.catroid'
+def appName = '@string/app_name'
+
+// When -Pindependent was provided on the gradle command the APP name is changed.
+// This allows to have multiple Catroid versions installed in parallel for testing purposes.
+// Furthermore these installations do not interfere with the actual Catroid app.
+if (project.hasProperty('independent')) {
+    def today = new Date()
+    appId += '.independent_' + today.format('YYYYMMdd_HHmm')
+    appName = property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
+}
+ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
+ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
+
 android {
     dexOptions {
         javaMaxHeapSize "4g"
@@ -53,6 +71,7 @@ android {
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
     }
+
     buildTypes {
 
         debug {
@@ -66,9 +85,10 @@ android {
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
-            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "false"
-            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
+            ext.enableCrashlytics = false
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -81,7 +101,8 @@ android {
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
-            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CAST_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
     }
@@ -91,27 +112,26 @@ android {
                                  applicationIdForTests:"org.catrobat.catroid"]
 
         buildConfigField "boolean", "CREATE_AT_SCHOOL", "false"
-        buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "false"
+        buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
     }
 
     productFlavors {
         catroid {
-            applicationId 'org.catrobat.catroid'
+            applicationId appId
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
         }
 
         standalone {
-            applicationId 'org.catrobat.catroid.' + getPackageNameSuffix()
+            applicationId appId + '.' + getPackageNameSuffix()
             versionCode 1
             versionName '1.0'
 
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true)}\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
-            buildConfigField "boolean", "FIREBASE_CRASH_REPORT_ENABLED", "false"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
         }
 
         createatschool {
@@ -141,6 +161,10 @@ configurations {
 }
 
 dependencies {
+    //CAST
+    compile 'com.android.support:mediarouter-v7:22.+'
+    compile 'com.google.android.gms:play-services-cast:9.4.0'
+
     compile 'com.google.guava:guava:19.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.7'
@@ -152,6 +176,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile 'com.thoughtworks.xstream:xstream:1.4.7'
+    compile 'com.github.oliewa92:MidiDroid:v1.1'
 
     def gdxVersion = '1.6.2'
     compile 'com.badlogicgames.gdx:gdx:' + gdxVersion
@@ -167,7 +192,6 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.14.1'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
-    compile 'com.google.firebase:firebase-crash:9.4.0'
     compile 'com.android.support:multidex:1.0.1'
 
     compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
@@ -175,7 +199,7 @@ dependencies {
     compile fileTree(include: '*.jar', dir: 'src/main/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'src/androidTest/libs')
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:1.5.1'
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
 
     androidTestCompile ('com.android.support.test:runner:0.5') {
@@ -199,7 +223,10 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.10.19'
 
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
-    checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
+    checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
 }
 
 def getCurrentGitBranch() {
@@ -212,14 +239,12 @@ def getCurrentGitBranch() {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    buildToolsVersion '25.0.0'
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
-        applicationId 'org.catrobat.catroid'
-        testApplicationId "org.catrobat.catroid.test"
+        applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
         versionCode 35
         println "VersionCode is " + versionCode
         versionName "0.9.28"
@@ -227,6 +252,7 @@ android {
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
         multiDexEnabled true
+        manifestPlaceholders += [appName: appName]
     }
 
     packagingOptions {
@@ -245,13 +271,15 @@ android {
         ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
                 'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
                 'RtlSymmetry', 'GradleDynamicVersion', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
-                'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation', 'ExtraTranslation'
+                'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation', 'ExtraTranslation',
+                'GradleCompatible', 'WifiManagerLeak', 'ApplySharedPref', 'DefaultLocale', 'ObsoleteSdkInt',
+                'StaticFieldLeak' , 'AppCompatResource'
 
         textReport true
         xmlReport true
         htmlReport true
-        xmlOutput file("build/reports/lint.xml")
-        htmlOutput file("build/reports/lint.html")
+        xmlOutput file("build/reports/lint-report.xml")
+        htmlOutput file("build/reports/lint-report.html")
     }
 }
 

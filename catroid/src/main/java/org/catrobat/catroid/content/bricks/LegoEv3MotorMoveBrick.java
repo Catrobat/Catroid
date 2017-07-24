@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -53,7 +52,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	private transient Motor motorEnum;
 	private transient TextView editSpeed;
 
-	public static enum Motor {
+	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C
 	}
 
@@ -110,11 +109,6 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new LegoEv3MotorMoveBrick(motorEnum, getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED).clone());
-	}
-
-	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_SPEED);
 	}
@@ -158,7 +152,9 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
 
 		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
@@ -170,9 +166,5 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3SingleMotorMoveAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED)));
 		return null;
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

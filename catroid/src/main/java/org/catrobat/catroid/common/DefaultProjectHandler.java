@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import android.util.Log;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorCast;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDefault;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDrone;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorPhysics;
@@ -42,7 +43,7 @@ public final class DefaultProjectHandler {
 	private static final String TAG = DefaultProjectHandler.class.getSimpleName();
 
 	public enum ProjectCreatorType {
-		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE, PROJECT_CREATOR_PHYSICS
+		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE, PROJECT_CREATOR_PHYSICS, PROJECT_CREATOR_CAST
 	}
 
 	private static DefaultProjectHandler instance = null;
@@ -103,19 +104,24 @@ public final class DefaultProjectHandler {
 	}
 
 	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean
-			landscapeMode) {
+			landscapeMode, boolean isCastEnabled) {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
-		Project emptyProject = new Project(context, projectName, landscapeMode);
-		initNewProject(context, emptyProject);
+		Project emptyProject = new Project(context, projectName, landscapeMode, isCastEnabled);
+		emptyProject.setDeviceData(context);
+		StorageHandler.getInstance().saveProject(emptyProject);
+		ProjectManager.getInstance().setProject(emptyProject);
+
 		return emptyProject;
 	}
 
-	public static void initNewProject(Context context, Project project) {
-		project.setDeviceData(context);
-		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode) {
+		return createAndSaveEmptyProject(projectName, context, landscapeMode, false);
+	}
+
+	public static Project createAndSaveEmptyProject(String projectName, Context context) {
+		return createAndSaveEmptyProject(projectName, context, false);
 	}
 
 	public void setDefaultProjectCreator(ProjectCreatorType type) {
@@ -132,6 +138,11 @@ public final class DefaultProjectHandler {
 				break;
 			case PROJECT_CREATOR_PHYSICS:
 				defaultProjectCreator = new DefaultProjectCreatorPhysics();
+				break;
+			case PROJECT_CREATOR_CAST:
+				if (BuildConfig.FEATURE_CAST_ENABLED) {
+					defaultProjectCreator = new DefaultProjectCreatorCast();
+				}
 				break;
 		}
 	}

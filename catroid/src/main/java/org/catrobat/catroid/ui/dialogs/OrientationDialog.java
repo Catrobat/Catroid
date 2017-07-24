@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.transfers.DownloadTemplateTask;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
@@ -58,12 +59,15 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 	private static final String TAG = OrientationDialog.class.getSimpleName();
 	private static final float GREYED_VALUE = 0.25f;
 
+	private Dialog orientationDialog;
 	private String projectName;
 	private RadioButton landscapeMode;
+	private RadioButton cast;
 	private RadioButton portraitMode;
 
 	private boolean createEmptyProject;
 	private boolean createLandscapeProject = false;
+	private boolean createCastProject = false;
 
 	private boolean openedFromProjectList = false;
 	private boolean openedFromTemplatesList = false;
@@ -74,10 +78,13 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
 
-		final Dialog orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(R.string.project_orientation_title)
+		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
+		boolean castEnabled = SettingsActivity.isCastSharedPreferenceEnabled(getActivity());
+		int title = castEnabled ? R.string.project_select_screen_title : R.string.project_orientation_title;
+
+		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+				.setTitle(title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -106,8 +113,15 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogView.getRootView());
 			}
 		});
+
+		cast = (RadioButton) dialogView.findViewById(R.id.cast);
+
+		if (castEnabled) {
+			cast.setVisibility(View.VISIBLE);
+		}
+
 		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);
-		portraitMode =  (RadioButton) dialogView.findViewById(R.id.portrait);
+		portraitMode = (RadioButton) dialogView.findViewById(R.id.portrait);
 
 		if (templateData != null) {
 			if (templateData.getLandscape() == null) {
@@ -132,13 +146,15 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 	}
 
 	protected void handleOkButtonClick() {
+
 		createLandscapeProject = landscapeMode.isChecked();
+		createCastProject = cast.isChecked();
 
 		if (isOpenedFromTemplatesList()) {
 			downloadTemplateFile();
 		} else {
 			try {
-				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject);
+				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject, createCastProject);
 			} catch (IllegalArgumentException illegalArgumentException) {
 				Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 				return;

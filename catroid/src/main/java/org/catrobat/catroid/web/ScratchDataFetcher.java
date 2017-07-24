@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,9 +29,9 @@ import org.catrobat.catroid.common.ScratchSearchResult;
 import java.io.InterruptedIOException;
 
 public interface ScratchDataFetcher {
-	ScratchProgramData fetchScratchProgramDetails(final long programID)
+	ScratchProgramData fetchScratchProgramDetails(long programID)
 			throws WebconnectionException, WebScratchProgramException, InterruptedIOException;
 	ScratchSearchResult fetchDefaultScratchPrograms() throws WebconnectionException, InterruptedIOException;
-	ScratchSearchResult scratchSearch(final String query, final int numberOfItems, final int pageNumber)
+	ScratchSearchResult scratchSearch(String query, int numberOfItems, int pageNumber)
 			throws WebconnectionException, InterruptedIOException;
 }

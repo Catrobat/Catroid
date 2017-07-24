@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -123,6 +123,8 @@ public final class SoundController {
 
 				if ("primary".equalsIgnoreCase(type)) {
 					return Environment.getExternalStorageDirectory() + "/" + split[1];
+				} else {
+					return "storage/" + split[0] + "/" + split[1];
 				}
 
 				// TODO handle non-primary volumes
@@ -150,7 +152,7 @@ public final class SoundController {
 				}
 
 				final String selection = "_id=?";
-				final String[] selectionArgs = new String[] { split[1] };
+				final String[] selectionArgs = new String[] {split[1]};
 
 				return getDataColumn(context, contentUri, selection, selectionArgs);
 			}
@@ -174,7 +176,7 @@ public final class SoundController {
 
 		Cursor cursor = null;
 		final String column = "_data";
-		final String[] projection = { column };
+		final String[] projection = {column};
 
 		try {
 			cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
@@ -598,7 +600,7 @@ public final class SoundController {
 		if (arguments != null) {
 			audioUri = (Uri) arguments.get(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-		String[] projection = { MediaStore.Audio.Media.DATA };
+		String[] projection = {MediaStore.Audio.Media.DATA};
 		return new CursorLoader(activity, audioUri, projection, null, null, null);
 	}
 
@@ -617,7 +619,7 @@ public final class SoundController {
 		if (audioPath == null && Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
 			audioPath = getPathForVersionAboveEqualsVersion19(activity, cursorLoader.getUri());
 		}
-		if (audioPath.equalsIgnoreCase("")) {
+		if (audioPath == null || audioPath.equalsIgnoreCase("")) {
 			Utils.showErrorDialog(activity, R.string.error_load_sound);
 			audioPath = "";
 			return audioPath;

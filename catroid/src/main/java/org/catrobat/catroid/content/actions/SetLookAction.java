@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,12 +30,12 @@ import org.catrobat.catroid.content.Sprite;
 
 public class SetLookAction extends Action {
 
-	private LookData look;
-	private Sprite sprite;
+	protected LookData look;
+	protected Sprite sprite;
 
-	private boolean wait = false;
-	private boolean setLookDone = false;
-	private boolean scriptsAreCompleted = false;
+	protected boolean wait = false;
+	protected boolean setLookDone = false;
+	protected boolean scriptsAreCompleted = false;
 
 	protected void doLookUpdate() {
 		if (wait) {

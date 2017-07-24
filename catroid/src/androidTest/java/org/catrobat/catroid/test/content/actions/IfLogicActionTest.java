@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -77,7 +77,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(TEST_USERVARIABLE, null);
+				.getUserVariable(null, TEST_USERVARIABLE);
 	}
 
 	public void testNestedIfBrick() throws InterruptedException {
@@ -117,7 +117,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		}
 
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(TEST_USERVARIABLE, null);
+				.getUserVariable(null, TEST_USERVARIABLE);
 
 		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
@@ -147,7 +147,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testSprite.look.act(100f);
 
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(TEST_USERVARIABLE, null);
+				.getUserVariable(null, TEST_USERVARIABLE);
 
 		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
@@ -177,7 +177,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testSprite.look.act(100f);
 
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(TEST_USERVARIABLE, null);
+				.getUserVariable(null, TEST_USERVARIABLE);
 
 		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_FALSE_VALUE), userVariable.getValue());
 	}
@@ -231,7 +231,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 		testSprite.look.act(1f);
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(TEST_USERVARIABLE, null);
+				.getUserVariable(null, TEST_USERVARIABLE);
 
 		assertEquals("IfBrick not executed as expected", expected, userVariable.getValue());
 	}

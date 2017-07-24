@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ public class XmlHeader implements Serializable {
 
 	private float catrobatLanguageVersion;
 	private boolean landscapeMode;
+	private boolean isCastProject = false;
 	@SuppressWarnings("unused")
 	public boolean scenesEnabled = true;
 
@@ -220,6 +221,14 @@ public class XmlHeader implements Serializable {
 
 	public void setlandscapeMode(boolean landscapeMode) {
 		this.landscapeMode = landscapeMode;
+	}
+
+	public void setIsCastProject(boolean isCastProject) {
+		this.isCastProject = isCastProject;
+	}
+
+	public boolean isCastProject() {
+		return isCastProject;
 	}
 
 	public void setTags(List<String> tags) {

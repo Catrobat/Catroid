@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,9 +60,9 @@ import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
@@ -461,18 +461,18 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								for (UserList list : adapter.getCheckedUserLists()) {
-									int type = dataContainer.getTypeOfUserVariable(list.getName(),
+									DataContainer.DataType type = dataContainer.getTypeOfUserVariable(list.getName(),
 											ProjectManager.getInstance().getCurrentSprite());
-									String typeString = type == DataContainer.USER_VARIABLE_PROJECT
+									String typeString = type == DataContainer.DataType.USER_VARIABLE_PROJECT
 											? TrackingConstants.GLOBAL : TrackingConstants.LOCAL;
 
 									TrackingUtil.trackData(list.getName(), typeString, TrackingConstants.DELETE_LIST);
 									dataContainer.deleteUserListByName(list.getName());
 								}
 								for (UserVariable variable : adapter.getCheckedUserVariables()) {
-									int type = dataContainer.getTypeOfUserVariable(variable.getName(),
+									DataContainer.DataType type = dataContainer.getTypeOfUserVariable(variable.getName(),
 											ProjectManager.getInstance().getCurrentSprite());
-									String typeString = type == DataContainer.USER_VARIABLE_PROJECT
+									String typeString = type == DataContainer.DataType.USER_VARIABLE_PROJECT
 											? TrackingConstants.GLOBAL : TrackingConstants.LOCAL;
 
 									TrackingUtil.trackData(variable.getName(), typeString, TrackingConstants.DELETE_VARIABLE);

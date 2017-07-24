@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -84,7 +84,7 @@
         android:name=".CatroidApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="${appName}"
         android:theme="@style/Theme.Catroid"
         android:supportsRtl="true">
 
@@ -95,7 +95,7 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
+            android:label="${appName}"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
@@ -243,7 +243,7 @@
             android:name=".pocketmusic.PocketMusicActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:label="@string/add_sound_pocketmusic"
+            android:label="@string/add_sound_music"
             android:icon="@drawable/ic_pocketmusic"/>
 
         <service android:name=".transfers.ProjectUploadService" />
@@ -251,6 +251,7 @@
         <service android:name=".transfers.MediaDownloadService" />
         <service android:name="com.parrot.freeflight.service.DroneControlService" />
         <service android:name=".utils.StatusBarNotificationManager$NotificationActionService" />
+        <service android:name=".cast.CastService" android:exported="false"/>
 
     </application>
 </manifest>

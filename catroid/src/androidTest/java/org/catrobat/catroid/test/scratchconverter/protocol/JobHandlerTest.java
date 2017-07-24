@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -84,7 +84,7 @@ public class JobHandlerTest extends AndroidTestCase {
 
 	public void testReceivedJobMessageWhenJobIsNotInProgressShouldFail() {
 		// tests all not-in-progress states! -> see: Job.State.isInProgress()
-		for (Job.State givenState : new Job.State[] { Job.State.UNSCHEDULED, Job.State.FINISHED, Job.State.FAILED }) {
+		for (Job.State givenState : new Job.State[] {Job.State.UNSCHEDULED, Job.State.FINISHED, Job.State.FAILED}) {
 			expectedJob.setState(givenState);
 			try {
 				jobHandler.onJobMessage(new JobReadyMessage(WRONG_JOB_ID));
@@ -120,7 +120,7 @@ public class JobHandlerTest extends AndroidTestCase {
 	}
 
 	public void testReceivedJobReadyMessageWhenHandlerIsNotInScheduledStateButInProgressShouldBeIgnored() {
-		for (Job.State givenState : new Job.State[] { Job.State.READY, Job.State.RUNNING }) {
+		for (Job.State givenState : new Job.State[] {Job.State.READY, Job.State.RUNNING}) {
 			expectedJob.setState(givenState);
 			jobHandler.onJobMessage(new JobReadyMessage(JOB_ID_OF_JOB_HANDLER));
 			assertEquals("State of expectedJob changed unexpectedly", givenState, expectedJob.getState());
@@ -155,7 +155,7 @@ public class JobHandlerTest extends AndroidTestCase {
 	}
 
 	public void testReceivedJobAlreadyRunningMessageWhenHandlerIsNotInScheduledStateButInProgressShouldBeIgnored() {
-		for (Job.State givenState : new Job.State[] { Job.State.READY, Job.State.RUNNING }) {
+		for (Job.State givenState : new Job.State[] {Job.State.READY, Job.State.RUNNING}) {
 			expectedJob.setState(givenState);
 			final String expectedProgramImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
 			jobHandler.onJobMessage(new JobAlreadyRunningMessage(JOB_ID_OF_JOB_HANDLER, expectedJob.getTitle(),
@@ -198,7 +198,7 @@ public class JobHandlerTest extends AndroidTestCase {
 	}
 
 	public void testReceivedJobProgressMessageWhenHandlerIsNotInRunningStateButInProgressShouldBeIgnored() {
-		for (Job.State givenState : new Job.State[] { Job.State.SCHEDULED, Job.State.READY }) {
+		for (Job.State givenState : new Job.State[] {Job.State.SCHEDULED, Job.State.READY}) {
 			final short expectedProgress = 31;
 			expectedJob.setState(givenState);
 			jobHandler.onJobMessage(new JobProgressMessage(JOB_ID_OF_JOB_HANDLER, expectedProgress));
@@ -210,7 +210,7 @@ public class JobHandlerTest extends AndroidTestCase {
 	}
 
 	public void testReceivedJobOutputMessageWhenHandlerIsInRunningStateShouldWork() {
-		final String[] expectedLines = new String[] { "line1", "line2" };
+		final String[] expectedLines = new String[] {"line1", "line2"};
 
 		doAnswer(new Answer<Void>() {
 			@Override
@@ -241,8 +241,8 @@ public class JobHandlerTest extends AndroidTestCase {
 	}
 
 	public void testReceivedJobOutputMessageWhenHandlerIsNotInRunningStateButInProgressShouldBeIgnored() {
-		for (Job.State givenState : new Job.State[] { Job.State.SCHEDULED, Job.State.READY }) {
-			final String[] expectedLines = new String[] { "line1", "line2" };
+		for (Job.State givenState : new Job.State[] {Job.State.SCHEDULED, Job.State.READY}) {
+			final String[] expectedLines = new String[] {"line1", "line2"};
 
 			expectedJob.setState(givenState);
 			jobHandler.onJobMessage(new JobOutputMessage(JOB_ID_OF_JOB_HANDLER, expectedLines));
@@ -288,7 +288,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		}).when(convertCallbackMock).onConversionFinished(any(Job.class), any(Client.DownloadCallback.class),
 				any(String.class), any(Date.class));
 
-		for (Job.State givenState : new Job.State[] { Job.State.SCHEDULED, Job.State.RUNNING }) {
+		for (Job.State givenState : new Job.State[] {Job.State.SCHEDULED, Job.State.RUNNING}) {
 			expectedJob.setState(givenState);
 			jobHandler.onJobMessage(new JobFinishedMessage(JOB_ID_OF_JOB_HANDLER, expectedDownloadURL,
 					expectedCacheDate));
@@ -338,7 +338,7 @@ public class JobHandlerTest extends AndroidTestCase {
 			}
 		}).when(convertCallbackMock).onConversionFailure(any(Job.class), any(ClientException.class));
 
-		for (Job.State givenState : new Job.State[] { Job.State.SCHEDULED, Job.State.RUNNING }) {
+		for (Job.State givenState : new Job.State[] {Job.State.SCHEDULED, Job.State.RUNNING}) {
 			expectedJob.setState(givenState);
 			jobHandler.onJobMessage(new JobFailedMessage(JOB_ID_OF_JOB_HANDLER, expectedErrorMessage));
 			assertEquals("Expecting state to be FAILED after processed JobFailedMessage",
@@ -383,7 +383,7 @@ public class JobHandlerTest extends AndroidTestCase {
 	}
 
 	public void testReceivedJobRunningMessageWhenHandlerIsNotInReadyStateButInProgressShouldBeIgnored() {
-		for (Job.State givenState : new Job.State[] { Job.State.SCHEDULED, Job.State.RUNNING }) {
+		for (Job.State givenState : new Job.State[] {Job.State.SCHEDULED, Job.State.RUNNING}) {
 			expectedJob.setState(givenState);
 			final String programImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
 			jobHandler.onJobMessage(new JobRunningMessage(JOB_ID_OF_JOB_HANDLER, expectedJob.getTitle(),

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.pocketmusic.ui;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.widget.TableLayout;
 
 import org.catrobat.catroid.R;
@@ -34,10 +33,8 @@ import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
-import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
-import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackToTrackGridConverter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,16 +45,25 @@ public class TrackView extends TableLayout {
 	public static final int ROW_COUNT = 13;
 	private List<TrackRowView> trackRowViews = new ArrayList<>(ROW_COUNT);
 	private TrackGrid trackGrid;
+	private int tactPosition = 0;
 	private static final int[] BLACK_KEY_INDICES = {
 			1, 3, 6, 8, 10
 	};
 
 	public TrackView(Context context, AttributeSet attrs) {
+		this(context, attrs, new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION, MusicalBeat.BEAT_4_4, new
+				ArrayList<GridRow>()));
+	}
+
+	public TrackView(Context context, TrackGrid trackGrid) {
+		this(context, null, trackGrid);
+	}
+
+	public TrackView(Context context, AttributeSet attrs, TrackGrid trackGrid) {
 		super(context, attrs);
 		setStretchAllColumns(true);
 		setClickable(true);
-		trackGrid = new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION, MusicalBeat.BEAT_4_4, new
-				ArrayList<GridRow>());
+		this.trackGrid = trackGrid;
 		initializeRows();
 		setWeightSum(ROW_COUNT);
 	}
@@ -71,8 +77,9 @@ public class TrackView extends TableLayout {
 		for (int i = 0; i < ROW_COUNT; i++) {
 			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
 			NoteName noteName = NoteName.getNoteNameFromMidiValue(NoteName.C1.getMidi() + i);
-			trackRowViews.add(new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, noteName,
-					trackGrid.getGridRowForNoteName(noteName), this));
+			TrackRowView trackRowView = new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, noteName, this);
+			trackRowView.setTactPosition(tactPosition, trackGrid.getGridRowForNoteName(noteName));
+			trackRowViews.add(trackRowView);
 			addView(trackRowViews.get(i), params);
 		}
 	}
@@ -81,17 +88,16 @@ public class TrackView extends TableLayout {
 		return trackRowViews;
 	}
 
-	public void setTrack(Track track, int beatsPerMinute) {
-		trackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4, beatsPerMinute);
-		initializeRows();
+	public void updateDataForTactPosition(int tactPosition) {
+		this.tactPosition = tactPosition;
+		for (int i = 0; i < ROW_COUNT; i++) {
+			NoteName noteName = NoteName.getNoteNameFromMidiValue(NoteName.C1.getMidi() + i);
+			trackRowViews.get(i).setTactPosition(tactPosition, trackGrid.getGridRowForNoteName(noteName));
+		}
 	}
 
 	public void updateGridRowPosition(NoteName noteName, int columnIndex, NoteLength noteLength, boolean toggled) {
-		trackGrid.updateGridRowPosition(noteName, columnIndex, noteLength, toggled);
-	}
-
-	public TrackGrid getTrackGrid() {
-		return trackGrid;
+		trackGrid.updateGridRowPosition(noteName, columnIndex, noteLength, tactPosition, toggled);
 	}
 
 	public void colorGridColumn(int column) {
@@ -108,11 +114,6 @@ public class TrackView extends TableLayout {
 			trackRowViews.get(i).getChildAt(column).setBackgroundColor(ContextCompat.getColor(getContext(),
 					noteColorId));
 		}
-	}
-
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		return !isClickable() || super.onInterceptTouchEvent(ev);
 	}
 
 	public void clearColorGridColumn(int column) {

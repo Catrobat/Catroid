@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ public class ZipTest extends AndroidTestCase {
 		testfile.getParentFile().mkdirs();
 		testfile.createNewFile();
 
-		String[] paths = { pathToTest };
+		String[] paths = {pathToTest};
 
 		String zipFileName = Constants.TMP_PATH + "/testzip" + Constants.CATROBAT_EXTENSION;
 		File zipFile = new File(zipFileName);

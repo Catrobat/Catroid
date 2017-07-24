@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,14 +44,16 @@ import java.io.File;
 
 public class SetLookActionTest extends InstrumentationTestCase {
 
-	private static final int IMAGE_FILE_ID = R.raw.icon;
-	private String projectName = "testProject";
-	private File testImage;
-	private Project project;
+	protected static final int IMAGE_FILE_ID = R.raw.icon;
+	protected String projectName = "testProject";
+	protected File testImage;
+	protected Project project;
+	protected Sprite sprite;
+	protected LookData firstLookData;
+	protected LookData secondLookData;
 
 	@Override
 	protected void setUp() throws Exception {
-
 		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 
 		if (projectFile.exists()) {
@@ -68,6 +70,20 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), bitmapOptions);
+
+		ScreenValues.SCREEN_HEIGHT = 200;
+		ScreenValues.SCREEN_WIDTH = 200;
+
+		sprite = new SingleSprite("new sprite");
+		project.getDefaultScene().addSprite(sprite);
+		firstLookData = new LookData();
+		firstLookData.setLookFilename(testImage.getName());
+		firstLookData.setLookName("first look");
+		secondLookData = new LookData();
+		secondLookData.setLookFilename(testImage.getName());
+		secondLookData.setLookName("second look");
+		sprite.getLookDataList().add(firstLookData);
+		sprite.getLookDataList().add(secondLookData);
 	}
 
 	@Override
@@ -84,20 +100,9 @@ public class SetLookActionTest extends InstrumentationTestCase {
 	}
 
 	public void testSetLook() {
-
-		ScreenValues.SCREEN_HEIGHT = 200;
-		ScreenValues.SCREEN_WIDTH = 200;
-
-		Sprite sprite = new SingleSprite("new sprite");
-		project.getDefaultScene().addSprite(sprite);
-		LookData lookData = new LookData();
-		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName("testImage");
-		sprite.getLookDataList().add(lookData);
-
 		ActionFactory factory = sprite.getActionFactory();
-		Action action = factory.createSetLookAction(sprite, lookData);
+		Action action = factory.createSetLookAction(sprite, firstLookData);
 		action.act(1.0f);
-		assertEquals("Action didn't set the LookData", lookData, sprite.look.getLookData());
+		assertEquals("Action didn't set the LookData", firstLookData, sprite.look.getLookData());
 	}
 }
