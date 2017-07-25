@@ -425,7 +425,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					return (double) instance.facePositionY;
 				}
 			case LOUDNESS:
-				return instance.loudness;
+				return (double) instance.loudness;
 			case DATE_YEAR:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			case DATE_MONTH:
