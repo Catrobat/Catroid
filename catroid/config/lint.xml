@@ -46,7 +46,7 @@
         <ignore regexp=".*/values-(?!de).*/strings.xml$"/>
         <ignore path="src/main/res/drawable-nodpi/icon.png" />
         <ignore path="**/google-services/**" />
-        <ignore regexp=".*/createatschool/res/values*/strings.xml$"/>
+
     </issue>
 
     <issue id="ImpliedQuantity" >
@@ -80,7 +80,7 @@
     </issue>
 
     <issue id="TypographyDashes">
-        <ignore regexp=".*/createatschool/res/values.*/strings.xml$"/>
+        <ignore regexp=".*/main/res/values-.*/strings.xml$"/>
     </issue>
 
     <issue id="AddJavascriptInterface">

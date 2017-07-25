@@ -271,7 +271,6 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="dialog_confirm_delete_object_message">Tuto operaci nelze vrátit!</string>
   <string name="select_all">Vyber vše</string>
   <string name="deselect_all">Zrušit výběr všech</string>
-  <string name="backpack_replace_object">Objekt \"%1$s\" už je v batohu. Chceš jej nahradit ?</string>
   <string name="backpack_replace_scene">Scéna \"%1$s\" již je v batohu. Chceš ji nahradit ?</string>
   <string name="backpack_replace_object_multiple">Objekty už jsou v batohu. Chceš je nahradit?</string>
   <string name="groups_create">Vytvořit skupinu</string>
@@ -336,7 +335,6 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="dialog_confirm_delete_multiple_looks_title">Smazat tyto vzhledy?</string>
   <string name="dialog_confirm_delete_look_message">Tuto operaci nelze vrátit!</string>
   <string name="lookname">Jméno vzhledu:</string>
-  <string name="backpack_replace_look">Vzhled \"%1$s\" již je v batohu. Chceš ho nahradit?</string>
   <string name="backpack_replace_look_multiple">Vzhledy již v batohu jsou. Chceš je nahradit?</string>
   <!--  -->
   <!-- Sound fragment -->

@@ -336,7 +336,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Elimina questi aspetti?</string>
   <string name="dialog_confirm_delete_look_message">Questa operazione non può essere annullata!</string>
   <string name="lookname">Nome dell\'aspetto:</string>
-  <string name="backpack_replace_look">L\'aspetto \"%1$s\" esiste già nello zaino. Sostituirlo?</string>
   <string name="backpack_replace_look_multiple">Aspetti già esistenti nello zaino. Sostituirli?</string>
   <!--  -->
   <!-- Sound fragment -->

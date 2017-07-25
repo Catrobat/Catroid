@@ -284,7 +284,6 @@
   <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
   <string name="select_all">Seleccionar todo</string>
   <string name="deselect_all">Deseleccionar todo</string>
-  <string name="backpack_replace_object">The object %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_scene">The scene %1$s already exists in the backpack. Do you want to replace
         it?</string>
   <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
