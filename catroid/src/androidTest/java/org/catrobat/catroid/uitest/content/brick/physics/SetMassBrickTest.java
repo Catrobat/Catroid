@@ -75,7 +75,7 @@ public class SetMassBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		float mass = 1.234f;
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_set_mass_edit_text, mass, Brick.BrickField.PHYSICS_GRAVITY_X.PHYSICS_MASS,
+				R.id.brick_set_mass_edit_text, mass, Brick.BrickField.PHYSICS_MASS,
 				setMassBrick);
 	}
 

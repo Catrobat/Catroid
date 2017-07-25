@@ -43,6 +43,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
@@ -64,7 +65,6 @@ import java.util.TreeMap;
 
 public class FormulaEditorCategoryListFragment extends ListFragment implements Dialog.OnKeyListener, CategoryListAdapter.OnListItemClickListener {
 
-	public static String flavoredTag = "ui.fragment.FormulaEditorCategoryListFragment";
 	public static String tag = FormulaEditorCategoryListFragment.class.getSimpleName();
 
 	public static final String OBJECT_TAG = "objectFragment";
@@ -306,7 +306,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		int item = getLegoPort(resultCode, data.getType().equals("NXT") ? true : false);
+		int item = getLegoPort(resultCode, data.getType().equals("NXT"));
 		if (formulaEditor != null && item != -1) {
 			formulaEditor.addResourceToActiveFormula(item);
 			formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
@@ -411,7 +411,14 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		Context context = this.getActivity().getApplicationContext();
 
 		FormulaEditorCategory category = new FormulaEditorCategory();
-		category.addHeader(getString(R.string.formula_editor_device));
+
+		if (BuildConfig.PHIRO_CODE && SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+			category.addHeader(getString(R.string.formula_editor_device_phiro));
+			category.addItems(PHIRO_SENSOR_ITEMS);
+			category.addParameters(createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
+		}
+
+		category.addHeader(getString(R.string.formula_editor_device_sensors));
 		category.addItems(DEFAULT_SENSOR_ITEMS);
 		category.addParameters(createEmptyParametersList(DEFAULT_SENSOR_ITEMS.length));
 
@@ -456,7 +463,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			category.addItems(EV3_SENSOR_ITEMS);
 		}
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (!BuildConfig.PHIRO_CODE && SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			category.addHeader(getString(R.string.formula_editor_device_phiro));
 			category.addItems(PHIRO_SENSOR_ITEMS);
 			category.addParameters(createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));

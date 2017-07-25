@@ -389,9 +389,9 @@ public final class UtilFile {
 	}
 
 	public static void deleteFile(String fileName) {
-		File zipFile = new File(fileName);
-		if (zipFile.exists()) {
-			zipFile.delete();
+		File file = new File(fileName);
+		if (file.exists()) {
+			file.delete();
 		}
 	}
 

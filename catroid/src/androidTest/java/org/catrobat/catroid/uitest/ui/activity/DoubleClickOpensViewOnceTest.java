@@ -492,11 +492,11 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		public void testBrickCategoryFragmentOnItemClick() {
 			View addButton = solo.getView(R.id.button_add);
 			solo.clickOnView(addButton);
-			solo.waitForFragmentByTag(BrickCategoryFragment.tag);
+			solo.waitForFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 
 			ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
 			BrickCategoryFragment brickCategoryFragment = (BrickCategoryFragment) activity.getFragmentManager()
-					.findFragmentByTag(BrickCategoryFragment.tag);
+					.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 			solo.sleep(250);
 			final OnItemClickListener onItemClickListener = brickCategoryFragment.getListView()
 					.getOnItemClickListener();
@@ -506,7 +506,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				protected void execute() {
 					onItemClickListener.onItemClick(null, null, 0, 0);
 				}
-			}, brickCategoryFragment.getId(), BrickCategoryFragment.tag);
+			}, brickCategoryFragment.getId(), BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 		}
 	}
 

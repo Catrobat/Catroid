@@ -20,27 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.phiro.ui.fragment;
 
-import android.os.Bundle;
+package org.catrobat.catroid.uiespresso.ui.activity.utils;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
+import android.support.test.espresso.DataInteraction;
 
-public class PhiroBrickCategoryFragment extends BrickCategoryFragment {
+import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.uiespresso.util.matchers.ProjectListMatchers;
+import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		initCategories();
-		super.onCreate(savedInstanceState);
+import static android.support.test.espresso.Espresso.onData;
+
+import static org.catrobat.catroid.uiespresso.util.matchers.ProjectListMatchers.withProjectName;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+
+public class ProjectListDataInteractionWrapper extends DataInteractionWrapper {
+
+	public ProjectListDataInteractionWrapper(DataInteraction dataInteraction) {
+		super(dataInteraction);
 	}
 
-	private void initCategories() {
-		brickCategories.clear();
-
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
-			brickCategories.add(R.layout.brick_category_phiro);
-		}
+	public static ProjectListDataInteractionWrapper onProjectWithName(String projectName) {
+		return new ProjectListDataInteractionWrapper(onData(
+				allOf(instanceOf(ProjectData.class), withProjectName(projectName)))
+				.inAdapterView(ProjectListMatchers.isProjectListView()));
 	}
 }

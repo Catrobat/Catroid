@@ -25,6 +25,8 @@ package org.catrobat.catroid.uitest.ui.menu;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.robotium.solo.Solo;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -55,7 +57,7 @@ public class LogoutLoginTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	public void testMenuItemVisibility() {
-		solo.sendKey(solo.MENU);
+		solo.sendKey(Solo.MENU);
 		assertFalse("Logout menu item visible although no user logged in yet", solo.searchText(solo.getString(R.string
 				.main_menu_logout)));
 		assertTrue("Login menu item not visible", solo.searchText(solo.getString(R.string
@@ -64,7 +66,7 @@ public class LogoutLoginTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.goBack();
 		UiTestUtils.createValidUser(getActivity());
 
-		solo.sendKey(solo.MENU);
+		solo.sendKey(Solo.MENU);
 		assertTrue("Logout menu item not visible after user logged in", solo.searchText(solo.getString(R.string
 				.main_menu_logout)));
 		assertFalse("Login menu visible despite user beeing logged in", solo.searchText(solo.getString(R.string
@@ -72,7 +74,7 @@ public class LogoutLoginTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_logout));
 		solo.sleep(2000);
-		solo.sendKey(solo.MENU);
+		solo.sendKey(Solo.MENU);
 		assertFalse("Logout menu item visible after user logged out", solo.searchText(solo.getString(R.string
 				.main_menu_logout)));
 

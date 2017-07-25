@@ -142,22 +142,18 @@ public class ScratchConversionManager implements ConversionManager {
 
 	private void closeAllActivities() {
 		if (!shutdown) {
-			Intent intent = null;
+			String className = "org.catrobat.catroid.ui.MainMenuActivity";
 			if (BuildConfig.CREATE_AT_SCHOOL) {
-				try {
-					intent = new Intent(currentActivity.getApplicationContext(), Class.forName("org.catrobat.catroid.createatschool.ui"
-							+ ".CreateAtSchoolMainMenuActivity"));
-				} catch (ClassNotFoundException e) {
-					Log.e(TAG, e.getMessage());
-				}
+				className = "org.catrobat.catroid.createatschool.ui.CreateAtSchoolMainMenuActivity";
 			} else if (BuildConfig.PHIRO_CODE) {
-				try {
-					intent = new Intent(currentActivity.getApplicationContext(), Class.forName("org.catrobat.catroid.phiro.ui"
-							+ ".PhiroMainMenuActivity"));
-				} catch (ClassNotFoundException e) {
-					Log.e(TAG, e.getMessage());
-				}
-			} else {
+				className = "org.catrobat.catroid.phiro.ui.PhiroMainMenuActivity";
+			}
+
+			Intent intent;
+
+			try {
+				intent = new Intent(currentActivity.getApplicationContext(), Class.forName(className));
+			} catch (ClassNotFoundException e) {
 				intent = new Intent(currentActivity.getApplicationContext(), MainMenuActivity.class);
 			}
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

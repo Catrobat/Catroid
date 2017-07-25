@@ -578,8 +578,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static void setNfcSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_SHOW_NFC_BRICKS, value);
-		editor.apply();
+		editor.putBoolean(SETTINGS_SHOW_NFC_BRICKS, value).apply();
 	}
 
 	public static boolean isRaspiSharedPreferenceEnabled(Context context) {

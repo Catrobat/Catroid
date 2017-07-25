@@ -52,7 +52,7 @@ public class PhiroFormulaEditorCategoryListFragment extends FormulaEditorCategor
 		Context context = this.getActivity().getApplicationContext();
 
 		FormulaEditorCategory category = new FormulaEditorCategory();
-		category.addHeader(getString(R.string.formula_editor_device));
+		category.addHeader(getString(R.string.formula_editor_device_sensors));
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			category.addHeader(getString(R.string.formula_editor_device_phiro));
@@ -60,7 +60,7 @@ public class PhiroFormulaEditorCategoryListFragment extends FormulaEditorCategor
 			category.addParameters(createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
 		}
 
-		category.addHeader(getString(R.string.formula_editor_device_general_device_sensors));
+		category.addHeader(getString(R.string.formula_editor_device_sensors));
 		category.addItems(DEFAULT_SENSOR_ITEMS);
 		category.addParameters(createEmptyParametersList(DEFAULT_SENSOR_ITEMS.length));
 

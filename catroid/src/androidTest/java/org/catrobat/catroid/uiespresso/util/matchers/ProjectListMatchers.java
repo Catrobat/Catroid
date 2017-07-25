@@ -27,65 +27,49 @@ import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 import android.widget.ListView;
 
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
-import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
+import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.ui.adapter.ProjectListAdapter;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public final class ScriptListMatchers {
-	private ScriptListMatchers() {
+public final class ProjectListMatchers {
+	private ProjectListMatchers() {
 		throw new AssertionError();
 	}
 
-	public static Matcher<View> isScriptListView() {
+	public static Matcher<View> isProjectListView() {
 		return new TypeSafeMatcher<View>() {
 
 			@Override
 			protected boolean matchesSafely(View view) {
-				return view instanceof BrickDragAndDropListView && ((ListView) view).getAdapter()
-						instanceof BrickAdapter;
+				return view instanceof ListView && ((ListView) view).getAdapter()
+						instanceof ProjectListAdapter;
 			}
 
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("ScriptListView");
+				description.appendText("ProjectListView");
 			}
 		};
 	}
 
-	public static Matcher<View> isBrickCategoryListView() {
-		return new TypeSafeMatcher<View>() {
-
-			@Override
-			protected boolean matchesSafely(View view) {
-				return view instanceof ListView && ((ListView) view).getAdapter() instanceof BrickCategoryAdapter;
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("BrickCategoryListView");
-			}
-		};
+	public static Matcher<Object> withProjectName(String expectedProjectName) {
+		return withProjectName(equalTo(expectedProjectName));
 	}
-
-	public static Matcher<Object> withBrickCategoryName(String expectedBrickCategoryName) {
-		return withBrickCategoryName(equalTo(expectedBrickCategoryName));
-	}
-	private static Matcher<Object> withBrickCategoryName(final Matcher<String> expectedBrickCategoryName) {
-		return new BoundedMatcher<Object, String>(String.class) {
+	private static Matcher<Object> withProjectName(final Matcher<String> expectedName) {
+		return new BoundedMatcher<Object, ProjectData>(ProjectData.class) {
 
 			@Override
-			public boolean matchesSafely(final String actualBrickCategoryName) {
-				return expectedBrickCategoryName.matches(actualBrickCategoryName);
+			public boolean matchesSafely(final ProjectData actualObject) {
+				return expectedName.matches(actualObject.projectName);
 			}
 
 			@Override
 			public void describeTo(final Description description) {
-				description.appendText("BrickCategory name matches");
+				description.appendText("project name matches");
 			}
 		};
 	}

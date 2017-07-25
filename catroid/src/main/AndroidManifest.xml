@@ -24,7 +24,8 @@
 
 <manifest package="org.catrobat.catroid"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:installLocation="auto">
+    android:installLocation="auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <supports-screens
         android:largeScreens="true"
@@ -81,7 +82,7 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <application
+    <application tools:replace="android:label"
         android:name=".CatroidApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"

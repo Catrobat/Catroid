@@ -564,7 +564,7 @@ public final class UiTestUtils {
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 
-		Formula formula = (Formula) theBrick.getFormulaWithBrickField(brickField);
+		Formula formula = theBrick.getFormulaWithBrickField(brickField);
 		formulaEditorString = ((TextView) solo.getView(editTextId)).getText().toString();
 		try {
 			assertEquals("Wrong text in field", newValue, formula.interpretString(sprite));

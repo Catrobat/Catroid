@@ -24,7 +24,6 @@
 package org.catrobat.catroid.phiro.ui;
 
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -33,8 +32,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorCategoryListFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
@@ -43,11 +40,11 @@ import java.io.IOException;
 
 public class PhiroMainMenuActivity extends MainMenuActivity {
 
-	private static final String PHIRO_INITIALIZED = "phiro_initialized";
+	public static final String PHIRO_INITIALIZED = "phiro_initialized";
 
 	private static final String TAG = PhiroMainMenuActivity.class.getSimpleName();
 
-	private String[] phiroProjects = {
+	public static String[] phiroProjects = {
 			"BETT dice phiro program",
 			"BETT DIRECTION DETECT",
 			"BETT DRIVE APP",
@@ -55,17 +52,6 @@ public class PhiroMainMenuActivity extends MainMenuActivity {
 			"phiro draw sequential mode",
 			"loudness control"
 	};
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		initPhiroFlavor();
-	}
-
-	private void initPhiroFlavor() {
-		BrickCategoryFragment.flavoredTag = "ui.fragment.PhiroBrickCategoryFragment";
-		FormulaEditorCategoryListFragment.flavoredTag = "ui.fragment.PhiroFormulaEditorCategoryListFragment";
-	}
 
 	@Override
 	protected void onResume() {

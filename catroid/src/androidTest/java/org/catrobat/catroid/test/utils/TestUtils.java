@@ -315,10 +315,7 @@ public final class TestUtils {
 			} catch (IOException ex) {
 				return false;
 			}
-			if (i == null) {
-				return false;
-			}
-			return true;
+			return i != null;
 		} catch (MalformedURLException e) {
 			return false;
 		}

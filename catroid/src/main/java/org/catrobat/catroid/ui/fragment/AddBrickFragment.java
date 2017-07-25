@@ -170,7 +170,7 @@ public class AddBrickFragment extends ListFragment {
 			}
 
 			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-			Fragment categoryFragment = getFragmentManager().findFragmentByTag(BrickCategoryFragment.flavoredTag);
+			Fragment categoryFragment = getFragmentManager().findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 			if (categoryFragment != null) {
 				fragmentTransaction.remove(categoryFragment);
 				getFragmentManager().popBackStack();

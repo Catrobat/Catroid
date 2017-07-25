@@ -50,8 +50,7 @@ import java.util.concurrent.locks.Lock;
 
 public class BrickCategoryFragment extends ListFragment {
 
-	public static String flavoredTag = "ui.fragment.BrickCategoryFragment";
-	public static String tag = BrickCategoryFragment.class.getSimpleName();
+	public static final String BRICK_CATEGORY_FRAGMENT_TAG = BrickCategoryFragment.class.getSimpleName();
 
 	private CharSequence previousActionBarTitle;
 	private OnCategorySelectedListener scriptFragment;
@@ -75,10 +74,13 @@ public class BrickCategoryFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		initBrickCategories();
-	}
 
-	private void initBrickCategories() {
+		brickCategories.clear();
+
+		if (BuildConfig.PHIRO_CODE && SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
+			brickCategories.add(R.layout.brick_category_phiro);
+		}
+
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_event);
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_event);
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_control);

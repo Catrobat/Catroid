@@ -27,65 +27,48 @@ import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 import android.widget.ListView;
 
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
-import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
+import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public final class ScriptListMatchers {
-	private ScriptListMatchers() {
+public final class FormulaEditorCategoryListMatchers {
+	private FormulaEditorCategoryListMatchers() {
 		throw new AssertionError();
 	}
 
-	public static Matcher<View> isScriptListView() {
+	public static Matcher<View> isFormulaEditorCategoryListView() {
 		return new TypeSafeMatcher<View>() {
 
 			@Override
 			protected boolean matchesSafely(View view) {
-				return view instanceof BrickDragAndDropListView && ((ListView) view).getAdapter()
-						instanceof BrickAdapter;
+				return view instanceof ListView && ((ListView) view).getAdapter()
+						instanceof CategoryListAdapter;
 			}
 
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("ScriptListView");
+				description.appendText("FormulaEditorCategoryListView");
 			}
 		};
 	}
 
-	public static Matcher<View> isBrickCategoryListView() {
-		return new TypeSafeMatcher<View>() {
-
-			@Override
-			protected boolean matchesSafely(View view) {
-				return view instanceof ListView && ((ListView) view).getAdapter() instanceof BrickCategoryAdapter;
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("BrickCategoryListView");
-			}
-		};
+	public static Matcher<Object> withFormulaEditorCategoryItemName(String expectedFormulaEditorCategoryItemName) {
+		return withFormulaEditorCategoryItemName(equalTo(expectedFormulaEditorCategoryItemName));
 	}
-
-	public static Matcher<Object> withBrickCategoryName(String expectedBrickCategoryName) {
-		return withBrickCategoryName(equalTo(expectedBrickCategoryName));
-	}
-	private static Matcher<Object> withBrickCategoryName(final Matcher<String> expectedBrickCategoryName) {
+	private static Matcher<Object> withFormulaEditorCategoryItemName(final Matcher<String> expectedFormulaEditorCategoryItemName) {
 		return new BoundedMatcher<Object, String>(String.class) {
 
 			@Override
-			public boolean matchesSafely(final String actualBrickCategoryName) {
-				return expectedBrickCategoryName.matches(actualBrickCategoryName);
+			public boolean matchesSafely(final String actualFormulaEditorCategoryItemName) {
+				return expectedFormulaEditorCategoryItemName.matches(actualFormulaEditorCategoryItemName);
 			}
 
 			@Override
 			public void describeTo(final Description description) {
-				description.appendText("BrickCategory name matches");
+				description.appendText("FormulaEditorCategoryItem name matches");
 			}
 		};
 	}

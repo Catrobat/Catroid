@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.createatschool.uitest.ui.fragment;
+package org.catrobat.catroid.uitest.ui.fragment;
 
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
@@ -32,7 +32,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.createatschool.ui.CreateAtSchoolMainMenuActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.TemplatesActivity;
@@ -47,7 +47,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
-public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<CreateAtSchoolMainMenuActivity> {
+public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private static final String TEMPLATE_ACTION_NAME = "Action";
 	private static final String TEMPLATE_ADVENTURE_NAME = "Adventure";
@@ -59,7 +59,7 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<C
 	private String localeToReset;
 
 	public TemplatesFragmentTest() {
-		super(CreateAtSchoolMainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -121,9 +121,8 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<C
 		openTemplatesFragment();
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 
-		solo.waitForActivity(CreateAtSchoolMainMenuActivity.class);
-		assertTrue("Did not return to CreateAtSchoolMainMenuActivity",
-				solo.getCurrentActivity() instanceof CreateAtSchoolMainMenuActivity);
+		solo.waitForActivity(MainMenuActivity.class);
+		assertTrue("Did not return to CreateAtSchoolMainMenuActivity", solo.getCurrentActivity() instanceof MainMenuActivity);
 	}
 
 	public void testSettingsOnlyVisibleInCreateAtSchoolMainMenuActivity() {

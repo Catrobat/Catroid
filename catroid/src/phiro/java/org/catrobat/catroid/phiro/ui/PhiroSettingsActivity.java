@@ -35,7 +35,7 @@ import org.catrobat.catroid.utils.TextSizeUtil;
 public class PhiroSettingsActivity extends SettingsActivity {
 
 	private static final String PHIRO_LINK = "phiro_preference_link";
-	private static final String SETTINGS_PHIRO_CATEGORY = "setting_phiro_bricks";
+	public static final String SETTINGS_PHIRO_CATEGORY = "setting_phiro_bricks";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

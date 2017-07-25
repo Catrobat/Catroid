@@ -389,8 +389,6 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		TrackingUtil.trackStartWebSessionExplore();
 
 		String url = Constants.FLAVORED_BASE_URL_HTTPS;
-		//TODO: check wo überall geflavored..
-		//TODO: check: google-services.json für phirocode + createatschool
 		url = Utils.addUsernameAndTokenInfoToUrl(url, this);
 		startWebViewActivity(url);
 	}

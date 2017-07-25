@@ -426,16 +426,16 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void showCategoryFragment() {
-		BrickCategoryFragment brickCategoryFragment = FragmentFactory.createBrickCategoryFragment(getActivity());
+		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setBrickAdapter(adapter);
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 		fragmentTransaction.add(R.id.fragment_container, brickCategoryFragment,
-				BrickCategoryFragment.tag);
+				BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 
-		fragmentTransaction.addToBackStack(BrickCategoryFragment.flavoredTag);
+		fragmentTransaction.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 		fragmentTransaction.commit();
 		SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_category);
 

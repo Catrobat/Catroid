@@ -106,6 +106,8 @@ android {
     }
 
     defaultConfig {
+        testApplicationId 'org.catrobat.catroid.test'
+
         manifestPlaceholders = [ appName: appName,
                                  launchActivity:"org.catrobat.catroid.ui.MainMenuActivity",
                                  applicationIdForTests:"org.catrobat.catroid"]
@@ -144,7 +146,6 @@ android {
             applicationId appId
             versionCode 9
 
-            buildConfigField "boolean", "DATA_TRACKING", "true"
             buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
 
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
@@ -163,7 +164,7 @@ android {
 
             manifestPlaceholders = [ appName: appName,
                                      launchActivity: "org.catrobat.catroid.phiro" +
-                    ".ui.PhiroMainMenuActivity", applicationIdForTests:"org.catrobat.catroid.phiro" ]
+                    ".ui.PhiroMainMenuActivity", applicationIdForTests:"org.catrobat.catroid" ]
         }
     }
 }
@@ -233,6 +234,10 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+
+    compile ('com.android.support.test.espresso:espresso-intents:2.2.2') {
         exclude group: 'com.android.support'
     }
 
@@ -317,4 +322,5 @@ task copyAndroidNatives() {
         }
     }
 }
+
 apply plugin: 'com.google.gms.google-services'

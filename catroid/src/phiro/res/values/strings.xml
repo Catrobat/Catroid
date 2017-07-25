@@ -24,5 +24,4 @@
 <resources>
     <string name="app_name">Phiro Code</string>
     <string name="phiro_preference_title">What is Phiro?</string>
-    <string name="formula_editor_device_general_device_sensors">General device sensors</string>
 </resources>

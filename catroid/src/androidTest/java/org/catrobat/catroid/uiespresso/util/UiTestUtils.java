@@ -75,6 +75,7 @@ public final class UiTestUtils {
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 		return project;
 	}
 
