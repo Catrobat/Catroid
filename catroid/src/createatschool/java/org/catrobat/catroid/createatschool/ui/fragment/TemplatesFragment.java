@@ -58,9 +58,7 @@ public class TemplatesFragment extends ListFragment implements TemplateAdapter.O
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_projects_list, container);
-		SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_templates);
-		return rootView;
+		return inflater.inflate(R.layout.fragment_projects_list, container);
 	}
 
 	@Override
@@ -72,6 +70,7 @@ public class TemplatesFragment extends ListFragment implements TemplateAdapter.O
 		}
 
 		DividerUtil.setDivider(getActivity(), getListView());
+		SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_templates);
 	}
 
 	@Override
