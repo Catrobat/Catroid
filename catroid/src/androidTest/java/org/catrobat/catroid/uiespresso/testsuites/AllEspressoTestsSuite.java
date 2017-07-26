@@ -62,6 +62,7 @@ import org.catrobat.catroid.uiespresso.content.brick.NextLookBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.NoteBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.PointInDirectionBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.RepeatBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.SceneTransmitionBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.SetBrightnessBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.SetColorBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.SetLookByIndexBrickTest;
@@ -90,6 +91,12 @@ import org.catrobat.catroid.uiespresso.stage.MultipleBroadcastsTest;
 import org.catrobat.catroid.uiespresso.stage.StageSimpleTest;
 import org.catrobat.catroid.uiespresso.ui.activity.SettingsActivityTest;
 import org.catrobat.catroid.uiespresso.ui.dialog.AboutDialogTest;
+import org.catrobat.catroid.uiespresso.ui.dialog.DeleteLookDialogTest;
+import org.catrobat.catroid.uiespresso.ui.dialog.DeleteSoundDialogTest;
+import org.catrobat.catroid.uiespresso.ui.dialog.DeleteSpriteDialogTest;
+import org.catrobat.catroid.uiespresso.ui.dialog.FormulaEditorComputeDialogTest;
+import org.catrobat.catroid.uiespresso.ui.dialog.RenameSpriteDialogTest;
+import org.catrobat.catroid.uiespresso.ui.dialog.TermsOfUseDialogTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -106,6 +113,7 @@ import org.junit.runners.Suite;
 		HideBrickTest.class,
 		ChangeTransparencyByNBrickTest.class,
 		SetRotationStyleBrickTest.class,
+		SceneTransmitionBrickTest.class,
 		DragNDropBricksTest.class,
 		GoNStepsBackTest.class,
 		RepeatBrickTest.class,
@@ -161,6 +169,12 @@ import org.junit.runners.Suite;
 		FormulaEditorKeyboardTest.class,
 		FormulaEditorTest.class,
 		SettingsActivityTest.class,
+		FormulaEditorComputeDialogTest.class,
+		RenameSpriteDialogTest.class,
+		DeleteSpriteDialogTest.class,
+		DeleteSoundDialogTest.class,
+		TermsOfUseDialogTest.class,
+		DeleteLookDialogTest.class,
 		AboutDialogTest.class
 })
 public class AllEspressoTestsSuite {
