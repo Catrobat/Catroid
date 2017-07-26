@@ -26,9 +26,8 @@ package org.catrobat.catroid.uiespresso.content.brick;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -39,15 +38,17 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import java.util.Arrays;
-import java.util.List;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class LegoEv3MotorTurnAngleBrickTest {
-
-	private static int brickPosition;
+public class AddItemToUserListTest {
+	private int brickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -56,36 +57,22 @@ public class LegoEv3MotorTurnAngleBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		int startAngle = 180;
-		BrickTestUtils.createProjectAndGetStartScript("LegoEv3MotorTurnAngleBrickTest")
-				.addBrick(new LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A, startAngle));
+		BrickTestUtils.createProjectAndGetStartScript("addItemToUserListTest").addBrick(new AddItemToUserListBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	@Flaky
-	public void legoEv3MotorTurnAngleBrickTest() {
-		int testAngle = 100;
-
-		onBrickAtPosition(0).checkShowsText("When program starts");
-		onBrickAtPosition(brickPosition).checkShowsText("Turn EV3 motor");
-
-		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_ev3_motor_turn_angle_spinner)
-				.checkShowsText(R.string.ev3_motor_a);
-
-		List<Integer> spinnerValuesResourceIds = Arrays.asList(
-				R.string.ev3_motor_a,
-				R.string.ev3_motor_b,
-				R.string.ev3_motor_c,
-				R.string.ev3_motor_d,
-				R.string.ev3_motor_b_and_c);
-
-		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_ev3_motor_turn_angle_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
-
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.ev3_motor_turn_angle_edit_text)
-				.performEnterNumber(testAngle)
-				.checkShowsNumber(testAngle);
+	public void testAddItemToUserListBrick() {
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_add_item_to_userlist);
+		onView(withId(R.id.brick_add_item_to_userlist_edit_text)).perform(click());
+		onView(withText("Data")).perform(click());
+		BrickTestUtils.createUserListFromDataFragment("newList", true);
+		pressBack();
+		pressBack();
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_add_item_to_userlist_edit_text)
+				.performEnterNumber(42)
+				.checkShowsNumber(42);
 	}
 }

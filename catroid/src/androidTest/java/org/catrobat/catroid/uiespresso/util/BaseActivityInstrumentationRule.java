@@ -113,7 +113,7 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 						return;
 					} catch (Throwable t) {
 						caughtThrowable = t;
-						Log.e(TAG, description.getDisplayName() + ": run " + (i + 1) + " failed");
+						Log.e(TAG, description.getDisplayName() + ": run " + (i + 1) + " failed", t);
 						if (getActivity() != null) {
 							getActivity().finish();
 						}

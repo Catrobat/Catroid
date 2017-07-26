@@ -77,10 +77,6 @@ public class LegoNxtMotorTurnAngleBrickTest {
 		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_motor_turn_angle_spinner)
 				.checkShowsText(R.string.nxt_motor_a);
 
-		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_motor_turn_angle_spinner)
-				.performSelect(R.string.nxt_motor_b)
-				.checkShowsText(R.string.nxt_motor_b);
-
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.nxt_motor_a,
 				R.string.nxt_motor_b,
