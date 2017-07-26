@@ -34,27 +34,46 @@ import org.catrobat.catroid.utils.CrashReporter;
 
 public class CrashReporterTest extends AndroidTestCase {
 
-	private Context context;
-	private SharedPreferences sharedPreferences;
-	private SharedPreferences.Editor editor;
+	private static Context context;
+	private static SharedPreferences sharedPreferences;
+	private static SharedPreferences.Editor editor;
 	private Exception exception;
 
 	@Override
 	public void setUp() {
+		exception = new RuntimeException("Error");
+		setUpMethod();
+	}
+
+	public static void setUpMethod() {
 		context = InstrumentationRegistry.getTargetContext();
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		editor = sharedPreferences.edit();
 		editor.clear();
 		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, true);
 		editor.commit();
-		exception = new RuntimeException("Error");
 		CrashReporter.setIsCrashReportEnabled(true);
 		CrashReporter.initialize(context);
 	}
 
+	public static Context findContext() {
+		return context;
+	}
+
+	public static SharedPreferences getSharedPreferences() {
+		return sharedPreferences;
+	}
+
+	public static SharedPreferences.Editor getEditor() {
+		return editor;
+	}
+
 	@Override
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		CrashReporter.setIsCrashReportEnabled(false);
+		editor.clear();
+		editor.commit();
+		super.tearDown();
 	}
 
 	public void testCrashlyticsUninitializedOnAnonymousReportDisabled() {

@@ -25,12 +25,10 @@ package org.catrobat.catroid.test.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.test.utils.CrashReporterTest;
 import org.catrobat.catroid.ui.BaseExceptionHandler;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.junit.Before;
 
@@ -46,14 +44,10 @@ public class BaseExceptionHandlerTest extends AndroidTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		context = InstrumentationRegistry.getTargetContext();
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		editor = sharedPreferences.edit();
-		editor.clear();
-		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, true);
-		editor.commit();
-		CrashReporter.setIsCrashReportEnabled(true);
-		CrashReporter.initialize(context);
+		CrashReporterTest.setUpMethod();
+		context = CrashReporterTest.findContext();
+		sharedPreferences = CrashReporterTest.getSharedPreferences();
+		editor = CrashReporterTest.getEditor();
 	}
 
 	@Override
