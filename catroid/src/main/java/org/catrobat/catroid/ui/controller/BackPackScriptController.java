@@ -29,6 +29,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -118,6 +119,11 @@ public final class BackPackScriptController {
 		for (Script backPackedScript : scriptsInGroup) {
 			Script newScript = backPackedScript.copyScriptForSprite(ProjectManager.getInstance().getCurrentSprite());
 			for (Brick brickOfScript : newScript.getBrickList()) {
+				if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+						&& CastManager.unsupportedBricks.contains(brickOfScript.getClass())) {
+					ToastUtil.showError(activity, R.string.error_unsupported_bricks_chromecast);
+					return;
+				}
 				handleBackPackedBricksWithAdditionalData(brickOfScript, deleteUnpackedItems);
 			}
 
