@@ -24,6 +24,7 @@ package org.catrobat.catroid.common;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,15 @@ public class BroadcastSequenceMap {
 			map = new HashMap<>();
 			broadcastSequenceMap.put(sceneName, map);
 		}
-		return map.put(key, values);
+		List<SequenceAction> actions = map.get(key);
+		if (actions == null) {
+			actions = new ArrayList<>();
+			map.put(key, actions);
+		}
+		for (SequenceAction value : values) {
+			actions.add(value);
+		}
+		return actions;
 	}
 
 	public void remove(String key, String sceneName) {
