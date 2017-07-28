@@ -32,8 +32,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
 
-import com.zed.bdsclient.controller.BDSClientController;
-
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -520,8 +518,10 @@ public final class TrackingUtil {
 		}
 
 		PreferenceManager.getDefaultSharedPreferences(context).edit().putLong(TrackingConstants.LOGIN_TIME, System.currentTimeMillis()).commit();
-		BDSClientController.getInstance().generateInitSessionEvent(ProjectManager.getInstance().getUserID(context),
-				System.currentTimeMillis(), null);
+
+		//TODO replace bdsclient SDK
+		Log.d(TAG, "TODO Track init session at " + System.currentTimeMillis()
+				+ " with userid " + ProjectManager.getInstance().getUserID(context));
 	}
 
 	static void trackLogoutEndSessionEvent(Context context) {
@@ -532,8 +532,9 @@ public final class TrackingUtil {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		long time = System.currentTimeMillis() - preferences.getLong(TrackingConstants.LOGIN_TIME, 0);
 		preferences.edit().remove(TrackingConstants.LOGIN_TIME).commit();
-		BDSClientController.getInstance().generateEndSessionEvent(ProjectManager.getInstance().getUserID(context), time,
-				System.currentTimeMillis(), null);
+
+		//TODO replace bdsclient SDK
+		Log.d(TAG, "TODO Track end session at " + time + " with userid " + ProjectManager.getInstance().getUserID(context));
 	}
 
 	private static void createJsonAndLogCustomEvent(String trackingMessage, List<Pair<String, String>> trackingData) {
@@ -558,8 +559,11 @@ public final class TrackingUtil {
 
 	private static void logCustomEvent(String eventName, JSONObject jsonObject) {
 		Context context = CatroidApplication.getAppContext();
-		BDSClientController.getInstance().generateCustomEvent(eventName,
-				ProjectManager.getInstance().getUserID(context), System.currentTimeMillis(), jsonObject);
+		//TODO replace bdsclient SDK
+		Log.d(TAG, "TODO Track custom event at " + System.currentTimeMillis()
+				+ " with userid " + ProjectManager.getInstance().getUserID(context)
+				+ " for event " + eventName
+				+ " and custom data: " + jsonObject);
 	}
 
 	private static void startTimer(String id) {
