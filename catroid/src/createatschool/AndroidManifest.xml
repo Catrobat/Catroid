@@ -27,7 +27,7 @@
     android:installLocation="auto">
 
     <application
-        android:name="org.catrobat.catroid.createatschool.CreateAtSchoolCatroidApplication"
+        android:name="org.catrobat.catroid.CatroidApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
