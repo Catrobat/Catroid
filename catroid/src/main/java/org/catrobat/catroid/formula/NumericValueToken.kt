@@ -21,25 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.catrobat.catroid.formula
 
-buildscript {
-    ext.kotlin_version = '1.1.3-2'
-    repositories {
-        jcenter()
-    }
+class NumericValueToken(val value: Double) : Token(Token.Type.VALUE) {
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.google.gms:google-services:3.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-
-allprojects {
-    repositories {
-        jcenter()
+    override fun getString(): String {
+        return value.toString() + " "
     }
 }

@@ -21,25 +21,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.catrobat.catroid.formula;
 
-buildscript {
-    ext.kotlin_version = '1.1.3-2'
-    repositories {
-        jcenter()
-    }
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.google.gms:google-services:3.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+public class Formula implements Serializable {
 
-allprojects {
-    repositories {
-        jcenter()
-    }
+	private List<Token> tokens = new ArrayList<>();
+
+	public Formula(double value) {
+		tokens.add(new NumericValueToken(value));
+	}
+
+	public Formula(List<Token> tokens) {
+		this.tokens = tokens;
+	}
+
+	public String getDisplayText() {
+		String formula = "";
+
+		for (Token token : tokens) {
+			formula += token.getString();
+		}
+
+		return formula.trim();
+	}
+
+	public List<Token> getTokens() {
+		return tokens;
+	}
 }
