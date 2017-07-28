@@ -21,25 +21,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.catrobat.catroid.formula
 
-buildscript {
-    ext.kotlin_version = '1.1.3-2'
-    repositories {
-        jcenter()
-    }
+abstract class OperatorToken(type : Type) : Token(type) {
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.google.gms:google-services:3.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+    abstract fun getPriority(): Int
 
-allprojects {
-    repositories {
-        jcenter()
+    class BracketOperator(type: Type) : OperatorToken(type) {
+
+        override fun getString(): String {
+            when (type) {
+                Type.LEFT_BRACKET -> return "( "
+                Type.RIGHT_BRACKET -> return ") "
+                else -> return ""
+            }
+        }
+
+        override fun getPriority(): Int {
+            return 0
+        }
     }
 }
