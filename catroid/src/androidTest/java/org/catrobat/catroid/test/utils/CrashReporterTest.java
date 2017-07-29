@@ -41,6 +41,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -159,6 +160,26 @@ public class CrashReporterTest {
 		CrashReporter.sendUnhandledCaughtException();
 
 		assertTrue(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
+	}
+
+	@Test
+	public void testUnhandledCaughtExceptionSentOnCrashReportEnabled() {
+		CrashReporter.storeUnhandledException(exception);
+
+		CrashReporter.sendUnhandledCaughtException();
+
+		verify(reporter, times(1)).logException(any(Exception.class));
+	}
+
+	@Test
+	public void testUnhandledCaughtExceptionSentOnCrashReportDisabled() {
+		CrashReporter.storeUnhandledException(exception);
+		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false);
+		editor.commit();
+
+		CrashReporter.sendUnhandledCaughtException();
+
+		verify(reporter, times(0)).logException(any(Exception.class));
 	}
 
 	@Test
