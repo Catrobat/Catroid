@@ -29,11 +29,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 
 public class JumpingSumoTakingPictureAction extends TemporalAction {
 
 	private ARDeviceController deviceController;
 	private JumpingSumoDeviceController controller;
+	private JumpingSumoInitializer download;
 	private static final String TAG = JumpingSumoTakingPictureAction.class.getSimpleName();
 
 	@Override
@@ -41,12 +43,18 @@ public class JumpingSumoTakingPictureAction extends TemporalAction {
 		super.begin();
 		controller = JumpingSumoDeviceController.getInstance();
 		deviceController = controller.getDeviceController();
+		download = JumpingSumoInitializer.getInstance();
 
 		if (deviceController != null) {
-			Log.d(TAG, "before picture was taken");
-			deviceController.getFeatureJumpingSumo().sendMediaRecordPicture((byte) 0);
-			Log.d(TAG, "picture taken");
+			download.takePicture();
+			Log.d(TAG, "Picture has been taken");
 		}
+	}
+
+	@Override
+	protected void end() {
+		super.end();
+		download.getLastFlightMedias();
 	}
 
 	@Override

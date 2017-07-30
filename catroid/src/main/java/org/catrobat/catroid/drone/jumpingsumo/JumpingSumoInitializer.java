@@ -25,6 +25,9 @@ package org.catrobat.catroid.drone.jumpingsumo;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -53,6 +56,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +116,7 @@ public class JumpingSumoInitializer {
 		if (checkRequirements()) {
 			jsDiscoverer.setup();
 			jsDiscoverer.addListener(discovererListener);
+			jsDiscoverer.addListenerPicture(pictureListener);
 		}
 	}
 
@@ -186,8 +191,32 @@ public class JumpingSumoInitializer {
 
 				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
 				controller.setDeviceController(deviceController);
+				jsDiscoverer.getInfoDevice(service);
 			}
 		}
+	};
+
+	public final JumpingSumoDiscoverer.ListenerPicture pictureListener = new  JumpingSumoDiscoverer.ListenerPicture() {
+		@Override
+		public void onPictureCount(int picCount) {
+		}
+
+		@Override
+		public void onMatchingMediasFound(int nbMedias) {
+		}
+		@Override
+		public void onDownloadProgressed(String mediaName, int progress) {
+		}
+
+		@Override
+		public void onDownloadComplete(String mediaName) {
+			Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+			File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/JumpingSumo/" + mediaName);
+			Uri contentUri = Uri.fromFile(f);
+			mediaScanIntent.setData(contentUri);
+			getAppContext().sendBroadcast(mediaScanIntent);
+		}
+
 	};
 
 	private ARDeviceController createDeviceController(@NonNull ARDiscoveryDevice discoveryDevice) {
@@ -250,6 +279,18 @@ public class JumpingSumoInitializer {
 			}
 		});
 		builder.show();
+	}
+
+	public void takePicture() {
+		if (deviceController != null) {
+			// JumpingSumo (not evo) are still using old deprecated command
+			deviceController.getFeatureJumpingSumo().sendMediaRecordPicture((byte) 0);
+		}
+	}
+
+	public void getLastFlightMedias() {
+		jsDiscoverer.notifyPic();
+		jsDiscoverer.download();
 	}
 
 	public static void showUnCancellableErrorDialog(final PreStageActivity context, String title, String message) {
