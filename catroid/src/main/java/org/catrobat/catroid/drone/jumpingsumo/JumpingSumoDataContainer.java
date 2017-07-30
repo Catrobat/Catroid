@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.drone.jumpingsumo;
 
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-
 public final class JumpingSumoDataContainer {
 
 	public static final String TAG = JumpingSumoDataContainer.class.getSimpleName();

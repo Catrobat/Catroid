@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.drone.jumpingsumo;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -36,15 +35,11 @@ import com.parrot.arsdk.ardiscovery.receivers.ARDiscoveryServicesDevicesListUpda
 import com.parrot.arsdk.ardiscovery.receivers.ARDiscoveryServicesDevicesListUpdatedReceiverDelegate;
 
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.parrot.arsdk.ardiscovery.ARDISCOVERY_PRODUCT_ENUM;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceNetService;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
-import com.parrot.arsdk.ardiscovery.ARDiscoveryService;
 import com.parrot.arsdk.arutils.ARUtilsException;
 import com.parrot.arsdk.arutils.ARUtilsFtpConnection;
 import com.parrot.arsdk.arutils.ARUtilsManager;
@@ -106,9 +101,9 @@ public class JumpingSumoDiscoverer {
 	private ServiceConnection ardiscoveryServiceConnection;
 	private final ARDiscoveryServicesDevicesListUpdatedReceiver ardiscoveryServicesDevicesListUpdatedReceiver;
 	private final List<ARDiscoveryDeviceService> matchingDrones;
-	private SDCardModule mSDCardModule;
-	private ARUtilsManager mFtpListManager;
-	private ARUtilsManager mFtpQueueManager;
+	private SDCardModule sdcardModule;
+	private ARUtilsManager ftplistModule;
+	private ARUtilsManager ftpqueueManager;
 	private static final int DEVICE_PORT = 21;
 
 	private boolean startDiscoveryAfterConnection = true;
@@ -250,36 +245,33 @@ public class JumpingSumoDiscoverer {
 			};
 
 	public void getInfoDevice(@NonNull ARDiscoveryDeviceService deviceService) {
-		try
-		{
-			mFtpListManager = new ARUtilsManager();
-			mFtpQueueManager = new ARUtilsManager();
-			String productIP = ((ARDiscoveryDeviceNetService)(deviceService.getDevice())).getIp();
+		try {
+			ftplistModule = new ARUtilsManager();
+			ftpqueueManager = new ARUtilsManager();
+			String productIP = ((ARDiscoveryDeviceNetService) (deviceService.getDevice())).getIp();
 
-			mFtpListManager.initWifiFtp(productIP, DEVICE_PORT, ARUtilsFtpConnection.FTP_ANONYMOUS, "");
-			mFtpQueueManager.initWifiFtp(productIP, DEVICE_PORT, ARUtilsFtpConnection.FTP_ANONYMOUS, "");
+			ftplistModule.initWifiFtp(productIP, DEVICE_PORT, ARUtilsFtpConnection.FTP_ANONYMOUS, "");
+			ftpqueueManager.initWifiFtp(productIP, DEVICE_PORT, ARUtilsFtpConnection.FTP_ANONYMOUS, "");
 
-			mSDCardModule = new SDCardModule(mFtpListManager, mFtpQueueManager);
-			mSDCardModule.addListener(mSDCardModuleListener);
-			notifyPictureCount(mSDCardModule.getPicCount());
-		}
-		catch (ARUtilsException e)
-		{
+			sdcardModule = new SDCardModule(ftplistModule, ftpqueueManager);
+			sdcardModule.addListener(sdcardModulelistener);
+			notifyPictureCount(sdcardModule.getPicCount());
+		} catch (ARUtilsException e) {
 			Log.e(TAG, "Exception", e);
 		}
 	}
 
 	public void download() {
-		mSDCardModule.getallFlightMedias();
+		sdcardModule.getallFlightMedias();
 	}
 
 	public void notifyPic() {
-		notifyPictureCount(mSDCardModule.getPicCount());
+		notifyPictureCount(sdcardModule.getPicCount());
 	}
 
 	public void onDeleteFile(String mediaName) {
-		mSDCardModule.deleteLastReceivedPic(mediaName);
-		notifyPictureCount(mSDCardModule.getPicCount());
+		sdcardModule.deleteLastReceivedPic(mediaName);
+		notifyPictureCount(sdcardModule.getPicCount());
 	}
 
 	private void notifyPictureCount(int picCount) {
@@ -297,20 +289,20 @@ public class JumpingSumoDiscoverer {
 	}
 
 	private void notifyDownloadProgressed(String mediaName, int progress) {
-		List<ListenerPicture>  listenersCpy = new ArrayList<>(mlistener);
+		List<ListenerPicture> listenersCpy = new ArrayList<>(mlistener);
 		for (ListenerPicture listener : listenersCpy) {
 			listener.onDownloadProgressed(mediaName, progress);
 		}
 	}
 
 	private void notifyDownloadComplete(String mediaName) {
-		List<ListenerPicture>  listenersCpy = new ArrayList<>(mlistener);
+		List<ListenerPicture> listenersCpy = new ArrayList<>(mlistener);
 		for (ListenerPicture listener : listenersCpy) {
 			listener.onDownloadComplete(mediaName);
 		}
 	}
 
-	private final SDCardModule.Listener mSDCardModuleListener = new SDCardModule.Listener() {
+	private final SDCardModule.Listener sdcardModulelistener = new SDCardModule.Listener() {
 		@Override
 		public void onMatchingMediasFound(final int nbMedias) {
 			handler.post(new Runnable() {

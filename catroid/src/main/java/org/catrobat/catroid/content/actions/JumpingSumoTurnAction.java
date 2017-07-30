@@ -49,7 +49,6 @@ public class JumpingSumoTurnAction extends TemporalAction {
 				deviceController.getFeatureJumpingSumo().sendPilotingPosture(ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_KICKER);
 				Log.d(TAG, "send turn command JS down");
 				position.setPostion(false);
-
 			} else {
 				deviceController.getFeatureJumpingSumo().sendPilotingPosture(ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_JUMPER);
 				Log.d(TAG, "send turn command JS up");
