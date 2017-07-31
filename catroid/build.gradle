@@ -103,7 +103,7 @@ android {
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
@@ -115,7 +115,7 @@ android {
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
         }
 
