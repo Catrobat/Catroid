@@ -401,7 +401,6 @@ public class SettingsActivity extends PreferenceActivity {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_CRASH_REPORTS, isEnabled);
 		editor.commit();
-
 		if (isEnabled) {
 			CrashReporter.initialize(context);
 		}

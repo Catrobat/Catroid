@@ -679,9 +679,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfoMap.put("setPenSizeBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetPenColorBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_RED);
-		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_GREEN);
-		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_BLUE);
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PEN_COLOR_RED);
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PEN_COLOR_GREEN);
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PEN_COLOR_BLUE);
 		brickInfoMap.put("setPenColorBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenGamepadButtonBrick.class.getSimpleName());
