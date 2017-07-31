@@ -35,6 +35,7 @@ public class JumpingSumoTurnAction extends TemporalAction {
 
 	private ARDeviceController deviceController;
 	private JumpingSumoDeviceController controller;
+	private float delay;
 	private static final String TAG = JumpingSumoTurnAction.class.getSimpleName();
 
 	@Override
@@ -49,10 +50,14 @@ public class JumpingSumoTurnAction extends TemporalAction {
 				deviceController.getFeatureJumpingSumo().sendPilotingPosture(ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_KICKER);
 				Log.d(TAG, "send turn command JS down");
 				position.setPostion(false);
+				delay = 1.0f;
+				super.setDuration(delay);
 			} else {
 				deviceController.getFeatureJumpingSumo().sendPilotingPosture(ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_JUMPER);
 				Log.d(TAG, "send turn command JS up");
 				position.setPostion(true);
+				delay = 1.0f;
+				super.setDuration(delay);
 			}
 		} else {
 			Log.d(TAG, "error: send turn command JS");
