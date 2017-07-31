@@ -212,6 +212,11 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		return defaultJumpingSumoProject;
 	}
 
+	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks
+			jumpingSumoBrick,	int xPosition, int yPosition, File lookFile) {
+		return createJumpingSumoSprite(spriteName, jumpingSumoBrick, xPosition, yPosition, lookFile, 0);
+	}
+
 	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks jumpingSumoBrick, int xPosition,
 			int yPosition, File lookFile, int timeInMilliseconds, byte powerInPercent, byte volumeInPercent, float
 			degree) {
