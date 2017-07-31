@@ -55,9 +55,9 @@ public final class JumpingSumoBrickFactory {
 			case JUMPING_SUMO_NO_SOUND:
 				return new JumpingSumoNoSoundBrick();
 			case JUMPING_SUMO_JUMP_HIGH:
-				return new JumpingSumoJumpLongBrick();
-			case JUMPING_SUMO_JUMP_LONG:
 				return new JumpingSumoJumpHighBrick();
+			case JUMPING_SUMO_JUMP_LONG:
+				return new JumpingSumoJumpLongBrick();
 			default:
 				return null;
 		}
