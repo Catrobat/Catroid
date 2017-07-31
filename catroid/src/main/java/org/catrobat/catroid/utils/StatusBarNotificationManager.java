@@ -40,6 +40,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.MainMenuActivity;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public final class StatusBarNotificationManager {
 	public static final String EXTRA_PROJECT_NAME = "projectName";
 	public static final int MAXIMUM_PERCENT = 100;
@@ -49,8 +51,9 @@ public final class StatusBarNotificationManager {
 	public static final String ACTION_CANCEL_UPLOAD = "cancel_upload";
 
 	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
+	private AtomicInteger uniqueNotificationIdCounter = new AtomicInteger(0);
 
-	private int notificationId;
+	private int notificationId = getUniqueNotificationId();
 	private SparseArray<NotificationData> notificationDataMap = new SparseArray<NotificationData>();
 	private Context context;
 	private NotificationManager notificationManager;
@@ -146,7 +149,6 @@ public final class StatusBarNotificationManager {
 
 		data.setNotificationBuilder(notificationBuilder);
 		notificationDataMap.put(notificationId, data);
-
 		return notificationId++;
 	}
 
@@ -330,5 +332,9 @@ public final class StatusBarNotificationManager {
 			Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 			sendBroadcast(it);
 		}
+	}
+
+	public int getUniqueNotificationId() {
+		return uniqueNotificationIdCounter.incrementAndGet();
 	}
 }
