@@ -175,6 +175,7 @@ dependencies {
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.github.billthefarmer:mididriver:v1.13'
 
     compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
     compile fileTree(include: '*.jar', dir: 'src/main/libs')

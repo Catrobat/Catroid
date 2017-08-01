@@ -108,7 +108,7 @@ public class NoteNameTest extends AndroidTestCase {
 	}
 
 	public void testGetNoteNameFromMidiValue4() {
-		NoteName expectedNoteName = NoteName.C4;
+		NoteName expectedNoteName = NoteName.DEFAULT_NOTE_NAME;
 
 		NoteName actualNoteName = NoteName.getNoteNameFromMidiValue(1337);
 
