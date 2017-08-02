@@ -1240,14 +1240,6 @@
     <string name="sound_robot">Robot</string>
     <string name="sound_insect">Insect</string>
     <string name="sound_monster">Monster</string>
-    <!--  -->
-
-    <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
-    <!--  -->
 
     <!-- Phiro bricks -->
     <!-- motor -->
