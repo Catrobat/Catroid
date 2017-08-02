@@ -49,7 +49,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	private transient Motor motorEnum;
 	private transient TextView editSpeed;
 
-	public static enum Motor {
+	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C
 	}
 
@@ -106,11 +106,6 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new LegoEv3MotorMoveBrick(motorEnum, getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED).clone());
-	}
-
-	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_SPEED);
 	}
@@ -151,7 +146,9 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
 
 		return view;

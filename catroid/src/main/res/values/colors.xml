@@ -31,6 +31,7 @@
     <color name="application_background_color">#04222C</color>
     <color name="transparent">#00000000</color>
     <color name="formula_editor_keyboard_text_color">#A8DFF4</color>
+    <color name="formula_editor_intro_heading_color">#FF6600</color>
     <color name="list_item_thumbnail_border_color">#A8DFF4</color>
     <color name="button_background_gradient_start_color">#00475E</color>
     <color name="button_background_gradient_end_color">#003F54</color>
@@ -102,9 +103,9 @@
     <color name="turquoise_play_line">#FF008b96</color>
     <color name="opaque_turquoise_play_line">#FF80c5ca</color>
     <color name="opaque_turquoise_play_line_dark">#FF5EA3A8</color>
-    <color name="pocketmusic_even_bright">#FAFAFA</color>
+    <color name="pocketmusic_odd_bright">#FAFAFA</color>
+    <color name="pocketmusic_even_bright">#E0E0E0</color>
+    <color name="pocketmusic_odd_dusk">#E0E0E0</color>
     <color name="pocketmusic_even_dusk">#BDBDBD</color>
-    <color name="pocketmusic_odd_bright">#EEEEEE</color>
-    <color name="pocketmusic_odd_dusk">#757575</color>
 
 </resources>

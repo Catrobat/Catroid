@@ -31,7 +31,11 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.993f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.994f);
+
+	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
+	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
+	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
@@ -52,8 +56,8 @@ public final class Constants {
 	public static final char REMIX_URL_REPLACE_SEPARATOR = ';';
 
 	//Extensions:
-	public static final String[] IMAGE_EXTENSIONS = { ".png", ".jpg", ".jpeg", ".png", ".gif" };
-	public static final String[] SOUND_EXTENSIONS = { ".wav", ".mp3", ".mpga", ".wav", ".ogy" };
+	public static final String[] IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
+	public static final String[] SOUND_EXTENSIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
@@ -212,6 +216,8 @@ public final class Constants {
 	public static final float COLLISION_POLYGON_CREATION_EPSILON = 10.0f;
 	public static final String COLLISION_POLYGON_METADATA_PATTERN = "((((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+))\\|)*((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+)";
 	public static final float COLLISION_WITH_FINGER_TOUCH_RADIUS = 50;
+
+	public static final int CAST_IDLE_BACKGROUND_COLOR = 0x66000000;
 
 	// background sprite is always on index 0
 	public static final int Z_INDEX_BACKGROUND = 0;

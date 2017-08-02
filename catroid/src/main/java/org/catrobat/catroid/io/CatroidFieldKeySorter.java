@@ -28,6 +28,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.FieldKey;
 import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
 
+import org.catrobat.catroid.utils.CrashReporter;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -65,7 +67,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		return null;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private Map sortByList(final List<String> fieldOrder, final Map keyedByFieldKey) {
 		checkMissingSerializableField(fieldOrder, keyedByFieldKey.entrySet());
 		final Map map = new TreeMap(new Comparator() {
@@ -100,7 +102,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		return !Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private Map sortAlphabeticallyByClassHierarchy(final Map keyedByFieldKey) {
 		final Map map = new TreeMap(new Comparator() {
 			@Override
@@ -133,6 +135,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 			}
 		} catch (SecurityException | NoSuchFieldException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
+			CrashReporter.logException(exception);
 		}
 		return fieldName;
 	}

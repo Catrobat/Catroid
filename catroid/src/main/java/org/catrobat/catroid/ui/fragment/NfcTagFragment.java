@@ -669,7 +669,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 					BottomBar.showAddButton(getActivity());
 					return true;
 				}
-			default:
 				break;
 		}
 		return false;

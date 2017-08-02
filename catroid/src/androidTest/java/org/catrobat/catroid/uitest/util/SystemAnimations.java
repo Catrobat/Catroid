@@ -74,7 +74,7 @@ class SystemAnimations {
 			for (int i = 0; i < currentScales.length; i++) {
 				currentScales[i] = animationScale;
 			}
-			setAnimationScales.invoke(windowManagerObj, new Object[] { currentScales });
+			setAnimationScales.invoke(windowManagerObj, new Object[] {currentScales});
 		} catch (Exception e) {
 			Log.e(TAG, "Could not change animation scale to " + animationScale + " :'(");
 		}

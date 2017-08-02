@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -49,7 +48,7 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	private transient Motor motorEnum;
 	private transient TextView editSpeed;
 
-	public static enum Motor {
+	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C, MOTOR_ALL
 	}
 
@@ -99,14 +98,7 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
 		legoSpinner.setAdapter(motorAdapter);
 		legoSpinner.setSelection(motorEnum.ordinal());
-		legoSpinner.setGravity(Gravity.CENTER);
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new LegoEv3MotorTurnAngleBrick(motorEnum,
-				getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES).clone());
 	}
 
 	@Override
@@ -152,9 +144,10 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
-		motorSpinner.setGravity(Gravity.CENTER);
 
 		return view;
 	}

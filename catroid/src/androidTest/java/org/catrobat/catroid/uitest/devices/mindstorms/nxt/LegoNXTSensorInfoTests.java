@@ -67,7 +67,7 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 	private void setSensors(NXTSensor.Sensor sensor) {
 		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getInstrumentation().getTargetContext(),
-				new NXTSensor.Sensor[] { sensor, sensor, sensor, sensor });
+				new NXTSensor.Sensor[] {sensor, sensor, sensor, sensor});
 	}
 
 	public void testNXTSensorInfoDialog() throws InterruptedException {

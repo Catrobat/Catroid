@@ -118,7 +118,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
 
 		int expectedPolynoms = 1;
-		int[] expectedVertices = { 4 };
+		int[] expectedVertices = {4};
 		checkBuiltShapes(shapes, expectedPolynoms, expectedVertices);
 	}
 

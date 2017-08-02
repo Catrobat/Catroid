@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.Project;
@@ -53,9 +54,13 @@ public class PocketMusicActivity extends BaseActivity {
 
 	private Project project;
 	private TactScrollRecyclerView tactScroller;
+
+	private MidiNotePlayer midiDriver;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		midiDriver = new MidiNotePlayer();
 
 		String fileName = getIntent().getStringExtra("FILENAME");
 		String title = getIntent().getStringExtra("TITLE");
@@ -66,9 +71,11 @@ public class PocketMusicActivity extends BaseActivity {
 				SoundInfo soundInfo = new SoundInfo();
 				soundInfo.setSoundFileName(fileName);
 
-				project = converter.convertMidiFileToProject(new File(soundInfo.getAbsolutePath()));
-				project.setFileName(fileName);
-				project.setName(title);
+				if (null != ProjectManager.getInstance().getCurrentProject()) {
+					project = converter.convertMidiFileToProject(new File(soundInfo.getAbsolutePath()));
+					project.setFileName(fileName);
+					project.setName(title);
+				}
 			} catch (MidiException | IOException ignored) {
 			}
 		}
@@ -92,7 +99,7 @@ public class PocketMusicActivity extends BaseActivity {
 			soundInfo.setTitle(project.getName());
 			soundInfo.setSoundFileName(project.getFileName());
 		} else {
-			soundInfo.setTitle(getString(R.string.pocketmusic_recorded_filename));
+			soundInfo.setTitle(getString(R.string.music_recorded_filename));
 
 			Random randomGenerator = new Random();
 			soundInfo.setSoundFileName("MUS-" + Math.abs(randomGenerator.nextInt()) + ".midi");
@@ -158,5 +165,21 @@ public class PocketMusicActivity extends BaseActivity {
 		project.putTrack("Track 1", track);
 
 		return project;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (midiDriver != null) {
+			midiDriver.start();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (midiDriver != null) {
+			midiDriver.stop();
+		}
 	}
 }

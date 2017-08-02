@@ -445,7 +445,7 @@ public class ScriptActivity extends BaseActivity {
 				currentFragment.startBackPackActionMode();
 			}
 		} else {
-			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpack) };
+			items = new CharSequence[] {getString(R.string.packing), getString(R.string.unpack)};
 
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 				@Override

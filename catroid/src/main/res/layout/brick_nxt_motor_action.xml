@@ -65,6 +65,7 @@
                     android:id="@+id/lego_motor_action_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:clickable="false"
                     android:focusable="false" >
 

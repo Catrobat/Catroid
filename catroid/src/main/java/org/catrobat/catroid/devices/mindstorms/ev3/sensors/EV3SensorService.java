@@ -171,7 +171,7 @@ public class EV3SensorService implements CatroidService, SharedPreferences.OnSha
 	private static class SensorValueUpdater implements Runnable {
 		private EV3Sensor sensor;
 
-		public SensorValueUpdater(EV3Sensor sensor) {
+		SensorValueUpdater(EV3Sensor sensor) {
 			this.sensor = sensor;
 		}
 
@@ -190,7 +190,7 @@ public class EV3SensorService implements CatroidService, SharedPreferences.OnSha
 			public ScheduledFuture scheduledFuture;
 			public EV3Sensor sensor;
 
-			public SensorTuple(ScheduledFuture scheduledFuture, EV3Sensor sensor) {
+			SensorTuple(ScheduledFuture scheduledFuture, EV3Sensor sensor) {
 				this.scheduledFuture = scheduledFuture;
 				this.sensor = sensor;
 			}

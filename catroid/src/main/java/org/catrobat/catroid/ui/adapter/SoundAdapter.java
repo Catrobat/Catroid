@@ -45,7 +45,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivity
 
 	private SoundFragment soundFragment;
 
-	private HashMap<SoundInfo, Integer> idMap = new HashMap<SoundInfo, Integer>();
+	private HashMap<SoundInfo, Integer> idMap = new HashMap<>();
 
 	public SoundAdapter(final Context context, int resource, int textViewResourceId, List<SoundInfo> items,
 			boolean showDetails) {

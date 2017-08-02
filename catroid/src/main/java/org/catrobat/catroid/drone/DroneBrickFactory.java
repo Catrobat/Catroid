@@ -59,7 +59,7 @@ public final class DroneBrickFactory {
 	}
 
 	public static BrickBaseType getInstanceOfDroneBrick(DroneBricks brick, int timeInMilliseconds,
-														int powerInPercent) {
+			int powerInPercent) {
 
 		switch (brick) {
 			case DRONE_TAKE_OFF_LAND_BRICK:

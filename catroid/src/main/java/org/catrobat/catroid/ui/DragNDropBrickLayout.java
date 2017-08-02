@@ -581,7 +581,7 @@ public class DragNDropBrickLayout extends BrickLayout {
 		public int width;
 		public int height;
 
-		public WeirdFloatingWindowData(View view, int width, int height) {
+		WeirdFloatingWindowData(View view, int width, int height) {
 			this.view = view;
 			this.width = width;
 			this.height = height;

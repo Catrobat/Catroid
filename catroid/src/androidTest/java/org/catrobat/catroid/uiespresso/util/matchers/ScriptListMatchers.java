@@ -33,7 +33,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 public final class ScriptListMatchers {
-	// Suppress default constructor for noninstantiability
 	private ScriptListMatchers() {
 		throw new AssertionError();
 	}
@@ -49,7 +48,7 @@ public final class ScriptListMatchers {
 
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("Locate scriptlistView within view");
+				description.appendText("ScriptlistView");
 			}
 		};
 	}

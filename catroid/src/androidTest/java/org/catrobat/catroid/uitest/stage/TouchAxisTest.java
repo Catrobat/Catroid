@@ -70,7 +70,7 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, 100);
 		solo.sleep(500);
 
-		byte[] blackPixel = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
+		byte[] blackPixel = {(byte) 0, (byte) 0, (byte) 0, (byte) 255};
 		byte[] screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, 100, 1, 1);
 
 		Log.d(TAG, "width: " + ScreenValues.SCREEN_WIDTH / 2);

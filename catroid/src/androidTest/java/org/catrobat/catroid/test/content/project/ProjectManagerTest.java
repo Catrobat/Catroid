@@ -45,9 +45,9 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.formulaeditor.BaseDataContainer;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.BaseDataContainer;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -90,7 +90,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Context context = getInstrumentation().getContext().createPackageContext(
 				getInstrumentation().getTargetContext().getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
 
-		projectManager.initializeNewProject(projectNameOne, context, false, false, false);
+		projectManager.initializeNewProject(projectNameOne, context, false, false, false, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
@@ -149,7 +149,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Context context = getInstrumentation().getContext().createPackageContext(
 				getInstrumentation().getTargetContext().getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
 
-		projectManager.initializeNewProject(projectNameOne, context, true, false, false);
+		projectManager.initializeNewProject(projectNameOne, context, true, false, false, false);
 		Project currentProject = projectManager.getCurrentProject();
 		assertNotNull("no current project set", currentProject);
 

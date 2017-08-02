@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -51,7 +50,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	private transient Motor motorEnum;
 	private transient TextView editSpeed;
 
-	public static enum Motor {
+	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C
 	}
 
@@ -102,13 +101,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 		legoSpinner.setAdapter(motorAdapter);
 		legoSpinner.setSelection(motorEnum.ordinal());
-		legoSpinner.setGravity(Gravity.CENTER);
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new LegoNxtMotorMoveBrick(motorEnum, getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).clone());
 	}
 
 	@Override
@@ -151,9 +144,10 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 				// TODO Auto-generated method stub
 			}
 		});
-
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
-		motorSpinner.setGravity(Gravity.CENTER);
 
 		return view;
 	}

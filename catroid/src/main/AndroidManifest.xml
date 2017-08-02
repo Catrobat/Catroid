@@ -84,7 +84,7 @@
         android:name=".CatroidApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="${appName}"
         android:theme="@style/Theme.Catroid"
         android:supportsRtl="true">
 
@@ -95,7 +95,7 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
+            android:label="${appName}"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
@@ -235,7 +235,7 @@
             android:name=".pocketmusic.PocketMusicActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:label="@string/add_sound_pocketmusic"
+            android:label="@string/add_sound_music"
             android:icon="@drawable/ic_pocketmusic"/>
 
         <service android:name=".transfers.ProjectUploadService" />
@@ -243,6 +243,7 @@
         <service android:name=".transfers.MediaDownloadService" />
         <service android:name="com.parrot.freeflight.service.DroneControlService" />
         <service android:name=".utils.StatusBarNotificationManager$NotificationActionService" />
+        <service android:name=".cast.CastService" android:exported="false"/>
 
     </application>
 </manifest>

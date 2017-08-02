@@ -187,7 +187,7 @@ public final class DownloadUtil {
 
 	@SuppressLint("ParcelCreator")
 	private class DownloadProjectReceiver extends ResultReceiver {
-		public DownloadProjectReceiver(Handler handler) {
+		DownloadProjectReceiver(Handler handler) {
 			super(handler);
 		}
 
@@ -220,7 +220,7 @@ public final class DownloadUtil {
 
 	@SuppressLint("ParcelCreator")
 	private class DownloadMediaReceiver extends ResultReceiver {
-		public DownloadMediaReceiver(Handler handler) {
+		DownloadMediaReceiver(Handler handler) {
 			super(handler);
 		}
 

@@ -171,7 +171,7 @@ public class SetNfcTagBrick extends FormulaBrick {
 		protected Context context;
 		protected ArrayAdapter<String> spinnerAdapter;
 
-		public SpinnerAdapterWrapper(Context context, ArrayAdapter<String> spinnerAdapter) {
+		SpinnerAdapterWrapper(Context context, ArrayAdapter<String> spinnerAdapter) {
 			this.context = context;
 			this.spinnerAdapter = spinnerAdapter;
 		}

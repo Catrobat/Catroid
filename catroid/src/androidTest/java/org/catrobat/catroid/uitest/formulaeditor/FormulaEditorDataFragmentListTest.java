@@ -94,7 +94,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 
 		AddItemToUserListBrick addItemToUserListBrick = new AddItemToUserListBrick(new Formula(ADD_VALUE_TO_LIST),
 				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
-						.getUserList(USER_LIST_NAME, firstSprite)
+						.getUserList(firstSprite, USER_LIST_NAME)
 		);
 
 		Script startScript1 = new StartScript();

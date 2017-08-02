@@ -30,12 +30,12 @@ import org.catrobat.catroid.content.Sprite;
 
 public class SetLookAction extends Action {
 
-	private LookData look;
-	private Sprite sprite;
+	protected LookData look;
+	protected Sprite sprite;
 
-	private boolean wait = false;
-	private boolean setLookDone = false;
-	private boolean scriptsAreCompleted = false;
+	protected boolean wait = false;
+	protected boolean setLookDone = false;
+	protected boolean scriptsAreCompleted = false;
 
 	protected void doLookUpdate() {
 		if (wait) {

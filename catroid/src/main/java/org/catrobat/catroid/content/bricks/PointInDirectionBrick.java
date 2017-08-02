@@ -44,12 +44,12 @@ public class PointInDirectionBrick extends FormulaBrick {
 
 	private transient View prototypeView;
 
-	public static enum Direction {
+	public enum Direction {
 		RIGHT(90), LEFT(-90), UP(0), DOWN(180);
 
 		private double directionDegrees;
 
-		private Direction(double degrees) {
+		Direction(double degrees) {
 			directionDegrees = degrees;
 		}
 

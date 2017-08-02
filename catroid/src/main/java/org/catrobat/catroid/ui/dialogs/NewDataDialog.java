@@ -45,9 +45,9 @@ import android.widget.Spinner;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -61,7 +61,7 @@ public class NewDataDialog extends DialogFragment {
 	DialogType dialogType = DialogType.SHOW_LIST_CHECKBOX;
 	private int spinnerPositionIfCancel;
 
-	public static enum DialogType {
+	public enum DialogType {
 		SHOW_LIST_CHECKBOX, USER_LIST, USER_VARIABLE
 	}
 
@@ -313,10 +313,10 @@ public class NewDataDialog extends DialogFragment {
 
 		if (global.isChecked()) {
 			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-			return !currentData.existListInAnySprite(name, sprites) && !currentData.existProjectListWithName(name);
+			return !currentData.existListInAnySprite(sprites, name) && !currentData.existProjectListWithName(name);
 		} else {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			return !currentData.existProjectListWithName(name) && !currentData.existSpriteListByName(name, currentSprite);
+			return !currentData.existProjectListWithName(name) && !currentData.existSpriteListByName(currentSprite, name);
 		}
 	}
 
@@ -327,10 +327,10 @@ public class NewDataDialog extends DialogFragment {
 
 		if (global.isChecked()) {
 			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-			return !currentData.existVariableInAnySprite(name, sprites) && !currentData.existProjectVariableWithName(name);
+			return !currentData.variableExistsInAnySprite(sprites, name) && !currentData.existProjectVariableWithName(name);
 		} else {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			return !currentData.existProjectVariableWithName(name) && !currentData.existSpriteVariableByName(name, currentSprite);
+			return !currentData.existProjectVariableWithName(name) && !currentData.spriteVariableExistsByName(currentSprite, name);
 		}
 	}
 

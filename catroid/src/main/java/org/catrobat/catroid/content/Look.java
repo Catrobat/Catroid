@@ -46,12 +46,15 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static final float COLOR_SCALE = 200.0f;
-	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
+	private static ArrayList<Action> actionsToRestart = new ArrayList<>();
 	private boolean lookVisible = true;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
@@ -103,7 +106,7 @@ public class Look extends Image {
 		this.addListener(new BroadcastListener() {
 			@Override
 			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastEvent(broadcastMessage);
+				doHandleBroadcastEvent(event.getSenderSprite(), broadcastMessage);
 			}
 
 			@Override
@@ -182,7 +185,7 @@ public class Look extends Image {
 			super.setVisible(true);
 		}
 
-		if (lookData instanceof DroneVideoLookData && lookData != null) {
+		if (lookData instanceof DroneVideoLookData) {
 			lookData.draw(batch, alpha);
 		}
 
@@ -523,7 +526,7 @@ public class Look extends Image {
 		if (val < 0) {
 			val = COLOR_SCALE + val;
 		}
-		hue = ((float) val) / COLOR_SCALE;
+		hue = val / COLOR_SCALE;
 		colorChanged = true;
 		imageChanged = true;
 	}
@@ -556,8 +559,8 @@ public class Look extends Image {
 		return breakDownCatroidAngle(catroidAngle);
 	}
 
-	protected void doHandleBroadcastEvent(String broadcastMessage) {
-		BroadcastHandler.doHandleBroadcastEvent(this, broadcastMessage);
+	protected void doHandleBroadcastEvent(Sprite senderSprite, String broadcastMessage) {
+		BroadcastHandler.doHandleBroadcastEvent(this, senderSprite, broadcastMessage);
 	}
 
 	protected void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
@@ -616,7 +619,7 @@ public class Look extends Image {
 		private static final String CONTRAST_STRING_IN_SHADER = "contrast";
 		private static final String HUE_STRING_IN_SHADER = "hue";
 
-		public BrightnessContrastHueShader() {
+		BrightnessContrastHueShader() {
 			super(VERTEX_SHADER, FRAGMENT_SHADER);
 			ShaderProgram.pedantic = false;
 			if (isCompiled()) {
@@ -639,6 +642,13 @@ public class Look extends Image {
 			setUniformf(HUE_STRING_IN_SHADER, hue);
 			end();
 		}
+	}
+
+	public Map<String, List<String>> createScriptActions() {
+		this.setWhenParallelAction(null);
+		Map<String, List<String>> scriptActions = new HashMap<>();
+		sprite.createStartScriptActionSequenceAndPutToMap(scriptActions, false);
+		return scriptActions;
 	}
 
 	public Polygon[] getCurrentCollisionPolygon() {

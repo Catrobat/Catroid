@@ -38,6 +38,7 @@ import java.io.IOException;
 
 public final class UtilCamera {
 	private static final String TAG = UtilCamera.class.getSimpleName();
+
 	// Suppress default constructor for noninstantiability
 	private UtilCamera() {
 		throw new AssertionError();

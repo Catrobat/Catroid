@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.soundrecorder;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 
+@SuppressLint("AppCompatCustomView")
 public class RecordButton extends ImageButton {
 	private RecordState state = RecordState.STOP;
 

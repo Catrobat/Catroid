@@ -29,11 +29,14 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -53,15 +56,18 @@ public class AboutDialogTest {
 			BaseActivityInstrumentationRule<>(MainMenuActivity.class);
 
 	@Before
-	public void registerIdlingResource() {
+	public void setUp() throws Exception {
+		baseActivityTestRule.launchActivity(null);
+
 		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
 		Espresso.registerIdlingResources(idlingResource);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void aboutDialogTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-		onView(withText(R.string.main_menu_about_pocketcode)).perform(click());
+		onView(withText(R.string.main_menu_about)).perform(click());
 
 		onView(withText(R.string.dialog_about_title))
 				.check(matches(isDisplayed()));
@@ -69,7 +75,7 @@ public class AboutDialogTest {
 		onView(withText(R.string.dialog_about_license_info))
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_about_pocketcode_license_link_text))
+		onView(withText(R.string.dialog_about_license_link_text))
 				.check(matches(isDisplayed()));
 
 		onView(withText(R.string.dialog_about_catrobat_link_text))
@@ -86,7 +92,7 @@ public class AboutDialogTest {
 	}
 
 	@After
-	public void unregisterResource() {
+	public void tearDown() throws Exception {
 		Espresso.unregisterIdlingResources(idlingResource);
 	}
 }

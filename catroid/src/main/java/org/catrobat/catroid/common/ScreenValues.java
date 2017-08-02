@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.common;
 
+import org.catrobat.catroid.content.Project;
+
 public final class ScreenValues {
 
 	private static final int DEFAULT_SCREEN_WIDTH = 1280;
@@ -30,6 +32,9 @@ public final class ScreenValues {
 	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 2 LINES
 	public static int SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT;
+
+	public static final int CAST_SCREEN_WIDTH = 1280;
+	public static final int CAST_SCREEN_HEIGHT = 720;
 
 	// Suppress default constructor for noninstantiability
 	private ScreenValues() {
@@ -46,5 +51,21 @@ public final class ScreenValues {
 	public static void setToDefaultSreenSize() {
 		SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
 		SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
+	}
+
+	public static int getScreenHeightForProject(Project project) {
+		if (project.isCastProject()) {
+			return CAST_SCREEN_HEIGHT;
+		}
+
+		return SCREEN_HEIGHT;
+	}
+
+	public static int getScreenWidthForProject(Project project) {
+		if (project.isCastProject()) {
+			return CAST_SCREEN_WIDTH;
+		}
+
+		return SCREEN_WIDTH;
 	}
 }

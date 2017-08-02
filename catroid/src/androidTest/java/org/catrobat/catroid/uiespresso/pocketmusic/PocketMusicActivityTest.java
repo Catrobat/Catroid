@@ -25,6 +25,7 @@ package org.catrobat.catroid.uiespresso.pocketmusic;
 import android.content.Intent;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
@@ -50,6 +51,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
@@ -62,6 +64,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(AndroidJUnit4.class)
 public class PocketMusicActivityTest {
 
+	private static final int TACT_COUNT_TO_TOGGLE_RANDOM_NOTE_ON = 3;
 	@Rule
 	public BaseActivityInstrumentationRule<PocketMusicActivity> pocketMusicActivityRule =
 			new BaseActivityInstrumentationRule<>(PocketMusicActivity.class, true, false);
@@ -101,7 +104,7 @@ public class PocketMusicActivityTest {
 
 	@Before
 	public void startPocketMusicActivityWithEmptyProject() {
-		UiTestUtils.createProject("pocketMusicInputTest");
+		UiTestUtils.createEmptyProject("pocketMusicInputTest");
 		pocketMusicActivityRule.launchActivity(null);
 	}
 
@@ -126,18 +129,22 @@ public class PocketMusicActivityTest {
 	}
 
 	@Test
-	public void toggleRandomNoteViews() {
+	public void toggleRandomNoteViewsAndAddTacts() {
 
 		TactScrollRecyclerView recyclerView = (TactScrollRecyclerView) pocketMusicActivityRule
 				.getActivity().findViewById(R.id.tact_scroller);
 
-		int recyclerViewItemCount = recyclerView.getAdapter().getItemCount();
-
-		int[] randomPosition = new int[recyclerViewItemCount];
+		int[] randomPosition = new int[TACT_COUNT_TO_TOGGLE_RANDOM_NOTE_ON];
 
 		Random random = new Random();
-		for (int i = 0; i < recyclerViewItemCount; i++) {
+		for (int i = 0; i < TACT_COUNT_TO_TOGGLE_RANDOM_NOTE_ON; i++) {
 			randomPosition[i] = random.nextInt(TrackRowView.QUARTER_COUNT * TrackView.ROW_COUNT);
+
+			if (i == recyclerView.getAdapter().getItemCount() - 1) {
+				onView(withId(R.id.tact_scroller)).perform(RecyclerViewActions.actionOnItemAtPosition(i,
+						click()));
+			}
+
 			onView(withId(R.id.tact_scroller))
 					.perform(actionOnItemAtPosition(i, toggleNoteViewAtPositionInTact(randomPosition[i])));
 			onView(withTactScroller(R.id.tact_scroller).atPosition(i))
@@ -146,7 +153,7 @@ public class PocketMusicActivityTest {
 
 		relaunchActivityOpenJustSavedFile();
 
-		for (int i = 0; i < recyclerViewItemCount; i++) {
+		for (int i = 0; i < TACT_COUNT_TO_TOGGLE_RANDOM_NOTE_ON; i++) {
 			onView(withId(R.id.tact_scroller)).perform(scrollToPosition(i));
 			onView(withTactScroller(R.id.tact_scroller).atPosition(i))
 					.check(matches(withToggledNoteView(randomPosition[i])));

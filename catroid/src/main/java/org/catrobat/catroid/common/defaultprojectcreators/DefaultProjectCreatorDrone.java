@@ -116,12 +116,13 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String takeOffSpriteName = context.getString(R.string.default_drone_project_sprites_takeoff);
 
 		File takeOffArrowFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, takeOffSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_takeoff, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_takeoff_2,
+				context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(takeOffSpriteName, DroneBrickFactory.DroneBricks
 						.DRONE_TAKE_OFF_LAND_BRICK,
-				200, -500, takeOffArrowFile));
+				-280, -200, takeOffArrowFile));
 
 		String rotateSpriteName = context.getString(R.string.default_drone_project_sprites_rotate);
 
@@ -130,7 +131,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(rotateSpriteName, DroneBrickFactory.DroneBricks.DRONE_FLIP_BRICK,
-				-260, -500, rotateFile));
+				-280, 200, rotateFile));
 
 		String upSpriteName = context.getString(R.string.default_drone_project_sprites_up);
 
@@ -138,8 +139,9 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_arrow_up, context, true,
 				backgroundImageScaleFactor);
 
-		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(upSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_UP_BRICK, -100,
-				500, upFile, 2000));
+		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(upSpriteName, DroneBrickFactory.DroneBricks
+						.DRONE_MOVE_UP_BRICK, -25,
+				335, upFile, 2000));
 
 		//Down Sprite
 		String downSpriteName = context.getString(R.string.default_drone_project_sprites_down);
@@ -149,7 +151,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(downSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_DOWN_BRICK,
-				-100, -500, downFile, 2000));
+				225, 335, downFile, 2000));
 
 		//Forward Sprite
 		String forwardSpriteName = context.getString(R.string.default_drone_project_sprites_forward);
@@ -159,7 +161,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(forwardSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_MOVE_FORWARD_BRICK, 100, 300, forwardFile, 2000));
+				DroneBrickFactory.DroneBricks.DRONE_MOVE_FORWARD_BRICK, -25, -335, forwardFile, 2000));
 
 		//Backward Sprite
 		String backwardSpriteName = context.getString(R.string.default_drone_project_sprites_back);
@@ -169,7 +171,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(backwardSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_MOVE_BACKWARD_BRICK, 100, -300, backwardFile, 2000));
+				DroneBrickFactory.DroneBricks.DRONE_MOVE_BACKWARD_BRICK, 225, -335, backwardFile, 2000));
 
 		//Left Sprite
 		String leftSpriteName = context.getString(R.string.default_drone_project_sprites_left);
@@ -179,7 +181,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(leftSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_LEFT_BRICK,
-				0, -100, leftFile, 2000));
+				100, -475, leftFile, 2000));
 
 		//Right Sprite
 		String rightSpriteName = context.getString(R.string.default_drone_project_sprites_right);
@@ -189,7 +191,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(rightSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_RIGHT_BRICK,
-				0, 100, rightFile, 2000));
+				100, -200, rightFile, 2000));
 
 		//Turn Left Sprite
 		String turnLeftSpriteName = context.getString(R.string.default_drone_project_sprites_turn_left);
@@ -199,7 +201,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(turnLeftSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_TURN_LEFT_BRICK, 200, -100, turnLeftFile, 2000));
+				DroneBrickFactory.DroneBricks.DRONE_TURN_LEFT_BRICK, 100, 200, turnLeftFile, 2000));
 
 		//Turn Right Sprite
 		String turnRightSpriteName = context.getString(R.string.default_drone_project_sprites_turn_right);
@@ -209,7 +211,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(turnRightSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_TURN_RIGHT_BRICK, 200, 100, turnRightFile, 2000));
+				DroneBrickFactory.DroneBricks.DRONE_TURN_RIGHT_BRICK, 100, 475, turnRightFile, 2000));
 
 		//Emergency Sprite
 		String emergencySpriteName = context.getString(R.string.default_drone_project_sprites_emergency);
@@ -219,7 +221,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(emergencySpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_GO_EMERGENCY, 200, 500, emergencyFile, 2000));
+				DroneBrickFactory.DroneBricks.DRONE_GO_EMERGENCY, -280, 0, emergencyFile, 2000));
 
 		StorageHandler.getInstance().saveProject(defaultDroneProject);
 		return defaultDroneProject;

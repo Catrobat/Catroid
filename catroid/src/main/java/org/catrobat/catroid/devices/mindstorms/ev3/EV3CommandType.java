@@ -31,7 +31,7 @@ public enum EV3CommandType {
 
 	private int commandTypeValue;
 
-	private EV3CommandType(int commandTypeValue) {
+	EV3CommandType(int commandTypeValue) {
 		this.commandTypeValue = commandTypeValue;
 	}
 

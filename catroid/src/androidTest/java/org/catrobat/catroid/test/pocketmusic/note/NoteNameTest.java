@@ -30,8 +30,8 @@ import org.catrobat.catroid.pocketmusic.note.NoteName;
 public class NoteNameTest extends AndroidTestCase {
 
 	public void testMidi() {
-		NoteName[] noteNames = new NoteName[] { NoteName.C1, NoteName.C2, NoteName.C3, NoteName.C4,
-				NoteName.C5, NoteName.C6, NoteName.C7, NoteName.C8, };
+		NoteName[] noteNames = new NoteName[] {NoteName.C1, NoteName.C2, NoteName.C3, NoteName.C4,
+				NoteName.C5, NoteName.C6, NoteName.C7, NoteName.C8};
 
 		int startMidi = 24;
 		int increment = 12;
@@ -108,7 +108,7 @@ public class NoteNameTest extends AndroidTestCase {
 	}
 
 	public void testGetNoteNameFromMidiValue4() {
-		NoteName expectedNoteName = NoteName.C4;
+		NoteName expectedNoteName = NoteName.DEFAULT_NOTE_NAME;
 
 		NoteName actualNoteName = NoteName.getNoteNameFromMidiValue(1337);
 

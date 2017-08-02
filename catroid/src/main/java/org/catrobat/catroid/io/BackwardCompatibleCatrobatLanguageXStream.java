@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenConditionScript;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
@@ -149,6 +150,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
@@ -677,10 +679,13 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfoMap.put("setPenSizeBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetPenColorBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_RED);
-		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_GREEN);
-		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_BLUE);
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PEN_COLOR_RED);
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PEN_COLOR_GREEN);
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PEN_COLOR_BLUE);
 		brickInfoMap.put("setPenColorBrick", brickInfo);
+
+		brickInfo = new BrickInfo(WhenGamepadButtonBrick.class.getSimpleName());
+		brickInfoMap.put("whenGamepadButtonBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {
@@ -698,6 +703,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		scriptInfoMap.put("whenNfcScript", WhenNfcScript.class.getSimpleName());
 		scriptInfoMap.put("collisionScript", CollisionScript.class.getSimpleName());
 		scriptInfoMap.put("whenTouchDownScript", WhenTouchDownScript.class.getSimpleName());
+		scriptInfoMap.put("whenGamepadButtonScript", WhenGamepadButtonScript.class.getSimpleName());
 	}
 
 	private void modifyXMLToSupportUnknownFields(File file) {

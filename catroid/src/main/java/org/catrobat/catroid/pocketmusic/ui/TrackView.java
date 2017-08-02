@@ -76,7 +76,7 @@ public class TrackView extends TableLayout {
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1.0f);
 		for (int i = 0; i < ROW_COUNT; i++) {
 			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
-			NoteName noteName = NoteName.getNoteNameFromMidiValue(NoteName.C1.getMidi() + i);
+			NoteName noteName = NoteName.getNoteNameFromMidiValue(NoteName.DEFAULT_NOTE_NAME.getMidi() + i);
 			TrackRowView trackRowView = new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, noteName, this);
 			trackRowView.setTactPosition(tactPosition, trackGrid.getGridRowForNoteName(noteName));
 			trackRowViews.add(trackRowView);

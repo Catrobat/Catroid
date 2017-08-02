@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.pocketmusic.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -32,6 +33,7 @@ import android.widget.ImageView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
 
+@SuppressLint("AppCompatCustomView")
 public class NoteView extends ImageView implements View.OnClickListener {
 
 	private static final int HIDDEN = 0;

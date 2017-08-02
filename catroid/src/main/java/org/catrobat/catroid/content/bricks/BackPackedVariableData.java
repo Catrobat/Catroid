@@ -24,12 +24,13 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.io.Serializable;
 
 public class BackPackedVariableData implements Serializable {
 	public UserVariable userVariable;
-	public Integer userVariableType;
+	public DataContainer.DataType userVariableType;
 
 	BackPackedVariableData() {
 	}

@@ -27,6 +27,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +35,10 @@ import android.widget.AdapterView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
+import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -44,6 +47,7 @@ public abstract class BaseActivity extends Activity {
 	private boolean returnToProjectsList;
 	private String titleActionBar;
 	private boolean returnByPressingBackButton;
+	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +56,11 @@ public abstract class BaseActivity extends Activity {
 		returnToProjectsList = false;
 		returnByPressingBackButton = false;
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
-		Utils.checkIfCrashRecoveryAndFinishActivity(this);
+		checkIfCrashRecoveryAndFinishActivity(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
+		}
 	}
 
 	@Override
@@ -72,6 +79,12 @@ public abstract class BaseActivity extends Activity {
 		if (getTitleActionBar() != null) {
 			getActionBar().setTitle(getTitleActionBar());
 		}
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
+		}
+
+		invalidateOptionsMenu();
 	}
 
 	@Override
@@ -114,6 +127,9 @@ public abstract class BaseActivity extends Activity {
 			case R.id.menu_logout:
 				Utils.logoutUser(this);
 				return true;
+			case R.id.cast_button:
+				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog();
+				break;
 			case R.id.menu_login:
 				ProjectManager.getInstance().showSignInDialog(this, false);
 				return true;
@@ -121,6 +137,21 @@ public abstract class BaseActivity extends Activity {
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void checkIfCrashRecoveryAndFinishActivity(final Activity context) {
+		if (isRecoveredFromCrash()) {
+			CrashReporter.sendUnhandledCaughtException();
+			if (!(context instanceof MainMenuActivity)) {
+				context.finish();
+			} else {
+				PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(RECOVERED_FROM_CRASH, false).commit();
+			}
+		}
+	}
+
+	private boolean isRecoveredFromCrash() {
+		return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(RECOVERED_FROM_CRASH, false);
 	}
 
 	// Taken from http://stackoverflow.com/a/11270668

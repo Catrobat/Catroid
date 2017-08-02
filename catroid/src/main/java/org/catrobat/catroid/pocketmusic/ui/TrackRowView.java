@@ -20,7 +20,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
@@ -51,7 +50,7 @@ public class TrackRowView extends TableRow {
 	private NoteName noteName;
 
 	public TrackRowView(Context context) {
-		this(context, MusicalBeat.BEAT_4_4, false, NoteName.C1, null);
+		this(context, MusicalBeat.BEAT_4_4, false, NoteName.DEFAULT_NOTE_NAME, null);
 	}
 
 	public TrackRowView(Context context, MusicalBeat beat, boolean isBlackRow, NoteName noteName, TrackView trackView) {
@@ -75,11 +74,11 @@ public class TrackRowView extends TableRow {
 		final int whiteKeyColor;
 		final int blackKeyColor;
 		if (tactPosition % 2 == 0) {
-			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_even_bright);
-			blackKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_odd_bright);
-		} else {
-			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_even_dusk);
+			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_odd_bright);
 			blackKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_odd_dusk);
+		} else {
+			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_even_bright);
+			blackKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_even_dusk);
 		}
 		for (NoteView noteView : noteViews) {
 			noteView.setNoteActive(false, false);

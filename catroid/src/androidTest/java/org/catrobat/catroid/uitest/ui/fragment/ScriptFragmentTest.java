@@ -50,9 +50,9 @@ import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.BackPackActivity;
@@ -1388,11 +1388,11 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		DataContainer dataContainer = projectManager.getCurrentProject().getDefaultScene().getDataContainer();
-		UserList projectUserList = projectManager.getCurrentProject().getDefaultScene().getDataContainer().getUserList("global_list",
-				null);
+		UserList projectUserList = projectManager.getCurrentProject().getDefaultScene().getDataContainer().getUserList(null, "global_list"
+		);
 		UserList spriteUserList = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 				.getSpriteListOfLists(projectManager.getCurrentSprite()).get(0);
-		UserVariable spriteUserVariable = dataContainer.getUserVariable("sprite_var", projectManager.getCurrentSprite());
+		UserVariable spriteUserVariable = dataContainer.getUserVariable(projectManager.getCurrentSprite(), "sprite_var");
 		UserVariable projectUserVariable = dataContainer.getProjectVariables().get(0);
 		assertTrue("Project user list was not unpacked", projectUserList.getName().equals("global_list"));
 		assertTrue("Sprite user list was not unpacked", spriteUserList.getName().equals("sprite_list"));
@@ -1626,7 +1626,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("There is not exactly one global variable in the data container!",
 				dataContainer.getProjectVariables().size() == 1);
 		assertTrue("There is not exactly one sprite variable in the data container!",
-				dataContainer.getVariableListForSprite(sprite).size() == 1);
+				dataContainer.getOrCreateVariableListForSprite(sprite).size() == 1);
 		assertTrue("There is not exactly one userbrick variable in the data container!",
 				dataContainer.getOrCreateVariableListForUserBrick(userBrick).size() == 1);
 	}

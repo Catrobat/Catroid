@@ -896,7 +896,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 					return true;
 				}
-			default:
 				break;
 		}
 		return false;

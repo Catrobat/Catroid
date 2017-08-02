@@ -207,7 +207,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		}
 
 		InsertItemIntoUserListBrick copyBrick = (InsertItemIntoUserListBrick) clone();
-		copyBrick.userList = currentScene.getDataContainer().getUserList(userList.getName(), sprite);
+		copyBrick.userList = currentScene.getDataContainer().getUserList(sprite, userList.getName());
 		return copyBrick;
 	}
 
