@@ -30,7 +30,6 @@ import com.parrot.arsdk.arcontroller.ARDeviceController;
 
 import org.catrobat.catroid.content.bricks.JumpingSumoNoSoundBrick;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
-import org.catrobat.catroid.formulaeditor.Formula;
 
 public class JumpingSumoNoSoundAction extends TemporalAction {
 
