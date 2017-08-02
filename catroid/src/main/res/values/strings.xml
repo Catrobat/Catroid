@@ -129,8 +129,8 @@
 
     <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
     <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
-    <string name="preference_description_crash_reports">Allow to send crash reports automatically</string>
     <string name="preference_title_enable_crash_reports">Send anonymous crash reports</string>
+    <string name="preference_description_crash_reports">Allow to send crash reports automatically</string>
     <!-- -->
     <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
     <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
