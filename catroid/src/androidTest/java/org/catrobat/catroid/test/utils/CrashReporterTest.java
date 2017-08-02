@@ -36,7 +36,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -168,7 +168,7 @@ public class CrashReporterTest {
 
 		CrashReporter.sendUnhandledCaughtException();
 
-		verify(reporter, times(1)).logException(any(Exception.class));
+		verify(reporter, times(1)).logException(any(Throwable.class));
 	}
 
 	@Test
