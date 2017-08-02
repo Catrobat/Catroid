@@ -70,10 +70,6 @@ public class LegoNXTMotorStopBrickTest {
 		onBrickAtPosition(brickPosition).onSpinner(R.id.stop_motor_spinner)
 				.checkShowsText(R.string.nxt_motor_a);
 
-		onBrickAtPosition(brickPosition).onSpinner(R.id.stop_motor_spinner)
-				.performSelect(R.string.nxt_motor_b)
-				.checkShowsText(R.string.nxt_motor_b);
-
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.nxt_motor_a,
 				R.string.nxt_motor_b,

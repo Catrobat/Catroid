@@ -214,7 +214,7 @@ public class WhenNfcBrickTest {
 		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagMessage, "0.0", 2000));
 	}
 
-	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.Gadgets.class})
+	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.Gadgets.class, Cat.SettingsAndPermissions.class})
 	@Test
 	public void testSelectTagAndPlay() {
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)

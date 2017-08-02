@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
@@ -66,7 +65,7 @@ public class AboutDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void aboutDialogTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
 		onView(withText(R.string.main_menu_about)).perform(click());
 
 		onView(withText(R.string.dialog_about_title))

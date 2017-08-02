@@ -70,10 +70,6 @@ public class LegoEv3MotorStopBrickTest {
 		onBrickAtPosition(brickPosition).onSpinner(R.id.ev3_stop_motor_spinner)
 				.checkShowsText(R.string.ev3_motor_a);
 
-		onBrickAtPosition(brickPosition).onSpinner(R.id.ev3_stop_motor_spinner)
-				.performSelect(R.string.ev3_motor_b)
-				.checkShowsText(R.string.ev3_motor_b);
-
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.ev3_motor_a,
 				R.string.ev3_motor_b,
