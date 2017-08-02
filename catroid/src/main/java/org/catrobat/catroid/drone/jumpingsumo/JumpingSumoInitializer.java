@@ -133,7 +133,6 @@ public class JumpingSumoInitializer {
 		}, CONNECTION_TIME);
 	}
 
-
 	private void notifyConfigureDecoder(ARControllerCodec codec) {
 		//configure codec?
 		Log.d(TAG, "Codec " + codec.getType());
@@ -145,10 +144,7 @@ public class JumpingSumoInitializer {
 
 	private void notifyBatteryChanged(int battery) {
 		Log.d(TAG, "Jumping Sumo Battery: " + battery);
-		//JumpingSumoDataContainer batteryStatus = JumpingSumoDataContainer.getInstance();
 
-		//Object value = prestageStageActivity.getString(R.string.user_variable_name_battery_status) + " " + battery + prestageStageActivity.getString(R.string.percent_symbol);
-		//batteryStatus.setBatteryStatus(value);
 		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD && !messageShown) {
 			messageShown = true;
 			if (stageActivity instanceof StageActivity && !(stageActivity == null)) {
@@ -163,7 +159,7 @@ public class JumpingSumoInitializer {
 		}
 	}
 
-	private final JumpingSumoDiscoverer.Listener discovererListener = new  JumpingSumoDiscoverer.Listener() {
+	private final JumpingSumoDiscoverer.Listener discovererListener = new JumpingSumoDiscoverer.Listener() {
 
 		@Override
 		public void onDronesListUpdated(List<ARDiscoveryDeviceService> dronesList) {

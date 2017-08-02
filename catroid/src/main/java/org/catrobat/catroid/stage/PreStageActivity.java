@@ -527,7 +527,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			if (failedResources.isEmpty()) {
 				Log.d(TAG, "Start Stage");
 				if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability() && (!verifyJSConnection())) {
-						return;
+					return;
 				}
 				startStage();
 			} else {

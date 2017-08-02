@@ -507,7 +507,6 @@ public class StageActivity extends AndroidApplication {
 		stageListener.finish();
 		manageLoadAndFinish();
 		exit();
-
 	}
 
 	public static int getAndIncrementNumberOfClonedSprites() {
