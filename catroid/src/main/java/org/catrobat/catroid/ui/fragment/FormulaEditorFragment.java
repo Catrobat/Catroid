@@ -442,19 +442,19 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 							return true;
 						case R.id.formula_editor_keyboard_function:
-							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.FUNCTION_TAG,
+							showFormulaEditorCategoryListFragment(MainFormulaEditorCategoryListFragment.FUNCTION_TAG,
 									R.string.formula_editor_functions);
 							return true;
 						case R.id.formula_editor_keyboard_logic:
-							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.LOGIC_TAG,
+							showFormulaEditorCategoryListFragment(MainFormulaEditorCategoryListFragment.LOGIC_TAG,
 									R.string.formula_editor_logic);
 							return true;
 						case R.id.formula_editor_keyboard_object:
-							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.OBJECT_TAG,
+							showFormulaEditorCategoryListFragment(MainFormulaEditorCategoryListFragment.OBJECT_TAG,
 									R.string.formula_editor_choose_object_variable);
 							return true;
 						case R.id.formula_editor_keyboard_sensors:
-							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.SENSOR_TAG,
+							showFormulaEditorCategoryListFragment(MainFormulaEditorCategoryListFragment.SENSOR_TAG,
 									R.string.formula_editor_device);
 							return true;
 						case R.id.formula_editor_keyboard_data:
@@ -788,20 +788,20 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		}
 	}
 
-	private void showFormularEditorCategorylistFragment(String tag, int actionbarResId) {
+	private void showFormulaEditorCategoryListFragment(String tag, int actionbarResId) {
 		FragmentManager fragmentManager = ((Activity) context).getFragmentManager();
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
 		if (fragment == null) {
 			fragment = new FormulaEditorCategoryListFragment();
 			Bundle bundle = new Bundle();
-			bundle.putString(FormulaEditorCategoryListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
+			bundle.putString(MainFormulaEditorCategoryListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
 					context.getString(actionbarResId));
-			bundle.putString(FormulaEditorCategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
+			bundle.putString(MainFormulaEditorCategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
 		}
-		((FormulaEditorCategoryListFragment) fragment).showFragment(context);
+		((MainFormulaEditorCategoryListFragment) fragment).showFragment(context);
 	}
 
 	private void showFormulaEditorDataFragment(String tag, int actionbarResId) {

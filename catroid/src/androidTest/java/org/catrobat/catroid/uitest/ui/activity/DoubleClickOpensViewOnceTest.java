@@ -48,8 +48,8 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.ui.fragment.MainBrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -492,11 +492,11 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		public void testBrickCategoryFragmentOnItemClick() {
 			View addButton = solo.getView(R.id.button_add);
 			solo.clickOnView(addButton);
-			solo.waitForFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+			solo.waitForFragmentByTag(MainBrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 
 			ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-			BrickCategoryFragment brickCategoryFragment = (BrickCategoryFragment) activity.getFragmentManager()
-					.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+			MainBrickCategoryFragment brickCategoryFragment = (MainBrickCategoryFragment) activity.getFragmentManager()
+					.findFragmentByTag(MainBrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 			solo.sleep(250);
 			final OnItemClickListener onItemClickListener = brickCategoryFragment.getListView()
 					.getOnItemClickListener();
@@ -506,7 +506,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				protected void execute() {
 					onItemClickListener.onItemClick(null, null, 0, 0);
 				}
-			}, brickCategoryFragment.getId(), BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+			}, brickCategoryFragment.getId(), MainBrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 		}
 	}
 

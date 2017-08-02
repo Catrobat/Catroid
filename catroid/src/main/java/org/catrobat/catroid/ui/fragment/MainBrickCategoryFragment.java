@@ -48,9 +48,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
-public class BrickCategoryFragment extends ListFragment {
+public abstract class MainBrickCategoryFragment extends ListFragment {
 
-	public static final String BRICK_CATEGORY_FRAGMENT_TAG = BrickCategoryFragment.class.getSimpleName();
+	public static final String BRICK_CATEGORY_FRAGMENT_TAG = MainBrickCategoryFragment.class.getSimpleName();
 
 	private CharSequence previousActionBarTitle;
 	private OnCategorySelectedListener scriptFragment;
@@ -75,12 +75,10 @@ public class BrickCategoryFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 
-		brickCategories.clear();
+		initBrickCategories();
+	}
 
-		if (BuildConfig.PHIRO_CODE && SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
-			brickCategories.add(R.layout.brick_category_phiro);
-		}
-
+	private void initBrickCategories() {
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_event);
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_event);
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_control);
@@ -128,7 +126,7 @@ public class BrickCategoryFragment extends ListFragment {
 		}
 	}
 
-	private void addToBrickCategoriesIfNotAlreadyContained(int category) {
+	protected void addToBrickCategoriesIfNotAlreadyContained(int category) {
 		if (!brickCategories.contains(category)) {
 			brickCategories.add(category);
 		}

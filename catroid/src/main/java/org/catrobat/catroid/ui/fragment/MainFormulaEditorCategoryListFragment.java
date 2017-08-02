@@ -43,7 +43,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
@@ -63,9 +62,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class FormulaEditorCategoryListFragment extends ListFragment implements Dialog.OnKeyListener, CategoryListAdapter.OnListItemClickListener {
+public abstract class MainFormulaEditorCategoryListFragment extends ListFragment implements Dialog.OnKeyListener,
+		CategoryListAdapter.OnListItemClickListener {
 
-	public static String tag = FormulaEditorCategoryListFragment.class.getSimpleName();
+	public static final String TAG = MainFormulaEditorCategoryListFragment.class.getSimpleName();
 
 	public static final String OBJECT_TAG = "objectFragment";
 	public static final String FUNCTION_TAG = "functionFragment";
@@ -78,8 +78,6 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	public static final String[] TAGS = {OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG};
 	private String actionBarTitle;
 	private int[] itemsIds;
-	private int[] parameterIds;
-	private CategoryListAdapter adapter;
 
 	protected Map<String, FormulaEditorCategory> categoryMap = new HashMap<>();
 
@@ -347,159 +345,117 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	}
 
 	private void initObjects() {
-		if (categoryMap.containsKey(OBJECT_TAG)) {
-			return;
-		}
+		FormulaEditorCategory category = getCategory(OBJECT_TAG);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Sprite currentSprite = projectManager.getCurrentSprite();
 
-		FormulaEditorCategory category = new FormulaEditorCategory();
-		category.addHeader(getString(R.string.formula_editor_object_general));
-		category.addItems(OBJECT_GENERAL_PROPERTIES_ITEMS);
-		if (projectManager.getCurrentScene().isBackgroundObject(currentSprite)) {
-			category.addItems(OBJECT_ITEMS_BACKGROUND);
-		} else {
-			category.addItems(OBJECT_ITEMS_LOOK);
+		if (category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_object_general), OBJECT_GENERAL_PROPERTIES_ITEMS, null)) {
+			if (projectManager.getCurrentScene().isBackgroundObject(currentSprite)) {
+				category.addItems(OBJECT_ITEMS_BACKGROUND);
+			} else {
+				category.addItems(OBJECT_ITEMS_LOOK);
+			}
 		}
-		category.addHeader(getString(R.string.formula_editor_object_movement));
-		category.addItems(OBJECT_PHYSICAL_PROPERTIES_ITEMS);
+
+		category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_object_movement), OBJECT_PHYSICAL_PROPERTIES_ITEMS, null);
+
 		categoryMap.put(OBJECT_TAG, category);
 	}
 
 	private void initFunctions() {
-		if (categoryMap.containsKey(FUNCTION_TAG)) {
-			return;
-		}
+		FormulaEditorCategory category = getCategory(FUNCTION_TAG);
 
-		FormulaEditorCategory category = new FormulaEditorCategory();
-		category.addHeader(getString(R.string.formula_editor_functions_maths));
-		category.addItems(FUNCTIONS_MATH_ITEMS);
-		category.addParameters(FUNCTIONS_MATH_PARAMETERS);
-
-		category.addHeader(getString(R.string.formula_editor_functions_strings));
-		category.addItems(FUNCTIONS_STRINGS_ITEMS);
-		category.addParameters(FUNCTIONS_STRINGS_PARAMETERS);
-
-		category.addHeader(getString(R.string.formula_editor_functions_lists));
-		category.addItems(FUNCTIONS_LISTS_ITEMS);
-		category.addParameters(FUNCTIONS_LISTS_PARAMETERS);
+		category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_functions_maths), FUNCTIONS_MATH_ITEMS, FUNCTIONS_MATH_PARAMETERS);
+		category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_functions_strings), FUNCTIONS_STRINGS_ITEMS, FUNCTIONS_STRINGS_PARAMETERS);
+		category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_functions_lists), FUNCTIONS_LISTS_ITEMS, FUNCTIONS_LISTS_PARAMETERS);
 
 		categoryMap.put(FUNCTION_TAG, category);
 	}
 
 	private void initLogic() {
-		if (categoryMap.containsKey(LOGIC_TAG)) {
-			return;
-		}
+		FormulaEditorCategory category = getCategory(LOGIC_TAG);
 
-		FormulaEditorCategory category = new FormulaEditorCategory();
-		category.addHeader(getString(R.string.formula_editor_logic_boolean));
-		category.addItems(LOGIC_BOOLEAN_OPERATORS_ITEMS);
-
-		category.addHeader(getString(R.string.formula_editor_logic_comparison));
-		category.addItems(LOGIC_COMPARISON_OPERATORS_ITEMS);
+		category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_logic_boolean), LOGIC_BOOLEAN_OPERATORS_ITEMS, null);
+		category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_logic_comparison), LOGIC_COMPARISON_OPERATORS_ITEMS, null);
 
 		categoryMap.put(LOGIC_TAG, category);
 	}
 
 	private void initSensors() {
-		if (categoryMap.containsKey(SENSOR_TAG)) {
-			return;
-		}
+		FormulaEditorCategory category = getCategory(SENSOR_TAG);
 
 		Context context = this.getActivity().getApplicationContext();
 
-		FormulaEditorCategory category = new FormulaEditorCategory();
+		boolean isNewHeader = category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_sensors), DEFAULT_SENSOR_ITEMS, createEmptyParametersList(DEFAULT_SENSOR_ITEMS.length));
+		if (isNewHeader) {
+			if (SensorHandler.getInstance(context).accelerationAvailable()) {
+				category.addItems(ACCELERATION_SENSOR_ITEMS);
+				category.addParameters(createEmptyParametersList(ACCELERATION_SENSOR_ITEMS.length));
+			}
 
-		if (BuildConfig.PHIRO_CODE && SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
-			category.addHeader(getString(R.string.formula_editor_device_phiro));
-			category.addItems(PHIRO_SENSOR_ITEMS);
-			category.addParameters(createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
+			if (SensorHandler.getInstance(context).inclinationAvailable()) {
+				category.addItems(INCLINATION_SENSOR_ITEMS);
+				category.addParameters(createEmptyParametersList(INCLINATION_SENSOR_ITEMS.length));
+			}
+
+			if (SensorHandler.getInstance(context).compassAvailable()) {
+				category.addItems(COMPASS_SENSOR_ITEMS);
+				category.addParameters(createEmptyParametersList(COMPASS_SENSOR_ITEMS.length));
+			}
+
+			category.addItems(GPS_SENSOR_ITEMS);
+			category.addParameters(createEmptyParametersList(GPS_SENSOR_ITEMS.length));
 		}
 
-		category.addHeader(getString(R.string.formula_editor_device_sensors));
-		category.addItems(DEFAULT_SENSOR_ITEMS);
-		category.addParameters(createEmptyParametersList(DEFAULT_SENSOR_ITEMS.length));
-
-		if (SensorHandler.getInstance(context).accelerationAvailable()) {
-			category.addItems(ACCELERATION_SENSOR_ITEMS);
-			category.addParameters(createEmptyParametersList(ACCELERATION_SENSOR_ITEMS.length));
-		}
-
-		if (SensorHandler.getInstance(context).inclinationAvailable()) {
-			category.addItems(INCLINATION_SENSOR_ITEMS);
-			category.addParameters(createEmptyParametersList(INCLINATION_SENSOR_ITEMS.length));
-		}
-
-		if (SensorHandler.getInstance(context).compassAvailable()) {
-			category.addItems(COMPASS_SENSOR_ITEMS);
-			category.addParameters(createEmptyParametersList(COMPASS_SENSOR_ITEMS.length));
-		}
-
-		category.addItems(GPS_SENSOR_ITEMS);
-		category.addParameters(createEmptyParametersList(GPS_SENSOR_ITEMS.length));
-
-		category.addHeader(getString(R.string.formula_editor_device_touch_detection));
-		category.addItems(TOUCH_DEDECTION_SENSOR_ITEMS);
-		category.addParameters(TOUCH_DEDECTION_PARAMETERS);
+		category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_touch_detection), TOUCH_DEDECTION_SENSOR_ITEMS, TOUCH_DEDECTION_PARAMETERS);
 
 		if (CameraManager.getInstance().hasBackCamera() || CameraManager.getInstance().hasFrontCamera()) {
-			category.addHeader(getString(R.string.formula_editor_device_face_detection));
-			category.addItems(FACE_DETECTION_SENSOR_ITEMS);
-			category.addParameters(createEmptyParametersList(FACE_DETECTION_SENSOR_ITEMS.length));
+			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_face_detection), FACE_DETECTION_SENSOR_ITEMS, createEmptyParametersList(FACE_DETECTION_SENSOR_ITEMS.length));
 		}
 
-		category.addHeader(getString(R.string.formula_editor_device_date_and_time));
-		category.addItems(DATE_AND_TIME_SENSOR_ITEMS);
+		category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_date_and_time), DATE_AND_TIME_SENSOR_ITEMS, null);
 
 		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
-			category.addHeader(getString(R.string.formula_editor_device_lego));
-			category.addItems(NXT_SENSOR_ITEMS);
-			category.addParameters(createEmptyParametersList(NXT_SENSOR_ITEMS.length));
+			isNewHeader = category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_lego), NXT_SENSOR_ITEMS, createEmptyParametersList(NXT_SENSOR_ITEMS.length));
+			if (isNewHeader && SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(context)) {
+				category.addItems(EV3_SENSOR_ITEMS);
+			}
 		}
 
-		if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(context)) {
-			category.addItems(EV3_SENSOR_ITEMS);
-		}
-
-		if (!BuildConfig.PHIRO_CODE && SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
-			category.addHeader(getString(R.string.formula_editor_device_phiro));
-			category.addItems(PHIRO_SENSOR_ITEMS);
-			category.addParameters(createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
+		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_phiro), PHIRO_SENSOR_ITEMS, createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
 		}
 
 		if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
-			category.addHeader(getString(R.string.formula_editor_device_arduino));
-			category.addItems(ARDUINO_SENSOR_ITEMS);
-			category.addParameters(createEmptyParametersList(ARDUINO_SENSOR_ITEMS.length));
+			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_arduino), ARDUINO_SENSOR_ITEMS, createEmptyParametersList(ARDUINO_SENSOR_ITEMS.length));
 		}
 
 		if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
-			category.addHeader(getString(R.string.formula_editor_device_drone));
-			category.addItems(SENSOR_ITEMS_DRONE);
-			category.addParameters(createEmptyParametersList(SENSOR_ITEMS_DRONE.length));
+			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_drone), SENSOR_ITEMS_DRONE, createEmptyParametersList(SENSOR_ITEMS_DRONE.length));
 		}
 
 		if (SettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
-			category.addHeader(getString(R.string.formula_editor_device_raspberry));
-			category.addItems(RASPBERRY_SENSOR_PARAMETERS);
-			category.addParameters(RASPBERRY_SENSOR_PARAMETERS);
+			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_raspberry), RASPBERRY_SENSOR_ITEMS, RASPBERRY_SENSOR_PARAMETERS);
 		}
 
 		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
-			category.addHeader(getString(R.string.formula_editor_device_nfc));
-			category.addItems(NFC_TAG_ITEMS);
-			category.addParameters(createEmptyParametersList(NFC_TAG_ITEMS.length));
+			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_nfc), NFC_TAG_ITEMS, createEmptyParametersList(NFC_TAG_ITEMS.length));
 		}
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
-			category.addHeader(getString(R.string.formula_editor_device_cast));
-			category.addItems(CAST_GAMEPAD_SENSOR_ITEMS);
-			category.addParameters(createEmptyParametersList(CAST_GAMEPAD_SENSOR_ITEMS.length));
+			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_cast), CAST_GAMEPAD_SENSOR_ITEMS, createEmptyParametersList(CAST_GAMEPAD_SENSOR_ITEMS.length));
 		}
 
 		categoryMap.put(SENSOR_TAG, category);
+	}
+
+	protected FormulaEditorCategory getCategory(String tag) {
+		if (categoryMap.containsKey(tag)) {
+			return categoryMap.get(tag);
+		} else {
+			return new FormulaEditorCategory();
+		}
 	}
 
 	@Override
@@ -509,7 +465,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		String tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
 		itemsIds = categoryMap.get(tag).categoryItemIds;
-		parameterIds = categoryMap.get(tag).categoryParameterIds;
+		int[] parameterIds = categoryMap.get(tag).categoryParameterIds;
 		Map<Integer, String> header = categoryMap.get(tag).headerOrderMap;
 
 		List<String> items = new ArrayList<>();
@@ -519,7 +475,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 					: getString(itemsIds[index]));
 		}
 
-		adapter = new CategoryListAdapter(getActivity(), items, header);
+		CategoryListAdapter adapter = new CategoryListAdapter(getActivity(), items, header);
 		setListAdapter(adapter);
 		adapter.setOnListItemClickListener(this);
 	}
@@ -530,10 +486,10 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		for (int i = 0; i < length; i++) {
 			//Dirty hack until further insight is gained
 			try {
-				Log.i(tag, "Trying to get string resource: " + getString(R.string.formula_editor_function_no_parameter));
+				Log.i(TAG, "Trying to get string resource: " + getString(R.string.formula_editor_function_no_parameter));
 				noParametersList[i] = R.string.formula_editor_function_no_parameter;
 			} catch (Resources.NotFoundException exception) {
-				Log.e(tag, "formula_editor_function_no_parameter not found!" + Log.getStackTraceString(exception));
+				Log.e(TAG, "formula_editor_function_no_parameter not found!" + Log.getStackTraceString(exception));
 			}
 		}
 
@@ -606,12 +562,24 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		fragTransaction.commit();
 	}
 
-	public class FormulaEditorCategory {
+	protected class FormulaEditorCategory {
 		private int[] categoryItemIds = new int[] {};
 		private int[] categoryParameterIds = new int[] {};
 		private Map<Integer, String> headerOrderMap = new TreeMap<>();
 
-		public void addHeader(String text) {
+		boolean addCategoryIfDoesNotExist(String header, int[] items, int[] parameters) {
+			if (headerOrderMap.containsValue(header)) {
+				return false;
+			}
+
+			addHeader(header);
+			addItems(items);
+			addParameters(parameters);
+
+			return true;
+		}
+
+		private void addHeader(String text) {
 			int position = 0;
 			if (categoryItemIds != null) {
 				position = categoryItemIds.length;
@@ -619,7 +587,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			headerOrderMap.put(position, text);
 		}
 
-		public void addItems(int[] items) {
+		void addItems(int[] items) {
 			if (categoryItemIds == null) {
 				System.arraycopy(items, 0, categoryItemIds, 0, items.length);
 			} else {
@@ -627,7 +595,11 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			}
 		}
 
-		public void addParameters(int[] parameters) {
+		void addParameters(int[] parameters) {
+			if (parameters == null) {
+				return;
+			}
+
 			if (categoryParameterIds == null) {
 				System.arraycopy(parameters, 0, categoryParameterIds, 0, parameters.length);
 			} else {

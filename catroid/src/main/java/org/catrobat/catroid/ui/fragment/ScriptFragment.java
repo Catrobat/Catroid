@@ -75,7 +75,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
+import org.catrobat.catroid.ui.fragment.MainBrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
@@ -426,16 +426,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void showCategoryFragment() {
-		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
+		MainBrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setBrickAdapter(adapter);
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-		fragmentTransaction.add(R.id.fragment_container, brickCategoryFragment,
-				BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+		fragmentTransaction.add(R.id.fragment_container, brickCategoryFragment, MainBrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 
-		fragmentTransaction.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+		fragmentTransaction.addToBackStack(MainBrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 		fragmentTransaction.commit();
 		SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_category);
 
