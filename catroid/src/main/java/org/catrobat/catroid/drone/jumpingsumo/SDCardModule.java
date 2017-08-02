@@ -106,7 +106,7 @@ public class SDCardModule extends AppCompatActivity{
 
 			// if the directory doesn't exist, create it
 			File f = new File(externalDirectory);
-			if(!(f.exists() && f.isDirectory())) {
+			if (!(f.exists() && f.isDirectory())) {
 				boolean success = f.mkdir();
 				if (!success) {
 					Log.e(TAG, "Failed to create the folder " + externalDirectory);
@@ -168,7 +168,6 @@ public class SDCardModule extends AppCompatActivity{
 					}
 				}
 			}
-
 		}
 	}
 
@@ -204,7 +203,7 @@ public class SDCardModule extends AppCompatActivity{
 			try {
 				int mediaListCount = mediasDownloader.getAvailableMediasSync(false);
 				mediaList = new ArrayList<>(mediaListCount);
-				for (int i = 0; ((i < mediaListCount) && !isCancelled) ; i++) {
+				for (int i = 0; ((i < mediaListCount) && !isCancelled); i++) {
 					ARDataTransferMedia currentMedia = mediasDownloader.getAvailableMediaAtIndex(i);
 					mediaList.add(currentMedia);
 				}
@@ -289,8 +288,8 @@ public class SDCardModule extends AppCompatActivity{
 
 			// when all download are finished, stop the download runnable
 			// in order to get out of the downloadMedias function
-			currentDownloadIndex ++;
-			if (currentDownloadIndex > mediastoDownload ) {
+			currentDownloadIndex++;
+			if (currentDownloadIndex > mediastoDownload) {
 				ARDataTransferMediasDownloader mediasDownloader = null;
 				if (dataTransferManager != null) {
 					mediasDownloader = dataTransferManager.getARDataTransferMediasDownloader();

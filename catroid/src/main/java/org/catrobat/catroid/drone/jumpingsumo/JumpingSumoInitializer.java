@@ -110,7 +110,7 @@ public class JumpingSumoInitializer {
 	}
 
 	public void initialise() {
-		jsDiscoverer = new JumpingSumoDiscoverer(getAppContext());
+		jsDiscoverer = new JumpingSumoDiscoverer();
 		if (checkRequirements()) {
 			jsDiscoverer.setup();
 			jsDiscoverer.addListener(discovererListener);
