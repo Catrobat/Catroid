@@ -41,6 +41,7 @@
         style="@style/BrickContainer.Control.Big"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scaleX="-1"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
@@ -48,6 +49,7 @@
         <TextView
             android:id="@+id/brick_set_nfc_tag_label"
             style="@style/BrickText.SingleLine"
+            android:scaleX="-1"
             android:labelFor="@+id/brick_set_nfc_tag_edit_text"
             android:text="@string/brick_set_nfc_tag" />
 
@@ -57,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
+            android:scaleX="-1"
             android:maxLines="3"
             android:minLines="1"
             app:layout_inputType="text"
@@ -66,6 +69,7 @@
             android:id="@+id/brick_set_nfc_tag_ndef_record_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/ndef_record_label"
+            android:scaleX="-1"
             app:layout_newLine="true" />
 
         <Spinner
@@ -73,6 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
+            android:scaleX="-1"
             android:focusable="false"
             app:layout_newLine="true" />
     </org.catrobat.catroid.ui.BrickLayout>
