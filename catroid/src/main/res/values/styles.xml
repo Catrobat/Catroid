@@ -77,6 +77,15 @@
         <item name="android:gravity" >bottom</item >
     </style >
 
+    <style name="DefaultDialog_ldrtl.TextView" parent="DefaultDialog.Item">
+        <item name="android:paddingRight">@dimen/dialog_item_header_alignment_padding</item>
+        <item name="android:paddingBottom">@dimen/dialog_item_header_linepadding</item>
+        <item name="android:layout_height">@dimen/dialog_item_header_height</item>
+        <item name="android:textSize">@dimen/dialog_item_text_size</item>
+        <item name="android:textColor">@color/spritelist_details_text_color</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
     <style name="DefaultDialog.Line" parent="DefaultDialog.Item" >
         <item name="android:layout_height" >@dimen/dialog_item_header_line_height</item >
         <item name="android:background" >@color/dialog_text_line</item >
@@ -157,6 +166,23 @@
         <item name="android:shadowDy" >3</item >
     </style >
 
+    <style name="MainMenuButton_Rtl">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/button_background_selector</item>
+        <item name="android:drawablePadding">28dp</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:paddingRight">21dp</item>
+        <item name="android:paddingLeft">14dp</item>
+        <item name="android:textSize">@dimen/text_size_main_menu_buttons</item>
+        <item name="android:textColor">@color/main_menu_button_text_color</item>
+        <item name="android:shadowColor">@color/main_menu_button_text_shadow_color</item>
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">3</item>
+    </style>
+
     <style name="MainMenuButtonTextSecondLine" >
         <item name="android:textSize" >@dimen/text_size_main_menu_button_continue_program_name</item >
         <item name="android:textColor" >@color/main_menu_button_text_continue_program_name_color</item >
@@ -176,6 +202,21 @@
         <item name="android:layout_height" >wrap_content</item >
         <item name="android:ellipsize" >end</item >
     </style >
+
+    <style name="ListViewItemTitleText_Rtl">
+        <item name="android:paddingRight">12.5dp</item>
+        <item name="android:paddingLeft">42dp</item>
+        <item name="android:shadowColor">@color/list_view_item_title_text_shadow_color</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/list_view_item_title_text_color</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+    </style>
 
     <style name="ListViewItemDetailsText" >
         <item name="android:singleLine" >true</item >
@@ -219,6 +260,22 @@
         <item name="android:shadowDx" >0</item >
         <item name="android:shadowDy" >3</item >
     </style >
+
+    <style name="ProgramMenuButton_Rtl">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/program_menu_button_height</item>
+        <item name="android:background">@drawable/button_background_selector</item>
+        <item name="android:drawablePadding">28dp</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:paddingRight">21dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:textSize">@dimen/text_size_program_menu_buttons</item>
+        <item name="android:textColor">@color/program_menu_button_text_color</item>
+        <item name="android:shadowColor">@color/program_menu_button_text_shadow_color</item>
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">3</item>
+    </style>
 
     <style name="BrickText" >
         <item name="android:layout_width" >wrap_content</item >
@@ -709,6 +766,17 @@
         <item name="android:layout_height" >wrap_content</item >
     </style >
 
+    <style name="headlineTextView_Rtl" parent="android:Widget.TextView">
+        <item name="android:paddingBottom">5dip</item>
+        <item name="android:paddingRight">16dip</item>
+        <item name="android:paddingTop">9dip</item>
+        <item name="android:textColor">@color/spritelist_details_text_color</item>
+        <item name="android:textColorHighlight">@color/spritelist_details_text_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="headlineView" >
         <item name="android:background" >@color/spritelist_separation_line_color</item >
         <item name="android:layout_marginBottom" >8dp</item >
@@ -718,9 +786,29 @@
         <item name="android:layout_height" >1.5dp</item >
     </style >
 
+    <style name="headlineView_Rtl">
+        <item name="android:background">@color/spritelist_separation_line_color</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginLeft">50dp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1.5dp</item>
+    </style>
+
     <style name="headlineTextViewObjects" parent="android:Widget.TextView" >
         <item name="android:paddingBottom" >5dip</item >
         <item name="android:paddingLeft" >16dip</item >
+        <item name="android:paddingTop" >18dip</item >
+        <item name="android:textColor" >@color/spritelist_details_text_color</item >
+        <item name="android:textColorHighlight" >@color/spritelist_details_text_color</item >
+        <item name="android:textSize" >14sp</item >
+        <item name="android:layout_width" >wrap_content</item >
+        <item name="android:layout_height" >wrap_content</item >
+    </style >
+
+    <style name="headlineTextViewObjects_Rtl" parent="android:Widget.TextView" >
+        <item name="android:paddingBottom" >5dip</item >
+        <item name="android:paddingRight" >16dip</item >
         <item name="android:paddingTop" >18dip</item >
         <item name="android:textColor" >@color/spritelist_details_text_color</item >
         <item name="android:textColorHighlight" >@color/spritelist_details_text_color</item >
