@@ -131,6 +131,9 @@ import org.catrobat.catroid.uiespresso.stage.StagePausedTest;
 import org.catrobat.catroid.uiespresso.stage.StageSimpleTest;
 import org.catrobat.catroid.uiespresso.ui.activity.ProjectActivityNumberOfBricksRegressionTest;
 import org.catrobat.catroid.uiespresso.ui.activity.SettingsActivityTest;
+import org.catrobat.catroid.uiespresso.ui.activity.rtl.ArabicStringAsSizeUnitLooksTest;
+import org.catrobat.catroid.uiespresso.ui.activity.rtl.ArabicStringAsSizeUnitSoundsTest;
+import org.catrobat.catroid.uiespresso.ui.activity.rtl.ArabicTextAsSizeUnitMyProjectActivityTest;
 import org.catrobat.catroid.uiespresso.ui.activity.rtl.HindiNumberAtShowDetailsAtProjectActivityTest;
 import org.catrobat.catroid.uiespresso.ui.activity.rtl.LanguageSwitchMainMenuTest;
 import org.catrobat.catroid.uiespresso.ui.dialog.AboutDialogTest;
@@ -247,6 +250,9 @@ import org.junit.runners.Suite;
 		StagePausedTest.class,
 		BroadcastForClonesRegressionTest.class,
 		StageSimpleTest.class,
+		ArabicStringAsSizeUnitLooksTest.class,
+		ArabicStringAsSizeUnitSoundsTest.class,
+		ArabicTextAsSizeUnitMyProjectActivityTest.class,
 		ObjectVariableTest.class,
 		MultipleBroadcastsTest.class,
 		BroadcastReceiverRegressionTest.class,

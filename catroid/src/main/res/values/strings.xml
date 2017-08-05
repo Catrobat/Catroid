@@ -1655,5 +1655,16 @@
     <!-- Multilingual List -->
     <string name="device_language">Device Language</string>
 
+
+    <!-- UtilFile SizeUnits String -->
+     <string name="Byte_short">B</string>
+     <string name="KiloByte_short">KB</string>
+     <string name="MegaByte_short">MB</string>
+     <string name="GigaByte_short">GB</string>
+     <string name="TeraByte_short">TB</string>
+     <string name="PetaByte_short">PB</string>
+     <string name="ExaByte_short">EB</string>
+    <!--  -->
+
 </resources>
 
