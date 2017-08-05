@@ -26,55 +26,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:baselineAligned="false"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <CheckBox
-        android:id="@+id/brick_set_nfc_tag_checkbox"
+        android:id="@+id/brick_add_item_to_userlist_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_set_nfc_tag_layout"
-        style="@style/BrickContainer.Control.Big"
+        android:id="@+id/brick_add_item_to_userlist_layout"
+        style="@style/BrickContainer.UserVariables.Medium"
+        android:orientation="horizontal"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:scaleX="-1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/brick_set_nfc_tag_label"
+            android:id="@+id/brick_add_item_to_userlist_label"
+            android:scaleX="-1"
             style="@style/BrickText.SingleLine"
-            android:labelFor="@+id/brick_set_nfc_tag_edit_text"
-            android:text="@string/brick_set_nfc_tag" />
+            android:text="@string/brick_add_item_to_userlist_add" />
 
-        <EditText
-            android:id="@+id/brick_set_nfc_tag_edit_text"
+        <TextView
+            android:id="@+id/brick_add_item_to_userlist_edit_text"
             style="@style/BrickEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:maxLines="3"
-            android:minLines="1"
-            app:layout_inputType="text"
-            app:layout_textField="true" />
+            app:layout_inputType="number"
+            android:scaleX="-1"
+            app:layout_textField="true"/>
 
         <TextView
-            android:id="@+id/brick_set_nfc_tag_ndef_record_textview"
+            android:id="@+id/brick_add_item_to_userlist_textview"
             style="@style/BrickText.SingleLine"
-            android:text="@string/ndef_record_label"
-            app:layout_newLine="true" />
+            android:scaleX="-1"
+            android:text="@string/brick_add_item_to_userlist" />
 
-        <Spinner
-            android:id="@+id/brick_set_nfc_tag_ndef_record_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
-            app:layout_newLine="true" />
+         <Spinner
+             app:layout_newLine="true"
+             android:id="@+id/add_item_to_userlist_spinner"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:scaleX="-1"
+             android:clickable="false"
+             android:focusable="false" />
+
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

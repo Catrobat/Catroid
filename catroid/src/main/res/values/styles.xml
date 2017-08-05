@@ -362,7 +362,12 @@
         <item name="android:background">@drawable/brick_selection_background_data</item>
         <item name="android:drawableEnd">@drawable/main_menu_button_arrow_variables</item>
     </style>
-    
+
+    <style name="BrickCategoryText_Rtl.Data_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_data</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_variables</item>
+    </style>
+
     <style name="BrickContainer.UserBrick.Small" >
         <item name="android:minHeight" >@dimen/brick_height_small</item >
         <item name="android:background" >@drawable/brick_lime_1h</item >
@@ -616,40 +621,85 @@
         <item name="android:textSize" >@dimen/text_size_brick_category</item >
     </style >
 
+    <style name="BrickCategoryText_Rtl" >
+        <item name="android:layout_width" >match_parent</item >
+        <item name="android:layout_height" >@dimen/brick_category_height</item >
+        <item name="android:gravity" >right|center_vertical</item >
+        <item name="android:paddingRight" >21dp</item >
+        <item name="android:paddingLeft" >14dp</item >
+        <item name="android:textColor" >@color/brick_category_fragment_text_color</item >
+        <item name="android:textSize" >@dimen/text_size_brick_category</item >
+    </style >
+
     <style name="BrickCategoryText.Control" >
         <item name="android:background" >@drawable/brick_selection_background_control</item >
         <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_control</item >
     </style >
+
+    <style name="BrickCategoryText_Rtl.Control_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_control</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_control</item>
+    </style>
 
     <style name="BrickCategoryText.Event" >
         <item name="android:background" >@drawable/brick_selection_background_event</item >
         <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_event</item >
     </style >
 
+    <style name="BrickCategoryText_Rtl.Event_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_event</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_event</item>
+    </style>
+
     <style name="BrickCategoryText.Motion" >
         <item name="android:background" >@drawable/brick_selection_background_motion</item >
         <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_motion</item >
     </style >
+
+    <style name="BrickCategoryText_Rtl.Motion_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_motion</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_motion</item>
+    </style>
 
     <style name="BrickCategoryText.Sounds" >
         <item name="android:background" >@drawable/brick_selection_background_sounds</item >
         <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_sounds</item >
     </style >
 
+    <style name="BrickCategoryText_Rtl.Sounds_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_sounds</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_sounds</item>
+    </style>
+
     <style name="BrickCategoryText.Looks" >
         <item name="android:background" >@drawable/brick_selection_background_looks</item >
         <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_looks</item >
     </style >
+
+    <style name="BrickCategoryText_Rtl.Looks_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_looks</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_looks</item>
+    </style>
 
     <style name="BrickCategoryText.Pen" >
         <item name="android:background" >@drawable/brick_selection_background_pen</item >
         <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_looks</item >
     </style >
 
+    <style name="BrickCategoryText_Rtl.Pen_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_pen</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_looks</item>
+    </style>
+
     <style name="BrickCategoryText.UserBricks" >
 		<item name="android:background" >@drawable/brick_selection_background_user_bricks</item >
  		<item name="android:drawableEnd" >@drawable/main_menu_button_arrow_user_bricks</item >
  	</style >
+
+    <style name="BrickCategoryText_Rtl.UserBricks_ldrtl">
+		<item name="android:background">@drawable/brick_selection_background_user_bricks</item>
+ 		<item name="android:drawableLeft">@drawable/main_menu_button_arrow_user_bricks</item>
+ 	</style>
 
     <style name="BrickCategoryText.Drone" >
         <item name="android:background" >@drawable/brick_selection_background_drone</item >
@@ -661,19 +711,38 @@
         <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_drone</item >
     </style >
 
+    <style name="BrickCategoryText_Rtl.Drone_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_drone</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_drone</item>
+    </style>
+
     <style name="BrickCategoryText.Lego" >
         <item name="android:background" >@drawable/brick_selection_background_lego</item >
         <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_lego</item >
     </style >
+
+    <style name="BrickCategoryText_Rtl.Lego_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_lego</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_lego</item>
+    </style>
 
     <style name="BrickCategoryText.Phiro" >
         <item name="android:background" >@drawable/brick_selection_background_bluetooth</item >
         <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_bluetooth</item >
     </style >
 
+    <style name="BrickCategoryText_Rtl.Phiro_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_bluetooth</item>
+    </style>
+
     <style name="BrickCategoryText.Arduino">
         <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
         <item name="android:drawableEnd">@drawable/main_menu_button_arrow_bluetooth</item>
+    </style>
+    <style name="BrickCategoryText_Rtl.Arduino_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_bluetooth</item>
     </style>
 
     <style name="BrickCategoryText.Cast">
@@ -681,9 +750,19 @@
         <item name="android:drawableEnd">@drawable/main_menu_button_arrow_chromecast</item>
     </style>
 
+    <style name="BrickCategoryText_Rtl.Cast_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_chromecast</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_chromecast</item>
+    </style>
+
     <style name="BrickCategoryText.Raspi">
         <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
         <item name="android:drawableEnd">@drawable/main_menu_button_arrow_bluetooth</item>
+    </style>
+
+    <style name="BrickCategoryText_Rtl.Raspi_ldrtl">
+        <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_bluetooth</item>
     </style>
     
     <style name="userBrickDataTextBackground" >
