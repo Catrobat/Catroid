@@ -153,4 +153,10 @@ public class MyProjectsActivity extends BaseCastActivity {
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
+
+	@Override
+	public void onBackPressed() {
+		projectListFragment.cancelLoadProjectTask();
+		super.onBackPressed();
+	}
 }
