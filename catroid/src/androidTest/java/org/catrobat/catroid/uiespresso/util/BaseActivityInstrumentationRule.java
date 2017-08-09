@@ -110,6 +110,7 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 				for (int i = 0; i < flakyTestRetryCount; i++) {
 					try {
 						base.evaluate();
+						Log.d(TAG, description.getDisplayName() + ": succeeded");
 						return;
 					} catch (Throwable t) {
 						caughtThrowable = t;
