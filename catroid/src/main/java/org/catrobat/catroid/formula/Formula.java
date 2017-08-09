@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.formula;
 
+import org.catrobat.catroid.formula.value.ValueToken;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ public class Formula implements Serializable {
 	private List<Token> tokens = new ArrayList<>();
 
 	public Formula(double value) {
-		tokens.add(new NumericValueToken(value));
+		tokens.add(new ValueToken.NumericValueToken(value));
 	}
 
 	public Formula(List<Token> tokens) {

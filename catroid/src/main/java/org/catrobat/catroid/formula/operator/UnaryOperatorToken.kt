@@ -21,24 +21,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formula
+package org.catrobat.catroid.formula.operator
 
-abstract class OperatorToken(type : Type) : Token(type) {
+import org.catrobat.catroid.formula.value.ValueToken
+import org.catrobat.catroid.formula.value.ValueToken.BooleanValueToken
 
-    abstract fun getPriority(): Int
+abstract class UnaryOperatorToken<in T : ValueToken, out V : ValueToken> : OperatorToken(Type.OPERATOR) {
 
-    class BracketOperator(type: Type) : OperatorToken(type) {
+    abstract fun applyTo(token: T) : V
+
+    class NotOperatorToken : UnaryOperatorToken<BooleanValueToken, BooleanValueToken>() {
 
         override fun getString(): String {
-            when (type) {
-                Type.LEFT_BRACKET -> return "( "
-                Type.RIGHT_BRACKET -> return ") "
-                else -> return ""
-            }
+            return "NOT "
         }
 
         override fun getPriority(): Int {
-            return 0
+            return 2
+        }
+
+        override fun applyTo(token: BooleanValueToken) : BooleanValueToken {
+            return BooleanValueToken(!token.value)
         }
     }
 }
