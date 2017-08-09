@@ -21,13 +21,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formula
+package org.catrobat.catroid.formula.function
 
-abstract class FunctionToken : Token(Type.FUNCTION) {
+import org.catrobat.catroid.formula.FormulaInterpreter
+import org.catrobat.catroid.formula.Token
+import org.catrobat.catroid.formula.value.ValueToken
+import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken
 
-    abstract fun eval() : NumericValueToken
+abstract class FunctionToken<out V : ValueToken> : Token(Type.FUNCTION) {
 
-    class Sin(val tokens: List<Token>) : FunctionToken() {
+    abstract fun eval() : V
+
+    class Sin(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "sin( "
@@ -40,11 +45,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.sin(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.sin(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Cos(val tokens: List<Token>) : FunctionToken() {
+    class Cos(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "cos( "
@@ -57,11 +62,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.cos(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.cos(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Tan(val tokens: List<Token>) : FunctionToken() {
+    class Tan(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "tan( "
@@ -74,11 +79,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.tan(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.tan(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Ln(val tokens: List<Token>) : FunctionToken() {
+    class Ln(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "ln( "
@@ -91,11 +96,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.log(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.log(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Lg(val tokens: List<Token>) : FunctionToken() {
+    class Lg(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "log( "
@@ -108,11 +113,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.log10(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.log10(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Sqrt(val tokens: List<Token>) : FunctionToken() {
+    class Sqrt(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "sqrt( "
@@ -125,11 +130,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.sqrt(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.sqrt(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Abs(val tokens: List<Token>) : FunctionToken() {
+    class Abs(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "abs( "
@@ -142,11 +147,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.abs(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.abs(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Asin(val tokens: List<Token>) : FunctionToken() {
+    class Asin(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "arcsin( "
@@ -159,11 +164,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.asin(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.asin(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Acos(val tokens: List<Token>) : FunctionToken() {
+    class Acos(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "arccos( "
@@ -176,11 +181,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.acos(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.acos(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Atan(val tokens: List<Token>) : FunctionToken() {
+    class Atan(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "arctan( "
@@ -193,11 +198,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.atan(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.atan(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Exp(val tokens: List<Token>) : FunctionToken() {
+    class Exp(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "exp( "
@@ -210,11 +215,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.exp(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.exp(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Floor(val tokens: List<Token>) : FunctionToken() {
+    class Floor(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "floor( "
@@ -227,11 +232,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.floor(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.floor(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Ceil(val tokens: List<Token>) : FunctionToken() {
+    class Ceil(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "ceil( "
@@ -244,11 +249,11 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.ceil(FormulaInterpreter().eval(tokens)))
+            return NumericValueToken(Math.ceil(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
         }
     }
 
-    class Round(val tokens: List<Token>) : FunctionToken() {
+    class Round(val tokens: List<Token>) : FunctionToken<NumericValueToken>() {
 
         override fun getString(): String {
             var formula = "round( "
@@ -261,7 +266,7 @@ abstract class FunctionToken : Token(Type.FUNCTION) {
         }
 
         override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.round(FormulaInterpreter().eval(tokens)).toDouble())
+            return NumericValueToken(Math.round(FormulaInterpreter<NumericValueToken>().eval(tokens).value).toDouble())
         }
     }
 }
