@@ -66,6 +66,54 @@ class FormulaInterpreter {
 			values.push((operators.pop() as MathOperatorToken).applyTo(values.pop(), values.pop()))
 		}
 
-		return (values.pop() as NumericValueToken).value
+		return values.pop().value
+	}
+
+	fun evalBoolean(tokens: List<Token>): Boolean {
+
+		val operators = Stack<OperatorToken>()
+		val values = Stack<BooleanValueToken>()
+
+		for (token in tokens) {
+			when (token.type) {
+				Token.Type.VALUE -> values.push(token as BooleanValueToken)
+				Token.Type.LEFT_BRACKET -> operators.push(token as OperatorToken)
+				Token.Type.RIGHT_BRACKET -> {
+
+					while (!operators.empty() && operators.peek().type != (Token.Type.LEFT_BRACKET)) {
+						values.push((operators.pop() as LogicOperatorToken).applyTo(values.pop(), values.pop()))
+					}
+
+					operators.pop()
+				}
+
+				Token.Type.OPERATOR -> {
+
+					val operator = token as OperatorToken
+
+					while (!operators.empty() && operators.peek().getPriority() > operator.getPriority()) {
+                        if (operators.peek() is NotOperatorToken) {
+                            values.push((operators.pop() as NotOperatorToken).applyTo(values.pop()))
+                        } else {
+                            values.push((operators.pop() as LogicOperatorToken).applyTo(values.pop(), values.pop()))
+                        }
+					}
+
+					operators.push(operator)
+				}
+
+				else -> return false
+			}
+		}
+
+		while (!operators.empty()) {
+            if (operators.peek() is NotOperatorToken) {
+                values.push((operators.pop() as NotOperatorToken).applyTo(values.pop()))
+            } else {
+                values.push((operators.pop() as LogicOperatorToken).applyTo(values.pop(), values.pop()))
+            }
+		}
+
+		return values.pop().value
 	}
 }

@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.formula
 
-abstract class MathOperatorToken : OperatorToken(Token.Type.OPERATOR) {
+abstract class MathOperatorToken : OperatorToken(Type.OPERATOR) {
 
 	abstract fun applyTo(rightToken: NumericValueToken, leftToken: NumericValueToken): NumericValueToken
 
