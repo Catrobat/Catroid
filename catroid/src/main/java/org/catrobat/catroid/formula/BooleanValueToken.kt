@@ -23,9 +23,9 @@
 
 package org.catrobat.catroid.formula
 
-class NumericValueToken(val value: Double) : Token(Type.VALUE) {
+class BooleanValueToken(val value: Boolean) : Token(Type.VALUE) {
 
     override fun getString(): String {
-        return value.toString() + " "
+        return if (value) "TRUE "  else "FALSE "
     }
 }

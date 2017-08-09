@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.formula;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.formula.BooleanValueToken;
 import org.catrobat.catroid.formula.Formula;
 import org.catrobat.catroid.formula.FormulaInterpreter;
 import org.catrobat.catroid.formula.FunctionToken.Abs;
@@ -41,10 +42,13 @@ import org.catrobat.catroid.formula.FunctionToken.Round;
 import org.catrobat.catroid.formula.FunctionToken.Sin;
 import org.catrobat.catroid.formula.FunctionToken.Sqrt;
 import org.catrobat.catroid.formula.FunctionToken.Tan;
+import org.catrobat.catroid.formula.LogicOperatorToken.AndOperatorToken;
+import org.catrobat.catroid.formula.LogicOperatorToken.OrOperatorToken;
 import org.catrobat.catroid.formula.MathOperatorToken.AddOperatorToken;
 import org.catrobat.catroid.formula.MathOperatorToken.DivOperatorToken;
 import org.catrobat.catroid.formula.MathOperatorToken.MultOperatorToken;
 import org.catrobat.catroid.formula.MathOperatorToken.SubOperatorToken;
+import org.catrobat.catroid.formula.NotOperatorToken;
 import org.catrobat.catroid.formula.NumericValueToken;
 import org.catrobat.catroid.formula.OperatorToken.BracketOperator;
 import org.catrobat.catroid.formula.Token;
@@ -59,23 +63,30 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class FormulaTest {
 
-	private NumericValueToken a = new NumericValueToken(100);
-	private NumericValueToken b = new NumericValueToken(5);
-	private NumericValueToken c = new NumericValueToken(0.1);
-	private NumericValueToken d = new NumericValueToken(-2);
-	private NumericValueToken e = new NumericValueToken(0.8);
+	private NumericValueToken varA = new NumericValueToken(100);
+	private NumericValueToken varB = new NumericValueToken(5);
+	private NumericValueToken varC = new NumericValueToken(0.1);
+	private NumericValueToken varD = new NumericValueToken(-2);
+	private NumericValueToken varE = new NumericValueToken(0.8);
 
 	private MultOperatorToken mult = new MultOperatorToken();
 	private DivOperatorToken div = new DivOperatorToken();
 	private AddOperatorToken add = new AddOperatorToken();
 	private SubOperatorToken sub = new SubOperatorToken();
 
+	private AndOperatorToken and = new AndOperatorToken();
+	private OrOperatorToken or = new OrOperatorToken();
+	private NotOperatorToken not = new NotOperatorToken();
+
+	private BooleanValueToken valTrue = new BooleanValueToken(true);
+	private BooleanValueToken valFalse = new BooleanValueToken(false);
+
 	private BracketOperator leftBracket = new BracketOperator(Token.Type.LEFT_BRACKET);
 	private BracketOperator rightBracket = new BracketOperator(Token.Type.RIGHT_BRACKET);
 
 	private List<Token> tokens = new ArrayList<>();
 	private Formula formula;
-	private double expectedResult;
+	private double expectedNumericResult;
 	private String expectedString;
 
 	private FormulaInterpreter interpreter = new FormulaInterpreter();
@@ -84,48 +95,48 @@ public class FormulaTest {
 	public void testBasicMathFunctions() {
 
 		tokens.clear();
-		tokens.add(a);
+		tokens.add(varA);
 		tokens.add(add);
-		tokens.add(b);
+		tokens.add(varB);
 		tokens.add(mult);
-		tokens.add(c);
+		tokens.add(varC);
 
 		formula = new Formula(tokens);
-		expectedResult = 100 + 5 * 0.1;
+		expectedNumericResult = 100 + 5 * 0.1;
 		expectedString = "100.0 + 5.0 * 0.1";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
 		tokens.add(leftBracket);
-		tokens.add(a);
+		tokens.add(varA);
 		tokens.add(add);
-		tokens.add(b);
+		tokens.add(varB);
 		tokens.add(rightBracket);
 		tokens.add(mult);
-		tokens.add(c);
+		tokens.add(varC);
 
 		formula = new Formula(tokens);
-		expectedResult = (100 + 5) * 0.1;
+		expectedNumericResult = (100 + 5) * 0.1;
 		expectedString = "( 100.0 + 5.0 ) * 0.1";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
-		tokens.add(d);
+		tokens.add(varD);
 		tokens.add(mult);
 		tokens.add(leftBracket);
-		tokens.add(a);
+		tokens.add(varA);
 		tokens.add(sub);
-		tokens.add(b);
+		tokens.add(varB);
 		tokens.add(rightBracket);
 		tokens.add(div);
-		tokens.add(c);
+		tokens.add(varC);
 
 		formula = new Formula(tokens);
-		expectedResult = -2 * (100 - 5) / 0.1;
+		expectedNumericResult = -2 * (100 - 5) / 0.1;
 		expectedString = "-2.0 * ( 100.0 - 5.0 ) / 0.1";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 	}
 
@@ -135,36 +146,36 @@ public class FormulaTest {
 		List<Token> internTokens = new ArrayList<>();
 
 		tokens.clear();
-		internTokens.add(a);
+		internTokens.add(varA);
 		internTokens.add(add);
-		internTokens.add(b);
+		internTokens.add(varB);
 		internTokens.add(mult);
-		internTokens.add(c);
+		internTokens.add(varC);
 
 		Sin sin = new Sin(internTokens);
 
 		tokens.add(sin);
 		formula = new Formula(tokens);
-		expectedResult = Math.sin(100 + 5 * 0.1);
+		expectedNumericResult = Math.sin(100 + 5 * 0.1);
 		expectedString = "sin( 100.0 + 5.0 * 0.1 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
 		internTokens.clear();
-		tokens.add(b);
+		tokens.add(varB);
 		tokens.add(add);
-		internTokens.add(a);
+		internTokens.add(varA);
 		internTokens.add(div);
-		internTokens.add(b);
+		internTokens.add(varB);
 
 		Cos cos = new Cos(internTokens);
 
 		tokens.add(cos);
 		formula = new Formula(tokens);
-		expectedResult = 5 + Math.cos(100 / 5);
+		expectedNumericResult = 5 + Math.cos(100 / 5);
 		expectedString = "5.0 + cos( 100.0 / 5.0 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
@@ -173,9 +184,9 @@ public class FormulaTest {
 
 		tokens.add(tan);
 		formula = new Formula(tokens);
-		expectedResult = Math.tan(100 / 5);
+		expectedNumericResult = Math.tan(100 / 5);
 		expectedString = "tan( 100.0 / 5.0 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
@@ -184,9 +195,9 @@ public class FormulaTest {
 
 		tokens.add(ln);
 		formula = new Formula(tokens);
-		expectedResult = Math.log(100 / 5);
+		expectedNumericResult = Math.log(100 / 5);
 		expectedString = "ln( 100.0 / 5.0 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
@@ -195,9 +206,9 @@ public class FormulaTest {
 
 		tokens.add(lg);
 		formula = new Formula(tokens);
-		expectedResult = Math.log10(100 / 5);
+		expectedNumericResult = Math.log10(100 / 5);
 		expectedString = "log( 100.0 / 5.0 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
@@ -206,39 +217,39 @@ public class FormulaTest {
 
 		tokens.add(sqrt);
 		formula = new Formula(tokens);
-		expectedResult = Math.sqrt(100 / 5);
+		expectedNumericResult = Math.sqrt(100 / 5);
 		expectedString = "sqrt( 100.0 / 5.0 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
 		internTokens.clear();
-		internTokens.add(d);
+		internTokens.add(varD);
 
 		Abs abs = new Abs(internTokens);
 
 		tokens.add(abs);
 		formula = new Formula(tokens);
-		expectedResult = Math.abs(-2);
+		expectedNumericResult = Math.abs(-2);
 		expectedString = "abs( -2.0 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
 		internTokens.clear();
-		tokens.add(b);
+		tokens.add(varB);
 		tokens.add(add);
-		internTokens.add(a);
+		internTokens.add(varA);
 		internTokens.add(div);
-		internTokens.add(b);
+		internTokens.add(varB);
 
 		Exp exp = new Exp(internTokens);
 
 		tokens.add(exp);
 		formula = new Formula(tokens);
-		expectedResult = 5 + Math.exp(100 / 5);
+		expectedNumericResult = 5 + Math.exp(100 / 5);
 		expectedString = "5.0 + exp( 100.0 / 5.0 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
@@ -247,9 +258,9 @@ public class FormulaTest {
 
 		tokens.add(asin);
 		formula = new Formula(tokens);
-		expectedResult = Math.asin(100 / 5);
+		expectedNumericResult = Math.asin(100 / 5);
 		expectedString = "arcsin( 100.0 / 5.0 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
@@ -258,9 +269,9 @@ public class FormulaTest {
 
 		tokens.add(acos);
 		formula = new Formula(tokens);
-		expectedResult = Math.acos(100 / 5);
+		expectedNumericResult = Math.acos(100 / 5);
 		expectedString = "arccos( 100.0 / 5.0 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
@@ -269,22 +280,22 @@ public class FormulaTest {
 
 		tokens.add(atan);
 		formula = new Formula(tokens);
-		expectedResult = Math.atan(100 / 5);
+		expectedNumericResult = Math.atan(100 / 5);
 		expectedString = "arctan( 100.0 / 5.0 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
 		internTokens.clear();
-		internTokens.add(c);
+		internTokens.add(varC);
 
 		Floor floor = new Floor(internTokens);
 
 		tokens.add(floor);
 		formula = new Formula(tokens);
-		expectedResult = 0;
+		expectedNumericResult = 0;
 		expectedString = "floor( 0.1 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
@@ -293,9 +304,9 @@ public class FormulaTest {
 
 		tokens.add(ceil);
 		formula = new Formula(tokens);
-		expectedResult = 1;
+		expectedNumericResult = 1;
 		expectedString = "ceil( 0.1 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
@@ -304,22 +315,55 @@ public class FormulaTest {
 
 		tokens.add(roundDown);
 		formula = new Formula(tokens);
-		expectedResult = 0;
+		expectedNumericResult = 0;
 		expectedString = "round( 0.1 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 
 		tokens.clear();
 		internTokens.clear();
-		internTokens.add(e);
+		internTokens.add(varE);
 
 		Round roundUp = new Round(internTokens);
 
 		tokens.add(roundUp);
 		formula = new Formula(tokens);
-		expectedResult = 1;
+		expectedNumericResult = 1;
 		expectedString = "round( 0.8 )";
-		assertEquals(expectedResult, interpreter.eval(tokens));
+		assertEquals(expectedNumericResult, interpreter.eval(tokens));
+		assertEquals(expectedString, formula.getDisplayText());
+	}
+
+	@Test
+	public void testLogicFunctions() {
+
+		tokens.clear();
+		tokens.add(valTrue);
+		tokens.add(and);
+		tokens.add(leftBracket);
+		tokens.add(valFalse);
+		tokens.add(or);
+		tokens.add(valTrue);
+		tokens.add(rightBracket);
+
+		formula = new Formula(tokens);
+		expectedString = "TRUE AND ( FALSE OR TRUE )";
+		assertEquals(true, interpreter.evalBoolean(tokens));
+		assertEquals(expectedString, formula.getDisplayText());
+
+		tokens.clear();
+		tokens.add(valTrue);
+		tokens.add(and);
+		tokens.add(not);
+		tokens.add(leftBracket);
+		tokens.add(valFalse);
+		tokens.add(or);
+		tokens.add(valTrue);
+		tokens.add(rightBracket);
+
+		formula = new Formula(tokens);
+		expectedString = "TRUE AND NOT ( FALSE OR TRUE )";
+		assertEquals(false, interpreter.evalBoolean(tokens));
 		assertEquals(expectedString, formula.getDisplayText());
 	}
 }
