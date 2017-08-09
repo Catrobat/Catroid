@@ -23,97 +23,83 @@
 
 package org.catrobat.catroid.formula
 
+import org.catrobat.catroid.formula.function.FunctionToken
+import org.catrobat.catroid.formula.operator.BinaryOperatorToken
+import org.catrobat.catroid.formula.operator.OperatorToken
+import org.catrobat.catroid.formula.operator.UnaryOperatorToken
+import org.catrobat.catroid.formula.value.ValueToken
 import java.util.*
 
-class FormulaInterpreter {
+class FormulaInterpreter<out T : ValueToken> {
 
-	fun eval(tokens: List<Token>): Double {
+    fun eval(tokens: List<Token>): T {
 
-		val operators = Stack<OperatorToken>()
-		val values = Stack<NumericValueToken>()
+        val operators = Stack<OperatorToken>()
+        val values = Stack<ValueToken>()
 
-		for (token in tokens) {
-			when (token.type) {
-				Token.Type.VALUE -> values.push(token as NumericValueToken)
-				Token.Type.LEFT_BRACKET -> operators.push(token as OperatorToken)
-				Token.Type.RIGHT_BRACKET -> {
+        for (token in tokens) {
+            when (token.type) {
+                Token.Type.VALUE -> values.push(token as ValueToken)
 
-                    while (!operators.empty() && operators.peek().type != (Token.Type.LEFT_BRACKET)) {
-                        values.push((operators.pop() as MathOperatorToken).applyTo(values.pop(), values.pop()))
+                Token.Type.LEFT_BRACKET -> operators.push(token as OperatorToken)
+
+                Token.Type.RIGHT_BRACKET -> {
+                    while (!operators.empty() && operators.peek().type != Token.Type.LEFT_BRACKET) {
+
+                        if (operators.peek() is BinaryOperatorToken<*, *>) {
+                            values.push((operators.pop() as BinaryOperatorToken<ValueToken, ValueToken>)
+                                    .applyTo(values.pop(), values.pop()))
+                        }
+
+                        else if (operators.peek() is UnaryOperatorToken<*, *>) {
+                            values.push((operators.pop() as UnaryOperatorToken<ValueToken, ValueToken>)
+                                    .applyTo(values.pop()))
+                        }
+
                     }
 
-					operators.pop()
-				}
+                    operators.pop()
+                }
 
-				Token.Type.OPERATOR -> {
+                Token.Type.OPERATOR -> {
 
                     val operator = token as OperatorToken
 
                     while (!operators.empty() && operators.peek().getPriority() > operator.getPriority()) {
-                        values.push((operators.pop() as MathOperatorToken).applyTo(values.pop(), values.pop()))
+
+                        if (operators.peek() is BinaryOperatorToken<*, *>) {
+                            values.push((operators.pop() as BinaryOperatorToken<ValueToken, ValueToken>)
+                                    .applyTo(values.pop(), values.pop()))
+                        }
+
+                        else if (operators.peek() is UnaryOperatorToken<*, *>) {
+                            values.push((operators.pop() as UnaryOperatorToken<ValueToken, ValueToken>)
+                                    .applyTo(values.pop()))
+                        }
                     }
 
-					operators.push(operator)
-				}
+                    operators.push(operator)
+                }
 
-                Token.Type.FUNCTION -> values.push((token as FunctionToken).eval())
+                Token.Type.FUNCTION -> values.push((token as FunctionToken<*>).eval())
 
-				else -> return 0.0
-			}
-		}
-
-		while (!operators.empty()) {
-			values.push((operators.pop() as MathOperatorToken).applyTo(values.pop(), values.pop()))
-		}
-
-		return values.pop().value
-	}
-
-	fun evalBoolean(tokens: List<Token>): Boolean {
-
-		val operators = Stack<OperatorToken>()
-		val values = Stack<BooleanValueToken>()
-
-		for (token in tokens) {
-			when (token.type) {
-				Token.Type.VALUE -> values.push(token as BooleanValueToken)
-				Token.Type.LEFT_BRACKET -> operators.push(token as OperatorToken)
-				Token.Type.RIGHT_BRACKET -> {
-
-					while (!operators.empty() && operators.peek().type != (Token.Type.LEFT_BRACKET)) {
-						values.push((operators.pop() as LogicOperatorToken).applyTo(values.pop(), values.pop()))
-					}
-
-					operators.pop()
-				}
-
-				Token.Type.OPERATOR -> {
-
-					val operator = token as OperatorToken
-
-					while (!operators.empty() && operators.peek().getPriority() > operator.getPriority()) {
-                        if (operators.peek() is NotOperatorToken) {
-                            values.push((operators.pop() as NotOperatorToken).applyTo(values.pop()))
-                        } else {
-                            values.push((operators.pop() as LogicOperatorToken).applyTo(values.pop(), values.pop()))
-                        }
-					}
-
-					operators.push(operator)
-				}
-
-				else -> return false
-			}
-		}
-
-		while (!operators.empty()) {
-            if (operators.peek() is NotOperatorToken) {
-                values.push((operators.pop() as NotOperatorToken).applyTo(values.pop()))
-            } else {
-                values.push((operators.pop() as LogicOperatorToken).applyTo(values.pop(), values.pop()))
+                else -> throw Exception("INTERPRETATION ERROR!")
             }
-		}
+        }
 
-		return values.pop().value
-	}
+        while (!operators.empty()) {
+
+            if (operators.peek() is BinaryOperatorToken<*, *>) {
+                values.push((operators.pop() as BinaryOperatorToken<ValueToken, ValueToken>)
+                        .applyTo(values.pop(), values.pop()))
+            }
+
+            else if (operators.peek() is UnaryOperatorToken<*, *>) {
+                values.push((operators.pop() as UnaryOperatorToken<ValueToken, ValueToken>)
+                        .applyTo(values.pop()))
+            }
+        }
+
+        return values.pop() as T
+    }
 }

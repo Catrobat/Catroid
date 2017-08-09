@@ -21,11 +21,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formula
+package org.catrobat.catroid.formula.value
 
-class NumericValueToken(val value: Double) : Token(Type.VALUE) {
+import org.catrobat.catroid.formula.Token
 
-    override fun getString(): String {
-        return value.toString() + " "
+abstract class ValueToken : Token(Type.VALUE) {
+
+    class BooleanValueToken(val value: Boolean) : ValueToken() {
+
+        override fun getString(): String {
+            return if (value) "TRUE "  else "FALSE "
+        }
+    }
+
+    class NumericValueToken(val value: Double) : ValueToken() {
+
+        override fun getString(): String {
+            return value.toString() + " "
+        }
     }
 }
