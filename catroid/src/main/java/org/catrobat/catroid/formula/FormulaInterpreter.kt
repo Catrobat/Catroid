@@ -82,8 +82,6 @@ class FormulaInterpreter<out T : ValueToken> {
                 }
 
                 Token.Type.FUNCTION -> values.push((token as FunctionToken<*>).eval())
-
-                else -> throw Exception("INTERPRETATION ERROR!")
             }
         }
 
