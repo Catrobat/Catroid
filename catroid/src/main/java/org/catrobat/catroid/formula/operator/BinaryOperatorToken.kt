@@ -107,7 +107,7 @@ abstract class BinaryOperatorToken<in T : ValueToken, out V : ValueToken> : Oper
             return 1
         }
 
-        override fun applyTo(leftToken: BooleanValueToken, rightToken: BooleanValueToken) : BooleanValueToken {
+        override fun applyTo(rightToken: BooleanValueToken, leftToken: BooleanValueToken) : BooleanValueToken {
             return BooleanValueToken(leftToken.value && rightToken.value)
         }
     }
@@ -122,7 +122,7 @@ abstract class BinaryOperatorToken<in T : ValueToken, out V : ValueToken> : Oper
             return 0
         }
 
-        override fun applyTo(leftToken: BooleanValueToken, rightToken: BooleanValueToken) : BooleanValueToken {
+        override fun applyTo(rightToken: BooleanValueToken, leftToken: BooleanValueToken) : BooleanValueToken {
             return BooleanValueToken(leftToken.value || rightToken.value)
         }
     }
