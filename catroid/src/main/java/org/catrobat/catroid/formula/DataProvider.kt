@@ -21,30 +21,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formula.value
+package org.catrobat.catroid.formula
 
-import org.catrobat.catroid.formula.Token
+import org.catrobat.catroid.formula.value.ValueToken
+import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken.NumericVariableToken
 
-abstract class ValueToken : Token(Type.VALUE) {
+class DataProvider {
 
-    class BooleanValueToken(var value: Boolean) : ValueToken() {
+    private val values: MutableMap<NumericVariableToken, Formula> = HashMap()
 
-        override fun getString(): String {
-            return if (value) "TRUE "  else "FALSE "
-        }
+    fun add(variable: NumericVariableToken, formula: Formula) {
+        values.put(variable, formula)
     }
 
-    open class NumericValueToken(var value: Double) : ValueToken() {
+    fun remove(variable: NumericVariableToken) {
+        values.remove(variable)
+    }
 
-        override fun getString(): String {
-            return value.toString() + " "
-        }
-
-        class NumericVariableToken(var name: String, value: Double) : NumericValueToken(value) {
-
-            override fun getString(): String {
-                return name + " "
-            }
-        }
+    fun updateValues() {
+        values.forEach { entry -> entry.key.value = FormulaInterpreter<ValueToken.NumericValueToken>()
+                .eval(entry.value.tokens).value }
     }
 }
