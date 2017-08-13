@@ -368,6 +368,7 @@
     <string name="fragment_background_text_description">Tap \"+\" to add backgrounds</string>
     <string name="rename_look_dialog">Rename look</string>
     <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
+    <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
     <string name="pocket_paint_not_installed">Do you want to install it?</string>
     <string name="default_look_name">look</string>
     <string name="delete_look_dialog">Delete look?</string>

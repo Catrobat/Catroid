@@ -24,14 +24,18 @@
 package org.catrobat.catroid.ui.controller;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.util.List;
 
@@ -39,6 +43,9 @@ public final class PocketPaintExchangeHandler {
 
 	private PocketPaintExchangeHandler() {
 	}
+
+	private static BroadcastReceiver registeredReceiver = null;
+	private static Activity activityReg = null;
 
 	public static boolean isPocketPaintInstalled(Activity activity, Intent intent) {
 		List<ResolveInfo> packages = activity.getPackageManager().queryIntentActivities(intent,
@@ -49,13 +56,37 @@ public final class PocketPaintExchangeHandler {
 
 	public static void installPocketPaintAndRegister(BroadcastReceiver receiver, Activity activity) {
 
+		if (registeredReceiver != null) {
+			activityReg.unregisterReceiver(registeredReceiver);
+		}
+
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
 		intentFilter.addDataScheme("package");
 		activity.registerReceiver(receiver, intentFilter);
+		registeredReceiver = receiver;
+		activityReg = activity;
 
 		Intent downloadIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
 		downloadIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		activity.startActivity(downloadIntent);
+		try {
+			activity.startActivity(downloadIntent);
+		} catch (Exception e) {
+			showInstallPocketPaintDialog(activity);
+		}
+	}
+
+	private static void showInstallPocketPaintDialog(Activity activity) {
+		Dialog dialog = new CustomAlertDialogBuilder(activity).setTitle(R.string.pocket_paint_not_installed_title)
+				.setMessage(R.string.pocket_paint_not_installed_message)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				}).create();
+
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
 	}
 }

@@ -300,9 +300,9 @@ public class NewSpriteDialog extends DialogFragment {
 				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), intent)) {
 					startActivityForResult(intent, REQUEST_CREATE_POCKET_PAINT_IMAGE);
 				} else {
-					BroadcastReceiver receiver = createPocketPaintBroadcastReceiver(intent,
-							REQUEST_CREATE_POCKET_PAINT_IMAGE);
-					PocketPaintExchangeHandler.installPocketPaintAndRegister(receiver, getActivity());
+					BroadcastReceiver pocketPaintInstalledReceiver = createPocketPaintBroadcastReceiver(intent,
+								REQUEST_CREATE_POCKET_PAINT_IMAGE);
+					PocketPaintExchangeHandler.installPocketPaintAndRegister(pocketPaintInstalledReceiver, getActivity());
 				}
 			}
 		});
