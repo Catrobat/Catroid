@@ -109,7 +109,6 @@ android {
         testApplicationId 'org.catrobat.catroid.test'
 
         manifestPlaceholders = [ appName: appName,
-                                 launchActivity:"org.catrobat.catroid.ui.MainMenuActivity",
                                  applicationIdForTests:"org.catrobat.catroid"]
 
         buildConfigField "boolean", "DATA_TRACKING", "false"
@@ -151,8 +150,7 @@ android {
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
 
             manifestPlaceholders = [ appName: appName,
-                                     launchActivity:"org.catrobat.catroid.createatschool" +
-                    ".ui.CreateAtSchoolMainMenuActivity", applicationIdForTests:"org.catrobat.catroid.createatschool" ]
+                                     applicationIdForTests:"org.catrobat.catroid.createatschool" ]
         }
 
         phiro {
@@ -163,8 +161,7 @@ android {
             buildConfigField "boolean", "PHIRO_CODE", "true"
 
             manifestPlaceholders = [ appName: appName,
-                                     launchActivity: "org.catrobat.catroid.phiro" +
-                    ".ui.PhiroMainMenuActivity", applicationIdForTests:"org.catrobat.catroid" ]
+                                     applicationIdForTests:"org.catrobat.catroid" ]
         }
     }
 }

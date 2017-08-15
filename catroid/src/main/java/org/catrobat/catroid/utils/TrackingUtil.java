@@ -32,7 +32,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.TrackingConstants;
@@ -51,20 +50,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class TrackingUtil {
+public class TrackingUtil implements Trackable {
 
 	private static final String TAG = TrackingUtil.class.getSimpleName();
 
 	private static Map<String, Long> timerMap = new HashMap<>();
 
-	private TrackingUtil() {
-	}
-
-	public static void trackCreateProgram(String projectName, Boolean landscapeMode, boolean exampleProgram) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackCreateProgram(String projectName, Boolean landscapeMode, boolean exampleProgram) {
 		List<Pair<String, String>> trackingData = new ArrayList<>();
 		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, projectName));
 		trackingData.add(new Pair<>(TrackingConstants.LANDSCAPE, String.valueOf(landscapeMode)));
@@ -72,11 +64,7 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(TrackingConstants.CREATE_PROGRAM, trackingData);
 	}
 
-	public static void trackCreateObject(String newSpriteName, String spriteSource) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackCreateObject(String newSpriteName, String spriteSource) {
 		List<Pair<String, String>> objectTrackingData = createSceneTrackingList();
 		objectTrackingData.add(new Pair<>(TrackingConstants.SPRITE_NAME, newSpriteName));
 		objectTrackingData.add(new Pair<>(TrackingConstants.SOURCE, spriteSource));
@@ -91,18 +79,14 @@ public final class TrackingUtil {
 		}
 	}
 
-	public static void trackStartWebSessionExplore() {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackStartWebSessionExplore() {
 		List<Pair<String, String>> trackingData = new ArrayList<>();
 		startTimer(TrackingConstants.SESSION_WEB_EXPLORE);
 		createJsonAndLogCustomEvent(TrackingConstants.SESSION_START_WEB_EXPLORE, trackingData);
 	}
 
-	public static void trackStopWebSessionExplore() {
-		if (!BuildConfig.DATA_TRACKING || !timerMap.containsKey(TrackingConstants.SESSION_WEB_EXPLORE)) {
+	public void trackStopWebSessionExplore() {
+		if (!timerMap.containsKey(TrackingConstants.SESSION_WEB_EXPLORE)) {
 			return;
 		}
 
@@ -112,18 +96,14 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(TrackingConstants.SESSION_STOP_WEB_EXPLORE, trackingData);
 	}
 
-	public static void trackStartWebSessionTutorial() {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackStartWebSessionTutorial() {
 		List<Pair<String, String>> trackingData = new ArrayList<>();
 		startTimer(TrackingConstants.SESSION_WEB_TUTORIAL);
 		createJsonAndLogCustomEvent(TrackingConstants.SESSION_START_WEB_TUTORIAL, trackingData);
 	}
 
-	public static void trackStopWebSessionTutorial() {
-		if (!BuildConfig.DATA_TRACKING || !timerMap.containsKey(TrackingConstants.SESSION_WEB_TUTORIAL)) {
+	public void trackStopWebSessionTutorial() {
+		if (!timerMap.containsKey(TrackingConstants.SESSION_WEB_TUTORIAL)) {
 			return;
 		}
 
@@ -133,32 +113,20 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(TrackingConstants.SESSION_STOP_WEB_TUTORIAL, trackingData);
 	}
 
-	public static void trackStartPocketPaintSessionCreateObject() {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackStartPocketPaintSessionCreateObject() {
 		List<Pair<String, String>> trackingData = createSceneTrackingList();
 		startTimer(TrackingConstants.SESSION_POCKET_PAINT_CREATE_OBJECT);
 		createJsonAndLogCustomEvent(TrackingConstants.SESSION_START_POCKET_PAINT_CREATE_OBJECT, trackingData);
 	}
 
-	public static void trackPocketPaintSessionLook(String timerId, String trackingMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackPocketPaintSessionLook(String timerId, String trackingMessage) {
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
 		startTimer(timerId);
 		createJsonAndLogCustomEvent(trackingMessage, trackingData);
 	}
 
-	public static void trackCreateLook(String lookName, String lookSource, String customEventMessage, String
+	public void trackCreateLook(String lookName, String lookSource, String customEventMessage, String
 			customEventMessageStop, String timerId) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
 		List<Pair<String, String>> lookTrackingData = createSpriteTrackingList();
 		lookTrackingData.add(new Pair<>(TrackingConstants.LOOK_NAME, lookName));
 		lookTrackingData.add(new Pair<>(TrackingConstants.SOURCE, lookSource));
@@ -173,11 +141,7 @@ public final class TrackingUtil {
 		}
 	}
 
-	public static void trackCreateSound(String soundName, String soundSource, long lengthMilliseconds) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackCreateSound(String soundName, String soundSource, long lengthMilliseconds) {
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.SOUND_NAME, soundName));
 		trackingData.add(new Pair<>(TrackingConstants.SOURCE, soundSource));
@@ -185,11 +149,7 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(TrackingConstants.CREATE_SOUND, trackingData);
 	}
 
-	public static void trackAddBrick(Fragment addBrickFragment, Brick brickToBeAdded) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackAddBrick(Fragment addBrickFragment, Brick brickToBeAdded) {
 		Bundle bundle = addBrickFragment.getArguments();
 		if (bundle == null) {
 			return;
@@ -204,52 +164,32 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(TrackingConstants.ADD_BRICK, trackingData);
 	}
 
-	public static void trackBrick(String brickName, String trackMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackBrick(String brickName, String trackMessage) {
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.BRICK_NAME, brickName));
 		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackData(String name, String variableScope, String trackMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackData(String name, String variableScope, String trackMessage) {
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.NAME, name));
 		trackingData.add(new Pair<>(TrackingConstants.SCOPE, variableScope));
 		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackMenuButtonProject(String projectName, String trackMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackMenuButtonProject(String projectName, String trackMessage) {
 		List<Pair<String, String>> trackingData = new ArrayList<>();
 		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, projectName));
 		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackProject(String name, String trackMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackProject(String name, String trackMessage) {
 		List<Pair<String, String>> trackingData = new ArrayList<>();
 		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, name));
 		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackDeleteSprite(Sprite spriteToEdit) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackDeleteSprite(Sprite spriteToEdit) {
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.SPRITE_NAME, spriteToEdit.getName()));
 		trackingData.add(new Pair<>(TrackingConstants.AMOUNT_BRICKS, String.valueOf(spriteToEdit.getNumberOfBricks())));
@@ -259,73 +199,45 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(TrackingConstants.DELETE_SPRITE, trackingData);
 	}
 
-	public static void trackSprite(String name, String trackMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackSprite(String name, String trackMessage) {
 		List<Pair<String, String>> trackingData = createSceneTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.NAME, name));
 		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackLook(String lookName, String trackMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackLook(String lookName, String trackMessage) {
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.LOOK_NAME, lookName));
 		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackSound(String soundName, String trackMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackSound(String soundName, String trackMessage) {
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.SOUND_NAME, soundName));
 		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackDropBrick(Brick draggedBrick) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackDropBrick(Brick draggedBrick) {
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.BRICK_NAME, draggedBrick.getClass().getSimpleName()));
 		createJsonAndLogCustomEvent(TrackingConstants.DROP_BRICK, trackingData);
 	}
 
-	public static void trackScene(String projectName, String sceneName, String trackMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackScene(String projectName, String sceneName, String trackMessage) {
 		List<Pair<String, String>> trackingData = createSceneTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, projectName));
 		trackingData.add(new Pair<>(TrackingConstants.SCENE_NAME, sceneName));
 		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackMerge(String firstProject, String secondProject) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackMerge(String firstProject, String secondProject) {
 		List<Pair<String, String>> trackingData = new ArrayList<>();
 		trackingData.add(new Pair<>(TrackingConstants.FIRST_PROGRAM_NAME, firstProject));
 		trackingData.add(new Pair<>(TrackingConstants.SECOND_PROGRAM_NAME, secondProject));
 		createJsonAndLogCustomEvent(TrackingConstants.MERGE_PROGRAMS, trackingData);
 	}
 
-	public static void trackFormula(FormulaBrick formulaBrick, String brickField, String formula, String trackingMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackFormula(FormulaBrick formulaBrick, String brickField, String formula, String trackingMessage) {
 		String brickName = formulaBrick.getClass().getSimpleName();
 
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
@@ -335,18 +247,14 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(trackingMessage, trackingData);
 	}
 
-	public static void trackStartExecution() {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackStartExecution() {
 		List<Pair<String, String>> trackingData = createSceneTrackingList();
 		startTimer(TrackingConstants.SESSION_PROGRAM_EXECUTION);
 		createJsonAndLogCustomEvent(TrackingConstants.SESSION_START_PROGRAM_EXECUTION, trackingData);
 	}
 
-	public static void trackStopExecution() {
-		if (!BuildConfig.DATA_TRACKING || !timerMap.containsKey(TrackingConstants.SESSION_PROGRAM_EXECUTION)) {
+	public void trackStopExecution() {
+		if (!timerMap.containsKey(TrackingConstants.SESSION_PROGRAM_EXECUTION)) {
 			return;
 		}
 
@@ -359,31 +267,19 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(TrackingConstants.SESSION_STOP_PROGRAM_EXECUTION, trackingData);
 	}
 
-	public static void trackBackpackSprite(String name, String trackingMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackBackpackSprite(String name, String trackingMessage) {
 		List<Pair<String, String>> trackingData = createSceneTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.SPRITE_NAME, name));
 		createJsonAndLogCustomEvent(trackingMessage, trackingData);
 	}
 
-	public static void trackBackpackScenes(String name, String trackingMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackBackpackScenes(String name, String trackingMessage) {
 		List<Pair<String, String>> trackingData = createProjectTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.SCENE_NAME, name));
 		createJsonAndLogCustomEvent(trackingMessage, trackingData);
 	}
 
-	public static void trackMergeScenes(String firstScene, String secondScene, String name) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackMergeScenes(String firstScene, String secondScene, String name) {
 		String programName = ProjectManager.getInstance().getCurrentProject().getName();
 
 		List<Pair<String, String>> trackingData = new ArrayList<>();
@@ -394,12 +290,8 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(TrackingConstants.MERGE_SCENES, trackingData);
 	}
 
-	public static void trackBackpackBricks(List<Script> scriptsToAdd, int brickAmount, String groupName,
+	public void trackBackpackBricks(List<Script> scriptsToAdd, int brickAmount, String groupName,
 			String trackingMessage) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
 		String scriptNames = "";
 		for (int scriptPosition = 0; scriptPosition < scriptsToAdd.size(); scriptPosition++) {
 			String scriptName = scriptsToAdd.get(scriptPosition).getClass().getSimpleName();
@@ -420,69 +312,62 @@ public final class TrackingUtil {
 		createJsonAndLogCustomEvent(trackingMessage, trackingData);
 	}
 
-	public static void trackUseTemplate(String templateName, boolean landscape) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackUseTemplate(String templateName, boolean landscape) {
 		List<Pair<String, String>> trackingData = new ArrayList<>();
 		trackingData.add(new Pair<>(TrackingConstants.TEMPLATE_NAME, templateName));
 		trackingData.add(new Pair<>(TrackingConstants.LANDSCAPE, String.valueOf(landscape)));
 		createJsonAndLogCustomEvent(TrackingConstants.USE_TEMPLATE, trackingData);
 	}
 
-	public static void trackApplyAccessibilityPreferences(String profileName, String settingName) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackApplyAccessibilityPreferences(String profileName, String settingName) {
 		List<Pair<String, String>> trackingData = new ArrayList<>();
 		trackingData.add(new Pair<>(TrackingConstants.ACTIVE_PROFILE, profileName));
 		trackingData.add(new Pair<>(TrackingConstants.ACTIVE_SETTINGS, settingName));
 		createJsonAndLogCustomEvent(TrackingConstants.APPLY_ACCESSIBILITY_SETTINGS, trackingData);
 	}
 
-	public static void trackUseBrickHelp(Brick brick) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackUseBrickHelp(Brick brick) {
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.BRICK_NAME, brick.getClass().getSimpleName()));
 		createJsonAndLogCustomEvent(TrackingConstants.BRICK_HELP, trackingData);
 	}
 
-	public static void trackCreateBroadcastMessage(String message) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackCreateBroadcastMessage(String message) {
 		List<Pair<String, String>> trackingData = createSpriteTrackingList();
 		trackingData.add(new Pair<>(TrackingConstants.MESSAGE, message));
 		createJsonAndLogCustomEvent(TrackingConstants.CREATE_BROADCAST_MESSAGE, trackingData);
 	}
 
-	public static void trackSubmitProject(String programId) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackSubmitProject(String programId) {
 		List<Pair<String, String>> trackingData = new ArrayList<>();
 		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_ID, programId));
 		createJsonAndLogCustomEvent(TrackingConstants.SUBMIT_PROGRAM, trackingData);
 	}
 
-	public static void trackEnableHints(String enabled) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
+	public void trackEnableHints(String enabled) {
 		List<Pair<String, String>> trackingData = new ArrayList<>();
 		trackingData.add(new Pair<>(TrackingConstants.ALLOW_HINTS, enabled));
 		createJsonAndLogCustomEvent(TrackingConstants.HINTS_OPTION, trackingData);
 	}
 
-	private static List<Pair<String, String>> createProjectTrackingList() {
+	public void trackLoginInitSessionEvent(Context context) {
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putLong(TrackingConstants.LOGIN_TIME, System.currentTimeMillis()).commit();
+
+		//TODO replace bdsclient SDK
+		Log.d(TAG, "TODO Track init session at " + System.currentTimeMillis()
+				+ " with userid " + ProjectManager.getInstance().getUserID(context));
+	}
+
+	public void trackLogoutEndSessionEvent(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		long time = System.currentTimeMillis() - preferences.getLong(TrackingConstants.LOGIN_TIME, 0);
+		preferences.edit().remove(TrackingConstants.LOGIN_TIME).commit();
+
+		//TODO replace bdsclient SDK
+		Log.d(TAG, "TODO Track end session at " + time + " with userid " + ProjectManager.getInstance().getUserID(context));
+	}
+
+	private List<Pair<String, String>> createProjectTrackingList() {
 		Project program = ProjectManager.getInstance().getCurrentProject();
 		String programName = program != null ? program.getName() : TrackingConstants.NO_PROGRAM;
 
@@ -492,7 +377,7 @@ public final class TrackingUtil {
 		return trackingData;
 	}
 
-	private static List<Pair<String, String>> createSceneTrackingList() {
+	private List<Pair<String, String>> createSceneTrackingList() {
 		Scene scene = ProjectManager.getInstance().getCurrentScene();
 		String sceneName = scene != null ? scene.getName() : TrackingConstants.NO_SCENE;
 
@@ -502,7 +387,7 @@ public final class TrackingUtil {
 		return trackingData;
 	}
 
-	private static List<Pair<String, String>> createSpriteTrackingList() {
+	private List<Pair<String, String>> createSpriteTrackingList() {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		String objectName = sprite != null ? sprite.getName() : TrackingConstants.NO_SPRITE;
 
@@ -512,32 +397,7 @@ public final class TrackingUtil {
 		return trackingData;
 	}
 
-	public static void trackLoginInitSessionEvent(Context context) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
-		PreferenceManager.getDefaultSharedPreferences(context).edit().putLong(TrackingConstants.LOGIN_TIME, System.currentTimeMillis()).commit();
-
-		//TODO replace bdsclient SDK
-		Log.d(TAG, "TODO Track init session at " + System.currentTimeMillis()
-				+ " with userid " + ProjectManager.getInstance().getUserID(context));
-	}
-
-	static void trackLogoutEndSessionEvent(Context context) {
-		if (!BuildConfig.DATA_TRACKING) {
-			return;
-		}
-
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		long time = System.currentTimeMillis() - preferences.getLong(TrackingConstants.LOGIN_TIME, 0);
-		preferences.edit().remove(TrackingConstants.LOGIN_TIME).commit();
-
-		//TODO replace bdsclient SDK
-		Log.d(TAG, "TODO Track end session at " + time + " with userid " + ProjectManager.getInstance().getUserID(context));
-	}
-
-	private static void createJsonAndLogCustomEvent(String trackingMessage, List<Pair<String, String>> trackingData) {
+	private void createJsonAndLogCustomEvent(String trackingMessage, List<Pair<String, String>> trackingData) {
 
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -557,7 +417,7 @@ public final class TrackingUtil {
 		logCustomEvent(trackingMessage, jsonObject);
 	}
 
-	private static void logCustomEvent(String eventName, JSONObject jsonObject) {
+	private void logCustomEvent(String eventName, JSONObject jsonObject) {
 		Context context = CatroidApplication.getAppContext();
 		//TODO replace bdsclient SDK
 		Log.d(TAG, "TODO Track custom event at " + System.currentTimeMillis()
@@ -566,11 +426,11 @@ public final class TrackingUtil {
 				+ " and custom data: " + jsonObject);
 	}
 
-	private static void startTimer(String id) {
+	private void startTimer(String id) {
 		timerMap.put(id, System.currentTimeMillis());
 	}
 
-	private static long stopTimer(String id) {
+	private long stopTimer(String id) {
 		long time = System.currentTimeMillis() - timerMap.get(id);
 		timerMap.remove(id);
 		return time;

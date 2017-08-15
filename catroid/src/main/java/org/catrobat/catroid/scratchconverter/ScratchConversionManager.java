@@ -38,7 +38,6 @@ import android.util.Log;
 import com.google.android.gms.common.images.WebImage;
 import com.google.common.base.Preconditions;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
@@ -142,20 +141,7 @@ public class ScratchConversionManager implements ConversionManager {
 
 	private void closeAllActivities() {
 		if (!shutdown) {
-			String className = "org.catrobat.catroid.ui.MainMenuActivity";
-			if (BuildConfig.CREATE_AT_SCHOOL) {
-				className = "org.catrobat.catroid.createatschool.ui.CreateAtSchoolMainMenuActivity";
-			} else if (BuildConfig.PHIRO_CODE) {
-				className = "org.catrobat.catroid.phiro.ui.PhiroMainMenuActivity";
-			}
-
-			Intent intent;
-
-			try {
-				intent = new Intent(currentActivity.getApplicationContext(), Class.forName(className));
-			} catch (ClassNotFoundException e) {
-				intent = new Intent(currentActivity.getApplicationContext(), MainMenuActivity.class);
-			}
+			Intent intent = new Intent(currentActivity.getApplicationContext(), MainMenuActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			currentActivity.startActivity(intent);
 		}

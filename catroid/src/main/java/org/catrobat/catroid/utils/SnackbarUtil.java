@@ -35,7 +35,7 @@ import com.github.mrengineer13.snackbar.SnackBar;
 import com.github.mrengineer13.snackbar.SnackBar.Style;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -97,7 +97,7 @@ public final class SnackbarUtil {
 	}
 
 	public static boolean areHintsEnabled(Activity activity) {
-		return PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(SettingsActivity.SETTINGS_SHOW_HINTS, false);
+		return PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(BaseSettingsActivity.SETTINGS_SHOW_HINTS, false);
 	}
 
 	private static Set<String> getStringSetFromSharedPreferences(Context context) {

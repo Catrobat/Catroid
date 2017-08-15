@@ -65,10 +65,10 @@ import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BackPackLookListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
+import org.catrobat.catroid.ui.fragment.BaseFormulaEditorCategoryListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.MainFormulaEditorCategoryListFragment;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -374,20 +374,20 @@ public class ScriptActivity extends BaseActivity {
 		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 
-		MainFormulaEditorCategoryListFragment formulaEditorObjectFragment = (MainFormulaEditorCategoryListFragment)
+		BaseFormulaEditorCategoryListFragment formulaEditorObjectFragment = (BaseFormulaEditorCategoryListFragment)
 				getFragmentManager()
-						.findFragmentByTag(MainFormulaEditorCategoryListFragment.OBJECT_TAG);
-		MainFormulaEditorCategoryListFragment formulaEditorFunctionFragment = (MainFormulaEditorCategoryListFragment)
+						.findFragmentByTag(BaseFormulaEditorCategoryListFragment.OBJECT_TAG);
+		BaseFormulaEditorCategoryListFragment formulaEditorFunctionFragment = (BaseFormulaEditorCategoryListFragment)
 				getFragmentManager()
-						.findFragmentByTag(MainFormulaEditorCategoryListFragment.FUNCTION_TAG);
+						.findFragmentByTag(BaseFormulaEditorCategoryListFragment.FUNCTION_TAG);
 
-		MainFormulaEditorCategoryListFragment formulaEditorLogicFragment = (MainFormulaEditorCategoryListFragment)
+		BaseFormulaEditorCategoryListFragment formulaEditorLogicFragment = (BaseFormulaEditorCategoryListFragment)
 				getFragmentManager()
-						.findFragmentByTag(MainFormulaEditorCategoryListFragment.LOGIC_TAG);
+						.findFragmentByTag(BaseFormulaEditorCategoryListFragment.LOGIC_TAG);
 
-		MainFormulaEditorCategoryListFragment formulaEditorSensorFragment = (MainFormulaEditorCategoryListFragment)
+		BaseFormulaEditorCategoryListFragment formulaEditorSensorFragment = (BaseFormulaEditorCategoryListFragment)
 				getFragmentManager()
-						.findFragmentByTag(MainFormulaEditorCategoryListFragment.SENSOR_TAG);
+						.findFragmentByTag(BaseFormulaEditorCategoryListFragment.SENSOR_TAG);
 
 		return formulaEditorFragment != null && formulaEditorFragment.isVisible()
 				|| formulaEditorObjectFragment != null && formulaEditorObjectFragment.isVisible()
@@ -502,8 +502,8 @@ public class ScriptActivity extends BaseActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		FragmentManager fragmentManager = getFragmentManager();
 
-		for (String tag : MainFormulaEditorCategoryListFragment.TAGS) {
-			MainFormulaEditorCategoryListFragment fragment = (MainFormulaEditorCategoryListFragment) fragmentManager.findFragmentByTag(tag);
+		for (String tag : BaseFormulaEditorCategoryListFragment.TAGS) {
+			BaseFormulaEditorCategoryListFragment fragment = (BaseFormulaEditorCategoryListFragment) fragmentManager.findFragmentByTag(tag);
 			if (fragment != null && fragment.isVisible()) {
 				return fragment.onKey(null, keyCode, event);
 			}

@@ -48,7 +48,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorChooseSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
@@ -62,10 +62,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public abstract class MainFormulaEditorCategoryListFragment extends ListFragment implements Dialog.OnKeyListener,
+public abstract class BaseFormulaEditorCategoryListFragment extends ListFragment implements Dialog.OnKeyListener,
 		CategoryListAdapter.OnListItemClickListener {
 
-	public static final String TAG = MainFormulaEditorCategoryListFragment.class.getSimpleName();
+	public static final String TAG = BaseFormulaEditorCategoryListFragment.class.getSimpleName();
 
 	public static final String OBJECT_TAG = "objectFragment";
 	public static final String FUNCTION_TAG = "functionFragment";
@@ -233,11 +233,11 @@ public abstract class MainFormulaEditorCategoryListFragment extends ListFragment
 		if (isNXTItem(position)) {
 			DialogFragment dialog = new LegoSensorPortConfigDialog(itemsIds[position], LegoSensorPortConfigDialog.Lego.NXT);
 			dialog.setTargetFragment(this, getTargetRequestCode());
-			dialog.show(this.getActivity().getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(getActivity().getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
 		} else if (isEV3Item(position)) {
 			DialogFragment dialog = new LegoSensorPortConfigDialog(itemsIds[position], LegoSensorPortConfigDialog.Lego.EV3);
 			dialog.setTargetFragment(this, getTargetRequestCode());
-			dialog.show(this.getActivity().getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(getActivity().getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
 		} else {
 			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -334,7 +334,7 @@ public abstract class MainFormulaEditorCategoryListFragment extends ListFragment
 		setHasOptionsMenu(true);
 		initCategories();
 
-		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
+		actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
 	}
 
 	private void initCategories() {
@@ -382,10 +382,10 @@ public abstract class MainFormulaEditorCategoryListFragment extends ListFragment
 		categoryMap.put(LOGIC_TAG, category);
 	}
 
-	private void initSensors() {
+	protected void initSensors() {
 		FormulaEditorCategory category = getCategory(SENSOR_TAG);
 
-		Context context = this.getActivity().getApplicationContext();
+		Context context = getActivity().getApplicationContext();
 
 		boolean isNewHeader = category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_sensors), DEFAULT_SENSOR_ITEMS, createEmptyParametersList(DEFAULT_SENSOR_ITEMS.length));
 		if (isNewHeader) {
@@ -416,30 +416,30 @@ public abstract class MainFormulaEditorCategoryListFragment extends ListFragment
 
 		category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_date_and_time), DATE_AND_TIME_SENSOR_ITEMS, null);
 
-		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
+		if (BaseSettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
 			isNewHeader = category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_lego), NXT_SENSOR_ITEMS, createEmptyParametersList(NXT_SENSOR_ITEMS.length));
-			if (isNewHeader && SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(context)) {
+			if (isNewHeader && BaseSettingsActivity.isMindstormsEV3SharedPreferenceEnabled(context)) {
 				category.addItems(EV3_SENSOR_ITEMS);
 			}
 		}
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (BaseSettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_phiro), PHIRO_SENSOR_ITEMS, createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
 		}
 
-		if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
+		if (BaseSettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
 			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_arduino), ARDUINO_SENSOR_ITEMS, createEmptyParametersList(ARDUINO_SENSOR_ITEMS.length));
 		}
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
+		if (BaseSettingsActivity.isDroneSharedPreferenceEnabled(context)) {
 			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_drone), SENSOR_ITEMS_DRONE, createEmptyParametersList(SENSOR_ITEMS_DRONE.length));
 		}
 
-		if (SettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
+		if (BaseSettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
 			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_raspberry), RASPBERRY_SENSOR_ITEMS, RASPBERRY_SENSOR_PARAMETERS);
 		}
 
-		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+		if (BaseSettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_nfc), NFC_TAG_ITEMS, createEmptyParametersList(NFC_TAG_ITEMS.length));
 		}
 

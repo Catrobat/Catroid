@@ -52,7 +52,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -238,12 +237,12 @@ public class NewDataDialog extends DialogFragment {
 			if (!isListNameValid(name)) {
 				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_data_item);
 			} else {
-				TrackingUtil.trackData(name, TrackingConstants.GLOBAL, TrackingConstants.CREATE_LIST);
+				Utils.getTrackingUtilProxy().trackData(name, TrackingConstants.GLOBAL, TrackingConstants.CREATE_LIST);
 				newUserList = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.addProjectUserList(name);
 			}
 		} else if (local.isChecked()) {
-			TrackingUtil.trackData(name, TrackingConstants.LOCAL, TrackingConstants.CREATE_LIST);
+			Utils.getTrackingUtilProxy().trackData(name, TrackingConstants.LOCAL, TrackingConstants.CREATE_LIST);
 			newUserList = ProjectManager.getInstance().getCurrentScene().getDataContainer().addSpriteUserList(name);
 		}
 		userListDialogListenerListFinishNewUserListDialog(newUserList);
@@ -255,12 +254,12 @@ public class NewDataDialog extends DialogFragment {
 			if (!isVariableNameValid(name)) {
 				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 			} else {
-				TrackingUtil.trackData(name, TrackingConstants.GLOBAL, TrackingConstants.CREATE_VARIABLE);
+				Utils.getTrackingUtilProxy().trackData(name, TrackingConstants.GLOBAL, TrackingConstants.CREATE_VARIABLE);
 				newUserVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.addProjectUserVariable(name);
 			}
 		} else if (local.isChecked()) {
-			TrackingUtil.trackData(name, TrackingConstants.LOCAL, TrackingConstants.CREATE_VARIABLE);
+			Utils.getTrackingUtilProxy().trackData(name, TrackingConstants.LOCAL, TrackingConstants.CREATE_VARIABLE);
 			newUserVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer().addSpriteUserVariable(name);
 		}
 		variableDialogListenerListFinishNewVariableDialog(newUserVariable);

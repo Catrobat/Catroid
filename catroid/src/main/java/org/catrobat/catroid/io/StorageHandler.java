@@ -223,7 +223,6 @@ import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -607,7 +606,7 @@ public final class StorageHandler {
 
 		assertTrue(codeFileSanityCheck(projectName));
 
-		TrackingUtil.trackMenuButtonProject(projectName, TrackingConstants.OPEN_PROGRAM);
+		Utils.getTrackingUtilProxy().trackMenuButtonProject(projectName, TrackingConstants.OPEN_PROGRAM);
 
 		if (!projectExists(projectName)) {
 			return null;

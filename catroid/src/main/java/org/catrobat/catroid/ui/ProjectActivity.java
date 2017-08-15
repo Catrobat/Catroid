@@ -148,9 +148,9 @@ public class ProjectActivity extends BaseCastActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
-		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
-		SettingsActivity.setDroneChooserEnabled(this, true);
+		BaseSettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+		BaseSettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
+		BaseSettingsActivity.setDroneChooserEnabled(this, true);
 	}
 
 	@Override
@@ -403,7 +403,7 @@ public class ProjectActivity extends BaseCastActivity {
 			FaceDetectionHandler.stopFaceDetection();
 		}
 
-		if (requestCode != RESULT_OK && SettingsActivity.isCastSharedPreferenceEnabled(this)
+		if (requestCode != RESULT_OK && BaseSettingsActivity.isCastSharedPreferenceEnabled(this)
 				&& ProjectManager.getInstance().getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
 
@@ -599,7 +599,7 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	private boolean needToShowLegoEV3InfoDialog() {
-		boolean isLegoEV3InfoDialogDisabled = SettingsActivity
+		boolean isLegoEV3InfoDialogDisabled = BaseSettingsActivity
 				.getShowLegoEV3MindstormsSensorInfoDialog(getApplicationContext());
 
 		boolean legoEV3ResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()
@@ -611,7 +611,7 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	private boolean needToShowLegoNXTInfoDialog() {
-		boolean isLegoNXTInfoDialogDisabled = SettingsActivity
+		boolean isLegoNXTInfoDialogDisabled = BaseSettingsActivity
 				.getShowLegoNXTMindstormsSensorInfoDialog(getApplicationContext());
 
 		boolean legoNXTResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()

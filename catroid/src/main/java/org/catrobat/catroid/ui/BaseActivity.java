@@ -63,7 +63,7 @@ public abstract class BaseActivity extends Activity {
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (BaseSettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
 	}
@@ -85,7 +85,7 @@ public abstract class BaseActivity extends Activity {
 			getActionBar().setTitle(getTitleActionBar());
 		}
 
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (BaseSettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
 
@@ -126,7 +126,7 @@ public abstract class BaseActivity extends Activity {
 				}
 				return false;
 			case R.id.settings:
-				Intent settingsIntent = createSettingsIntent();
+				Intent settingsIntent = new Intent(this, SettingsActivity.class);
 				startActivity(settingsIntent);
 				break;
 			case R.id.menu_scratch_converter:
@@ -176,15 +176,6 @@ public abstract class BaseActivity extends Activity {
 
 	private boolean isRecoveredFromCrash() {
 		return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(RECOVERED_FROM_CRASH, false);
-	}
-
-	private Intent createSettingsIntent() {
-		if (BuildConfig.PHIRO_CODE) {
-			Intent intent = new Intent();
-			intent.setClassName(getPackageName(), getPackageName() + ".ui.PhiroSettingsActivity");
-			return intent;
-		}
-		return new Intent(this, SettingsActivity.class);
 	}
 
 	// Taken from http://stackoverflow.com/a/11270668

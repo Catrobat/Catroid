@@ -23,32 +23,24 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
-import android.os.Bundle;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 
-public class FormulaEditorCategoryListFragment extends MainFormulaEditorCategoryListFragment {
+public class FormulaEditorCategoryListFragment extends BaseFormulaEditorCategoryListFragment {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		initCategories();
-		super.onCreate(savedInstanceState);
-	}
-
-	private void initCategories() {
-		initSensors();
-	}
-
-	private void initSensors() {
+	protected void initSensors() {
 		FormulaEditorCategory category = getCategory(SENSOR_TAG);
 
-		Context context = this.getActivity().getApplicationContext();
+		Context context = getActivity().getApplicationContext();
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (BaseSettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			category.addCategoryIfDoesNotExist(getString(R.string.formula_editor_device_phiro), PHIRO_SENSOR_ITEMS, createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
 		}
 
 		categoryMap.put(SENSOR_TAG, category);
+
+		super.initSensors();
 	}
 }

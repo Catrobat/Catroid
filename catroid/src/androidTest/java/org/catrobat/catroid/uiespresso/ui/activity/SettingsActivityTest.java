@@ -50,18 +50,18 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CAST_GLOBALLY_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CRASH_REPORTS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_ARDUINO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_HINTS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_NFC_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_CAST_GLOBALLY_ENABLED;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_CRASH_REPORTS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_ARDUINO_BRICKS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_HINTS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_NFC_BRICKS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_RASPI_BRICKS;
 
 @RunWith(AndroidJUnit4.class)
 public class SettingsActivityTest {

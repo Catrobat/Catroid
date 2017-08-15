@@ -20,8 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.catrobat.catroid.createatschool.ui;
+package org.catrobat.catroid.ui;
 
 import android.app.AlertDialog;
 import android.view.Menu;
@@ -32,12 +31,10 @@ import android.widget.Button;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.Utils;
 
-public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
-
+public class MainMenuActivity extends BaseMainMenuActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);

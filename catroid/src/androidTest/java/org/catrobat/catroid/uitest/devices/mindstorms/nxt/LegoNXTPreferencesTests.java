@@ -43,9 +43,9 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -69,11 +69,11 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		UiTestUtils.prepareStageForTest();
 
 		applicationContext = getInstrumentation().getTargetContext().getApplicationContext();
-		SettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(applicationContext);
+		BaseSettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(applicationContext);
 	}
 
 	public void testNXTAllBricksAvailable() throws InterruptedException {
-		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
+		boolean nxtBricksEnabledStart = BaseSettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
 
 		if (!nxtBricksEnabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);
@@ -122,12 +122,12 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 	public void testNXTSensorsSetCorrectly() throws InterruptedException {
 		createTestproject(projectName);
 
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(applicationContext, true);
+		BaseSettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(applicationContext, true);
 		LegoNXT nxt = new LegoNXTImpl(applicationContext);
 		ConnectionDataLogger logger = ConnectionDataLogger.createLocalConnectionLogger();
 		nxt.setConnection(logger.getConnectionProxy());
 
-		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
+		boolean nxtBricksEnabledStart = BaseSettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
 
 		solo.waitForText(solo.getString(R.string.main_menu_programs));
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
@@ -141,7 +141,7 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		sensorMapping[1] = NXTSensor.Sensor.SOUND;
 		sensorMapping[2] = NXTSensor.Sensor.SOUND;
 		sensorMapping[3] = NXTSensor.Sensor.SOUND;
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext, sensorMapping);
+		BaseSettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext, sensorMapping);
 
 		solo.clickOnActionBarItem(R.id.settings);
 
@@ -170,18 +170,18 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.goBack();
 		solo.goBack();
 
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(applicationContext, true);
+		BaseSettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(applicationContext, true);
 
-		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_1);
+		NXTSensor.Sensor sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, BaseSettingsActivity.NXT_SENSOR_1);
 		assertEquals("NXT sensor 1 not set correctly!", NXTSensor.Sensor.LIGHT_INACTIVE, sensor);
 
-		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_2);
+		sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, BaseSettingsActivity.NXT_SENSOR_2);
 		assertEquals("NXT sensor 2 not set correctly!", NXTSensor.Sensor.TOUCH, sensor);
 
-		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_3);
+		sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, BaseSettingsActivity.NXT_SENSOR_3);
 		assertEquals("NXT sensor 3 not set correctly!", NXTSensor.Sensor.TOUCH, sensor);
 
-		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_4);
+		sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, BaseSettingsActivity.NXT_SENSOR_4);
 		assertEquals("NXT sensor 4 not set correctly!", NXTSensor.Sensor.ULTRASONIC, sensor);
 
 		nxt.initialise();
@@ -224,16 +224,16 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		solo.sleep(500);
 
-		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_1);
+		sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, BaseSettingsActivity.NXT_SENSOR_1);
 		assertEquals("NXT sensor 1 not set correctly!", NXTSensor.Sensor.TOUCH, sensor);
 
-		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_2);
+		sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, BaseSettingsActivity.NXT_SENSOR_2);
 		assertEquals("NXT sensor 2 not set correctly!", NXTSensor.Sensor.SOUND, sensor);
 
-		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_3);
+		sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, BaseSettingsActivity.NXT_SENSOR_3);
 		assertEquals("NXT sensor 3 not set correctly!", NXTSensor.Sensor.LIGHT_INACTIVE, sensor);
 
-		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_4);
+		sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, BaseSettingsActivity.NXT_SENSOR_4);
 		assertEquals("NXT sensor 4 not set correctly!", NXTSensor.Sensor.ULTRASONIC, sensor);
 
 		assertNotNull("Sensor 1 not reinitialized correctly", nxt.getSensor1());
@@ -257,8 +257,8 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testNXTSensorsAvailable() throws InterruptedException {
-		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(applicationContext, true);
+		boolean nxtBricksEnabledStart = BaseSettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
+		BaseSettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(applicationContext, true);
 
 		solo.clickOnActionBarItem(R.id.settings);
 

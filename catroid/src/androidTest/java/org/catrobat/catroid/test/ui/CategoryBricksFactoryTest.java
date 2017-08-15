@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 		super.setUp();
 		context = getContext();
 
-		SettingsActivity.resetSharedPreferences(context);
+		BaseSettingsActivity.resetSharedPreferences(context);
 
 		Project project = new Project(context, "Project");
 		background = project.getDefaultScene().getSpriteList().get(0);

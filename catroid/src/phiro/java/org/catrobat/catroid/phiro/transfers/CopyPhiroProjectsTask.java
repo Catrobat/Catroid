@@ -21,76 +21,76 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.phiro.ui;
+package org.catrobat.catroid.phiro.transfers;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.app.Activity;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.phiro.io.OnCopyPhiroProjectsCompleteListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 
 import java.io.IOException;
 
-public class PhiroMainMenuActivity extends MainMenuActivity {
+public class CopyPhiroProjectsTask extends AsyncTask<String, Void, Boolean> {
 
-	public static final String PHIRO_INITIALIZED = "phiro_initialized";
+	private static final String TAG = CopyPhiroProjectsTask.class.getSimpleName();
 
-	private static final String TAG = PhiroMainMenuActivity.class.getSimpleName();
+	private Activity activity;
+	private OnCopyPhiroProjectsCompleteListener listener;
+	private LinearLayout linearLayoutProgressCircle;
 
-	public static String[] phiroProjects = {
-			"BETT dice phiro program",
-			"BETT DIRECTION DETECT",
-			"BETT DRIVE APP",
-			"BETT FACE DETECTION",
-			"phiro draw sequential mode",
-			"loudness control"
-	};
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		enablePhiro();
-		loadPhiroProjects();
+	public CopyPhiroProjectsTask(Activity activity, OnCopyPhiroProjectsCompleteListener listener) {
+		this.activity = activity;
+		this.listener = listener;
 	}
 
-	private void loadPhiroProjects() {
-		for (String project : phiroProjects) {
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		if (activity == null) {
+			return;
+		}
+		linearLayoutProgressCircle = (LinearLayout) activity.findViewById(R.id.progress_circle);
+		linearLayoutProgressCircle.setVisibility(View.VISIBLE);
+		linearLayoutProgressCircle.bringToFront();
+	}
+
+	@Override
+	protected Boolean doInBackground(String... projects) {
+		for (String project : projects) {
 			if (StorageHandler.getInstance().projectExists(project)) {
 				continue;
 			}
 
 			String zipFileName = project + ".zip";
 			try {
-				UtilFile.copyAssetProjectZipFile(this, zipFileName, Constants.TMP_PATH);
+				UtilFile.copyAssetProjectZipFile(activity, zipFileName, Constants.TMP_PATH);
 				UtilZip.unZipFile(Constants.TMP_PATH + "/" + zipFileName, Constants.DEFAULT_ROOT + "/" + project);
 				UtilFile.deleteFile(Constants.TMP_PATH + "/" + zipFileName);
 			} catch (IOException exception) {
 				Log.e(TAG, "Could not load phiro project " + project);
-				ToastUtil.showError(this, R.string.error_load_project);
+				ToastUtil.showError(activity, R.string.error_load_project);
+				return false;
 			}
 		}
+		return true;
 	}
 
-	private void enablePhiro() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+	@Override
+	protected void onPostExecute(Boolean success) {
+		super.onPostExecute(success);
+		linearLayoutProgressCircle.setVisibility(View.GONE);
 
-		if (!sharedPreferences.getBoolean(PHIRO_INITIALIZED, false)) {
-			SettingsActivity.setPhiroSharedPreferenceEnabled(this, true);
-			setPhiroInitialized();
+		if (success) {
+			listener.copyingCompleted();
 		}
-	}
-
-	private void setPhiroInitialized() {
-		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-		editor.putBoolean(PHIRO_INITIALIZED, true);
-		editor.apply();
 	}
 }

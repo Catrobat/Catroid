@@ -25,9 +25,9 @@ package org.catrobat.catroid.ui.fragment;
 import android.os.Bundle;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 
-public class BrickCategoryFragment extends MainBrickCategoryFragment {
+public class BrickCategoryFragment extends BaseBrickCategoryFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,10 +35,10 @@ public class BrickCategoryFragment extends MainBrickCategoryFragment {
 		super.onCreate(savedInstanceState);
 	}
 
-	private void initPhiroBrickCategory() {
+	protected void initPhiroBrickCategory() {
 		brickCategories.clear();
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
+		if (BaseSettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_phiro);
 		}
 	}

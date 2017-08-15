@@ -46,7 +46,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 public class LogInDialog extends DialogFragment implements LoginTask.OnLoginCompleteListener {
@@ -142,7 +142,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
 		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
 
-		TrackingUtil.trackLoginInitSessionEvent(getActivity());
+		Utils.getTrackingUtilProxy().trackLoginInitSessionEvent(getActivity());
 	}
 
 	private void handleLoginButtonClick() {

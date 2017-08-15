@@ -72,8 +72,8 @@ import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.dialogs.RenameVariableDialog;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.utils.Utils;
 
 public class FormulaEditorDataFragment extends ListFragment implements Dialog.OnKeyListener,
 		DataAdapter.OnCheckedChangeListener, DataAdapter.OnListItemClickListener, NewUserListDialogListener, NewDataDialog.NewVariableDialogListener {
@@ -466,7 +466,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 									String typeString = type == DataContainer.DataType.USER_VARIABLE_PROJECT
 											? TrackingConstants.GLOBAL : TrackingConstants.LOCAL;
 
-									TrackingUtil.trackData(list.getName(), typeString, TrackingConstants.DELETE_LIST);
+									Utils.getTrackingUtilProxy().trackData(list.getName(), typeString, TrackingConstants.DELETE_LIST);
 									dataContainer.deleteUserListByName(list.getName());
 								}
 								for (UserVariable variable : adapter.getCheckedUserVariables()) {
@@ -475,7 +475,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 									String typeString = type == DataContainer.DataType.USER_VARIABLE_PROJECT
 											? TrackingConstants.GLOBAL : TrackingConstants.LOCAL;
 
-									TrackingUtil.trackData(variable.getName(), typeString, TrackingConstants.DELETE_VARIABLE);
+									Utils.getTrackingUtilProxy().trackData(variable.getName(), typeString, TrackingConstants.DELETE_VARIABLE);
 									dataContainer.deleteUserVariableByName(variable.getName());
 								}
 

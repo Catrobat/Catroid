@@ -28,6 +28,7 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -48,12 +49,12 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		TestUtils.createEmptyProject();
 		settings = solo.getString(R.string.settings);
 		preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		preferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
+		preferences.edit().putBoolean(BaseSettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		preferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
+		preferences.edit().putBoolean(BaseSettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
 		solo.finishOpenedActivities();
 		super.tearDown();
 	}

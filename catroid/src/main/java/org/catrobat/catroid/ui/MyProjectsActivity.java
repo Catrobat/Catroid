@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.ui.fragment.BaseProjectListFragment;
 import org.catrobat.catroid.ui.fragment.ProjectListFragment;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -48,7 +49,7 @@ public class MyProjectsActivity extends BaseCastActivity {
 	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
-	private ProjectListFragment projectListFragment;
+	private BaseProjectListFragment baseProjectListFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class MyProjectsActivity extends BaseCastActivity {
 		BottomBar.hidePlayButton(this);
 
 		loadFragment(ProjectListFragment.class, false);
-		projectListFragment = (ProjectListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
+		baseProjectListFragment = (ProjectListFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
 		SnackbarUtil.showHintSnackBar(this, R.string.hint_merge);
 		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
@@ -109,7 +110,7 @@ public class MyProjectsActivity extends BaseCastActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		handleShowDetails(projectListFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		handleShowDetails(baseProjectListFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -121,19 +122,19 @@ public class MyProjectsActivity extends BaseCastActivity {
 				return true;
 
 			case R.id.copy:
-				projectListFragment.startCopyActionMode();
+				baseProjectListFragment.startCopyActionMode();
 				break;
 
 			case R.id.delete:
-				projectListFragment.startDeleteActionMode();
+				baseProjectListFragment.startDeleteActionMode();
 				break;
 
 			case R.id.rename:
-				projectListFragment.startRenameActionMode();
+				baseProjectListFragment.startRenameActionMode();
 				break;
 
 			case R.id.show_details:
-				handleShowDetails(!projectListFragment.getShowDetails(), item);
+				handleShowDetails(!baseProjectListFragment.getShowDetails(), item);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -156,7 +157,7 @@ public class MyProjectsActivity extends BaseCastActivity {
 	}
 
 	private void handleShowDetails(boolean showDetails, MenuItem item) {
-		projectListFragment.setShowDetails(showDetails);
+		baseProjectListFragment.setShowDetails(showDetails);
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 

@@ -29,9 +29,8 @@ import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 
 import static android.support.test.espresso.Espresso.onData;
 
-import static org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers.isBrickCategoryListView;
-import static org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers.withBrickCategoryName;
-import static org.hamcrest.Matchers.allOf;
+import static org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers.isBrickCategoryListItem;
+import static org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers.isBrickCategoryView;
 import static org.hamcrest.Matchers.instanceOf;
 
 public class ScriptListDataInteractionWrapper extends DataInteractionWrapper {
@@ -40,9 +39,9 @@ public class ScriptListDataInteractionWrapper extends DataInteractionWrapper {
 		super(dataInteraction);
 	}
 
-	public static ScriptListDataInteractionWrapper onBrickCategoryWithNameAtPosition(String brickCategory, int position) {
-		return new ScriptListDataInteractionWrapper(onData(allOf(instanceOf(String.class), withBrickCategoryName(brickCategory)))
-				.inAdapterView(isBrickCategoryListView())
-				.atPosition(position));
+	public static DataInteraction onBrickCategory() {
+		return new ScriptListDataInteractionWrapper(onData(instanceOf(String.class)))
+				.inAdapterView(isBrickCategoryView())
+				.onChildView(isBrickCategoryListItem());
 	}
 }

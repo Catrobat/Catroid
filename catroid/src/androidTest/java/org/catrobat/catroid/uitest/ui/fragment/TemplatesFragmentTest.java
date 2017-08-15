@@ -32,9 +32,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.TemplatesActivity;
 import org.catrobat.catroid.ui.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.fragment.TemplatesFragment;
@@ -165,7 +165,7 @@ public class TemplatesFragmentTest extends BaseActivityInstrumentationTestCase<M
 
 	private void enableOrDisableSnackBarHints(boolean enabled) {
 		PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-				.putBoolean(SettingsActivity.SETTINGS_SHOW_HINTS, enabled).commit();
+				.putBoolean(BaseSettingsActivity.SETTINGS_SHOW_HINTS, enabled).commit();
 	}
 
 	private void openTemplatesFragment() {

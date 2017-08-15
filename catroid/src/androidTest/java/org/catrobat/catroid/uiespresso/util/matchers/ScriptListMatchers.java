@@ -23,18 +23,14 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-
-import static org.hamcrest.Matchers.equalTo;
 
 public final class ScriptListMatchers {
 	private ScriptListMatchers() {
@@ -53,39 +49,6 @@ public final class ScriptListMatchers {
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("ScriptListView");
-			}
-		};
-	}
-
-	public static Matcher<View> isBrickCategoryListView() {
-		return new TypeSafeMatcher<View>() {
-
-			@Override
-			protected boolean matchesSafely(View view) {
-				return view instanceof ListView && ((ListView) view).getAdapter() instanceof BrickCategoryAdapter;
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("BrickCategoryListView");
-			}
-		};
-	}
-
-	public static Matcher<Object> withBrickCategoryName(String expectedBrickCategoryName) {
-		return withBrickCategoryName(equalTo(expectedBrickCategoryName));
-	}
-	private static Matcher<Object> withBrickCategoryName(final Matcher<String> expectedBrickCategoryName) {
-		return new BoundedMatcher<Object, String>(String.class) {
-
-			@Override
-			public boolean matchesSafely(final String actualBrickCategoryName) {
-				return expectedBrickCategoryName.matches(actualBrickCategoryName);
-			}
-
-			@Override
-			public void describeTo(final Description description) {
-				description.appendText("BrickCategory name matches");
 			}
 		};
 	}

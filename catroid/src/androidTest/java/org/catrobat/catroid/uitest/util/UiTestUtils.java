@@ -148,11 +148,11 @@ import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
@@ -2567,7 +2567,7 @@ public final class UiTestUtils {
 	}
 
 	public static void enableNfcBricks(Context context) {
-		PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(SettingsActivity.SETTINGS_SHOW_NFC_BRICKS, true).commit();
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(BaseSettingsActivity.SETTINGS_SHOW_NFC_BRICKS, true).commit();
 	}
 
 	public static void clickOnCheckBox(Solo solo, int checkBoxIndex) {

@@ -36,9 +36,9 @@ import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -66,7 +66,7 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 	}
 
 	private void setSensors(NXTSensor.Sensor sensor) {
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getInstrumentation().getTargetContext(),
+		BaseSettingsActivity.setLegoMindstormsNXTSensorMapping(this.getInstrumentation().getTargetContext(),
 				new NXTSensor.Sensor[] {sensor, sensor, sensor, sensor});
 	}
 
@@ -74,9 +74,9 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		createBrickTestproject(projectNameNxt);
 		createNoNXTUseTestproject(projectNameNoNxt);
 
-		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
+		boolean nxtBricksEnabledStart = BaseSettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
 
-		boolean nxtDialogDisabledStart = SettingsActivity.getShowLegoNXTMindstormsSensorInfoDialog(applicationContext);
+		boolean nxtDialogDisabledStart = BaseSettingsActivity.getShowLegoNXTMindstormsSensorInfoDialog(applicationContext);
 
 		if (!nxtBricksEnabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);
@@ -212,8 +212,8 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 	public void testNXTSensorConfigurationDialog() throws InterruptedException {
 		createBrickTestproject(projectNameNxt);
-		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
-		boolean nxtDialogDisabledStart = SettingsActivity.getShowLegoNXTMindstormsSensorInfoDialog(applicationContext);
+		boolean nxtBricksEnabledStart = BaseSettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
+		boolean nxtDialogDisabledStart = BaseSettingsActivity.getShowLegoNXTMindstormsSensorInfoDialog(applicationContext);
 
 		if (!nxtBricksEnabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);

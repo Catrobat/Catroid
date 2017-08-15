@@ -22,6 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-public class FormulaEditorCategoryListFragment extends MainFormulaEditorCategoryListFragment {
+public class FormulaEditorCategoryListFragment extends BaseFormulaEditorCategoryListFragment {
 	//no adaptations for this flavor
 }

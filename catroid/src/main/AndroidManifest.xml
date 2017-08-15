@@ -101,7 +101,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
-            android:name="${launchActivity}"
+            android:name=".ui.MainMenuActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait">
             <intent-filter>

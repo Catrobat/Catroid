@@ -37,7 +37,6 @@ import org.catrobat.catroid.ui.adapter.ProjectListAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.MergeNameDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public final class MergeManager {
@@ -55,7 +54,7 @@ public final class MergeManager {
 			return;
 		}
 
-		TrackingUtil.trackMerge(firstProject.getName(), secondProject.getName());
+		Utils.getTrackingUtilProxy().trackMerge(firstProject.getName(), secondProject.getName());
 
 		boolean justAddAsScene = firstProject.getSceneList().size() == 1 ^ secondProject.getSceneList().size() == 1;
 		showMergeDialog(firstProject, secondProject, activity, adapter, justAddAsScene);

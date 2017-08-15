@@ -29,7 +29,7 @@ import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.utils.CrashReporter;
 
 public class CrashReporterTest extends AndroidTestCase {
@@ -45,7 +45,7 @@ public class CrashReporterTest extends AndroidTestCase {
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		editor = sharedPreferences.edit();
 		editor.clear();
-		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, true);
+		editor.putBoolean(BaseSettingsActivity.SETTINGS_CRASH_REPORTS, true);
 		editor.commit();
 		exception = new RuntimeException("Error");
 		CrashReporter.setIsCrashReportEnabled(true);
@@ -58,7 +58,7 @@ public class CrashReporterTest extends AndroidTestCase {
 	}
 
 	public void testCrashlyticsUninitializedOnAnonymousReportDisabled() {
-		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false);
+		editor.putBoolean(BaseSettingsActivity.SETTINGS_CRASH_REPORTS, false);
 		editor.commit();
 
 		assertFalse(CrashReporter.initialize(context));
@@ -138,7 +138,7 @@ public class CrashReporterTest extends AndroidTestCase {
 	}
 
 	public void testLogExceptionGenerateNoLogsOnReportsDisabled() {
-		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false);
+		editor.putBoolean(BaseSettingsActivity.SETTINGS_CRASH_REPORTS, false);
 		editor.commit();
 
 		CrashReporter.setIsCrashReportEnabled(false);

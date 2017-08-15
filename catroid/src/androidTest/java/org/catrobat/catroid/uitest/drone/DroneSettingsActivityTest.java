@@ -35,6 +35,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -52,13 +53,13 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 	protected void setUp() throws Exception {
 		TestUtils.deleteTestProjects();
 		DroneTestUtils.createDefaultDroneProject();
-		SettingsActivity.enableARDroneBricks(getActivity(), true);
+		BaseSettingsActivity.enableARDroneBricks(getActivity(), true);
 		super.setUp();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		BaseSettingsActivity.enableARDroneBricks(getActivity(), false);
 		TestUtils.deleteTestProjects();
 		solo.finishOpenedActivities();
 		super.tearDown();
@@ -67,17 +68,17 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 	public void testDroneTermsOfUsePermanentAgree() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), false);
-		assertFalse("Terms of servie should not be accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
-		assertFalse("Terms of servie should not be accepted", preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
+		BaseSettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), false);
+		assertFalse("Terms of servie should not be accepted", BaseSettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
+		assertFalse("Terms of servie should not be accepted", preferences.getBoolean(BaseSettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
 
-		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
-		assertTrue("Terms of servie should be permanently accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
-		assertTrue("Terms of servie should be permanently accepted", preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
+		BaseSettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
+		assertTrue("Terms of servie should be permanently accepted", BaseSettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
+		assertTrue("Terms of servie should be permanently accepted", preferences.getBoolean(BaseSettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
 	}
 
 	public void testDroneConnectToDroneDialog() {
-		assertTrue("DroneBricks not activated!", SettingsActivity.isDroneSharedPreferenceEnabled(getActivity()));
+		assertTrue("DroneBricks not activated!", BaseSettingsActivity.isDroneSharedPreferenceEnabled(getActivity()));
 
 		ProjectManager.getInstance().initializeDefaultProject(getActivity());
 
@@ -262,7 +263,7 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		solo.goBack();
 		solo.goBack();
 
-		assertFalse("Drone preference should now be disable", SettingsActivity.isDroneSharedPreferenceEnabled(getActivity()));
+		assertFalse("Drone preference should now be disable", BaseSettingsActivity.isDroneSharedPreferenceEnabled(getActivity()));
 
 		solo.waitForActivity(MainMenuActivity.class);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);

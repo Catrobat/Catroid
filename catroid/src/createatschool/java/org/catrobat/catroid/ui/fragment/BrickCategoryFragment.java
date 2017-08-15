@@ -22,6 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-public class BrickCategoryFragment extends MainBrickCategoryFragment {
+public class BrickCategoryFragment extends BaseBrickCategoryFragment {
 	//no adaptations for this flavor
 }

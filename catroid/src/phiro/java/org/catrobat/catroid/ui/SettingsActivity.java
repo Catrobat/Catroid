@@ -20,26 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.phiro.ui;
+package org.catrobat.catroid.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.text.Html;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
-public class PhiroSettingsActivity extends SettingsActivity {
+public class SettingsActivity extends BaseSettingsActivity {
 
 	private static final String PHIRO_LINK = "phiro_preference_link";
 	public static final String SETTINGS_PHIRO_CATEGORY = "setting_phiro_bricks";
+	public static final String PHIRO_INITIALIZED = "phiro_initialized";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		initPreferences();
+		enablePhiro();
 
 		super.onCreate(savedInstanceState);
 
@@ -80,5 +83,20 @@ public class PhiroSettingsActivity extends SettingsActivity {
 				return true;
 			}
 		});
+	}
+
+	private void enablePhiro() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		if (!sharedPreferences.getBoolean(PHIRO_INITIALIZED, false)) {
+			BaseSettingsActivity.setPhiroSharedPreferenceEnabled(this, true);
+			setPhiroInitialized();
+		}
+	}
+
+	private void setPhiroInitialized() {
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+		editor.putBoolean(PHIRO_INITIALIZED, true);
+		editor.apply();
 	}
 }

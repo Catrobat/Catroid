@@ -31,7 +31,7 @@ public abstract class BaseCastActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (BaseSettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
 		}
 		return super.onCreateOptionsMenu(menu);

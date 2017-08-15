@@ -34,7 +34,7 @@ import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
 
 import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -66,7 +66,7 @@ public final class CrashReporter {
 	}
 
 	private static boolean isReportingEnabled() {
-		return preferences != null && preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false) && isCrashReportEnabled;
+		return preferences != null && preferences.getBoolean(BaseSettingsActivity.SETTINGS_CRASH_REPORTS, false) && isCrashReportEnabled;
 	}
 
 	@VisibleForTesting

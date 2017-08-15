@@ -36,7 +36,7 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.IOException;
@@ -50,12 +50,12 @@ public class ArduinoSettingsTest extends InstrumentationTestCase {
 		super.setUp();
 
 		context = this.getInstrumentation().getTargetContext();
-		SettingsActivity.setArduinoSharedPreferenceEnabled(context, false);
+		BaseSettingsActivity.setArduinoSharedPreferenceEnabled(context, false);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		SettingsActivity.setArduinoSharedPreferenceEnabled(context, false);
+		BaseSettingsActivity.setArduinoSharedPreferenceEnabled(context, false);
 		super.tearDown();
 	}
 
@@ -64,12 +64,12 @@ public class ArduinoSettingsTest extends InstrumentationTestCase {
 		createProjectArduino();
 
 		assertFalse("By default Arduino should be disabled",
-				SettingsActivity.isArduinoSharedPreferenceEnabled(context));
+				BaseSettingsActivity.isArduinoSharedPreferenceEnabled(context));
 
 		ProjectManager.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, context);
 
 		assertTrue("After loading a project which needs Arduino it should be enabled",
-				SettingsActivity.isArduinoSharedPreferenceEnabled(context));
+				BaseSettingsActivity.isArduinoSharedPreferenceEnabled(context));
 
 		ProjectManager.getInstance().deleteProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, context);
 	}

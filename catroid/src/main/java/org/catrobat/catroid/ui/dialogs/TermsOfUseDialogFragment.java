@@ -40,7 +40,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class TermsOfUseDialogFragment extends DialogFragment {
@@ -77,7 +77,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 				if (getActivity() instanceof PreStageActivity) {
 					if (checkboxTermsOfUseAcceptedPermanently != null
 							&& checkboxTermsOfUseAcceptedPermanently.isChecked()) {
-						SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
+						BaseSettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
 					}
 					DroneInitializer droneInitializer = ((PreStageActivity) getActivity()).getDroneInitialiser();
 					if (droneInitializer != null && droneInitializer.checkRequirements()) {

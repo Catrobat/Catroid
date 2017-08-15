@@ -46,13 +46,13 @@ import java.util.Map;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_HINTS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
-import static org.catrobat.catroid.uiespresso.ui.activity.utils.FormulaEditorCategoryListDataInteractionWrapper.onFormulaEditorCategoryItemWithNameAtPosition;
-import static org.catrobat.catroid.uiespresso.ui.activity.utils.ScriptListDataInteractionWrapper.onBrickCategoryWithNameAtPosition;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_HINTS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
+import static org.catrobat.catroid.uiespresso.ui.activity.utils.FormulaEditorCategoryListDataInteractionWrapper.onFormulaEditorCategory;
+import static org.catrobat.catroid.uiespresso.ui.activity.utils.ScriptListDataInteractionWrapper.onBrickCategory;
 
 @RunWith(AndroidJUnit4.class)
 public class PhiroScriptActivityTest {
@@ -71,23 +71,16 @@ public class PhiroScriptActivityTest {
 		baseActivityTestRule.launchActivity(null);
 	}
 
-	@After
-	public void teardown() throws Exception {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-		SharedPreferences.Editor editor = sharedPreferences.edit();
-
-		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, initialPreferences.get(SETTINGS_SHOW_PHIRO_BRICKS));
-		editor.putBoolean(SETTINGS_SHOW_HINTS, initialPreferences.get(SETTINGS_SHOW_HINTS));
-		editor.apply();
-	}
-
 	@Test
 	public void phiroIsFirstInBrickCategoryTest() {
 		onView(withId(R.id.button_add))
 				.perform(click());
 
-		onBrickCategoryWithNameAtPosition("Phiro", 0)
-				.check(matches(isDisplayed()));
+		String expectedCategoryString = UiTestUtils.getResourcesString(R.string.category_phiro);
+
+		onBrickCategory()
+				.atPosition(0)
+				.check(matches(withText(expectedCategoryString)));
 	}
 
 	@Test
@@ -100,8 +93,19 @@ public class PhiroScriptActivityTest {
 
 		String firstPhiroSensorString = UiTestUtils.getResourcesString(R.string.formula_editor_phiro_sensor_front_left);
 
-		onFormulaEditorCategoryItemWithNameAtPosition(firstPhiroSensorString, 0)
-				.check(matches(isDisplayed()));
+		onFormulaEditorCategory()
+				.atPosition(0)
+				.check(matches(withText(firstPhiroSensorString)));
+	}
+
+	@After
+	public void teardown() throws Exception {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+
+		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, initialPreferences.get(SETTINGS_SHOW_PHIRO_BRICKS));
+		editor.putBoolean(SETTINGS_SHOW_HINTS, initialPreferences.get(SETTINGS_SHOW_HINTS));
+		editor.apply();
 	}
 
 	private static void createProject(String projectName) {

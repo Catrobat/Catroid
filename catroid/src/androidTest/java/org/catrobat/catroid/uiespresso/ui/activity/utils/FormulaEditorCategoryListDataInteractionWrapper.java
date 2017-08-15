@@ -30,8 +30,7 @@ import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 import static android.support.test.espresso.Espresso.onData;
 
 import static org.catrobat.catroid.uiespresso.util.matchers.FormulaEditorCategoryListMatchers.isFormulaEditorCategoryListView;
-import static org.catrobat.catroid.uiespresso.util.matchers.FormulaEditorCategoryListMatchers.withFormulaEditorCategoryItemName;
-import static org.hamcrest.Matchers.allOf;
+import static org.catrobat.catroid.uiespresso.util.matchers.FormulaEditorCategoryListMatchers.isFormulaEditorListItem;
 import static org.hamcrest.Matchers.instanceOf;
 
 public class FormulaEditorCategoryListDataInteractionWrapper extends DataInteractionWrapper {
@@ -40,9 +39,9 @@ public class FormulaEditorCategoryListDataInteractionWrapper extends DataInterac
 		super(dataInteraction);
 	}
 
-	public static FormulaEditorCategoryListDataInteractionWrapper onFormulaEditorCategoryItemWithNameAtPosition(String formulaCategoryItem, int position) {
-		return new FormulaEditorCategoryListDataInteractionWrapper(onData(allOf(instanceOf(String.class), withFormulaEditorCategoryItemName(formulaCategoryItem)))
+	public static DataInteraction onFormulaEditorCategory() {
+		return new FormulaEditorCategoryListDataInteractionWrapper(onData(instanceOf(String.class)))
 				.inAdapterView(isFormulaEditorCategoryListView())
-				.atPosition(position));
+				.onChildView(isFormulaEditorListItem());
 	}
 }

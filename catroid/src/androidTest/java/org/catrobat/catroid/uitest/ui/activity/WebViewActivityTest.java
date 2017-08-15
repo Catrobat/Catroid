@@ -30,6 +30,7 @@ import com.robotium.solo.By;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.BaseMainMenuActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.dialogs.LogInDialog;
@@ -52,9 +53,9 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		super.setUp();
 
 		preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		containsSetting = preferences.contains(MainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING);
-		showWarning = preferences.getBoolean(MainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING, true);
-		preferences.edit().remove(MainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING).commit();
+		containsSetting = preferences.contains(BaseMainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING);
+		showWarning = preferences.getBoolean(BaseMainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING, true);
+		preferences.edit().remove(BaseMainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING).commit();
 
 		saveToken = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		preferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
@@ -63,7 +64,7 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	@Override
 	protected void tearDown() throws Exception {
 		if (containsSetting) {
-			preferences.edit().putBoolean(MainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING, showWarning)
+			preferences.edit().putBoolean(BaseMainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING, showWarning)
 					.commit();
 		}
 		preferences.edit().putString(Constants.TOKEN, saveToken).commit();

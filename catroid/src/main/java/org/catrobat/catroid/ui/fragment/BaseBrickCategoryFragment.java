@@ -35,8 +35,8 @@ import android.widget.ListView;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
@@ -48,9 +48,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
-public abstract class MainBrickCategoryFragment extends ListFragment {
+public abstract class BaseBrickCategoryFragment extends ListFragment {
 
-	public static final String BRICK_CATEGORY_FRAGMENT_TAG = MainBrickCategoryFragment.class.getSimpleName();
+	public static final String BRICK_CATEGORY_FRAGMENT_TAG = BaseBrickCategoryFragment.class.getSimpleName();
 
 	private CharSequence previousActionBarTitle;
 	private OnCategorySelectedListener scriptFragment;
@@ -80,7 +80,6 @@ public abstract class MainBrickCategoryFragment extends ListFragment {
 
 	private void initBrickCategories() {
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_event);
-		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_event);
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_control);
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_motion);
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_sound);
@@ -92,11 +91,11 @@ public abstract class MainBrickCategoryFragment extends ListFragment {
 
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_data);
 
-		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
+		if (BaseSettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_lego_nxt);
 		}
 
-		if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(getActivity())) {
+		if (BaseSettingsActivity.isMindstormsEV3SharedPreferenceEnabled(getActivity())) {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_lego_ev3);
 		}
 
@@ -105,15 +104,15 @@ public abstract class MainBrickCategoryFragment extends ListFragment {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_userbricks);
 		}
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
+		if (BaseSettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_drone);
 		}
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
+		if (BaseSettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_phiro);
 		}
 
-		if (SettingsActivity.isArduinoSharedPreferenceEnabled(getActivity())) {
+		if (BaseSettingsActivity.isArduinoSharedPreferenceEnabled(getActivity())) {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_arduino);
 		}
 
@@ -121,7 +120,7 @@ public abstract class MainBrickCategoryFragment extends ListFragment {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_chromecast);
 		}
 
-		if (SettingsActivity.isRaspiSharedPreferenceEnabled(getActivity())) {
+		if (BaseSettingsActivity.isRaspiSharedPreferenceEnabled(getActivity())) {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_raspi);
 		}
 	}

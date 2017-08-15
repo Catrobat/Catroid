@@ -54,10 +54,9 @@ import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
-public class SettingsActivity extends PreferenceActivity {
+public class BaseSettingsActivity extends PreferenceActivity {
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS = "setting_mindstorms_nxt_bricks";
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
@@ -144,7 +143,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
 
-	public static int[] preferences = {
+	public static int[] preferences = new int[] {
 			R.xml.preferences_nxt,
 			R.xml.preferences_ev3,
 			R.xml.preferences_drone,
@@ -408,7 +407,7 @@ public class SettingsActivity extends PreferenceActivity {
 		hintCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				TrackingUtil.trackEnableHints(newValue.toString());
+				Utils.getTrackingUtilProxy().trackEnableHints(newValue.toString());
 				preference.getEditor().remove(SnackbarUtil.SHOWN_HINT_LIST).commit();
 				return true;
 			}
@@ -420,7 +419,7 @@ public class SettingsActivity extends PreferenceActivity {
 		accessButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				Intent intent = new Intent(SettingsActivity.this, AccessibilityPreferencesActivity.class);
+				Intent intent = new Intent(BaseSettingsActivity.this, AccessibilityPreferencesActivity.class);
 				startActivity(intent);
 				return true;
 			}
@@ -505,9 +504,9 @@ public class SettingsActivity extends PreferenceActivity {
 		if (getAccessibilityDragndropDelayEnabled(context)) {
 			DragAndDropListView.enableLongpressDelay();
 		}
-		if (getAccessibilityFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_SERIF)) {
+		if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SERIF)) {
 			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_SERIF);
-		} else if (getAccessibilityFontFace(context).equals(SettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
+		} else if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_DYSLEXIC);
 		}
 	}

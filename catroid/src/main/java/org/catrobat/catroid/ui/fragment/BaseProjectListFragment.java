@@ -59,7 +59,6 @@ import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -70,11 +69,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ProjectListFragment extends ListActivityFragment implements LoadProjectTask.OnLoadProjectCompleteListener,
+public class BaseProjectListFragment extends ListActivityFragment implements LoadProjectTask.OnLoadProjectCompleteListener,
 		CheckBoxListAdapter.ListItemClickHandler<ProjectData>, CheckBoxListAdapter.ListItemLongClickHandler,
 		SetDescriptionDialog.ChangeDescriptionInterface {
 
-	private static final String TAG = ProjectListFragment.class.getSimpleName();
+	private static final String TAG = BaseProjectListFragment.class.getSimpleName();
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsMyProjects";
 
@@ -272,7 +271,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 		} else {
 			for (ProjectData projectData : projectAdapter.getCheckedItems()) {
 				projectToEdit = projectData;
-				TrackingUtil.trackProject(projectToEdit.projectName, TrackingConstants.DELETE_PROGRAM);
+				Utils.getTrackingUtilProxy().trackProject(projectToEdit.projectName, TrackingConstants.DELETE_PROGRAM);
 				deleteProject();
 			}
 		}

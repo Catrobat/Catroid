@@ -23,16 +23,14 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 import android.widget.ListView;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-
-import static org.hamcrest.Matchers.equalTo;
 
 public final class FormulaEditorCategoryListMatchers {
 	private FormulaEditorCategoryListMatchers() {
@@ -44,8 +42,7 @@ public final class FormulaEditorCategoryListMatchers {
 
 			@Override
 			protected boolean matchesSafely(View view) {
-				return view instanceof ListView && ((ListView) view).getAdapter()
-						instanceof CategoryListAdapter;
+				return view instanceof ListView && ((ListView) view).getAdapter() instanceof CategoryListAdapter;
 			}
 
 			@Override
@@ -55,20 +52,16 @@ public final class FormulaEditorCategoryListMatchers {
 		};
 	}
 
-	public static Matcher<Object> withFormulaEditorCategoryItemName(String expectedFormulaEditorCategoryItemName) {
-		return withFormulaEditorCategoryItemName(equalTo(expectedFormulaEditorCategoryItemName));
-	}
-	private static Matcher<Object> withFormulaEditorCategoryItemName(final Matcher<String> expectedFormulaEditorCategoryItemName) {
-		return new BoundedMatcher<Object, String>(String.class) {
-
+	public static Matcher<View> isFormulaEditorListItem() {
+		return new TypeSafeMatcher<View>() {
 			@Override
-			public boolean matchesSafely(final String actualFormulaEditorCategoryItemName) {
-				return expectedFormulaEditorCategoryItemName.matches(actualFormulaEditorCategoryItemName);
+			protected boolean matchesSafely(View item) {
+				return item.getId() == R.id.fragment_formula_editor_list_item;
 			}
 
 			@Override
-			public void describeTo(final Description description) {
-				description.appendText("FormulaEditorCategoryItem name matches");
+			public void describeTo(Description description) {
+				description.appendText("check fragment_formula_editor_list_item");
 			}
 		};
 	}

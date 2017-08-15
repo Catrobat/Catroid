@@ -82,7 +82,6 @@ import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.UtilZip;
@@ -91,9 +90,9 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 
-public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectCompleteListener {
+public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProjectCompleteListener {
 
-	private static final String TAG = MainMenuActivity.class.getSimpleName();
+	private static final String TAG = BaseMainMenuActivity.class.getSimpleName();
 
 	private static final Boolean STANDALONE_MODE = BuildConfig.FEATURE_APK_GENERATOR_ENABLED;
 
@@ -132,7 +131,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			initializeFacebookSdk();
 		}
 
-		for (int preference : SettingsActivity.preferences) {
+		for (int preference : BaseSettingsActivity.preferences) {
 			PreferenceManager.setDefaultValues(this, preference, true);
 		}
 
@@ -171,7 +170,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 				loadProgramFromExternalSource(loadExternalProjectUri);
 			}
 
-			if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			if (BaseSettingsActivity.isCastSharedPreferenceEnabled(this)) {
 				CastManager.getInstance().initializeCast(this);
 			}
 		}
@@ -188,12 +187,12 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		}
 		AppEventsLogger.activateApp(this);
 
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
-		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, false);
+		BaseSettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
+		BaseSettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, false);
 
-		SettingsActivity.setDroneChooserEnabled(this, false);
+		BaseSettingsActivity.setDroneChooserEnabled(this, false);
 
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (BaseSettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		} else if (CastManager.getInstance().isConnected()) {
 			CastManager.getInstance().getMediaRouter().unselect(MediaRouter.UNSELECT_REASON_STOPPED);
@@ -203,8 +202,8 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		final Activity activity = this;
 		idlingResource.increment();
 
-		TrackingUtil.trackStopWebSessionTutorial();
-		TrackingUtil.trackStopWebSessionExplore();
+		Utils.getTrackingUtilProxy().trackStopWebSessionTutorial();
+		Utils.getTrackingUtilProxy().trackStopWebSessionExplore();
 
 		Runnable r = new Runnable() {
 			@Override
@@ -308,7 +307,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 	public void handleContinueButton(View view) {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		String projectName = project != null ? project.getName() : TrackingConstants.NO_PROGRAM;
-		TrackingUtil.trackMenuButtonProject(projectName, TrackingConstants.MAIN_MENU_CONTINUE);
+		Utils.getTrackingUtilProxy().trackMenuButtonProject(projectName, TrackingConstants.MAIN_MENU_CONTINUE);
 		handleContinueButton();
 	}
 
@@ -335,7 +334,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			Log.d("STANDALONE", "onLoadProjectSucess -> startStage");
 			startStageProject();
 		} else if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
-			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
+			Intent intent = new Intent(this, ProjectActivity.class);
 			startActivity(intent);
 		}
 	}
@@ -353,7 +352,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent intent = new Intent(MainMenuActivity.this, MyProjectsActivity.class);
+		Intent intent = new Intent(this, MyProjectsActivity.class);
 		startActivity(intent);
 	}
 
@@ -374,7 +373,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		TrackingUtil.trackStartWebSessionTutorial();
+		Utils.getTrackingUtilProxy().trackStartWebSessionTutorial();
 		startWebViewActivity(Constants.CATROBAT_HELP_URL);
 	}
 
@@ -386,7 +385,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		TrackingUtil.trackStartWebSessionExplore();
+		Utils.getTrackingUtilProxy().trackStartWebSessionExplore();
 
 		String url = Constants.FLAVORED_BASE_URL_HTTPS;
 		url = Utils.addUsernameAndTokenInfoToUrl(url, this);
@@ -394,7 +393,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 	}
 
 	public void startWebViewActivity(String url) {
-		Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
+		Intent intent = new Intent(this, WebViewActivity.class);
 		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 		startActivity(intent);
 	}
@@ -464,8 +463,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 					public void onSuccess(LoginResult loginResult) {
 						Log.d(TAG, loginResult.toString());
 						AccessToken accessToken = loginResult.getAccessToken();
-						GetFacebookUserInfoTask getFacebookUserInfoTask = new GetFacebookUserInfoTask(MainMenuActivity.this,
-								accessToken.getToken(), accessToken.getUserId());
+						GetFacebookUserInfoTask getFacebookUserInfoTask = new GetFacebookUserInfoTask(BaseMainMenuActivity.this, accessToken.getToken(), accessToken.getUserId());
 						getFacebookUserInfoTask.setOnGetFacebookUserInfoTaskCompleteListener(signInDialog);
 						getFacebookUserInfoTask.execute();
 					}
@@ -477,7 +475,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 
 					@Override
 					public void onError(FacebookException exception) {
-						ToastUtil.showError(MainMenuActivity.this, exception.getMessage());
+						ToastUtil.showError(BaseMainMenuActivity.this, exception.getMessage());
 						Log.d(TAG, exception.getMessage());
 					}
 				});
@@ -492,7 +490,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 				SensorHandler.startSensorListener(this);
 
-				Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+				Intent intent = new Intent(this, StageActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

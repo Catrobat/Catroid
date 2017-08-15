@@ -23,20 +23,17 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.phiro.ui.PhiroMainMenuActivity;
+import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.fragment.ProjectListFragment;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -47,7 +44,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -57,31 +53,19 @@ import static org.catrobat.catroid.uiespresso.ui.activity.utils.ProjectListDataI
 @RunWith(AndroidJUnit4.class)
 public class PhiroMyProjectsActivityTest {
 
-	private IdlingResource idlingResource;
-
 	@Rule
-	public BaseActivityInstrumentationRule<PhiroMainMenuActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(PhiroMainMenuActivity.class, true, false);
+	public BaseActivityInstrumentationRule<MyProjectsActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(MyProjectsActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
 		deletePhiroPrograms();
 		baseActivityTestRule.launchActivity(null);
-
-		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
-		Espresso.registerIdlingResources(idlingResource);
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		Espresso.unregisterIdlingResources(idlingResource);
 	}
 
 	@Test
 	public void phiroProjectsInitiallyLoadedTest() {
-		openProjectList();
-
-		for (String projectName : PhiroMainMenuActivity.phiroProjects) {
+		for (String projectName : ProjectListFragment.PHIRO_PROJECTS) {
 			onProjectWithName(projectName)
 					.check(matches(isDisplayed()));
 		}
@@ -89,16 +73,10 @@ public class PhiroMyProjectsActivityTest {
 
 	@Test
 	public void phiroProgramRestoredWhenDeletedTest() {
-		String projectName = PhiroMainMenuActivity.phiroProjects[0];
-
-		openProjectList();
-
+		String projectName = ProjectListFragment.PHIRO_PROJECTS[0];
 		StorageHandler.getInstance().deleteProject(projectName);
 
-		onView(withId(android.R.id.home))
-				.perform(click());
-
-		openProjectList();
+		relaunchActivity();
 
 		onProjectWithName(projectName)
 				.check(matches(isDisplayed()));
@@ -106,21 +84,16 @@ public class PhiroMyProjectsActivityTest {
 
 	@Test
 	public void phiroProgramsUnchangedWhenModifiedTest() throws InterruptedException {
-		openProjectList();
+		addNoteBrickToFirstScript(ProjectListFragment.PHIRO_PROJECTS[0]);
 
-		addNoteBrickToFirstScript(PhiroMainMenuActivity.phiroProjects[0]);
-
-		onView(withId(android.R.id.home))
-				.perform(click());
-
-		openProjectList();
+		relaunchActivity();
 
 		checkAddedNoteBrickIsStillInFirstScript();
 	}
 
-	private void openProjectList() {
-		onView(withText(R.string.main_menu_programs))
-				.perform(click());
+	private void relaunchActivity() {
+		baseActivityTestRule.getActivity().finish();
+		baseActivityTestRule.launchActivity(null);
 	}
 
 	private void addNoteBrickToFirstScript(String projectName) {
@@ -144,7 +117,7 @@ public class PhiroMyProjectsActivityTest {
 	}
 
 	private void deletePhiroPrograms() {
-		for (String project : PhiroMainMenuActivity.phiroProjects) {
+		for (String project : ProjectListFragment.PHIRO_PROJECTS) {
 			if (StorageHandler.getInstance().projectExists(project)) {
 				StorageHandler.getInstance().deleteProject(project);
 			}

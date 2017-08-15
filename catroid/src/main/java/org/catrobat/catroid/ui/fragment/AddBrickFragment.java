@@ -46,7 +46,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -170,7 +170,7 @@ public class AddBrickFragment extends ListFragment {
 			}
 
 			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-			Fragment categoryFragment = getFragmentManager().findFragmentByTag(MainBrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+			Fragment categoryFragment = getFragmentManager().findFragmentByTag(BaseBrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 			if (categoryFragment != null) {
 				fragmentTransaction.remove(categoryFragment);
 				getFragmentManager().popBackStack();
@@ -181,7 +181,7 @@ public class AddBrickFragment extends ListFragment {
 				getFragmentManager().popBackStack();
 			}
 
-			TrackingUtil.trackAddBrick(addBrickFragment, brickToBeAdded);
+			Utils.getTrackingUtilProxy().trackAddBrick(addBrickFragment, brickToBeAdded);
 
 			fragmentTransaction.commit();
 		} catch (CloneNotSupportedException exception) {

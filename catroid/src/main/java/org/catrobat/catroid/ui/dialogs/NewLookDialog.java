@@ -34,10 +34,11 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.TrackingConstants;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class NewLookDialog extends DialogFragment {
@@ -125,7 +126,7 @@ public class NewLookDialog extends DialogFragment {
 			public void onClick(View view) {
 				fragment.addLookDrawNewImage();
 				NewLookDialog.this.dismiss();
-				TrackingUtil.trackPocketPaintSessionLook(TrackingConstants.SESSION_POCKET_PAINT_CREATE_LOOK,
+				Utils.getTrackingUtilProxy().trackPocketPaintSessionLook(TrackingConstants.SESSION_POCKET_PAINT_CREATE_LOOK,
 						TrackingConstants.SESSION_START_POCKET_PAINT_CREATE_LOOK);
 			}
 		});
@@ -175,7 +176,7 @@ public class NewLookDialog extends DialogFragment {
 		View droneVideoButton = parentView.findViewById(R.id.dialog_new_look_drone_video);
 		View droneDialogItem = parentView.findViewById(R.id.dialog_new_look_drone);
 
-		if (!SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
+		if (!BaseSettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
 			droneVideoButton.setVisibility(View.GONE);
 			droneDialogItem.setVisibility(View.GONE);
 			return;

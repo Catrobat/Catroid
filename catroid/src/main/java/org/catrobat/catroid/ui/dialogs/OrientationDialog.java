@@ -43,11 +43,10 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.transfers.DownloadTemplateTask;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -80,7 +79,7 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
 		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
-		boolean castEnabled = SettingsActivity.isCastSharedPreferenceEnabled(getActivity());
+		boolean castEnabled = BaseSettingsActivity.isCastSharedPreferenceEnabled(getActivity());
 		int title = castEnabled ? R.string.project_select_screen_title : R.string.project_orientation_title;
 
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
@@ -205,7 +204,7 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
 		ProjectManager.getInstance().initializeTemplateProject(projectName, activity);
 		Utils.replaceTranslatableStringsInProject(templateData.getName(), activity);
-		TrackingUtil.trackUseTemplate(templateData.getName(), createLandscapeProject);
+		Utils.getTrackingUtilProxy().trackUseTemplate(templateData.getName(), createLandscapeProject);
 		startProjectActivity();
 	}
 

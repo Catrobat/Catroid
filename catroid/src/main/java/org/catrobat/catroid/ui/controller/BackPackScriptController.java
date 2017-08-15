@@ -56,7 +56,7 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -98,7 +98,7 @@ public final class BackPackScriptController {
 				BackPackListManager.getInstance().addScriptToHiddenBackpack(groupName, scriptsToAdd);
 			} else {
 				BackPackListManager.getInstance().addScriptToBackPack(groupName, scriptsToAdd);
-				TrackingUtil.trackBackpackBricks(scriptsToAdd, checkedBricks.size(), groupName,
+				Utils.getTrackingUtilProxy().trackBackpackBricks(scriptsToAdd, checkedBricks.size(), groupName,
 						TrackingConstants.BACKPACK_SCRIPTS);
 			}
 		}
@@ -155,7 +155,7 @@ public final class BackPackScriptController {
 						.returnToScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 			}
 			if (!fromHiddenBackPack) {
-				TrackingUtil.trackBackpackBricks(scriptsInGroup, 0, selectedScriptGroupBackPack,
+				Utils.getTrackingUtilProxy().trackBackpackBricks(scriptsInGroup, 0, selectedScriptGroupBackPack,
 						TrackingConstants.UNPACK_SCRIPTS);
 			}
 		}

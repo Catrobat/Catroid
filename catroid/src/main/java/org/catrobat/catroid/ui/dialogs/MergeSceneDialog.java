@@ -48,7 +48,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.merge.MergeManager;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class MergeSceneDialog extends DialogFragment {
@@ -175,7 +174,7 @@ public class MergeSceneDialog extends DialogFragment {
 			Utils.showErrorDialog(getActivity(), R.string.error_scene_exists);
 		} else if (MergeManager.mergeScene(firstSelectedScene, secondSelectedScene, nameEditText.getText().toString(),
 				getActivity())) {
-			TrackingUtil.trackMergeScenes(firstSelectedScene, secondSelectedScene, nameEditText.getText().toString());
+			Utils.getTrackingUtilProxy().trackMergeScenes(firstSelectedScene, secondSelectedScene, nameEditText.getText().toString());
 			dismiss();
 		}
 	}

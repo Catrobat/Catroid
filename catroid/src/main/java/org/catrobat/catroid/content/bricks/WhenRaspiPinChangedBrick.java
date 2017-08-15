@@ -38,7 +38,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
@@ -119,7 +119,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	private void setupPinSpinner(Context context) {
 		final Spinner pinSpinner = (Spinner) view.findViewById(R.id.brick_raspi_when_pinspinner);
 
-		String revision = SettingsActivity.getRaspiRevision(context);
+		String revision = BaseSettingsActivity.getRaspiRevision(context);
 		ArrayList<Integer> availableGPIOs = RaspberryPiService.getInstance().getGpioList(revision);
 		DynamicTextSizeArrayAdapter<String> messageAdapter2 = new DynamicTextSizeArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		messageAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

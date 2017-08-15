@@ -27,8 +27,8 @@ import android.widget.ListView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -45,12 +45,12 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		TestUtils.deleteTestProjects();
 		UiTestUtils.prepareStageForTest();
 		TestUtils.loadExistingOrCreateDefaultDroneProject(getActivity());
-		SettingsActivity.enableARDroneBricks(getActivity(), true);
+		BaseSettingsActivity.enableARDroneBricks(getActivity(), true);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		BaseSettingsActivity.enableARDroneBricks(getActivity(), false);
 		TestUtils.deleteTestProjects();
 		solo.finishOpenedActivities();
 		super.tearDown();
@@ -120,7 +120,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("No video selection available", solo.searchText(solo.getString(R.string.add_look_drone_video), true));
 		solo.goBack();
 
-		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		BaseSettingsActivity.enableARDroneBricks(getActivity(), false);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Video selection still available", solo.searchText(solo.getString(R.string
@@ -154,7 +154,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Wrong Project was created! Should be the Drone Project!", solo.searchText(solo.getString(R.string
 				.default_drone_project_name)));
 
-		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		BaseSettingsActivity.enableARDroneBricks(getActivity(), false);
 
 		solo.waitForText(solo.getString(R.string.default_drone_project_name));
 		solo.clickLongOnText(solo.getString(R.string.default_drone_project_name));

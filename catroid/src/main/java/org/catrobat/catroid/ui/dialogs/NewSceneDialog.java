@@ -52,7 +52,6 @@ import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class NewSceneDialog extends DialogFragment {
@@ -166,7 +165,7 @@ public class NewSceneDialog extends DialogFragment {
 
 		Scene scene = new Scene(getActivity(), sceneName, currentProject);
 
-		TrackingUtil.trackScene(currentProject.getName(), sceneName, TrackingConstants.ADD_SCENE);
+		Utils.getTrackingUtilProxy().trackScene(currentProject.getName(), sceneName, TrackingConstants.ADD_SCENE);
 
 		currentProject.addScene(scene);
 		setSceneAndOpenIt(scene);

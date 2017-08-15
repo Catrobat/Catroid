@@ -78,7 +78,7 @@ import org.catrobat.catroid.ui.dialogs.NewStringDialog;
 import org.catrobat.catroid.utils.FormulaEditorIntroUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		ViewTreeObserver.OnGlobalLayoutListener {
@@ -133,7 +133,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
 
-		TrackingUtil.trackFormula(formulaBrick, currentBrickField.toString(), currentFormula
+		Utils.getTrackingUtilProxy().trackFormula(formulaBrick, currentBrickField.toString(), currentFormula
 				.getResultForComputeDialog(context), TrackingConstants.OPEN_FORMULA_EDITOR);
 	}
 
@@ -442,19 +442,19 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 							return true;
 						case R.id.formula_editor_keyboard_function:
-							showFormulaEditorCategoryListFragment(MainFormulaEditorCategoryListFragment.FUNCTION_TAG,
+							showFormulaEditorCategoryListFragment(BaseFormulaEditorCategoryListFragment.FUNCTION_TAG,
 									R.string.formula_editor_functions);
 							return true;
 						case R.id.formula_editor_keyboard_logic:
-							showFormulaEditorCategoryListFragment(MainFormulaEditorCategoryListFragment.LOGIC_TAG,
+							showFormulaEditorCategoryListFragment(BaseFormulaEditorCategoryListFragment.LOGIC_TAG,
 									R.string.formula_editor_logic);
 							return true;
 						case R.id.formula_editor_keyboard_object:
-							showFormulaEditorCategoryListFragment(MainFormulaEditorCategoryListFragment.OBJECT_TAG,
+							showFormulaEditorCategoryListFragment(BaseFormulaEditorCategoryListFragment.OBJECT_TAG,
 									R.string.formula_editor_choose_object_variable);
 							return true;
 						case R.id.formula_editor_keyboard_sensors:
-							showFormulaEditorCategoryListFragment(MainFormulaEditorCategoryListFragment.SENSOR_TAG,
+							showFormulaEditorCategoryListFragment(BaseFormulaEditorCategoryListFragment.SENSOR_TAG,
 									R.string.formula_editor_device);
 							return true;
 						case R.id.formula_editor_keyboard_data:
@@ -628,7 +628,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
 		FormulaElement formulaParseTree = formulaToParse.parseFormula();
 
-		TrackingUtil.trackFormula(formulaBrick, currentBrickField.toString(), formulaEditorEditText.getStringFromInternFormula(),
+		Utils.getTrackingUtilProxy().trackFormula(formulaBrick, currentBrickField.toString(), formulaEditorEditText.getStringFromInternFormula(),
 				TrackingConstants.SAVE_FORMULA);
 
 		switch (formulaToParse.getErrorTokenIndex()) {
@@ -795,13 +795,13 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		if (fragment == null) {
 			fragment = new FormulaEditorCategoryListFragment();
 			Bundle bundle = new Bundle();
-			bundle.putString(MainFormulaEditorCategoryListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
+			bundle.putString(BaseFormulaEditorCategoryListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
 					context.getString(actionbarResId));
-			bundle.putString(MainFormulaEditorCategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
+			bundle.putString(BaseFormulaEditorCategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
 		}
-		((MainFormulaEditorCategoryListFragment) fragment).showFragment(context);
+		((BaseFormulaEditorCategoryListFragment) fragment).showFragment(context);
 	}
 
 	private void showFormulaEditorDataFragment(String tag, int actionbarResId) {
