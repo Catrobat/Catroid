@@ -108,4 +108,31 @@ public class UserVariableTest {
 		dataProvider.updateValues();
 		testNumericVariable(variable, 2 * 5 + 3, "B");
 	}
+
+	@Test
+	public void testInvalidReference() {
+		List<Token> internalTokens = new ArrayList<>();
+
+		internalTokens.add(new NumericValueToken(2));
+		internalTokens.add(new MultOperatorToken());
+		internalTokens.add(new NumericValueToken(5));
+
+		Formula internalFormula = new Formula(internalTokens);
+
+		NumericVariableToken variable = new NumericVariableToken("A", 0.0);
+
+		DataProvider dataProvider = new DataProvider();
+		dataProvider.add(variable, internalFormula);
+
+		dataProvider.updateValues();
+		testNumericVariable(variable, 2 * 5, "A");
+
+		dataProvider.remove(variable);
+
+		List<Token> tokens = new ArrayList<>();
+		tokens.add(variable);
+		Formula formula = new Formula(tokens);
+
+		assertEquals("INVALID REFERENCE: A", formula.getDisplayText());
+	}
 }
