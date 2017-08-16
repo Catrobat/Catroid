@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.formula
 
-import org.catrobat.catroid.formula.value.ValueToken
+import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken
 import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken.NumericVariableToken
 
 class DataProvider {
@@ -35,11 +35,12 @@ class DataProvider {
     }
 
     fun remove(variable: NumericVariableToken) {
+        variable.name = "INVALID REFERENCE: " + variable.name
         values.remove(variable)
     }
 
     fun updateValues() {
-        values.forEach { entry -> entry.key.value = FormulaInterpreter<ValueToken.NumericValueToken>()
+        values.forEach { entry -> entry.key.value = FormulaInterpreter<NumericValueToken>()
                 .eval(entry.value.tokens).value }
     }
 }
