@@ -23,24 +23,22 @@
 
 package org.catrobat.catroid.formula
 
-import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken
-import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken.NumericVariableToken
+import org.catrobat.catroid.formula.value.ValueToken.VariableToken
 
 class DataProvider {
 
-    private val values: MutableMap<NumericVariableToken, Formula> = HashMap()
+    private val values: MutableMap<VariableToken, Formula> = HashMap()
 
-    fun add(variable: NumericVariableToken, formula: Formula) {
+    fun add(variable: VariableToken, formula: Formula) {
         values.put(variable, formula)
     }
 
-    fun remove(variable: NumericVariableToken) {
+    fun remove(variable: VariableToken) {
         variable.name = "INVALID REFERENCE: " + variable.name
         values.remove(variable)
     }
 
     fun updateValues() {
-        values.forEach { entry -> entry.key.value = FormulaInterpreter<NumericValueToken>()
-                .eval(entry.value.tokens).value }
+        values.forEach { entry -> entry.key.value = FormulaInterpreter().eval(entry.value.tokens).value }
     }
 }

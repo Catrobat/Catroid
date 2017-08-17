@@ -26,12 +26,10 @@ package org.catrobat.catroid.formula.function
 import org.catrobat.catroid.formula.FormulaInterpreter
 import org.catrobat.catroid.formula.Token
 import org.catrobat.catroid.formula.value.ValueToken
-import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken
 
-abstract class BinaryFunctionToken<out V : ValueToken>(val leftTokens: List<Token>, val rightTokens: List<Token>) :
-        FunctionToken<V>() {
+abstract class BinaryFunctionToken(val leftTokens: List<Token>, val rightTokens: List<Token>) : FunctionToken() {
 
-    class Max(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken<NumericValueToken> 
+    class Max(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken 
             (leftTokens, rightTokens) {
 
         override fun getString(): String {
@@ -50,13 +48,13 @@ abstract class BinaryFunctionToken<out V : ValueToken>(val leftTokens: List<Toke
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.max(FormulaInterpreter<NumericValueToken>().eval(leftTokens).value,
-                    FormulaInterpreter<NumericValueToken>().eval(rightTokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.max(FormulaInterpreter().eval(leftTokens).value,
+                    FormulaInterpreter().eval(rightTokens).value))
         }
     }
 
-    class Min(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken<NumericValueToken>
+    class Min(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken
             (leftTokens, rightTokens) {
 
         override fun getString(): String {
@@ -75,13 +73,13 @@ abstract class BinaryFunctionToken<out V : ValueToken>(val leftTokens: List<Toke
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.min(FormulaInterpreter<NumericValueToken>().eval(leftTokens).value,
-                    FormulaInterpreter<NumericValueToken>().eval(rightTokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.min(FormulaInterpreter().eval(leftTokens).value,
+                    FormulaInterpreter().eval(rightTokens).value))
         }
     }
 
-    class Pow(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken<NumericValueToken>
+    class Pow(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken
             (leftTokens, rightTokens) {
 
         override fun getString(): String {
@@ -100,13 +98,13 @@ abstract class BinaryFunctionToken<out V : ValueToken>(val leftTokens: List<Toke
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.pow(FormulaInterpreter<NumericValueToken>().eval(leftTokens).value,
-                    FormulaInterpreter<NumericValueToken>().eval(rightTokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.pow(FormulaInterpreter().eval(leftTokens).value,
+                    FormulaInterpreter().eval(rightTokens).value))
         }
     }
 
-    class Mod(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken<NumericValueToken>
+    class Mod(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken
             (leftTokens, rightTokens) {
 
         override fun getString(): String {
@@ -125,9 +123,9 @@ abstract class BinaryFunctionToken<out V : ValueToken>(val leftTokens: List<Toke
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(FormulaInterpreter<NumericValueToken>().eval(leftTokens).value %
-                    FormulaInterpreter<NumericValueToken>().eval(rightTokens).value)
+        override fun eval(): ValueToken {
+            return ValueToken(FormulaInterpreter().eval(leftTokens).value %
+                    FormulaInterpreter().eval(rightTokens).value)
         }
     }
 }

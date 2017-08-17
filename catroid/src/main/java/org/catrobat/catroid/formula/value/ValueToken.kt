@@ -25,26 +25,17 @@ package org.catrobat.catroid.formula.value
 
 import org.catrobat.catroid.formula.Token
 
-abstract class ValueToken : Token(Type.VALUE) {
+open class ValueToken(var value: Double) : Token(Type.VALUE) {
 
-    class BooleanValueToken(var value: Boolean) : ValueToken() {
+    override fun getString(): String {
+        return value.toString() + " "
+    }
+
+    class VariableToken(var name: String, value: Double) : ValueToken(value) {
 
         override fun getString(): String {
-            return if (value) "TRUE "  else "FALSE "
+            return name + " "
         }
     }
 
-    open class NumericValueToken(var value: Double) : ValueToken() {
-
-        override fun getString(): String {
-            return value.toString() + " "
-        }
-
-        class NumericVariableToken(var name: String, value: Double) : NumericValueToken(value) {
-
-            override fun getString(): String {
-                return name + " "
-            }
-        }
-    }
 }
