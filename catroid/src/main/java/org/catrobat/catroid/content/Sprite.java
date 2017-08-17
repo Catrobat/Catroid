@@ -631,7 +631,7 @@ public class Sprite implements Serializable, Cloneable {
 	public int getNumberOfWhenBackgroundChangesScripts(LookData lookData) {
 		int numberOfScripts = 0;
 		for (Script s : scriptList) {
-			if (s instanceof WhenBackgroundChangesScript
+			if (s instanceof WhenBackgroundChangesScript && ((WhenBackgroundChangesScript) s).getLook() != null
 					&& ((WhenBackgroundChangesScript) s).getLook().equals(lookData)) {
 				numberOfScripts++;
 			}
