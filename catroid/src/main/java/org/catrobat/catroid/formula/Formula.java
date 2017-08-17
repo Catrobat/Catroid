@@ -34,6 +34,8 @@ public class Formula implements Serializable, BrickFieldObject {
 
 	private List<Token> tokens = new ArrayList<>();
 
+	public Formula() {}
+
 	public Formula(double value) {
 		tokens.add(new ValueToken(value));
 	}

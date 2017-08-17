@@ -23,12 +23,14 @@
 
 package org.catrobat.catroid.data.brick;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formula.Formula;
+import org.catrobat.catroid.gui.activity.FormulaEditorActivity;
 
 public class PlaceAtBrick extends Brick {
 
@@ -62,6 +64,8 @@ public class PlaceAtBrick extends Brick {
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(View view) {
+		Intent intent = new Intent(view.getContext(), FormulaEditorActivity.class);
+		view.getContext().startActivity(intent);
 	}
 }
