@@ -33,7 +33,7 @@ import org.catrobat.catroid.formula.SensorDataProvider;
 import org.catrobat.catroid.formula.sensor.SensorListener;
 import org.catrobat.catroid.formula.Token;
 import org.catrobat.catroid.formula.value.ValueToken;
-import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken.NumericVariableToken;
+import org.catrobat.catroid.formula.value.ValueToken.VariableToken;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -44,29 +44,28 @@ import static junit.framework.Assert.assertEquals;
 
 public class SensorListenerTest {
 
-	private void testNumericFormula(Formula formula, double expectedResult, String expectedString) {
-		FormulaInterpreter<ValueToken.NumericValueToken> interpreter = new FormulaInterpreter<>();
+	private void testFormula(Formula formula, double expectedResult, String expectedString) {
+		FormulaInterpreter interpreter = new FormulaInterpreter();
 		assertEquals(expectedString, formula.getDisplayText());
 		assertEquals(expectedResult, interpreter.eval(formula.getTokens()).getValue());
 	}
 
-	private void testNumericVariable(NumericVariableToken variable, double expectedResult, String expectedString) {
+	private void testNumericVariable(ValueToken.VariableToken variable, double expectedResult, String expectedString) {
 
 		List<Token> tokens = new ArrayList<>();
 		tokens.add(variable);
 		Formula formula = new Formula(tokens);
 
-		testNumericFormula(formula, expectedResult, expectedString);
+		testFormula(formula, expectedResult, expectedString);
 	}
 
 	@Test
 	public void testAcceleration() {
-		NumericVariableToken variable = new NumericVariableToken("x_acceleration", 0.0);
+		VariableToken variable = new VariableToken("x_acceleration", 0.0);
 
 		SensorManager sensorManager = (SensorManager) InstrumentationRegistry
 				.getTargetContext()
-				.getSystemService(Context
-				.SENSOR_SERVICE);
+				.getSystemService(Context.SENSOR_SERVICE);
 
 		SensorDataProvider dataProvider = new SensorDataProvider();
 		dataProvider.add(variable, SensorListener.SensorType.X_ACCELERATION);
@@ -79,15 +78,14 @@ public class SensorListenerTest {
 
 	@Test
 	public void testData() {
-		NumericVariableToken year = new NumericVariableToken("year", 0.0);
-		NumericVariableToken month = new NumericVariableToken("month", 0.0);
-		NumericVariableToken day = new NumericVariableToken("day", 0.0);
+		VariableToken year = new VariableToken("year", 0.0);
+		VariableToken month = new VariableToken("month", 0.0);
+		VariableToken day = new VariableToken("day", 0.0);
 
 
 		SensorManager sensorManager = (SensorManager) InstrumentationRegistry
 				.getTargetContext()
-				.getSystemService(Context
-						.SENSOR_SERVICE);
+				.getSystemService(Context.SENSOR_SERVICE);
 
 		SensorDataProvider dataProvider = new SensorDataProvider();
 		dataProvider.add(year, SensorListener.SensorType.DATE_YEAR);

@@ -31,8 +31,8 @@ import org.catrobat.catroid.formula.FormulaInterpreter;
 import org.catrobat.catroid.formula.Token;
 import org.catrobat.catroid.formula.operator.BinaryOperatorToken.AddOperatorToken;
 import org.catrobat.catroid.formula.operator.BinaryOperatorToken.MultOperatorToken;
-import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken;
-import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken.NumericVariableToken;
+import org.catrobat.catroid.formula.value.ValueToken;
+import org.catrobat.catroid.formula.value.ValueToken.VariableToken;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -44,88 +44,88 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class UserVariableTest {
 
-	private void testNumericFormula(Formula formula, double expectedResult, String expectedString) {
-		FormulaInterpreter<NumericValueToken> interpreter = new FormulaInterpreter<>();
+	private void testFormula(Formula formula, double expectedResult, String expectedString) {
+		FormulaInterpreter interpreter = new FormulaInterpreter();
 		assertEquals(expectedString, formula.getDisplayText());
 		assertEquals(expectedResult, interpreter.eval(formula.getTokens()).getValue());
 	}
 
-	private void testNumericVariable(NumericVariableToken variable, double expectedResult, String expectedString) {
+	private void testVariable(VariableToken variable, double expectedResult, String expectedString) {
 
 		List<Token> tokens = new ArrayList<>();
 		tokens.add(variable);
 		Formula formula = new Formula(tokens);
 
-		testNumericFormula(formula, expectedResult, expectedString);
+		testFormula(formula, expectedResult, expectedString);
 	}
 
 	@Test
 	public void testSimpleVariable() {
 		List<Token> internalTokens = new ArrayList<>();
 
-		internalTokens.add(new NumericValueToken(2));
+		internalTokens.add(new ValueToken(2));
 		internalTokens.add(new MultOperatorToken());
-		internalTokens.add(new NumericValueToken(5));
+		internalTokens.add(new ValueToken(5));
 
 		Formula internalFormula = new Formula(internalTokens);
 
-		NumericVariableToken variable = new NumericVariableToken("A", 0.0);
+		VariableToken variable = new VariableToken("A", 0.0);
 
 		DataProvider dataProvider = new DataProvider();
 		dataProvider.add(variable, internalFormula);
 
 		dataProvider.updateValues();
 
-		testNumericVariable(variable, 2 * 5, "A");
+		testVariable(variable, 2 * 5, "A");
 	}
 
 	@Test
 	public void testUpdateVariable() {
 		List<Token> internalTokens = new ArrayList<>();
 
-		internalTokens.add(new NumericValueToken(2));
+		internalTokens.add(new ValueToken(2));
 		internalTokens.add(new MultOperatorToken());
-		internalTokens.add(new NumericValueToken(5));
+		internalTokens.add(new ValueToken(5));
 
 		Formula internalFormula = new Formula(internalTokens);
 
-		NumericVariableToken variable = new NumericVariableToken("A", 0.0);
+		VariableToken variable = new VariableToken("A", 0.0);
 
 		DataProvider dataProvider = new DataProvider();
 		dataProvider.add(variable, internalFormula);
 
 		dataProvider.updateValues();
-		testNumericVariable(variable, 2 * 5, "A");
+		testVariable(variable, 2 * 5, "A");
 
 		internalFormula.getTokens().add(new AddOperatorToken());
-		internalFormula.getTokens().add(new NumericValueToken(3));
+		internalFormula.getTokens().add(new ValueToken(3));
 
 		dataProvider.updateValues();
-		testNumericVariable(variable, 2 * 5 + 3, "A");
+		testVariable(variable, 2 * 5 + 3, "A");
 
 		variable.setName("B");
 
 		dataProvider.updateValues();
-		testNumericVariable(variable, 2 * 5 + 3, "B");
+		testVariable(variable, 2 * 5 + 3, "B");
 	}
 
 	@Test
 	public void testInvalidReference() {
 		List<Token> internalTokens = new ArrayList<>();
 
-		internalTokens.add(new NumericValueToken(2));
+		internalTokens.add(new ValueToken(2));
 		internalTokens.add(new MultOperatorToken());
-		internalTokens.add(new NumericValueToken(5));
+		internalTokens.add(new ValueToken(5));
 
 		Formula internalFormula = new Formula(internalTokens);
 
-		NumericVariableToken variable = new NumericVariableToken("A", 0.0);
+		VariableToken variable = new VariableToken("A", 0.0);
 
 		DataProvider dataProvider = new DataProvider();
 		dataProvider.add(variable, internalFormula);
 
 		dataProvider.updateValues();
-		testNumericVariable(variable, 2 * 5, "A");
+		testVariable(variable, 2 * 5, "A");
 
 		dataProvider.remove(variable);
 
