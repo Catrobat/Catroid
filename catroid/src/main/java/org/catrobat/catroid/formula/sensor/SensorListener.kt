@@ -33,7 +33,8 @@ object SensorListener {
 
     enum class SensorType {
         X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, X_INCLINATION, Y_INCLINATION,
-        DATE_YEAR, DATE_MONTH, DATE_DAY
+        DATE_YEAR, DATE_MONTH, DATE_DAY,
+        HOUR, MINUTE, SECOND
     }
 
 
@@ -87,10 +88,11 @@ object SensorListener {
             }
 
             SensorType.DATE_YEAR -> return Calendar.getInstance().get(Calendar.YEAR).toDouble()
-
             SensorType.DATE_MONTH -> return Calendar.getInstance().get(Calendar.MONTH).toDouble()
-
             SensorType.DATE_DAY -> return Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toDouble()
+            SensorType.HOUR -> return Calendar.getInstance().get(Calendar.HOUR_OF_DAY).toDouble()
+            SensorType.MINUTE -> return Calendar.getInstance().get(Calendar.MINUTE).toDouble()
+            SensorType.SECOND -> return Calendar.getInstance().get(Calendar.SECOND).toDouble()
         }
     }
 

@@ -26,7 +26,7 @@ package org.catrobat.catroid.formula.function
 import org.catrobat.catroid.formula.Token
 import org.catrobat.catroid.formula.value.ValueToken
 
-abstract class FunctionToken<out V : ValueToken> : Token(Type.FUNCTION) {
+abstract class FunctionToken : Token(Type.FUNCTION) {
 
-    abstract fun eval() : V
+    abstract fun eval() : ValueToken
 }

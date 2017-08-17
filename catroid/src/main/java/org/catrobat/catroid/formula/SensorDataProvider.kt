@@ -24,17 +24,17 @@
 package org.catrobat.catroid.formula
 
 import org.catrobat.catroid.formula.sensor.SensorListener
-import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken.NumericVariableToken
+import org.catrobat.catroid.formula.value.ValueToken.VariableToken
 
 class SensorDataProvider {
 
-    private val values: MutableMap<NumericVariableToken, SensorListener.SensorType> = HashMap()
+    private val values: MutableMap<VariableToken, SensorListener.SensorType> = HashMap()
 
-    fun add(variable: NumericVariableToken, sensorType: SensorListener.SensorType) {
+    fun add(variable: VariableToken, sensorType: SensorListener.SensorType) {
         values.put(variable, sensorType)
     }
 
-    fun remove(variable: NumericVariableToken) {
+    fun remove(variable: VariableToken) {
         values.remove(variable)
     }
 

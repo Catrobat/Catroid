@@ -30,9 +30,19 @@ import org.catrobat.catroid.formula.operator.UnaryOperatorToken
 import org.catrobat.catroid.formula.value.ValueToken
 import java.util.*
 
-class FormulaInterpreter<out T : ValueToken> {
+class FormulaInterpreter {
 
-    fun eval(tokens: List<Token>): T {
+    companion object {
+        fun eval(value: Boolean): Double {
+            return if(value) 1.0 else 0.0
+        }
+
+        fun eval(value: Double): Boolean {
+            return Math.abs(value) > 0
+        }
+    }
+
+    fun eval(tokens: List<Token>): ValueToken {
 
         val operators = Stack<OperatorToken>()
         val values = Stack<ValueToken>()
@@ -46,13 +56,13 @@ class FormulaInterpreter<out T : ValueToken> {
                 Token.Type.RIGHT_BRACKET -> {
                     while (!operators.empty() && operators.peek().type != Token.Type.LEFT_BRACKET) {
 
-                        if (operators.peek() is BinaryOperatorToken<*, *>) {
-                            values.push((operators.pop() as BinaryOperatorToken<ValueToken, ValueToken>)
+                        if (operators.peek() is BinaryOperatorToken) {
+                            values.push((operators.pop() as BinaryOperatorToken)
                                     .applyTo(values.pop(), values.pop()))
                         }
 
-                        else if (operators.peek() is UnaryOperatorToken<*, *>) {
-                            values.push((operators.pop() as UnaryOperatorToken<ValueToken, ValueToken>)
+                        else if (operators.peek() is UnaryOperatorToken) {
+                            values.push((operators.pop() as UnaryOperatorToken)
                                     .applyTo(values.pop()))
                         }
 
@@ -67,13 +77,13 @@ class FormulaInterpreter<out T : ValueToken> {
 
                     while (!operators.empty() && operators.peek().getPriority() > operator.getPriority()) {
 
-                        if (operators.peek() is BinaryOperatorToken<*, *>) {
-                            values.push((operators.pop() as BinaryOperatorToken<ValueToken, ValueToken>)
+                        if (operators.peek() is BinaryOperatorToken) {
+                            values.push((operators.pop() as BinaryOperatorToken)
                                     .applyTo(values.pop(), values.pop()))
                         }
 
-                        else if (operators.peek() is UnaryOperatorToken<*, *>) {
-                            values.push((operators.pop() as UnaryOperatorToken<ValueToken, ValueToken>)
+                        else if (operators.peek() is UnaryOperatorToken) {
+                            values.push((operators.pop() as UnaryOperatorToken)
                                     .applyTo(values.pop()))
                         }
                     }
@@ -81,23 +91,23 @@ class FormulaInterpreter<out T : ValueToken> {
                     operators.push(operator)
                 }
 
-                Token.Type.FUNCTION -> values.push((token as FunctionToken<*>).eval())
+                Token.Type.FUNCTION -> values.push((token as FunctionToken).eval())
             }
         }
 
         while (!operators.empty()) {
 
-            if (operators.peek() is BinaryOperatorToken<*, *>) {
-                values.push((operators.pop() as BinaryOperatorToken<ValueToken, ValueToken>)
+            if (operators.peek() is BinaryOperatorToken) {
+                values.push((operators.pop() as BinaryOperatorToken)
                         .applyTo(values.pop(), values.pop()))
             }
 
-            else if (operators.peek() is UnaryOperatorToken<*, *>) {
-                values.push((operators.pop() as UnaryOperatorToken<ValueToken, ValueToken>)
+            else if (operators.peek() is UnaryOperatorToken) {
+                values.push((operators.pop() as UnaryOperatorToken)
                         .applyTo(values.pop()))
             }
         }
 
-        return values.pop() as T
+        return values.pop()
     }
 }

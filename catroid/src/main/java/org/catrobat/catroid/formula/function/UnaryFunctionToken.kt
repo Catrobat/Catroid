@@ -26,11 +26,10 @@ package org.catrobat.catroid.formula.function
 import org.catrobat.catroid.formula.FormulaInterpreter
 import org.catrobat.catroid.formula.Token
 import org.catrobat.catroid.formula.value.ValueToken
-import org.catrobat.catroid.formula.value.ValueToken.NumericValueToken
 
-abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) : FunctionToken<V>() {
+abstract class UnaryFunctionToken(val tokens: List<Token>) : FunctionToken() {
 
-    class Sin(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Sin(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "sin( "
@@ -42,12 +41,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.sin(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.sin(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Cos(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Cos(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "cos( "
@@ -59,12 +58,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.cos(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.cos(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Tan(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Tan(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "tan( "
@@ -76,12 +75,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.tan(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.tan(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Ln(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Ln(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "ln( "
@@ -93,12 +92,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.log(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.log(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Lg(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Lg(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "log( "
@@ -110,12 +109,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.log10(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.log10(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Sqrt(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Sqrt(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "sqrt( "
@@ -127,12 +126,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.sqrt(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.sqrt(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Abs(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Abs(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "abs( "
@@ -144,12 +143,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.abs(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.abs(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Asin(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Asin(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "arcsin( "
@@ -161,12 +160,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.asin(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.asin(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Acos(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Acos(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "arccos( "
@@ -178,12 +177,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.acos(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.acos(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Atan(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Atan(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "arctan( "
@@ -195,12 +194,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.atan(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.atan(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Exp(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Exp(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "exp( "
@@ -212,12 +211,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.exp(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.exp(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Floor(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Floor(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "floor( "
@@ -229,12 +228,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.floor(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.floor(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Ceil(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Ceil(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "ceil( "
@@ -246,12 +245,12 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.ceil(FormulaInterpreter<NumericValueToken>().eval(tokens).value))
+        override fun eval(): ValueToken {
+            return ValueToken(Math.ceil(FormulaInterpreter().eval(tokens).value))
         }
     }
 
-    class Round(tokens: List<Token>) : UnaryFunctionToken<NumericValueToken>(tokens) {
+    class Round(tokens: List<Token>) : UnaryFunctionToken(tokens) {
 
         override fun getString(): String {
             var formula = "round( "
@@ -263,8 +262,8 @@ abstract class UnaryFunctionToken<out V : ValueToken>(val tokens: List<Token>) :
             return formula + ") "
         }
 
-        override fun eval(): NumericValueToken {
-            return NumericValueToken(Math.round(FormulaInterpreter<NumericValueToken>().eval(tokens).value).toDouble())
+        override fun eval(): ValueToken {
+            return ValueToken(Math.round(FormulaInterpreter().eval(tokens).value).toDouble())
         }
     }
 }
