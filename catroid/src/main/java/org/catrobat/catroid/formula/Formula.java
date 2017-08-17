@@ -34,7 +34,7 @@ public class Formula implements Serializable {
 	private List<Token> tokens = new ArrayList<>();
 
 	public Formula(double value) {
-		tokens.add(new ValueToken.NumericValueToken(value));
+		tokens.add(new ValueToken(value));
 	}
 
 	public Formula(List<Token> tokens) {

@@ -23,14 +23,14 @@
 
 package org.catrobat.catroid.formula.operator
 
+import org.catrobat.catroid.formula.FormulaInterpreter
 import org.catrobat.catroid.formula.value.ValueToken
-import org.catrobat.catroid.formula.value.ValueToken.BooleanValueToken
 
-abstract class UnaryOperatorToken<in T : ValueToken, out V : ValueToken> : OperatorToken(Type.OPERATOR) {
+abstract class UnaryOperatorToken : OperatorToken(Type.OPERATOR) {
 
-    abstract fun applyTo(token: T) : V
+    abstract fun applyTo(token: ValueToken) : ValueToken
 
-    class NotOperatorToken : UnaryOperatorToken<BooleanValueToken, BooleanValueToken>() {
+    class NotOperatorToken : UnaryOperatorToken() {
 
         override fun getString(): String {
             return "NOT "
@@ -40,8 +40,8 @@ abstract class UnaryOperatorToken<in T : ValueToken, out V : ValueToken> : Opera
             return 2
         }
 
-        override fun applyTo(token: BooleanValueToken) : BooleanValueToken {
-            return BooleanValueToken(!token.value)
+        override fun applyTo(token: ValueToken) : ValueToken {
+            return ValueToken(FormulaInterpreter.eval(!FormulaInterpreter.eval(token.value)))
         }
     }
 }
