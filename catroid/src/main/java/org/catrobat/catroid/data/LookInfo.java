@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.data;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -61,7 +60,7 @@ public class LookInfo implements ListItem, BrickFieldObject {
 	}
 
 	@Override
-	public String getDisplayText(Context context) {
+	public String getDisplayText() {
 		return name;
 	}
 

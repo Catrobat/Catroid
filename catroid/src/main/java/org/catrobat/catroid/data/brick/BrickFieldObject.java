@@ -23,11 +23,9 @@
 
 package org.catrobat.catroid.data.brick;
 
-import android.content.Context;
-
 public interface BrickFieldObject extends Cloneable {
 
-	String getDisplayText(Context context);
+	String getDisplayText();
 
 	BrickFieldObject clone() throws CloneNotSupportedException;
 }

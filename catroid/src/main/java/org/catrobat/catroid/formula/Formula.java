@@ -23,13 +23,14 @@
 
 package org.catrobat.catroid.formula;
 
+import org.catrobat.catroid.data.brick.BrickFieldObject;
 import org.catrobat.catroid.formula.value.ValueToken;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Formula implements Serializable {
+public class Formula implements Serializable, BrickFieldObject {
 
 	private List<Token> tokens = new ArrayList<>();
 
@@ -41,6 +42,7 @@ public class Formula implements Serializable {
 		this.tokens = tokens;
 	}
 
+	@Override
 	public String getDisplayText() {
 		String formula = "";
 
@@ -51,7 +53,14 @@ public class Formula implements Serializable {
 		return formula.trim();
 	}
 
+	@Override
+	public Formula clone() throws CloneNotSupportedException {
+		return (Formula) super.clone();
+	}
+
 	public List<Token> getTokens() {
 		return tokens;
 	}
+
+
 }

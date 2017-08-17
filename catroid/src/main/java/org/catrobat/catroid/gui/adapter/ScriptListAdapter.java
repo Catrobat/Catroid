@@ -66,8 +66,7 @@ public class ScriptListAdapter extends RecyclerView.Adapter<BrickViewHolder> imp
 		Brick item = bricks.get(position);
 
 		for (BrickField brickField : item.getBrickFields()) {
-			((TextView) holder.itemView.findViewById(brickField.getViewId())).setText(brickField.getDisplayText(holder
-					.itemView.getContext()));
+			((TextView) holder.itemView.findViewById(brickField.getViewId())).setText(brickField.getDisplayText());
 			holder.itemView.findViewById(brickField.getViewId()).setOnClickListener(item);
 		}
 
