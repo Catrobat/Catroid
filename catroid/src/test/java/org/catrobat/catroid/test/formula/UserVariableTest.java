@@ -23,41 +23,28 @@
 
 package org.catrobat.catroid.test.formula;
 
-import android.support.test.runner.AndroidJUnit4;
-
-import org.catrobat.catroid.formula.DataProvider;
 import org.catrobat.catroid.formula.Formula;
 import org.catrobat.catroid.formula.FormulaInterpreter;
 import org.catrobat.catroid.formula.Token;
+import org.catrobat.catroid.formula.dataprovider.DataProvider;
 import org.catrobat.catroid.formula.operator.BinaryOperatorToken.AddOperatorToken;
 import org.catrobat.catroid.formula.operator.BinaryOperatorToken.MultOperatorToken;
 import org.catrobat.catroid.formula.value.ValueToken;
 import org.catrobat.catroid.formula.value.ValueToken.VariableToken;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(JUnit4.class)
 public class UserVariableTest {
 
-	private void testFormula(Formula formula, double expectedResult, String expectedString) {
-		FormulaInterpreter interpreter = new FormulaInterpreter();
-		assertEquals(expectedString, formula.getDisplayText());
-		assertEquals(expectedResult, interpreter.eval(formula.getTokens()).getValue());
-	}
-
-	private void testVariable(VariableToken variable, double expectedResult, String expectedString) {
-
-		List<Token> tokens = new ArrayList<>();
-		tokens.add(variable);
-		Formula formula = new Formula(tokens);
-
-		testFormula(formula, expectedResult, expectedString);
-	}
+	private FormulaInterpreter interpreter = new FormulaInterpreter();
 
 	@Test
 	public void testSimpleVariable() {
@@ -76,7 +63,8 @@ public class UserVariableTest {
 
 		dataProvider.updateValues();
 
-		testVariable(variable, 2 * 5, "A");
+		assertEquals(2 * 5.0, interpreter.eval(new ArrayList<Token>(Arrays.asList(variable))).getValue());
+		assertEquals("A", variable.getString());
 	}
 
 	@Test
@@ -95,18 +83,20 @@ public class UserVariableTest {
 		dataProvider.add(variable, internalFormula);
 
 		dataProvider.updateValues();
-		testVariable(variable, 2 * 5, "A");
+		assertEquals(2 * 5.0, interpreter.eval(new ArrayList<Token>(Arrays.asList(variable))).getValue());
+		assertEquals("A", variable.getString());
 
 		internalFormula.getTokens().add(new AddOperatorToken());
 		internalFormula.getTokens().add(new ValueToken(3));
 
 		dataProvider.updateValues();
-		testVariable(variable, 2 * 5 + 3, "A");
+		assertEquals(2 * 5 + 3.0, interpreter.eval(new ArrayList<Token>(Arrays.asList(variable))).getValue());
+		assertEquals("A", variable.getString());
 
 		variable.setName("B");
 
 		dataProvider.updateValues();
-		testVariable(variable, 2 * 5 + 3, "B");
+		assertEquals("B", variable.getString());
 	}
 
 	@Test
@@ -125,14 +115,11 @@ public class UserVariableTest {
 		dataProvider.add(variable, internalFormula);
 
 		dataProvider.updateValues();
-		testVariable(variable, 2 * 5, "A");
+		assertEquals(2 * 5.0, interpreter.eval(new ArrayList<Token>(Arrays.asList(variable))).getValue());
+		assertEquals("A", variable.getString());
 
 		dataProvider.remove(variable);
 
-		List<Token> tokens = new ArrayList<>();
-		tokens.add(variable);
-		Formula formula = new Formula(tokens);
-
-		assertEquals("INVALID REFERENCE: A", formula.getDisplayText());
+		assertEquals("INVALID REFERENCE: A", variable.getString());
 	}
 }

@@ -23,22 +23,27 @@
 
 package org.catrobat.catroid.formula
 
-import org.catrobat.catroid.formula.sensor.SensorListener
-import org.catrobat.catroid.formula.value.ValueToken.VariableToken
+import android.content.res.Resources
+import org.catrobat.catroid.data.brick.BrickFieldObject
+import org.catrobat.catroid.formula.stringprovider.FormulaTextProvider
+import org.catrobat.catroid.formula.value.ValueToken
+import java.io.Serializable
 
-class SensorDataProvider {
+class Formula() : BrickFieldObject, Serializable {
 
-    private val values: MutableMap<VariableToken, SensorListener.SensorType> = HashMap()
+    val tokens = ArrayList<Token>()
 
-    fun add(variable: VariableToken, sensorType: SensorListener.SensorType) {
-        values.put(variable, sensorType)
+    constructor(value: Double) : this() {
+        tokens.add(ValueToken(value))
     }
 
-    fun remove(variable: VariableToken) {
-        values.remove(variable)
+    constructor(tokens: List<Token>) : this() {
+        this.tokens.addAll(tokens)
     }
 
-    fun updateValues() {
-        values.forEach { entry -> entry.key.value = SensorListener.getSensorValue(entry.value) }
+    override fun getDisplayText(resources: Resources) = FormulaTextProvider(resources).getText(tokens)
+
+    override fun clone(): BrickFieldObject {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
