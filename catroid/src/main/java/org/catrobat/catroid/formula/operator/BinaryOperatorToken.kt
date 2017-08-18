@@ -33,32 +33,23 @@ abstract class BinaryOperatorToken : OperatorToken(Type.OPERATOR) {
      * The "inverted" parameter order (rightToken, leftToken) is used on purpose because the value stack
      * {@link #eval(List<Token> tokens) FormulaInterpreter} contains the values in this order.
      */
-    abstract fun applyTo (rightToken: ValueToken, leftToken: ValueToken) : ValueToken
+    abstract fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken
 
     class MultOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "* "
-        }
+        override fun getString(): String = "* "
 
-        override fun getPriority(): Int {
-            return 2
-        }
+        override fun getPriority(): Int = 2
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken {
-            return ValueToken(leftToken.value * rightToken.value)
-        }
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken =
+                ValueToken(leftToken.value * rightToken.value)
     }
 
     class DivOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "/ "
-        }
+        override fun getString(): String = "/ "
 
-        override fun getPriority(): Int {
-            return 2
-        }
+        override fun getPriority(): Int = 2
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken {
             if (rightToken.value == 0.0) throw Exception("DIVIDED BY 0")
@@ -68,45 +59,31 @@ abstract class BinaryOperatorToken : OperatorToken(Type.OPERATOR) {
 
     class AddOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "+ "
-        }
+        override fun getString(): String = "+ "
 
-        override fun getPriority(): Int {
-            return 1
-        }
+        override fun getPriority(): Int = 1
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken {
-            return ValueToken(leftToken.value + rightToken.value)
-        }
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken =
+                ValueToken(leftToken.value + rightToken.value)
     }
 
     class SubOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "- "
-        }
+        override fun getString(): String = "- "
 
-        override fun getPriority(): Int {
-            return 1
-        }
+        override fun getPriority(): Int = 1
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken {
-            return ValueToken(leftToken.value - rightToken.value)
-        }
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken =
+                ValueToken(leftToken.value - rightToken.value)
     }
 
     class AndOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "AND "
-        }
+        override fun getString(): String = "AND "
 
-        override fun getPriority(): Int {
-            return 1
-        }
+        override fun getPriority(): Int = 1
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) : ValueToken {
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken {
             val value = FormulaInterpreter.eval(leftToken.value) && FormulaInterpreter.eval(rightToken.value)
             return ValueToken(FormulaInterpreter.eval(value))
         }
@@ -114,15 +91,11 @@ abstract class BinaryOperatorToken : OperatorToken(Type.OPERATOR) {
 
     class OrOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "OR "
-        }
+        override fun getString(): String = "OR "
 
-        override fun getPriority(): Int {
-            return 0
-        }
+        override fun getPriority(): Int = 0
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) : ValueToken {
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken {
             val value = FormulaInterpreter.eval(leftToken.value) || FormulaInterpreter.eval(rightToken.value)
             return ValueToken(FormulaInterpreter.eval(value))
         }
@@ -130,91 +103,61 @@ abstract class BinaryOperatorToken : OperatorToken(Type.OPERATOR) {
 
     class EqualsOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "= "
-        }
+        override fun getString(): String = "= "
 
-        override fun getPriority(): Int {
-            return 0
-        }
+        override fun getPriority(): Int = 0
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) : ValueToken {
-            return ValueToken(FormulaInterpreter.eval(leftToken.value == rightToken.value))
-        }
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken =
+                ValueToken(FormulaInterpreter.eval(leftToken.value == rightToken.value))
     }
 
     class GreaterOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "> "
-        }
+        override fun getString(): String = "> "
 
-        override fun getPriority(): Int {
-            return 0
-        }
+        override fun getPriority(): Int = 0
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) : ValueToken {
-            return ValueToken(FormulaInterpreter.eval(leftToken.value > rightToken.value))
-        }
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken =
+                ValueToken(FormulaInterpreter.eval(leftToken.value > rightToken.value))
     }
 
     class GreaterEqualsOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return ">= "
-        }
+        override fun getString(): String = ">= "
 
-        override fun getPriority(): Int {
-            return 0
-        }
+        override fun getPriority(): Int = 0
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) : ValueToken {
-            return ValueToken(FormulaInterpreter.eval(leftToken.value >= rightToken.value))
-        }
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken =
+                ValueToken(FormulaInterpreter.eval(leftToken.value >= rightToken.value))
     }
 
     class SmallerOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "< "
-        }
+        override fun getString(): String = "< "
 
-        override fun getPriority(): Int {
-            return 0
-        }
+        override fun getPriority(): Int = 0
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) : ValueToken {
-            return ValueToken(FormulaInterpreter.eval(leftToken.value < rightToken.value))
-        }
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken =
+                ValueToken(FormulaInterpreter.eval(leftToken.value < rightToken.value))
     }
 
     class SmallerEqualsOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "<= "
-        }
+        override fun getString(): String = "<= "
 
-        override fun getPriority(): Int {
-            return 0
-        }
+        override fun getPriority(): Int = 0
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) : ValueToken {
-            return ValueToken(FormulaInterpreter.eval(leftToken.value <= rightToken.value))
-        }
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken =
+                ValueToken(FormulaInterpreter.eval(leftToken.value <= rightToken.value))
     }
 
     class NotEqualsOperatorToken : BinaryOperatorToken() {
 
-        override fun getString(): String {
-            return "!= "
-        }
+        override fun getString(): String = "!= "
 
-        override fun getPriority(): Int {
-            return 0
-        }
+        override fun getPriority(): Int = 0
 
-        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) : ValueToken {
-            return ValueToken(FormulaInterpreter.eval(leftToken.value != rightToken.value))
-        }
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken =
+                ValueToken(FormulaInterpreter.eval(leftToken.value != rightToken.value))
     }
 }

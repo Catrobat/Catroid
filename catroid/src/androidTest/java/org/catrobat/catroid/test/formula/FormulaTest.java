@@ -468,7 +468,7 @@ public class FormulaTest {
 		tokens.add(valFalse);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, 0, "1.0 AND 0.0");
+		testFormula(formula, FormulaInterpreter.Companion.eval(false), "1.0 AND 0.0");
 	}
 
 	@Test
@@ -480,7 +480,7 @@ public class FormulaTest {
 		tokens.add(valFalse);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, 1, "1.0 OR 0.0");
+		testFormula(formula, FormulaInterpreter.Companion.eval(true), "1.0 OR 0.0");
 	}
 
 	@Test
@@ -491,7 +491,7 @@ public class FormulaTest {
 		tokens.add(valFalse);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, 1, "NOT 0.0");
+		testFormula(formula, FormulaInterpreter.Companion.eval(true), "NOT 0.0");
 	}
 
 	@Test
@@ -506,7 +506,7 @@ public class FormulaTest {
 		tokens.add(valFalse);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, 1, "NOT 0.0 AND 1.0 OR 0.0");
+		testFormula(formula, FormulaInterpreter.Companion.eval(true), "NOT 0.0 AND 1.0 OR 0.0");
 	}
 
 	@Test
@@ -534,7 +534,7 @@ public class FormulaTest {
 		tokens.add(valTrue);
 
 		formula = new Formula(tokens);
-		testFormula(formula, 1, "( 0.0 OR 1.0 ) AND 1.0");
+		testFormula(formula, FormulaInterpreter.Companion.eval(true), "( 0.0 OR 1.0 ) AND 1.0");
 	}
 
 	@Test

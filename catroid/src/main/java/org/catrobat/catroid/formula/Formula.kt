@@ -21,48 +21,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formula;
+package org.catrobat.catroid.formula
 
-import org.catrobat.catroid.data.brick.BrickFieldObject;
-import org.catrobat.catroid.formula.value.ValueToken;
+import org.catrobat.catroid.data.brick.BrickFieldObject
+import org.catrobat.catroid.formula.value.ValueToken
+import java.io.Serializable
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+class Formula() : BrickFieldObject, Serializable {
 
-public class Formula implements Serializable, BrickFieldObject {
+    val tokens = ArrayList<Token>()
 
-	private List<Token> tokens = new ArrayList<>();
+    constructor(value: Double) : this() {
+        tokens.add(ValueToken(value))
+    }
 
-	public Formula() {}
+    constructor(tokens: List<Token>) : this() {
+        this.tokens.addAll(tokens)
+    }
 
-	public Formula(double value) {
-		tokens.add(new ValueToken(value));
-	}
+    override fun getDisplayText(): String {
+        var string = ""
 
-	public Formula(List<Token> tokens) {
-		this.tokens = tokens;
-	}
+        for (token in tokens) string += token.getString()
 
-	@Override
-	public String getDisplayText() {
-		String formula = "";
+        return string.trim()
+    }
 
-		for (Token token : tokens) {
-			formula += token.getString();
-		}
-
-		return formula.trim();
-	}
-
-	@Override
-	public Formula clone() throws CloneNotSupportedException {
-		return (Formula) super.clone();
-	}
-
-	public List<Token> getTokens() {
-		return tokens;
-	}
-
-
+    override fun clone(): BrickFieldObject {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

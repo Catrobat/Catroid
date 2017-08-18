@@ -25,9 +25,9 @@ package org.catrobat.catroid.formula
 
 abstract class Token(val type: Type) {
 
-	enum class Type {
-		LEFT_BRACKET, RIGHT_BRACKET, OPERATOR, VALUE, FUNCTION
-	}
+    enum class Type {
+        LEFT_BRACKET, RIGHT_BRACKET, OPERATOR, VALUE, FUNCTION
+    }
 
-    abstract fun getString() : String
+    abstract fun getString(): String
 }

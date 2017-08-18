@@ -23,11 +23,10 @@
 
 package org.catrobat.catroid.gui.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
+import android.support.v7.app.AppCompatActivity
 import android.view.View
-
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formula.Formula
 import org.catrobat.catroid.formula.FormulaInterpreter
@@ -46,6 +45,8 @@ class FormulaEditorActivity : AppCompatActivity() {
     }
 
     fun handleEditorButton(view: View) {
+
+        (findViewById(R.id.input) as TextInputLayout).error = null
 
         val inputField = (findViewById(R.id.input) as TextInputLayout).editText
 
@@ -89,7 +90,7 @@ class FormulaEditorActivity : AppCompatActivity() {
                     parseInput(inputField?.text.toString())
                     inputField?.setText(FormulaInterpreter().eval(formula.tokens).value.toString())
                 } catch (exception: Exception) {
-                    //TODO: handle Parsing/Evaluation Errors.
+                    (findViewById(R.id.input) as TextInputLayout).error = getString(R.string.fe_parser_error)
                 }
             }
         }

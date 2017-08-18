@@ -29,8 +29,7 @@ import org.catrobat.catroid.formula.value.ValueToken
 
 abstract class BinaryFunctionToken(val leftTokens: List<Token>, val rightTokens: List<Token>) : FunctionToken() {
 
-    class Max(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken 
-            (leftTokens, rightTokens) {
+    class Max(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken(leftTokens, rightTokens) {
 
         override fun getString(): String {
             var formula = "max( "
@@ -54,8 +53,7 @@ abstract class BinaryFunctionToken(val leftTokens: List<Token>, val rightTokens:
         }
     }
 
-    class Min(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken
-            (leftTokens, rightTokens) {
+    class Min(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken(leftTokens, rightTokens) {
 
         override fun getString(): String {
             var formula = "min( "
@@ -79,8 +77,7 @@ abstract class BinaryFunctionToken(val leftTokens: List<Token>, val rightTokens:
         }
     }
 
-    class Pow(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken
-            (leftTokens, rightTokens) {
+    class Pow(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken(leftTokens, rightTokens) {
 
         override fun getString(): String {
             var formula = "power( "
@@ -104,8 +101,7 @@ abstract class BinaryFunctionToken(val leftTokens: List<Token>, val rightTokens:
         }
     }
 
-    class Mod(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken
-            (leftTokens, rightTokens) {
+    class Mod(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken(leftTokens, rightTokens) {
 
         override fun getString(): String {
             var formula = "mod( "

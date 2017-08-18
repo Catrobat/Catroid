@@ -27,15 +27,11 @@ import org.catrobat.catroid.formula.Token
 
 open class ValueToken(var value: Double) : Token(Type.VALUE) {
 
-    override fun getString(): String {
-        return value.toString() + " "
-    }
+    override fun getString(): String = value.toString() + " "
 
     class VariableToken(var name: String, value: Double) : ValueToken(value) {
 
-        override fun getString(): String {
-            return name + " "
-        }
+        override fun getString(): String = name + " "
     }
 
 }

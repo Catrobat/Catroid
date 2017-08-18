@@ -32,16 +32,11 @@ abstract class UnaryOperatorToken : OperatorToken(Type.OPERATOR) {
 
     class NotOperatorToken : UnaryOperatorToken() {
 
-        override fun getString(): String {
-            return "NOT "
-        }
+        override fun getString(): String = "NOT "
 
-        override fun getPriority(): Int {
-            return 2
-        }
+        override fun getPriority(): Int = 2
 
-        override fun applyTo(token: ValueToken) : ValueToken {
-            return ValueToken(FormulaInterpreter.eval(!FormulaInterpreter.eval(token.value)))
-        }
+        override fun applyTo(token: ValueToken) : ValueToken =
+                ValueToken(FormulaInterpreter.eval(!FormulaInterpreter.eval(token.value)))
     }
 }
