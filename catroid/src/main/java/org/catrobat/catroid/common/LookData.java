@@ -24,6 +24,7 @@ package org.catrobat.catroid.common;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
@@ -121,8 +122,14 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	public void resetLookData() {
-		pixmap = null;
-		textureRegion = null;
+		if (pixmap != null) {
+			pixmap.dispose();
+			pixmap = null;
+		}
+		if (textureRegion != null) {
+			textureRegion.getTexture().dispose();
+			textureRegion = null;
+		}
 	}
 
 	public TextureRegion getTextureRegion() {
@@ -130,6 +137,11 @@ public class LookData implements Serializable, Cloneable {
 			textureRegion = new TextureRegion(new Texture(getPixmap()));
 		}
 		return textureRegion;
+	}
+
+	@VisibleForTesting
+	public void setTextureRegion(TextureRegion textureRegion) {
+		this.textureRegion = textureRegion;
 	}
 
 	public Pixmap getPixmap() {
