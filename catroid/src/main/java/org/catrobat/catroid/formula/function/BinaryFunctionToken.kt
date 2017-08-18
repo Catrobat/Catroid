@@ -23,109 +23,42 @@
 
 package org.catrobat.catroid.formula.function
 
+import org.catrobat.catroid.R
 import org.catrobat.catroid.formula.FormulaInterpreter
 import org.catrobat.catroid.formula.Token
 import org.catrobat.catroid.formula.value.ValueToken
 
 abstract class BinaryFunctionToken(val leftTokens: List<Token>, val rightTokens: List<Token>) : FunctionToken() {
 
-    class Max(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken 
-            (leftTokens, rightTokens) {
+    class Max(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken(leftTokens, rightTokens) {
 
-        override fun getString(): String {
-            var formula = "max( "
+        override fun getResourceId() = R.string.formula_editor_function_max
 
-            for (token in leftTokens) {
-                formula += token.getString()
-            }
-
-            formula += ", "
-
-            for (token in rightTokens) {
-                formula += token.getString()
-            }
-
-            return formula + ") "
-        }
-
-        override fun eval(): ValueToken {
-            return ValueToken(Math.max(FormulaInterpreter().eval(leftTokens).value,
-                    FormulaInterpreter().eval(rightTokens).value))
-        }
+        override fun eval() = ValueToken(Math.max(FormulaInterpreter().eval(leftTokens).value,
+                FormulaInterpreter().eval(rightTokens).value))
     }
 
-    class Min(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken
-            (leftTokens, rightTokens) {
+    class Min(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken(leftTokens, rightTokens) {
 
-        override fun getString(): String {
-            var formula = "min( "
+        override fun getResourceId() = R.string.formula_editor_function_min
 
-            for (token in leftTokens) {
-                formula += token.getString()
-            }
-
-            formula += ", "
-
-            for (token in rightTokens) {
-                formula += token.getString()
-            }
-
-            return formula + ") "
-        }
-
-        override fun eval(): ValueToken {
-            return ValueToken(Math.min(FormulaInterpreter().eval(leftTokens).value,
-                    FormulaInterpreter().eval(rightTokens).value))
-        }
+        override fun eval() = ValueToken(Math.min(FormulaInterpreter().eval(leftTokens).value,
+                FormulaInterpreter().eval(rightTokens).value))
     }
 
-    class Pow(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken
-            (leftTokens, rightTokens) {
+    class Pow(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken(leftTokens, rightTokens) {
 
-        override fun getString(): String {
-            var formula = "power( "
+        override fun getResourceId() = R.string.formula_editor_function_power
 
-            for (token in leftTokens) {
-                formula += token.getString()
-            }
-
-            formula += ", "
-
-            for (token in rightTokens) {
-                formula += token.getString()
-            }
-
-            return formula + ") "
-        }
-
-        override fun eval(): ValueToken {
-            return ValueToken(Math.pow(FormulaInterpreter().eval(leftTokens).value,
-                    FormulaInterpreter().eval(rightTokens).value))
-        }
+        override fun eval() = ValueToken(Math.pow(FormulaInterpreter().eval(leftTokens).value,
+                FormulaInterpreter().eval(rightTokens).value))
     }
 
-    class Mod(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken
-            (leftTokens, rightTokens) {
+    class Mod(leftTokens: List<Token>, rightTokens: List<Token>) : BinaryFunctionToken(leftTokens, rightTokens) {
 
-        override fun getString(): String {
-            var formula = "mod( "
+        override fun getResourceId() = R.string.formula_editor_function_mod
 
-            for (token in leftTokens) {
-                formula += token.getString()
-            }
-
-            formula += ", "
-
-            for (token in rightTokens) {
-                formula += token.getString()
-            }
-
-            return formula + ") "
-        }
-
-        override fun eval(): ValueToken {
-            return ValueToken(FormulaInterpreter().eval(leftTokens).value %
-                    FormulaInterpreter().eval(rightTokens).value)
-        }
+        override fun eval() = ValueToken(FormulaInterpreter().eval(leftTokens).value %
+                FormulaInterpreter().eval(rightTokens).value)
     }
 }

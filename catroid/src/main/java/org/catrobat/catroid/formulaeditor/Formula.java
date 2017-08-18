@@ -38,7 +38,7 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import java.io.Serializable;
 import java.util.List;
 
-public class Formula implements Serializable, BrickFieldObject {
+public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private FormulaElement formulaTree;
@@ -126,11 +126,6 @@ public class Formula implements Serializable, BrickFieldObject {
 			formulaTree = new FormulaElement(ElementType.STRING, value, null);
 			internFormula = new InternFormula(formulaTree.getInternTokenList());
 		}
-	}
-
-	@Override
-	public String getDisplayText(Context context) {
-		return getTrimmedFormulaString(context);
 	}
 
 	public void setDisplayText(String text) {
