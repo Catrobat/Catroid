@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.data.brick;
 
-import android.content.Context;
+import android.content.res.Resources;
 
 public class BrickField implements Cloneable {
 
@@ -49,8 +49,8 @@ public class BrickField implements Cloneable {
 		return object;
 	}
 
-	public String getDisplayText(Context context) {
-		return object.getDisplayText(context);
+	public String getDisplayText(Resources resources) {
+		return object.getDisplayText(resources);
 	}
 
 	@Override

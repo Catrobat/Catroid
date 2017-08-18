@@ -33,13 +33,9 @@ import java.util.*
 class FormulaInterpreter {
 
     companion object {
-        fun eval(value: Boolean): Double {
-            return if(value) 1.0 else 0.0
-        }
 
-        fun eval(value: Double): Boolean {
-            return Math.abs(value) > 0
-        }
+        fun eval(value: Boolean) = if (value) 1.0 else 0.0
+        fun eval(value: Double) = Math.abs(value) > 0
     }
 
     fun eval(tokens: List<Token>): ValueToken {
@@ -57,15 +53,10 @@ class FormulaInterpreter {
                     while (!operators.empty() && operators.peek().type != Token.Type.LEFT_BRACKET) {
 
                         if (operators.peek() is BinaryOperatorToken) {
-                            values.push((operators.pop() as BinaryOperatorToken)
-                                    .applyTo(values.pop(), values.pop()))
+                            values.push((operators.pop() as BinaryOperatorToken).applyTo(values.pop(), values.pop()))
+                        } else if (operators.peek() is UnaryOperatorToken) {
+                            values.push((operators.pop() as UnaryOperatorToken).applyTo(values.pop()))
                         }
-
-                        else if (operators.peek() is UnaryOperatorToken) {
-                            values.push((operators.pop() as UnaryOperatorToken)
-                                    .applyTo(values.pop()))
-                        }
-
                     }
 
                     operators.pop()
@@ -75,16 +66,12 @@ class FormulaInterpreter {
 
                     val operator = token as OperatorToken
 
-                    while (!operators.empty() && operators.peek().getPriority() > operator.getPriority()) {
+                    while (!operators.empty() && operators.peek().PRIORITY > operator.PRIORITY) {
 
                         if (operators.peek() is BinaryOperatorToken) {
-                            values.push((operators.pop() as BinaryOperatorToken)
-                                    .applyTo(values.pop(), values.pop()))
-                        }
-
-                        else if (operators.peek() is UnaryOperatorToken) {
-                            values.push((operators.pop() as UnaryOperatorToken)
-                                    .applyTo(values.pop()))
+                            values.push((operators.pop() as BinaryOperatorToken).applyTo(values.pop(), values.pop()))
+                        } else if (operators.peek() is UnaryOperatorToken) {
+                            values.push((operators.pop() as UnaryOperatorToken).applyTo(values.pop()))
                         }
                     }
 
@@ -98,13 +85,9 @@ class FormulaInterpreter {
         while (!operators.empty()) {
 
             if (operators.peek() is BinaryOperatorToken) {
-                values.push((operators.pop() as BinaryOperatorToken)
-                        .applyTo(values.pop(), values.pop()))
-            }
-
-            else if (operators.peek() is UnaryOperatorToken) {
-                values.push((operators.pop() as UnaryOperatorToken)
-                        .applyTo(values.pop()))
+                values.push((operators.pop() as BinaryOperatorToken).applyTo(values.pop(), values.pop()))
+            } else if (operators.peek() is UnaryOperatorToken) {
+                values.push((operators.pop() as UnaryOperatorToken).applyTo(values.pop()))
             }
         }
 

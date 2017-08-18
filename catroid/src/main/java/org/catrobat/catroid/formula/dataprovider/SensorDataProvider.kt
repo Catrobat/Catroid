@@ -21,37 +21,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formula;
+package org.catrobat.catroid.formula.dataprovider
 
-import org.catrobat.catroid.formula.value.ValueToken;
+import org.catrobat.catroid.formula.sensor.SensorListener
+import org.catrobat.catroid.formula.value.ValueToken.VariableToken
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+class SensorDataProvider {
 
-public class Formula implements Serializable {
+    private val values: MutableMap<VariableToken, SensorListener.SensorType> = HashMap()
 
-	private List<Token> tokens = new ArrayList<>();
+    fun add(variable: VariableToken, sensorType: SensorListener.SensorType) {
+        values.put(variable, sensorType)
+    }
 
-	public Formula(double value) {
-		tokens.add(new ValueToken(value));
-	}
+    fun remove(variable: VariableToken) {
+        values.remove(variable)
+    }
 
-	public Formula(List<Token> tokens) {
-		this.tokens = tokens;
-	}
-
-	public String getDisplayText() {
-		String formula = "";
-
-		for (Token token : tokens) {
-			formula += token.getString();
-		}
-
-		return formula.trim();
-	}
-
-	public List<Token> getTokens() {
-		return tokens;
-	}
+    fun updateValues() {
+        values.forEach { entry -> entry.key.value = SensorListener.getSensorValue(entry.value) }
+    }
 }

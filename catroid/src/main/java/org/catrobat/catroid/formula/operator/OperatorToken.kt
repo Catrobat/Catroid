@@ -23,24 +23,17 @@
 
 package org.catrobat.catroid.formula.operator
 
+import org.catrobat.catroid.R
 import org.catrobat.catroid.formula.Token
 
-abstract class OperatorToken(type : Type) : Token(type) {
+abstract class OperatorToken(type : Type, val PRIORITY: Int) : Token(type) {
 
-    abstract fun getPriority(): Int
+    class BracketOperator(type: Type) : OperatorToken(type, 0) {
 
-    class BracketOperator(type: Type) : OperatorToken(type) {
-
-        override fun getString(): String {
-            when (type) {
-                Type.LEFT_BRACKET -> return "( "
-                Type.RIGHT_BRACKET -> return ") "
-                else -> return ""
-            }
-        }
-
-        override fun getPriority(): Int {
-            return 0
+        override fun getResourceId() = when (type) {
+            Type.LEFT_BRACKET -> R.string.formula_editor_bracket_open
+            Type.RIGHT_BRACKET -> R.string.formula_editor_bracket_close
+            else -> throw Exception("Bracket operator should either have LEFT_BRACKET or RIGHT_BRACKET type")
         }
     }
 }

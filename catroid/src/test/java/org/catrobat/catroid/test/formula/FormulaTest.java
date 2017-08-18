@@ -23,18 +23,16 @@
 
 package org.catrobat.catroid.test.formula;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import junit.framework.Assert;
 
 import org.catrobat.catroid.formula.Formula;
 import org.catrobat.catroid.formula.FormulaInterpreter;
 import org.catrobat.catroid.formula.Token;
-import org.catrobat.catroid.formula.function.FunctionToken;
 import org.catrobat.catroid.formula.function.BinaryFunctionToken.Max;
 import org.catrobat.catroid.formula.function.BinaryFunctionToken.Min;
-import org.catrobat.catroid.formula.function.BinaryFunctionToken.Pow;
 import org.catrobat.catroid.formula.function.BinaryFunctionToken.Mod;
+import org.catrobat.catroid.formula.function.BinaryFunctionToken.Pow;
+import org.catrobat.catroid.formula.function.FunctionToken;
 import org.catrobat.catroid.formula.function.UnaryFunctionToken.Abs;
 import org.catrobat.catroid.formula.function.UnaryFunctionToken.Acos;
 import org.catrobat.catroid.formula.function.UnaryFunctionToken.Asin;
@@ -66,13 +64,14 @@ import org.catrobat.catroid.formula.operator.UnaryOperatorToken.NotOperatorToken
 import org.catrobat.catroid.formula.value.ValueToken;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(JUnit4.class)
 public class FormulaTest {
 
 	private ValueToken varA = new ValueToken(100);
@@ -104,9 +103,8 @@ public class FormulaTest {
 	private BracketOperator leftBracket = new BracketOperator(Token.Type.LEFT_BRACKET);
 	private BracketOperator rightBracket = new BracketOperator(Token.Type.RIGHT_BRACKET);
 
-	private void testFormula(Formula formula, double expectedResult, String expectedString) {
+	private void assertFormulaResult(Formula formula, double expectedResult) {
 		FormulaInterpreter interpreter = new FormulaInterpreter();
-		assertEquals(expectedString, formula.getDisplayText());
 		assertEquals(expectedResult, interpreter.eval(formula.getTokens()).getValue());
 	}
 
@@ -119,7 +117,7 @@ public class FormulaTest {
 		tokens.add(varE);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, varB.getValue() + varE.getValue(), "5.0 + 0.8");
+		assertFormulaResult(formula, varB.getValue() + varE.getValue());
 	}
 
 	@Test
@@ -131,7 +129,7 @@ public class FormulaTest {
 		tokens.add(varE);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, varB.getValue() - varE.getValue(), "5.0 - 0.8");
+		assertFormulaResult(formula, varB.getValue() - varE.getValue());
 	}
 
 	@Test
@@ -143,7 +141,7 @@ public class FormulaTest {
 		tokens.add(varE);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, varB.getValue() * varE.getValue(), "5.0 * 0.8");
+		assertFormulaResult(formula, varB.getValue() * varE.getValue());
 	}
 
 	@Test
@@ -155,7 +153,7 @@ public class FormulaTest {
 		tokens.add(varE);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, varB.getValue() / varE.getValue(), "5.0 / 0.8");
+		assertFormulaResult(formula, varB.getValue() / varE.getValue());
 
 		tokens.clear();
 		tokens.add(varB);
@@ -165,7 +163,7 @@ public class FormulaTest {
 		formula = new Formula(tokens);
 
 		try {
-			testFormula(formula, varB.getValue() / var0.getValue(), "5.0 / 0.0");
+			assertFormulaResult(formula, varB.getValue() / var0.getValue());
 			// Division by 0 should NEVER work!
 			Assert.fail();
 		} catch (Exception e) {
@@ -185,7 +183,7 @@ public class FormulaTest {
 		tokens.add(varC);
 
 		formula = new Formula(tokens);
-		testFormula(formula, varA.getValue() + varB.getValue() * varC.getValue(), "100.0 + 5.0 * 0.1");
+		assertFormulaResult(formula, varA.getValue() + varB.getValue() * varC.getValue());
 	}
 
 	@Test
@@ -203,7 +201,7 @@ public class FormulaTest {
 		tokens.add(varC);
 
 		formula = new Formula(tokens);
-		testFormula(formula, (varA.getValue() + varB.getValue()) * varC.getValue(), "( 100.0 + 5.0 ) * 0.1");
+		assertFormulaResult(formula, (varA.getValue() + varB.getValue()) * varC.getValue());
 
 		tokens.clear();
 		tokens.add(varD);
@@ -217,17 +215,16 @@ public class FormulaTest {
 		tokens.add(varC);
 
 		formula = new Formula(tokens);
-		testFormula(formula, varD.getValue() * (varA.getValue() - varB.getValue()) / varC.getValue(),
-				"-2.0 * ( 100.0 - 5.0 ) / 0.1");
+		assertFormulaResult(formula, varD.getValue() * (varA.getValue() - varB.getValue()) / varC.getValue());
 	}
 
-	private void testFunction(FunctionToken functionToken, double expectedResult, String expectedString) {
+	private void testFunction(FunctionToken functionToken, double expectedResult) {
 
 		List<Token> tokens = new ArrayList<>();
 		tokens.add(functionToken);
 		Formula formula = new Formula(tokens);
 
-		testFormula(formula, expectedResult, expectedString);
+		assertFormulaResult(formula, expectedResult);
 	}
 
 	@Test
@@ -238,7 +235,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Sin func = new Sin(internalTokens);
-		testFunction(func, Math.sin(varA.getValue() / varB.getValue()), "sin( 100.0 / 5.0 )");
+		testFunction(func, Math.sin(varA.getValue() / varB.getValue()));
 	}
 
 	@Test
@@ -249,7 +246,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Cos func = new Cos(internalTokens);
-		testFunction(func, Math.cos(varA.getValue() / varB.getValue()), "cos( 100.0 / 5.0 )");
+		testFunction(func, Math.cos(varA.getValue() / varB.getValue()));
 	}
 
 	@Test
@@ -260,7 +257,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Tan func = new Tan(internalTokens);
-		testFunction(func, Math.tan(varA.getValue() / varB.getValue()), "tan( 100.0 / 5.0 )");
+		testFunction(func, Math.tan(varA.getValue() / varB.getValue()));
 	}
 
 	@Test
@@ -271,7 +268,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Ln func = new Ln(internalTokens);
-		testFunction(func, Math.log(varA.getValue() / varB.getValue()), "ln( 100.0 / 5.0 )");
+		testFunction(func, Math.log(varA.getValue() / varB.getValue()));
 	}
 
 	@Test
@@ -282,7 +279,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Lg func = new Lg(internalTokens);
-		testFunction(func, Math.log10(varA.getValue() / varB.getValue()), "log( 100.0 / 5.0 )");
+		testFunction(func, Math.log10(varA.getValue() / varB.getValue()));
 	}
 
 	@Test
@@ -293,7 +290,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Sqrt func = new Sqrt(internalTokens);
-		testFunction(func, Math.sqrt(varA.getValue() / varB.getValue()), "sqrt( 100.0 / 5.0 )");
+		testFunction(func, Math.sqrt(varA.getValue() / varB.getValue()));
 	}
 
 	@Test
@@ -304,7 +301,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Abs func = new Abs(internalTokens);
-		testFunction(func, Math.abs(varD.getValue() * varB.getValue()), "abs( -2.0 * 5.0 )");
+		testFunction(func, Math.abs(varD.getValue() * varB.getValue()));
 	}
 
 	@Test
@@ -315,7 +312,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Asin func = new Asin(internalTokens);
-		testFunction(func, Math.asin(varA.getValue() / varB.getValue()), "arcsin( 100.0 / 5.0 )");
+		testFunction(func, Math.asin(varA.getValue() / varB.getValue()));
 	}
 
 	@Test
@@ -326,7 +323,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Acos func = new Acos(internalTokens);
-		testFunction(func, Math.acos(varA.getValue() / varB.getValue()), "arccos( 100.0 / 5.0 )");
+		testFunction(func, Math.acos(varA.getValue() / varB.getValue()));
 	}
 
 	@Test
@@ -337,7 +334,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Atan func = new Atan(internalTokens);
-		testFunction(func, Math.atan(varA.getValue() / varB.getValue()), "arctan( 100.0 / 5.0 )");
+		testFunction(func, Math.atan(varA.getValue() / varB.getValue()));
 	}
 
 	@Test
@@ -348,7 +345,7 @@ public class FormulaTest {
 		internalTokens.add(varB);
 
 		Exp func = new Exp(internalTokens);
-		testFunction(func, Math.exp(varA.getValue() / varB.getValue()), "exp( 100.0 / 5.0 )");
+		testFunction(func, Math.exp(varA.getValue() / varB.getValue()));
 	}
 
 	@Test
@@ -357,7 +354,7 @@ public class FormulaTest {
 		internalTokens.add(varC);
 
 		Floor func = new Floor(internalTokens);
-		testFunction(func, Math.floor(varC.getValue()), "floor( 0.1 )");
+		testFunction(func, Math.floor(varC.getValue()));
 	}
 
 	@Test
@@ -366,7 +363,7 @@ public class FormulaTest {
 		internalTokens.add(varC);
 
 		Ceil func = new Ceil(internalTokens);
-		testFunction(func, Math.ceil(varC.getValue()), "ceil( 0.1 )");
+		testFunction(func, Math.ceil(varC.getValue()));
 	}
 
 	@Test
@@ -375,7 +372,7 @@ public class FormulaTest {
 		internalTokens.add(varE);
 
 		Round func = new Round(internalTokens);
-		testFunction(func, Math.round(varE.getValue()), "round( 0.8 )");
+		testFunction(func, Math.round(varE.getValue()));
 	}
 
 	@Test
@@ -384,7 +381,7 @@ public class FormulaTest {
 		internalTokens.add(varC);
 
 		Round func = new Round(internalTokens);
-		testFunction(func, Math.round(varC.getValue()), "round( 0.1 )");
+		testFunction(func, Math.round(varC.getValue()));
 	}
 
 	@Test
@@ -396,7 +393,7 @@ public class FormulaTest {
 		tokens.add(varE);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, FormulaInterpreter.Companion.eval(varB.getValue() > varE.getValue()), "5.0 > 0.8");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(varB.getValue() > varE.getValue()));
 	}
 
 	@Test
@@ -408,7 +405,7 @@ public class FormulaTest {
 		tokens.add(varE);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, FormulaInterpreter.Companion.eval(varB.getValue() >= varE.getValue()), "5.0 >= 0.8");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(varB.getValue() >= varE.getValue()));
 	}
 
 	@Test
@@ -420,7 +417,7 @@ public class FormulaTest {
 		tokens.add(varE);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, FormulaInterpreter.Companion.eval(varB.getValue() < varE.getValue()), "5.0 < 0.8");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(varB.getValue() < varE.getValue()));
 	}
 
 	@Test
@@ -432,7 +429,7 @@ public class FormulaTest {
 		tokens.add(varE);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, FormulaInterpreter.Companion.eval(varB.getValue() <= varE.getValue()), "5.0 <= 0.8");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(varB.getValue() <= varE.getValue()));
 	}
 
 	@Test
@@ -444,7 +441,7 @@ public class FormulaTest {
 		tokens.add(varE);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, FormulaInterpreter.Companion.eval(varB.getValue() == varE.getValue()), "5.0 = 0.8");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(varB.getValue() == varE.getValue()));
 	}
 
 	@Test
@@ -456,7 +453,7 @@ public class FormulaTest {
 		tokens.add(varE);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, FormulaInterpreter.Companion.eval(varB.getValue() != varE.getValue()), "5.0 != 0.8");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(varB.getValue() != varE.getValue()));
 	}
 
 	@Test
@@ -468,7 +465,7 @@ public class FormulaTest {
 		tokens.add(valFalse);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, 0, "1.0 AND 0.0");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(false));
 	}
 
 	@Test
@@ -480,7 +477,7 @@ public class FormulaTest {
 		tokens.add(valFalse);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, 1, "1.0 OR 0.0");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(true));
 	}
 
 	@Test
@@ -491,7 +488,7 @@ public class FormulaTest {
 		tokens.add(valFalse);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, 1, "NOT 0.0");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(true));
 	}
 
 	@Test
@@ -506,7 +503,7 @@ public class FormulaTest {
 		tokens.add(valFalse);
 
 		Formula formula = new Formula(tokens);
-		testFormula(formula, 1, "NOT 0.0 AND 1.0 OR 0.0");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(true));
 	}
 
 	@Test
@@ -522,7 +519,7 @@ public class FormulaTest {
 		tokens.add(rightBracket);
 
 		formula = new Formula(tokens);
-		testFormula(formula, 1, "NOT ( 0.0 AND 1.0 )");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(true));
 
 		tokens.clear();
 		tokens.add(leftBracket);
@@ -534,7 +531,7 @@ public class FormulaTest {
 		tokens.add(valTrue);
 
 		formula = new Formula(tokens);
-		testFormula(formula, 1, "( 0.0 OR 1.0 ) AND 1.0");
+		assertFormulaResult(formula, FormulaInterpreter.Companion.eval(true));
 	}
 
 	@Test
@@ -546,7 +543,7 @@ public class FormulaTest {
 		rightTokens.add(varA);
 
 		Max func = new Max(leftTokens, rightTokens);
-		testFunction(func, Math.max(varC.getValue(), varA.getValue()), "max( 0.1 , 100.0 )");
+		testFunction(func, Math.max(varC.getValue(), varA.getValue()));
 	}
 
 	@Test
@@ -558,7 +555,7 @@ public class FormulaTest {
 		rightTokens.add(varA);
 
 		Min func = new Min(leftTokens, rightTokens);
-		testFunction(func, Math.min(varC.getValue(), varA.getValue()), "min( 0.1 , 100.0 )");
+		testFunction(func, Math.min(varC.getValue(), varA.getValue()));
 	}
 
 	@Test
@@ -570,7 +567,7 @@ public class FormulaTest {
 		rightTokens.add(varA);
 
 		Pow func = new Pow(leftTokens, rightTokens);
-		testFunction(func, Math.pow(varC.getValue(), varA.getValue()), "power( 0.1 , 100.0 )");
+		testFunction(func, Math.pow(varC.getValue(), varA.getValue()));
 	}
 
 	@Test
@@ -582,6 +579,6 @@ public class FormulaTest {
 		rightTokens.add(varC);
 
 		Mod func = new Mod(leftTokens, rightTokens);
-		testFunction(func, varA.getValue() % varC.getValue(), "mod( 100.0 , 0.1 )");
+		testFunction(func, varA.getValue() % varC.getValue());
 	}
 }

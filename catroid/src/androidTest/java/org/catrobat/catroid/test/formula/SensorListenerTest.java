@@ -27,37 +27,22 @@ import android.content.Context;
 import android.hardware.SensorManager;
 import android.support.test.InstrumentationRegistry;
 
-import org.catrobat.catroid.formula.Formula;
 import org.catrobat.catroid.formula.FormulaInterpreter;
-import org.catrobat.catroid.formula.SensorDataProvider;
-import org.catrobat.catroid.formula.sensor.SensorListener;
 import org.catrobat.catroid.formula.Token;
-import org.catrobat.catroid.formula.value.ValueToken;
+import org.catrobat.catroid.formula.dataprovider.SensorDataProvider;
+import org.catrobat.catroid.formula.sensor.SensorListener;
 import org.catrobat.catroid.formula.value.ValueToken.VariableToken;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
 public class SensorListenerTest {
 
-	private void testFormula(Formula formula, double expectedResult, String expectedString) {
-		FormulaInterpreter interpreter = new FormulaInterpreter();
-		assertEquals(expectedString, formula.getDisplayText());
-		assertEquals(expectedResult, interpreter.eval(formula.getTokens()).getValue());
-	}
-
-	private void testNumericVariable(ValueToken.VariableToken variable, double expectedResult, String expectedString) {
-
-		List<Token> tokens = new ArrayList<>();
-		tokens.add(variable);
-		Formula formula = new Formula(tokens);
-
-		testFormula(formula, expectedResult, expectedString);
-	}
+	private FormulaInterpreter interpreter = new FormulaInterpreter();
 
 	@Test
 	public void testAcceleration() {
@@ -73,7 +58,7 @@ public class SensorListenerTest {
 		SensorListener.INSTANCE.registerListeners(sensorManager);
 
 		dataProvider.updateValues();
-		testNumericVariable(variable, 0.0, "x_acceleration");
+		assertEquals(0.0, interpreter.eval(new ArrayList<Token>(Arrays.asList(variable))).getValue());
 	}
 
 	@Test
@@ -81,7 +66,6 @@ public class SensorListenerTest {
 		VariableToken year = new VariableToken("year", 0.0);
 		VariableToken month = new VariableToken("month", 0.0);
 		VariableToken day = new VariableToken("day", 0.0);
-
 
 		SensorManager sensorManager = (SensorManager) InstrumentationRegistry
 				.getTargetContext()
@@ -96,8 +80,11 @@ public class SensorListenerTest {
 
 		dataProvider.updateValues();
 
-		testNumericVariable(year, Calendar.getInstance().get(Calendar.YEAR), "year");
-		testNumericVariable(month, Calendar.getInstance().get(Calendar.MONTH), "month");
-		testNumericVariable(day, Calendar.getInstance().get(Calendar.DAY_OF_MONTH), "day");
+		assertEquals((double) Calendar.getInstance().get(Calendar.YEAR),
+				interpreter.eval(new ArrayList<Token>(Arrays.asList(year))).getValue());
+		assertEquals((double) Calendar.getInstance().get(Calendar.MONTH),
+				interpreter.eval(new ArrayList<Token>(Arrays.asList(month))).getValue());
+		assertEquals((double) Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
+				interpreter.eval(new ArrayList<Token>(Arrays.asList(day))).getValue());
 	}
 }

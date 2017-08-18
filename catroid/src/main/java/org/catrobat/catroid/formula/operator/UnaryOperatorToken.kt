@@ -23,25 +23,19 @@
 
 package org.catrobat.catroid.formula.operator
 
+import org.catrobat.catroid.R
 import org.catrobat.catroid.formula.FormulaInterpreter
 import org.catrobat.catroid.formula.value.ValueToken
 
-abstract class UnaryOperatorToken : OperatorToken(Type.OPERATOR) {
+abstract class UnaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR, PRIORITY) {
 
     abstract fun applyTo(token: ValueToken) : ValueToken
 
-    class NotOperatorToken : UnaryOperatorToken() {
+    class NotOperatorToken : UnaryOperatorToken(2) {
 
-        override fun getString(): String {
-            return "NOT "
-        }
+        override fun getResourceId(): Int = R.string.formula_editor_logic_not
 
-        override fun getPriority(): Int {
-            return 2
-        }
-
-        override fun applyTo(token: ValueToken) : ValueToken {
-            return ValueToken(FormulaInterpreter.eval(!FormulaInterpreter.eval(token.value)))
-        }
+        override fun applyTo(token: ValueToken) : ValueToken =
+                ValueToken(FormulaInterpreter.eval(!FormulaInterpreter.eval(token.value)))
     }
 }
