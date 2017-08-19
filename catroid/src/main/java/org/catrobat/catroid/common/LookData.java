@@ -121,7 +121,7 @@ public class LookData implements Serializable, Cloneable {
 		return cloneLookData;
 	}
 
-	public void resetLookData() {
+	public void dispose() {
 		if (pixmap != null) {
 			pixmap.dispose();
 			pixmap = null;
