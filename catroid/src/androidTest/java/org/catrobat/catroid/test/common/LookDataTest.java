@@ -52,7 +52,7 @@ public class LookDataTest {
 		lookData.setPixmap(pixmap);
 		lookData.setTextureRegion(textureRegion);
 
-		lookData.resetLookData();
+		lookData.dispose();
 
 		verify(pixmap, times(1)).dispose();
 		verify(textureRegion.getTexture(), times(1)).dispose();
@@ -62,7 +62,7 @@ public class LookDataTest {
 	public void testNoExceptionThrownOnCallingResetLookData() {
 		LookData lookData = new LookData();
 		try {
-			lookData.resetLookData();
+			lookData.dispose();
 		} catch (Exception error) {
 			fail();
 		}

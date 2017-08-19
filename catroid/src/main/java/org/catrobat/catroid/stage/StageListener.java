@@ -815,8 +815,7 @@ public class StageListener implements ApplicationListener {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (LookData lookData : sprite.getLookDataList()) {
-					lookData.getPixmap().dispose();
-					lookData.getTextureRegion().getTexture().dispose();
+					lookData.dispose();
 				}
 			}
 		}
