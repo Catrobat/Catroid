@@ -183,6 +183,13 @@ public class TrackGrid {
 		}
 	}
 
+
+	public void pausePlayback() {
+		playRunnables.clear();
+		long currentTime = SystemClock.uptimeMillis();
+
+	}
+
 	public void stopPlayback() {
 		for (MidiRunnable r : playRunnables) {
 			handler.removeCallbacks(r);

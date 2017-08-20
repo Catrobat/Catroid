@@ -26,6 +26,7 @@ package org.catrobat.catroid.pocketmusic;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -39,9 +40,10 @@ public class ScrollController {
 
 	private static final int LAST_NOTE_IN_TRACK_VIEW = 8;
 
-	private ObjectAnimator playLineAnimator;
+	private ObjectAnimator "playLineAnimator;
 	private final View playLine;
 	private final ImageButton playButton;
+	private final ImageButton stopButton;
 	private final TactScrollRecyclerView scrollingView;
 	private final int beatsPerMinute;
 
@@ -50,10 +52,12 @@ public class ScrollController {
 		this.scrollingView = tactScrollRecyclerView;
 		this.playLine = pocketmusicMainLayout.findViewById(R.id.pocketmusic_play_line);
 		this.playButton = (ImageButton) pocketmusicMainLayout.findViewById(R.id.pocketmusic_play_button);
+		this.stopButton = (ImageButton) pocketmusicMainLayout.findViewById(R.id.pocketmusic_stop_button);
 		init();
 	}
 
 	private void init() {
+		stopButton.setVisibility(View.GONE);
 		initializePlayLine();
 		initializeAnimator();
 	}
@@ -75,14 +79,21 @@ public class ScrollController {
 		playLineAnimator.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationStart(Animator animation) {
-				playButton.setImageResource(R.drawable.ic_stop_24dp);
+				playButton.setImageResource(R.drawable.ic_pause_light);
+				stopButton.setVisibility(View.VISIBLE);
 				playLine.setVisibility(View.VISIBLE);
 				scrollingView.setPlaying(true);
 			}
 
 			@Override
+			public  void onAnimationPause(Animator animation) {
+				playButton.setImageResource(R.drawable.ic_play);
+			}
+
+			@Override
 			public void onAnimationEnd(Animator animation) {
 				playButton.setImageResource(R.drawable.ic_play);
+				stopButton.setVisibility(View.GONE);
 				playLine.setVisibility(View.GONE);
 				scrollingView.setPlaying(false);
 			}
@@ -103,13 +114,30 @@ public class ScrollController {
 			@Override
 			public void onClick(View v) {
 				if (playLineAnimator.isRunning()) {
+
+					//playButton.setImageResource(R.drawable.ic_play);
+					/*
+					This is now Pause
 					scrollingView.getTrackGrid().stopPlayback();
 					playLineAnimator.cancel();
 					playLineAnimator.setupStartValues();
+					*/
 				} else {
 					playLineAnimator.start();
 					scrollingView.getTrackGrid().startPlayback();
 				}
+			}
+		});
+
+		stopButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (playLineAnimator.isRunning()) {
+					scrollingView.getTrackGrid().stopPlayback();
+					playLineAnimator.cancel();
+					playLineAnimator.setupStartValues();
+				}
+
 			}
 		});
 	}
