@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.util;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 
@@ -32,6 +30,9 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 
 public final class UserVariableTestUtils {
+
+	private static final double EPSILON = 0.001;
+
 	private UserVariableTestUtils() {
 		throw new AssertionError();
 	}
@@ -40,21 +41,20 @@ public final class UserVariableTestUtils {
 			int timeoutMillis) {
 		int intervalMillis = 10;
 		for (; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
-			if (areEqual(expectedValue, (Double) userVariable.getValue())) {
+			if (areEqualWithinEpsilon(expectedValue, (Double) userVariable.getValue())) {
 				return true;
 			}
 			onView(isRoot())
 					.perform(CustomActions.wait(intervalMillis));
 		}
-		Assert.assertEquals(expectedValue, userVariable.getValue());
 		return false;
 	}
 
-	public static boolean userVariableDoesNotEqualWithinTimeout(UserVariable userVariable, double expectedValue,
+	public static boolean userVariableDoesDifferWithinTimeout(UserVariable userVariable, double expectedValue,
 			int timeoutMillis) {
 		int intervalMillis = 10;
 		for (; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
-			if (areEqual(expectedValue, (Double) userVariable.getValue())) {
+			if (areEqualWithinEpsilon(expectedValue, (Double) userVariable.getValue())) {
 				return false;
 			}
 			onView(isRoot())
@@ -73,11 +73,22 @@ public final class UserVariableTestUtils {
 			onView(isRoot())
 					.perform(CustomActions.wait(intervalMillis));
 		}
-		Assert.assertEquals(expectedValue, userVariable.getValue());
 		return false;
 	}
 
-	private static boolean areEqual(double expected, double actual) {
-		return actual >= expected * (1 - 1E-9) && actual <= expected * (1 + 1E-9);
+	public static boolean userVariableGreaterThanWithinTimeout(UserVariable userVariable, double expectedValue,
+			int timeoutMillis) {
+		int step = 10;
+		for (; timeoutMillis > 0; timeoutMillis -= step) {
+			if ((double) userVariable.getValue() > (expectedValue + EPSILON)) {
+				return true;
+			}
+			onView(isRoot()).perform(CustomActions.wait(step));
+		}
+		return false;
+	}
+
+	private static boolean areEqualWithinEpsilon(double expected, double actual) {
+		return actual >= expected - EPSILON && actual <= expected + EPSILON;
 	}
 }

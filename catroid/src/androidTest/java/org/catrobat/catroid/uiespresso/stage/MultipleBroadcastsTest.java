@@ -37,14 +37,20 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.uiespresso.stage.utils.StageTestUtils;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+
+import static org.catrobat.catroid.uiespresso.util.UserVariableTestUtils.userVariableEqualsWithinTimeout;
 
 @RunWith(AndroidJUnit4.class)
 public class MultipleBroadcastsTest {
@@ -77,12 +83,13 @@ public class MultipleBroadcastsTest {
 		}
 	}
 
+	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
 	@Test
 	public void testSendMultipleBroadcasts() throws InterruptedException {
 		baseActivityTestRule.launchActivity(null);
 
 		for (int i = 0; i < userVariables.size(); i++) {
-			Assert.assertTrue(StageTestUtils.userVariableEqualsWithinTimeout(userVariables.get(i), VALUES[i], 2000));
+			Assert.assertTrue(userVariableEqualsWithinTimeout(userVariables.get(i), VALUES[i], 2000));
 		}
 	}
 }
