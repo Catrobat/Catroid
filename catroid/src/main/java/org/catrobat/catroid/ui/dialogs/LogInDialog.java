@@ -85,7 +85,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 		final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity()).setView(rootView)
 				.setTitle(R.string.login).setPositiveButton(R.string.login, null);
 		boolean canceledOnTouchOutside = false;
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.RESTRICTED_LOGIN) {
 			dialogBuilder.setNeutralButton(R.string.password_forgotten, null);
 			canceledOnTouchOutside = true;
 		}
@@ -130,7 +130,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 		getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
 			@Override
 			public boolean onKey(android.content.DialogInterface dialog, int keyCode, android.view.KeyEvent event) {
-				return keyCode == android.view.KeyEvent.KEYCODE_BACK && BuildConfig.CREATE_AT_SCHOOL;
+				return keyCode == android.view.KeyEvent.KEYCODE_BACK && BuildConfig.RESTRICTED_LOGIN;
 			}
 		});
 	}

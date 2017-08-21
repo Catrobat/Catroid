@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -67,7 +68,7 @@ public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
 	protected void onResume() {
 		super.onResume();
 
-		if (!Utils.isUserLoggedIn(this) || !Utils.isCreateAtSchoolUser(this)) {
+		if (BuildConfig.RESTRICTED_LOGIN && (!Utils.isUserLoggedIn(this) || !Utils.isCreateAtSchoolUser(this))) {
 			if (!Utils.isNetworkAvailable(this)) {
 				AlertDialog noInternetDialog = new CustomAlertDialogBuilder(this)
 						.setTitle(R.string.no_internet)

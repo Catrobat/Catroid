@@ -172,7 +172,7 @@ public final class Utils {
 
 	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
 			boolean userSignedIn) {
-		return (!success && exception != null) || context == null || (!BuildConfig.CREATE_AT_SCHOOL && !userSignedIn);
+		return (!success && exception != null) || context == null || (!BuildConfig.RESTRICTED_LOGIN && !userSignedIn);
 	}
 
 	public static boolean checkForNetworkError(WebconnectionException exception) {
@@ -1085,7 +1085,7 @@ public final class Utils {
 
 		ToastUtil.showSuccess(context, R.string.logout_successful);
 
-		if (BuildConfig.CREATE_AT_SCHOOL) {
+		if (BuildConfig.RESTRICTED_LOGIN) {
 			ProjectManager.getInstance().showLogInDialog((Activity) context, false);
 		}
 	}
