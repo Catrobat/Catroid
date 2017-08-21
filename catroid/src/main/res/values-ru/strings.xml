@@ -55,7 +55,7 @@
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
   <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
+  <string name="loading_check_oauth_username">Проверяется доступность указанного имени пользователя&#8230;</string>
   <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#8230;</string>
   <string name="loading_facebook_login">Вход в Facebook совершается на нашем сервере&#8230;</string>
   <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
@@ -93,7 +93,7 @@
   <string name="main_menu_help">Помощь</string>
   <string name="main_menu_web">Обзор</string>
   <string name="main_menu_upload">Загрузить</string>
-  <string name="main_menu_about">About this app</string>
+  <string name="main_menu_about">Об этом приложении</string>
   <string name="main_menu_terms_of_use">Условия пользования и обслуживания</string>
   <string name="main_menu_rate_app">Оцените нас!</string>
   <string name="main_menu_play_store_not_installed">Приложение Play Store не найдено</string>
@@ -112,13 +112,13 @@
   <string name="preference_description_quadcopter_bricks">Allow to control AR.Drone 2.0 quadcopters</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Блоки Лего Mindstorms NXT</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">Блоки EV3 Лего Mindstorms</string>
-  <string name="preference_description_mindstorms_nxt_bricks">Разрешить управление роботом Lego Mindstorms NXT</string>
-  <string name="preference_description_mindstorms_ev3_bricks">Разрешить управление роботов Лего Mindstorms EV3</string>
+  <string name="preference_description_mindstorms_nxt_bricks">Разрешить управлять роботами NXT от Lego Mindstorms </string>
+  <string name="preference_description_mindstorms_ev3_bricks">Разрешить управлять роботами Лего Mindstorms EV3</string>
   <string name="preference_title_mindstorms_nxt_sensors">Датчики Lego NXT</string>
   <string name="preference_title_mindstorms_ev3_sensors">Датчики Lego NXT</string>
   <string name="preference_title_drone_config_properties">Свойства конфигурации дрона</string>
   <string name="preference_title_enable_phiro_bricks">Блоки Phiro</string>
-  <string name="preference_description_phiro_bricks">Разрешить управлять роботом Phiro</string>
+  <string name="preference_description_phiro_bricks">Разрешить управлять роботами Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Блоки Arduino</string>
   <string name="preference_title_cast_feature_globally_enabled">Enable cast features</string>
   <string name="preference_description_cast_feature_globally_enabled">Show cast button and allow cast project creation</string>
@@ -129,7 +129,7 @@
   <!-- -->
   <string name="preference_description_arduino_bricks">Разрешить управлять платой Arduino</string>
   <string name="preference_title_enable_raspi_bricks">Блоки Raspberry Pi</string>
-  <string name="preference_description_raspi_bricks">Разрешить управление компьютеров Raspberry Pi</string>
+  <string name="preference_description_raspi_bricks">Разрешить управлять компьютерами Raspberry Pi</string>
   <string name="preference_raspi_enable_bricks">Включить блоки Raspberry Pi</string>
   <string name="preference_raspi_help">Помощь / Начало работы</string>
   <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
@@ -232,7 +232,7 @@
   <!--  -->
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Камера</string>
-  <string name="dialog_new_object_gallery">Выберите изображение</string>
+  <string name="dialog_new_object_gallery">Выбрать изображение</string>
   <string name="dialog_new_object_camera">Сделать снимок</string>
   <string name="dialog_new_object_look_preview">Предварительный просмотр</string>
   <string name="dialog_new_object_name">Название объекта</string>
@@ -241,7 +241,7 @@
   <!--  -->
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Условия пользования и обслуживания</string>
-  <string name="dialog_terms_of_use_info">Для использования Pocket Code и других продуктов в рамках проекта Catrobat, Вы должны принять условия обслуживания и пользования и строго следовать им. Для полного текста условий обслуживания и пользования перейдите по ссылке ниже.\n</string>
+  <string name="dialog_terms_of_use_info">Для использования Pocket Code и других продуктов в рамках проекта Catrobat Вы должны принять условия обслуживания и пользования и строго следовать им. Для полного текста условий обслуживания и пользования перейдите по ссылке ниже.\n</string>
   <string name="dialog_terms_of_use_link_text">Условия пользования и обслуживания</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
@@ -250,7 +250,7 @@
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Не напоминать мне снова.</string>
   <!--  -->
   <!-- About Dialog -->
-  <string name="dialog_about_title">About this app</string>
+  <string name="dialog_about_title">Об этом приложении</string>
   <string name="dialog_about_license_info">This app offers a programming
         environment and interpreter for the visual
         programming language Catrobat.\n\n
@@ -307,7 +307,7 @@
   <!--  -->
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Нажмите «+» чтобы добавить скрипт</string>
-  <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
+  <string name="dialog_confirm_delete_brick_title">Вы уверены, что хотите удалить этот блок?</string>
   <string name="dialog_confirm_delete_script_title">Delete this script?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
   <string name="dialog_confirm_delete_backpack_group_title">Удалить эту группу?</string>
@@ -339,7 +339,7 @@
   <string name="delete_look_dialog">Вы уверены, что хотите удалить этот образ?</string>
   <string name="select_look_from_gallery">Выберите изображение</string>
   <string name="select_look_from_camera">Выберите фотографию</string>
-  <string name="look_measure">Мера измерения:</string>
+  <string name="look_measure">Разрешение:</string>
   <string name="dialog_confirm_delete_look_title">Вы уверены, что хотите удалить этот образ?</string>
   <string name="dialog_confirm_delete_multiple_looks_title">Вы уверены, что хотите удалить эти образы?</string>
   <string name="dialog_confirm_delete_look_message">Это действие не может быть отменено!</string>
@@ -458,7 +458,7 @@
   <string name="brick_context_dialog_show_source">Показать исходный блок</string>
   <string name="brick_context_dialog_delete_brick">Удалить</string>
   <string name="brick_context_dialog_copy_brick">Копировать блок</string>
-  <string name="brick_context_dialog_animate_bricks">Подстветить части блока</string>
+  <string name="brick_context_dialog_animate_bricks">Выделить начало и конец цикла</string>
   <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">Изменить</string>
   <string name="brick_context_dialog_delete_script">Удалить скрипт</string>
@@ -473,7 +473,7 @@
   <string name="add_look_from_camera">Сделать снимок</string>
   <string name="add_look_draw_new_image">Камера</string>
   <string name="add_look_choose_image">Из галереи</string>
-  <string name="add_look_media_library">Media Library</string>
+  <string name="add_look_media_library">Загрузить из библиотеки</string>
   <string name="new_look_name">Название образа:</string>
   <string name="look_rename_overwrite">Образ с таким названием уже существует. Пожалуйста, выберите другое название!</string>
   <string name="add_look_drone_video">Drone Video</string>
@@ -511,7 +511,7 @@
   <!--  -->
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Мой объект</string>
-  <string name="new_sprite_dialog_title">Название нового объекта</string>
+  <string name="new_sprite_dialog_title">Новый объект</string>
   <string name="spritename_already_exists">Пожалуйста, выберите другое имя для объекта.</string>
   <string name="rename_sprite_dialog">Переименовать объект</string>
   <string name="spritename_invalid">Это название объекта недопустимо</string>
@@ -525,7 +525,7 @@
   <string name="password_forgotten">Забыли пароль?</string>
   <string name="new_user_registered">новый аккаунт создан</string>
   <string name="user_logged_in">Вход выполнен успешно</string>
-  <string name="register_error">Invalid login</string>
+  <string name="register_error">Неправильное имя или пароль</string>
   <string name="register_terms">Регистрируясь, вы соглашаетесь с нашими</string>
   <string name="register_code_terms_of_use_text">Условия пользования и обслуживания</string>
   <string name="login">Вход</string>
@@ -565,12 +565,12 @@
   <string name="stage_dialog_screenshot">Предварительный просмотр</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">Новый сигнал&#8230;</string>
+  <string name="new_broadcast_message">новое&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Новый сигнал</string>
   <string name="dialog_new_broadcast_message_name">сигнал:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">Новый сигнал&#8230;</string>
+  <string name="new_nfc_tag">новое&#8230;</string>
   <string name="brick_when_nfc_default_all">all</string>
   <!-- -->
   <!-- Brick categories -->
@@ -619,7 +619,7 @@
   </plurals>
   <string name="brick_turn_left">Повернуть налево на</string>
   <string name="brick_turn_right">Повернуть направо</string>
-  <string name="brick_point_in_direction">Указать в направление</string>
+  <string name="brick_point_in_direction">Указать в направлении</string>
   <string name="brick_point_to">Указать к</string>
   <string name="brick_glide">Скользить </string>
   <string name="brick_glide_to_x">по X:</string>
@@ -631,7 +631,7 @@
   <string name="default_project_name_physics">My first physics program</string>
   <string name="brick_set_physics_object_type">Задать тип движения</string>
   <string name="brick_set_physics_object_type_dynamic">прыгающее с силой тяжести</string>
-  <string name="brick_set_physics_object_type_fixed">другие отскакивают от объекта</string>
+  <string name="brick_set_physics_object_type_fixed">отталкивающее другие объекты</string>
   <string name="brick_set_physics_object_type_no">без отталкивания и прыжков</string>
   <string name="brick_set_mass">"Задать массу "</string>
   <string name="brick_set_mass_unit">килограмм</string>
@@ -655,10 +655,10 @@
   <string name="brick_change_size_by">Изменить размер на</string>
   <string name="brick_hide">Спрятать</string>
   <string name="brick_show">Показать</string>
-  <string name="brick_set_transparency">"Установить прозрачность "</string>
-  <string name="brick_change_ghost_effect">"Изменить прозрачность"</string>
-  <string name="brick_set_brightness">"Установить яркость"</string>
-  <string name="brick_change_brightness">"Изменить яркость"</string>
+  <string name="brick_set_transparency">"Задать прозрачность "</string>
+  <string name="brick_change_ghost_effect">"Изменить прозрачность "</string>
+  <string name="brick_set_brightness">"Задать яркость "</string>
+  <string name="brick_change_brightness">"Изменить яркость "</string>
   <string name="brick_set_color">"Установить цвет "</string>
   <string name="brick_change_color">"Изменить цвет "</string>
   <string name="by_label">на</string>
@@ -701,7 +701,7 @@
   <!--  -->
   <!-- Control bricks -->
   <string name="brick_when_started">При старте</string>
-  <string name="brick_when">Когда</string>
+  <string name="brick_when">При прикосновении к этому объекту</string>
   <string name="brick_when_condition_when">Как только</string>
   <string name="brick_when_becomes_true">становится истинным</string>
   <string name="brick_wait">Ждать</string>
@@ -744,13 +744,13 @@
   <string name="brick_loop_end">Конец цикла</string>
   <string name="brick_if_begin">Если</string>
   <string name="brick_if_begin_second_part">истина, то</string>
-  <string name="brick_if_else">, иначе</string>
+  <string name="brick_if_else">иначе</string>
   <string name="brick_if_end">Конец (если)</string>
   <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">Присвоить</string>
   <string name="brick_change_variable">Изменить значение</string>
   <string name="brick_variable_spinner_create_new_variable">Новая&#8230;</string>
-  <string name="brick_note_default_value">"Добавить комментарий здесь…"</string>
+  <string name="brick_note_default_value">"новое примечание…"</string>
   <string name="brick_think_bubble_default_value">"Хмммм!"</string>
   <string name="brick_say_bubble_default_value">"Привет!"</string>
   <string name="brick_broadcast_default_value">"Сообщение 1"</string>
@@ -1297,7 +1297,7 @@
   <string name="formula_editor_logic_greaterthan">&gt;</string>
   <string name="formula_editor_logic_and">И</string>
   <string name="formula_editor_logic_or">ИЛИ</string>
-  <string name="formula_editor_logic_not">НЕТ</string>
+  <string name="formula_editor_logic_not">НЕ</string>
   <string name="formula_editor_logic_greaterequal">≥</string>
   <string name="formula_editor_logic_leserequal">≤</string>
   <string name="formula_editor_logic_equal">=</string>
