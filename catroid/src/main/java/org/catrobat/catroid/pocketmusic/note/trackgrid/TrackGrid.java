@@ -165,29 +165,33 @@ public class TrackGrid {
 		return tactcount + INDEX_TO_COUNT_OFFSET;
 	}
 
-	public void startPlayback() {
+	public void startPlayback(long offsetStart) {
 		playRunnables.clear();
 		long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
+
 		long currentTime = SystemClock.uptimeMillis();
+		long startPlaybackTime = currentTime + offsetStart;
+
+
 		for (GridRow row : gridRows) {
 			for (int i = 0; i < row.getGridRowPositions().size(); i++) {
-				List<GridRowPosition> gridRowPositions = row.getGridRowPositions().get(row.getGridRowPositions()
-						.keyAt(i));
+
+				int tactOffset = row.getGridRowPositions().keyAt(i);
+				int tactOffsetTime = (int) (playLength * tactOffset * beat.getBottomNumber());
+				List<GridRowPosition> gridRowPositions = row.getGridRowPositions().get(tactOffset);
+
 				for (GridRowPosition position : gridRowPositions) {
-					MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, row.getNoteName(), playLength - 10,
-							handler, midiDriver);
-					handler.postAtTime(runnable, currentTime + playLength * position.getColumnStartIndex() + 10);
-					playRunnables.add(runnable);
+					long playTime = currentTime + playLength * position.getColumnStartIndex() + 10 + tactOffsetTime;
+					if (playTime >= startPlaybackTime) {
+						MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, row.getNoteName(), playLength - 10,
+								handler, midiDriver);
+						handler.postAtTime(runnable, playTime - offsetStart);
+						playRunnables.add(runnable);
+					}
 				}
 			}
+
 		}
-	}
-
-
-	public void pausePlayback() {
-		playRunnables.clear();
-		long currentTime = SystemClock.uptimeMillis();
-
 	}
 
 	public void stopPlayback() {
