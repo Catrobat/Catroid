@@ -22,8 +22,10 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -81,6 +83,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 	private ProjectData projectToEdit;
 	private int selectedProjectPosition;
 	private LoadProjectTask loadProjectTask;
+	private AsyncTask projectInitializer;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -369,24 +372,28 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 	}
 
 	private void initializeDefaultProjectAfterDelete() {
-		final ProjectManager projectManager = ProjectManager.getInstance();
-		getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
-		Runnable r = new Runnable() {
+		final Activity activity = getActivity();
+		projectInitializer = new AsyncTask<Void, Void, Void>() {
+
 			@Override
-			public void run() {
-				projectManager.initializeDefaultProject(getActivity());
-				getActivity().runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-						getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
-						initializeList();
-					}
-				});
+			protected void onPreExecute() {
+				activity.findViewById(R.id.fragment_container).setVisibility(View.GONE);
+				activity.findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 			}
-		};
-		(new Thread(r)).start();
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				ProjectManager.getInstance().initializeDefaultProject(activity);
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void aVoid) {
+				activity.findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+				activity.findViewById(R.id.progress_circle).setVisibility(View.GONE);
+				initializeList();
+			}
+		}.execute();
 	}
 
 	@Override
@@ -405,5 +412,13 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 		if (loadProjectTask != null) {
 			loadProjectTask.cancel(true);
 		}
+	}
+
+	@Override
+	public void onDestroy() {
+		if (projectInitializer != null) {
+			projectInitializer.cancel(true);
+		}
+		super.onDestroy();
 	}
 }
