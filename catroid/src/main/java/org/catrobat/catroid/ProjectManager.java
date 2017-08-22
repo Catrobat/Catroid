@@ -647,7 +647,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			return;
 		}
 
-		if (BuildConfig.CREATE_AT_SCHOOL) {
+		if (BuildConfig.RESTRICTED_LOGIN) {
 			ProjectManager.getInstance().showLogInDialog(activity, false);
 		} else {
 			SignInDialog signInDialog = new SignInDialog();

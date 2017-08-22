@@ -116,7 +116,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 
-		if (BuildConfig.CREATE_AT_SCHOOL) {
+		if (BuildConfig.RESTRICTED_LOGIN) {
 			boolean valid = checkCreateAtSchoolUser();
 			if (!valid) {
 				return;

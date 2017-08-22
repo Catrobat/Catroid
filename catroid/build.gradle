@@ -110,6 +110,7 @@ android {
                                  applicationIdForTests:"org.catrobat.catroid"]
 
         buildConfigField "boolean", "CREATE_AT_SCHOOL", "false"
+        buildConfigField "boolean", "RESTRICTED_LOGIN", "false"
         buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
     }

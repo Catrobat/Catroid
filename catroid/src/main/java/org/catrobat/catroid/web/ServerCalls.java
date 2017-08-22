@@ -837,7 +837,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
 
-			if (BuildConfig.CREATE_AT_SCHOOL) {
+			if (BuildConfig.RESTRICTED_LOGIN) {
 				boolean createAtSchoolUser = jsonObject.optBoolean(Constants.CREATE_AT_SCHOOL_USER);
 				sharedPrefEditor.putBoolean(Constants.CREATE_AT_SCHOOL_USER, createAtSchoolUser);
 				if (!createAtSchoolUser) {

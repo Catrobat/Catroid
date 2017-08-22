@@ -128,7 +128,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			System.exit(0);
 		}
 
-		if (!BuildConfig.CREATE_AT_SCHOOL) {
+		if (!BuildConfig.RESTRICTED_LOGIN) {
 			initializeFacebookSdk();
 		}
 
@@ -402,7 +402,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			return;
 		}
 
-		if (BuildConfig.CREATE_AT_SCHOOL && !Utils.isCreateAtSchoolUser(this)) {
+		if (BuildConfig.RESTRICTED_LOGIN && !Utils.isCreateAtSchoolUser(this)) {
 			SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
 			sharedPrefEditor.putString(Constants.TOKEN, Constants.NO_TOKEN);
 			sharedPrefEditor.putString(Constants.USERNAME, Constants.NO_USERNAME);
