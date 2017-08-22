@@ -337,4 +337,10 @@ public class WebViewActivity extends BaseActivity {
 			return false;
 		}
 	}
+
+	@Override
+	protected void onDestroy() {
+		webView.setDownloadListener(null);
+		super.onDestroy();
+	}
 }
