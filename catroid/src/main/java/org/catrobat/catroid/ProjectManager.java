@@ -303,6 +303,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			return;
 		}
 
+		project.removeUnusedMessages();
 		project.saveLegoNXTSettingsToProject(context);
 		project.saveLegoEV3SettingsToProject(context);
 
