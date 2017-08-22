@@ -63,8 +63,8 @@ public final class ProjectListMatchers {
 		return new BoundedMatcher<Object, ProjectData>(ProjectData.class) {
 
 			@Override
-			public boolean matchesSafely(final ProjectData actualObject) {
-				return expectedName.matches(actualObject.projectName);
+			public boolean matchesSafely(final ProjectData actualProjectData) {
+				return expectedName.matches(actualProjectData.projectName);
 			}
 
 			@Override

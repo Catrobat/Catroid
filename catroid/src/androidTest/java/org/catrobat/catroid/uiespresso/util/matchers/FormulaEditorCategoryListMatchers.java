@@ -26,7 +26,6 @@ package org.catrobat.catroid.uiespresso.util.matchers;
 import android.view.View;
 import android.widget.ListView;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -48,20 +47,6 @@ public final class FormulaEditorCategoryListMatchers {
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("FormulaEditorCategoryListView");
-			}
-		};
-	}
-
-	public static Matcher<View> isFormulaEditorListItem() {
-		return new TypeSafeMatcher<View>() {
-			@Override
-			protected boolean matchesSafely(View item) {
-				return item.getId() == R.id.fragment_formula_editor_list_item;
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("check fragment_formula_editor_list_item");
 			}
 		};
 	}

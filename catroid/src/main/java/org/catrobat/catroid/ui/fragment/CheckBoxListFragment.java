@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -58,10 +59,18 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 
 	protected CapitalizedTextView selectAllView;
 
+	protected Context context;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+	}
+
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		this.context = context;
 	}
 
 	@Override

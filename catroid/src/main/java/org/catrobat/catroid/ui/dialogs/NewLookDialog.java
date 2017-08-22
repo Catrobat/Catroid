@@ -35,8 +35,6 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.ui.BaseSettingsActivity;
-import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;

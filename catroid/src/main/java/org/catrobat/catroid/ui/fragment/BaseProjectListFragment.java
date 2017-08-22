@@ -127,7 +127,7 @@ public class BaseProjectListFragment extends ListActivityFragment implements Loa
 			}
 		});
 
-		projectAdapter = new ProjectListAdapter(getActivity(), R.layout.list_item, projectList);
+		projectAdapter = new ProjectListAdapter(context, R.layout.list_item, projectList);
 
 		setListAdapter(projectAdapter);
 		projectAdapter.setListItemClickHandler(this);
@@ -223,7 +223,7 @@ public class BaseProjectListFragment extends ListActivityFragment implements Loa
 				showSetDescriptionDialog();
 				break;
 			case R.id.context_menu_upload:
-				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
+				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, getActivity());
 				break;
 			case R.string.merge_button:
 				String firstProjectName = ProjectManager.getInstance().getCurrentProject().getName();

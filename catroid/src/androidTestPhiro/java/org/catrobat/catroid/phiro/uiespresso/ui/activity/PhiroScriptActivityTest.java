@@ -20,18 +20,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uiespresso.ui.activity;
+package org.catrobat.catroid.phiro.uiespresso.ui.activity;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.DataInteraction;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.junit.After;
@@ -43,6 +43,7 @@ import org.junit.runner.RunWith;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -51,8 +52,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_HINTS;
 import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
-import static org.catrobat.catroid.uiespresso.ui.activity.utils.FormulaEditorCategoryListDataInteractionWrapper.onFormulaEditorCategory;
-import static org.catrobat.catroid.uiespresso.ui.activity.utils.ScriptListDataInteractionWrapper.onBrickCategory;
+import static org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers.isBrickCategoryListItem;
+import static org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers.isBrickCategoryView;
+import static org.catrobat.catroid.uiespresso.util.matchers.FormulaEditorCategoryListMatchers.isFormulaEditorCategoryListView;
+import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
 public class PhiroScriptActivityTest {
@@ -65,7 +68,7 @@ public class PhiroScriptActivityTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("phiroTestProject");
+		BrickTestUtils.createProjectAndGetStartScript("phiroTestProject").addBrick(new SetXBrick());
 		preparePhiroSettings();
 
 		baseActivityTestRule.launchActivity(null);
@@ -108,14 +111,6 @@ public class PhiroScriptActivityTest {
 		editor.apply();
 	}
 
-	private static void createProject(String projectName) {
-		UiTestUtils.createEmptyProject(projectName);
-
-		SetXBrick setXBrick = new SetXBrick();
-		Script startScript = ProjectManager.getInstance().getCurrentScript();
-		startScript.addBrick(setXBrick);
-	}
-
 	private void preparePhiroSettings() {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 
@@ -126,5 +121,17 @@ public class PhiroScriptActivityTest {
 		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, true);
 		editor.putBoolean(SETTINGS_SHOW_HINTS, false);
 		editor.apply();
+	}
+
+	private DataInteraction onFormulaEditorCategory() {
+		return onData(instanceOf(String.class))
+				.inAdapterView(isFormulaEditorCategoryListView())
+				.onChildView(withId(R.id.fragment_formula_editor_list_item));
+	}
+
+	private DataInteraction onBrickCategory() {
+		return onData(instanceOf(String.class))
+				.inAdapterView(isBrickCategoryView())
+				.onChildView(isBrickCategoryListItem());
 	}
 }

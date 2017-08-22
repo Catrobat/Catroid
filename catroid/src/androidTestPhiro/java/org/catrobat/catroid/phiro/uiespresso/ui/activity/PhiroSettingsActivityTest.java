@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.ui.activity;
+package org.catrobat.catroid.phiro.uiespresso.ui.activity;
 
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -34,6 +34,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uiespresso.ui.activity.utils.SettingsActivityUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.hamcrest.Matcher;
@@ -58,7 +59,6 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAct
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
@@ -83,7 +83,7 @@ public class PhiroSettingsActivityTest {
 		for (String setting : allSettings) {
 			initialSettings.put(setting, sharedPreferences.getBoolean(setting, false));
 		}
-		setAllSettingsTo(false);
+		SettingsActivityUtils.setAllSettingsTo(allSettings, false);
 
 		baseActivityTestRule.launchActivity(null);
 	}
@@ -106,7 +106,7 @@ public class PhiroSettingsActivityTest {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_phiro_bricks))
 				.perform(click());
 
-		checkPreference(R.string.preference_title_enable_phiro_bricks, SETTINGS_SHOW_PHIRO_BRICKS);
+		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_phiro_bricks, SETTINGS_SHOW_PHIRO_BRICKS);
 
 		String phiroLink = UiTestUtils.getResourcesString(R.string.phiro_preference_link);
 
@@ -127,25 +127,5 @@ public class PhiroSettingsActivityTest {
 		}
 		sharedPreferencesEditor.commit();
 		initialSettings.clear();
-	}
-
-	private void setAllSettingsTo(boolean value) {
-		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit();
-
-		for (String setting : allSettings) {
-			sharedPreferencesEditor.putBoolean(setting, value);
-		}
-		sharedPreferencesEditor.commit();
-	}
-
-	private void checkPreference(int displayedTitleResourceString, String sharedPreferenceTag) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-
-		onData(PreferenceMatchers.withTitle(displayedTitleResourceString)).perform(click());
-		assertFalse("Preference is still enabled!", sharedPreferences.getBoolean(sharedPreferenceTag, false));
-
-		onData(PreferenceMatchers.withTitle(displayedTitleResourceString)).perform(click());
-		assertTrue("Preference is not enabled!", sharedPreferences.getBoolean(sharedPreferenceTag, false));
 	}
 }

@@ -21,11 +21,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.ui.activity;
+package org.catrobat.catroid.phiro.uiespresso.ui.activity;
 
+import android.support.test.espresso.DataInteraction;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -34,21 +36,21 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.fragment.ProjectListFragment;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.matchers.ProjectListMatchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.uiespresso.ui.activity.utils.ProjectListDataInteractionWrapper.onProjectWithName;
+import static org.catrobat.catroid.uiespresso.util.matchers.ProjectListMatchers.withProjectName;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
 public class PhiroMyProjectsActivityTest {
@@ -58,7 +60,7 @@ public class PhiroMyProjectsActivityTest {
 			BaseActivityInstrumentationRule<>(MyProjectsActivity.class, true, false);
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		deletePhiroPrograms();
 		baseActivityTestRule.launchActivity(null);
 	}
@@ -83,7 +85,7 @@ public class PhiroMyProjectsActivityTest {
 	}
 
 	@Test
-	public void phiroProgramsUnchangedWhenModifiedTest() throws InterruptedException {
+	public void phiroProgramsUnchangedWhenModifiedTest() {
 		addNoteBrickToFirstScript(ProjectListFragment.PHIRO_PROJECTS[0]);
 
 		relaunchActivity();
@@ -97,23 +99,16 @@ public class PhiroMyProjectsActivityTest {
 	}
 
 	private void addNoteBrickToFirstScript(String projectName) {
-		onProjectWithName(projectName)
-				.perform(click());
-
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		assertEquals("Wrong project loaded!", projectName, project.getName());
+		Project project = StorageHandler.getInstance().loadProject(projectName, null);
+		ProjectManager.getInstance().setProject(project);
 		project.getDefaultScene().getSpriteList().get(0).getScript(0).addBrick(new NoteBrick("I was added!"));
-
-		onView(withId(android.R.id.home))
-				.perform(click());
 	}
 
 	private void checkAddedNoteBrickIsStillInFirstScript() {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		Script script = project.getDefaultScene().getSpriteList().get(0).getScript(0);
 		Brick brick = script.getBrick(script.getBrickList().size() - 1);
-		assertTrue("Added NoteBrick is not available in first script anymore, but should be!",
-				brick instanceof NoteBrick);
+		assertTrue("Added NoteBrick is not available in first script anymore, but should be!", brick instanceof NoteBrick);
 	}
 
 	private void deletePhiroPrograms() {
@@ -122,5 +117,10 @@ public class PhiroMyProjectsActivityTest {
 				StorageHandler.getInstance().deleteProject(project);
 			}
 		}
+	}
+
+	private DataInteraction onProjectWithName(String projectName) {
+		return onData(allOf(instanceOf(ProjectData.class), withProjectName(projectName)))
+				.inAdapterView(ProjectListMatchers.isProjectListView());
 	}
 }
