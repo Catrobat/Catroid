@@ -101,7 +101,6 @@ public class Project implements Serializable {
 			setChromecastFields();
 		}
 
-		MessageContainer.clear();
 		//This is used for tests
 		if (context == null) {
 			//Because in test project we can't find the string
