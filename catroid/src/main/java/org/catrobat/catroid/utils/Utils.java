@@ -940,6 +940,8 @@ public final class Utils {
 			ProjectManager.getInstance().setProject(projectToCheck);
 			ProjectManager.getInstance().saveProject(context);
 
+			projectToCheck.updateMessageContainer();
+
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 			start = projectToCheckXMLString.indexOf("<scenes>");
 			end = projectToCheckXMLString.indexOf("</scenes>");
