@@ -23,10 +23,13 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -57,7 +60,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -66,6 +69,8 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+
+import static org.catrobat.catroid.common.Constants.POCKET_PAINT_PACKAGE_NAME;
 
 public class NewSpriteDialog extends DialogFragment {
 
@@ -276,30 +281,54 @@ public class NewSpriteDialog extends DialogFragment {
 	private void setupPaintroidButton(View parentView) {
 		View paintroidButton = parentView.findViewById(R.id.dialog_new_object_paintroid);
 
-		final Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
-				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-
 		paintroidButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
-					Intent intent = new Intent("android.intent.action.MAIN");
-					intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
-							Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
-					Bundle bundleForPocketPaint = new Bundle();
-					bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
-					bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT,
-							getString(R.string.default_look_name));
-					intent.putExtras(bundleForPocketPaint);
-					intent.putExtra(MediaStore.EXTRA_OUTPUT, lookUri);
+				Intent intent = new Intent("android.intent.action.MAIN");
+				intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
+						Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
-					intent.addCategory("android.intent.category.LAUNCHER");
+				Bundle bundle = new Bundle();
+				bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
+				bundle.putString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, getString(R.string.default_look_name));
+				intent.putExtras(bundle);
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, lookUri);
+
+				intent.addCategory("android.intent.category.LAUNCHER");
+
+				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), intent)) {
 					startActivityForResult(intent, REQUEST_CREATE_POCKET_PAINT_IMAGE);
+				} else {
+					BroadcastReceiver pocketPaintInstalledReceiver = createPocketPaintBroadcastReceiver(intent,
+								REQUEST_CREATE_POCKET_PAINT_IMAGE);
+					PocketPaintExchangeHandler.installPocketPaintAndRegister(pocketPaintInstalledReceiver, getActivity());
 				}
 			}
 		});
+	}
+
+	private BroadcastReceiver createPocketPaintBroadcastReceiver(final Intent pocketPaintIntent, final int
+			requestCode) {
+		return new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+
+				String packageName = intent.getData().getEncodedSchemeSpecificPart();
+				if (!packageName.equals(POCKET_PAINT_PACKAGE_NAME)) {
+					return;
+				}
+
+				getActivity().unregisterReceiver(this);
+
+				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), pocketPaintIntent)) {
+					ActivityManager activityManager = (ActivityManager) getActivity().getSystemService(Context
+							.ACTIVITY_SERVICE);
+					activityManager.moveTaskToFront(getActivity().getTaskId(), 0);
+					startActivityForResult(pocketPaintIntent, requestCode);
+				}
+			}
+		};
 	}
 
 	private void setupGalleryButton(View parentView) {
