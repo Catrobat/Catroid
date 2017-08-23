@@ -75,7 +75,7 @@ public class JumpingSumoInitializer {
 	private ARCONTROLLER_DEVICE_STATE_ENUM deviceState = ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED;
 
 	private static final int JUMPING_SUMO_BATTERY_THRESHOLD = 3;
-	private static final int CONNECTION_TIME = 10000; //4000;
+	private static final int CONNECTION_TIME = 10000;
 	private static int jumpingSumoCount = 0;
 	private boolean messageShown = false;
 
@@ -230,6 +230,12 @@ public class JumpingSumoInitializer {
 		return true;
 	}
 
+	private void onConnectionLost(final StageActivity context) {
+		if (stageActivity instanceof StageActivity && !(stageActivity == null)) {
+			context.jsDestroy();
+		}
+	}
+
 	public static void showUnCancellableErrorDialog(final StageActivity context, String title, String message) {
 		Builder builder = new CustomAlertDialogBuilder(context);
 
@@ -267,6 +273,10 @@ public class JumpingSumoInitializer {
 			deviceState = newState;
 			if (deviceState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING)) {
 				jsDiscoverer.removeListener(discovererListener);
+			}
+			else if (deviceState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED)) {
+				Log.e(TAG, "Jumping Sumo Connection Lost");
+				onConnectionLost(stageActivity);
 			}
 		}
 

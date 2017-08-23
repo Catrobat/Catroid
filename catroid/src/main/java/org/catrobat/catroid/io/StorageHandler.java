@@ -97,7 +97,6 @@ import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
-import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -486,7 +485,6 @@ public final class StorageHandler {
 		xstream.alias("brick", SetNfcTagBrick.class);
 
 		xstream.alias("brick", DronePlayLedAnimationBrick.class);
-		xstream.alias("brick", DroneFlipBrick.class);
 		xstream.alias("brick", DroneTakeOffLandBrick.class);
 		xstream.alias("brick", DroneMoveForwardBrick.class);
 		xstream.alias("brick", DroneMoveBackwardBrick.class);

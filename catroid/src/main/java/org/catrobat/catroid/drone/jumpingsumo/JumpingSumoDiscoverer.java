@@ -51,7 +51,7 @@ public class JumpingSumoDiscoverer {
 	}
 
 	private final List<Listener> listeners;
-	private final Context mctx;
+	private final Context context;
 	private ARDiscoveryService ardiscoveryService;
 	private ServiceConnection ardiscoveryServiceConnection;
 	private final ARDiscoveryServicesDevicesListUpdatedReceiver ardiscoveryServicesDevicesListUpdatedReceiver;
@@ -59,8 +59,8 @@ public class JumpingSumoDiscoverer {
 
 	private boolean startDiscoveryAfterConnection = true;
 
-	public JumpingSumoDiscoverer(Context ctx) {
-		mctx = ctx;
+	public JumpingSumoDiscoverer(Context contextDrone) {
+		context = contextDrone;
 		listeners = new ArrayList<>();
 		matchingDrones = new ArrayList<>();
 		ardiscoveryServicesDevicesListUpdatedReceiver = new ARDiscoveryServicesDevicesListUpdatedReceiver(discoveryListener);
@@ -89,7 +89,7 @@ public class JumpingSumoDiscoverer {
 	 * Should be called before starting discovering
 	 */
 	public void setup() {
-		LocalBroadcastManager localBroadcastMgr = LocalBroadcastManager.getInstance(mctx);
+		LocalBroadcastManager localBroadcastMgr = LocalBroadcastManager.getInstance(context);
 		localBroadcastMgr.registerReceiver(ardiscoveryServicesDevicesListUpdatedReceiver,
 				new IntentFilter(ARDiscoveryService.kARDiscoveryServiceNotificationServicesDevicesListUpdated));
 
@@ -112,8 +112,8 @@ public class JumpingSumoDiscoverer {
 		}
 
 		if (ardiscoveryService == null) {
-			Intent i = new Intent(mctx, ARDiscoveryService.class);
-			mctx.bindService(i, ardiscoveryServiceConnection, Context.BIND_AUTO_CREATE);
+			Intent i = new Intent(context, ARDiscoveryService.class);
+			context.bindService(i, ardiscoveryServiceConnection, Context.BIND_AUTO_CREATE);
 		}
 	}
 
@@ -128,13 +128,13 @@ public class JumpingSumoDiscoverer {
 				@Override
 				public void run() {
 					ardiscoveryService.stop();
-					mctx.unbindService(ardiscoveryServiceConnection);
+					context.unbindService(ardiscoveryServiceConnection);
 					ardiscoveryService = null;
 				}
 			}).start();
 		}
 
-		LocalBroadcastManager localBroadcastMgr = LocalBroadcastManager.getInstance(mctx);
+		LocalBroadcastManager localBroadcastMgr = LocalBroadcastManager.getInstance(context);
 		localBroadcastMgr.unregisterReceiver(ardiscoveryServicesDevicesListUpdatedReceiver);
 	}
 
