@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LoaderManager;
@@ -75,6 +76,7 @@ import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dialogs.NewLookDialog;
@@ -93,6 +95,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
+
+import static org.catrobat.catroid.common.Constants.POCKET_PAINT_PACKAGE_NAME;
 
 public class LookFragment extends ScriptActivityFragment implements LookBaseAdapter.OnLookEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener, LookController.OnBackpackLookCompleteListener {
@@ -543,21 +547,44 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	public void addLookDrawNewImage() {
 		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
-				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-
-		if (!LookController.getInstance().checkIfPocketPaintIsInstalled(intent, activity)) {
-			return;
-		}
-
-		Bundle bundleForPocketPaint = new Bundle();
-		bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
-		bundleForPocketPaint
-				.putString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, getString(R.string.default_look_name));
-		intent.putExtras(bundleForPocketPaint);
-
+		intent.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME, Constants
+				.POCKET_PAINT_INTENT_ACTIVITY_NAME));
+		Bundle bundle = new Bundle();
+		bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
+		bundle.putString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, getString(R.string.default_look_name));
+		intent.putExtras(bundle);
 		intent.addCategory("android.intent.category.LAUNCHER");
-		startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
+
+		if (PocketPaintExchangeHandler.isPocketPaintInstalled(activity, intent)) {
+			startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
+		} else {
+			BroadcastReceiver receiver = createPocketPaintBroadcastReceiver(intent, LookController
+					.REQUEST_SELECT_OR_DRAW_IMAGE);
+			PocketPaintExchangeHandler.installPocketPaintAndRegister(receiver, activity);
+		}
+	}
+
+	private BroadcastReceiver createPocketPaintBroadcastReceiver(final Intent pocketPaintIntent, final int
+			requestCode) {
+		return new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+
+				String packageName = intent.getData().getEncodedSchemeSpecificPart();
+				if (!packageName.equals(POCKET_PAINT_PACKAGE_NAME)) {
+					return;
+				}
+
+				getActivity().unregisterReceiver(this);
+
+				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), pocketPaintIntent)) {
+					ActivityManager activityManager = (ActivityManager) getActivity().getSystemService(Context
+							.ACTIVITY_SERVICE);
+					activityManager.moveTaskToFront(getActivity().getTaskId(), 0);
+					startActivityForResult(pocketPaintIntent, requestCode);
+				}
+			}
+		};
 	}
 
 	public void addLookChooseImage() {
@@ -730,7 +757,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			return;
 		}
 
-		handleEditLook(view);
+		int position = (Integer) view.getTag();
+		editWithPocketPaint(position);
 	}
 
 	@Override
@@ -770,36 +798,29 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		}
 	}
 
-	private void handleEditLook(View view) {
-		int position = (Integer) view.getTag();
-		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
-				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-
-		sendPocketPaintIntent(position, intent);
-	}
-
-	public void sendPocketPaintIntent(int selectedPosition, Intent intent) {
-
-		if (!LookController.getInstance().checkIfPocketPaintIsInstalled(intent, activity)) {
-			return;
-		}
-
+	private void editWithPocketPaint(int selectedPosition) {
 		selectedLookData = lookDataList.get(selectedPosition);
-
-		Bundle bundleForPocketPaint = new Bundle();
 
 		try {
 			File tempCopy = StorageHandler.getInstance()
 					.makeTempImageCopy(lookDataList.get(selectedPosition).getAbsolutePath());
 
-			bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, tempCopy.getAbsolutePath());
-			bundleForPocketPaint.putInt(Constants.EXTRA_X_VALUE_POCKET_PAINT, 0);
-			bundleForPocketPaint.putInt(Constants.EXTRA_Y_VALUE_POCKET_PAINT, 0);
-			intent.putExtras(bundleForPocketPaint);
+			Intent intent = new Intent("android.intent.action.MAIN");
+			intent.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME,
+					Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
+			Bundle bundle = new Bundle();
+			bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, tempCopy.getAbsolutePath());
+			intent.putExtras(bundle);
 			intent.addCategory("android.intent.category.LAUNCHER");
-			startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+
+			if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), intent)) {
+				startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+			} else {
+				BroadcastReceiver receiver = createPocketPaintBroadcastReceiver(intent, LookController
+						.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+				PocketPaintExchangeHandler.installPocketPaintAndRegister(receiver, activity);
+			}
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		} catch (NullPointerException nullPointerException) {
