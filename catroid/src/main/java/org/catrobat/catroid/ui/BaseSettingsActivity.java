@@ -1091,8 +1091,7 @@ public class BaseSettingsActivity extends PreferenceActivity {
 	}
 
 	public static void updateLocale(Context context, String languageTag, String countryTag) {
-		Locale mLocale;
-		mLocale = new Locale(languageTag, countryTag);
+		Locale mLocale = new Locale(languageTag, countryTag);
 		Resources resources = context.getResources();
 		DisplayMetrics displayMetrics = resources.getDisplayMetrics();
 		Configuration conf = resources.getConfiguration();

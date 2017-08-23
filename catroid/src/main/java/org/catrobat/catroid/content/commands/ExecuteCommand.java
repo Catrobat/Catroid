@@ -20,11 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content;
 
-import android.content.Context;
+package org.catrobat.catroid.content.commands;
 
-public interface Translatable {
-	void translate(Context context);
-	String describe();
+public interface ExecuteCommand {
+	void execute();
 }

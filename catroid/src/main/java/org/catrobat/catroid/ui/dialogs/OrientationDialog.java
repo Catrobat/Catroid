@@ -45,13 +45,18 @@ import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.transfers.DownloadTemplateTask;
 import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.utils.OnProjectTranslatedListener;
+import org.catrobat.catroid.utils.ProjectTranslationTask;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
 
-public class OrientationDialog extends DialogFragment implements LoadProjectTask.OnLoadProjectCompleteListener, DownloadTemplateTask.OnDownloadTemplateCompleteListener {
+public class OrientationDialog extends DialogFragment implements
+		LoadProjectTask.OnLoadProjectCompleteListener,
+		DownloadTemplateTask.OnDownloadTemplateCompleteListener,
+		OnProjectTranslatedListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_orientation_project";
 
@@ -202,9 +207,8 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
 		ProjectManager.getInstance().initializeTemplateProject(projectName, activity);
-		Utils.replaceTranslatableStringsInProject(templateData.getName(), activity);
 		Utils.getTrackingUtilProxy().trackUseTemplate(templateData.getName(), createLandscapeProject);
-		startProjectActivity();
+		new ProjectTranslationTask(activity, this).execute();
 	}
 
 	@Override
@@ -234,5 +238,10 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 	@Override
 	public void onDownloadTemplateComplete() {
 		ProjectManager.getInstance().loadStageProject(templateData, activity, projectName, this);
+	}
+
+	@Override
+	public void onProjectTranslated() {
+		startProjectActivity();
 	}
 }

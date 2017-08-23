@@ -32,14 +32,12 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.Translatable;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.TranslationUtils;
 
 import java.util.List;
 
@@ -48,6 +46,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener, Translat
 	private static final String TAG = NoteBrick.class.getSimpleName();
 
 	private transient View prototypeView;
+	private transient Sprite sprite;
 
 	public NoteBrick() {
 		addAllowedBrickField(BrickField.NOTE);
@@ -104,18 +103,26 @@ public class NoteBrick extends FormulaBrick implements OnClickListener, Translat
 	}
 
 	@Override
-	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
+	public void translate(Context context) {
 		try {
-			String key = templateName + Constants.TRANSLATION_NOTE;
 			String value = getFormulaWithBrickField(Brick.BrickField.NOTE).interpretString(sprite);
-
-			setFormulaWithBrickField(Brick.BrickField.NOTE,
-					new Formula(Utils.getStringResourceByName(Utils.getStringResourceName(key, value), value, context)));
-
-			return Utils.createStringEntry(key, value);
+			setFormulaWithBrickField(Brick.BrickField.NOTE, new Formula(TranslationUtils.getStringResourceByName(value, context)));
 		} catch (InterpretationException e) {
-			Log.e(TAG, "Could not set note formula: " + e.getMessage());
+			Log.e(TAG, "Could not translate note formula: " + e.getMessage());
+		}
+	}
+
+	@Override
+	public String describe() {
+		try {
+			return getFormulaWithBrickField(Brick.BrickField.NOTE).interpretString(sprite);
+		} catch (InterpretationException e) {
+			Log.e(TAG, "Could not describe note formula: " + e.getMessage());
 		}
 		return null;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 }

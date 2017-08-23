@@ -24,12 +24,14 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'io.fabric.tools:gradle:1.21.5'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
     }
 }
 
@@ -52,6 +54,7 @@ apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
@@ -191,6 +194,11 @@ android {
                                      applicationIdForTests:"org.catrobat.catroid" ]
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 ext {
@@ -254,6 +262,8 @@ dependencies {
     provided 'org.glassfish:javax.annotation:10.0-b28'
     androidTestApt 'com.google.dagger:dagger-compiler:' + daggerVersion
     androidTestCompile 'com.github.fabioCollini.daggermock:daggermock:0.8.1'
+
+    compile 'net.sourceforge.streamsupport:streamsupport:1.5.6'
 
     compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
     compile fileTree(include: '*.jar', dir: 'src/main/libs')

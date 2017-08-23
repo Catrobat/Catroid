@@ -53,6 +53,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
@@ -111,7 +112,9 @@ public class ProjectActivity extends BaseCastActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		initializeFacebookSdk();
+		if (!BuildConfig.RESTRICTED_LOGIN) {
+			initializeFacebookSdk();
+		}
 
 		setContentView(R.layout.activity_project);
 
@@ -378,7 +381,10 @@ public class ProjectActivity extends BaseCastActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		callbackManager.onActivityResult(requestCode, resultCode, data);
+		if (!BuildConfig.RESTRICTED_LOGIN) {
+			callbackManager.onActivityResult(requestCode, resultCode, data);
+		}
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent;
 			if (data != null) {
