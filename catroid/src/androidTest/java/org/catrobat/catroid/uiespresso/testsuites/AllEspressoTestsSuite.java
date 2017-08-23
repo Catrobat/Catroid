@@ -88,11 +88,14 @@ import org.catrobat.catroid.uiespresso.content.brick.WaitBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.WhenNfcBrickStageTest;
 import org.catrobat.catroid.uiespresso.content.brick.WhenNfcBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.WhenStartedBrickTest;
+import org.catrobat.catroid.uiespresso.facedetection.FaceDetectionResourceStartedTest;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorKeyboardTest;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest;
 import org.catrobat.catroid.uiespresso.pocketmusic.PocketMusicActivityTest;
 import org.catrobat.catroid.uiespresso.stage.BroadcastReceiverRegressionTest;
 import org.catrobat.catroid.uiespresso.stage.MultipleBroadcastsTest;
+import org.catrobat.catroid.uiespresso.stage.ObjectVariableTest;
+import org.catrobat.catroid.uiespresso.stage.StagePausedTest;
 import org.catrobat.catroid.uiespresso.stage.StageSimpleTest;
 import org.catrobat.catroid.uiespresso.ui.activity.SettingsActivityTest;
 import org.catrobat.catroid.uiespresso.ui.dialog.AboutDialogTest;
@@ -180,10 +183,13 @@ import org.junit.runners.Suite;
 		WaitBrickTest.class,
 		MultipleBroadcastsTest.class,
 		BroadcastReceiverRegressionTest.class,
+		StagePausedTest.class,
 		StageSimpleTest.class,
+		ObjectVariableTest.class,
 		SmokeTest.class,
 		FormulaEditorTest.class,
 		FormulaEditorKeyboardTest.class,
+		FaceDetectionResourceStartedTest.class,
 		PocketMusicActivityTest.class,
 		FlakyTestTest.class
 })

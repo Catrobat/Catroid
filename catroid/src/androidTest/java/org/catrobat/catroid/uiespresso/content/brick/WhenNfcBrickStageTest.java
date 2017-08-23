@@ -171,7 +171,7 @@ public class WhenNfcBrickStageTest {
 		Assert.assertTrue("Read tag message does not match default value.", readTagMessage.getValue().equals(0.0));
 
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.FIRST_TEST_TAG_ID, ndefMessage1, null, baseActivityTestRule.getActivity());
-		Assert.assertTrue(UserVariableTestUtils.userVariableDoesNotEqualWithinTimeout(numDetectedTags, 1.0, 2000));
+		Assert.assertTrue(UserVariableTestUtils.userVariableDoesDifferWithinTimeout(numDetectedTags, 1.0, 2000));
 
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.SECOND_TEST_TAG_ID, ndefMessage2, null, baseActivityTestRule.getActivity());
 		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagId,
