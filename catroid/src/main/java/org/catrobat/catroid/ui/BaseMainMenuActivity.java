@@ -162,6 +162,10 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 
 			findViewById(R.id.main_menu_button_continue).setEnabled(false);
 
+			if (!BuildConfig.FEATURE_TEMPLATES) {
+				findViewById(R.id.main_menu_button_templates).setVisibility(View.GONE);
+			}
+
 			// Load external project from URL or local file system.
 			Uri loadExternalProjectUri = getIntent().getData();
 			getIntent().setData(null);

@@ -143,7 +143,7 @@
     <!--  -->
     <!-- -->
     <string name="preference_title_access">Accessibility</string>
-    <string name="preference_description_access">Choose a profile and configurate your personal settings for the Pocket-Code-UI</string>
+    <string name="preference_description_access">Choose a profile and configurate your personal settings for the app UI</string>
     <string name="preference_access_title_activity_access">Accessibility preferences</string>
     <string name="preference_access_profiles">Profiles</string>
     <string name="preference_access_predefined_profiles">Predefined profiles</string>

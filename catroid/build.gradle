@@ -118,6 +118,7 @@ android {
 
         buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_TEMPLATES", "false"
 
         buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
         buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
@@ -146,6 +147,7 @@ android {
             versionCode 9
 
             buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
+            buildConfigField "boolean", "FEATURE_TEMPLATES", "true"
 
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
 
