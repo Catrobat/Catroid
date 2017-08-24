@@ -996,19 +996,17 @@ public class ActionFactory extends Actions {
 		return action(JumpingSumoJumpHighAction.class);
 	}
 
-	public Action createJumpingSumoRotateLeftAction(Sprite sprite, Formula degree, float seconds) {
+	public Action createJumpingSumoRotateLeftAction(Sprite sprite, Formula degree) {
 		JumpingSumoRotateLeftAction action = action(JumpingSumoRotateLeftAction.class);
 		action.setSprite(sprite);
 		action.setDegree(degree);
-		action.setDelay(seconds);
 		return action;
 	}
 
-	public Action createJumpingSumoRotateRightAction(Sprite sprite, Formula degree, float seconds) {
+	public Action createJumpingSumoRotateRightAction(Sprite sprite, Formula degree) {
 		JumpingSumoRotateRightAction action = action(JumpingSumoRotateRightAction.class);
 		action.setSprite(sprite);
 		action.setDegree(degree);
-		action.setDelay(seconds);
 		return action;
 	}
 

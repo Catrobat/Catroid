@@ -53,10 +53,6 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 		this.degree = degree;
 	}
 
-	public void setDelay(float delay) {
-		this.duration = delay;
-	}
-
 	@Override
 	protected void begin() {
 		super.begin();
