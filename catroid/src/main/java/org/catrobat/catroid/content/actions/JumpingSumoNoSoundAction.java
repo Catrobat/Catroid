@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
