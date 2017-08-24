@@ -88,7 +88,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_when_gamepad_button_text),
-				context.getString(R.string.category_looks));
+				context.getString(R.string.category_cast));
 
 		setCheckboxView(R.id.brick_when_gamepad_button_checkbox);
 

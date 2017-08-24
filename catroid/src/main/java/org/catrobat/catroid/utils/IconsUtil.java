@@ -133,6 +133,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.event_neg);
 				} else if (category.equals(context.getString(R.string.category_pen))) {
 					drawable = context.getResources().getDrawable(R.drawable.pen_neg);
+				} else if (category.equals(context.getString(R.string.category_cast))) {
+					drawable = context.getResources().getDrawable(R.drawable.chromecast_neg);
 				}
 			} else {
 				if (category.equals(context.getString(R.string.category_control))) {
@@ -161,6 +163,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.event_pos);
 				} else if (category.equals(context.getString(R.string.category_pen))) {
 					drawable = context.getResources().getDrawable(R.drawable.pen_pos);
+				} else if (category.equals(context.getString(R.string.category_cast))) {
+					drawable = context.getResources().getDrawable(R.drawable.chromecast_pos);
 				}
 			}
 
@@ -209,6 +213,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.event_neg);
 				} else if (category.equals(context.getString(R.string.category_pen))) {
 					drawable = context.getResources().getDrawable(R.drawable.pen_neg);
+				} else if (category.equals(context.getString(R.string.category_cast))) {
+					drawable = context.getResources().getDrawable(R.drawable.chromecast_neg);
 				}
 			} else {
 				if (category.equals(context.getString(R.string.category_control))) {
@@ -237,6 +243,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.event_pos);
 				} else if (category.equals(context.getString(R.string.category_pen))) {
 					drawable = context.getResources().getDrawable(R.drawable.pen_pos);
+				} else if (category.equals(context.getString(R.string.category_cast))) {
+					drawable = context.getResources().getDrawable(R.drawable.chromecast_pos);
 				}
 			}
 
