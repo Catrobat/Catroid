@@ -93,7 +93,7 @@
   <string name="main_menu_help">Hilfe</string>
   <string name="main_menu_web">Erkunden</string>
   <string name="main_menu_upload">Hochladen</string>
-  <string name="main_menu_about">Über Pocket Code</string>
+  <string name="main_menu_about">Über die App</string>
   <string name="main_menu_terms_of_use">Nutzungsbedingungen und Leistungen</string>
   <string name="main_menu_rate_app">Bewerte uns!</string>
   <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
@@ -147,8 +147,8 @@
   <string name="error_scratch_program_conversion_failed">Hoppla! Konvertierung des Scratch Programms
       fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
   <string name="error_specific_scratch_program_conversion_failed_x">Hoppla! Konvertierung von %1$s fehlgeschlagen. Bitte probiere es später noch einmal!</string>
-  <string name="error_scratch_converter_outdated_app_version">Deine Pocket Code App ist nicht mehr aktuell.
-        Unser Scratch Konverter unterstützt nur die neuste Pocket Code Version. Bitte aktualisiere Pocket Code im Google Play Store.</string>
+  <string name="error_scratch_converter_outdated_app_version">Die App ist nicht mehr aktuell.
+        Unser Scratch Konverter unterstützt nur die neuste App Version. Bitte aktualisiere die App im Google Play Store.</string>
   <string name="error_cannot_open_not_existing_scratch_program">Dieses Scratch Programm kann nicht geöffnet werden. Es
     scheint so als hättest du die Konvertierung/Download abgebrochen oder das Programm in der Zwischenzeit
     gelöscht oder umbenannt!</string>
@@ -242,17 +242,17 @@
   <string name="dialog_terms_of_use_link_text">Nutzungsbedingungen und Leistungen</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code Nutzungsbedingungen und Leistungen</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">Du bist dabei Pocket Code in Kombination mit der Parrot AR Drohne zu nutzen. 
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">Nutzungsbedingungen und Leistungen</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">Du bist dabei die App in Kombination mit der Parrot AR Drohne zu nutzen. 
 Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den Nutzungsrichtlinien von Catrobat zu berücksichtigen</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Nicht nochmal erinnern.</string>
   <!--  -->
   <!-- About Dialog -->
-  <string name="dialog_about_title">Über Pocket Code</string>
-  <string name="dialog_about_license_info">Pocket Code ist eine 
+  <string name="dialog_about_title">Über die App</string>
+  <string name="dialog_about_license_info">Diese App ist eine 
         Programmierumgebung und Interpreter für Android Geräte für die visuelle
         Programmiersprache Catrobat.\n\n
-        Der Quellcode von Pocket Code unterliegt hauptsälich der GNU AGPL v3 Lizenz. 
+        Der Quellcode der App unterliegt hauptsälich der GNU AGPL v3 Lizenz. 
        Für weitere Informationen klicken Sie auf den untenstehenden Link.\n</string>
   <string name="dialog_about_license_link_text">Source Code Lizenz</string>
   <string name="dialog_about_catrobat_link_text">Über Catrobat</string>
@@ -418,7 +418,7 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="dialog_copy_project_title">Programm kopieren</string>
   <!--  -->
   <!-- Soundrecorder activity -->
-  <string name="soundrecorder_name">Pocket Code Rekorder</string>
+  <string name="soundrecorder_name">Rekorder</string>
   <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
   <string name="soundrecorder_recorded_filename">Aufnahme</string>
   <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme tippe auf das Symbol oben.</string>
@@ -525,7 +525,7 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="or">ODER</string>
   <string name="password_confirm">Passwort bestätigen</string>
   <string name="accountName">E-Mail</string>
-  <string name="signin_thanks">Danke für deine Anmeldung bei Pocket Code!</string>
+  <string name="signin_thanks">Danke für deine Anmeldung!</string>
   <string name="signin_choose_username">Bitte wähle deinen Benutzernamen:</string>
   <string name="signin_choose_username_empty">Bitte gib einen Benutzernamen ein</string>
   <string name="signin_choose_username_hint">Der Benutzername sollte nicht dein richtiger Name sein.</string>
@@ -858,7 +858,7 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="drone_emergency_title">Notfall</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nBeheben die dies, indem Sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
+  <string name="error_no_writiable_external_storage_available">Um diese App zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nBeheben die dies, indem Sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
   <string name="error_no_program_name_entered">Bitte einen Programmnamen angeben.</string>
   <string name="error_no_userbrick_name_entered">Bitte gib einen Benutzerbausteinnamen ein.</string>
   <string name="error_project_exists">Es gibt bereits ein Programm mit diesem Namen.\nBitte wählen Sie einen anderen Namen.</string>
@@ -898,7 +898,7 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="error_unknown_error">Ein unbekannter Fehler ist aufgetreten.</string>
   <string name="error_gps_not_available">Fehler, GPS war nicht verfügbar.</string>
   <string name="error_set_description">Fehler beim Speichern der neuen Beschreibung.</string>
-  <string name="error_no_network">Du benötigst eine Netzwerkverbindung um dieses Pocket Code Programm verwenden zu können. Schalte dein mobiles Netz ein oder ändere die WLAN Einstellungen.</string>
+  <string name="error_no_network">Du benötigst eine Netzwerkverbindung um dieses Programm verwenden zu können. Schalte dein mobiles Netz ein oder ändere die WLAN Einstellungen.</string>
   <string name="error_no_network_one_brick">Dieser Baustein braucht eine Netzwerkverbindung:</string>
   <string name="error_no_network_multiple_bricks">Diese Bausteine brauchen eine Netzwerkverbindung:</string>
   <string name="error_no_network_title">Keine Netzwerkverbindung</string>
@@ -1421,7 +1421,7 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="cast_screen_pause_text">Pausiert</string>
   <!-- -->
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Bewerte Pocket Code</string>
+  <string name="rating_dialog_title">Bewerte die App</string>
   <string name="rating_google_play_dialog_text">Wenn dir die App gefällt, gibt uns bitte eine Bewertung auf Google Play!</string>
   <string name="rating_dialog_rate_now">Jetzt</string>
   <string name="rating_dialog_rate_later">Später</string>
