@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -36,8 +35,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -73,14 +70,6 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, layoutId, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		if (type == Constants.SAY_BRICK) {
-			IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_say_bubble_text_view),
-					context.getString(R.string.category_looks));
-		} else {
-			IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_think_bubble_text_view),
-					context.getString(R.string.category_looks));
-		}
-
 		setCheckboxView(checkboxId);
 
 		TextView textField = (TextView) view.findViewById(editTextId);
@@ -88,7 +77,6 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 		getFormulaWithBrickField(BrickField.STRING).refreshTextField(view);
 
 		textField.setOnClickListener(this);
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

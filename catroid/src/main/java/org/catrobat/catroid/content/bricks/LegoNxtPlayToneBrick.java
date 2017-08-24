@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -35,8 +34,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -98,9 +95,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_nxt_play_tone_label),
-				context.getString(R.string.category_lego_nxt));
-
 		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
 
 		TextView editDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
@@ -115,8 +109,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).refreshTextField(view);
 
 		editFreq.setOnClickListener(this);
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

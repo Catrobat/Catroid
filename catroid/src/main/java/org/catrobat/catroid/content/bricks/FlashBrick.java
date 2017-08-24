@@ -24,20 +24,16 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -66,9 +62,6 @@ public class FlashBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_flash, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_flash_prototype_text_view),
-				context.getString(R.string.category_looks));
-
 		setCheckboxView(R.id.brick_flash_checkbox);
 		Spinner flashSpinner = (Spinner) view.findViewById(R.id.brick_flash_spinner);
 
@@ -81,9 +74,6 @@ public class FlashBrick extends BrickBaseType {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
 				spinnerSelectionID = position;
-
-				TextView spinnerText = (TextView) adapterView.getChildAt(0);
-				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -92,8 +82,6 @@ public class FlashBrick extends BrickBaseType {
 		});
 
 		flashSpinner.setSelection(spinnerSelectionID);
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

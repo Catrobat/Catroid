@@ -43,7 +43,10 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.BrickLayout;
+import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 
 public final class IconsUtil {
 
@@ -100,6 +103,25 @@ public final class IconsUtil {
 		int largeIconSizeStageDialogContinueScaled = (int) (metrics.xdpi * (LARGE_ICON_SIZE_STAGE_DIALOG_CONTINUE_IN_CM * INCH_TO_CM));
 		largeIconSizeStageDialogContinue = new Rect(0, 0, largeIconSizeStageDialogContinueScaled, largeIconSizeStageDialogContinueScaled);
 		largeIconBottomBar = (int) (metrics.ydpi * (LARGE_ICON_SIZE_BOTTOM_BAR_IN_CM * INCH_TO_CM));
+	}
+
+	public static boolean addIconToLabel(ViewGroup parent, Brick brick, Sprite sprite, Context context) {
+		for (int i = 0; i < parent.getChildCount(); i++) {
+			View child = parent.getChildAt(i);
+			if (child instanceof ViewGroup) {
+				boolean labelFound = addIconToLabel((ViewGroup) child, brick, sprite, context);
+				if (labelFound) {
+					return true;
+				}
+			} else if (child instanceof BrickTextView) {
+				TextView textView = (TextView) child;
+				CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
+
+				addIcon(context, textView, categoryBricksFactory.getBrickCategory(brick, sprite, context));
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void addIcon(Context context, TextView textView, String category) {

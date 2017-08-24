@@ -26,13 +26,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -47,8 +45,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.Translatable;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -124,9 +120,6 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_broadcast_receive_label),
-				context.getString(R.string.category_event));
-
 		setCheckboxView(R.id.brick_broadcast_receive_checkbox);
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
 
@@ -142,10 +135,6 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 					receiveScript.setBroadcastMessage(selectedMessage);
 					broadcastMessage = selectedMessage;
 				}
-				if (parent != null) {
-					TextView spinnerText = (TextView) parent.getChildAt(0);
-					TextSizeUtil.enlargeTextView(spinnerText);
-				}
 			}
 
 			@Override
@@ -154,8 +143,6 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		});
 
 		setSpinnerSelection(broadcastSpinner);
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

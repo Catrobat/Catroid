@@ -27,11 +27,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -45,8 +43,6 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -78,9 +74,6 @@ public class HideTextBrick extends UserVariableBrick {
 
 		view = View.inflate(context, R.layout.brick_hide_variable, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_hide_variable_label),
-				context.getString(R.string.category_looks));
 
 		setCheckboxView(R.id.brick_hide_variable_checkbox);
 
@@ -128,9 +121,6 @@ public class HideTextBrick extends UserVariableBrick {
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
-
-				TextView spinnerText = (TextView) parent.getChildAt(0);
-				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -138,8 +128,6 @@ public class HideTextBrick extends UserVariableBrick {
 				userVariable = (UserVariable) arg0.getItemAtPosition(1);
 			}
 		});
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

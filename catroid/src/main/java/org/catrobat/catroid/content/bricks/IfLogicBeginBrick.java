@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -37,8 +36,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -112,9 +109,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		view = View.inflate(context, R.layout.brick_if_begin_if, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.if_label),
-				context.getString(R.string.category_control));
-
 		setCheckboxView(R.id.brick_if_begin_checkbox);
 
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
@@ -125,8 +119,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		ifBeginTextView.setOnClickListener(this);
 
 		removePrototypeElseTextViews(view);
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

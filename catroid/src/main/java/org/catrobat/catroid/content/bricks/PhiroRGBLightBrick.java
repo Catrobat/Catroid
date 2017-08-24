@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -42,8 +41,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.ColorSeekbar;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -158,9 +155,6 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_phiro_rgb_light, null);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_label),
-				context.getString(R.string.category_phiro));
-
 		setCheckboxView(R.id.brick_phiro_rgb_led_action_checkbox);
 		editRedValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).setTextFieldId(R.id.brick_phiro_rgb_led_action_red_edit_text);
@@ -192,9 +186,6 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				eyeEnum = Eye.values()[position];
 				eye = eyeEnum.name();
-
-				TextView spinnerText = (TextView) arg0.getChildAt(0);
-				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -205,8 +196,6 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 			readResolve();
 		}
 		eyeSpinner.setSelection(eyeEnum.ordinal());
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

@@ -30,7 +30,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -50,7 +49,6 @@ import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
-import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -119,9 +117,6 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 
 		view = View.inflate(context, R.layout.brick_physics_collision_receive, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_collision_receive_label),
-				context.getString(R.string.category_event));
 
 		setCheckboxView(R.id.brick_collision_receive_checkbox);
 

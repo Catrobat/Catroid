@@ -46,7 +46,7 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <org.catrobat.catroid.utils.BrickTextView
-            android:id="@+id/brick_clear_background_text_view"
+            android:id="@+id/brick_clear_background_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_clear_background" />
     </org.catrobat.catroid.ui.BrickLayout >

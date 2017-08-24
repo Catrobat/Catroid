@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -39,8 +38,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -98,9 +95,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 		view = View.inflate(context, R.layout.brick_repeat, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_repeat_label),
-				context.getString(R.string.category_control));
-
 		setCheckboxView(R.id.brick_repeat_checkbox);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
@@ -128,8 +122,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 		}
 
 		edit.setOnClickListener(this);
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

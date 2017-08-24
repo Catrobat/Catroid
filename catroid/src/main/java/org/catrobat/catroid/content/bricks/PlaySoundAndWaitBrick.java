@@ -34,7 +34,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -49,8 +48,6 @@ import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -100,9 +97,6 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 		view = View.inflate(context, R.layout.brick_play_sound_and_wait, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_play_sound_and_wait_label),
-				context.getString(R.string.category_sound));
-
 		setCheckboxView(R.id.brick_play_sound_and_wait_checkbox);
 		final Spinner playSoundAndWaitSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 
@@ -117,7 +111,6 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 		playSoundAndWaitSpinner.setAdapter(spinnerAdapterWrapper);
 
 		setSpinnerSelection(playSoundAndWaitSpinner);
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}
@@ -308,7 +301,6 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 					return false;
 				}
 			});
-			TextSizeUtil.enlargeTextView((TextView) dropDownView);
 
 			return dropDownView;
 		}
