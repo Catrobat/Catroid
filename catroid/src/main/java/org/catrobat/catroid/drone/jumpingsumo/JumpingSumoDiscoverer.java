@@ -66,16 +66,16 @@ public class JumpingSumoDiscoverer {
 		/**
 		 * Called when the pic Count changes
 		 * Called in the main thread
-		 * @param picCount the count of Pictures
+		 * @param pictureCount the count of Pictures
 		 */
-		void onPictureCount(int picCount);
+		void onPictureCount(int pictureCount);
 
 		/**
 		 * Called before medias will be downloaded
 		 * Called in the main thread
-		 * @param nbMedias the number of medias that will be downloaded
+		 * @param matchingMedias the number of medias that will be downloaded
 		 */
-		void onMatchingMediasFound(int nbMedias);
+		void onMatchingMediasFound(int matchingMedias);
 
 		/**
 		 * Called each time the progress of a download changes
@@ -94,7 +94,7 @@ public class JumpingSumoDiscoverer {
 	}
 
 	private final List<Listener> listeners;
-	private final List<ListenerPicture> mlistener;
+	private final List<ListenerPicture> listenerPictures;
 	private final Handler handler = new Handler(getAppContext().getMainLooper());
 	private final Context context;
 	private ARDiscoveryService ardiscoveryService;
@@ -111,9 +111,9 @@ public class JumpingSumoDiscoverer {
 	public JumpingSumoDiscoverer(Context ctx) {
 		context = ctx;
 		listeners = new ArrayList<>();
-		mlistener = new ArrayList<>();
 		matchingDrones = new ArrayList<>();
 		ardiscoveryServicesDevicesListUpdatedReceiver = new ARDiscoveryServicesDevicesListUpdatedReceiver(discoveryListener);
+		listenerPictures = new ArrayList<>();
 	}
 
 	/*
@@ -128,7 +128,7 @@ public class JumpingSumoDiscoverer {
 	}
 
 	public void addListenerPicture(ListenerPicture listenerPicture) {
-		mlistener.add(listenerPicture);
+		listenerPictures.add(listenerPicture);
 	}
 
 	/**
@@ -255,7 +255,7 @@ public class JumpingSumoDiscoverer {
 
 			sdcardModule = new SDCardModule(ftplistModule, ftpqueueManager);
 			sdcardModule.addListener(sdcardModulelistener);
-			notifyPictureCount(sdcardModule.getPicCount());
+			notifyPictureCount(sdcardModule.getPictureCount());
 		} catch (ARUtilsException e) {
 			Log.e(TAG, "Exception", e);
 		}
@@ -266,37 +266,37 @@ public class JumpingSumoDiscoverer {
 	}
 
 	public void notifyPic() {
-		notifyPictureCount(sdcardModule.getPicCount());
+		notifyPictureCount(sdcardModule.getPictureCount());
 	}
 
 	public void onDeleteFile(String mediaName) {
 		sdcardModule.deleteLastReceivedPic(mediaName);
-		notifyPictureCount(sdcardModule.getPicCount());
+		notifyPictureCount(sdcardModule.getPictureCount());
 	}
 
-	private void notifyPictureCount(int picCount) {
-		List<ListenerPicture> listenersCpy = new ArrayList<>(mlistener);
+	private void notifyPictureCount(int pictureCount) {
+		List<ListenerPicture> listenersCpy = new ArrayList<>(listenerPictures);
 		for (ListenerPicture listener : listenersCpy) {
-			listener.onPictureCount(picCount);
+			listener.onPictureCount(pictureCount);
 		}
 	}
 
-	private void notifyMatchingMediasFound(int nbMedias) {
-		List<ListenerPicture> listenersCpy = new ArrayList<>(mlistener);
+	private void notifyMatchingMediasFound(int matchingMedias) {
+		List<ListenerPicture> listenersCpy = new ArrayList<>(listenerPictures);
 		for (ListenerPicture listener : listenersCpy) {
-			listener.onMatchingMediasFound(nbMedias);
+			listener.onMatchingMediasFound(matchingMedias);
 		}
 	}
 
 	private void notifyDownloadProgressed(String mediaName, int progress) {
-		List<ListenerPicture> listenersCpy = new ArrayList<>(mlistener);
+		List<ListenerPicture> listenersCpy = new ArrayList<>(listenerPictures);
 		for (ListenerPicture listener : listenersCpy) {
 			listener.onDownloadProgressed(mediaName, progress);
 		}
 	}
 
 	private void notifyDownloadComplete(String mediaName) {
-		List<ListenerPicture> listenersCpy = new ArrayList<>(mlistener);
+		List<ListenerPicture> listenersCpy = new ArrayList<>(listenerPictures);
 		for (ListenerPicture listener : listenersCpy) {
 			listener.onDownloadComplete(mediaName);
 		}
@@ -304,11 +304,11 @@ public class JumpingSumoDiscoverer {
 
 	private final SDCardModule.Listener sdcardModulelistener = new SDCardModule.Listener() {
 		@Override
-		public void onMatchingMediasFound(final int nbMedias) {
+		public void onMatchingMediasFound(final int matchingMedias) {
 			handler.post(new Runnable() {
 				@Override
 				public void run() {
-					notifyMatchingMediasFound(nbMedias);
+					notifyMatchingMediasFound(matchingMedias);
 				}
 			});
 		}

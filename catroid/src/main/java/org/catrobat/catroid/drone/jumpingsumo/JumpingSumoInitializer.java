@@ -196,11 +196,11 @@ public class JumpingSumoInitializer {
 
 	public final JumpingSumoDiscoverer.ListenerPicture pictureListener = new JumpingSumoDiscoverer.ListenerPicture() {
 		@Override
-		public void onPictureCount(int picCount) {
+		public void onPictureCount(int pictureCount) {
 		}
 
 		@Override
-		public void onMatchingMediasFound(int nbMedias) {
+		public void onMatchingMediasFound(int matchingMedias) {
 		}
 		@Override
 		public void onDownloadProgressed(String mediaName, int progress) {
@@ -209,8 +209,9 @@ public class JumpingSumoInitializer {
 		@Override
 		public void onDownloadComplete(String mediaName) {
 			Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-			File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/JumpingSumo/" + mediaName);
-			Uri contentUri = Uri.fromFile(f);
+			File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/JumpingSumo/" +
+					mediaName);
+			Uri contentUri = Uri.fromFile(file);
 			mediaScanIntent.setData(contentUri);
 			getAppContext().sendBroadcast(mediaScanIntent);
 		}

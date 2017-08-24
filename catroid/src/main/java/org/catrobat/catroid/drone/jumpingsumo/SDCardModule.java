@@ -43,7 +43,7 @@ import java.util.List;
 public class SDCardModule extends AppCompatActivity{
 
 	private static final String TAG = "SDCardModule";
-	int picCount = -1;
+	int pictureCount = -1;
 
 	private static final String DRONE_MEDIA_FOLDER = "internal_000";
 	private static final String MOBILE_MEDIA_FOLDER = "/JumpingSumo/";
@@ -52,9 +52,9 @@ public class SDCardModule extends AppCompatActivity{
 		/**
 		 * Called before medias will be downloaded
 		 * Called on a separate thread
-		 * @param nbMedias the number of medias that will be downloaded
+		 * @param matchingMedias the number of medias that will be downloaded
 		 */
-		void onMatchingMediasFound(int nbMedias);
+		void onMatchingMediasFound(int matchingMedias);
 
 		/**
 		 * Called each time the progress of a download changes
@@ -105,9 +105,9 @@ public class SDCardModule extends AppCompatActivity{
 			String externalDirectory = Environment.getExternalStorageDirectory().toString().concat(MOBILE_MEDIA_FOLDER);
 
 			// if the directory doesn't exist, create it
-			File f = new File(externalDirectory);
-			if (!(f.exists() && f.isDirectory())) {
-				boolean success = f.mkdir();
+			File file = new File(externalDirectory);
+			if (!(file.exists() && file.isDirectory())) {
+				boolean success = file.mkdir();
 				if (!success) {
 					Log.e(TAG, "Failed to create the folder " + externalDirectory);
 				}
@@ -171,11 +171,11 @@ public class SDCardModule extends AppCompatActivity{
 		}
 	}
 
-	public int getPicCount() {
-		picCount = -1;
+	public int getPictureCount() {
+		pictureCount = -1;
 		if (threadisRunning) {
 			ArrayList<ARDataTransferMedia> mediaList = getMediaList();
-			picCount = mediaList.size();
+			pictureCount = mediaList.size();
 		} else {
 			threadisRunning = true;
 			new Thread(new Runnable() {
@@ -186,9 +186,9 @@ public class SDCardModule extends AppCompatActivity{
 				}
 			}).start();
 			ArrayList<ARDataTransferMedia> mediaList = getMediaList();
-			picCount = mediaList.size();
+			pictureCount = mediaList.size();
 		}
-		return picCount;
+		return pictureCount;
 	}
 
 	private ArrayList<ARDataTransferMedia> getMediaList() {
@@ -246,10 +246,10 @@ public class SDCardModule extends AppCompatActivity{
 	}
 
 	//region notify listener block
-	private void notifyMatchingMediasFound(int nbMedias) {
+	private void notifyMatchingMediasFound(int matchingMedias) {
 		List<Listener> listenersCpy = new ArrayList<>(listeners);
 		for (Listener listener : listenersCpy) {
-			listener.onMatchingMediasFound(nbMedias);
+			listener.onMatchingMediasFound(matchingMedias);
 		}
 	}
 

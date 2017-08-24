@@ -27,9 +27,7 @@ public final class JumpingSumoDataContainer {
 	public static final String TAG = JumpingSumoDataContainer.class.getSimpleName();
 	private static JumpingSumoDataContainer ourInstance = new JumpingSumoDataContainer();
 
-	public static final String BATTERY_STATUS = "Battery_Status";
 	private boolean positionHeadUp = true;
-	//private UserVariable batteryVariable = new UserVariable(BATTERY_STATUS, Constants.JUMPING_SUMO_BATTERY_STATUS);
 
 	public static JumpingSumoDataContainer getInstance() {
 		return ourInstance;
