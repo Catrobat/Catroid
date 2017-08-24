@@ -36,7 +36,6 @@ public class JumpingSumoNoSoundAction extends TemporalAction {
 	private ARDeviceController deviceController;
 	private JumpingSumoDeviceController controller;
 	private byte normalizedVolume;
-	protected Context context;
 
 	private static final int NO_VOLUME = 0;
 
