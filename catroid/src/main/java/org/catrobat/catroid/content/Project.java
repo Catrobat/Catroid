@@ -493,7 +493,7 @@ public class Project implements Serializable {
 		}
 	}
 
-	public synchronized void removeUnusedMessages() {
+	public synchronized void updateMessageContainer() {
 		List<String> usedMessages = new ArrayList<>();
 		for (Scene scene : getSceneList()) {
 			scene.addUsedMessagesToList(usedMessages);

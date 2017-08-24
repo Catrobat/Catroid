@@ -1129,18 +1129,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testEditCopiedImageInPaintroid() {
-
-		Intent intent = new Intent(getInstrumentation().getContext(),
-				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
-		getLookFragment().sendPocketPaintIntent(0, intent);
-
-		solo.sleep(200);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		solo.sleep(200);
-		assertNotNull("there must be an Intent", getLookFragment().lastReceivedIntent);
-		Bundle bundle = getLookFragment().lastReceivedIntent.getExtras();
-		String pathOfPocketPaintImage = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
-		assertEquals("Image must by a temp copy", Constants.TMP_IMAGE_PATH, pathOfPocketPaintImage);
 	}
 
 	public void testPaintroidImagefileExtension() {

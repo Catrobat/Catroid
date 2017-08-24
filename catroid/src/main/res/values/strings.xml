@@ -422,6 +422,7 @@
     <string name="fragment_background_text_description">Tap \"+\" to add backgrounds</string>
     <string name="rename_look_dialog">Rename look</string>
     <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
+    <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
     <string name="pocket_paint_not_installed">Do you want to install it?</string>
     <string name="default_look_name">look</string>
     <string name="delete_look_dialog">Delete look?</string>
@@ -1065,6 +1066,8 @@
     <string name="error_no_network_multiple_bricks">Following bricks will use the network:</string>
     <string name="error_no_network_title">No network</string>
     <string name="error_no_whatsapp">WhatsApp not installed</string>
+    <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
+        program.</string>
     <string name="error_no_nolb_user">This is a beta-version. You can only use it with a predefined school account.</string>
     <string name="error_extracting_program">Error extracting program.</string>
     <!--  -->
@@ -2996,7 +2999,7 @@
     <string name="life_simulation_look_drink_orange_juice" tools:ignore="UnusedResources">drink_orange_juice</string>
     <string name="life_simulation_look_end" tools:ignore="UnusedResources">end</string>
     <string name="life_simulation_look_button_play_again" tools:ignore="UnusedResources">button play again</string>
-    
+
     <string name="strategy_project_variable_col_y" tools:ignore="UnusedResources">col_y</string>
     <string name="strategy_project_variable_turn" tools:ignore="UnusedResources">turn</string>
     <string name="strategy_project_variable_active_column" tools:ignore="UnusedResources">active_column</string>

@@ -385,7 +385,7 @@
   <string name="tnf_well_known_https">HTTPS</string>
   <string name="tnf_well_known_tel">Phone number</string>
   <string name="tnf_well_known_sms">SMS</string>
-  <string name="tnf_well_known_mailto">Email</string>
+  <string name="tnf_well_known_mailto">Endereço de Correio Electrónico</string>
   <!--  -->
   <plurals name="unpacking_items_plural">
     <item quantity="one">foi descompactado!</item>
@@ -424,7 +424,7 @@
   <string name="soundrecorder_text_view">Toque no ícone acima para iniciar e parar a gravação.</string>
   <!--  -->
   <!-- Music activity -->
-  <string name="music_recorded_filename">Music</string>
+  <string name="music_recorded_filename">Música</string>
   <!--  -->
   <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">Ferramenta Text-to-Speech não instalada!\nVocê quer instalá-la?</string>
@@ -526,7 +526,7 @@
   <string name="register">Registe-se</string>
   <string name="or">OU</string>
   <string name="password_confirm">Confirme sua senha</string>
-  <string name="accountName">Email</string>
+  <string name="accountName">Endereço de Correio Electrónico</string>
   <string name="signin_thanks">Thank you for signing up!</string>
   <string name="signin_choose_username">Por favor, escolha um nome de utilizador:</string>
   <string name="signin_choose_username_empty">Por favor, digite um nome de usuário</string>
