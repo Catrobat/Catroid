@@ -717,6 +717,12 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_raspi);
 			}
 		}
+		categoryBricks = setupChromecastCategoryList(context);
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_cast);
+			}
+		}
 
 		if (brick instanceof AskBrick) {
 			category = res.getString(R.string.category_looks);
