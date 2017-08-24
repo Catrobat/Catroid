@@ -45,10 +45,6 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 		this.animationEnum = animationEnum;
 	}
 
-	public void setDelay(float delay) {
-		this.duration = delay;
-	}
-
 	@Override
 	protected void begin() {
 		super.begin();

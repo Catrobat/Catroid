@@ -963,10 +963,9 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createJumpingSumoAnimationAction(JumpingSumoAnimationsBrick.Animation animationEnum, float seconds) {
+	public Action createJumpingSumoAnimationAction(JumpingSumoAnimationsBrick.Animation animationEnum) {
 		JumpingSumoAnimationAction action = action(JumpingSumoAnimationAction.class);
 		action.setAnimationEnum(animationEnum);
-		action.setDelay(seconds);
 		return action;
 	}
 
