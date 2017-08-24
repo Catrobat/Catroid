@@ -1334,8 +1334,8 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
         aktuelles Objekt beschreiben. Darunter sind zum Beispiel die x- und y-Koordinaten oder die aktuelle Geschwindigkeit.</string>
   <string name="formula_editor_intro_title_functions">Funktionen</string>
   <string name="formula_editor_intro_summary_functions">Wie bei einem Taschenrechner bietet der Formeleditor
-        eine Vielzahl an klassischen mathematischen Funktionien an.\nDarunter findest du zum Beispiel Winkelfunktion wie \"sin\" und \"cos\"
-        aber auch einen Zufallsgenerator. </string>
+        eine Vielzahl an klassischen mathematischen Funktionien an.\nDarunter findest du zum Beispiel Winkelfunktion wie \"sin\" und \"cos\" 
+        aber auch einen Zufallsgenerator.</string>
   <string name="formula_editor_intro_title_logic">Logik</string>
   <string name="formula_editor_intro_summary_logic">Logik wird zum Vergleichen und Verknpüfen von Wzrten verwendet. Um Werte zu
         vergleichen kannst du zum Beispiel &gt; (größer als) oder \"=\" (ist gleich) verwenden.\nFür Verknpfüungen von Wzrten dienen zum Beispiel

@@ -221,4 +221,21 @@ public class BroadcastReceiverRegressionTest {
 
 		Assert.assertTrue(StageTestUtils.userVariableEqualsWithinTimeout(userVariable, 20, 1000));
 	}
+
+	@Test
+	public void testBroadcastReceiverWithMoreThanOneReceiverScript() {
+		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
+		UserVariable userVariable2 = dataContainer.addProjectUserVariable(VARIABLE_NAME + "2");
+
+		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable));
+		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable2));
+		sprite1StartScript.addBrick(new BroadcastBrick(BROADCAST_MESSAGE_1));
+		StageTestUtils.addBroadcastScriptSettingUserVariableToSprite(sprite1, BROADCAST_MESSAGE_1, userVariable, 3.0);
+		StageTestUtils.addBroadcastScriptSettingUserVariableToSprite(sprite1, BROADCAST_MESSAGE_1, userVariable2, 4.0);
+
+		baseActivityTestRule.launchActivity(null);
+
+		Assert.assertTrue(StageTestUtils.userVariableEqualsWithinTimeout(userVariable, 3, 2000));
+		Assert.assertTrue(StageTestUtils.userVariableEqualsWithinTimeout(userVariable2, 4, 2000));
+	}
 }

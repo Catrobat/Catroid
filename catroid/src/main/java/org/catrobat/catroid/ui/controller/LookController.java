@@ -30,8 +30,6 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
@@ -469,37 +467,6 @@ public final class LookController {
 		copyImageToCatroid(mediaImage.toString(), activity, lookData, fragment);
 		File pictureOnSdCard = new File(mediaImage.getPath());
 		pictureOnSdCard.delete();
-	}
-
-	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
-		// Confirm if Pocket Paint is installed else start dialog --------------------------
-
-		List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
-				PackageManager.MATCH_DEFAULT_ONLY);
-
-		if (packageList.size() <= 0) {
-			AlertDialog.Builder builder = new CustomAlertDialogBuilder(activity);
-			builder.setTitle(R.string.pocket_paint_not_installed_title);
-			builder.setMessage(R.string.pocket_paint_not_installed).setCancelable(false)
-					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
-							activity.startActivity(downloadPocketPaintIntent);
-						}
-					})
-					.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			AlertDialog alert = builder.create();
-			alert.show();
-			return false;
-		}
-		return true;
 	}
 
 	public void deleteCheckedLooks(LookBaseAdapter adapter, List<LookData> lookDataList, Activity activity) {

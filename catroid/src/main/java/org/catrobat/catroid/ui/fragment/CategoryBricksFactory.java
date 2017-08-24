@@ -453,9 +453,12 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new SetBackgroundByIndexBrick(BrickValues.SET_LOOK_BY_INDEX));
 			looksBrickList.add(new SetBackgroundAndWaitBrick());
 			looksBrickList.add(new SetBackgroundByIndexAndWaitBrick(BrickValues.SET_LOOK_BY_INDEX));
-			looksBrickList.add(new CameraBrick());
-			looksBrickList.add(new ChooseCameraBrick());
-			looksBrickList.add(new FlashBrick());
+			//only add these bricks to the list if the current program is NOT a cast program
+			if (!ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				looksBrickList.add(new CameraBrick());
+				looksBrickList.add(new ChooseCameraBrick());
+				looksBrickList.add(new FlashBrick());
+			}
 
 			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 				looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));

@@ -359,7 +359,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 		if (projectManager.getCurrentScene() != null) {
 			projectManager.saveProject(getActivity().getApplicationContext());
-			projectManager.getCurrentProject().removeUnusedMessages(); // TODO: Find better place
+			projectManager.getCurrentProject().updateMessageContainer(); // TODO: Find better place
 		}
 	}
 

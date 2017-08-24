@@ -38,7 +38,7 @@
   <string name="cut">قص</string>
   <string name="move">تحرك</string>
   <string name="backpack_add">إضافة الى حزمة الظهر</string>
-  <string name="backpack">إنشاء حقيبة الظهر</string>
+  <string name="backpack">حقيبة الظهر</string>
   <string name="packing">حزمة</string>
   <string name="unpack">فك الحزمة</string>
   <string name="unpack_bg">فك الحزمة كخلفية</string>
@@ -83,8 +83,8 @@
   <string name="landscape">المشهد الطبيعي</string>
   <string name="portrait">بورتريت</string>
   <string name="unknown">غير معروف</string>
-  <string name="skip">skip</string>
-  <string name="disconnect">Disconnect</string>
+  <string name="skip">تخطي</string>
+  <string name="disconnect">قطع الاتصال</string>
   <!--  -->
   <!-- Main menu activity -->
   <string name="main_menu_new">جديد</string>
@@ -117,20 +117,20 @@
   <string name="preference_title_mindstorms_nxt_sensors">أجهزة إستشعار ليغو (NXT)</string>
   <string name="preference_title_mindstorms_ev3_sensors">أجهزة إستشعار ليغو (EV3)</string>
   <string name="preference_title_drone_config_properties">خصائص تكوين الطائرة بدون طيار</string>
-  <string name="preference_title_enable_phiro_bricks">لبّنات برمجية لـ روبوت الاطفال (Phiro)</string>
-  <string name="preference_description_phiro_bricks">السماح بالتحكم في روبوتات الاطفال (Phiro)</string>
+  <string name="preference_title_enable_phiro_bricks">لبّنات روبوت الأطفال البرمجية</string>
+  <string name="preference_description_phiro_bricks">السماح بالتحكم في روبوتات الاطفال</string>
   <string name="preference_title_enable_arduino_bricks">لبّنات برمجية لـ اردوينو</string>
-  <string name="preference_title_cast_feature_globally_enabled">Enable cast features</string>
-  <string name="preference_description_cast_feature_globally_enabled">Show cast button and allow cast project creation</string>
+  <string name="preference_title_cast_feature_globally_enabled">تفعيل مزايا البث والإرسال</string>
+  <string name="preference_description_cast_feature_globally_enabled">إظهار زر البث والإرسال والسماح بإنشاء مشروع بث وإرسال</string>
   <string name="preference_title_enable_nfc_bricks">تقنية التواصل قريب المدى</string>
   <string name="preference_description_nfc_bricks">السماح باستخدام وسوم NFC في البرنامج</string>
   <string name="preference_description_crash_reports">السماح بإرسال تقارير الأعطال تلقائياً</string>
   <string name="preference_title_enable_crash_reports">إرسال تقارير الأعطال الغير معروفة</string>
   <!-- -->
   <string name="preference_description_arduino_bricks">السماح بالتحكم في لوحات الاردوينو</string>
-  <string name="preference_title_enable_raspi_bricks">لبّنات برمجية لـ الراسبيري باي</string>
+  <string name="preference_title_enable_raspi_bricks">لبّنات راسبيري باي البرمجية</string>
   <string name="preference_description_raspi_bricks">السماح بالتحكم بأجهزة راسبيري باي</string>
-  <string name="preference_raspi_enable_bricks">تفعيل اللبّنات البرمجية لـ راسبيري باي</string>
+  <string name="preference_raspi_enable_bricks">تفعيل لّبنات راسبيري باي البرمجية</string>
   <string name="preference_raspi_help">مساعدة/الشروع في البدء</string>
   <string name="preference_raspi_help_summary">الحصول على مساعدة حول كيفية تكوين إعدادات الاتصال</string>
   <string name="preference_raspi_host">عنوان الايبي المضيف لـ راسبيري باي</string>
@@ -144,8 +144,7 @@
   <string name="error_request_timeout">اووبس! لا يمكن الوصول إلى الخادم الخاص بنا في هذه اللحظة، الرجاء المحاولة في وقت لاحق!</string>
   <string name="error_scratch_program_conversion_failed">اووبس! فشلت محاولة تحويل برنامج سكراتش، الرجاء المحاولة مرة أخرى في وقت لاحق!</string>
   <string name="error_specific_scratch_program_conversion_failed_x">اووبس! فشلت محاولة تحويل %1$s، الرجاء المحاولة مرة أخرى في وقت لاحق!</string>
-  <string name="error_scratch_converter_outdated_app_version">Your app is outdated. Our Scratch
-        converter only supports the latest app version. Please update it on the Google Play Store!</string>
+  <string name="error_scratch_converter_outdated_app_version">\"بوكت كوود\" الخاص بك غير محدث. يدعم محول السكراتش فقط أحدث الإصدارات لـ \"بوكت كوود\". الرجاء القيام بتحديثة على متجر الجوجل بلي!</string>
   <string name="error_cannot_open_not_existing_scratch_program">لا يمكن فتح برنامج السكراتش. يبدو أنك قمت بإلغاء عملية التحويل/التحميل لبرنامج السكراتش أو أنك قمت بإعادة تسمية/حذف البرنامج!</string>
   <string name="error_cannot_open_currently_downloading_scratch_program">لا يمكن فتح برنامج السكراتش خلال عملية تحميله! الرجاء المحاولة مرة أخرى لاحقاً!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">لا يمكن فتح برنامج السكراتش لانه لم يتم تنزيله بعد! الرجاء المحاولة مرة أخرى لاحقاً!</string>
@@ -250,7 +249,7 @@
   <string name="dialog_new_object_pocketpaint">رسم صورة </string>
   <string name="dialog_new_object_gallery">قم بإختيارالصورة</string>
   <string name="dialog_new_object_camera">إلتقط صورة</string>
-  <string name="dialog_new_object_look_preview">معاينة المشهد</string>
+  <string name="dialog_new_object_look_preview">معاينة المنظر</string>
   <string name="dialog_new_object_name">اسم الكائن</string>
   <string name="dialog_new_object_switch_title">تم إنشاء كائن جديد</string>
   <string name="dialog_new_object_switch_message">قم بالتبديل إلى كائن جديد؟</string>
@@ -271,7 +270,7 @@
   <string name="dialog_about_title">حول تطبيق بوكت كوود</string>
   <string name="dialog_about_license_info">البوكت كوود هو بيئة برمجية ومفسر لأجهزة الاندرويد للغات البرمجة المرئية لكاتروبات n\n\
 مصدر النص البرمجي للبوكت كوود هو مرخص من قبل (GNU AGPL v3 License). للحصول على تفاصيل أكثر للرخصة يمكنك الاطلاع على الرابط في الاسفل. n\</string>
-  <string name="dialog_about_license_link_text">Source Code License</string>
+  <string name="dialog_about_license_link_text">ترخيص مصدر النص البرمجي</string>
   <string name="dialog_about_catrobat_link_text">حول كاتروبات</string>
   <!--  -->
   <!-- Project activity view -->
@@ -281,7 +280,7 @@
   <string name="start_scene_name">%1$s (المشهد الأول)</string>
   <string name="number_of_scripts">النص البرمجي:</string>
   <string name="number_of_bricks">اللّبنات البرمجية:</string>
-  <string name="number_of_looks">المشهد:</string>
+  <string name="number_of_looks">المناظر:</string>
   <string name="number_of_sounds">الأصوات:</string>
   <string name="show_details">إظهار التفاصيل</string>
   <string name="hide_details">إخفاء التفاصيل</string>
@@ -308,8 +307,8 @@
   <!--  -->
   <!-- Script activity -->
   <string name="scripts">النصوص البرمجية</string>
-  <string name="look">مشهد</string>
-  <string name="looks">المشاهد</string>
+  <string name="look">منظر</string>
+  <string name="looks">المناظر</string>
   <string name="sound">الصوت</string>
   <string name="sounds">الأصوات</string>
   <string name="backgrounds">خلفيات الشاشة</string>
@@ -353,21 +352,22 @@
   </plurals>
   <!--  -->
   <!-- Look fragment -->
-  <string name="fragment_look_text_description">انقر فوق \"+\" لإضافة مشاهد</string>
+  <string name="fragment_look_text_description">انقر فوق \"+\" لإضافة منظر</string>
   <string name="fragment_background_text_description">انقر فوق \"+\" لإضافة الخلفيات</string>
-  <string name="rename_look_dialog">إعادة تسمية المشهد</string>
+  <string name="rename_look_dialog">إعادة تسمية المنظر</string>
   <string name="pocket_paint_not_installed_title">لم يتم تثبيت بوكت بينت!</string>
   <string name="pocket_paint_not_installed">هل تريد تثبيته؟</string>
-  <string name="default_look_name">مشهد</string>
-  <string name="delete_look_dialog">هل تريد حذف هذا المشهد؟</string>
+  <string name="default_look_name">منظر</string>
+  <string name="delete_look_dialog">هل تريد حذف المنظر؟</string>
   <string name="select_look_from_gallery">قم بإختيارالصورة</string>
   <string name="select_look_from_camera">قم بتحديد الصورة</string>
   <string name="look_measure">القياس:</string>
-  <string name="dialog_confirm_delete_look_title">هل تريد حذف هذا المشهد؟</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">هل تريد حذف هذه المشاهد؟</string>
+  <string name="dialog_confirm_delete_look_title">هل تريد حذف هذا المنظر؟</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">هل تريد حذف هذه المناظر؟</string>
   <string name="dialog_confirm_delete_look_message">لا يمكن التراجع عن هذا!</string>
-  <string name="lookname">اسم المشهد:</string>
-  <string name="backpack_replace_look_multiple">المشاهد موجودة بالفعل في حقيبة الظهر. هل تريد استبدالها؟</string>
+  <string name="lookname">اسم المنظر:</string>
+  <string name="backpack_replace_look">المنظر %1$s موجود بالفعل في حقيبة الظهر. هل تريد استبداله؟</string>
+  <string name="backpack_replace_look_multiple">المناظر موجودة بالفعل في حقيبة الظهر. هل تريد استبدالها؟</string>
   <!--  -->
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">انقر فوق \"+\" لإضافة الأصوات</string>
@@ -401,8 +401,8 @@
   <string name="nfctag">وسم NFC</string>
   <string name="nfctags">وسوم NFC</string>
   <string name="uid">رقم المعرف الشخصي</string>
-  <string name="ndef_record_label">تسجيل كـ نمط NDEF</string>
-  <string name="brick_set_nfc_tag">تعيين وسم NFC التالي لـ</string>
+  <string name="ndef_record_label">تحديد نوع سجل البيانات الى</string>
+  <string name="brick_set_nfc_tag">تعيين النقطة التفاعلية التالية لـ NFC</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
   <string name="default_tag_name">وسم Nfc</string>
   <string name="tnf_empty">فارغ</string>
@@ -415,12 +415,12 @@
   <string name="tnf_well_known_mailto">البريد الإلكتروني</string>
   <!--  -->
   <plurals name="unpacking_items_plural">
-    <item quantity="zero">أصبح فارغا !</item>
-    <item quantity="one">was unpacked!</item>
-    <item quantity="two">were unpacked!</item>
-    <item quantity="few">were unpacked!</item>
-    <item quantity="many">were unpacked!</item>
-    <item quantity="other">were unpacked!</item>
+    <item quantity="zero">أصبحت فارغة!</item>
+    <item quantity="one">أصبحت فارغة!</item>
+    <item quantity="two">أصبحن فارغات!</item>
+    <item quantity="few">أصبحن فارغات!</item>
+    <item quantity="many">أصبحن فارغات!</item>
+    <item quantity="other">أصبحن فارغات!</item>
   </plurals>
   <plurals name="packing_items_plural">
     <item quantity="zero">تم إنشاء حقيبة الظهر!</item>
@@ -477,7 +477,7 @@
   <string name="prestage_no_gps_sensor_available">\u2022 نظام تحديد المواقعGPS\n</string>
   <string name="prestage_text_to_speech_error">\u2022 محرك تحويل النص إلى كلام\n</string>
   <string name="prestage_no_back_camera_available">\u2022 العودة للكاميرا الأمامية\n</string>
-  <string name="prestage_no_camera_available">\u2022 كشف الوجه\n</string>
+  <string name="prestage_no_camera_available">\u2022 اكتشاف الوجه\n</string>
   <string name="prestage_no_front_camera_available">\u2022 الكاميرا الأمامية المواجهة\n</string>
   <string name="prestage_default_resource_not_available">\u2022 مكون غير معروف\n</string>
   <string name="no_nfc_available">NFC غير متوفر</string>
@@ -500,20 +500,20 @@
   <string name="comment_in_out_impossible">لا يوجد شيء للتعطيل/للتفعيل</string>
   <!--  -->
   <!-- New look dialog -->
-  <string name="new_look_dialog_title">إضافة مشهد</string>
+  <string name="new_look_dialog_title">إضافة منظر</string>
   <string name="add_look_from_camera">إلتقط صورة</string>
   <string name="add_look_draw_new_image">رسم صورة </string>
   <string name="add_look_choose_image">اختر الصورة</string>
   <string name="add_look_media_library">مكتبة الوسائط</string>
-  <string name="new_look_name">اسم المشهد:</string>
-  <string name="look_rename_overwrite">مشهد بهذا الاسم موجود مسبقاً. الرجاء اختيار اسم أخر مختلف!</string>
+  <string name="new_look_name">اسم المنظر:</string>
+  <string name="look_rename_overwrite">منظر بهذا الاسم موجود مسبقاً. الرجاء اختيار اسم أخر مختلف!</string>
   <string name="add_look_drone_video">فيديو من طائرة بدون طيار</string>
   <!--  -->
   <!-- New Sound dialog -->
   <string name="new_sound_dialog_title">إضافة صوت</string>
   <string name="add_sound_from_recorder">تسجيل صوت</string>
   <string name="add_sound_choose_file">حدد الملف</string>
-  <string name="add_sound_music">Music Composer</string>
+  <string name="add_sound_music">مُلحن الموسيقى</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">برنامج جديد</string>
   <string name="new_project_dialog_hint">البرنامج الخاص بي</string>
@@ -523,7 +523,7 @@
   <string name="new_project_default">إنشاء برنامج يحتوي على مثال</string>
   <string name="new_project_default_drone">إنشاء برنامح مثال على \"طائرة بدون طيار\"</string>
   <string name="project_orientation_title">الإتجاه:</string>
-  <string name="project_select_screen_title">Screen</string>
+  <string name="project_select_screen_title">الشاشة</string>
   <!--  -->
   <!-- New scene dialog -->
   <string name="new_scene_dialog_hint">المشهد الخاص بي</string>
@@ -579,15 +579,15 @@
   <string name="overwrite_rename">إعادة تسمية البرنامج الذي تم تحميله</string>
   <!--  -->
   <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">قم باستبدال المشهد الموجود مسبقاً</string>
-  <string name="overwrite_rename_look">قم بإعادة تسمية المشهد الذي تم تنزيله</string>
+  <string name="overwrite_replace_look">قم باستبدال المنظر الموجود مسبقاً</string>
+  <string name="overwrite_rename_look">قم بإعادة تسمية المنظر الذي تم تنزيله</string>
   <string name="overwrite_replace_sound">قم باستبدال ملف الصوت الموجود</string>
   <string name="overwrite_rename_sound">قم بإعادة تسمية ملف الصوت الذي تم تنزيله</string>
   <string name="overwrite_replace_default">قم باستبدال الوسائط الموجودة مسبقاً</string>
   <string name="overwrite_rename_default">قم باعادة تسمية الوسائط الموجودة مسبقاً</string>
   <!-- -->
   <!-- Stage menu dialog -->
-  <string name="stage_dialog_back">الخلفية</string>
+  <string name="stage_dialog_back">رجوع</string>
   <string name="stage_dialog_resume">استمرار</string>
   <string name="stage_dialog_restart">اعادة تشغيل</string>
   <string name="stage_dialog_axes_on">تفعيل المحاور</string>
@@ -607,7 +607,7 @@
   <!-- Brick categories -->
   <string name="categories">الفئات</string>
   <string name="category_motion">الحركة</string>
-  <string name="category_looks">المشاهد</string>
+  <string name="category_looks">المناظر</string>
   <string name="category_pen">القلم</string>
   <string name="category_sound">الصوت</string>
   <string name="category_control">التحكم</string>
@@ -619,17 +619,17 @@
   <string name="category_drone">طائرة بدون طيار</string>
   <string name="category_phiro">روبوت الاطفال</string>
   <string name="category_arduino">الاردوينو</string>
-  <string name="category_cast">Cast</string>
+  <string name="category_cast">بث وإرسال</string>
   <string name="category_raspi">راسبيري باي</string>
   <!--  -->
   <!-- Motion bricks -->
-  <string name="brick_place_at">"ضع في "</string>
+  <string name="brick_place_at">"تحديد موقع الكائن في "</string>
   <string name="x_label">"س: "</string>
   <string name="y_label">"ص: "</string>
-  <string name="brick_set_x">"تعيين قيمة س "</string>
-  <string name="brick_set_y">"تعيين قيمة ص "</string>
-  <string name="brick_change_x_by">"تغيير قيمة س الى "</string>
-  <string name="brick_change_y_by">"تغيير قيمة ص الى "</string>
+  <string name="brick_set_x">"تعيين قيمة س الى "</string>
+  <string name="brick_set_y">"تعيين قيمة ص الى "</string>
+  <string name="brick_change_x_by">"تغيير قيمة س بمقدار "</string>
+  <string name="brick_change_y_by">"تغيير قيمة ص بمقدار "</string>
   <string name="brick_go_back">الرجوع للخلف</string>
   <string name="brick_set_rotation_style">"تعيين نمط الاستدارة الى "</string>
   <string name="brick_set_rotation_style_lr">من اليسار-اليمين فقط</string>
@@ -656,8 +656,8 @@
   </plurals>
   <string name="brick_turn_left">إتجه إلى اليسار</string>
   <string name="brick_turn_right">إتجه إلى اليمين</string>
-  <string name="brick_point_in_direction">أشر الى الاتجاه</string>
-  <string name="brick_point_to">أشر باتجاه</string>
+  <string name="brick_point_in_direction">تغيير الإتجاه بزاوية</string>
+  <string name="brick_point_to">تعيين الوجهة ناحية</string>
   <string name="brick_glide">إنزلق خلال</string>
   <string name="brick_glide_to_x">إلى س:</string>
   <string name="brick_go_to">الانتقال إلى</string>
@@ -670,68 +670,68 @@
   <string name="brick_set_physics_object_type_dynamic">الارتداد مع الجاذبية</string>
   <string name="brick_set_physics_object_type_fixed">بقية الكائنات تتناثر</string>
   <string name="brick_set_physics_object_type_no">لا يوجد ارتداد</string>
-  <string name="brick_set_mass">"اجعل قيمة الكتلة الى "</string>
+  <string name="brick_set_mass">"تعيين قيمة الكتلة الى "</string>
   <string name="brick_set_mass_unit">كيلوغرام</string>
-  <string name="brick_set_gravity_to">"اجعل الجاذبية لكافة الكائنات إلى "</string>
+  <string name="brick_set_gravity_to">"تعيين الجاذبية لكافة الكائنات إلى "</string>
   <string name="brick_set_gravity_unit">الخطوات/ثانية²</string>
-  <string name="brick_set_velocity_to">"اجعل السرعة إلى "</string>
+  <string name="brick_set_velocity_to">"تعيين السرعة إلى "</string>
   <string name="brick_set_velocity_unit">الخطوات/ثانية</string>
   <string name="brick_turn_speed_unit">درجات/ ثانية</string>
-  <string name="brick_set_friction">"تعيين الاحتكاك إلى "</string>
+  <string name="brick_set_friction">"تعيين قيمة الاحتكاك إلى "</string>
   <string name="brick_set_bounce_factor">"تعيين عامل الارتداد إلى "</string>
   <string name="brick_rotate_left">"استدارة إلى اليسار "</string>
   <string name="brick_rotate_right">"استدارة إلى اليمين "</string>
   <!-- Looks bricks -->
-  <string name="brick_set_look">إنتقل الى المشهد</string>
-  <string name="brick_set_look_by_index">Switch to look with number</string>
-  <string name="brick_set_background">تعيين خلفية</string>
-  <string name="brick_set_background_by_index">Set background to number</string>
+  <string name="brick_set_look">تبديل المظهر الى</string>
+  <string name="brick_set_look_by_index">تبديل الى منظر مُحدد برقم</string>
+  <string name="brick_set_background">تعيين كـ خلفية شاشة</string>
+  <string name="brick_set_background_by_index">تعيين خلفية الشاشة الى عدد</string>
   <string name="brick_and_wait">والانتظار</string>
   <string name="brick_when_background">عند تغيير الخلفية إلى</string>
-  <string name="brick_set_size_to">تغيير الحجم بنسبة</string>
-  <string name="brick_change_size_by">تغيير الحجم الى</string>
+  <string name="brick_set_size_to">تعيين الحجم الى</string>
+  <string name="brick_change_size_by">تغيير الحجم بمقدار</string>
   <string name="brick_hide">إخفاء</string>
   <string name="brick_show">إظهار</string>
-  <string name="brick_set_transparency">"ضبط الشفافية "</string>
-  <string name="brick_change_ghost_effect">"تغيير الشفافية"</string>
-  <string name="brick_set_brightness">"ضبط السطوع "</string>
-  <string name="brick_change_brightness">"تغيير السطوع "</string>
+  <string name="brick_set_transparency">"تعيين درجة الشفافية الى "</string>
+  <string name="brick_change_ghost_effect">"تغيير درجة الشفافية بمقدار "</string>
+  <string name="brick_set_brightness">"تعيين درجة السطوع الى "</string>
+  <string name="brick_change_brightness">"تغيير درجة السطوع بمقدار "</string>
   <string name="brick_set_color">"تعيين اللون الى "</string>
   <string name="brick_change_color">"تغيير اللون "</string>
   <string name="by_label">إلى</string>
   <string name="to_label">إلى</string>
   <string name="brick_clear_graphic_effect">مسح التأثيرات الرسومية</string>
-  <string name="brick_next_look">المشهد التالي</string>
-  <string name="brick_next_background">الخلفية التالية</string>
-  <string name="brick_previous_look">المشهد السابق</string>
-  <string name="brick_previous_background">الخلفية السابقة</string>
+  <string name="brick_next_look">المنظر التالي</string>
+  <string name="brick_next_background">خلفية الشاشة التالية</string>
+  <string name="brick_previous_look">المنظر السابق</string>
+  <string name="brick_previous_background">خلفية الشاشة السابقة</string>
   <string name="brick_flash">تشغيل ضوء الفلاش</string>
   <string name="brick_flash_on">تشغيل</string>
   <string name="brick_flash_off">إيقاف التشغيل</string>
-  <string name="brick_vibration">يهتز لـفترة</string>
+  <string name="brick_vibration">الإهتزاز لـفترة</string>
   <string name="brick_ask_label">اسأل</string>
-  <string name="brick_ask_store">قم بتخزين الجواب المكتوب في</string>
+  <string name="brick_ask_store">خَزن جواب مكتوب في</string>
   <string name="brick_ask_default_question">\'ما هو اسمك؟\'</string>
   <string name="brick_ask_dialog_hint">"أدخل الإجابة الخاصة بك:"</string>
   <string name="brick_ask_dialog_submit">تقديم الجواب</string>
   <string name="brick_ask_speech_label">اسأل</string>
-  <string name="brick_ask_speech_store">قم بتخزين جواب منطوق في</string>
+  <string name="brick_ask_speech_store">و خَزن جواب منطوق في</string>
   <string name="brick_ask_speech_default_question">\'ما هو اسمك؟\'</string>
   <!--  -->
   <!-- Pen bricks -->
-  <string name="brick_pen_down">القلم إلى أسفل</string>
+  <string name="brick_pen_down">القلم إلى الأسفل</string>
   <string name="brick_pen_up">القلم الى الأعلى</string>
   <string name="brick_pen_size">تعيين حجم قلم التلوين بنسبة</string>
   <string name="brick_pen_color">تعيين لون قلم التلوين الى</string>
   <string name="brick_clear_background">امسح</string>
-  <string name="brick_stamp">أداة الختم</string>
+  <string name="brick_stamp">ختم</string>
   <!--  -->
   <!-- Sound bricks -->
-  <string name="brick_play_sound">بدء تشغيل الصوت</string>
-  <string name="brick_play_sound_and_wait">بدء تشغيل الصوت والانتظار</string>
+  <string name="brick_play_sound">بدء تشغيل مقطع صوتي</string>
+  <string name="brick_play_sound_and_wait">بدء تشغيل مقطع صوتي والانتظار</string>
   <string name="brick_stop_all_sounds">إيقاف كافة الأصوات</string>
-  <string name="brick_set_volume_to">تغيير مستوى الصوت إلى</string>
-  <string name="brick_change_volume_by">تغيير الصوت الى</string>
+  <string name="brick_set_volume_to">تعيين مستوى الصوت إلى</string>
+  <string name="brick_change_volume_by">تغيير مستوى الصوت بمقدار</string>
   <string name="brick_speak">تَحدّث</string>
   <string name="brick_speak_default_value">"مرحباً!"</string>
   <string name="brick_speak_and_wait">والانتظار</string>
@@ -742,31 +742,31 @@
   <string name="brick_when_condition_when">عندما</string>
   <string name="brick_when_becomes_true">يصبح صحيحاً</string>
   <string name="brick_wait">انتظر</string>
-  <string name="brick_when_gamepad_button">When gamepad button</string>
-  <string name="brick_when_gamepad_button_tapped">tapped</string>
+  <string name="brick_when_gamepad_button">عندما يكون لوح تحكم الألعاب</string>
+  <string name="brick_when_gamepad_button_tapped">تم النقر عليه</string>
   <string name="brick_when_nfc">عندما NFC</string>
-  <string name="brick_stop_script">إيقاف البرنامج النصي/ أو البرامج النصية</string>
+  <string name="brick_stop_script">إيقاف البرنامج النصي/ البرامج النصية</string>
   <string name="brick_stop_this_script">إيقاف هذا البرنامج النصي</string>
   <string name="brick_stop_all_scripts">إيقاف كافة النصوص البرمجية</string>
   <string name="brick_stop_other_scripts">إيقاف النصوص البرمجية الأخرى لهذا الكائن</string>
   <plurals name="second_plural">
     <item quantity="zero">"ثانية "</item>
     <item quantity="one">"ثانية "</item>
-    <item quantity="two">"seconds "</item>
-    <item quantity="few">"seconds "</item>
-    <item quantity="many">"seconds "</item>
-    <item quantity="other">"seconds "</item>
+    <item quantity="two">"ثوان "</item>
+    <item quantity="few">"ثوان "</item>
+    <item quantity="many">"ثوان "</item>
+    <item quantity="other">"ثوان "</item>
   </plurals>
   <string name="brick_collision_receive">عند الاصطدام الفعلي بـ</string>
   <string name="collision_with_anything">أي شيء</string>
   <string name="brick_broadcast_receive">عند إستلام</string>
   <string name="brick_broadcast">بث رسالة</string>
-  <string name="brick_broadcast_wait">البث والانتظار</string>
-  <string name="brick_scene_transition">إستمرار المشهد</string>
+  <string name="brick_broadcast_wait">بث رسالة والانتظار</string>
+  <string name="brick_scene_transition">متابعة المشهد</string>
   <string name="brick_scene_start">بِدء المشهد</string>
-  <string name="brick_note">ملاحظة</string>
+  <string name="brick_note">دوّن ملاحظة</string>
   <string name="brick_think_bubble">فكّر</string>
-  <string name="brick_say_bubble">قم بالتحدث</string>
+  <string name="brick_say_bubble">قُل</string>
   <string name="brick_think_say_for_text">لفترة</string>
   <string name="brick_forever">تكرار لا نهائي</string>
   <string name="brick_repeat">تكرار</string>
@@ -790,8 +790,8 @@
   <string name="brick_if_else">غير ذلك</string>
   <string name="brick_if_end">نهاية إذا</string>
   <string name="brick_broadcast_invalid_symbol">"رسالة محفوظة لـ:\n\"عند التصادم الفعلي بين\"-اللبّنات البرمجية\n من فضلك جرب مرة أُخرى!"</string>
-  <string name="brick_set_variable">تعيين قيمة</string>
-  <string name="brick_change_variable">تغيير قيمة</string>
+  <string name="brick_set_variable">تعيين قيمة المتغير</string>
+  <string name="brick_change_variable">تغيير قيمة المتغير</string>
   <string name="brick_variable_spinner_create_new_variable">جديد&#8230;</string>
   <string name="brick_note_default_value">"أضف تعليق هنا…"</string>
   <string name="brick_think_bubble_default_value">"همممم!"</string>
@@ -804,7 +804,7 @@
   <string name="brick_insert_item_into_userlist_insert_into">إدراج</string>
   <string name="brick_insert_item_into_userlist_into_list">في القائمة</string>
   <string name="brick_insert_item_into_userlist_at_position">في الموقع</string>
-  <string name="brick_replace_item_in_userlist_replace_in_list">استبدال العنصر في قائمة</string>
+  <string name="brick_replace_item_in_userlist_replace_in_list">استبدال عنصر في القائمة</string>
   <string name="brick_replace_item_in_userlist_item_at_index">في الموقع</string>
   <string name="brick_replace_item_in_userlist_with_value">مع</string>
   <!--  -->
@@ -826,14 +826,14 @@
   <string name="default_cast_project_cloud_sprite_name1">سحابة 1</string>
   <string name="default_cast_project_cloud_sprite_name2">سحابة 2</string>
   <string name="default_cast_project_sprites_bird_name">الطير</string>
-  <string name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
-  <string name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
-  <string name="default_cast_project_sprites_bird_name_wing_up_left">Bird Wings up left</string>
-  <string name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
+  <string name="default_cast_project_sprites_bird_name_wing_up">أجنحة الطير ترتفع</string>
+  <string name="default_cast_project_sprites_bird_name_wing_down">أجنحة الطير تنخفض</string>
+  <string name="default_cast_project_sprites_bird_name_wing_up_left">أجنحة الطير ترتفع لليسار</string>
+  <string name="default_cast_project_sprites_bird_name_wing_down_left">أجنحة الطير تنخفض لليسار</string>
   <string name="default_cast_project_sprites_tweet_1">زقزقة1</string>
   <string name="default_cast_project_sprites_tweet_2">زقزقة2</string>
   <string name="default_cast_project_var_direction">الاتجاه</string>
-  <string name="default_cast_project_name">My first Cast program</string>
+  <string name="default_cast_project_name">برنامجي البث والإرسال الأول</string>
   <!-- defaultDroneValues -->
   <string name="default_drone_project_name">برنامجي طائرة بدون طيار الأول</string>
   <string name="default_drone_project_sprites_takeoff">إقلاع</string>
@@ -844,9 +844,9 @@
   <string name="default_drone_project_sprites_left">اليسار</string>
   <string name="default_drone_project_sprites_right">اليمين</string>
   <string name="default_drone_project_sprites_forward">الأمام</string>
-  <string name="default_drone_project_sprites_back">الخلفية</string>
-  <string name="default_drone_project_sprites_turn_left">إتجه إلى اليسار</string>
-  <string name="default_drone_project_sprites_turn_right">إتجه إلى اليمين</string>
+  <string name="default_drone_project_sprites_back">رجوع</string>
+  <string name="default_drone_project_sprites_turn_left">انعطف نحو اليسار</string>
+  <string name="default_drone_project_sprites_turn_right">انعطف نحو اليمين</string>
   <string name="default_drone_project_sprites_emergency">حالات الطوارئ</string>
   <string name="drone_brick_set_text">النص</string>
   <string name="drone_brick_set_x">س:</string>
@@ -913,7 +913,7 @@
   <string name="drone_emergency_title">حالات الطوارئ</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">يتطلب برنامج البوكت كوود ذاكرة خارجية قابلة للكتابة مثل (SD) حتى يعمل، ولكنها غير موجودة. بإمكانك حل المشكلة بجعل الذاكرة الخارجية قابلة للكتابة أو إضافة كرت (SD) ، ثم قم بالمحاولة مرة أخرى.</string>
+  <string name="error_no_writiable_external_storage_available">يتطلب برنامج البوكت كوود ذاكرة خارجية قابلة للكتابة مثل (SD) حتى يعمل، ولكنها غير موجودة.\n بإمكانك حل المشكلة بجعل الذاكرة الخارجية قابلة للكتابة أو إضافة كرت (SD) ، ثم قم بالمحاولة مرة أخرى.</string>
   <string name="error_no_program_name_entered">الرجاء إدخال اسم البرنامج.</string>
   <string name="error_no_userbrick_name_entered">الرجاء إدخال اسم اللّبنة البرمجية.</string>
   <string name="error_project_exists">الرجاء اختيار اسم برنامج آخر.</string>
@@ -936,7 +936,7 @@
   <string name="error_internet_connection">حدث خطأ غير معروف. تحقق من اتصال الإنترنت الخاص بك.</string>
   <string name="error_no_internet">الرجاء إنشاء اتصال بإلانترنت.</string>
   <string name="error_project_compatability">البرنامج غير متوافق مع هذا الإصدار من بوكت كوود.</string>
-  <string name="error_outdated_version">This app version is outdated. Update now?</string>
+  <string name="error_outdated_version">إصدار \"البوكت كوود\" قديم جداً. قم بالتحديث الآن؟</string>
   <string name="error_copy_project">حدث خطأ أثناء نسخ البرنامج.</string>
   <string name="error_upload_project_with_default_name">لا يمكن أن تقوم بتحميل البرنامج باسم \'برنامجي الأول\'. الرجاء إعادة تسمية البرنامج.</string>
   <string name="error_upload_default_project">لا يمكن تحميل هذا البرنامج لأنه هو نفسه كما في \'برنامجي الأول\'. الرجاء تعديل ذلك، وحاول مرة أخرى.</string>
@@ -957,7 +957,7 @@
   <string name="error_no_network_one_brick">اللبّنة البرمجية التالية سوف تستخدم اتصال الشبكة:</string>
   <string name="error_no_network_multiple_bricks">اللبّنات البرمجية التالية سوف تستخدم اتصال الشبكة:</string>
   <string name="error_no_network_title">لا يوجد اتصال بالشبكة</string>
-  <string name="error_no_whatsapp">WhatsApp not installed</string>
+  <string name="error_no_whatsapp">تطبيق الواتساب غير مُثبت</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">لا يمكن تفعيل تقنية bluetooth، إغلاق المرحلة</string>
@@ -973,7 +973,7 @@
   <string name="none_paired">لم يتم العثور على أجهزة مقترنة</string>
   <!--  -->
   <!-- Arduino Bricks -->
-  <string name="brick_arduino_select_digital_value">تعيين قيمة إبرة أردوينو</string>
+  <string name="brick_arduino_select_digital_value">تعيين قيمة إبرة أردوينو الرقمية</string>
   <string name="brick_arduino_select_analog_value">تعيين قيمة إبرة أردوينو PWM</string>
   <string name="brick_arduino_set_pin_value_to">إلى</string>
   <!--  -->
@@ -995,7 +995,7 @@
   <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">تعيين محرك NXT</string>
   <string name="nxt_motor_speed_to">إلى</string>
-  <string name="nxt_motor_speed">السرعة</string>
+  <string name="nxt_motor_speed">سرعة</string>
   <string name="nxt_brick_motor_turn_angle">تشغيل محرك NXT</string>
   <string name="nxt_motor_move_by">إلى</string>
   <string name="nxt_motor_stop">إيقاف محرك NXT</string>
@@ -1034,7 +1034,7 @@
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">هل تريد إلغاء الاستشعار عن المنفذ الذي اخترته؟</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">إلغاء الاستشعار؟</string>
   <string name="lego_ev3_sensor_config_info_title">ضبط اعدادات جهاز استشعار(EV3)</string>
-  <string name="preference_disable_ev3_info_dialog_description">إعدادات برنامج (EV3) المُحدد لن تُعرض عند فتح البرنامج.</string>
+  <string name="preference_disable_ev3_info_dialog_description">إعدادات برنامج EV3 المُحدد لن تُعرض عند فتح البرنامج.</string>
   <string name="preference_title_mindstorms_ev3_sensors_description">مسح أجهزة استشعار (EV3) للمنافذ هو برنامج مُحدد يمكن تكوينه فقط للبرامج المفتوحة!</string>
   <string name="lego_ev3_sensor_config_info_text">البرنامج الحالي يستخدم أجهزة الاستشعار أو اللبّنات البرمجية لـ ليغو مايندستورمز(EV3). للحصول على وظائف مناسبة الرجاء توصيل أجهزة الاستشعار بالروبوت على النحو التالي</string>
   <string name="ev3_choose_sensor_1">جهاز الإستشعار المُتصل بالمنفذ 1</string>
@@ -1053,15 +1053,15 @@
   <string name="ev3_motor_d">D</string>
   <string name="ev3_motor_b_and_c">ب + ج</string>
   <string name="ev3_motor_all">جميع</string>
-  <string name="ev3_play_tone">تشغيل نغمة NXT</string>
+  <string name="ev3_play_tone">تشغيل نغمة EV3</string>
   <string name="ev3_tone_duration_for">لفترة</string>
-  <string name="ev3_tone_volume">حجم الصوت</string>
+  <string name="ev3_tone_volume">مستوى الصوت</string>
   <string name="ev3_tone_percent">%</string>
-  <string name="ev3_motor_stop">إيقاف محرك (EV3)</string>
-  <string name="ev3_motor_move">تعيين محرك(EV3)</string>
-  <string name="ev3_brick_motor_turn_angle">تشغيل محرك (EV3)</string>
+  <string name="ev3_motor_stop">إيقاف محرك EV3</string>
+  <string name="ev3_motor_move">تعيين محرك EV3</string>
+  <string name="ev3_brick_motor_turn_angle">تشغيل محرك EV3</string>
   <string name="ev3_motor_move_by">إلى</string>
-  <string name="ev3_set_led_status">تعيين حالة أزرار الإضاءة (EV3)</string>
+  <string name="ev3_set_led_status">تعيين حالة أزرار الإضاءة EV3 الى</string>
   <string name="ev3_led_status_off">غير مفعل</string>
   <string name="ev3_led_status_green">أخضر</string>
   <string name="ev3_led_status_red">أحمر</string>
@@ -1076,18 +1076,18 @@
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">الإقلاع/الهبوط</string>
   <string name="brick_drone_play_led_animation">تشغيل فلاش الرسوم المتحركة</string>
-  <string name="brick_drone_move_left">تحريك الى اليسار</string>
-  <string name="brick_drone_move_right">تحريك الى اليمين</string>
-  <string name="brick_drone_move_forward">الانتقال إلى الأمام</string>
-  <string name="brick_drone_move_backward">الانتقال للخلف</string>
-  <string name="brick_drone_move_up">تحريك لأعلى</string>
-  <string name="brick_drone_move_down">تحريك لأسفل</string>
+  <string name="brick_drone_move_left">الطيران لليسار</string>
+  <string name="brick_drone_move_right">الطيران لليمين</string>
+  <string name="brick_drone_move_forward">الطيران للأمام</string>
+  <string name="brick_drone_move_backward">الطيران للخلف</string>
+  <string name="brick_drone_move_up">الطيران لأعلى</string>
+  <string name="brick_drone_move_down">الطيران لأسفل</string>
   <string name="brick_drone_flip">قلب افقي-عمودي</string>
   <string name="brick_drone_emergency">حالات الطوارئ</string>
-  <string name="brick_drone_turn_right">إتجه إلى اليمين</string>
-  <string name="brick_drone_turn_left">إتجه إلى اليسار</string>
-  <string name="brick_drone_turn_left_magneto">اتجه إلى اليسار [زاوية]</string>
-  <string name="brick_drone_turn_right_magneto">إتجه إلى اليمين [زاوية]</string>
+  <string name="brick_drone_turn_right">انعطف نحو اليمين</string>
+  <string name="brick_drone_turn_left">انعطف نحو اليسار</string>
+  <string name="brick_drone_turn_left_magneto">انعطف نحو اليسار [angle]</string>
+  <string name="brick_drone_turn_right_magneto">انعطف نحو اليمين[angle]</string>
   <string name="brick_drone_angle">الزاوية</string>
   <string name="brick_drone_set_config">تعيين الضبط</string>
   <string name="brick_drone_switch_camera">تبديل كاميرا الطائرة بدون طيار</string>
@@ -1096,17 +1096,17 @@
   <string name="brick_drone_set_rotation_speed">الحد الأقصى لسرعة الدوران</string>
   <string name="brick_drone_set_tilt_limit">الحد الأقصى للميل</string>
   <string name="brick_drone_with">مع</string>
-  <string name="brick_drone_percent_power">القوة</string>
+  <string name="brick_drone_percent_power">قوة دفع</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">إيقاف محرك روبوت الاطفال</string>
   <string name="brick_phiro_motor_forward_action">تحريك روبوت الاطفال الى الأمام</string>
   <string name="brick_phiro_motor_backward_action">تحريك روبوت الاطفال الى الخلف</string>
-  <string name="phiro_motor_speed">السرعة</string>
+  <string name="phiro_motor_speed">سرعة</string>
   <!-- sensor -->
   <string name="brick_phiro_sensor_begin">إذا كان روبوت الاطفال</string>
-  <string name="brick_phiro_sensor_second_part">تم التفعيل</string>
+  <string name="brick_phiro_sensor_second_part">تم تفعيله</string>
   <!-- tone -->
   <string name="phiro_play_tone">تشغيل موسيقى روبوت الاطفال \n</string>
   <string name="phiro_tone_duration">المدة</string>
@@ -1281,12 +1281,12 @@
   <string name="formula_editor_sensor_lego_ev3_sensor_color">لون_EV3</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">اللون_المحيطي_EV3</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">اللون_المنعكس_EV3</string>
-  <string name="formula_editor_sensor_gamepad_a_pressed">gamepad_a_pressed</string>
-  <string name="formula_editor_sensor_gamepad_b_pressed">gamepad_b_pressed</string>
-  <string name="formula_editor_sensor_gamepad_up_pressed">gamepad_up_pressed</string>
-  <string name="formula_editor_sensor_gamepad_down_pressed">gamepad_down_pressed</string>
-  <string name="formula_editor_sensor_gamepad_left_pressed">gamepad_left_pressed</string>
-  <string name="formula_editor_sensor_gamepad_right_pressed">gamepad_right_pressed</string>
+  <string name="formula_editor_sensor_gamepad_a_pressed">زر لوح تحكم الألعاب a تم النقر عليه</string>
+  <string name="formula_editor_sensor_gamepad_b_pressed">زر لوح تحكم الألعاب b تم النقر عليه</string>
+  <string name="formula_editor_sensor_gamepad_up_pressed">زر لوح تحكم الألعاب للأعلى تم النقر عليه</string>
+  <string name="formula_editor_sensor_gamepad_down_pressed">زر لوح تحكم الألعاب للأسفل تم النقر عليه</string>
+  <string name="formula_editor_sensor_gamepad_left_pressed">زر لوح تحكم الألعاب لليسار تم النقر عليه</string>
+  <string name="formula_editor_sensor_gamepad_right_pressed">زر لوح تحكم الألعاب لليمين تم النقر عليه</string>
   <string name="formula_editor_phiro_sensor_front_left">الإستشعار_الأمامي_الأيسر_لربوت الأطفال</string>
   <string name="formula_editor_phiro_sensor_front_right">الإستشعار_الأمامي_الأيمن_لربوت الأطفال</string>
   <string name="formula_editor_phiro_sensor_side_left">الإستشعار_الجانبي_الأيسر_لربوت الأطفال</string>
@@ -1305,8 +1305,8 @@
   <string name="formula_editor_object_x_velocity">سرعة_س</string>
   <string name="formula_editor_object_y_velocity">سرعة_ص</string>
   <string name="formula_editor_object_angular_velocity">السرعة_الزاوية</string>
-  <string name="formula_editor_object_look_number">رقم_المشهد</string>
-  <string name="formula_editor_object_look_name">إسم_المشهد</string>
+  <string name="formula_editor_object_look_number">رقم_المنظر</string>
+  <string name="formula_editor_object_look_name">إسم_المنظر</string>
   <string name="formula_editor_object_background_number">رقم_خلفية الشاشة</string>
   <string name="formula_editor_object_background_name">إسم_خلفية الشاشة</string>
   <string name="formula_editor_object_distance_to">المسافة إلى</string>
@@ -1315,12 +1315,12 @@
   <string name="formula_editor_functions">الدوال</string>
   <string name="formula_editor_logic">المنطق</string>
   <string name="formula_editor_device">الجهاز</string>
-  <string name="formula_editor_device_sensors">Device sensors</string>
+  <string name="formula_editor_device_sensors">أجهزة إستشعار الجهاز</string>
   <string name="formula_editor_variables">المتغيرات</string>
   <string name="formula_editor_functions_maths">الرياضيات</string>
   <string name="formula_editor_functions_strings">نصوص</string>
   <string name="formula_editor_functions_lists">قوائم</string>
-  <string name="formula_editor_logic_boolean">Logical (boolean) operators</string>
+  <string name="formula_editor_logic_boolean">عوامل التشغيل المنطقية (بوليان)</string>
   <string name="formula_editor_logic_comparison">عوامل تشغيل المقارنة</string>
   <string name="formula_editor_object_general">الخصائص العامة</string>
   <string name="formula_editor_object_movement">خصائص الحركة</string>
@@ -1333,7 +1333,7 @@
   <string name="formula_editor_device_raspberry">راسبيري باي</string>
   <string name="formula_editor_device_drone">طائرة بدون طيار</string>
   <string name="formula_editor_device_nfc">تقنية الاتصال قريب المدى (NFC)</string>
-  <string name="formula_editor_device_cast">Cast</string>
+  <string name="formula_editor_device_cast">بث وإرسال</string>
   <string name="formula_editor_string">أ ب ج</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -1373,35 +1373,24 @@
   <string name="formula_editor_sensor_face_y_position">موقع الوجه باتجاه y</string>
   <string name="formula_editor_function_number_of_items">عدد_العناصر</string>
   <string name="formula_editor_function_number_of_items_parameter">(* قائمة اسم *)</string>
-  <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
-  <string name="formula_editor_intro_summary_formula_editor">The formula editor allows you to create mathematical and
-        logical formulas that you can use in your bricks.\n\nYou can advance this little intro by touching
-        the \"Next\" button in the bottom right corner, and you can skip it by touching the \"SKIP\" button in the
-        bottom left corner.</string>
-  <string name="formula_editor_intro_title_input_field">Input field</string>
-  <string name="formula_editor_intro_summary_input_field">Here you can see your formula, and can also edit it.</string>
-  <string name="formula_editor_intro_title_keyboard">Keyboard</string>
-  <string name="formula_editor_intro_summary_keyboard">Similar to a calculator, this is where you can create
-        your formula.</string>
+  <string name="formula_editor_intro_title_formula_editor">محرر الصيغة</string>
+  <string name="formula_editor_intro_summary_formula_editor">محرر الصيغة يسمح لك بإنشاء صيغ رياضية و        صيغ منطقية والتي يمكنك استخدامها ضمن لّبناتك البرمجية.\n\nيمكنك التقدم بهذه المقدمة الصغيرة من خلال لمس         زر \"التالي\" في الزاوية السفلى اليمنى, ويمكنك تخطي ذلك  من خلال لمس زر \"تخطي\" في        الزاوية السفلى اليسرى.</string>
+  <string name="formula_editor_intro_title_input_field">حقل إدخال</string>
+  <string name="formula_editor_intro_summary_input_field">هنا يمكنك رؤية الصِيَغة الخاصة بك, ويمكنك أيضاً تعديلها.</string>
+  <string name="formula_editor_intro_title_keyboard">لوحة المفاتيح</string>
+  <string name="formula_editor_intro_summary_keyboard">مشابه لـ الألة الحاسبة, هنا حيث يمكنك إنشاء         صِيغَتك الخاصة.</string>
   <string name="formula_editor_intro_title_compute">النتيجة</string>
-  <string name="formula_editor_intro_summary_compute">To test your formula and display its current result, you can
-        use \"Compute\".</string>
+  <string name="formula_editor_intro_summary_compute">لإختبار الصيغة الخاصة بك وعرض نتيجتها الحالية, يمكنك         استخدام زر \"حساب\".</string>
   <string name="formula_editor_intro_title_object">الكائن</string>
-  <string name="formula_editor_intro_summary_object">This is a collection of values that describe your
-        current object. Some of these values are for example the x- and y-coordinates, or the current speed.</string>
+  <string name="formula_editor_intro_summary_object">هذه عبارة عن مجموعة من القيم التي تصف       الكائن الخاص بك الحالي. بعض من هذه القيم هي على سبيل المثال الإحداثيات للمحاور س و ص, أو السرعة الحالية.</string>
   <string name="formula_editor_intro_title_functions">الدوال</string>
-  <string name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
-        a multitude of mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\", but
-        also a random number generator or text and list functions.</string>
+  <string name="formula_editor_intro_summary_functions">على غرار ألة حاسبة, محرر الصيغة يوفر        العديد من الدوال الرياضية.\n يمكنك إيجاد الدوال المثلثية مثل \"جب\" و \"تجب\", ولكن         أيضاً مولد رقم عشوائي أو نص وقائمة دوال.</string>
   <string name="formula_editor_intro_title_logic">المنطق</string>
-  <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo compare
-        values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine logical formulas
-        you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
+  <string name="formula_editor_intro_summary_logic">يستخدم المنطق لمقارنة القيم وجمع الصيغ المنطقية.\n لمقارنة        القيم يمكنك استخدام عمليات منطقية مثل \"&gt;\" (أكبر من) أو \"=\" (يساوي).\nلجمع الصيغ المنطقية        يمكنك إستخدام عمليات منطقية مثل \"و\", \"أو\" و \"لا\".</string>
   <string name="formula_editor_intro_title_device">الجهاز</string>
-  <string name="formula_editor_intro_summary_device">In \"Device\" you can find information that your
-        smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
+  <string name="formula_editor_intro_summary_device">في \"الجهاز\" يمكنك إيجاد معلومات والتي        يقوم هاتفك أو لوحك الذكي بتسجيلها.\n مثلاً, مَيل جهازك, أو قيمة الضجيج في مُحيطك.</string>
   <string name="formula_editor_intro_title_data">البيانات</string>
-  <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
+  <string name="formula_editor_intro_summary_data">المتغيرات والقوائم المُستخدمة في          برنامجك موجودة هنا.\n يمكنك ببساطة إدراجها في صيغتك, أو إضافة واحدة جديدة.</string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
     <item quantity="zero">العنصر محدد!</item>
     <item quantity="one">العنصران محددان!</item>
@@ -1412,10 +1401,10 @@
   </plurals>
   <!--  -->
   <!-- New Data Dialog -->
-  <string name="user_variablename_already_exists">Please choose another variable name.</string>
-  <string name="user_listname_already_exists">Please choose another list name.</string>
-  <string name="no_variablename_entered">Please enter a variable name.</string>
-  <string name="no_listname_entered">Please enter a list name.</string>
+  <string name="user_variablename_already_exists">الرجاء اختيار اسم متغير آخر.</string>
+  <string name="user_listname_already_exists">الرجاء اختيار اسم قائمة آخر.</string>
+  <string name="no_variablename_entered">الرجاء إدخال اسم متغير.</string>
+  <string name="no_listname_entered">الرجاء إدخال اسم قائمة.</string>
   <!-- -->
   <!-- Brick Data Editor Strings -->
   <string name="brick_data_editor_title">محرر اللّبنة البرمجية</string>
@@ -1427,9 +1416,9 @@
   <string name="add_line_break">إضافة فاصل أسطر</string>
   <string name="edit_variable">تحرير متغير</string>
   <string name="variable_hint">اسم المتغير</string>
-  <string name="brick_show_variable">إظهار متغير</string>
+  <string name="brick_show_variable">إظهار المتغير</string>
   <string name="brick_show_variable_position">"في "</string>
-  <string name="brick_hide_variable">إخفاء متغير</string>
+  <string name="brick_hide_variable">إخفاء المتغير</string>
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">تعريف</string>
@@ -1459,32 +1448,31 @@
  </string>
   <string name="choose_camera_front">الأمام</string>
   <string name="choose_camera_back">الرجوع للخلف</string>
-  <string name="error_flash_camera">"The flash can be used only with the camera that has a flash. Please add a \"Use
-        camera\" brick and change to your device\'s camera that has a flash."</string>
-  <string name="brick_wait_until">الانتظار حتى</string>
+  <string name="error_flash_camera">"الفلاش يمكن استخدامه فقط مع الكاميرا التي تحتوي فلاش. من فضلك قم بإضافة اللّبنة البرمجية \"استخدام         كاميرا\" وقم باختيار كاميرا جهازك التي تحتوي فلاش."</string>
+  <string name="brick_wait_until">انتظر حتى</string>
   <string name="brick_wait_until_second_part">يصبح صحيحاً</string>
   <!-- -->
   <!-- Cast strings -->
   <string name="cast_gamepad_A">أ</string>
   <string name="cast_gamepad_B">ب</string>
-  <string name="cast_gamepad_up">up</string>
-  <string name="cast_gamepad_down">down</string>
+  <string name="cast_gamepad_up">أعلى</string>
+  <string name="cast_gamepad_down">أسفل</string>
   <string name="cast_gamepad_left">يسار</string>
   <string name="cast_gamepad_right">يمين</string>
-  <string name="cast_error_not_connected_msg">Please connect to your Chromecast first</string>
-  <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses cast bricks and can\'t be started locally</string>
-  <string name="cast_device_selector_dialog_title">Cast to</string>
-  <string name="cast_button_menu_item_title">Cast button</string>
-  <string name="cast_ready_to_cast">Ready to cast to</string>
-  <string name="cast_enable_cast_feature">Cast features disabled. Please enable cast features in the settings.</string>
-  <string name="cast_searching_for_cast_devices">Searching for cast devices</string>
-  <string name="cast_trouble_finding_devices_tip">.\nNot seeing your device? Try turning your phone\'s Wifi off and on.</string>
-  <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
-  <string name="cast_screen_pause_text">Paused</string>
+  <string name="cast_error_not_connected_msg">من فضلك قم بلإتصال أولاً بجهاز الكروم كاست الخاص بك</string>
+  <string name="cast_error_cast_bricks_in_no_cast_project">مشروعك يستخدم لّبنات البث والإرسال البرمجية ولا يمكن تشغيله محلياً</string>
+  <string name="cast_device_selector_dialog_title">بث و إرسال الى</string>
+  <string name="cast_button_menu_item_title">زر البث والإرسال</string>
+  <string name="cast_ready_to_cast">جاهز للبث والإرسال الى</string>
+  <string name="cast_enable_cast_feature">ميزات البث والإرسال مُعطلة. الرجاء تفعيل ميزات البث والإرسال في الإعدادات.</string>
+  <string name="cast_searching_for_cast_devices">البحث عن أجهزة بث و إرسال</string>
+  <string name="cast_trouble_finding_devices_tip">.\n لم يتم عرض جهازك؟ جرب ايقاف الوايفاي في جهازك وإعادة تشغيله.</string>
+  <string name="cast_connection_timout_msg">انتهاء مهلة التواصل مع شبكة الاتصال. يُرجى المحاولة مرّة أخرى.</string>
+  <string name="cast_screen_pause_text">مُتوقف</string>
   <!-- -->
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">قم بتقييم البوكت كوود</string>
-  <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play!</string>
+  <string name="rating_google_play_dialog_text">إذا كنت مستمتع بـهذا التطبيق، يرجى تقييمنا على متجر الجوجل بلي!</string>
   <string name="rating_dialog_rate_now">الآن</string>
   <string name="rating_dialog_rate_later">في وقت لاحق</string>
   <string name="rating_dialog_rate_never">أبداً</string>
@@ -1507,7 +1495,7 @@
   <string name="hint_bricks">لإضافة لبّنة برمجية إلى النص البرمجي الخاص بك فقط انقر على اللبّنة البرمجية التي تريد استخدامها.</string>
   <string name="hint_brick_added">نقره قصيرة على اللّبنة البرمجية يقوم بفتح القائمة لنقل، ونسخ و حذف أو إضافة لبّنة برمجية إلى حقيبة الظهر. عنصر المساعدة سوف يظهر لك معلومات إضافية. اسحب واسقط اللبّنة البرمجية مع الضغط المستمر.</string>
   <string name="hint_scripts">النص البرمجي يحدد سلوك الكائن الخاص بك. لإضافة لّبنات برمجية إلى النص البرمجي انقر على الرمز \"+\".</string>
-  <string name="hint_looks">هنا يمكنك أن تجد المظاهر المختلفة للكائن الخاص بك. لإضافة مشهد جديد أنقر على الرمز \"+\".</string>
+  <string name="hint_looks">هنا يمكنك أن تجد المظاهر المختلفة للكائن الخاص بك. لإضافة منظر جديد أنقر على الرمز \"+\".</string>
   <string name="hint_sounds">هنا يمكنك إضافة أصوات جديدة للكائن الخاص بك. ضع في اعتبارك استخدام لبّنة برمجية من فئة الصوت.</string>
   <string name="hint_objects">يتكون البرنامج الخاص بك من كائنات مختلفة يمكن لها أن تتفاعل مع بعضها البعض. لإضافة كائن جديد أنقر على الرمز \"+\".</string>
   <string name="hint_merge">لدمج برنامجين اثنين فقط اضغط طويلا على برنامج واحد لفتح القائمة وأنقر على \'دمج مع\'.</string>
@@ -1515,7 +1503,7 @@
   <string name="hint_scenes">يمكن أن يتألف البرنامج من مشاهد مختلفة و مستقلة. لإضافة مشهد جديد أُتقر على الرمز \"+\".</string>
   <!--  -->
   <!-- Crash report dialog -->
-  <string name="app_has_crashed">The app has crashed!</string>
+  <string name="app_has_crashed">توقف التطبيق عن العمل!</string>
   <string name="crash_dialog_text">الرجاء المساعدة لتحسين \"البوكت كوود\" وذلك بإرسال تقارير الأعطال والمشاكل الغير معروفة!</string>
   <string name="crash_dialog_always_send">دائماً أرسل</string>
   <string name="crash_dialog_send">أرسل</string>
