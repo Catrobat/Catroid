@@ -36,6 +36,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
@@ -57,6 +58,7 @@ import static junit.framework.Assert.assertTrue;
 public class FaceDetectionResourceStartedTest {
 
 	private Formula formula;
+	private ScriptEvaluationGateBrick lastBrickInScript;
 
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
@@ -76,6 +78,8 @@ public class FaceDetectionResourceStartedTest {
 		baseActivityTestRule.launchActivity(null);
 		onView(withId(R.id.button_play)).perform(click());
 
+		lastBrickInScript.waitUntilEvaluated(3000);
+
 		assertTrue(FaceDetectionHandler.isFaceDetectionRunning());
 
 		pressBack();
@@ -94,6 +98,8 @@ public class FaceDetectionResourceStartedTest {
 		baseActivityTestRule.launchActivity(null);
 		onView(withId(R.id.button_play)).perform(click());
 
+		lastBrickInScript.waitUntilEvaluated(3000);
+
 		assertFalse(FaceDetectionHandler.isFaceDetectionRunning());
 
 		pressBack();
@@ -111,6 +117,8 @@ public class FaceDetectionResourceStartedTest {
 
 		baseActivityTestRule.launchActivity(null);
 		onView(withId(R.id.button_play)).perform(click());
+
+		lastBrickInScript.waitUntilEvaluated(3000);
 
 		assertTrue(FaceDetectionHandler.isFaceDetectionRunning());
 
@@ -136,5 +144,7 @@ public class FaceDetectionResourceStartedTest {
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
+
+		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(startScript);
 	}
 }
