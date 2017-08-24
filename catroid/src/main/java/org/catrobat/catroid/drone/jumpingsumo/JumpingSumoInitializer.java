@@ -209,8 +209,7 @@ public class JumpingSumoInitializer {
 		@Override
 		public void onDownloadComplete(String mediaName) {
 			Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-			File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/JumpingSumo/" +
-					mediaName);
+			File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/JumpingSumo/" + mediaName);
 			Uri contentUri = Uri.fromFile(file);
 			mediaScanIntent.setData(contentUri);
 			getAppContext().sendBroadcast(mediaScanIntent);
