@@ -44,10 +44,6 @@ public class JumpingSumoMoveBackwardBrick extends JumpingSumoMoveBrick {
 		super(durationInMilliseconds, powerInPercent);
 	}
 
-	/*public JumpingSumoMoveBackwardBrick(Formula durationInMilliseconds, Formula powerInPercent) {
-		super(durationInMilliseconds, powerInPercent);
-	}*/
-
 	@Override
 	protected String getBrickLabel(View view) {
 		return view.getResources().getString(R.string.brick_jumping_sumo_move_backward);
