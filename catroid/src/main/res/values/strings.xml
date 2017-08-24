@@ -897,8 +897,6 @@
     <string name="default_drone_project_name">My first Drone program</string>
     <string name="default_drone_project_sprites_takeoff">Take off</string>
 
-    <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-    <!-- <string name="default_drone_project_sprites_rotate">Rotate</string> -->
     <string name="default_drone_project_sprites_up">Up</string>
     <string name="default_drone_project_sprites_down">Down</string>n
     <string name="default_drone_project_sprites_left">Left</string>
@@ -1180,7 +1178,6 @@
     <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
     <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
     <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
-    <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
     <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
     <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
     <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
