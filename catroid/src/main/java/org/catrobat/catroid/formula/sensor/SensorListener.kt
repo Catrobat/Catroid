@@ -38,8 +38,8 @@ object SensorListener {
     }
 
 
-    val accelerationListener = AccelerationListener()
-    val rotationListener  = RotationListener()
+    private val accelerationListener = AccelerationListener()
+    private val rotationListener  = RotationListener()
 
     fun registerListeners(sensorManager: SensorManager) {
 

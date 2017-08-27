@@ -35,7 +35,7 @@ import org.catrobat.catroid.data.brick.PlaceAtBrick;
 import org.catrobat.catroid.data.brick.SetLookBrick;
 import org.catrobat.catroid.data.brick.SetXBrick;
 import org.catrobat.catroid.data.brick.WhenStartedBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formula.Formula;
 import org.catrobat.catroid.storage.StorageManager;
 
 import java.io.IOException;

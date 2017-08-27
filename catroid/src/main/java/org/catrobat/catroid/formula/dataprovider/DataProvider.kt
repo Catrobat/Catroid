@@ -21,8 +21,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formula
+package org.catrobat.catroid.formula.dataprovider
 
+import org.catrobat.catroid.formula.Formula
+import org.catrobat.catroid.formula.FormulaInterpreter
 import org.catrobat.catroid.formula.value.ValueToken.VariableToken
 
 class DataProvider {
