@@ -2245,111 +2245,89 @@
     <string name="interactive_book_note_todo_use_the_switch_to_brick_to_make_your_animation._dont_forget_to_use_a_wait_brick_between_the_looks" tools:ignore="UnusedResources">ToDo: use the \'Switch to\' brick to make your animation. Don\'t forget to use a \'Wait\' brick between the looks</string>
 
     <!-- Physical Simulation Strings -->
-    <string name="physical_simulation_project_variable_end_rocket_2" tools:ignore="UnusedResources">end rocket 2</string>
-    <string name="physical_simulation_project_variable_end_without_rocket_1" tools:ignore="UnusedResources">end without rocket 1</string>
-    <string name="physical_simulation_project_variable_end_rocket_1" tools:ignore="UnusedResources">end rocket 1</string>
-    <string name="physical_simulation_project_variable_acceleration_calculated" tools:ignore="UnusedResources">acceleration calculated</string>
-    <string name="physical_simulation_project_variable_force_rocket_1" tools:ignore="UnusedResources">force rocket 1</string>
-    <string name="physical_simulation_project_variable_start_rocket_1" tools:ignore="UnusedResources">start rocket 1</string>
-    <string name="physical_simulation_project_variable_end_without_rocket_1_" tools:ignore="UnusedResources">end without rocket 1 </string>
-    <string name="physical_simulation_project_variable_answer_value" tools:ignore="UnusedResources">answer value</string>
-    <string name="physical_simulation_project_variable_answer_level_2" tools:ignore="UnusedResources">answer level 2</string>
-    <string name="physical_simulation_project_variable_acceleration_calculated_2" tools:ignore="UnusedResources">acceleration calculated 2</string>
-    <string name="physical_simulation_project_variable_calculated_acceleration_3" tools:ignore="UnusedResources">calculated acceleration 3</string>
+    <string name="physical_simulation_note_if_you_let_the_rocket_go_its_acceleration_is_calculated_and_variable_touched_becomes_false" tools:ignore="UnusedResources">if you let the rocket go its acceleration is calculated and variable touched becomes false</string>
+    <string name="physical_simulation_note_if_both_rockets_crossed_the_line_you_have_to_calculate_the_acceleration" tools:ignore="UnusedResources">if both rockets crossed the line you have to calculate the acceleration</string>
+    <string name="physical_simulation_note_if_rocket_starts_moving_the_shuttle_starts_moving_too" tools:ignore="UnusedResources">if rocket starts moving the shuttle starts moving too</string>
+    <string name="physical_simulation_note_if_rocket_touches_the_finish_line_variables_are_set" tools:ignore="UnusedResources">if rocket touches the finish line variables are set</string>
+    <string name="physical_simulation_sprite_variable_acceleration" tools:ignore="UnusedResources">acceleration</string>
+    <string name="physical_simulation_project_variable_srart_shuttle" tools:ignore="UnusedResources">start shuttle</string>
+    <string name="physical_simulation_project_variable_acceleration_rocket" tools:ignore="UnusedResources">acceleration rocket</string>
+    <string name="physical_simulation_project_variable_acceleration_shuttle" tools:ignore="UnusedResources">acceleration shuttle</string>
+    <string name="physical_simulation_project_variable_start_shuttle" tools:ignore="UnusedResources">start shuttle</string>
+    <string name="physical_simulation_project_variable_end_shuttle" tools:ignore="UnusedResources">end shuttle</string>
+    <string name="physical_simulation_project_variable_end_rocket" tools:ignore="UnusedResources">end rocket</string>
+    <string name="physical_simulation_project_variable_start_rocket" tools:ignore="UnusedResources">start rocket</string>
+    <string name="physical_simulation_project_variable_end_without_rocket" tools:ignore="UnusedResources">end without rocket</string>
+    <string name="physical_simulation_project_variable_answer" tools:ignore="UnusedResources">answer</string>
     <string name="physical_simulation_project_variable_force_shuttle_1" tools:ignore="UnusedResources">force shuttle 1</string>
     <string name="physical_simulation_project_variable_force_shuttle_2" tools:ignore="UnusedResources">force shuttle 2</string>
-    <string name="physical_simulation_project_variable_answer_value_3" tools:ignore="UnusedResources">answer value 3</string>
-    <string name="physical_simulation_project_variable_end_rocket_level_1" tools:ignore="UnusedResources">end rocket level 1</string>
-    <string name="physical_simulation_project_variable_acceleration_calculated_level_2" tools:ignore="UnusedResources">acceleration calculated level 2</string>
-    <string name="physical_simulation_scene_start" tools:ignore="UnusedResources">Start</string>
-    <string name="physical_simulation_sprite_background" tools:ignore="UnusedResources">Background</string>
-    <string name="physical_simulation_look_title" tools:ignore="UnusedResources">title</string>
-    <string name="physical_simulation_look_instruction" tools:ignore="UnusedResources">instruction</string>
-    <string name="physical_simulation_broadcast_message_title" tools:ignore="UnusedResources">title</string>
-    <string name="physical_simulation_broadcast_message_instruction" tools:ignore="UnusedResources">instruction</string>
-    <string name="physical_simulation_broadcast_message_start" tools:ignore="UnusedResources">start</string>
-    <string name="physical_simulation_sprite_buttons" tools:ignore="UnusedResources">buttons</string>
-    <string name="physical_simulation_sprite_button_play_game" tools:ignore="UnusedResources">button play game</string>
-    <string name="physical_simulation_look_button_play" tools:ignore="UnusedResources">button play</string>
-    <string name="physical_simulation_sprite_button_instruction" tools:ignore="UnusedResources">button instruction</string>
-    <string name="physical_simulation_look_button_instruction" tools:ignore="UnusedResources">button instruction</string>
-    <string name="physical_simulation_sprite_button_back" tools:ignore="UnusedResources">button back</string>
-    <string name="physical_simulation_look_button_back" tools:ignore="UnusedResources">button back</string>
     <string name="physical_simulation_scene_experiment_1__simulation" tools:ignore="UnusedResources">Experiment 1 - simulation</string>
-    <string name="physical_simulation_look_game" tools:ignore="UnusedResources">game</string>
+    <string name="physical_simulation_sprite_background" tools:ignore="UnusedResources">Background</string>
     <string name="physical_simulation_sprite_game_elements" tools:ignore="UnusedResources">game elements</string>
     <string name="physical_simulation_sprite_task_1" tools:ignore="UnusedResources">task 1</string>
-    <string name="physical_simulation_look_task_1" tools:ignore="UnusedResources">task 1</string>
-    <string name="physical_simulation_broadcast_message_show_elements" tools:ignore="UnusedResources">show elements</string>
     <string name="physical_simulation_sprite_finish_line" tools:ignore="UnusedResources">finish line</string>
-    <string name="physical_simulation_look_finish_line" tools:ignore="UnusedResources">finish line</string>
     <string name="physical_simulation_sprite_display_field" tools:ignore="UnusedResources">display field</string>
-    <string name="physical_simulation_look_display_field" tools:ignore="UnusedResources">display field</string>
-    <string name="physical_simulation_broadcast_message_show_result" tools:ignore="UnusedResources">show result</string>
-    <string name="physical_simulation_sprite_button_next" tools:ignore="UnusedResources">button next</string>
-    <string name="physical_simulation_look_button_next" tools:ignore="UnusedResources">button next</string>
-    <string name="physical_simulation_broadcast_message_wrong" tools:ignore="UnusedResources">wrong</string>
     <string name="physical_simulation_sprite_rockets" tools:ignore="UnusedResources">rockets</string>
     <string name="physical_simulation_sprite_rocket" tools:ignore="UnusedResources">rocket</string>
-    <string name="physical_simulation_look_rocket1" tools:ignore="UnusedResources">rocket-1</string>
-    <string name="physical_simulation_look_rocket2" tools:ignore="UnusedResources">rocket-2</string>
-    <string name="physical_simulation_sprite_variable_touched_" tools:ignore="UnusedResources">touched </string>
-    <string name="physical_simulation_sprite_variable_mass" tools:ignore="UnusedResources">mass</string>
-    <string name="physical_simulation_sprite_variable_force" tools:ignore="UnusedResources">force</string>
-    <string name="physical_simulation_sprite_variable_acceleration_" tools:ignore="UnusedResources">acceleration </string>
-    <string name="physical_simulation_note_the_force_is_raising_as_long_as_you_keep_touching_the_rocket_" tools:ignore="UnusedResources">the force is raising as long as you keep touching the rocket </string>
-    <string name="physical_simulation_note_if_you_let_the_rocket_go_it_calculates_its_acceleration__and_variable_touched_becomes_false" tools:ignore="UnusedResources">if you let the rocket go it calculates its acceleration  and variable touched becomes false</string>
-    <string name="physical_simulation_note_if_both_rockets_crossed_the_line_you_have_to_calculate_the_acceleration_" tools:ignore="UnusedResources">if both rockets crossed the line you have to calculate the acceleration </string>
-    <string name="physical_simulation_broadcast_message_correct" tools:ignore="UnusedResources">correct</string>
     <string name="physical_simulation_sprite_shuttle" tools:ignore="UnusedResources">shuttle</string>
-    <string name="physical_simulation_look_shuttle1" tools:ignore="UnusedResources">shuttle-1</string>
-    <string name="physical_simulation_look_shuttle2" tools:ignore="UnusedResources">shuttle-2</string>
-    <string name="physical_simulation_sprite_variable_answer" tools:ignore="UnusedResources">answer</string>
-    <string name="physical_simulation_note_if_rocket_1_starts_moving_rocket_2_starts_moving_too_" tools:ignore="UnusedResources">if rocket 1 starts moving rocket 2 starts moving too </string>
-    <string name="physical_simulation_note_if_rocket_1_touches_the_finish_line_variables_are_set" tools:ignore="UnusedResources">if rocket 1 touches the finish line variables are set</string>
     <string name="physical_simulation_sprite_hud_elements" tools:ignore="UnusedResources">HUD elements</string>
     <string name="physical_simulation_sprite_label_mass" tools:ignore="UnusedResources">label mass</string>
-    <string name="physical_simulation_look_label_mass" tools:ignore="UnusedResources">label mass</string>
     <string name="physical_simulation_sprite_label_force" tools:ignore="UnusedResources">label force</string>
-    <string name="physical_simulation_look_label_force" tools:ignore="UnusedResources">label force</string>
     <string name="physical_simulation_sprite_check_answer" tools:ignore="UnusedResources">check answer</string>
-    <string name="physical_simulation_look_correct" tools:ignore="UnusedResources">correct</string>
-    <string name="physical_simulation_look_wrong" tools:ignore="UnusedResources">wrong</string>
     <string name="physical_simulation_scene_experiment_2__hands_on" tools:ignore="UnusedResources">Experiment 2 - hands on</string>
     <string name="physical_simulation_sprite_task_2" tools:ignore="UnusedResources">task 2</string>
-    <string name="physical_simulation_look_task_2" tools:ignore="UnusedResources">task 2</string>
     <string name="physical_simulation_sprite_rockets__add_you_code" tools:ignore="UnusedResources">rockets - add you code</string>
     <string name="physical_simulation_sprite_todo_modify_this_object" tools:ignore="UnusedResources">ToDo: modify this object</string>
-    <string name="physical_simulation_look_add_your_own_rocket" tools:ignore="UnusedResources">Add your own rocket</string>
-    <string name="physical_simulation_note_step_1_add_a_look_and_place_your_rocket_" tools:ignore="UnusedResources">step 1: add a look and place your rocket </string>
-    <string name="physical_simulation_note_step_2_set_two_local_variables._one_to_define_the_mass_if_the_rocket_and_one_for_the_force_" tools:ignore="UnusedResources">step 2: set two local variables. One to define the mass if the rocket and one for the force </string>
-    <string name="physical_simulation_note_step_3_show_both_variables_in_the_corresponding_labels__" tools:ignore="UnusedResources">step 3: show both variables in the corresponding labels  </string>
-    <string name="physical_simulation_note_step_4_set_a_new_variable_acceleration_abd_calculate_the_rockets__acceleration_" tools:ignore="UnusedResources">step 4: set a new variable acceleration abd calculate the rockets  acceleration </string>
-    <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_x_to_the_variable_acceleration_and_multiply_with__1000" tools:ignore="UnusedResources">step 5: Add a new brick to set the velocity of X to the variable acceleration and multiply with - 1000</string>
-    <string name="physical_simulation_note__todo_add_the_collision_detection_in_the_whenbrick_between_your_rocket_and_the_finish_line_" tools:ignore="UnusedResources"> ToDo: Add the collision detection in the When-brick between your rocket and the finish line </string>
-    <string name="physical_simulation_look_incorrect" tools:ignore="UnusedResources">incorrect</string>
     <string name="physical_simulation_scene_experiment_3__extra_task" tools:ignore="UnusedResources">Experiment 3 - extra task</string>
     <string name="physical_simulation_sprite_task_3" tools:ignore="UnusedResources">task 3</string>
-    <string name="physical_simulation_look_task_3" tools:ignore="UnusedResources">task 3</string>
-    <string name="physical_simulation_broadcast_message_end" tools:ignore="UnusedResources">end</string>
     <string name="physical_simulation_sprite_finish_line_2" tools:ignore="UnusedResources">finish line 2</string>
     <string name="physical_simulation_sprite_rope" tools:ignore="UnusedResources">rope</string>
+    <string name="physical_simulation_sprite_button_question" tools:ignore="UnusedResources">button question</string>
+    <string name="physical_simulation_sprite_button_try_again" tools:ignore="UnusedResources">button try again</string>
+    <string name="physical_simulation_sprite_shuttle_2" tools:ignore="UnusedResources">shuttle 2</string>
+    <string name="physical_simulation_look_game" tools:ignore="UnusedResources">game</string>
+    <string name="physical_simulation_look_task_1" tools:ignore="UnusedResources">task 1</string>
+    <string name="physical_simulation_broadcast_message_show_elements" tools:ignore="UnusedResources">show elements</string>
+    <string name="physical_simulation_look_finish_line" tools:ignore="UnusedResources">finish line</string>
+    <string name="physical_simulation_look_display_field" tools:ignore="UnusedResources">display field</string>
+    <string name="physical_simulation_broadcast_message_show_result" tools:ignore="UnusedResources">show result</string>
+    <string name="physical_simulation_look_rocket1" tools:ignore="UnusedResources">rocket-1</string>
+    <string name="physical_simulation_look_rocket2" tools:ignore="UnusedResources">rocket-2</string>
+    <string name="physical_simulation_sprite_variable_touched" tools:ignore="UnusedResources">touched</string>
+    <string name="physical_simulation_sprite_variable_mass" tools:ignore="UnusedResources">mass</string>
+    <string name="physical_simulation_sprite_variable_force" tools:ignore="UnusedResources">force</string>
+    <string name="physical_simulation_note_the_force_is_rising_as_long_as_you_keep_pressing_the_rocket_" tools:ignore="UnusedResources">the force is rising as long as you keep pressing the rocket </string>
+    <string name="physical_simulation_note_if_you_let_the_rocket_go_the_acceleration_is_calculated_and_variable_touched_becomes_false" tools:ignore="UnusedResources">if you let the rocket go the acceleration is calculated and variable touched becomes false</string>
+    <string name="physical_simulation_note_after_both_rockets_crossed_the_line_you_have_to_calculate_the_acceleration" tools:ignore="UnusedResources">after both rockets crossed the line you have to calculate the acceleration</string>
+    <string name="physical_simulation_broadcast_message_correct" tools:ignore="UnusedResources">correct</string>
+    <string name="physical_simulation_broadcast_message_wrong" tools:ignore="UnusedResources">wrong</string>
+    <string name="physical_simulation_look_shuttle1" tools:ignore="UnusedResources">shuttle-1</string>
+    <string name="physical_simulation_look_shuttle2" tools:ignore="UnusedResources">shuttle-2</string>
+    <string name="physical_simulation_note_if_the_rocket_starts_moving_the_shuttle_starts_moving_too" tools:ignore="UnusedResources">if the rocket starts moving the shuttle starts moving too</string>
+    <string name="physical_simulation_note_if_the_rocket_touches_the_finish_line_variables_are_set" tools:ignore="UnusedResources">if the rocket touches the finish line variables are set</string>
+    <string name="physical_simulation_look_label_mass" tools:ignore="UnusedResources">label mass</string>
+    <string name="physical_simulation_look_label_force" tools:ignore="UnusedResources">label force</string>
+    <string name="physical_simulation_look_correct" tools:ignore="UnusedResources">correct</string>
+    <string name="physical_simulation_look_wrong" tools:ignore="UnusedResources">wrong</string>
+    <string name="physical_simulation_look_task_2" tools:ignore="UnusedResources">task 2</string>
+    <string name="physical_simulation_look_add_your_own_rocket" tools:ignore="UnusedResources">Add your own rocket</string>
+    <string name="physical_simulation_note_step_1_add_a_look_and_place_your_rocket" tools:ignore="UnusedResources">step 1: add a look and place your rocket</string>
+    <string name="physical_simulation_note_step_2_set_two_local_variables._one_for_the_mass_of_the_rocket_and_one_for_the_force_" tools:ignore="UnusedResources">step 2: set two local variables. One for the mass of the rocket and one for the force </string>
+    <string name="physical_simulation_note_step_3_show_both_variables_in_the_corresponding_labels" tools:ignore="UnusedResources">step 3: show both variables in the corresponding labels</string>
+    <string name="physical_simulation_note_step_4_calculate_the_rockets_acceleration_and_set_the_variable_acceleration_rocket" tools:ignore="UnusedResources">step 4: calculate the rocket\'s acceleration and set the variable \'acceleration rocket\'</string>
+    <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_y_to_the_value_of_the_variable_acceleration_rocket_and_multiply_with__1000" tools:ignore="UnusedResources">step 5: add a new brick to set the velocity of Y to the value of the variable \'acceleration rocket\' and multiply with - 1000</string>
+    <string name="physical_simulation_note_todo_add_the_collision_detection_between_your_rocket_and_the_finish_line_in_the_whenbrick" tools:ignore="UnusedResources">ToDo: add the collision detection between your rocket and the finish line in the When-brick</string>
+    <string name="physical_simulation_look_task_3" tools:ignore="UnusedResources">task 3</string>
+    <string name="physical_simulation_broadcast_message_end" tools:ignore="UnusedResources">end</string>
     <string name="physical_simulation_look_rope" tools:ignore="UnusedResources">rope</string>
     <string name="physical_simulation_broadcast_message_start_simulation" tools:ignore="UnusedResources">start simulation</string>
-    <string name="physical_simulation_sprite_button_question" tools:ignore="UnusedResources">button question</string>
     <string name="physical_simulation_look_button_question" tools:ignore="UnusedResources">button question</string>
-    <string name="physical_simulation_sprite_button_try_again" tools:ignore="UnusedResources">button try again</string>
     <string name="physical_simulation_look_button_try_again" tools:ignore="UnusedResources">button try again</string>
-    <string name="physical_simulation_note_the_force_is_raising_as_long_as_you_keep_on_touching_the_rocket" tools:ignore="UnusedResources">the force is raising as long as you keep on touching the rocket</string>
-    <string name="physical_simulation_sprite_shuttle_2" tools:ignore="UnusedResources">shuttle 2</string>
+    <string name="physical_simulation_note_the_force_is_rising_as_long_as_you_keep_on_pressing_the_rocket" tools:ignore="UnusedResources">the force is rising as long as you keep on pressing the rocket</string>
     <string name="physical_simulation_look_shuttle" tools:ignore="UnusedResources">shuttle</string>
-    <string name="physical_simulation_note_rocket_2_has_the_same_acceleration_as_rocket_1" tools:ignore="UnusedResources">rocket 2 has the same acceleration as rocket 1</string>
-    <string name="physical_simulation_scene_end_last_scene" tools:ignore="UnusedResources">End (Last Scene)</string>
-    <string name="physical_simulation_look_end" tools:ignore="UnusedResources">end</string>
-    <string name="physical_simulation_sprite_button_play_again" tools:ignore="UnusedResources">button play again</string>
-    <string name="physical_simulation_look_button_play_again" tools:ignore="UnusedResources">button play again</string>
     <string name="physical_simulation_look_sky" tools:ignore="UnusedResources">sky</string>
-    <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_x_to_the_variable_acceleration_and_multiply_with_1000" tools:ignore="UnusedResources">step 5: Add a new brick to set the velocity of X to the variable acceleration and multiply with 1000</string>
+    <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_x_to_the_variable_acceleration_and_multiply_with_1000" tools:ignore="UnusedResources">step 5: add a new brick to set the velocity of X to the variable acceleration and multiply with 1000</string>
+    <string name="physical_simulation_note_shuttle_1_and_shuttle_2_have_same_acceleration" tools:ignore="UnusedResources">shu</string>
 
     <!-- Lego EV3 Strings -->
     <string name="lego_ev3_project_variable_move" tools:ignore="UnusedResources">move</string>
