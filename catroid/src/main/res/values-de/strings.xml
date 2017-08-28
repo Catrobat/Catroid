@@ -1319,12 +1319,12 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="formula_editor_function_number_of_items">Anzahl_der_Elemente</string>
   <string name="formula_editor_function_number_of_items_parameter">(*Listenname*)</string>
   <string name="formula_editor_intro_title_formula_editor">Formel Editor</string>
-  <string name="formula_editor_intro_summary_formula_editor">Mit dem Formeleditor kannst du mathematische und 
+  <string name="formula_editor_intro_summary_formula_editor">Mit dem Formel Editor kannst du mathematische und 
         logische Formeln erstellen, um diese dann in deinem Baustein einzutragen.\n\nDu kannst dieses kleine Tutorial 
-        jederzeit mit einem Klick auf SKIP Button
+        jederzeit mit einem Klick auf den SKIP Button
         links unten überspringen.</string>
   <string name="formula_editor_intro_title_input_field">Eingabefeld</string>
-  <string name="formula_editor_intro_summary_input_field">Hier siesht du deine Formel. Diese kannst du auch nachträglich bearbeiten.</string>
+  <string name="formula_editor_intro_summary_input_field">Hier siehst du deine Formel. Diese kannst du auch nachträglich bearbeiten.</string>
   <string name="formula_editor_intro_title_keyboard">Tastatur</string>
   <string name="formula_editor_intro_summary_keyboard">Ähnlich wie bei einem Taschenrechner kannst du 
         hier deine Formel erstellen.</string>
@@ -1335,18 +1335,18 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="formula_editor_intro_summary_object">Dies ist eine Sammlung an Werten, die dein
         aktuelles Objekt beschreiben. Darunter sind zum Beispiel die x- und y-Koordinaten oder die aktuelle Geschwindigkeit.</string>
   <string name="formula_editor_intro_title_functions">Funktionen</string>
-  <string name="formula_editor_intro_summary_functions">Wie bei einem Taschenrechner bietet der Formeleditor
-        eine Vielzahl an klassischen mathematischen Funktionien an.\nDarunter findest du zum Beispiel Winkelfunktion wie \"sin\" und \"cos\" 
+  <string name="formula_editor_intro_summary_functions">Wie bei einem Taschenrechner bietet der Formel Editor
+        eine Vielzahl an klassischen mathematischen Funktionien an.\nDarunter findest du zum Beispiel Winkelfunktionen wie \"sin\" und \"cos\" 
         aber auch einen Zufallsgenerator.</string>
   <string name="formula_editor_intro_title_logic">Logik</string>
-  <string name="formula_editor_intro_summary_logic">Logik wird zum Vergleichen und Verknpüfen von Wzrten verwendet. Um Werte zu
-        vergleichen kannst du zum Beispiel &gt; (größer als) oder \"=\" (ist gleich) verwenden.\nFür Verknpfüungen von Wzrten dienen zum Beispiel
+  <string name="formula_editor_intro_summary_logic">Logik wird zum Vergleichen und Verknüpfung von Werten verwendet. Um Werte zu
+        vergleichen kannst du zum Beispiel &gt; (größer als) oder \"=\" (ist gleich) verwenden.\nFür Verknüpfungen von Werten dienen zum Beispiel
         \"UND\", \"ODER\" und \"NICHT\". </string>
   <string name="formula_editor_intro_title_device">Gerät</string>
-  <string name="formula_editor_intro_summary_device">Unter \"Gerät\" findest du sämliche Daten, die dein 
+  <string name="formula_editor_intro_summary_device">Unter \"Gerät\" findest du sämtliche Daten, die dein 
         Smartphone oder Tablet aufzeichnet.\nZum Beispiel die Neigung deines Geräts oder die Lautstärke in deiner Umgebung. </string>
   <string name="formula_editor_intro_title_data">Daten</string>
-  <string name="formula_editor_intro_summary_data">Variablen und Listen, welche in deinem Programm verwendet werden, findest du hier.\nDu kannst diese einfach in deine Formel einfügen oder neue hinzufügen. </string>
+  <string name="formula_editor_intro_summary_data">Hier findest du Variablen und Listen, welche in deinem Programm verwendet werden. \nDu kannst diese einfach in deine Formel einfügen. </string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
     <item quantity="one">Element ausgewählt!</item>
     <item quantity="other">Elemente ausgewählt!</item>
