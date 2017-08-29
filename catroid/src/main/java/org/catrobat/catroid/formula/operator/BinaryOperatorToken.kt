@@ -37,7 +37,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class MultOperatorToken : BinaryOperatorToken(2) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_operator_mult
+        override fun getResourceId() = R.string.formula_editor_operator_mult
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) =
                 ValueToken(leftToken.value * rightToken.value)
@@ -45,7 +45,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class DivOperatorToken : BinaryOperatorToken(2) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_operator_divide
+        override fun getResourceId() = R.string.formula_editor_operator_divide
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken {
             if (rightToken.value == 0.0) throw Exception("DIVIDED BY 0")
@@ -55,7 +55,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class AddOperatorToken : BinaryOperatorToken(1) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_operator_plus
+        override fun getResourceId() = R.string.formula_editor_operator_plus
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) =
                 ValueToken(leftToken.value + rightToken.value)
@@ -63,7 +63,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class SubOperatorToken : BinaryOperatorToken(1) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_operator_minus
+        override fun getResourceId() = R.string.formula_editor_operator_minus
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) =
                 ValueToken(leftToken.value - rightToken.value)
@@ -71,7 +71,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class AndOperatorToken : BinaryOperatorToken(1) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_logic_and
+        override fun getResourceId() = R.string.formula_editor_logic_and
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken {
             val value = FormulaInterpreter.eval(leftToken.value) && FormulaInterpreter.eval(rightToken.value)
@@ -81,7 +81,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class OrOperatorToken : BinaryOperatorToken(0) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_logic_or
+        override fun getResourceId() = R.string.formula_editor_logic_or
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken {
             val value = FormulaInterpreter.eval(leftToken.value) || FormulaInterpreter.eval(rightToken.value)
@@ -91,7 +91,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class EqualsOperatorToken : BinaryOperatorToken(0) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_logic_equal
+        override fun getResourceId() = R.string.formula_editor_logic_equal
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) =
                 ValueToken(FormulaInterpreter.eval(leftToken.value == rightToken.value))
@@ -99,7 +99,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class GreaterOperatorToken : BinaryOperatorToken(0) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_logic_greaterthan
+        override fun getResourceId() = R.string.formula_editor_logic_greaterthan
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) =
                 ValueToken(FormulaInterpreter.eval(leftToken.value > rightToken.value))
@@ -107,7 +107,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class GreaterEqualsOperatorToken : BinaryOperatorToken(0) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_logic_greaterequal
+        override fun getResourceId() = R.string.formula_editor_logic_greaterequal
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) =
                 ValueToken(FormulaInterpreter.eval(leftToken.value >= rightToken.value))
@@ -115,7 +115,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class SmallerOperatorToken : BinaryOperatorToken(0) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_logic_lesserthan
+        override fun getResourceId() = R.string.formula_editor_logic_lesserthan
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) =
                 ValueToken(FormulaInterpreter.eval(leftToken.value < rightToken.value))
@@ -123,7 +123,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class SmallerEqualsOperatorToken : BinaryOperatorToken(0) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_logic_leserequal
+        override fun getResourceId() = R.string.formula_editor_logic_leserequal
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) =
                 ValueToken(FormulaInterpreter.eval(leftToken.value <= rightToken.value))
@@ -131,7 +131,7 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
 
     class NotEqualsOperatorToken : BinaryOperatorToken(0) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_logic_notequal
+        override fun getResourceId() = R.string.formula_editor_logic_notequal
 
         override fun applyTo(rightToken: ValueToken, leftToken: ValueToken) =
                 ValueToken(FormulaInterpreter.eval(leftToken.value != rightToken.value))

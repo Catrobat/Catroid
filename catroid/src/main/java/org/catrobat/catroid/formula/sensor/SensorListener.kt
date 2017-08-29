@@ -44,9 +44,7 @@ object SensorListener {
     fun registerListeners(sensorManager: SensorManager) {
 
         if (!registerListener(sensorManager, rotationListener, Sensor.TYPE_ROTATION_VECTOR)) {
-            if (!registerListener(sensorManager, rotationListener, Sensor.TYPE_LINEAR_ACCELERATION)) {
-                registerListener(sensorManager, rotationListener, Sensor.TYPE_ACCELEROMETER)
-            }
+            registerListener(sensorManager, rotationListener, Sensor.TYPE_ACCELEROMETER)
         }
 
         if (!registerListener(sensorManager, accelerationListener, Sensor.TYPE_LINEAR_ACCELERATION)) {
@@ -98,8 +96,8 @@ object SensorListener {
 
     class AccelerationListener : SensorEventListener {
 
-        val gravity = FloatArray(3)
         val accelerationVector = FloatArray(3)
+        private val gravity = FloatArray(3)
 
         override fun onSensorChanged(event: SensorEvent?) {
             when (event?.sensor?.type) {
@@ -130,9 +128,23 @@ object SensorListener {
     class RotationListener : SensorEventListener {
 
         val rotationVector = FloatArray(3)
+        private val accelerationVector = FloatArray(3)
+        private val gravity = FloatArray(3)
 
         override fun onSensorChanged(event: SensorEvent?) {
             when (event?.sensor?.type) {
+                Sensor.TYPE_ACCELEROMETER -> {
+                    val alpha = 0.8f
+
+                    gravity[0] = alpha * gravity[0] + (1 - alpha) * (event.values?.get(0) ?: 0f)
+                    gravity[1] = alpha * gravity[1] + (1 - alpha) * (event.values?.get(1) ?: 0f)
+                    gravity[2] = alpha * gravity[2] + (1 - alpha) * (event.values?.get(2) ?: 0f)
+
+                    accelerationVector[0] = -1f * (event.values?.get(0) ?: 0f - gravity[0])
+                    accelerationVector[1] = -1f * (event.values?.get(1) ?: 0f - gravity[1])
+                    accelerationVector[2] = -1f * (event.values?.get(2) ?: 0f - gravity[2])
+                }
+
                 Sensor.TYPE_ROTATION_VECTOR -> {
                     rotationVector[0] = event.values?.get(0) ?: 0f
                     rotationVector[1] = event.values?.get(1) ?: 0f
@@ -142,12 +154,6 @@ object SensorListener {
 
                     SensorManager.getRotationMatrixFromVector(inR, rotationVector)
                     SensorManager.getOrientation(inR, rotationVector)
-                }
-
-                Sensor.TYPE_LINEAR_ACCELERATION -> {
-                }
-
-                Sensor.TYPE_ACCELEROMETER -> {
                 }
             }
         }

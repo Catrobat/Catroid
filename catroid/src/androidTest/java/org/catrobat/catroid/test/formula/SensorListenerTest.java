@@ -46,26 +46,36 @@ public class SensorListenerTest {
 
 	@Test
 	public void testAcceleration() {
-		VariableToken variable = new VariableToken("x_acceleration", 0.0);
+		VariableToken variableX = new VariableToken("x_acceleration", 0.0);
+		VariableToken variableY = new VariableToken("y_acceleration", 0.0);
+		VariableToken variableZ = new VariableToken("z_acceleration", 0.0);
 
 		SensorManager sensorManager = (SensorManager) InstrumentationRegistry
 				.getTargetContext()
 				.getSystemService(Context.SENSOR_SERVICE);
 
 		SensorDataProvider dataProvider = new SensorDataProvider();
-		dataProvider.add(variable, SensorListener.SensorType.X_ACCELERATION);
+		dataProvider.add(variableX, SensorListener.SensorType.X_ACCELERATION);
+		dataProvider.add(variableX, SensorListener.SensorType.Y_ACCELERATION);
+		dataProvider.add(variableX, SensorListener.SensorType.Z_ACCELERATION);
 
 		SensorListener.INSTANCE.registerListeners(sensorManager);
 
 		dataProvider.updateValues();
-		assertEquals(0.0, interpreter.eval(new ArrayList<Token>(Arrays.asList(variable))).getValue());
+		assertEquals(0.0, interpreter.eval(new ArrayList<Token>(Arrays.asList(variableX))).getValue());
+		assertEquals(0.0, interpreter.eval(new ArrayList<Token>(Arrays.asList(variableY))).getValue());
+		assertEquals(0.0, interpreter.eval(new ArrayList<Token>(Arrays.asList(variableZ))).getValue());
 	}
 
 	@Test
-	public void testData() {
+	public void testDateAndTime() {
 		VariableToken year = new VariableToken("year", 0.0);
 		VariableToken month = new VariableToken("month", 0.0);
 		VariableToken day = new VariableToken("day", 0.0);
+
+		VariableToken hour = new VariableToken("hour", 0.0);
+		VariableToken minute = new VariableToken("minute", 0.0);
+		VariableToken second = new VariableToken("second", 0.0);
 
 		SensorManager sensorManager = (SensorManager) InstrumentationRegistry
 				.getTargetContext()
@@ -75,6 +85,10 @@ public class SensorListenerTest {
 		dataProvider.add(year, SensorListener.SensorType.DATE_YEAR);
 		dataProvider.add(month, SensorListener.SensorType.DATE_MONTH);
 		dataProvider.add(day, SensorListener.SensorType.DATE_DAY);
+
+		dataProvider.add(hour, SensorListener.SensorType.HOUR);
+		dataProvider.add(minute, SensorListener.SensorType.MINUTE);
+		dataProvider.add(second, SensorListener.SensorType.SECOND);
 
 		SensorListener.INSTANCE.registerListeners(sensorManager);
 
@@ -86,5 +100,12 @@ public class SensorListenerTest {
 				interpreter.eval(new ArrayList<Token>(Arrays.asList(month))).getValue());
 		assertEquals((double) Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
 				interpreter.eval(new ArrayList<Token>(Arrays.asList(day))).getValue());
+
+		assertEquals((double) Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+				interpreter.eval(new ArrayList<Token>(Arrays.asList(hour))).getValue());
+		assertEquals((double) Calendar.getInstance().get(Calendar.MINUTE),
+				interpreter.eval(new ArrayList<Token>(Arrays.asList(minute))).getValue());
+		assertEquals((double) Calendar.getInstance().get(Calendar.SECOND),
+				interpreter.eval(new ArrayList<Token>(Arrays.asList(second))).getValue());
 	}
 }

@@ -27,12 +27,13 @@ import org.catrobat.catroid.formula.Token
 
 open class ValueToken(var value: Double) : Token(Type.VALUE) {
 
-    private var inputString: String = ""
+    private var inputString = ""
 
     fun appendDigit(digit: Char) {
         if (inputString.isEmpty() && digit == '.') inputString += 0
 
         inputString += digit
+
         try { value = inputString.toDouble() } catch (_: NumberFormatException) {
             inputString = inputString.dropLast(1)
         }
@@ -45,6 +46,7 @@ open class ValueToken(var value: Double) : Token(Type.VALUE) {
         if (inputString.isEmpty()) inputString = value.toString()
 
         inputString = inputString.dropLast(1)
+
         return try { value = inputString.toDouble(); false } catch (_: NumberFormatException) { true }
     }
 
@@ -56,6 +58,6 @@ open class ValueToken(var value: Double) : Token(Type.VALUE) {
 
     class VariableToken(var name: String, value: Double) : ValueToken(value) {
 
-        override fun getString(): String = name
+        override fun getString() = name
     }
 }

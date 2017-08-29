@@ -33,7 +33,6 @@ import java.util.*
 class FormulaInterpreter {
 
     companion object {
-
         fun eval(value: Boolean) = if (value) 1.0 else 0.0
         fun eval(value: Double) = Math.abs(value) > 0
     }
@@ -51,30 +50,25 @@ class FormulaInterpreter {
 
                 Token.Type.RIGHT_BRACKET -> {
                     while (!operators.empty() && operators.peek().type != Token.Type.LEFT_BRACKET) {
-
                         if (operators.peek() is BinaryOperatorToken) {
                             values.push((operators.pop() as BinaryOperatorToken).applyTo(values.pop(), values.pop()))
                         } else if (operators.peek() is UnaryOperatorToken) {
                             values.push((operators.pop() as UnaryOperatorToken).applyTo(values.pop()))
                         }
                     }
-
                     operators.pop()
                 }
 
                 Token.Type.OPERATOR -> {
-
                     val operator = token as OperatorToken
 
                     while (!operators.empty() && operators.peek().PRIORITY > operator.PRIORITY) {
-
                         if (operators.peek() is BinaryOperatorToken) {
                             values.push((operators.pop() as BinaryOperatorToken).applyTo(values.pop(), values.pop()))
                         } else if (operators.peek() is UnaryOperatorToken) {
                             values.push((operators.pop() as UnaryOperatorToken).applyTo(values.pop()))
                         }
                     }
-
                     operators.push(operator)
                 }
 
@@ -83,7 +77,6 @@ class FormulaInterpreter {
         }
 
         while (!operators.empty()) {
-
             if (operators.peek() is BinaryOperatorToken) {
                 values.push((operators.pop() as BinaryOperatorToken).applyTo(values.pop(), values.pop()))
             } else if (operators.peek() is UnaryOperatorToken) {

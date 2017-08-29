@@ -33,7 +33,7 @@ abstract class UnaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR, 
 
     class NotOperatorToken : UnaryOperatorToken(2) {
 
-        override fun getResourceId(): Int = R.string.formula_editor_logic_not
+        override fun getResourceId() = R.string.formula_editor_logic_not
 
         override fun applyTo(token: ValueToken) : ValueToken =
                 ValueToken(FormulaInterpreter.eval(!FormulaInterpreter.eval(token.value)))
