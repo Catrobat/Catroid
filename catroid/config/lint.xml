@@ -87,4 +87,8 @@
         <ignore path="src/main/java/org/catrobat/catroid/ui/WebViewActivity.java"/>
     </issue>
 
+    <issue id="AppCompatCustomView">
+        <ignore path="src/main/java/org/catrobat/catroid/utils/BrickSpinner.java"/>
+    </issue>
+
 </lint>

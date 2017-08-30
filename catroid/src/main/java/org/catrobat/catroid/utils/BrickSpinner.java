@@ -25,11 +25,11 @@ package org.catrobat.catroid.utils;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-public class BrickSpinner extends AppCompatSpinner {
+public class BrickSpinner extends Spinner {
 
 	private static final int SHADOW_RADIUS = 3;
 	private static final int SHADOW_REPEAT = 3;
