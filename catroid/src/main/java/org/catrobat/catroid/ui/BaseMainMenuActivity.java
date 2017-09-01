@@ -489,7 +489,9 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (!STANDALONE_MODE) {
 			super.onActivityResult(requestCode, resultCode, data);
-			callbackManager.onActivityResult(requestCode, resultCode, data);
+			if (!BuildConfig.RESTRICTED_LOGIN) {
+				callbackManager.onActivityResult(requestCode, resultCode, data);
+			}
 		} else {
 			if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 				SensorHandler.startSensorListener(this);

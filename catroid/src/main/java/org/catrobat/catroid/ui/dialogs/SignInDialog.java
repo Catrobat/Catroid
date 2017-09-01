@@ -116,7 +116,7 @@ public class SignInDialog extends DialogFragment implements
 
 		initListener(rootView);
 
-		String termsOfUseUrl = getString(R.string.about_link_template, getString(R.string.terms_of_use_url),
+		String termsOfUseUrl = getString(R.string.link_template, getString(R.string.terms_of_use_url),
 				getString(R.string.register_code_terms_of_use_text));
 		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));

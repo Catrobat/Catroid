@@ -336,6 +336,7 @@ public class NewSpriteDialog extends DialogFragment {
 					ActivityManager activityManager = (ActivityManager) getActivity().getSystemService(Context
 							.ACTIVITY_SERVICE);
 					activityManager.moveTaskToFront(getActivity().getTaskId(), 0);
+					Utils.getTrackingUtilProxy().trackStartPocketPaintSessionCreateObject();
 					startActivityForResult(pocketPaintIntent, requestCode);
 				}
 			}

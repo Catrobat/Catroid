@@ -29,7 +29,6 @@ import android.view.View;
 import android.widget.Button;
 
 import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.Utils;
@@ -69,7 +68,7 @@ public class MainMenuActivity extends BaseMainMenuActivity {
 					}
 				});
 			} else {
-				ProjectManager.getInstance().showLogInDialog(this, false);
+				Utils.restrictedLogin(this);
 			}
 		}
 	}

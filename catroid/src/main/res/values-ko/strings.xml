@@ -314,7 +314,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">이 모양들을 삭제하시겠습니까?</string>
   <string name="dialog_confirm_delete_look_message">이 작업은 되돌릴 수 없습니다!</string>
   <string name="lookname">모양 이름:</string>
-  <string name="backpack_replace_look"> \"%1$s\" 는 오브젝트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
   <string name="backpack_replace_look_multiple">이미 있습니다. 그것을 대체하시겠습니까?</string>
   <!--  -->
   <!-- Sound fragment -->

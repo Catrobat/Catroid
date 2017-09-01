@@ -147,6 +147,8 @@ android {
             versionCode 9
 
             buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
+            buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
+            buildConfigField "boolean", "RESTRICTED_LOGIN", "true"
             buildConfigField "boolean", "FEATURE_TEMPLATES", "true"
 
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
@@ -226,6 +228,10 @@ dependencies {
         exclude group: 'com.android.support'
     }
     androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+
+    compile ('com.android.support.test.espresso:espresso-intents:2.2.2') {
         exclude group: 'com.android.support'
     }
 

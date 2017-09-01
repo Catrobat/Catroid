@@ -31,6 +31,7 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -197,7 +198,7 @@ public class ProjectUploadService extends IntentService {
 			ToastUtil.showSuccess(this, R.string.notification_upload_finished);
 		}
 
-		Utils.invalidateLoginTokenIfUserRestricted(getApplicationContext());
+		Utils.invalidateLoginTokenIfUserRestricted(((CatroidApplication) getApplicationContext()).getCurrentActivity());
 
 		super.onDestroy();
 	}

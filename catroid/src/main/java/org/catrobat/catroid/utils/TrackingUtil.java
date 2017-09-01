@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -358,13 +359,13 @@ public class TrackingUtil implements Trackable {
 				+ " with userid " + ProjectManager.getInstance().getUserID(context));
 	}
 
-	public void trackLogoutEndSessionEvent(Context context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	public void trackLogoutEndSessionEvent(Activity activity) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		long time = System.currentTimeMillis() - preferences.getLong(TrackingConstants.LOGIN_TIME, 0);
 		preferences.edit().remove(TrackingConstants.LOGIN_TIME).commit();
 
 		//TODO replace bdsclient SDK
-		Log.d(TAG, "TODO Track end session at " + time + " with userid " + ProjectManager.getInstance().getUserID(context));
+		Log.d(TAG, "TODO Track end session at " + time + " with userid " + ProjectManager.getInstance().getUserID(activity));
 	}
 
 	private List<Pair<String, String>> createProjectTrackingList() {

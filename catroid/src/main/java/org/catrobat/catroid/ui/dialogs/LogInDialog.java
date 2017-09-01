@@ -136,6 +136,12 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 	}
 
 	@Override
+	public void onPause() {
+		super.onPause();
+		dismiss();
+	}
+
+	@Override
 	public void onLoginComplete() {
 		dismiss();
 		Bundle bundle = new Bundle();

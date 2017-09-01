@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
@@ -34,6 +36,7 @@ public class CatroidApplication extends MultiDexApplication {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
+	private static Activity currentActivity;
 	protected static Context context;
 
 	public static final String OS_ARCH = System.getProperty("os.arch");
@@ -47,6 +50,7 @@ public class CatroidApplication extends MultiDexApplication {
 		Log.d(TAG, "CatroidApplication onCreate");
 		CatroidApplication.context = getApplicationContext();
 		BaseSettingsActivity.applyAccessibilitySettings(context);
+		registerActivityLifecycleCallbacks();
 	}
 
 	@Override
@@ -76,7 +80,51 @@ public class CatroidApplication extends MultiDexApplication {
 		return parrotLibrariesLoaded;
 	}
 
+	private void registerActivityLifecycleCallbacks() {
+		registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+			@Override
+			public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+				currentActivity = activity;
+			}
+
+			@Override
+			public void onActivityStarted(Activity activity) {
+			}
+
+			@Override
+			public void onActivityResumed(Activity activity) {
+				currentActivity = activity;
+			}
+
+			@Override
+			public void onActivityPaused(Activity activity) {
+				if (currentActivity != null && currentActivity.equals(activity)) {
+					currentActivity = null;
+				}
+			}
+
+			@Override
+			public void onActivityStopped(Activity activity) {
+			}
+
+			@Override
+			public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+			}
+
+			@Override
+			public void onActivityDestroyed(Activity activity) {
+				if (currentActivity != null && currentActivity.equals(activity)) {
+					currentActivity = null;
+				}
+			}
+		});
+	}
+
 	public static Context getAppContext() {
 		return CatroidApplication.context;
+	}
+
+	public Activity getCurrentActivity() {
+		return currentActivity;
 	}
 }

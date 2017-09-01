@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.utils;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 
@@ -70,5 +71,5 @@ public interface Trackable {
 	void trackSubmitProject(String programId);
 	void trackEnableHints(String enabled);
 	void trackLoginInitSessionEvent(Context context);
-	void trackLogoutEndSessionEvent(Context context);
+	void trackLogoutEndSessionEvent(Activity activity);
 }

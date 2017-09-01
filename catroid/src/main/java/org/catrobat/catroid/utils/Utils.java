@@ -79,6 +79,7 @@ import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.RestrictedLoginDialog;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -1050,21 +1051,20 @@ public final class Utils {
 		return false;
 	}
 
-	public static void invalidateLoginTokenIfUserRestricted(Context context) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+	public static void invalidateLoginTokenIfUserRestricted(Activity activity) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
-			logoutUser(context);
+			logoutUser(activity);
 		}
 	}
 
 	@SuppressWarnings("unused")
-	public static void logoutUser(Context context) {
+	public static void logoutUser(Activity activity) {
+		Utils.getTrackingUtilProxy().trackLogoutEndSessionEvent(activity);
 
-		Utils.getTrackingUtilProxy().trackLogoutEndSessionEvent(context);
-
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-		LogoutTask logoutTask = new LogoutTask(context, userName);
+		LogoutTask logoutTask = new LogoutTask(activity, userName);
 		logoutTask.execute();
 
 		sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
@@ -1084,12 +1084,12 @@ public final class Utils {
 		sharedPreferences.edit().putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE).commit();
 		sharedPreferences.edit().putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN).commit();
 
-		WebViewActivity.clearCookies(context);
+		WebViewActivity.clearCookies(activity);
 
-		ToastUtil.showSuccess(context, R.string.logout_successful);
+		ToastUtil.showSuccess(activity, R.string.logout_successful);
 
 		if (BuildConfig.RESTRICTED_LOGIN) {
-			ProjectManager.getInstance().showLogInDialog((Activity) context, false);
+			restrictedLogin(activity);
 		}
 	}
 
@@ -1430,6 +1430,15 @@ public final class Utils {
 		}
 
 		return url;
+	}
+
+	public static void restrictedLogin(Activity activity) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		if (!sharedPreferences.getBoolean(Constants.RESTRICTED_LOGIN_ACCEPTED, false)) {
+			RestrictedLoginDialog.newInstance().show(activity.getFragmentManager(), RestrictedLoginDialog.DIALOG_FRAGMENT_TAG);
+		} else {
+			ProjectManager.getInstance().showLogInDialog(activity, false);
+		}
 	}
 
 	public static Trackable getTrackingUtilProxy() {
