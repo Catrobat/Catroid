@@ -289,6 +289,21 @@ public class StageListener implements ApplicationListener {
 		clonedSprites.remove(sprite);
 	}
 
+	public void clearAllClonedSpritesFromStage() {
+		Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
+		DataContainer userVariables = currentScene.getDataContainer();
+		for (Sprite sprite : clonedSprites) {
+			userVariables.removeVariableListForSprite(sprite);
+
+			BroadcastHandler.getScriptSpriteMap().remove(sprite);
+
+			sprite.look.setLookVisible(false);
+			sprite.look.remove();
+			sprites.remove(sprite);
+		}
+		clonedSprites.clear();
+	}
+
 	private void disposeClonedSprites() {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.removeAllClones();
@@ -399,6 +414,8 @@ public class StageListener implements ApplicationListener {
 		VibratorUtil.reset();
 		TouchUtil.reset();
 		BackgroundWaitHandler.reset();
+
+		clearAllClonedSpritesFromStage();
 
 		reloadProject = true;
 	}

@@ -56,13 +56,18 @@ import org.catrobat.catroid.uiespresso.content.brick.MoveNStepsBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.NextLookBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.NoteBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.SetColorBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.SetLookByIndexBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.StopScriptBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.WhenNfcBrickStageTest;
 import org.catrobat.catroid.uiespresso.content.brick.WhenNfcBrickTest;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorKeyboardTest;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest;
 import org.catrobat.catroid.uiespresso.pocketmusic.PocketMusicActivityTest;
+import org.catrobat.catroid.uiespresso.stage.BroadcastForClonesRegressionTest;
+import org.catrobat.catroid.uiespresso.stage.BroadcastReceiverRegressionTest;
+import org.catrobat.catroid.uiespresso.stage.MultipleBroadcastsTest;
 import org.catrobat.catroid.uiespresso.stage.StageSimpleTest;
+import org.catrobat.catroid.uiespresso.ui.activity.SettingsActivityTest;
 import org.catrobat.catroid.uiespresso.ui.dialog.AboutDialogTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -96,6 +101,7 @@ import org.junit.runners.Suite;
 		LegoEv3MotorMoveBrickTest.class,
 		NoteBrickTest.class,
 		LegoNxtPlayToneBrickTest.class,
+		SetLookByIndexBrickTest.class,
 		ChangeBrightnessByNBrickTest.class,
 		ChangeXByNBrickTest.class,
 		SetColorBrickTest.class,
@@ -106,9 +112,13 @@ import org.junit.runners.Suite;
 		ClearGraphicEffectBrickTest.class,
 		LegoNXTMotorMoveBrickTest.class,
 		LegoEv3MotorTurnAngleBrickTest.class,
+		BroadcastForClonesRegressionTest.class,
 		StageSimpleTest.class,
+		MultipleBroadcastsTest.class,
+		BroadcastReceiverRegressionTest.class,
 		FormulaEditorKeyboardTest.class,
 		FormulaEditorTest.class,
+		SettingsActivityTest.class,
 		AboutDialogTest.class
 })
 public class AllEspressoTestsSuite {
