@@ -165,10 +165,12 @@ public class TrackGrid {
 		return tactcount + INDEX_TO_COUNT_OFFSET;
 	}
 
-	public void startPlayback() {
+	public void startPlayback(long offsetStart) {
 		playRunnables.clear();
 		long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
+
 		long currentTime = SystemClock.uptimeMillis();
+		long startPlaybackTime = currentTime + offsetStart;
 
 		for (GridRow row : gridRows) {
 			for (int i = 0; i < row.getGridRowPositions().size(); i++) {
@@ -178,12 +180,16 @@ public class TrackGrid {
 
 				List<GridRowPosition> gridRowPositions = row.getGridRowPositions().get(tactOffset);
 				for (GridRowPosition position : gridRowPositions) {
-					MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, row.getNoteName(), playLength - 10,
-							handler, midiDriver);
-					handler.postAtTime(runnable, currentTime + playLength * position.getColumnStartIndex() + 10 + tactOffsetTime);
-					playRunnables.add(runnable);
+					long playTime = currentTime + playLength * position.getColumnStartIndex() + 10 + tactOffsetTime;
+					if (playTime >= startPlaybackTime) {
+						MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, row.getNoteName(), playLength - 10,
+								handler, midiDriver);
+						handler.postAtTime(runnable, playTime - offsetStart);
+						playRunnables.add(runnable);
+					}
 				}
 			}
+
 		}
 	}
 

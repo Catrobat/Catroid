@@ -80,6 +80,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 	private List<ProjectData> projectList;
 	private ProjectData projectToEdit;
 	private int selectedProjectPosition;
+	private LoadProjectTask loadProjectTask;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -231,7 +232,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 
 	@Override
 	public void handleOnItemClick(int position, View view, ProjectData listItem) {
-		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), listItem.projectName, true, false);
+		loadProjectTask = new LoadProjectTask(getActivity(), listItem.projectName, true, false);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
 		loadProjectTask.execute();
@@ -398,5 +399,11 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 	@Override
 	public void onLoadProjectFailure() {
 		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+	}
+
+	public void cancelLoadProjectTask() {
+		if (loadProjectTask != null) {
+			loadProjectTask.cancel(true);
+		}
 	}
 }

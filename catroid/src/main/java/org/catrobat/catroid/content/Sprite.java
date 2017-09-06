@@ -180,7 +180,7 @@ public class Sprite implements Serializable, Cloneable {
 			look = new Look(this);
 		}
 		for (LookData lookData : lookList) {
-			lookData.resetLookData();
+			lookData.dispose();
 		}
 		penConfiguration = new PenConfiguration();
 	}

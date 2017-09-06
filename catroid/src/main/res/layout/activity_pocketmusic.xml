@@ -25,19 +25,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <ImageButton
-        android:id="@+id/pocketmusic_play_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/actionbar_height"
-        android:layout_gravity="center"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_bar_background_selector"
-        android:src="@drawable/ic_play" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="1"
-        android:layout_above="@id/pocketmusic_play_button"
+        android:layout_above="@+id/pocketmusic_button_layout"
         android:orientation="horizontal"> 
         <org.catrobat.catroid.pocketmusic.ui.PianoView
             android:id="@+id/musicdroid_piano"
@@ -61,5 +54,28 @@
                 android:background="@color/turquoise_play_line"
                 android:visibility="gone"/>
         </FrameLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/pocketmusic_button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:layout_alignParentBottom="true"
+        >
+        <ImageButton
+            android:id="@+id/pocketmusic_play_button"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/bottom_bar_background_selector"
+            android:src="@drawable/ic_play" />
+        <ImageButton
+            android:id="@+id/pocketmusic_stop_button"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/bottom_bar_background_selector"
+            android:src="@drawable/ic_stop_24dp"/>
     </LinearLayout>
 </RelativeLayout>
