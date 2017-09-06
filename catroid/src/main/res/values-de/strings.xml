@@ -338,7 +338,6 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="dialog_confirm_delete_multiple_looks_title">Diese Aussehen löschen?</string>
   <string name="dialog_confirm_delete_look_message">Kann nicht rückgängig gemacht werden!</string>
   <string name="lookname">Name:</string>
-  <string name="backpack_replace_look">Das Aussehen %1$s ist bereits im Rucksack vorhanden. Soll dieses ersetzt werden?</string>
   <string name="backpack_replace_look_multiple">Im Rucksack sind bereits Aussehen vorhanden. Möchtest du diese ersetzen?</string>
   <!--  -->
   <!-- Sound fragment -->
@@ -1516,6 +1515,10 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="fetching_templates">Abrufen der Vorlagen</string>
   <string name="error_fetching_templates">Fehler beim Abrufen der Vorlagen</string>
 
+  <!-- Restricted Login -->
+  <string name="dialog_restricted_login_title">Beschränkter Zugang</string>
+  <string name="schoolreg_text">Bitte melde dich mit dem Create@School Benutzername und Kennwort an, die du von deiner Schule bekommen hast. Um Zugangsdaten für SchülerInnen und LehrerInnen zu erhalten, ist eine Registrierung seitens der Schule auf %1$s nötig.</string>
+
   <!-- Action Template Strings -->
   <string name="action_project_variable_timer">Timer</string>
   <string name="action_project_variable_score">Punkte</string>
@@ -2131,6 +2134,7 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="physical_simulation_note_step_3_show_both_variables_in_the_corresponding_labels">Schritt 3: Zeige beide Variablen in den entsprechenden Labels an</string>
   <string name="physical_simulation_note_step_4_calculate_the_rockets_acceleration_and_set_the_variable_acceleration_rocket">Schritt 4: Berechne die Beschleuning der Rakete und setze die Variable \"Beschleunigung Rakete\".</string>
   <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_y_to_the_value_of_the_variable_acceleration_rocket_and_multiply_with__1000">Schritt 5: Füge einen neuen Baustein hinzu um die Beschleunigung von Y zu setzen. Diese hat den Wert der Variable Beschleunigung Rakete multipliziert mit - 1000</string>
+  <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_x_to_the_variable_acceleration_and_multiply_with_1000">Schritt 5: Füge einen neuen Baustein hinzu um die Beschleunigung von X auf die Variable Beschleunigung zu setzen und mit 1000 zu multiplizieren</string>
   <string name="physical_simulation_note_todo_add_the_collision_detection_between_your_rocket_and_the_finish_line_in_the_whenbrick">ToDo: Füge eine Kollisionserkennung (berührt_Objekt) im \"Wenn\" Baustein hinzu. Die Kollision soll sich auf das Objekt Ziellinie beziehen.</string>
   <string name="physical_simulation_look_task_3">Aufgabe 3</string>
   <string name="physical_simulation_broadcast_message_end">Ende</string>
@@ -2141,6 +2145,7 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="physical_simulation_note_the_force_is_rising_as_long_as_you_keep_on_pressing_the_rocket">die Kraft erhöht sich, solange du die Rakete berührst</string>
   <string name="physical_simulation_look_shuttle">Shuttle</string>
   <string name="physical_simulation_note_shuttle_1_and_shuttle_2_have_same_acceleration">Shuttle 2 hat die gleiche Beschleunigung wie Shuttle 1</string>
+  <string name="physical_simulation_look_sky">Himmel</string>
   <!-- Lego EV3 Strings -->
   <string name="lego_ev3_project_variable_move">bewegen</string>
   <string name="lego_ev3_project_variable_detected">erkannt</string>

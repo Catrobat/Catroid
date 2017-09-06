@@ -313,7 +313,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">删除这些外观吗？</string>
   <string name="dialog_confirm_delete_look_message">此操作不能被撤消！</string>
   <string name="lookname">外观名称：</string>
-  <string name="backpack_replace_look">这个外观 %1$s 已经在背包中存在。你要替换它么？</string>
   <string name="backpack_replace_look_multiple">这些外观已经在背包中存在。你要替换它么？</string>
   <!--  -->
   <!-- Sound fragment -->

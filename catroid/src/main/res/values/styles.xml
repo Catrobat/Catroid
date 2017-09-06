@@ -77,6 +77,10 @@
         <item name="android:gravity" >bottom</item >
     </style >
 
+    <style name="DefaultDialog.MultiLineTextView" parent="DefaultDialog.TextView" >
+        <item name="android:layout_height" >wrap_content</item >
+    </style >
+
     <style name="DefaultDialog.Line" parent="DefaultDialog.Item" >
         <item name="android:layout_height" >@dimen/dialog_item_header_line_height</item >
         <item name="android:background" >@color/dialog_text_line</item >

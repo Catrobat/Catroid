@@ -366,7 +366,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">هل تريد حذف هذه المناظر؟</string>
   <string name="dialog_confirm_delete_look_message">لا يمكن التراجع عن هذا!</string>
   <string name="lookname">اسم المنظر:</string>
-  <string name="backpack_replace_look">المنظر %1$s موجود بالفعل في حقيبة الظهر. هل تريد استبداله؟</string>
   <string name="backpack_replace_look_multiple">المناظر موجودة بالفعل في حقيبة الظهر. هل تريد استبدالها؟</string>
   <!--  -->
   <!-- Sound fragment -->

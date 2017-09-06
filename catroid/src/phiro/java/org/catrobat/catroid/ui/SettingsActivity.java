@@ -69,7 +69,7 @@ public class SettingsActivity extends BaseSettingsActivity {
 	}
 
 	private void setupLink() {
-		final String aboutPhiroUrl = getString(R.string.about_link_template, getString(R.string.phiro_preference_link),
+		final String aboutPhiroUrl = getString(R.string.link_template, getString(R.string.phiro_preference_link),
 				getString(R.string.phiro_preference_title));
 
 		Preference linkPreference = findPreference(PHIRO_LINK);

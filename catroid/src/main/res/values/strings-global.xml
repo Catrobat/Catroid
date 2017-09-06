@@ -52,7 +52,7 @@
     <string name="number_9" translatable="false">9</string>
     <!--  -->
 
-    <string name="about_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
+    <string name="link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
     <string name="terms_of_use_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
     <string name="preference_raspi_help_link">https://catrob.at/RaspberryPi</string>
 
@@ -66,4 +66,6 @@
 
     <string name="facebook_app_id" translatable="false">1602051133371458</string>
 
+    <string name="schoolreg_link">http://catrob.at/schoolregistration</string>
+    <string name="schoolreg_link_german">http://catrob.at/schulregistrierung</string>
 </resources>

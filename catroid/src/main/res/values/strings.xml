@@ -837,8 +837,8 @@
     <string name="brick_when_condition_when">When</string>
     <string name="brick_when_becomes_true">becomes true</string>
     <string name="brick_wait">Wait</string>
-    <string name="brick_when_gamepad_button">When gamepad button</string >
-    <string name="brick_when_gamepad_button_tapped" >tapped</string >
+    <string name="brick_when_gamepad_button">When gamepad button</string>
+    <string name="brick_when_gamepad_button_tapped">tapped</string>
     <string name="brick_when_nfc">When NFC</string>
     <string name="brick_stop_script">Stop</string>
     <string name="brick_stop_this_script">this script</string>
@@ -1692,6 +1692,10 @@
     <string name="fetching_templates">Fetching templates</string>
     <string name="error_fetching_templates">Error fetching templates</string>
 
+    <!-- Restricted Login -->
+    <string name="dialog_restricted_login_title">Restricted Login</string>
+    <string name="schoolreg_text">Please use the Create@School username and password that you have received from your school. As a school, please register on %1$s to receive complimentary accounts for your teachers and students.</string>
+
     <!-- Action Template Strings -->
     <string name="action_project_variable_timer" tools:ignore="UnusedResources">timer</string>
     <string name="action_project_variable_score" tools:ignore="UnusedResources">score</string>
@@ -2327,7 +2331,7 @@
     <string name="physical_simulation_look_shuttle" tools:ignore="UnusedResources">shuttle</string>
     <string name="physical_simulation_look_sky" tools:ignore="UnusedResources">sky</string>
     <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_x_to_the_variable_acceleration_and_multiply_with_1000" tools:ignore="UnusedResources">step 5: add a new brick to set the velocity of X to the variable acceleration and multiply with 1000</string>
-    <string name="physical_simulation_note_shuttle_1_and_shuttle_2_have_same_acceleration" tools:ignore="UnusedResources">shu</string>
+    <string name="physical_simulation_note_shuttle_1_and_shuttle_2_have_same_acceleration" tools:ignore="UnusedResources">shuttle 1 and shuttle 2 have same acceleration</string>
 
     <!-- Lego EV3 Strings -->
     <string name="lego_ev3_project_variable_move" tools:ignore="UnusedResources">move</string>

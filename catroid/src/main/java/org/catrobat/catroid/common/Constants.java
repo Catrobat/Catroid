@@ -287,6 +287,9 @@ public final class Constants {
 	public static final String ZIP_FILE_NAME = START_PROJECT + ".zip";
 	public static final String STANDALONE_PROJECT_NAME = BuildConfig.PROJECT_NAME;
 
+	//Restricted login
+	public static final String RESTRICTED_LOGIN_ACCEPTED = "restrictedLoginAccepted";
+
 	// Suppress default constructor for noninstantiability
 	private Constants() {
 		throw new AssertionError();
