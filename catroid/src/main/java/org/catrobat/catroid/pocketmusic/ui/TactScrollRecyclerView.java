@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.TactViewHolder;
+import org.catrobat.catroid.pocketmusic.fastscroll.SectionTitleProvider;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
@@ -115,7 +116,11 @@ public class TactScrollRecyclerView extends RecyclerView {
 		super.onMeasure(widthSpec, heightSpec);
 	}
 
-	private class TactAdapter extends RecyclerView.Adapter<TactViewHolder> {
+	public int getTactViewWidth() {
+		return tactViewParams.width;
+	}
+
+	private class TactAdapter extends RecyclerView.Adapter<TactViewHolder> implements SectionTitleProvider {
 
 		private static final int PLUS_BUTTON_ON_END = 1;
 		private final OnClickListener addTactClickListener = new OnClickListener() {
@@ -162,6 +167,14 @@ public class TactScrollRecyclerView extends RecyclerView {
 		@Override
 		public int getItemCount() {
 			return Math.max(tactCount, MINIMUM_TACT_COUNT) + PLUS_BUTTON_ON_END;
+		}
+
+		@Override
+		public String getSectionTitle(int position) {
+			if (this.getItemCount() - PLUS_BUTTON_ON_END == position) {
+				return "+";
+			}
+			return ++position + "";
 		}
 	}
 
