@@ -755,7 +755,7 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <string name="brick_insert_item_into_userlist_at_position">na pozycji</string>
   <string name="brick_replace_item_in_userlist_replace_in_list">Zastąp element listy</string>
   <string name="brick_replace_item_in_userlist_item_at_index">na pozycji</string>
-  <string name="brick_replace_item_in_userlist_with_value">z</string>
+  <string name="brick_replace_item_in_userlist_with_value">na</string>
   <!--  -->
   <!-- defaultValues -->
   <string name="default_project_name">Mój pierwszy program</string>
@@ -1044,7 +1044,7 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <string name="brick_drone_set_vertical_speed">Ograniczenie prędkości w pionie</string>
   <string name="brick_drone_set_rotation_speed">Ograniczenie prędkości obrotów</string>
   <string name="brick_drone_set_tilt_limit">Ograniczenie nachylenia</string>
-  <string name="brick_drone_with">z</string>
+  <string name="brick_drone_with">na</string>
   <string name="brick_drone_percent_power">zasilanie</string>
   <!--  -->
   <!-- Phiro bricks -->

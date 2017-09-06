@@ -298,9 +298,9 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <!--  -->
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Appuyer sur « + » pour ajouter des Scripts</string>
-  <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
-  <string name="dialog_confirm_delete_script_title">Delete this script?</string>
-  <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
+  <string name="dialog_confirm_delete_brick_title">Supprimer cette brique ?</string>
+  <string name="dialog_confirm_delete_script_title">Supprimer ce script ?</string>
+  <string name="dialog_confirm_delete_multiple_bricks_title">Supprimer ces briques ?</string>
   <string name="dialog_confirm_delete_backpack_group_title">Supprimer ce groupe ?</string>
   <string name="dialog_confirm_delete_multiple_backpack_groups_title">Supprimer ces groupes ?</string>
   <string name="dialog_confirm_delete_brick_message">Cette action ne peut pas être annulée !</string>
@@ -309,8 +309,8 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
     <item quantity="other">Supprimer %d briques</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copy %d brick</item>
-    <item quantity="other">Copy %d bricks</item>
+    <item quantity="one">Copier %d élément</item>
+    <item quantity="other">Copier %d éléments</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
     <item quantity="one">Backpack %d brick</item>
@@ -444,7 +444,7 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="brick_context_dialog_delete_brick">Supprimer élément</string>
   <string name="brick_context_dialog_copy_brick">Copier élément</string>
   <string name="brick_context_dialog_animate_bricks">Animer l\'élément</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
+  <string name="brick_context_dialog_add_to_script">Ajouter aux Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">Modifier la formule</string>
   <string name="brick_context_dialog_delete_script">Supprimer script</string>
   <string name="brick_context_dialog_comment_in">Activez la brique</string>
@@ -544,7 +544,7 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="stage_dialog_back">Retour</string>
   <string name="stage_dialog_resume">Continuer</string>
   <string name="stage_dialog_restart">Relancer</string>
-  <string name="stage_dialog_axes_on">Axes on</string>
+  <string name="stage_dialog_axes_on">Afficher coordonnées</string>
   <string name="stage_dialog_axes_off">Axes off</string>
   <string name="stage_dialog_maximize">Agrandir le style</string>
   <string name="stage_dialog_screenshot">Capture d\'écran</string>
@@ -562,7 +562,7 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="categories">Catégories</string>
   <string name="category_motion">Mouvement</string>
   <string name="category_looks">Looks</string>
-  <string name="category_pen">Pen</string>
+  <string name="category_pen">Stylo</string>
   <string name="category_sound">Sons</string>
   <string name="category_control">Contrôle</string>
   <string name="category_event">Évènement</string>
@@ -751,8 +751,8 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="default_scene_name">Scène %1$d</string>
   <string name="default_project_background_name">Arrière plan</string>
   <string name="default_project_cloud_name">Nuages</string>
-  <string name="default_project_cloud_sprite_name_1">Clouds1</string>
-  <string name="default_project_cloud_sprite_name_2">Clouds2</string>
+  <string name="default_project_cloud_sprite_name_1">Nuages1</string>
+  <string name="default_project_cloud_sprite_name_2">Nuages2</string>
   <string name="default_project_sprites_bird_name">Oiseau</string>
   <string name="default_project_sprites_bird_name_wing_up">L\'oiseau lève ses ailes</string>
   <string name="default_project_sprites_bird_name_wing_down">L\'oiseau baisse ses ailes</string>
@@ -761,8 +761,8 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <!-- defaultCastValues -->
   <string name="default_cast_project_background_name">Arrière plan</string>
   <string name="default_cast_project_cloud_name">Nuages</string>
-  <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
-  <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
+  <string name="default_cast_project_cloud_sprite_name1">Nuages1</string>
+  <string name="default_cast_project_cloud_sprite_name2">Nuages2</string>
   <string name="default_cast_project_sprites_bird_name">Oiseau</string>
   <string name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
   <string name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
@@ -895,7 +895,7 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="error_no_network_one_brick">La brique suivante utilisera le réseau :</string>
   <string name="error_no_network_multiple_bricks">Les briques suivantes utiliseront le réseau :</string>
   <string name="error_no_network_title">Pas de réseau</string>
-  <string name="error_no_whatsapp">WhatsApp not installed</string>
+  <string name="error_no_whatsapp">WhatsApp n\'est pas installé</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Le Bluetooth n\'a pas pu être activé, fermeture de la scène</string>
@@ -911,24 +911,24 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="none_paired">Aucun périphérique non liés trouvés</string>
   <!--  -->
   <!-- Arduino Bricks -->
-  <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
+  <string name="brick_arduino_select_digital_value">Définir broche digitale Arduino</string>
   <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
   <string name="brick_arduino_set_pin_value_to">à</string>
   <!--  -->
   <!-- Raspi Bricks -->
-  <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
+  <string name="brick_raspi_select_digital_value">Définir broche Raspberry Pi</string>
   <string name="brick_raspi_set_pin_value_to">à</string>
-  <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
+  <string name="brick_raspi_if_begin">Si broche Raspberry Pi</string>
   <string name="brick_raspi_if_begin_second_part">est vrai alors</string>
-  <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
+  <string name="brick_raspi_when_begin">Quand broche Raspberry Pi</string>
   <string name="brick_raspi_when_equals">changé à</string>
-  <string name="brick_raspi_pressed_text">high</string>
-  <string name="brick_raspi_released_text">low</string>
+  <string name="brick_raspi_pressed_text">haut</string>
+  <string name="brick_raspi_released_text">bas</string>
   <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
   <!--  -->
   <!-- Raspi Settings -->
-  <string name="raspi_settings_title_name">Raspberry Pi settings</string>
-  <string name="raspi_settings_gpio_version">GPIO Version</string>
+  <string name="raspi_settings_title_name">Paramètres Raspberry Pi</string>
+  <string name="raspi_settings_gpio_version">Version de GPIO</string>
   <!--  -->
   <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">Set NXT motor</string>
@@ -936,7 +936,7 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="nxt_motor_speed">vitesse</string>
   <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
   <string name="nxt_motor_move_by">par</string>
-  <string name="nxt_motor_stop">Stop NXT motor</string>
+  <string name="nxt_motor_stop">Arrêter le moteur NXT</string>
   <string name="nxt_play_tone">Play NXT tone</string>
   <string name="nxt_tone_duration">Durée</string>
   <string name="nxt_tone_frequency">Fréquence</string>
@@ -964,11 +964,11 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is program specific and can only be configured for opened programs!</string>
   <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">The current program uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
-  <string name="nxt_port_1">Port 1</string>
-  <string name="nxt_port_2">Port 2</string>
-  <string name="nxt_port_3">Port 3</string>
-  <string name="nxt_port_4">Port 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
+  <string name="nxt_port_1">Port d\'entrée 1</string>
+  <string name="nxt_port_2">Port d\'entrée 2</string>
+  <string name="nxt_port_3">Port d\'entrée 3</string>
+  <string name="nxt_port_4">Port d\'entrée 4</string>
+  <string name="lego_nxt_sensor_config_dont_show_again">Ne plus afficher ce message.</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the sensor on the chosen port?</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
   <string name="lego_ev3_sensor_config_info_title">EV3 Sensor Configuration</string>
@@ -1253,12 +1253,12 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="formula_editor_functions">Fonctions</string>
   <string name="formula_editor_logic">Logique</string>
   <string name="formula_editor_device">Appareil</string>
-  <string name="formula_editor_device_sensors">Device sensors</string>
+  <string name="formula_editor_device_sensors">Capteurs</string>
   <string name="formula_editor_variables">Variables</string>
   <string name="formula_editor_functions_maths">Maths</string>
   <string name="formula_editor_functions_strings">Chaînes de caractères</string>
   <string name="formula_editor_functions_lists">Listes</string>
-  <string name="formula_editor_logic_boolean">Logical (boolean) operators</string>
+  <string name="formula_editor_logic_boolean">Opérateurs logiques (booléens)</string>
   <string name="formula_editor_logic_comparison">opérateurs de comparaison</string>
   <string name="formula_editor_object_general">propriétés générales</string>
   <string name="formula_editor_object_movement">propriétés de mouvement</string>
@@ -1311,16 +1311,15 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="formula_editor_sensor_face_y_position">visage_position_y</string>
   <string name="formula_editor_function_number_of_items">Nombre d\'éléments</string>
   <string name="formula_editor_function_number_of_items_parameter">(* nom de la liste *)</string>
-  <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
+  <string name="formula_editor_intro_title_formula_editor">Editeur de formule</string>
   <string name="formula_editor_intro_summary_formula_editor">The formula editor allows you to create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can advance this little intro by touching
         the \"Next\" button in the bottom right corner, and you can skip it by touching the \"SKIP\" button in the
         bottom left corner.</string>
-  <string name="formula_editor_intro_title_input_field">Input field</string>
-  <string name="formula_editor_intro_summary_input_field">Here you can see your formula, and can also edit it.</string>
-  <string name="formula_editor_intro_title_keyboard">Keyboard</string>
-  <string name="formula_editor_intro_summary_keyboard">Similar to a calculator, this is where you can create
-        your formula.</string>
+  <string name="formula_editor_intro_title_input_field">Champ de saisie</string>
+  <string name="formula_editor_intro_summary_input_field">Ici vous pouvez visualiser, mais aussi éditer votre formule.</string>
+  <string name="formula_editor_intro_title_keyboard">Clavier</string>
+  <string name="formula_editor_intro_summary_keyboard">Comme une calculatrice, c\'est là que vous pouvez créer votre formule.</string>
   <string name="formula_editor_intro_title_compute">Calculer</string>
   <string name="formula_editor_intro_summary_compute">To test your formula and display its current result, you can
         use \"Compute\".</string>
@@ -1339,17 +1338,17 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="formula_editor_intro_summary_device">In \"Device\" you can find information that your
         smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
   <string name="formula_editor_intro_title_data">Données</string>
-  <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
+  <string name="formula_editor_intro_summary_data">Les variables et listes utilisées dans votre programme se trouvent ici. \nVous pouvez simplement les insérer dans votre formule, ou en ajouter de nouvelles.</string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
     <item quantity="one">Élément sélectionné</item>
     <item quantity="other">Éléments sélectionnés</item>
   </plurals>
   <!--  -->
   <!-- New Data Dialog -->
-  <string name="user_variablename_already_exists">Please choose another variable name.</string>
-  <string name="user_listname_already_exists">Please choose another list name.</string>
-  <string name="no_variablename_entered">Please enter a variable name.</string>
-  <string name="no_listname_entered">Please enter a list name.</string>
+  <string name="user_variablename_already_exists">Merci de choisir un autre nom de variable.</string>
+  <string name="user_listname_already_exists">Merci de choisir un autre nom de liste.</string>
+  <string name="no_variablename_entered">Veuillez saisir un nom de variable.</string>
+  <string name="no_listname_entered">Veuillez entrer un nom de liste.</string>
   <!-- -->
   <!-- Brick Data Editor Strings -->
   <string name="brick_data_editor_title">Éditeur de brique</string>
@@ -1377,27 +1376,27 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="merge_info">fusionné succès avec</string>
   <string name="warning">Alerte</string>
   <string name="error_merge">Erreur lors de la fusion des projets</string>
-  <string name="error_merge_with_self_scene">Current scene and selected scene are the same!</string>
-  <string name="error_merge_scene_not_found">Scene not found!</string>
+  <string name="error_merge_with_self_scene">La scène actuelle et la scène sélectionnée sont identiques!</string>
+  <string name="error_merge_scene_not_found">Scène non trouvée !</string>
   <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
         has resolution %2$d×%3$d and %4$s has resolution %5$d×%6$d. Using resolution of %1$s.</string>
-  <string name="abort">Abort</string>
-  <string name="merge_conflict">Merging not possible</string>
+  <string name="abort">Abandonner</string>
+  <string name="merge_conflict">La fusion est impossible</string>
   <string name="merge_conflict_variable">Variable %1$s is used in both programs. If programs use the same
     variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
   <string name="merge_conflict_list">List %1$s is used in both programs. If programs use the same
     name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <!-- Camera related strings -->
-  <string name="brick_video">Turn camera</string>
+  <string name="brick_video">Tourner la caméra</string>
   <string name="video_brick_camera_on">activé</string>
   <string name="video_brick_camera_off">désactivé</string>
-  <string name="brick_choose_camera">Use camera</string>
-  <string name="choose_camera_front">front</string>
-  <string name="choose_camera_back">back</string>
+  <string name="brick_choose_camera">Utiliser la caméra</string>
+  <string name="choose_camera_front">avant</string>
+  <string name="choose_camera_back">arrière</string>
   <string name="error_flash_camera">"The flash can be used only with the camera that has a flash. Please add a \"Use
         camera\" brick and change to your device\'s camera that has a flash."</string>
-  <string name="brick_wait_until">Wait until</string>
-  <string name="brick_wait_until_second_part">is true</string>
+  <string name="brick_wait_until">Attendre jusqu\'à</string>
+  <string name="brick_wait_until_second_part">est vrai</string>
   <!-- -->
   <!-- Cast strings -->
   <string name="cast_gamepad_A">A</string>
@@ -1428,16 +1427,16 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="deletion_alert_title">Warning!</string>
   <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
   <string name="deletion_alert_yes">Yes, delete anyway!</string>
-  <string name="deletion_alert_no">No.</string>
+  <string name="deletion_alert_no">Non.</string>
   <!--  -->
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">Your program gets uploaded to the app’s sharing site where others can use
         and download it.
         You can also download your program as a standalone app.</string>
-  <string name="progress_upload_dialog_show_program">Show program</string>
+  <string name="progress_upload_dialog_show_program">Afficher le programme</string>
   <!--  -->
   <!-- Snackbar hints -->
-  <string name="got_it">Got it</string>
+  <string name="got_it">J\'ai compris</string>
   <string name="preference_description_hints">Permettre d’afficher les indices</string>
   <string name="preference_title_enable_hints">Afficher les indices </string>
   <string name="hint_category">Toutes les briques sont classées par catégories. Choisis la catégorie que tu recherches.</string>
