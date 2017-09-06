@@ -93,6 +93,7 @@ import org.catrobat.catroid.uiespresso.content.brick.WaitBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.WhenNfcBrickStageTest;
 import org.catrobat.catroid.uiespresso.content.brick.WhenNfcBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.WhenStartedBrickTest;
+import org.catrobat.catroid.uiespresso.content.sprite.NumberOfBricksTest;
 import org.catrobat.catroid.uiespresso.facedetection.FaceDetectionResourceStartedTest;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorKeyboardTest;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest;
@@ -206,7 +207,8 @@ import org.junit.runners.Suite;
 		DeleteSoundDialogTest.class,
 		TermsOfUseDialogTest.class,
 		DeleteLookDialogTest.class,
-		AboutDialogTest.class
+		AboutDialogTest.class,
+		NumberOfBricksTest.class
 })
 public class AllEspressoTestsSuite {
 }
