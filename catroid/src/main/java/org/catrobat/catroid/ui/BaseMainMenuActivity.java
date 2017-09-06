@@ -152,7 +152,7 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 				setContentView(R.layout.activity_main_menu_with_dividers);
 			}
 
-			IconsUtil.setMainMenuIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
+			IconsUtil.setMenuIconSize(this.findViewById(android.R.id.content), IconsUtil.largeIconSizeMainMenu);
 
 			final ActionBar actionBar = getActionBar();
 			actionBar.setDisplayUseLogoEnabled(true);
