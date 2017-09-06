@@ -173,7 +173,7 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 
 import java.util.ArrayList;
@@ -250,7 +250,7 @@ public class CategoryBricksFactory {
 			eventBrickList.add(new WhenBackgroundChangesBrick());
 			eventBrickList.add(new WhenClonedBrick());
 
-			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+			if (BaseSettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 				eventBrickList.add(new WhenNfcBrick());
 			}
 		} else {
@@ -283,7 +283,7 @@ public class CategoryBricksFactory {
 			controlBrickList.add(new SceneTransitionBrick(null));
 			controlBrickList.add(new SceneStartBrick(null));
 
-			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+			if (BaseSettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 				controlBrickList.add(new PhiroIfLogicBeginBrick());
 			}
 			controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
@@ -362,7 +362,7 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
 			motionBrickList.add(new SetFrictionBrick(BrickValues.PHYSIC_FRICTION * 100));
 
-			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+			if (BaseSettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 				motionBrickList.add(new PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
 						BrickValues.PHIRO_SPEED));
 				motionBrickList.add(new PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
@@ -407,7 +407,7 @@ public class CategoryBricksFactory {
 			soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
 			soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
-			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+			if (BaseSettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 				soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 						BrickValues.PHIRO_DURATION));
 			}
@@ -460,7 +460,7 @@ public class CategoryBricksFactory {
 				looksBrickList.add(new FlashBrick());
 			}
 
-			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+			if (BaseSettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 				looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 			}
 		} else {
@@ -619,10 +619,7 @@ public class CategoryBricksFactory {
 	}
 
 	private boolean isBackground(Sprite sprite) {
-		if (ProjectManager.getInstance().getCurrentScene().getSpriteList().indexOf(sprite) == 0) {
-			return true;
-		}
-		return false;
+		return ProjectManager.getInstance().getCurrentScene().getSpriteList().indexOf(sprite) == 0;
 	}
 
 	public String getBrickCategory(Brick brick, Sprite sprite, Context context) {

@@ -52,12 +52,12 @@ import com.parrot.freeflight.tasks.CheckDroneNetworkAvailabilityTask;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
 import static org.catrobat.catroid.CatroidApplication.getAppContext;
-import static org.catrobat.catroid.ui.SettingsActivity.getDronePreferenceMapping;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.getDronePreferenceMapping;
 
 public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnectionChangeReceiverDelegate,
 		DroneAvailabilityDelegate {
@@ -88,7 +88,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	}
 
 	public void initialise() {
-		if (SettingsActivity.areTermsOfServiceAgreedPermanently(prestageStageActivity.getApplicationContext())) {
+		if (BaseSettingsActivity.areTermsOfServiceAgreedPermanently(prestageStageActivity.getApplicationContext())) {
 
 			if (checkRequirements()) {
 				checkDroneConnectivity();

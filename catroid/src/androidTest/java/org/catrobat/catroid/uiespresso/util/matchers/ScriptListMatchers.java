@@ -48,7 +48,7 @@ public final class ScriptListMatchers {
 
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("ScriptlistView");
+				description.appendText("ScriptListView");
 			}
 		};
 	}

@@ -33,7 +33,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 
 import java.util.ArrayList;
 
@@ -66,7 +66,7 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 	public void testSensorAssignment() throws InterruptedException {
 
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
+		BaseSettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
 				new NXTSensor.Sensor[] {NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.SOUND,
 						NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.ULTRASONIC});
 
@@ -94,7 +94,7 @@ public class LegoNXTImplTest extends AndroidTestCase {
 	}
 
 	private void resetSensorMappingToDefault() throws InterruptedException {
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getContext(),
+		BaseSettingsActivity.setLegoMindstormsNXTSensorMapping(this.getContext(),
 				new NXTSensor.Sensor[] {NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
 						NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC});
 	}
@@ -103,8 +103,8 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		resetSensorMappingToDefault();
 		nxt.initialise();
 
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
-				NXTSensor.Sensor.LIGHT_INACTIVE, SettingsActivity.NXT_SENSOR_1);
+		BaseSettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
+				NXTSensor.Sensor.LIGHT_INACTIVE, BaseSettingsActivity.NXT_SENSOR_1);
 
 		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
 
@@ -112,8 +112,8 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		assertTrue("Sensor 1 is of wrong instance, SensorFactory may has an error",
 				nxt.getSensor1() instanceof NXTLightSensor);
 
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
-				NXTSensor.Sensor.TOUCH, SettingsActivity.NXT_SENSOR_1);
+		BaseSettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
+				NXTSensor.Sensor.TOUCH, BaseSettingsActivity.NXT_SENSOR_1);
 
 		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
 

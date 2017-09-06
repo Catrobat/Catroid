@@ -35,7 +35,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.utils.CrashReporter;
 
 public class SendReportDialog extends DialogFragment {
@@ -49,7 +49,7 @@ public class SendReportDialog extends DialogFragment {
 		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				SettingsActivity.setAutoCrashReportingEnabled(getActivity(), isChecked);
+				BaseSettingsActivity.setAutoCrashReportingEnabled(getActivity(), isChecked);
 			}
 		});
 		Dialog reportDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(getString(R.string

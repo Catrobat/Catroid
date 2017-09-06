@@ -24,7 +24,8 @@
 
 <manifest package="org.catrobat.catroid"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:installLocation="auto">
+    android:installLocation="auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <supports-screens
         android:largeScreens="true"
@@ -81,7 +82,7 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <application
+    <application tools:replace="android:label"
         android:name=".CatroidApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -100,7 +101,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
-            android:name="${launchActivity}"
+            android:name=".ui.MainMenuActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -246,6 +247,11 @@
             android:screenOrientation="portrait"
             android:label="@string/add_sound_music"
             android:icon="@drawable/ic_pocketmusic"/>
+
+        <activity
+            android:name="org.catrobat.catroid.ui.TemplatesActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
 
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />

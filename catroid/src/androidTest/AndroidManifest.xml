@@ -23,7 +23,6 @@
   -->
 <manifest package="org.catrobat.catroid.test"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:versionCode="14"
     android:versionName="0.9.7">
 
@@ -75,7 +74,6 @@
         android:targetPackage="${applicationIdForTests}"/>
     <!-- this instrumentation is needed to run the tests from jenkins -->
     <instrumentation
-        tools:replace="android:targetPackage"
         android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
         android:targetPackage="${applicationIdForTests}"/>
 

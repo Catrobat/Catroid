@@ -56,9 +56,9 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.BackPackActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.BackPackScriptListAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
@@ -100,8 +100,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void tearDown() throws Exception {
 		// disable mindstorms bricks, if enabled in test
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
-			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
+		if (sharedPreferences.getBoolean(BaseSettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(BaseSettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
 		}
 		super.tearDown();
 	}
@@ -299,8 +299,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		// enable mindstorms bricks, if disabled
-		if (!sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
-			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true).commit();
+		if (!sharedPreferences.getBoolean(BaseSettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(BaseSettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true).commit();
 		}
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		String categorySoundLabel = solo.getString(R.string.category_sound);

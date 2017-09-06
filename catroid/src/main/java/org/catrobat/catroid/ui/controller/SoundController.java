@@ -68,7 +68,6 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -439,7 +438,7 @@ public final class SoundController {
 		}
 		String newSoundInfoTitle = Utils.getUniqueSoundName(soundInfo, false);
 		updateSoundAdapter(soundInfo, adapter, newSoundInfoTitle, false, false);
-		TrackingUtil.trackSound(newSoundInfoTitle, TrackingConstants.COPY_SOUND);
+		Utils.getTrackingUtilProxy().trackSound(newSoundInfoTitle, TrackingConstants.COPY_SOUND);
 	}
 
 	private void deleteSound(int position, List<SoundInfo> soundInfoList, Activity activity) {
@@ -454,7 +453,7 @@ public final class SoundController {
 		}
 
 		String soundName = soundInfoList.get(position).toString();
-		TrackingUtil.trackSound(soundName, TrackingConstants.DELETE_SOUND);
+		Utils.getTrackingUtilProxy().trackSound(soundName, TrackingConstants.DELETE_SOUND);
 
 		soundInfoList.remove(position);
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
@@ -742,7 +741,7 @@ public final class SoundController {
 		String soundInfoTitle = selectedSoundInfo.getTitle();
 		BackPackListManager.getInstance().removeItemFromSoundBackPackBySoundTitle(soundInfoTitle);
 		backPack(selectedSoundInfo, soundInfoTitle, false);
-		TrackingUtil.trackSound(selectedSoundInfo.getTitle(), TrackingConstants.BACKPACK_SOUND);
+		Utils.getTrackingUtilProxy().trackSound(selectedSoundInfo.getTitle(), TrackingConstants.BACKPACK_SOUND);
 	}
 
 	public SoundInfo backPackHiddenSound(SoundInfo selectedSoundInfo) {
@@ -768,7 +767,7 @@ public final class SoundController {
 
 		String soundName = currentSoundInfo.getSoundFileName();
 		if (!fromHiddenBackPack) {
-			TrackingUtil.trackSound(soundName, TrackingConstants.UNPACK_SOUND);
+			Utils.getTrackingUtilProxy().trackSound(soundName, TrackingConstants.UNPACK_SOUND);
 		}
 
 		String newSoundTitle = Utils.getUniqueSoundName(currentSoundInfo, false);

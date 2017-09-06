@@ -86,7 +86,6 @@ import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -536,7 +535,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 					LookController.getInstance().loadDroneVideoImageToProject(droneFilePath,
 							R.drawable.ic_video, this.getActivity(), lookDataList, this);
 			}
-			TrackingUtil.trackCreateLook(lookName, lookSource, customEventMessage, customEventMessageStop, timerId);
+			Utils.getTrackingUtilProxy().trackCreateLook(lookName, lookSource, customEventMessage, customEventMessageStop, timerId);
 		}
 		isResultHandled = true;
 
@@ -852,7 +851,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			intent.addCategory("android.intent.category.LAUNCHER");
 
 			if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), intent)) {
-				TrackingUtil.trackPocketPaintSessionLook(TrackingConstants.SESSION_POCKET_PAINT_EDIT_LOOK, TrackingConstants.SESSION_START_POCKET_PAINT_EDIT_LOOK);
+				Utils.getTrackingUtilProxy().trackPocketPaintSessionLook(TrackingConstants.SESSION_POCKET_PAINT_EDIT_LOOK, TrackingConstants.SESSION_START_POCKET_PAINT_EDIT_LOOK);
 				startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 			} else {
 				BroadcastReceiver receiver = createPocketPaintBroadcastReceiver(intent, LookController

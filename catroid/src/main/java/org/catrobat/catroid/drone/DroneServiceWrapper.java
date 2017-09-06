@@ -30,7 +30,7 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 
 public final class DroneServiceWrapper {
 	private static final String TAG = DroneServiceWrapper.class.getSimpleName();
@@ -65,6 +65,6 @@ public final class DroneServiceWrapper {
 	}
 
 	public static boolean isDroneSharedPreferenceEnabled() {
-		return SettingsActivity.isDroneSharedPreferenceEnabled(CatroidApplication.getAppContext());
+		return BaseSettingsActivity.isDroneSharedPreferenceEnabled(CatroidApplication.getAppContext());
 	}
 }

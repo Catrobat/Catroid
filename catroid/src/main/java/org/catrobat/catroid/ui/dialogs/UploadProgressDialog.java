@@ -50,7 +50,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -91,7 +90,7 @@ public class UploadProgressDialog extends DialogFragment {
 		progressBarDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.progress_upload_dialog_show_program),
 				(DialogInterface.OnClickListener) null);
 
-		TrackingUtil.trackMenuButtonProject(currentProjectName, TrackingConstants.UPLOAD_PROGRAM);
+		Utils.getTrackingUtilProxy().trackMenuButtonProject(currentProjectName, TrackingConstants.UPLOAD_PROGRAM);
 
 		return progressBarDialog;
 	}
@@ -227,7 +226,9 @@ public class UploadProgressDialog extends DialogFragment {
 			RatingDialog dialog = new RatingDialog();
 			dialog.show(getFragmentManager(), RatingDialog.TAG);
 		}
-		sharedPreferences.edit().putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects).commit();
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects);
+		editor.apply();
 	}
 
 	private String[] getSceneNamesAsArray(List<Scene> sceneList) {

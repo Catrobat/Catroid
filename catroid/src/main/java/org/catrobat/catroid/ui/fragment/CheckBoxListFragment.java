@@ -22,9 +22,12 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -58,10 +61,30 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 
 	protected CapitalizedTextView selectAllView;
 
+	protected Context context;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+	}
+
+	//This is necessary for API versions < 23: As we aren't using SupportFragmentManager onAttach(Context context)
+	//is unknown to the FragmentManager, as it has been introduced with API 23. The context needs to be stored
+	//as the fragment can be detached (e.g. during executing an AsnycTask).
+	@SuppressWarnings("deprecation")
+	@Override
+	public final void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+			this.context = activity;
+		}
+	}
+
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		this.context = context;
 	}
 
 	@Override

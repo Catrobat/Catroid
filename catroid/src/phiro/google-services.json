@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "713919797763",
+    "firebase_url": "https://fir-catrobat.firebaseio.com",
+    "project_id": "firebase-catrobat",
+    "storage_bucket": "firebase-catrobat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713919797763:android:d9d5e2274e070833",
+        "android_client_info": {
+          "package_name": "org.catrobat.catroid.phiro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713919797763&#8211;9nbcu0kip82btnrn3gqboks577f49q82.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "0123456789"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713919797763:android:c03d22e27263cfca",
+        "android_client_info": {
+          "package_name": "org.catrobat.catroid.phiro.gnoID"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713919797763&#8211;9nbcu0kip82btnrn3gqboks577f49q82.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "0123456789"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

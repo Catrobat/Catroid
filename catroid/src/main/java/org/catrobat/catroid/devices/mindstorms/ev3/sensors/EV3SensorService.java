@@ -36,7 +36,7 @@ import org.catrobat.catroid.devices.mindstorms.ev3.EV3Command;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandOpCode;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandType;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.utils.PausableScheduledThreadPoolExecutor;
 import org.catrobat.catroid.utils.Stopwatch;
 
@@ -85,25 +85,25 @@ public class EV3SensorService implements CatroidService, SharedPreferences.OnSha
 	}
 
 	public EV3Sensor createSensor1() {
-		EV3Sensor.Sensor sensor = SettingsActivity.getLegoMindstormsEV3SensorMapping(context, SettingsActivity
+		EV3Sensor.Sensor sensor = BaseSettingsActivity.getLegoMindstormsEV3SensorMapping(context, BaseSettingsActivity
 				.EV3_SENSOR_1);
 		return createSensor(sensor, 0);
 	}
 
 	public EV3Sensor createSensor2() {
-		EV3Sensor.Sensor sensor = SettingsActivity.getLegoMindstormsEV3SensorMapping(context, SettingsActivity
+		EV3Sensor.Sensor sensor = BaseSettingsActivity.getLegoMindstormsEV3SensorMapping(context, BaseSettingsActivity
 				.EV3_SENSOR_2);
 		return createSensor(sensor, 1);
 	}
 
 	public EV3Sensor createSensor3() {
-		EV3Sensor.Sensor sensor = SettingsActivity.getLegoMindstormsEV3SensorMapping(context, SettingsActivity
+		EV3Sensor.Sensor sensor = BaseSettingsActivity.getLegoMindstormsEV3SensorMapping(context, BaseSettingsActivity
 				.EV3_SENSOR_3);
 		return createSensor(sensor, 2);
 	}
 
 	public EV3Sensor createSensor4() {
-		EV3Sensor.Sensor sensor = SettingsActivity.getLegoMindstormsEV3SensorMapping(context, SettingsActivity
+		EV3Sensor.Sensor sensor = BaseSettingsActivity.getLegoMindstormsEV3SensorMapping(context, BaseSettingsActivity
 				.EV3_SENSOR_4);
 		return createSensor(sensor, 3);
 	}
@@ -144,10 +144,10 @@ public class EV3SensorService implements CatroidService, SharedPreferences.OnSha
 	}
 
 	private boolean isChangedPreferenceASensorPreference(String preference) {
-		return (preference.equals(SettingsActivity.EV3_SENSOR_1)
-				|| preference.equals(SettingsActivity.EV3_SENSOR_2)
-				|| preference.equals(SettingsActivity.EV3_SENSOR_3)
-				|| preference.equals(SettingsActivity.EV3_SENSOR_4));
+		return (preference.equals(BaseSettingsActivity.EV3_SENSOR_1)
+				|| preference.equals(BaseSettingsActivity.EV3_SENSOR_2)
+				|| preference.equals(BaseSettingsActivity.EV3_SENSOR_3)
+				|| preference.equals(BaseSettingsActivity.EV3_SENSOR_4));
 	}
 
 	@Override

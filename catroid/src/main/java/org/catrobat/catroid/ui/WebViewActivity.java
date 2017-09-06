@@ -48,12 +48,10 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.UnsupportedEncodingException;
@@ -186,18 +184,7 @@ public class WebViewActivity extends BaseActivity {
 			}
 
 			if (callMainMenu && urlClient.equals(Constants.BASE_URL_HTTPS)) {
-				Intent intent = null;
-				if (BuildConfig.CREATE_AT_SCHOOL) {
-					try {
-						intent = new Intent(getBaseContext(), Class.forName("org.catrobat.catroid.createatschool.ui"
-								+ ".CreateAtSchoolMainMenuActivity"));
-					} catch (ClassNotFoundException e) {
-						Log.e(TAG, e.getMessage());
-					}
-				} else {
-					intent = new Intent(getBaseContext(), MainMenuActivity.class);
-				}
-				startActivity(intent);
+				startActivity(new Intent(getBaseContext(), MainMenuActivity.class));
 			}
 		}
 
@@ -255,10 +242,7 @@ public class WebViewActivity extends BaseActivity {
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
-			if (url.contains(Constants.BASE_URL_HTTPS) || url.contains(Constants.LIBRARY_BASE_URL)) {
-				return false;
-			}
-			return true;
+			return !(url.contains(Constants.BASE_URL_HTTPS) || url.contains(Constants.LIBRARY_BASE_URL));
 		}
 	}
 
@@ -267,7 +251,7 @@ public class WebViewActivity extends BaseActivity {
 
 		progressDialog.setTitle(getString(R.string.notification_download_title_pending) + mediaName);
 		progressDialog.setMessage(getString(R.string.notification_download_pending));
-		progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressDialog.setProgress(0);
 		progressDialog.setMax(100);
 		progressDialog.setProgressNumberFormat(null);
@@ -364,7 +348,7 @@ public class WebViewActivity extends BaseActivity {
 
 		@JavascriptInterface
 		public void trackNolbProjectSubmission(String projectID) {
-			TrackingUtil.trackSubmitProject(projectID);
+			Utils.getTrackingUtilProxy().trackSubmitProject(projectID);
 		}
 	}
 }

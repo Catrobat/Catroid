@@ -303,6 +303,8 @@ public final class IconsUtil {
 				R.drawable.ic_main_menu_new);
 		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_programs,
 				R.drawable.ic_main_menu_programs);
+		IconsUtil.setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_templates,
+				R.drawable.ic_main_menu_templates);
 		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_help,
 				R.drawable.ic_main_menu_help);
 		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_web,

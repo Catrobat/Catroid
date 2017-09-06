@@ -255,7 +255,6 @@
   <string name="dialog_confirm_delete_object_message">此操作不能被撤消！</string>
   <string name="select_all">全部选中</string>
   <string name="deselect_all">取消选择</string>
-  <string name="backpack_replace_object">对象%1$s已经在背包中了。你想要替换它吗？</string>
   <string name="backpack_replace_scene">场景%1$s已经在背包中了。你想要替换它吗？</string>
   <string name="backpack_replace_object_multiple">这些对象已经在背包中了。你想要替换它们吗？</string>
   <string name="groups_create">创建分组</string>

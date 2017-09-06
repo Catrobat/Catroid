@@ -692,7 +692,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	private void navigateToMenuNativeRegistrationDialog() {
-		solo.sendKey(solo.MENU);
+		solo.sendKey(Solo.MENU);
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_login));
 		solo.waitForText(signInDialogTitle);
 		solo.clickOnButton(register);
@@ -709,7 +709,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	private void navigateToMenuLoginDialog() {
-		solo.sendKey(solo.MENU);
+		solo.sendKey(Solo.MENU);
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_login));
 		solo.waitForText(signInDialogTitle);
 		solo.clickOnButton(login);

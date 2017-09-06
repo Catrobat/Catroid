@@ -48,6 +48,7 @@ import org.catrobat.catroid.utils.Utils;
 public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
+	private boolean returnToTemplatesList;
 	private String titleActionBar;
 	private boolean returnByPressingBackButton;
 	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
@@ -57,11 +58,12 @@ public abstract class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
+		returnToTemplatesList = false;
 		returnByPressingBackButton = false;
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (BaseSettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
 	}
@@ -83,7 +85,7 @@ public abstract class BaseActivity extends Activity {
 			getActionBar().setTitle(getTitleActionBar());
 		}
 
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (BaseSettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
 
@@ -117,10 +119,12 @@ public abstract class BaseActivity extends Activity {
 					startActivity(intent);
 				} else if (returnByPressingBackButton) {
 					onBackPressed();
-				} else {
-					return false;
+				} else if (returnToTemplatesList) {
+					Intent intent = new Intent(this, TemplatesActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
 				}
-				break;
+				return false;
 			case R.id.settings:
 				Intent settingsIntent = new Intent(this, SettingsActivity.class);
 				startActivity(settingsIntent);
@@ -218,5 +222,9 @@ public abstract class BaseActivity extends Activity {
 
 	public void setTitleActionBar(String titleActionBar) {
 		this.titleActionBar = titleActionBar;
+	}
+
+	public void setReturnToTemplatesList(boolean returnToTemplatesList) {
+		this.returnToTemplatesList = returnToTemplatesList;
 	}
 }

@@ -45,8 +45,8 @@ public class VersionNameAndCodeTest extends TestCase {
 		Pattern versionCodePattern = Pattern.compile(VERSION_CODE_REGEX);
 		Pattern versionNamePattern = Pattern.compile(VERSION_NAME_REGEX);
 
-		HashSet<String> testSet = new HashSet<String>();
-		HashMap<String, String> versionInfos = new HashMap<String, String>();
+		HashSet<String> testSet = new HashSet<>();
+		HashMap<String, String> versionInfos = new HashMap<>();
 
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);

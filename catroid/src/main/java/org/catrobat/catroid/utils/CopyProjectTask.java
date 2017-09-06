@@ -29,7 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.fragment.ProjectListFragment;
+import org.catrobat.catroid.ui.fragment.BaseProjectListFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,10 +37,10 @@ import java.io.IOException;
 public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	private static final String TAG = CopyProjectTask.class.getSimpleName();
 
-	private ProjectListFragment parentFragment;
+	private BaseProjectListFragment parentFragment;
 	private String newName;
 
-	public CopyProjectTask(ProjectListFragment parentActivity) {
+	public CopyProjectTask(BaseProjectListFragment parentActivity) {
 		this.parentFragment = parentActivity;
 	}
 
@@ -51,7 +51,7 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 		int notificationId = StatusBarNotificationManager.getInstance().createCopyNotification(
 				parentFragment.getActivity(), newProjectName);
 		String oldProjectName = projectNameArray[1];
-		TrackingUtil.trackProject(oldProjectName, TrackingConstants.COPY_PROGRAM);
+		Utils.getTrackingUtilProxy().trackProject(oldProjectName, TrackingConstants.COPY_PROGRAM);
 
 		try {
 			File oldProjectRootDirectory = new File(Utils.buildProjectPath(oldProjectName));

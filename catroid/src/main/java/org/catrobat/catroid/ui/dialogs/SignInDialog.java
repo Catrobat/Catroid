@@ -63,6 +63,7 @@ import org.catrobat.catroid.transfers.FacebookLogInTask;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.transfers.GoogleExchangeCodeTask;
 import org.catrobat.catroid.transfers.GoogleLogInTask;
+import org.catrobat.catroid.ui.BaseMainMenuActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
@@ -222,7 +223,7 @@ public class SignInDialog extends DialogFragment implements
 				triggerGPlusLogin = true;
 			} else {
 				Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-				startActivityForResult(signInIntent, MainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
+				startActivityForResult(signInIntent, BaseMainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
 			}
 		}
 	}
@@ -292,7 +293,7 @@ public class SignInDialog extends DialogFragment implements
 			googleApiClient.connect();
 		} else if (requestCode == RESULT_CODE_AUTH_CODE) {
 			Log.d(DIALOG_FRAGMENT_TAG, "offline access approved?");
-		} else if (requestCode == MainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN) {
+		} else if (requestCode == BaseMainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN) {
 			GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 			triggerGPlusLogin(result);
 		}
@@ -316,7 +317,7 @@ public class SignInDialog extends DialogFragment implements
 		if (triggerGPlusLogin) {
 			triggerGPlusLogin = false;
 			Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-			startActivityForResult(signInIntent, MainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
+			startActivityForResult(signInIntent, BaseMainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
 		}
 	}
 

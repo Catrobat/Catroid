@@ -45,10 +45,10 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -77,12 +77,12 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		disableSensors();
-		SettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(
+		BaseSettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(
 				this.getInstrumentation().getTargetContext().getApplicationContext());
 	}
 
 	private void disableSensors() {
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getInstrumentation().getTargetContext(),
+		BaseSettingsActivity.setLegoMindstormsNXTSensorMapping(this.getInstrumentation().getTargetContext(),
 				new NXTSensor.Sensor[] {NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR});
 	}
 

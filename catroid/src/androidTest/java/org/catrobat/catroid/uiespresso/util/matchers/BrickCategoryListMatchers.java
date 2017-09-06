@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
+import org.catrobat.catroid.utils.BrickTextView;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -48,6 +49,20 @@ public final class BrickCategoryListMatchers {
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("BrickCategoryListView");
+			}
+		};
+	}
+
+	public static Matcher<View> isBrickCategoryListItem() {
+		return new TypeSafeMatcher<View>() {
+			@Override
+			protected boolean matchesSafely(View item) {
+				return item instanceof BrickTextView;
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("check is BrickTextView");
 			}
 		};
 	}

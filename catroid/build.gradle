@@ -106,21 +106,28 @@ android {
     }
 
     defaultConfig {
-        manifestPlaceholders = [ launchActivity:"org.catrobat.catroid.ui.MainMenuActivity",
+        testApplicationId 'org.catrobat.catroid.test'
+
+        manifestPlaceholders = [ appName: appName,
                                  applicationIdForTests:"org.catrobat.catroid"]
 
+        buildConfigField "boolean", "DATA_TRACKING", "false"
         buildConfigField "boolean", "CREATE_AT_SCHOOL", "false"
         buildConfigField "boolean", "RESTRICTED_LOGIN", "false"
+        buildConfigField "boolean", "PHIRO_CODE", "false"
+
         buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_TEMPLATES", "false"
+
+        buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+        buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+        buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
     }
 
     productFlavors {
         catroid {
             applicationId appId
-            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
         }
 
         standalone {
@@ -128,27 +135,35 @@ android {
             versionCode 1
             versionName '1.0'
 
-            buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true)}\""
+            buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
         }
 
         createatschool {
-            applicationId 'org.catrobat.catroid.createatschool'
+            appId = 'org.catrobat.catroid.createatschool'
+            applicationId appId
             versionCode 9
 
-            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
-            buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_TEMPLATES", "true"
 
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
 
-            manifestPlaceholders = [ launchActivity:"org.catrobat.catroid.createatschool" +
-                    ".ui.CreateAtSchoolMainMenuActivity", applicationIdForTests:"org.catrobat.catroid.createatschool" ]
+            manifestPlaceholders = [ appName: appName,
+                                     applicationIdForTests:"org.catrobat.catroid.createatschool" ]
+        }
+
+        phiro {
+            appId = 'org.catrobat.catroid.phiro'
+            applicationId appId
+            versionCode 1
+
+            buildConfigField "boolean", "PHIRO_CODE", "true"
+
+            manifestPlaceholders = [ appName: appName,
+                                     applicationIdForTests:"org.catrobat.catroid" ]
         }
     }
 }
@@ -221,6 +236,10 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
+    compile ('com.android.support.test.espresso:espresso-intents:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
 
@@ -254,7 +273,6 @@ android {
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
         multiDexEnabled true
-        manifestPlaceholders += [appName: appName]
     }
 
     packagingOptions {
@@ -303,4 +321,5 @@ task copyAndroidNatives() {
         }
     }
 }
+
 apply plugin: 'com.google.gms.google-services'

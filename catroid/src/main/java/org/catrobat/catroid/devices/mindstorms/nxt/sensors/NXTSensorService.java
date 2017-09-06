@@ -34,7 +34,7 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.nxt.Command;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.utils.PausableScheduledThreadPoolExecutor;
 import org.catrobat.catroid.utils.Stopwatch;
 
@@ -83,22 +83,22 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	}
 
 	public NXTSensor createSensor1() {
-		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_1);
+		NXTSensor.Sensor sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(context, BaseSettingsActivity.NXT_SENSOR_1);
 		return createSensor(sensor, 0);
 	}
 
 	public NXTSensor createSensor2() {
-		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_2);
+		NXTSensor.Sensor sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(context, BaseSettingsActivity.NXT_SENSOR_2);
 		return createSensor(sensor, 1);
 	}
 
 	public NXTSensor createSensor3() {
-		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_3);
+		NXTSensor.Sensor sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(context, BaseSettingsActivity.NXT_SENSOR_3);
 		return createSensor(sensor, 2);
 	}
 
 	public NXTSensor createSensor4() {
-		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_4);
+		NXTSensor.Sensor sensor = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(context, BaseSettingsActivity.NXT_SENSOR_4);
 		return createSensor(sensor, 3);
 	}
 
@@ -137,10 +137,10 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	}
 
 	private boolean isChangedPreferenceASensorPreference(String preference) {
-		return (preference.equals(SettingsActivity.NXT_SENSOR_1)
-				|| preference.equals(SettingsActivity.NXT_SENSOR_2)
-				|| preference.equals(SettingsActivity.NXT_SENSOR_3)
-				|| preference.equals(SettingsActivity.NXT_SENSOR_4));
+		return (preference.equals(BaseSettingsActivity.NXT_SENSOR_1)
+				|| preference.equals(BaseSettingsActivity.NXT_SENSOR_2)
+				|| preference.equals(BaseSettingsActivity.NXT_SENSOR_3)
+				|| preference.equals(BaseSettingsActivity.NXT_SENSOR_4));
 	}
 
 	@Override

@@ -242,10 +242,7 @@ public class MindstormsEV3TestModel implements DeviceModel {
 	}
 
 	private boolean isMessageLengthValid(byte[] message, int expectedMessageLength) {
-		if (message.length != expectedMessageLength) {
-			return false;
-		}
-		return true;
+		return message.length == expectedMessageLength;
 	}
 
 	private byte[] getMessageLength(byte[] message) {

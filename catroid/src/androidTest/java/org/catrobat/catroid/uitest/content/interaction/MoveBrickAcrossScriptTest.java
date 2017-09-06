@@ -72,7 +72,7 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(2), 10, yPositionList.get(5), 10);
 		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks - 1) == ProjectManager
 				.getInstance().getCurrentScript().getBrickList().size());
-		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(4) instanceof WaitBrick,
+		assertEquals("Incorrect Brick after dragging over Script", adapter.getItem(4) instanceof WaitBrick,
 				true);
 	}
 

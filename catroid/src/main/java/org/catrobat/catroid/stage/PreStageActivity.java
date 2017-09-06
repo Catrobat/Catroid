@@ -57,13 +57,12 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.BaseActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.NoNetworkDialog;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -249,7 +248,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 				resourceInitialized();
 			} else {
 
-				if (!SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+				if (!BaseSettingsActivity.isCastSharedPreferenceEnabled(this)) {
 					ToastUtil.showError(this, getString(R.string.cast_enable_cast_feature));
 				} else if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 					ToastUtil.showError(this, getString(R.string.cast_error_not_connected_msg));
@@ -312,8 +311,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	}
 
 	private void connectRaspberrySocket() {
-		String host = SettingsActivity.getRaspiHost(this.getBaseContext());
-		int port = SettingsActivity.getRaspiPort(this.getBaseContext());
+		String host = BaseSettingsActivity.getRaspiHost(this.getBaseContext());
+		int port = BaseSettingsActivity.getRaspiPort(this.getBaseContext());
 
 		if (RaspberryPiService.getInstance().connect(host, port)) {
 			resourceInitialized();
@@ -380,7 +379,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 
 		RaspberryPiService.getInstance().disconnect();
 
-		TrackingUtil.trackStopExecution();
+		Utils.getTrackingUtilProxy().trackStopExecution();
 	}
 
 	//all resources that should not have to be reinitialized every stage start
@@ -495,7 +494,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	}
 
 	public void startStage() {
-		TrackingUtil.trackStartExecution();
+		Utils.getTrackingUtilProxy().trackStartExecution();
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
 			scene.getDataContainer().resetAllDataObjects();

@@ -36,7 +36,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
@@ -53,7 +53,7 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 		disableShowInfoDialog = (CheckBox) dialogView.findViewById(R.id
 				.lego_nxt_sensor_config_info_disable_show_dialog);
 
-		NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(this.getActivity());
+		NXTSensor.Sensor[] sensorMapping = BaseSettingsActivity.getLegoMindstormsNXTSensorMapping(this.getActivity());
 		String[] sensorMappingStrings = getResources().getStringArray(R.array.nxt_sensor_chooser);
 
 		TextView mapping1 = (TextView) dialogView.findViewById(R.id.lego_nxt_sensor_config_info_port_1_mapping);
@@ -72,7 +72,7 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						if (disableShowInfoDialog.isChecked()) {
-							SettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(LegoNXTSensorConfigInfoDialog.this.getActivity());
+							BaseSettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(LegoNXTSensorConfigInfoDialog.this.getActivity());
 						}
 					}
 				}).create();

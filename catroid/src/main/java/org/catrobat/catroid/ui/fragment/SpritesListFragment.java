@@ -77,7 +77,6 @@ import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
@@ -410,7 +409,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		projectManager.setCurrentSprite(copiedSprite);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
-		TrackingUtil.trackSprite(copiedSprite.getName(), TrackingConstants.COPY_SPRITE);
+		Utils.getTrackingUtilProxy().trackSprite(copiedSprite.getName(), TrackingConstants.COPY_SPRITE);
 	}
 
 	@Override
@@ -574,7 +573,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			currentLookData.getCollisionInformation().cancelCalculation();
 		}
 
-		TrackingUtil.trackDeleteSprite(spriteToEdit);
+		Utils.getTrackingUtilProxy().trackDeleteSprite(spriteToEdit);
 
 		deleteSpriteFiles();
 		dataContainer.cleanVariableListForSprite(spriteToEdit);
@@ -640,13 +639,10 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 
 	public boolean shouldSpriteBeChecked(int flatPosition) {
 		Sprite sprite = getSpriteList().get(flatPosition);
-		if ((isBackPackActionMode && !(sprite instanceof GroupSprite))
+		return (isBackPackActionMode && !(sprite instanceof GroupSprite))
 				|| ((isCopyActionMode) && !(sprite instanceof GroupSprite) && flatPosition > 0)
 				|| ((isRenameActionMode) && flatPosition > 0)
-				|| ((isDeleteActionMode) && flatPosition > 0)) {
-			return true;
-		}
-		return false;
+				|| ((isDeleteActionMode) && flatPosition > 0);
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
@@ -1075,7 +1071,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 	}
 
 	private void createGroup(String groupName) {
-		TrackingUtil.trackSprite(groupName, TrackingConstants.CREATE_GROUP);
+		Utils.getTrackingUtilProxy().trackSprite(groupName, TrackingConstants.CREATE_GROUP);
 		GroupSprite groupSprite = new GroupSprite(groupName);
 		getSpriteList().add(groupSprite);
 		spriteAdapter.notifyDataSetChanged();

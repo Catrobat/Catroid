@@ -25,6 +25,8 @@ package org.catrobat.catroid.common;
 import android.os.Environment;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.R;
 
 import java.util.Calendar;
 
@@ -104,12 +106,14 @@ public final class Constants {
 	//Web:
 	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
-	public static final String LIBRARY_LOOKS_URL = "https://share.catrob.at/pocketcode/pocket-library/looks";
-	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = "https://share.catrob.at/pocketcode/pocket-library/backgrounds-portrait";
-	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = "https://share.catrob.at/pocketcode/pocket-library/backgrounds-landscape";
-	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/sounds";
-	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/pocketcode/download-media/";
-	public static final String SHARE_PROGRAM_URL = "https://share.catrob.at/pocketcode/program/";
+	public static final String FLAVORED_BASE_URL_HTTPS = MAIN_URL_HTTPS + "/"
+			+ CatroidApplication.getAppContext().getString(R.string.flavor) + "/";
+	public static final String LIBRARY_LOOKS_URL = BASE_URL_HTTPS + "pocket-library/looks";
+	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = BASE_URL_HTTPS + "pocket-library/backgrounds-portrait";
+	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = BASE_URL_HTTPS + "pocket-library/backgrounds-landscape";
+	public static final String LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "pocket-library/sounds";
+	public static final String LIBRARY_BASE_URL = BASE_URL_HTTPS + "download-media/";
+	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "program/";
 
 	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
 
@@ -278,6 +282,7 @@ public final class Constants {
 	public static final String TRANSLATION_PROJECT_LIST = "_project_list_";
 	public static final Integer MAX_LOGCAT_OUTPUT_CHARS = 3000;
 
+	//standalone constants
 	public static final String START_PROJECT = BuildConfig.START_PROJECT;
 	public static final String ZIP_FILE_NAME = START_PROJECT + ".zip";
 	public static final String STANDALONE_PROJECT_NAME = BuildConfig.PROJECT_NAME;

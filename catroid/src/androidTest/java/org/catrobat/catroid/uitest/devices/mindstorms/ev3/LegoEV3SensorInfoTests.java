@@ -38,9 +38,9 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -71,7 +71,7 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 	}
 
 	private void setSensors(EV3Sensor.Sensor sensor) {
-		SettingsActivity.setLegoMindstormsEV3SensorMapping(this.getInstrumentation().getTargetContext(),
+		BaseSettingsActivity.setLegoMindstormsEV3SensorMapping(this.getInstrumentation().getTargetContext(),
 				new EV3Sensor.Sensor[] {sensor, sensor, sensor, sensor});
 	}
 
@@ -79,9 +79,9 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 		createBrickTestproject(projectNameEv3);
 		createNoEV3UseTestproject(projectNameNoEv3);
 
-		boolean ev3BricksEnabledStart = SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(applicationContext);
+		boolean ev3BricksEnabledStart = BaseSettingsActivity.isMindstormsEV3SharedPreferenceEnabled(applicationContext);
 
-		boolean ev3DialogDisabledStart = SettingsActivity.getShowLegoEV3MindstormsSensorInfoDialog(applicationContext);
+		boolean ev3DialogDisabledStart = BaseSettingsActivity.getShowLegoEV3MindstormsSensorInfoDialog(applicationContext);
 
 		if (!ev3BricksEnabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);
@@ -217,8 +217,8 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 	public void testEV3SensorConfigurationDialog() throws InterruptedException {
 		createBrickTestproject(projectNameEv3);
-		boolean ev3BricksEnabledStart = SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(applicationContext);
-		boolean ev3DialogDisabledStart = SettingsActivity.getShowLegoEV3MindstormsSensorInfoDialog(applicationContext);
+		boolean ev3BricksEnabledStart = BaseSettingsActivity.isMindstormsEV3SharedPreferenceEnabled(applicationContext);
+		boolean ev3DialogDisabledStart = BaseSettingsActivity.getShowLegoEV3MindstormsSensorInfoDialog(applicationContext);
 
 		if (!ev3BricksEnabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);

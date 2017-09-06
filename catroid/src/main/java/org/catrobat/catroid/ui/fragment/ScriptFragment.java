@@ -75,12 +75,11 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
+import org.catrobat.catroid.ui.fragment.BaseBrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
@@ -426,16 +425,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void showCategoryFragment() {
-		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
+		BaseBrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setBrickAdapter(adapter);
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-		fragmentTransaction.add(R.id.fragment_container, brickCategoryFragment,
-				BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+		fragmentTransaction.add(R.id.fragment_container, brickCategoryFragment, BaseBrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 
-		fragmentTransaction.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+		fragmentTransaction.addToBackStack(BaseBrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 		fragmentTransaction.commit();
 		SnackbarUtil.showHintSnackBar(getActivity(), R.string.hint_category);
 
@@ -589,7 +587,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private void copyBrick(Brick brick) {
 
-		TrackingUtil.trackBrick(brick.getClass().getSimpleName(), TrackingConstants.COPY_BRICK);
+		Utils.getTrackingUtilProxy().trackBrick(brick.getClass().getSimpleName(), TrackingConstants.COPY_BRICK);
 
 		if (brick instanceof NestingBrick
 				&& (brick instanceof AllowedAfterDeadEndBrick || brick instanceof DeadEndBrick)) {
@@ -664,7 +662,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
 
 		for (Brick brick : checkedBricks) {
-			TrackingUtil.trackBrick(brick.getClass().getSimpleName(), TrackingConstants.DELETE_BRICK);
+			Utils.getTrackingUtilProxy().trackBrick(brick.getClass().getSimpleName(), TrackingConstants.DELETE_BRICK);
 			deleteBrick(brick);
 		}
 	}

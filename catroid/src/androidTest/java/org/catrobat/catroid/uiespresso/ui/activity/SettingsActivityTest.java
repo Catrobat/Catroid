@@ -31,6 +31,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uiespresso.ui.activity.utils.SettingsActivityUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
@@ -47,21 +48,18 @@ import java.util.Map;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.action.ViewActions.click;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CAST_GLOBALLY_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CRASH_REPORTS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_ARDUINO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_HINTS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_NFC_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_CAST_GLOBALLY_ENABLED;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_CRASH_REPORTS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_ARDUINO_BRICKS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_HINTS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_NFC_BRICKS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
+import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_RASPI_BRICKS;
 
 @RunWith(AndroidJUnit4.class)
 public class SettingsActivityTest {
@@ -87,18 +85,8 @@ public class SettingsActivityTest {
 		for (String setting : allSettings) {
 			initialSettings.put(setting, sharedPreferences.getBoolean(setting, false));
 		}
-		setAllSettingsTo(true);
+		SettingsActivityUtils.setAllSettingsTo(allSettings, true);
 		baseActivityTestRule.launchActivity(null);
-	}
-
-	private void setAllSettingsTo(boolean value) {
-		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit();
-
-		for (String setting : allSettings) {
-			sharedPreferencesEditor.putBoolean(setting, value);
-		}
-		sharedPreferencesEditor.commit();
 	}
 
 	@After
@@ -114,12 +102,12 @@ public class SettingsActivityTest {
 
 	@Test
 	public void basicSettingsTest() {
-		checkPreference(R.string.preference_title_enable_arduino_bricks, SETTINGS_SHOW_ARDUINO_BRICKS);
-		checkPreference(R.string.preference_title_enable_phiro_bricks, SETTINGS_SHOW_PHIRO_BRICKS);
-		checkPreference(R.string.preference_title_enable_nfc_bricks, SETTINGS_SHOW_NFC_BRICKS);
-		checkPreference(R.string.preference_title_enable_hints, SETTINGS_SHOW_HINTS);
-		checkPreference(R.string.preference_title_enable_crash_reports, SETTINGS_CRASH_REPORTS);
-		checkPreference(R.string.preference_title_cast_feature_globally_enabled, SETTINGS_CAST_GLOBALLY_ENABLED);
+		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_arduino_bricks, SETTINGS_SHOW_ARDUINO_BRICKS);
+		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_phiro_bricks, SETTINGS_SHOW_PHIRO_BRICKS);
+		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_nfc_bricks, SETTINGS_SHOW_NFC_BRICKS);
+		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_hints, SETTINGS_SHOW_HINTS);
+		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_crash_reports, SETTINGS_CRASH_REPORTS);
+		SettingsActivityUtils.checkPreference(R.string.preference_title_cast_feature_globally_enabled, SETTINGS_CAST_GLOBALLY_ENABLED);
 	}
 
 	@Test
@@ -127,8 +115,8 @@ public class SettingsActivityTest {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_mindstorms_nxt_bricks))
 				.perform(click());
 
-		checkPreference(R.string.preference_title_enable_mindstorms_nxt_bricks, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
-		checkPreference(R.string.preference_disable_nxt_info_dialog, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED);
+		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_mindstorms_nxt_bricks, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
+		SettingsActivityUtils.checkPreference(R.string.preference_disable_nxt_info_dialog, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED);
 	}
 
 	@Test
@@ -136,8 +124,8 @@ public class SettingsActivityTest {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_mindstorms_ev3_bricks))
 				.perform(click());
 
-		checkPreference(R.string.preference_title_enable_mindstorms_ev3_bricks, SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED);
-		checkPreference(R.string.preference_disable_nxt_info_dialog,
+		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_mindstorms_ev3_bricks, SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED);
+		SettingsActivityUtils.checkPreference(R.string.preference_disable_nxt_info_dialog,
 				SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED);
 	}
 
@@ -146,7 +134,7 @@ public class SettingsActivityTest {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_quadcopter_bricks))
 				.perform(click());
 
-		checkPreference(R.string.preference_title_enable_quadcopter_bricks, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_quadcopter_bricks, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 	}
 
 	@Test
@@ -154,21 +142,6 @@ public class SettingsActivityTest {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_raspi_bricks))
 				.perform(click());
 
-		checkPreference(R.string.preference_title_enable_raspi_bricks, SETTINGS_SHOW_RASPI_BRICKS);
-	}
-
-	private void checkPreference(int displayedTitleResourceString, String sharedPreferenceTag) {
-		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-
-		onData(PreferenceMatchers.withTitle(displayedTitleResourceString))
-				.perform(click());
-
-		assertFalse(sharedPreferences.getBoolean(sharedPreferenceTag, false));
-
-		onData(PreferenceMatchers.withTitle(displayedTitleResourceString))
-				.perform(click());
-
-		assertTrue(sharedPreferences.getBoolean(sharedPreferenceTag, false));
+		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_raspi_bricks, SETTINGS_SHOW_RASPI_BRICKS);
 	}
 }

@@ -62,7 +62,6 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -497,7 +496,7 @@ public final class LookController {
 		lookDataToDelete.getCollisionInformation().cancelCalculation();
 
 		boolean isBackPackLook = lookDataToDelete.isBackpackLookData;
-		TrackingUtil.trackLook(lookDataToDelete.getLookName(), TrackingConstants.DELETE_LOOK);
+		Utils.getTrackingUtilProxy().trackLook(lookDataToDelete.getLookName(), TrackingConstants.DELETE_LOOK);
 		if (!otherLookDataItemsHaveAFileReference(lookDataToDelete)) {
 			Log.d(TAG, "delete - is bp:" + isBackPackLook);
 			StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath(), isBackPackLook);
@@ -563,7 +562,7 @@ public final class LookController {
 		String lookDataName = currentLookData.getLookName();
 		BackPackListManager.getInstance().removeItemFromLookBackPackByLookName(lookDataName);
 		backPack(currentLookData, lookDataName, false);
-		TrackingUtil.trackLook(currentLookData.getLookName(), TrackingConstants.BACKPACK_LOOK);
+		Utils.getTrackingUtilProxy().trackLook(currentLookData.getLookName(), TrackingConstants.BACKPACK_LOOK);
 	}
 
 	public LookData backPackHiddenLook(LookData currentLookData) {
@@ -599,7 +598,7 @@ public final class LookController {
 		}
 
 		if (!fromHiddenBackPack) {
-			TrackingUtil.trackLook(selectedLookDataBackPack.getLookName(), TrackingConstants.UNPACK_LOOK);
+			Utils.getTrackingUtilProxy().trackLook(selectedLookDataBackPack.getLookName(), TrackingConstants.UNPACK_LOOK);
 		}
 
 		return LookController.getInstance().updateLookBackPackAfterUnpacking(selectedLookDataBackPack,
@@ -676,7 +675,7 @@ public final class LookController {
 			String imageName = lookData.getLookName() + "_" + activity.getString(R.string.copy_addition);
 			String imageFileName = lookData.getLookFileName();
 
-			TrackingUtil.trackLook(imageName, TrackingConstants.COPY_LOOK);
+			Utils.getTrackingUtilProxy().trackLook(imageName, TrackingConstants.COPY_LOOK);
 
 			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
 		} catch (IOException ioException) {

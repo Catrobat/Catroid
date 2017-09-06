@@ -80,6 +80,15 @@
                 android:text="@string/main_menu_programs" />
 
             <Button
+                android:id="@+id/main_menu_button_templates"
+                style="@style/MainMenuButton"
+                android:layout_height="90dp"
+                android:layout_weight="0"
+                android:drawableLeft="@drawable/ic_main_menu_templates"
+                android:onClick="handleTemplatesButton"
+                android:text="@string/templates_activity_title" />
+
+            <Button
                 android:id="@+id/main_menu_button_help"
                 style="@style/MainMenuButton"
                 android:layout_height="@dimen/main_menu_with_dividers_button_height"

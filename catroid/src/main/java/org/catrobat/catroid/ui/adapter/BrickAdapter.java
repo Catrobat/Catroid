@@ -70,8 +70,8 @@ import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -231,11 +231,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			brickList.add(to, draggedBrick);
 			to = getNewPositionForScriptBrick(to, draggedBrick);
 			dragTargetPosition = to;
-			if (currentPosition != to) {
-				retryScriptDragging = true;
-			} else {
-				retryScriptDragging = false;
-			}
+			retryScriptDragging = currentPosition != to;
 		}
 		to = getNewPositionIfEndingBrickIsThere(to, draggedBrick);
 
@@ -347,11 +343,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		if (brick instanceof ScriptBrick) {
 			return true;
 		}
-		if (brick instanceof NestingBrick && !nestingBrickList.contains(brick)) {
-			return true;
-		}
-
-		return false;
+		return brick instanceof NestingBrick && !nestingBrickList.contains(brick);
 	}
 
 	@Override
@@ -396,7 +388,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				((UserBrick) draggedBrick).updateUserBrickParametersAndVariables();
 			}
 
-			TrackingUtil.trackDropBrick(draggedBrick);
+			Utils.getTrackingUtilProxy().trackDropBrick(draggedBrick);
 			addingNewBrick = false;
 		} else {
 			if (script != null) {
@@ -1078,7 +1070,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	protected void copyBrickListAndProject(int itemPosition) {
 		Brick origin = (Brick) (brickDragAndDropListView.getItemAtPosition(itemPosition));
 		Brick copy;
-		TrackingUtil.trackBrick(origin.getClass().getSimpleName(), TrackingConstants.COPY_BRICK);
+		Utils.getTrackingUtilProxy().trackBrick(origin.getClass().getSimpleName(), TrackingConstants.COPY_BRICK);
 
 		try {
 			copy = origin.clone();
@@ -1108,7 +1100,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			public void onClick(DialogInterface dialog, int id) {
 
 				String brickName = getItem(clickItemPosition).getClass().getSimpleName();
-				TrackingUtil.trackBrick(brickName, TrackingConstants.DELETE_BRICK);
+				Utils.getTrackingUtilProxy().trackBrick(brickName, TrackingConstants.DELETE_BRICK);
 
 				if (getItem(clickItemPosition) instanceof ScriptBrick) {
 					scriptToDelete = ((ScriptBrick) getItem(clickItemPosition)).getScriptSafe();
@@ -1205,7 +1197,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				+ ".php?title=" + category + "_Bricks/" + language + "#" + name));
 		getContext().startActivity(browserIntent);
 
-		TrackingUtil.trackUseBrickHelp(brick);
+		Utils.getTrackingUtilProxy().trackUseBrickHelp(brick);
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {

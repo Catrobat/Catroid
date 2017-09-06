@@ -143,7 +143,7 @@
     <!--  -->
     <!-- -->
     <string name="preference_title_access">Accessibility</string>
-    <string name="preference_description_access">Choose a profile and configurate your personal settings for the Pocket-Code-UI</string>
+    <string name="preference_description_access">Choose a profile and configurate your personal settings for the app UI</string>
     <string name="preference_access_title_activity_access">Accessibility preferences</string>
     <string name="preference_access_profiles">Profiles</string>
     <string name="preference_access_predefined_profiles">Predefined profiles</string>
@@ -387,7 +387,7 @@
     <string name="size">Size:</string>
     <string name="script_group">Script group</string>
     <string name="script_groups">Script groups</string>
-    <string name="script_group_name_given">A group with this name already exists. Please choose a different one!</string>
+    <string name="script_group_name_given" tools:ignore="UnusedResources">A group with this name already exists. Please choose a different one!</string>
     <string name="group_or_object_name_given">A group or object with this name already exists. Please choose a
        different one!</string>
     <!--  -->
@@ -453,7 +453,7 @@
     <string name="sound_name">Sound name:</string>
     <string name="new_sound_name">Sound name:</string>
     <string name="rename_sound_overwrite">A sound with this name already exists. Please choose a different one!</string>
-    <string name="backpack_replace_sound">The sound %1$s already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_sound" tools:ignore="UnusedResources">The sound %1$s already exists in the backpack. Do you want to replace it?</string>
     <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
@@ -515,7 +515,7 @@
     <string name="dialog_confirm_delete_scene_title">Delete this scene?</string>
     <string name="dialog_confirm_delete_multiple_scenes_title">Delete these scenes?</string>
     <string name="details_date_today">Today</string>
-    <string name="details_date_yesterday">Yesterday</string>
+    <string name="details_date_yesterday" tools:ignore="UnusedResources">Yesterday</string>
     <string name="dialog_copy_project_title">Copy program</string>
     <!--  -->
 
@@ -625,7 +625,7 @@
     <string name="new_sprite_dialog_title">New Object</string>
     <string name="spritename_already_exists">Please choose another object name.</string>
     <string name="rename_sprite_dialog">Rename Object</string>
-    <string name="spritename_invalid">This object name is invalid</string>
+    <string name="spritename_invalid" tools:ignore="UnusedResources">This object name is invalid</string>
     <string name="no_spritename_entered">Please enter an object name.</string>
     <string name="sprite_name">Object name:</string>
     <!--  -->
@@ -1676,7 +1676,7 @@
        symbol.</string>
     <string name="hint_accessibility">Change the listed settings as you wish or switch to predefined profiles to choose a god to help you with these settings.</string>
     <string name="hint_accessibility_profiles">Choose a guide to help you with Create@School. Which one fits to you?</string>
-    <string name="hint_templates" tools:ignore="UnusedResources">Choose one of the predefined templates and modify it.</string>
+    <string name="hint_templates">Choose one of the predefined templates and modify it.</string>
     <!--  -->
 
     <!-- Crash report dialog -->
@@ -1688,9 +1688,9 @@
     <!--  -->
 
     <!-- Templates -->
-    <string name="templates_activity_title" tools:ignore="UnusedResources">Templates</string>
-    <string name="fetching_templates" tools:ignore="UnusedResources">Fetching templates</string>
-    <string name="error_fetching_templates" tools:ignore="UnusedResources">Error fetching templates</string>
+    <string name="templates_activity_title">Templates</string>
+    <string name="fetching_templates">Fetching templates</string>
+    <string name="error_fetching_templates">Error fetching templates</string>
 
     <!-- Action Template Strings -->
     <string name="action_project_variable_timer" tools:ignore="UnusedResources">timer</string>

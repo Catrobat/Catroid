@@ -89,6 +89,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -1059,7 +1060,7 @@ public final class Utils {
 	@SuppressWarnings("unused")
 	public static void logoutUser(Context context) {
 
-		TrackingUtil.trackLogoutEndSessionEvent(context);
+		Utils.getTrackingUtilProxy().trackLogoutEndSessionEvent(context);
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
@@ -1429,5 +1430,10 @@ public final class Utils {
 		}
 
 		return url;
+	}
+
+	public static Trackable getTrackingUtilProxy() {
+		return (Trackable) Proxy.newProxyInstance(Trackable.class.getClassLoader(),
+				new Class[] {Trackable.class}, new TrackingInvocationHandler(new TrackingUtil()));
 	}
 }

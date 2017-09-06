@@ -87,7 +87,6 @@ import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
@@ -441,7 +440,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 					SoundInfo soundInfo = soundInfoList.get(soundInfoList.size() - 1);
 					soundName = soundInfo.getTitle();
 					long lengthMilliseconds = SoundController.getInstance().getSoundFileLengthInMilliseconds(soundInfo);
-					TrackingUtil.trackCreateSound(soundName, soundSource, lengthMilliseconds);
+					Utils.getTrackingUtilProxy().trackCreateSound(soundName, soundSource, lengthMilliseconds);
 					break;
 			}
 			isResultHandled = true;
@@ -1013,7 +1012,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 						soundInfoList, SoundFragment.this);
 
 				long lengthMilliseconds = SoundController.getInstance().getSoundFileLengthInMilliseconds(newSoundInfo);
-				TrackingUtil.trackCreateSound(newSoundInfo.getTitle(), soundSource, lengthMilliseconds);
+				Utils.getTrackingUtilProxy().trackCreateSound(newSoundInfo.getTitle(), soundSource, lengthMilliseconds);
 
 				if (soundInfoListChangedAfterNewListener != null) {
 					soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);

@@ -63,12 +63,11 @@ import org.catrobat.catroid.transfers.CheckFacebookServerTokenValidityTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.LogInDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -277,11 +276,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			int resources = project.getRequiredResources();
 
 			if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
-				SettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
+				BaseSettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
 			}
 
 			if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
-				SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
+				BaseSettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
 			}
 			currentScene = project.getDefaultScene();
 			sceneToPlay = currentScene;
@@ -357,7 +356,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 		if (empty) {
-			TrackingUtil.trackCreateProgram(projectName, landscapeMode, false);
+			Utils.getTrackingUtilProxy().trackCreateProgram(projectName, landscapeMode, false);
 			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode, castEnabled);
 		} else {
 			if (drone) {
@@ -367,7 +366,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_CAST);
 			} else {
-				TrackingUtil.trackCreateProgram(projectName, landscapeMode, true);
+				Utils.getTrackingUtilProxy().trackCreateProgram(projectName, landscapeMode, true);
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DEFAULT);
 			}
@@ -465,7 +464,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void deleteScene(String projectName, String sceneName) throws IOException {
-		TrackingUtil.trackScene(projectName, sceneName, TrackingConstants.DELETE_SCENE);
+		Utils.getTrackingUtilProxy().trackScene(projectName, sceneName, TrackingConstants.DELETE_SCENE);
 		StorageHandler.getInstance().deleteScene(projectName, sceneName);
 	}
 

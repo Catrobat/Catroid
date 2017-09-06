@@ -65,7 +65,7 @@ import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BackPackLookListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackScriptListFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSoundListFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorCategoryListFragment;
+import org.catrobat.catroid.ui.fragment.BaseFormulaEditorCategoryListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
@@ -374,30 +374,27 @@ public class ScriptActivity extends BaseActivity {
 		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 
-		FormulaEditorCategoryListFragment formulaEditorObjectFragment = (FormulaEditorCategoryListFragment)
+		BaseFormulaEditorCategoryListFragment formulaEditorObjectFragment = (BaseFormulaEditorCategoryListFragment)
 				getFragmentManager()
-						.findFragmentByTag(FormulaEditorCategoryListFragment.OBJECT_TAG);
-		FormulaEditorCategoryListFragment formulaEditorFunctionFragment = (FormulaEditorCategoryListFragment)
+						.findFragmentByTag(BaseFormulaEditorCategoryListFragment.OBJECT_TAG);
+		BaseFormulaEditorCategoryListFragment formulaEditorFunctionFragment = (BaseFormulaEditorCategoryListFragment)
 				getFragmentManager()
-						.findFragmentByTag(FormulaEditorCategoryListFragment.FUNCTION_TAG);
+						.findFragmentByTag(BaseFormulaEditorCategoryListFragment.FUNCTION_TAG);
 
-		FormulaEditorCategoryListFragment formulaEditorLogicFragment = (FormulaEditorCategoryListFragment)
+		BaseFormulaEditorCategoryListFragment formulaEditorLogicFragment = (BaseFormulaEditorCategoryListFragment)
 				getFragmentManager()
-						.findFragmentByTag(FormulaEditorCategoryListFragment.LOGIC_TAG);
+						.findFragmentByTag(BaseFormulaEditorCategoryListFragment.LOGIC_TAG);
 
-		FormulaEditorCategoryListFragment formulaEditorSensorFragment = (FormulaEditorCategoryListFragment)
+		BaseFormulaEditorCategoryListFragment formulaEditorSensorFragment = (BaseFormulaEditorCategoryListFragment)
 				getFragmentManager()
-						.findFragmentByTag(FormulaEditorCategoryListFragment.SENSOR_TAG);
+						.findFragmentByTag(BaseFormulaEditorCategoryListFragment.SENSOR_TAG);
 
-		if (formulaEditorFragment != null && formulaEditorFragment.isVisible()
+		return formulaEditorFragment != null && formulaEditorFragment.isVisible()
 				|| formulaEditorObjectFragment != null && formulaEditorObjectFragment.isVisible()
 				|| formulaEditorFunctionFragment != null && formulaEditorFunctionFragment.isVisible()
 				|| formulaEditorLogicFragment != null && formulaEditorLogicFragment.isVisible()
 				|| formulaEditorSensorFragment != null && formulaEditorSensorFragment.isVisible()
-				|| formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
-			return true;
-		}
-		return false;
+				|| formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible();
 	}
 
 	private void openBackPack() {
@@ -505,8 +502,8 @@ public class ScriptActivity extends BaseActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		FragmentManager fragmentManager = getFragmentManager();
 
-		for (String tag : FormulaEditorCategoryListFragment.TAGS) {
-			FormulaEditorCategoryListFragment fragment = (FormulaEditorCategoryListFragment) fragmentManager.findFragmentByTag(tag);
+		for (String tag : BaseFormulaEditorCategoryListFragment.TAGS) {
+			BaseFormulaEditorCategoryListFragment fragment = (BaseFormulaEditorCategoryListFragment) fragmentManager.findFragmentByTag(tag);
 			if (fragment != null && fragment.isVisible()) {
 				return fragment.onKey(null, keyCode, event);
 			}
@@ -697,10 +694,7 @@ public class ScriptActivity extends BaseActivity {
 	}
 
 	public boolean isHoveringActive() {
-		if (currentFragmentPosition == FRAGMENT_SCRIPTS && scriptFragment.getListView().isCurrentlyDragging()) {
-			return true;
-		}
-		return false;
+		return currentFragmentPosition == FRAGMENT_SCRIPTS && scriptFragment.getListView().isCurrentlyDragging();
 	}
 
 	public void handleShowDetails(boolean showDetails, MenuItem item) {

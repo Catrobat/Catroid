@@ -82,32 +82,32 @@ public class AccessibilityProfilesActivity extends BaseActivity {
 		TextView activeProfileSummary = (TextView) findViewById(R.id.access_active_profile_summary);
 		ImageView activeProfileImage = (ImageView) findViewById(R.id.access_active_profile_image);
 
-		String profile = SettingsActivity.getActiveAccessibilityProfile(context);
+		String profile = BaseSettingsActivity.getActiveAccessibilityProfile(context);
 		String title = "";
 		String summary = "";
 		int image = -1;
 
-		if (profile.equals(SettingsActivity.ACCESS_PROFILE_STANDARD)) {
+		if (profile.equals(BaseSettingsActivity.ACCESS_PROFILE_STANDARD)) {
 			title = getResources().getString(R.string.preference_access_title_profile_standard);
 			summary = getResources().getString(R.string.preference_access_summary_profile_standard);
 			image = R.drawable.nolb_standard_myprofile;
-		} else if (profile.equals(SettingsActivity.ACCESS_PROFILE_MYPROFILE)) {
+		} else if (profile.equals(BaseSettingsActivity.ACCESS_PROFILE_MYPROFILE)) {
 			title = getResources().getString(R.string.preference_access_title_profile_myprofile);
 			summary = getResources().getString(R.string.preference_access_summary_profile_myprofile);
 			image = R.drawable.nolb_standard_myprofile;
-		} else if (profile.equals(SettingsActivity.ACCESS_PROFILE_1)) {
+		} else if (profile.equals(BaseSettingsActivity.ACCESS_PROFILE_1)) {
 			title = getResources().getString(R.string.preference_access_title_profile_1);
 			summary = getResources().getString(R.string.preference_access_summary_profile_1);
 			image = R.drawable.nolb_argus;
-		} else if (profile.equals(SettingsActivity.ACCESS_PROFILE_2)) {
+		} else if (profile.equals(BaseSettingsActivity.ACCESS_PROFILE_2)) {
 			title = getResources().getString(R.string.preference_access_title_profile_2);
 			summary = getResources().getString(R.string.preference_access_summary_profile_2);
 			image = R.drawable.nolb_odin;
-		} else if (profile.equals(SettingsActivity.ACCESS_PROFILE_3)) {
+		} else if (profile.equals(BaseSettingsActivity.ACCESS_PROFILE_3)) {
 			title = getResources().getString(R.string.preference_access_title_profile_3);
 			summary = getResources().getString(R.string.preference_access_summary_profile_3);
 			image = R.drawable.nolb_fenrir;
-		} else if (profile.equals(SettingsActivity.ACCESS_PROFILE_4)) {
+		} else if (profile.equals(BaseSettingsActivity.ACCESS_PROFILE_4)) {
 			title = getResources().getString(R.string.preference_access_title_profile_4);
 			summary = getResources().getString(R.string.preference_access_summary_profile_4);
 			image = R.drawable.nolb_tiro;

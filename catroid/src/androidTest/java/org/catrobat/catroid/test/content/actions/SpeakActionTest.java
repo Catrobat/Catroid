@@ -100,7 +100,7 @@ public class SpeakActionTest extends AndroidTestCase {
 	}
 
 	public void testNullFormula() {
-		Action action = factory.createSpeakAction(sprite, (Formula) null);
+		Action action = factory.createSpeakAction(sprite, null);
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals("Text is not updated after SpeakBrick executed", "",

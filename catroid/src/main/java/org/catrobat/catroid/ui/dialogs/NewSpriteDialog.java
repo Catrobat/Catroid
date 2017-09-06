@@ -53,20 +53,20 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
 
@@ -136,7 +136,7 @@ public class NewSpriteDialog extends DialogFragment {
 		setupCameraButton(dialogView);
 		setupMediaLibraryButton(dialogView);
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
+		if (BaseSettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
 			setupDroneVideoButton(dialogView);
 		}
 
@@ -307,7 +307,8 @@ public class NewSpriteDialog extends DialogFragment {
 				intent.addCategory("android.intent.category.LAUNCHER");
 
 				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), intent)) {
-					TrackingUtil.trackStartPocketPaintSessionCreateObject();
+					Utils.getTrackingUtilProxy().trackPocketPaintSessionLook(TrackingConstants.SESSION_POCKET_PAINT_CREATE_LOOK,
+							TrackingConstants.SESSION_START_POCKET_PAINT_CREATE_LOOK);
 					startActivityForResult(intent, REQUEST_CREATE_POCKET_PAINT_IMAGE);
 				} else {
 					BroadcastReceiver pocketPaintInstalledReceiver = createPocketPaintBroadcastReceiver(intent,
@@ -455,7 +456,7 @@ public class NewSpriteDialog extends DialogFragment {
 			String imageFileName = newLookFile.getName();
 			Utils.rewriteImageFileForStage(getActivity(), newLookFile);
 
-			TrackingUtil.trackCreateObject(newSpriteName, spriteSource);
+			Utils.getTrackingUtilProxy().trackCreateObject(newSpriteName, spriteSource);
 
 			lookData.setLookName(newSpriteName);
 			lookData.setLookFilename(imageFileName);

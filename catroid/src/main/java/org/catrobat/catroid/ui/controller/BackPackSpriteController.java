@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.TextSizeUtil;
-import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -109,7 +108,7 @@ public final class BackPackSpriteController {
 
 		Sprite backPackSprite = backpack(spriteToEdit);
 		BackPackListManager.getInstance().addSpriteToBackPack(backPackSprite);
-		TrackingUtil.trackBackpackSprite(backPackSprite.getName(), TrackingConstants.BACKPACK_OBJECT);
+		Utils.getTrackingUtilProxy().trackBackpackSprite(backPackSprite.getName(), TrackingConstants.BACKPACK_OBJECT);
 	}
 
 	public Sprite backpackHiddenSprite(Sprite spriteToEdit) {
@@ -200,7 +199,7 @@ public final class BackPackSpriteController {
 		}
 
 		if (!fromHiddenBackPack) {
-			TrackingUtil.trackBackpackSprite(selectedSprite.getName(), TrackingConstants.UNPACK_OBJECT);
+			Utils.getTrackingUtilProxy().trackBackpackSprite(selectedSprite.getName(), TrackingConstants.UNPACK_OBJECT);
 		}
 		return unpackedSprite;
 	}

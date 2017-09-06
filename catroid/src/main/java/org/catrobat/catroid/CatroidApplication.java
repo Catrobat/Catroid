@@ -27,7 +27,7 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.utils.CrashReporter;
 
 public class CatroidApplication extends MultiDexApplication {
@@ -46,7 +46,7 @@ public class CatroidApplication extends MultiDexApplication {
 		CrashReporter.initialize(this);
 		Log.d(TAG, "CatroidApplication onCreate");
 		CatroidApplication.context = getApplicationContext();
-		SettingsActivity.applyAccessibilitySettings(context);
+		BaseSettingsActivity.applyAccessibilitySettings(context);
 	}
 
 	@Override
