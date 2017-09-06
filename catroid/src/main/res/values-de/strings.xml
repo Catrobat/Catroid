@@ -1506,19 +1506,18 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="preference_access_summary_created_profile">Ein neues Profil wurde erstellt! Die vorgenommenen Änderungen können in  \"Mein Profil\" gefunden werden.</string>
   <string name="preference_access_title_restart">Profil übernommen</string>
   <string name="preference_access_summary_restart">Pocket Code wird neu gestartet um die Änderungen zu übernehmen.</string>
-  <!--  -->
-
-  <string name="templates_activity_title">Vorlagen</string>
+  <!-- Hints Templates/Accessibility -->
   <string name="hint_accessibility">Ändere diese Einstellung nach deinen Bedürfnissen oder gehe in die vordefinierten Profilen und wähle einen der Götter um dir mit diesen Einstellungen zu helfen.</string>
-  <string name="hint_accessibility_profiles">Wähle ein Profil das dir mit der Create@School App behilflich ist. Welches passt zu dir?</string>
-  <string name="error_no_nolb_user">Das ist eine Beta-Version. Diese kann nur mit einem vordefinierten Schul (NOLB)-Accounts benutzt werden.</string>
+  <string name="hint_accessibility_profiles">Wähle ein Profil das dir mit der App behilflich ist. Welches passt zu dir?</string>
+  <string name="hint_templates">Wähle eine der Spielvorlagen und ändere sie.</string>
+  <!-- Templates -->
+  <string name="templates_activity_title">Vorlagen</string>
   <string name="fetching_templates">Abrufen der Vorlagen</string>
   <string name="error_fetching_templates">Fehler beim Abrufen der Vorlagen</string>
-
+  <string name="error_no_nolb_user">Das ist eine Beta-Version. Diese kann nur mit einem vordefinierten Schul Accounts benutzt werden.</string>
   <!-- Restricted Login -->
-  <string name="dialog_restricted_login_title">Beschränkter Zugang</string>
+  <string name="dialog_restricted_login_title">Eingeschränkter Zugang</string>
   <string name="schoolreg_text">Bitte melde dich mit dem Create@School Benutzername und Kennwort an, die du von deiner Schule bekommen hast. Um Zugangsdaten für SchülerInnen und LehrerInnen zu erhalten, ist eine Registrierung seitens der Schule auf %1$s nötig.</string>
-
   <!-- Action Template Strings -->
   <string name="action_project_variable_timer">Timer</string>
   <string name="action_project_variable_score">Punkte</string>
@@ -2134,7 +2133,6 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="physical_simulation_note_step_3_show_both_variables_in_the_corresponding_labels">Schritt 3: Zeige beide Variablen in den entsprechenden Labels an</string>
   <string name="physical_simulation_note_step_4_calculate_the_rockets_acceleration_and_set_the_variable_acceleration_rocket">Schritt 4: Berechne die Beschleuning der Rakete und setze die Variable \"Beschleunigung Rakete\".</string>
   <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_y_to_the_value_of_the_variable_acceleration_rocket_and_multiply_with__1000">Schritt 5: Füge einen neuen Baustein hinzu um die Beschleunigung von Y zu setzen. Diese hat den Wert der Variable Beschleunigung Rakete multipliziert mit - 1000</string>
-  <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_x_to_the_variable_acceleration_and_multiply_with_1000">Schritt 5: Füge einen neuen Baustein hinzu um die Beschleunigung von X auf die Variable Beschleunigung zu setzen und mit 1000 zu multiplizieren</string>
   <string name="physical_simulation_note_todo_add_the_collision_detection_between_your_rocket_and_the_finish_line_in_the_whenbrick">ToDo: Füge eine Kollisionserkennung (berührt_Objekt) im \"Wenn\" Baustein hinzu. Die Kollision soll sich auf das Objekt Ziellinie beziehen.</string>
   <string name="physical_simulation_look_task_3">Aufgabe 3</string>
   <string name="physical_simulation_broadcast_message_end">Ende</string>
@@ -2144,8 +2142,9 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="physical_simulation_look_button_try_again">Button Neustart</string>
   <string name="physical_simulation_note_the_force_is_rising_as_long_as_you_keep_on_pressing_the_rocket">die Kraft erhöht sich, solange du die Rakete berührst</string>
   <string name="physical_simulation_look_shuttle">Shuttle</string>
-  <string name="physical_simulation_note_shuttle_1_and_shuttle_2_have_same_acceleration">Shuttle 2 hat die gleiche Beschleunigung wie Shuttle 1</string>
   <string name="physical_simulation_look_sky">Himmel</string>
+  <string name="physical_simulation_note_step_5_add_a_new_brick_to_set_the_velocity_of_x_to_the_variable_acceleration_and_multiply_with_1000">Schritt 5:  Füge einen neuen Baustein hinzu um die Beschleunigung von X zu setzten. Diese hat den Wert der Variable Beschleunigung und mulitpliziere sie mit 1000</string>
+  <string name="physical_simulation_note_shuttle_1_and_shuttle_2_have_same_acceleration">Shuttle 2 hat die gleiche Beschleunigung wie Shuttle 1</string>
   <!-- Lego EV3 Strings -->
   <string name="lego_ev3_project_variable_move">bewegen</string>
   <string name="lego_ev3_project_variable_detected">erkannt</string>
@@ -2332,7 +2331,6 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="lego_nxt_look_end">Ende</string>
   <string name="lego_nxt_sprite_button_play_again">Button Neustart</string>
   <string name="lego_nxt_look_button_play_again">Button Neustart</string>
-  <!-- Race Simulation Strings -->
   <string name="race_simulation_project_variable_x">x</string>
   <string name="race_simulation_project_variable_y">y</string>
   <string name="race_simulation_project_variable_points">Punkte</string>
@@ -2406,7 +2404,6 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="race_simulation_look_end">Ende</string>
   <string name="race_simulation_sprite_winner">Gewinner</string>
   <string name="race_simulation_look_winner">Gewinner</string>
-  <!-- Adventure RPG Strings -->
   <string name="adventure_rpg_project_variable_gender">Geschlecht</string>
   <string name="adventure_rpg_project_variable_look_bg">Aussehen Hintergrund</string>
   <string name="adventure_rpg_project_variable_inventory">inventar</string>
@@ -2607,7 +2604,6 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="adventure_rpg_note_this_variable_changes_with_every_right_part._if_the_project_is_final_object_win_sign_appears">Diese Variable ändert sich mit jedem richtigen Element das gemischt und richtig platziert wird. Wenn das Projekt abgeschlossen ist, erscheint das Objekt mit dem Gewonnen-Zeichen.</string>
   <string name="adventure_rpg_scene_end">Ende</string>
   <string name="adventure_rpg_look_end">Ende</string>
-  <!-- Life Simulation Strings -->
   <string name="life_simulation_project_variable_sequence_">reihenfolge </string>
   <string name="life_simulation_project_variable_work_clothes_">arbeitskleidung </string>
   <string name="life_simulation_project_variable_gameend">spielende</string>
@@ -2795,7 +2791,6 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="life_simulation_look_drink_orange_juice">Getränk Orangensaft</string>
   <string name="life_simulation_look_end">Ende</string>
   <string name="life_simulation_look_button_play_again">Button Neustart</string>
-    <!-- Strategy Strings -->
   <string name="strategy_project_variable_col_y">col_y</string>
   <string name="strategy_project_variable_turn">turn</string>
   <string name="strategy_project_variable_active_column">active_column</string>
