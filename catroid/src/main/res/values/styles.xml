@@ -26,6 +26,7 @@
     <style name="Theme.Catroid" parent="android:Theme.Holo" >
         <item name="android:actionBarStyle" >@style/Widget.Catroid.ActionBar</item >
         <item name="android:windowBackground" >@color/application_background_color</item >
+        <item name="android:typeface">sans</item>
     </style >
 
     <style name="Widget.Catroid.ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse" >
