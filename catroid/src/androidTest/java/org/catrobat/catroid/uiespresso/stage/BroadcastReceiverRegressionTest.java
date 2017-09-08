@@ -50,6 +50,7 @@ import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -253,5 +254,22 @@ public class BroadcastReceiverRegressionTest {
 		Script broadcastScript = new BroadcastScript(broadcastMessage);
 		sprite.addScript(broadcastScript);
 		return broadcastScript;
+	}
+
+	@Test
+	public void testBroadcastReceiverWithMoreThanOneReceiverScript() {
+		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
+		UserVariable userVariable2 = dataContainer.addProjectUserVariable(VARIABLE_NAME + "2");
+
+		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable));
+		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable2));
+		sprite1StartScript.addBrick(new BroadcastBrick(BROADCAST_MESSAGE_1));
+		StageTestUtils.addBroadcastScriptSettingUserVariableToSprite(sprite1, BROADCAST_MESSAGE_1, userVariable, 3.0);
+		StageTestUtils.addBroadcastScriptSettingUserVariableToSprite(sprite1, BROADCAST_MESSAGE_1, userVariable2, 4.0);
+
+		baseActivityTestRule.launchActivity(null);
+
+		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(userVariable, 3, 2000));
+		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(userVariable2, 4, 2000));
 	}
 }

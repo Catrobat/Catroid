@@ -94,5 +94,5 @@ public final class NfcTagContainer {
 		}
 	}
 
-	//TODO: add removeUnmappedTags - see MessageContainer.java - removeUnusedMessages()
+	//TODO: add removeUnmappedTags - see MessageContainer.java - updateMessageContainer()
 }

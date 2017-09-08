@@ -97,6 +97,7 @@ import org.catrobat.catroid.uiespresso.facedetection.FaceDetectionResourceStarte
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorKeyboardTest;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest;
 import org.catrobat.catroid.uiespresso.pocketmusic.PocketMusicActivityTest;
+import org.catrobat.catroid.uiespresso.stage.BroadcastForClonesRegressionTest;
 import org.catrobat.catroid.uiespresso.stage.BroadcastReceiverRegressionTest;
 import org.catrobat.catroid.uiespresso.stage.MultipleBroadcastsTest;
 import org.catrobat.catroid.uiespresso.stage.ObjectVariableTest;
@@ -185,15 +186,19 @@ import org.junit.runners.Suite;
 		LegoNXTMotorMoveBrickTest.class,
 		WhenStartedBrickTest.class,
 		LegoEv3MotorTurnAngleBrickTest.class,
+		BroadcastForClonesRegressionTest.class,
 		TurnLeftBrickTest.class,
 		SetXBrickTest.class,
 		StagePausedTest.class,
 		StageSimpleTest.class,
+		MultipleBroadcastsTest.class,
+		BroadcastReceiverRegressionTest.class,
 		ObjectVariableTest.class,
 		MultipleBroadcastsTest.class,
 		BroadcastReceiverRegressionTest.class,
 		FormulaEditorKeyboardTest.class,
 		FormulaEditorTest.class,
+		SettingsActivityTest.class,
 		SettingsActivityTest.class,
 		FormulaEditorComputeDialogTest.class,
 		RenameSpriteDialogTest.class,

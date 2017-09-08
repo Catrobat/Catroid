@@ -448,7 +448,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 							return true;
 						case R.id.formula_editor_keyboard_sensors:
 							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.SENSOR_TAG,
-									R.string.formula_editor_device_sensors);
+									R.string.formula_editor_device);
 							return true;
 						case R.id.formula_editor_keyboard_data:
 							showFormulaEditorDataFragment(FormulaEditorDataFragment.USER_DATA_TAG,
