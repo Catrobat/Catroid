@@ -52,6 +52,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.bricks.CameraBrick;
+import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
+import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -83,6 +86,14 @@ public final class CastManager {
 	private MenuItem castButton;
 	private boolean pausedScreenShowing = false;
 	private boolean isCastDeviceAvailable;
+
+	public static ArrayList<Class<?>> unsupportedBricks = new ArrayList<Class<?>>() {
+		{
+			add(CameraBrick.class);
+			add(ChooseCameraBrick.class);
+			add(FlashBrick.class);
+		}
+	};
 
 	private CastManager() {
 		isGamepadButtonPressed.put(Sensors.GAMEPAD_A_PRESSED, false);

@@ -39,6 +39,7 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -155,6 +156,12 @@ public class AddBrickFragment extends ListFragment {
 	public void addBrickToScript(Brick brickToBeAdded) {
 		try {
 			scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded.clone());
+
+			if ((ProjectManager.getInstance().getCurrentProject().isCastProject())
+					&& CastManager.unsupportedBricks.contains(brickToBeAdded.getClass())) {
+				ToastUtil.showError(getActivity(), R.string.error_unsupported_bricks_chromecast);
+				return;
+			}
 
 			if (brickToBeAdded instanceof ScriptBrick) {
 				Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe();
