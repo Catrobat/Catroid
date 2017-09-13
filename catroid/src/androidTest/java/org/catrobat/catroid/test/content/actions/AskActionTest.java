@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ public class AskActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
 		userVariableForAnswer = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(TEST_USERVARIABLE, null);
+				.getUserVariable(null, TEST_USERVARIABLE);
 		super.setUp();
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivity
 
 	private SoundFragment soundFragment;
 
-	private HashMap<SoundInfo, Integer> idMap = new HashMap<SoundInfo, Integer>();
+	private HashMap<SoundInfo, Integer> idMap = new HashMap<>();
 
 	public SoundAdapter(final Context context, int resource, int textViewResourceId, List<SoundInfo> items,
 			boolean showDetails) {

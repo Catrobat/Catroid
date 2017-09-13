@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,8 +67,8 @@ public class LegoNXTImplTest extends AndroidTestCase {
 	public void testSensorAssignment() throws InterruptedException {
 
 		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
-				new NXTSensor.Sensor[] { NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.SOUND,
-						NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.ULTRASONIC });
+				new NXTSensor.Sensor[] {NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.SOUND,
+						NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.ULTRASONIC});
 
 		nxt.initialise();
 
@@ -95,8 +95,8 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 	private void resetSensorMappingToDefault() throws InterruptedException {
 		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getContext(),
-				new NXTSensor.Sensor[] { NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
-						NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC });
+				new NXTSensor.Sensor[] {NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
+						NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC});
 	}
 
 	public void testSensorAssignmentChange() throws InterruptedException {

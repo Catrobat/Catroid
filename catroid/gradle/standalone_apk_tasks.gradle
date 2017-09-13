@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+import groovy.xml.XmlUtil
+import groovy.xml.StreamingMarkupBuilder
 
 ext {
     projectName = "WHACK A MOLE"
@@ -166,21 +169,46 @@ def removeUnecessaryPermissions() {
     }
     def permissionsText = permissionsFile.text
 
-    if(!permissionsText.contains("TEXT_TO_SPEECH")){
-        manifestText = manifestText.replaceAll("<uses-.+?record.+?/>\\n", " ")
+    def manifestXml = new XmlSlurper().parseText(manifestText)
+
+    def permissionsToRemove = []
+    def featuresToRemove = []
+
+    if((!permissionsText.contains("BLUETOOTH_LEGO_NXT")) && (!permissionsText.contains("BLUETOOTH_PHIRO_PRO"))){
+        permissionsToRemove.add('android.permission.BLUETOOTH_ADMIN')
+        permissionsToRemove.add('android.permission.BLUETOOTH')
+        permissionsToRemove.add('android.permission.USE_CREDENTIALS')
+
+        featuresToRemove.add('android.hardware.bluetooth')
     }
-    if((!permissionsText.contains("BLUETOOTH_LEGO_NXT")) && (!permissionsText.contains("BLUETOOTH_PHIRO"))){
-        manifestText = manifestText.replaceAll("<uses-.+bluetooth.+?/>\\n", " ")
-    }
+
     if(!permissionsText.contains("ARDRONE_SUPPORT")){
-        manifestText = manifestText.replaceAll("<uses-.+?wifi.+?/>\\n", " ")
+        permissionsToRemove.add('android.permission.CHANGE_WIFI_MULTICAST_STATE')
+        permissionsToRemove.add('android.permission.CHANGE_WIFI_STATE')
+        permissionsToRemove.add('android.permission.ACCESS_WIFI_STATE')
+
+        featuresToRemove.add('android.hardware.wifi')
     }
+
     if((!permissionsText.contains("CAMERA_FLASH")) && (!permissionsText.contains("FACE_DETECTION"))){
-        manifestText = manifestText.replaceAll("<uses-.+camera.+?/>\\n", " ")
+        permissionsToRemove.add('android.permission.CAMERA')
+
+        featuresToRemove.add('android.hardware.camera')
     }
+
     if(!permissionsText.contains("VIBRATOR")){
-        manifestText = manifestText.replaceAll("<uses-.+vibrate.+?/>\\n", " ")
+        permissionsToRemove.add('android.permission.VIBRATE')
     }
+
+    manifestXml."uses-permission".findAll {
+        permissionsToRemove.indexOf(it."@android:name") != -1
+    }*.replaceNode{}
+
+    manifestXml."uses-feature".findAll {
+        featuresToRemove.indexOf(it."@android:name") != -1
+    }*.replaceNode{}
+
+    manifestText = XmlUtil.serialize(new StreamingMarkupBuilder().bind{ mkp.yield manifestXml})
 
     manifestFile.write(manifestText)
 }

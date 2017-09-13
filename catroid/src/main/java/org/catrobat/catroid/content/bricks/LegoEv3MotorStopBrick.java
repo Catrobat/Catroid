@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 	private transient Motor motorEnum;
 	private String motor;
 
-	public static enum Motor {
+	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C, ALL_MOTORS
 	}
 
@@ -64,12 +64,6 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		LegoEv3MotorStopBrick copyBrick = (LegoEv3MotorStopBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_ev3_motor_stop, null);
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.ev3_stop_motor_spinner);
@@ -83,11 +77,6 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 		legoSpinner.setAdapter(motorAdapter);
 		legoSpinner.setSelection(motorEnum.ordinal());
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new LegoEv3MotorStopBrick(motorEnum);
 	}
 
 	@Override
@@ -119,6 +108,9 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 		}
 
 		motorSpinner.setAdapter(motorAdapter);
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
 		return view;
 	}

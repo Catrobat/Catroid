@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,8 +35,8 @@ public class WhenScript extends Script {
 	private static final String SWIPERIGHT = "Swipe Right";
 	private static final String SWIPEUP = "Swipe Up";
 	private static final String SWIPEDOWN = "Swipe Down";
-	private static final String[] ACTIONS = { TAPPED, DOUBLETAPPED, LONGPRESSED, SWIPEUP, SWIPEDOWN, SWIPELEFT,
-			SWIPERIGHT };
+	private static final String[] ACTIONS = {TAPPED, DOUBLETAPPED, LONGPRESSED, SWIPEUP, SWIPEDOWN, SWIPELEFT,
+			SWIPERIGHT};
 	private String action;
 	private transient int position;
 

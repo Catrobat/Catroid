@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
+import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -243,6 +244,7 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			birdSprite.addScript(whenScriptBird);
 			defaultProject.getDefaultScene().addSprite(birdSprite);
 		} catch (IllegalArgumentException illegalArgumentException) {
+			CrashReporter.logException(illegalArgumentException);
 			throw new IOException(TAG, illegalArgumentException);
 		}
 

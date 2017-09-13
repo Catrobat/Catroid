@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,13 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.io.Serializable;
 
 public class BackPackedListData implements Serializable {
 	public UserList userList;
-	public Integer userListType;
+	public DataContainer.DataType userListType;
 
 	BackPackedListData() {
 	}

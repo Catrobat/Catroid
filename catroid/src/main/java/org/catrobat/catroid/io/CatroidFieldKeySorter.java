@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.FieldKey;
 import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
 
+import org.catrobat.catroid.utils.CrashReporter;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -42,7 +45,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 
 	@Override
 	public Map sort(final Class type, final Map keyedByFieldKey) {
-		XStreamFieldKeyOrder fieldKeyOrderAnnotation = (XStreamFieldKeyOrder) type.getAnnotation(XStreamFieldKeyOrder.class);
+		XStreamFieldKeyOrder fieldKeyOrderAnnotation = findAnnotationInClassHierarchy(type, XStreamFieldKeyOrder.class);
 		if (fieldKeyOrderAnnotation != null) {
 			List<String> fieldOrder = Arrays.asList(fieldKeyOrderAnnotation.value());
 			return sortByList(fieldOrder, keyedByFieldKey);
@@ -51,7 +54,20 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private <E extends Annotation> E findAnnotationInClassHierarchy(Class<?> clazz, Class<? extends E> annotation) {
+		Class<?> currentClass = clazz;
+		while (currentClass != Object.class) {
+			E currentClassAnnotation = currentClass.getAnnotation(annotation);
+			if (currentClassAnnotation != null) {
+				return currentClassAnnotation;
+			} else {
+				currentClass = currentClass.getSuperclass();
+			}
+		}
+		return null;
+	}
+
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private Map sortByList(final List<String> fieldOrder, final Map keyedByFieldKey) {
 		checkMissingSerializableField(fieldOrder, keyedByFieldKey.entrySet());
 		final Map map = new TreeMap(new Comparator() {
@@ -86,7 +102,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		return !Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private Map sortAlphabeticallyByClassHierarchy(final Map keyedByFieldKey) {
 		final Map map = new TreeMap(new Comparator() {
 			@Override
@@ -119,6 +135,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 			}
 		} catch (SecurityException | NoSuchFieldException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
+			CrashReporter.logException(exception);
 		}
 		return fieldName;
 	}

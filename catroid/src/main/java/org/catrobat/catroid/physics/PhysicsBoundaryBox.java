@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ public class PhysicsBoundaryBox {
 
 	private final World world;
 
-	public enum BoundaryBoxIdentifier { BBI_HORIZONTAL, BBI_VERTICAL }
+	public enum BoundaryBoxIdentifier {BBI_HORIZONTAL, BBI_VERTICAL}
 
 	public PhysicsBoundaryBox(World world) {
 		this.world = world;

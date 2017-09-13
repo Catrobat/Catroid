@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -182,7 +182,7 @@ public class JobHandler implements Client.DownloadCallback {
 		job.setTitle(jobRunningMessage.getJobTitle());
 		final String jobImageURL = jobRunningMessage.getJobImageURL();
 		if (jobImageURL != null) {
-			final int[] imageSize = new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
+			final int[] imageSize = new int[] {Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT};
 			job.setImage(new WebImage(Uri.parse(jobImageURL), imageSize[0], imageSize[1]));
 		}
 		job.setState(Job.State.RUNNING);

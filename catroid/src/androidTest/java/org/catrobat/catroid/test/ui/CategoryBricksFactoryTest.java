@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -82,9 +82,9 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 	}
 
 	public void testLooksBricks() {
-		final int expectedBackgroundBrickCount = 20;
+		final int expectedBackgroundBrickCount = 22;
 		checkBrickCountInCategory(R.string.category_looks, background, expectedBackgroundBrickCount);
-		final int expectedBrickCount = 25;
+		final int expectedBrickCount = 28;
 		checkBrickCountInCategory(R.string.category_looks, sprite, expectedBrickCount);
 	}
 

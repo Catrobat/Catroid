@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ public class EV3CommandByte {
 
 		private int commandParamByteCode;
 
-		private EV3CommandParamByteCode(int commandParamByteCode) {
+		EV3CommandParamByteCode(int commandParamByteCode) {
 			this.commandParamByteCode = commandParamByteCode;
 		}
 
@@ -55,7 +55,7 @@ public class EV3CommandByte {
 
 		private int variableScope;
 
-		private EV3CommandVariableScope(int variableScope) {
+		EV3CommandVariableScope(int variableScope) {
 			this.variableScope = variableScope;
 		}
 
@@ -69,7 +69,7 @@ public class EV3CommandByte {
 
 		private int commandParamFormat;
 
-		private EV3CommandParamFormat(int commandParamFormat) {
+		EV3CommandParamFormat(int commandParamFormat) {
 			this.commandParamFormat = commandParamFormat;
 		}
 
@@ -90,7 +90,7 @@ public class EV3CommandByte {
 
 		private int commandByteCode;
 
-		private EV3CommandByteCode(int commandByteCode) {
+		EV3CommandByteCode(int commandByteCode) {
 			this.commandByteCode = commandByteCode;
 		}
 
@@ -121,7 +121,7 @@ public class EV3CommandByte {
 				LOOKUP.put(c.commandByteValue, c);
 			}
 		}
-		private EV3CommandOpCode(int commandByteValue) {
+		EV3CommandOpCode(int commandByteValue) {
 			this.commandByteValue = commandByteValue;
 		}
 

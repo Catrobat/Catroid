@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
+import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
@@ -43,15 +44,16 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -84,6 +86,8 @@ public class Sprite implements Serializable, Cloneable {
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
+	private transient BroadcastSequenceMap broadcastSequenceMap = new BroadcastSequenceMap();
+	private transient BroadcastWaitSequenceMap broadcastWaitSequenceMap = new BroadcastWaitSequenceMap();
 
 	@XStreamAsAttribute
 	private String name;
@@ -232,10 +236,11 @@ public class Sprite implements Serializable, Cloneable {
 		return matchingUserBricks;
 	}
 
-	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
+	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions,
+			boolean includeStartScripts) {
 		for (int scriptCounter = 0; scriptCounter < scriptList.size(); scriptCounter++) {
 			Script script = scriptList.get(scriptCounter);
-			if (script instanceof StartScript && !isClone) {
+			if (script instanceof StartScript && !isClone && includeStartScripts) {
 				Action sequenceAction = createActionSequence(script);
 				look.addAction(sequenceAction);
 				BroadcastHandler.getActionScriptMap().put(sequenceAction, script);
@@ -272,6 +277,10 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
+	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
+		createStartScriptActionSequenceAndPutToMap(scriptActions, true);
+	}
+
 	private void createWhenConditionBecomesTrueAction(WhenConditionScript script) {
 		ActionFactory actionFactory = getActionFactory();
 		Formula condition = ((WhenConditionBrick) script.getScriptBrick()).getConditionFormula();
@@ -294,13 +303,9 @@ public class Sprite implements Serializable, Cloneable {
 
 	private void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
 		String sceneName = ProjectManager.getInstance().getSceneToPlay().getName();
-		if (BroadcastSequenceMap.containsKey(broadcastMessage, sceneName)) {
-			BroadcastSequenceMap.get(broadcastMessage, sceneName).add(action);
-		} else {
-			ArrayList<SequenceAction> actionList = new ArrayList<>();
-			actionList.add(action);
-			BroadcastSequenceMap.put(sceneName, broadcastMessage, actionList);
-		}
+		List<SequenceAction> actions = new ArrayList<>();
+		actions.add(action);
+		broadcastSequenceMap.put(sceneName, broadcastMessage, actions);
 	}
 
 	public ActionFactory getActionFactory() {
@@ -357,10 +362,13 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.soundList = this.soundList;
 		cloneSprite.nfcTagList = this.nfcTagList;
 
+		cloneSprite.broadcastSequenceMap = this.broadcastSequenceMap;
+		cloneSprite.broadcastWaitSequenceMap = this.broadcastWaitSequenceMap;
+
 		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();
 		ProjectManager.getInstance().setCurrentSprite(cloneSprite);
 
-		cloneLooks(cloneSprite);
+		cloneLooks(cloneSprite, false);
 		cloneUserBricks(cloneSprite);
 		cloneSpriteVariables(ProjectManager.getInstance().getCurrentScene(), cloneSprite);
 		cloneScripts(cloneSprite);
@@ -371,11 +379,6 @@ public class Sprite implements Serializable, Cloneable {
 		ProjectManager.getInstance().setCurrentSprite(originalSprite);
 
 		return cloneSprite;
-	}
-
-	public Sprite cloneForScene() {
-		Sprite clone = clone();
-		return clone;
 	}
 
 	public Sprite shallowClone() {
@@ -393,6 +396,8 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.soundList = this.soundList;
 		cloneSprite.userBricks = this.userBricks;
 		cloneSprite.nfcTagList = this.nfcTagList;
+		cloneSprite.broadcastSequenceMap = this.broadcastSequenceMap;
+		cloneSprite.broadcastWaitSequenceMap = this.broadcastWaitSequenceMap;
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -416,8 +421,8 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void shallowCloneSpriteLists(DataContainer dataContainer, Sprite cloneSprite) {
-		List<UserList> originalSpriteLists = dataContainer.getOrCreateUserListListForSprite(this);
-		List<UserList> clonedSpriteLists = dataContainer.getOrCreateUserListListForSprite(cloneSprite);
+		List<UserList> originalSpriteLists = dataContainer.getOrCreateUserListForSprite(this);
+		List<UserList> clonedSpriteLists = dataContainer.getOrCreateUserListForSprite(cloneSprite);
 		for (UserList list : originalSpriteLists) {
 			clonedSpriteLists.add(list);
 		}
@@ -494,13 +499,17 @@ public class Sprite implements Serializable, Cloneable {
 		if (currentLookDataIndex != -1) {
 			cloneSprite.look.setLookData(cloneSprite.lookList.get(currentLookDataIndex));
 		}
-		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
+		this.look.copyTo(cloneSprite.look);
 	}
 
 	private void cloneLooks(Sprite cloneSprite) {
+		cloneLooks(cloneSprite, true);
+	}
+
+	private void cloneLooks(Sprite cloneSprite, boolean incrementUsage) {
 		List<LookData> cloneLookList = new ArrayList<>();
 		for (LookData element : this.lookList) {
-			cloneLookList.add(element.clone());
+			cloneLookList.add(element.clone(incrementUsage));
 		}
 		cloneSprite.lookList = cloneLookList;
 	}
@@ -542,6 +551,18 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.scriptList = cloneScriptList;
 	}
 
+	public void createWhengamepadButtonScriptActionSequence(String action) {
+		ParallelAction whenParallelAction = actionFactory.parallel();
+		for (Script script : scriptList) {
+			if (script instanceof WhenGamepadButtonScript && (((WhenGamepadButtonScript) script).getAction().equalsIgnoreCase(action))) {
+				SequenceAction sequence = createActionSequence(script);
+				whenParallelAction.addAction(sequence);
+			}
+		}
+		look.setWhenParallelAction(whenParallelAction);
+		look.addAction(whenParallelAction);
+	}
+
 	public Sprite cloneForBackPack() {
 		final Sprite cloneSprite = spriteFactory.newInstance(SpriteFactory.SPRITE_SINGLE);
 		cloneSprite.setName(name);
@@ -549,7 +570,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = actionFactory.parallel();
+		ParallelAction whenParallelAction = ActionFactory.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);
@@ -885,6 +906,17 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
+	public void updateSetPenColorFormulas() {
+		for (Script script : getScriptList()) {
+			for (Brick brick : script.getBrickList()) {
+				if (brick instanceof SetPenColorBrick) {
+					SetPenColorBrick spcBrick = (SetPenColorBrick) brick;
+					spcBrick.correctBrickFieldsFromPhiro();
+				}
+			}
+		}
+	}
+
 	private void renameSpriteInCollisionFormulas(String newName, Context context) {
 		String oldName = getName();
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
@@ -952,11 +984,23 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public List<Brick> getBricksRequiringResource(int resource) {
-		List<Brick> resourceBrickList = new ArrayList<Brick>();
+		List<Brick> resourceBrickList = new ArrayList<>();
 
 		for (Script script : scriptList) {
 			resourceBrickList.addAll(script.getBricksRequiringResources(resource));
 		}
 		return resourceBrickList;
+	}
+
+	public boolean isClone() {
+		return isClone;
+	}
+
+	public BroadcastSequenceMap getBroadcastSequenceMap() {
+		return broadcastSequenceMap;
+	}
+
+	public BroadcastWaitSequenceMap getBroadcastWaitSequenceMap() {
+		return broadcastWaitSequenceMap;
 	}
 }

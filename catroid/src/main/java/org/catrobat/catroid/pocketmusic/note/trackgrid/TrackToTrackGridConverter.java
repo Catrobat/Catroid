@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,7 +65,7 @@ public final class TrackToTrackGridConverter {
 					int endBeatIndex = ((columnStartIndex + (int) ((tick - openTick)
 							/ minNoteLength.toTicks(beatsPerMinute))) - 1) / beat.getTopNumber();
 
-					GridRowPosition gridRowPosition = new GridRowPosition(columnStartIndex, length);
+					GridRowPosition gridRowPosition = new GridRowPosition(columnStartIndex % beat.getTopNumber(), length);
 
 					for (int i = startBeatIndex; i <= endBeatIndex; i++) {
 						if (null == gridRows.get(noteName).getGridRowPositions().get(i)) {

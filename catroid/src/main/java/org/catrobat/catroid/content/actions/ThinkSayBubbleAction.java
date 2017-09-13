@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 
 public class ThinkSayBubbleAction extends TemporalAction {
+	private static final String TAG = ThinkSayBubbleAction.class.getSimpleName();
 
 	private Sprite sprite;
 	private Formula text;
@@ -40,21 +41,28 @@ public class ThinkSayBubbleAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		String textToDisplay;
+		ShowBubbleActor showBubbleActor;
 		try {
-			textToDisplay = text == null ? "" : text.interpretString(sprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+			showBubbleActor = createBubbleActor();
+		} catch (InterpretationException e) {
+			Log.d(TAG, "Failed to create Bubble Actor", e);
 			return;
 		}
-		ShowBubbleActor showBubbleActor = new ShowBubbleActor(textToDisplay, sprite, type);
 
 		if (StageActivity.stageListener.getBubbleActorForSprite(sprite) != null) {
-			StageActivity.stageListener.getStage().getActors().removeValue(StageActivity.stageListener.getBubbleActorForSprite(sprite), true);
 			StageActivity.stageListener.removeBubbleActorForSprite(sprite);
 		}
-		StageActivity.stageListener.addActor(showBubbleActor);
-		StageActivity.stageListener.putBubbleActor(sprite, showBubbleActor);
+		if (showBubbleActor != null) {
+			StageActivity.stageListener.setBubbleActorForSprite(sprite, showBubbleActor);
+		}
+	}
+
+	public ShowBubbleActor createBubbleActor() throws InterpretationException {
+		String textToDisplay = text == null ? "" : text.interpretString(sprite);
+		if (textToDisplay.isEmpty()) {
+			return null;
+		}
+		return new ShowBubbleActor(textToDisplay, sprite, type);
 	}
 
 	public void setSprite(Sprite sprite) {

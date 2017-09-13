@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import java.io.OutputStream;
 
 public interface BluetoothConnection {
 
-	static enum State {
+	enum State {
 		CONNECTED, NOT_CONNECTED, ERROR_BLUETOOTH_NOT_SUPPORTED, ERROR_BLUETOOTH_NOT_ON,
 		ERROR_ADAPTER, ERROR_DEVICE, ERROR_SOCKET, ERROR_STILL_BONDING, ERROR_NOT_BONDED, ERROR_CLOSING
 	}

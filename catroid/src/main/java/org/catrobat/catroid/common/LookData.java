@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.sensing.CollisionInformation;
+import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -90,29 +91,32 @@ public class LookData implements Serializable, Cloneable {
 		}
 
 		LookData lookData = (LookData) obj;
-		if (lookData.fileName.equals(this.fileName) && lookData.name.equals(this.name)) {
-			return true;
-		}
-		return false;
+		return (lookData.fileName.equals(this.fileName) && lookData.name.equals(this.name));
 	}
 
 	@Override
 	public int hashCode() {
-		return name.hashCode() + fileName.hashCode() + super.hashCode();
+		return fileName.hashCode() + super.hashCode();
 	}
 
 	@Override
 	public LookData clone() {
+		return clone(true);
+	}
+
+	public LookData clone(boolean incrementUsage) {
 		LookData cloneLookData = new LookData(this.name, this.fileName);
 
 		String filePath = getPathToImageDirectory() + "/" + fileName;
 		cloneLookData.isBackpackLookData = false;
-		try {
-			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
-		} catch (FileNotFoundException fileNotFoundexception) {
-			Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
+		if (incrementUsage) {
+			try {
+				ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
+			} catch (FileNotFoundException fileNotFoundexception) {
+				Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
+				CrashReporter.logException(fileNotFoundexception);
+			}
 		}
-
 		return cloneLookData;
 	}
 
@@ -139,6 +143,7 @@ public class LookData implements Serializable, Cloneable {
 				}
 			} catch (NullPointerException nullPointerException) {
 				Log.e(TAG, "gdx.files throws NullPointerException", nullPointerException);
+				CrashReporter.logException(nullPointerException);
 			}
 		}
 		return pixmap;
@@ -239,7 +244,7 @@ public class LookData implements Serializable, Cloneable {
 		width = options.outWidth;
 		height = options.outHeight;
 
-		return new int[] { width, height };
+		return new int[] {width, height};
 	}
 
 	@Override

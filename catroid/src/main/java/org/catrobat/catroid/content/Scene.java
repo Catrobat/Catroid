@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,19 +30,18 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickWithSpriteReference;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -137,7 +136,7 @@ public class Scene implements Serializable {
 		clonedScene.dataContainer = new DataContainer(project);
 		ProjectManager.getInstance().setCurrentScene(this);
 		for (Sprite sprite : spriteList) {
-			Sprite cloneSprite = sprite.cloneForScene();
+			Sprite cloneSprite = sprite.clone();
 			for (UserBrick userBrick : cloneSprite.getUserBrickList()) {
 				ProjectManager.getInstance().setCurrentScene(clonedScene);
 				userBrick.updateUserBrickParametersAndVariables();
@@ -196,7 +195,7 @@ public class Scene implements Serializable {
 		}
 
 		for (String variable : variables) {
-			if (dataContainer.existVariableInAnySprite(variable, spriteList)) {
+			if (dataContainer.variableExistsInAnySprite(spriteList, variable)) {
 				return false;
 			}
 			if (!dataContainer.existProjectVariableWithName(variable) && !dataContainer.existUserVariableWithName(variable)) {
@@ -205,7 +204,7 @@ public class Scene implements Serializable {
 		}
 
 		for (String list : lists) {
-			if (dataContainer.existListInAnySprite(list, spriteList)) {
+			if (dataContainer.existListInAnySprite(spriteList, list)) {
 				return false;
 			}
 			if (!dataContainer.existProjectListWithName(list)) {
@@ -244,7 +243,7 @@ public class Scene implements Serializable {
 		ProjectManager.getInstance().getCurrentProject().removeInvalidVariablesAndLists(dataContainer);
 		dataContainer.removeVariablesOfClones();
 		for (Sprite s : new ArrayList<>(spriteList)) {
-			if (s.isClone) {
+			if (s.isClone()) {
 				spriteList.remove(s);
 			}
 		}
@@ -341,8 +340,7 @@ public class Scene implements Serializable {
 		return dataContainer;
 	}
 
-	public synchronized void removeUnusedBroadcastMessages() {
-		List<String> usedMessages = new ArrayList<>();
+	public synchronized void addUsedMessagesToList(List<String> usedMessages) {
 		for (Sprite currentSprite : spriteList) {
 			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
 				Script currentScript = currentSprite.getScript(scriptIndex);
@@ -366,7 +364,6 @@ public class Scene implements Serializable {
 				}
 			}
 		}
-		MessageContainer.removeUnusedMessages(usedMessages);
 	}
 
 	private void addBroadcastMessage(String broadcastMessageToAdd, List<String> broadcastMessages) {
@@ -411,10 +408,7 @@ public class Scene implements Serializable {
 	}
 
 	public boolean existSpriteVariable(UserVariable variable, Sprite sprite) {
-		if (!spriteList.contains(sprite)) {
-			return false;
-		}
-		return dataContainer.existSpriteVariable(variable, sprite);
+		return spriteList.contains(sprite) && dataContainer.spriteVariableExists(sprite, variable);
 	}
 
 	public boolean existProjectList(UserList list) {
@@ -422,43 +416,34 @@ public class Scene implements Serializable {
 	}
 
 	public boolean existSpriteList(UserList list, Sprite sprite) {
-		if (!spriteList.contains(sprite)) {
-			return false;
-		}
-		return dataContainer.existSpriteList(list, sprite);
+		return spriteList.contains(sprite) && dataContainer.existSpriteList(sprite, list);
 	}
 
 	public Sprite getSpriteByUserVariable(UserVariable variable) {
-		Sprite spriteByUserVariable = null;
 		for (Sprite sprite : spriteList) {
-			if (dataContainer.existSpriteVariable(variable, sprite)) {
-				spriteByUserVariable = sprite;
-				break;
+			if (dataContainer.spriteVariableExists(sprite, variable)) {
+				return sprite;
 			}
 		}
-		return spriteByUserVariable;
+		return null;
 	}
 
 	public Sprite getSpriteByUserList(UserList list) {
-		Sprite spriteByUserList = null;
 		for (Sprite sprite : spriteList) {
-			if (dataContainer.existSpriteList(list, sprite)) {
-				spriteByUserList = sprite;
-				break;
+			if (dataContainer.existSpriteList(sprite, list)) {
+				return sprite;
 			}
 		}
-		return spriteByUserList;
+		return null;
 	}
 
 	public Sprite getSpriteBySpriteName(String searchedSprite) {
-		Sprite spriteBySpriteName = null;
 		for (Sprite sprite : spriteList) {
 			if (searchedSprite.equals(sprite.getName())) {
-				spriteBySpriteName = sprite;
-				break;
+				return sprite;
 			}
 		}
-		return spriteBySpriteName;
+		return null;
 	}
 
 	public synchronized void replaceBackgroundSprite(Sprite unpackedSprite) {
@@ -479,12 +464,12 @@ public class Scene implements Serializable {
 		for (Sprite sprite : spriteList) {
 			for (Brick brick : sprite.getListWithAllBricks()) {
 				if (brick instanceof UserVariableBrick) {
-					((UserVariableBrick) brick).setUserVariable(dataContainer.getUserVariable(((UserVariableBrick)
-							brick).getUserVariable().getName(), sprite));
+					((UserVariableBrick) brick).setUserVariable(dataContainer.getUserVariable(sprite, ((UserVariableBrick)
+							brick).getUserVariable().getName()));
 				}
 
 				if (brick instanceof UserListBrick) {
-					((UserListBrick) brick).setUserList(dataContainer.getUserList(((UserListBrick) brick).getUserList().getName(), sprite));
+					((UserListBrick) brick).setUserList(dataContainer.getUserList(sprite, ((UserListBrick) brick).getUserList().getName()));
 				}
 			}
 		}
@@ -492,17 +477,18 @@ public class Scene implements Serializable {
 
 	public void refreshSpriteReferences() {
 		for (Brick brick : getAllBricks()) {
-			if (!(brick instanceof PointToBrick)) {
-				continue;
-			}
-			PointToBrick pointToBrick = (PointToBrick) brick;
-			Sprite pointedSprite = pointToBrick.getPointedObject();
-			if (pointedSprite == null) {
+			if (!(brick instanceof BrickWithSpriteReference)) {
 				continue;
 			}
 
-			Sprite newSprite = getSpriteBySpriteName(pointToBrick.getPointedObject().getName());
-			pointToBrick.setPointedObject(newSprite);
+			BrickWithSpriteReference referenceBrick = ((BrickWithSpriteReference) brick);
+			Sprite referencedSprite = referenceBrick.getSprite();
+			if (referencedSprite == null) {
+				continue;
+			}
+
+			Sprite newSprite = getSpriteBySpriteName(referencedSprite.getName());
+			referenceBrick.setSprite(newSprite);
 		}
 	}
 

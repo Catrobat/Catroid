@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -72,9 +71,11 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 		initializeBrickFields(new Formula(speedValue));
 	}
 
-	public PhiroMotorMoveForwardBrick(Motor motor, Formula speedFormula) {
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
+	public PhiroMotorMoveForwardBrick(String motor, Formula speedFormula) {
+		if (motor != null) {
+			this.motor = motor;
+			readResolve();
+		}
 
 		initializeBrickFields(speedFormula);
 	}
@@ -116,7 +117,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 
 	@Override
 	public Brick clone() {
-		return new PhiroMotorMoveForwardBrick(motorEnum,
+		return new PhiroMotorMoveForwardBrick(motor,
 				getFormulaWithBrickField(BrickField.PHIRO_SPEED).clone());
 	}
 
@@ -168,7 +169,9 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
+		if (motorEnum == null) {
+			readResolve();
+		}
 		motorSpinner.setSelection(motorEnum.ordinal());
 
 		return view;
@@ -184,9 +187,5 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createPhiroMotorMoveForwardActionAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.PHIRO_SPEED)));
 		return null;
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

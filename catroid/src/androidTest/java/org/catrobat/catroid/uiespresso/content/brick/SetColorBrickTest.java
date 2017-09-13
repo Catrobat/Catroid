@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,31 +28,42 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.testBrickTextFieldWithFormulaEditor;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class SetColorBrickTest {
+	private int brickPosition;
+
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("setColorBrickTest1").addBrick(new SetColorBrick(0f));
+		brickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("setColorBrickTest1")
+				.addBrick(new SetColorBrick(0f));
 		baseActivityTestRule.launchActivity(null);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void setColorBrickTest() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(1, R.string.brick_set_color);
-		testBrickTextFieldWithFormulaEditor(1, R.id.brick_set_color_edit_text, 1);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_color);
+
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_color_edit_text)
+				.performEnterNumber(1)
+				.checkShowsNumber(1);
 	}
 }

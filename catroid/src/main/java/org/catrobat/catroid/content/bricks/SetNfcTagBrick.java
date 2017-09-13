@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -150,10 +149,6 @@ public class SetNfcTagBrick extends FormulaBrick {
 		FormulaEditorFragment.showFragment(view, this, BrickField.NFC_NDEF_MESSAGE);
 	}
 
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
-	}
-
 	private ArrayAdapter<String> createArrayAdapter(Context context) {
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 
@@ -176,7 +171,7 @@ public class SetNfcTagBrick extends FormulaBrick {
 		protected Context context;
 		protected ArrayAdapter<String> spinnerAdapter;
 
-		public SpinnerAdapterWrapper(Context context, ArrayAdapter<String> spinnerAdapter) {
+		SpinnerAdapterWrapper(Context context, ArrayAdapter<String> spinnerAdapter) {
 			this.context = context;
 			this.spinnerAdapter = spinnerAdapter;
 		}

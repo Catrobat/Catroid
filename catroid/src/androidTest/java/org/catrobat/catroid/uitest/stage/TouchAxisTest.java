@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -70,7 +70,7 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, 100);
 		solo.sleep(500);
 
-		byte[] blackPixel = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
+		byte[] blackPixel = {(byte) 0, (byte) 0, (byte) 0, (byte) 255};
 		byte[] screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, 100, 1, 1);
 
 		Log.d(TAG, "width: " + ScreenValues.SCREEN_WIDTH / 2);

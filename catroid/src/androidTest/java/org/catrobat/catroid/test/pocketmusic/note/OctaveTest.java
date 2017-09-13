@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ public class OctaveTest extends AndroidTestCase {
 				NoteName.C4, NoteName.C4S, NoteName.D4,
 				NoteName.D4S, NoteName.E4, NoteName.F4,
 				NoteName.F4S, NoteName.G4, NoteName.G4S,
-				NoteName.A4, NoteName.A4S, NoteName.B4 };
+				NoteName.A4, NoteName.A4S, NoteName.B4};
 		Octave octave = Octave.ONE_LINE_OCTAVE;
 
 		assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -182,7 +182,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 				Utils.showErrorDialog(getActivity(), R.string.error_load_project);
 			} catch (OutdatedVersionProjectException outdatedVersionException) {
 				Log.e(TAG, "Projectcode version is outdated", outdatedVersionException);
-				Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
+				Utils.showErrorDialog(getActivity(), R.string.error_outdated_version);
 			} catch (CompatibilityProjectException compatibilityException) {
 				Log.e(TAG, "Project is not compatible", compatibilityException);
 				Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);

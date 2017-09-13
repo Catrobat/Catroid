@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -183,7 +183,7 @@ public class PhiroImplTest extends AndroidTestCase {
 
 		phiro.playTone(tone, durationInSeconds);
 
-		FirmataMessage m = firmataUtils.getAnalogMesageData();
+		FirmataMessage m = firmataUtils.getAnalogMessageData();
 
 		assertEquals("Wrong command, ANALOG_MESSAGE command on speaker pin expected",
 				ANALOG_MESSAGE_COMMAND, m.getCommand());
@@ -196,7 +196,7 @@ public class PhiroImplTest extends AndroidTestCase {
 			Thread.sleep(durationInSeconds * 100);
 		}
 
-		m = firmataUtils.getAnalogMesageData();
+		m = firmataUtils.getAnalogMessageData();
 
 		assertEquals("Wrong command, ANALOG_MESSAGE command on speaker pin expected",
 				ANALOG_MESSAGE_COMMAND, m.getCommand());
@@ -229,7 +229,7 @@ public class PhiroImplTest extends AndroidTestCase {
 	private void testSpeed(int speedInPercent, int pin) {
 		int speed = percentToSpeed(speedInPercent);
 
-		FirmataMessage m = firmataUtils.getAnalogMesageData();
+		FirmataMessage m = firmataUtils.getAnalogMessageData();
 
 		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
 				ANALOG_MESSAGE_COMMAND, m.getCommand());
@@ -238,7 +238,7 @@ public class PhiroImplTest extends AndroidTestCase {
 	}
 
 	private void testLight(int color, int pin) {
-		FirmataMessage m = firmataUtils.getAnalogMesageData();
+		FirmataMessage m = firmataUtils.getAnalogMessageData();
 
 		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
 				ANALOG_MESSAGE_COMMAND, m.getCommand());

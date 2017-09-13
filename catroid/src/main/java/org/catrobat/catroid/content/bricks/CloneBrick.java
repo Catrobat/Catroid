@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,9 +39,10 @@ import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import java.util.Collections;
 import java.util.List;
 
-public class CloneBrick extends BrickBaseType {
+public class CloneBrick extends BrickBaseType implements BrickWithSpriteReference {
 
 	private static final long serialVersionUID = 1L;
+
 	private Sprite objectToClone;
 
 	public CloneBrick(Sprite objectToClone) {
@@ -53,8 +54,7 @@ public class CloneBrick extends BrickBaseType {
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		CloneBrick copyBrick = (CloneBrick) clone();
-		return copyBrick;
+		return clone();
 	}
 
 	@Override
@@ -100,16 +100,14 @@ public class CloneBrick extends BrickBaseType {
 		}
 
 		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpackHiddenSprite(objectToClone);
-		objectToClone = backPackedSprite;
+		objectToClone = BackPackSpriteController.getInstance().backpackHiddenSprite(objectToClone);
 		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}
 
 	private void setupValueSpinner(final Context context) {
 		final Spinner valueSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
 
-		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene()
-				.getSpriteList();
+		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 
 		ArrayAdapter<String> valueAdapter = getSpinnerArrayAdapter(context);
 		valueSpinner.setAdapter(valueAdapter);
@@ -135,12 +133,11 @@ public class CloneBrick extends BrickBaseType {
 	}
 
 	private ArrayAdapter<String> getSpinnerArrayAdapter(Context context) {
-		ArrayAdapter<String> messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		ArrayAdapter<String> messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(context.getString(R.string.brick_clone_this));
 
-		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene()
-				.getSpriteList();
+		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 
 		for (Sprite sprite : spriteList) {
 			if (sprite.getName().equals(context.getString(R.string.background))) {
@@ -150,5 +147,15 @@ public class CloneBrick extends BrickBaseType {
 		}
 
 		return messageAdapter;
+	}
+
+	@Override
+	public Sprite getSprite() {
+		return objectToClone;
+	}
+
+	@Override
+	public void setSprite(Sprite sprite) {
+		this.objectToClone = sprite;
 	}
 }

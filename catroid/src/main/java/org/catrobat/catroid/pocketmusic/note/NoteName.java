@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ public enum NoteName {
 	private int midi;
 	private boolean signed;
 
-	private NoteName(int midi, boolean signed) {
+	NoteName(int midi, boolean signed) {
 		this.midi = midi;
 		this.signed = signed;
 	}

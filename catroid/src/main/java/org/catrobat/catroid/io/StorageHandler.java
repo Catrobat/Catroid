@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,6 +65,7 @@ import org.catrobat.catroid.content.SupportProject;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenConditionScript;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
@@ -163,9 +164,12 @@ import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
@@ -200,12 +204,13 @@ import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
-import org.catrobat.catroid.formulaeditor.SupportDataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.formulaeditor.datacontainer.SupportDataContainer;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
@@ -406,7 +411,7 @@ public final class StorageHandler {
 		xstream.alias("brick", IfLogicElseBrick.class);
 		xstream.alias("brick", IfLogicEndBrick.class);
 		xstream.alias("brick", IfThenLogicBeginBrick.class);
-		xstream.alias("brick", IfThenLogicEndBrick .class);
+		xstream.alias("brick", IfThenLogicEndBrick.class);
 		xstream.alias("brick", IfOnEdgeBounceBrick.class);
 		xstream.alias("brick", InsertItemIntoUserListBrick.class);
 		xstream.alias("brick", FlashBrick.class);
@@ -440,8 +445,11 @@ public final class StorageHandler {
 		xstream.alias("brick", SetColorBrick.class);
 		xstream.alias("brick", SetTransparencyBrick.class);
 		xstream.alias("brick", SetLookBrick.class);
+		xstream.alias("brick", SetLookByIndexBrick.class);
 		xstream.alias("brick", SetBackgroundBrick.class);
+		xstream.alias("brick", SetBackgroundByIndexBrick.class);
 		xstream.alias("brick", SetBackgroundAndWaitBrick.class);
+		xstream.alias("brick", SetBackgroundByIndexAndWaitBrick.class);
 		xstream.alias("brick", SetPenColorBrick.class);
 		xstream.alias("brick", SetPenSizeBrick.class);
 		xstream.alias("brick", SetRotationStyleBrick.class);
@@ -512,6 +520,10 @@ public final class StorageHandler {
 
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
 		xstream.alias("userBrickParameter", UserBrickParameter.class);
+
+		//Cast
+		xstream.alias("script", WhenGamepadButtonScript.class);
+		xstream.alias("brick", WhenGamepadButtonBrick.class);
 
 		// Physics Script
 		xstream.alias("script", CollisionScript.class);

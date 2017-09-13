@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -249,6 +249,20 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.EV3_SENSOR_3);
 			case R.string.formula_editor_sensor_lego_ev3_4:
 				return buildSensor(Sensors.EV3_SENSOR_4);
+
+			//CAST SENSOR
+			case R.string.formula_editor_sensor_gamepad_a_pressed:
+				return buildSensor(Sensors.GAMEPAD_A_PRESSED);
+			case R.string.formula_editor_sensor_gamepad_b_pressed:
+				return buildSensor(Sensors.GAMEPAD_B_PRESSED);
+			case R.string.formula_editor_sensor_gamepad_up_pressed:
+				return buildSensor(Sensors.GAMEPAD_UP_PRESSED);
+			case R.string.formula_editor_sensor_gamepad_down_pressed:
+				return buildSensor(Sensors.GAMEPAD_DOWN_PRESSED);
+			case R.string.formula_editor_sensor_gamepad_left_pressed:
+				return buildSensor(Sensors.GAMEPAD_LEFT_PRESSED);
+			case R.string.formula_editor_sensor_gamepad_right_pressed:
+				return buildSensor(Sensors.GAMEPAD_RIGHT_PRESSED);
 
 			//DRONE SENSOR
 			case R.string.formula_editor_sensor_drone_battery_status:

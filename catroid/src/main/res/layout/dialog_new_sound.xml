@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -80,7 +80,7 @@
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_pocketmusic"
                 android:gravity="center"
-                android:text="@string/add_sound_pocketmusic"
+                android:text="@string/add_sound_music"
                 android:textSize="12sp" />
         </LinearLayout >
     </LinearLayout>

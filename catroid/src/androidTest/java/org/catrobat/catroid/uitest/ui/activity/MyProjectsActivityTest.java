@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -318,13 +318,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				int testPixelX = viewBitmap.getWidth() / 2;
 				int testPixelY = viewBitmap.getHeight() / 2;
 
-				byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
-				byte[] blackPixel = { 0, 0, 0, (byte) 255 };
+				byte[] whitePixel = {(byte) 255, (byte) 255, (byte) 255, (byte) 255};
+				byte[] blackPixel = {0, 0, 0, (byte) 255};
 				switch (counter) {
 					case 1:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						byte[] screenPixel = { (byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
-								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor) };
+						byte[] screenPixel = {(byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
+								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor)};
 						assertTrue("Image color should be white",
 								UiTestUtils.comparePixelRgbaArrays(whitePixel, screenPixel));
 
@@ -333,8 +333,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 						break;
 					case 2:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						byte[] screenPixel2 = { (byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
-								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor) };
+						byte[] screenPixel2 = {(byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
+								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor)};
 						assertTrue("Image color should be black",
 								UiTestUtils.comparePixelRgbaArrays(blackPixel, screenPixel2));
 
@@ -823,7 +823,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
 		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
-		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
+		assertFalse("about is visible", solo.waitForText(solo.getString(R.string.main_menu_about), 1, 1000, false));
 	}
 
 	public void testConfirmDeleteProgramDialogTitleChange() {
@@ -1846,8 +1846,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		byte[] greenPixel1 = createScreenshotBitmap();
 
 		//The color values below are those we get on our emulated test device
-		byte[] greenPixel = { 0, (byte) 255, 0, (byte) 255 };
-		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
+		byte[] greenPixel = {0, (byte) 255, 0, (byte) 255};
+		byte[] redPixel = {(byte) 255, 0, 0, (byte) 255};
 
 		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel1));
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -2169,8 +2169,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 					viewBitmap = viewToTest.getDrawingCache();
 					int pixelValue = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
 					viewToTest.destroyDrawingCache();
-					pixel = new byte[] { (byte) Color.red(pixelValue), (byte) Color.green(pixelValue),
-							(byte) Color.blue(pixelValue), (byte) Color.alpha(pixelValue) };
+					pixel = new byte[] {(byte) Color.red(pixelValue), (byte) Color.green(pixelValue),
+							(byte) Color.blue(pixelValue), (byte) Color.alpha(pixelValue)};
 				}
 			}
 		}

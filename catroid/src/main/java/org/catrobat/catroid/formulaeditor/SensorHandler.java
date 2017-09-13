@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -33,12 +34,16 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.Surface;
+import android.view.WindowManager;
 
 import com.parrot.freeflight.service.DroneControlService;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
@@ -67,7 +72,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float[] rotationVector = new float[3];
 	private float[] accelerationXYZ = new float[3];
 	private float signAccelerationZ = 0f;
-	private float[] gravity = new float[] { 0f, 0f, 0f };
+	private float[] gravity = new float[] {0f, 0f, 0f};
 	private boolean useLinearAccelerationFallback = false;
 	private boolean useRotationVectorFallback = false;
 	private float linearAccelerationX = 0f;
@@ -120,7 +125,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				accelerationAvailable = false;
 			}
 		}
-
 		locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
 		Log.d(TAG, "*** LINEAR_ACCELERATION SENSOR: " + linearAccelerationSensor);
@@ -183,7 +187,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		instance.locationManager.removeUpdates(instance);
 		instance.locationManager.removeGpsStatusListener(instance);
 
-		instance.registerListener(instance);
+		SensorHandler.registerListener(instance);
 
 		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
 		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
@@ -250,18 +254,20 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
 		Double sensorValue;
 		float[] rotationMatrixOut = new float[16];
+		int rotate;
+
 		switch (sensor) {
 
 			case X_ACCELERATION:
-				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-					return (double) (-instance.linearAccelerationY);
+				if ((rotate = rotateOrientation()) != 0) {
+					return (double) ((-instance.linearAccelerationY) * rotate);
 				} else {
 					return (double) instance.linearAccelerationX;
 				}
 
 			case Y_ACCELERATION:
-				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-					return (double) instance.linearAccelerationX;
+				if ((rotate = rotateOrientation()) != 0) {
+					return (double) (instance.linearAccelerationX * rotate);
 				} else {
 					return (double) instance.linearAccelerationY;
 				}
@@ -275,9 +281,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
 				}
-				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+				if ((rotate = rotateOrientation()) == 1) {
 					android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 							.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
+					android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
+				} else if (rotate == -1) {
+					android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
+							.AXIS_MINUS_Y, android.hardware.SensorManager.AXIS_X, rotationMatrixOut);
 					android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
 				} else {
 					android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
@@ -300,9 +310,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case X_INCLINATION:
 				if (instance.useRotationVectorFallback) {
 					float rawInclinationX;
-					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+					if ((rotate = rotateOrientation()) != 0) {
 						rawInclinationX = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance
-								.accelerationXYZ[1]));
+								.accelerationXYZ[1] * rotate));
 					} else {
 						rawInclinationX = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0]));
 					}
@@ -321,7 +331,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 							correctedInclinationX = (90 + rawInclinationX);
 						}
 					}
-					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+					if (rotateOrientation() != 0) {
 						correctedInclinationX = -correctedInclinationX;
 					}
 					return (double) correctedInclinationX;
@@ -329,9 +339,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					orientations = new float[3];
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
-					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+					if ((rotate = rotateOrientation()) == 1) {
 						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
+						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
+					} else if (rotate == -1) {
+						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
+								.AXIS_MINUS_Y, android.hardware.SensorManager.AXIS_X, rotationMatrixOut);
 						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
 					} else {
 						android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
@@ -342,8 +356,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case Y_INCLINATION:
 				if (instance.useRotationVectorFallback) {
 					float rawInclinationY;
-					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0]));
+					if ((rotate = rotateOrientation()) != 0) {
+						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0] * rotate));
 					} else {
 						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[1]));
 					}
@@ -366,9 +380,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					orientations = new float[3];
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
-					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+					if (rotateOrientation() == 1) {
 						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
+						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
+					} else if (rotateOrientation() == -1) {
+						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
+								.AXIS_MINUS_Y, android.hardware.SensorManager.AXIS_X, rotationMatrixOut);
 						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
 					} else {
 						android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
@@ -395,19 +413,19 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case FACE_SIZE:
 				return (double) instance.faceSize;
 			case FACE_X_POSITION:
-				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-					return (double) (-instance.facePositionY);
+				if ((rotate = rotateOrientation()) != 0) {
+					return (double) ((-instance.facePositionY) * rotate);
 				} else {
 					return (double) instance.facePositionX;
 				}
 			case FACE_Y_POSITION:
-				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-					return (double) instance.facePositionX;
+				if ((rotate = rotateOrientation()) != 0) {
+					return (double) instance.facePositionX * rotate;
 				} else {
 					return (double) instance.facePositionY;
 				}
 			case LOUDNESS:
-				return Double.valueOf(instance.loudness);
+				return (double) instance.loudness;
 			case DATE_YEAR:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			case DATE_MONTH:
@@ -455,6 +473,14 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					return Double.valueOf(phiro.getSensorValue(sensor));
 				}
 				break;
+
+			case GAMEPAD_A_PRESSED:
+			case GAMEPAD_B_PRESSED:
+			case GAMEPAD_DOWN_PRESSED:
+			case GAMEPAD_LEFT_PRESSED:
+			case GAMEPAD_RIGHT_PRESSED:
+			case GAMEPAD_UP_PRESSED:
+				return CastManager.getInstance().isButtonPressed(sensor) ? 1.0 : 0.0;
 
 			case LAST_FINGER_INDEX:
 				return Double.valueOf(TouchUtil.getLastTouchIndex());
@@ -538,6 +564,22 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
+	}
+
+	private static boolean isDeviceDefaultRotationLandscape() {
+		int rotation = ((WindowManager) CatroidApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE))
+				.getDefaultDisplay().getRotation();
+		Configuration config = CatroidApplication.getAppContext().getResources().getConfiguration();
+
+		return config.orientation == Configuration.ORIENTATION_LANDSCAPE && (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180)
+				|| config.orientation == Configuration.ORIENTATION_PORTRAIT && (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270);
+	}
+
+	private static int rotateOrientation() {
+		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode() ^ isDeviceDefaultRotationLandscape()) {
+			return ProjectManager.getInstance().isCurrentProjectLandscapeMode() ? 1 : -1;
+		}
+		return 0;
 	}
 
 	@Override

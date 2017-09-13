@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,14 +31,18 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -62,6 +66,7 @@ public class FormulaEditorKeyboardTest {
 		baseActivityTestRule.launchActivity(null);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void numericKeysTest() {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
@@ -81,9 +86,11 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
 
 		onView(withId(R.id.formula_editor_edit_field))
-				.check(matches(withText("1234567890.1 ")));
+				.check(matches(withText("1234567890"
+						+ UiTestUtils.getResourcesString(R.string.formula_editor_decimal_mark) + "1 ")));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void basicMathOperatorKeysTest() {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
@@ -107,17 +114,23 @@ public class FormulaEditorKeyboardTest {
 				.check(matches(withText("( 1 ) + 1 - 1 × 1 ÷ 1 = 1 ")));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void enterStringTest() {
-		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
+		onView(withId(R.id.brick_set_variable_edit_text))
+				.perform(click());
+		onView(withId(R.id.formula_editor_keyboard_string))
+				.perform(click());
 
-		onView(withId(R.id.formula_editor_keyboard_string)).perform(click());
+		onView(withText(R.string.formula_editor_new_string_name))
+				.check(matches(isDisplayed()));
+		onView(withId(R.id.formula_editor_string_name_edit_text))
+				.perform(typeText("Foo"));
+		onView(withText(R.string.ok))
+				.perform(click());
 
-		onView(withText(R.string.formula_editor_new_string_name)).check(matches(isDisplayed()));
-		onView(withId(R.id.formula_editor_string_name_edit_text)).perform(typeText("Foo"));
-		onView(withText(R.string.ok)).perform(click());
-
-		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
+		onView(withId(R.id.formula_editor_keyboard_ok))
+				.perform(click());
 		onView(withId(R.id.formula_editor_edit_field))
 				.check(matches(withText("'Foo' ")));
 	}

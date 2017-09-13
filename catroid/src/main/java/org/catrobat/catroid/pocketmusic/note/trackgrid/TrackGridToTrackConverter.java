@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,8 @@ public final class TrackGridToTrackConverter {
 
 				for (GridRowPosition position : positionsList) {
 
-					long startTicsInTrack = position.getStartTicksInTrack();
+					long startTicsInTrack = position.getStartTicksInTrack() + (key
+							* trackGrid.getBeat().getTopNumber() * beatsPerMinute * 8);
 					long noteLength = position.getNoteLength().toTicks(beatsPerMinute);
 
 					NoteEvent noteOnEvent = new NoteEvent(gridRow.getNoteName(), true);

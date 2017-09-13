@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -164,7 +164,7 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	private static class SensorValueUpdater implements Runnable {
 		private NXTSensor sensor;
 
-		public SensorValueUpdater(NXTSensor sensor) {
+		SensorValueUpdater(NXTSensor sensor) {
 			this.sensor = sensor;
 		}
 
@@ -183,7 +183,7 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 			public ScheduledFuture scheduledFuture;
 			public NXTSensor sensor;
 
-			public SensorTuple(ScheduledFuture scheduledFuture, NXTSensor sensor) {
+			SensorTuple(ScheduledFuture scheduledFuture, NXTSensor sensor) {
 				this.scheduledFuture = scheduledFuture;
 				this.sensor = sensor;
 			}

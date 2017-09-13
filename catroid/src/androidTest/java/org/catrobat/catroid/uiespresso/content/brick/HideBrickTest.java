@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,13 +28,17 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.content.brick.BrickTestUtils.checkIfBrickAtPositionShowsString;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class HideBrickTest {
@@ -44,13 +48,15 @@ public class HideBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("hideBrickTest1").addBrick(new HideBrick());
+		BrickTestUtils.createProjectAndGetStartScript("hideBrickTest1")
+				.addBrick(new HideBrick());
 		baseActivityTestRule.launchActivity(null);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void hideBrickTest() {
-		checkIfBrickAtPositionShowsString(0, R.string.brick_when_started);
-		checkIfBrickAtPositionShowsString(1, R.string.brick_hide);
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_hide);
 	}
 }
