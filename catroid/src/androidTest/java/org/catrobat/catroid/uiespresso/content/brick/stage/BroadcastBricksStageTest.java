@@ -27,7 +27,6 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -43,8 +42,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uiespresso.annotations.Flaky;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
@@ -59,28 +57,16 @@ import org.junit.runner.RunWith;
 import java.io.File;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastBricksStageTest {
-	private String defaultMessage = "defaultMessage";
-	private int broadcastSendPosition = 4;
-	private int broadcastReceivePosition = 5;
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(StageActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
@@ -90,7 +76,7 @@ public class BroadcastBricksStageTest {
 
 	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
 	@Test
-	public void checkBroadcastBricks() {
+	public void testBroadcastBricksBasic() {
 		byte[] red = {(byte) 237, (byte) 28, (byte) 36, (byte) 255};
 		byte[] green = {(byte) 34, (byte) 177, (byte) 76, (byte) 255};
 
@@ -102,61 +88,9 @@ public class BroadcastBricksStageTest {
 				.check(matches(StageMatchers.isColorAtPx(green, 1, 1)));
 	}
 
-	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
-	@Test
-	@Flaky
-	public void testRemoveUnusedMessagesBroadcastSend() {
-		String uselessMessage = "useless";
-
-		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastSendPosition, uselessMessage);
-
-		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
-				.performSelect(defaultMessage);
-
-		onView(withId(R.id.button_play))
-				.perform(click());
-		pressBack();
-		onView(withId(R.id.stage_dialog_button_back))
-				.perform(click());
-		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
-				.perform(click());
-
-		onView(withText(uselessMessage)).check(doesNotExist());
-
-		pressBack();
-
-		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
-				.checkShowsText(defaultMessage);
-	}
-
-	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
-	@Test
-	@Flaky
-	public void testRemoveUnusedMessagesBroadcastReceive() {
-		String uselessMessage = "useless";
-		createNewMessageOnSpinner(R.id.brick_broadcast_receive_spinner, broadcastReceivePosition, uselessMessage);
-
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
-				.performSelect(defaultMessage);
-
-		onView(withId(R.id.button_play))
-				.perform(click());
-		pressBack();
-		onView(withId(R.id.stage_dialog_button_back))
-				.perform(click());
-
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
-				.perform(click());
-
-		onView(withText(uselessMessage)).check(doesNotExist());
-
-		pressBack();
-
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
-				.checkShowsText(defaultMessage);
-	}
-
 	private Script createProjectAndGetStartScriptWithImages(String projectName) {
+		String defaultMessage = "defaultMessage";
+
 		Project project = new Project(null, projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
@@ -203,22 +137,5 @@ public class BroadcastBricksStageTest {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		return script;
-	}
-
-	public static void createNewMessageOnSpinner(int spinnerResourceId, int position, String message) {
-		onBrickAtPosition(position).onSpinner(spinnerResourceId)
-				.perform(click());
-
-		onView(withText(R.string.brick_variable_spinner_create_new_variable))
-				.perform(click());
-
-		onView(withId(R.id.edit_text))
-				.perform(clearText(), typeText(message), closeSoftKeyboard());
-
-		onView(withId(android.R.id.button1))
-				.perform(click());
-		// todo: CAT-2359 to fix this:
-		onBrickAtPosition(position).onSpinner(spinnerResourceId)
-				.checkShowsText(message);
 	}
 }
