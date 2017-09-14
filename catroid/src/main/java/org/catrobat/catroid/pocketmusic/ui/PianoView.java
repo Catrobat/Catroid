@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.pocketmusic.note.NoteName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,23 +59,17 @@ public class PianoView extends ViewGroup {
 	public PianoView(Context context, AttributeSet attributeSet) {
 		super(context, attributeSet);
 		margin = getResources().getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
-
-		for (int i = 0; i < WHITE_KEY_COUNT + BLACK_KEY_COUNT; i++) {
-			NoteName noteName = NoteName.getNoteNameFromMidiValue(NoteName.C1.getMidi() + i);
-			View button = new PianoKey(context, noteName);
-			if (noteName.isBlackKey()) {
-				button.setBackgroundColor(ContextCompat.getColor(context, R.color.solid_black));
-				blackPianoKeys.add(button);
-			} else {
-				button.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
-				whitePianoKeys.add(button);
-			}
+		for (int i = 0; i < WHITE_KEY_COUNT; i++) {
+			View whiteButton = new View(context);
+			whiteButton.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+			whitePianoKeys.add(whiteButton);
+			addView(whiteButton);
 		}
-		for (View view : whitePianoKeys) {
-			addView(view);
-		}
-		for (View view : blackPianoKeys) {
-			addView(view);
+		for (int i = 0; i < BLACK_KEY_COUNT; i++) {
+			View blackButton = new View(context);
+			blackButton.setBackgroundColor(ContextCompat.getColor(context, R.color.solid_black));
+			blackPianoKeys.add(blackButton);
+			addView(blackButton);
 		}
 		currentHeight = 0;
 	}

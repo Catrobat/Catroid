@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -209,6 +209,7 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 		if (singleItem) {
 			unpackSound();
 			showUnpackingCompleteToast(1);
+			getActivity().finish();
 			return;
 		}
 		for (SoundInfo soundInfo : soundAdapter.getCheckedItems()) {
@@ -217,6 +218,7 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 		}
 		showUnpackingCompleteToast(soundAdapter.getCheckedItems().size());
 		clearCheckedItems();
+		getActivity().finish();
 	}
 
 	private void unpackSound() {

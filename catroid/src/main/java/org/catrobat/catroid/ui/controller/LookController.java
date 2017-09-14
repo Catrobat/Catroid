@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,8 +30,6 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
@@ -210,7 +208,7 @@ public final class LookController {
 		if (arguments != null) {
 			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
 		}
-		String[] projection = { MediaStore.MediaColumns.DATA };
+		String[] projection = {MediaStore.MediaColumns.DATA};
 		return new CursorLoader(activity, imageUri, projection, null, null, null);
 	}
 
@@ -379,7 +377,7 @@ public final class LookController {
 		Uri imageUri = intent.getData();
 		if (imageUri != null) {
 
-			Cursor cursor = activity.getContentResolver().query(imageUri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+			Cursor cursor = activity.getContentResolver().query(imageUri, new String[] {android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
 
 			if (cursor != null) {
 				cursor.moveToFirst();
@@ -466,36 +464,6 @@ public final class LookController {
 		copyImageToCatroid(mediaImage.toString(), activity, lookData, fragment);
 		File pictureOnSdCard = new File(mediaImage.getPath());
 		pictureOnSdCard.delete();
-	}
-
-	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
-		// Confirm if Pocket Paint is installed else start dialog --------------------------
-
-		List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
-				PackageManager.MATCH_DEFAULT_ONLY);
-
-		if (packageList.size() <= 0) {
-			AlertDialog.Builder builder = new CustomAlertDialogBuilder(activity);
-			builder.setTitle(R.string.pocket_paint_not_installed_title);
-			builder.setMessage(R.string.pocket_paint_not_installed).setCancelable(false)
-					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
-							activity.startActivity(downloadPocketPaintIntent);
-						}
-					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			AlertDialog alert = builder.create();
-			alert.show();
-			return false;
-		}
-		return true;
 	}
 
 	public void deleteCheckedLooks(LookBaseAdapter adapter, List<LookData> lookDataList, Activity activity) {

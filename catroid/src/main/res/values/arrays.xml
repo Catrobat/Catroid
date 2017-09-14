@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,16 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+
+    <!-- Cast Gamepad spinner -->
+    <string-array name="gamepad_buttons_array">
+        <item>@string/cast_gamepad_A</item>
+        <item>@string/cast_gamepad_B</item>
+        <item>@string/cast_gamepad_up</item>
+        <item>@string/cast_gamepad_down</item>
+        <item>@string/cast_gamepad_left</item>
+        <item>@string/cast_gamepad_right</item>
+    </string-array>
 
     <string-array name="raspi_version_spinner_names">
         <item>RaspberryPi Model A</item>

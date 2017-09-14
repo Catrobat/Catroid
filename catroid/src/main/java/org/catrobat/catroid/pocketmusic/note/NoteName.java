@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,14 +37,14 @@ public enum NoteName {
 			false), D7S(99, true), E7(100, false), F7(101, false), F7S(102, true), G7(103, false), G7S(104, true), A7(
 			105, false), A7S(106, true), B7(107, false), C8(108, false);
 
-	private static final NoteName DEFAULT_NOTE_NAME = NoteName.C4;
+	public static final NoteName DEFAULT_NOTE_NAME = NoteName.C1;
 
 	private int midi;
-	private boolean isBlackKey;
+	private boolean signed;
 
-	private NoteName(int midi, boolean signed) {
+	NoteName(int midi, boolean signed) {
 		this.midi = midi;
-		this.isBlackKey = signed;
+		this.signed = signed;
 	}
 
 	public static NoteName getNoteNameFromMidiValue(int midiValue) {
@@ -66,14 +66,14 @@ public enum NoteName {
 		NoteName smallNoteName = isDownGoing ? referenceNoteName : noteName;
 		NoteName largeNoteName = isDownGoing ? noteName : referenceNoteName;
 
-		if (smallNoteName.isBlackKey()) {
+		if (smallNoteName.isSigned()) {
 			distance = 1;
-		} else if (largeNoteName.isBlackKey()) {
+		} else if (largeNoteName.isSigned()) {
 			distance = -1;
 		}
 
 		while (smallNoteName.getMidi() != largeNoteName.getMidi()) {
-			if (!smallNoteName.isBlackKey()) {
+			if (!smallNoteName.isSigned()) {
 				distance++;
 			}
 
@@ -111,7 +111,7 @@ public enum NoteName {
 		return values()[index];
 	}
 
-	public boolean isBlackKey() {
-		return isBlackKey;
+	public boolean isSigned() {
+		return signed;
 	}
 }

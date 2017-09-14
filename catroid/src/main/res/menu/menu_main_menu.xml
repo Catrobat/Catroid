@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/cast_button"
+        android:showAsAction="ifRoom"
+        android:title="@string/cast_button_menu_item_title"
+        android:icon="@drawable/ic_cast_white"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_rate_app"
         android:showAsAction="withText"
         android:title="@string/main_menu_rate_app" />
@@ -34,7 +40,7 @@
     <item
         android:id="@+id/menu_about"
         android:showAsAction="withText"
-        android:title="@string/main_menu_about_pocketcode" />
+        android:title="@string/main_menu_about" />
     <item
         android:id="@+id/menu_scratch_converter"
         android:showAsAction="withText"

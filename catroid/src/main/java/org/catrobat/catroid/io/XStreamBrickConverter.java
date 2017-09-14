@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,12 +33,13 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.mapper.Mapper;
 
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.utils.CrashReporter;
 
 public class XStreamBrickConverter extends ReflectionConverter {
 
 	private static final String TAG = XStreamBrickConverter.class.getSimpleName();
-	private static final String[] BRICKS_PACKAGE_NAMES = { "org.catrobat.catroid.content.bricks",
-			"org.catrobat.catroid.physics.content.bricks" };
+	private static final String[] BRICKS_PACKAGE_NAMES = {"org.catrobat.catroid.content.bricks",
+			"org.catrobat.catroid.physics.content.bricks"};
 	private static final String TYPE = "type";
 
 	public XStreamBrickConverter(Mapper mapper, ReflectionProvider reflectionProvider) {
@@ -67,6 +68,7 @@ public class XStreamBrickConverter extends ReflectionConverter {
 				return super.doUnmarshal(brick, reader, context);
 			} catch (ClassNotFoundException exception) {
 				Log.d(TAG, "Brick " + type + " not found in " + BRICKS_PACKAGE_NAMES[index]);
+				CrashReporter.logException(exception);
 			}
 		}
 		Log.i(TAG, "Brick " + type + " not found in packages");

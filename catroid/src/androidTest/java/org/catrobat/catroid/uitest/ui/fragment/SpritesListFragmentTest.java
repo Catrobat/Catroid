@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,9 +44,9 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -142,10 +142,10 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		project.getDefaultScene().addSprite(sprite);
 		project.getDefaultScene().addSprite(sprite2);
 		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
-		project.getDefaultScene().getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
+		project.getDefaultScene().getDataContainer().getUserVariable(sprite, LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);
 
 		project.getDefaultScene().getDataContainer().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
-		project.getDefaultScene().getDataContainer().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
+		project.getDefaultScene().getDataContainer().getUserVariable(null, GLOBAL_VARIABLE_NAME).setValue(GLOBAL_VARIABLE_VALUE);
 
 		ProjectManager.getInstance().setProject(project);
 
@@ -892,9 +892,9 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		ProjectManager projectManager = ProjectManager.getInstance();
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		DataContainer dataContainer = projectManager.getCurrentProject().getDefaultScene().getDataContainer();
-		UserVariable spriteUserVariable = dataContainer.getUserVariable("sprite_var", projectManager.getCurrentSprite());
+		UserVariable spriteUserVariable = dataContainer.getUserVariable(projectManager.getCurrentSprite(), "sprite_var");
 		UserVariable projectUserVariable = dataContainer.getProjectVariables().get(0);
-		UserList projectUserList = dataContainer.getUserList("global_list", null);
+		UserList projectUserList = dataContainer.getUserList(null, "global_list");
 		UserList spriteUserList = dataContainer.getSpriteListOfLists(projectManager.getCurrentSprite()).get(0);
 		assertTrue("Project user list was not unpacked", projectUserList.getName().equals("global_list"));
 		assertTrue("Sprite user list was not unpacked", spriteUserList.getName().equals("sprite_list"));

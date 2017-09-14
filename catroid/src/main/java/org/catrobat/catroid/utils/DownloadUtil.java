@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -187,7 +187,7 @@ public final class DownloadUtil {
 
 	@SuppressLint("ParcelCreator")
 	private class DownloadProjectReceiver extends ResultReceiver {
-		public DownloadProjectReceiver(Handler handler) {
+		DownloadProjectReceiver(Handler handler) {
 			super(handler);
 		}
 
@@ -220,7 +220,7 @@ public final class DownloadUtil {
 
 	@SuppressLint("ParcelCreator")
 	private class DownloadMediaReceiver extends ResultReceiver {
-		public DownloadMediaReceiver(Handler handler) {
+		DownloadMediaReceiver(Handler handler) {
 			super(handler);
 		}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ public class SystemOutTest extends TestCase {
 	private boolean errorFound;
 
 	private static final String[] TOAST_STACK_TRACE_DIRECTORIES = Utils.TOAST_STACK_TRACE_TEST_DIRECTORIES;
-	private static final String[] IGNORED_FILES = { "SystemOutTest.java", "ToastUtil.java", "BTServer.java" };
+	private static final String[] IGNORED_FILES = {"SystemOutTest.java", "ToastUtil.java", "BTServer.java"};
 	private static final String TOAST_STRING = "Toast.makeText";
 	private static final String SUPERTOAST_STRING = "SuperToast";
 
@@ -72,7 +72,7 @@ public class SystemOutTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, new String[] { ".java", });
+			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, new String[] {".java"});
 			if (IGNORED_FILES != null) {
 				for (String ignoredFileString : IGNORED_FILES) {
 					for (ListIterator<File> listIterator = filesToCheck.listIterator(); listIterator.hasNext(); ) {

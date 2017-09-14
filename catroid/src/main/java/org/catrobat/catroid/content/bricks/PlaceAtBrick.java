@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -120,17 +119,14 @@ public class PlaceAtBrick extends FormulaBrick {
 
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_place_at_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
-				break;
-
 			case R.id.brick_place_at_edit_text_y:
 				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
 				break;
-		}
-	}
 
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
+			case R.id.brick_place_at_edit_text_x:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
+				break;
+		}
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -139,6 +141,14 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			@Override
 			public void run() {
 				computeTextView.setText(newString);
+
+				ViewGroup.LayoutParams params = computeTextView.getLayoutParams();
+				int heightPixels = computeTextView.getLineCount() * computeTextView.getLineHeight();
+				int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, heightPixels / 2, context
+						.getResources().getDisplayMetrics());
+				params.width = ViewGroup.LayoutParams.FILL_PARENT;
+				params.height = height;
+				computeTextView.setLayoutParams(params);
 			}
 		});
 	}

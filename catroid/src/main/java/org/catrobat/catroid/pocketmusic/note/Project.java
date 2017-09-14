@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ public class Project implements Serializable {
 
 	public static final int DEFAULT_BEATS_PER_MINUTE = 60;
 	public static final MusicalBeat DEFAULT_BEAT = MusicalBeat.BEAT_4_4;
+	public static final MusicalInstrument DEFAULT_INSTRUMENT = MusicalInstrument.ACOUSTIC_GRAND_PIANO;
 	private static final long serialVersionUID = 7396763540934053008L;
 
 	private String name;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,10 +31,12 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
+
+import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_DATA_EMPTY;
 
 public abstract class UserVariableBrick extends FormulaBrick implements NewDataDialog.NewVariableDialogListener {
 
@@ -121,8 +123,9 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 			if (sprite == null || !from.existSpriteVariable(userVariable, sprite)) {
 				return;
 			}
-			variable = into.getDataContainer().addSpriteVariableIfDoesNotExist(userVariable.getName(),
-					into.getSpriteBySpriteName(sprite.getName()));
+			variable = into.getDataContainer().addSpriteVariableIfDoesNotExist(
+					into.getSpriteBySpriteName(sprite.getName()),
+					userVariable.getName());
 		}
 		if (variable != null) {
 			userVariable = variable;
@@ -148,7 +151,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		Integer type = DataContainer.USER_DATA_EMPTY;
+		DataContainer.DataType type = USER_DATA_EMPTY;
 		if (userVariable != null) {
 			Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();

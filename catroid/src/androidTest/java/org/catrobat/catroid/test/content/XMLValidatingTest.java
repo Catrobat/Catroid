@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -93,10 +93,10 @@ public class XMLValidatingTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentScript(startScript);
 
 		Context context = getContext();
-		String[] categories = { context.getString(R.string.category_control),
+		String[] categories = {context.getString(R.string.category_control),
 				context.getString(R.string.category_motion), context.getString(R.string.category_sound),
 				context.getString(R.string.category_looks), context.getString(R.string.category_data),
-				context.getString(R.string.category_lego_nxt) };
+				context.getString(R.string.category_lego_nxt)};
 
 		CategoryBricksFactory brickFactory = new CategoryBricksFactory();
 		List<Brick> bricks = new ArrayList<Brick>();

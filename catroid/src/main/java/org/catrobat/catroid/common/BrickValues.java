@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,6 +65,7 @@ public final class BrickValues {
 	public static final int GO_TO_TOUCH_POSITION = 80;
 	public static final int GO_TO_RANDOM_POSITION = 81;
 	public static final int GO_TO_OTHER_SPRITE_POSITION = 82;
+	public static final int SET_LOOK_BY_INDEX = 1;
 
 	//constants Pen
 	public static final Float PEN_SIZE = 4f;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,9 +30,9 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,10 +107,10 @@ public class DataContainerTest extends AndroidTestCase {
 		assertNull("UserList found, but should not!", ProjectManager.getInstance().getCurrentScene().getDataContainer().getUserList());
 
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
-		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
+		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
 
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
-		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_SINGLE_NUMBER_STRING);
+		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_SINGLE_NUMBER_STRING);
 
 		UserList userList = ProjectManager.getInstance().getCurrentScene().getDataContainer().getUserList();
 		assertEquals("getUserList returned wrong UserList values!", USER_LIST_VALUES_SINGLE_NUMBER_STRING, userList.getList());
@@ -122,8 +122,8 @@ public class DataContainerTest extends AndroidTestCase {
 
 		dataContainer.renameProjectUserList(PROJECT_USER_LIST_NAME_2, PROJECT_USER_LIST_NAME);
 
-		UserList userList = ProjectManager.getInstance().getCurrentScene().getDataContainer().findUserList(
-				PROJECT_USER_LIST_NAME_2, dataContainer.getProjectLists());
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		UserList userList = dataContainer.findProjectList(PROJECT_USER_LIST_NAME_2);
 		assertEquals("rename list value failed!", userList.getName(), PROJECT_USER_LIST_NAME_2);
 	}
 
@@ -131,10 +131,10 @@ public class DataContainerTest extends AndroidTestCase {
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
 		dataContainer.addSpriteUserList(PROJECT_USER_LIST_NAME);
 
-		dataContainer.renameSpriteUserList(PROJECT_USER_LIST_NAME_2, PROJECT_USER_LIST_NAME);
+		dataContainer.renameSpriteUserList(PROJECT_USER_LIST_NAME, PROJECT_USER_LIST_NAME_2);
 
-		UserList userList = ProjectManager.getInstance().getCurrentScene().getDataContainer().findUserList(
-				PROJECT_USER_LIST_NAME_2, dataContainer.getSpriteListOfLists(firstSprite));
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		UserList userList = dataContainer.findSpriteUserList(firstSprite, PROJECT_USER_LIST_NAME_2);
 		assertEquals("rename list value failed!", userList.getName(), PROJECT_USER_LIST_NAME_2);
 	}
 
@@ -143,18 +143,18 @@ public class DataContainerTest extends AndroidTestCase {
 
 		dataContainer.renameProjectUserVariable(PROJECT_USER_VARIABLE_NAME_2, PROJECT_USER_VARIABLE_NAME);
 
-		UserVariable userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer().findUserVariable(
-				PROJECT_USER_VARIABLE_NAME_2, dataContainer.getProjectVariables());
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		UserVariable userVariable = dataContainer.findProjectVariable(PROJECT_USER_VARIABLE_NAME_2);
 		assertEquals("rename variable failed!", userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
 	}
 
 	public void testRenameVariableLocal() {
 		dataContainer.addSpriteUserVariable(PROJECT_USER_VARIABLE_NAME);
 
-		dataContainer.renameSpriteUserVariable(PROJECT_USER_VARIABLE_NAME_2, PROJECT_USER_VARIABLE_NAME);
+		dataContainer.renameSpriteUserVariable(PROJECT_USER_VARIABLE_NAME, PROJECT_USER_VARIABLE_NAME_2);
 
-		UserVariable userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer().findUserVariable(
-				PROJECT_USER_VARIABLE_NAME_2, dataContainer.getVariableListForSprite(firstSprite));
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		UserVariable userVariable = dataContainer.findSpriteUserVariable(firstSprite, PROJECT_USER_VARIABLE_NAME_2);
 		assertEquals("rename variable failed!", userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
 	}
 }

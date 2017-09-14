@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -80,8 +80,8 @@ public final class SensorLoudness {
 			try {
 				recorder.start();
 				statusChecker.run();
-			} catch (IOException iOException) {
-				Log.d(TAG, "Could not start recorder", iOException);
+			} catch (IOException ioException) {
+				Log.d(TAG, "Could not start recorder", ioException);
 				listenerList.remove(listener);
 				recorder = new SoundRecorder("/dev/null");
 				return false;
@@ -103,9 +103,9 @@ public final class SensorLoudness {
 				if (recorder.isRecording()) {
 					try {
 						recorder.stop();
-					} catch (IOException iOException) {
+					} catch (IOException ioException) {
 						// ignored, nothing we can do
-						Log.d(TAG, "Could not stop recorder", iOException);
+						Log.d(TAG, "Could not stop recorder", ioException);
 					}
 					recorder = new SoundRecorder("/dev/null");
 				}

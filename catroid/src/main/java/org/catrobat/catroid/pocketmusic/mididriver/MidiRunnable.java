@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,21 +32,21 @@ public class MidiRunnable implements Runnable {
 	private final NoteName noteName;
 	private final long duration;
 	private final Handler handler;
-	private final MidiDriver midiDriver;
+	private final MidiNotePlayer midiNotePlayer;
 
-	public MidiRunnable(MidiSignals signal, NoteName noteName, long duration, Handler handler, MidiDriver midiDriver) {
+	public MidiRunnable(MidiSignals signal, NoteName noteName, long duration, Handler handler, MidiNotePlayer midiNotePlayer) {
 		this.signal = signal;
 		this.noteName = noteName;
 		this.duration = duration;
 		this.handler = handler;
-		this.midiDriver = midiDriver;
+		this.midiNotePlayer = midiNotePlayer;
 	}
 
 	@Override
 	public void run() {
-		midiDriver.sendMidi(signal.getSignalByte(), noteName.getMidi(), 100);
+		midiNotePlayer.sendMidi(signal.getSignalByte(), noteName.getMidi(), 24);
 		if (signal.equals(MidiSignals.NOTE_ON)) {
-			handler.postDelayed(new MidiRunnable(MidiSignals.NOTE_OFF, noteName, duration, handler, midiDriver),
+			handler.postDelayed(new MidiRunnable(MidiSignals.NOTE_OFF, noteName, duration, handler, midiNotePlayer),
 					duration);
 		}
 	}

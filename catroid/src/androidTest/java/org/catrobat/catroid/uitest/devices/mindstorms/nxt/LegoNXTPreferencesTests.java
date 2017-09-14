@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -136,7 +136,7 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		solo.clickOnText(projectName);
 
-		NXTSensor.Sensor[] sensorMapping  = new NXTSensor.Sensor[4];
+		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
 		sensorMapping[0] = NXTSensor.Sensor.SOUND;
 		sensorMapping[1] = NXTSensor.Sensor.SOUND;
 		sensorMapping[2] = NXTSensor.Sensor.SOUND;

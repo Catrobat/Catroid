@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@ import android.content.SharedPreferences;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.github.mrengineer13.snackbar.SnackBar;
 
@@ -39,6 +41,8 @@ import java.util.Set;
 
 public final class SnackbarUtil {
 
+	private static ViewGroup activeSnack = null;
+
 	private SnackbarUtil() {
 	}
 
@@ -49,7 +53,7 @@ public final class SnackbarUtil {
 		final String message = activity.getString(resourceId);
 
 		if (!wasHintAlreadyShown(activity, messageId) && areHintsEnabled(activity)) {
-			new SnackBar.Builder(activity)
+			SnackBar.Builder snackBarBuilder = new SnackBar.Builder(activity)
 					.withMessage(message)
 					.withActionMessage(activity.getResources().getString(R.string.got_it))
 					.withTextColorId(R.color.solid_black)
@@ -60,24 +64,37 @@ public final class SnackbarUtil {
 							setHintShown(activity, messageId);
 						}
 					})
-					.withDuration(SnackBar.PERMANENT_SNACK)
-					.show();
+					.withDuration(SnackBar.PERMANENT_SNACK);
+			ViewGroup viewGroup = (ViewGroup) snackBarBuilder.show().getContainerView();
+			activeSnack = viewGroup;
 		}
 	}
 
-	private static void setHintShown(Activity activity, String messageId) {
+	public static void hideActiveSnack() {
+		if (activeSnack != null) {
+			activeSnack.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	public static void showActiveSnack() {
+		if (activeSnack != null) {
+			activeSnack.setVisibility(View.VISIBLE);
+		}
+	}
+
+	public static void setHintShown(Activity activity, String messageId) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 		Set<String> hintList = getStringSetFromSharedPreferences(activity);
 		hintList.add(messageId);
 		prefs.edit().putStringSet(SnackbarUtil.SHOWN_HINT_LIST, hintList).commit();
 	}
 
-	private static boolean wasHintAlreadyShown(Activity activity, String messageId) {
+	public static boolean wasHintAlreadyShown(Activity activity, String messageId) {
 		Set<String> hintList = getStringSetFromSharedPreferences(activity);
 		return hintList.contains(messageId);
 	}
 
-	private static boolean areHintsEnabled(Activity activity) {
+	public static boolean areHintsEnabled(Activity activity) {
 		return PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(SettingsActivity.SETTINGS_SHOW_HINTS, false);
 	}
 

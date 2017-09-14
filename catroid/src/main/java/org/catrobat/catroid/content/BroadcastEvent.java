@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.content;
 import com.badlogic.gdx.scenes.scene2d.Event;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 
 public class BroadcastEvent extends Event {
 
@@ -95,12 +94,13 @@ public class BroadcastEvent extends Event {
 	public void resetEventAndResumeScript() {
 		resetNumberOfReceivers();
 		resetNumberOfFinishedReceivers();
-		BroadcastWaitSequenceMap.remove(broadcastMessage, ProjectManager.getInstance().getSceneToPlay().getName());
-		BroadcastWaitSequenceMap.clearCurrentBroadcastEvent();
+		senderSprite.getBroadcastWaitSequenceMap().remove(broadcastMessage, ProjectManager.getInstance()
+				.getSceneToPlay().getName());
+		senderSprite.getBroadcastWaitSequenceMap().clearCurrentBroadcastEvent();
 		setRun(true);
 	}
 
-	public static enum BroadcastType {
+	public enum BroadcastType {
 		broadcast, broadcastWait
 	}
 }

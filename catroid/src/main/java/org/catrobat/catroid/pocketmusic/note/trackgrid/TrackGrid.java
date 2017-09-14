@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,12 @@
 package org.catrobat.catroid.pocketmusic.note.trackgrid;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
+import android.util.Log;
 import android.util.SparseArray;
 
-import org.catrobat.catroid.pocketmusic.mididriver.MidiDriver;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiRunnable;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSignals;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
@@ -41,12 +43,13 @@ import java.util.List;
 
 public class TrackGrid {
 
+	private static final int INDEX_TO_COUNT_OFFSET = 1;
 	private final MusicalKey key;
 	private final MusicalInstrument instrument;
 	private final MusicalBeat beat;
 	private final List<GridRow> gridRows;
 	private Handler handler;
-	private MidiDriver midiDriver;
+	private MidiNotePlayer midiDriver;
 	private List<MidiRunnable> playRunnables = new ArrayList<>();
 
 	public TrackGrid(MusicalKey key, MusicalInstrument instrument, MusicalBeat beat, List<GridRow> gridRows) {
@@ -54,8 +57,8 @@ public class TrackGrid {
 		this.instrument = instrument;
 		this.beat = beat;
 		this.gridRows = gridRows;
-		handler = new Handler();
-		midiDriver = new MidiDriver();
+		handler = new Handler(Looper.getMainLooper());
+		midiDriver = new MidiNotePlayer();
 	}
 
 	public MusicalKey getKey() {
@@ -104,31 +107,62 @@ public class TrackGrid {
 		return null;
 	}
 
-	public void updateGridRowPosition(NoteName noteName, int columnIndex, NoteLength noteLength, boolean toggled) {
+	public void updateGridRowPosition(NoteName noteName, int columnIndex, NoteLength noteLength, int tactIndex,
+			boolean toggled) {
 		GridRow gridRow = getGridRowForNoteName(noteName);
 		if (null == gridRow) {
-			List<GridRowPosition> gridRowPositions = new ArrayList<>();
-			SparseArray<List<GridRowPosition>> array = new SparseArray<>();
-			array.append(0, gridRowPositions);
-			gridRow = new GridRow(noteName, array);
-			gridRows.add(gridRow);
+			gridRow = createNewGridRow(noteName);
 		}
-		List<GridRowPosition> firstGridRowPositions = gridRow.getGridRowPositions().get(0);
-		int indexInList = GridRowPosition.getGridRowPositionIndexInList(firstGridRowPositions, columnIndex);
+		if (gridRow.getGridRowPositions().indexOfKey(tactIndex) < 0) {
+			appendNoteListAtPosition(gridRow.getGridRowPositions(), tactIndex);
+		}
+		List<GridRowPosition> currentGridRowPositions = gridRow.getGridRowPositions().get(tactIndex);
+		int indexInList = GridRowPosition.getGridRowPositionIndexInList(currentGridRowPositions, columnIndex);
 		if (toggled) {
 			if (indexInList == -1) {
-				firstGridRowPositions.add(new GridRowPosition(columnIndex, noteLength));
+				Log.d("TrackGrid", String.format("Added GridRowPosition with name %s on Tact %d with columnIndex %d "
+						+ "and noteLength %s. ", noteName.name(), tactIndex, columnIndex, noteLength.toString()));
+				currentGridRowPositions.add(new GridRowPosition(columnIndex, noteLength));
 				long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
-				handler.post(new MidiRunnable(MidiSignals.NOTE_ON, noteName, playLength, handler, new MidiDriver()));
+				handler.post(new MidiRunnable(MidiSignals.NOTE_ON, noteName, playLength, handler, midiDriver));
 			}
 		} else {
 			if (indexInList >= 0) {
-				firstGridRowPositions.remove(indexInList);
-				if (firstGridRowPositions.isEmpty()) {
-					gridRows.remove(gridRow);
+				currentGridRowPositions.remove(indexInList);
+				Log.d("TrackGrid", String.format("Removed GridRowPosition with name %s on Tact %d with columnIndex %d "
+								+ "and noteLength %s.", noteName.name(), tactIndex, columnIndex,
+						noteLength.toString()));
+				if (currentGridRowPositions.isEmpty()) {
+					gridRow.getGridRowPositions().remove(tactIndex);
 				}
 			}
 		}
+	}
+
+	private void appendNoteListAtPosition(SparseArray<List<GridRowPosition>> array, int tactIndex) {
+		List<GridRowPosition> gridRowPositions = new ArrayList<>(beat.getTopNumber());
+		array.append(tactIndex, gridRowPositions);
+	}
+
+	private GridRow createNewGridRow(NoteName noteName) {
+		SparseArray<List<GridRowPosition>> array = new SparseArray<>();
+		GridRow gridRow = new GridRow(noteName, array);
+		gridRows.add(gridRow);
+		return gridRow;
+	}
+
+	public int getTactCount() {
+		int tactcount = 0;
+		for (GridRow gridRow : gridRows) {
+			SparseArray<List<GridRowPosition>> gridRowPositions = gridRow.getGridRowPositions();
+			for (int i = 0; i < gridRowPositions.size(); i++) {
+				int tactForGridRow = gridRowPositions.keyAt(i);
+				if (tactForGridRow > tactcount) {
+					tactcount = tactForGridRow;
+				}
+			}
+		}
+		return tactcount + INDEX_TO_COUNT_OFFSET;
 	}
 
 	public void startPlayback() {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,9 +39,9 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -56,7 +56,7 @@ public class RenameVariableDialog extends DialogFragment {
 	private DataAdapter adapter;
 	private DialogType type;
 
-	public static enum DialogType {
+	public enum DialogType {
 		USER_LIST, USER_VARIABLE
 	}
 
@@ -148,10 +148,10 @@ public class RenameVariableDialog extends DialogFragment {
 				ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.renameProjectUserList(newName, userList.getName());
 			}
-		} else if (ProjectManager.getInstance().getCurrentScene().getDataContainer().existSpriteList(
-				userList, ProjectManager.getInstance().getCurrentSprite())) {
+		} else if (ProjectManager.getInstance().getCurrentScene().getDataContainer().existSpriteListByName(
+				ProjectManager.getInstance().getCurrentSprite(), userList.getName())) {
 			ProjectManager.getInstance().getCurrentScene().getDataContainer()
-					.renameSpriteUserList(newName, userList.getName());
+					.renameSpriteUserList(userList.getName(), newName);
 		}
 		updateSpinner();
 	}
@@ -164,10 +164,10 @@ public class RenameVariableDialog extends DialogFragment {
 				ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.renameProjectUserVariable(newName, userVariable.getName());
 			}
-		} else if (ProjectManager.getInstance().getCurrentScene().getDataContainer().existSpriteVariable(
-				userVariable, ProjectManager.getInstance().getCurrentSprite())) {
+		} else if (ProjectManager.getInstance().getCurrentScene().getDataContainer().spriteVariableExistsByName(
+				ProjectManager.getInstance().getCurrentSprite(), userVariable.getName())) {
 			ProjectManager.getInstance().getCurrentScene().getDataContainer()
-					.renameSpriteUserVariable(newName, userVariable.getName());
+					.renameSpriteUserVariable(userVariable.getName(), newName);
 		}
 		updateSpinner();
 	}
@@ -212,10 +212,10 @@ public class RenameVariableDialog extends DialogFragment {
 
 		if (currentData.existProjectVariable(userVariable)) {
 			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-			return !currentData.existVariableInAnySprite(name, sprites) && !currentData.existProjectVariableWithName(name);
+			return !currentData.variableExistsInAnySprite(sprites, name) && !currentData.existProjectVariableWithName(name);
 		} else {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			return !currentData.existProjectVariableWithName(name) && !currentData.existSpriteVariableByName(name, currentSprite);
+			return !currentData.existProjectVariableWithName(name) && !currentData.spriteVariableExistsByName(currentSprite, name);
 		}
 	}
 

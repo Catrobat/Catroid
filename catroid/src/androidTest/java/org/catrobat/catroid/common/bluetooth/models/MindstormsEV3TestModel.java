@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,17 +43,17 @@ public class MindstormsEV3TestModel implements DeviceModel {
 	private boolean isRunning = true;
 	private boolean replyRequired;
 
-	private EV3Sensor.Sensor[] sensors = { EV3Sensor.Sensor.NO_SENSOR, EV3Sensor.Sensor.NO_SENSOR,
-			EV3Sensor.Sensor.NO_SENSOR, EV3Sensor.Sensor.NO_SENSOR };
-	private byte[] portSensorMode = { 0, 0, 0, 0 };
-	private int[] portSensorValue = { 255, 255, 255, 255 };
-	private boolean[] portSensorActive = { false, false, false, false };
+	private EV3Sensor.Sensor[] sensors = {EV3Sensor.Sensor.NO_SENSOR, EV3Sensor.Sensor.NO_SENSOR,
+			EV3Sensor.Sensor.NO_SENSOR, EV3Sensor.Sensor.NO_SENSOR};
+	private byte[] portSensorMode = {0, 0, 0, 0};
+	private int[] portSensorValue = {255, 255, 255, 255};
+	private boolean[] portSensorActive = {false, false, false, false};
 	private int keepAliveTime = 0;
 	private boolean keepAliveSet = false;
 
 	protected byte[] createResponseFromClientRequest(byte[] message) {
 
-		byte[] msgNumber = { 0, 0 };
+		byte[] msgNumber = {0, 0};
 		msgNumber[0] = message[0];
 		msgNumber[1] = message[1];
 

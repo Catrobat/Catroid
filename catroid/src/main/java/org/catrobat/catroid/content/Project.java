@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,10 +36,10 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.formulaeditor.BaseDataContainer;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.BaseDataContainer;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
@@ -78,7 +78,8 @@ public class Project implements Serializable {
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
-	public Project(Context context, String name, boolean landscapeMode) {
+	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
+
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
@@ -96,6 +97,10 @@ public class Project implements Serializable {
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 		setDeviceData(context);
 
+		if (isCastProject) {
+			setChromecastFields();
+		}
+
 		MessageContainer.clear();
 		//This is used for tests
 		if (context == null) {
@@ -105,6 +110,10 @@ public class Project implements Serializable {
 			sceneList.add(new Scene(context, context.getString(R.string.default_scene_name, 1), this));
 		}
 		xmlHeader.scenesEnabled = true;
+	}
+
+	public Project(Context context, String name, boolean landscapeMode) {
+		this(context, name, landscapeMode, false);
 	}
 
 	public Project(Context context, String name) {
@@ -218,6 +227,13 @@ public class Project implements Serializable {
 		return null;
 	}
 
+	public void setChromecastFields() {
+		xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
+		xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
+		xmlHeader.setlandscapeMode(true);
+		xmlHeader.setIsCastProject(true);
+	}
+
 	private void ifLandscapeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
@@ -280,6 +296,9 @@ public class Project implements Serializable {
 
 	public int getRequiredResources() {
 		int resources = Brick.NO_RESOURCES;
+		if (isCastProject()) {
+			resources = Brick.CAST_REQUIRED;
+		}
 		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
 		ActionFactory actionFactory = new ActionFactory();
 
@@ -444,6 +463,10 @@ public class Project implements Serializable {
 		}
 	}
 
+	public boolean isCastProject() {
+		return xmlHeader.isCastProject();
+	}
+
 	public void refreshSpriteReferences() {
 		for (Scene scene : sceneList) {
 			scene.refreshSpriteReferences();
@@ -456,5 +479,21 @@ public class Project implements Serializable {
 				sprite.updateCollisionFormulasToVersion(catroidLanguageVersion);
 			}
 		}
+	}
+
+	public void updateSetPenColorFormulas() {
+		for (Scene scene : sceneList) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.updateSetPenColorFormulas();
+			}
+		}
+	}
+
+	public synchronized void updateMessageContainer() {
+		List<String> usedMessages = new ArrayList<>();
+		for (Scene scene : getSceneList()) {
+			scene.addUsedMessagesToList(usedMessages);
+		}
+		MessageContainer.removeUnusedMessages(usedMessages);
 	}
 }

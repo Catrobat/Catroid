@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -109,7 +109,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		assertTrue("Licence text not present", solo.searchText(solo.getString(R.string.register_terms)));
 		assertTrue("Licence link not present",
-				solo.searchText(solo.getString(R.string.register_pocketcode_terms_of_use_text)));
+				solo.searchText(solo.getString(R.string.register_code_terms_of_use_text)));
 	}
 
 	@Device

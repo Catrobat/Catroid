@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,10 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -80,6 +82,8 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 	private List<ProjectData> projectList;
 	private ProjectData projectToEdit;
 	private int selectedProjectPosition;
+	private LoadProjectTask loadProjectTask;
+	private AsyncTask projectInitializer;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -182,7 +186,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 				Utils.showErrorDialog(getActivity(), R.string.error_load_project);
 			} catch (OutdatedVersionProjectException outdatedVersionException) {
 				Log.e(TAG, "Projectcode version is outdated", outdatedVersionException);
-				Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
+				Utils.showErrorDialog(getActivity(), R.string.error_outdated_version);
 			} catch (CompatibilityProjectException compatibilityException) {
 				Log.e(TAG, "Project is not compatible", compatibilityException);
 				Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
@@ -231,7 +235,7 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 
 	@Override
 	public void handleOnItemClick(int position, View view, ProjectData listItem) {
-		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), listItem.projectName, true, false);
+		loadProjectTask = new LoadProjectTask(getActivity(), listItem.projectName, true, false);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
 		loadProjectTask.execute();
@@ -368,24 +372,28 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 	}
 
 	private void initializeDefaultProjectAfterDelete() {
-		final ProjectManager projectManager = ProjectManager.getInstance();
-		getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
-		Runnable r = new Runnable() {
+		final Activity activity = getActivity();
+		projectInitializer = new AsyncTask<Void, Void, Void>() {
+
 			@Override
-			public void run() {
-				projectManager.initializeDefaultProject(getActivity());
-				getActivity().runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-						getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
-						initializeList();
-					}
-				});
+			protected void onPreExecute() {
+				activity.findViewById(R.id.fragment_container).setVisibility(View.GONE);
+				activity.findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 			}
-		};
-		(new Thread(r)).start();
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				ProjectManager.getInstance().initializeDefaultProject(activity);
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void aVoid) {
+				activity.findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+				activity.findViewById(R.id.progress_circle).setVisibility(View.GONE);
+				initializeList();
+			}
+		}.execute();
 	}
 
 	@Override
@@ -398,5 +406,19 @@ public class ProjectListFragment extends ListActivityFragment implements LoadPro
 	@Override
 	public void onLoadProjectFailure() {
 		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+	}
+
+	public void cancelLoadProjectTask() {
+		if (loadProjectTask != null) {
+			loadProjectTask.cancel(true);
+		}
+	}
+
+	@Override
+	public void onDestroy() {
+		if (projectInitializer != null) {
+			projectInitializer.cancel(true);
+		}
+		super.onDestroy();
 	}
 }

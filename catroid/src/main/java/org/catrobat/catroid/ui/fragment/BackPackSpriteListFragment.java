@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -226,10 +226,17 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 		}
 	}
 
+	public void unpackAsBackground() {
+		BackPackSpriteController.getInstance().unpack(spriteToEdit, false, false, false, true);
+		showUnpackingCompleteToast(1);
+		getActivity().finish();
+	}
+
 	protected void unpackCheckedItems(boolean singleItem) {
 		if (singleItem) {
 			BackPackSpriteController.getInstance().unpack(spriteToEdit, false, false, false, false);
 			showUnpackingCompleteToast(1);
+			getActivity().finish();
 			return;
 		}
 		for (Sprite sprite : spriteAdapter.getCheckedItems()) {
@@ -238,6 +245,7 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 
 		showUnpackingCompleteToast(spriteAdapter.getCheckedItems().size());
 		clearCheckedItems();
+		getActivity().finish();
 	}
 
 	private void showUnpackAsBackgroundDialog() {
@@ -247,7 +255,7 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 		builder.setPositiveButton(R.string.main_menu_continue, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				unpackCheckedItems(true);
+				unpackAsBackground();
 				clearCheckedItems();
 			}
 		});

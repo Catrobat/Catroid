@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.utils.CrashReporter;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,7 @@ public class WhenConditionScript extends Script {
 			cloneScript.formulaMap = this.formulaMap.clone();
 		} catch (CloneNotSupportedException e) {
 			Log.e(getClass().getSimpleName(), "clone exception should never happen");
+			CrashReporter.logException(e);
 		}
 
 		doCopy(copySprite, cloneScript);

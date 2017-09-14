@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,50 +21,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-task gitSkipWorktreeForIntellijConfigFiles << {
-    try {
-        'git update-index --skip-worktree .idea/misc.xml'.execute().text.trim()
-        'git update-index --skip-worktree .idea/encodings.xml'.execute().text.trim()
-        'git update-index --skip-worktree .idea/vcs.xml'.execute().text.trim()
-        'git update-index --skip-worktree Catroid.iml'.execute().text.trim()
-        'git update-index --skip-worktree catroid/src/test/catroidSourceTest.iml'.execute().text.trim()
-        'git update-index --skip-worktree .idea/codeStyleSettings.xml'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+def skipList = ['.idea/misc.xml',
+                '.idea/encodings.xml',
+                '.idea/vcs.xml',
+                'Catroid.iml',
+                'catroid/src/test/catroidSourceTest.iml',
+                '.idea/codeStyleSettings.xml',
+                'catroid/catroid.iml'
+                ]
+
+task gitSkipWorktreeForIntellijConfigFiles {
+    doLast {
+        try {
+            for (int i = 0; i < skipList.size(); i++) {
+                String gitCmd = 'git update-index --skip-worktree ' + skipList[i]
+                gitCmd.execute().text.trim()
+            }
+        } catch (IOException exception) {
+            throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+        }
     }
 }
 
-task gitNoSkipWorktreeForIntellijConfigFiles << {
-    try {
-        'git update-index --no-skip-worktree .idea/misc.xml'.execute().text.trim()
-        'git update-index --no-skip-worktree Catroid.iml'.execute().text.trim()
-        'git update-index --no-skip-worktree catroid/src/test/catroidSourceTest.iml'.execute().text.trim()
-        'git update-index --no-skip-worktree .idea/codeStyleSettings.xml'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
-}
-
-task gitSaveStashSwitchingToOldBranch << {
-    try {
-        'git update-index --no-skip-worktree .idea/misc.xml'.execute().text.trim()
-        'git update-index --no-skip-worktree Catroid.iml'.execute().text.trim()
-        'git update-index --no-skip-worktree catroid/src/test/catroidSourceTest.iml'.execute().text.trim()
-        'git update-index --no-skip-worktree .idea/codeStyleSettings.xml'.execute().text.trim()
-        'git stash save "IntelliJConfig"'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
-}
-
-task gitApplyStashSwitchingToOldBranch << {
-    try {
-        'git stash apply "IntelliJConfig"'.execute().text.trim()
-        'git update-index --skip-worktree .idea/misc.xml'.execute().text.trim()
-        'git update-index --skip-worktree Catroid.iml'.execute().text.trim()
-        'git update-index --skip-worktree catroid/src/test/catroidSourceTest.iml'.execute().text.trim()
-        'git update-index --skip-worktree .idea/codeStyleSettings.xml'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+task gitNoSkipWorktreeForIntellijConfigFiles {
+    doLast {
+        try {
+            for (int i = 0; i < skipList.size(); i++) {
+                String gitCmd = 'git update-index --no-skip-worktree ' + skipList[i]
+                gitCmd.execute().text.trim()
+            }
+        } catch (IOException exception) {
+            throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+        }
     }
 }

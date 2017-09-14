@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -116,13 +116,13 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		Sprite leftArm = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left arm");
 		Sprite rightArm = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right arm");
 
-		Sprite[] upperBouncers = { spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left cat bouncer"),
+		Sprite[] upperBouncers = {spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left cat bouncer"),
 				spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Middle cat bouncer"),
-				spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right cat bouncer") };
+				spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right cat bouncer")};
 
-		Sprite[] lowerBouncers = { spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left circle bouncer"),
+		Sprite[] lowerBouncers = {spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left circle bouncer"),
 				spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Middle circle bouncer"),
-				spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right circle bouncer") };
+				spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right circle bouncer")};
 
 		Sprite middleBouncer = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Cat head bouncer");
 		Sprite leftHardBouncer = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left hard bouncer");
@@ -216,8 +216,8 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		setPhysicsProperties(rightHardBouncer, rightHardBouncerStartScript, PhysicsObject.Type.FIXED, 10.0f, -1.0f);
 
 		// Lower circle bouncers
-		Vector2[] lowerBouncersPositions = { new Vector2(-100.0f, 0.0f),
-				new Vector2(0.0f, -70.0f), new Vector2(100.0f, 0.0f) };
+		Vector2[] lowerBouncersPositions = {new Vector2(-100.0f, 0.0f),
+				new Vector2(0.0f, -70.0f), new Vector2(100.0f, 0.0f)};
 		for (int index = 0; index < lowerBouncers.length; index++) {
 			Script lowerBouncerStartScript = createElement(context, projectName, sceneName, lowerBouncers[index], "physics_bouncer_100",
 					R.drawable.physics_bouncer_100, lowerBouncersPositions[index], Float.NaN, 60f);
@@ -231,8 +231,8 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		middleBouncerStartScript.addBrick(new TurnLeftSpeedBrick(100));
 
 		// Upper bouncers
-		Vector2[] upperBouncersPositions = { new Vector2(-150.0f, 200.0f), new Vector2(0.0f, 300.f),
-				new Vector2(150.0f, 200.0f) };
+		Vector2[] upperBouncersPositions = {new Vector2(-150.0f, 200.0f), new Vector2(0.0f, 300.f),
+				new Vector2(150.0f, 200.0f)};
 		for (int index = 0; index < upperBouncers.length; index++) {
 			Script upperBouncersStartScript = createElement(context, projectName, sceneName, upperBouncers[index], "physics_bouncer_200",
 					R.drawable.physics_bouncer_200, upperBouncersPositions[index], Float.NaN, 50f);

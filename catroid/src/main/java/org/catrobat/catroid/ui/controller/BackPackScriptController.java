@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -48,9 +49,9 @@ import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -118,6 +119,11 @@ public final class BackPackScriptController {
 		for (Script backPackedScript : scriptsInGroup) {
 			Script newScript = backPackedScript.copyScriptForSprite(ProjectManager.getInstance().getCurrentSprite());
 			for (Brick brickOfScript : newScript.getBrickList()) {
+				if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+						&& CastManager.unsupportedBricks.contains(brickOfScript.getClass())) {
+					ToastUtil.showError(activity, R.string.error_unsupported_bricks_chromecast);
+					return;
+				}
 				handleBackPackedBricksWithAdditionalData(brickOfScript, deleteUnpackedItems);
 			}
 
@@ -219,9 +225,9 @@ public final class BackPackScriptController {
 
 	private void handlePointToBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
 		PointToBrick brick = (PointToBrick) brickOfScript;
-		Sprite unpackedPointToSprite = BackPackSpriteController.getInstance().unpack(brick.getPointedObject(),
+		Sprite unpackedPointToSprite = BackPackSpriteController.getInstance().unpack(brick.getSprite(),
 				deleteUnpackedItems, true, true, false);
-		brick.setPointedObject(unpackedPointToSprite);
+		brick.setSprite(unpackedPointToSprite);
 	}
 
 	private void handleUserBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
@@ -259,22 +265,20 @@ public final class BackPackScriptController {
 		UserVariable unpackedVariable = null;
 
 		switch (backPackedData.userVariableType) {
-			case DataContainer.USER_VARIABLE_SPRITE:
+			case USER_VARIABLE_SPRITE:
 				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-				unpackedVariable = dataContainer.addSpriteVariableIfDoesNotExist(userVariable.getName(), currentSprite);
+				unpackedVariable = dataContainer.addSpriteVariableIfDoesNotExist(currentSprite, userVariable.getName());
 				break;
-			case DataContainer.USER_VARIABLE_PROJECT:
-				unpackedVariable = dataContainer.findUserVariable(userVariable.getName(),
-						dataContainer.getProjectVariables());
+			case USER_VARIABLE_PROJECT:
+				unpackedVariable = dataContainer.findProjectVariable(userVariable.getName());
 				if (unpackedVariable == null) {
 					unpackedVariable = dataContainer.addProjectUserVariable(userVariable.getName());
 				}
 				break;
-			case DataContainer.USER_VARIABLE_USERBRICK:
+			case USER_VARIABLE_USERBRICK:
 				UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 				if (userVariable != null) {
-					unpackedVariable = dataContainer.addUserBrickVariableToUserBrickIfNotExists(userBrick, userVariable.getName(),
-							userVariable.getValue());
+					unpackedVariable = dataContainer.addUserBrickVariableToUserBrickIfNotExists(userBrick, userVariable.getName(), userVariable.getValue());
 				}
 				break;
 		}
@@ -285,13 +289,12 @@ public final class BackPackScriptController {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
 		switch (backPackedData.userListType) {
-			case DataContainer.USER_LIST_SPRITE:
+			case USER_LIST_SPRITE:
 				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-				dataContainer.addSpriteListIfDoesNotExist(userList.getName(), currentSprite);
+				dataContainer.addSpriteListIfDoesNotExist(currentSprite, userList.getName());
 				break;
-			case DataContainer.USER_LIST_PROJECT:
-				if (dataContainer.findUserList(userList.getName(),
-						dataContainer.getProjectLists()) == null) {
+			case USER_LIST_PROJECT:
+				if (dataContainer.findProjectList(userList.getName()) == null) {
 					dataContainer.addProjectUserList(userList.getName());
 				}
 				break;

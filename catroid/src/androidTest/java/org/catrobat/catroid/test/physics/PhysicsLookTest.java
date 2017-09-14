@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -226,12 +226,12 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 						Vector2 vertex = new Vector2();
 						((PolygonShape) shape).getVertex(idx, vertex);
 
-						Object[] objectsX = { vertexXQueue.poll(), testScaleFactor };
+						Object[] objectsX = {vertexXQueue.poll(), testScaleFactor};
 						Reflection.ParameterList parameterListX = new Reflection.ParameterList(objectsX);
 						float scaledX = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 								parameterListX);
 
-						Object[] objectsY = { vertexYQueue.poll(), testScaleFactor };
+						Object[] objectsY = {vertexYQueue.poll(), testScaleFactor};
 						Reflection.ParameterList parameterListY = new Reflection.ParameterList(objectsY);
 						float scaledY = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 								parameterListY);
@@ -362,5 +362,29 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 						+ physicsLook.getBrightnessInUserInterfaceDimensionUnit() + " differs from look value"
 						+ look.getBrightnessInUserInterfaceDimensionUnit() + ".",
 				physicsLook.getBrightnessInUserInterfaceDimensionUnit(), look.getBrightnessInUserInterfaceDimensionUnit());
+	}
+
+	public void testCloneValues() {
+		PhysicsWorld world = new PhysicsWorld();
+
+		Sprite originSprite = new Sprite("Origin");
+		PhysicsLook originLook = new PhysicsLook(originSprite, world);
+		PhysicsObject originPhysicsObject = world.getPhysicsObject(originSprite);
+
+		Sprite cloneSprite = new Sprite("Clone");
+		PhysicsLook cloneLook = new PhysicsLook(cloneSprite, world);
+		PhysicsObject clonePhysicsObject = world.getPhysicsObject(cloneSprite);
+
+		originLook.setXInUserInterfaceDimensionUnit(10);
+		originLook.setBrightnessInUserInterfaceDimensionUnit(32);
+		originPhysicsObject.setMass(10);
+
+		originLook.copyTo(cloneLook);
+
+		assertEquals("X position differs", originLook.getXInUserInterfaceDimensionUnit(),
+				cloneLook.getXInUserInterfaceDimensionUnit());
+		assertEquals("Brightness differs", originLook.getBrightnessInUserInterfaceDimensionUnit(),
+				cloneLook.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals("Mass differs", originPhysicsObject.getMass(), clonePhysicsObject.getMass());
 	}
 }

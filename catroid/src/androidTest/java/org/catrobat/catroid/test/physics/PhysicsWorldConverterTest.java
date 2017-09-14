@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,7 +60,7 @@ public class PhysicsWorldConverterTest extends AndroidTestCase {
 		Assert.assertEquals("180° should be convertBox2dToNormalAngle(PI)", 180.0f,
 				PhysicsWorldConverter.convertBox2dToNormalAngle((float) Math.PI), TestUtils.DELTA);
 
-		float[] angles = { 123.456f, -123.456f, 1024.0f };
+		float[] angles = {123.456f, -123.456f, 1024.0f};
 		for (float currentAngle : angles) {
 			Assert.assertEquals((float) Math.toDegrees(currentAngle),
 					PhysicsWorldConverter.convertBox2dToNormalAngle(currentAngle));
@@ -74,7 +74,7 @@ public class PhysicsWorldConverterTest extends AndroidTestCase {
 		Assert.assertEquals(length, PhysicsWorldConverter.convertBox2dToNormalCoordinate(length));
 		Assert.assertEquals(length, PhysicsWorldConverter.convertNormalToBox2dCoordinate(length));
 
-		float[] lengths = { 123.456f, -654.321f };
+		float[] lengths = {123.456f, -654.321f};
 		for (float currentLength : lengths) {
 			Assert.assertEquals(currentLength * ratio,
 					PhysicsWorldConverter.convertBox2dToNormalCoordinate(currentLength));
@@ -88,8 +88,8 @@ public class PhysicsWorldConverterTest extends AndroidTestCase {
 		Assert.assertEquals(vector, PhysicsWorldConverter.convertBox2dToNormalVector(vector));
 		Assert.assertEquals(vector, PhysicsWorldConverter.convertCatroidToBox2dVector(vector));
 
-		Vector2[] vectors = { new Vector2(123.456f, 123.456f), new Vector2(654.321f, -123.456f),
-				new Vector2(-654.321f, 0.0f), new Vector2(-123.456f, -654.321f) };
+		Vector2[] vectors = {new Vector2(123.456f, 123.456f), new Vector2(654.321f, -123.456f),
+				new Vector2(-654.321f, 0.0f), new Vector2(-123.456f, -654.321f)};
 
 		Vector2 expected;
 		for (Vector2 currentVector : vectors) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,16 +26,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.ComponentName;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -107,17 +103,11 @@ public class NewLookDialog extends DialogFragment {
 	private void setupPaintroidButton(View parentView) {
 		View paintroidButton = parentView.findViewById(R.id.dialog_new_look_paintroid);
 
-		final Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
-				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-
 		paintroidButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
-					fragment.addLookDrawNewImage();
-					NewLookDialog.this.dismiss();
-				}
+				fragment.addLookDrawNewImage();
+				NewLookDialog.this.dismiss();
 			}
 		});
 	}

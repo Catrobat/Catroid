@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
@@ -52,7 +53,7 @@ public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static enum ElementType {
+	public enum ElementType {
 		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA
 	}
 
@@ -96,7 +97,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	public List<InternToken> getInternTokenList() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		switch (type) {
 			case BRACKET:
@@ -302,7 +303,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretUserList(Sprite sprite) {
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-		UserList userList = dataContainer.getUserList(value, sprite);
+		UserList userList = dataContainer.getUserList(sprite, value);
 		if (userList == null) {
 			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
 		}
@@ -324,7 +325,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretMultipleItemsUserList(List<Object> userListValues) {
-		List<String> userListStringValues = new ArrayList<String>();
+		List<String> userListStringValues = new ArrayList<>();
 		boolean concatenateWithoutWhitespace = true;
 
 		for (Object listValue : userListValues) {
@@ -372,7 +373,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretUserVariable(Sprite sprite) {
 		DataContainer userVariables = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-		UserVariable userVariable = userVariables.getUserVariable(value, sprite);
+		UserVariable userVariable = userVariables.getUserVariable(sprite, value);
 		if (userVariable == null) {
 			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 		}
@@ -395,9 +396,10 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunction(Functions function, Sprite sprite) {
+		final double defaultReturnValue = 0d;
+
 		Object left = null;
 		Object right = null;
-
 		Double doubleValueOfLeftChild = null;
 		Double doubleValueOfRightChild = null;
 
@@ -429,46 +431,49 @@ public class FormulaElement implements Serializable {
 
 		switch (function) {
 			case SIN:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.sin(Math.toRadians(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.sin(Math.toRadians(doubleValueOfLeftChild));
 			case COS:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.cos(Math.toRadians(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.cos(Math.toRadians(doubleValueOfLeftChild));
 			case TAN:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.tan(Math.toRadians(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.tan(Math.toRadians(doubleValueOfLeftChild));
 			case LN:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.log(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.log(doubleValueOfLeftChild);
 			case LOG:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.log10(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.log10(doubleValueOfLeftChild);
 			case SQRT:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.sqrt(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.sqrt(doubleValueOfLeftChild);
 			case RAND:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : interpretFunctionRand(doubleValueOfLeftChild, doubleValueOfRightChild);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
+						: interpretFunctionRand(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case ABS:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.abs(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.abs(doubleValueOfLeftChild);
 			case ROUND:
-				return doubleValueOfLeftChild == null ? 0d : (double) java.lang.Math.round(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : (double) java.lang.Math.round(doubleValueOfLeftChild);
 			case PI:
 				return java.lang.Math.PI;
 			case MOD:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : interpretFunctionMod(doubleValueOfLeftChild, doubleValueOfRightChild);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
+						: interpretFunctionMod(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case ARCSIN:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.asin(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.asin(doubleValueOfLeftChild));
 			case ARCCOS:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.acos(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.acos(doubleValueOfLeftChild));
 			case ARCTAN:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.atan(doubleValueOfLeftChild));
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.atan(doubleValueOfLeftChild));
 			case EXP:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.exp(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.exp(doubleValueOfLeftChild);
 			case POWER:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.pow(doubleValueOfLeftChild, doubleValueOfRightChild);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
+						: java.lang.Math.pow(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case FLOOR:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.floor(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.floor(doubleValueOfLeftChild);
 			case CEIL:
-				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.ceil(doubleValueOfLeftChild);
+				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.ceil(doubleValueOfLeftChild);
 			case MAX:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.max(doubleValueOfLeftChild,
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue : java.lang.Math.max(doubleValueOfLeftChild,
 						doubleValueOfRightChild);
 			case MIN:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.min(doubleValueOfLeftChild,
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue : java.lang.Math.min(doubleValueOfLeftChild,
 						doubleValueOfRightChild);
 			case TRUE:
 				return 1d;
@@ -482,37 +487,42 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionJoin(sprite);
 			case ARDUINODIGITAL:
 				Arduino arduinoDigital = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
-				if (arduinoDigital != null && left != null) {
+				if (arduinoDigital != null && doubleValueOfLeftChild != null) {
 					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 13) {
-						return 0d;
+						return defaultReturnValue;
 					}
 					return arduinoDigital.getDigitalArduinoPin(doubleValueOfLeftChild.intValue());
 				}
 				break;
 			case ARDUINOANALOG:
 				Arduino arduinoAnalog = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
-				if (arduinoAnalog != null && left != null) {
+				if (arduinoAnalog != null && doubleValueOfLeftChild != null) {
 					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 5) {
-						return 0d;
+						return defaultReturnValue;
 					}
 					return arduinoAnalog.getAnalogArduinoPin(doubleValueOfLeftChild.intValue());
 				}
 				break;
 			case RASPIDIGITAL:
 				RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
-				int pin = doubleValueOfLeftChild.intValue();
-				try {
-					return connection.getPin(pin) ? 1d : 0d;
-				} catch (Exception e) {
-					Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
+				if (doubleValueOfLeftChild != null) {
+					int pin = doubleValueOfLeftChild.intValue();
+					try {
+						return connection.getPin(pin) ? 1d : 0d;
+					} catch (Exception e) {
+						Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
+					}
 				}
 				break;
 			case MULTI_FINGER_TOUCHED:
-				return TouchUtil.isFingerTouching(doubleValueOfLeftChild.intValue()) ? 1d : 0d;
+				return (doubleValueOfLeftChild != null && TouchUtil.isFingerTouching(doubleValueOfLeftChild.intValue()))
+						? 1d : defaultReturnValue;
 			case MULTI_FINGER_X:
-				return Double.valueOf(TouchUtil.getX(doubleValueOfLeftChild.intValue()));
+				return doubleValueOfLeftChild != null ? (double) TouchUtil.getX(doubleValueOfLeftChild
+						.intValue()) : defaultReturnValue;
 			case MULTI_FINGER_Y:
-				return Double.valueOf(TouchUtil.getY(doubleValueOfLeftChild.intValue()));
+				return doubleValueOfLeftChild != null ? (double) TouchUtil.getY(doubleValueOfLeftChild.intValue())
+						: defaultReturnValue;
 			case LIST_ITEM:
 				return interpretFunctionListItem(left, sprite);
 			case CONTAINS:
@@ -533,7 +543,7 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionContains(Object right, Sprite sprite) {
 		if (leftChild.getElementType() == ElementType.USER_LIST) {
 			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			UserList userList = dataContainer.getUserList(leftChild.getValue(), sprite);
+			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
 
 			if (userList == null) {
 				return 0d;
@@ -553,7 +563,7 @@ public class FormulaElement implements Serializable {
 		UserList userList = null;
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
 			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			userList = dataContainer.getUserList(rightChild.getValue(), sprite);
+			userList = dataContainer.getUserList(sprite, rightChild.getValue());
 		}
 
 		if (userList == null) {
@@ -568,8 +578,10 @@ public class FormulaElement implements Serializable {
 			} catch (NumberFormatException numberFormatexception) {
 				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatexception);
 			}
-		} else {
+		} else if (left != null) {
 			index = ((Double) left).intValue();
+		} else {
+			return "";
 		}
 
 		index--;
@@ -626,7 +638,7 @@ public class FormulaElement implements Serializable {
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
 			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			UserList userList = dataContainer.getUserList(leftChild.getValue(), sprite);
+			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
 			if (userList == null) {
 				return 0d;
 			}
@@ -662,15 +674,17 @@ public class FormulaElement implements Serializable {
 			} catch (NumberFormatException numberFormatexception) {
 				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatexception);
 			}
-		} else {
+		} else if (left != null) {
 			index = ((Double) left).intValue();
+		} else {
+			return "";
 		}
 
 		index--;
 
 		if (index < 0) {
 			return "";
-		} else if (index >= String.valueOf(right).length()) {
+		} else if (right == null || index >= String.valueOf(right).length()) {
 			return "";
 		}
 		return String.valueOf(String.valueOf(right).charAt(index));
@@ -877,41 +891,31 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Double interpretOperatorEqual(Object left, Object right) {
+		try {
+			Double tempLeft = Double.valueOf(String.valueOf(left));
+			Double tempRight = Double.valueOf(String.valueOf(right));
+			int compareResult = getCompareResult(tempLeft, tempRight);
+			if (compareResult == 0) {
+				return 1d;
+			}
+			return 0d;
+		} catch (NumberFormatException numberFormatException) {
+			int compareResult = String.valueOf(left).compareTo(String.valueOf(right));
+			if (compareResult == 0) {
+				return 1d;
+			}
+			return 0d;
+		}
+	}
 
-		if (left instanceof String && right instanceof String) {
-			try {
-				return (Double.valueOf((String) left).compareTo(Double.valueOf((String) right))) == 0 ? 1d : 0;
-			} catch (NumberFormatException numberFormatException) {
-				int compareResult = ((String) left).compareTo((String) right);
-				if (compareResult == 0) {
-					return 1d;
-				}
-			}
+	private int getCompareResult(Double left, Double right) {
+		int compareResult;
+		if (left == 0 || right == 0) {
+			compareResult = ((Double) Math.abs(left)).compareTo(Math.abs(right));
+		} else {
+			compareResult = left.compareTo(right);
 		}
-		if (left instanceof Double && right instanceof String) {
-			try {
-				int compareResult = ((Double) left).compareTo(Double.valueOf((String) right));
-				if (compareResult == 0) {
-					return 1d;
-				}
-			} catch (NumberFormatException numberFormatException) {
-				return 0d;
-			}
-		}
-		if (left instanceof String && right instanceof Double) {
-			try {
-				int compareResult = Double.valueOf((String) left).compareTo((Double) right);
-				if (compareResult == 0) {
-					return 1d;
-				}
-			} catch (NumberFormatException numberFormatException) {
-				return 0d;
-			}
-		}
-		if (left instanceof Double && right instanceof Double) {
-			return (((Double) left).compareTo((Double) right) == 0) ? 1d : 0d;
-		}
-		return 0d;
+		return compareResult;
 	}
 
 	private Double interpretOperator(Object object) {
@@ -997,19 +1001,16 @@ public class FormulaElement implements Serializable {
 	}
 
 	public boolean containsElement(ElementType elementType) {
-		if (type.equals(elementType)
+		return (type.equals(elementType)
 				|| (leftChild != null && leftChild.containsElement(elementType))
-				|| (rightChild != null && rightChild.containsElement(elementType))) {
-			return true;
-		}
-		return false;
+				|| (rightChild != null && rightChild.containsElement(elementType)));
 	}
 
 	public boolean isUserVariableWithTypeString(Sprite sprite) {
 		if (type == ElementType.USER_VARIABLE) {
 			DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
 					.getDataContainer();
-			UserVariable userVariable = userVariableContainer.getUserVariable(value, sprite);
+			UserVariable userVariable = userVariableContainer.getUserVariable(sprite, value);
 			Object userVariableValue = userVariable.getValue();
 			return userVariableValue instanceof String;
 		}
@@ -1019,7 +1020,7 @@ public class FormulaElement implements Serializable {
 	private int handleLengthUserVariableParameter(Sprite sprite) {
 		DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
 				.getDataContainer();
-		UserVariable userVariable = userVariableContainer.getUserVariable(leftChild.value, sprite);
+		UserVariable userVariable = userVariableContainer.getUserVariable(sprite, leftChild.value);
 
 		Object userVariableValue = userVariable.getValue();
 		if (userVariableValue instanceof String) {
@@ -1036,7 +1037,7 @@ public class FormulaElement implements Serializable {
 	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay()
 				.getDataContainer();
-		UserList userList = dataContainer.getUserList(leftChild.value, sprite);
+		UserList userList = dataContainer.getUserList(sprite, leftChild.value);
 
 		if (userList == null) {
 			return 0;
@@ -1162,6 +1163,14 @@ public class FormulaElement implements Serializable {
 					resources |= Brick.COLLISION;
 					break;
 
+				case GAMEPAD_A_PRESSED:
+				case GAMEPAD_B_PRESSED:
+				case GAMEPAD_DOWN_PRESSED:
+				case GAMEPAD_UP_PRESSED:
+				case GAMEPAD_LEFT_PRESSED:
+				case GAMEPAD_RIGHT_PRESSED:
+					resources |= Brick.CAST_REQUIRED;
+					break;
 				default:
 			}
 		}

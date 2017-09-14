@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ public enum EV3MotorOutputByteCode {
 
 	private int ev3MotorOutputValue;
 
-	private EV3MotorOutputByteCode(int ev3MotorOutputValue) {
+	EV3MotorOutputByteCode(int ev3MotorOutputValue) {
 		this.ev3MotorOutputValue = ev3MotorOutputValue;
 	}
 

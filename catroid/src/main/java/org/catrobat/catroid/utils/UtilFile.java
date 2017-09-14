@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -111,7 +111,7 @@ public final class UtilFile {
 			sb.append('-');
 		}
 
-		boolean success = true;
+		boolean success;
 		if (fileOrDirectory.exists() && fileOrDirectory.isDirectory()) {
 			// Please note: especially with MyProjectsActivityTest.testAddNewProjectMixedCase(), it happens that listFiles
 			// returns null (although fileOrDirectory exists and is a directory). This should definitely not happen
@@ -171,7 +171,7 @@ public final class UtilFile {
 
 			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Constants.BUFFER_8K);
 			byte[] buffer = new byte[Constants.BUFFER_8K];
-			int length = 0;
+			int length;
 			while ((length = in.read(buffer)) > 0) {
 				out.write(buffer, 0, length);
 			}
@@ -189,7 +189,7 @@ public final class UtilFile {
 
 	public static void createStandardProjectIfRootDirectoryIsEmpty(Context context) {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
-		if (rootDirectory == null || rootDirectory.listFiles() == null || getProjectNames(rootDirectory).size() == 0) {
+		if (rootDirectory.listFiles() == null || getProjectNames(rootDirectory).size() == 0) {
 			ProjectManager.getInstance().initializeDefaultProject(context);
 		}
 	}
@@ -198,7 +198,7 @@ public final class UtilFile {
 	 * returns a list of strings of all projectnames in the catroid folder
 	 */
 	public static List<String> getProjectNames(File directory) {
-		List<String> projectList = new ArrayList<String>();
+		List<String> projectList = new ArrayList<>();
 		File[] fileList = directory.listFiles();
 		if (fileList != null) {
 			FilenameFilter filenameFilter = new FilenameFilter() {
@@ -228,8 +228,6 @@ public final class UtilFile {
 			outputChannel = outputStream.getChannel();
 			inputChannel.transferTo(0, inputChannel.size(), outputChannel);
 			return destinationFile;
-		} catch (IOException exception) {
-			throw exception;
 		} finally {
 			if (inputChannel != null) {
 				inputChannel.close();
@@ -260,7 +258,7 @@ public final class UtilFile {
 		InputStream in = context.getResources().openRawResource(resourceId);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(copiedFile), Constants.BUFFER_8K);
 		byte[] buffer = new byte[Constants.BUFFER_8K];
-		int length = 0;
+		int length;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
 		}
@@ -290,9 +288,7 @@ public final class UtilFile {
 	}
 
 	public static File copyImageFromResourceIntoProject(String projectName, String sceneName, String outputFilename,
-			int
-					resourceId,
-			Context context, boolean prependMd5ToFilename, double scaleFactor) throws IOException {
+			int resourceId, Context context, boolean prependMd5ToFilename, double scaleFactor) throws IOException {
 		if (scaleFactor <= 0) {
 			throw new IllegalArgumentException("scale factor is smaller or equal zero");
 		}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,14 +51,14 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 	private static final int PROJECT_WIDTH = 480;
 	private static final int PROJECT_HEIGHT = 800;
 
-	private static final byte[] RED_PIXEL = { (byte) 237, 28, 36, (byte) 255 };
-	private static final byte[] RED_BRIGHTNESS_PIXEL = { (byte) 109, 0, 0, (byte) 255 };
-	private static final byte[] GREEN_PIXEL = { 34, (byte) 177, 76, (byte) 255 };
-	private static final byte[] YELLOW_PIXEL = { (byte) 255, (byte) 242, 0, (byte) 255 };
-	private static final byte[] BLUE_PIXEL = { 0, (byte) 162, (byte) 232, (byte) 255 };
-	private static final byte[] WHITE_PIXEL = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
-	private static final byte[] BLACK_PIXEL = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
-	private static final byte[] BLACK_BRIGHTNESS_PIXEL = { (byte) -124, (byte) -124, (byte) -124, (byte) 255 };
+	private static final byte[] RED_PIXEL = {(byte) 237, 28, 36, (byte) 255};
+	private static final byte[] RED_BRIGHTNESS_PIXEL = {(byte) 109, 0, 0, (byte) 255};
+	private static final byte[] GREEN_PIXEL = {34, (byte) 177, 76, (byte) 255};
+	private static final byte[] YELLOW_PIXEL = {(byte) 255, (byte) 242, 0, (byte) 255};
+	private static final byte[] BLUE_PIXEL = {0, (byte) 162, (byte) 232, (byte) 255};
+	private static final byte[] WHITE_PIXEL = {(byte) 255, (byte) 255, (byte) 255, (byte) 255};
+	private static final byte[] BLACK_PIXEL = {(byte) 0, (byte) 0, (byte) 0, (byte) 255};
+	private static final byte[] BLACK_BRIGHTNESS_PIXEL = {(byte) -124, (byte) -124, (byte) -124, (byte) 255};
 
 	private float screenScaleFactorX = 1.0F;
 	private float screenScaleFactorY = 1.0F;

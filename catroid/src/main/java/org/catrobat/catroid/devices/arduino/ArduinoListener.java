@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,8 @@ package org.catrobat.catroid.devices.arduino;
 
 import android.util.Log;
 
+import org.catrobat.catroid.utils.Utils;
+
 import name.antonsmirnov.firmata.IFirmata;
 import name.antonsmirnov.firmata.message.AnalogMessage;
 import name.antonsmirnov.firmata.message.DigitalMessage;
@@ -37,14 +39,8 @@ public class ArduinoListener implements IFirmata.Listener {
 
 	private static final String TAG = ArduinoListener.class.getSimpleName();
 
-	private int analogPin0 = 0;
-	private int analogPin1 = 0;
-	private int analogPin2 = 0;
-	private int analogPin3 = 0;
-	private int analogPin4 = 0;
-	private int analogPin5 = 0;
-
-	private int[] portValue = new int[ArduinoImpl.NUMBER_OF_DIGITAL_PINS];
+	private int[] analogPinValue = new int[ArduinoImpl.NUMBER_OF_ANALOG_PINS];
+	private int[] portValue = new int[ArduinoImpl.NUMBER_OF_DIGITAL_PORTS];
 
 	@Override
 	public void onAnalogMessageReceived(AnalogMessage message) {
@@ -54,57 +50,22 @@ public class ArduinoListener implements IFirmata.Listener {
 
 		Log.d(TAG, String.format("Received Analog Message: %d | Value: %d", message.getPin(), message.getValue()));
 
-		switch (message.getPin()) {
-			case ArduinoImpl.PIN_ANALOG_0:
-				analogPin0 = message.getValue();
-				break;
-			case ArduinoImpl.PIN_ANALOG_1:
-				analogPin1 = message.getValue();
-				break;
-			case ArduinoImpl.PIN_ANALOG_2:
-				analogPin2 = message.getValue();
-				break;
-			case ArduinoImpl.PIN_ANALOG_3:
-				analogPin3 = message.getValue();
-				break;
-			case ArduinoImpl.PIN_ANALOG_4:
-				analogPin4 = message.getValue();
-				break;
-			case ArduinoImpl.PIN_ANALOG_5:
-				analogPin5 = message.getValue();
-				break;
-		}
+		analogPinValue[message.getPin()] = message.getValue();
 	}
 
 	@Override
 	public void onDigitalMessageReceived(DigitalMessage message) {
-		if (message.getValue() > 64 || message.getValue() < 0) {
+		if (message.getValue() > 0xFF || message.getValue() < 0) {
 			return;
 		}
 
 		Log.d(TAG, String.format("Received Digital Message: port: %d, value: %d",
 				message.getPort(), message.getValue()));
 
-		switch (message.getPort()) {
-			case ArduinoImpl.PORT_DIGITAL_0:
-				portValue [2] = (message.getValue() & 0x4) == 0 ? 0 : 1;
-				portValue [3] = (message.getValue() & 0x8) == 0 ? 0 : 1;
-				portValue [4] = (message.getValue() & 0x16) == 0 ? 0 : 1;
-				portValue [5] = (message.getValue() & 0x32) == 0 ? 0 : 1;
-				portValue [6] = (message.getValue() & 0x64) == 0 ? 0 : 1;
-				break;
-			case ArduinoImpl.PORT_DIGITAL_1:
-				portValue [8] = (message.getValue() & 0x1) == 0 ? 0 : 1;
-				portValue [9] = (message.getValue() & 0x2) == 0 ? 0 : 1;
-				portValue [10] = (message.getValue() & 0x4) == 0 ? 0 : 1;
-				portValue [11] = (message.getValue() & 0x8) == 0 ? 0 : 1;
-				portValue [12] = (message.getValue() & 0x16) == 0 ? 0 : 1;
-				portValue [13] = (message.getValue() & 0x32) == 0 ? 0 : 1;
-				break;
-		}
+		portValue[message.getPort()] = message.getValue();
 
-		for (int i = 0; i <= 13; i++) {
-			Log.d(TAG, String.format("Digital Port Values: %d", portValue[i]));
+		for (int i = 0; i < ArduinoImpl.NUMBER_OF_DIGITAL_PINS; i++) {
+			Log.d(TAG, String.format("Digital Pin %d Value: %d", i, getDigitalPinValue(i)));
 		}
 	}
 
@@ -140,35 +101,31 @@ public class ArduinoListener implements IFirmata.Listener {
 		//Log.d(TAG, "Unkown Byte received. Byte value: " + byteValue);
 	}
 
-	public int getAnalogPin0() {
-		return analogPin0;
+	public int getAnalogPinValue(int pin) {
+		if (ArduinoImpl.isValidAnalogPin(pin)) {
+			return analogPinValue[pin];
+		}
+		return 0;
 	}
 
-	public int getAnalogPin1() {
-		return analogPin1;
+	public int getDigitalPinValue(int pin) {
+		if (ArduinoImpl.isValidDigitalPin(pin)) {
+			int port = ArduinoImpl.getPortFromPin(pin);
+			int index = ArduinoImpl.getIndexOfPinOnPort(pin);
+			return Utils.getBit(portValue[port], index);
+		}
+		return 0;
 	}
 
-	public int getAnalogPin2() {
-		return analogPin2;
+	public void setDigitalPinValue(int pin, int value) {
+		if (ArduinoImpl.isValidDigitalPin(pin)) {
+			int port = ArduinoImpl.getPortFromPin(pin);
+			int index = ArduinoImpl.getIndexOfPinOnPort(pin);
+			this.portValue[port] = Utils.setBit(portValue[port], index, value);
+		}
 	}
 
-	public int getAnalogPin3() {
-		return analogPin3;
-	}
-
-	public int getAnalogPin4() {
-		return analogPin4;
-	}
-
-	public int getAnalogPin5() {
-		return analogPin5;
-	}
-
-	public int getPortValue(int pin) {
-		return portValue[pin];
-	}
-
-	public void setPortValue(int pin, int value) {
-		this.portValue[pin] = value;
+	public int getPortValue(int port) {
+		return portValue[port];
 	}
 }

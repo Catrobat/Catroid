@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,15 +26,20 @@ import android.app.Activity;
 import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
+import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 import java.io.File;
 
 public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
 	private SystemAnimations systemAnimations;
+	private static final String TAG = BaseActivityInstrumentationRule.class.getSimpleName();
 
 	public BaseActivityInstrumentationRule(Class<T> activityClass, boolean initialTouchMode, boolean launchActivity) {
 		super(activityClass, initialTouchMode, launchActivity);
@@ -81,5 +86,43 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 		if (uiTestFolder.exists()) {
 			deleteRecursive(uiTestFolder);
 		}
+	}
+
+	//http://stackoverflow.com/questions/8295100/how-to-re-run-failed-junit-tests-immediately
+	//http://stackoverflow.com/questions/1492856/easy-way-of-running-the-same-junit-test-over-and-over
+	public Statement apply(Statement base, Description description) {
+		return statement(base, description);
+	}
+
+	private Statement statement(final Statement base, final Description description) {
+		Flaky flakyTest = description.getAnnotation(Flaky.class);
+		int retryCount = 1;
+		if (flakyTest != null) {
+			retryCount = flakyTest.value();
+		}
+		final int flakyTestRetryCount = retryCount;
+
+		return new Statement() {
+			@Override
+			public void evaluate() throws Throwable {
+				Throwable caughtThrowable = null;
+
+				for (int i = 0; i < flakyTestRetryCount; i++) {
+					try {
+						base.evaluate();
+						Log.d(TAG, description.getDisplayName() + ": succeeded");
+						return;
+					} catch (Throwable t) {
+						caughtThrowable = t;
+						Log.e(TAG, description.getDisplayName() + ": run " + (i + 1) + " failed", t);
+						if (getActivity() != null) {
+							getActivity().finish();
+						}
+					}
+				}
+				Log.e(TAG, description.getDisplayName() + ": giving up after " + flakyTestRetryCount + " failures");
+				throw caughtThrowable;
+			}
+		};
 	}
 }

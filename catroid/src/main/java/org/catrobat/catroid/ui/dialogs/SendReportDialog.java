@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,9 +35,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.BaseExceptionHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.CrashReporter;
 
 public class SendReportDialog extends DialogFragment {
 	public static final String TAG = "dialog_send_report";
@@ -54,18 +53,18 @@ public class SendReportDialog extends DialogFragment {
 			}
 		});
 		Dialog reportDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(getString(R.string
-				.pocket_code_has_crashed))
+				.app_has_crashed))
 				.setPositiveButton(R.string.crash_dialog_send, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						Utils.sendCaughtException(getActivity());
+						CrashReporter.sendUnhandledCaughtException();
 					}
 				})
 				.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().remove(
-								BaseExceptionHandler.EXCEPTION_FOR_REPORT).commit();
+								CrashReporter.EXCEPTION_FOR_REPORT).commit();
 					}
 				}).create();
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,7 +67,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	public Brick copyBrickForSprite(Sprite sprite) {
 		PlaySoundBrick copyBrick = (PlaySoundBrick) clone();
 
-		if (sound != null && (sound.isBackpackSoundInfo() || sprite.isClone)) {
+		if (sound != null && (sound.isBackpackSoundInfo() || sprite.isClone())) {
 			copyBrick.sound = sound;
 			copyBrick.sound.setBackpackSoundInfo(false);
 			return copyBrick;
@@ -200,7 +200,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 		private boolean isTouchInDropDownView;
 
-		public SpinnerAdapterWrapper(Context context, ArrayAdapter<SoundInfo> spinnerAdapter) {
+		SpinnerAdapterWrapper(Context context, ArrayAdapter<SoundInfo> spinnerAdapter) {
 			this.context = context;
 			this.spinnerAdapter = spinnerAdapter;
 

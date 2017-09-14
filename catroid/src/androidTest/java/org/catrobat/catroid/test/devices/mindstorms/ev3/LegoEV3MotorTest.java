@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,8 +59,8 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		int inputSpeed = -70;
 		byte outputField = (byte) 0x01;
 
-		int expectedSpeed = (EV3CommandByte.EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & inputSpeed) |
-				EV3CommandByte.EV3CommandParamByteCode.PARAM_SHORT_SIGN_NEGATIVE.getByte();
+		int expectedSpeed = (EV3CommandByte.EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & inputSpeed)
+				| EV3CommandByte.EV3CommandParamByteCode.PARAM_SHORT_SIGN_NEGATIVE.getByte();
 
 		byte expectedOutputField = (byte) 0x01;
 

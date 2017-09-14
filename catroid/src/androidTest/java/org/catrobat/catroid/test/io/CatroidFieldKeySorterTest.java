@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -83,14 +83,14 @@ public class CatroidFieldKeySorterTest extends AndroidTestCase {
 		xstream.toXML(new BaseClass());
 
 		MoreAsserts.assertEquals("Sorted fields differ",
-				new String[] { "a", "x" }, fieldKeySorter.getFieldNames(BaseClass.class));
+				new String[] {"a", "x"}, fieldKeySorter.getFieldNames(BaseClass.class));
 	}
 
 	public void testSortTagsAlphabeticallyByClassHierarchy() {
 		xstream.toXML(new SubClass());
 
 		MoreAsserts.assertEquals("Sorted fields differ",
-				new String[] { "a", "x", "b", "y", "z" }, fieldKeySorter.getFieldNames(SubClass.class));
+				new String[] {"a", "x", "b", "y", "z"}, fieldKeySorter.getFieldNames(SubClass.class));
 	}
 
 	@SuppressWarnings("PMD.UnusedPrivateField")
@@ -125,7 +125,7 @@ public class CatroidFieldKeySorterTest extends AndroidTestCase {
 		xstream.toXML(new SortAlphabeticallyWithAliases());
 
 		MoreAsserts.assertEquals("Sorted fields differ",
-				new String[] { "b", "x", "y" }, fieldKeySorter.getFieldNames(SortAlphabeticallyWithAliases.class));
+				new String[] {"b", "x", "y"}, fieldKeySorter.getFieldNames(SortAlphabeticallyWithAliases.class));
 	}
 
 	@SuppressWarnings("PMD.UnusedPrivateField")
@@ -140,7 +140,7 @@ public class CatroidFieldKeySorterTest extends AndroidTestCase {
 		xstream.toXML(new SortByAnnotation());
 
 		MoreAsserts.assertEquals("Sorted fields differ",
-				new String[] { "c", "a", "d", "b" }, fieldKeySorter.getFieldNames(SortByAnnotation.class));
+				new String[] {"c", "a", "d", "b"}, fieldKeySorter.getFieldNames(SortByAnnotation.class));
 	}
 
 	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -163,7 +163,7 @@ public class CatroidFieldKeySorterTest extends AndroidTestCase {
 		xstream.toXML(new SortByAnnotationWithAliases());
 
 		MoreAsserts.assertEquals("Sorted fields differ",
-				new String[] { "x", "b" }, fieldKeySorter.getFieldNames(SortByAnnotationWithAliases.class));
+				new String[] {"x", "b"}, fieldKeySorter.getFieldNames(SortByAnnotationWithAliases.class));
 	}
 
 	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -196,5 +196,40 @@ public class CatroidFieldKeySorterTest extends AndroidTestCase {
 	private static class MissingFieldInAnnotation {
 		private int a;
 		private int b;
+	}
+
+	public void testSortByAnnotationIsInBaseClass() {
+		xstream.toXML(new SubClassWithoutAnnotation());
+
+		MoreAsserts.assertEquals("Sorted fields differ",
+				new String[] {"b", "a"}, fieldKeySorter.getFieldNames(SubClassWithoutAnnotation.class));
+	}
+
+	public void testMissingFieldInSubClassWithoutAnnotationThrowsException() {
+		try {
+			xstream.toXML(new SubClassWithNewMemberButWithoutAnnotation());
+			fail("XStream didn't throw an exception for missing field c in annotation");
+		} catch (XStreamMissingSerializableFieldException expected) {
+		}
+	}
+
+	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+	// CHECKSTYLE DISABLE IndentationCheck FOR 4 LINES
+	@XStreamFieldKeyOrder({
+			"b",
+			"a"
+	})
+	@SuppressWarnings("PMD.UnusedPrivateField")
+	private static class BaseClassWithAnnotation {
+		private int a;
+		private int b;
+	}
+
+	private static class SubClassWithoutAnnotation extends BaseClassWithAnnotation {
+	}
+
+	@SuppressWarnings("PMD.UnusedPrivateField")
+	private static class SubClassWithNewMemberButWithoutAnnotation extends BaseClassWithAnnotation {
+		private int c;
 	}
 }

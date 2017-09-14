@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,9 +31,10 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BroadcastSequenceMap;
-import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
+import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -84,13 +85,10 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				onBackPressed();
 				break;
 			case R.id.stage_dialog_button_continue:
-				dismiss();
-				stageActivity.resume();
+				onContinuePressed();
 				break;
 			case R.id.stage_dialog_button_restart:
-				clearBroadcastMaps();
-				dismiss();
-				restartProject();
+				onRestartPressed();
 				break;
 			case R.id.stage_dialog_button_toggle_axes:
 				toggleAxes();
@@ -115,7 +113,39 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 	}
 
+	public void onContinuePressed() {
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+				&& !CastManager.getInstance().isConnected()) {
+			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
+			return;
+		}
+
+		dismiss();
+		stageActivity.resume();
+	}
+
+	public void onRestartPressed() {
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+				&& !CastManager.getInstance().isConnected()) {
+			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
+			return;
+		}
+
+		clearBroadcastMaps();
+		dismiss();
+		restartProject();
+	}
+
 	private void makeScreenshot() {
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+				&& !CastManager.getInstance().isConnected()) {
+			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
+			return;
+		}
+
 		if (stageListener.makeManualScreenshot()) {
 			ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
 		} else {
@@ -147,9 +177,11 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void clearBroadcastMaps() {
-		BroadcastSequenceMap.clear();
-		BroadcastWaitSequenceMap.clear();
-		BroadcastWaitSequenceMap.clearCurrentBroadcastEvent();
+		for (Sprite sprite : stageListener.getSpritesFromStage()) {
+			sprite.getBroadcastSequenceMap().clear();
+			sprite.getBroadcastWaitSequenceMap().clear();
+			sprite.getBroadcastWaitSequenceMap().clearCurrentBroadcastEvent();
+		}
 	}
 
 	private class FinishThreadAndDisposeTexturesTask extends AsyncTask<Void, Void, Void> {

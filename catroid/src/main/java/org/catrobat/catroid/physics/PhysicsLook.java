@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,14 @@ public class PhysicsLook extends Look {
 	public PhysicsLook(Sprite sprite, PhysicsWorld physicsWorld) {
 		super(sprite);
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
+	}
+
+	@Override
+	public void copyTo(final Look destination) {
+		super.copyTo(destination);
+		if (destination instanceof PhysicsLook) {
+			this.physicsObject.copyTo(((PhysicsLook) destination).physicsObject);
+		}
 	}
 
 	@Override
@@ -230,7 +238,7 @@ public class PhysicsLook extends Look {
 		private boolean fixed = false;
 		private boolean nonColliding = false;
 
-		public PhysicsObjectStateHandler() {
+		PhysicsObjectStateHandler() {
 
 			positionCondition = new PhysicsObjectStateCondition() {
 				@Override

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -154,7 +155,14 @@ public class AddBrickFragment extends ListFragment {
 
 	public void addBrickToScript(Brick brickToBeAdded) {
 		try {
-			scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded.clone());
+			brickToBeAdded = brickToBeAdded.clone();
+			scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
+
+			if ((ProjectManager.getInstance().getCurrentProject().isCastProject())
+					&& CastManager.unsupportedBricks.contains(brickToBeAdded.getClass())) {
+				ToastUtil.showError(getActivity(), R.string.error_unsupported_bricks_chromecast);
+				return;
+			}
 
 			if (brickToBeAdded instanceof ScriptBrick) {
 				Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe();

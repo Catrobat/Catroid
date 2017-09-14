@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,14 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
-import android.content.ComponentName;
-import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -67,20 +63,6 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 	}
 
 	public void testNewSpriteDialogStep1() throws Exception {
-		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
-				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-		if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
-			assertTrue("No pocket paint selection available",
-					solo.waitForText(solo.getString(R.string.dialog_new_object_pocketpaint), 0, 500));
-		}
-		assertTrue("No gallery selection available",
-				solo.waitForText(solo.getString(R.string.dialog_new_object_gallery), 0, 500));
-		assertTrue("No camera selection available",
-				solo.waitForText(solo.getString(R.string.dialog_new_object_camera), 0, 500));
 	}
 
 	public void testNewSpriteDialogStep2() throws NameNotFoundException, IOException {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,12 +41,12 @@ import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.HashSet;
@@ -73,10 +73,10 @@ public class SpriteTest extends AndroidTestCase {
 		project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.getDefaultScene().addSprite(sprite);
 		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
-		project.getDefaultScene().getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
+		project.getDefaultScene().getDataContainer().getUserVariable(sprite, LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);
 
 		project.getDefaultScene().getDataContainer().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
-		project.getDefaultScene().getDataContainer().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
+		project.getDefaultScene().getDataContainer().getUserVariable(null, GLOBAL_VARIABLE_NAME).setValue(GLOBAL_VARIABLE_VALUE);
 
 		ProjectManager.getInstance().setProject(project);
 	}
@@ -151,7 +151,7 @@ public class SpriteTest extends AndroidTestCase {
 		sprite.addScript(script);
 		Sprite clonedSprite = sprite.clone();
 
-		UserVariable clonedVariable = project.getDefaultScene().getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, clonedSprite);
+		UserVariable clonedVariable = project.getDefaultScene().getDataContainer().getUserVariable(clonedSprite, LOCAL_VARIABLE_NAME);
 		assertNotNull("local variable isn't copied properly", clonedVariable);
 		assertEquals("variable not cloned properly", LOCAL_VARIABLE_NAME, clonedVariable.getName());
 		assertEquals("variable not cloned properly", LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
@@ -248,7 +248,7 @@ public class SpriteTest extends AndroidTestCase {
 		secondScript.addBrick(textBrick);
 		sprite2.addScript(secondScript);
 		secondScene.getDataContainer().addSpriteUserVariableToSprite(sprite2, variableName);
-		UserVariable userVariable = secondScene.getDataContainer().getUserVariable(variableName, sprite2);
+		UserVariable userVariable = secondScene.getDataContainer().getUserVariable(sprite2, variableName);
 		userVariable.setValue(LOCAL_VARIABLE_VALUE);
 		userVariable.setVisible(false);
 		ProjectManager.getInstance().setSceneToPlay(secondScene);
@@ -258,12 +258,12 @@ public class SpriteTest extends AndroidTestCase {
 		secondScript.run(sprite2, sequence);
 
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-		userVariable = dataContainer.getUserVariable(variableName, sprite2);
+		userVariable = dataContainer.getUserVariable(sprite2, variableName);
 		assertFalse("Variable should be invisible", userVariable.getVisible());
 
 		sequence.act(1f);
 
-		userVariable = dataContainer.getUserVariable(variableName, sprite2);
+		userVariable = dataContainer.getUserVariable(sprite2, variableName);
 		assertTrue("Variable should be visible", userVariable.getVisible());
 	}
 

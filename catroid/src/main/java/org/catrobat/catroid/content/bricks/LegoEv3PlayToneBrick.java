@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -134,11 +133,12 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 			case R.id.brick_ev3_tone_freq_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_FREQUENCY);
 				break;
-			case R.id.brick_ev3_tone_duration_edit_text:
-				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_DURATION_IN_SECONDS);
-				break;
 			case R.id.brick_ev3_tone_volume_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_VOLUME);
+				break;
+			case R.id.brick_ev3_tone_duration_edit_text:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_DURATION_IN_SECONDS);
 				break;
 		}
 	}
@@ -150,9 +150,5 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS),
 				getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME)));
 		return null;
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

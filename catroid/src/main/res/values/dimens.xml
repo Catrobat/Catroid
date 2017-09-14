@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ Copyright (C) 2010-2017 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -113,5 +113,6 @@
 
     <!-- PocketMusic -->
     <dimen name="pocketmusic_trackrow_margin">0.5dp</dimen>
+    <dimen name="plus_button_size">82sp</dimen>
 
 </resources>

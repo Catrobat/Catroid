@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2017 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,68 +25,65 @@ package org.catrobat.catroid.common;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.BroadcastEvent;
+import org.catrobat.catroid.content.Sprite;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public final class BroadcastWaitSequenceMap {
-	private static Map<String, HashMap<String, ArrayList<SequenceAction>>> broadcastWaitSequenceMap = new HashMap<>();
-	private static BroadcastEvent currentBroadcastEvent = null;
+public class BroadcastWaitSequenceMap {
+	private BroadcastEvent currentBroadcastEvent = null;
+	private Map<Sprite, BroadcastSequenceMap> waitSequenceMap = new HashMap<>();
 
-	private BroadcastWaitSequenceMap() {
-		throw new AssertionError();
-	}
-
-	public static boolean containsKey(String key, String sceneName) {
-		if (!broadcastWaitSequenceMap.containsKey(sceneName)) {
-			return false;
+	public List<SequenceAction> put(String sceneName, String key, Sprite sprite, List<SequenceAction> values) {
+		BroadcastSequenceMap map = waitSequenceMap.get(sprite);
+		if (map == null) {
+			map = new BroadcastSequenceMap();
+			waitSequenceMap.put(sprite, map);
 		}
-		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(sceneName).containsKey(key);
+		return map.put(sceneName, key, values);
 	}
 
-	public static ArrayList<SequenceAction> get(String key, String sceneName) {
-		if (!broadcastWaitSequenceMap.containsKey(sceneName)) {
-			return null;
+	public List<SequenceAction> get(String key, String sceneName, Sprite sprite) {
+		BroadcastSequenceMap broadcastSequenceMap = waitSequenceMap.get(sprite);
+		if (broadcastSequenceMap != null) {
+			return broadcastSequenceMap.get(key, sceneName);
 		}
-		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(sceneName).get(key);
+		return null;
 	}
 
-	public static ArrayList<SequenceAction> put(String sceneName, String key, ArrayList<SequenceAction> value) {
-		if (!broadcastWaitSequenceMap.containsKey(sceneName)) {
-			HashMap<String, ArrayList<SequenceAction>> map = new HashMap<>();
-			broadcastWaitSequenceMap.put(sceneName, map);
+	public boolean containsKey(String key, String sceneName, Sprite sprite) {
+		return waitSequenceMap.get(sprite) != null && waitSequenceMap.get(sprite).containsKey(key, sceneName);
+	}
+
+	public void remove(String key, String sceneName) {
+		for (BroadcastSequenceMap broadcastSequenceMap : waitSequenceMap.values()) {
+			if (broadcastSequenceMap != null) {
+				broadcastSequenceMap.remove(key, sceneName);
+			}
 		}
-		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(sceneName).put(key, value);
 	}
 
-	public static ArrayList<SequenceAction> remove(String key, String sceneName) {
-		if (!broadcastWaitSequenceMap.containsKey(sceneName)) {
-			return null;
+	public BroadcastEvent getCurrentBroadcastEvent() {
+		return currentBroadcastEvent;
+	}
+
+	public void setCurrentBroadcastEvent(BroadcastEvent broadcastEvent) {
+		currentBroadcastEvent = broadcastEvent;
+	}
+
+	public void clearCurrentBroadcastEvent() {
+		currentBroadcastEvent = null;
+	}
+
+	public void clear() {
+		waitSequenceMap.clear();
+	}
+
+	public void clear(String sceneName, Sprite sprite) {
+		BroadcastSequenceMap broadcastSequenceMap = waitSequenceMap.get(sprite);
+		if (broadcastSequenceMap != null) {
+			broadcastSequenceMap.clear(sceneName);
 		}
-		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(sceneName).remove(key);
-	}
-
-	public static void clear() {
-		BroadcastWaitSequenceMap.broadcastWaitSequenceMap.clear();
-	}
-
-	public static void clear(String sceneName) {
-		if (!BroadcastWaitSequenceMap.broadcastWaitSequenceMap.containsKey(sceneName)) {
-			return;
-		}
-		BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(sceneName).clear();
-	}
-
-	public static BroadcastEvent getCurrentBroadcastEvent() {
-		return BroadcastWaitSequenceMap.currentBroadcastEvent;
-	}
-
-	public static void setCurrentBroadcastEvent(BroadcastEvent broadcastEvent) {
-		BroadcastWaitSequenceMap.currentBroadcastEvent = broadcastEvent;
-	}
-
-	public static void clearCurrentBroadcastEvent() {
-		BroadcastWaitSequenceMap.currentBroadcastEvent = null;
 	}
 }
