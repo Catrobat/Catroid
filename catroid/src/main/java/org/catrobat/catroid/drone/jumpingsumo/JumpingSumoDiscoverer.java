@@ -89,6 +89,7 @@ public class JumpingSumoDiscoverer {
 	 * Should be called before starting discovering
 	 */
 	public void setup() {
+		// registerReceivers
 		LocalBroadcastManager localBroadcastMgr = LocalBroadcastManager.getInstance(context);
 		localBroadcastMgr.registerReceiver(ardiscoveryServicesDevicesListUpdatedReceiver,
 				new IntentFilter(ARDiscoveryService.kARDiscoveryServiceNotificationServicesDevicesListUpdated));
@@ -134,6 +135,7 @@ public class JumpingSumoDiscoverer {
 			}).start();
 		}
 
+		// unregister receivers
 		LocalBroadcastManager localBroadcastMgr = LocalBroadcastManager.getInstance(context);
 		localBroadcastMgr.unregisterReceiver(ardiscoveryServicesDevicesListUpdatedReceiver);
 	}

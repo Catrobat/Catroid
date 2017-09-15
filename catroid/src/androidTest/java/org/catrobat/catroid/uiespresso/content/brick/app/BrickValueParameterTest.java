@@ -843,7 +843,6 @@ public class BrickValueParameterTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void testJumpingSumoBricksDefaultValues() {
-		openCategory(R.string.category_jumping_sumo);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})

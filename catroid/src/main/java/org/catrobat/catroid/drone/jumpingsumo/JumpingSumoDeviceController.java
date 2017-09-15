@@ -25,11 +25,11 @@ package org.catrobat.catroid.drone.jumpingsumo;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
 public final class JumpingSumoDeviceController {
-	private static JumpingSumoDeviceController ourInstance = new JumpingSumoDeviceController();
+	private static JumpingSumoDeviceController controller = new JumpingSumoDeviceController();
 	private ARDeviceController deviceController = null;
 
 	public static JumpingSumoDeviceController getInstance() {
-		return ourInstance;
+		return controller;
 	}
 
 	private JumpingSumoDeviceController() {
