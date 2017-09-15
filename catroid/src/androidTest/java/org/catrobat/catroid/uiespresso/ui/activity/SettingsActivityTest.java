@@ -31,25 +31,35 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import static org.catrobat.catroid.common.Constants.LANGUAGE_CODE;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CRASH_REPORTS;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
@@ -62,6 +72,9 @@ import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_NFC_BRICKS;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.core.Is.is;
 
 @RunWith(AndroidJUnit4.class)
 public class SettingsActivityTest {
@@ -112,6 +125,7 @@ public class SettingsActivityTest {
 		initialSettings.clear();
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void basicSettingsTest() {
 		checkPreference(R.string.preference_title_enable_arduino_bricks, SETTINGS_SHOW_ARDUINO_BRICKS);
@@ -122,6 +136,7 @@ public class SettingsActivityTest {
 		checkPreference(R.string.preference_title_cast_feature_globally_enabled, SETTINGS_CAST_GLOBALLY_ENABLED);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void legoNxtSettingsTest() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_mindstorms_nxt_bricks))
@@ -131,6 +146,7 @@ public class SettingsActivityTest {
 		checkPreference(R.string.preference_disable_nxt_info_dialog, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void legoEv3SettingsTest() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_mindstorms_ev3_bricks))
@@ -141,6 +157,7 @@ public class SettingsActivityTest {
 				SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void parrotArSettingsTest() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_quadcopter_bricks))
@@ -149,12 +166,43 @@ public class SettingsActivityTest {
 		checkPreference(R.string.preference_title_enable_quadcopter_bricks, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void rasPiSettingsTest() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_raspi_bricks))
 				.perform(click());
 
 		checkPreference(R.string.preference_title_enable_raspi_bricks, SETTINGS_SHOW_RASPI_BRICKS);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void languageSettingTest() {
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_language))
+				.perform(click());
+		onView(withText(R.string.preference_title_language))
+				.check(matches(isDisplayed()));
+		onData(is(instanceOf(String.class))).atPosition(0)
+				.check(matches(withText(R.string.device_language)));
+		for (String rtlLanguage : LANGUAGE_CODE) {
+
+			if (rtlLanguage.equals("sd")) {
+				onData(hasToString("سنڌي"))
+						.check(matches(isDisplayed()));
+			} else if (rtlLanguage.length() == 2) {
+				Locale rtlLocale = new Locale(rtlLanguage);
+				onData(hasToString(rtlLocale.getDisplayName(rtlLocale)))
+						.check(matches(isDisplayed()));
+			} else if (rtlLanguage.length() == 6) {
+				String language = rtlLanguage.substring(0, 2);
+				String country = rtlLanguage.substring(4);
+				Locale rtlLocale = new Locale(language, country);
+				onData(hasToString(rtlLocale.getDisplayName(rtlLocale)))
+						.check(matches(isDisplayed()));
+			}
+		}
+		onView(withId(android.R.id.button2))
+				.check(matches(isDisplayed()));
 	}
 
 	private void checkPreference(int displayedTitleResourceString, String sharedPreferenceTag) {

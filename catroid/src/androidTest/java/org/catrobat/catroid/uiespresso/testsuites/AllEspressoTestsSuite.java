@@ -107,6 +107,7 @@ import org.catrobat.catroid.uiespresso.stage.MultipleBroadcastsTest;
 import org.catrobat.catroid.uiespresso.stage.ObjectVariableTest;
 import org.catrobat.catroid.uiespresso.stage.StagePausedTest;
 import org.catrobat.catroid.uiespresso.stage.StageSimpleTest;
+import org.catrobat.catroid.uiespresso.ui.activity.LanguageSwitchMainMenuTest;
 import org.catrobat.catroid.uiespresso.ui.activity.SettingsActivityTest;
 import org.catrobat.catroid.uiespresso.ui.dialog.AboutDialogTest;
 import org.catrobat.catroid.uiespresso.ui.dialog.DeleteLookDialogTest;
@@ -211,7 +212,8 @@ import org.junit.runners.Suite;
 		DeleteSoundDialogTest.class,
 		TermsOfUseDialogTest.class,
 		DeleteLookDialogTest.class,
-		AboutDialogTest.class
+		AboutDialogTest.class,
+		LanguageSwitchMainMenuTest.class
 })
 public class AllEspressoTestsSuite {
 }

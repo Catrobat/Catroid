@@ -112,6 +112,8 @@
 
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
+    <string name="preference_title_language">Language</string>
+    <string name="preference_description_language">Allow to change PocketCode Language</string>
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control AR.Drone 2.0 quadcopters</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
@@ -1629,5 +1631,9 @@
     <string name="crash_dialog_send">Send</string>
     <string name="plus" translatable="false">+</string>
     <!--  -->
+
+    <!-- Multilingual List -->
+    <string name="device_language">Device Language</string>
+
 </resources>
 
