@@ -94,7 +94,7 @@ public class ScratchServerCallsTest extends InstrumentationTestCase {
 						+ Constants.SCRATCH_IMAGE_BASE_URL + "' any more: " + Constants.SCRATCH_IMAGE_BASE_URL,
 				urlString.startsWith(Constants.SCRATCH_IMAGE_BASE_URL));
 
-		final int[] imageSize = new int[] {Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT};
+		final int[] imageSize = new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
 		assertTrue("Invalid width extracated of image URL", programData.getImage().getWidth() == imageSize[0]);
 		assertTrue("Invalid height extracted from image URL", programData.getImage().getHeight() == imageSize[1]);
 		final String imageURLWithoutQuery = programData.getImage().getUrl().toString().split("\\?")[0];
