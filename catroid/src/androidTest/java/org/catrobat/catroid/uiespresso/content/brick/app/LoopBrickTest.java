@@ -84,7 +84,7 @@ public class LoopBrickTest {
 	public void repeatBrickTest() {
 		checkSetUpBrickArrangement();
 
-		deleteBrickAtPosition(1);
+		onBrickAtPosition(1).performDeleteBrick();
 
 		onBrickAtPosition(1).checkShowsText(R.string.brick_change_y_by);
 		onView(withText(R.string.brick_loop_end))
@@ -108,7 +108,7 @@ public class LoopBrickTest {
 		onBrickAtPosition(4).checkShowsText(R.string.brick_loop_end);
 		onBrickAtPosition(5).checkShowsText(R.string.brick_loop_end);
 
-		deleteBrickAtPosition(2);
+		onBrickAtPosition(2).performDeleteBrick();
 
 		checkSetUpBrickArrangement();
 	}
@@ -135,8 +135,8 @@ public class LoopBrickTest {
 		onBrickAtPosition(6).checkShowsText(R.string.brick_change_y_by);
 		onBrickAtPosition(7).checkShowsText(R.string.brick_loop_end);
 
-		deleteBrickAtPosition(2);
-		deleteBrickAtPosition(3);
+		onBrickAtPosition(2).performDeleteBrick();
+		onBrickAtPosition(3).performDeleteBrick();
 
 		onBrickAtPosition(2).performDragNDrop(BrickCoordinatesProvider.DOWN_TO_BOTTOM);
 
@@ -188,7 +188,7 @@ public class LoopBrickTest {
 		onBrickAtPosition(4).checkShowsText(R.string.brick_change_y_by);
 		onBrickAtPosition(5).checkShowsText(R.string.brick_loop_end);
 
-		deleteBrickAtPosition(1);
+		onBrickAtPosition(1).performDeleteBrick();
 
 		checkSetUpBrickArrangement();
 	}
@@ -199,7 +199,7 @@ public class LoopBrickTest {
 		onView(withText(R.string.delete))
 				.perform(click());
 
-		for (int checkBoxId:brickCheckBoxIdList) {
+		for (int checkBoxId : brickCheckBoxIdList) {
 			onView(withId(checkBoxId))
 					.perform(click());
 		}
@@ -207,15 +207,6 @@ public class LoopBrickTest {
 				.perform(click());
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
-				.perform(click());
-	}
-
-	public void deleteBrickAtPosition(int position) {
-		onBrickAtPosition(position)
-				.perform(click());
-		onView(withText(R.string.brick_context_dialog_delete_brick))
-				.perform(click());
-		onView(withText(R.string.yes))
 				.perform(click());
 	}
 

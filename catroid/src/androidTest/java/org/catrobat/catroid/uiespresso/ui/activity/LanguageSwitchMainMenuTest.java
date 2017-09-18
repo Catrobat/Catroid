@@ -61,7 +61,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.common.Constants.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
 import static org.catrobat.catroid.uiespresso.ui.activity.RtlUiTestUtils.checkTextDirection;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResources;
@@ -76,6 +75,7 @@ public class LanguageSwitchMainMenuTest {
 	private static final Locale ARABICLOCALE = new Locale("ar");
 	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
 	private Configuration conf = getResources().getConfiguration();
+	private Locale defaultLocale = Locale.getDefault();
 
 	@Rule
 	public BaseActivityInstrumentationRule<SettingsActivity> baseActivityTestRule = new
@@ -88,10 +88,18 @@ public class LanguageSwitchMainMenuTest {
 
 	@After
 	public void tearDown() throws Exception {
-		SharedPreferences.Editor shared = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
-				.getTargetContext()).edit();
-		shared.putString(LANGUAGE_TAG_KEY, DEVICE_LANGUAGE);
-		shared.commit();
+		resetToDefaultLanguage();
+		Espresso.unregisterIdlingResources(idlingResource);
+	}
+
+	private void resetToDefaultLanguage() {
+		SharedPreferences.Editor editor = PreferenceManager
+				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+				.edit();
+		editor.putString(LANGUAGE_TAG_KEY, defaultLocale.getLanguage());
+		editor.commit();
+		SettingsActivity.updateLocale(InstrumentationRegistry.getTargetContext(), defaultLocale.getLanguage(),
+				defaultLocale.getCountry());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
