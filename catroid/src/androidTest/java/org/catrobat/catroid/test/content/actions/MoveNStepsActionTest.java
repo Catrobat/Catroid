@@ -22,17 +22,15 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.BaseTest;
 
-public class MoveNStepsActionTest extends AndroidTestCase {
+public class MoveNStepsActionTest extends BaseTest {
 	private final float delta = 0.0001f;
 
 	private Sprite sprite;
@@ -43,7 +41,8 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		sprite = new SingleSprite("Test");
+		super.setUp();
+		sprite = createSprite("Test");
 		factory = sprite.getActionFactory();
 	}
 

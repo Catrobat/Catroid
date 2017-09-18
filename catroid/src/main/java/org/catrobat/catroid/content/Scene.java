@@ -43,7 +43,9 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -51,6 +53,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.catrobat.catroid.ui.fragment.SpriteFactory.SPRITE_SINGLE;
 
 @XStreamAlias("scene")
 // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -86,6 +90,7 @@ public class Scene implements Serializable {
 		sceneName = name;
 		dataContainer = new DataContainer(project);
 		this.project = project;
+		ProjectManager.getInstance().setCurrentScene(this);
 
 		if (project != null) {
 			originalWidth = project.getXmlHeader().virtualScreenWidth;
@@ -95,13 +100,14 @@ public class Scene implements Serializable {
 		if (context == null) {
 			return;
 		}
-
+		resetPhysicsWorld();
 		Sprite background;
+		SpriteFactory spriteFactory = new SpriteFactory();
 		try {
-			background = new SingleSprite(context.getString(R.string.background));
+			background = spriteFactory.newInstance(SPRITE_SINGLE, context.getString(R.string.background));
 		} catch (Resources.NotFoundException e) {
 			//Because in test project we can't find the string
-			background = new SingleSprite("Background");
+			background = spriteFactory.newInstance(SPRITE_SINGLE, "Background");
 		}
 		background.look.setZIndex(0);
 		addSprite(background);
@@ -320,8 +326,13 @@ public class Scene implements Serializable {
 	}
 
 	public synchronized PhysicsWorld resetPhysicsWorld() {
-		return (physicsWorld = new PhysicsWorld(project.getXmlHeader().virtualScreenWidth, project.getXmlHeader()
-				.virtualScreenHeight));
+		physicsWorld = new PhysicsWorld(originalWidth, originalHeight);
+		for (Sprite sprite : getSpriteList()) {
+			PhysicsProperties physicsProperties = new PhysicsProperties(physicsWorld.createBody(), sprite);
+			sprite.setPhysicsProperties(physicsProperties);
+			physicsProperties.setType(PhysicsProperties.Type.NONE);
+		}
+		return physicsWorld;
 	}
 
 	// default constructor for XMLParser

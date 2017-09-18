@@ -23,15 +23,14 @@
 
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.test.BaseTest;
 
-public class GoToOtherSpritePositionActionTest extends AndroidTestCase {
+public class GoToOtherSpritePositionActionTest extends BaseTest {
 
 	private static final float DESTINATION_X_POSITION = 150f;
 	private static final float DESTINATION_Y_POSITION = 300f;
@@ -41,11 +40,11 @@ public class GoToOtherSpritePositionActionTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		sprite = new Sprite("testSprite");
-		destinationSprite = new Sprite("destinationSprite");
+		super.setUp();
+		sprite = createSprite("testSprite");
+		destinationSprite = createSprite("destinationSprite");
 		action = sprite.getActionFactory().createGoToAction(sprite, destinationSprite,
 				BrickValues.GO_TO_OTHER_SPRITE_POSITION);
-		super.setUp();
 	}
 
 	public void testGoToOtherSpritePositionAction() throws InterruptedException {

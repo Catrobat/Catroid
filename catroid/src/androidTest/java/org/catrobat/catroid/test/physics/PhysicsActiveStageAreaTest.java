@@ -24,11 +24,11 @@
 package org.catrobat.catroid.test.physics;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.SingleSprite;
-import org.catrobat.catroid.physics.PhysicsLook;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -39,78 +39,78 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 
 	private static final float EXPECTED_CIRCUMFERENCE_125X125 = (float) Math.sqrt(2 * Math.pow(125 / 2f, 2));
 	private static final float CIRCUMFERENCE_COMPARISON_DELTA = 1.0f;
-	private PhysicsObject physicsObject;
-	private PhysicsLook physicsLook;
+	private PhysicsProperties physicsProperties;
+	private Look look;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsLook = ((PhysicsLook) sprite.look);
+		physicsProperties = sprite.getPhysicsProperties();
+		look = sprite.look;
 	}
 
 	public void testCircumferenceCalculation() {
 		assertEquals("calculated rectangle circumference not equal to expected value",
-				EXPECTED_CIRCUMFERENCE_125X125, physicsObject.getCircumference(), CIRCUMFERENCE_COMPARISON_DELTA);
+				EXPECTED_CIRCUMFERENCE_125X125, physicsProperties.getCircumference(), CIRCUMFERENCE_COMPARISON_DELTA);
 	}
 
 	public void testCenteredObjectIsActive() {
-		physicsObject.setPosition(0, 0);
-		physicsLook.updatePhysicsObjectState(true);
-		assertTrue("physicsObject in center of stage is hung up", !physicsLook.isHangedUp());
+		physicsProperties.setPosition(0, 0);
+		look.updatePhysicsObjectState(true);
+		assertTrue("physicsProperties in center of stage is hung up", !look.isHangedUp());
 	}
 
 	public void testXOutOfBounds() {
-		physicsObject.setX(PhysicsWorld.activeArea.x / 2.0f
-				+ physicsObject.getCircumference() - 1);
+		physicsProperties.setX(PhysicsWorld.activeArea.x / 2.0f
+				+ physicsProperties.getCircumference() - 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
-		assertTrue("physicsObject inside active area is hung up", !physicsLook.isHangedUp());
+		look.updatePhysicsObjectState(true);
+		assertTrue("physicsProperties inside active area is hung up", !look.isHangedUp());
 
-		physicsObject.setX(PhysicsWorld.activeArea.x / 2.0f
-				+ physicsObject.getCircumference() + 1);
+		physicsProperties.setX(PhysicsWorld.activeArea.x / 2.0f
+				+ physicsProperties.getCircumference() + 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
-		assertTrue("physicsObject outside active area is not hung up", physicsLook.isHangedUp());
+		look.updatePhysicsObjectState(true);
+		assertTrue("physicsProperties outside active area is not hung up", look.isHangedUp());
 	}
 
 	public void testYOutOfBounds() {
-		physicsObject.setY(PhysicsWorld.activeArea.y / 2.0f
-				+ physicsObject.getCircumference() - 1);
+		physicsProperties.setY(PhysicsWorld.activeArea.y / 2.0f
+				+ physicsProperties.getCircumference() - 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
-		assertTrue("physicsObject inside active area is hung up", !physicsLook.isHangedUp());
+		look.updatePhysicsObjectState(true);
+		assertTrue("physicsProperties inside active area is hung up", !look.isHangedUp());
 
-		physicsObject.setY(PhysicsWorld.activeArea.y / 2.0f
-				+ physicsObject.getCircumference() + 1);
+		physicsProperties.setY(PhysicsWorld.activeArea.y / 2.0f
+				+ physicsProperties.getCircumference() + 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
-		assertTrue("physicsObject outside active area is not hung up", physicsLook.isHangedUp());
+		look.updatePhysicsObjectState(true);
+		assertTrue("physicsProperties outside active area is not hung up", look.isHangedUp());
 	}
 
 	public void testNegativeXYOutOfBounds() {
-		physicsObject.setX(-PhysicsWorld.activeArea.x / 2.0f
-				- physicsObject.getCircumference() - 1);
-		physicsObject.setY(-PhysicsWorld.activeArea.y / 2.0f
-				- physicsObject.getCircumference() - 1);
+		physicsProperties.setX(-PhysicsWorld.activeArea.x / 2.0f
+				- physicsProperties.getCircumference() - 1);
+		physicsProperties.setY(-PhysicsWorld.activeArea.y / 2.0f
+				- physicsProperties.getCircumference() - 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
-		assertTrue("physicsObject outside active area is not hung up", physicsLook.isHangedUp());
+		look.updatePhysicsObjectState(true);
+		assertTrue("physicsProperties outside active area is not hung up", look.isHangedUp());
 	}
 
 	public void testResumeAfterXYHangup() {
-		physicsObject.setX(PhysicsWorld.activeArea.x / 2.0f
-				+ physicsObject.getCircumference() + 1);
-		physicsObject.setY(PhysicsWorld.activeArea.y / 2.0f
-				+ physicsObject.getCircumference() + 1);
+		physicsProperties.setX(PhysicsWorld.activeArea.x / 2.0f
+				+ physicsProperties.getCircumference() + 1);
+		physicsProperties.setY(PhysicsWorld.activeArea.y / 2.0f
+				+ physicsProperties.getCircumference() + 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
-		assertTrue("physicsObject outside active area is not hung up", physicsLook.isHangedUp());
+		look.updatePhysicsObjectState(true);
+		assertTrue("physicsProperties outside active area is not hung up", look.isHangedUp());
 
-		physicsObject.setPosition(0.0f, 0.0f);
+		physicsProperties.setPosition(0.0f, 0.0f);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
-		assertTrue("physicsObject inside active area is hung up", !physicsLook.isHangedUp());
+		look.updatePhysicsObjectState(true);
+		assertTrue("physicsProperties inside active area is hung up", !look.isHangedUp());
 	}
 
 	public void testSpriteLargerThanActiveAreaHangupAndResume() throws Exception {
@@ -121,29 +121,30 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 				TestUtils.TYPE_IMAGE_FILE);
 
 		sprite = new SingleSprite("TestSprite");
-		sprite.look = new PhysicsLook(sprite, physicsWorld);
-		sprite.setActionFactory(new ActionPhysicsFactory());
+		sprite.look = new Look(sprite);
+		sprite.setActionFactory(new ActionFactory());
+		sprite.setPhysicsProperties(new PhysicsProperties(physicsWorld.createBody(), sprite));
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle8192x8192File);
 		sprite.look.setLookData(lookdata);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		look.updatePhysicsObjectState(true);
 		assertTrue("getLookData is null", sprite.look.getLookData() != null);
 
-		physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsLook = ((PhysicsLook) sprite.look);
-		assertTrue("huge physicsObject is hung up at start", !physicsLook.isHangedUp());
+		physicsProperties = sprite.getPhysicsProperties();
+		look = sprite.look;
+		assertTrue("huge physicsProperties is hung up at start", !look.isHangedUp());
 
-		physicsObject.setX(PhysicsWorld.activeArea.x / 2.0f
-				+ physicsObject.getCircumference() + 1);
-		physicsObject.setY(PhysicsWorld.activeArea.y / 2.0f
-				+ physicsObject.getCircumference() + 1);
+		physicsProperties.setX(PhysicsWorld.activeArea.x / 2.0f
+				+ physicsProperties.getCircumference() + 1);
+		physicsProperties.setY(PhysicsWorld.activeArea.y / 2.0f
+				+ physicsProperties.getCircumference() + 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
-		assertTrue("physicsObject outside active area is not hung up", physicsLook.isHangedUp());
+		look.updatePhysicsObjectState(true);
+		assertTrue("physicsProperties outside active area is not hung up", look.isHangedUp());
 
-		physicsObject.setPosition(0.0f, 0.0f);
+		physicsProperties.setPosition(0.0f, 0.0f);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
-		assertTrue("physicsObject inside active area is hung up", !physicsLook.isHangedUp());
+		look.updatePhysicsObjectState(true);
+		assertTrue("physicsProperties inside active area is hung up", !look.isHangedUp());
 	}
 }

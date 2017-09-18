@@ -73,8 +73,7 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
-import org.catrobat.catroid.physics.PhysicsLook;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
@@ -384,6 +383,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		transitionToScene(sceneName);
+		sceneToStart.resetPhysicsWorld();
 		for (Sprite sprite : sceneToStart.getSpriteList()) {
 			sprite.getBroadcastSequenceMap().clear(sceneName);
 			sprite.getBroadcastWaitSequenceMap().clear(sceneName, sprite);
@@ -664,21 +664,21 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void printPhysicsLabelOnScreen() {
-		PhysicsObject tempPhysicsObject;
+		PhysicsProperties tempPhysicsProperties;
 		final int fontOffset = 5;
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		for (Sprite sprite : sprites) {
-			if (sprite.look instanceof PhysicsLook) {
-				tempPhysicsObject = physicsWorld.getPhysicsObject(sprite);
-				font.draw(batch, "velocity_x: " + tempPhysicsObject.getVelocity().x, tempPhysicsObject.getX(),
-						tempPhysicsObject.getY());
-				font.draw(batch, "velocity_y: " + tempPhysicsObject.getVelocity().y, tempPhysicsObject.getX(),
-						tempPhysicsObject.getY() + font.getXHeight() + fontOffset);
-				font.draw(batch, "angular velocity: " + tempPhysicsObject.getRotationSpeed(), tempPhysicsObject.getX(),
-						tempPhysicsObject.getY() + font.getXHeight() * 2 + fontOffset * 2);
-				font.draw(batch, "direction: " + tempPhysicsObject.getDirection(), tempPhysicsObject.getX(),
-						tempPhysicsObject.getY() + font.getXHeight() * 3 + fontOffset * 3);
+			if (sprite.look instanceof Look) {
+				tempPhysicsProperties = sprite.getPhysicsProperties();
+				font.draw(batch, "velocity_x: " + tempPhysicsProperties.getVelocity().x, tempPhysicsProperties.getX(),
+						tempPhysicsProperties.getY());
+				font.draw(batch, "velocity_y: " + tempPhysicsProperties.getVelocity().y, tempPhysicsProperties.getX(),
+						tempPhysicsProperties.getY() + font.getXHeight() + fontOffset);
+				font.draw(batch, "angular velocity: " + tempPhysicsProperties.getRotationSpeed(), tempPhysicsProperties.getX(),
+						tempPhysicsProperties.getY() + font.getXHeight() * 2 + fontOffset * 2);
+				font.draw(batch, "direction: " + tempPhysicsProperties.getDirection(), tempPhysicsProperties.getX(),
+						tempPhysicsProperties.getY() + font.getXHeight() * 3 + fontOffset * 3);
 			}
 		}
 		batch.end();

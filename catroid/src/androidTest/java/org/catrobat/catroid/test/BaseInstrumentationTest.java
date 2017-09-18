@@ -20,44 +20,42 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.actions;
 
-import android.util.Log;
+package org.catrobat.catroid.test;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.physics.box2d.Body;
+
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsProperties;
+import org.catrobat.catroid.physics.PhysicsWorld;
 
-public class SetMassAction extends TemporalAction {
-
-	private Sprite sprite;
-	private PhysicsProperties physicsProperties;
-	private Formula mass;
+public class BaseInstrumentationTest extends InstrumentationTestCase {
+	PhysicsWorld physicsWorld;
 
 	@Override
-	protected void update(float percent) {
-		Float newMass;
-		try {
-			newMass = mass == null ? Float.valueOf(0f) : mass.interpretFloat(sprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-			return;
-		}
-		physicsProperties.setMass(newMass);
+	protected void setUp() throws Exception {
+		super.setUp();
+		physicsWorld = new PhysicsWorld();
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public Sprite createSprite(String name) {
+		Sprite sprite = new SingleSprite(name);
+		Body body = physicsWorld.createBody();
+		PhysicsProperties physicsProperties = new PhysicsProperties(body, sprite);
+		sprite.setPhysicsProperties(physicsProperties);
+		sprite.getPhysicsProperties().setType(PhysicsProperties.Type.NONE);
+		return sprite;
 	}
 
-	public void setPhysicsProperties(PhysicsProperties physicsProperties) {
-		this.physicsProperties = physicsProperties;
-	}
-
-	public void setMass(Formula mass) {
-		this.mass = mass;
+	public Sprite createSprite(String name, PhysicsProperties.Type type) {
+		Sprite sprite = new SingleSprite(name);
+		Body body = physicsWorld.createBody();
+		PhysicsProperties physicsProperties = new PhysicsProperties(body, sprite);
+		sprite.setPhysicsProperties(physicsProperties);
+		sprite.getPhysicsProperties().setType(type);
+		return sprite;
 	}
 }

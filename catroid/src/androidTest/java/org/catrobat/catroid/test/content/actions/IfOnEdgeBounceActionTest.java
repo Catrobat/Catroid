@@ -22,22 +22,21 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.physics.PhysicsProperties;
+import org.catrobat.catroid.test.BaseTest;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
+public class IfOnEdgeBounceActionTest extends BaseTest {
 
 	private Action ifOnEdgeBounceAction;
 	private Sprite sprite;
@@ -59,19 +58,21 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 
 	@Override
 	public void setUp() throws Exception {
-		sprite = new SingleSprite("Test");
+		super.setUp();
+		sprite = createSprite("Test");
+		sprite.getPhysicsProperties().setType(PhysicsProperties.Type.NONE);
 		sprite.look.setWidth(WIDTH);
 		sprite.look.setHeight(HEIGHT);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
-
-		ActionFactory factory = sprite.getActionFactory();
-		ifOnEdgeBounceAction = factory.createIfOnEdgeBounceAction(sprite);
 
 		Project project = new Project(null, "Test", false);
 		project.getXmlHeader().virtualScreenWidth = SCREEN_WIDTH;
 		project.getXmlHeader().virtualScreenHeight = SCREEN_HEIGHT;
 
 		ProjectManager.getInstance().setProject(project);
+
+		ActionFactory factory = sprite.getActionFactory();
+		ifOnEdgeBounceAction = factory.createIfOnEdgeBounceAction(sprite);
 	}
 
 	public void testNoBounce() {

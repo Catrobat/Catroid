@@ -26,15 +26,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.test.physics.PhysicsCollisionBaseTest;
 
 public class HideActionAndCollisionTest extends PhysicsCollisionBaseTest {
 	public HideActionAndCollisionTest() {
 		spritePosition = new Vector2(0.0f, 100.0f);
 		sprite2Position = new Vector2(0.0f, -200.0f);
-		physicsObject1Type = PhysicsObject.Type.DYNAMIC;
-		physicsObject2Type = PhysicsObject.Type.FIXED;
+		physicsObject1Type = PhysicsProperties.Type.DYNAMIC;
+		physicsObject2Type = PhysicsProperties.Type.FIXED;
 	}
 
 	public void testNoCollisionAfterHide() {

@@ -22,16 +22,14 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.BaseTest;
 
-public class GlideToActionTest extends AndroidTestCase {
+public class GlideToActionTest extends BaseTest {
 
 	private static final float X_POSITION = 12f;
 	private static final float Y_POSITION = 150f;
@@ -46,8 +44,8 @@ public class GlideToActionTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		sprite = new SingleSprite("testSprite");
 		super.setUp();
+		sprite = createSprite("testSprite");
 	}
 
 	public void testNormalBehavior() throws InterruptedException {
@@ -70,8 +68,8 @@ public class GlideToActionTest extends AndroidTestCase {
 
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createGlideToAction(null, xPosition, yPosition, duration);
 		try {
+			Action action = factory.createGlideToAction(null, xPosition, yPosition, duration);
 			action.act(1.0f);
 			fail("Execution of GlideToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
@@ -79,7 +77,7 @@ public class GlideToActionTest extends AndroidTestCase {
 	}
 
 	public void testBoundaryPositions() {
-		Sprite sprite = new SingleSprite("testSprite");
+		Sprite sprite = createSprite("testSprite");
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE), new Formula(
 				Integer.MAX_VALUE)).act(1.0f);
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum x float value", (float) Integer.MAX_VALUE,

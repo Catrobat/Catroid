@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsBoundaryBox;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.PhysicsWorld;
 
 public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
@@ -55,13 +55,50 @@ public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 		}
 	}
 
-	@Override
-	protected void update(float percent) {
+	private void performSimpleOnEdgeBounce() {
+
+		float width = sprite.look.getWidthInUserInterfaceDimensionUnit();
+		float height = sprite.look.getHeightInUserInterfaceDimensionUnit();
+		float xPosition = sprite.look.getXInUserInterfaceDimensionUnit();
+		float yPosition = sprite.look.getYInUserInterfaceDimensionUnit();
+
+		int halfVirtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
+		int halfVirtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
+		float newDirection = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+
+		if (xPosition < -halfVirtualScreenWidth + width / 2) {
+			if (isLookingLeft(newDirection)) {
+				newDirection = -newDirection;
+			}
+			xPosition = -halfVirtualScreenWidth + (width / 2);
+		} else if (xPosition > halfVirtualScreenWidth - width / 2) {
+			if (isLookingRight(newDirection)) {
+				newDirection = -newDirection;
+			}
+			xPosition = halfVirtualScreenWidth - (width / 2);
+		}
+
+		if (yPosition < -halfVirtualScreenHeight + height / 2) {
+			if (isLookingDown(newDirection)) {
+				newDirection = 180f - newDirection;
+			}
+			yPosition = -halfVirtualScreenHeight + (height / 2);
+		} else if (yPosition > halfVirtualScreenHeight - height / 2) {
+			if (isLookingUp(newDirection)) {
+				newDirection = 180f - newDirection;
+			}
+			yPosition = halfVirtualScreenHeight - (height / 2);
+		}
+
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(newDirection);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, yPosition);
+	}
+
+	private void performPhysicsOnEdgeBounce(PhysicsProperties physicsProperties) {
 		// AABB ... AXIS-ALIGNED-BOUNDING-BOX
 		Vector2 bbLowerEdge = new Vector2();
 		Vector2 bbUpperEdge = new Vector2();
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.getBoundaryBox(bbLowerEdge, bbUpperEdge);
+		physicsProperties.getBoundaryBox(bbLowerEdge, bbUpperEdge);
 
 		float bbWidth = bbUpperEdge.x - bbLowerEdge.x;
 		float bbHeight = bbUpperEdge.y - bbLowerEdge.y;
@@ -73,12 +110,12 @@ public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 
 		float leftCollisionAreaInnerBorder = (-vsWidth / 2.0f) + (bbWidth / 2.0f);
 		float leftCollisionAreaOuterBorder = leftCollisionAreaInnerBorder + COLLISION_OVERLAP_RANGE_FACTOR * (-bbWidth);
-		boolean leftVelocityHighEnoughToCollideAfterRepositioning = physicsObject.getVelocity().x <= -THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
+		boolean leftVelocityHighEnoughToCollideAfterRepositioning = physicsProperties.getVelocity().x <= -THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
 		boolean leftGravityPresent = physicsWorld.getGravity().x < 0;
 
 		float rightCollisionAreaInnerBorder = (vsWidth / 2.0f) - (bbWidth / 2.0f);
 		float rightCollisionAreaOuterBorder = rightCollisionAreaInnerBorder + COLLISION_OVERLAP_RANGE_FACTOR * bbWidth;
-		boolean rightVelocityHighEnoughToCollideAfterRepositioning = physicsObject.getVelocity().x >= THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
+		boolean rightVelocityHighEnoughToCollideAfterRepositioning = physicsProperties.getVelocity().x >= THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
 		boolean rightGravityPresent = physicsWorld.getGravity().x > 0;
 
 		if (leftCollisionAreaOuterBorder < bbCenterX && bbCenterX < leftCollisionAreaInnerBorder) {
@@ -91,12 +128,12 @@ public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 
 		float bottomCollisionAreaInnerBorder = (-vsHeight / 2.0f) + (bbHeight / 2.0f);
 		float bottomCollisionAreaOuterBorder = bottomCollisionAreaInnerBorder + COLLISION_OVERLAP_RANGE_FACTOR * (-bbHeight);
-		boolean bottomVelocityHighEnoughToCollideAfterRepositioning = physicsObject.getVelocity().y <= -THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
+		boolean bottomVelocityHighEnoughToCollideAfterRepositioning = physicsProperties.getVelocity().y <= -THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
 		boolean bottomGravityPresent = physicsWorld.getGravity().y < 0;
 
 		float topCollisionAreaInnerBorder = (vsHeight / 2.0f) - (bbHeight / 2.0f);
 		float topCollisionAreaOuterBorder = topCollisionAreaInnerBorder + COLLISION_OVERLAP_RANGE_FACTOR * bbHeight;
-		boolean topVelocityHighEnoughToCollideAfterRepositioning = physicsObject.getVelocity().y >= THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
+		boolean topVelocityHighEnoughToCollideAfterRepositioning = physicsProperties.getVelocity().y >= THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
 		boolean topGravityPresent = physicsWorld.getGravity().y > 0;
 
 		if (bottomCollisionAreaOuterBorder < bbCenterY && bbCenterY < bottomCollisionAreaInnerBorder) {
@@ -106,6 +143,33 @@ public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 			float bbLookOffsetY = Math.abs(bbCenterY + (bbHeight / 2.0f) - (vsHeight / 2.0f));
 			performHorizontalRepositioning(-bbLookOffsetY, topVelocityHighEnoughToCollideAfterRepositioning, topGravityPresent);
 		}
+	}
+
+	@Override
+	protected void update(float percent) {
+		PhysicsProperties physicsProperties = sprite.getPhysicsProperties();
+
+		if (physicsProperties.getType() == PhysicsProperties.Type.NONE) {
+			performSimpleOnEdgeBounce();
+		} else {
+			performPhysicsOnEdgeBounce(physicsProperties);
+		}
+	}
+
+	private boolean isLookingUp(float direction) {
+		return (direction > -90f && direction < 90f);
+	}
+
+	private boolean isLookingDown(float direction) {
+		return (direction > 90f || direction < -90f);
+	}
+
+	private boolean isLookingLeft(float direction) {
+		return (direction > -180f && direction < 0f);
+	}
+
+	private boolean isLookingRight(float direction) {
+		return (direction > 0f && direction < 180f);
 	}
 
 	public void setSprite(Sprite sprite) {

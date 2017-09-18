@@ -34,11 +34,12 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.Transform;
 import com.badlogic.gdx.utils.Array;
 
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.Arrays;
 
-public class PhysicsObject {
+public class PhysicsProperties {
 
 	public enum Type {
 		DYNAMIC, FIXED, NONE
@@ -57,7 +58,7 @@ public class PhysicsObject {
 	private short collisionMaskRecord = 0;
 	private short categoryMaskRecord = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
 
-	private final Body body;
+	private Body body;
 	private final FixtureDef fixtureDef = new FixtureDef();
 	private Shape[] shapes;
 	private Type type;
@@ -76,19 +77,18 @@ public class PhysicsObject {
 	private float gravityScale = 0;
 	private Type savedType = Type.NONE;
 
-	public PhysicsObject(Body b, Sprite sprite) {
+	public PhysicsProperties(Body b, Sprite sprite) {
 		body = b;
 		body.setUserData(sprite);
-		mass = PhysicsObject.DEFAULT_MASS;
-		fixtureDef.density = PhysicsObject.DEFAULT_DENSITY;
-		fixtureDef.friction = PhysicsObject.DEFAULT_FRICTION;
-		fixtureDef.restitution = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
-		setType(Type.NONE);
+		mass = PhysicsProperties.DEFAULT_MASS;
+		fixtureDef.density = PhysicsProperties.DEFAULT_DENSITY;
+		fixtureDef.friction = PhysicsProperties.DEFAULT_FRICTION;
+		fixtureDef.restitution = PhysicsProperties.DEFAULT_BOUNCE_FACTOR;
 
 		tmpVertice = new Vector2();
 	}
 
-	public void copyTo(PhysicsObject destination) {
+	public void copyTo(PhysicsProperties destination) {
 		destination.setType(this.getType());
 		destination.setPosition(this.getPosition());
 		destination.setDirection(this.getDirection());
@@ -247,10 +247,10 @@ public class PhysicsObject {
 		this.mass = mass;
 
 		if (mass < 0) {
-			this.mass = PhysicsObject.MIN_MASS;
+			this.mass = PhysicsProperties.MIN_MASS;
 		}
-		if (mass < PhysicsObject.MIN_MASS) {
-			mass = PhysicsObject.MIN_MASS;
+		if (mass < PhysicsProperties.MIN_MASS) {
+			mass = PhysicsProperties.MIN_MASS;
 		}
 		if (isStaticObject()) {
 			return;
@@ -266,7 +266,7 @@ public class PhysicsObject {
 
 	private void setDensity(float density) {
 		if (density < MIN_DENSITY) {
-			density = PhysicsObject.MIN_DENSITY;
+			density = PhysicsProperties.MIN_DENSITY;
 		}
 		fixtureDef.density = density;
 		for (Fixture fixture : body.getFixtureList()) {
@@ -351,8 +351,8 @@ public class PhysicsObject {
 	private void updateNonCollidingState() {
 		if (body.getUserData() != null && body.getUserData() instanceof Sprite) {
 			Object look = ((Sprite) body.getUserData()).look;
-			if (look != null && look instanceof PhysicsLook) {
-				((PhysicsLook) look).setNonColliding(isNonColliding());
+			if (look != null && look instanceof Look) {
+				((Look) look).setNonColliding(isNonColliding());
 			}
 		}
 	}
@@ -466,5 +466,10 @@ public class PhysicsObject {
 		bodyAabbLowerLeft.y = Math.min(fixtureAabbLowerLeft.y, bodyAabbLowerLeft.y);
 		bodyAabbUpperRight.x = Math.max(fixtureAabbUpperRight.x, bodyAabbUpperRight.x);
 		bodyAabbUpperRight.y = Math.max(fixtureAabbUpperRight.y, bodyAabbUpperRight.y);
+	}
+
+	public void setBody(Body body) {
+		this.body = body;
+		this.body.setUserData(this);
 	}
 }

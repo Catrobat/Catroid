@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsCollisionBroadcast;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import java.util.HashMap;
@@ -47,8 +47,8 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 	public PhysicsCollisionBetweenTest() {
 		spritePosition = new Vector2(0.0f, 100.0f);
 		sprite2Position = new Vector2(0.0f, -200.0f);
-		physicsObject1Type = PhysicsObject.Type.DYNAMIC;
-		physicsObject2Type = PhysicsObject.Type.FIXED;
+		physicsObject1Type = PhysicsProperties.Type.DYNAMIC;
+		physicsObject2Type = PhysicsProperties.Type.FIXED;
 	}
 
 	@Override

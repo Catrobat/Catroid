@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -34,27 +34,27 @@ public class TurnLeftRightSpeedActionTest extends PhysicsBaseTest {
 	private static final int TEST_STEPS = 5;
 	private static final float TEST_STEP_DELTA_TIME = 1.0f / 60.0f;
 
-	private PhysicsObject physicsObject;
+	private PhysicsProperties physicsProperties;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
+		physicsProperties = sprite.getPhysicsProperties();
+		physicsProperties.setType(PhysicsProperties.Type.DYNAMIC);
 	}
 
 	public void testLeftSpeedRotation() {
-		physicsObject.setDirection(0);
-		physicsObject.setRotationSpeed(TURN_TEST_SPEED);
+		physicsProperties.setDirection(0);
+		physicsProperties.setRotationSpeed(TURN_TEST_SPEED);
 
-		assertEquals("Unexpected initial speed", TURN_TEST_SPEED, physicsObject.getRotationSpeed(), TestUtils.DELTA);
+		assertEquals("Unexpected initial speed", TURN_TEST_SPEED, physicsProperties.getRotationSpeed(), TestUtils.DELTA);
 		skipWorldStabilizingSteps();
 		float expectedDegrees = TURN_TEST_SPEED * TEST_STEP_DELTA_TIME;
 
 		for (int i = 0; i < TEST_STEPS; i++) {
-			float preStepDirection = physicsObject.getDirection();
+			float preStepDirection = physicsProperties.getDirection();
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
-			float postStepDirection = physicsObject.getDirection();
+			float postStepDirection = physicsProperties.getDirection();
 			assertEquals("Unexpected step length: ", expectedDegrees, postStepDirection - preStepDirection,
 					TestUtils.DELTA);
 			assertTrue("Pre-step direction (" + preStepDirection + ") is higher than post-step direction ("
@@ -63,17 +63,17 @@ public class TurnLeftRightSpeedActionTest extends PhysicsBaseTest {
 	}
 
 	public void testRightSpeedRotation() {
-		physicsObject.setDirection(0);
-		physicsObject.setRotationSpeed(-TURN_TEST_SPEED);
+		physicsProperties.setDirection(0);
+		physicsProperties.setRotationSpeed(-TURN_TEST_SPEED);
 
-		assertEquals("Unexpected initial speed", -TURN_TEST_SPEED, physicsObject.getRotationSpeed(), TestUtils.DELTA);
+		assertEquals("Unexpected initial speed", -TURN_TEST_SPEED, physicsProperties.getRotationSpeed(), TestUtils.DELTA);
 		skipWorldStabilizingSteps();
 		float expectedDegrees = -TURN_TEST_SPEED * TEST_STEP_DELTA_TIME;
 
 		for (int i = 0; i < TEST_STEPS; i++) {
-			float preStepDirection = physicsObject.getDirection();
+			float preStepDirection = physicsProperties.getDirection();
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
-			float postStepDirection = physicsObject.getDirection();
+			float postStepDirection = physicsProperties.getDirection();
 			assertEquals("Unexpected step length: ", expectedDegrees, postStepDirection - preStepDirection,
 					TestUtils.DELTA);
 			assertTrue("Pre-step direction (" + preStepDirection + ") is lower than post-step direction ("

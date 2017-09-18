@@ -22,23 +22,21 @@
  */
 package org.catrobat.catroid.test.content.sprite;
 
-import android.test.AndroidTestCase;
-
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.test.BaseTest;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class StartScriptTest extends AndroidTestCase {
+public class StartScriptTest extends BaseTest {
 
 	public void testStartScript() throws InterruptedException {
 		double size = 300;
-		Sprite testSprite = new SingleSprite("testSprite");
+		Sprite testSprite = createSprite("testSprite");
 		Script testScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(size);

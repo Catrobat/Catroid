@@ -24,21 +24,21 @@ package org.catrobat.catroid.physics.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsObject.Type;
+import org.catrobat.catroid.physics.PhysicsProperties;
+import org.catrobat.catroid.physics.PhysicsProperties.Type;
 
 public class SetPhysicsObjectTypeAction extends TemporalAction {
 
-	private PhysicsObject physicsObject;
-	private Type type = PhysicsObject.Type.NONE;
+	private PhysicsProperties physicsProperties;
+	private Type type = PhysicsProperties.Type.NONE;
 
 	@Override
 	protected void update(float percent) {
-		physicsObject.setType(type);
+		physicsProperties.setType(type);
 	}
 
-	public void setPhysicsObject(PhysicsObject physicsObject) {
-		this.physicsObject = physicsObject;
+	public void setPhysicsProperties(PhysicsProperties physicsProperties) {
+		this.physicsProperties = physicsProperties;
 	}
 
 	public void setType(Type type) {

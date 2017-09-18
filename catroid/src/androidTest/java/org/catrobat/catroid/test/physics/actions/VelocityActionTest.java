@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -37,24 +37,24 @@ public class VelocityActionTest extends PhysicsBaseTest {
 	private static final int TEST_STEPS = 5;
 	private static final float TEST_STEP_DELTA_TIME = 1.0f / 60.0f;
 
-	private PhysicsObject physicsObject;
+	private PhysicsProperties physicsProperties;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
+		physicsProperties = sprite.getPhysicsProperties();
+		physicsProperties.setType(PhysicsProperties.Type.DYNAMIC);
 	}
 
 	public void testPositiveYVelocityWithoutGravity() {
-		assertEquals("Unexpected initial x-coordinate", 0, physicsObject.getX(), TestUtils.DELTA);
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals("Unexpected initial x-coordinate", 0, physicsProperties.getX(), TestUtils.DELTA);
+		assertEquals("Unexpected initial y-coordinate", 0, physicsProperties.getY(), TestUtils.DELTA);
 
-		physicsObject.setVelocity(0.0f, POSITIVE_Y_TEST_VELOCITY);
+		physicsProperties.setVelocity(0.0f, POSITIVE_Y_TEST_VELOCITY);
 
-		assertEquals("Unexpected initial x-velocity", 0, physicsObject.getVelocity().x, TestUtils.DELTA);
-		assertEquals("Unexpected initial y-velocity", POSITIVE_Y_TEST_VELOCITY, physicsObject.getVelocity().y,
+		assertEquals("Unexpected initial x-velocity", 0, physicsProperties.getVelocity().x, TestUtils.DELTA);
+		assertEquals("Unexpected initial y-velocity", POSITIVE_Y_TEST_VELOCITY, physicsProperties.getVelocity().y,
 				TestUtils.DELTA);
 
 		physicsWorld.setGravity(0.0f, 0.0f);
@@ -65,13 +65,13 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 		for (int i = 0; i < TEST_STEPS; i++) {
 
-			float preStepXCoordinate = physicsObject.getX();
-			float preStepYCoordinate = physicsObject.getY();
+			float preStepXCoordinate = physicsProperties.getX();
+			float preStepYCoordinate = physicsProperties.getY();
 
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 
-			float postStepXCoordinate = physicsObject.getX();
-			float postStepYCoordinate = physicsObject.getY();
+			float postStepXCoordinate = physicsProperties.getX();
+			float postStepYCoordinate = physicsProperties.getY();
 
 			assertEquals("Unexpected step length: ", expectedStepLength, postStepYCoordinate - preStepYCoordinate,
 					TestUtils.DELTA);
@@ -85,13 +85,13 @@ public class VelocityActionTest extends PhysicsBaseTest {
 	}
 
 	public void testNegativeYVelocityWithoutGravity() {
-		assertEquals("Unexpected initial x-coordinate", 0, physicsObject.getX(), TestUtils.DELTA);
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals("Unexpected initial x-coordinate", 0, physicsProperties.getX(), TestUtils.DELTA);
+		assertEquals("Unexpected initial y-coordinate", 0, physicsProperties.getY(), TestUtils.DELTA);
 
-		physicsObject.setVelocity(0.0f, NEGATIVE_Y_TEST_VELOCITY);
+		physicsProperties.setVelocity(0.0f, NEGATIVE_Y_TEST_VELOCITY);
 
-		assertEquals("Unexpected initial x-velocity", 0, physicsObject.getVelocity().x, TestUtils.DELTA);
-		assertEquals("Unexpected initial y-velocity", NEGATIVE_Y_TEST_VELOCITY, physicsObject.getVelocity().y,
+		assertEquals("Unexpected initial x-velocity", 0, physicsProperties.getVelocity().x, TestUtils.DELTA);
+		assertEquals("Unexpected initial y-velocity", NEGATIVE_Y_TEST_VELOCITY, physicsProperties.getVelocity().y,
 				TestUtils.DELTA);
 
 		physicsWorld.setGravity(0.0f, 0.0f);
@@ -102,13 +102,13 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 		for (int i = 0; i < TEST_STEPS; i++) {
 
-			float preStepXCoordinate = physicsObject.getX();
-			float preStepYCoordinate = physicsObject.getY();
+			float preStepXCoordinate = physicsProperties.getX();
+			float preStepYCoordinate = physicsProperties.getY();
 
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 
-			float postStepXCoordinate = physicsObject.getX();
-			float postStepYCoordinate = physicsObject.getY();
+			float postStepXCoordinate = physicsProperties.getX();
+			float postStepYCoordinate = physicsProperties.getY();
 
 			assertEquals("Unexpected step length: ", expectedStepLength, postStepYCoordinate - preStepYCoordinate,
 					TestUtils.DELTA);
@@ -122,14 +122,14 @@ public class VelocityActionTest extends PhysicsBaseTest {
 	}
 
 	public void testPositiveXVelocityWithoutGravity() {
-		assertEquals("Unexpected initial x-coordinate", 0, physicsObject.getX(), TestUtils.DELTA);
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals("Unexpected initial x-coordinate", 0, physicsProperties.getX(), TestUtils.DELTA);
+		assertEquals("Unexpected initial y-coordinate", 0, physicsProperties.getY(), TestUtils.DELTA);
 
-		physicsObject.setVelocity(POSITIVE_X_TEST_VELOCITY, 0.0f);
+		physicsProperties.setVelocity(POSITIVE_X_TEST_VELOCITY, 0.0f);
 
-		assertEquals("Unexpected initial x-velocity", POSITIVE_X_TEST_VELOCITY, physicsObject.getVelocity().x,
+		assertEquals("Unexpected initial x-velocity", POSITIVE_X_TEST_VELOCITY, physicsProperties.getVelocity().x,
 				TestUtils.DELTA);
-		assertEquals("Unexpected initial y-velocity", 0.0f, physicsObject.getVelocity().y, TestUtils.DELTA);
+		assertEquals("Unexpected initial y-velocity", 0.0f, physicsProperties.getVelocity().y, TestUtils.DELTA);
 
 		physicsWorld.setGravity(0.0f, 0.0f);
 
@@ -139,13 +139,13 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 		for (int i = 0; i < TEST_STEPS; i++) {
 
-			float preStepXCoordinate = physicsObject.getX();
-			float preStepYCoordinate = physicsObject.getY();
+			float preStepXCoordinate = physicsProperties.getX();
+			float preStepYCoordinate = physicsProperties.getY();
 
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 
-			float postStepXCoordinate = physicsObject.getX();
-			float postStepYCoordinate = physicsObject.getY();
+			float postStepXCoordinate = physicsProperties.getX();
+			float postStepYCoordinate = physicsProperties.getY();
 
 			assertEquals("Unexpected step length: ", expectedStepLength, postStepXCoordinate - preStepXCoordinate,
 					TestUtils.DELTA);
@@ -159,14 +159,14 @@ public class VelocityActionTest extends PhysicsBaseTest {
 	}
 
 	public void testNegativeXVelocityWithoutGravity() {
-		assertEquals("Unexpected initial x-coordinate", 0, physicsObject.getX(), TestUtils.DELTA);
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals("Unexpected initial x-coordinate", 0, physicsProperties.getX(), TestUtils.DELTA);
+		assertEquals("Unexpected initial y-coordinate", 0, physicsProperties.getY(), TestUtils.DELTA);
 
-		physicsObject.setVelocity(NEGATIVE_X_TEST_VELOCITY, 0.0f);
+		physicsProperties.setVelocity(NEGATIVE_X_TEST_VELOCITY, 0.0f);
 
-		assertEquals("Unexpected initial x-velocity", NEGATIVE_X_TEST_VELOCITY, physicsObject.getVelocity().x,
+		assertEquals("Unexpected initial x-velocity", NEGATIVE_X_TEST_VELOCITY, physicsProperties.getVelocity().x,
 				TestUtils.DELTA);
-		assertEquals("Unexpected initial y-velocity", 0.0f, physicsObject.getVelocity().y, TestUtils.DELTA);
+		assertEquals("Unexpected initial y-velocity", 0.0f, physicsProperties.getVelocity().y, TestUtils.DELTA);
 
 		physicsWorld.setGravity(0.0f, 0.0f);
 
@@ -176,13 +176,13 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 		for (int i = 0; i < TEST_STEPS; i++) {
 
-			float preStepXCoordinate = physicsObject.getX();
-			float preStepYCoordinate = physicsObject.getY();
+			float preStepXCoordinate = physicsProperties.getX();
+			float preStepYCoordinate = physicsProperties.getY();
 
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 
-			float postStepXCoordinate = physicsObject.getX();
-			float postStepYCoordinate = physicsObject.getY();
+			float postStepXCoordinate = physicsProperties.getX();
+			float postStepYCoordinate = physicsProperties.getY();
 
 			assertEquals("Unexpected step length: ", expectedStepLength, postStepXCoordinate - preStepXCoordinate,
 					TestUtils.DELTA);

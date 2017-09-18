@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.content.sprite;
 
-import android.test.InstrumentationTestCase;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -36,24 +34,30 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.test.BaseInstrumentationTest;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.TouchUtil;
 
-public class LookTest extends InstrumentationTestCase {
+public class LookTest extends BaseInstrumentationTest {
 	private Look look;
 	private Sprite sprite;
 	private Group parentGroup;
 	private Project project;
+	private String projectName = "myProject";
 
 	private float width = 32;
 	private float height = 16;
 
 	@Override
-	protected void setUp() {
+	protected void setUp() throws Exception {
+		super.setUp();
 		parentGroup = new Group();
-		sprite = new SingleSprite("test");
+		project = new Project(null, projectName);
+		ProjectManager.getInstance().setProject(project);
+		sprite = createSprite("test");
+		project.getDefaultScene().addSprite(sprite);
 		parentGroup.addActor(sprite.look);
 		look = sprite.look;
 	}
@@ -79,11 +83,7 @@ public class LookTest extends InstrumentationTestCase {
 	}
 
 	public void testImagePath() {
-		String projectName = "myProject";
 		String fileName = "blubb";
-		project = new Project(null, projectName);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
 
 		LookData lookData = new LookData();
 		lookData.setLookFilename(fileName);
@@ -420,7 +420,7 @@ public class LookTest extends InstrumentationTestCase {
 	}
 
 	public void testCloneValues() {
-		Look origin = new Look(null);
+		Look origin = new Look(sprite);
 		origin.setSizeInUserInterfaceDimensionUnit(12);
 		origin.setPositionInUserInterfaceDimensionUnit(4, 12);
 		origin.setColorInUserInterfaceDimensionUnit(42);
@@ -430,7 +430,7 @@ public class LookTest extends InstrumentationTestCase {
 		origin.setDirectionInUserInterfaceDimensionUnit(8);
 		origin.setLookVisible(false);
 
-		Look clone = new Look(null);
+		Look clone = new Look(sprite);
 		origin.copyTo(clone);
 
 		assertEquals("Size differs", origin.getSizeInUserInterfaceDimensionUnit(),

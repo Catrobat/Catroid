@@ -211,6 +211,8 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.formulaeditor.datacontainer.SupportDataContainer;
+import org.catrobat.catroid.physics.PhysicsProperties;
+import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
@@ -614,8 +616,18 @@ public final class StorageHandler {
 		try {
 			project = (Project) xstream.getProjectFromXML(new File(buildProjectPath(projectName), PROJECTCODE_NAME));
 			for (String sceneName : project.getSceneOrder()) {
-				project.getSceneByName(sceneName).setProject(project);
-				project.getSceneByName(sceneName).getDataContainer().setProject(project);
+				Scene scene = project.getSceneByName(sceneName);
+				scene.setProject(project);
+				scene.getDataContainer().setProject(project);
+				PhysicsWorld physicsWorld = new PhysicsWorld(project.getXmlHeader().virtualScreenWidth, project
+						.getXmlHeader()
+						.virtualScreenHeight);
+				scene.setPhysicsWorld(physicsWorld);
+				for (Sprite sprite : scene.getSpriteList()) {
+					PhysicsProperties physicsProperties = new PhysicsProperties(physicsWorld.createBody(), sprite);
+					sprite.setPhysicsProperties(physicsProperties);
+					physicsProperties.setType(PhysicsProperties.Type.NONE);
+				}
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "Could not get Project from xml and get Scene from order", e);

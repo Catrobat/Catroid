@@ -32,11 +32,11 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physics.PhysicsLook;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 
@@ -47,13 +47,13 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 	protected Sprite sprite2;
 	protected PhysicsCollisionTestListener physicsCollisionTestListener;
 
-	protected PhysicsObject physicsObject1;
-	protected PhysicsObject physicsObject2;
+	protected PhysicsProperties physicsProperties1;
+	protected PhysicsProperties physicsProperties2;
 
 	protected Vector2 spritePosition;
 	protected Vector2 sprite2Position;
-	protected PhysicsObject.Type physicsObject1Type = PhysicsObject.Type.NONE;
-	protected PhysicsObject.Type physicsObject2Type = PhysicsObject.Type.NONE;
+	protected PhysicsProperties.Type physicsObject1Type = PhysicsProperties.Type.NONE;
+	protected PhysicsProperties.Type physicsObject2Type = PhysicsProperties.Type.NONE;
 
 	private int beginContactCounter = 0;
 	private int endContactCounter = 0;
@@ -66,16 +66,18 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 		super.setUp();
 
 		sprite2 = new Sprite("TestSprite2");
-		project.getDefaultScene().addSprite(sprite2);
-		sprite2.look = new PhysicsLook(sprite2, physicsWorld);
-		sprite2.setActionFactory(new ActionPhysicsFactory());
+		sprite2.look = new Look(sprite2);
+		sprite2.setActionFactory(new ActionFactory());
+		sprite2.setPhysicsProperties(new PhysicsProperties(physicsWorld.createBody(), sprite2));
 
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
 		sprite2.look.setLookData(lookdata);
 		assertTrue("getLookData is null", sprite2.look.getLookData() != null);
 
-		physicsObject1 = physicsWorld.getPhysicsObject(sprite);
-		physicsObject2 = physicsWorld.getPhysicsObject(sprite2);
+		project.getDefaultScene().addSprite(sprite2);
+
+		physicsProperties1 = sprite.getPhysicsProperties();
+		physicsProperties2 = sprite2.getPhysicsProperties();
 
 		World world = (World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world");
 		physicsCollisionTestListener = new PhysicsCollisionTestListener(this, physicsWorld);
@@ -97,21 +99,21 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 			throw new RuntimeException("You must initialize the sprite position for your test physicsObject1Type in your constructor.");
 		}
 
-		if (physicsObject1Type == PhysicsObject.Type.NONE || physicsObject2Type == PhysicsObject.Type.NONE) {
+		if (physicsObject1Type == PhysicsProperties.Type.NONE || physicsObject2Type == PhysicsProperties.Type.NONE) {
 			throw new RuntimeException("You must specify a type that can collide for both physics objects in your constructor");
 		}
 
 		sprite.look.setPositionInUserInterfaceDimensionUnit(spritePosition.x, spritePosition.y);
 		sprite2.look.setPositionInUserInterfaceDimensionUnit(sprite2Position.x, sprite2Position.y);
 
-		physicsObject1.setType(physicsObject1Type);
-		physicsObject2.setType(physicsObject2Type);
+		physicsProperties1.setType(physicsObject1Type);
+		physicsProperties2.setType(physicsObject2Type);
 
-		physicsObject1.setVelocity(0.0f, 0.0f);
-		physicsObject2.setVelocity(0.0f, 0.0f);
+		physicsProperties1.setVelocity(0.0f, 0.0f);
+		physicsProperties2.setVelocity(0.0f, 0.0f);
 
-		physicsObject1.setRotationSpeed(0.0f);
-		physicsObject2.setRotationSpeed(0.0f);
+		physicsProperties1.setRotationSpeed(0.0f);
+		physicsProperties2.setRotationSpeed(0.0f);
 	}
 
 	protected boolean collisionDetected() {

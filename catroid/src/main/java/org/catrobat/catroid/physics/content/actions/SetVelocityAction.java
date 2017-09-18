@@ -29,12 +29,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 
 public class SetVelocityAction extends TemporalAction {
 
 	private Sprite sprite;
-	private PhysicsObject physicsObject;
+	private PhysicsProperties physicsProperties;
 	private Formula velocityX;
 	private Formula velocityY;
 
@@ -54,15 +54,15 @@ public class SetVelocityAction extends TemporalAction {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
 		}
-		physicsObject.setVelocity(newVelocityX, newVelocityY);
+		physicsProperties.setVelocity(newVelocityX, newVelocityY);
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setPhysicsObject(PhysicsObject physicsObject) {
-		this.physicsObject = physicsObject;
+	public void setPhysicsProperties(PhysicsProperties physicsProperties) {
+		this.physicsProperties = physicsProperties;
 	}
 
 	public void setVelocity(Formula velocityX, Formula velocityY) {

@@ -22,12 +22,10 @@
  */
 package org.catrobat.catroid.test.content.bricks;
 
-import android.test.AndroidTestCase;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -70,12 +68,13 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.test.BaseTest;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.lang.reflect.Constructor;
 
-public class BrickCloneTest extends AndroidTestCase {
+public class BrickCloneTest extends BaseTest {
 
 	private static final int BRICK_FORMULA_VALUE = 1;
 	private static final String CLONE_BRICK_FORMULA_VALUE = "2";
@@ -86,7 +85,7 @@ public class BrickCloneTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		sprite = new SingleSprite("testSprite");
+		sprite = createSprite("testSprite");
 	}
 
 	public void testBrickCloneWithFormula() {

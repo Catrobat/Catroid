@@ -66,11 +66,6 @@ public class SetGravityBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return PHYSICS;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;

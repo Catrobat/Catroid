@@ -38,7 +38,7 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -107,9 +107,9 @@ public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCa
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		PhysicsObject.Type choosenPhysicsType = (PhysicsObject.Type) Reflection.getPrivateField(
+		PhysicsProperties.Type choosenPhysicsType = (PhysicsProperties.Type) Reflection.getPrivateField(
 				setPhysicsObjectTypeBrick, "type");
-		assertEquals("Wrong text in field.", PhysicsObject.Type.values()[spinnerItemIndex], choosenPhysicsType);
+		assertEquals("Wrong text in field.", PhysicsProperties.Type.values()[spinnerItemIndex], choosenPhysicsType);
 		assertEquals("Value in Brick is not updated.", physicsObjectTypes[spinnerItemIndex],
 				solo.getCurrentViews(Spinner.class).get(0).getSelectedItem());
 	}
@@ -118,7 +118,7 @@ public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCa
 		project = new Project(null, "testProject");
 		Sprite sprite = new SingleSprite("cat");
 		Script script = new StartScript();
-		setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(PhysicsObject.Type.DYNAMIC);
+		setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(PhysicsProperties.Type.DYNAMIC);
 		script.addBrick(setPhysicsObjectTypeBrick);
 
 		sprite.addScript(script);

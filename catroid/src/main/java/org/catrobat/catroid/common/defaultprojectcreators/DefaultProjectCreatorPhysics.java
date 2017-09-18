@@ -56,7 +56,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsCollision;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -147,7 +147,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		Script ballStartScript = createElement(context, projectName, sceneName, ball, "physics_pinball",
 				R.drawable.physics_pinball, new Vector2(0.0f, 380.0f),
 				Float.NaN);
-		setPhysicsProperties(ball, ballStartScript, PhysicsObject.Type.DYNAMIC, 60.0f, 40.0f);
+		setPhysicsProperties(ball, ballStartScript, PhysicsProperties.Type.DYNAMIC, 60.0f, 40.0f);
 
 		Brick foreverBrick = new ForeverBrick();
 		Brick ifOnEdgeBounceBrick = new IfOnEdgeBounceBrick();
@@ -170,7 +170,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		// Restart View
 		Script startScriptRestart = createElement(context, projectName, sceneName, restart, "physics_restart",
 				R.drawable.physics_restart, new Vector2(0.0f, -490.0f), Float.NaN);
-		setPhysicsProperties(restart, startScriptRestart, PhysicsObject.Type.FIXED, 60.0f, 40.0f);
+		setPhysicsProperties(restart, startScriptRestart, PhysicsProperties.Type.FIXED, 60.0f, 40.0f);
 		startScriptRestart.addBrick(new ComeToFrontBrick());
 
 		Script physicsCollisionScript = new CollisionScript(restartName + PhysicsCollision.COLLISION_MESSAGE_CONNECTOR + "Ball");
@@ -192,28 +192,28 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		// Arms
 		Script leftArmStartScript = createElement(context, projectName, sceneName, leftArm, "physics_left_arm", R.drawable.physics_left_arm,
 				new Vector2(-102.0f, -285f), Float.NaN);
-		setPhysicsProperties(leftArm, leftArmStartScript, PhysicsObject.Type.FIXED, 50.0f, -1.0f);
+		setPhysicsProperties(leftArm, leftArmStartScript, PhysicsProperties.Type.FIXED, 50.0f, -1.0f);
 		createMovingArm(leftArm, leftButtonPressed, armMovingSpeed);
 		Script rightArmStartScript = createElement(context, projectName, sceneName, rightArm, "physics_right_arm", R.drawable.physics_right_arm, new Vector2(102.0f,
 				-285.0f), Float.NaN);
-		setPhysicsProperties(rightArm, rightArmStartScript, PhysicsObject.Type.FIXED, 50.0f, -1.0f);
+		setPhysicsProperties(rightArm, rightArmStartScript, PhysicsProperties.Type.FIXED, 50.0f, -1.0f);
 		createMovingArm(rightArm, rightButtonPressed, -armMovingSpeed);
 
 		Script leftBottomWallStartScript = createElement(context, projectName, sceneName, leftBottomWall, "physics_wall_left", R.drawable.physics_wall_left,
 				new Vector2(-180.0f, -220.0f), Float.NaN, 65f);
-		setPhysicsProperties(leftBottomWall, leftBottomWallStartScript, PhysicsObject.Type.FIXED, 5.0f, -1.0f);
+		setPhysicsProperties(leftBottomWall, leftBottomWallStartScript, PhysicsProperties.Type.FIXED, 5.0f, -1.0f);
 		Script rightBottomWallStartScript = createElement(context, projectName, sceneName, rightBottomWall, "physics_wall_right", R.drawable.physics_wall_right,
 				new Vector2(180.0f, -220.0f), Float.NaN, 65f);
-		setPhysicsProperties(rightBottomWall, rightBottomWallStartScript, PhysicsObject.Type.FIXED, 5.0f, -1.0f);
+		setPhysicsProperties(rightBottomWall, rightBottomWallStartScript, PhysicsProperties.Type.FIXED, 5.0f, -1.0f);
 
 		// Hard Bouncer
 		Script leftHardBouncerStartScript = createElement(context, projectName, sceneName, leftHardBouncer, "physics_left_hard_bouncer",
 				R.drawable.physics_left_hard_bouncer, new Vector2(-140.0f, -130.0f), Float.NaN);
-		setPhysicsProperties(leftHardBouncer, leftHardBouncerStartScript, PhysicsObject.Type.FIXED, 10.0f, -1.0f);
+		setPhysicsProperties(leftHardBouncer, leftHardBouncerStartScript, PhysicsProperties.Type.FIXED, 10.0f, -1.0f);
 
 		Script rightHardBouncerStartScript = createElement(context, projectName, sceneName, rightHardBouncer, "physics_right_hard_bouncer",
 				R.drawable.physics_right_hard_bouncer, new Vector2(140.0f, -130.0f), Float.NaN);
-		setPhysicsProperties(rightHardBouncer, rightHardBouncerStartScript, PhysicsObject.Type.FIXED, 10.0f, -1.0f);
+		setPhysicsProperties(rightHardBouncer, rightHardBouncerStartScript, PhysicsProperties.Type.FIXED, 10.0f, -1.0f);
 
 		// Lower circle bouncers
 		Vector2[] lowerBouncersPositions = {new Vector2(-100.0f, 0.0f),
@@ -221,13 +221,13 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		for (int index = 0; index < lowerBouncers.length; index++) {
 			Script lowerBouncerStartScript = createElement(context, projectName, sceneName, lowerBouncers[index], "physics_bouncer_100",
 					R.drawable.physics_bouncer_100, lowerBouncersPositions[index], Float.NaN, 60f);
-			setPhysicsProperties(lowerBouncers[index], lowerBouncerStartScript, PhysicsObject.Type.FIXED, 116.0f, -1.0f);
+			setPhysicsProperties(lowerBouncers[index], lowerBouncerStartScript, PhysicsProperties.Type.FIXED, 116.0f, -1.0f);
 		}
 
 		// Middle bouncer
 		Script middleBouncerStartScript = createElement(context, projectName, sceneName, middleBouncer, "physics_square", R.drawable.physics_square, new Vector2(0.0f,
 				150.0f), Float.NaN, 65f);
-		setPhysicsProperties(middleBouncer, middleBouncerStartScript, PhysicsObject.Type.FIXED, 40.0f, 80.0f);
+		setPhysicsProperties(middleBouncer, middleBouncerStartScript, PhysicsProperties.Type.FIXED, 40.0f, 80.0f);
 		middleBouncerStartScript.addBrick(new TurnLeftSpeedBrick(100));
 
 		// Upper bouncers
@@ -236,7 +236,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		for (int index = 0; index < upperBouncers.length; index++) {
 			Script upperBouncersStartScript = createElement(context, projectName, sceneName, upperBouncers[index], "physics_bouncer_200",
 					R.drawable.physics_bouncer_200, upperBouncersPositions[index], Float.NaN, 50f);
-			setPhysicsProperties(upperBouncers[index], upperBouncersStartScript, PhysicsObject.Type.FIXED, 106.0f, -1.0f);
+			setPhysicsProperties(upperBouncers[index], upperBouncersStartScript, PhysicsProperties.Type.FIXED, 106.0f, -1.0f);
 		}
 
 		defaultPhysicsProject.getDefaultScene().addSprite(leftButton);
@@ -298,7 +298,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		return startScript;
 	}
 
-	private Script setPhysicsProperties(Sprite sprite, Script startScript, PhysicsObject.Type type,
+	private Script setPhysicsProperties(Sprite sprite, Script startScript, PhysicsProperties.Type type,
 			float bounce, float friction) {
 		if (startScript == null) {
 			startScript = new StartScript();
