@@ -58,8 +58,8 @@
   <string name="loading_check_oauth_username">upatikanaji wa jina la mtumiaji linakaguliwa kwenye seva zetu</string>
   <string name="loading_facebook_exchange_token">ishara ya facebook inabadilishana na kwenye seva zetu</string>
   <string name="loading_facebook_login">Kuingia facebook kumekamilika kwenye seva zetu&#8230;</string>
-  <string name="loading_google_exchange_code"> neno siri ya google inabadilishwa kwenye seva zetu</string>
-  <string name="loading_google_login">kuingia google kumekamilika kwenye seva zetu</string>
+  <string name="loading_google_exchange_code">Msimbo Google+ inabadilishwa kwenye seva zetu&#8230;</string>
+  <string name="loading_google_login">Kuingia Google+ kumekamilika kwenye seva zetu&#8230;</string>
   <string name="background">Mandharinyuma</string>
   <string name="stage">Steji</string>
   <string name="ok">Sawa</string>
@@ -108,16 +108,16 @@
   <string name="marketing_more_on_google_play">Programu zaidi kwenye Google Play</string>
   <!-- Settings activity -->
   <string name="preference_title">Mipangilio</string>
-  <string name="preference_title_enable_quadcopter_bricks">kasuku AR.ndege  matofari</string>
-  <string name="preference_description_quadcopter_bricks">ruhusu kuthibiti AR.ndege ya 2.0 ya mapanga zunguka</string>
-  <string name="preference_title_enable_mindstorms_nxt_bricks">mkondo wa vifaa unganiko NXT matofari</string>
-  <string name="preference_title_enable_mindstorms_ev3_bricks">mkondo wa vifaa unganiko EV3 matofari</string>
+  <string name="preference_title_enable_quadcopter_bricks">Kasuku AR.Ndege nyuki matofari</string>
+  <string name="preference_description_quadcopter_bricks">Ruhusu kuthibiti AR.Ndege nyuki ya 2.0 ya mapanga zunguka</string>
+  <string name="preference_title_enable_mindstorms_nxt_bricks">Mkondo wa vifaa unganiko NXT matofari</string>
+  <string name="preference_title_enable_mindstorms_ev3_bricks">Mkondo wa vifaa unganiko EV3 matofari</string>
   <string name="preference_description_mindstorms_nxt_bricks">ruhusu kuthibiti mkondo wa vifaa unganiko NXT roboti</string>
   <string name="preference_description_mindstorms_ev3_bricks">ruhusu kuthibiti mkondo wa vifaa unganiko EV3 roboti</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Vihisio</string>
   <string name="preference_title_mindstorms_ev3_sensors">Lego NXT Vihisio</string>
   <string name="preference_title_drone_config_properties">Usanidi sifa wa Ndege nyuki</string>
-  <string name="preference_title_enable_phiro_bricks">matofari ya phiro</string>
+  <string name="preference_title_enable_phiro_bricks">Matofari ya phiro</string>
   <string name="preference_description_phiro_bricks">Ruhusu kudhibiti Phiro robots</string>
   <string name="preference_title_enable_arduino_bricks">Matofali ya Arduino</string>
   <string name="preference_title_cast_feature_globally_enabled">wezesha vipengele vya kurushwa</string>
@@ -273,7 +273,7 @@
   <string name="backpack_replace_scene_multiple">Pazia tayari zipo katika Mkoba wa mgongoni. Je, unataka kubadilisha yao?</string>
   <!--  -->
   <!-- Sprite activity -->
-  <string name="copy_sprite_name_suffix">nakala</string>
+  <string name="copy_sprite_name_suffix">_Nakala</string>
   <!--  -->
   <!-- Script activity -->
   <string name="scripts">Hati</string>
@@ -305,7 +305,7 @@
     <item quantity="other">Nakala %d matofali</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">mkoba wa begani %d matofali</item>
+    <item quantity="one">Mkoba wa begani %d matofali</item>
     <item quantity="other">mkoba wa begani %d matofali</item>
   </plurals>
   <!--  -->
@@ -484,11 +484,11 @@
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">Chezesha tukio:</string>
   <string name="play_scene_dialog_default">Tukio la kwanza(%1$s)</string>
-  <string name="play_scene_dialog_current">Tukio la sasa(%1$s)</string>
+  <string name="play_scene_dialog_current">Sasa(%1$s)</string>
   <!--  -->
   <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_default_sprite_name">Kipengele changu</string>
-  <string name="new_sprite_dialog_title">Kipengele kipya</string>
+  <string name="new_sprite_dialog_default_sprite_name">Kipengee changu</string>
+  <string name="new_sprite_dialog_title">Kipengee kipya</string>
   <string name="spritename_already_exists">Tafadhali chagua tena jina la kipengele.</string>
   <string name="rename_sprite_dialog">Andika tena kipengele</string>
   <string name="spritename_invalid">Jina kipengele hiki ni batili</string>
@@ -1161,9 +1161,9 @@
   <string name="formula_editor_function_no_parameter"></string>
   <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">elementi</string>
-  <string name="formula_editor_function_list_item_parameter">(1,*orodhesha jina)</string>
+  <string name="formula_editor_function_list_item_parameter">(1,*orodhesha jina*)</string>
   <string name="formula_editor_function_contains">ina</string>
-  <string name="formula_editor_function_contains_parameter">(*orodhesha jina*1)</string>
+  <string name="formula_editor_function_contains_parameter">(*orodhesha jina*,1)</string>
   <string name="formula_editor_function_collision">gusa_kipengee</string>
   <string name="formula_editor_function_collides_with_edge">gusa_incha</string>
   <string name="formula_editor_function_touched">gusa_kidole</string>
