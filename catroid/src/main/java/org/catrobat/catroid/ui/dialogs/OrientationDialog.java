@@ -125,13 +125,13 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 		if (templateData != null) {
 			if (templateData.getLandscape() == null) {
 				landscapeMode.setEnabled(false);
-				portraitMode.setChecked(true);
 				landscapeMode.setAlpha(GREYED_VALUE);
+				portraitMode.setChecked(true);
 			}
 			if (templateData.getPortrait() == null) {
 				portraitMode.setEnabled(false);
+				portraitMode.setAlpha(GREYED_VALUE);
 				landscapeMode.setChecked(true);
-				landscapeMode.setAlpha(GREYED_VALUE);
 			}
 		}
 
