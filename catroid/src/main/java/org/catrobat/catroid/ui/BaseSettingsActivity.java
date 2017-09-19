@@ -182,7 +182,8 @@ public class BaseSettingsActivity extends PreferenceActivity {
 		updateActionBar();
 
 		screen = getPreferenceScreen();
-		setTextSize();
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
+		TextSizeUtil.enlargePreferenceGroup(screen);
 
 		removeDisabledPreferences();
 	}
@@ -424,55 +425,6 @@ public class BaseSettingsActivity extends PreferenceActivity {
 				return true;
 			}
 		});
-	}
-
-	private void setTextSize() {
-		if (!getAccessibilityLargeTextEnabled(getApplicationContext())) {
-			return;
-		}
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
-		TextSizeUtil.enlargePreferenceScreen(this, SETTINGS_MINDSTORMS_NXT_BRICKS);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED);
-		TextSizeUtil.enlargePreferenceCategory(this, SETTINGS_MINDSTORMS_NXT_CATEGORY);
-		TextSizeUtil.enlargePreference(this, SETTINGS_MINDSTORMS_NXT_CATEGORY_SUMMARY);
-		TextSizeUtil.enlargeListPreference(this, NXT_SENSOR_1);
-		TextSizeUtil.enlargeListPreference(this, NXT_SENSOR_2);
-		TextSizeUtil.enlargeListPreference(this, NXT_SENSOR_3);
-		TextSizeUtil.enlargeListPreference(this, NXT_SENSOR_4);
-		TextSizeUtil.enlargePreferenceScreen(this, SETTINGS_MINDSTORMS_EV3_BRICKS);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED);
-		TextSizeUtil.enlargePreferenceCategory(this, SETTINGS_MINDSTORMS_EV3_CATEGORY);
-		TextSizeUtil.enlargePreference(this, SETTINGS_MINDSTORMS_EV3_CATEGORY_SUMMARY);
-		TextSizeUtil.enlargeListPreference(this, EV3_SENSOR_1);
-		TextSizeUtil.enlargeListPreference(this, EV3_SENSOR_2);
-		TextSizeUtil.enlargeListPreference(this, EV3_SENSOR_3);
-		TextSizeUtil.enlargeListPreference(this, EV3_SENSOR_4);
-		TextSizeUtil.enlargePreferenceScreen(this, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS_ENABLED);
-		TextSizeUtil.enlargePreferenceCategory(this, SETTINGS_PARROT_AR_DRONE_CATEGORY);
-		TextSizeUtil.enlargePreference(this, SETTINGS_PARROT_AR_DRONE_CATEGORY_SUMMARY);
-		TextSizeUtil.enlargeListPreference(this, DRONE_CONFIGS);
-		TextSizeUtil.enlargeListPreference(this, DRONE_ALTITUDE_LIMIT);
-		TextSizeUtil.enlargeListPreference(this, DRONE_VERTICAL_SPEED);
-		TextSizeUtil.enlargeListPreference(this, DRONE_ROTATION_SPEED);
-		TextSizeUtil.enlargeListPreference(this, DRONE_TILT_ANGLE);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_ARDUINO_BRICKS);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_NFC_BRICKS);
-		TextSizeUtil.enlargePreferenceScreen(this, RASPI_SETTINGS_SCREEN);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_RASPI_BRICKS);
-		TextSizeUtil.enlargePreferenceCategory(this, RASPI_CONNECTION_SETTINGS_CATEGORY);
-		TextSizeUtil.enlargePreferenceScreen(this, RASPI_HELP);
-		TextSizeUtil.enlargeEditTextPreference(this, RASPI_HOST);
-		TextSizeUtil.enlargeEditTextPreference(this, RASPI_PORT);
-		TextSizeUtil.enlargeListPreference(this, RASPI_VERSION_SPINNER);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_PHIRO_BRICKS);
-		TextSizeUtil.enlargePreferenceScreen(this, ACCESS_BUTTON);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_CAST_GLOBALLY_ENABLED);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_SHOW_HINTS);
-		TextSizeUtil.enlargeCheckBoxPreference(this, SETTINGS_CRASH_REPORTS);
 	}
 
 	public static void applyAccessibilitySettings(Context context) {
