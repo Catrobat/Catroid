@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick;
+package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.test.runner.AndroidJUnit4;
 
