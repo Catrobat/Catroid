@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -130,6 +131,7 @@ public class CameraResourceTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Flaky
 	@Test
 	public void cameraFacingFrontTest() {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("cameraFacingFrontTest");
@@ -148,6 +150,7 @@ public class CameraResourceTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Flaky
 	@Test
 	public void cameraFacingBackTest() {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("cameraFacingBackTest");

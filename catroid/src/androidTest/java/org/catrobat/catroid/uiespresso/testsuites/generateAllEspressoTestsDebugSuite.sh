@@ -36,7 +36,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 ${IMPORTED_CLASSES}
 })
-public class AllEspressoTestsSuite {
-}" > AllEspressoTestsSuite.java
+public class AllEspressoTestsDebugSuite {
+}" > AllEspressoTestsDebugSuite.java
 
 exit

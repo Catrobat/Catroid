@@ -29,7 +29,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.matcher.PreferenceMatchers;
 import android.support.test.runner.AndroidJUnit4;
@@ -81,14 +81,14 @@ public class LanguageSwitchMainMenuTest {
 			BaseActivityInstrumentationRule<>(SettingsActivity.class);
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		resetToDefaultLanguage();
-		Espresso.unregisterIdlingResources(idlingResource);
+		IdlingRegistry.getInstance().unregister(idlingResource);
 	}
 
 	private void resetToDefaultLanguage() {
@@ -111,7 +111,7 @@ public class LanguageSwitchMainMenuTest {
 				.perform(click());
 		MainMenuActivity mainMenuActivity = (MainMenuActivity) UiTestUtils.getCurrentActivity();
 		idlingResource = mainMenuActivity.getIdlingResource();
-		Espresso.registerIdlingResources(idlingResource);
+		IdlingRegistry.getInstance().register(idlingResource);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABICLOCALE.getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
@@ -134,7 +134,7 @@ public class LanguageSwitchMainMenuTest {
 				.perform(click());
 		MainMenuActivity mainMenuActivity = (MainMenuActivity) UiTestUtils.getCurrentActivity();
 		idlingResource = mainMenuActivity.getIdlingResource();
-		Espresso.registerIdlingResources(idlingResource);
+		IdlingRegistry.getInstance().register(idlingResource);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), DEUTSCHLOCALE
 				.getDisplayLanguage());

@@ -23,7 +23,7 @@
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -63,7 +63,7 @@ public class TermsOfUseDialogTest {
 		baseActivityTestRule.launchActivity(null);
 
 		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
-		Espresso.registerIdlingResources(idlingResource);
+		IdlingRegistry.getInstance().register(idlingResource);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -93,6 +93,6 @@ public class TermsOfUseDialogTest {
 
 	@After
 	public void tearDown() throws Exception {
-		Espresso.unregisterIdlingResources(idlingResource);
+		IdlingRegistry.getInstance().unregister(idlingResource);
 	}
 }
