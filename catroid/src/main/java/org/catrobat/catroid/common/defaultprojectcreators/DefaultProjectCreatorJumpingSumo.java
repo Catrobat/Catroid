@@ -139,15 +139,15 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 						.JumpingSumoBricks.JUMPING_SUMO_BACKWARD, (int) (-350 / landscapePortraitFactor), (int)
 				(-150 / landscapePortraitFactor), backwardFile,
 				BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
-						(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+				(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 
 		return defaultJumpingSumoProject;
 	}
 
-	/*private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks
+	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks
 			jumpingSumoBrick, int xPosition, int yPosition, File lookFile) {
 		return createJumpingSumoSprite(spriteName, jumpingSumoBrick, xPosition, yPosition, lookFile, 0, (byte) 0);
-	}*/
+	}
 
 	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks jumpingSumoBrick, int xPosition,
 			int yPosition, File lookFile, int timeInMilliseconds, byte powerInPercent) {
