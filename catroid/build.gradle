@@ -230,7 +230,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion '25.0.0'
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 22
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'

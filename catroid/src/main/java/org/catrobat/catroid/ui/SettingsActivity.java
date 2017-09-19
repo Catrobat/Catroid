@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -714,7 +713,6 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 	}
 
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public static void updateLocale(Context context, String languageTag, String countryTag) {
 		Locale mLocale;
 		mLocale = new Locale(languageTag, countryTag);

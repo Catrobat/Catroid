@@ -26,7 +26,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:layout_toRightOf="@+id/sprite_img" >
+    android:layout_toEndOf="@+id/sprite_img" >
 
     <TextView
         android:id="@+id/project_activity_sprite_title"
@@ -40,26 +40,26 @@
 
         <TextView
             android:id="@+id/textView_number_of_scripts"
-            android:paddingLeft="12.5dp"
+            android:paddingStart="12.5dp"
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/textView_number_of_looks"
             android:layout_below="@id/textView_number_of_scripts"
-            android:paddingLeft="12.5dp"
+            android:paddingStart="12.5dp"
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/textView_number_of_bricks"
-            android:layout_toRightOf="@id/textView_number_of_scripts"
-            android:paddingLeft="39dp" 
+            android:layout_toEndOf="@id/textView_number_of_scripts"
+            android:paddingStart="39dp"
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/textView_number_of_sounds"
             android:layout_below="@id/textView_number_of_bricks"
-            android:layout_toRightOf="@id/textView_number_of_scripts"
-            android:paddingLeft="39dp" 
+            android:layout_toEndOf="@id/textView_number_of_scripts"
+            android:paddingStart="39dp"
             style="@style/ListViewItemDetailsText"/>
     </RelativeLayout>
 

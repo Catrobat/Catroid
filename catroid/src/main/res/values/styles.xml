@@ -44,8 +44,8 @@
         <item name="android:layout_height" >wrap_content</item >
         <item name="android:paddingTop" >@dimen/dialog_margin</item >
         <item name="android:paddingBottom" >@dimen/dialog_margin</item >
-        <item name="android:layout_marginLeft" >@dimen/dialog_margin</item >
-        <item name="android:layout_marginRight" >@dimen/dialog_margin</item >
+        <item name="android:layout_marginStart" >@dimen/dialog_margin</item >
+        <item name="android:layout_marginEnd" >@dimen/dialog_margin</item >
         <item name="android:windowBackground" >@null</item >
     </style >
 
@@ -57,34 +57,25 @@
         <item name="android:layout_width" >match_parent</item >
         <item name="android:minHeight" >@dimen/dialog_item_height</item >
         <item name="android:layout_height" >wrap_content</item >
-        <item name="android:layout_marginLeft" >@dimen/dialog_item_margin</item >
-        <item name="android:layout_marginRight" >@dimen/dialog_item_margin</item >
+        <item name="android:layout_marginStart" >@dimen/dialog_item_margin</item >
+        <item name="android:layout_marginEnd" >@dimen/dialog_item_margin</item >
     </style >
 
     <style name="DefaultDialog.Mapping" >
         <item name="android:layout_width" >wrap_content</item >
         <item name="android:layout_height" >wrap_content</item >
-        <item name="android:layout_marginLeft" >@dimen/dialog_item_margin</item >
-        <item name="android:layout_marginRight" >@dimen/dialog_item_margin</item >
+        <item name="android:layout_marginStart" >@dimen/dialog_item_margin</item >
+        <item name="android:layout_marginEnd" >@dimen/dialog_item_margin</item >
     </style >
 
     <style name="DefaultDialog.TextView" parent="DefaultDialog.Item" >
-        <item name="android:paddingLeft" >@dimen/dialog_item_header_alignment_padding</item >
+        <item name="android:paddingStart" >@dimen/dialog_item_header_alignment_padding</item >
         <item name="android:paddingBottom" >@dimen/dialog_item_header_linepadding</item >
         <item name="android:layout_height" >@dimen/dialog_item_header_height</item >
         <item name="android:textSize" >@dimen/dialog_item_text_size</item >
         <item name="android:textColor" >@color/spritelist_details_text_color</item >
         <item name="android:gravity" >bottom</item >
     </style >
-
-    <style name="DefaultDialog_ldrtl.TextView" parent="DefaultDialog.Item">
-        <item name="android:paddingRight">@dimen/dialog_item_header_alignment_padding</item>
-        <item name="android:paddingBottom">@dimen/dialog_item_header_linepadding</item>
-        <item name="android:layout_height">@dimen/dialog_item_header_height</item>
-        <item name="android:textSize">@dimen/dialog_item_text_size</item>
-        <item name="android:textColor">@color/spritelist_details_text_color</item>
-        <item name="android:gravity">bottom</item>
-    </style>
 
     <style name="DefaultDialog.Line" parent="DefaultDialog.Item" >
         <item name="android:layout_height" >@dimen/dialog_item_header_line_height</item >
@@ -95,8 +86,8 @@
         <item name="android:layout_width" >match_parent</item >
         <item name="android:minHeight" >@dimen/dialog_item_height</item >
         <item name="android:layout_height" >wrap_content</item >
-        <item name="android:layout_marginLeft" >@dimen/dialog_item_edittext_margin</item >
-        <item name="android:layout_marginRight" >@dimen/dialog_item_edittext_margin</item >
+        <item name="android:layout_marginStart" >@dimen/dialog_item_edittext_margin</item >
+        <item name="android:layout_marginEnd" >@dimen/dialog_item_edittext_margin</item >
         <item name="android:paddingBottom" >10dp</item >
         <item name="android:gravity" >bottom</item >
         <item name="android:inputType" >text</item>
@@ -155,9 +146,9 @@
         <item name="android:layout_weight" >1</item >
         <item name="android:background" >@drawable/button_background_selector</item >
         <item name="android:drawablePadding" >28dp</item >
-        <item name="android:gravity" >left|center_vertical</item >
-        <item name="android:paddingLeft" >21dp</item >
-        <item name="android:paddingRight" >14dp</item >
+        <item name="android:gravity" >start|center_vertical</item >
+        <item name="android:paddingStart" >21dp</item >
+        <item name="android:paddingEnd" >14dp</item >
         <item name="android:textSize" >@dimen/text_size_main_menu_buttons</item >
         <item name="android:textColor" >@color/main_menu_button_text_color</item >
         <item name="android:shadowColor" >@color/main_menu_button_text_shadow_color</item >
@@ -166,31 +157,14 @@
         <item name="android:shadowDy" >3</item >
     </style >
 
-    <style name="MainMenuButton_Rtl">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/button_background_selector</item>
-        <item name="android:drawablePadding">28dp</item>
-        <item name="android:gravity">right|center_vertical</item>
-        <item name="android:paddingRight">21dp</item>
-        <item name="android:paddingLeft">14dp</item>
-        <item name="android:textSize">@dimen/text_size_main_menu_buttons</item>
-        <item name="android:textColor">@color/main_menu_button_text_color</item>
-        <item name="android:shadowColor">@color/main_menu_button_text_shadow_color</item>
-        <item name="android:shadowRadius">1.5</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">3</item>
-    </style>
-
     <style name="MainMenuButtonTextSecondLine" >
         <item name="android:textSize" >@dimen/text_size_main_menu_button_continue_program_name</item >
         <item name="android:textColor" >@color/main_menu_button_text_continue_program_name_color</item >
     </style >
 
     <style name="ListViewItemTitleText" >
-        <item name="android:paddingLeft" >12.5dp</item >
-        <item name="android:paddingRight" >42dp</item >
+        <item name="android:paddingStart" >12.5dp</item >
+        <item name="android:paddingEnd" >42dp</item >
         <item name="android:shadowColor" >@color/list_view_item_title_text_shadow_color</item >
         <item name="android:shadowDx" >0</item >
         <item name="android:shadowDy" >3</item >
@@ -202,21 +176,6 @@
         <item name="android:layout_height" >wrap_content</item >
         <item name="android:ellipsize" >end</item >
     </style >
-
-    <style name="ListViewItemTitleText_Rtl">
-        <item name="android:paddingRight">12.5dp</item>
-        <item name="android:paddingLeft">42dp</item>
-        <item name="android:shadowColor">@color/list_view_item_title_text_shadow_color</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">3</item>
-        <item name="android:shadowRadius">1.5</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/list_view_item_title_text_color</item>
-        <item name="android:textSize">22sp</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:ellipsize">end</item>
-    </style>
 
     <style name="ListViewItemDetailsText" >
         <item name="android:singleLine" >true</item >
@@ -231,8 +190,8 @@
         <item name="android:textColor" >@color/list_view_item_title_text_color</item >
         <item name="android:textSize" >20sp</item >
         <item name="android:layout_alignWithParentIfMissing" >true</item >
-        <item name="android:paddingLeft" >10sp</item>
-        <item name="android:paddingRight" >10sp</item>
+        <item name="android:paddingStart" >10sp</item>
+        <item name="android:paddingEnd" >10sp</item>
         <item name="android:paddingTop" >10sp</item>
     </style >
 
@@ -240,8 +199,8 @@
         <item name="android:textColor" >@color/list_view_item_details_text_color</item >
         <item name="android:textSize" >18sp</item >
         <item name="android:layout_alignWithParentIfMissing" >true</item >
-        <item name="android:paddingLeft" >15sp</item>
-        <item name="android:paddingRight" >15sp</item>
+        <item name="android:paddingStart" >15sp</item>
+        <item name="android:paddingEnd" >15sp</item>
         <item name="android:paddingTop" >1sp</item>
     </style >
 
@@ -250,9 +209,9 @@
         <item name="android:layout_height" >@dimen/program_menu_button_height</item >
         <item name="android:background" >@drawable/button_background_selector</item >
         <item name="android:drawablePadding" >28dp</item >
-        <item name="android:gravity" >left|center_vertical</item >
-        <item name="android:paddingLeft" >21dp</item >
-        <item name="android:paddingRight" >15dp</item >
+        <item name="android:gravity" >start|center_vertical</item >
+        <item name="android:paddingStart" >21dp</item >
+        <item name="android:paddingEnd" >15dp</item >
         <item name="android:textSize" >@dimen/text_size_program_menu_buttons</item >
         <item name="android:textColor" >@color/program_menu_button_text_color</item >
         <item name="android:shadowColor" >@color/program_menu_button_text_shadow_color</item >
@@ -260,22 +219,6 @@
         <item name="android:shadowDx" >0</item >
         <item name="android:shadowDy" >3</item >
     </style >
-
-    <style name="ProgramMenuButton_Rtl">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/program_menu_button_height</item>
-        <item name="android:background">@drawable/button_background_selector</item>
-        <item name="android:drawablePadding">28dp</item>
-        <item name="android:gravity">right|center_vertical</item>
-        <item name="android:paddingRight">21dp</item>
-        <item name="android:paddingLeft">15dp</item>
-        <item name="android:textSize">@dimen/text_size_program_menu_buttons</item>
-        <item name="android:textColor">@color/program_menu_button_text_color</item>
-        <item name="android:shadowColor">@color/program_menu_button_text_shadow_color</item>
-        <item name="android:shadowRadius">1.5</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">3</item>
-    </style>
 
     <style name="BrickText" >
         <item name="android:layout_width" >wrap_content</item >
@@ -300,7 +243,7 @@
         <item name="android:focusableInTouchMode" >false</item >
         <item name="android:clickable" >false</item >
         <item name="android:minWidth" >@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item >
-        <item name="android:gravity" >right</item >
+        <item name="android:gravity" >end</item >
         <item name="android:minEms" >1</item >
         <item name="android:layout_gravity" >center_vertical</item >
         <item name="android:layout_width" >wrap_content</item >
@@ -417,7 +360,7 @@
 
     <style name="BrickCategoryText.Data">
         <item name="android:background">@drawable/brick_selection_background_data</item>
-        <item name="android:drawableRight">@drawable/main_menu_button_arrow_variables</item>
+        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_variables</item>
     </style>
     
     <style name="BrickContainer.UserBrick.Small" >
@@ -636,14 +579,14 @@
         <item name="android:textSize">@dimen/text_size_medium</item >
         <item name="android:ellipsize">end</item >
         <item name="android:layout_marginTop">@dimen/key_margin</item>
-        <item name="android:layout_marginLeft">@dimen/key_margin</item>
+        <item name="android:layout_marginStart">@dimen/key_margin</item>
         <item name="android:layout_below">@+id/formula_editor_keyboard_decimal_mark</item>
     </style>
 
     <style name="FormulaEditorImageButton" >
         <item name="android:background" >@drawable/formula_editor_keyboard_button</item >
         <item name="android:layout_marginBottom" >@dimen/key_margin</item >
-        <item name="android:layout_marginRight" >@dimen/key_margin</item >
+        <item name="android:layout_marginEnd" >@dimen/key_margin</item >
     </style >
 
 
@@ -666,81 +609,81 @@
     <style name="BrickCategoryText" >
         <item name="android:layout_width" >match_parent</item >
         <item name="android:layout_height" >@dimen/brick_category_height</item >
-        <item name="android:gravity" >left|center_vertical</item >
-        <item name="android:paddingLeft" >21dp</item >
-        <item name="android:paddingRight" >14dp</item >
+        <item name="android:gravity" >start|center_vertical</item >
+        <item name="android:paddingStart" >21dp</item >
+        <item name="android:paddingEnd" >14dp</item >
         <item name="android:textColor" >@color/brick_category_fragment_text_color</item >
         <item name="android:textSize" >@dimen/text_size_brick_category</item >
     </style >
 
     <style name="BrickCategoryText.Control" >
         <item name="android:background" >@drawable/brick_selection_background_control</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_control</item >
+        <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_control</item >
     </style >
 
     <style name="BrickCategoryText.Event" >
         <item name="android:background" >@drawable/brick_selection_background_event</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_event</item >
+        <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_event</item >
     </style >
 
     <style name="BrickCategoryText.Motion" >
         <item name="android:background" >@drawable/brick_selection_background_motion</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_motion</item >
+        <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_motion</item >
     </style >
 
     <style name="BrickCategoryText.Sounds" >
         <item name="android:background" >@drawable/brick_selection_background_sounds</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_sounds</item >
+        <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_sounds</item >
     </style >
 
     <style name="BrickCategoryText.Looks" >
         <item name="android:background" >@drawable/brick_selection_background_looks</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_looks</item >
+        <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_looks</item >
     </style >
 
     <style name="BrickCategoryText.Pen" >
         <item name="android:background" >@drawable/brick_selection_background_pen</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_looks</item >
+        <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_looks</item >
     </style >
 
     <style name="BrickCategoryText.UserBricks" >
 		<item name="android:background" >@drawable/brick_selection_background_user_bricks</item >
- 		<item name="android:drawableRight" >@drawable/main_menu_button_arrow_user_bricks</item >
+ 		<item name="android:drawableEnd" >@drawable/main_menu_button_arrow_user_bricks</item >
  	</style >
 
     <style name="BrickCategoryText.Drone" >
         <item name="android:background" >@drawable/brick_selection_background_drone</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_drone</item >
+        <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_drone</item >
     </style >
 
     <style name="BrickCategoryText.JumpingSumo" >
         <item name="android:background" >@drawable/brick_selection_background_drone</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_drone</item >
+        <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_drone</item >
     </style >
 
     <style name="BrickCategoryText.Lego" >
         <item name="android:background" >@drawable/brick_selection_background_lego</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_lego</item >
+        <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_lego</item >
     </style >
 
     <style name="BrickCategoryText.Phiro" >
         <item name="android:background" >@drawable/brick_selection_background_bluetooth</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_bluetooth</item >
+        <item name="android:drawableEnd" >@drawable/main_menu_button_arrow_bluetooth</item >
     </style >
 
     <style name="BrickCategoryText.Arduino">
         <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
-        <item name="android:drawableRight">@drawable/main_menu_button_arrow_bluetooth</item>
+        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_bluetooth</item>
     </style>
 
     <style name="BrickCategoryText.Cast">
         <item name="android:background">@drawable/brick_selection_background_chromecast</item>
-        <item name="android:drawableRight">@drawable/main_menu_button_arrow_chromecast</item>
+        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_chromecast</item>
     </style>
 
     <style name="BrickCategoryText.Raspi">
         <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
-        <item name="android:drawableRight">@drawable/main_menu_button_arrow_bluetooth</item>
+        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_bluetooth</item>
     </style>
     
     <style name="userBrickDataTextBackground" >
@@ -757,7 +700,7 @@
 
     <style name="headlineTextView" parent="android:Widget.TextView" >
         <item name="android:paddingBottom" >5dip</item >
-        <item name="android:paddingLeft" >16dip</item >
+        <item name="android:paddingStart" >16dip</item >
         <item name="android:paddingTop" >9dip</item >
         <item name="android:textColor" >@color/spritelist_details_text_color</item >
         <item name="android:textColorHighlight" >@color/spritelist_details_text_color</item >
@@ -766,49 +709,18 @@
         <item name="android:layout_height" >wrap_content</item >
     </style >
 
-    <style name="headlineTextView_Rtl" parent="android:Widget.TextView">
-        <item name="android:paddingBottom">5dip</item>
-        <item name="android:paddingRight">16dip</item>
-        <item name="android:paddingTop">9dip</item>
-        <item name="android:textColor">@color/spritelist_details_text_color</item>
-        <item name="android:textColorHighlight">@color/spritelist_details_text_color</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
     <style name="headlineView" >
         <item name="android:background" >@color/spritelist_separation_line_color</item >
         <item name="android:layout_marginBottom" >8dp</item >
-        <item name="android:layout_marginLeft" >5dp</item >
-        <item name="android:layout_marginRight" >50dp</item >
+        <item name="android:layout_marginStart" >5dp</item >
+        <item name="android:layout_marginEnd" >50dp</item >
         <item name="android:layout_width" >fill_parent</item >
         <item name="android:layout_height" >1.5dp</item >
     </style >
 
-    <style name="headlineView_Rtl">
-        <item name="android:background">@color/spritelist_separation_line_color</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:layout_marginRight">5dp</item>
-        <item name="android:layout_marginLeft">50dp</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">1.5dp</item>
-    </style>
-
     <style name="headlineTextViewObjects" parent="android:Widget.TextView" >
         <item name="android:paddingBottom" >5dip</item >
-        <item name="android:paddingLeft" >16dip</item >
-        <item name="android:paddingTop" >18dip</item >
-        <item name="android:textColor" >@color/spritelist_details_text_color</item >
-        <item name="android:textColorHighlight" >@color/spritelist_details_text_color</item >
-        <item name="android:textSize" >14sp</item >
-        <item name="android:layout_width" >wrap_content</item >
-        <item name="android:layout_height" >wrap_content</item >
-    </style >
-
-    <style name="headlineTextViewObjects_Rtl" parent="android:Widget.TextView" >
-        <item name="android:paddingBottom" >5dip</item >
-        <item name="android:paddingRight" >16dip</item >
+        <item name="android:paddingStart" >16dip</item >
         <item name="android:paddingTop" >18dip</item >
         <item name="android:textColor" >@color/spritelist_details_text_color</item >
         <item name="android:textColorHighlight" >@color/spritelist_details_text_color</item >
@@ -823,8 +735,8 @@
          <item name="android:layout_gravity">center_horizontal|bottom</item >
          <item name="android:layout_marginTop">5dip</item >
          <item name="android:layout_marginBottom">5dip</item >
-         <item name="android:layout_marginLeft">45dip</item >
-         <item name="android:layout_marginRight">45dip</item >
+         <item name="android:layout_marginStart">45dip</item >
+         <item name="android:layout_marginEnd">45dip</item >
          <item name="android:paddingBottom">5dip</item >
          <item name="android:gravity">center</item >
          <item name="android:layout_centerHorizontal">true</item >
@@ -871,7 +783,7 @@
     <style name="SpriteGroupIndicatorImageView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">12dp</item >
+        <item name="android:layout_marginStart">12dp</item >
         <item name="android:layout_marginBottom">15dp</item >
         <item name="android:cropToPadding">true</item >
         <item name="android:padding">1.5dp</item >
