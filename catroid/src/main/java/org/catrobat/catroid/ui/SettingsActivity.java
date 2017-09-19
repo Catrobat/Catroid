@@ -66,6 +66,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED = "settings_mindstorms_ev3_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_ev3_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS = "setting_parrot_jumping_sumo_bricks";
 	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
 	public static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
@@ -75,6 +76,8 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
 	public static final String SETTINGS_MULTILINGUAL = "setting_multilingual";
+	public static final String SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY =
+			"setting_parrot_jumping_sumo_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
 
 	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
@@ -136,6 +139,12 @@ public class SettingsActivity extends PreferenceActivity {
 			PreferenceScreen dronePreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
+		}
+
+		if (!BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED) {
+			PreferenceScreen jsPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS);
+			jsPreference.setEnabled(false);
+			screen.removePreference(jsPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
@@ -353,8 +362,17 @@ public class SettingsActivity extends PreferenceActivity {
 		setBooleanSharedPreference(agreed, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
+	public static void setTermsOfServiceJSAgreedPermanently(Context context, boolean agreed) {
+		setBooleanSharedPreference(agreed, SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
+				context);
+	}
+
 	public static boolean isDroneSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
+	}
+
+	public static boolean isJSSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS, context);
 	}
 
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
@@ -369,6 +387,11 @@ public class SettingsActivity extends PreferenceActivity {
 		return getBooleanSharedPreference(false, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
+	public static boolean areTermsOfServiceJSAgreedPermanently(Context context) {
+		return getBooleanSharedPreference(false,
+				SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
+	}
+
 	public static boolean isPhiroSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS, context);
 	}
@@ -380,6 +403,12 @@ public class SettingsActivity extends PreferenceActivity {
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value);
+		editor.commit();
+	}
+
+	public static void setJumpingSumoSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS, value);
 		editor.commit();
 	}
 
@@ -544,6 +573,10 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static void setCastFeatureAvailability(Context context, boolean newValue) {
 		getSharedPreferences(context).edit().putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, newValue).commit();
+	}
+
+	public static void enableJumpingSumoBricks(Context context, Boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS, newValue).commit();
 	}
 
 	public static void setLegoMindstormsNXTBricks(Context context, Boolean newValue) {

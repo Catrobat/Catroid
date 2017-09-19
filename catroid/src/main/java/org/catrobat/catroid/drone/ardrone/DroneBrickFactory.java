@@ -20,11 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.drone;
+package org.catrobat.catroid.drone.ardrone;
 
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
-import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -45,7 +44,6 @@ public final class DroneBrickFactory {
 	public enum DroneBricks {
 		DRONE_TAKE_OFF_LAND_BRICK,
 		DRONE_PLAY_LED_ANIMATION_BRICK,
-		DRONE_FLIP_BRICK,
 		DRONE_GO_EMERGENCY,
 		DRONE_MOVE_DOWN_BRICK,
 		DRONE_MOVE_UP_BRICK,
@@ -64,9 +62,6 @@ public final class DroneBrickFactory {
 		switch (brick) {
 			case DRONE_TAKE_OFF_LAND_BRICK:
 				return new DroneTakeOffLandBrick();
-
-			case DRONE_FLIP_BRICK:
-				return new DroneFlipBrick();
 
 			case DRONE_PLAY_LED_ANIMATION_BRICK:
 				return new DronePlayLedAnimationBrick();

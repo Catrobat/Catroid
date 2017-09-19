@@ -25,6 +25,14 @@ package org.catrobat.catroid.uiespresso.testsuites;
 
 import org.catrobat.catroid.uiespresso.SmokeTest;
 import org.catrobat.catroid.uiespresso.annotations.FlakyTestTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.ARDroneMoveBackwardBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.ARDroneMoveDownBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.ARDroneMoveForwardBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.ARDroneMoveLeftBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.ARDroneMoveRightBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.ARDroneMoveUpBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.ARDroneTurnLeftBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.ARDroneTurnRightBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.AddItemToUserListTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.ArduinoSendDigitalValueBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.ArduinoSendPWMValueBrickTest;
@@ -172,6 +180,14 @@ import org.junit.runners.Suite;
 		PhiroStopMotorBrickTest.class,
 		LegoEV3SetLedBrickTest.class,
 		LegoEv3MotorMoveBrickTest.class,
+		ARDroneMoveBackwardBrickTest.class,
+		ARDroneMoveDownBrickTest.class,
+		ARDroneMoveForwardBrickTest.class,
+		ARDroneMoveLeftBrickTest.class,
+		ARDroneMoveRightBrickTest.class,
+		ARDroneMoveUpBrickTest.class,
+		ARDroneTurnLeftBrickTest.class,
+		ARDroneTurnRightBrickTest.class,
 		NoteBrickTest.class,
 		LegoNxtPlayToneBrickTest.class,
 		SetLookByIndexBrickTest.class,

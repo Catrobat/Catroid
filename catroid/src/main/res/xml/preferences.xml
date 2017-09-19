@@ -175,7 +175,17 @@
                 android:summary="%s"
                 android:title="@string/brick_drone_set_tilt_limit" />
         </PreferenceCategory>
+    </PreferenceScreen>
 
+    <PreferenceScreen
+            android:key="setting_parrot_jumping_sumo_bricks"
+            android:summary="@string/preference_description_jumpingsumo_bricks"
+            android:title="@string/preference_title_enable_jumpingsumo_bricks" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="setting_parrot_jumping_sumo_bricks"
+            android:summary="@string/preference_description_jumpingsumo_bricks"
+            android:title="@string/preference_title_enable_jumpingsumo_bricks" />
     </PreferenceScreen>
 
      <CheckBoxPreference

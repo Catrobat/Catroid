@@ -38,17 +38,22 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.drone.ardrone.DroneInitializer;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 
-public class TermsOfUseDialogFragment extends DialogFragment {
-	private static final String TAG = TermsOfUseDialogFragment.class.getSimpleName();
+public class TermsOfUseJSDialogFragment extends DialogFragment {
+	private static final String TAG = TermsOfUseJSDialogFragment.class.getSimpleName();
+	private static PreStageActivity prestageStageActivity;
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_terms_of_use";
 	public static final String DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT = "dialog_terms_of_use_accept";
 
 	CheckBox checkboxTermsOfUseAcceptedPermanently = null;
+
+	public static void setPrestageStageActivity(PreStageActivity preState) {
+		prestageStageActivity = preState;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
@@ -76,15 +81,14 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 				if (getActivity() instanceof PreStageActivity) {
 					if (checkboxTermsOfUseAcceptedPermanently != null
 							&& checkboxTermsOfUseAcceptedPermanently.isChecked()) {
-						SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
 						SettingsActivity.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
 					}
-					DroneInitializer droneInitializer = ((PreStageActivity) getActivity()).getDroneInitialiser();
-					if (droneInitializer != null && droneInitializer.checkRequirements()) {
-						droneInitializer.checkDroneConnectivity();
+					JumpingSumoInitializer jsDiscoverer = ((PreStageActivity) getActivity()).getJumpingSumoInitialiser();
+					if (jsDiscoverer != null && jsDiscoverer.checkRequirements()) {
+						jsDiscoverer.initialise();
+						jsDiscoverer.checkJumpingSumoAvailability(prestageStageActivity);
 					}
 				}
-
 				dialog.dismiss();
 			}
 		});
@@ -103,7 +107,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 			checkboxTermsOfUseAcceptedPermanently.setVisibility(CheckBox.VISIBLE);
 			checkboxTermsOfUseAcceptedPermanently.setText(R.string.dialog_terms_of_use_parrot_reminder_do_not_remind_again);
 			termsOfUseDialogBuilder.setCancelable(false);
-			termsOfUseTextView.setText(R.string.dialog_terms_of_use_parrot_reminder_text);
+			termsOfUseTextView.setText(R.string.dialog_terms_of_use_jumpingsumo_reminder_text);
 			termsOfUseUrlStringText = getString(R.string.dialog_terms_of_use_link_text_parrot_reminder);
 		} else {
 			termsOfUseTextView.setText(R.string.dialog_terms_of_use_info);

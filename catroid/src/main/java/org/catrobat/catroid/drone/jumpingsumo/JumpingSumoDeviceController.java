@@ -20,41 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.drone.jumpingsumo;
 
-import android.util.Log;
+import com.parrot.arsdk.arcontroller.ARDeviceController;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+public final class JumpingSumoDeviceController {
+	private static JumpingSumoDeviceController controller = new JumpingSumoDeviceController();
+	private ARDeviceController deviceController = null;
 
-import org.catrobat.catroid.drone.DroneServiceWrapper;
-
-public class DroneFlipAction extends TemporalAction {
-
-	private static final String TAG = DroneFlipAction.class.getSimpleName();
-	private DroneServiceWrapper service;
-
-	public DroneFlipAction() {
-		service = DroneServiceWrapper.getInstance();
+	public static JumpingSumoDeviceController getInstance() {
+		return controller;
 	}
 
-	@Override
-	protected void begin() {
-		super.begin();
-
-		if (service.getDroneService() != null) {
-			service.getDroneService().doLeftFlip();
-		}
+	private JumpingSumoDeviceController() {
 	}
 
-	@Override
-	protected void update(float percent) {
-		Log.d(TAG, "update!");
+	public void setDeviceController(ARDeviceController controller) {
+		deviceController = controller;
 	}
 
-	// TODO: complete the method
-	@Override
-	public boolean act(float delta) {
-		Boolean superReturn = super.act(delta);
-		return superReturn;
+	public ARDeviceController getDeviceController() {
+		return deviceController;
+	}
+
+	public boolean isConnected() {
+		return (deviceController != null);
 	}
 }

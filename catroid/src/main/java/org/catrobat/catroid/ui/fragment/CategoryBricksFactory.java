@@ -58,7 +58,6 @@ import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
-import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -214,6 +213,8 @@ public class CategoryBricksFactory {
 			tempList = setupArduinoCategoryList();
 		} else if (category.equals(context.getString(R.string.category_drone))) {
 			tempList = setupDroneCategoryList();
+		} else if (category.equals(context.getString(R.string.category_jumping_sumo))) {
+			tempList = setupJumpingSumoCategoryList();
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
 			tempList = setupPhiroProCategoryList();
 		} else if (category.equals(context.getString(R.string.category_cast))) {
@@ -487,7 +488,6 @@ public class CategoryBricksFactory {
 	private List<Brick> setupDroneCategoryList() {
 		List<Brick> droneBrickList = new ArrayList<>();
 		droneBrickList.add(new DroneTakeOffLandBrick());
-		droneBrickList.add(new DroneFlipBrick());
 		droneBrickList.add(new DroneEmergencyBrick());
 		droneBrickList.add(new DroneMoveUpBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
 		droneBrickList.add(new DroneMoveDownBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
@@ -509,6 +509,12 @@ public class CategoryBricksFactory {
 				BrickValues.STRING_VALUE));*/
 
 		return droneBrickList;
+	}
+
+	private List<Brick> setupJumpingSumoCategoryList() {
+		List<Brick> jumpingSumoBrickList = new ArrayList<>();
+
+		return jumpingSumoBrickList;
 	}
 
 	private List<Brick> setupPhiroProCategoryList() {

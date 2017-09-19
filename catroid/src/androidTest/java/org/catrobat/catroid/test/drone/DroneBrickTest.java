@@ -26,8 +26,8 @@ import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.drone.DroneBrickFactory;
-import org.catrobat.catroid.drone.DroneBrickFactory.DroneBricks;
+import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
+import org.catrobat.catroid.drone.ardrone.DroneBrickFactory.DroneBricks;
 
 public class DroneBrickTest extends InstrumentationTestCase {
 
