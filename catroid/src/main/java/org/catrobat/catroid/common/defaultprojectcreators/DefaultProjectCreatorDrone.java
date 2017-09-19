@@ -123,7 +123,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(takeOffSpriteName, DroneBrickFactory.DroneBricks
 						.DRONE_TAKE_OFF_LAND_BRICK,
 				-280, -200, takeOffArrowFile));
-		
+
 		String upSpriteName = context.getString(R.string.default_drone_project_sprites_up);
 
 		File upFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, upSpriteName
