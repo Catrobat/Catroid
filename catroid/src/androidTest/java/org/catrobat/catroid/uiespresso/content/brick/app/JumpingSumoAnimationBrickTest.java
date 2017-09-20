@@ -21,12 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick;
+package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
@@ -39,10 +39,13 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class ARDroneMoveForwardBrickTest {
+public class JumpingSumoAnimationBrickTest {
 	private int brickPosition;
 
 	@Rule
@@ -52,28 +55,38 @@ public class ARDroneMoveForwardBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		int initialSeconds = 1000;
-		int initialPower = 20;
-		BrickTestUtils.createProjectAndGetStartScript("ARDroneMoveForwardBrickTest").addBrick(new
-				DroneMoveForwardBrick(initialSeconds, initialPower));
+
+		BrickTestUtils.createProjectAndGetStartScript("JumpingSumoAnimationBrickTest").addBrick(new
+				JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN));
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	@Flaky
-	public void jumpingSumoRotateLeftTest() {
-		int secondsValue = 3;
-		int powerValue = 40;
+	public void testJumpingSumoAnimationBrick() {
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText("Move AR.Drone 2.0 forward");
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_jumping_sumo_animation);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_second)
-				.performEnterNumber(secondsValue)
-				.checkShowsNumber(secondsValue);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_power)
-				.performEnterNumber(powerValue)
-				.checkShowsNumber(powerValue);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_animation_spinner)
+				.checkShowsText(R.string.animation_spin);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_animation_spinner)
+				.performSelect(R.string.animation_tab)
+				.checkShowsText(R.string.animation_tab);
+
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.animation_spin,
+				R.string.animation_tab,
+				R.string.animation_slowshake,
+				R.string.animation_metronome,
+				R.string.animation_ondulation,
+				R.string.animation_spinjump,
+				R.string.animation_spiral,
+				R.string.animation_slalom);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_animation_spinner)
+				.checkValuesAvailable(spinnerValuesResourceIds);
 	}
 }
