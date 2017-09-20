@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.sprite;
+package org.catrobat.catroid.uiespresso.ui.activity;
 
 import android.support.test.runner.AndroidJUnit4;
 
@@ -55,7 +55,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class NumberOfBricksTest {
+public class ProjectActivityNumberOfBricksRegressionTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
@@ -75,7 +75,7 @@ public class NumberOfBricksTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void name() throws Exception {
+	public void numberOfBricksDetailsRegressionTest() throws Exception {
 		onView(allOf(withId(R.id.textView_number_of_scripts), isDisplayed()))
 				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_scripts).concat(" 2"))));
 
@@ -87,7 +87,7 @@ public class NumberOfBricksTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(null, "NumberOfBricksTest");
+		Project project = new Project(null, "ProjectActivityNumberOfBricksRegressionTest");
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
 

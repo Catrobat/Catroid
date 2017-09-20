@@ -57,4 +57,8 @@ public interface Cat {
 	//Educational tests that are in place to demonstrate how to test something
 	interface Educational {
 	}
+
+	//Tests that have side effects that can break other tests, therefore should be excluded from bulk test runs
+	interface Quarantine {
+	}
 }

@@ -56,6 +56,8 @@ import org.catrobat.catroid.uiespresso.content.brick.app.GlideToBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.GoNStepsBackTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.GoToBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.HideBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.IfThenBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.IfThenElseBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.LegoEV3SetLedBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.LegoEv3MotorMoveBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.LegoEv3MotorStopBrickTest;
@@ -74,10 +76,15 @@ import org.catrobat.catroid.uiespresso.content.brick.app.PhiroMoveMotorBackwardB
 import org.catrobat.catroid.uiespresso.content.brick.app.PhiroMoveMotorForwardBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.PhiroPlayToneBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.PhiroStopMotorBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.PlaceAtBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.PlaySoundAndWaitBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.PointInDirectionBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.PointToBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.RepeatBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.RepeatUntilBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.ReplaceItemInUserListTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.SayBubbleBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.SayForBubbleBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.SceneTransmitionBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.SetBrightnessBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.SetColorBrickTest;
@@ -94,6 +101,8 @@ import org.catrobat.catroid.uiespresso.content.brick.app.SpeakAndWaitBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.SpeakBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.StopAllSoundsBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.StopScriptBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.ThinkBubbleBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.ThinkForBubbleBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.TurnLeftBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.TurnRightBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.VariableBrickTest;
@@ -102,9 +111,14 @@ import org.catrobat.catroid.uiespresso.content.brick.app.WhenNfcBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.WhenStartedBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.stage.AskBrickStageTest;
 import org.catrobat.catroid.uiespresso.content.brick.stage.BroadcastBricksStageTest;
+import org.catrobat.catroid.uiespresso.content.brick.stage.CameraResourceTest;
+import org.catrobat.catroid.uiespresso.content.brick.stage.SayBubbleBrickStageTest;
+import org.catrobat.catroid.uiespresso.content.brick.stage.SayForBubbleBrickStageTest;
+import org.catrobat.catroid.uiespresso.content.brick.stage.ThinkBubbleBrickStageTest;
+import org.catrobat.catroid.uiespresso.content.brick.stage.ThinkForBubbleBrickStageTest;
 import org.catrobat.catroid.uiespresso.content.brick.stage.WhenNfcBrickStageFromScriptTest;
 import org.catrobat.catroid.uiespresso.content.brick.stage.WhenNfcBrickStageTest;
-import org.catrobat.catroid.uiespresso.content.sprite.NumberOfBricksTest;
+import org.catrobat.catroid.uiespresso.facedetection.FaceDetectionFormulaEditorComputeDialogTest;
 import org.catrobat.catroid.uiespresso.facedetection.FaceDetectionResourceStartedTest;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorKeyboardTest;
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest;
@@ -116,6 +130,7 @@ import org.catrobat.catroid.uiespresso.stage.ObjectVariableTest;
 import org.catrobat.catroid.uiespresso.stage.StagePausedTest;
 import org.catrobat.catroid.uiespresso.stage.StageSimpleTest;
 import org.catrobat.catroid.uiespresso.ui.activity.LanguageSwitchMainMenuTest;
+import org.catrobat.catroid.uiespresso.ui.activity.ProjectActivityNumberOfBricksRegressionTest;
 import org.catrobat.catroid.uiespresso.ui.activity.SettingsActivityTest;
 import org.catrobat.catroid.uiespresso.ui.dialog.AboutDialogTest;
 import org.catrobat.catroid.uiespresso.ui.dialog.DeleteLookDialogTest;
@@ -132,15 +147,17 @@ import org.junit.runners.Suite;
 		PocketMusicActivityTest.class,
 		SmokeTest.class,
 		FlakyTestTest.class,
+		FaceDetectionFormulaEditorComputeDialogTest.class,
 		FaceDetectionResourceStartedTest.class,
-		NumberOfBricksTest.class,
 		LegoEv3PlayToneBrickTest.class,
+		ThinkBubbleBrickTest.class,
 		SetYBrickTest.class,
 		ComeToFrontBrickTest.class,
 		SetBrightnessBrickTest.class,
 		HideBrickTest.class,
 		ChangeTransparencyByNBrickTest.class,
 		SetRotationStyleBrickTest.class,
+		RepeatUntilBrickTest.class,
 		SceneTransmitionBrickTest.class,
 		DragNDropBricksTest.class,
 		GoNStepsBackTest.class,
@@ -156,8 +173,10 @@ import org.junit.runners.Suite;
 		BrickValueParameterTest.class,
 		ArduinoSendPWMValueBrickTest.class,
 		NextLookBrickTest.class,
+		ThinkForBubbleBrickTest.class,
 		ChangeColorByNBrickTest.class,
 		ArduinoSendDigitalValueBrickTest.class,
+		PlaceAtBrickTest.class,
 		DeleteItemOfUserListBrickTest.class,
 		ReplaceItemInUserListTest.class,
 		StopAllSoundsBrickTest.class,
@@ -177,6 +196,7 @@ import org.junit.runners.Suite;
 		WhenNfcBrickTest.class,
 		SetVolumeToBrickTest.class,
 		SetSizeToBrickTest.class,
+		PointToBrickTest.class,
 		PhiroStopMotorBrickTest.class,
 		LegoEV3SetLedBrickTest.class,
 		LegoEv3MotorMoveBrickTest.class,
@@ -190,11 +210,13 @@ import org.junit.runners.Suite;
 		ARDroneTurnRightBrickTest.class,
 		NoteBrickTest.class,
 		LegoNxtPlayToneBrickTest.class,
+		SayForBubbleBrickTest.class,
 		SetLookByIndexBrickTest.class,
 		ChangeBrightnessByNBrickTest.class,
 		ChangeXByNBrickTest.class,
 		ShowBrickTest.class,
 		SetColorBrickTest.class,
+		SayBubbleBrickTest.class,
 		CameraBrickTest.class,
 		LoopBrickTest.class,
 		ShowTextBrickTest.class,
@@ -204,14 +226,21 @@ import org.junit.runners.Suite;
 		ChangeSizeByNBrickTest.class,
 		AddItemToUserListTest.class,
 		ClearGraphicEffectBrickTest.class,
+		IfThenBrickTest.class,
 		LegoNXTMotorMoveBrickTest.class,
 		WhenStartedBrickTest.class,
 		LegoEv3MotorTurnAngleBrickTest.class,
 		TurnLeftBrickTest.class,
 		SetXBrickTest.class,
+		IfThenElseBrickTest.class,
 		WhenNfcBrickStageTest.class,
+		CameraResourceTest.class,
+		SayBubbleBrickStageTest.class,
+		SayForBubbleBrickStageTest.class,
 		WhenNfcBrickStageFromScriptTest.class,
+		ThinkBubbleBrickStageTest.class,
 		BroadcastBricksStageTest.class,
+		ThinkForBubbleBrickStageTest.class,
 		AskBrickStageTest.class,
 		StagePausedTest.class,
 		BroadcastForClonesRegressionTest.class,
@@ -221,6 +250,8 @@ import org.junit.runners.Suite;
 		BroadcastReceiverRegressionTest.class,
 		FormulaEditorKeyboardTest.class,
 		FormulaEditorTest.class,
+		LanguageSwitchMainMenuTest.class,
+		ProjectActivityNumberOfBricksRegressionTest.class,
 		SettingsActivityTest.class,
 		FormulaEditorComputeDialogTest.class,
 		RenameSpriteDialogTest.class,
@@ -228,8 +259,7 @@ import org.junit.runners.Suite;
 		DeleteSoundDialogTest.class,
 		TermsOfUseDialogTest.class,
 		DeleteLookDialogTest.class,
-		AboutDialogTest.class,
-		LanguageSwitchMainMenuTest.class
+		AboutDialogTest.class
 })
 public class AllEspressoTestsSuite {
 }
