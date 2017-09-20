@@ -62,12 +62,12 @@ public class ARDroneMoveUpBrickTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	@Flaky
-	public void jumpingSumoRotateLeftTest() {
+	public void testARDroneMoveUpBrick() {
 		int secondsValue = 3;
 		int powerValue = 40;
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText("Move AR.Drone 2.0 up");
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_drone_move_up);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_second)
 				.performEnterNumber(secondsValue)

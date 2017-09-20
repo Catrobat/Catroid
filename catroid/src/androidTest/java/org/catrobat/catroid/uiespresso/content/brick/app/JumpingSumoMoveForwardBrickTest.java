@@ -62,12 +62,12 @@ public class JumpingSumoMoveForwardBrickTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	@Flaky
-	public void jumpingSumoRotateLeftTest() {
+	public void testJumpingSumoMoveForwardBrick() {
 		int secondsValue = 3;
 		int powerValue = 40;
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText("Move Jumping Sumo forward");
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_jumping_sumo_move_forward);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_jumping_sumo_move_edit_text_second)
 				.performEnterNumber(secondsValue)
