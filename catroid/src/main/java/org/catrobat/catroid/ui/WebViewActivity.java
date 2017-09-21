@@ -242,7 +242,11 @@ public class WebViewActivity extends BaseActivity {
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
-			return !(url.contains(Constants.BASE_URL_HTTPS) || url.contains(Constants.LIBRARY_BASE_URL));
+			if ((url.contains(Constants.BASE_URL_HTTPS) && !url.contains(Constants.CATROBAT_HELP_URL))
+					|| url.contains(Constants.LIBRARY_BASE_URL)) {
+				return false;
+			}
+			return true;
 		}
 	}
 

@@ -378,7 +378,8 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 			return;
 		}
 		Utils.getTrackingUtilProxy().trackStartWebSessionTutorial();
-		startWebViewActivity(Constants.CATROBAT_HELP_URL);
+		Intent helpUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL));
+		startActivity(helpUrlIntent);
 	}
 
 	public void handleWebButton(View view) {
