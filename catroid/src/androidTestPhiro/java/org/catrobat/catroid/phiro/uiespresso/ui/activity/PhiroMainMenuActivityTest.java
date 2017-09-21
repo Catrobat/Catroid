@@ -23,21 +23,16 @@
 
 package org.catrobat.catroid.phiro.uiespresso.ui.activity;
 
-import android.app.Instrumentation;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.intent.Intents;
-import android.support.test.espresso.matcher.PreferenceMatchers;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uiespresso.ui.activity.utils.SettingsActivityUtils;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -50,28 +45,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.Intents.intending;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.ui.BaseSettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
 import static org.catrobat.catroid.ui.MainMenuActivity.PHIRO_INITIALIZED;
-import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class PhiroSettingsActivityTest {
+public class PhiroMainMenuActivityTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<SettingsActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SettingsActivity.class, true, false);
+	public BaseActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(MainMenuActivity.class, true, false);
 
 	private List<String> allSettings = new ArrayList<>(Arrays.asList(SETTINGS_SHOW_PHIRO_BRICKS, PHIRO_INITIALIZED));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
+	private IdlingResource idlingResource;
 
 	@Before
 	public void setUp() {
@@ -81,33 +69,18 @@ public class PhiroSettingsActivityTest {
 		for (String setting : allSettings) {
 			initialSettings.put(setting, sharedPreferences.getBoolean(setting, false));
 		}
-		SettingsActivityUtils.setAllSettingsTo(allSettings, true);
+		SettingsActivityUtils.setAllSettingsTo(allSettings, false);
 
 		baseActivityTestRule.launchActivity(null);
+		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
+		Espresso.registerIdlingResources(idlingResource);
 	}
 
 	@Test
-	public void phiroIsFirstVisibleSettingTest() {
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_phiro_bricks))
-				.atPosition(0)
-				.check(matches(isDisplayed()));
-	}
-
-	@Test
-	public void phiroSettingsTest() {
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_phiro_bricks))
-				.perform(click());
-
-		SettingsActivityUtils.checkPreference(R.string.preference_title_enable_phiro_bricks, SETTINGS_SHOW_PHIRO_BRICKS);
-
-		String phiroLink = UiTestUtils.getResourcesString(R.string.phiro_preference_link);
-
-		Intents.init();
-		Matcher<Intent> expectedIntent = allOf(hasAction(Intent.ACTION_VIEW), hasData(phiroLink));
-		intending(expectedIntent).respondWith(new Instrumentation.ActivityResult(0, null));
-		onData(PreferenceMatchers.withTitle(R.string.phiro_preference_title)).perform(click());
-		intended(expectedIntent);
-		Intents.release();
+	public void phiroIsInitiallyActivatedTest() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		assertTrue("Phiro preference was not initially enabled!", sharedPreferences.getBoolean(SETTINGS_SHOW_PHIRO_BRICKS, false));
+		assertTrue("Phiro init preference was not set to true!", sharedPreferences.getBoolean(PHIRO_INITIALIZED, false));
 	}
 
 	@After
@@ -119,5 +92,7 @@ public class PhiroSettingsActivityTest {
 		}
 		sharedPreferencesEditor.commit();
 		initialSettings.clear();
+
+		Espresso.unregisterIdlingResources(idlingResource);
 	}
 }
