@@ -336,7 +336,8 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			return;
 		}
 
-		startWebViewActivity(Constants.CATROBAT_HELP_URL);
+		Intent helpUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL));
+		startActivity(helpUrlIntent);
 	}
 
 	public void handleWebButton(View view) {
