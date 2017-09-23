@@ -1007,6 +1007,10 @@ public final class Utils {
 
 	@SuppressWarnings("unused")
 	public static void logoutUser(Context context) {
+		logoutUser(context, true);
+	}
+
+	public static void logoutUser(Context context, boolean showToast) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		LogoutTask logoutTask = new LogoutTask(context, userName);
@@ -1031,7 +1035,9 @@ public final class Utils {
 
 		WebViewActivity.clearCookies(context);
 
-		ToastUtil.showSuccess(context, R.string.logout_successful);
+		if (showToast) {
+			ToastUtil.showSuccess(context, R.string.logout_successful);
+		}
 	}
 
 	public static boolean isUserLoggedIn(Context context) {

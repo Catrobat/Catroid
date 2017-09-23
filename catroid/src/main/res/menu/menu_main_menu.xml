@@ -38,6 +38,10 @@
         android:showAsAction="withText"
         android:title="@string/main_menu_terms_of_use" />
     <item
+        android:id="@+id/menu_privacy_policy"
+        android:showAsAction="withText"
+        android:title="@string/main_menu_privacy_policy" />
+    <item
         android:id="@+id/menu_about"
         android:showAsAction="withText"
         android:title="@string/main_menu_about" />
