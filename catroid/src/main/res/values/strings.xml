@@ -1200,6 +1200,7 @@
     <string name="brick_jumping_sumo_percent_power">% power</string>
     <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+    <string name="brick_jumping_sumo_sound">Sound</string>
     <!--  -->
 
     <!-- defaultJumpingSumoValues -->

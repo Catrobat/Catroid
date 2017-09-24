@@ -64,9 +64,9 @@ public class JumpingSumoSoundBrickTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	@Flaky
-	public void jumpingSumoRotateRightTest() {
+	public void testJumpingSumoSoundBrick() {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText("Sound");
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_jumping_sumo_sound);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_sound_spinner)
 				.checkShowsText(R.string.sound_default);
