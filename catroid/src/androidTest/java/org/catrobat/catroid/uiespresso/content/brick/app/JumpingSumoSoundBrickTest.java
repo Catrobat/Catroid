@@ -21,12 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick;
+package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
@@ -39,10 +39,13 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class ARDroneMoveForwardBrickTest {
+public class JumpingSumoSoundBrickTest {
 	private int brickPosition;
 
 	@Rule
@@ -52,28 +55,33 @@ public class ARDroneMoveForwardBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		int initialSeconds = 1000;
-		int initialPower = 20;
-		BrickTestUtils.createProjectAndGetStartScript("ARDroneMoveForwardBrickTest").addBrick(new
-				DroneMoveForwardBrick(initialSeconds, initialPower));
+		int initialVolume = 50;
+		BrickTestUtils.createProjectAndGetStartScript("JumpingSumoSoundsBrickTest").addBrick(new
+				JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.DEFAULT, initialVolume));
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	@Flaky
-	public void jumpingSumoRotateLeftTest() {
-		int secondsValue = 3;
-		int powerValue = 40;
-
+	public void jumpingSumoRotateRightTest() {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText("Move AR.Drone 2.0 forward");
+		onBrickAtPosition(brickPosition).checkShowsText("Sound");
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_second)
-				.performEnterNumber(secondsValue)
-				.checkShowsNumber(secondsValue);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_power)
-				.performEnterNumber(powerValue)
-				.checkShowsNumber(powerValue);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_sound_spinner)
+				.checkShowsText(R.string.sound_default);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_sound_spinner)
+				.performSelect(R.string.sound_insect)
+				.checkShowsText(R.string.sound_insect);
+
+		List<Integer> spinnerValuesResourceIds = Arrays.asList(
+				R.string.sound_default,
+				R.string.sound_robot,
+				R.string.sound_insect,
+				R.string.sound_monster);
+
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_sound_spinner)
+				.checkValuesAvailable(spinnerValuesResourceIds);
 	}
 }
