@@ -22,6 +22,26 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+
 public class MainMenuActivity extends BaseMainMenuActivity {
-	//no adaptations for this flavor
+
+	public static final String PHIRO_INITIALIZED = "phiro_initialized";
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		enablePhiro();
+		super.onCreate(savedInstanceState);
+	}
+
+	private void enablePhiro() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		if (!sharedPreferences.getBoolean(PHIRO_INITIALIZED, false)) {
+			BaseSettingsActivity.setPhiroSharedPreferenceEnabled(this, true);
+			sharedPreferences.edit().putBoolean(PHIRO_INITIALIZED, true).apply();
+		}
+	}
 }
