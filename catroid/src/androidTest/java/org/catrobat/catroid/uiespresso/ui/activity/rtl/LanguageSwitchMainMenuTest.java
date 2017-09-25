@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.ui.activity;
+package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -62,7 +62,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
-import static org.catrobat.catroid.uiespresso.ui.activity.RtlUiTestUtils.checkTextDirection;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResources;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
 import static org.hamcrest.Matchers.containsString;
@@ -115,7 +114,7 @@ public class LanguageSwitchMainMenuTest {
 		Espresso.registerIdlingResources(idlingResource);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABICLOCALE.getDisplayLanguage());
-		assertTrue(checkTextDirection(Locale.getDefault().getDisplayName()));
+		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_RTL, conf.getLayoutDirection());
 		String buttonContinueName = getResourcesString(R.string.main_menu_continue);
 		onView(withId(R.id.main_menu_button_continue))

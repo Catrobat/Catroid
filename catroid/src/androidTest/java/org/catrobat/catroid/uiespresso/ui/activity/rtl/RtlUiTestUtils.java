@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.ui.activity;
+package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
 public final class RtlUiTestUtils {
 	private RtlUiTestUtils() {
