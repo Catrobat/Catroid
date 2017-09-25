@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
@@ -38,8 +36,6 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 
 	private JumpingSumoAnimationsBrick.Animation animationEnum;
 	private float duration;
-
-	private static final String TAG = JumpingSumoAnimationAction.class.getSimpleName();
 
 	public void setAnimationEnum(JumpingSumoAnimationsBrick.Animation animationEnum) {
 		this.animationEnum = animationEnum;
@@ -99,8 +95,6 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 					super.setDuration(duration);
 					break;
 			}
-		} else {
-			Log.d(TAG, "error: send -stop command JS");
 		}
 	}
 

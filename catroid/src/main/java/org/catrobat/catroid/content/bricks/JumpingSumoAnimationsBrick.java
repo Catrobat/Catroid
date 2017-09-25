@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -91,33 +90,15 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_animations, null);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_jumping_sumo_animation_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context, R.array.brick_jumping_sumo_select_animation_spinner,
 				android.R.layout.simple_spinner_item);
 		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner animationSpinner = (Spinner) view.findViewById(R.id.brick_jumping_sumo_animation_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			animationSpinner.setClickable(true);
-			animationSpinner.setEnabled(true);
-		} else {
-			animationSpinner.setClickable(false);
-			animationSpinner.setEnabled(false);
-		}
 
 		animationSpinner.setAdapter(animationAdapter);
 		animationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -132,6 +113,9 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+		if(animationenum == null) {
+			readResolve();
+		}
 
 		animationSpinner.setSelection(animationenum.ordinal());
 
