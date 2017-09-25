@@ -44,8 +44,6 @@ public class JumpingSumoJumpHighAction extends TemporalAction {
 		if (deviceController != null) {
 			deviceController.getFeatureJumpingSumo().sendAnimationsJump(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_JUMP_TYPE_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_JUMP_TYPE_HIGH);
 			Log.d(TAG, "send jump high command JS down");
-		} else {
-			Log.d(TAG, "error: send jump high command JS");
 		}
 	}
 	@Override

@@ -30,14 +30,14 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_jumping_sumo_basic_checkbox"
+        android:id="@+id/brick_jumping_sumo_jump_long_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_jumping_sumo_basic_layout"
+        android:id="@+id/brick_jumping_sumo_jump_long_layout"
         style="@style/BrickContainer.Motion.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,9 +46,9 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/ValueTextView"
+            android:id="@+id/brick_jumping_sumo_jump_long_label"
             style="@style/BrickText.SingleLine"
-            android:text="" >
+            android:text="@string/brick_jumping_sumo_jump_long" >
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 
