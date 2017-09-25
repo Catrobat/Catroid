@@ -115,7 +115,6 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		backgroundSprite.addScript(whenSpriteTappedScript);
 
 		//icons from http://findicons.com/search/arrow#ajax
-		//forward brick
 		String forwardName = context.getString(R.string.default_jumping_sumo_project_sprites_forward);
 
 		File forwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, forwardName
@@ -128,7 +127,6 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (byte) BrickValues
 				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 
-		//backward brick
 		String backwardName = context.getString(R.string.default_jumping_sumo_project_sprites_backward);
 
 		File backwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backwardName

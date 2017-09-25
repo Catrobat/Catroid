@@ -96,8 +96,6 @@ public class JumpingSumoMoveBackwardAction extends TemporalAction {
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDSpeed(normalizedPower);
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 1);
 			Log.d(TAG, "send -move command JS");
-		} else {
-			Log.d(TAG, "error: send -move command JS");
 		}
 	}
 
@@ -106,8 +104,6 @@ public class JumpingSumoMoveBackwardAction extends TemporalAction {
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDSpeed(Byte.valueOf(JUMPING_SUMO_MOVE_SPEED_STOP));
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 0);
 			Log.d(TAG, "send -stop command JS");
-		} else {
-			Log.d(TAG, "error: send -stop command JS");
 		}
 	}
 

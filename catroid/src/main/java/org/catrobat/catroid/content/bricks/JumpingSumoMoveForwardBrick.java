@@ -26,29 +26,32 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class JumpingSumoMoveForwardBrick extends JumpingSumoMoveBrick {
+public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = JumpingSumoMoveForwardBrick.class.getSimpleName();
 
 	public JumpingSumoMoveForwardBrick(int durationInMilliseconds, int powerInPercent) {
-		super(durationInMilliseconds, powerInPercent);
+		initializeBrickFields(new Formula(durationInMilliseconds / 1000.0), new Formula(powerInPercent));
 	}
 
-	@Override
-	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_jumping_sumo_move_forward);
+	private void initializeBrickFields(Formula durationInSeconds, Formula powerInPercent) {
+		addAllowedBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
+		addAllowedBrickField(BrickField.JUMPING_SUMO_SPEED);
+		setFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS, durationInSeconds);
+		setFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED, powerInPercent);
 	}
 
 	@Override
@@ -60,8 +63,15 @@ public class JumpingSumoMoveForwardBrick extends JumpingSumoMoveBrick {
 		return null;
 	}
 
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
+	public void showFormulaEditorToEditFormula(View view) {
+		switch (view.getId()) {
+			case R.id.brick_jumping_sumo_move_forward_edit_text_second:
+				FormulaEditorFragment.showFragment(view, this, BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
+				break;
+			case R.id.brick_jumping_sumo_move_forward_edit_text_power:
+				FormulaEditorFragment.showFragment(view, this, BrickField.JUMPING_SUMO_SPEED);
+				break;
+		}
 	}
 
 	@Override
@@ -70,39 +80,42 @@ public class JumpingSumoMoveForwardBrick extends JumpingSumoMoveBrick {
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_jumping_sumo_move, null);
+		view = View.inflate(context, R.layout.brick_jumping_sumo_move_forward, null);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_jumping_sumo_move_checkbox);
+		setCheckboxView(R.id.brick_jumping_sumo_move_forward_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView editTime = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_edit_text_second);
+		TextView editTime = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_forward_edit_text_second);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS)
-				.setTextFieldId(R.id.brick_jumping_sumo_move_edit_text_second);
+				.setTextFieldId(R.id.brick_jumping_sumo_move_forward_edit_text_second);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS).refreshTextField(view);
-
-		TextView label = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_label);
-		label.setText(getBrickLabel(view));
-
-		editTime.setVisibility(View.VISIBLE);
 		editTime.setOnClickListener(this);
 
-		TextView editPower = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_edit_text_power);
+		TextView editPower = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_forward_edit_text_power);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED)
-				.setTextFieldId(R.id.brick_jumping_sumo_move_edit_text_power);
+				.setTextFieldId(R.id.brick_jumping_sumo_move_forward_edit_text_power);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED).refreshTextField(view);
-		TextView textPower = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_text_view_power);
-
-		textPower.setVisibility(View.VISIBLE);
-		editPower.setVisibility(View.VISIBLE);
 		editPower.setOnClickListener(this);
 
 		return view;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_move_forward, null);
+		TextView textTime = (TextView) prototypeView.findViewById(R.id
+				.brick_jumping_sumo_move_forward_edit_text_second);
+
+		TextView textPower = (TextView) prototypeView.findViewById(R.id
+				.brick_jumping_sumo_move_forward_edit_text_power);
+		textTime.setText(String.valueOf(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
+
+		textPower.setText(String.valueOf(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+		return prototypeView;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return super.getRequiredResources() | Brick.JUMPING_SUMO;
 	}
 }
