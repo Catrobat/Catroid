@@ -32,6 +32,7 @@
 
         <TextView
             android:id="@+id/dialog_userbrick_name_textview"
+            android:labelFor="@+id/dialog_userbrick_name_edittext"
             style="@style/DefaultDialog.TextView"
             android:text="@string/new_user_brick_name" />
 
