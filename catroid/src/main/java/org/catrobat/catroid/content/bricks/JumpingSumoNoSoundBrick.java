@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 
 import java.util.List;
 
-public class JumpingSumoNoSoundBrick extends JumpingSumoBasicBrick {
+public class JumpingSumoNoSoundBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -43,22 +43,11 @@ public class JumpingSumoNoSoundBrick extends JumpingSumoBasicBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+
 		view = View.inflate(context, R.layout.brick_jumping_sumo_nosound, null);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_jumping_sumo_nosound_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView label = (TextView) view.findViewById(R.id.ValueTextView);
-		label.setText(getBrickLabel(view));
 
 		return view;
 	}
@@ -66,9 +55,6 @@ public class JumpingSumoNoSoundBrick extends JumpingSumoBasicBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_nosound, null);
-
-		TextView label = (TextView) prototypeView.findViewById(R.id.ValueTextView);
-		label.setText(getBrickLabel(prototypeView));
 
 		return prototypeView;
 	}
@@ -82,10 +68,5 @@ public class JumpingSumoNoSoundBrick extends JumpingSumoBasicBrick {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createJumpingSumoNoSoundAction());
 		return null;
-	}
-
-	@Override
-	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_jumping_sumo_no_sound);
 	}
 }

@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/ValueTextView"
             style="@style/BrickText.SingleLine"
-            android:text="" >
+            android:text="@string/brick_jumping_sumo_no_sound" >
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

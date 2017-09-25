@@ -53,15 +53,9 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	private String sound;
 	private transient Sounds soundenum;
 	private transient TextView editVolume;
-	private transient SingleSeekbar volumeSeekbar =
-			new SingleSeekbar(this, BrickField.JUMPING_SUMO_VOLUME, R.string.jumping_sumo_volume);
 
 	public enum Sounds {
 		DEFAULT, ROBOT, INSECT, MONSTER
-	}
-
-	public JumpingSumoSoundBrick() {
-		addAllowedBrickField(BrickField.JUMPING_SUMO_VOLUME);
 	}
 
 	public JumpingSumoSoundBrick(Sounds sound, int volumeInPercent) {
@@ -73,7 +67,6 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	public JumpingSumoSoundBrick(Sounds sound, Formula volumeInPercent) {
 		this.soundenum = sound;
 		this.sound = soundenum.name();
-
 		initializeBrickFields(volumeInPercent);
 	}
 
@@ -97,8 +90,8 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_sound, null);
-		TextView textVolume = (TextView) prototypeView.findViewById(R.id.brick_jumping_sumo_sound_edit_text);
-		textVolume.setText(String.valueOf(BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
+		TextView editVolume = (TextView) prototypeView.findViewById(R.id.brick_jumping_sumo_sound_edit_text);
+		editVolume.setText(String.valueOf(BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
 
 		Spinner soundSpinner = (Spinner) prototypeView.findViewById(R.id.brick_jumping_sumo_sound_spinner);
 		soundSpinner.setFocusableInTouchMode(false);
@@ -116,45 +109,18 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new JumpingSumoSoundBrick(soundenum,
-				getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME).clone());
-	}
-
-	@Override
-	public View getCustomView(Context context, int brickId, BaseAdapter baseAdapter) {
-		return volumeSeekbar.getView(context);
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_sound, null);
-		//view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_jumping_sumo_sound_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				//checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView textVolume = (TextView) view.findViewById(R.id.brick_jumping_sumo_sound_text_view);
 		editVolume = (TextView) view.findViewById(R.id.brick_jumping_sumo_sound_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME).setTextFieldId(R.id.brick_jumping_sumo_sound_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME).refreshTextField(view);
-
-		textVolume.setVisibility(View.GONE);
-		editVolume.setVisibility(View.VISIBLE);
 
 		editVolume.setOnClickListener(this);
 
@@ -162,14 +128,6 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 				android.R.layout.simple_spinner_item);
 		soundAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner soundSpinner = (Spinner) view.findViewById(R.id.brick_jumping_sumo_sound_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			soundSpinner.setClickable(true);
-			soundSpinner.setEnabled(true);
-		} else {
-			soundSpinner.setClickable(false);
-			soundSpinner.setEnabled(false);
-		}
 
 		soundSpinner.setAdapter(soundAdapter);
 		soundSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -184,6 +142,10 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+		if(soundenum == null)
+		{
+			readResolve();
+		}
 
 		soundSpinner.setSelection(soundenum.ordinal());
 
@@ -192,25 +154,12 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		if (isVolumeOnlyANumber()) {
-			FormulaEditorFragment.showCustomFragment(view, this, BrickField.JUMPING_SUMO_VOLUME);
-		} else {
 			FormulaEditorFragment.showFragment(view, this, BrickField.JUMPING_SUMO_VOLUME);
-		}
-	}
-
-	private boolean isVolumeOnlyANumber() {
-		return getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME).getRoot().getElementType()
-				== FormulaElement.ElementType.NUMBER;
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createJumpingSumoSoundAction(sprite, soundenum, getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME)));
 		return null;
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }
