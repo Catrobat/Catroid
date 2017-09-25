@@ -1,0 +1,170 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="ProgramMenuButton" >
+        <item name="android:layout_width" >match_parent</item >
+        <item name="android:layout_height" >@dimen/program_menu_button_height</item >
+        <item name="android:background" >@drawable/button_background_selector</item >
+        <item name="android:drawablePadding" >28dp</item >
+        <item name="android:gravity" >right|center_vertical</item >
+        <item name="android:paddingStart" >21dp</item >
+        <item name="android:paddingEnd" >15dp</item >
+        <item name="android:textSize" >@dimen/text_size_program_menu_buttons</item >
+        <item name="android:textColor" >@color/program_menu_button_text_color</item >
+        <item name="android:shadowColor" >@color/program_menu_button_text_shadow_color</item >
+        <item name="android:shadowRadius" >1.5</item >
+        <item name="android:shadowDx" >0</item >
+        <item name="android:shadowDy" >3</item >
+    </style >
+    <style name="MainMenuButton" >
+        <item name="android:layout_width" >match_parent</item >
+        <item name="android:layout_height" >0dp</item >
+        <item name="android:layout_weight" >1</item >
+        <item name="android:background" >@drawable/button_background_selector</item >
+        <item name="android:drawablePadding" >28dp</item >
+        <item name="android:gravity" >right|center_vertical</item >
+        <item name="android:paddingStart" >21dp</item >
+        <item name="android:paddingEnd" >14dp</item >
+        <item name="android:textSize" >@dimen/text_size_main_menu_buttons</item >
+        <item name="android:textColor" >@color/main_menu_button_text_color</item >
+        <item name="android:shadowColor" >@color/main_menu_button_text_shadow_color</item >
+        <item name="android:shadowRadius" >1.5</item >
+        <item name="android:shadowDx" >0</item >
+        <item name="android:shadowDy" >3</item >
+    </style >
+
+    <style name="BrickCategoryText" >
+        <item name="android:layout_width" >match_parent</item >
+        <item name="android:layout_height" >@dimen/brick_category_height</item >
+        <item name="android:gravity" >right|center_vertical</item >
+        <item name="android:paddingLeft" >21dp</item >
+        <item name="android:paddingRight" >14dp</item >
+        <item name="android:textColor" >@color/brick_category_fragment_text_color</item >
+        <item name="android:textSize" >@dimen/text_size_brick_category</item >
+    </style >
+
+
+    <style name="BrickCategoryText.Control" >
+        <item name="android:background" >@drawable/brick_selection_background_control</item >
+        <item name="android:drawableLeft" >@drawable/main_menu_button_arrow_control</item >
+    </style >
+
+    <style name="BrickCategoryText.Event" >
+        <item name="android:background" >@drawable/brick_selection_background_event</item >
+        <item name="android:drawableLeft" >@drawable/main_menu_button_arrow_event</item >
+    </style >
+
+    <style name="BrickCategoryText.Motion" >
+        <item name="android:background" >@drawable/brick_selection_background_motion</item >
+        <item name="android:drawableLeft" >@drawable/main_menu_button_arrow_motion</item >
+    </style >
+
+    <style name="BrickCategoryText.Sounds" >
+        <item name="android:background" >@drawable/brick_selection_background_sounds</item >
+        <item name="android:drawableLeft" >@drawable/main_menu_button_arrow_sounds</item >
+    </style >
+
+    <style name="BrickCategoryText.Looks" >
+        <item name="android:background" >@drawable/brick_selection_background_looks</item >
+        <item name="android:drawableLeft" >@drawable/main_menu_button_arrow_looks</item >
+    </style >
+
+    <style name="BrickCategoryText.Pen" >
+        <item name="android:background" >@drawable/brick_selection_background_pen</item >
+        <item name="android:drawableLeft" >@drawable/main_menu_button_arrow_looks</item >
+    </style >
+
+    <style name="BrickCategoryText.Data">
+        <item name="android:background">@drawable/brick_selection_background_data</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_variables</item>
+    </style>
+
+    <style name="BrickCategoryText.UserBricks" >
+        <item name="android:background" >@drawable/brick_selection_background_user_bricks</item >
+        <item name="android:drawableLeft" >@drawable/main_menu_button_arrow_user_bricks</item >
+    </style >
+
+    <style name="BrickCategoryText.Drone" >
+        <item name="android:background" >@drawable/brick_selection_background_drone</item >
+        <item name="android:drawableLeft" >@drawable/main_menu_button_arrow_drone</item >
+    </style >
+
+    <style name="BrickCategoryText.Lego" >
+        <item name="android:background" >@drawable/brick_selection_background_lego</item >
+        <item name="android:drawableLeft" >@drawable/main_menu_button_arrow_lego</item >
+    </style >
+
+    <style name="BrickCategoryText.Phiro" >
+        <item name="android:background" >@drawable/brick_selection_background_bluetooth</item >
+        <item name="android:drawableLeft" >@drawable/main_menu_button_arrow_bluetooth</item >
+    </style >
+
+    <style name="BrickCategoryText.Arduino">
+        <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_bluetooth</item>
+    </style>
+
+    <style name="BrickCategoryText.Raspi">
+        <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
+        <item name="android:drawableLeft">@drawable/main_menu_button_arrow_bluetooth</item>
+    </style>
+
+
+    <style name="ListViewItemTitleText" >
+        <item name="android:paddingStart" >12.5dp</item >
+        <item name="android:paddingEnd" >42dp</item >
+        <item name="android:shadowColor" >@color/list_view_item_title_text_shadow_color</item >
+        <item name="android:shadowDx" >0</item >
+        <item name="android:shadowDy" >3</item >
+        <item name="android:shadowRadius" >1.5</item >
+        <item name="android:singleLine" >true</item >
+        <item name="android:textColor" >@color/list_view_item_title_text_color</item >
+        <item name="android:textSize" >22sp</item >
+        <item name="android:layout_width" >fill_parent</item >
+        <item name="android:layout_height" >wrap_content</item >
+        <item name="android:ellipsize" >end</item >
+    </style >
+
+
+    <style name="ShowDetailsTitle" >
+        <item name="android:textColor" >@color/list_view_item_title_text_color</item >
+        <item name="android:textSize" >20sp</item >
+        <item name="android:layout_alignWithParentIfMissing" >true</item >
+        <item name="android:paddingStart" >10sp</item>
+        <item name="android:paddingEnd" >10sp</item>
+        <item name="android:paddingTop" >10sp</item>
+    </style >
+
+    <style name="ShowDetailsValue" >
+        <item name="android:textColor" >@color/list_view_item_details_text_color</item >
+        <item name="android:textSize" >18sp</item >
+        <item name="android:layout_alignWithParentIfMissing" >true</item >
+        <item name="android:paddingStart" >15sp</item>
+        <item name="android:paddingEnd" >15sp</item>
+        <item name="android:paddingTop" >1sp</item>
+    </style >
+
+</resources>
+
