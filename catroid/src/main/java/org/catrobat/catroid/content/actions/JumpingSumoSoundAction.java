@@ -43,7 +43,6 @@ public class JumpingSumoSoundAction extends TemporalAction {
 
 	private ARDeviceController deviceController;
 	private JumpingSumoDeviceController controller;
-	private static final String TAG = JumpingSumoNoSoundAction.class.getSimpleName();
 
 	@Override
 	protected void update(float percent) {
