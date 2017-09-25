@@ -138,7 +138,7 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		if(soundenum == null) {
+		if (soundenum == null) {
 			readResolve();
 		}
 
