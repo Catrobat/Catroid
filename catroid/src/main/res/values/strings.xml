@@ -1167,6 +1167,8 @@
     <string name="ev3_led_status_green_pulse">Green pulse</string>
     <string name="ev3_led_status_red_pulse">Red pulse</string>
     <string name="ev3_led_status_orange_pulse">Orange pulse</string>
+
+    <string name="ev3_show_image">Show image on EV3</string>
     <!--  -->
 
     <!-- Drone Bricks -->

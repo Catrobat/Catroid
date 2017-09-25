@@ -992,7 +992,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	public interface OnLookDataListChangedAfterNewListener {
 
-		void onLookDataListChangedAfterNew(LookData soundInfo);
+		void onLookDataListChangedAfterNew(LookData lookData);
 	}
 
 	private class LookDeletedReceiver extends BroadcastReceiver {

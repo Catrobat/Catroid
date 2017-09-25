@@ -95,6 +95,7 @@ import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3ShowImageBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -437,6 +438,9 @@ public class CategoryBricksFactory {
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		}
+		if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(context)) {
+			looksBrickList.add(new LegoEv3ShowImageBrick());
+		}
 
 		return looksBrickList;
 	}
@@ -492,6 +496,7 @@ public class CategoryBricksFactory {
 		legoEV3BrickList.add(new LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));
 		legoEV3BrickList.add(new LegoEv3PlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION, BrickValues.LEGO_VOLUME));
 		legoEV3BrickList.add(new LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_GREEN));
+		legoEV3BrickList.add(new LegoEv3ShowImageBrick());
 
 		return legoEV3BrickList;
 	}

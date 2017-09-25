@@ -76,4 +76,12 @@ public class LegoEV3ImplTestWithModel extends AndroidTestCase {
 
 		assertEquals("Expected keep alive time deosn't match", expectedKeepAliveTime, ev3TestModel.getKeepAliveTime());
 	}
+
+	public void testDownloadFileToEv3() {
+		ev3.initialise();
+
+		String programName = ev3.downloadFileToEv3(ev3.EV3_SHOW_IMAGE_PROGRAM_NAME, ev3.getLegoEv3ShowImageProgram());
+		assertTrue("File length != sent payload", ev3TestModel.payloadLengthEqualsFileLength());
+		assertEquals("Program name doesn't match", programName, ev3.EV3_SHOW_IMAGE_PROGRAM_NAME);
+	}
 }

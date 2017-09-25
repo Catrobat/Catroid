@@ -127,6 +127,7 @@ import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3ShowImageBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -508,6 +509,7 @@ public final class StorageHandler {
 		xstream.alias("brick", LegoEv3MotorMoveBrick.class);
 		xstream.alias("brick", LegoEv3MotorStopBrick.class);
 		xstream.alias("brick", LegoEv3SetLedBrick.class);
+		xstream.alias("brick", LegoEv3ShowImageBrick.class);
 
 		xstream.alias("brick", ArduinoSendPWMValueBrick.class);
 		xstream.alias("brick", ArduinoSendDigitalValueBrick.class);

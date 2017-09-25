@@ -37,6 +37,15 @@ import java.util.Random;
 
 public class MindstormsEV3TestModel implements DeviceModel {
 
+	public static final byte SYSTEM_REPLY = 0x03;
+	public static final byte SYSTEM_REPLY_ERROR = 0x05;
+	private static final byte SUCCESS = 0x00;
+	private static final byte UNKNOWN_ERROR = 0x0A;
+	private static final byte HANDLE_TO_FILE = 1;
+	private static final int MIN_BEGIN_DOWNLOAD_LENGTH = 25;
+	private static final int MAX_MESSAGE_LENGTH = 65534;
+	private static final int MIN_CONTINUE_DOWNLOAD_LENGTH = 6;
+
 	public static final byte DIRECT_REPLY = 0x02;
 	public static final byte DIRECT_REPLY_ERROR = 0x04;
 
@@ -50,6 +59,8 @@ public class MindstormsEV3TestModel implements DeviceModel {
 	private boolean[] portSensorActive = {false, false, false, false};
 	private int keepAliveTime = 0;
 	private boolean keepAliveSet = false;
+	private int fileLength = 0;
+	private int payloadLength = 0;
 
 	protected byte[] createResponseFromClientRequest(byte[] message) {
 
@@ -58,8 +69,13 @@ public class MindstormsEV3TestModel implements DeviceModel {
 		msgNumber[1] = message[1];
 
 		byte commandType = message[2];
-
-		byte commandOpCode = message[5];
+		byte commandOpCode;
+		if (commandType == EV3CommandType.DIRECT_COMMAND_REPLY.getByte()
+				|| commandType == EV3CommandType.DIRECT_COMMAND_NO_REPLY.getByte()) {
+			commandOpCode = message[5];
+		} else {
+			commandOpCode = message[3];
+		}
 
 		EV3CommandOpCode opCode = EV3CommandOpCode.getOpCodeByValue(commandOpCode);
 
@@ -80,6 +96,12 @@ public class MindstormsEV3TestModel implements DeviceModel {
 			case OP_KEEP_ALIVE:
 				return handleKeepAliveMessage(message);
 
+			case OP_BEGIN_DOWNLOAD:
+				return handleBeginDownloadMessage(message, msgNumber);
+
+			case OP_CONTINUE_DOWNLOAD:
+				return handleContinueDownloadMessage(message, msgNumber);
+
 			default:
 				return handleUnknownMessage(msgNumber, commandType);
 		}
@@ -93,6 +115,66 @@ public class MindstormsEV3TestModel implements DeviceModel {
 		setKeepAliveTime(keepAliveTime);
 
 		return new byte[0];
+	}
+
+	private byte[] getDownloadReply(boolean msgValid, byte[] msgNumber, byte opCode) {
+		byte[] reply;
+		if (msgValid) {
+			reply = new byte[6];
+
+			reply[0] = msgNumber[0];
+			reply[1] = msgNumber[1];
+
+			reply[2] = SYSTEM_REPLY;
+			reply[3] = EV3CommandOpCode.OP_BEGIN_DOWNLOAD.getByte();
+
+			reply[4] = SUCCESS;
+			reply[5] = HANDLE_TO_FILE;
+		} else {
+			reply = new byte[5];
+
+			reply[0] = msgNumber[0];
+			reply[1] = msgNumber[1];
+
+			reply[2] = SYSTEM_REPLY_ERROR;
+			reply[3] = EV3CommandOpCode.getOpCodeByValue(opCode).getByte();
+
+			reply[4] = UNKNOWN_ERROR;
+		}
+		return reply;
+	}
+
+	private byte[] handleBeginDownloadMessage(byte[] message, byte[] msgNumber) {
+		boolean msgValid = true;
+
+		if (message.length < MIN_BEGIN_DOWNLOAD_LENGTH || message.length > MAX_MESSAGE_LENGTH) {
+			msgValid = false;
+		} else {
+			fileLength = message[4] & 0xFF | (message[5] & 0xFF) << 8
+					| (message[6] & 0xFF) << 16 | (message[7] & 0xFF) << 24;
+		}
+
+		replyRequired = true;
+
+		return getDownloadReply(msgValid, msgNumber, message[3]);
+	}
+
+	private byte[] handleContinueDownloadMessage(byte[] message, byte[] msgNumber) {
+		boolean msgValid = true;
+
+		if (message.length < MIN_CONTINUE_DOWNLOAD_LENGTH || message.length > MAX_MESSAGE_LENGTH
+				|| message[4] != HANDLE_TO_FILE) {
+			msgValid = false;
+		} else {
+			payloadLength += message.length - 5;
+		}
+		if (payloadLength > fileLength) {
+			msgValid = false;
+		}
+
+		replyRequired = true;
+
+		return getDownloadReply(msgValid, msgNumber, message[3]);
 	}
 
 	private byte[] handleInputDeviceMessage(byte[] message, byte[] messageNumber) {
@@ -362,5 +444,9 @@ public class MindstormsEV3TestModel implements DeviceModel {
 
 	public boolean isKeepAliveSet() {
 		return keepAliveSet;
+	}
+
+	public boolean payloadLengthEqualsFileLength() {
+		return payloadLength == fileLength;
 	}
 }

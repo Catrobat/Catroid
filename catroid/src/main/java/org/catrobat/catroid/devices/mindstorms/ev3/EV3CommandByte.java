@@ -80,7 +80,11 @@ public class EV3CommandByte {
 
 	public enum EV3CommandByteCode {
 
+		BG_COLOR(0x00),
+		FG_COLOR(0x01),
 		SOUND_PLAY_TONE(0x01),
+
+		UI_DRAW_FILLWINDOW(0x13), UI_DRAW_BMPFILE(0x1C),
 
 		UI_WRITE_LED(0x1B),
 		UI_READ_GET_VBATT(0x01),
@@ -100,7 +104,11 @@ public class EV3CommandByte {
 	}
 
 	public enum EV3CommandOpCode {
-		OP_UI_READ(0x81), OP_UI_WRITE(0x82),
+		OP_UI_READ(0x81), OP_UI_WRITE(0x82), OP_UI_DRAW(0x84),
+
+		OP_BEGIN_DOWNLOAD(0X92), OP_CONTINUE_DOWNLOAD(0X93),
+
+		OP_FILE(0XC0), OP_PROGRAM_START(0x03),
 
 		OP_KEEP_ALIVE(0x90),
 
