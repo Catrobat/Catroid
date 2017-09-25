@@ -160,7 +160,7 @@ android {
         phiro {
             appId = 'org.catrobat.catroid.phiro'
             applicationId appId
-            versionCode 2
+            versionCode 3
 
             buildConfigField "boolean", "PHIRO_CODE", "true"
 
