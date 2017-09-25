@@ -113,7 +113,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		if(animationenum == null) {
+		if (animationenum == null) {
 			readResolve();
 		}
 
