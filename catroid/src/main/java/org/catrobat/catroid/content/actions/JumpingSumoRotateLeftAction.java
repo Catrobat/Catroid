@@ -94,8 +94,6 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 			duration = 1.0f;
 			super.setDuration(duration);
 			Log.d(TAG, "send move command JS");
-		} else {
-			Log.d(TAG, "error: send move command JS");
 		}
 	}
 
@@ -103,8 +101,6 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 		if (deviceController != null) {
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 0);
 			Log.d(TAG, "send stop command JS");
-		} else {
-			Log.d(TAG, "error: send stop command JS");
 		}
 	}
 

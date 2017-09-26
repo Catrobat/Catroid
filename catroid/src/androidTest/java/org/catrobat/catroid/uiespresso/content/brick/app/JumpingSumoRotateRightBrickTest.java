@@ -21,12 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick;
+package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
@@ -42,7 +42,7 @@ import org.junit.runner.RunWith;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class ARDroneMoveForwardBrickTest {
+public class JumpingSumoRotateRightBrickTest {
 	private int brickPosition;
 
 	@Rule
@@ -52,28 +52,23 @@ public class ARDroneMoveForwardBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		int initialSeconds = 1000;
-		int initialPower = 20;
-		BrickTestUtils.createProjectAndGetStartScript("ARDroneMoveForwardBrickTest").addBrick(new
-				DroneMoveForwardBrick(initialSeconds, initialPower));
+		int initialAngle = 90;
+		BrickTestUtils.createProjectAndGetStartScript("JumpingSumoRotateRightBrickTest").addBrick(new
+				JumpingSumoRotateRightBrick(initialAngle));
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	@Flaky
-	public void jumpingSumoRotateLeftTest() {
-		int secondsValue = 3;
-		int powerValue = 40;
+	public void jumpingSumoRotateRightTest() {
+		int turnAngleValue = 360;
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText("Move AR.Drone 2.0 forward");
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_jumping_sumo_rotate_right);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_second)
-				.performEnterNumber(secondsValue)
-				.checkShowsNumber(secondsValue);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_power)
-				.performEnterNumber(powerValue)
-				.checkShowsNumber(powerValue);
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_jumping_sumo_change_right_variable_edit_text)
+				.performEnterNumber(turnAngleValue)
+				.checkShowsNumber(turnAngleValue);
 	}
 }

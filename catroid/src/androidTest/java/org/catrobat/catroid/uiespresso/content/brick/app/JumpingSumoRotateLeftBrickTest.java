@@ -21,12 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick;
+package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
@@ -42,7 +42,7 @@ import org.junit.runner.RunWith;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class JumpingSumoRotateRightBrickTest {
+public class JumpingSumoRotateLeftBrickTest {
 	private int brickPosition;
 
 	@Rule
@@ -53,21 +53,21 @@ public class JumpingSumoRotateRightBrickTest {
 	public void setUp() throws Exception {
 		brickPosition = 1;
 		int initialAngle = 90;
-		BrickTestUtils.createProjectAndGetStartScript("JumpingSumoRotateRightBrickTest").addBrick(new
-				JumpingSumoRotateRightBrick(initialAngle));
+		BrickTestUtils.createProjectAndGetStartScript("JumpingSumoRotateLeftBrickTest").addBrick(new
+				JumpingSumoRotateLeftBrick(initialAngle));
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	@Flaky
-	public void jumpingSumoRotateRightTest() {
+	public void jumpingSumoRotateLeftTest() {
 		int turnAngleValue = 360;
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText("Rotate Jumping Sumo right");
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_jumping_sumo_rotate_left);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_jumping_sumo_change_variable_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_jumping_sumo_change_left_variable_edit_text)
 				.performEnterNumber(turnAngleValue)
 				.checkShowsNumber(turnAngleValue);
 	}

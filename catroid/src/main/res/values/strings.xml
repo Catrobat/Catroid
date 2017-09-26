@@ -1203,10 +1203,9 @@
     <string name="brick_jumping_sumo_sound">Sound</string>
     <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
-    <string name="brick_jumping_sumo_rotate">Rotate Jumping Sumo</string>
-    <string name="brick_jumping_sumo_rotate_text">°</string>
     <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
     <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+    <string name="brick_jumping_sumo_rotate_text">°</string>
     <!--  -->
 
     <!-- defaultJumpingSumoValues -->

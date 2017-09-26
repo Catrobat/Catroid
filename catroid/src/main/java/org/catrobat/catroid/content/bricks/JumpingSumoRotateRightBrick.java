@@ -31,22 +31,25 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class JumpingSumoRotateRightBrick extends JumpingSumoRotateBrick {
+public class JumpingSumoRotateRightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public JumpingSumoRotateRightBrick(float degree) {
-		super(degree);
+		initializeBrickFields(new Formula(degree));
 	}
 
-	@Override
-	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_jumping_sumo_rotate_right);
+	private void initializeBrickFields(Formula degree) {
+		addAllowedBrickField(BrickField.JUMPING_SUMO_ROTATE);
+		setFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE, degree);
 	}
 
 	@Override
@@ -57,38 +60,42 @@ public class JumpingSumoRotateRightBrick extends JumpingSumoRotateBrick {
 	}
 
 	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.JUMPING_SUMO_ROTATE);
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_jumping_sumo_rotate, null);
+		view = View.inflate(context, R.layout.brick_jumping_sumo_rotate_right, null);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_jumping_sumo_rotate_checkbox);
+		setCheckboxView(R.id.brick_jumping_sumo_rotate_right_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView editDegree = (TextView) view.findViewById(R.id.brick_jumping_sumo_change_variable_edit_text);
+		TextView editDegree = (TextView) view.findViewById(R.id.brick_jumping_sumo_change_right_variable_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE)
-				.setTextFieldId(R.id.brick_jumping_sumo_change_variable_edit_text);
+				.setTextFieldId(R.id.brick_jumping_sumo_change_right_variable_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE).refreshTextField(view);
-
-		TextView label = (TextView) view.findViewById(R.id.brick_jumping_sumo_rotate_label);
-		label.setText(getBrickLabel(view));
-
-		editDegree.setVisibility(View.VISIBLE);
 		editDegree.setOnClickListener(this);
 
 		return view;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_rotate_right, null);
+		TextView textDegree = (TextView) prototypeView.findViewById(R.id
+				.brick_jumping_sumo_change_right_variable_edit_text);
+		textDegree.setText(String.valueOf(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
+		return prototypeView;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return super.getRequiredResources() | Brick.JUMPING_SUMO;
 	}
 }
 
