@@ -69,10 +69,10 @@ public class JumpingSumoMoveForwardBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_jumping_sumo_move_forward);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_jumping_sumo_move_edit_text_second)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_jumping_sumo_move_forward_edit_text_second)
 				.performEnterNumber(secondsValue)
 				.checkShowsNumber(secondsValue);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_jumping_sumo_move_edit_text_power)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_jumping_sumo_move_forward_edit_text_power)
 				.performEnterNumber(powerValue)
 				.checkShowsNumber(powerValue);
 	}
