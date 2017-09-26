@@ -59,8 +59,6 @@ public class JumpingSumoTurnAction extends TemporalAction {
 				delay = 1.0f;
 				super.setDuration(delay);
 			}
-		} else {
-			Log.d(TAG, "error: send turn command JS");
 		}
 	}
 	@Override
