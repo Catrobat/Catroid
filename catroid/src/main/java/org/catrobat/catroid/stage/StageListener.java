@@ -253,6 +253,7 @@ public class StageListener implements ApplicationListener {
 			collisionPolygonDebugRenderer.setAutoShapeType(true);
 			collisionPolygonDebugRenderer.setColor(Color.MAGENTA);
 		}
+		FaceDetectionHandler.resumeFaceDetection();
 	}
 
 	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
