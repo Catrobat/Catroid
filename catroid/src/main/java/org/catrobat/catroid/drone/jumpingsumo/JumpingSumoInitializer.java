@@ -28,6 +28,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -52,6 +53,7 @@ import com.parrot.arsdk.ardiscovery.ARDiscoveryException;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
@@ -110,7 +112,7 @@ public class JumpingSumoInitializer {
 	}
 
 	public void initialise() {
-		jsDiscoverer = new JumpingSumoDiscoverer();
+		jsDiscoverer = new JumpingSumoDiscoverer(getAppContext());
 		if (checkRequirements()) {
 			jsDiscoverer.setup();
 			jsDiscoverer.addListener(discovererListener);

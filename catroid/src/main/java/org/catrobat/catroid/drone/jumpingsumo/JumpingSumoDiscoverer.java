@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.drone.jumpingsumo;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -108,8 +109,8 @@ public class JumpingSumoDiscoverer {
 
 	private boolean startDiscoveryAfterConnection = true;
 
-	public JumpingSumoDiscoverer(Context ctx) {
-		context = ctx;
+	public JumpingSumoDiscoverer(Context contextDrone) {
+		context = contextDrone;
 		listeners = new ArrayList<>();
 		matchingDrones = new ArrayList<>();
 		ardiscoveryServicesDevicesListUpdatedReceiver = new ARDiscoveryServicesDevicesListUpdatedReceiver(discoveryListener);
