@@ -37,6 +37,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
+import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -119,6 +120,10 @@ public abstract class BaseActivity extends Activity {
 			case R.id.menu_terms_of_use:
 				TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
 				termsOfUseDialog.show(getFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
+				return true;
+			case R.id.menu_privacy_policy:
+				PrivacyPolicyDialogFragment privacyPolicyDialog = new PrivacyPolicyDialogFragment();
+				privacyPolicyDialog.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
 				return true;
 			case R.id.menu_about:
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
