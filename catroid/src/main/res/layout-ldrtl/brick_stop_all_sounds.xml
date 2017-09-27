@@ -21,46 +21,37 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/brick_data_text"
-    style="@style/userBrickDataTextBackground"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:baselineAligned="true"
-    android:measureWithLargestChild="false"
-    android:orientation="horizontal"
-    android:paddingBottom="10dp"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
-    android:paddingTop="8dp" >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/text_view"
+    <CheckBox
+        android:id="@+id/brick_stop_all_sounds_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="3dp"
-        android:paddingEnd="5dp"
-        android:paddingTop="0dp"
-        android:textColor="@color/solid_white"
-        android:textSize="16sp"
-        android:textStyle="bold" >
-    </TextView>
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/separator"
-        android:layout_width="wrap_content"
+    <org.catrobat.catroid.ui.BrickLayout
+        android:id="@+id/brick_stop_all_sounds_layout"
+        style="@style/BrickContainer.Sound.Small"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="0dp"
-        android:text="@string/separator"
-        android:textColor="@color/solid_white"
-        android:textSize="20sp" >
-    </TextView>
+        android:scaleX="-1"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="2dp"
-        android:background="@drawable/brick_data_close" />
+        <TextView
+            android:id="@+id/brick_stop_all_sounds_label"
+            style="@style/BrickText.SingleLine"
+            android:scaleX="-1"
+            android:text="@string/brick_stop_all_sounds" >
+        </TextView >
+    </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

@@ -109,6 +109,7 @@ import org.catrobat.catroid.uiespresso.content.brick.app.VariableBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.WaitBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.WhenNfcBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.app.WhenStartedBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.rtl.RtlBrickTest;
 import org.catrobat.catroid.uiespresso.content.brick.stage.AskBrickStageTest;
 import org.catrobat.catroid.uiespresso.content.brick.stage.BroadcastBricksStageTest;
 import org.catrobat.catroid.uiespresso.content.brick.stage.CameraResourceTest;
@@ -259,6 +260,7 @@ import org.junit.runners.Suite;
 		RenameSpriteDialogTest.class,
 		DeleteSpriteDialogTest.class,
 		DeleteSoundDialogTest.class,
+		RtlBrickTest.class,
 		TermsOfUseDialogTest.class,
 		DeleteLookDialogTest.class,
 		AboutDialogTest.class
