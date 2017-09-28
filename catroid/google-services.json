@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:713919797763:android:d9d5e2274e070833",
         "android_client_info": {
-          "package_name": "@appId@"
+          "package_name": "org.catrobat.catroid"
         }
       },
       "oauth_client": [
@@ -41,7 +41,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:713919797763:android:c03d22e27263cfca",
         "android_client_info": {
-          "package_name": "@appId@.gnoID"
+          "package_name": "org.catrobat.catroid.gnoID"
         }
       },
       "oauth_client": [
