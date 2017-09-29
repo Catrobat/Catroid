@@ -119,7 +119,7 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 		dismiss();
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
-		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
+		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), bundle);
 	}
 
 	private void handleRegisterButtonClick() {

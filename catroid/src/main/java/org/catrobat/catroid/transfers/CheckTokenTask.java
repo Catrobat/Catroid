@@ -45,14 +45,12 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 
 	private OnCheckTokenCompleteListener onCheckTokenCompleteListener;
 
-	public CheckTokenTask(Activity activity, String token, String username) {
+	public CheckTokenTask(Activity activity, String token, String username,
+			OnCheckTokenCompleteListener onCheckTokenCompleteListener) {
 		this.activity = activity;
 		this.token = token;
 		this.username = username;
-	}
-
-	public void setOnCheckTokenCompleteListener(OnCheckTokenCompleteListener listener) {
-		onCheckTokenCompleteListener = listener;
+		this.onCheckTokenCompleteListener = onCheckTokenCompleteListener;
 	}
 
 	@Override
@@ -96,16 +94,10 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 		}
 		if (!success) {
 			// token is not valid -> maybe password has changed
-			if (onCheckTokenCompleteListener != null) {
-				onCheckTokenCompleteListener.onTokenNotValid(activity);
-			}
-
+			onCheckTokenCompleteListener.onTokenNotValid(activity);
 			return;
 		}
-
-		if (onCheckTokenCompleteListener != null) {
-			onCheckTokenCompleteListener.onCheckTokenSuccess(activity);
-		}
+		onCheckTokenCompleteListener.onCheckTokenSuccess(activity);
 	}
 
 	private void showDialog(int messageId) {
