@@ -178,8 +178,21 @@ public class SignInDialog extends DialogFragment implements
 			@Override
 			public void onClick(View v) {
 				if (Utils.isNetworkAvailable(getActivity())) {
-					Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
-					LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
+					if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(getActivity())) {
+						PrivacyPolicyDialogFragment privacyPolicyDialog =
+								new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
+									@Override
+									public void onClick() {
+										Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
+										LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
+									}
+								}, true);
+
+						privacyPolicyDialog.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
+					} else {
+						Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
+						LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
+					}
 				} else {
 					Utils.isNetworkAvailable(getActivity(), true);
 				}
@@ -222,10 +235,26 @@ public class SignInDialog extends DialogFragment implements
 				googleApiClient.connect();
 				triggerGPlusLogin = true;
 			} else {
-				Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-				startActivityForResult(signInIntent, BaseMainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
+				if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(getActivity())) {
+					PrivacyPolicyDialogFragment privacyPolicyDialog =
+							new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
+								@Override
+								public void onClick() {
+									startGooglePlusLoginIntent();
+								}
+							}, true);
+
+					privacyPolicyDialog.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
+				} else {
+					startGooglePlusLoginIntent();
+				}
 			}
 		}
+	}
+
+	private void startGooglePlusLoginIntent() {
+		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+		startActivityForResult(signInIntent, BaseMainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
 	}
 
 	public void onGoogleLogInComplete(GoogleSignInAccount account) {
@@ -266,9 +295,19 @@ public class SignInDialog extends DialogFragment implements
 			return;
 		}
 
-		LogInDialog logInDialog = new LogInDialog();
-		logInDialog.show(getActivity().getFragmentManager(), LogInDialog.DIALOG_FRAGMENT_TAG);
-		dismiss();
+		if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(getActivity())) {
+			PrivacyPolicyDialogFragment privacyPolicyDialog =
+					new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
+						@Override
+						public void onClick() {
+							switchToLoginForm();
+						}
+					}, true);
+
+			privacyPolicyDialog.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
+		} else {
+			switchToLoginForm();
+		}
 	}
 
 	private void handleRegisterButtonClick() {
@@ -276,6 +315,28 @@ public class SignInDialog extends DialogFragment implements
 			return;
 		}
 
+		if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(getActivity())) {
+			PrivacyPolicyDialogFragment privacyPolicyDialog =
+					new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
+						@Override
+						public void onClick() {
+							switchToRegisterForm();
+						}
+					}, false);
+
+			privacyPolicyDialog.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
+		} else {
+			switchToRegisterForm();
+		}
+	}
+
+	private void switchToLoginForm() {
+		LogInDialog logInDialog = new LogInDialog();
+		logInDialog.show(getActivity().getFragmentManager(), LogInDialog.DIALOG_FRAGMENT_TAG);
+		dismiss();
+	}
+
+	private void switchToRegisterForm() {
 		RegistrationDialog registrationDialog = new RegistrationDialog();
 		registrationDialog.show(getActivity().getFragmentManager(), RegistrationDialog.DIALOG_FRAGMENT_TAG);
 		dismiss();
@@ -472,7 +533,7 @@ public class SignInDialog extends DialogFragment implements
 		dismiss();
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.FACEBOOK);
-		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
+		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), bundle);
 	}
 
 	@Override
@@ -481,7 +542,7 @@ public class SignInDialog extends DialogFragment implements
 
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
-		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
+		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), bundle);
 	}
 
 	@Override

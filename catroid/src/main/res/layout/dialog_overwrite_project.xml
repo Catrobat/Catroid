@@ -56,6 +56,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_overwrite_project_edit_text"
+            android:labelFor="@+id/dialog_overwrite_project_edit"
             style="@style/DefaultDialog.TextView"
             android:layout_below="@+id/dialog_overwrite_project_radiogroup"
             android:text="@string/new_project_name"

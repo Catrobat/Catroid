@@ -21,21 +21,18 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:orientation="vertical" >
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
-        android:id="@+id/input_label"
-        android:labelFor="@+id/edit_text"
-        style="@style/DefaultDialog.TextView" />
+<ScrollView style="@style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <View style="@style/DefaultDialog.Line" />
-
-    <EditText
-        android:id="@+id/edit_text"
-        style="@style/DefaultDialog.EditText"
-        android:inputType="text"
-        android:selectAllOnFocus="true" />
-
-</LinearLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:text="@string/dialog_privacy_policy_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:gravity="fill_horizontal"/>
+</ScrollView>
