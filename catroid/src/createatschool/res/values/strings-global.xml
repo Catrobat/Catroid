@@ -26,4 +26,5 @@
 <resources>
      <string name="licence_url" translatable="false">http://catrob.at/createatschoollicenses</string>
      <string name="terms_of_use_url" translatable="false">http://catrob.at/createatschoolterms</string>
+     <string name="flavor">create@school</string>
 </resources>

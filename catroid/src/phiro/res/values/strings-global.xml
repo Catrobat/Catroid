@@ -24,6 +24,6 @@
 
 <!-- Strings that need no translation -->
 <resources>
-     <string name="flavor">pocketcode</string> <!-- change to "phirocode" when URL is ready -->
+     <string name="flavor">phirocode</string>
      <string name="phiro_preference_link">http://catrob.at/Phiro</string>
 </resources>
