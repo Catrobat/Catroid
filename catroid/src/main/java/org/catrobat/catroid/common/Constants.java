@@ -117,6 +117,7 @@ public final class Constants {
 
 	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
 
+	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 
 	public static final String CATROBAT_TOKEN_LOGIN_AMP_TOKEN = "&token=";

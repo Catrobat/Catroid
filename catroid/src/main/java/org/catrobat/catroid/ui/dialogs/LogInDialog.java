@@ -146,8 +146,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 		dismiss();
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
-		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
-
+		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), bundle);
 		Utils.getTrackingUtilProxy().trackLoginInitSessionEvent(getActivity());
 	}
 

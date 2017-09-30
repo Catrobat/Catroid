@@ -39,6 +39,7 @@
 
         <TextView
             android:id="@+id/dialog_signin_oauth_username_choose_username"
+            android:labelFor="@+id/dialog_signin_oauth_username"
             style="@style/DefaultDialog.TextView"
             android:text="@string/signin_choose_username" />
 

@@ -161,7 +161,7 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 	@Override
 	public void onFacebookLogInComplete() {
 		dismiss();
-		ProjectManager.getInstance().signInFinished(getFragmentManager(), null);
+		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), null);
 	}
 
 	@Override
@@ -180,6 +180,6 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 	@Override
 	public void onGoogleServerLogInComplete() {
 		dismiss();
-		ProjectManager.getInstance().signInFinished(getFragmentManager(), null);
+		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), null);
 	}
 }

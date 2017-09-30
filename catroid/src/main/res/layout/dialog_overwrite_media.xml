@@ -52,6 +52,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_overwrite_media_edit_text"
+            android:labelFor="@+id/dialog_overwrite_media_edit"
             style="@style/DefaultDialog.TextView"
             android:text="@string/new_look_name"
             android:layout_width="match_parent"

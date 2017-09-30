@@ -57,7 +57,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
@@ -189,7 +188,6 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
-		AppEventsLogger.activateApp(this);
 
 		BaseSettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
 		BaseSettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, false);
@@ -230,8 +228,6 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 		if (!Utils.externalStorageAvailable()) {
 			return;
 		}
-
-		AppEventsLogger.deactivateApp(this);
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject != null) {
@@ -377,6 +373,7 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+
 		Utils.getTrackingUtilProxy().trackStartWebSessionTutorial();
 		Intent helpUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL));
 		startActivity(helpUrlIntent);

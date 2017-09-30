@@ -1060,6 +1060,10 @@ public final class Utils {
 
 	@SuppressWarnings("unused")
 	public static void logoutUser(Activity activity) {
+		logoutUser(activity, true);
+	}
+
+	public static void logoutUser(Activity activity, boolean showToast) {
 		Utils.getTrackingUtilProxy().trackLogoutEndSessionEvent(activity);
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -1086,7 +1090,9 @@ public final class Utils {
 
 		WebViewActivity.clearCookies(activity);
 
-		ToastUtil.showSuccess(activity, R.string.logout_successful);
+		if (showToast) {
+			ToastUtil.showSuccess(activity, R.string.logout_successful);
+		}
 
 		if (BuildConfig.RESTRICTED_LOGIN) {
 			restrictedLogin(activity);
