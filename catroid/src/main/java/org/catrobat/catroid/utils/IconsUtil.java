@@ -65,8 +65,8 @@ public final class IconsUtil {
 	private static Rect largeIconSizeBricks = new Rect();
 	private static Rect smallIconSizeCategory = new Rect();
 	private static Rect largeIconSizeCategory = new Rect();
-	private static Rect largeIconSizeMainMenu = new Rect();
-	private static Rect largeIconSizeProgramMenu = new Rect();
+	public static Rect largeIconSizeMainMenu = new Rect();
+	public static Rect largeIconSizeProgramMenu = new Rect();
 	private static Rect largeIconSizeStageDialog = new Rect();
 	private static Rect largeIconSizeStageDialogContinue = new Rect();
 	private static int largeIconBottomBar;
@@ -292,50 +292,24 @@ public final class IconsUtil {
 		}
 	}
 
-	public static void setMainMenuIconSize(Context context, View contentView) {
+	public static void setMenuIconSize(View contentView, Rect desiredIconSize) {
 		if (!isLargeSize()) {
 			return;
 		}
 
-		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_continue,
-				R.drawable.ic_main_menu_continue);
-		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_new,
-				R.drawable.ic_main_menu_new);
-		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_programs,
-				R.drawable.ic_main_menu_programs);
-		IconsUtil.setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_templates,
-				R.drawable.ic_main_menu_templates);
-		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_help,
-				R.drawable.ic_main_menu_help);
-		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_web,
-				R.drawable.ic_main_menu_community);
-		setLeftDrawableSize(context, contentView, largeIconSizeMainMenu, R.id.main_menu_button_upload,
-				R.drawable.ic_main_menu_upload);
-	}
+		ViewGroup content = (ViewGroup) contentView;
+		for (int i = 0; i < content.getChildCount(); i++) {
+			View child = content.getChildAt(i);
 
-	public static void setProgramMenuIconSize(Context context, View contentView) {
-		if (!isLargeSize()) {
-			return;
+			if (child instanceof ViewGroup) {
+				setMenuIconSize(child, desiredIconSize);
+			} else if (child instanceof Button) {
+				Button button = (Button) child;
+				Drawable drawable = button.getCompoundDrawables()[0];
+				drawable.setBounds(desiredIconSize);
+				button.setCompoundDrawables(drawable, null, null, null);
+			}
 		}
-
-		setLeftDrawableSize(context, contentView, largeIconSizeProgramMenu, R.id.program_menu_button_scripts,
-				R.drawable.ic_program_menu_scripts);
-		setLeftDrawableSize(context, contentView, largeIconSizeProgramMenu, R.id.program_menu_button_looks,
-				R.drawable.ic_program_menu_looks);
-		setLeftDrawableSize(context, contentView, largeIconSizeProgramMenu, R.id.program_menu_button_sounds,
-				R.drawable.ic_program_menu_sounds);
-		setLeftDrawableSize(context, contentView, largeIconSizeProgramMenu, R.id.program_menu_button_nfctags,
-				R.drawable.ic_program_menu_nfc);
-
-		setBottomBarIconSize(context, contentView);
-	}
-
-	public static void setLeftDrawableSize(Context context, View contentView, Rect bounds, int viewId, int
-			drawableId) {
-		Drawable drawable = context.getResources().getDrawable(drawableId);
-		drawable.setBounds(bounds);
-		Button button = (Button) contentView.findViewById(viewId);
-		button.setCompoundDrawables(drawable, null, null, null);
 	}
 
 	public static void setStageDialogIconSize(Context context, View contentView) {

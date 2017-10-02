@@ -78,7 +78,7 @@ public class ProgramMenuActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_program_menu);
 
-		IconsUtil.setProgramMenuIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
+		IconsUtil.setMenuIconSize(this.findViewById(android.R.id.content), IconsUtil.largeIconSizeProgramMenu);
 
 		BottomBar.hideAddButton(this);
 
