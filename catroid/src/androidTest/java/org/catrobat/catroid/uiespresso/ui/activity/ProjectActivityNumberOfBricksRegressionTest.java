@@ -39,6 +39,7 @@ import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -62,13 +63,22 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 			BaseActivityInstrumentationRule<>(ProjectActivity.class);
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		createProject();
 		baseActivityTestRule.launchActivity(null);
 
+		setShowDetails(true);
+	}
+
+	@After
+	public void tearDown() {
+		setShowDetails(false);
+	}
+
+	private void setShowDetails(final boolean show) {
 		getInstrumentation().runOnMainSync(new Runnable() {
 			public void run() {
-				baseActivityTestRule.getActivity().getSpritesListFragment().setShowDetails(true);
+				baseActivityTestRule.getActivity().getSpritesListFragment().setShowDetails(show);
 			}
 		});
 	}

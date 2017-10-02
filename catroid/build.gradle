@@ -27,7 +27,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'io.fabric.tools:gradle:1.21.5'
     }
 }
@@ -36,6 +36,7 @@ repositories {
     jcenter()
     maven { url "https://jitpack.io" }
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.google.com' }
 }
 
 apply plugin: 'com.android.application'
@@ -163,7 +164,9 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.3.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
-    compile 'com.thoughtworks.xstream:xstream:1.4.7'
+    compile ('com.thoughtworks.xstream:xstream:1.4.7') {
+        exclude group: 'xmlpull'
+    }
     compile 'com.github.oliewa92:MidiDroid:v1.1'
 
     def gdxVersion = '1.6.2'
@@ -191,20 +194,17 @@ dependencies {
     androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestCompile 'org.mockito:mockito-core:2.8.47'
 
-    androidTestCompile ('com.android.support.test:runner:0.5') {
+    androidTestCompile ('com.android.support.test:runner:1.0.1') {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.2') {
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:3.0.1') {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:3.0.1') {
         exclude group: 'com.android.support'
     }
 
-    compile ('com.android.support.test.espresso:espresso-core:2.2.2') {
-        exclude group: 'com.android.support'
-    }
-    compile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+    compile ('com.android.support.test.espresso:espresso-core:3.0.1') {
         exclude group: 'com.android.support'
     }
 

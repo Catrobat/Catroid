@@ -80,21 +80,26 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	private String expectedHindiNumberOfSounds = "٠"; // 0
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		createProject();
 		SettingsActivity.updateLocale(getTargetContext(), "ar", "");
 		baseActivityTestRule.launchActivity(null);
 
+		setShowDetails(true);
+	}
+
+	private void setShowDetails(final boolean show) {
 		getInstrumentation().runOnMainSync(new Runnable() {
 			public void run() {
-				baseActivityTestRule.getActivity().getSpritesListFragment().setShowDetails(true);
+				baseActivityTestRule.getActivity().getSpritesListFragment().setShowDetails(show);
 			}
 		});
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		resetToDefaultLanguage();
+		setShowDetails(false);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

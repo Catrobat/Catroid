@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uiespresso;
 
-import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -63,7 +63,7 @@ public class SmokeTest {
 		baseActivityTestRule.launchActivity(null);
 
 		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
-		Espresso.registerIdlingResources(idlingResource);
+		IdlingRegistry.getInstance().register(idlingResource);
 	}
 
 	@Test
@@ -112,6 +112,6 @@ public class SmokeTest {
 
 	@After
 	public void tearDown() throws Exception {
-		Espresso.unregisterIdlingResources(idlingResource);
+		IdlingRegistry.getInstance().unregister(idlingResource);
 	}
 }
