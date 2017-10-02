@@ -42,21 +42,21 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	private String animation;
-	private transient Animation animationenum;
+	private String animationName;
+	private transient Animation animation;
 
 	public enum Animation {
 		SPIN, TAB, SLOWSHAKE, METRONOME, ONDULATION, SPINJUMP, SPIRAL, SLALOM
 	}
 
 	public JumpingSumoAnimationsBrick(Animation animation) {
-		this.animationenum = animation;
-		this.animation = animationenum.name();
+		this.animation = animation;
+		this.animationName = animation.name();
 	}
 
 	protected Object readResolve() {
-		if (animation != null) {
-			animationenum = Animation.valueOf(animation);
+		if (animationName != null) {
+			animation = Animation.valueOf(animationName);
 		}
 		return this;
 	}
@@ -80,7 +80,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		jsAnimationSpinner.setAdapter(animationAdapter);
-		jsAnimationSpinner.setSelection(animationenum.ordinal());
+		jsAnimationSpinner.setSelection(animation.ordinal());
 
 		return prototypeView;
 	}
@@ -105,26 +105,26 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				animationenum = Animation.values()[position];
-				animation = animationenum.name();
+				animation = Animation.values()[position];
+				animationName = animation.name();
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		if (animationenum == null) {
+		if (animation == null) {
 			readResolve();
 		}
 
-		animationSpinner.setSelection(animationenum.ordinal());
+		animationSpinner.setSelection(animation.ordinal());
 
 		return view;
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoAnimationAction(animationenum));
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoAnimationAction(animation));
 		return null;
 	}
 }

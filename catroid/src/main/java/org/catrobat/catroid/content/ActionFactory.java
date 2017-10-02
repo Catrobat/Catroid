@@ -963,9 +963,9 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createJumpingSumoAnimationAction(JumpingSumoAnimationsBrick.Animation animationEnum) {
+	public Action createJumpingSumoAnimationAction(JumpingSumoAnimationsBrick.Animation animationType) {
 		JumpingSumoAnimationAction action = action(JumpingSumoAnimationAction.class);
-		action.setAnimationEnum(animationEnum);
+		action.setAnimationType(animationType);
 		return action;
 	}
 

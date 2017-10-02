@@ -34,11 +34,11 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 	private ARDeviceController deviceController;
 	private JumpingSumoDeviceController controller;
 
-	private JumpingSumoAnimationsBrick.Animation animationEnum;
+	private JumpingSumoAnimationsBrick.Animation animationType;
 	private float duration;
 
-	public void setAnimationEnum(JumpingSumoAnimationsBrick.Animation animationEnum) {
-		this.animationEnum = animationEnum;
+	public void setAnimationType(JumpingSumoAnimationsBrick.Animation animationType) {
+		this.animationType = animationType;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 	protected void animation() {
 
 		if (deviceController != null) {
-			switch (animationEnum) {
+			switch (animationType) {
 				case SPIN:
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SPIN);
 					duration = 2.8f;
