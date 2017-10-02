@@ -34,6 +34,11 @@
   <string name="delete">Löschen</string>
   <string name="yes">Ja</string>
   <string name="no">Nein</string>
+  <string name="back">Zurück</string>
+  <string name="ok">OK</string>
+  <string name="agree">Zustimmen</string>
+  <string name="disagree">Ablehnen</string>
+  <string name="delete_account">Meinen Account löschen</string>
   <string name="copy">Kopieren</string>
   <string name="cut">Ausschneiden</string>
   <string name="move">Verschieben</string>
@@ -62,7 +67,6 @@
   <string name="loading_google_login">Google+ Anmeldung ist auf unserem Server abgeschlossen&#8230;</string>
   <string name="background">Hintergrund</string>
   <string name="stage">Bühne</string>
-  <string name="ok">OK</string>
   <string name="play">Spielen</string>
   <string name="settings">Einstellungen</string>
   <string name="redo">Wiederholen</string>
@@ -93,6 +97,7 @@
   <string name="main_menu_help">Hilfe</string>
   <string name="main_menu_web">Erkunden</string>
   <string name="main_menu_upload">Hochladen</string>
+  <string name="main_menu_privacy_policy">Datenschutz-Vereinbarung</string>
   <string name="main_menu_about">Über die App</string>
   <string name="main_menu_terms_of_use">Nutzungsbedingungen und Leistungen</string>
   <string name="main_menu_rate_app">Bewerte uns!</string>
@@ -236,6 +241,33 @@
   <string name="dialog_new_object_switch_title">Neues Objekt erstellt</string>
   <string name="dialog_new_object_switch_message">Zu neuem Objekt wechseln?</string>
   <!--  -->
+  <!-- Privacy Policy -->
+  <string name="dialog_privacy_policy_title">Datenschutz-Vereinbarung</string>
+  <string name="dialog_privacy_policy_text">Version 2.0, 20. September 2017 \n\n
+
+Um dir alle Vorteile unserer Dienste und des damit verbundenen Accounts bieten zu können, ist es notwendig gewisse Daten von dir zu speichern. \n\n
+
+    •  Um deinen Account in unserem System nutzen zu können, sowie um dich über allfällige Änderungen deines Accounts (z.B. Verletzung unserer Nutzungsbestimmungen, etc.) und unserer Vereinbarungen informieren zu können, speichern wir deinen Nutzernamen und die von dir angegebene E-Mail-Adresse.  Falls du dich über Google Plus oder Facebook verbunden hast, speichern wir zusätzlich einen individuellen Schlüssel zu diesen Diensten. Diese Daten werden nicht für andere Zwecke (z.B. Marketing) genutzt, solange du uns das nicht explizit erlaubst.\n\n
+
+    •  Um den illegalen Missbrauch unserer Dienste zu vermeiden (z.B. durch den Upload von Projekten oder der Kommentarfunktion), werden alle öffentliche benutzergenerierten Eingaben mit Zeitangabe und benutzter IP-Adresse intern in unserem System hinterlegt.\n\n
+
+    •  Um unsere Dienste zu verbessern und Forschung im Bereich der (IT-)Bildung zu betreiben, benutzen wir Google Analytics, Crashlytics und Firebase der Google Inc., um allgemeine Nutzungsdaten (z.B. Zeitinformationen, Seitenaufrufe, Betriebssystem und Verbindungsdaten) zu erfassen. Diese Daten sind nicht mit deinem Account verlinkt und enthalten keine persönlichen Daten.\n\n
+
+    •  Wenn du möchtest, kannst du freiwillig dein Heimatland in deinem Profil angeben. Dieses wird nur für statistische und Forschungszwecke benutzt und kann jederzeit selbst aus dem Profil entfernt werden.\n\n
+
+    •  Du kannst jederzeit deinen Account und damit die erfassten Daten (auch erstellten Programme und Kommentare) über die Profileinstellungen (https://share.catrob.at) löschen. Anschließend stehen dir weiterhin alle unsere Dienste zur Verfügung, aber ohne die Möglichkeit zu haben aktiv (z.B. durch das Hochladen neuer Programme, Kommentieren oder Liken) mitzuwirken. \n\n
+
+    •  Alle Dienste werden durch das Catrobat Projekt, vertreten durch die \"International Catrobat Association - Verein zur Förderung freier Software\" (Graz, Österreich), betrieben. \n\n
+
+    •  Um mit uns in Kontakt zu treten sende uns eine Mail an contact@catrobat.org oder schreibe uns an:\n
+Catrobat Projekt \n
+c/o Institut für Softwaretechnologie \n
+Inffeldgasse 16b/II \n
+8010 Graz, Österreich \n\n
+
+Falls du jünger als 16 Jahre bist, müssen deine gesetzlichen Vertreter (normalerweise deine Eltern) dieser Vereinbarung zustimmen.    </string>
+  <string name="dialog_privacy_policy_declined_text">Es ist notwendig der Datenschutzvereinbarung zuzustimmen um weiterhin deinen Account nutzen zu können bzw. dich zu registrieren. Falls du damit nicht einverstanden bist, kannst du deinen Account über dein Profil auf unserer Webseite löschen und alle Dienste die keinen Account benötigen weiterhin nutzen.    </string>
+  <!-- -->
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Nutzungsbedingungen und Leistungen</string>
   <string name="dialog_terms_of_use_info">Um unsere Apps und andere ausführbare Dateien, die durch das Catrobat-Projekt angeboten werden, verwenden zu dürfen, musst du unsere Nutzungsbedingungen und Service strikt befolgen. Für genauere Informationen siehe auf den Link darunter.\n\n</string>
@@ -328,6 +360,7 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="fragment_background_text_description">Tippe auf \"+\" um Hintergründe hinzuzufügen</string>
   <string name="rename_look_dialog">Aussehen umbenennen</string>
   <string name="pocket_paint_not_installed_title">Pocket Paint ist nicht installiert!</string>
+  <string name="pocket_paint_not_installed_message">Bitte Pocket Paint installieren</string>
   <string name="pocket_paint_not_installed">Möchtest du es jetzt installieren?</string>
   <string name="default_look_name">Aussehen</string>
   <string name="delete_look_dialog">Aussehen löschen?</string>
@@ -901,6 +934,8 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="error_no_network_multiple_bricks">Diese Bausteine brauchen eine Netzwerkverbindung:</string>
   <string name="error_no_network_title">Keine Netzwerkverbindung</string>
   <string name="error_no_whatsapp">WhatsApp nicht installiert</string>
+  <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
+        program.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
