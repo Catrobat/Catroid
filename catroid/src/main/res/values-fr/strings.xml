@@ -34,6 +34,11 @@
   <string name="delete">Supprimer</string>
   <string name="yes">Oui</string>
   <string name="no">Non</string>
+  <string name="back">Retour</string>
+  <string name="ok">OK</string>
+  <string name="agree">Agree</string>
+  <string name="disagree">Disagree</string>
+  <string name="delete_account">Delete my account</string>
   <string name="copy">Copier</string>
   <string name="cut">Couper</string>
   <string name="move">Déplacer</string>
@@ -62,7 +67,6 @@
   <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
   <string name="background">Arrière plan</string>
   <string name="stage">Scène</string>
-  <string name="ok">OK</string>
   <string name="play">Jouer</string>
   <string name="settings">Paramètres</string>
   <string name="redo">Refaire</string>
@@ -93,6 +97,7 @@
   <string name="main_menu_help">Aide</string>
   <string name="main_menu_web">Découvrir</string>
   <string name="main_menu_upload">Envoyer</string>
+  <string name="main_menu_privacy_policy">Privacy policy</string>
   <string name="main_menu_about">About this app</string>
   <string name="main_menu_terms_of_use">Conditions d’utilisation et de services</string>
   <string name="main_menu_rate_app">Note-nous !</string>
@@ -227,6 +232,56 @@
   <string name="dialog_new_object_switch_title">Nouvel objet créé</string>
   <string name="dialog_new_object_switch_message">Basculer vers le nouvel objet  ?</string>
   <!--  -->
+  <!-- Privacy Policy -->
+  <string name="dialog_privacy_policy_title">Privacy policy</string>
+  <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
+
+        To offer you all collaborative benefits of our services and the associated account, it is necessary to
+        collect certain data from you.\n\n
+
+    • To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
+        updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
+        store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
+        Plus or Facebook, we additionally store an identification key connected to your account on these services. We
+        will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
+
+    • To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
+        purposes, the user
+        generated public data will be stored internally in a database, together with a timestamp and the used IP
+        address.\n\n
+
+    • To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
+        use Google
+        Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited
+        pages/screens, used operating system, and information about the network provider). This analysis and the collected
+        data is not linked to your profile and does not contain any personal information.\n\n
+
+    • On a voluntary basis, you can give us your country of residence through your account page on the sharing
+        site. This
+        will only be used for statistical and research purposes by us and can be removed at any time in your profile
+        settings.\n\n
+
+    • You can withdraw the usage of this data at any time by deleting your account through your profile page on
+        https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
+        but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
+        linked to your account, e.g. uploaded programs, comments, will get deleted.\n\n
+
+    • All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
+        International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
+
+    • To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
+        c/o\n
+        Institute of Software Technology,\n
+        Inffeldgasse 16b/II,\n
+        8010 Graz, Austria.\n\n
+
+    In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
+    </string>
+  <string name="dialog_privacy_policy_declined_text">It is necessary to agree the Privacy Policy to register or to
+        further use your account. If you do not want that this data gets collected you can delete your existing account
+        via the profile page on our web interface and still use all services of this app that do not need an account.
+    </string>
+  <!-- -->
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Conditions d’utilisation et de services</string>
   <string name="dialog_terms_of_use_info">Pour pouvoir utiliser Pocket Code et d\'autres logiciels mis à disposition par le projet Catrobat,
@@ -322,6 +377,7 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="fragment_background_text_description">Appuyez sur « + » pour ajouter des fonds d\'écran</string>
   <string name="rename_look_dialog">Renommer le visuel</string>
   <string name="pocket_paint_not_installed_title">Pocket Paint n\'est pas installé !</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
   <string name="pocket_paint_not_installed">Vous voulez l\'installer ?</string>
   <string name="default_look_name">visuel</string>
   <string name="delete_look_dialog">Supprimer la vue ?</string>
@@ -896,6 +952,8 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="error_no_network_multiple_bricks">Les briques suivantes utiliseront le réseau :</string>
   <string name="error_no_network_title">Pas de réseau</string>
   <string name="error_no_whatsapp">WhatsApp n\'est pas installé</string>
+  <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
+        program.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Le Bluetooth n\'a pas pu être activé, fermeture de la scène</string>
