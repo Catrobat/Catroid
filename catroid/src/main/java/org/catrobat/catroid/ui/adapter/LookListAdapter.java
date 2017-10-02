@@ -60,7 +60,8 @@ public class LookListAdapter extends CheckBoxListAdapter<LookData> {
 			listItemViewHolder.rightBottomDetails.setText(measureString);
 
 			listItemViewHolder.leftTopDetails.setText(R.string.size);
-			listItemViewHolder.rightTopDetails.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
+			listItemViewHolder.rightTopDetails.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath()),
+					getContext()));
 		}
 
 		return listItemView;

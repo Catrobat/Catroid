@@ -150,7 +150,8 @@ public final class LookController {
 	private void handleDetails(LookData lookData, LookViewHolder holder, LookBaseAdapter lookAdapter) {
 		if (lookAdapter.getShowDetails()) {
 			if (lookData.getAbsolutePath() != null) {
-				holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
+				holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath()),
+						lookAdapter.getContext()));
 			}
 			int[] measure = lookData.getMeasure();
 			int width = measure[0];
