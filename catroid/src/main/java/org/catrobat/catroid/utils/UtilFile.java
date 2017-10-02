@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -85,25 +86,23 @@ public final class UtilFile {
 		return formatFileSize(bytes, context);
 	}
 
-	private static String formatFileSize(long bytes, Context context) {
-		final double unit = 1024;
-		String[] fileSizeExtension = new String[] {
-				context.getString(R.string.Byte_short),
-				context.getString(R.string.KiloByte_short),
-				context.getString(R.string.MegaByte_short),
-				context.getString(R.string.GigaByte_short),
-				context.getString(R.string.TeraByte_short),
-				context.getString(R.string.PetaByte_short),
-				context.getString(R.string.ExaByte_short)
-		};
-		if (bytes < unit) {
-			return bytes + " " + fileSizeExtension[0];
-		}
-		int exponent = (int) (Math.log(bytes) / Math.log(unit));
-		exponent = Math.min(exponent, fileSizeExtension.length - 1);
-		String prefix = fileSizeExtension[exponent];
-		return String.format(Locale.getDefault(), "%.1f %s", bytes / Math.pow(unit, exponent),
-				prefix);
+	private static String formatFileSize(long sizeInByte, Context context) {
+		List<Integer> fileSizeExtension = Arrays.asList(
+				R.string.Byte_short,
+				R.string.KiloByte_short,
+				R.string.MegaByte_short,
+				R.string.GigaByte_short,
+				R.string.TeraByte_short,
+				R.string.PetaByte_short,
+				R.string.ExaByte_short);
+
+		final double base = 1024;
+		int exponent = (int) Math.floor(Math.log(sizeInByte) / Math.log(base));
+
+		String unitForDisplay = context.getString(fileSizeExtension.get(exponent));
+		double sizeForDisplay = sizeInByte / Math.pow(base, exponent);
+
+		return String.format(Locale.getDefault(), "%.1f %s", sizeForDisplay, unitForDisplay);
 	}
 
 	public static boolean deleteDirectory(File fileOrDirectory) {

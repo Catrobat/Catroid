@@ -124,7 +124,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 			}
 		}
 
-		assertEquals("Unexpected Filesize!", "7 B", UtilFile.getSizeAsString(testFile, getInstrumentation()
+		assertEquals("Unexpected Filesize!", "7.0 B", UtilFile.getSizeAsString(testFile, getInstrumentation()
 				.getTargetContext()));
 
 		UtilFile.deleteDirectory(testDirectory);
