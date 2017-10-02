@@ -39,7 +39,7 @@ public class JumpingSumoSoundAction extends TemporalAction {
 
 	private Sprite sprite;
 	private Formula volumeInPercent;
-	private JumpingSumoSoundBrick.Sounds soundEnum;
+	private JumpingSumoSoundBrick.Sounds soundType;
 
 	private ARDeviceController deviceController;
 	private JumpingSumoDeviceController controller;
@@ -59,7 +59,7 @@ public class JumpingSumoSoundAction extends TemporalAction {
 
 		if (deviceController != null) {
 
-			switch (soundEnum) {
+			switch (soundType) {
 				case DEFAULT:
 					deviceController.getFeatureJumpingSumo().sendAudioSettingsMasterVolume((byte) normVolume);
 					deviceController.getFeatureJumpingSumo().sendAudioSettingsTheme(ARCOMMANDS_JUMPINGSUMO_AUDIOSETTINGS_THEME_THEME_ENUM.ARCOMMANDS_JUMPINGSUMO_AUDIOSETTINGS_THEME_THEME_DEFAULT);
@@ -88,7 +88,7 @@ public class JumpingSumoSoundAction extends TemporalAction {
 		this.volumeInPercent = volume;
 	}
 
-	public void setSoundEnum(JumpingSumoSoundBrick.Sounds soundEnum) {
-		this.soundEnum = soundEnum;
+	public void setSoundType(JumpingSumoSoundBrick.Sounds soundType) {
+		this.soundType = soundType;
 	}
 }

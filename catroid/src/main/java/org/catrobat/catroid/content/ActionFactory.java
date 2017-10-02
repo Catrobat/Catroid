@@ -976,9 +976,9 @@ public class ActionFactory extends Actions {
 		return action(JumpingSumoNoSoundAction.class);
 	}
 
-	public Action createJumpingSumoSoundAction(Sprite sprite, JumpingSumoSoundBrick.Sounds soundEnum, Formula volume) {
+	public Action createJumpingSumoSoundAction(Sprite sprite, JumpingSumoSoundBrick.Sounds soundType, Formula volume) {
 		JumpingSumoSoundAction action = action(JumpingSumoSoundAction.class);
-		action.setSoundEnum(soundEnum);
+		action.setSoundType(soundType);
 		action.setSprite(sprite);
 		action.setVolume(volume);
 		return action;
