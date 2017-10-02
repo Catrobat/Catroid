@@ -34,6 +34,11 @@
   <string name="delete">Borrar</string>
   <string name="yes">Sí</string>
   <string name="no">No</string>
+  <string name="back">Atrás</string>
+  <string name="ok">OK</string>
+  <string name="agree">Agree</string>
+  <string name="disagree">Disagree</string>
+  <string name="delete_account">Delete my account</string>
   <string name="copy">Copiar</string>
   <string name="cut">Cortar</string>
   <string name="move">Mover</string>
@@ -62,7 +67,6 @@
   <string name="loading_google_login">Google + inicio de sesión se completa en nuestro servidor&#8230;</string>
   <string name="background">Fondo</string>
   <string name="stage">Escenario</string>
-  <string name="ok">OK</string>
   <string name="play">Jugar</string>
   <string name="settings">Configuración</string>
   <string name="redo">Rehacer</string>
@@ -83,8 +87,8 @@
   <string name="landscape">panorama</string>
   <string name="portrait">retrato</string>
   <string name="unknown">desconocido</string>
-  <string name="skip">skip</string>
-  <string name="disconnect">Disconnect</string>
+  <string name="skip">saltar</string>
+  <string name="disconnect">Desconectar</string>
   <!--  -->
   <!-- Main menu activity -->
   <string name="main_menu_new">Nuevo</string>
@@ -93,7 +97,8 @@
   <string name="main_menu_help">Ayuda</string>
   <string name="main_menu_web">Explorar</string>
   <string name="main_menu_upload">Cargar</string>
-  <string name="main_menu_about">About this app</string>
+  <string name="main_menu_privacy_policy">Privacy policy</string>
+  <string name="main_menu_about">Información de esta app</string>
   <string name="main_menu_terms_of_use">Términos de uso y servicios</string>
   <string name="main_menu_rate_app">Valóranos!</string>
   <string name="main_menu_play_store_not_installed">No se encontró la aplicación en el Play Store</string>
@@ -227,6 +232,56 @@
   <string name="dialog_new_object_switch_title">Nuevo objeto creado</string>
   <string name="dialog_new_object_switch_message">¿Cambiar al nuevo objeto?</string>
   <!--  -->
+  <!-- Privacy Policy -->
+  <string name="dialog_privacy_policy_title">Privacy policy</string>
+  <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
+
+        To offer you all collaborative benefits of our services and the associated account, it is necessary to
+        collect certain data from you.\n\n
+
+    • To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
+        updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
+        store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
+        Plus or Facebook, we additionally store an identification key connected to your account on these services. We
+        will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
+
+    • To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
+        purposes, the user
+        generated public data will be stored internally in a database, together with a timestamp and the used IP
+        address.\n\n
+
+    • To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
+        use Google
+        Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited
+        pages/screens, used operating system, and information about the network provider). This analysis and the collected
+        data is not linked to your profile and does not contain any personal information.\n\n
+
+    • On a voluntary basis, you can give us your country of residence through your account page on the sharing
+        site. This
+        will only be used for statistical and research purposes by us and can be removed at any time in your profile
+        settings.\n\n
+
+    • You can withdraw the usage of this data at any time by deleting your account through your profile page on
+        https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
+        but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
+        linked to your account, e.g. uploaded programs, comments, will get deleted.\n\n
+
+    • All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
+        International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
+
+    • To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
+        c/o\n
+        Institute of Software Technology,\n
+        Inffeldgasse 16b/II,\n
+        8010 Graz, Austria.\n\n
+
+    In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
+    </string>
+  <string name="dialog_privacy_policy_declined_text">It is necessary to agree the Privacy Policy to register or to
+        further use your account. If you do not want that this data gets collected you can delete your existing account
+        via the profile page on our web interface and still use all services of this app that do not need an account.
+    </string>
+  <!-- -->
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Términos de uso y servicios</string>
   <string name="dialog_terms_of_use_info">Para poder utilizar Pocket Code y otros ejecutables ofrecidos por el proyecto Catrobat, debes de estar de acuerdo con nuestros Términos de Uso y seguirlos estrictamente cuando utilizas Pocket Code y otros de nuestros ejecutables. Por favor vea el siguiente enlace para tener una formulación más precisa.\n</string>
@@ -319,6 +374,7 @@
   <string name="fragment_background_text_description">Pulse \"+\" añadir fondos</string>
   <string name="rename_look_dialog">Renombre la apariencia</string>
   <string name="pocket_paint_not_installed_title">Pocket Pintar no está instalado!</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
   <string name="pocket_paint_not_installed">¿Desea instalarlo?</string>
   <string name="default_look_name">Apariencia</string>
   <string name="delete_look_dialog">¿Eliminar Apariencia?</string>
@@ -892,6 +948,8 @@
   <string name="error_no_network_multiple_bricks">Los siguientes bloques usaran la red:</string>
   <string name="error_no_network_title">No hay red</string>
   <string name="error_no_whatsapp">WhatsApp not installed</string>
+  <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
+        program.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetooth no puede está disponible, fase de cierre</string>

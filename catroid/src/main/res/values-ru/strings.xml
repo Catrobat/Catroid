@@ -34,6 +34,11 @@
   <string name="delete">Удалить</string>
   <string name="yes">Да</string>
   <string name="no">Нет</string>
+  <string name="back">Назад</string>
+  <string name="ok">ОК</string>
+  <string name="agree">Agree</string>
+  <string name="disagree">Disagree</string>
+  <string name="delete_account">Delete my account</string>
   <string name="copy">Копировать</string>
   <string name="cut">Вырезать</string>
   <string name="move">Рука</string>
@@ -62,7 +67,6 @@
   <string name="loading_google_login">Вход в Google+ совершается на нашем сервере&#8230;</string>
   <string name="background">Фон</string>
   <string name="stage">Сцена</string>
-  <string name="ok">ОК</string>
   <string name="play">Play</string>
   <string name="settings">Настройки</string>
   <string name="redo">Повторить</string>
@@ -93,11 +97,12 @@
   <string name="main_menu_help">Помощь</string>
   <string name="main_menu_web">Обзор</string>
   <string name="main_menu_upload">Загрузить</string>
+  <string name="main_menu_privacy_policy">Privacy policy</string>
   <string name="main_menu_about">Об этом приложении</string>
   <string name="main_menu_terms_of_use">Условия пользования и обслуживания</string>
   <string name="main_menu_rate_app">Оцените нас!</string>
   <string name="main_menu_play_store_not_installed">Приложение Play Store не найдено</string>
-  <string name="main_menu_logout">1 &amp;#x434;&amp;#x435;&amp;#x43D;&amp;#x44C; &amp;#x43D;&amp;#x430;&amp;#x437;&amp;#x430;&amp;#x434;</string>
+  <string name="main_menu_logout">1 &#x434;&#x435;&#x43D;&#x44C; &#x43D;&#x430;&#x437;&#x430;&#x434;</string>
   <string name="main_menu_login">Вход</string>
   <string name="main_menu_scratch_converter">Scratch конвертер</string>
   <string name="logout_successful">Выход выполнен</string>
@@ -239,6 +244,56 @@
   <string name="dialog_new_object_switch_title">Создан новый объект</string>
   <string name="dialog_new_object_switch_message">Переключиться на новый объект?</string>
   <!--  -->
+  <!-- Privacy Policy -->
+  <string name="dialog_privacy_policy_title">Privacy policy</string>
+  <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
+
+        To offer you all collaborative benefits of our services and the associated account, it is necessary to
+        collect certain data from you.\n\n
+
+    • To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
+        updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
+        store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
+        Plus or Facebook, we additionally store an identification key connected to your account on these services. We
+        will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
+
+    • To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
+        purposes, the user
+        generated public data will be stored internally in a database, together with a timestamp and the used IP
+        address.\n\n
+
+    • To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
+        use Google
+        Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited
+        pages/screens, used operating system, and information about the network provider). This analysis and the collected
+        data is not linked to your profile and does not contain any personal information.\n\n
+
+    • On a voluntary basis, you can give us your country of residence through your account page on the sharing
+        site. This
+        will only be used for statistical and research purposes by us and can be removed at any time in your profile
+        settings.\n\n
+
+    • You can withdraw the usage of this data at any time by deleting your account through your profile page on
+        https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
+        but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
+        linked to your account, e.g. uploaded programs, comments, will get deleted.\n\n
+
+    • All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
+        International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
+
+    • To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
+        c/o\n
+        Institute of Software Technology,\n
+        Inffeldgasse 16b/II,\n
+        8010 Graz, Austria.\n\n
+
+    In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
+    </string>
+  <string name="dialog_privacy_policy_declined_text">It is necessary to agree the Privacy Policy to register or to
+        further use your account. If you do not want that this data gets collected you can delete your existing account
+        via the profile page on our web interface and still use all services of this app that do not need an account.
+    </string>
+  <!-- -->
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Условия пользования и обслуживания</string>
   <string name="dialog_terms_of_use_info">Для использования Pocket Code и других продуктов в рамках проекта Catrobat Вы должны принять условия обслуживания и пользования и строго следовать им. Для полного текста условий обслуживания и пользования перейдите по ссылке ниже.\n</string>
@@ -333,6 +388,7 @@
   <string name="fragment_background_text_description">Нажмите «+», чтобы добавить фон</string>
   <string name="rename_look_dialog">Переименовать изображение</string>
   <string name="pocket_paint_not_installed_title">Приложение Pocket Paint не утсановлено!</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
   <string name="pocket_paint_not_installed">Paintroid не установлен!\nХотели бы Вы его установить?</string>
   <string name="default_look_name">образ</string>
   <string name="delete_look_dialog">Вы уверены, что хотите удалить этот образ?</string>
@@ -913,6 +969,8 @@
   <string name="error_no_network_multiple_bricks">Следующие блоки используют сеть Интернет:</string>
   <string name="error_no_network_title">Нет сети</string>
   <string name="error_no_whatsapp">WhatsApp not installed</string>
+  <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
+        program.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetooth не мог быть подключен, закрывание сцены</string>

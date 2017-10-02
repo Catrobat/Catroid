@@ -34,6 +34,11 @@
   <string name="delete">삭제</string>
   <string name="yes">예</string>
   <string name="no">아니오</string>
+  <string name="back">돌아가기</string>
+  <string name="ok">확인</string>
+  <string name="agree">Agree</string>
+  <string name="disagree">Disagree</string>
+  <string name="delete_account">Delete my account</string>
   <string name="copy">복사하기</string>
   <string name="cut">자르기</string>
   <string name="move">움직이기</string>
@@ -62,7 +67,6 @@
   <string name="loading_google_login">Google+ 로그인 완료&#8230;</string>
   <string name="background">배경</string>
   <string name="stage">무대</string>
-  <string name="ok">확인</string>
   <string name="play">실행</string>
   <string name="settings">설정</string>
   <string name="redo">다시 실행</string>
@@ -93,6 +97,7 @@
   <string name="main_menu_help">도움말</string>
   <string name="main_menu_web">탐색하기</string>
   <string name="main_menu_upload">업로드</string>
+  <string name="main_menu_privacy_policy">Privacy policy</string>
   <string name="main_menu_about">앱 소개</string>
   <string name="main_menu_terms_of_use">사용과 서비스 약관</string>
   <string name="main_menu_rate_app">평가하기</string>
@@ -219,6 +224,56 @@
   <string name="dialog_new_object_switch_title">새 오브젝트 제작</string>
   <string name="dialog_new_object_switch_message">새 오브젝트로 바꿀까요?</string>
   <!--  -->
+  <!-- Privacy Policy -->
+  <string name="dialog_privacy_policy_title">Privacy policy</string>
+  <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
+
+        To offer you all collaborative benefits of our services and the associated account, it is necessary to
+        collect certain data from you.\n\n
+
+    • To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
+        updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
+        store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
+        Plus or Facebook, we additionally store an identification key connected to your account on these services. We
+        will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
+
+    • To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
+        purposes, the user
+        generated public data will be stored internally in a database, together with a timestamp and the used IP
+        address.\n\n
+
+    • To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
+        use Google
+        Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited
+        pages/screens, used operating system, and information about the network provider). This analysis and the collected
+        data is not linked to your profile and does not contain any personal information.\n\n
+
+    • On a voluntary basis, you can give us your country of residence through your account page on the sharing
+        site. This
+        will only be used for statistical and research purposes by us and can be removed at any time in your profile
+        settings.\n\n
+
+    • You can withdraw the usage of this data at any time by deleting your account through your profile page on
+        https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
+        but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
+        linked to your account, e.g. uploaded programs, comments, will get deleted.\n\n
+
+    • All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
+        International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
+
+    • To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
+        c/o\n
+        Institute of Software Technology,\n
+        Inffeldgasse 16b/II,\n
+        8010 Graz, Austria.\n\n
+
+    In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
+    </string>
+  <string name="dialog_privacy_policy_declined_text">It is necessary to agree the Privacy Policy to register or to
+        further use your account. If you do not want that this data gets collected you can delete your existing account
+        via the profile page on our web interface and still use all services of this app that do not need an account.
+    </string>
+  <!-- -->
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">사용과 서비스 약관</string>
   <string name="dialog_terms_of_use_info">포켓 코드와 Catrobat 프로그램에 의해 제공하는 다른 실행 파일을 사용하도록 허용하려면 우리의 이용 약관에 동의하고 포켓 코드와 우리의 다른 실행 파일을 사용할 때 엄격하게 약관을 따라야 합니다. 자세한 세부규정은 아래 링크를 참조하십시오.\n</string>
@@ -305,6 +360,7 @@
   <string name="fragment_background_text_description">배경을 추가하려면 \"+\"를 터치하세요</string>
   <string name="rename_look_dialog">모양 이름 바꾸기</string>
   <string name="pocket_paint_not_installed_title">포켓 페인트가 설치되어 있지 않습니다!</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
   <string name="pocket_paint_not_installed">그림판이 설치되어 있지 않습니다! \n그림판을 설치하겠습니까?</string>
   <string name="default_look_name">모양</string>
   <string name="delete_look_dialog">이 모양을 삭제하시겠습니까?</string>
@@ -872,6 +928,8 @@
   <string name="error_no_network_multiple_bricks">블록을 따라 네트워크를 사용합니다.</string>
   <string name="error_no_network_title">네트워크 연결 불가</string>
   <string name="error_no_whatsapp">설치되지 않은 앱</string>
+  <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
+        program.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">블루투스를 이용할 수 없습니다. 단계를 취소합니다.</string>
