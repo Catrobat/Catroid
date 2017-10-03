@@ -23,6 +23,8 @@
 package org.catrobat.catroid.drone.jumpingsumo;
 
 import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
 
 public final class JumpingSumoBrickFactory {
 
@@ -30,11 +32,17 @@ public final class JumpingSumoBrickFactory {
 	}
 
 	public enum JumpingSumoBricks {
+		JUMPING_SUMO_FORWARD, JUMPING_SUMO_BACKWARD
 	}
 
-	public static BrickBaseType getInstanceOfJumpingSumoBrick(JumpingSumoBricks brick) {
+	public static BrickBaseType getInstanceOfJumpingSumoBrick(JumpingSumoBricks brick, int timeInMilliseconds,
+														byte powerInPercent) {
 
 		switch (brick) {
+			case JUMPING_SUMO_FORWARD:
+				return new JumpingSumoMoveForwardBrick(timeInMilliseconds, powerInPercent);
+			case JUMPING_SUMO_BACKWARD:
+				return new JumpingSumoMoveBackwardBrick(timeInMilliseconds, powerInPercent);
 			default:
 				return null;
 		}

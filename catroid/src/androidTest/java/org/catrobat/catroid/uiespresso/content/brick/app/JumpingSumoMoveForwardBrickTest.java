@@ -26,7 +26,7 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
@@ -42,7 +42,7 @@ import org.junit.runner.RunWith;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class ARDroneTurnLeftBrickTest {
+public class JumpingSumoMoveForwardBrickTest {
 	private int brickPosition;
 
 	@Rule
@@ -53,26 +53,26 @@ public class ARDroneTurnLeftBrickTest {
 	public void setUp() throws Exception {
 		brickPosition = 1;
 		int initialSeconds = 1000;
-		int initialPower = 20;
-		BrickTestUtils.createProjectAndGetStartScript("ARDroneTurnLeftBrickTest").addBrick(new
-				DroneTurnLeftBrick(initialSeconds, initialPower));
+		int initialPower = 80;
+		BrickTestUtils.createProjectAndGetStartScript("JumpingSumoMoveForwardBrickTest").addBrick(new
+				JumpingSumoMoveForwardBrick(initialSeconds, initialPower));
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	@Flaky
-	public void testARDroneTurnLeftBrick() {
+	public void testJumpingSumoMoveForwardBrick() {
 		int secondsValue = 3;
 		int powerValue = 40;
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_drone_turn_left);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_jumping_sumo_move_forward);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_second)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_jumping_sumo_move_forward_edit_text_second)
 				.performEnterNumber(secondsValue)
 				.checkShowsNumber(secondsValue);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_power)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_jumping_sumo_move_forward_edit_text_power)
 				.performEnterNumber(powerValue)
 				.checkShowsNumber(powerValue);
 	}

@@ -28,6 +28,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
@@ -36,8 +37,11 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoBrickFactory;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -63,7 +67,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 
-		//double landscapePortraitFactor = 1.63;
+		double landscapePortraitFactor = 1.63;
 		//landscapePortraitFactor = ScreenValues.getAspectRatio();
 
 		landscapeMode = true;
@@ -110,6 +114,64 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		backgroundSprite.addScript(whenProjectStartsScript);
 		backgroundSprite.addScript(whenSpriteTappedScript);
 
+		//icons from http://findicons.com/search/arrow#ajax
+		String forwardName = context.getString(R.string.default_jumping_sumo_project_sprites_forward);
+
+		File forwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, forwardName
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_forward, context, true,
+				iconImageScaleFactor);
+
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(forwardName, JumpingSumoBrickFactory.JumpingSumoBricks
+						.JUMPING_SUMO_FORWARD, (int) (-350 / landscapePortraitFactor), (int)
+				(150 / landscapePortraitFactor), forwardFile, BrickValues
+				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (byte) BrickValues
+				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+
+		String backwardName = context.getString(R.string.default_jumping_sumo_project_sprites_backward);
+
+		File backwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backwardName
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_backward, context, true,
+				iconImageScaleFactor);
+
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(backwardName, JumpingSumoBrickFactory
+						.JumpingSumoBricks.JUMPING_SUMO_BACKWARD, (int) (-350 / landscapePortraitFactor), (int)
+				(-150 / landscapePortraitFactor), backwardFile,
+				BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+
 		return defaultJumpingSumoProject;
+	}
+
+	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks jumpingSumoBrick, int xPosition,
+			int yPosition, File lookFile, int timeInMilliseconds, byte powerInPercent) {
+
+		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), spriteName);
+
+		Script whenSpriteTappedScript = new WhenScript();
+
+		BrickBaseType brick = JumpingSumoBrickFactory.getInstanceOfJumpingSumoBrick(jumpingSumoBrick,
+				timeInMilliseconds, powerInPercent);
+
+		whenSpriteTappedScript.addBrick(brick);
+
+		Script whenProjectStartsScript = new StartScript();
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(calculateValueRelativeToScaledBackground(xPosition),
+				calculateValueRelativeToScaledBackground(yPosition));
+		SetSizeToBrick setSizeBrick = new SetSizeToBrick(40.0);
+
+		whenProjectStartsScript.addBrick(placeAtBrick);
+		whenProjectStartsScript.addBrick(setSizeBrick);
+
+		LookData lookData = new LookData();
+		lookData.setLookName(spriteName + " icon");
+
+		lookData.setLookFilename(lookFile.getName());
+
+		sprite.getLookDataList().add(lookData);
+
+		sprite.addScript(whenSpriteTappedScript);
+		sprite.addScript(whenProjectStartsScript);
+
+		return sprite;
 	}
 }
