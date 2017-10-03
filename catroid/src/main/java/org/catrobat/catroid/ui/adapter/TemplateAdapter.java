@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,48 +37,78 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.common.base.Strings;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.squareup.picasso.Picasso;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.TemplateContainer;
 import org.catrobat.catroid.common.TemplateData;
-import org.catrobat.catroid.transfers.FetchTemplatesTask;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.FetchTemplatesRequest;
 
-public class TemplateAdapter extends ArrayAdapter<TemplateData> implements
-		FetchTemplatesTask.OnFetchTemplatesCompleteListener {
+import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
+public class TemplateAdapter extends ArrayAdapter<TemplateData> {
+
+	private static final String TAG = TemplateAdapter.class.getSimpleName();
 	private static LayoutInflater inflater;
 
-	private final Context context;
+	private final Activity context;
 	private OnTemplateEditListener onTemplateEditListener;
 	private TemplateContainer templateContainer;
+	private ProgressDialog progressDialog;
 
-	public TemplateAdapter(Context context, int resource, int textViewResourceId, OnTemplateEditListener listener) {
-		super(context, resource, textViewResourceId);
-		this.context = context;
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	@Inject
+	FetchTemplatesRequest fetchTemplatesRequest;
+
+	public TemplateAdapter(Activity activity, int resource, int textViewResourceId, OnTemplateEditListener listener) {
+		super(activity, resource, textViewResourceId);
+		this.context = activity;
+		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.onTemplateEditListener = listener;
+		((CatroidApplication) activity.getApplication()).getWebComponent().inject(this);
 		fetchTemplates();
 	}
 
 	private void fetchTemplates() {
 		if (isEmpty()) {
-			FetchTemplatesTask task = new FetchTemplatesTask(context, this);
-			task.execute();
+			String title = context.getString(R.string.please_wait);
+			String progressMessage = context.getString(R.string.fetching_templates);
+			progressDialog = ProgressDialog.show(context, title, progressMessage);
+
+			fetchTemplatesRequest.fetchTemplates(FetchTemplatesRequest.ENDPOINT)
+					.subscribeOn(Schedulers.io())
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(new Consumer<TemplateContainer>() {
+						@Override
+						public void accept(TemplateContainer fetchedTemplateContainer) throws Exception {
+							templateContainer = fetchedTemplateContainer;
+							initTemplates();
+							progressDialog.dismiss();
+						}
+					}, new Consumer<Throwable>() {
+						@Override
+						public void accept(@NonNull Throwable throwable) throws Exception {
+							showFailure();
+							progressDialog.dismiss();
+							Log.e(TAG, "could not fetch templates list: " + throwable.getMessage());
+						}
+					});
 		}
 	}
 
 	private void initTemplates() {
-		if (templateContainer == null) {
-			return;
+		if (templateContainer != null) {
+			addAll(templateContainer.getTemplateData());
 		}
-
-		addAll(templateContainer.getTemplateData());
 	}
 
 	@Override
@@ -126,16 +159,12 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> implements
 				? templateContainer.getBaseUrl() : Constants.MAIN_URL_HTTPS + "/";
 	}
 
-	@Override
-	public void onFetchTemplatesComplete(String templatesList) {
-		Gson gson = new Gson();
-		try {
-			templateContainer = gson.fromJson(templatesList, TemplateContainer.class);
-		} catch (JsonSyntaxException exception) {
+	private void showFailure() {
+		if (!Utils.isNetworkAvailable(context)) {
+			ToastUtil.showError(context, R.string.error_internet_connection);
+		} else {
 			ToastUtil.showError(context, context.getString(R.string.error_fetching_templates));
 		}
-
-		initTemplates();
 	}
 
 	public interface OnTemplateEditListener {

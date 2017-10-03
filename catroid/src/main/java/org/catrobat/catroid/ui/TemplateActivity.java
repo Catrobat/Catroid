@@ -32,7 +32,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
-public class TemplatesActivity extends BaseActivity {
+public class TemplateActivity extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

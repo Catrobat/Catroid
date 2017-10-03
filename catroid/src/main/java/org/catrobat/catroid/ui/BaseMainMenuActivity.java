@@ -361,7 +361,7 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent intent = new Intent(this, TemplatesActivity.class);
+		Intent intent = new Intent(this, TemplateActivity.class);
 		startActivity(intent);
 	}
 

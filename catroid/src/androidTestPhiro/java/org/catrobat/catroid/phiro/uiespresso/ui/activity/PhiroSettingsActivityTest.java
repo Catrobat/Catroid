@@ -105,7 +105,8 @@ public class PhiroSettingsActivityTest {
 		Intents.init();
 		Matcher<Intent> expectedIntent = allOf(hasAction(Intent.ACTION_VIEW), hasData(phiroLink));
 		intending(expectedIntent).respondWith(new Instrumentation.ActivityResult(0, null));
-		onData(PreferenceMatchers.withTitle(R.string.phiro_preference_title)).perform(click());
+		onData(PreferenceMatchers.withTitle(R.string.phiro_preference_title))
+				.perform(click());
 		intended(expectedIntent);
 		Intents.release();
 	}

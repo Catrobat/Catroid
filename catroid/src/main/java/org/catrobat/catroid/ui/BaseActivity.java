@@ -121,7 +121,7 @@ public abstract class BaseActivity extends Activity {
 				} else if (returnByPressingBackButton) {
 					onBackPressed();
 				} else if (returnToTemplatesList) {
-					Intent intent = new Intent(this, TemplatesActivity.class);
+					Intent intent = new Intent(this, TemplateActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 				}

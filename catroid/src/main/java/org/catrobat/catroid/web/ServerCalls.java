@@ -169,9 +169,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 	private static final String JSON_TOKEN = "token";
 	private static final String FACEBOOK_SERVER_TOKEN_INVALID = "token_invalid";
 
-	private static final String TEMPLATES_URL = Constants.BASE_URL_HTTPS + "api/templates/list.json";
-	private static final String TEST_TEMPLATES_URL = BASE_URL_TEST_HTTPS + "api/templates/list.json";
-
 	private static LoginBehavior loginBehavior = LoginBehavior.NATIVE_WITH_FALLBACK;
 
 	private static final ServerCalls INSTANCE = new ServerCalls();
@@ -1186,16 +1183,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 		} catch (WebconnectionException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
 		}
-	}
-
-	public String fetchTemplatesList() throws WebconnectionException {
-		String serverUrl = useTestUrl ? TEST_TEMPLATES_URL : TEMPLATES_URL;
-
-		Log.v(TAG, "URL to use: " + serverUrl);
-		resultString = getRequest(serverUrl);
-		Log.v(TAG, "Result string: " + resultString);
-
-		return resultString;
 	}
 
 	public LoginBehavior getLoginBehavior() {
