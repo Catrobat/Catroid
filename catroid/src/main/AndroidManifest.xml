@@ -85,7 +85,7 @@
         android:name=".CatroidApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="${appName}"
+        android:label="@string/app_name"
         android:theme="@style/Theme.Catroid"
         android:supportsRtl="true">
 
@@ -96,7 +96,7 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="${appName}"
+            android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
