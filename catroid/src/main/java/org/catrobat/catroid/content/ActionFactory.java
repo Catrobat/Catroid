@@ -79,6 +79,7 @@ import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
+import org.catrobat.catroid.content.actions.JumpingSumoAnimationAction;
 import org.catrobat.catroid.content.actions.JumpingSumoMoveBackwardAction;
 import org.catrobat.catroid.content.actions.JumpingSumoMoveForwardAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorMoveAction;
@@ -145,6 +146,7 @@ import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -958,6 +960,12 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public Action createJumpingSumoAnimationAction(JumpingSumoAnimationsBrick.Animation animationType) {
+		JumpingSumoAnimationAction action = action(JumpingSumoAnimationAction.class);
+		action.setAnimationType(animationType);
 		return action;
 	}
 
