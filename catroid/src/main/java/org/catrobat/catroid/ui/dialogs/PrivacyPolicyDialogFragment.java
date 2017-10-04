@@ -30,13 +30,13 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.Utils;
 
 public class PrivacyPolicyDialogFragment extends DialogFragment {
@@ -117,8 +117,9 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.cancel();
-				Intent deleteAccountIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants
-						.CATROBAT_DELETE_ACCOUNT_URL));
+				Intent deleteAccountIntent = new Intent(activity, WebViewActivity.class);
+				deleteAccountIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, Constants.CATROBAT_DELETE_ACCOUNT_URL);
+
 				activity.startActivity(deleteAccountIntent);
 			}
 		});
