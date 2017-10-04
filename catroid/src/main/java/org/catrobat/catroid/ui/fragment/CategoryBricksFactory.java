@@ -80,6 +80,8 @@ import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoJumpHighBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoJumpLongBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoNoSoundBrick;
@@ -526,6 +528,8 @@ public class CategoryBricksFactory {
 		jumpingSumoBrickList.add(new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.DEFAULT, BrickValues
 				.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
 		jumpingSumoBrickList.add(new JumpingSumoNoSoundBrick());
+		jumpingSumoBrickList.add(new JumpingSumoJumpLongBrick());
+		jumpingSumoBrickList.add(new JumpingSumoJumpHighBrick());
 
 		return jumpingSumoBrickList;
 	}
