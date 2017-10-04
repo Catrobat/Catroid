@@ -54,6 +54,7 @@ public class GoNStepsBackAction extends TemporalAction {
 			toFront(delta);
 		} else {
 			goNStepsBack(stepsValue.intValue());
+			toFront(delta);
 		}
 	}
 
