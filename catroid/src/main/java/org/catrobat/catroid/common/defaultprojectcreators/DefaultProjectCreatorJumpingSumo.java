@@ -125,7 +125,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 						.JUMPING_SUMO_FORWARD, (int) (-350 / landscapePortraitFactor), (int)
 				(150 / landscapePortraitFactor), forwardFile, BrickValues
 				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (byte) BrickValues
-				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (byte) 0));
+				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (byte) 0, 0));
 
 		String backwardName = context.getString(R.string.default_jumping_sumo_project_sprites_backward);
 
@@ -137,7 +137,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 						.JumpingSumoBricks.JUMPING_SUMO_BACKWARD, (int) (-350 / landscapePortraitFactor), (int)
 				(-150 / landscapePortraitFactor), backwardFile,
 				BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
-				(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (byte) 0));
+				(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (byte) 0, 0));
 
 		String animationName = context.getString(R.string.default_jumping_sumo_project_sprites_animation);
 
@@ -145,7 +145,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				0.75);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(animationName, JumpingSumoBrickFactory.JumpingSumoBricks.JUMPING_SUMO_ANIMATIONS,
-				0, (int) (325 / landscapePortraitFactor), animationFile, 0, (byte) 0, (byte) 0));
+				0, (int) (325 / landscapePortraitFactor), animationFile, 0, (byte) 0, (byte) 0, 0));
 
 		String soundName = context.getString(R.string.default_jumping_sumo_project_sprites_sound);
 
@@ -156,7 +156,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(soundName, JumpingSumoBrickFactory.JumpingSumoBricks
 				.JUMPING_SUMO_SOUND, (int) (250 / landscapePortraitFactor), (int)
 				(325 / landscapePortraitFactor), soundFile, 0, (byte) 0, (byte) BrickValues
-				.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
+				.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT, 0));
 
 		String noSoundName = context.getString(R.string.default_jumping_sumo_project_sprites_no_sound);
 
@@ -166,7 +166,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(noSoundName, JumpingSumoBrickFactory.JumpingSumoBricks
 				.JUMPING_SUMO_NO_SOUND, (int) (375 / landscapePortraitFactor), (int)
-				(325 / landscapePortraitFactor), noSoundFile, 0, (byte) 0, (byte) 0));
+				(325 / landscapePortraitFactor), noSoundFile, 0, (byte) 0, (byte) 0, 0));
 
 		String jumpLongName = context.getString(R.string.default_jumping_sumo_project_sprites_jump_long);
 
@@ -176,7 +176,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(jumpLongName, JumpingSumoBrickFactory.JumpingSumoBricks
 						.JUMPING_SUMO_JUMP_LONG, (int) (500 / landscapePortraitFactor), (int)
-				(-100 / landscapePortraitFactor), jumpLongFile, 0, (byte) 0, (byte) 0));
+				(-100 / landscapePortraitFactor), jumpLongFile, 0, (byte) 0, (byte) 0, 0));
 
 		String jumpHighName = context.getString(R.string.default_jumping_sumo_project_sprites_jump_high);
 
@@ -186,20 +186,42 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(jumpHighName, JumpingSumoBrickFactory.JumpingSumoBricks
 						.JUMPING_SUMO_JUMP_HIGH, (int) (500 / landscapePortraitFactor), (int)
-				(50 / landscapePortraitFactor), jumpHighFile, 0, (byte) 0, (byte) 0));
+				(50 / landscapePortraitFactor), jumpHighFile, 0, (byte) 0, (byte) 0, 0));
+
+		String turnLeftName = context.getString(R.string.default_jumping_sumo_project_sprites_turn_left);
+
+		File turnLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, turnLeftName
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_left, context, true,
+				iconImageScaleFactor);
+
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnLeftName, JumpingSumoBrickFactory
+						.JumpingSumoBricks.JUMPING_SUMO_ROTATE_LEFT, (int) (-500 / landscapePortraitFactor), 0,
+				turnLeftFile, 0, (byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (byte) 0,
+				(float) 90/*Math.PI / 2*/));
+
+		String turnRightName = context.getString(R.string.default_jumping_sumo_project_sprites_turn_right);
+
+		File turnRightFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, turnRightName
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_right, context, true,
+				iconImageScaleFactor);
+
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnRightName, JumpingSumoBrickFactory.JumpingSumoBricks
+						.JUMPING_SUMO_ROTATE_RIGHT, (int) (-200 / landscapePortraitFactor), 0, turnRightFile, 0, (byte)
+				BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (byte) 0, (float) 90/*Math.PI / 2*/));
 
 		return defaultJumpingSumoProject;
 	}
 
 	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks jumpingSumoBrick, int xPosition,
-			int yPosition, File lookFile, int timeInMilliseconds, byte powerInPercent, byte volumeInPercent) {
+			int yPosition, File lookFile, int timeInMilliseconds, byte powerInPercent, byte volumeInPercent, float
+			degree) {
 
 		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), spriteName);
 
 		Script whenSpriteTappedScript = new WhenScript();
 
 		BrickBaseType brick = JumpingSumoBrickFactory.getInstanceOfJumpingSumoBrick(jumpingSumoBrick,
-				timeInMilliseconds, powerInPercent, volumeInPercent);
+				timeInMilliseconds, powerInPercent, volumeInPercent, degree);
 
 		whenSpriteTappedScript.addBrick(brick);
 

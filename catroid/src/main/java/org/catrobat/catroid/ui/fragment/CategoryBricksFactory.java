@@ -85,6 +85,8 @@ import org.catrobat.catroid.content.bricks.JumpingSumoJumpLongBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoNoSoundBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
@@ -530,6 +532,8 @@ public class CategoryBricksFactory {
 		jumpingSumoBrickList.add(new JumpingSumoNoSoundBrick());
 		jumpingSumoBrickList.add(new JumpingSumoJumpLongBrick());
 		jumpingSumoBrickList.add(new JumpingSumoJumpHighBrick());
+		jumpingSumoBrickList.add(new JumpingSumoRotateLeftBrick(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
+		jumpingSumoBrickList.add(new JumpingSumoRotateRightBrick(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
 
 		return jumpingSumoBrickList;
 	}
