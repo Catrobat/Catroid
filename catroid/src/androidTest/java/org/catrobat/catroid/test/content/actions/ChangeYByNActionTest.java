@@ -22,15 +22,13 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.BaseTest;
 
-public class ChangeYByNActionTest extends AndroidTestCase {
+public class ChangeYByNActionTest extends BaseTest {
 
 	private static final float CHANGE_VALUE = 66.6f;
 	private static final String NOT_NUMERICAL_STRING = "yPosition";
@@ -38,8 +36,8 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		sprite = new SingleSprite("testSprite");
 		super.setUp();
+		sprite = createSprite("testSprite");
 	}
 
 	public void testNormalBehavior() {

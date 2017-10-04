@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsCollision;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -71,7 +72,7 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 
 		firstSprite = new SingleSprite(FIRST_SPRITE_NAME);
 		Script firstSpriteStartScript = new StartScript();
-		firstSpriteStartScript.addBrick(new SetPhysicsObjectTypeBrick());
+		firstSpriteStartScript.addBrick(new SetPhysicsObjectTypeBrick(PhysicsProperties.Type.DYNAMIC));
 		firstSpriteCollisionScript = new CollisionScript("");
 		firstSpriteCollisionScript.setAndReturnBroadcastMessage(FIRST_SPRITE_NAME, SECOND_SPRITE_NAME);
 		firstSpriteCollisionScript.getScriptBrick();
@@ -81,7 +82,7 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 
 		secondSprite = new SingleSprite(SECOND_SPRITE_NAME);
 		Script secondSpriteStartScript = new StartScript();
-		secondSpriteStartScript.addBrick(new SetPhysicsObjectTypeBrick());
+		secondSpriteStartScript.addBrick(new SetPhysicsObjectTypeBrick(PhysicsProperties.Type.FIXED));
 		secondSpriteCollisionScript = new CollisionScript("");
 		secondSpriteCollisionScript.setAndReturnBroadcastMessage(SECOND_SPRITE_NAME, FIRST_SPRITE_NAME);
 		secondSpriteCollisionScript.getScriptBrick();

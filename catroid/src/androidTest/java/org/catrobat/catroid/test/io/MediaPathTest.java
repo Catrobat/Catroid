@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.io;
 
-import android.test.InstrumentationTestCase;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -31,7 +29,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -52,6 +49,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.BaseInstrumentationTest;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -59,7 +57,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MediaPathTest extends InstrumentationTestCase {
+public class MediaPathTest extends BaseInstrumentationTest {
 
 	private static final int IMAGE_FILE_ID = org.catrobat.catroid.test.R.raw.icon;
 	private static final int SOUND_FILE_ID = org.catrobat.catroid.test.R.raw.testsound;
@@ -83,7 +81,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-
+		super.setUp();
 		TestUtils.clearProject(projectName);
 		TestUtils.clearProject("mockProject");
 
@@ -187,7 +185,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testIncrementUsage() {
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-		Sprite testSprite = new SingleSprite("testSprite");
+		Sprite testSprite = createSprite("testSprite");
 		ArrayList<LookData> lookDataList = new ArrayList<LookData>();
 
 		LookData lookData = new LookData();
@@ -278,7 +276,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	}
 
 	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
-		Sprite sprite = new SingleSprite("testSprite");
+		Sprite sprite = createSprite("testSprite");
 		Script script = new StartScript();
 		Script whenScript = new WhenScript();
 		sprite.addScript(script);

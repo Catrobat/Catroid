@@ -30,6 +30,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -40,14 +41,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.PhysicsWorldConverter;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -122,6 +127,7 @@ public class Look extends Image {
 
 	public void setLookVisible(boolean lookVisible) {
 		this.lookVisible = lookVisible;
+		physicsObjectStateHandler.update(true);
 	}
 
 	public static boolean actionsToRestartContains(Action action) {
@@ -177,6 +183,7 @@ public class Look extends Image {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		physicsObjectStateHandler.checkHangup(true);
 		checkImageChanged();
 		batch.setShader(shader);
 		if (alpha == 0.0f) {
@@ -277,6 +284,9 @@ public class Look extends Image {
 		if (isBackgroundLook) {
 			BackgroundWaitHandler.fireBackgroundChangedEvent(lookData);
 		}
+		PhysicsWorld physicsWorld = ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
+		physicsWorld.changeLook(sprite.getPhysicsProperties(), this);
+		updatePhysicsObjectState(true);
 	}
 
 	public boolean getAllActionsAreFinished() {
@@ -301,10 +311,6 @@ public class Look extends Image {
 		return getX() + getWidth() / 2f;
 	}
 
-	public void setXInUserInterfaceDimensionUnit(float x) {
-		setX(x - getWidth() / 2f);
-	}
-
 	public float getYInUserInterfaceDimensionUnit() {
 		return getY() + getHeight() / 2f;
 	}
@@ -319,21 +325,6 @@ public class Look extends Image {
 		return (float)
 				Math.sqrt(Math.pow((TouchUtil.getX(touchIndex) - getXInUserInterfaceDimensionUnit()), 2)
 						+ Math.pow((TouchUtil.getY(touchIndex) - getYInUserInterfaceDimensionUnit()), 2));
-	}
-
-	public float getAngularVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicsLook
-		return 0;
-	}
-
-	public float getXVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicsLook
-		return 0;
-	}
-
-	public float getYVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicsLook
-		return 0;
 	}
 
 	public void setPositionInUserInterfaceDimensionUnit(float x, float y) {
@@ -429,7 +420,7 @@ public class Look extends Image {
 
 		switch (rotationMode) {
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
-				setRotation(0f);
+				setRotation(rotation);
 				boolean orientedRight = realRotation >= 0;
 				boolean orientedLeft = realRotation < 0;
 				boolean needsFlipping = (isFlipped() && orientedRight) || (!isFlipped() && orientedLeft);
@@ -491,6 +482,7 @@ public class Look extends Image {
 		}
 
 		alpha = (100f - percent) / 100f;
+		updatePhysicsObjectState(true);
 	}
 
 	public void changeTransparencyInUserInterfaceDimensionUnit(float changePercent) {
@@ -673,5 +665,308 @@ public class Look extends Image {
 			transformedPolygons[p] = poly;
 		}
 		return transformedPolygons;
+	}
+
+	// ----------------- PHYSICS  -----------------
+	public static final float SCALE_FACTOR_ACCURACY = 10000.0f;
+
+	private final Look.PhysicsObjectStateHandler physicsObjectStateHandler = new Look.PhysicsObjectStateHandler();
+
+	public void setXInUserInterfaceDimensionUnit(float x) {
+		setX(x - getWidth() / 2f);
+	}
+
+	@Override
+	public void setPosition(float x, float y) {
+		super.setPosition(x, y);
+		if (null != sprite.getPhysicsProperties()) {
+			sprite.getPhysicsProperties().setX(x + getWidth() / 2.0f);
+			sprite.getPhysicsProperties().setY(y + getHeight() / 2.0f);
+		}
+	}
+
+	@Override
+	public void setX(float x) {
+		super.setX(x);
+		if (null != sprite.getPhysicsProperties()) {
+			sprite.getPhysicsProperties().setX(x + getWidth() / 2.0f);
+		}
+	}
+
+	@Override
+	public void setY(float y) {
+		super.setY(y);
+		if (null != sprite.getPhysicsProperties()) {
+			sprite.getPhysicsProperties().setY(y + getHeight() / 2.0f);
+		}
+	}
+
+	public float getAngularVelocityInUserInterfaceDimensionUnit() {
+		return sprite.getPhysicsProperties().getRotationSpeed();
+	}
+
+	public float getXVelocityInUserInterfaceDimensionUnit() {
+		return sprite.getPhysicsProperties().getVelocity().x;
+	}
+
+	public float getYVelocityInUserInterfaceDimensionUnit() {
+		return sprite.getPhysicsProperties().getVelocity().y;
+	}
+
+	public float getX() {
+		float x = sprite.getPhysicsProperties().getX() - getWidth() / 2.0f;
+		super.setX(x);
+		return x;
+	}
+
+	@Override
+	public float getY() {
+		float y = sprite.getPhysicsProperties().getY() - getHeight() / 2.0f;
+		super.setY(y);
+		return y;
+	}
+
+	@Override
+	public float getRotation() {
+		super.setRotation((sprite.getPhysicsProperties().getDirection() % 360));
+
+		float rotation = super.getRotation();
+		float realRotation = convertStageAngleToCatroidAngle(sprite.getPhysicsProperties().getDirection() % 360);
+		if (realRotation < 0) {
+			realRotation += 360;
+		}
+
+		switch (getRotationMode()) {
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+				super.setRotation(0f);
+				boolean orientedRight = realRotation > 180 || realRotation == 0;
+				boolean orientedLeft = realRotation <= 180 && realRotation != 0;
+				if (((isFlipped() && orientedRight) || (!isFlipped() && orientedLeft)) && lookData != null) {
+					lookData.getTextureRegion().flip(true, false);
+				}
+				break;
+			case ROTATION_STYLE_ALL_AROUND:
+				super.setRotation(rotation);
+				break;
+			case ROTATION_STYLE_NONE:
+				super.setRotation(0f);
+				break;
+		}
+
+		return super.getRotation();
+	}
+
+	@Override
+	public void setRotation(float degrees) {
+		super.setRotation(degrees);
+		if (null != sprite.getPhysicsProperties()) {
+			sprite.getPhysicsProperties().setDirection(super.getRotation() % 360);
+		}
+	}
+
+	@Override
+	public void setScale(float scaleX, float scaleY) {
+		Vector2 oldScales = new Vector2(getScaleX(), getScaleY());
+		if (scaleX < 0.0f || scaleY < 0.0f) {
+			scaleX = 0.0f;
+			scaleY = 0.0f;
+		}
+
+		int scaleXComp = Math.round(scaleX * SCALE_FACTOR_ACCURACY);
+		int scaleYComp = Math.round(scaleY * SCALE_FACTOR_ACCURACY);
+		if (scaleXComp == Math.round(oldScales.x * SCALE_FACTOR_ACCURACY) && scaleYComp == Math.round(oldScales.y * SCALE_FACTOR_ACCURACY)) {
+			return;
+		}
+
+		super.setScale(scaleX, scaleY);
+
+		if (sprite.getPhysicsProperties() != null) {
+			PhysicsWorld physicsWorld = ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
+			physicsWorld.changeLook(sprite.getPhysicsProperties(), this);
+			updatePhysicsObjectState(true);
+		}
+	}
+
+	public void updatePhysicsObjectState(boolean record) {
+		physicsObjectStateHandler.update(record);
+	}
+
+	public boolean isHangedUp() {
+		return physicsObjectStateHandler.isHangedUp();
+	}
+
+	public void setNonColliding(boolean nonColliding) {
+		physicsObjectStateHandler.setNonColliding(nonColliding);
+	}
+
+	public void startGlide() {
+		physicsObjectStateHandler.activateGlideTo();
+	}
+
+	public void stopGlide() {
+		physicsObjectStateHandler.deactivateGlideTo();
+	}
+
+	private interface PhysicsObjectStateCondition {
+		boolean isTrue();
+	}
+
+	private class PhysicsObjectStateHandler {
+
+		private LinkedList<Look.PhysicsObjectStateCondition> hangupConditions = new LinkedList<>();
+		private LinkedList<Look.PhysicsObjectStateCondition> nonCollidingConditions = new LinkedList<>();
+		private LinkedList<Look.PhysicsObjectStateCondition> fixConditions = new LinkedList<>();
+
+		private Look.PhysicsObjectStateCondition positionCondition;
+		private Look.PhysicsObjectStateCondition visibleCondition;
+		private Look.PhysicsObjectStateCondition transparencyCondition;
+		private Look.PhysicsObjectStateCondition glideToCondition;
+
+		private boolean glideToIsActive = false;
+		private boolean hangedUp = false;
+		private boolean fixed = false;
+		private boolean nonColliding = false;
+
+		PhysicsObjectStateHandler() {
+
+			positionCondition = new Look.PhysicsObjectStateCondition() {
+				@Override
+				public boolean isTrue() {
+					return isOutsideActiveArea();
+				}
+
+				private boolean isOutsideActiveArea() {
+					return isXOutsideActiveArea() || isYOutsideActiveArea();
+				}
+
+				private boolean isXOutsideActiveArea() {
+					return Math.abs(PhysicsWorldConverter.convertBox2dToNormalCoordinate(sprite.getPhysicsProperties().getMassCenter().x))
+							- sprite.getPhysicsProperties().getCircumference() > PhysicsWorld.activeArea.x / 2.0f;
+				}
+
+				private boolean isYOutsideActiveArea() {
+					return Math.abs(PhysicsWorldConverter.convertBox2dToNormalCoordinate(sprite.getPhysicsProperties().getMassCenter().y))
+							- sprite.getPhysicsProperties().getCircumference() > PhysicsWorld.activeArea.y / 2.0f;
+				}
+			};
+
+			visibleCondition = new Look.PhysicsObjectStateCondition() {
+				@Override
+				public boolean isTrue() {
+					return !isLookVisible();
+				}
+			};
+
+			transparencyCondition = new Look.PhysicsObjectStateCondition() {
+				@Override
+				public boolean isTrue() {
+					return alpha == 0.0;
+				}
+			};
+
+			glideToCondition = new Look.PhysicsObjectStateCondition() {
+				@Override
+				public boolean isTrue() {
+					return glideToIsActive;
+				}
+			};
+
+			hangupConditions.add(transparencyCondition);
+			hangupConditions.add(positionCondition);
+			hangupConditions.add(visibleCondition);
+			hangupConditions.add(glideToCondition);
+
+			nonCollidingConditions.add(transparencyCondition);
+			nonCollidingConditions.add(positionCondition);
+			nonCollidingConditions.add(visibleCondition);
+
+			fixConditions.add(glideToCondition);
+		}
+
+		private boolean checkHangup(boolean record) {
+			boolean shouldBeHangedUp = false;
+			for (Look.PhysicsObjectStateCondition hangupCondition : hangupConditions) {
+				if (hangupCondition.isTrue()) {
+					shouldBeHangedUp = true;
+					break;
+				}
+			}
+			boolean deactivateHangup = hangedUp && !shouldBeHangedUp;
+			boolean activateHangup = !hangedUp && shouldBeHangedUp;
+			if (deactivateHangup) {
+				sprite.getPhysicsProperties().deactivateHangup(record);
+			} else if (activateHangup) {
+				sprite.getPhysicsProperties().activateHangup();
+			}
+			hangedUp = shouldBeHangedUp;
+			return hangedUp;
+		}
+
+		private boolean checkNonColliding(boolean record) {
+			boolean shouldBeNonColliding = false;
+			for (Look.PhysicsObjectStateCondition nonCollideCondition : nonCollidingConditions) {
+				if (nonCollideCondition.isTrue()) {
+					shouldBeNonColliding = true;
+					break;
+				}
+			}
+			boolean deactivateNonColliding = nonColliding && !shouldBeNonColliding;
+			boolean activateNonColliding = !nonColliding && shouldBeNonColliding;
+			if (deactivateNonColliding) {
+				sprite.getPhysicsProperties().deactivateNonColliding(record, false);
+			} else if (activateNonColliding) {
+				sprite.getPhysicsProperties().activateNonColliding(false);
+			}
+			nonColliding = shouldBeNonColliding;
+			return nonColliding;
+		}
+
+		private boolean checkFixed(boolean record) {
+			boolean shouldBeFixed = false;
+			for (Look.PhysicsObjectStateCondition fixedCondition : fixConditions) {
+				if (fixedCondition.isTrue()) {
+					shouldBeFixed = true;
+					break;
+				}
+			}
+			boolean deactivateFix = fixed && !shouldBeFixed;
+			boolean activateFix = !fixed && shouldBeFixed;
+			if (deactivateFix) {
+				sprite.getPhysicsProperties().deactivateFixed(record);
+			} else if (activateFix) {
+				sprite.getPhysicsProperties().activateFixed();
+			}
+			fixed = shouldBeFixed;
+			return fixed;
+		}
+
+		public void update(boolean record) {
+			checkHangup(record);
+			checkNonColliding(record);
+			checkFixed(record);
+		}
+
+		public void activateGlideTo() {
+			if (!glideToIsActive) {
+				glideToIsActive = true;
+				updatePhysicsObjectState(true);
+			}
+		}
+
+		public void deactivateGlideTo() {
+			glideToIsActive = false;
+			updatePhysicsObjectState(true);
+		}
+
+		public boolean isHangedUp() {
+			return hangedUp;
+		}
+
+		public void setNonColliding(boolean nonColliding) {
+			if (this.nonColliding != nonColliding) {
+				this.nonColliding = nonColliding;
+				update(true);
+			}
+		}
 	}
 }

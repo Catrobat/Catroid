@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.sensing;
 
-import android.test.InstrumentationTestCase;
-
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -41,12 +39,13 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.sensing.CollisionInformation;
+import org.catrobat.catroid.test.BaseInstrumentationTest;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 
-public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
+public class CollisionDetectionAdvancedTest extends BaseInstrumentationTest {
 	protected Project project;
 	protected Sprite sprite1;
 	protected Sprite sprite2;
@@ -93,8 +92,8 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		sprite1 = new Sprite("TestSprite1");
-		sprite2 = new Sprite("TestSprite2");
+		sprite1 = createSprite("TestSprite1");
+		sprite2 = createSprite("TestSprite2");
 
 		project.getDefaultScene().addSprite(sprite1);
 		project.getDefaultScene().addSprite(sprite2);

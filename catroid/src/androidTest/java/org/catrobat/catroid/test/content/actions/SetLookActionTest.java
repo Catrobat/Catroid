@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.graphics.BitmapFactory;
-import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -33,10 +32,10 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.BaseInstrumentationTest;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -44,7 +43,7 @@ import org.junit.Test;
 
 import java.io.File;
 
-public class SetLookActionTest extends InstrumentationTestCase {
+public class SetLookActionTest extends BaseInstrumentationTest {
 
 	protected static final int IMAGE_FILE_ID = R.raw.icon;
 	protected String projectName = "testProject";
@@ -56,6 +55,7 @@ public class SetLookActionTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 
 		if (projectFile.exists()) {
@@ -76,14 +76,13 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ScreenValues.SCREEN_HEIGHT = 200;
 		ScreenValues.SCREEN_WIDTH = 200;
 
-		sprite = new SingleSprite("new sprite");
+		sprite = createSprite("new sprite");
 		project.getDefaultScene().addSprite(sprite);
 		firstLookData = new LookData();
 		firstLookData.setLookFilename(testImage.getName());
 		firstLookData.setLookName("first look");
 		secondLookData = new LookData();
 		secondLookData.setLookFilename(testImage.getName());
-		secondLookData.setLookName("second look");
 		sprite.getLookDataList().add(firstLookData);
 		sprite.getLookDataList().add(secondLookData);
 	}

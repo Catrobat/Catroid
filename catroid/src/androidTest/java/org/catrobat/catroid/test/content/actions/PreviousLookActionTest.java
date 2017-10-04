@@ -22,32 +22,37 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.NextLookAction;
 import org.catrobat.catroid.content.actions.PreviousLookAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.catrobat.catroid.test.BaseInstrumentationTest;
 
 import java.io.File;
 
-public class PreviousLookActionTest extends InstrumentationTestCase {
+public class PreviousLookActionTest extends BaseInstrumentationTest {
 
 	private File testImage;
 	private Sprite sprite;
 	private ActionFactory actionFactory;
+	private Project project;
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 		final String imagePath = Constants.DEFAULT_ROOT + "/testImage.png";
 		testImage = new File(imagePath);
-		sprite = new Sprite("cat");
+		sprite = createSprite("cat");
 		actionFactory = sprite.getActionFactory();
+		project = new Project(null, "testProject");
+		ProjectManager.getInstance().setProject(project);
 	}
 
 	public void testPreviousLook() {

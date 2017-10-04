@@ -22,18 +22,16 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.test.BaseTest;
 
-public class ShowActionTest extends AndroidTestCase {
+public class ShowActionTest extends BaseTest {
 
 	public void testShow() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = createSprite("new SingleSprite");
 		sprite.look.setLookVisible(false);
 		assertFalse("Sprite is still visible after calling hide", sprite.look.isLookVisible());
 

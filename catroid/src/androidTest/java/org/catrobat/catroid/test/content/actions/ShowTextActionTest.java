@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
@@ -33,15 +31,16 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.test.BaseTest;
 
-public class ShowTextActionTest extends AndroidTestCase {
+public class ShowTextActionTest extends BaseTest {
 
 	private static final String SPRITE_NAME = "Cat";
 	private static final String SECOND_SPRITE_NAME = "Dog";
 	private static final UserVariable USER_VARIABLE = new UserVariable("var");
 
 	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
-		Sprite sprite = new Sprite(SPRITE_NAME);
+		Sprite sprite = createSprite(SPRITE_NAME);
 		Project project = new Project(null, "testProject");
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);

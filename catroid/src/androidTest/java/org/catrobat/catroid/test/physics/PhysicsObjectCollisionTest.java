@@ -28,7 +28,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import java.util.ArrayList;
@@ -43,24 +43,24 @@ public class PhysicsObjectCollisionTest extends PhysicsCollisionBaseTest {
 	public PhysicsObjectCollisionTest() {
 		spritePosition = new Vector2(-125f, 0f);
 		sprite2Position = new Vector2(125f, 0f);
-		physicsObject1Type = PhysicsObject.Type.DYNAMIC;
-		physicsObject2Type = PhysicsObject.Type.DYNAMIC;
+		physicsObject1Type = PhysicsProperties.Type.DYNAMIC;
+		physicsObject2Type = PhysicsProperties.Type.DYNAMIC;
 	}
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		physicsObject1.setGravityScale(0f);
-		physicsObject2.setGravityScale(0f);
-		physicsObject1.setVelocity(64f, 0f);
-		physicsObject2.setVelocity(-64f, 0f);
+		physicsProperties1.setGravityScale(0f);
+		physicsProperties2.setGravityScale(0f);
+		physicsProperties1.setVelocity(64f, 0f);
+		physicsProperties2.setVelocity(-64f, 0f);
 
-		Body body1 = (Body) Reflection.getPrivateField(physicsObject1, "body");
+		Body body1 = (Body) Reflection.getPrivateField(physicsProperties1, "body");
 
 		Fixture expectedContactFixture1 = body1.getFixtureList().get(0);
 		expectedcontactFixtures.add(expectedContactFixture1);
-		Body body2 = (Body) Reflection.getPrivateField(physicsObject2, "body");
+		Body body2 = (Body) Reflection.getPrivateField(physicsProperties2, "body");
 		Fixture expectedContactFixture2 = body2.getFixtureList().get(0);
 		expectedcontactFixtures.add(expectedContactFixture2);
 	}
@@ -88,34 +88,34 @@ public class PhysicsObjectCollisionTest extends PhysicsCollisionBaseTest {
 	}
 
 	public void testCollisionDynamicFixed() {
-		physicsObject2.setType(PhysicsObject.Type.FIXED);
+		physicsProperties2.setType(PhysicsProperties.Type.FIXED);
 		assertTrue("Error in simulation", simulateFullCollision());
 		assertTrue("Collision between dynamic and fixed physics objects did not occur", contactFixturePairs.contains(expectedcontactFixtures));
 	}
 
 	public void testCollisionDynamicNone() {
-		physicsObject2.setType(PhysicsObject.Type.NONE);
+		physicsProperties2.setType(PhysicsProperties.Type.NONE);
 		assertTrue("Error in simulation", simulateFullCollision());
 		assertFalse("Dynamic physics object should not collide with non-physics object", contactFixturePairs.contains(expectedcontactFixtures));
 	}
 
 	public void testCollisionFixedFixed() {
-		physicsObject1.setType(PhysicsObject.Type.FIXED);
-		physicsObject2.setType(PhysicsObject.Type.FIXED);
+		physicsProperties1.setType(PhysicsProperties.Type.FIXED);
+		physicsProperties2.setType(PhysicsProperties.Type.FIXED);
 		assertTrue("Error in simulation", simulateFullCollision());
 		assertFalse("Two fixed physics objects should not collide with each other", contactFixturePairs.contains(expectedcontactFixtures));
 	}
 
 	public void testCollisionFixedNone() {
-		physicsObject1.setType(PhysicsObject.Type.FIXED);
-		physicsObject2.setType(PhysicsObject.Type.NONE);
+		physicsProperties1.setType(PhysicsProperties.Type.FIXED);
+		physicsProperties2.setType(PhysicsProperties.Type.NONE);
 		assertTrue("Error in simulation", simulateFullCollision());
 		assertFalse("Fixed and non-physics objects should not collide with each other", contactFixturePairs.contains(expectedcontactFixtures));
 	}
 
 	public void testCollisionNoneNone() {
-		physicsObject1.setType(PhysicsObject.Type.NONE);
-		physicsObject2.setType(PhysicsObject.Type.NONE);
+		physicsProperties1.setType(PhysicsProperties.Type.NONE);
+		physicsProperties2.setType(PhysicsProperties.Type.NONE);
 		assertTrue("Error in simulation", simulateFullCollision());
 		assertFalse("Two non-physics objects should not collide with each other", contactFixturePairs.contains(expectedcontactFixtures));
 	}

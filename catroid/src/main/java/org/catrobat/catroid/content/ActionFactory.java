@@ -144,7 +144,6 @@ import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
-import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -161,7 +160,18 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.content.actions.GlideToPhysicsAction;
+import org.catrobat.catroid.physics.content.actions.IfOnEdgeBouncePhysicsAction;
+import org.catrobat.catroid.physics.content.actions.SetBounceFactorAction;
+import org.catrobat.catroid.physics.content.actions.SetFrictionAction;
+import org.catrobat.catroid.physics.content.actions.SetGravityAction;
+import org.catrobat.catroid.physics.content.actions.SetMassAction;
+import org.catrobat.catroid.physics.content.actions.SetPhysicsObjectTypeAction;
+import org.catrobat.catroid.physics.content.actions.SetVelocityAction;
+import org.catrobat.catroid.physics.content.actions.TurnLeftSpeedAction;
+import org.catrobat.catroid.physics.content.actions.TurnRightSpeedAction;
 
 public class ActionFactory extends Actions {
 
@@ -280,14 +290,6 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createGlideToAction(Sprite sprite, Formula x, Formula y, Formula duration) {
-		GlideToAction action = Actions.action(GlideToAction.class);
-		action.setPosition(x, y);
-		action.setDuration(duration);
-		action.setSprite(sprite);
-		return action;
-	}
-
 	public Action createGlideToAction(Sprite sprite, Formula x, Formula y, Formula duration, Interpolation interpolation) {
 		GlideToAction action = Actions.action(GlideToAction.class);
 		action.setPosition(x, y);
@@ -338,12 +340,6 @@ public class ActionFactory extends Actions {
 		SetVisibleAction action = Actions.action(SetVisibleAction.class);
 		action.setSprite(sprite);
 		action.setVisible(false);
-		return action;
-	}
-
-	public Action createIfOnEdgeBounceAction(Sprite sprite) {
-		IfOnEdgeBounceAction action = Actions.action(IfOnEdgeBounceAction.class);
-		action.setSprite(sprite);
 		return action;
 	}
 
@@ -817,38 +813,6 @@ public class ActionFactory extends Actions {
 		return Actions.sequence();
 	}
 
-	public Action createSetBounceFactorAction(Sprite sprite, Formula bounceFactor) {
-		throw new RuntimeException("No physics action available in non-physics sprite!");
-	}
-
-	public Action createTurnRightSpeedAction(Sprite sprite, Formula degreesPerSecond) {
-		throw new RuntimeException("No physics action available in non-physics sprite!");
-	}
-
-	public Action createTurnLeftSpeedAction(Sprite sprite, Formula degreesPerSecond) {
-		throw new RuntimeException("No physics action available in non-physics sprite!");
-	}
-
-	public Action createSetVelocityAction(Sprite sprite, Formula velocityX, Formula velocityY) {
-		throw new RuntimeException("No physics action available in non-physics sprite!");
-	}
-
-	public Action createSetPhysicsObjectTypeAction(Sprite sprite, PhysicsObject.Type type) {
-		throw new RuntimeException("No physics action available in non-physics sprite!");
-	}
-
-	public Action createSetMassAction(Sprite sprite, Formula mass) {
-		throw new RuntimeException("No physics action available in non-physics sprite!");
-	}
-
-	public Action createSetGravityAction(Sprite sprite, Formula gravityX, Formula gravityY) {
-		throw new RuntimeException("No physics action available in non-physics sprite!");
-	}
-
-	public Action createSetFrictionAction(Sprite sprite, Formula friction) {
-		throw new RuntimeException("No physics action available in non-physics sprite!");
-	}
-
 	public Action createDroneTakeOffAndLandAction() {
 		return action(DroneTakeoffAndLandAction.class);
 	}
@@ -1100,5 +1064,93 @@ public class ActionFactory extends Actions {
 		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
 		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
 		return setNfcTagAction;
+	}
+
+	// ---------------------  PHYSICS ---------------------
+	private PhysicsProperties getPhysicsProperties(Sprite sprite) {
+		return sprite.getPhysicsProperties();
+	}
+
+	private PhysicsWorld getPhysicsWorld() {
+		return ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
+	}
+
+	public Action createIfOnEdgeBounceAction(Sprite sprite) {
+		IfOnEdgeBouncePhysicsAction action = Actions.action(IfOnEdgeBouncePhysicsAction.class);
+		action.setSprite(sprite);
+		action.setPhysicsWorld(getPhysicsWorld());
+		return action;
+	}
+
+	public Action createGlideToAction(Sprite sprite, Formula x, Formula y, Formula duration) {
+		GlideToPhysicsAction action = Actions.action(GlideToPhysicsAction.class);
+		action.setPosition(x, y);
+		action.setDuration(duration);
+		action.setSprite(sprite);
+		action.setLook(sprite.look);
+		return action;
+	}
+
+	public Action createSetBounceFactorAction(Sprite sprite, Formula bounceFactor) {
+		SetBounceFactorAction action = Actions.action(SetBounceFactorAction.class);
+		action.setSprite(sprite);
+		action.setPhysicsProperties(getPhysicsProperties(sprite));
+		action.setBounceFactor(bounceFactor);
+		return action;
+	}
+
+	public Action createSetFrictionAction(Sprite sprite, Formula friction) {
+		SetFrictionAction action = Actions.action(SetFrictionAction.class);
+		action.setSprite(sprite);
+		action.setPhysicsProperties(getPhysicsProperties(sprite));
+		action.setFriction(friction);
+		return action;
+	}
+
+	public Action createSetGravityAction(Sprite sprite, Formula gravityX, Formula gravityY) {
+		SetGravityAction action = Actions.action(SetGravityAction.class);
+		action.setSprite(sprite);
+		action.setPhysicsWorld(getPhysicsWorld());
+		action.setGravity(gravityX, gravityY);
+		return action;
+	}
+
+	public Action createSetMassAction(Sprite sprite, Formula mass) {
+		SetMassAction action = Actions.action(SetMassAction.class);
+		action.setSprite(sprite);
+		action.setPhysicsProperties(getPhysicsProperties(sprite));
+		action.setMass(mass);
+		return action;
+	}
+
+	public Action createSetPhysicsObjectTypeAction(Sprite sprite, PhysicsProperties.Type type) {
+		SetPhysicsObjectTypeAction action = Actions.action(SetPhysicsObjectTypeAction.class);
+		action.setPhysicsProperties(getPhysicsProperties(sprite));
+		action.setType(type);
+		return action;
+	}
+
+	public Action createSetVelocityAction(Sprite sprite, Formula velocityX, Formula velocityY) {
+		SetVelocityAction action = Actions.action(SetVelocityAction.class);
+		action.setSprite(sprite);
+		action.setPhysicsProperties(getPhysicsProperties(sprite));
+		action.setVelocity(velocityX, velocityY);
+		return action;
+	}
+
+	public Action createTurnLeftSpeedAction(Sprite sprite, Formula speed) {
+		TurnLeftSpeedAction action = Actions.action(TurnLeftSpeedAction.class);
+		action.setSprite(sprite);
+		action.setPhysicsProperties(getPhysicsProperties(sprite));
+		action.setSpeed(speed);
+		return action;
+	}
+
+	public Action createTurnRightSpeedAction(Sprite sprite, Formula speed) {
+		TurnRightSpeedAction action = Actions.action(TurnRightSpeedAction.class);
+		action.setSprite(sprite);
+		action.setPhysicsProperties(getPhysicsProperties(sprite));
+		action.setSpeed(speed);
+		return action;
 	}
 }

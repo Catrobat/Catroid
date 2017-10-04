@@ -55,8 +55,8 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
-import org.catrobat.catroid.physics.PhysicsLook;
-import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.PhysicsProperties;
+import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 
@@ -79,13 +79,14 @@ public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Sprite.class.getSimpleName();
 
-	private static SpriteFactory spriteFactory = new SpriteFactory();
+	public static SpriteFactory spriteFactory = new SpriteFactory();
 
 	public transient Look look = new Look(this);
 	public transient boolean isBackpackObject = false;
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
+	private transient PhysicsProperties physicsProperties;
 	private transient BroadcastSequenceMap broadcastSequenceMap = new BroadcastSequenceMap();
 	private transient BroadcastWaitSequenceMap broadcastWaitSequenceMap = new BroadcastWaitSequenceMap();
 
@@ -173,12 +174,9 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void resetSprite() {
-		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
-			PhysicsWorld physicsWorld = ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
-			look = new PhysicsLook(this, physicsWorld);
-		} else {
-			look = new Look(this);
-		}
+
+		look = new Look(this);
+
 		for (LookData lookData : lookList) {
 			lookData.dispose();
 		}
@@ -343,6 +341,7 @@ public class Sprite implements Serializable, Cloneable {
 		cloneScripts(cloneSprite);
 		cloneSprite.resetSprite();
 		cloneLook(cloneSprite);
+		this.physicsProperties.copyTo(cloneSprite.getPhysicsProperties());
 
 		setUserAndVariableBrickReferences(cloneSprite, userBricks);
 
@@ -375,6 +374,7 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.resetSprite();
 		cloneLook(cloneSprite);
 		setUserAndVariableBrickReferences(cloneSprite, userBricks);
+		this.physicsProperties.copyTo(cloneSprite.getPhysicsProperties());
 
 		ProjectManager.getInstance().setCurrentSprite(originalSprite);
 
@@ -776,10 +776,10 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void rename(String newSpriteName) {
-		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
+		if (hasPhysicalCollision()) {
 			List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 			for (Sprite currentSprite : spriteList) {
-				if ((currentSprite.getRequiredResources() & Brick.PHYSICS) > 0) {
+				if (currentSprite.hasPhysicalCollision()) {
 					currentSprite.updateCollisionBroadcastMessages(getName(), newSpriteName);
 				}
 			}
@@ -1002,5 +1002,28 @@ public class Sprite implements Serializable, Cloneable {
 
 	public BroadcastWaitSequenceMap getBroadcastWaitSequenceMap() {
 		return broadcastWaitSequenceMap;
+	}
+
+	// -----------------------------   PHYSICS -----------------------------
+	public PhysicsProperties getPhysicsProperties() {
+		return physicsProperties;
+	}
+
+	public void setPhysicsProperties(PhysicsProperties physicsProperties) {
+		this.physicsProperties = physicsProperties;
+	}
+
+	public boolean hasPhysicalCollision() {
+		for (Script script : scriptList) {
+			for (Brick brick : script.getBrickList()) {
+				if (brick instanceof SetPhysicsObjectTypeBrick) {
+					SetPhysicsObjectTypeBrick setPhysicsObjectTypeBrick = (SetPhysicsObjectTypeBrick) brick;
+					if (setPhysicsObjectTypeBrick.getType() != PhysicsProperties.Type.NONE) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

@@ -41,7 +41,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.BaseDataContainer;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
-import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.UtilUi;
@@ -299,18 +298,10 @@ public class Project implements Serializable {
 		if (isCastProject()) {
 			resources = Brick.CAST_REQUIRED;
 		}
-		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
-		ActionFactory actionFactory = new ActionFactory();
 
 		for (Scene scene : sceneList) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				int tempResources = sprite.getRequiredResources();
-				if ((tempResources & Brick.PHYSICS) != 0) {
-					sprite.setActionFactory(physicsActionFactory);
-					tempResources &= ~Brick.PHYSICS;
-				} else {
-					sprite.setActionFactory(actionFactory);
-				}
 				resources |= tempResources;
 			}
 		}

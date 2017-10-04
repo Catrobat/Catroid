@@ -33,11 +33,12 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.physics.PhysicsLook;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.test.R;
@@ -54,7 +55,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
 	private PhysicsShapeBuilder physicsShapeBuilder;
 	private PhysicsWorld physicsWorld;
-	private PhysicsLook physicsLook;
+	private Look look;
 	private Project project;
 	private File projectFile;
 	private static final int SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.rectangle_125x125;
@@ -96,8 +97,9 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 						.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
 		sprite = new SingleSprite("TestSprite");
+		sprite.setPhysicsProperties(new PhysicsProperties(physicsWorld.createBody(), sprite));
 
-		physicsLook = new PhysicsLook(sprite, physicsWorld);
+		look = new Look(sprite);
 	}
 
 	@Override
@@ -112,7 +114,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
 	public void testSimpleSingleConvexPolygon() {
 		LookData lookData = PhysicsTestUtils.generateLookData(simpleSingleConvexPolygonFile);
-		physicsLook.setLookData(lookData);
+		look.setLookData(lookData);
 
 		Shape[] shapes = physicsShapeBuilder.getScaledShapes(lookData,
 				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
@@ -124,7 +126,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
 	public void testDifferentAccuracySettings() {
 		LookData lookData = PhysicsTestUtils.generateLookData(complexSingleConvexPolygonFile);
-		physicsLook.setLookData(lookData);
+		look.setLookData(lookData);
 
 		float[] accuracyLevels = (float[]) Reflection.getPrivateField(PhysicsShapeBuilder.class, "ACCURACY_LEVELS");
 

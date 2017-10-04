@@ -51,6 +51,7 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -108,6 +109,13 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 
 		if (isFinishing()) {
 			return;
+		}
+
+		ActionFactory actionFactory = new ActionFactory();
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.setActionFactory(actionFactory);
+			}
 		}
 
 		setContentView(R.layout.activity_prestage);

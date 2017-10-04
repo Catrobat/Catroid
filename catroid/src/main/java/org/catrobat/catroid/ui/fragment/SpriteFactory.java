@@ -22,10 +22,14 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import com.badlogic.gdx.physics.box2d.Body;
+
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.physics.PhysicsProperties;
 
 public class SpriteFactory {
 
@@ -43,6 +47,9 @@ public class SpriteFactory {
 
 		if (type.equals(SPRITE_SINGLE) || type.equals(SPRITE_BASE)) {
 			sprite = new SingleSprite(name);
+			Body body = ProjectManager.getInstance().getCurrentScene().getPhysicsWorld().createBody();
+			PhysicsProperties physicsProperties = new PhysicsProperties(body, sprite);
+			sprite.setPhysicsProperties(physicsProperties);
 		} else if (type.equals(SPRITE_GROUP)) {
 			sprite = new GroupSprite(name);
 		} else if (type.equals(SPRITE_GROUP_ITEM)) {

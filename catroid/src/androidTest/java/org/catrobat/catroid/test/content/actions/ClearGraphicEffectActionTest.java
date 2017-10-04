@@ -22,19 +22,17 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.test.BaseTest;
 
-public class ClearGraphicEffectActionTest extends AndroidTestCase {
+public class ClearGraphicEffectActionTest extends BaseTest {
 
 	public void testClearGraphicEffect() {
 		float value = 80f;
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = createSprite("new SingleSprite");
 		sprite.look.setTransparencyInUserInterfaceDimensionUnit(value);
 		assertEquals("Look hasn't ghost effect.", value, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 		sprite.look.setBrightnessInUserInterfaceDimensionUnit(value);

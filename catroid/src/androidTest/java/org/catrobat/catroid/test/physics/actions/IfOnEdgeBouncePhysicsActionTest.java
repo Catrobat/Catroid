@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.actions.IfOnEdgeBouncePhysicsAction;
 import org.catrobat.catroid.test.physics.PhysicsBaseTest;
@@ -47,11 +47,11 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
 	private static final String TAG = IfOnEdgeBouncePhysicsActionTest.class.getSimpleName();
 
-	private void logState(String explanationText, Sprite sprite, PhysicsObject physicsObject) {
+	private void logState(String explanationText, Sprite sprite, PhysicsProperties physicsProperties) {
 		Log.d(TAG, explanationText);
 		Log.d(TAG, "getX():" + sprite.look.getXInUserInterfaceDimensionUnit());
 		Log.d(TAG, "getY():" + sprite.look.getYInUserInterfaceDimensionUnit());
-		Log.d(TAG, "getVelocity():" + physicsObject.getVelocity().x + " / " + physicsObject.getVelocity().y);
+		Log.d(TAG, "getVelocity():" + physicsProperties.getVelocity().x + " / " + physicsProperties.getVelocity().y);
 		Log.d(TAG, "-------------------------------------------------");
 	}
 
@@ -59,65 +59,65 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
 		assertTrue("getLookData is null", sprite.look.getLookData() != null);
 
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
+		PhysicsProperties physicsProperties = sprite.getPhysicsProperties();
+		physicsProperties.setType(PhysicsProperties.Type.DYNAMIC);
 
 		float setYValue = -ScreenValues.SCREEN_HEIGHT / 2 + 1; // So that nearly the half of the rectangle should be outside of the screen
 		sprite.look.setYInUserInterfaceDimensionUnit(setYValue);
 		float setVelocityYValue = -(IfOnEdgeBouncePhysicsAction.THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE - 1.0f);
-		physicsObject.setVelocity(physicsObject.getVelocity().x, setVelocityYValue);
+		physicsProperties.setVelocity(physicsProperties.getVelocity().x, setVelocityYValue);
 
 		assertTrue("Unexpected Y-value", sprite.look.getYInUserInterfaceDimensionUnit() == (setYValue));
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);
-		logState("Values after action creation", sprite, physicsObject);
+		logState("Values after action creation", sprite, physicsProperties);
 
 		ifOnEdgeBouncePhysicsAction.act(0.1f);
 		float setYValueAfterAct = sprite.look.getYInUserInterfaceDimensionUnit();
-		logState("Values after act of the action", sprite, physicsObject);
+		logState("Values after act of the action", sprite, physicsProperties);
 
 		physicsWorld.step(0.3f);
-		logState("Values after step of physics world", sprite, physicsObject);
+		logState("Values after step of physics world", sprite, physicsProperties);
 
-		assertTrue(physicsObject.getY() + " >= " + setYValue, (sprite.look.getYInUserInterfaceDimensionUnit() > setYValueAfterAct));
+		assertTrue(physicsProperties.getY() + " >= " + setYValue, (sprite.look.getYInUserInterfaceDimensionUnit() > setYValueAfterAct));
 	}
 
 	public void testVelocityThresholdAtTopCollision() {
 		assertTrue("getLookData is null", sprite.look.getLookData() != null);
 
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
+		PhysicsProperties physicsProperties = sprite.getPhysicsProperties();
+		physicsProperties.setType(PhysicsProperties.Type.DYNAMIC);
 
 		float setYValue = ScreenValues.SCREEN_HEIGHT / 2 - 1; // So that nearly the half of the rectangle should be outside of the screen
 		sprite.look.setYInUserInterfaceDimensionUnit(setYValue);
 		float setVelocityYValue = IfOnEdgeBouncePhysicsAction.THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE + 0.5f;
-		physicsObject.setVelocity(physicsObject.getVelocity().x, setVelocityYValue);
+		physicsProperties.setVelocity(physicsProperties.getVelocity().x, setVelocityYValue);
 
 		assertTrue("Unexpected Y-value", sprite.look.getY() == setYValue);
-		assertTrue("Unexpected velocity-Y-value", physicsObject.getVelocity().y == setVelocityYValue);
+		assertTrue("Unexpected velocity-Y-value", physicsProperties.getVelocity().y == setVelocityYValue);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);
-		logState("Values after action creation", sprite, physicsObject);
+		logState("Values after action creation", sprite, physicsProperties);
 
 		ifOnEdgeBouncePhysicsAction.act(0.1f);
-		logState("Values after act of the action", sprite, physicsObject);
+		logState("Values after act of the action", sprite, physicsProperties);
 
-		assertEquals("Unexpected velocity-value (expected = " + setVelocityYValue + "; actual = " + physicsObject.getVelocity().y,
-				setVelocityYValue, physicsObject.getVelocity().y, TestUtils.DELTA);
+		assertEquals("Unexpected velocity-value (expected = " + setVelocityYValue + "; actual = " + physicsProperties.getVelocity().y,
+				setVelocityYValue, physicsProperties.getVelocity().y, TestUtils.DELTA);
 
 		physicsWorld.step(0.3f);
-		logState("Values after step of physics world", sprite, physicsObject);
+		logState("Values after step of physics world", sprite, physicsProperties);
 
-		assertTrue(physicsObject.getY() + " < " + setYValue, (sprite.look.getYInUserInterfaceDimensionUnit() < setYValue));
+		assertTrue(physicsProperties.getY() + " < " + setYValue, (sprite.look.getYInUserInterfaceDimensionUnit() < setYValue));
 	}
 
 	public void testSpriteOverlapsRightAndTopAxis() {
 		assertTrue("getLookData is null", sprite.look.getLookData() != null);
 
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
+		PhysicsProperties physicsProperties = sprite.getPhysicsProperties();
+		physicsProperties.setType(PhysicsProperties.Type.DYNAMIC);
 
 		float setXValue = ScreenValues.SCREEN_WIDTH / 2 - sprite.look.getLookData().getPixmap().getWidth() / 4;
 		sprite.look.setXInUserInterfaceDimensionUnit(setXValue);
@@ -126,19 +126,19 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
 		float setVelocityXValue = 400.0f;
 		float setVelocityYValue = 400.0f;
-		physicsObject.setVelocity(setVelocityXValue, setVelocityYValue);
+		physicsProperties.setVelocity(setVelocityXValue, setVelocityYValue);
 
 		assertTrue("Unexpected X-value", sprite.look.getX() == setXValue);
 		assertTrue("Unexpected Y-value", sprite.look.getY() == setYValue);
-		assertTrue("Unexpected velocity-X-value", physicsObject.getVelocity().x == setVelocityXValue);
-		assertTrue("Unexpected velocity-Y-value", physicsObject.getVelocity().y == setVelocityYValue);
+		assertTrue("Unexpected velocity-X-value", physicsProperties.getVelocity().x == setVelocityXValue);
+		assertTrue("Unexpected velocity-Y-value", physicsProperties.getVelocity().y == setVelocityYValue);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);
-		logState("Values after action creation", sprite, physicsObject);
+		logState("Values after action creation", sprite, physicsProperties);
 
 		ifOnEdgeBouncePhysicsAction.act(0.1f);
-		logState("Values after first act of the action", sprite, physicsObject);
+		logState("Values after first act of the action", sprite, physicsProperties);
 
 		float borderX = sprite.look.getXInUserInterfaceDimensionUnit();
 		float borderY = sprite.look.getYInUserInterfaceDimensionUnit();
@@ -146,13 +146,13 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		assertTrue(borderX + " < " + setXValue, (borderX < setXValue));
 		assertTrue(borderY + " < " + setYValue, (borderY < setYValue));
 
-		assertEquals("Unexpected velocity-X-value (expected = " + setVelocityXValue + "; actual = " + physicsObject.getVelocity().x,
-				setVelocityXValue, physicsObject.getVelocity().x, TestUtils.DELTA);
-		assertEquals("Unexpected velocity-Y-value (expected = " + setVelocityYValue + "; actual = " + physicsObject.getVelocity().y,
-				setVelocityYValue, physicsObject.getVelocity().y, TestUtils.DELTA);
+		assertEquals("Unexpected velocity-X-value (expected = " + setVelocityXValue + "; actual = " + physicsProperties.getVelocity().x,
+				setVelocityXValue, physicsProperties.getVelocity().x, TestUtils.DELTA);
+		assertEquals("Unexpected velocity-Y-value (expected = " + setVelocityYValue + "; actual = " + physicsProperties.getVelocity().y,
+				setVelocityYValue, physicsProperties.getVelocity().y, TestUtils.DELTA);
 
 		physicsWorld.step(0.1f);
-		logState("Values after first step of physics world", sprite, physicsObject);
+		logState("Values after first step of physics world", sprite, physicsProperties);
 
 		float prevX = sprite.look.getXInUserInterfaceDimensionUnit();
 		float prevY = sprite.look.getYInUserInterfaceDimensionUnit();
@@ -161,10 +161,10 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		assertEquals("second act should not change X-coordinate. (expected = " + prevX + "; actual = " + sprite.look.getXInUserInterfaceDimensionUnit(), prevX, sprite.look.getXInUserInterfaceDimensionUnit(), TestUtils.DELTA);
 		assertEquals("second act should not change Y-coordinate. (expected = " + prevY + "; actual = " + sprite.look.getYInUserInterfaceDimensionUnit(), prevY, sprite.look.getYInUserInterfaceDimensionUnit(), TestUtils.DELTA);
 
-		logState("Values after second act of the action", sprite, physicsObject);
+		logState("Values after second act of the action", sprite, physicsProperties);
 
 		physicsWorld.step(2.3f);
-		logState("Values after second step of physics world", sprite, physicsObject);
+		logState("Values after second step of physics world", sprite, physicsProperties);
 
 		assertTrue(sprite.look.getXInUserInterfaceDimensionUnit() + " < " + borderX + "(border value X)", (sprite.look.getXInUserInterfaceDimensionUnit() < setXValue));
 		assertTrue(sprite.look.getYInUserInterfaceDimensionUnit() + " < " + borderY + "(border value Y)", (sprite.look.getYInUserInterfaceDimensionUnit() < setYValue));
@@ -185,8 +185,8 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
 		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
+		PhysicsProperties physicsProperties = sprite.getPhysicsProperties();
+		physicsProperties.setType(PhysicsProperties.Type.DYNAMIC);
 
 		float setXValue = ScreenValues.SCREEN_WIDTH / 2 - sprite.look.getLookData().getPixmap().getWidth() / 4;
 		sprite.look.setXInUserInterfaceDimensionUnit(setXValue);
@@ -198,7 +198,7 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
 		float setVelocityXValue = 400.0f;
 		float setVelocityYValue = 400.0f;
-		physicsObject.setVelocity(setVelocityXValue, setVelocityYValue);
+		physicsProperties.setVelocity(setVelocityXValue, setVelocityYValue);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);

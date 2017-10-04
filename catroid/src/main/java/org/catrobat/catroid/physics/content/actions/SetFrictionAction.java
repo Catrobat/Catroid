@@ -29,19 +29,19 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsProperties;
 
 public class SetFrictionAction extends TemporalAction {
 
 	private Sprite sprite;
-	private PhysicsObject physicsObject;
+	private PhysicsProperties physicsProperties;
 	private Formula friction;
 
 	@Override
 	protected void update(float percent) {
 		try {
 			Float newFriction = friction == null ? Float.valueOf(0f) : friction.interpretFloat(sprite);
-			physicsObject.setFriction(newFriction / 100.0f);
+			physicsProperties.setFriction(newFriction / 100.0f);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
@@ -51,8 +51,8 @@ public class SetFrictionAction extends TemporalAction {
 		this.sprite = sprite;
 	}
 
-	public void setPhysicsObject(PhysicsObject physicsObject) {
-		this.physicsObject = physicsObject;
+	public void setPhysicsProperties(PhysicsProperties physicsProperties) {
+		this.physicsProperties = physicsProperties;
 	}
 
 	public void setFriction(Formula friction) {

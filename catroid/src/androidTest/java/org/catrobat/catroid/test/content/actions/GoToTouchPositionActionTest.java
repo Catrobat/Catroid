@@ -23,16 +23,15 @@
 
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.test.BaseTest;
 import org.catrobat.catroid.utils.TouchUtil;
 
-public class GoToTouchPositionActionTest extends AndroidTestCase {
+public class GoToTouchPositionActionTest extends BaseTest {
 
 	private static final float EXPECTED_X_POSITION = 20f;
 	private static final float EXPECTED_Y_POSITION = 25f;
@@ -42,10 +41,10 @@ public class GoToTouchPositionActionTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		sprite = new Sprite("testSprite");
-		dummySprite = new Sprite("dummySprite");
-		action = sprite.getActionFactory().createGoToAction(sprite, dummySprite, BrickValues.GO_TO_TOUCH_POSITION);
 		super.setUp();
+		sprite = createSprite("testSprite");
+		dummySprite = createSprite("dummySprite");
+		action = sprite.getActionFactory().createGoToAction(sprite, dummySprite, BrickValues.GO_TO_TOUCH_POSITION);
 	}
 
 	public void testGoToTouchPositionAction() throws InterruptedException {

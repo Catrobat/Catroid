@@ -22,13 +22,10 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.RepeatAction;
@@ -39,12 +36,13 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.test.BaseInstrumentationTest;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class RepeatActionTest extends InstrumentationTestCase {
+public class RepeatActionTest extends BaseInstrumentationTest {
 
 	private static final int REPEAT_TIMES = 4;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
@@ -54,7 +52,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		testSprite = new SingleSprite("sprite");
+		super.setUp();
+		testSprite = createSprite("sprite");
 		testScript = new StartScript();
 	}
 
@@ -111,7 +110,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testRepeatCount() {
-		Sprite testSprite = new SingleSprite("sprite");
+		Sprite testSprite = createSprite("sprite");
 		Script testScript = new StartScript();
 
 		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.OBJECT_Y.name(), null));
@@ -171,7 +170,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {
-		Sprite testSprite = new SingleSprite("sprite");
+		Sprite testSprite = createSprite("sprite");
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
 
 		SequenceAction sequence = (SequenceAction) testSprite.getActionFactory().createSequence();

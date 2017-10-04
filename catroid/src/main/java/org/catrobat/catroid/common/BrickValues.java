@@ -25,8 +25,8 @@ package org.catrobat.catroid.common;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsObject.Type;
+import org.catrobat.catroid.physics.PhysicsProperties;
+import org.catrobat.catroid.physics.PhysicsProperties.Type;
 import org.catrobat.catroid.physics.PhysicsWorld;
 
 public final class BrickValues {
@@ -44,10 +44,10 @@ public final class BrickValues {
 	public static final int DURATION = 1;
 
 	//constants Physics
-	public static final PhysicsObject.Type PHYSIC_TYPE = Type.DYNAMIC;
-	public static final Float PHYSIC_MASS = PhysicsObject.DEFAULT_MASS;
-	public static final Float PHYSIC_BOUNCE_FACTOR = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
-	public static final Float PHYSIC_FRICTION = PhysicsObject.DEFAULT_FRICTION;
+	public static final PhysicsProperties.Type PHYSIC_TYPE = Type.DYNAMIC;
+	public static final Float PHYSIC_MASS = PhysicsProperties.DEFAULT_MASS;
+	public static final Float PHYSIC_BOUNCE_FACTOR = PhysicsProperties.DEFAULT_BOUNCE_FACTOR;
+	public static final Float PHYSIC_FRICTION = PhysicsProperties.DEFAULT_FRICTION;
 	public static final Vector2 PHYSIC_GRAVITY = PhysicsWorld.DEFAULT_GRAVITY;
 	public static final Vector2 PHYSIC_VELOCITY = new Vector2();
 	public static final Float PHYSIC_TURN_DEGREES = TURN_DEGREES;
