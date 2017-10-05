@@ -79,6 +79,7 @@ import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.dialogs.RestrictedLoginDialog;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -1079,7 +1080,10 @@ public final class Utils {
 		sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME).commit();
 		sharedPreferences.edit().putString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID).commit();
 		sharedPreferences.edit().putString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE).commit();
-		AccessToken.setCurrentAccessToken(null);
+
+		if (!BuildConfig.RESTRICTED_LOGIN) {
+			AccessToken.setCurrentAccessToken(null);
+		}
 
 		sharedPreferences.edit().putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE).commit();
 		sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL).commit();
@@ -1440,8 +1444,25 @@ public final class Utils {
 
 	public static void restrictedLogin(Activity activity) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+
 		if (!sharedPreferences.getBoolean(Constants.RESTRICTED_LOGIN_ACCEPTED, false)) {
 			RestrictedLoginDialog.newInstance().show(activity.getFragmentManager(), RestrictedLoginDialog.DIALOG_FRAGMENT_TAG);
+		} else {
+			showPrivacyPolicyOrLoginDialog(activity);
+		}
+	}
+
+	public static void showPrivacyPolicyOrLoginDialog(final Activity activity) {
+		if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(activity)) {
+			PrivacyPolicyDialogFragment privacyPolicyDialog =
+					new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
+						@Override
+						public void onClick() {
+							ProjectManager.getInstance().showLogInDialog(activity, false);
+						}
+					}, true);
+
+			privacyPolicyDialog.show(activity.getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
 		} else {
 			ProjectManager.getInstance().showLogInDialog(activity, false);
 		}

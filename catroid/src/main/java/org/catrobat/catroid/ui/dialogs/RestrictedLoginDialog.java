@@ -36,7 +36,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.TextSizeUtil;
@@ -89,7 +88,7 @@ public class RestrictedLoginDialog extends DialogFragment {
 								.apply();
 
 						if (!Utils.isUserLoggedIn(getActivity()) || !Utils.isCreateAtSchoolUser(getActivity())) {
-							ProjectManager.getInstance().showLogInDialog(getActivity(), false);
+							Utils.showPrivacyPolicyOrLoginDialog(getActivity());
 						}
 						dismiss();
 					}

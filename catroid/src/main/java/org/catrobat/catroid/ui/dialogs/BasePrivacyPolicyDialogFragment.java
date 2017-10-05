@@ -39,28 +39,20 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.Utils;
 
-public class PrivacyPolicyDialogFragment extends DialogFragment {
+public abstract class BasePrivacyPolicyDialogFragment extends DialogFragment {
 
 	public interface DialogAction {
 		void onClick();
 	}
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_privacy_policy";
-	private static final String PREFS_KEY_USER_ACCEPTED_PRIVACY_POLICY = "USER_ACCEPTED_PRIVACY_POLICY";
+	protected static final String PREFS_KEY_USER_ACCEPTED_PRIVACY_POLICY = "USER_ACCEPTED_PRIVACY_POLICY";
 
-	private DialogAction onAccept;
-	private boolean forceAccept = false;
-	private boolean showDeleteAccountDialog = false;
-	private Activity activity;
-
-	public PrivacyPolicyDialogFragment() {
-	}
-
-	public PrivacyPolicyDialogFragment(final DialogAction onAccept, boolean showDeleteAccountDialog) {
-		forceAccept = true;
-		this.onAccept = onAccept;
-		this.showDeleteAccountDialog = showDeleteAccountDialog;
-	}
+	protected DialogAction onAccept;
+	protected boolean forceAccept = false;
+	protected boolean dismissable = true;
+	protected boolean showDeleteAccountDialog = false;
+	protected Activity activity;
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
@@ -76,6 +68,7 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 					dialog.cancel();
+					onAccept.onClick();
 				}
 			});
 		} else {
@@ -98,7 +91,20 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 				}
 			});
 		}
-		return builder.create();
+
+		Dialog dialog = builder.create();
+
+		if (!dismissable) {
+			dialog.setCanceledOnTouchOutside(false);
+			dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+				@Override
+				public boolean onKey(android.content.DialogInterface dialog, int keyCode, android.view.KeyEvent event) {
+					return keyCode == android.view.KeyEvent.KEYCODE_BACK;
+				}
+			});
+		}
+
+		return dialog;
 	}
 
 	private void showDeleteAccountDialog() {

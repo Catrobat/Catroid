@@ -1750,7 +1750,6 @@
     <!-- Restricted Login -->
     <string name="dialog_restricted_login_title">Restricted Login</string>
     <string name="schoolreg_text">Please use the Create@School username and password that you have received from your school. As a school, please register on %1$s to receive complimentary accounts for your teachers and students.</string>
-
     <!-- Action Template Strings -->
     <string name="action_project_variable_timer" tools:ignore="UnusedResources">timer</string>
     <string name="action_project_variable_score" tools:ignore="UnusedResources">score</string>
