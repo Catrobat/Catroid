@@ -25,6 +25,7 @@ package org.catrobat.catroid.pocketmusic.mididriver;
 import android.os.Handler;
 
 import org.catrobat.catroid.pocketmusic.note.NoteName;
+import org.catrobat.catroid.pocketmusic.ui.PianoView;
 
 public class MidiRunnable implements Runnable {
 
@@ -33,21 +34,27 @@ public class MidiRunnable implements Runnable {
 	private final long duration;
 	private final Handler handler;
 	private final MidiNotePlayer midiNotePlayer;
+	private final PianoView pianoView;
 
-	public MidiRunnable(MidiSignals signal, NoteName noteName, long duration, Handler handler, MidiNotePlayer midiNotePlayer) {
+	public MidiRunnable(MidiSignals signal, NoteName noteName, long duration, Handler handler,
+			MidiNotePlayer midiNotePlayer, PianoView pianoView) {
 		this.signal = signal;
 		this.noteName = noteName;
 		this.duration = duration;
 		this.handler = handler;
 		this.midiNotePlayer = midiNotePlayer;
+		this.pianoView = pianoView;
 	}
 
 	@Override
 	public void run() {
-		midiNotePlayer.sendMidi(signal.getSignalByte(), noteName.getMidi(), 24);
+		midiNotePlayer.sendMidi(signal.getSignalByte(), noteName.getMidi(), 127);
+		if (pianoView != null) {
+			pianoView.setButtonColor(noteName, MidiSignals.NOTE_ON.equals(signal));
+		}
 		if (signal.equals(MidiSignals.NOTE_ON)) {
-			handler.postDelayed(new MidiRunnable(MidiSignals.NOTE_OFF, noteName, duration, handler, midiNotePlayer),
-					duration);
+			handler.postDelayed(new MidiRunnable(MidiSignals.NOTE_OFF, noteName, duration, handler, midiNotePlayer,
+					pianoView), duration);
 		}
 	}
 

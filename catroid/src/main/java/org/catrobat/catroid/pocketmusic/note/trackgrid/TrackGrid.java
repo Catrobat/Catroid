@@ -37,6 +37,8 @@ import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.Project;
+import org.catrobat.catroid.pocketmusic.ui.PianoView;
+import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,7 @@ import java.util.List;
 public class TrackGrid {
 
 	private static final int INDEX_TO_COUNT_OFFSET = 1;
+	private static final int SOUND_OFFSET = 10;
 	private final MusicalKey key;
 	private final MusicalInstrument instrument;
 	private final MusicalBeat beat;
@@ -124,7 +127,7 @@ public class TrackGrid {
 						+ "and noteLength %s. ", noteName.name(), tactIndex, columnIndex, noteLength.toString()));
 				currentGridRowPositions.add(new GridRowPosition(columnIndex, noteLength));
 				long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
-				handler.post(new MidiRunnable(MidiSignals.NOTE_ON, noteName, playLength, handler, midiDriver));
+				handler.post(new MidiRunnable(MidiSignals.NOTE_ON, noteName, playLength, handler, midiDriver, null));
 			}
 		} else {
 			if (indexInList >= 0) {
@@ -165,28 +168,31 @@ public class TrackGrid {
 		return tactcount + INDEX_TO_COUNT_OFFSET;
 	}
 
-	public void startPlayback() {
+	public void startPlayback(PianoView pianoView) {
 		playRunnables.clear();
 		long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
 		long currentTime = SystemClock.uptimeMillis();
 		for (GridRow row : gridRows) {
 			for (int i = 0; i < row.getGridRowPositions().size(); i++) {
-				List<GridRowPosition> gridRowPositions = row.getGridRowPositions().get(row.getGridRowPositions()
-						.keyAt(i));
+				int tactIndex = row.getGridRowPositions().keyAt(i);
+				long tactOffset = playLength * TrackRowView.QUARTER_COUNT * tactIndex;
+				List<GridRowPosition> gridRowPositions = row.getGridRowPositions().get(tactIndex);
 				for (GridRowPosition position : gridRowPositions) {
-					MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, row.getNoteName(), playLength - 10,
-							handler, midiDriver);
-					handler.postAtTime(runnable, currentTime + playLength * position.getColumnStartIndex() + 10);
+					MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, row.getNoteName(), playLength - SOUND_OFFSET,
+							handler, midiDriver, pianoView);
+
+					handler.postAtTime(runnable, currentTime + tactOffset + playLength
+							* position.getColumnStartIndex() + SOUND_OFFSET);
 					playRunnables.add(runnable);
 				}
 			}
 		}
 	}
 
-	public void stopPlayback() {
+	public void stopPlayback(PianoView pianoView) {
 		for (MidiRunnable r : playRunnables) {
 			handler.removeCallbacks(r);
-			handler.post(new MidiRunnable(MidiSignals.NOTE_OFF, r.getNoteName(), 0, handler, midiDriver));
+			handler.post(new MidiRunnable(MidiSignals.NOTE_OFF, r.getNoteName(), 0, handler, midiDriver, pianoView));
 		}
 		playRunnables.clear();
 	}

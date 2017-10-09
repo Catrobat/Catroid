@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.pocketmusic.note.NoteName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,6 +161,32 @@ public class PianoView extends ViewGroup {
 					currentButtonCount += 1f;
 				}
 			}
+		}
+	}
+
+	public void setButtonColor(NoteName note, boolean active) {
+		int i = 0;
+		for (int counter = NoteName.DEFAULT_NOTE_NAME.getMidi(); counter < NoteName.C2.getMidi(); counter++) {
+			NoteName tempNote = NoteName.getNoteNameFromMidiValue(counter);
+			if (note.equals(tempNote)) {
+				break;
+			}
+			if (note.isSigned() == tempNote.isSigned()) {
+				i++;
+			}
+		}
+
+		View noteView;
+		if (note.isSigned()) {
+			noteView = blackPianoKeys.get(i);
+		} else {
+			noteView = whitePianoKeys.get(i);
+		}
+		if (active) {
+			noteView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.terms_of_use_text_color));
+		} else {
+			noteView.setBackgroundColor(ContextCompat.getColor(getContext(), note.isSigned() ? R.color.solid_black : R
+					.color.white));
 		}
 	}
 

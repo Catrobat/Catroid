@@ -52,6 +52,8 @@ public class TactScrollRecyclerView extends RecyclerView {
 	private static final int MINIMUM_TACT_COUNT = 2;
 	private static final int TACT_VIEW_TYPE = 0;
 	private static final int PLUS_VIEW_TYPE = 1;
+	private static final int EMPTY_VIEW_TYPE = 2;
+	private static final int EMPTY_VIEW_COUNT_ON_END = 2;
 	private TrackGrid trackGrid;
 	private ViewGroup.LayoutParams tactViewParams = new ViewGroup.LayoutParams(0, 0);
 	private boolean isPlaying;
@@ -129,16 +131,23 @@ public class TactScrollRecyclerView extends RecyclerView {
 		@Override
 		public TactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 			View tactContent;
-			if (viewType == PLUS_BUTTON_ON_END) {
-				tactContent = LayoutInflater.from(parent.getContext()).inflate(R.layout.pocketmusic_add_tact_button,
-						parent, false);
-				tactContent.setLayoutParams(tactViewParams);
-				tactContent.setOnClickListener(addTactClickListener);
-			} else {
-				tactContent = new TrackView(getContext(), trackGrid);
-				tactContent.setLayoutParams(tactViewParams);
+			switch (viewType) {
+				case PLUS_VIEW_TYPE:
+					tactContent = LayoutInflater.from(parent.getContext()).inflate(R.layout.pocketmusic_add_tact_button,
+							parent, false);
+					tactContent.setLayoutParams(tactViewParams);
+					tactContent.setOnClickListener(addTactClickListener);
+					break;
+				case EMPTY_VIEW_TYPE:
+					tactContent = LayoutInflater.from(parent.getContext()).inflate(R.layout.pocketmusic_empty_view,
+							parent, false);
+					tactContent.setLayoutParams(tactViewParams);
+					break;
+				default:
+					tactContent = new TrackView(getContext(), trackGrid);
+					tactContent.setLayoutParams(tactViewParams);
+					break;
 			}
-
 			return new TactViewHolder(tactContent);
 		}
 
@@ -152,6 +161,12 @@ public class TactScrollRecyclerView extends RecyclerView {
 
 		@Override
 		public int getItemViewType(int position) {
+			if (isPlaying) {
+				if (position >= getItemCount() - EMPTY_VIEW_COUNT_ON_END) {
+					return EMPTY_VIEW_TYPE;
+				}
+				return TACT_VIEW_TYPE;
+			}
 			if (position == getItemCount() - 1) {
 				return PLUS_VIEW_TYPE;
 			} else {
@@ -161,6 +176,9 @@ public class TactScrollRecyclerView extends RecyclerView {
 
 		@Override
 		public int getItemCount() {
+			if (isPlaying) {
+				return Math.max(tactCount, MINIMUM_TACT_COUNT) + EMPTY_VIEW_COUNT_ON_END;
+			}
 			return Math.max(tactCount, MINIMUM_TACT_COUNT) + PLUS_BUTTON_ON_END;
 		}
 	}
