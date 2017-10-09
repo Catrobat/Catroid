@@ -59,6 +59,7 @@ public class FormulaElement implements Serializable {
 
 	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
 	public static final Double NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE = 0d;
+	private static final String EMPTY_USER_LIST_INTERPRETATION_VALUE = "";
 
 	private ElementType type;
 	private String value;
@@ -311,7 +312,7 @@ public class FormulaElement implements Serializable {
 		List<Object> userListValues = userList.getList();
 
 		if (userListValues.size() == 0) {
-			return 0d;
+			return EMPTY_USER_LIST_INTERPRETATION_VALUE;
 		} else if (userListValues.size() == 1) {
 			Object userListValue = userListValues.get(0);
 			if (userListValue instanceof String) {
