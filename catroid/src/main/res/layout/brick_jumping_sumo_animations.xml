@@ -49,7 +49,7 @@
         <TextView
             android:id="@+id/brick_jumping_sumo_animation_text_view"
             style="@style/BrickText.SingleLine"
-            android:text="@string/default_jumping_sumo_project_sprites_animation" />
+            android:text="@string/brick_jumping_sumo_animation" />
 
         <Spinner
             android:id="@+id/brick_jumping_sumo_animation_spinner"

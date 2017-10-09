@@ -56,8 +56,8 @@ public class JumpingSumoAnimationBrickTest {
 	public void setUp() throws Exception {
 		brickPosition = 1;
 
-		BrickTestUtils.createProjectAndGetStartScript("JumpingSumoAnimationBrickTest").addBrick(new
-				JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN));
+		BrickTestUtils.createProjectAndGetStartScript("JumpingSumoAnimationBrickTest")
+				.addBrick(new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN));
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -71,10 +71,6 @@ public class JumpingSumoAnimationBrickTest {
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_animation_spinner)
 				.checkShowsText(R.string.animation_spin);
-
-		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_animation_spinner)
-				.performSelect(R.string.animation_tab)
-				.checkShowsText(R.string.animation_tab);
 
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.animation_spin,

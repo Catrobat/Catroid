@@ -71,10 +71,6 @@ public class JumpingSumoSoundBrickTest {
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_sound_spinner)
 				.checkShowsText(R.string.sound_default);
 
-		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_sound_spinner)
-				.performSelect(R.string.sound_insect)
-				.checkShowsText(R.string.sound_insect);
-
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
 				R.string.sound_default,
 				R.string.sound_robot,
