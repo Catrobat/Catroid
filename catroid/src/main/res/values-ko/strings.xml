@@ -240,7 +240,7 @@
   <string name="project_name">프로그램:</string>
   <string name="my_projects_activity_title">프로그램</string>
   <string name="number_of_objects">오브젝트:</string>
-  <string name="start_scene_name">\"%1$s\" (첫 장면)</string>
+  <string name="start_scene_name">%1$s (첫 장면)</string>
   <string name="number_of_scripts">스크립트:</string>
   <string name="number_of_bricks">블록:</string>
   <string name="number_of_looks">모양:</string>
@@ -257,7 +257,7 @@
   <string name="select_all">모두 선택</string>
   <string name="deselect_all">모든 선택 취소</string>
   <string name="backpack_replace_object"> \"%1$s\" 스프라이트는 스프라이트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
-  <string name="backpack_replace_scene">모양 \"%1$s\"는 오브젝트 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
+  <string name="backpack_replace_scene">모양 %1$s 는 오브젝트 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
   <string name="backpack_replace_object_multiple">오브젝트는 오브젝트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
   <string name="groups_create">그룹 만들기</string>
   <string name="group_created">그룹이 만들어 졌습니다.</string>
@@ -471,7 +471,7 @@
   <string name="merge_scene_label_one">병합</string>
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">플레이 장면:</string>
-  <string name="play_scene_dialog_default">첫 번째 장면 (\"%1$s\")</string>
+  <string name="play_scene_dialog_default">첫 번째 장면 (%1$s)</string>
   <string name="play_scene_dialog_current">현재 (\"%1$s\")</string>
   <!--  -->
   <!-- New sprite dialog -->
@@ -724,7 +724,7 @@
   <!--  -->
   <!-- defaultValues -->
   <string name="default_project_name">내 첫 프로그램</string>
-  <string name="default_scene_name">장면 \"%1$d\"</string>
+  <string name="default_scene_name">장면 %1$d</string>
   <string name="default_project_background_name">배경</string>
   <string name="default_project_cloud_name">클라우드</string>
   <string name="default_project_cloud_sprite_name_1">클라우드1</string>
