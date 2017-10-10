@@ -24,6 +24,7 @@
 
 <manifest package="org.catrobat.catroid"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
 
     <supports-screens
@@ -86,6 +87,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="${appName}"
+        tools:replace="label"
         android:theme="@style/Theme.Catroid"
         android:supportsRtl="true">
 
