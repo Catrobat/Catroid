@@ -30,8 +30,8 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -184,34 +184,33 @@ public final class TextSizeUtil {
 		item.setTitle(spanString);
 	}
 
-	public static void enlargePreference(PreferenceActivity prefrenceActivity, String key) {
-		Preference preference = (Preference) prefrenceActivity.findPreference(key);
-		preference.setLayoutResource(R.layout.preference_enlarged);
+	public static void enlargePreferenceGroup(PreferenceGroup preferenceGroup) {
+		if (modifier == 1.0f) {
+			return;
+		}
+
+		for (int i = 0; i < preferenceGroup.getPreferenceCount(); i++) {
+			Preference preference = preferenceGroup.getPreference(i);
+			if (preference instanceof PreferenceScreen) {
+				enlargePreference(preference, R.layout.preference_enlarged);
+				enlargePreferenceGroup((PreferenceGroup) preference);
+			} else if (preference instanceof PreferenceCategory) {
+				enlargePreference(preference, R.layout.preferencecategory_enlarged);
+				enlargePreferenceGroup((PreferenceGroup) preference);
+			} else if (preference instanceof CheckBoxPreference) {
+				enlargePreference(preference, R.layout.preference_enlarged);
+			} else if (preference instanceof ListPreference) {
+				enlargePreference(preference, R.layout.preference_enlarged);
+			} else if (preference instanceof EditTextPreference) {
+				enlargePreference(preference, R.layout.preference_enlarged);
+			} else if (preference instanceof Preference) {
+				enlargePreference(preference, R.layout.preference_enlarged);
+			}
+		}
 	}
 
-	public static void enlargePreferenceScreen(PreferenceActivity prefrenceActivity, String key) {
-		PreferenceScreen preferenceScreen = (PreferenceScreen) prefrenceActivity.findPreference(key);
-		preferenceScreen.setLayoutResource(R.layout.preference_enlarged);
-	}
-
-	public static void enlargeCheckBoxPreference(PreferenceActivity prefrenceActivity, String key) {
-		CheckBoxPreference checkBoxPreference = (CheckBoxPreference) prefrenceActivity.findPreference(key);
-		checkBoxPreference.setLayoutResource(R.layout.preference_enlarged);
-	}
-
-	public static void enlargePreferenceCategory(PreferenceActivity prefrenceActivity, String key) {
-		PreferenceCategory preferenceCategory = (PreferenceCategory) prefrenceActivity.findPreference(key);
-		preferenceCategory.setLayoutResource(R.layout.preferencecategory_enlarged);
-	}
-
-	public static void enlargeListPreference(PreferenceActivity prefrenceActivity, String key) {
-		ListPreference listPreference = (ListPreference) prefrenceActivity.findPreference(key);
-		listPreference.setLayoutResource(R.layout.preference_enlarged);
-	}
-
-	public static void enlargeEditTextPreference(PreferenceActivity prefrenceActivity, String key) {
-		EditTextPreference editTextPreference = (EditTextPreference) prefrenceActivity.findPreference(key);
-		editTextPreference.setLayoutResource(R.layout.preference_enlarged);
+	public static void enlargePreference(Preference preference, int layoutId) {
+		preference.setLayoutResource(layoutId);
 	}
 
 	public static TextAppearanceSpan getTextAppearanceSpanForMainMenu(Context context) {
