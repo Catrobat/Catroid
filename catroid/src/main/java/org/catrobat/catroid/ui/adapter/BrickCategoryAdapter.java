@@ -49,7 +49,12 @@ public class BrickCategoryAdapter extends BaseAdapter {
 	public String getItem(int position) {
 		LinearLayout layout = (LinearLayout) (categories.get(position));
 		TextView textView = (TextView) layout.getChildAt(0);
-		return textView.getText().toString();
+
+		String text = textView.getText().toString();
+		if (IconsUtil.isAdditionalIcons()) {
+			text = text.substring(1);
+		}
+		return text;
 	}
 
 	@Override

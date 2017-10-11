@@ -50,7 +50,7 @@ import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 
 public final class IconsUtil {
 
-	private static boolean activated = false;
+	private static boolean additionalIcons = false;
 	private static boolean contrast = false;
 	private static boolean largeSize = false;
 
@@ -125,7 +125,7 @@ public final class IconsUtil {
 	}
 
 	public static void addIcon(Context context, TextView textView, String category) {
-		if (isActivated()) {
+		if (isAdditionalIcons()) {
 			Drawable drawable = null;
 
 			if (isContrast()) {
@@ -205,7 +205,7 @@ public final class IconsUtil {
 	}
 
 	public static void addIconCategory(Context context, TextView textView, String category) {
-		if (isActivated()) {
+		if (isAdditionalIcons()) {
 			Drawable drawable = null;
 
 			if (isContrast()) {
@@ -276,13 +276,15 @@ public final class IconsUtil {
 				} else {
 					drawable.setBounds(smallIconSizeCategory);
 				}
+				String textWithSpacing = uglySpacingString + textView.getText();
+				textView.setText(textWithSpacing);
 				textView.setCompoundDrawables(drawable, null, null, null);
 			}
 		}
 	}
 
 	public static void addIcons(ViewGroup viewGroup, String category) {
-		if (!isActivated()) {
+		if (!isAdditionalIcons()) {
 			return;
 		}
 		for (int i = 0; i < viewGroup.getChildCount(); i++) {
@@ -374,28 +376,28 @@ public final class IconsUtil {
 		button.setImageBitmap(Bitmap.createScaledBitmap(bitmap, size, size, false));
 	}
 
-	public static boolean isActivated() {
-		return activated;
+	public static boolean isAdditionalIcons() {
+		return additionalIcons;
 	}
 
-	public static void setActivated(boolean value) {
-		activated = value;
+	public static void setAdditionalIcons(boolean enabled) {
+		additionalIcons = enabled;
 	}
 
 	public static boolean isContrast() {
 		return contrast;
 	}
 
-	public static void setContrast(boolean value) {
-		contrast = value;
+	public static void setContrast(boolean enabled) {
+		contrast = enabled;
 	}
 
 	public static boolean isLargeSize() {
 		return largeSize;
 	}
 
-	public static void setLargeSize(boolean value) {
-		largeSize = value;
+	public static void setLargeSize(boolean enabled) {
+		largeSize = enabled;
 	}
 
 	public static Rect getLargeIconSizeMainMenu() {

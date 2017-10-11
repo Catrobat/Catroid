@@ -229,7 +229,10 @@ public class DragAndDropListView extends ListView implements CheckBoxListAdapter
 		invalidate();
 	}
 
-	public static void enableLongpressDelay() {
-		longpressTime = ViewConfiguration.getLongPressTimeout() * 2;
+	public static void setDragAndDropDelay(boolean enabled) {
+		longpressTime = ViewConfiguration.getLongPressTimeout();
+		if (enabled) {
+			longpressTime *= 2;
+		}
 	}
 }

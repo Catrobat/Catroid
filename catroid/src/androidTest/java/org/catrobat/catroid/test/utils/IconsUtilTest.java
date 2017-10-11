@@ -39,7 +39,7 @@ public final class IconsUtilTest extends AndroidTestCase {
 	public void setUp() {
 		View view = View.inflate(getContext(), R.layout.brick_when, null);
 		textView = (TextView) view.findViewById(R.id.brick_when_label);
-		IconsUtil.setActivated(true);
+		IconsUtil.setAdditionalIcons(true);
 		IconsUtil.setContrast(false);
 		IconsUtil.setLargeSize(false);
 	}

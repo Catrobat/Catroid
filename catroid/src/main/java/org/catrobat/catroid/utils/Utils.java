@@ -1398,7 +1398,7 @@ public final class Utils {
 		replaceFont(staticTypefaceFieldName, regular);
 	}
 
-	private static void replaceFont(String staticTypefaceFieldName,
+	public static void replaceFont(String staticTypefaceFieldName,
 			final Typeface newTypeface) {
 		try {
 			final Field staticField = Typeface.class

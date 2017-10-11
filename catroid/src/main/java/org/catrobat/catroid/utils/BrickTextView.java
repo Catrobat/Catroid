@@ -33,7 +33,7 @@ public class BrickTextView extends AppCompatTextView {
 
 	private static final int SHADOW_RADIUS = 3;
 	private static final int SHADOW_REPEAT = 3;
-	private static boolean drawShadowBorder = false;
+	private static boolean highContrast = false;
 
 	public BrickTextView(Context context) {
 		super(context);
@@ -56,7 +56,7 @@ public class BrickTextView extends AppCompatTextView {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if (drawShadowBorder) {
+		if (highContrast) {
 			getPaint().setShadowLayer(SHADOW_RADIUS, 0, 0, Color.BLACK);
 			getPaint().setShader(null);
 
@@ -68,7 +68,7 @@ public class BrickTextView extends AppCompatTextView {
 		}
 	}
 
-	public static void enableShadowBorder() {
-		drawShadowBorder = true;
+	public static void setHighContrast(boolean enabled) {
+		highContrast = enabled;
 	}
 }

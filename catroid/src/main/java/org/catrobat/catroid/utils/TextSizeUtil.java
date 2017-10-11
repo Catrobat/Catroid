@@ -229,12 +229,12 @@ public final class TextSizeUtil {
 		return new TextAppearanceSpan(null, 0, modifiedText, color, null);
 	}
 
-	public static void enableTextSizeUtil() {
-		modifier = 1.5f;
-	}
-
-	public static void disableTextSizeUtil() {
-		modifier = 1.0f;
-		enlargedObjects.clear();
+	public static void setLargeText(boolean enabled) {
+		if (enabled) {
+			modifier = 1.5f;
+		} else {
+			modifier = 1.0f;
+			enlargedObjects.clear();
+		}
 	}
 }
