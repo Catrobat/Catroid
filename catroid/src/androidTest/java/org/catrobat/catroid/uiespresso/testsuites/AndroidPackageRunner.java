@@ -26,7 +26,6 @@ package org.catrobat.catroid.uiespresso.testsuites;
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
 
-import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
@@ -49,14 +48,6 @@ import dalvik.system.DexFile;
 public class AndroidPackageRunner extends ParentRunner<Runner> {
 	private static final String TAG = AndroidPackageRunner.class.getSimpleName();
 
-	public static Runner emptySuite() {
-		try {
-			return new AndroidPackageRunner((Class<?>) null, new Class<?>[0]);
-		} catch (InitializationError e) {
-			throw new RuntimeException("This shouldn't be possible");
-		}
-	}
-
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.TYPE)
 	@Inherited
@@ -64,7 +55,7 @@ public class AndroidPackageRunner extends ParentRunner<Runner> {
 		String value();
 	}
 
-	private static Class<?>[] getAnnotatedClasses(Class<?> klass) throws InitializationError {
+	private static Class<?>[] getAllClassesInAnnotatedPath(Class<?> klass) throws InitializationError {
 		PackagePath annotation = klass.getAnnotation(PackagePath.class);
 		if (annotation == null) {
 			throw new InitializationError(String.format("class '%s' must have a PackagePath annotation", klass.getName()));
@@ -89,24 +80,9 @@ public class AndroidPackageRunner extends ParentRunner<Runner> {
 	private final List<Runner> runners;
 
 	public AndroidPackageRunner(Class<?> klass, RunnerBuilder builder) throws InitializationError {
-		this(builder, klass, getAnnotatedClasses(klass));
-	}
-
-	public AndroidPackageRunner(RunnerBuilder builder, Class<?>[] classes) throws InitializationError {
-		this(null, builder.runners(null, classes));
-	}
-
-	private AndroidPackageRunner(Class<?> klass, Class<?>[] suiteClasses) throws InitializationError {
-		this(new AllDefaultPossibilitiesBuilder(true), klass, suiteClasses);
-	}
-
-	private AndroidPackageRunner(RunnerBuilder builder, Class<?> klass, Class<?>[] suiteClasses) throws
-			InitializationError {
-		this(klass, builder.runners(klass, suiteClasses));
-	}
-
-	private AndroidPackageRunner(Class<?> klass, List<Runner> runners) throws InitializationError {
 		super(klass);
+		Class<?>[] suiteClasses = getAllClassesInAnnotatedPath(klass);
+		List<Runner> runners = builder.runners(klass, suiteClasses);
 		this.runners = Collections.unmodifiableList(runners);
 	}
 
