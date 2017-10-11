@@ -26,65 +26,69 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code 口袋編碼</string>
   <string name="cancel">取消</string>
-  <string name="next">Next</string>
+  <string name="next">下一步</string>
   <string name="done">完成</string>
-  <string name="name_already_exists">This name already exists, please choose another one!</string>
-  <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
+  <string name="name_already_exists">此名稱已存在，請選擇其他名稱。</string>
+  <string name="name_consists_of_spaces_only">名稱不能包含空格。</string>
   <string name="rename">更名</string>
   <string name="delete">刪除</string>
   <string name="yes">是</string>
   <string name="no">否</string>
+  <string name="back">返回</string>
+  <string name="ok">確認</string>
+  <string name="agree">Agree</string>
+  <string name="disagree">Disagree</string>
+  <string name="delete_account">Delete my account</string>
   <string name="copy">複製</string>
-  <string name="cut">Cut</string>
+  <string name="cut">剪切</string>
   <string name="move">移動</string>
-  <string name="backpack_add">Add to backpack</string>
-  <string name="backpack">Backpack</string>
-  <string name="packing">Pack</string>
-  <string name="unpack">Unpack</string>
-  <string name="unpack_bg">Unpack as background</string>
-  <string name="unpack_object">Unpack as object</string>
-  <string name="copy_addition">copy</string>
+  <string name="backpack_add">放進背包</string>
+  <string name="backpack">背包</string>
+  <string name="packing">打包</string>
+  <string name="unpack">取出</string>
+  <string name="unpack_bg">取出設為背景</string>
+  <string name="unpack_object">取出作為對象</string>
+  <string name="copy_addition">複製</string>
   <string name="close">關閉​​​</string>
   <string name="error">錯誤</string>
-  <string name="please_wait">Please wait</string>
+  <string name="please_wait">請稍候</string>
   <string name="loading">載入中&#8230;</string>
-  <string name="search_hint">Search&#8230;</string>
-  <string name="no_internet">No Internet</string>
-  <string name="loading_check_token">Token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
-  <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
-  <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#8230;</string>
-  <string name="loading_facebook_login">Facebook login is completed on our server&#8230;</string>
-  <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
-  <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
+  <string name="search_hint">搜索&#8230;</string>
+  <string name="no_internet">未連接到網路</string>
+  <string name="loading_check_token">在我們的伺服器進行認證檢查&#8230;</string>
+  <string name="loading_check_facebook_data">檢索到 Facebook 資料&#8230;</string>
+  <string name="loading_check_email">伺服器在進行電子郵件的可用性檢查&#8230;</string>
+  <string name="loading_check_oauth_token">伺服器在檢查開放認證標記&#8230;</string>
+  <string name="loading_check_facebook_token_validity">伺服器正在進行Facebok認證有效性檢查&#8230;</string>
+  <string name="loading_check_oauth_username">伺服器正在進行用戶名可用性檢查&#8230;</string>
+  <string name="loading_facebook_exchange_token">伺服器進行了Facebook認證的交換&#8230;</string>
+  <string name="loading_facebook_login">伺服器完成了Facebook登錄&#8230;</string>
+  <string name="loading_google_exchange_code">伺服器完成了Google+編碼交換&#8230;</string>
+  <string name="loading_google_login">伺服器完成了Google+登錄&#8230;</string>
   <string name="background">背景</string>
-  <string name="stage">Stage</string>
-  <string name="ok">確認</string>
-  <string name="play">Play</string>
+  <string name="stage">舞台</string>
+  <string name="play">開始</string>
   <string name="settings">設定</string>
   <string name="redo">重做</string>
   <string name="undo">復原</string>
-  <string name="name_exists">Name already exists</string>
-  <string name="no_name">No name</string>
-  <string name="is_empty">is empty</string>
-  <string name="new_group">New group</string>
-  <string name="my_group">My group</string>
-  <string name="name">Name:</string>
-  <string name="nothing_to_copy">Nothing to copy</string>
-  <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
-  <string name="nothing_to_unpack">Nothing to unpack</string>
-  <string name="nothing_to_delete">Nothing to delete</string>
-  <string name="nothing_to_rename">Nothing to rename</string>
-  <string name="unpack_background">Program\'s background will be replaced</string>
-  <string name="degrees">degrees</string>
-  <string name="landscape">landscape</string>
-  <string name="portrait">portrait</string>
-  <string name="unknown">unknown</string>
-  <string name="skip">skip</string>
-  <string name="disconnect">Disconnect</string>
+  <string name="name_exists">名稱已經存在</string>
+  <string name="no_name">沒有名稱</string>
+  <string name="is_empty">为空</string>
+  <string name="new_group">新群組</string>
+  <string name="my_group">我的群組</string>
+  <string name="name">名稱:</string>
+  <string name="nothing_to_copy">沒有東西可以複製</string>
+  <string name="nothing_to_backpack_and_unpack">沒有什麼可放進背包或取出</string>
+  <string name="nothing_to_unpack">沒有什麼可從背包取出</string>
+  <string name="nothing_to_delete">沒有東西可被刪除</string>
+  <string name="nothing_to_rename">沒有東西可重命名</string>
+  <string name="unpack_background">程式背景將被替換</string>
+  <string name="degrees">度</string>
+  <string name="landscape">橫式</string>
+  <string name="portrait">直式</string>
+  <string name="unknown">未知</string>
+  <string name="skip">跳過</string>
+  <string name="disconnect">斷開連接</string>
   <!--  -->
   <!-- Main menu activity -->
   <string name="main_menu_new">建立新檔</string>
@@ -93,14 +97,15 @@
   <string name="main_menu_help">說明</string>
   <string name="main_menu_web">瀏覽</string>
   <string name="main_menu_upload">上傳</string>
-  <string name="main_menu_about">About this app</string>
-  <string name="main_menu_terms_of_use">Terms of Use and Services</string>
-  <string name="main_menu_rate_app">Rate us!</string>
-  <string name="main_menu_play_store_not_installed">Play Store app not found</string>
+  <string name="main_menu_privacy_policy">Privacy policy</string>
+  <string name="main_menu_about">關於此應用程式</string>
+  <string name="main_menu_terms_of_use">使用與服務條款</string>
+  <string name="main_menu_rate_app">對我們評分！</string>
+  <string name="main_menu_play_store_not_installed">未安裝Google Play商店</string>
   <string name="main_menu_logout">登出</string>
   <string name="main_menu_login">登入</string>
-  <string name="main_menu_scratch_converter">Scratch Converter</string>
-  <string name="logout_successful">Logout successful</string>
+  <string name="main_menu_scratch_converter">Scratch轉換模塊</string>
+  <string name="logout_successful">成功登出</string>
   <!--  -->
   <!-- Marketing activity -->
   <string name="marketing_created_with">Created with</string>
@@ -172,95 +177,133 @@
   </plurals>
   <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
   <string name="convert">Convert</string>
-  <string name="converting">Converting&#8230;</string>
-  <string name="status_scheduled">Scheduled</string>
-  <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-  <string name="status_started">Started&#8230;</string>
-  <string name="status_conversion_finished">Conversion finished</string>
+  <string name="converting">正在轉換&#8230;</string>
+  <string name="status_scheduled">已加入計畫</string>
+  <string name="status_waiting_for_worker">尋找空閑的轉換進程&#8230;請稍候&#8230;</string>
+  <string name="status_started">開始了&#8230;</string>
+  <string name="status_conversion_finished">轉換結束！</string>
   <plurals name="status_in_progress_x_jobs">
-    <item quantity="other">In progress: %d jobs</item>
+    <item quantity="other">正在運行：%d个任務</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
-    <item quantity="other">Completed: %d jobs</item>
+    <item quantity="other">已經完成：%d个任務</item>
   </plurals>
-  <string name="status_conversion_failed">Conversion failed!</string>
-  <string name="status_conversion_canceled">Conversion canceled!</string>
-  <string name="status_downloading">Downloading&#8230;</string>
-  <string name="status_download_finished">Download finished!</string>
-  <string name="status_download_canceled">Download canceled!</string>
-  <string name="list_view_section_title_in_progress">In progress</string>
-  <string name="list_view_section_title_converted_programs">Converted programs</string>
-  <string name="status">Status</string>
-  <string name="title">Title</string>
-  <string name="by_x">by %1$s</string>
-  <string name="by_author">by author</string>
-  <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. Converting it may
-        fail!</string>
-  <string name="instructions">Instructions</string>
-  <string name="notes_and_credits">Notes and Credits</string>
-  <string name="shared_at_x">Shared: %1$s</string>
-  <string name="modified_at_x">Modified: %1$s</string>
-  <string name="remixes">Remixes</string>
+  <string name="status_conversion_failed">轉換失敗！</string>
+  <string name="status_conversion_canceled">轉換被撤銷！</string>
+  <string name="status_downloading">正在下載&#8230;</string>
+  <string name="status_download_finished">下載已完成！</string>
+  <string name="status_download_canceled">下載被撤銷 ！</string>
+  <string name="list_view_section_title_in_progress">進行中</string>
+  <string name="list_view_section_title_converted_programs">已轉換的程式</string>
+  <string name="status">狀態</string>
+  <string name="title">標題</string>
+  <string name="by_x">作者 %1$s</string>
+  <string name="by_author">依作者</string>
+  <string name="warning_program_visibility">警告： \n這似乎是一個私人的程式。將其轉換可能失敗 ！</string>
+  <string name="instructions">說明</string>
+  <string name="notes_and_credits">評論與得分</string>
+  <string name="shared_at_x">分享時間：%1$s</string>
+  <string name="modified_at_x">更改時間：%1$s</string>
+  <string name="remixes">調製</string>
   <!--  -->
-  <string name="author">Author:</string>
-  <string name="screen_size">Screen Size:</string>
-  <string name="mode">Mode:</string>
-  <string name="remix_of">Remix of:</string>
-  <string name="description_hint">Press to add description</string>
+  <string name="author">作者：</string>
+  <string name="screen_size">屏幕尺寸：</string>
+  <string name="mode">模式：</string>
+  <string name="remix_of">調製來源：</string>
+  <string name="description_hint">按下並添加說明</string>
   <!-- ScratchReconvertDialog Strings -->
-  <string name="reconvert_text">This program has been converted %1$s ago.</string>
+  <string name="reconvert_text">此程式已在 %1$s 前被轉換。</string>
   <plurals name="minutes">
-    <item quantity="other">%d minutes</item>
+    <item quantity="other">%d 分鐘</item>
   </plurals>
   <plurals name="hours">
-    <item quantity="other">%d hours</item>
+    <item quantity="other">%d 小時</item>
   </plurals>
   <plurals name="days">
-    <item quantity="other">%d days</item>
+    <item quantity="other">%d 天</item>
   </plurals>
-  <string name="reconvert_dialog_download">Download already converted program</string>
-  <string name="reconvert_dialog_reconvert">Reconvert this program</string>
+  <string name="reconvert_dialog_download">下載已轉換過的程式</string>
+  <string name="reconvert_dialog_reconvert">重新轉換此程式</string>
   <!--  -->
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">繪製圖像</string>
   <string name="dialog_new_object_gallery">選擇圖像</string>
-  <string name="dialog_new_object_camera">Take picture</string>
+  <string name="dialog_new_object_camera">拍攝照片</string>
   <string name="dialog_new_object_look_preview">外觀預覽</string>
   <string name="dialog_new_object_name">物件名稱</string>
-  <string name="dialog_new_object_switch_title">New object created</string>
-  <string name="dialog_new_object_switch_message">Switch to new object?</string>
+  <string name="dialog_new_object_switch_title">新的物件已創建</string>
+  <string name="dialog_new_object_switch_message">切換到新的物件嗎？</string>
   <!--  -->
+  <!-- Privacy Policy -->
+  <string name="dialog_privacy_policy_title">Privacy policy</string>
+  <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
+
+        To offer you all collaborative benefits of our services and the associated account, it is necessary to
+        collect certain data from you.\n\n
+
+    • To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
+        updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
+        store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
+        Plus or Facebook, we additionally store an identification key connected to your account on these services. We
+        will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
+
+    • To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
+        purposes, the user
+        generated public data will be stored internally in a database, together with a timestamp and the used IP
+        address.\n\n
+
+    • To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
+        use Google
+        Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited
+        pages/screens, used operating system, and information about the network provider). This analysis and the collected
+        data is not linked to your profile and does not contain any personal information.\n\n
+
+    • On a voluntary basis, you can give us your country of residence through your account page on the sharing
+        site. This
+        will only be used for statistical and research purposes by us and can be removed at any time in your profile
+        settings.\n\n
+
+    • You can withdraw the usage of this data at any time by deleting your account through your profile page on
+        https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
+        but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
+        linked to your account, e.g. uploaded programs, comments, will get deleted.\n\n
+
+    • All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
+        International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
+
+    • To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
+        c/o\n
+        Institute of Software Technology,\n
+        Inffeldgasse 16b/II,\n
+        8010 Graz, Austria.\n\n
+
+    In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
+    </string>
+  <string name="dialog_privacy_policy_declined_text">It is necessary to agree the Privacy Policy to register or to
+        further use your account. If you do not want that this data gets collected you can delete your existing account
+        via the profile page on our web interface and still use all services of this app that do not need an account.
+    </string>
+  <!-- -->
   <!-- Terms of Use Dialog -->
-  <string name="dialog_terms_of_use_title">Terms of Use and Services</string>
-  <string name="dialog_terms_of_use_info">In order to
-    be allowed to use the apps and other executables offered by the Catrobat project, you
-    must agree to our Terms of Use and Services and strictly follow them when you use our apps
-    and other executables. Please see the link below for their precise formulation.\n</string>
-  <string name="dialog_terms_of_use_link_text">Terms of Use and Services</string>
+  <string name="dialog_terms_of_use_title">使用與服務條款</string>
+  <string name="dialog_terms_of_use_info">為了獲權使用Catrobat 項目提供的應用程式和其他可運行文件，當您使用我們的應用程式和其他可運行文件時，您必須同意我們的使用和服務條款並嚴格遵循它們。請參閱下面的鏈接獲取詳細的條款 \n</string>
+  <string name="dialog_terms_of_use_link_text">使用與服務條款</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Services</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
-        AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
-        Catrobat\'s
-        Terms of
-        Use and Services.</string>
-  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">使用與服務條款</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">您嘗試將這一程式應用於Parrot AR.無人機。我們強烈提醒您遵守Parrot無人機的使用和服務條款以及Catrobat 的使用和服務條款。</string>
+  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">不要再次提醒我。</string>
   <!--  -->
   <!-- About Dialog -->
-  <string name="dialog_about_title">About this app</string>
-  <string name="dialog_about_license_info">This app offers a programming
-        environment and interpreter for the visual
-        programming language Catrobat.\n\n
-        The source code of this app is mainly licensed under the GNU AGPL v3 License.
-        For further details on the license see the link below.\n</string>
-  <string name="dialog_about_license_link_text">Source Code License</string>
+  <string name="dialog_about_title">關於此應用程式</string>
+  <string name="dialog_about_license_info">這個應用程式為可視化編程語言Catrobat提供了編程環境和解釋器.\n\n 這款應用程式的源代碼主要根據 GNU AGPL v3 許可證的許可下開發和使用。        詳細信息請參閱下面的鏈接。 \n</string>
+  <string name="dialog_about_license_link_text">原始程式碼許可證</string>
   <string name="dialog_about_catrobat_link_text">關於 Catrobat</string>
   <!--  -->
   <!-- Project activity view -->
   <string name="project_name">程式:</string>
   <string name="my_projects_activity_title">程式檔</string>
-  <string name="number_of_objects">Objects:</string>
+  <string name="number_of_objects">物件:</string>
   <string name="start_scene_name">%1$s (First Scene)</string>
   <string name="number_of_scripts">腳本:</string>
   <string name="number_of_bricks">程式塊:</string>
@@ -272,19 +315,19 @@
   <string name="sprite">物件</string>
   <string name="sprites">物件</string>
   <string name="spritelist_background_headline">背景</string>
-  <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
+  <string name="dialog_confirm_delete_object_title">刪除此物件?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">刪除這些物件?</string>
   <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
   <string name="select_all">全選</string>
   <string name="deselect_all">Deselect all</string>
-  <string name="backpack_replace_object">The object %1$s already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object">物件%1$s已經在背包中了。你想要替換它嗎？</string>
   <string name="backpack_replace_scene">The scene %1$s already exists in the backpack. Do you want to replace
         it?</string>
-  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
+  <string name="backpack_replace_object_multiple">這些物件已經在背包中了。你想要替換它們嗎？</string>
   <string name="groups_create">Create group</string>
   <string name="group_created">Group successfully created!</string>
   <string name="ungroup">Ungroup</string>
-  <string name="group_objects_delete">Delete group and objects</string>
+  <string name="group_objects_delete">刪除組和物件</string>
   <string name="group">Group</string>
   <string name="backpack_replace_scene_multiple">Scenes already exist in the backpack. Do you want to replace
         them?</string>
@@ -303,8 +346,7 @@
   <string name="script_group">Script group</string>
   <string name="script_groups">Script groups</string>
   <string name="script_group_name_given">A group with this name already exists. Please choose a different one!</string>
-  <string name="group_or_object_name_given">A group or object with this name already exists. Please choose a
-        different one!</string>
+  <string name="group_or_object_name_given">使用此名稱的組或物件已存在。請選擇其他的名稱！</string>
   <!--  -->
   <!-- Script fragment -->
   <string name="fragment_script_text_description">按下 \"+\" 增加腳本</string>
@@ -329,6 +371,7 @@
   <string name="fragment_background_text_description">按下 \"+\" 增加背景</string>
   <string name="rename_look_dialog">外觀更名</string>
   <string name="pocket_paint_not_installed_title">Pocket Paint 未安裝</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
   <string name="pocket_paint_not_installed">是否要安裝?</string>
   <string name="default_look_name">外觀</string>
   <string name="delete_look_dialog">Delete look?</string>
@@ -461,7 +504,7 @@
   <!--  -->
   <!-- New look dialog -->
   <string name="new_look_dialog_title">增加外觀</string>
-  <string name="add_look_from_camera">Take picture</string>
+  <string name="add_look_from_camera">拍攝照片</string>
   <string name="add_look_draw_new_image">繪製圖像</string>
   <string name="add_look_choose_image">選擇圖像</string>
   <string name="add_look_media_library">Media Library</string>
@@ -503,10 +546,10 @@
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">我的物件</string>
   <string name="new_sprite_dialog_title">建立新物件</string>
-  <string name="spritename_already_exists">Please choose another object name.</string>
+  <string name="spritename_already_exists">請為物件選擇其他名稱。</string>
   <string name="rename_sprite_dialog">物件更名</string>
   <string name="spritename_invalid">物件命名不正確</string>
-  <string name="no_spritename_entered">Please enter an object name.</string>
+  <string name="no_spritename_entered">請輸入物件名稱。</string>
   <string name="sprite_name">物件名稱:</string>
   <!--  -->
   <!-- Sign In dialogs -->
@@ -518,7 +561,7 @@
   <string name="user_logged_in">Successfully logged in</string>
   <string name="register_error">Invalid login</string>
   <string name="register_terms">註冊即代表您同意我們的</string>
-  <string name="register_code_terms_of_use_text">Terms of Use and Services</string>
+  <string name="register_code_terms_of_use_text">使用與服務條款</string>
   <string name="login">登入</string>
   <string name="register">Register</string>
   <string name="or">OR</string>
@@ -622,7 +665,7 @@
   <string name="brick_set_physics_object_type_no">no bouncing</string>
   <string name="brick_set_mass">"Set mass to "</string>
   <string name="brick_set_mass_unit">kilogram</string>
-  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
+  <string name="brick_set_gravity_to">"設置所有物件的重力為 "</string>
   <string name="brick_set_gravity_unit">steps/second²</string>
   <string name="brick_set_velocity_to">"Set velocity to "</string>
   <string name="brick_set_velocity_unit">steps/second</string>
@@ -698,29 +741,29 @@
   <string name="brick_stop_script">Stop</string>
   <string name="brick_stop_this_script">this script</string>
   <string name="brick_stop_all_scripts">all scripts</string>
-  <string name="brick_stop_other_scripts">other scripts of this object</string>
+  <string name="brick_stop_other_scripts">此物件的其他腳本</string>
   <plurals name="second_plural">
     <item quantity="other">"秒 "</item>
   </plurals>
-  <string name="brick_collision_receive">When physical collision with</string>
+  <string name="brick_collision_receive">當發生物理碰撞與</string>
   <string name="collision_with_anything">anything</string>
-  <string name="brick_broadcast_receive">When you receive</string>
+  <string name="brick_broadcast_receive">當接收到</string>
   <string name="brick_broadcast">送出訊息</string>
   <string name="brick_broadcast_wait">送出訊息並等待</string>
-  <string name="brick_scene_transition">Continue scene</string>
-  <string name="brick_scene_start">Start scene</string>
+  <string name="brick_scene_transition">繼續場景</string>
+  <string name="brick_scene_start">啟動場景</string>
   <string name="brick_note">備註</string>
-  <string name="brick_think_bubble">Think</string>
-  <string name="brick_say_bubble">Say</string>
-  <string name="brick_think_say_for_text">for</string>
+  <string name="brick_think_bubble">思考</string>
+  <string name="brick_say_bubble">說</string>
+  <string name="brick_think_say_for_text">持續</string>
   <string name="brick_forever">永遠重複執行</string>
   <string name="brick_repeat">重複執行</string>
-  <string name="brick_repeat_until">Repeat until</string>
-  <string name="brick_when_touched">When screen is touched</string>
-  <string name="brick_clone">Create clone of</string>
-  <string name="brick_clone_this">yourself</string>
-  <string name="brick_when_cloned">When you start as a clone</string>
-  <string name="brick_delete_this_clone">Delete this clone</string>
+  <string name="brick_repeat_until">重複直到</string>
+  <string name="brick_when_touched">當螢幕被觸碰</string>
+  <string name="brick_clone">克隆一個</string>
+  <string name="brick_clone_this">自己</string>
+  <string name="brick_when_cloned">當作為克隆啟動</string>
+  <string name="brick_delete_this_clone">刪除此克隆</string>
   <plurals name="time_plural">
     <item quantity="other">次</item>
   </plurals>
@@ -734,7 +777,7 @@
   <string name="brick_change_variable">變數增量</string>
   <string name="brick_variable_spinner_create_new_variable">新增&#8230;</string>
   <string name="brick_note_default_value">"填寫備註內容"</string>
-  <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
+  <string name="brick_think_bubble_default_value">"嗯……！"</string>
   <string name="brick_say_bubble_default_value">"哈囉!"</string>
   <string name="brick_broadcast_default_value">"訊息1"</string>
   <string name="brick_add_item_to_userlist_add">新增</string>
@@ -789,7 +832,7 @@
   <string name="default_drone_project_sprites_turn_right">右轉</string>
   <string name="default_drone_project_sprites_emergency">Emergency</string>
   <string name="drone_brick_set_text">文字</string>
-  <string name="drone_brick_set_x">X:</string>
+  <string name="drone_brick_set_x">X：</string>
   <!--  -->
   <!-- Drone config spinner values  -->
   <string name="drone_config_indoor_with_hull">indoor with hull</string>
@@ -900,6 +943,8 @@
   <string name="error_no_network_multiple_bricks">Following bricks will use the network:</string>
   <string name="error_no_network_title">No network</string>
   <string name="error_no_whatsapp">WhatsApp not installed</string>
+  <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
+        program.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">無法啟動藍牙，關閉連結程序</string>
@@ -915,30 +960,30 @@
   <string name="none_paired">沒有已配對的設備</string>
   <!--  -->
   <!-- Arduino Bricks -->
-  <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
-  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
+  <string name="brick_arduino_select_digital_value">設定 Arduino 數位腳位資料</string>
+  <string name="brick_arduino_select_analog_value">設定 Arduino PWM 腳位資料</string>
   <string name="brick_arduino_set_pin_value_to">為</string>
   <!--  -->
   <!-- Raspi Bricks -->
-  <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
+  <string name="brick_raspi_select_digital_value">設定樹莓派腳位資料</string>
   <string name="brick_raspi_set_pin_value_to">為</string>
-  <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
+  <string name="brick_raspi_if_begin">如果树莓派脚位资料</string>
   <string name="brick_raspi_if_begin_second_part">成立執行</string>
-  <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
-  <string name="brick_raspi_when_equals">changes to</string>
-  <string name="brick_raspi_pressed_text">high</string>
-  <string name="brick_raspi_released_text">low</string>
-  <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
+  <string name="brick_raspi_when_begin">當樹莓派腳位資料</string>
+  <string name="brick_raspi_when_equals">已更改為</string>
+  <string name="brick_raspi_pressed_text">高</string>
+  <string name="brick_raspi_released_text">低</string>
+  <string name="brick_raspi_set_pwm">設定樹莓派PWM腳位資料</string>
   <!--  -->
   <!-- Raspi Settings -->
   <string name="raspi_settings_title_name">Raspberry Pi settings</string>
   <string name="raspi_settings_gpio_version">GPIO Version</string>
   <!--  -->
   <!-- Lego Mindstorms Strings -->
-  <string name="nxt_brick_motor_move">Set NXT motor</string>
+  <string name="nxt_brick_motor_move">設定樂高NXT馬達</string>
   <string name="nxt_motor_speed_to">為</string>
   <string name="nxt_motor_speed">speed</string>
-  <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
+  <string name="nxt_brick_motor_turn_angle">轉動樂高NXT馬達</string>
   <string name="nxt_motor_move_by">為</string>
   <string name="nxt_motor_stop">Stop NXT motor</string>
   <string name="nxt_play_tone">Play NXT tone</string>
@@ -996,12 +1041,12 @@
   <string name="ev3_motor_b_and_c">B+C</string>
   <string name="ev3_motor_all">全部</string>
   <string name="ev3_play_tone">Play EV3 tone</string>
-  <string name="ev3_tone_duration_for">for</string>
+  <string name="ev3_tone_duration_for">持續</string>
   <string name="ev3_tone_volume">Volume</string>
   <string name="ev3_tone_percent">%</string>
   <string name="ev3_motor_stop">Stop EV3 motor</string>
   <string name="ev3_motor_move">Set EV3 motor</string>
-  <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
+  <string name="ev3_brick_motor_turn_angle">轉動樂高EV3馬達</string>
   <string name="ev3_motor_move_by">為</string>
   <string name="ev3_set_led_status">Set EV3 LED status</string>
   <string name="ev3_led_status_off">Off</string>
@@ -1016,8 +1061,8 @@
   <string name="ev3_led_status_orange_pulse">Orange pulse</string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">Take off / Land</string>
-  <string name="brick_drone_play_led_animation">Play flash animation</string>
+  <string name="brick_drone_takeoff_land">起飛/降落</string>
+  <string name="brick_drone_play_led_animation">播放LED動畫</string>
   <string name="brick_drone_move_left">左移</string>
   <string name="brick_drone_move_right">右移</string>
   <string name="brick_drone_move_forward">前移</string>
@@ -1025,7 +1070,7 @@
   <string name="brick_drone_move_up">上移</string>
   <string name="brick_drone_move_down">下移</string>
   <string name="brick_drone_flip">翻滾</string>
-  <string name="brick_drone_emergency">Emergency</string>
+  <string name="brick_drone_emergency">緊急情況</string>
   <string name="brick_drone_turn_right">右轉</string>
   <string name="brick_drone_turn_left">左轉</string>
   <string name="brick_drone_turn_left_magneto">左轉 [angle] </string>
@@ -1174,7 +1219,7 @@
   <string name="formula_editor_function_list_item_parameter">(1,*清單名稱*)</string>
   <string name="formula_editor_function_contains">contains</string>
   <string name="formula_editor_function_contains_parameter">(*清單名稱*,1)</string>
-  <string name="formula_editor_function_collision">touches_object</string>
+  <string name="formula_editor_function_collision">碰到物件</string>
   <string name="formula_editor_function_collides_with_edge">touches_edge</string>
   <string name="formula_editor_function_touched">touches_finger</string>
   <string name="formula_editor_sensor_x_acceleration">加速度感測器x軸</string>
@@ -1329,8 +1374,7 @@
   <string name="formula_editor_intro_summary_compute">To test your formula and display its current result, you can
         use \"Compute\".</string>
   <string name="formula_editor_intro_title_object">物件</string>
-  <string name="formula_editor_intro_summary_object">This is a collection of values that describe your
-        current object. Some of these values are for example the x- and y-coordinates, or the current speed.</string>
+  <string name="formula_editor_intro_summary_object">這個是描述當前物件的屬性值的集合。例如 x 和 y 坐標或當前的速度。</string>
   <string name="formula_editor_intro_title_functions">Functions</string>
   <string name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
         a multitude of mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\", but
@@ -1450,7 +1494,7 @@
   <string name="hint_scripts">The script defines the behavior of your object. To add bricks to the script, tap on the \"+\" symbol.</string>
   <string name="hint_looks">Here you can find the different appearances of your object. To add a new look, tap on the \"+\" symbol.</string>
   <string name="hint_sounds">Here you can add new sounds to your object. Keep in mind to use a brick from the sound category.</string>
-  <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object, tap on the \"+\" symbol.</string>
+  <string name="hint_objects">您的程式包含了可以彼此交互作用的不同物件。若要添加一個新物件，請點擊\"+\"符號。</string>
   <string name="hint_merge">To merge two programs, long press on one program to open the menu and tap on \'Merge
         with\'.</string>
   <string name="hint_stage">Hit the back-button to pause your program. To show axes and the screen size of your
