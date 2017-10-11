@@ -25,9 +25,7 @@ package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.annotation.RequiresApi;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
@@ -40,8 +38,8 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -77,8 +75,8 @@ public class LanguageSwitchMainMenuTest {
 	private Locale defaultLocale = Locale.getDefault();
 
 	@Rule
-	public BaseActivityInstrumentationRule<SettingsActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SettingsActivity.class);
+	public DontGenerateDefaultProjectActivityInstrumentationRule<SettingsActivity> baseActivityTestRule = new
+			DontGenerateDefaultProjectActivityInstrumentationRule<>(SettingsActivity.class);
 
 	@Before
 	public void setUp() {
@@ -102,7 +100,6 @@ public class LanguageSwitchMainMenuTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Test
 	public void testChangeLanguageToArabic() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_language))
