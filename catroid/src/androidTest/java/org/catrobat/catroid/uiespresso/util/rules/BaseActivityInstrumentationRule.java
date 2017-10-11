@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uiespresso.util;
+package org.catrobat.catroid.uiespresso.util.rules;
 
 import android.app.Activity;
 import android.os.Environment;
@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
+import org.catrobat.catroid.uiespresso.util.SystemAnimations;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
