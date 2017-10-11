@@ -24,6 +24,7 @@
 
 <manifest package="org.catrobat.catroid"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
 
     <supports-screens
@@ -84,10 +85,11 @@
     <application
         android:name=".CatroidApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="${appIcon}"
+        android:label="${appName}"
         android:theme="@style/Theme.Catroid"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        tools:replace="android:label">
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -96,7 +98,7 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
+            android:label="${appName}"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
