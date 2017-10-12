@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -51,6 +52,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -600,5 +602,16 @@ public class UtilsTest extends AndroidTestCase {
 	public void testGetBitTooLargeIndex() {
 		assertEquals("Too large index (>=32) should return 0",
 				0, Utils.getBit(0xFFFFFFFF, 32));
+	}
+
+	public void testFormatStringForBubbleBricks() {
+		String testFirstCharWhitespace = " ThisIsAReallyLongishWord toTest TheWordWrapperFunc";
+		String[] expectedResult = {"ThisIsAReallyLon", "gishWord toTest", "TheWordWrapperFu", "nc"};
+		List<String> expectedResultList = Arrays.asList(expectedResult);
+
+		List<String> resultList = ShowBubbleActor.formatStringForBubbleBricks(testFirstCharWhitespace);
+
+		assertNotNull(resultList);
+		assertEquals(expectedResultList, resultList);
 	}
 }

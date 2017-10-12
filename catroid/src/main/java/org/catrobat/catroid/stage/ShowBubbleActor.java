@@ -40,10 +40,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ShowBubbleActor extends Actor {
 	ArrayList<String> bubbleValue;
@@ -55,7 +55,7 @@ public class ShowBubbleActor extends Actor {
 	private boolean drawRight = true;
 
 	public ShowBubbleActor(String text, Sprite sprite, int type) {
-		this.bubbleValue = Utils.formatStringForBubbleBricks(text);
+		this.bubbleValue = formatStringForBubbleBricks(text);
 		this.sprite = sprite;
 		this.type = type;
 		init();
@@ -228,5 +228,39 @@ public class ShowBubbleActor extends Actor {
 		}
 
 		return bitmap;
+	}
+
+	public static ArrayList<String> formatStringForBubbleBricks(String text) {
+		text = text.trim();
+		ArrayList<String> words = new ArrayList<>();
+		for (String word : Arrays.asList(text.split(" "))) {
+			words.addAll(splitLongWordIntoSubStrings(word, Constants.MAX_STRING_LENGTH_BUBBLES));
+		}
+		return concatWordsIntoLines(words, Constants.MAX_STRING_LENGTH_BUBBLES);
+	}
+
+	private static ArrayList<String> splitLongWordIntoSubStrings(String word, int maxLength) {
+		ArrayList<String> intermediateList = new ArrayList<>();
+		while (word.length() > maxLength) {
+			intermediateList.add(word.substring(0, maxLength));
+			word = word.substring(maxLength);
+		}
+		intermediateList.add(word);
+		return intermediateList;
+	}
+
+	private static ArrayList<String> concatWordsIntoLines(ArrayList<String> words, int maxLineLength) {
+		ArrayList<String> lines = new ArrayList<>();
+		String line = words.get(0);
+		for (String word : words.subList(1, words.size())) {
+			if (line.length() + word.length() < maxLineLength) {
+				line = line + " " + word;
+			} else {
+				lines.add(line);
+				line = word;
+			}
+		}
+		lines.add(line);
+		return lines;
 	}
 }
