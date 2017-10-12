@@ -23,6 +23,10 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -56,12 +60,11 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 				.getAdapter();
 
 		updateUserVariableIfDeleted(userVariableAdapterWrapper);
-
-		if (userVariable != null) {
-			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
-		} else if (newUserVariable != null) {
+		if (newUserVariable != null) {
 			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(newUserVariable), true);
 			userVariable = newUserVariable;
+		} else if (userVariable != null) {
+			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
 		} else {
 			variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1, true);
 			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
@@ -163,5 +166,47 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		}
 		this.backPackedData.userVariable = userVariable;
 		this.backPackedData.userVariableType = type;
+	}
+
+	protected View.OnTouchListener createVariableSpinnerTouchListener() {
+		return new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View view, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN
+						&& ((Spinner) view).getSelectedItemPosition() == 0
+						&& ((Spinner) view).getAdapter().getCount() == 1) {
+					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
+					dialog.addVariableDialogListener(UserVariableBrick.this);
+					dialog.show(((Activity) view.getContext()).getFragmentManager(),
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
+					return true;
+				}
+				return false;
+			}
+		};
+	}
+
+	protected AdapterView.OnItemSelectedListener createVariableSpinnerItemSelectedListener() {
+		return new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
+					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
+					dialog.addVariableDialogListener(UserVariableBrick.this);
+					int spinnerPos = ((UserVariableAdapterWrapper) parent.getAdapter())
+							.getPositionOfItem(userVariable);
+					dialog.setUserVariableIfCancel(spinnerPos);
+					dialog.show(((Activity) view.getContext()).getFragmentManager(),
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
+				}
+				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
+				userVariable = (UserVariable) parent.getItemAtPosition(position);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				userVariable = null;
+			}
+		};
 	}
 }

@@ -45,12 +45,14 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
@@ -99,40 +101,38 @@ public class DeleteItemOfUserListBrickTest {
 	public void testDeleteItemOfUserListBrickMultipleLists() {
 		String firstUserListName = "test1";
 		String secondUserListName = "test2";
-		UserList userList;
 
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
 				.performNewVariableInitial(firstUserListName);
 
-		userList = deleteItemOfUserListBrick.getUserList();
+		UserList userList = deleteItemOfUserListBrick.getUserList();
 		assertNotNull(userList);
-		assertEquals(userList.getName(), firstUserListName);
+		assertEquals(firstUserListName, userList.getName());
 
-		// todo: CAT-2359 to fix this
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
 				.performNewVariable(secondUserListName)
 				.checkShowsText(secondUserListName);
 
 		userList = deleteItemOfUserListBrick.getUserList();
 		assertNotNull(userList);
-		assertEquals(userList.getName(), secondUserListName);
+		assertEquals(secondUserListName, userList.getName());
 
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
 				.perform(click());
 
 		onView(withId(R.id.formula_editor_keyboard_data))
 				.perform(click());
-		onView(withText(secondUserListName))
+		onView(allOf(withText(secondUserListName), isDisplayed()))
 				.perform(longClick());
 		onView(withText(R.string.delete))
 				.perform(click());
 		pressBack();
-		onView(withText(secondUserListName))
+		onView(allOf(withText(secondUserListName), isDisplayed()))
 				.check(doesNotExist());
-
+		pressBack();
 		userList = deleteItemOfUserListBrick.getUserList();
 		assertNotNull(userList);
-		assertEquals(userList.getName(), firstUserListName);
+		assertEquals(firstUserListName, userList.getName());
 	}
 
 	@Category({Cat.AppUi.class, Level.Detailed.class})
