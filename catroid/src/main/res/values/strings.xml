@@ -3037,110 +3037,134 @@
     <string name="life_simulation_look_end" tools:ignore="UnusedResources">end</string>
     <string name="life_simulation_look_button_play_again" tools:ignore="UnusedResources">button play again</string>
 
-    <string name="strategy_project_variable_col_y" tools:ignore="UnusedResources">col_y</string>
-    <string name="strategy_project_variable_turn" tools:ignore="UnusedResources">turn</string>
-    <string name="strategy_project_variable_active_column" tools:ignore="UnusedResources">active_column</string>
-    <string name="strategy_project_variable_debug_out" tools:ignore="UnusedResources">debug_out</string>
-    <string name="strategy_project_variable_board_ready" tools:ignore="UnusedResources">board_ready</string>
-    <string name="strategy_project_variable_cloned" tools:ignore="UnusedResources">cloned</string>
     <string name="strategy_project_variable_active_player" tools:ignore="UnusedResources">active_player</string>
-    <string name="strategy_project_variable_col_idx" tools:ignore="UnusedResources">col_idx</string>
-    <string name="strategy_project_variable_winner" tools:ignore="UnusedResources">winner</string>
-    <string name="strategy_project_variable_debug_2" tools:ignore="UnusedResources">debug_2</string>
-    <string name="strategy_project_variable_reset" tools:ignore="UnusedResources">reset</string>
-    <string name="strategy_project_variable_tests_complete" tools:ignore="UnusedResources">tests_complete</string>
-    <string name="strategy_project_variable_look_number" tools:ignore="UnusedResources">look_number</string>
-    <string name="strategy_project_variable_look_number2" tools:ignore="UnusedResources">look_number2</string>
-    <string name="strategy_project_list_col_x" tools:ignore="UnusedResources">col_x</string>
-    <string name="strategy_project_list_row_y" tools:ignore="UnusedResources">row_y</string>
-    <string name="strategy_project_list_col_1" tools:ignore="UnusedResources">col_1</string>
-    <string name="strategy_project_list_col_2" tools:ignore="UnusedResources">col_2</string>
-    <string name="strategy_project_list_col_3" tools:ignore="UnusedResources">col_3</string>
-    <string name="strategy_project_list_col_4" tools:ignore="UnusedResources">col_4</string>
-    <string name="strategy_project_list_col_5" tools:ignore="UnusedResources">col_5</string>
-    <string name="strategy_project_list_col_6" tools:ignore="UnusedResources">col_6</string>
-    <string name="strategy_project_list_col_7" tools:ignore="UnusedResources">col_7</string>
-    <string name="strategy_project_list_board" tools:ignore="UnusedResources">board</string>
+    <string name="strategy_project_variable_index" tools:ignore="UnusedResources">index</string>
+    <string name="strategy_project_variable_x" tools:ignore="UnusedResources">x</string>
+    <string name="strategy_project_variable_y" tools:ignore="UnusedResources">y</string>
+    <string name="strategy_project_variable_active_coin1" tools:ignore="UnusedResources">active_coin1</string>
+    <string name="strategy_project_variable_active_coin2" tools:ignore="UnusedResources">active_coin2</string>
+    <string name="strategy_project_variable_old_coin_position1" tools:ignore="UnusedResources">old_coin_position1</string>
+    <string name="strategy_project_variable_old_coin_position2" tools:ignore="UnusedResources">old_coin_position2</string>
+    <string name="strategy_project_variable_reused_num1" tools:ignore="UnusedResources">reused_num1</string>
+    <string name="strategy_project_variable_move" tools:ignore="UnusedResources">move</string>
+    <string name="strategy_project_list_x_coordinates_list" tools:ignore="UnusedResources">x_coordinates_list</string>
+    <string name="strategy_project_list_y_coordinates_list" tools:ignore="UnusedResources">y_coordinates_list</string>
+    <string name="strategy_project_list_player_1" tools:ignore="UnusedResources">player_1</string>
+    <string name="strategy_project_list_player_2" tools:ignore="UnusedResources">player_2</string>
+    <string name="strategy_project_list_coin_position1" tools:ignore="UnusedResources">coin_position1</string>
+    <string name="strategy_project_list_coin_position2" tools:ignore="UnusedResources">coin_position2</string>
     <string name="strategy_scene_start" tools:ignore="UnusedResources">Start</string>
     <string name="strategy_sprite_background" tools:ignore="UnusedResources">Background</string>
-    <string name="strategy_sprite_buttons" tools:ignore="UnusedResources">buttons</string>
-    <string name="strategy_sprite_button_back" tools:ignore="UnusedResources">button back</string>
-    <string name="strategy_sprite_button_play" tools:ignore="UnusedResources">button play</string>
-    <string name="strategy_sprite_button_instruction" tools:ignore="UnusedResources">button instruction</string>
-    <string name="strategy_scene_strategy_game" tools:ignore="UnusedResources">Strategy game</string>
-    <string name="strategy_sprite_task" tools:ignore="UnusedResources">Task</string>
-    <string name="strategy_sprite_scripts" tools:ignore="UnusedResources">scripts</string>
-    <string name="strategy_sprite_initialisation_script" tools:ignore="UnusedResources">Initialisation script</string>
-    <string name="strategy_sprite_player_turn_indicator" tools:ignore="UnusedResources">Player turn indicator</string>
-    <string name="strategy_sprite_game_over" tools:ignore="UnusedResources">Game over</string>
-    <string name="strategy_sprite_player_1__todo__add_new_looks" tools:ignore="UnusedResources">Player 1 - todo - add new looks</string>
-    <string name="strategy_sprite_player_2__todo_add_new_looks" tools:ignore="UnusedResources">Player 2 - todo- add new looks</string>
-    <string name="strategy_sprite_column" tools:ignore="UnusedResources">Column</string>
-    <string name="strategy_sprite_broadcast_receivers" tools:ignore="UnusedResources">broadcast receivers</string>
-    <string name="strategy_sprite_setup_restart_script" tools:ignore="UnusedResources">Setup (restart) script</string>
-    <string name="strategy_sprite_drop_script" tools:ignore="UnusedResources">Drop script</string>
-    <string name="strategy_sprite_check_for_win_script" tools:ignore="UnusedResources">Check for win script</string>
-    <string name="strategy_sprite_next_turn_script" tools:ignore="UnusedResources">Next turn script</string>
+    <string name="strategy_sprite_buttons" tools:ignore="UnusedResources">Buttons</string>
+    <string name="strategy_sprite_button_play" tools:ignore="UnusedResources">Button Play</string>
+    <string name="strategy_sprite_button_instruction" tools:ignore="UnusedResources">Button instruction</string>
+    <string name="strategy_sprite_button_back" tools:ignore="UnusedResources">Button back</string>
+    <string name="strategy_scene_strategy_example_game" tools:ignore="UnusedResources">Strategy example game</string>
+    <string name="strategy_sprite_game_elements" tools:ignore="UnusedResources">game elements</string>
+    <string name="strategy_sprite_task" tools:ignore="UnusedResources">task</string>
+    <string name="strategy_sprite_hint" tools:ignore="UnusedResources">hint</string>
+    <string name="strategy_sprite_sample_coin" tools:ignore="UnusedResources">sample coin</string>
+    <string name="strategy_sprite_wheel" tools:ignore="UnusedResources">wheel</string>
+    <string name="strategy_sprite_board" tools:ignore="UnusedResources">board</string>
+    <string name="strategy_sprite_text" tools:ignore="UnusedResources">text</string>
+    <string name="strategy_sprite_player_1" tools:ignore="UnusedResources">player 1</string>
+    <string name="strategy_sprite_coin_1_player_1" tools:ignore="UnusedResources">coin 1 player 1</string>
+    <string name="strategy_sprite_coin_2_player_1" tools:ignore="UnusedResources">coin 2 player 1</string>
+    <string name="strategy_sprite_coin_3_player_1" tools:ignore="UnusedResources">coin 3 player 1</string>
+    <string name="strategy_sprite_player_2" tools:ignore="UnusedResources">player 2</string>
+    <string name="strategy_sprite_coin_1_player_2" tools:ignore="UnusedResources">coin 1 player 2</string>
+    <string name="strategy_sprite_coin_2_player_2" tools:ignore="UnusedResources">coin 2 player 2</string>
+    <string name="strategy_sprite_coin_3_player_2" tools:ignore="UnusedResources">coin 3 player 2</string>
+    <string name="strategy_sprite_game_logic" tools:ignore="UnusedResources">game logic</string>
+    <string name="strategy_sprite_check_for_coin_position" tools:ignore="UnusedResources">check for coin position</string>
+    <string name="strategy_sprite_check_for_valid_move" tools:ignore="UnusedResources">check for valid move</string>
+    <string name="strategy_sprite_check_for_winner" tools:ignore="UnusedResources">check for winner</string>
+    <string name="strategy_sprite_do_player_switch" tools:ignore="UnusedResources">do player switch</string>
+    <string name="strategy_scene_strategy_template_game" tools:ignore="UnusedResources">Strategy template game</string>
+    <string name="strategy_sprite_board_background" tools:ignore="UnusedResources">board background</string>
+    <string name="strategy_sprite_todo_player_1" tools:ignore="UnusedResources">ToDo: player 1</string>
+    <string name="strategy_sprite_todo_coin_1_player_1" tools:ignore="UnusedResources">ToDo: coin 1 player 1</string>
+    <string name="strategy_sprite_todo_coin_2_player_1" tools:ignore="UnusedResources">ToDo: coin 2 player 1</string>
+    <string name="strategy_sprite_todo_coin_3_player_1" tools:ignore="UnusedResources">ToDo: coin 3 player 1</string>
+    <string name="strategy_sprite_todo_coin_4_player_1" tools:ignore="UnusedResources">ToDo: coin 4 player 1</string>
+    <string name="strategy_sprite_todo_copy_this_coin_for_more_coin_objects_1" tools:ignore="UnusedResources">ToDo: copy this coin for more coin objects 1</string>
+    <string name="strategy_sprite_todo_player_2" tools:ignore="UnusedResources">ToDo: player 2</string>
+    <string name="strategy_sprite_todo_coin_1_player_2" tools:ignore="UnusedResources">ToDo: coin 1 player 2</string>
+    <string name="strategy_sprite_todo_coin_2_player_2" tools:ignore="UnusedResources">ToDo: coin 2 player 2</string>
+    <string name="strategy_sprite_todo_coin_3_player_2" tools:ignore="UnusedResources">ToDo: coin 3 player 2</string>
+    <string name="strategy_sprite_todo_coin_4_player_2" tools:ignore="UnusedResources">ToDo: coin 4 player 2</string>
+    <string name="strategy_sprite_todo_copy_this_coin_for_more_coin_objects_2" tools:ignore="UnusedResources">ToDo: copy this coin for more coin objects 2</string>
+    <string name="strategy_sprite_todo_game_logic" tools:ignore="UnusedResources">ToDo: game logic</string>
+    <string name="strategy_sprite_todo_check_coin_position" tools:ignore="UnusedResources">ToDo: check coin position</string>
+    <string name="strategy_sprite_todo_check_for_mill" tools:ignore="UnusedResources">ToDo: check for mill</string>
+    <string name="strategy_sprite_todo_check_for_winner" tools:ignore="UnusedResources">Todo: check for winner</string>
     <string name="strategy_scene_end" tools:ignore="UnusedResources">End</string>
-    <string name="strategy_sprite_button_play_again" tools:ignore="UnusedResources">button play again</string>
-    <string name="strategy_look_title_3" tools:ignore="UnusedResources">title_3</string>
+    <string name="strategy_sprite_play_again_button" tools:ignore="UnusedResources">play again button</string>
+    <string name="strategy_look_title" tools:ignore="UnusedResources">title</string>
     <string name="strategy_look_instructions" tools:ignore="UnusedResources">instructions</string>
-    <string name="strategy_broadcast_message_title" tools:ignore="UnusedResources">title</string>
     <string name="strategy_broadcast_message_instruction" tools:ignore="UnusedResources">instruction</string>
-    <string name="strategy_broadcast_message_game" tools:ignore="UnusedResources">game</string>
-    <string name="strategy_look_button_back_2" tools:ignore="UnusedResources">button back_2</string>
-    <string name="strategy_look_button_play_1_1" tools:ignore="UnusedResources">button play_1_1</string>
-    <string name="strategy_look_button_instruction" tools:ignore="UnusedResources">button instruction</string>
+    <string name="strategy_look_button_play" tools:ignore="UnusedResources">button play</string>
+    <string name="strategy_look_button_instruction" tools:ignore="UnusedResources">Button instruction</string>
+    <string name="strategy_look_button_back" tools:ignore="UnusedResources">button back</string>
     <string name="strategy_look_game" tools:ignore="UnusedResources">game</string>
+    <string name="strategy_sprite_variable_reused_number1" tools:ignore="UnusedResources">reused_number1</string>
+    <string name="strategy_sprite_variable_reused_number2" tools:ignore="UnusedResources">reused_number2</string>
+    <string name="strategy_note_setting_the_number_of_made_moves" tools:ignore="UnusedResources">setting the number of made moves</string>
+    <string name="strategy_note_help_variables_to_set_the_points_on_the_board" tools:ignore="UnusedResources">help variables to set the points on the board</string>
+    <string name="strategy_note_setting_the_player_who_starts_the_game" tools:ignore="UnusedResources">setting the player who starts the game</string>
+    <string name="strategy_note_setting_the_coordinates_of_the_points_on_the_board" tools:ignore="UnusedResources">setting the coordinates of the points on the board</string>
+    <string name="strategy_note_x_coordinates" tools:ignore="UnusedResources">x coordinates</string>
+    <string name="strategy_note_y_coordinates" tools:ignore="UnusedResources">y coordinates</string>
+    <string name="strategy_note_initializing_lists_to_know_where_is_which_coin" tools:ignore="UnusedResources">initializing lists to know where is which coin</string>
+    <string name="strategy_note_initializing_lists_to_know_which_board_positions_are_taken" tools:ignore="UnusedResources">initializing lists to know which board positions are taken</string>
     <string name="strategy_look_task" tools:ignore="UnusedResources">task</string>
-    <string name="strategy_look_text_your_turn" tools:ignore="UnusedResources">text_your_turn</string>
-    <string name="strategy_broadcast_message_setup_reset" tools:ignore="UnusedResources">Setup (reset)</string>
-    <string name="strategy_broadcast_message_game_over" tools:ignore="UnusedResources">Game over</string>
-    <string name="strategy_sprite_variable__idx" tools:ignore="UnusedResources">_idx</string>
-    <string name="strategy_sprite_variable_row" tools:ignore="UnusedResources">row</string>
-    <string name="strategy_sprite_variable_column" tools:ignore="UnusedResources">column</string>
-    <string name="strategy_sprite_variable_x_coord" tools:ignore="UnusedResources">x_coord</string>
-    <string name="strategy_sprite_variable_y_coord" tools:ignore="UnusedResources">y_coord</string>
-    <string name="strategy_note_store_y_coordinates_in_col_x" tools:ignore="UnusedResources">Store y coordinates in col_x</string>
-    <string name="strategy_note_store_x_coordinates_in_row_y" tools:ignore="UnusedResources">Store x coordinates in row_y</string>
-    <string name="strategy_look_text_player1_turn" tools:ignore="UnusedResources">text_player1_turn</string>
-    <string name="strategy_look_text_player2_turn" tools:ignore="UnusedResources">text_player2_turn</string>
-    <string name="strategy_broadcast_message_next_turn" tools:ignore="UnusedResources">Next turn</string>
-    <string name="strategy_look_text_draw" tools:ignore="UnusedResources">text_draw</string>
-    <string name="strategy_look_text_player1_wins" tools:ignore="UnusedResources">text_player1_wins</string>
-    <string name="strategy_look_text_player2_wins" tools:ignore="UnusedResources">text_player2_wins</string>
-    <string name="strategy_look_coin_alexander" tools:ignore="UnusedResources">coin_alexander</string>
-    <string name="strategy_look_coin_cleopatra" tools:ignore="UnusedResources">coin_cleopatra</string>
-    <string name="strategy_look_coin_caesar" tools:ignore="UnusedResources">coin_caesar</string>
-    <string name="strategy_look_coin_richard" tools:ignore="UnusedResources">coin_richard</string>
-    <string name="strategy_look_coin_empty" tools:ignore="UnusedResources">coin_empty</string>
-    <string name="strategy_sprite_variable__x" tools:ignore="UnusedResources">_x</string>
-    <string name="strategy_sprite_variable__drop_time" tools:ignore="UnusedResources">_drop_time</string>
-    <string name="strategy_look_coin_temple" tools:ignore="UnusedResources">coin_temple</string>
-    <string name="strategy_look_coin_pyramids" tools:ignore="UnusedResources">coin_pyramids</string>
-    <string name="strategy_look_coin_helmet" tools:ignore="UnusedResources">coin_helmet</string>
-    <string name="strategy_look_coin_shield" tools:ignore="UnusedResources">coin_shield</string>
-    <string name="strategy_look_slot" tools:ignore="UnusedResources">slot</string>
-    <string name="strategy_sprite_variable__id" tools:ignore="UnusedResources">_id</string>
-    <string name="strategy_sprite_variable__counter_stack" tools:ignore="UnusedResources">_counter_stack</string>
-    <string name="strategy_sprite_variable__stack_size" tools:ignore="UnusedResources">_stack_size</string>
-    <string name="strategy_broadcast_message_drop" tools:ignore="UnusedResources">Drop</string>
-    <string name="strategy_sound_token_drop" tools:ignore="UnusedResources">token drop</string>
-    <string name="strategy_broadcast_message_check_for_win" tools:ignore="UnusedResources">Check for win</string>
-    <string name="strategy_sprite_variable__num_items" tools:ignore="UnusedResources">_num_items</string>
-    <string name="strategy_sprite_variable__sum" tools:ignore="UnusedResources">_sum</string>
-    <string name="strategy_sprite_variable__test" tools:ignore="UnusedResources">_test</string>
-    <string name="strategy_sprite_variable__d" tools:ignore="UnusedResources">_d</string>
-    <string name="strategy_sprite_list__test_col" tools:ignore="UnusedResources">_test_col</string>
-    <string name="strategy_sprite_list__test_row" tools:ignore="UnusedResources">_test_row</string>
-    <string name="strategy_sprite_list__test_arr" tools:ignore="UnusedResources">_test_arr</string>
-    <string name="strategy_broadcast_message_test_horizontals" tools:ignore="UnusedResources">Test horizontals</string>
-    <string name="strategy_broadcast_message_test_verticals" tools:ignore="UnusedResources">Test verticals</string>
-    <string name="strategy_broadcast_message_test_diagonals" tools:ignore="UnusedResources">Test diagonals</string>
-    <string name="strategy_note_test._for_contiguous_row" tools:ignore="UnusedResources">Test. for contiguous row</string>
-    <string name="strategy_broadcast_message_test__sum" tools:ignore="UnusedResources">Test _sum</string>
-    <string name="strategy_note_we_have_a_winner_" tools:ignore="UnusedResources">We have a winner !!!!!</string>
-    <string name="strategy_note_set_active_player_to_1_player_1_or_1_player_2" tools:ignore="UnusedResources">Set active_player to 1 (player 1) or -1 (player 2)</string>
+    <string name="strategy_broadcast_message_show_hint" tools:ignore="UnusedResources">show hint</string>
+    <string name="strategy_look_hint" tools:ignore="UnusedResources">hint</string>
+    <string name="strategy_broadcast_message_show_game" tools:ignore="UnusedResources">show game</string>
+    <string name="strategy_look_coin_player_1" tools:ignore="UnusedResources">coin player 1</string>
+    <string name="strategy_look_coin_player_2" tools:ignore="UnusedResources">coin player 2</string>
+    <string name="strategy_note_the_coin_position_shows_whose_turn_it_is" tools:ignore="UnusedResources">the coin position shows whose turn it is</string>
+    <string name="strategy_look_wheel" tools:ignore="UnusedResources">wheel</string>
+    <string name="strategy_look_board" tools:ignore="UnusedResources">board</string>
+    <string name="strategy_look_player_1_wins" tools:ignore="UnusedResources">player 1 wins</string>
+    <string name="strategy_look_player_2_wins" tools:ignore="UnusedResources">player 2 wins</string>
+    <string name="strategy_broadcast_message_win" tools:ignore="UnusedResources">win</string>
+    <string name="strategy_look_coin_1" tools:ignore="UnusedResources">coin 1</string>
+    <string name="strategy_sprite_variable_dragged" tools:ignore="UnusedResources">dragged</string>
+    <string name="strategy_broadcast_message_move_check" tools:ignore="UnusedResources">move check</string>
+    <string name="strategy_broadcast_message_not_valid_move" tools:ignore="UnusedResources">not valid move</string>
+    <string name="strategy_look_coin_2" tools:ignore="UnusedResources">coin 2</string>
+    <string name="strategy_look_coin_3" tools:ignore="UnusedResources">coin 3</string>
+    <string name="strategy_note_locating_where_the_player_has_dragged_the_coin" tools:ignore="UnusedResources">locating where the player has dragged the coin</string>
+    <string name="strategy_note_index_stores_the_new_position_of_the_coin" tools:ignore="UnusedResources">index stores the new position of the coin</string>
+    <string name="strategy_note_placing_the_coins_moving_them_is_not_allowed_yet" tools:ignore="UnusedResources">placing the coins, moving them is not allowed yet</string>
+    <string name="strategy_note_check_that_coins_are_dragged_from_the_start_position_and_are_not_overlapping_" tools:ignore="UnusedResources">check that coins are dragged from the start position and are not overlapping </string>
+    <string name="strategy_broadcast_message_valid_move" tools:ignore="UnusedResources">valid move</string>
+    <string name="strategy_note_placing_the_coins_moving_them_is_allowed" tools:ignore="UnusedResources">placing the coins, moving them is allowed</string>
+    <string name="strategy_note_check_that_coins_are_dragged_from_to_the_neighbor_position_and_are_not_overlapping_" tools:ignore="UnusedResources">check that coins are dragged from to the neighbor position and are not overlapping </string>
+    <string name="strategy_note_if_the_coin_is_not_on_set_on_the_board_position" tools:ignore="UnusedResources">if the coin is not on set on the board position</string>
+    <string name="strategy_broadcast_message_player_switch" tools:ignore="UnusedResources">player switch</string>
+    <string name="strategy_broadcast_message_check_for_winner" tools:ignore="UnusedResources">check for winner</string>
+    <string name="strategy_note_check_if_player_1_won" tools:ignore="UnusedResources">check if player 1 won</string>
+    <string name="strategy_note_check_if_player_2_won" tools:ignore="UnusedResources">check if player 2 won</string>
+    <string name="strategy_note_switch_the_current_player" tools:ignore="UnusedResources">switch the current player</string>
+    <string name="strategy_note_help_variable_to_set_the_points_on_the_board" tools:ignore="UnusedResources">help variable to set the points on the board</string>
+    <string name="strategy_note_inner_square" tools:ignore="UnusedResources">inner square</string>
+    <string name="strategy_note_outer_square" tools:ignore="UnusedResources">outer square</string>
+    <string name="strategy_look_board_background" tools:ignore="UnusedResources">board background</string>
+    <string name="strategy_note_todo_define_what_should_happen_after_the_other_player_created_a_mill_use_ifcondition" tools:ignore="UnusedResources">ToDo: define what should happen after the other player created a mill, use if-condition</string>
+    <string name="strategy_note_todo_broadcast_check_for_winner" tools:ignore="UnusedResources">ToDo: broadcast \'check for winner\'</string>
+    <string name="strategy_look_coin_4" tools:ignore="UnusedResources">coin 4</string>
+    <string name="strategy_look_coin" tools:ignore="UnusedResources">coin</string>
+    <string name="strategy_note_todo_place_the_coin_correctly" tools:ignore="UnusedResources">ToDo: place the coin correctly</string>
+    <string name="strategy_note_todo_define_where_the_coin_should_glide_in_case_of_wrong_move" tools:ignore="UnusedResources">ToDo: define where the coin should glide in case of wrong move</string>
+    <string name="strategy_note_todo_change_the_number_of_initial_moves_for_which_it_is_not_allowed_to_move_the_coins" tools:ignore="UnusedResources">ToDo: change the number of initial moves for which it is not allowed to move the coins</string>
+    <string name="strategy_note_todo_define_after_how_many_moves_it_is_allowed_to_move_the_coin_to_the_neighboring_position" tools:ignore="UnusedResources">ToDo: define after how many moves it is allowed to move the coin to the neighboring position</string>
+    <string name="strategy_broadcast_message_check_for_mill" tools:ignore="UnusedResources">check for mill</string>
+    <string name="strategy_sprite_variable_pos" tools:ignore="UnusedResources">pos</string>
+    <string name="strategy_note_todo_add_mill_detection" tools:ignore="UnusedResources">ToDo: add mill detection</string>
+    <string name="strategy_note_todo_check_if_player_1_won_which_means_player_2_has_2_coins_left" tools:ignore="UnusedResources">ToDo: check if player 1 won, which means player 2 has 2 coins left</string>
+    <string name="strategy_note_todo_check_if_player_2_won_which_means_player_1_has_2_coins_left" tools:ignore="UnusedResources">ToDo: check if player 2 won, which means player 1 has 2 coins left</string>
     <string name="strategy_look_end" tools:ignore="UnusedResources">end</string>
-    <string name="strategy_look_button_play_again_1" tools:ignore="UnusedResources">button play again_1</string>
+    <string name="strategy_look_play_again_button" tools:ignore="UnusedResources">play again button</string>
 </resources>
