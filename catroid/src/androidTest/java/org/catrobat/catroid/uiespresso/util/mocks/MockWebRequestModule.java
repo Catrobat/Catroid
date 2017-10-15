@@ -21,36 +21,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.web;
+package org.catrobat.catroid.uiespresso.util.mocks;
 
-import android.support.test.InstrumentationRegistry;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
-import com.google.gson.Gson;
-
-import org.catrobat.catroid.common.TemplateContainer;
 import org.catrobat.catroid.web.FetchTemplatesRequest;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import dagger.Module;
+import dagger.Provides;
 
-import io.reactivex.Observable;
-import retrofit2.http.Path;
-
-public class MockFetchTemplatesRequest implements FetchTemplatesRequest {
-
-	@Override
-	public Observable<TemplateContainer> fetchTemplates(@Path("name") String name) {
-		String json = "";
-		try {
-			InputStream inputStream = InstrumentationRegistry.getContext().getAssets().open("template_list.json");
-			json = CharStreams.toString(new InputStreamReader(inputStream, Charsets.UTF_8));
-		} catch (IOException e) {
-			return null;
-		}
-		TemplateContainer container = new Gson().fromJson(json, TemplateContainer.class);
-		return Observable.just(container);
+@Module
+public class MockWebRequestModule {
+	@Provides
+	public FetchTemplatesRequest provideFetchTemplatesRequest() {
+		return new MockFetchTemplatesRequest();
 	}
 }

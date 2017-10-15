@@ -253,6 +253,7 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:' + daggerVersion
     provided 'org.glassfish:javax.annotation:10.0-b28'
     androidTestApt 'com.google.dagger:dagger-compiler:' + daggerVersion
+    androidTestCompile 'com.github.fabioCollini.daggermock:daggermock:0.8.1'
 
     compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
     compile fileTree(include: '*.jar', dir: 'src/main/libs')
@@ -309,7 +310,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 22
         applicationId appId
-        testInstrumentationRunner 'org.catrobat.catroid.uiespresso.util.CatroidTestRunner'
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         versionCode 39
         println "VersionCode is " + versionCode
         versionName "0.9.32"

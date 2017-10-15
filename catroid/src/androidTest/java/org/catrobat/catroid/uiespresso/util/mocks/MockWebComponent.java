@@ -21,18 +21,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.web.util;
+package org.catrobat.catroid.uiespresso.util.mocks;
 
-import org.catrobat.catroid.uiespresso.web.MockFetchTemplatesRequest;
-import org.catrobat.catroid.web.FetchTemplatesRequest;
+import org.catrobat.catroid.dependencies.WebComponent;
+import org.catrobat.catroid.uiespresso.ui.activity.TemplateActivityTest;
 
-import dagger.Module;
-import dagger.Provides;
+import javax.inject.Singleton;
 
-@Module
-public class MockWebRequestModule {
-	@Provides
-	public FetchTemplatesRequest provideFetchTemplatesRequest() {
-		return new MockFetchTemplatesRequest();
-	}
+import dagger.Component;
+
+@Singleton
+@Component(modules = {MockWebRequestModule.class})
+public interface MockWebComponent extends WebComponent {
+	void inject(TemplateActivityTest test);
 }

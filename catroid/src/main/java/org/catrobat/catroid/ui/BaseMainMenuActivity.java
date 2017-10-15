@@ -362,6 +362,7 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 			return;
 		}
 		Intent intent = new Intent(this, TemplateActivity.class);
+		intent.putExtra(Constants.FETCH_TEMPLATES_FROM_SERVER, true);
 		startActivity(intent);
 	}
 

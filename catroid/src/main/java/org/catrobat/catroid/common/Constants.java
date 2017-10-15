@@ -274,6 +274,7 @@ public final class Constants {
 	//create@school constants
 	public static final String CREATE_AT_SCHOOL_USER = "nolbUser";
 	public static final String TMP_TEMPLATES_PATH = TMP_PATH + "/templates";
+	public static final String FETCH_TEMPLATES_FROM_SERVER = "fetchTemplates";
 
 	public static final String TRANSLATION_SCENE = "_scene_";
 	public static final String TRANSLATION_SPRITE = "_sprite_";

@@ -39,11 +39,14 @@ import android.widget.TextView;
 import com.google.common.base.Strings;
 import com.squareup.picasso.Picasso;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.TemplateContainer;
 import org.catrobat.catroid.common.TemplateData;
+import org.catrobat.catroid.dependencies.DaggerWebComponent;
+import org.catrobat.catroid.dependencies.WebComponent;
+import org.catrobat.catroid.dependencies.WebModule;
+import org.catrobat.catroid.dependencies.WebRequestModule;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -61,7 +64,7 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> {
 	private static final String TAG = TemplateAdapter.class.getSimpleName();
 	private static LayoutInflater inflater;
 
-	private final Activity context;
+	private final Activity activity;
 	private OnTemplateEditListener onTemplateEditListener;
 	private TemplateContainer templateContainer;
 	private ProgressDialog progressDialog;
@@ -69,20 +72,31 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> {
 	@Inject
 	FetchTemplatesRequest fetchTemplatesRequest;
 
+	private WebComponent webComponent;
+
 	public TemplateAdapter(Activity activity, int resource, int textViewResourceId, OnTemplateEditListener listener) {
 		super(activity, resource, textViewResourceId);
-		this.context = activity;
+		this.activity = activity;
 		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.onTemplateEditListener = listener;
-		((CatroidApplication) activity.getApplication()).getWebComponent().inject(this);
-		fetchTemplates();
+
+		if (activity.getIntent().hasExtra(Constants.FETCH_TEMPLATES_FROM_SERVER)) {
+			webComponent = DaggerWebComponent.builder()
+					.webModule(new WebModule())
+					.webRequestModule(new WebRequestModule())
+					.build();
+
+			webComponent.inject(this);
+
+			fetchTemplates();
+		}
 	}
 
 	private void fetchTemplates() {
 		if (isEmpty()) {
-			String title = context.getString(R.string.please_wait);
-			String progressMessage = context.getString(R.string.fetching_templates);
-			progressDialog = ProgressDialog.show(context, title, progressMessage);
+			String title = activity.getString(R.string.please_wait);
+			String progressMessage = activity.getString(R.string.fetching_templates);
+			progressDialog = ProgressDialog.show(activity, title, progressMessage);
 
 			fetchTemplatesRequest.fetchTemplates(FetchTemplatesRequest.ENDPOINT)
 					.subscribeOn(Schedulers.io())
@@ -151,7 +165,7 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> {
 	}
 
 	private void setImage(TemplateData templateData, ViewHolder holder) {
-		Picasso.with(context).load(getBaseUrl() + templateData.getThumbnail()).into(holder.image);
+		Picasso.with(activity).load(getBaseUrl() + templateData.getThumbnail()).into(holder.image);
 	}
 
 	public String getBaseUrl() {
@@ -160,11 +174,14 @@ public class TemplateAdapter extends ArrayAdapter<TemplateData> {
 	}
 
 	private void showFailure() {
-		if (!Utils.isNetworkAvailable(context)) {
-			ToastUtil.showError(context, R.string.error_internet_connection);
-		} else {
-			ToastUtil.showError(context, context.getString(R.string.error_fetching_templates));
-		}
+		int errorMessage = !Utils.isNetworkAvailable(activity) ? R.string.error_internet_connection : R.string.error_fetching_templates;
+		ToastUtil.showError(activity, errorMessage);
+	}
+
+	public void setWebComponent(WebComponent webComponent) {
+		this.webComponent = webComponent;
+		webComponent.inject(this);
+		fetchTemplates();
 	}
 
 	public interface OnTemplateEditListener {

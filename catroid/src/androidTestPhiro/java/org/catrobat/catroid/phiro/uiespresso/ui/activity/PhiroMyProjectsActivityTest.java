@@ -35,11 +35,14 @@ import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.fragment.ProjectListFragment;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.matchers.ProjectListMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -73,6 +76,7 @@ public class PhiroMyProjectsActivityTest {
 		}
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void phiroProgramRestoredWhenDeletedTest() {
 		String projectName = ProjectListFragment.PHIRO_PROJECTS[0];
@@ -84,6 +88,7 @@ public class PhiroMyProjectsActivityTest {
 				.check(matches(isDisplayed()));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void phiroProgramsUnchangedWhenModifiedTest() {
 		addNoteBrickToFirstScript(ProjectListFragment.PHIRO_PROJECTS[0]);

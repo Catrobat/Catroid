@@ -34,6 +34,8 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.ui.activity.utils.SettingsActivityUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -42,6 +44,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -86,6 +89,7 @@ public class PhiroSettingsActivityTest {
 		baseActivityTestRule.launchActivity(null);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void phiroIsFirstVisibleSettingTest() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_phiro_bricks))
@@ -93,6 +97,7 @@ public class PhiroSettingsActivityTest {
 				.check(matches(isDisplayed()));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void phiroSettingsTest() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_phiro_bricks))

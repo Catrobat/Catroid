@@ -31,10 +31,6 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-import org.catrobat.catroid.dependencies.DaggerWebComponent;
-import org.catrobat.catroid.dependencies.WebComponent;
-import org.catrobat.catroid.dependencies.WebModule;
-import org.catrobat.catroid.dependencies.WebRequestModule;
 import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.CrashReporter;
@@ -58,8 +54,6 @@ public class CatroidApplication extends MultiDexApplication {
 	public static String defaultSystemLanguage;
 	public static boolean parrotJSLibrariesLoaded = false;
 
-	protected WebComponent webComponent;
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -69,11 +63,6 @@ public class CatroidApplication extends MultiDexApplication {
 		BaseSettingsActivity.applyAccessibilitySettings(context);
 		registerActivityLifecycleCallbacks();
 		setAppLanguage();
-
-		webComponent = DaggerWebComponent.builder()
-				.webModule(new WebModule())
-				.webRequestModule(new WebRequestModule())
-				.build();
 	}
 
 	@Override
@@ -207,9 +196,5 @@ public class CatroidApplication extends MultiDexApplication {
 
 	public Activity getCurrentActivity() {
 		return currentActivity;
-	}
-
-	public WebComponent getWebComponent() {
-		return webComponent;
 	}
 }

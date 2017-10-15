@@ -36,12 +36,18 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.ui.TemplateActivity;
-import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.ui.fragment.TemplatesFragment;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.util.mocks.MockWebComponent;
+import org.catrobat.catroid.uiespresso.util.mocks.MockWebRequestModule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -49,6 +55,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -90,8 +98,12 @@ public class TemplateActivityTest {
 	private boolean hintSettingToRestore;
 
 	@Rule
-	public BaseActivityInstrumentationRule<TemplateActivity> baseActivityTestRule = new
+	public BaseActivityInstrumentationRule<TemplateActivity> activityTestRule = new
 			BaseActivityInstrumentationRule<>(TemplateActivity.class, true, false);
+
+	@Rule
+	public DaggerMockRule<MockWebComponent> daggerRule = new
+			DaggerMockRule<>(MockWebComponent.class, new MockWebRequestModule());
 
 	@Before
 	public void setUp() {
@@ -107,9 +119,27 @@ public class TemplateActivityTest {
 
 		editor.apply();
 
-		baseActivityTestRule.launchActivity(null);
+		activityTestRule.launchActivity(null);
+
+		daggerRule.set(new DaggerMockRule.ComponentSetter<MockWebComponent>() {
+			@Override
+			public void setComponent(final MockWebComponent component) {
+				final TemplatesFragment templatesFragment = (TemplatesFragment) activityTestRule.getActivity().getFragmentManager()
+						.findFragmentById(R.id.fragment_templates_list);
+
+				InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
+					@Override
+					public void run() {
+						templatesFragment.getTemplateAdapter().setWebComponent(component);
+					}
+				});
+			}
+		});
+
+		daggerRule.initMocks(this);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void templatesCorrectlyShownTest() {
 		for (String template : templateNames) {
@@ -118,16 +148,18 @@ public class TemplateActivityTest {
 		}
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void ratingAndSettingsMenuHiddenTest() {
 		try {
-			openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
+			openActionBarOverflowOrOptionsMenu(activityTestRule.getActivity());
 			fail("Overflow menu present, but it should be hidden!");
 		} catch (NoMatchingViewException e) {
-			Log.d(TAG, "This is expected behavior. The overflow menu should not be present");
+			Log.d(TAG, "This is expected behavior. The overflow menu should not be present.");
 		}
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void landscapeTemplateTest() {
 		onTemplateWithName(LANDSCAPE_ONLY_TEMPLATE)
@@ -142,6 +174,7 @@ public class TemplateActivityTest {
 				.check(matches(allOf(not(isEnabled()), not(isChecked()))));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void portraitTemplateTest() {
 		onTemplateWithName(PORTRAIT_ONLY_TEMPLATE)
@@ -156,6 +189,7 @@ public class TemplateActivityTest {
 				.check(matches(allOf(not(isEnabled()), not(isChecked()))));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void portraitAndLandscapeTemplateTest() {
 		onTemplateWithName(PORTRAIT_AND_LANDSCAPE_TEMPLATE)
@@ -170,6 +204,7 @@ public class TemplateActivityTest {
 				.check(matches(allOf(isEnabled(), not(isChecked()))));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void snackBarHintTest() {
 		onView(withText(R.string.hint_templates))
