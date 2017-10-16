@@ -40,7 +40,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
+import org.catrobat.catroid.ui.dialogs.BasePrivacyPolicyDialogFragment;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -94,7 +94,7 @@ public class RestrictedLoginTest {
 
 	private List<String> allSettings = new ArrayList<>(Arrays.asList(Constants.RESTRICTED_LOGIN_ACCEPTED, Constants.CREATE_AT_SCHOOL_USER));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
-	private boolean privacyPolicyInitialValue = PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(InstrumentationRegistry.getTargetContext());
+	private boolean privacyPolicyInitialValue = BasePrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(InstrumentationRegistry.getTargetContext());
 	private String initialTokenSetting;
 	private IdlingResource idlingResource;
 
@@ -107,14 +107,14 @@ public class RestrictedLoginTest {
 			initialSettings.put(setting, sharedPreferences.getBoolean(setting, false));
 		}
 		initialTokenSetting = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		privacyPolicyInitialValue = PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(InstrumentationRegistry.getTargetContext());
+		privacyPolicyInitialValue = BasePrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(InstrumentationRegistry.getTargetContext());
 
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putBoolean(Constants.RESTRICTED_LOGIN_ACCEPTED, false);
 		editor.putBoolean(Constants.CREATE_AT_SCHOOL_USER, false);
 		editor.apply();
 
-		Reflection.invokeMethod(PrivacyPolicyDialogFragment.class, null, "setUserHasAcceptedPrivacyPolicy", InstrumentationRegistry.getTargetContext(), false);
+		Reflection.invokeMethod(BasePrivacyPolicyDialogFragment.class, null, "setUserHasAcceptedPrivacyPolicy", InstrumentationRegistry.getTargetContext(), false);
 
 		ServerCalls.useTestUrl = true;
 
@@ -270,7 +270,7 @@ public class RestrictedLoginTest {
 		sharedPreferencesEditor.putString(Constants.TOKEN, initialTokenSetting);
 		sharedPreferencesEditor.apply();
 
-		Reflection.invokeMethod(PrivacyPolicyDialogFragment.class, null, "setUserHasAcceptedPrivacyPolicy", InstrumentationRegistry.getTargetContext(), privacyPolicyInitialValue);
+		Reflection.invokeMethod(BasePrivacyPolicyDialogFragment.class, null, "setUserHasAcceptedPrivacyPolicy", InstrumentationRegistry.getTargetContext(), privacyPolicyInitialValue);
 
 		Espresso.unregisterIdlingResources(idlingResource);
 
