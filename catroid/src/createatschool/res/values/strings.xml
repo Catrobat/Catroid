@@ -23,4 +23,25 @@
   -->
 <resources>
     <string name="app_name">Create@School</string>
+
+    <string name="dialog_restricted_login_policy_text">To offer you all collaborative benefits of our services and the associated account, it is necessary to collect certain data from you.\n\n
+
+    &#8226; Your Create@School account is not associated to any personal data within the scope of the application provider (Catrobat).
+        Furthermore, no such data gets collected through the provided services (as not explicitly stated otherwise).\n\n
+
+    &#8226; To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal purposes,
+        the user generated public data will be stored internally in a database, together with a timestamp and the used IP address.\n\n
+
+    &#8226; To improve our services (apps and websites) and to do scientific research on ICT and STEM education,
+        we use Google Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited pages/screens, used operating system, and information about the network provider).
+        This analysis and the collected data is not linked to your profile and does not contain any personal information.\n\n
+
+    &#8226; All Services are provided by the non-profit free open source Catrobat project under the umbrella of the International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
+
+    &#8226; To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
+        c/o\n
+        Institute of Software Technology,\n
+        Inffeldgasse 16b/II,\n
+        8010 Graz, Austria.\n\n
+    </string>
 </resources>

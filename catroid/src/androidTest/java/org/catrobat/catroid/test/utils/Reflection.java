@@ -191,4 +191,19 @@ public final class Reflection {
 			throw new RuntimeException(exception);
 		}
 	}
+
+	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, Object... params) {
+		Method[] methods = clazz.getDeclaredMethods();
+		for (Method method : methods) {
+			if (method.getName().equals(methodName)) {
+				method.setAccessible(true);
+				try {
+					return method.invoke(object, params);
+				} catch (Exception exception) {
+					throw new RuntimeException(exception);
+				}
+			}
+		}
+		return null;
+	}
 }
