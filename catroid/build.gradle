@@ -276,6 +276,14 @@ android {
         xmlOutput file("build/reports/lint-report.xml")
         htmlOutput file("build/reports/lint-report.html")
     }
+
+    sourceSets {
+        androidTest {
+            if (file('../testexclusions.txt').exists()) {
+                java.exclude file('../testexclusions.txt').readLines()
+            }
+        }
+    }
 }
 
 task copyAndroidNatives() {
