@@ -713,23 +713,26 @@ public class FormulaElement implements Serializable {
 		return dividend % divisor;
 	}
 
-	private Object interpretFunctionRand(Object right, Object left) {
-		Double minimum = java.lang.Math.min((Double) left, (Double) right);
-		Double maximum = java.lang.Math.max((Double) left, (Double) right);
+	private Object interpretFunctionRand(Object left, Object right) {
+		double from = (double) left;
+		double to = (double) right;
+		double low = (from <= to) ? from : to;
+		double high = (from <= to) ? to : from;
 
-		Double randomDouble = minimum + (java.lang.Math.random() * (maximum - minimum));
-
-		if (isInteger(minimum) && isInteger(maximum)
-				&& !(rightChild.type == ElementType.NUMBER && rightChild.value.contains("."))
-				&& !(leftChild.type == ElementType.NUMBER && leftChild.value.contains("."))) {
-			if ((Math.abs(randomDouble) - (int) Math.abs(randomDouble)) >= 0.5) {
-				return (double) randomDouble.intValue() + 1;
-			} else {
-				return (double) randomDouble.intValue();
-			}
-		} else {
-			return randomDouble;
+		if (low == high) {
+			return low;
 		}
+
+		if (isInteger(low) && isInteger(high)
+				&& !isNumberWithDecimalPoint(leftChild) && !isNumberWithDecimalPoint(rightChild)) {
+			return low + Math.floor(Math.random() * ((high + 1) - low));
+		} else {
+			return (Math.random() * (high - low)) + low;
+		}
+	}
+
+	private static boolean isNumberWithDecimalPoint(FormulaElement element) {
+		return element.type == ElementType.NUMBER && element.value.contains(".");
 	}
 
 	private Object interpretOperator(Operators operator, Sprite sprite) {
