@@ -62,7 +62,6 @@ import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
-import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -552,9 +551,6 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(DronePlayLedAnimationBrick.class.getSimpleName());
 		brickInfoMap.put("dronePlayLedAnimationBrick", brickInfo);
-
-		brickInfo = new BrickInfo(DroneFlipBrick.class.getSimpleName());
-		brickInfoMap.put("droneFlipBrick", brickInfo);
 
 		brickInfo = new BrickInfo(DroneEmergencyBrick.class.getSimpleName());
 		brickInfoMap.put("droneGoEmergencyBrick", brickInfo);

@@ -31,6 +31,7 @@ import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorCast;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDefault;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDrone;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorJumpingSumo;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorPhysics;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
@@ -43,7 +44,8 @@ public final class DefaultProjectHandler {
 	private static final String TAG = DefaultProjectHandler.class.getSimpleName();
 
 	public enum ProjectCreatorType {
-		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE, PROJECT_CREATOR_PHYSICS, PROJECT_CREATOR_CAST
+		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE, PROJECT_CREATOR_PHYSICS, PROJECT_CREATOR_CAST,
+		PROJECT_CREATOR_JUMPING_SUMO
 	}
 
 	private static DefaultProjectHandler instance = null;
@@ -132,6 +134,13 @@ public final class DefaultProjectHandler {
 			case PROJECT_CREATOR_DRONE:
 				if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
 					defaultProjectCreator = new DefaultProjectCreatorDrone();
+				} else {
+					defaultProjectCreator = new DefaultProjectCreatorDefault();
+				}
+				break;
+			case PROJECT_CREATOR_JUMPING_SUMO:
+				if (BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED) {
+					defaultProjectCreator = new DefaultProjectCreatorJumpingSumo();
 				} else {
 					defaultProjectCreator = new DefaultProjectCreatorDefault();
 				}

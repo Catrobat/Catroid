@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
-import org.catrobat.catroid.drone.DroneBrickFactory;
+import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -123,15 +123,6 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(takeOffSpriteName, DroneBrickFactory.DroneBricks
 						.DRONE_TAKE_OFF_LAND_BRICK,
 				-280, -200, takeOffArrowFile));
-
-		String rotateSpriteName = context.getString(R.string.default_drone_project_sprites_rotate);
-
-		File rotateFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, rotateSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_rotate, context, true,
-				backgroundImageScaleFactor);
-
-		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(rotateSpriteName, DroneBrickFactory.DroneBricks.DRONE_FLIP_BRICK,
-				-280, 200, rotateFile));
 
 		String upSpriteName = context.getString(R.string.default_drone_project_sprites_up);
 

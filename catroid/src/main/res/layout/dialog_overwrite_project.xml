@@ -60,6 +60,7 @@
             style="@style/DefaultDialog.TextView"
             android:layout_below="@+id/dialog_overwrite_project_radiogroup"
             android:text="@string/new_project_name"
+            android:labelFor="@+id/dialog_overwrite_project_edit"
             android:visibility="gone" />
 
         <View
@@ -72,7 +73,7 @@
             android:id="@+id/dialog_overwrite_project_edit"
             style="@style/DefaultDialog.EditText"
             android:layout_below="@+id/dialog_overwrite_project_edit_line"
-            android:layout_gravity="right"
+            android:layout_gravity="start"
             android:visibility="gone" />
     </RelativeLayout >
 

@@ -42,7 +42,7 @@ import org.catrobat.catroid.test.utils.TestUtils;
 
 public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCase {
 
-	private static final String TAG = PhysicsSpriteCloneTest.class.getSimpleName();
+	private static final String TAG = PhysicsCollisionScriptInteractionTest.class.getSimpleName();
 
 	private static final String FIRST_SPRITE_NAME = "firstSprite";
 	private static final String FIRST_SPRITE_NAME_NEW = "firstSpriteNEW";

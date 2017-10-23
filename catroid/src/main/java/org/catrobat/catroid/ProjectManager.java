@@ -271,6 +271,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				SettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
 			}
 
+			if ((resources & Brick.JUMPING_SUMO) > 0) {
+				SettingsActivity.setJumpingSumoSharedPreferenceEnabled(context, true);
+			}
+
 			if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
 				SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
 			}
@@ -327,7 +331,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode, boolean castEnabled)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone,
+			boolean landscapeMode, boolean castEnabled, boolean jumpingSumo)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
@@ -340,6 +345,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			} else if (castEnabled) {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_CAST);
+			} else if (jumpingSumo) {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_JUMPING_SUMO);
 			} else {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DEFAULT);

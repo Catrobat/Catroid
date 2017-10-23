@@ -48,7 +48,9 @@
             android:id="@+id/brick_note_text_view"
             android:labelFor="@+id/brick_note_edit_text"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_note" />
+            android:labelFor="@+id/brick_note_edit_text"
+            android:text="@string/brick_note" >
+        </TextView >
 
         <EditText
             android:id="@+id/brick_note_edit_text"

@@ -37,8 +37,8 @@
         android:layout_height="50dp"
         android:background="@drawable/button_background_selector"
         android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="6dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="6dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/sound_fragment_text_main_color" />
 

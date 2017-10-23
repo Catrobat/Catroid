@@ -34,6 +34,7 @@
             android:id="@+id/dialog_register_username_text"
             android:labelFor="@+id/dialog_register_username"
             style="@style/DefaultDialog.TextView"
+            android:labelFor="@+id/dialog_register_username"
             android:text="@string/username" />
 
         <View
@@ -53,6 +54,7 @@
             style="@style/DefaultDialog.TextView"
             android:text="@string/accountName"
             android:inputType="text"
+            android:labelFor="@+id/dialog_register_email"
             android:layout_below="@+id/dialog_register_username" />
 
         <View
@@ -72,6 +74,7 @@
             android:labelFor="@+id/dialog_register_password"
             style="@style/DefaultDialog.TextView"
             android:layout_below="@+id/dialog_register_email"
+            android:labelFor="@+id/dialog_register_password"
             android:text="@string/password" />
 
         <View
@@ -90,6 +93,7 @@
             android:labelFor="@+id/dialog_register_password_confirm"
             style="@style/DefaultDialog.TextView"
             android:layout_below="@+id/dialog_register_password"
+            android:labelFor="@+id/dialog_register_password_confirm"
             android:text="@string/password_confirm" />
 
         <View
@@ -116,11 +120,11 @@
             style="@style/DefaultDialog.TextView"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="@dimen/dialog_text_view_margin"
-            android:layout_marginRight="@dimen/dialog_text_view_margin"
+            android:layout_marginStart="@dimen/dialog_text_view_margin"
+            android:layout_marginEnd="@dimen/dialog_text_view_margin"
             android:layout_marginTop="15dp"
             android:layout_below="@+id/dialog_register_password_confirm"
-            android:layout_toRightOf="@+id/dialog_register_checkbox_showpassword"
+            android:layout_toEndOf="@+id/dialog_register_checkbox_showpassword"
             android:gravity="center_horizontal"
             android:text="@string/show_password" >
         </TextView>

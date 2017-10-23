@@ -31,7 +31,7 @@
         android:id="@+id/dialog_text_headtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:text="@string/error_no_network"
         android:paddingTop="5dp"
         android:paddingBottom="5dp" />
@@ -39,7 +39,7 @@
         android:id="@+id/dialog_text_headtext_bricks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:text="@string/error_no_network_one_brick"
         android:paddingTop="5dp"
         android:paddingBottom="5dp" />

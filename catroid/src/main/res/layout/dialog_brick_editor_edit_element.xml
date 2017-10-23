@@ -29,7 +29,7 @@
 
     <EditText
         android:id="@+id/dialog_brick_editor_edit_element_edit_text"
-        style="@style/DefaultDialog.EditText"
-        tools:ignore="LabelFor" />
+        android:labelFor="@+id/dialog_brick_editor_edit_element_edit_text"
+        style="@style/DefaultDialog.EditText" />
 
 </LinearLayout>

@@ -48,6 +48,7 @@
             android:id="@+id/brick_say_bubble_text_view"
             android:labelFor="@+id/brick_say_bubble_edit_text"
             style="@style/BrickText.SingleLine"
+            android:labelFor="@+id/brick_say_bubble_edit_text"
             android:text="@string/brick_say_bubble" >
         </TextView >
 

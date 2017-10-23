@@ -155,7 +155,8 @@ public class AddBrickFragment extends ListFragment {
 
 	public void addBrickToScript(Brick brickToBeAdded) {
 		try {
-			scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded.clone());
+			brickToBeAdded = brickToBeAdded.clone();
+			scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
 
 			if ((ProjectManager.getInstance().getCurrentProject().isCastProject())
 					&& CastManager.unsupportedBricks.contains(brickToBeAdded.getClass())) {

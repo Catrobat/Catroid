@@ -126,6 +126,7 @@
                 android:id="@+id/dialog_new_object_name_text_view"
                 android:labelFor="@+id/dialog_new_object_name_edit_text"
                 style="@style/DefaultDialog.TextView"
+                android:labelFor="@+id/dialog_new_object_name_edit_text"
                 android:text="@string/dialog_new_object_name" />
 
             <View style="@style/DefaultDialog.Line" />
