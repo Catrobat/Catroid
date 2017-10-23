@@ -61,17 +61,6 @@ public class ArduinoImpl implements Arduino {
 	private ArduinoListener arduinoListener;
 	private BluetoothConnection btConnection;
 
-	private int castValue(int value) {
-		if (value <= 0) {
-			return 0;
-		}
-		if (value >= 100) {
-			return 255;
-		}
-
-		return (int) (value * 2.55);
-	}
-
 	@Override
 	public String getName() {
 		return "ARDUINO";
@@ -256,7 +245,7 @@ public class ArduinoImpl implements Arduino {
 
 	private void sendAnalogFirmataMessage(int pin, int value) {
 		sendFirmataMessage(new SetPinModeMessage(pin, SetPinModeMessage.PIN_MODE.PWM.getMode()));
-		sendFirmataMessage(new AnalogMessage(pin, castValue(value)));
+		sendFirmataMessage(new AnalogMessage(pin, value));
 	}
 
 	private void sendDigitalFirmataMessage(int port, int pin, int value) {
