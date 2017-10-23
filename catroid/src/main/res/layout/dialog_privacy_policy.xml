@@ -21,14 +21,18 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView style="@style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/dialog_brick_editor_edit_element_edit_text"
-        android:labelFor="@+id/dialog_brick_editor_edit_element_edit_text"
-        style="@style/DefaultDialog.EditText" />
-
-</LinearLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:text="@string/dialog_privacy_policy_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:gravity="fill_horizontal"/>
+</ScrollView>
