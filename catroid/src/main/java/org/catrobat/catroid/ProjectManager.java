@@ -63,6 +63,7 @@ import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListene
 import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -145,8 +146,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		if (!Utils.isUserLoggedIn(activity)) {
 			showSignInDialog(activity, true);
 		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username);
-			checkTokenTask.setOnCheckTokenCompleteListener(this);
+			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username, this);
 			checkTokenTask.execute();
 		}
 	}
@@ -296,10 +296,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		currentSprite = null;
 		currentScript = null;
 		Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
-	}
-
-	public boolean cancelLoadProject() {
-		return StorageHandler.getInstance().cancelLoadProject();
 	}
 
 	public void saveProject(Context context) {
@@ -560,15 +556,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return getCurrentScene().getSpriteList().indexOf(currentSprite);
 	}
 
-	public int getCurrentScriptPosition() {
-		int currentSpritePosition = this.getCurrentSpritePosition();
-		if (currentSpritePosition == -1) {
-			return -1;
-		}
-
-		return getCurrentScene().getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
-	}
-
 	private String createTemporaryDirectoryName(String projectDirectoryName) {
 		String temporaryDirectorySuffix = "_tmp";
 		String temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix;
@@ -601,7 +588,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			checkFacebookServerTokenValidityTask.setOnCheckFacebookServerTokenValidityCompleteListener(this);
 			checkFacebookServerTokenValidityTask.execute();
 		} else {
-			ProjectManager.getInstance().showUploadProjectDialog(activity.getFragmentManager(), null);
+
+			ProjectManager.getInstance().showUploadProjectDialog(activity, activity.getFragmentManager(), null);
 		}
 	}
 
@@ -610,7 +598,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		if (requestNewToken) {
 			triggerFacebookTokenRefreshOnServer(activity);
 		} else {
-			ProjectManager.getInstance().showUploadProjectDialog(activity.getFragmentManager(), null);
+			ProjectManager.getInstance().showUploadProjectDialog(activity, activity.getFragmentManager(), null);
 		}
 	}
 
@@ -638,7 +626,23 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		signInDialog.show(activity.getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	public void showUploadProjectDialog(FragmentManager fragmentManager, Bundle bundle) {
+	public void showUploadProjectDialog(Context context, final FragmentManager fragmentManager, final Bundle bundle) {
+		if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(context)) {
+			PrivacyPolicyDialogFragment privacyPolicyDialog =
+					new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
+						@Override
+						public void onClick() {
+							createAndShowUploadDialog(fragmentManager, bundle);
+						}
+					}, true);
+
+			privacyPolicyDialog.show(fragmentManager, PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
+		} else {
+			createAndShowUploadDialog(fragmentManager, bundle);
+		}
+	}
+
+	private void createAndShowUploadDialog(FragmentManager fragmentManager, Bundle bundle) {
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		if (bundle != null) {
 			uploadProjectDialog.setArguments(bundle);
@@ -646,9 +650,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		uploadProjectDialog.show(fragmentManager, UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	public void signInFinished(FragmentManager fragmentManager, Bundle bundle) {
+	public void signInFinished(Context context, FragmentManager fragmentManager, Bundle bundle) {
 		if (showUploadDialog) {
-			showUploadProjectDialog(fragmentManager, bundle);
+			showUploadProjectDialog(context, fragmentManager, bundle);
 		} else {
 			showUploadDialog = true;
 		}
@@ -858,7 +862,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	@Override
 	public void onFacebookExchangeTokenComplete(Activity fragmentActivity) {
 		Log.d(TAG, "Facebook token refreshed on server");
-		ProjectManager.getInstance().showUploadProjectDialog(fragmentActivity.getFragmentManager(), null);
+		ProjectManager.getInstance().showUploadProjectDialog(fragmentActivity,
+				fragmentActivity.getFragmentManager(), null);
 	}
 
 	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {

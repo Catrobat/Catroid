@@ -21,29 +21,18 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+<ScrollView style="@style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:text="@string/dialog_privacy_policy_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/dialog_userbrick_name_textview"
-            android:labelFor="@+id/dialog_userbrick_name_edittext"
-            style="@style/DefaultDialog.TextView"
-            android:labelFor="@+id/dialog_userbrick_name_edittext"
-            android:text="@string/new_user_brick_name" />
-
-        <EditText
-            android:id="@+id/dialog_userbrick_name_edittext"
-            style="@style/DefaultDialog.EditText"
-            android:inputType="text"
-            android:maxLines="1"
-            android:selectAllOnFocus="true" />
-
-    </LinearLayout>
-
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:gravity="fill_horizontal"/>
 </ScrollView>

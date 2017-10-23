@@ -95,6 +95,9 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
+        <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
+            android:value="false"/>
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

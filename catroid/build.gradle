@@ -240,9 +240,9 @@ android {
         targetSdkVersion 22
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 38
+        versionCode 39
         println "VersionCode is " + versionCode
-        versionName "0.9.30"
+        versionName "0.9.31"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""

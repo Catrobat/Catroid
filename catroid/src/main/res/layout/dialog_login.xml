@@ -32,6 +32,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_login_username_text"
+            android:labelFor="@+id/dialog_login_username"
             style="@style/DefaultDialog.TextView"
             android:labelFor="@+id/dialog_login_username"
             android:text="@string/username" />
@@ -51,6 +52,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_login_password_text"
+            android:labelFor="@+id/dialog_login_password"
             style="@style/DefaultDialog.TextView"
             android:layout_below="@+id/dialog_login_username"
             android:labelFor="@+id/dialog_login_password"

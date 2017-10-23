@@ -32,6 +32,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_username_text"
+            android:labelFor="@+id/dialog_register_username"
             style="@style/DefaultDialog.TextView"
             android:labelFor="@+id/dialog_register_username"
             android:text="@string/username" />
@@ -49,6 +50,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_email_text"
+            android:labelFor="@+id/dialog_register_email"
             style="@style/DefaultDialog.TextView"
             android:text="@string/accountName"
             android:inputType="text"
@@ -69,6 +71,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_password_text"
+            android:labelFor="@+id/dialog_register_password"
             style="@style/DefaultDialog.TextView"
             android:layout_below="@+id/dialog_register_email"
             android:labelFor="@+id/dialog_register_password"
@@ -87,6 +90,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_password_confirm_text"
+            android:labelFor="@+id/dialog_register_password_confirm"
             style="@style/DefaultDialog.TextView"
             android:layout_below="@+id/dialog_register_password"
             android:labelFor="@+id/dialog_register_password_confirm"

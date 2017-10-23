@@ -47,6 +47,7 @@
 
         <TextView
             android:id="@+id/brick_set_nfc_tag_label"
+            android:labelFor="@+id/brick_set_nfc_tag_edit_text"
             style="@style/BrickText.SingleLine"
             android:labelFor="@+id/brick_set_nfc_tag_edit_text"
             android:text="@string/brick_set_nfc_tag" />
