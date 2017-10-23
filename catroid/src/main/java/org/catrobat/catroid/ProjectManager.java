@@ -240,6 +240,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.994f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.994f) {
+				project.updateArduinoValues994to995();
+				project.setCatrobatLanguageVersion(0.995f);
+			}
+			if (project.getCatrobatLanguageVersion() == 0.995f) {
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
 //			insert further conversions here
