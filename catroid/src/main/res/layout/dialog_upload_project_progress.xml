@@ -43,8 +43,6 @@
            android:layout_height="wrap_content"
            android:layout_below="@+id/dialog_upload_progess_message"
            android:layout_alignParentEnd="true"
-           android:layout_alignParentLeft="true"
-           android:layout_alignParentRight="true"
            android:layout_alignParentStart="true" />
 
         <ImageView

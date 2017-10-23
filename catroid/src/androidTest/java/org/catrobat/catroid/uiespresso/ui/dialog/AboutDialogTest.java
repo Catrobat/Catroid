@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -31,7 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -52,21 +51,21 @@ public class AboutDialogTest {
 	private IdlingResource idlingResource;
 
 	@Rule
-	public BaseActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(MainMenuActivity.class);
+	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
+			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
 		baseActivityTestRule.launchActivity(null);
 
 		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
-		Espresso.registerIdlingResources(idlingResource);
+		IdlingRegistry.getInstance().register(idlingResource);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void aboutDialogTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
 		onView(withText(R.string.main_menu_about)).perform(click());
 
 		onView(withText(R.string.dialog_about_title))
@@ -93,6 +92,6 @@ public class AboutDialogTest {
 
 	@After
 	public void tearDown() throws Exception {
-		Espresso.unregisterIdlingResources(idlingResource);
+		IdlingRegistry.getInstance().unregister(idlingResource);
 	}
 }

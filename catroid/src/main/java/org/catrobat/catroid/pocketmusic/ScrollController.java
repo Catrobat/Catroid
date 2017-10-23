@@ -103,10 +103,12 @@ public class ScrollController {
 			@Override
 			public void onClick(View v) {
 				if (playLineAnimator.isRunning()) {
+					scrollingView.getTrackGrid().stopPlayback();
 					playLineAnimator.cancel();
 					playLineAnimator.setupStartValues();
 				} else {
 					playLineAnimator.start();
+					scrollingView.getTrackGrid().startPlayback();
 				}
 			}
 		});

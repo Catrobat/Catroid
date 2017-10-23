@@ -53,11 +53,7 @@
             android:id="@+id/brick_drone_move_edit_text_second"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true" />
-
-        <TextView
-            android:id="@+id/brick_drone_move_text_view_second"
-            style="@style/BrickText.SingleLine"
+            app:layout_textField="true"
             app:layout_newLine="true" />
         
         <TextView

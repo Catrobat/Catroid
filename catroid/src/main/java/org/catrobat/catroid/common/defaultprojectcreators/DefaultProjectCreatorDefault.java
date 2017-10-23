@@ -183,22 +183,25 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 
 			cloudSpriteScript1.addBrick(placeAtBrick3);
 
-			ForeverBrick foreverBrick = new ForeverBrick();
-			cloudSpriteScript1.addBrick(foreverBrick);
-			cloudSpriteScript2.addBrick(foreverBrick);
+			ForeverBrick foreverBrick1 = new ForeverBrick();
+			ForeverBrick foreverBrick2 = new ForeverBrick();
+			cloudSpriteScript1.addBrick(foreverBrick1);
+			cloudSpriteScript2.addBrick(foreverBrick2);
 
 			GlideToBrick glideToBrick2 = new GlideToBrick(-ScreenValues.SCREEN_WIDTH, 0, 10000);
+			GlideToBrick glideToBrick3 = new GlideToBrick(-ScreenValues.SCREEN_WIDTH, 0, 10000);
 
 			cloudSpriteScript1.addBrick(glideToBrick2);
 			cloudSpriteScript1.addBrick(placeAtBrick4);
 
-			cloudSpriteScript2.addBrick(glideToBrick2);
+			cloudSpriteScript2.addBrick(glideToBrick3);
 			cloudSpriteScript2.addBrick(placeAtBrick5);
 
-			LoopEndlessBrick loopEndlessBrick = new LoopEndlessBrick(foreverBrick);
-			cloudSpriteScript1.addBrick(loopEndlessBrick);
+			LoopEndlessBrick loopEndlessBrick1 = new LoopEndlessBrick(foreverBrick1);
+			LoopEndlessBrick loopEndlessBrick2 = new LoopEndlessBrick(foreverBrick2);
+			cloudSpriteScript1.addBrick(loopEndlessBrick1);
 			cloudSprite1.addScript(cloudSpriteScript1);
-			cloudSpriteScript2.addBrick(loopEndlessBrick);
+			cloudSpriteScript2.addBrick(loopEndlessBrick2);
 			cloudSprite2.addScript(cloudSpriteScript2);
 
 			defaultProject.getDefaultScene().addSprite(cloudSprite1);

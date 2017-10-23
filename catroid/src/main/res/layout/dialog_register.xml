@@ -116,11 +116,11 @@
             style="@style/DefaultDialog.TextView"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="@dimen/dialog_text_view_margin"
-            android:layout_marginRight="@dimen/dialog_text_view_margin"
+            android:layout_marginStart="@dimen/dialog_text_view_margin"
+            android:layout_marginEnd="@dimen/dialog_text_view_margin"
             android:layout_marginTop="15dp"
             android:layout_below="@+id/dialog_register_password_confirm"
-            android:layout_toRightOf="@+id/dialog_register_checkbox_showpassword"
+            android:layout_toEndOf="@+id/dialog_register_checkbox_showpassword"
             android:gravity="center_horizontal"
             android:text="@string/show_password" >
         </TextView>
