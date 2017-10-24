@@ -33,7 +33,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -42,8 +41,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,9 +86,6 @@ public class GoToBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_go_to, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_go_to_label),
-				context.getString(R.string.category_motion));
-
 		setCheckboxView(R.id.brick_go_to_checkbox);
 
 		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
@@ -132,7 +126,6 @@ public class GoToBrick extends BrickBaseType {
 		});
 
 		setSpinnerSelection(goToSpinner, context);
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}
@@ -297,7 +290,6 @@ public class GoToBrick extends BrickBaseType {
 					return false;
 				}
 			});
-			TextSizeUtil.enlargeTextView((TextView) dropDownView);
 
 			return dropDownView;
 		}

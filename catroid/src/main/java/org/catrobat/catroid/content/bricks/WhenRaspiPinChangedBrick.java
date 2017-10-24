@@ -24,12 +24,10 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -40,8 +38,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.ui.BaseSettingsActivity;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,15 +82,10 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		view = View.inflate(context, R.layout.brick_raspi_pin_changed, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.raspi_when_label),
-				context.getString(R.string.category_raspi));
-
 		setCheckboxView(R.id.brick_raspi_when_checkbox);
 
 		setupValueSpinner(context);
 		setupPinSpinner(context);
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}
@@ -136,9 +127,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 				pinString = selectedMessage;
 				getScriptSafe().setPin(pinString);
-
-				TextView spinnerText = (TextView) parent.getChildAt(0);
-				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -161,9 +149,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 				eventString = selectedMessage;
 				getScriptSafe().setEventValue(eventString);
-
-				TextView spinnerText = (TextView) parent.getChildAt(0);
-				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override

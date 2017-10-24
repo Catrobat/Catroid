@@ -45,7 +45,7 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <org.catrobat.catroid.utils.BrickTextView
-            android:id="@+id/brick_when_started_textview"
+            android:id="@+id/brick_when_started_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_when_started" >
         </org.catrobat.catroid.utils.BrickTextView >

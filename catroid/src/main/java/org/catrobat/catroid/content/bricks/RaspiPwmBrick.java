@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -35,8 +34,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -97,9 +94,6 @@ public class RaspiPwmBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_raspi_pwm, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_raspi_pwm_pin_text_view),
-				context.getString(R.string.category_raspi));
-
 		setCheckboxView(R.id.brick_raspi_pwm_checkbox);
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_raspi_pwm_pin_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_raspi_pwm_pin_edit_text);
@@ -118,8 +112,6 @@ public class RaspiPwmBrick extends FormulaBrick {
 		getFormulaWithBrickField(BrickField.RASPI_PWM_PERCENTAGE).refreshTextField(view);
 
 		editPwmPercentage.setOnClickListener(this);
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

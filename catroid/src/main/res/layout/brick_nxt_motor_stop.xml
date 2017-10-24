@@ -51,7 +51,7 @@
             android:orientation="horizontal">
 
             <org.catrobat.catroid.utils.BrickTextView
-                android:id="@+id/ValueTextView"
+                android:id="@+id/brick_phiro_motor_stop_label"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/nxt_motor_stop" >
             </org.catrobat.catroid.utils.BrickTextView >

@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -37,8 +36,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.ColorSeekbar;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -126,9 +123,6 @@ public class SetPenColorBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_set_pen_color, null);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_set_pen_color_action_label),
-				context.getString(R.string.category_pen));
-
 		setCheckboxView(R.id.brick_set_pen_color_checkbox);
 		editRedValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_RED).setTextFieldId(R.id.brick_set_pen_color_action_red_edit_text);
@@ -147,7 +141,6 @@ public class SetPenColorBrick extends FormulaBrick {
 		getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).refreshTextField(view);
 
 		editBlueValue.setOnClickListener(this);
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

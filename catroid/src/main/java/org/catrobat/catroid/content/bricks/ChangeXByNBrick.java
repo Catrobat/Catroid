@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -35,8 +34,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -77,17 +74,12 @@ public class ChangeXByNBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_change_x, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_change_x_label),
-				context.getString(R.string.category_motion));
-
 		setCheckboxView(R.id.brick_change_x_checkbox);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).setTextFieldId(R.id.brick_change_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).refreshTextField(view);
 
 		editX.setOnClickListener(this);
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

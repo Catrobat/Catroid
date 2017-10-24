@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -37,8 +36,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -84,9 +81,6 @@ public class SetLookByIndexBrick extends FormulaBrick {
 		}
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_set_look_by_index_label),
-				context.getString(R.string.category_looks));
-
 		setCheckboxView(R.id.brick_set_look_by_index_checkbox);
 
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
@@ -98,8 +92,6 @@ public class SetLookByIndexBrick extends FormulaBrick {
 		getFormulaWithBrickField(BrickField.LOOK_INDEX).setTextFieldId(R.id.brick_set_look_by_index_edit_text);
 		getFormulaWithBrickField(BrickField.LOOK_INDEX).refreshTextField(view);
 		edit.setOnClickListener(this);
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

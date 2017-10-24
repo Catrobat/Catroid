@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -35,8 +34,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -77,9 +74,6 @@ public class SetPenSizeBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_set_pen_size, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_set_pen_size_label),
-				context.getString(R.string.category_pen));
-
 		setCheckboxView(R.id.brick_set_pen_size_checkbox);
 
 		TextView penSizeEdit = (TextView) view.findViewById(R.id.brick_set_pen_size_edit_text);
@@ -88,7 +82,6 @@ public class SetPenSizeBrick extends FormulaBrick {
 		getFormulaWithBrickField(BrickField.PEN_SIZE).refreshTextField(view);
 
 		penSizeEdit.setOnClickListener(this);
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

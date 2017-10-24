@@ -68,6 +68,7 @@ import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
@@ -868,6 +869,9 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		BrickBaseType brick = (BrickBaseType) getItem(position);
 
 		View currentBrickView = brick.getView(context, position, this);
+
+		IconsUtil.addIconToLabel((ViewGroup) currentBrickView, brick, sprite, context);
+
 		BrickViewProvider.setSaturationOnView(currentBrickView, brick.isCommentedOut());
 		currentBrickView.setOnClickListener(this);
 

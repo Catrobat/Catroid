@@ -35,7 +35,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -49,8 +48,6 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -111,7 +108,6 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 			}
 		});
 		setSpinnerSelection(sceneSpinner);
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
 	}
 
@@ -258,8 +254,6 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 					switchToNewSceneDialogFromScriptFragment();
 				}
 			}
-			IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_scene_start_label),
-					context.getString(R.string.category_control));
 			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
 		}
 
@@ -289,7 +283,6 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 					return false;
 				}
 			});
-			TextSizeUtil.enlargeTextView((TextView) dropDownView);
 
 			return dropDownView;
 		}

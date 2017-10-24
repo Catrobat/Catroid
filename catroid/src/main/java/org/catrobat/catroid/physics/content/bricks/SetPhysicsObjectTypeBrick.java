@@ -24,14 +24,12 @@ package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -42,7 +40,6 @@ import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -92,16 +89,12 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 				if (position < PhysicsObject.Type.values().length) {
 					type = PhysicsObject.Type.values()[position];
 				}
-				TextView spinnerText = (TextView) parent.getChildAt(0);
-				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

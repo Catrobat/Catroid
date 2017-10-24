@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -33,7 +32,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -71,8 +69,6 @@ public class DroneTurnRightMagnetoBrick extends DroneMoveBrick {
 		View brickView = super.getView(context, brickId, baseAdapter);
 		TextView editTextView = (TextView) brickView.findViewById(R.id.brick_drone_move_text_view_power);
 		editTextView.setText(R.string.brick_drone_angle);
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) brickView);
 
 		return brickView;
 	}

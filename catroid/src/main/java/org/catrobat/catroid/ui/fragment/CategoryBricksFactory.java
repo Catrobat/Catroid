@@ -90,6 +90,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
@@ -734,6 +735,8 @@ public class CategoryBricksFactory {
 			category = res.getString(R.string.category_event);
 		} else if (brick instanceof SetVariableBrick) {
 			category = res.getString(R.string.category_data);
+		} else if (brick instanceof NestingBrick) {
+			category = res.getString(R.string.category_control);
 		}
 
 		config.locale = savedLocale;

@@ -27,6 +27,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 
 public class BrickTextView extends AppCompatTextView {
 
@@ -36,14 +37,21 @@ public class BrickTextView extends AppCompatTextView {
 
 	public BrickTextView(Context context) {
 		super(context);
+		setProperties();
 	}
 
 	public BrickTextView(Context context, AttributeSet attributeSet) {
 		super(context, attributeSet);
+		setProperties();
 	}
 
 	public BrickTextView(Context context, AttributeSet attributeSet, int defStyle) {
 		super(context, attributeSet, defStyle);
+		setProperties();
+	}
+
+	private void setProperties() {
+		setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize() * TextSizeUtil.getModifier());
 	}
 
 	@Override

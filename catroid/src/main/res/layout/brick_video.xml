@@ -47,7 +47,7 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <org.catrobat.catroid.utils.BrickTextView
-            android:id="@+id/brick_video_prototype_text_view"
+            android:id="@+id/brick_video_prototype_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_video" />
 

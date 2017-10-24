@@ -27,7 +27,6 @@ import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
@@ -47,8 +46,6 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.IconsUtil;
-import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -91,9 +88,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 		view = View.inflate(context, R.layout.brick_change_variable_by, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_change_variable_label),
-				context.getString(R.string.category_data));
 
 		setCheckboxView(R.id.brick_change_variable_checkbox);
 		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
@@ -145,9 +139,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
-
-				TextView spinnerText = (TextView) parent.getChildAt(0);
-				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -155,9 +146,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 				userVariable = null;
 			}
 		});
-
-		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
-
 		return view;
 	}
 
