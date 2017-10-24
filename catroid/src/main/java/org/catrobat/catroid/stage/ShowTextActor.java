@@ -23,9 +23,15 @@
 
 package org.catrobat.catroid.stage;
 
-import com.badlogic.gdx.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.opengl.GLES20;
+import android.opengl.GLUtils;
+
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import org.catrobat.catroid.ProjectManager;
@@ -50,7 +56,6 @@ public class ShowTextActor extends Actor {
 	private Sprite sprite;
 	private UserBrick userBrick;
 	private float scale = 3f;
-	private BitmapFont font;
 
 	public ShowTextActor(UserVariable userVariable, int xPosition, int yPosition, Sprite sprite, UserBrick userBrick) {
 		this.variableToShow = userVariable;
@@ -60,7 +65,28 @@ public class ShowTextActor extends Actor {
 		this.yPosition = yPosition;
 		this.sprite = sprite;
 		this.userBrick = userBrick;
-		init();
+	}
+
+	public static String convertToEnglishDigits(String value) {
+		return value
+				// Eastern-Arabic ٠
+				.replace("١", "1").replace("٢", "2").replace("٣", "3").replace("٤", "4").replace("٥", "5")
+				.replace("٦", "6").replace("٧", "7").replace("٨", "8").replace("٩", "9").replace("٠", "0")
+				// Farsi
+				.replace("۱", "1").replace("۲", "2").replace("۳", "3").replace("۴", "4").replace("۵", "5")
+				.replace("۶", "6").replace("۷", "7").replace("۸", "8").replace("۹", "9").replace("۰", "0")
+				// Hindi
+				.replace("१", "1").replace("२", "2").replace("३", "3").replace("४", "4").replace("५", "5")
+				.replace("६", "6").replace("७", "7").replace("८", "8").replace("९", "9").replace("०", "0")
+				// Assamese and Bengali
+				.replace("১", "1").replace("২", "2").replace("৩", "3").replace("৪", "4").replace("৫", "5")
+				.replace("৬", "6").replace("৭", "7").replace("৮", "8").replace("৯", "9").replace("০", "0")
+				// Tamil
+				.replace("௧", "1").replace("௦", "0").replace("௨", "2").replace("௩", "3").replace("௪", "4")
+				.replace("௫", "5").replace("௬", "6").replace("௭", "7").replace("௮", "8").replace("௯", "9")
+				// Gujarati
+				.replace("૧", "1").replace("૨", "2").replace("૩", "3").replace("૪", "4").replace("૫", "5")
+				.replace("૬", "6").replace("૭", "7").replace("૮", "8").replace("૯", "9").replace("૦", "0");
 	}
 
 	@Override
@@ -83,16 +109,16 @@ public class ShowTextActor extends Actor {
 		}
 
 		if (variableToShow.isDummy()) {
-			font.draw(batch, Constants.NO_VARIABLE_SELECTED, xPosition, yPosition);
+			drawText(batch, Constants.NO_VARIABLE_SELECTED, xPosition, yPosition);
 		} else {
 			for (UserVariable variable : variableList) {
 				if (variable.getName().equals(variableToShow.getName())) {
 					variableValue = variable.getValue().toString();
 					if (variable.getVisible()) {
 						if (isNumberAndInteger(variableValue)) {
-							font.draw(batch, variableValueWithoutDecimal, xPosition, yPosition);
+							drawText(batch, variableValueWithoutDecimal, xPosition, yPosition);
 						} else {
-							font.draw(batch, variableValue, xPosition, yPosition);
+							drawText(batch, variableValue, xPosition, yPosition);
 						}
 					}
 					break;
@@ -101,17 +127,11 @@ public class ShowTextActor extends Actor {
 		}
 	}
 
-	private void init() {
-		font = new BitmapFont();
-		font.setColor(Color.BLACK);
-		font.getData().setScale(scale);
-	}
-
 	private boolean isNumberAndInteger(String variableValue) {
 		double variableValueIsNumber = 0;
 
 		if (variableValue.matches("-?\\d+(\\.\\d+)?")) {
-			variableValueIsNumber = Double.parseDouble(variableValue);
+			variableValueIsNumber = Double.parseDouble(convertToEnglishDigits(variableValue));
 		} else {
 			return false;
 		}
@@ -122,6 +142,33 @@ public class ShowTextActor extends Actor {
 		} else {
 			return false;
 		}
+	}
+
+	private void drawText(Batch batch, String text, float posX, float posY) {
+		// Convert to bitmap
+		Paint paint = new Paint();
+		paint.setTextSize(17 * scale);
+		paint.setColor(android.graphics.Color.BLACK);
+		paint.setAntiAlias(true);
+		paint.setTextAlign(Paint.Align.LEFT);
+		float baseline = -paint.ascent();
+		int width = (int) (paint.measureText(text) + 0.6f);
+		int height = (int) (baseline + paint.descent() + 0.6f);
+		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		canvas.drawText(text, 0, baseline, paint);
+		// Convert to texture
+		Texture tex = new Texture(bitmap.getWidth(), bitmap.getHeight(),
+				Pixmap.Format.RGBA8888);
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
+				tex.getTextureObjectHandle());
+		GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+		bitmap.recycle();
+		// Draw and dispose
+		batch.draw(tex, posX, posY);
+		batch.flush();
+		tex.dispose();
 	}
 
 	public void setPositionX(int xPosition) {
