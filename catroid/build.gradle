@@ -78,6 +78,7 @@ android {
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
         exclude 'META-INF/INDEX.LIST'  //compile problem with parrot arsdk
+        exclude 'lib/arm64-v8a/*' // exclude all arm64-v8a libs as we don't have all libs for that architecture
     }
 
     buildTypes {
