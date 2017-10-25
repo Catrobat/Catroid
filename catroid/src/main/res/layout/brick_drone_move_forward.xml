@@ -30,14 +30,14 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_drone_move_checkbox"
+        android:id="@+id/brick_drone_move_forward_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_drone_move_layout"
+        android:id="@+id/brick_drone_move_forward_layout"
         style="@style/BrickContainer.Motion.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,29 +46,30 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/brick_drone_move_label"
-            style="@style/BrickText.Multiple" />
+            android:id="@+id/brick_drone_move_forward_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_drone_move_forward" />
 
         <TextView
-            android:id="@+id/brick_drone_move_edit_text_second"
+            android:id="@+id/brick_drone_move_forward_edit_text_second"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true"
             app:layout_newLine="true" />
-        
+
         <TextView
-            android:id="@+id/brick_drone_move_text_view_power"
+            android:id="@+id/brick_drone_move_forward_text_view_power"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_drone_with" />
 
         <TextView
-            android:id="@+id/brick_drone_move_edit_text_power"
+            android:id="@+id/brick_drone_move_forward_edit_text_power"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" />
-        
+
         <TextView
-            android:id="@+id/brick_set_power_to_percent"
+            android:id="@+id/brick_drone_set_power_to_percent"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_drone_percent_power" />
     </org.catrobat.catroid.ui.BrickLayout>

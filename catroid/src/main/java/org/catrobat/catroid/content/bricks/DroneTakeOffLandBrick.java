@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.content.Context;
 import android.view.View;
+import android.widget.BaseAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -31,17 +33,38 @@ import org.catrobat.catroid.content.Sprite;
 
 import java.util.List;
 
-public class DroneTakeOffLandBrick extends DroneBasicBrick {
+public class DroneTakeOffLandBrick extends BrickBaseType{
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_drone_takeoff_land);
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
+			return view;
+		}
+
+		view = View.inflate(context, R.layout.brick_drone_takeoff_land, null);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		setCheckboxView(R.id.brick_drone_takeoff_land_checkbox);
+
+		return view;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		View prototypeView = View.inflate(context, R.layout.brick_drone_takeoff_land, null);
+
+		return prototypeView;
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createDroneTakeOffAndLandAction());
 		return null;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
 	}
 }

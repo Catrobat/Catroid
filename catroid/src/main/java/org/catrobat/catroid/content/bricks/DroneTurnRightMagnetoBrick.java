@@ -30,30 +30,25 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class DroneTurnRightMagnetoBrick extends DroneMoveBrick {
-
+public class DroneTurnRightMagnetoBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public DroneTurnRightMagnetoBrick(int durationInMilliseconds, int powerInPercent) {
-		super(durationInMilliseconds, powerInPercent);
+		initializeBrickFields(new Formula(durationInMilliseconds / 1000.0), new Formula(powerInPercent));
 	}
 
-	public DroneTurnRightMagnetoBrick(Formula durationInMilliseconds, Formula powerInPercent) {
-		super(durationInMilliseconds, powerInPercent);
-	}
-
-	public DroneTurnRightMagnetoBrick() {
-		super();
-	}
-
-	@Override
-	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_drone_turn_right_magneto);
+	private void initializeBrickFields(Formula durationInSeconds, Formula powerInPercent) {
+		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT);
+		setFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, durationInSeconds);
+		setFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT, powerInPercent);
 	}
 
 	@Override
@@ -64,19 +59,60 @@ public class DroneTurnRightMagnetoBrick extends DroneMoveBrick {
 		return null;
 	}
 
+	public void showFormulaEditorToEditFormula(View view) {
+		switch (view.getId()) {
+			case R.id.brick_drone_turn_right_magneto_edit_text_second:
+				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+				break;
+			case R.id.brick_drone_turn_right_magneto_edit_text_power:
+				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_POWER_IN_PERCENT);
+				break;
+		}
+	}
+
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		View brickView = super.getView(context, brickId, baseAdapter);
-		TextView editTextView = (TextView) brickView.findViewById(R.id.brick_drone_move_text_view_power);
-		editTextView.setText(R.string.brick_drone_angle);
-		return brickView;
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (animationState) {
+			return null;
+		}
+
+		view = View.inflate(context, R.layout.brick_drone_turn_right_magneto, null);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		setCheckboxView(R.id.brick_drone_turn_right_magneto_checkbox);
+
+		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_turn_right_magneto_edit_text_second);
+		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
+				.setTextFieldId(R.id.brick_drone_turn_right_magneto_edit_text_second);
+		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS).refreshTextField(view);
+		editTime.setOnClickListener(this);
+
+		TextView editPower = (TextView) view.findViewById(R.id.brick_drone_turn_right_magneto_edit_text_power);
+		getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)
+				.setTextFieldId(R.id.brick_drone_turn_right_magneto_edit_text_power);
+		getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT).refreshTextField(view);
+		editPower.setOnClickListener(this);
+
+		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_power);
-		textView.setText(R.string.brick_drone_angle);
+		View prototypeView = View.inflate(context, R.layout.brick_drone_turn_right_magneto, null);
+		TextView textTime = (TextView) prototypeView.findViewById(R.id
+				.brick_drone_turn_right_magneto_edit_text_second);
+
+		TextView textPower = (TextView) prototypeView.findViewById(R.id
+				.brick_drone_turn_right_magneto_edit_text_power);
+
+		textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
+
+		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
 		return prototypeView;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
 	}
 }
