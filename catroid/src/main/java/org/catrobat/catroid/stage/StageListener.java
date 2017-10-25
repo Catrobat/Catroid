@@ -280,9 +280,7 @@ public class StageListener implements ApplicationListener {
 		Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
 		DataContainer userVariables = currentScene.getDataContainer();
 		userVariables.removeVariableListForSprite(sprite);
-
-		BroadcastHandler.getScriptSpriteMap().remove(sprite);
-
+		BroadcastHandler.removeSpriteFromScriptSpriteMap(sprite);
 		sprite.look.setLookVisible(false);
 		sprite.look.remove();
 		sprites.remove(sprite);
@@ -295,7 +293,7 @@ public class StageListener implements ApplicationListener {
 		for (Sprite sprite : clonedSprites) {
 			userVariables.removeVariableListForSprite(sprite);
 
-			BroadcastHandler.getScriptSpriteMap().remove(sprite);
+			BroadcastHandler.removeSpriteFromScriptSpriteMap(sprite);
 
 			sprite.look.setLookVisible(false);
 			sprite.look.remove();
