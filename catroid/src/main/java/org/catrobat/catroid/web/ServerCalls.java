@@ -47,6 +47,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
@@ -450,6 +451,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 					.addFormDataPart(
 							DEVICE_LANGUAGE,
 							language)
+					.addFormDataPart(
+							Constants.FLAVOR_NAME,
+							context.getString(R.string.flavor))
 					.build();
 
 			Request request = new Request.Builder()

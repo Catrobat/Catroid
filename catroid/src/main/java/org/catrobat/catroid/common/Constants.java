@@ -291,6 +291,9 @@ public final class Constants {
 	//Restricted login
 	public static final String RESTRICTED_LOGIN_ACCEPTED = "restrictedLoginAccepted";
 
+	//Flavor constants
+	public static final String FLAVOR_NAME = "flavor";
+
 	// Suppress default constructor for noninstantiability
 	private Constants() {
 		throw new AssertionError();
