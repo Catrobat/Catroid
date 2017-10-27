@@ -1757,13 +1757,18 @@
 
 
     <!-- UtilFile SizeUnits String -->
-     <string name="Byte_short">B</string>
+    <string name="Byte_short">B</string>
      <string name="KiloByte_short">KB</string>
      <string name="MegaByte_short">MB</string>
      <string name="GigaByte_short">GB</string>
      <string name="TeraByte_short">TB</string>
      <string name="PetaByte_short">PB</string>
      <string name="ExaByte_short">EB</string>
+     <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
+         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
+         goodies and giveaways from Google and Catrobat for participants!</string>
+     <string name="google_code_in_check_out">Check it out on</string>
+     <string name="google_code_in_address">http://catrob.at/gci</string>
     <!--  -->
 
 </resources>

@@ -152,6 +152,14 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 				CastManager.getInstance().initializeCast(this);
 			}
 		}
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		if (sharedPreferences.getBoolean(Constants.FIRST_APPLICATION_LAUNCH, true)) {
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putBoolean(Constants.FIRST_APPLICATION_LAUNCH, false);
+			editor.commit();
+			Intent intent = new Intent(this, GoogleCodeInActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	@Override
