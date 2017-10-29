@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 
 public final class DroneBrickFactory {
 
@@ -43,6 +44,7 @@ public final class DroneBrickFactory {
 
 	public enum DroneBricks {
 		DRONE_TAKE_OFF_LAND_BRICK,
+		Drone_Flip_Brick,
 		DRONE_PLAY_LED_ANIMATION_BRICK,
 		DRONE_GO_EMERGENCY,
 		DRONE_MOVE_DOWN_BRICK,
@@ -62,6 +64,9 @@ public final class DroneBrickFactory {
 		switch (brick) {
 			case DRONE_TAKE_OFF_LAND_BRICK:
 				return new DroneTakeOffLandBrick();
+
+			case Drone_Flip_Brick:
+				return new DroneFlipBrick();
 
 			case DRONE_PLAY_LED_ANIMATION_BRICK:
 				return new DronePlayLedAnimationBrick();

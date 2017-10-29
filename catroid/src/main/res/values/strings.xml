@@ -1227,6 +1227,7 @@
     <!-- Drone Bricks -->
     <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
     <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+    <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
     <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
     <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
     <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
