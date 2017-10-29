@@ -1443,6 +1443,10 @@ public final class Utils {
 		return sharedPreferences.getBoolean(Constants.CREATE_AT_SCHOOL_USER, false);
 	}
 
+	public static String getFlavoredUrl(Context context) {
+		return Constants.MAIN_URL_HTTPS + "/" + context.getString(R.string.flavor) + "/";
+	}
+
 	public static String addUsernameAndTokenInfoToUrl(String url, Context context) {
 		if (Utils.isUserLoggedIn(context)) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

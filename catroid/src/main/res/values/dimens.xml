@@ -55,7 +55,6 @@
     <dimen name="text_size_xxlarge" >24sp</dimen >
     <dimen name="brick_category_height" >90dp</dimen >
     <dimen name="text_size_brick_category" >22sp</dimen >
-    <dimen name="main_menu_with_dividers_button_height">100dp</dimen>
 
     <!-- UserBrickDataEditorFragment -->
     <dimen name="brick_data_edit_cursor_size">58dp</dimen>

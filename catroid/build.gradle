@@ -175,7 +175,7 @@ android {
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
 
             manifestPlaceholders = [ appName: appName,
-                                     applicationIdForTests:"org.catrobat.catroid.createatschool" ]
+                                     applicationIdForTests:"org.catrobat.catroid" ]
         }
 
         phiro {
