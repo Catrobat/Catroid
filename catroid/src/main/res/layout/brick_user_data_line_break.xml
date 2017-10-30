@@ -29,11 +29,11 @@
     android:layout_height="wrap_content"
     app:layout_newLine="true"
     android:baselineAligned="true"
-    android:gravity="right"
+    android:gravity="end"
     android:orientation="horizontal"
     android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
     android:paddingTop="8dp" >
 
     <Button

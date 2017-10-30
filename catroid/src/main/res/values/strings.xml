@@ -34,6 +34,11 @@
     <string name="delete">Delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="back">Back</string>
+    <string name="ok">OK</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
+    <string name="delete_account">Delete my account</string>
     <string name="copy">Copy</string>
     <string name="cut">Cut</string>
     <string name="move">Move</string>
@@ -62,7 +67,6 @@
     <string name="loading_google_login">Google+ login is completed on our server…</string>
     <string name="background">Background</string>
     <string name="stage">Stage</string>
-    <string name="ok">OK</string>
     <string name="play">Play</string>
     <string name="settings">Settings</string>
     <string name="redo">Redo</string>
@@ -95,6 +99,7 @@
     <string name="main_menu_help">Help</string>
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
+    <string name="main_menu_privacy_policy">Privacy policy</string>
     <string name="main_menu_about">About this app</string>
     <string name="main_menu_terms_of_use">Terms of Use and Services</string>
     <string name="main_menu_rate_app">Rate us!</string>
@@ -112,8 +117,12 @@
 
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
-    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
+    <string name="preference_title_language">Language</string>
+    <string name="preference_description_language">Allow to change PocketCode Language</string>
+    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control AR.Drone 2.0 quadcopters</string>
+    <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
+    <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
     <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
@@ -252,6 +261,56 @@
     <string name="dialog_new_object_switch_message">Switch to new object?</string>
     <!--  -->
 
+    <!-- Privacy Policy -->
+    <string name="dialog_privacy_policy_title">Privacy policy</string>
+    <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
+
+        To offer you all collaborative benefits of our services and the associated account, it is necessary to
+        collect certain data from you.\n\n
+
+    &#8226; To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
+        updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
+        store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
+        Plus or Facebook, we additionally store an identification key connected to your account on these services. We
+        will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
+
+    &#8226; To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
+        purposes, the user
+        generated public data will be stored internally in a database, together with a timestamp and the used IP
+        address.\n\n
+
+    &#8226; To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
+        use Google
+        Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited
+        pages/screens, used operating system, and information about the network provider). This analysis and the collected
+        data is not linked to your profile and does not contain any personal information.\n\n
+
+    &#8226; On a voluntary basis, you can give us your country of residence through your account page on the sharing
+        site. This
+        will only be used for statistical and research purposes by us and can be removed at any time in your profile
+        settings.\n\n
+
+    &#8226; You can withdraw the usage of this data at any time by deleting your account through your profile page on
+        https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
+        but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
+        linked to your account, e.g. uploaded programs, comments, will get deleted.\n\n
+
+    &#8226; All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
+        International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
+
+    &#8226; To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
+        c/o\n
+        Institute of Software Technology,\n
+        Inffeldgasse 16b/II,\n
+        8010 Graz, Austria.\n\n
+
+    In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
+    </string>
+    <string name="dialog_privacy_policy_declined_text">It is necessary to agree the Privacy Policy to register or to
+        further use your account. If you do not want that this data gets collected you can delete your existing account
+        via the profile page on our web interface and still use all services of this app that do not need an account.
+    </string>
+    <!-- -->
 
     <!-- Terms of Use Dialog -->
     <string name="dialog_terms_of_use_title">Terms of Use and Services</string>
@@ -265,11 +324,17 @@
     <!-- Terms of Use Dialog Parrot ARDrone-->
     <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Services</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
-        AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
+        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
         Catrobat\'s
         Terms of
         Use and Services.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+    <!--  -->
+
+    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
     <!--  -->
 
     <!-- About Dialog -->
@@ -484,6 +549,8 @@
     <string name="prestage_resource_not_available_title">Component not available</string>
     <string name="prestage_resource_not_available_text">This program cannot be run on your device. The following
         components are unavailable:\n\n</string>
+    <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
+        are the only Controller for the Drone.</string>
     <string name="prestage_no_flash_available">\u2022 Flash\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
@@ -493,6 +560,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
     <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
     <string name="no_nfc_available">NFC not available</string>
@@ -545,6 +613,7 @@
     <string name="new_project_empty">Create empty program</string>
     <string name="new_project_default">Create example program</string>
     <string name="new_project_default_drone">Create example Drone program</string>
+    <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
     <string name="project_orientation_title">Orientation:</string>
     <string name="project_select_screen_title">Screen</string>
     <!--  -->
@@ -654,7 +723,8 @@
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
-    <string name="category_drone">AR.Drone</string>
+    <string name="category_drone">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo">Jumping Sumo</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
@@ -849,7 +919,6 @@
     <string name="brick_replace_item_in_userlist_with_value">with</string>
     <!--  -->
 
-
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>
     <string name="default_scene_name">Scene %1$d</string>
@@ -883,8 +952,6 @@
     <string name="default_drone_project_name">My first Drone program</string>
     <string name="default_drone_project_sprites_takeoff">Take off</string>
 
-    <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-    <string name="default_drone_project_sprites_rotate">Rotate</string>
     <string name="default_drone_project_sprites_up">Up</string>
     <string name="default_drone_project_sprites_down">Down</string>n
     <string name="default_drone_project_sprites_left">Left</string>
@@ -957,10 +1024,11 @@
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more cameras are not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-    <string name="drone_emergency_angle">AR.Drone Euler angles went too high. Motors shutdown to prevent dangerous behavior.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
+        behavior.</string>
     <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
     <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
-    <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
+    <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
     <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
     <string name="drone_emergency_title">Emergency</string>
     <!--  -->
@@ -996,12 +1064,18 @@
     <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
     <string name="error_adding_brick">An error occurred while adding this brick.</string>
     <string name="error_copying_brick">An error occurred while copying this brick.</string>
-    <string name="error_no_drone_connected_title">Cannot find AR.Drone.</string>
-    <string name="error_no_drone_connected">Connect your wifi to the AR.Drone and try again.</string>
-    <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
+    <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
+    <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
+    <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
     <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
-    <string name="error_drone_wrong_platform_title">No AR.Drone support.</string>
-    <string name="error_drone_wrong_platform">We cannot run an AR.Drone project on your device.</string>
+    <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
+    <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
+    <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
+    <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+    <string name="error_jumpingsumo_battery">Insert a charged battery and try again.</string>
+    <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
+    <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
+    <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
@@ -1150,31 +1224,79 @@
     <string name="ev3_led_status_orange_pulse">Orange pulse</string>
     <!--  -->
 
-
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land">Take off / Land</string>
-    <string name="brick_drone_play_led_animation">Play flash animation</string>
-    <string name="brick_drone_move_left">Move left</string>
-    <string name="brick_drone_move_right">Move right</string>
-    <string name="brick_drone_move_forward">Move forward</string>
-    <string name="brick_drone_move_backward">Move backward</string>
-    <string name="brick_drone_move_up">Move up</string>
-    <string name="brick_drone_move_down">Move down</string>
-    <string name="brick_drone_flip">Flip</string>
-    <string name="brick_drone_emergency">Emergency</string>
-    <string name="brick_drone_turn_right">Turn right</string>
-    <string name="brick_drone_turn_left">Turn left</string>
-    <string name="brick_drone_turn_left_magneto">Turn left [angle]</string>
-    <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
-    <string name="brick_drone_angle">Angle</string>
-    <string name="brick_drone_set_config">Set config</string>
-    <string name="brick_drone_switch_camera">Switch drone camera</string>
-    <string name="brick_drone_set_altitude">Altitude limit</string>
+    <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
+    <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+    <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
+    <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
+    <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
+    <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
+    <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
+    <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
+    <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
+    <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
+    <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
+    <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
+    <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
+    <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
+    <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
+    <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
+    <string name="brick_drone_set_altitude">Altitude limit </string>
     <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
     <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
-    <string name="brick_drone_with">with</string>
+    <string name="brick_drone_with">seconds with</string>
     <string name="brick_drone_percent_power">power</string>
+    <!--  -->
+
+    <!-- Jumping Sumo Bricks -->
+    <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
+    <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
+    <string name="brick_jumping_sumo_percent_power">% power</string>
+    <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
+    <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+    <string name="brick_jumping_sumo_sound">Sound</string>
+    <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
+    <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
+    <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
+    <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+    <string name="brick_jumping_sumo_rotate_text">°</string>
+    <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
+    <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+    <!--  -->
+
+    <!-- defaultJumpingSumoValues -->
+    <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+    <string name="default_jumping_sumo_project_sprites_forward">Forward</string>
+    <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
+    <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
+    <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+    <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
+    <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+    <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
+    <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
+    <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
+    <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+    <!--  -->
+
+    <!-- Jumping Sumo animation strings -->
+    <string name="animation_spin">Spin</string>
+    <string name="animation_tab">Tab</string>
+    <string name="animation_slowshake">Slowshake</string>
+    <string name="animation_metronome">Metronome</string>
+    <string name="animation_ondulation">Ondulation</string>
+    <string name="animation_spinjump">Spinjump</string>
+    <string name="animation_spiral">Spiral</string>
+    <string name="animation_slalom">Slalom</string>
+
+    <!-- Jumping Sumo sound strings -->
+    <string name="jumping_sumo_volume">Volume</string>
+    <string name="sound_default">Normal</string>
+    <string name="sound_robot">Robot</string>
+    <string name="sound_insect">Insect</string>
+    <string name="sound_monster">Monster</string>
     <!--  -->
 
     <!-- Phiro bricks -->
@@ -1629,5 +1751,20 @@
     <string name="crash_dialog_send">Send</string>
     <string name="plus" translatable="false">+</string>
     <!--  -->
+
+    <!-- Multilingual List -->
+    <string name="device_language">Device Language</string>
+
+
+    <!-- UtilFile SizeUnits String -->
+     <string name="Byte_short">B</string>
+     <string name="KiloByte_short">KB</string>
+     <string name="MegaByte_short">MB</string>
+     <string name="GigaByte_short">GB</string>
+     <string name="TeraByte_short">TB</string>
+     <string name="PetaByte_short">PB</string>
+     <string name="ExaByte_short">EB</string>
+    <!--  -->
+
 </resources>
 

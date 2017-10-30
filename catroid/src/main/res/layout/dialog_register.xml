@@ -32,6 +32,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_username_text"
+            android:labelFor="@+id/dialog_register_username"
             style="@style/DefaultDialog.TextView"
             android:text="@string/username" />
 
@@ -48,6 +49,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_email_text"
+            android:labelFor="@+id/dialog_register_email"
             style="@style/DefaultDialog.TextView"
             android:text="@string/accountName"
             android:inputType="text"
@@ -67,6 +69,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_password_text"
+            android:labelFor="@+id/dialog_register_password"
             style="@style/DefaultDialog.TextView"
             android:layout_below="@+id/dialog_register_email"
             android:text="@string/password" />
@@ -84,6 +87,7 @@
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_password_confirm_text"
+            android:labelFor="@+id/dialog_register_password_confirm"
             style="@style/DefaultDialog.TextView"
             android:layout_below="@+id/dialog_register_password"
             android:text="@string/password_confirm" />
@@ -112,11 +116,11 @@
             style="@style/DefaultDialog.TextView"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="@dimen/dialog_text_view_margin"
-            android:layout_marginRight="@dimen/dialog_text_view_margin"
+            android:layout_marginStart="@dimen/dialog_text_view_margin"
+            android:layout_marginEnd="@dimen/dialog_text_view_margin"
             android:layout_marginTop="15dp"
             android:layout_below="@+id/dialog_register_password_confirm"
-            android:layout_toRightOf="@+id/dialog_register_checkbox_showpassword"
+            android:layout_toEndOf="@+id/dialog_register_checkbox_showpassword"
             android:gravity="center_horizontal"
             android:text="@string/show_password" >
         </TextView>

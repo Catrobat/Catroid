@@ -36,10 +36,11 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -69,6 +70,7 @@ public class FaceDetectionResourceStartedTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Flaky
 	@Test
 	public void facedetectionResourceEnabledTest() {
 		formula = new Formula(
@@ -109,6 +111,7 @@ public class FaceDetectionResourceStartedTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Flaky
 	@Test
 	public void facedetectionResourceChangedTest() {
 		formula = new Formula(

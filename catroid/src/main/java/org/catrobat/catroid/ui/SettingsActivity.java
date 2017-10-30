@@ -24,7 +24,10 @@ package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -35,6 +38,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 
 import org.catrobat.catroid.BuildConfig;
@@ -45,6 +49,15 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
+import static org.catrobat.catroid.common.Constants.DEVICE_LANGUAGE;
+import static org.catrobat.catroid.common.Constants.LANGUAGE_CODE;
+import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
+
 public class SettingsActivity extends PreferenceActivity {
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
@@ -52,6 +65,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED = "settings_mindstorms_ev3_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_ev3_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS = "setting_parrot_jumping_sumo_bricks";
 	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
 	public static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
@@ -60,6 +74,9 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
+	public static final String SETTINGS_MULTILINGUAL = "setting_multilingual";
+	public static final String SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY =
+			"setting_parrot_jumping_sumo_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
 
 	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
@@ -101,6 +118,7 @@ public class SettingsActivity extends PreferenceActivity {
 		setDronePreferences();
 		setHintPreferences();
 		updateActionBar();
+		setLanguage();
 
 		screen = getPreferenceScreen();
 
@@ -120,6 +138,12 @@ public class SettingsActivity extends PreferenceActivity {
 			PreferenceScreen dronePreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
+		}
+
+		if (!BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED) {
+			PreferenceScreen jsPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS);
+			jsPreference.setEnabled(false);
+			screen.removePreference(jsPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
@@ -337,8 +361,17 @@ public class SettingsActivity extends PreferenceActivity {
 		setBooleanSharedPreference(agreed, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
+	public static void setTermsOfServiceJSAgreedPermanently(Context context, boolean agreed) {
+		setBooleanSharedPreference(agreed, SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
+				context);
+	}
+
 	public static boolean isDroneSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
+	}
+
+	public static boolean isJSSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS, context);
 	}
 
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
@@ -353,6 +386,11 @@ public class SettingsActivity extends PreferenceActivity {
 		return getBooleanSharedPreference(false, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
+	public static boolean areTermsOfServiceJSAgreedPermanently(Context context) {
+		return getBooleanSharedPreference(false,
+				SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
+	}
+
 	public static boolean isPhiroSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS, context);
 	}
@@ -364,6 +402,12 @@ public class SettingsActivity extends PreferenceActivity {
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value);
+		editor.commit();
+	}
+
+	public static void setJumpingSumoSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS, value);
 		editor.commit();
 	}
 
@@ -530,6 +574,10 @@ public class SettingsActivity extends PreferenceActivity {
 		getSharedPreferences(context).edit().putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, newValue).commit();
 	}
 
+	public static void enableJumpingSumoBricks(Context context, Boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS, newValue).commit();
+	}
+
 	public static void setLegoMindstormsNXTBricks(Context context, Boolean newValue) {
 		getSharedPreferences(context).edit().putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, newValue).commit();
 	}
@@ -613,5 +661,73 @@ public class SettingsActivity extends PreferenceActivity {
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void setLanguage() {
+		final List<String> languagesNames = new ArrayList<>();
+		for (String aLanguageCode : LANGUAGE_CODE) {
+			switch (aLanguageCode) {
+				case "sd":
+					languagesNames.add("سنڌي");
+					break;
+				case DEVICE_LANGUAGE:
+					languagesNames.add(getResources().getString(R.string.device_language));
+					break;
+				default:
+					if (aLanguageCode.length() == 2) {
+						languagesNames.add(new Locale(aLanguageCode).getDisplayName(new Locale(aLanguageCode)));
+					} else {
+						String language = aLanguageCode.substring(0, 2);
+						String country = aLanguageCode.substring(4);
+						languagesNames.add(new Locale(language, country).getDisplayName(new Locale(language, country)));
+					}
+			}
+		}
+
+		String[] languages = new String[languagesNames.size()];
+		languagesNames.toArray(languages);
+
+		final ListPreference listPreference = (ListPreference) findPreference(SETTINGS_MULTILINGUAL);
+		listPreference.setEntries(languages);
+		listPreference.setEntryValues(LANGUAGE_CODE);
+		listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				String selectedLanguageCode = newValue.toString();
+				if (selectedLanguageCode.equals(DEVICE_LANGUAGE)) {
+					updateLocale(getBaseContext(), defaultSystemLanguage, "");
+					setLanguageSharedPreference(defaultSystemLanguage);
+				} else if (selectedLanguageCode.length() == 2) {
+					updateLocale(getBaseContext(), selectedLanguageCode, "");
+					setLanguageSharedPreference(selectedLanguageCode);
+				} else if (selectedLanguageCode.length() == 6) {
+					String language = selectedLanguageCode.substring(0, 2);
+					String country = selectedLanguageCode.substring(4);
+					updateLocale(getBaseContext(), language, country);
+					setLanguageSharedPreference(selectedLanguageCode);
+				}
+				startActivity(new Intent(getBaseContext(), MainMenuActivity.class));
+				finishAffinity();
+				return true;
+			}
+		});
+	}
+
+	public static void updateLocale(Context context, String languageTag, String countryTag) {
+		Locale mLocale;
+		mLocale = new Locale(languageTag, countryTag);
+		Resources resources = context.getResources();
+		DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+		Configuration conf = resources.getConfiguration();
+		conf.locale = mLocale;
+		Locale.setDefault(mLocale);
+		conf.setLayoutDirection(mLocale);
+		resources.updateConfiguration(conf, displayMetrics);
+	}
+
+	private void setLanguageSharedPreference(String value) {
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+		editor.putString(LANGUAGE_TAG_KEY, value);
+		editor.commit();
 	}
 }

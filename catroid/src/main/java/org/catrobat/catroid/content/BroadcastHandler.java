@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public final class BroadcastHandler {
@@ -196,6 +197,15 @@ public final class BroadcastHandler {
 			}
 		}
 		return false;
+	}
+
+	public static void removeSpriteFromScriptSpriteMap(Sprite sprite) {
+		Iterator<Script> it = scriptSpriteMap.keySet().iterator();
+		while (it.hasNext()) {
+			if (scriptSpriteMap.get(it.next()) == sprite) {
+				it.remove();
+			}
+		}
 	}
 
 	public static void clearActionMaps() {

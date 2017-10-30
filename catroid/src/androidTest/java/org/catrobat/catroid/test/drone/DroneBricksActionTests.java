@@ -34,7 +34,6 @@ import com.parrot.freeflight.service.DroneControlService;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -46,7 +45,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
-import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.mockito.Mockito;
 
@@ -93,11 +92,6 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Array<Action> actionArray = sequenceAction.getActions();
 		action = (TemporalAction) actionArray.get(0);
 		action.act(actDuration);
-	}
-
-	public void testFlip() {
-		addActionToSequenceAndAct(new DroneFlipBrick());
-		Mockito.verify(droneControlService, Mockito.atLeast(1)).doLeftFlip();
 	}
 
 	public void testPlayLedAnimation() {

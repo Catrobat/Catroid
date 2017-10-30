@@ -31,7 +31,8 @@ import org.junit.runners.Suite;
 @Categories.ExcludeCategory({Cat.SettingsAndPermissions.class,
 		Cat.Device.class,
 		Cat.Educational.class,
-		Cat.SensorBox.class})
+		Cat.SensorBox.class,
+		Cat.Quarantine.class})
 
 @Suite.SuiteClasses(AllEspressoTestsSuite.class)
 public class PullRequestTriggerSuite {

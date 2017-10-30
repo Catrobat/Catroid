@@ -32,9 +32,10 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -73,6 +74,7 @@ public class RenameSpriteDialogTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
+	@Flaky
 	public void renameSpriteDialogTest() {
 		String newSpriteName = "renamedSprite";
 		renameFirstSpriteTo(newSpriteName);
@@ -80,6 +82,7 @@ public class RenameSpriteDialogTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
+	@Flaky
 	public void renameSpriteSwitchCaseDialogTest() {
 		String newSpriteName = "SeConDspRite";
 		renameFirstSpriteTo(newSpriteName);

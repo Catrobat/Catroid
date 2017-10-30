@@ -24,6 +24,7 @@
 
 <manifest package="org.catrobat.catroid"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
 
     <supports-screens
@@ -84,14 +85,18 @@
     <application
         android:name=".CatroidApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="${appIcon}"
         android:label="${appName}"
         android:theme="@style/Theme.Catroid"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        tools:replace="android:label">
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
+            android:value="false"/>
 
         <activity
             android:name="com.facebook.FacebookActivity"
