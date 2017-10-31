@@ -819,7 +819,6 @@
   <string name="default_drone_project_name">我的AR.Drone程式檔</string>
   <string name="default_drone_project_sprites_takeoff">起飛</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">旋轉</string>
   <string name="default_drone_project_sprites_up">上</string>
   <string name="default_drone_project_sprites_down">下</string>
   <string name="default_drone_project_sprites_left">左</string>
@@ -1067,7 +1066,6 @@
   <string name="brick_drone_move_backward">後移</string>
   <string name="brick_drone_move_up">上移</string>
   <string name="brick_drone_move_down">下移</string>
-  <string name="brick_drone_flip">翻滾</string>
   <string name="brick_drone_emergency">緊急情況</string>
   <string name="brick_drone_turn_right">右轉</string>
   <string name="brick_drone_turn_left">左轉</string>

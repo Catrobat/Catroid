@@ -24,13 +24,23 @@ package org.catrobat.catroid;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import org.catrobat.catroid.ui.BaseSettingsActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.CrashReporter;
+
+import java.util.Arrays;
+import java.util.Locale;
+
+import static org.catrobat.catroid.common.Constants.DEVICE_LANGUAGE;
+import static org.catrobat.catroid.common.Constants.LANGUAGE_CODE;
+import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
 
 public class CatroidApplication extends MultiDexApplication {
 
@@ -40,8 +50,9 @@ public class CatroidApplication extends MultiDexApplication {
 	protected static Context context;
 
 	public static final String OS_ARCH = System.getProperty("os.arch");
-
 	public static boolean parrotLibrariesLoaded = false;
+	public static String defaultSystemLanguage;
+	public static boolean parrotJSLibrariesLoaded = false;
 
 	@Override
 	public void onCreate() {
@@ -51,6 +62,7 @@ public class CatroidApplication extends MultiDexApplication {
 		CatroidApplication.context = getApplicationContext();
 		BaseSettingsActivity.applyAccessibilitySettings(context);
 		registerActivityLifecycleCallbacks();
+		setAppLanguage();
 	}
 
 	@Override
@@ -78,6 +90,64 @@ public class CatroidApplication extends MultiDexApplication {
 			parrotLibrariesLoaded = false;
 		}
 		return parrotLibrariesLoaded;
+	}
+
+	private void setAppLanguage() {
+		defaultSystemLanguage = Locale.getDefault().getLanguage();
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
+
+		if (languageTag.equals(DEVICE_LANGUAGE)) {
+			SettingsActivity.updateLocale(getAppContext(), defaultSystemLanguage, "");
+		} else if (Arrays.asList(LANGUAGE_CODE).contains(languageTag) && languageTag.length() == 2) {
+			SettingsActivity.updateLocale(getAppContext(), languageTag, "");
+		} else if (Arrays.asList(LANGUAGE_CODE).contains(languageTag) && languageTag.length() == 6) {
+			String language = languageTag.substring(0, 2);
+			String country = languageTag.substring(4);
+			SettingsActivity.updateLocale(getAppContext(), language, country);
+		}
+	}
+
+	public static synchronized boolean loadSDKLib() {
+		if (parrotJSLibrariesLoaded) {
+			return true;
+		}
+
+		try {
+			System.loadLibrary("curl");
+			System.loadLibrary("json-c");
+			System.loadLibrary("arsal");
+			System.loadLibrary("arsal_android");
+			System.loadLibrary("arnetworkal");
+			System.loadLibrary("arnetworkal_android");
+			System.loadLibrary("arnetwork");
+			System.loadLibrary("arnetwork_android");
+			System.loadLibrary("arcommands");
+			System.loadLibrary("arcommands_android");
+			System.loadLibrary("arstream");
+			System.loadLibrary("arstream_android");
+			System.loadLibrary("arstream2");
+			System.loadLibrary("arstream2_android");
+			System.loadLibrary("ardiscovery");
+			System.loadLibrary("ardiscovery_android");
+			System.loadLibrary("arutils");
+			System.loadLibrary("arutils_android");
+			System.loadLibrary("ardatatransfer");
+			System.loadLibrary("ardatatransfer_android");
+			System.loadLibrary("armedia");
+			System.loadLibrary("armedia_android");
+			System.loadLibrary("arupdater");
+			System.loadLibrary("arupdater_android");
+			System.loadLibrary("armavlink");
+			System.loadLibrary("armavlink_android");
+			System.loadLibrary("arcontroller");
+			System.loadLibrary("arcontroller_android");
+			parrotJSLibrariesLoaded = true;
+		} catch (UnsatisfiedLinkError e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			parrotJSLibrariesLoaded = false;
+		}
+		return parrotJSLibrariesLoaded;
 	}
 
 	private void registerActivityLifecycleCallbacks() {

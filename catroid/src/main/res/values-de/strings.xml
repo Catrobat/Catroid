@@ -814,7 +814,6 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>
   <string name="default_drone_project_sprites_takeoff">Abheben</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Drehen</string>
   <string name="default_drone_project_sprites_up">Fliege hoch</string>
   <string name="default_drone_project_sprites_down">Fliege runter</string>
   <string name="default_drone_project_sprites_left">Fliege links</string>
@@ -1060,7 +1059,6 @@ Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den N
   <string name="brick_drone_move_backward">Fliege nach hinten</string>
   <string name="brick_drone_move_up">Fliege nach oben</string>
   <string name="brick_drone_move_down">Fliege nach unten</string>
-  <string name="brick_drone_flip">Flip</string>
   <string name="brick_drone_emergency">Notfall</string>
   <string name="brick_drone_turn_right">Drehe nach rechts</string>
   <string name="brick_drone_turn_left">Drehe nach links</string>

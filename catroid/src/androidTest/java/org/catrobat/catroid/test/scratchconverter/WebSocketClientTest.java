@@ -55,6 +55,7 @@ import org.mockito.stubbing.Answer;
 
 import java.lang.reflect.Field;
 
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyLong;
@@ -127,12 +128,13 @@ public class WebSocketClientTest extends AndroidTestCase {
 				verifyNoMoreInteractions(webSocketMock);
 				return null;
 			}
-		}).when(asyncHttpClientMock).websocket(anyString(), anyString(), any(WebSocketConnectCallback.class));
+		}).when(asyncHttpClientMock).websocket(anyString(), nullable(String.class), any(WebSocketConnectCallback
+				.class));
 
 		// run the test
 		webSocketClient.setAsyncHttpClient(asyncHttpClientMock);
 		webSocketClient.connectAndAuthenticate(connectAuthCallbackMock);
-		verify(asyncHttpClientMock, times(1)).websocket(anyString(), anyString(), any(WebSocketConnectCallback.class));
+		verify(asyncHttpClientMock, times(1)).websocket(anyString(), nullable(String.class), any(WebSocketConnectCallback.class));
 		verifyNoMoreInteractions(asyncHttpClientMock);
 	}
 
@@ -727,7 +729,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 				assertTrue("Wrong client state", webSocketClient.isAuthenticated());
 				return null;
 			}
-		}).when(convertCallbackMock).onConversionFailure(any(Job.class), any(ClientException.class));
+		}).when(convertCallbackMock).onConversionFailure(nullable(Job.class), any(ClientException.class));
 
 		Field field = WebSocketClient.class.getDeclaredField("state");
 		field.setAccessible(true);
@@ -742,7 +744,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 
 		verify(connectAuthCallbackMock, times(0)).onAuthenticationFailure(any(ClientException.class));
 		verifyNoMoreInteractions(connectAuthCallbackMock);
-		verify(convertCallbackMock, times(1)).onConversionFailure(any(Job.class), any(ClientException.class));
+		verify(convertCallbackMock, times(1)).onConversionFailure(nullable(Job.class), any(ClientException.class));
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 

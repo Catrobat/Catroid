@@ -841,7 +841,6 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="default_drone_project_name">Můj první Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Vzlétnout</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Otočit</string>
   <string name="default_drone_project_sprites_up">Nahoru</string>
   <string name="default_drone_project_sprites_down">Dolů</string>
   <string name="default_drone_project_sprites_left">Nalevo</string>
@@ -1087,7 +1086,6 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="brick_drone_move_backward">Pohyb dozadu</string>
   <string name="brick_drone_move_up">Přesunout nahoru</string>
   <string name="brick_drone_move_down">Přesunout dolů</string>
-  <string name="brick_drone_flip">Překlopit</string>
   <string name="brick_drone_emergency">Pohotovost</string>
   <string name="brick_drone_turn_right">Zatočit vpravo</string>
   <string name="brick_drone_turn_left">Zatočit vlevo</string>

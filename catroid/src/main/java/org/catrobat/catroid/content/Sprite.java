@@ -28,6 +28,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -41,6 +42,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -180,7 +182,7 @@ public class Sprite implements Serializable, Cloneable {
 			look = new Look(this);
 		}
 		for (LookData lookData : lookList) {
-			lookData.resetLookData();
+			lookData.dispose();
 		}
 		penConfiguration = new PenConfiguration();
 	}
@@ -552,7 +554,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhengamepadButtonScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = actionFactory.parallel();
+		ParallelAction whenParallelAction = Actions.parallel();
 		for (Script script : scriptList) {
 			if (script instanceof WhenGamepadButtonScript && (((WhenGamepadButtonScript) script).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(script);
@@ -912,6 +914,17 @@ public class Sprite implements Serializable, Cloneable {
 				if (brick instanceof SetPenColorBrick) {
 					SetPenColorBrick spcBrick = (SetPenColorBrick) brick;
 					spcBrick.correctBrickFieldsFromPhiro();
+				}
+			}
+		}
+	}
+
+	public void updateArduinoValues994to995() {
+		for (Script script : getScriptList()) {
+			for (Brick brick : script.getBrickList()) {
+				if (brick instanceof ArduinoSendPWMValueBrick) {
+					ArduinoSendPWMValueBrick spcBrick = (ArduinoSendPWMValueBrick) brick;
+					spcBrick.updateArduinoValues994to995();
 				}
 			}
 		}

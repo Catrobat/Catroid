@@ -108,6 +108,10 @@ public abstract class BaseBrickCategoryFragment extends ListFragment {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_drone);
 		}
 
+		if (BaseSettingsActivity.isJSSharedPreferenceEnabled(getActivity())) {
+			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_drone_js);
+		}
+
 		if (BaseSettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_phiro);
 		}

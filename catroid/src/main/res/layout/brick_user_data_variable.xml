@@ -28,8 +28,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingBottom="12dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
     android:paddingTop="6dp" >
 
     <org.catrobat.catroid.utils.BrickTextView
@@ -39,8 +39,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/brick_data_param"
         android:paddingBottom="2dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
         android:paddingTop="0dp"
         android:textColor="@color/solid_white"
         android:textSize="16sp"
@@ -51,8 +51,8 @@
         android:id="@+id/separator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
         android:paddingTop="0dp"
         android:text="@string/separator"
         android:textColor="@color/solid_white"

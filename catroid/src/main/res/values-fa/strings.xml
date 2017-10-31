@@ -849,7 +849,6 @@
   <string name="default_drone_project_name">اولین برنامه پهباد من</string>
   <string name="default_drone_project_sprites_takeoff">بلند شدن</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">چرخش</string>
   <string name="default_drone_project_sprites_up">پرواز به بالا</string>
   <string name="default_drone_project_sprites_down">پرواز به پایین</string>
   <string name="default_drone_project_sprites_left">پرواز به چپ</string>
@@ -1097,7 +1096,6 @@
   <string name="brick_drone_move_backward">پرواز به عقب</string>
   <string name="brick_drone_move_up">پرواز به بالا</string>
   <string name="brick_drone_move_down">پرواز به پایین</string>
-  <string name="brick_drone_flip">تلنگر</string>
   <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">بپیچ به راست</string>
   <string name="brick_drone_turn_left">بپیچ به چپ</string>

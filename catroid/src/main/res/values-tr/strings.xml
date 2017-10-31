@@ -849,7 +849,6 @@
   <string name="default_drone_project_name">İlk uçak programım</string>
   <string name="default_drone_project_sprites_takeoff">Havalan</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Döndür</string>
   <string name="default_drone_project_sprites_up">Yukarı</string>
   <string name="default_drone_project_sprites_down">Aşağı</string>
   <string name="default_drone_project_sprites_left">Sol</string>
@@ -1097,7 +1096,6 @@
   <string name="brick_drone_move_backward">Geriye doğru git</string>
   <string name="brick_drone_move_up">Yukarı git</string>
   <string name="brick_drone_move_down">Aşağıya git</string>
-  <string name="brick_drone_flip">Ters çevir</string>
   <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">Sağa dön</string>
   <string name="brick_drone_turn_left">Sola dön</string>

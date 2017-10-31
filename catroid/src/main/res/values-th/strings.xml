@@ -832,7 +832,6 @@
   <string name="default_drone_project_name">โปรแกรมควบคุม Drone โปรแกรมแรกของฉัน</string>
   <string name="default_drone_project_sprites_takeoff">ออกบิน</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">หมุน</string>
   <string name="default_drone_project_sprites_up">ขึ้น</string>
   <string name="default_drone_project_sprites_down">ลง</string>
   <string name="default_drone_project_sprites_left">ซ้าย</string>
@@ -1080,7 +1079,6 @@
   <string name="brick_drone_move_backward">ถอยหลัง</string>
   <string name="brick_drone_move_up">ขยับขึ้นบน</string>
   <string name="brick_drone_move_down">ขยับลงล่าง</string>
-  <string name="brick_drone_flip">พลิก</string>
   <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">เลี้ยวขวา</string>
   <string name="brick_drone_turn_left">เลี้ยวซ้าย</string>

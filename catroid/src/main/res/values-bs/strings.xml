@@ -866,7 +866,6 @@
   <string name="default_drone_project_name">Moj prvi Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Rotirati</string>
   <string name="default_drone_project_sprites_up">Gore</string>
   <string name="default_drone_project_sprites_down">Dole</string>
   <string name="default_drone_project_sprites_left">Lijevo</string>
@@ -1114,7 +1113,6 @@
   <string name="brick_drone_move_backward">Pomjeri nazad</string>
   <string name="brick_drone_move_up">Pomjeri gore</string>
   <string name="brick_drone_move_down">Pomjeri dole</string>
-  <string name="brick_drone_flip">Flip</string>
   <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">Skreni desno</string>
   <string name="brick_drone_turn_left">Skreni lijevo</string>

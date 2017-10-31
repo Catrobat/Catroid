@@ -453,8 +453,8 @@ public final class Utils {
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		});
-		Dialog errorDialog = builder.create();
-		errorDialog.show();
+		Dialog dialog = builder.create();
+		showDialog(context, dialog);
 	}
 
 	public static void showErrorDialog(Context context, String msg, int errorTitleId) {
@@ -466,8 +466,8 @@ public final class Utils {
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		});
-		Dialog errorDialog = builder.create();
-		errorDialog.show();
+		Dialog dialog = builder.create();
+		showDialog(context, dialog);
 	}
 
 	public static void showErrorDialog(Context context, int errorTitleId, int errorMessageId) {
@@ -479,8 +479,8 @@ public final class Utils {
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		});
-		Dialog errorDialog = builder.create();
-		errorDialog.show();
+		Dialog dialog = builder.create();
+		showDialog(context, dialog);
 	}
 
 	public static String md5Checksum(File file) {
@@ -531,6 +531,19 @@ public final class Utils {
 	public static double round(double value, int precision) {
 		final int scale = (int) Math.pow(10, precision);
 		return (double) Math.round(value * scale) / scale;
+	}
+
+	private static void showDialog(Context context, final Dialog dialog) {
+		if (context instanceof Activity) {
+			((Activity) context).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.show();
+				}
+			});
+		} else {
+			dialog.show();
+		}
 	}
 
 	private static String toHex(byte[] messageDigest) {

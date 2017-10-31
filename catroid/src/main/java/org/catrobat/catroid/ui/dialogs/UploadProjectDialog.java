@@ -118,7 +118,8 @@ public class UploadProjectDialog extends DialogFragment {
 	private void initControls() {
 		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		currentProjectDescription = ProjectManager.getInstance().getCurrentProject().getDescription();
-		sizeOfProject.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(currentProjectName))));
+		sizeOfProject.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(currentProjectName)),
+				getActivity().getBaseContext()));
 		projectRename.setVisibility(View.GONE);
 		projectUploadName.setText(currentProjectName);
 		projectDescriptionField.setText(currentProjectDescription);

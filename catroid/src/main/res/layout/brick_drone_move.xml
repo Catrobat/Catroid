@@ -53,7 +53,8 @@
             android:id="@+id/brick_drone_move_edit_text_second"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true" />
+            app:layout_textField="true"
+            app:layout_newLine="true" />
 
         <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_drone_move_text_view_second"

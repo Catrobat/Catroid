@@ -830,7 +830,6 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="default_drone_project_name">Mon premier programme de Drone</string>
   <string name="default_drone_project_sprites_takeoff">Décoller</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Tourner</string>
   <string name="default_drone_project_sprites_up">Haut</string>
   <string name="default_drone_project_sprites_down">Bas</string>
   <string name="default_drone_project_sprites_left">À gauche</string>
@@ -1076,7 +1075,6 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="brick_drone_move_backward">Reculer</string>
   <string name="brick_drone_move_up">Monter</string>
   <string name="brick_drone_move_down">Descendre</string>
-  <string name="brick_drone_flip">Inverser</string>
   <string name="brick_drone_emergency">Urgence</string>
   <string name="brick_drone_turn_right">Tourner à droite</string>
   <string name="brick_drone_turn_left">Tourner à gauche</string>

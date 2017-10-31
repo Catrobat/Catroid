@@ -37,9 +37,9 @@
            android:id="@+id/color_rgb_textview_color_preview"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_marginLeft="1dp"
+           android:layout_marginStart="1dp"
            android:layout_centerVertical="true"
-           android:paddingRight="20dp"
+           android:paddingEnd="20dp"
            android:text="@string/color_preview"
            android:textColor="@color/solid_white" />
 
@@ -49,8 +49,8 @@
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/color_rgb_textview_color_preview"
-            android:layout_marginRight="5dp">
+            android:layout_toEndOf="@id/color_rgb_textview_color_preview"
+            android:layout_marginEnd="5dp">
 
             </Button>
 
@@ -75,7 +75,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:layout_marginTop="10dp"
-                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
                 android:text="@string/color_red"
                 android:textColor="@color/color_chooser_rgb_red"/>
 
@@ -132,7 +132,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:layout_marginTop="10dp"
-                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
                 android:text="@string/color_green"
                 android:textColor="@color/color_chooser_rgb_green" />
 
@@ -189,7 +189,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:layout_marginTop="10dp"
-                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
                 android:text="@string/color_blue"
                 android:textColor="@color/color_chooser_rgb_blue" />
 

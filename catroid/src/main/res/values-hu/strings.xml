@@ -849,7 +849,6 @@
   <string name="default_drone_project_name">Első Drone programom</string>
   <string name="default_drone_project_sprites_takeoff">Felszállás</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Forgatás</string>
   <string name="default_drone_project_sprites_up">Fel</string>
   <string name="default_drone_project_sprites_down">Le</string>
   <string name="default_drone_project_sprites_left">Balra</string>
@@ -1097,7 +1096,6 @@
   <string name="brick_drone_move_backward">Mozgás hátrafelé</string>
   <string name="brick_drone_move_up">Mozgás felfelé</string>
   <string name="brick_drone_move_down">Mozgás lefelé</string>
-  <string name="brick_drone_flip">Fordulás</string>
   <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">Fordulj jobbra</string>
   <string name="brick_drone_turn_left">Fordulj balra</string>

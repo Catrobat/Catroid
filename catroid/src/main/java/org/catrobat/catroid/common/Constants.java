@@ -35,7 +35,7 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.994f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.995f);
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -86,6 +86,7 @@ public final class Constants {
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
 	public static final String BLUETOOTH_PHIRO_PRO = "BLUETOOTH_PHIRO_PRO";
 	public static final String ARDRONE_SUPPORT = "ARDRONE_SUPPORT";
+	public static final String JUMPING_SUMO_SUPPORT = "JUMPING_SUMO_SUPPORT";
 	public static final String CAMERA_FLASH = "CAMERA_FLASH";
 	public static final String VIBRATOR = "VIBRATOR";
 	public static final String FACE_DETECTION = "FACE_DETECTION";
@@ -114,6 +115,8 @@ public final class Constants {
 	public static final String LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "pocket-library/sounds";
 	public static final String LIBRARY_BASE_URL = BASE_URL_HTTPS + "download-media/";
 	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "program/";
+
+	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
 	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
 
@@ -248,6 +251,7 @@ public final class Constants {
 	public static final int PADDING_TOP = 40;
 	public static final int PADDING_LEFT = 30;
 	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
+	public static final int JUMPING_SUMO_BATTERY_STATUS = 100;
 
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;
@@ -293,6 +297,14 @@ public final class Constants {
 
 	//Flavor constants
 	public static final String FLAVOR_NAME = "flavor";
+
+	//Multilingual feature
+	public static final String LANGUAGE_TAG_KEY = "applicationLanguage";
+	public static final String DEVICE_LANGUAGE = "deviceLanguage";
+	public static final String[] LANGUAGE_CODE = {DEVICE_LANGUAGE, "az", "bs", "ca", "cs", "sr-rCS", "sr-rSP", "da",
+			"de", "en-rAU", "en-rCA", "en-rGB", "en", "es", "fr", "gl", "hr", "in", "it", "sw-rKE", "hu", "mk", "ms",
+			"nl", "no", "pl", "pt-rBR", "pt", "ru", "ro", "sq", "sl", "sk", "sv", "vi", "tr", "ml", "ta", "te", "th",
+			"gu", "hi", "ja", "ko", "zh-rCN", "zh-rTW", "ar", "ur", "fa", "ps", "sd", "iw"};
 
 	// Suppress default constructor for noninstantiability
 	private Constants() {

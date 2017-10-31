@@ -805,7 +805,6 @@
   <string name="default_drone_project_name">我的第一个无人机程序</string>
   <string name="default_drone_project_sprites_takeoff">起飞</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">旋转</string>
   <string name="default_drone_project_sprites_up">上升</string>
   <string name="default_drone_project_sprites_down">下降</string>
   <string name="default_drone_project_sprites_left">左移</string>
@@ -1051,7 +1050,6 @@
   <string name="brick_drone_move_backward">后退</string>
   <string name="brick_drone_move_up">上升</string>
   <string name="brick_drone_move_down">下降</string>
-  <string name="brick_drone_flip">翻转</string>
   <string name="brick_drone_emergency">紧急情况</string>
   <string name="brick_drone_turn_right">右转</string>
   <string name="brick_drone_turn_left">左转</string>

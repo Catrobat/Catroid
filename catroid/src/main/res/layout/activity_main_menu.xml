@@ -53,21 +53,21 @@
             android:layout_height="0dp"
             android:layout_marginTop="3dp"
             android:layout_weight="1.5"
-            android:drawableLeft="@drawable/ic_main_menu_continue"
+            android:drawableStart="@drawable/ic_main_menu_continue"
             android:onClick="handleContinueButton"
             android:text="@string/main_menu_continue" />
 
         <Button
             android:id="@+id/main_menu_button_new"
             style="@style/MainMenuButton"
-            android:drawableLeft="@drawable/ic_main_menu_new"
+            android:drawableStart="@drawable/ic_main_menu_new"
             android:onClick="handleNewButton"
             android:text="@string/main_menu_new" />
 
         <Button
             android:id="@+id/main_menu_button_programs"
             style="@style/MainMenuButton"
-            android:drawableLeft="@drawable/ic_main_menu_programs"
+            android:drawableStart="@drawable/ic_main_menu_programs"
             android:onClick="handleProgramsButton"
             android:text="@string/main_menu_programs" />
 
@@ -81,21 +81,21 @@
         <Button
             android:id="@+id/main_menu_button_help"
             style="@style/MainMenuButton"
-            android:drawableLeft="@drawable/ic_main_menu_help"
+            android:drawableStart="@drawable/ic_main_menu_help"
             android:onClick="handleHelpButton"
             android:text="@string/main_menu_help" />
 
         <Button
             android:id="@+id/main_menu_button_web"
             style="@style/MainMenuButton"
-            android:drawableLeft="@drawable/ic_main_menu_community"
+            android:drawableStart="@drawable/ic_main_menu_community"
             android:onClick="handleWebButton"
             android:text="@string/main_menu_web" />
 
         <Button
             android:id="@+id/main_menu_button_upload"
             style="@style/MainMenuButton"
-            android:drawableLeft="@drawable/ic_main_menu_upload"
+            android:drawableStart="@drawable/ic_main_menu_upload"
             android:onClick="handleUploadButton"
             android:text="@string/main_menu_upload" />
 

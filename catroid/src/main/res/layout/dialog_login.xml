@@ -66,6 +66,7 @@
             style="@style/DefaultDialog.EditText"
             android:layout_below="@+id/dialog_login_password_text_id"
             android:inputType="textPassword"
+            android:labelFor="@+id/dialog_login_checkbox_showpassword"
             android:maxLines="1" >
         </EditText>
 

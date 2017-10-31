@@ -841,7 +841,6 @@
   <string name="default_drone_project_name">Meu primeiro programa de Drone</string>
   <string name="default_drone_project_sprites_takeoff">Levantar voo</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Girar</string>
   <string name="default_drone_project_sprites_up">Acima</string>
   <string name="default_drone_project_sprites_down">Abaixo</string>
   <string name="default_drone_project_sprites_left">Esquerda</string>
@@ -1089,7 +1088,6 @@
   <string name="brick_drone_move_backward">Mover para trás</string>
   <string name="brick_drone_move_up">Mover para cima</string>
   <string name="brick_drone_move_down">Mover para baixo</string>
-  <string name="brick_drone_flip">Inverter</string>
   <string name="brick_drone_emergency">Emergência</string>
   <string name="brick_drone_turn_right">Virar à direita</string>
   <string name="brick_drone_turn_left">Virar à esquerda</string>

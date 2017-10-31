@@ -49,7 +49,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.TemplateData;
-import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -65,6 +66,7 @@ public class NewProjectDialog extends DialogFragment {
 	private EditText newProjectEditText;
 	private RadioButton defaultProjectRadioButton;
 	private RadioButton defaultDroneProjectRadioButton;
+	private RadioButton defaultJumpingSumoProjectRadioButton;
 	private OrientationDialog orientationDialog;
 
 	private boolean openedFromProjectList = false;
@@ -158,6 +160,13 @@ public class NewProjectDialog extends DialogFragment {
 		if (DroneServiceWrapper.isDroneSharedPreferenceEnabled()) {
 			defaultDroneProjectRadioButton.setVisibility(View.VISIBLE);
 		}
+
+		defaultJumpingSumoProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_default_jumping_sumo_radio_button);
+
+		if (JumpingSumoServiceWrapper.isJumpingSumoSharedPreferenceEnabled()) {
+			defaultJumpingSumoProjectRadioButton.setVisibility(View.VISIBLE);
+		}
+
 		return newProjectDialog;
 	}
 
@@ -188,7 +197,32 @@ public class NewProjectDialog extends DialogFragment {
 		if (defaultDroneProjectRadioButton.isChecked()) {
 			createEmptyProject = false;
 			try {
-				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, true, false, false);
+				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject,
+						true, false, false, false);
+			} catch (IllegalArgumentException illegalArgumentException) {
+				Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+				return;
+			} catch (IOException ioException) {
+				Utils.showErrorDialog(getActivity(), R.string.error_new_project);
+				Log.e(TAG, Log.getStackTraceString(ioException));
+				dismiss();
+				return;
+			}
+
+			Intent intent = new Intent(getActivity(), ProjectActivity.class);
+			intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+
+			if (openedFromProjectList) {
+				intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+			}
+
+			getActivity().startActivity(intent);
+			dismiss();
+		} else if (defaultJumpingSumoProjectRadioButton.isChecked()) {
+			createEmptyProject = false;
+			try {
+				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject,
+						false, false, false, true);
 			} catch (IllegalArgumentException illegalArgumentException) {
 				Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 				return;

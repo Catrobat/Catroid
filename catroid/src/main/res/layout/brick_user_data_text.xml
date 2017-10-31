@@ -30,16 +30,16 @@
     android:measureWithLargestChild="false"
     android:orientation="horizontal"
     android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
     android:paddingTop="8dp" >
 
     <org.catrobat.catroid.utils.BrickTextView
         android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="3dp"
-        android:paddingRight="5dp"
+        android:paddingStart="3dp"
+        android:paddingEnd="5dp"
         android:paddingTop="0dp"
         android:textColor="@color/solid_white"
         android:textSize="16sp"

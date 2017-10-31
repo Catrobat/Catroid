@@ -47,9 +47,11 @@ public class SettingsActivity extends BaseSettingsActivity {
 	private void initPreferences() {
 		preferences = new int[] {
 				R.xml.preferences_phirocode,
+				R.xml.preferences_multilingual,
 				R.xml.preferences_nxt,
 				R.xml.preferences_ev3,
 				R.xml.preferences_drone,
+				R.xml.preferences_sumo,
 				R.xml.preferences_arduino,
 				R.xml.preferences_nfc,
 				R.xml.preferences_raspberry,
