@@ -61,6 +61,13 @@ public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivity
 			return INVALID_ID;
 		}
 		SoundInfo item = getItem(position);
+
+		if (!idMap.containsKey(item)) {
+			idMap.clear();
+			for (int i = 0; i < getCount(); i++) {
+				idMap.put(getItem(i), i);
+			}
+		}
 		return idMap.get(item);
 	}
 
