@@ -327,9 +327,9 @@ public final class IconsUtil {
 				setMenuIconSize(child, desiredIconSize);
 			} else if (child instanceof Button) {
 				Button button = (Button) child;
-				Drawable drawable = button.getCompoundDrawables()[0];
+				Drawable drawable = button.getCompoundDrawablesRelative()[0];
 				drawable.setBounds(desiredIconSize);
-				button.setCompoundDrawables(drawable, null, null, null);
+				button.setCompoundDrawablesRelative(drawable, null, null, null);
 			}
 		}
 	}
