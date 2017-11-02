@@ -200,6 +200,7 @@ dependencies {
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestCompile 'org.mockito:mockito-core:2.8.47'
+    androidTestCompile 'com.rmtheis:tess-two:8.0.0'
 
     androidTestCompile ('com.android.support.test:runner:1.0.1') {
         exclude group: 'com.android.support'
