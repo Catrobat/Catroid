@@ -76,6 +76,19 @@ public final class UserVariableTestUtils {
 		return false;
 	}
 
+	public static boolean userVariableContainsWithinTimeout(UserVariable userVariable, String expectedValue,
+			int timeoutMillis) {
+		int intervalMillis = 10;
+		for (; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
+			if (userVariable.getValue().toString().contains(expectedValue)) {
+				return true;
+			}
+			onView(isRoot())
+					.perform(CustomActions.wait(intervalMillis));
+		}
+		return false;
+	}
+
 	public static boolean userVariableGreaterThanWithinTimeout(UserVariable userVariable, double expectedValue,
 			int timeoutMillis) {
 		int step = 10;
