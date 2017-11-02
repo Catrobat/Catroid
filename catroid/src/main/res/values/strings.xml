@@ -118,7 +118,7 @@
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
     <string name="preference_title_language">Language</string>
-    <string name="preference_description_language">Allow to change PocketCode Language</string>
+    <string name="preference_description_language">Select the language of the app</string>
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control AR.Drone 2.0 quadcopters</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
