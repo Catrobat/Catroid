@@ -58,7 +58,6 @@ import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.DroneEmergencyAction;
-import org.catrobat.catroid.content.actions.DroneFlipAction;
 import org.catrobat.catroid.content.actions.DroneMoveBackwardAction;
 import org.catrobat.catroid.content.actions.DroneMoveDownAction;
 import org.catrobat.catroid.content.actions.DroneMoveForwardAction;
@@ -80,6 +79,17 @@ import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
+import org.catrobat.catroid.content.actions.JumpingSumoAnimationAction;
+import org.catrobat.catroid.content.actions.JumpingSumoJumpHighAction;
+import org.catrobat.catroid.content.actions.JumpingSumoJumpLongAction;
+import org.catrobat.catroid.content.actions.JumpingSumoMoveBackwardAction;
+import org.catrobat.catroid.content.actions.JumpingSumoMoveForwardAction;
+import org.catrobat.catroid.content.actions.JumpingSumoNoSoundAction;
+import org.catrobat.catroid.content.actions.JumpingSumoRotateLeftAction;
+import org.catrobat.catroid.content.actions.JumpingSumoRotateRightAction;
+import org.catrobat.catroid.content.actions.JumpingSumoSoundAction;
+import org.catrobat.catroid.content.actions.JumpingSumoTakingPictureAction;
+import org.catrobat.catroid.content.actions.JumpingSumoTurnAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorStopAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorTurnAngleAction;
@@ -144,6 +154,8 @@ import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -936,16 +948,76 @@ public class ActionFactory extends Actions {
 		return action(DronePlayLedAnimationAction.class);
 	}
 
-	public Action createDroneFlipAction() {
-		return action(DroneFlipAction.class);
-	}
-
 	public Action createDroneSwitchCameraAction() {
 		return action(DroneSwitchCameraAction.class);
 	}
 
 	public Action createDroneGoEmergencyAction() {
 		return action(DroneEmergencyAction.class);
+	}
+
+	public Action createJumpingSumoMoveForwardAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		JumpingSumoMoveForwardAction action = action(JumpingSumoMoveForwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public Action createJumpingSumoMoveBackwardAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		JumpingSumoMoveBackwardAction action = action(JumpingSumoMoveBackwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public Action createJumpingSumoAnimationAction(JumpingSumoAnimationsBrick.Animation animationType) {
+		JumpingSumoAnimationAction action = action(JumpingSumoAnimationAction.class);
+		action.setAnimationType(animationType);
+		return action;
+	}
+
+	public Action createJumpingSumoNoSoundAction() {
+		return action(JumpingSumoNoSoundAction.class);
+	}
+
+	public Action createJumpingSumoSoundAction(Sprite sprite, JumpingSumoSoundBrick.Sounds soundType, Formula volume) {
+		JumpingSumoSoundAction action = action(JumpingSumoSoundAction.class);
+		action.setSoundType(soundType);
+		action.setSprite(sprite);
+		action.setVolume(volume);
+		return action;
+	}
+
+	public Action createJumpingSumoJumpLongAction() {
+		return action(JumpingSumoJumpLongAction.class);
+	}
+
+	public Action createJumpingSumoJumpHighAction() {
+		return action(JumpingSumoJumpHighAction.class);
+	}
+
+	public Action createJumpingSumoRotateLeftAction(Sprite sprite, Formula degree) {
+		JumpingSumoRotateLeftAction action = action(JumpingSumoRotateLeftAction.class);
+		action.setSprite(sprite);
+		action.setDegree(degree);
+		return action;
+	}
+
+	public Action createJumpingSumoRotateRightAction(Sprite sprite, Formula degree) {
+		JumpingSumoRotateRightAction action = action(JumpingSumoRotateRightAction.class);
+		action.setSprite(sprite);
+		action.setDegree(degree);
+		return action;
+	}
+
+	public Action createJumpingSumoTurnAction() {
+		return action(JumpingSumoTurnAction.class);
+	}
+
+	public Action createJumpingSumoTakingPictureAction() {
+		return action(JumpingSumoTakingPictureAction.class);
 	}
 
 	public Action createSetTextAction(Sprite sprite, Formula x, Formula y, Formula text) {

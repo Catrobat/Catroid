@@ -163,4 +163,10 @@ public class MyProjectsActivity extends BaseCastActivity {
 
 		TextSizeUtil.enlargeOptionsItem(item);
 	}
+
+	@Override
+	public void onBackPressed() {
+		baseProjectListFragment.cancelLoadProjectTask();
+		super.onBackPressed();
+	}
 }

@@ -317,7 +317,6 @@
   <string name="dialog_confirm_delete_object_message">Huwezi tengua!</string>
   <string name="select_all">Teua zote</string>
   <string name="deselect_all">Ghairi uteuzi kwa zote</string>
-  <string name="backpack_replace_object">%1$s kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
   <string name="backpack_replace_scene">%1$s kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
   <string name="backpack_replace_object_multiple">kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
   <string name="groups_create">Unda kikundi</string>
@@ -380,7 +379,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Futa Mwonekano?</string>
   <string name="dialog_confirm_delete_look_message">Huwezi tengua!</string>
   <string name="lookname">Angalia jina:</string>
-  <string name="backpack_replace_look">%1$s kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
   <string name="backpack_replace_look_multiple">kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
   <!--  -->
   <!-- Sound fragment -->
@@ -825,7 +823,6 @@
   <string name="default_drone_project_name">Programu yangu ya kwanza kurusha</string>
   <string name="default_drone_project_sprites_takeoff">Ondoka</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Zungusha</string>
   <string name="default_drone_project_sprites_up">Juu</string>
   <string name="default_drone_project_sprites_down">Chini</string>
   <string name="default_drone_project_sprites_left">Kushoto</string>
@@ -1072,7 +1069,6 @@
   <string name="brick_drone_move_backward">Sogeza nyuma</string>
   <string name="brick_drone_move_up">Sogeza juu</string>
   <string name="brick_drone_move_down">Sogeza chini</string>
-  <string name="brick_drone_flip">Geuza</string>
   <string name="brick_drone_emergency">Dharura</string>
   <string name="brick_drone_turn_right">Geuka kulia</string>
   <string name="brick_drone_turn_left">Geuka kushoto</string>

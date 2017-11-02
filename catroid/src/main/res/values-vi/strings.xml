@@ -832,7 +832,6 @@
   <string name="default_drone_project_name">Chương trình giả định đầu tiên của tôi</string>
   <string name="default_drone_project_sprites_takeoff">Cất cánh</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Xoay</string>
   <string name="default_drone_project_sprites_up">Lên trên</string>
   <string name="default_drone_project_sprites_down">Xuống</string>
   <string name="default_drone_project_sprites_left">Trái</string>
@@ -1080,7 +1079,6 @@
   <string name="brick_drone_move_backward">Di chuyển về phía sau</string>
   <string name="brick_drone_move_up">Di chuyển lên trên</string>
   <string name="brick_drone_move_down">Di chuyển xuống dưới</string>
-  <string name="brick_drone_flip">Lật lại</string>
   <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">Rẽ Phải</string>
   <string name="brick_drone_turn_left">Rẽ Trái</string>

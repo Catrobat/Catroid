@@ -849,7 +849,6 @@
   <string name="default_drone_project_name">Моя первая программа для дрона</string>
   <string name="default_drone_project_sprites_takeoff">Взлетать</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Повернуть</string>
   <string name="default_drone_project_sprites_up">Вверх</string>
   <string name="default_drone_project_sprites_down">Вниз</string>
   <string name="default_drone_project_sprites_left">Налево</string>
@@ -1095,7 +1094,6 @@
   <string name="brick_drone_move_backward">Двигаться назад</string>
   <string name="brick_drone_move_up">Двигатся вверх</string>
   <string name="brick_drone_move_down">Двигатся вниз</string>
-  <string name="brick_drone_flip">Флип</string>
   <string name="brick_drone_emergency">Чрезвычайная ситуация</string>
   <string name="brick_drone_turn_right">Повернуть направо</string>
   <string name="brick_drone_turn_left">Повернуть налево</string>

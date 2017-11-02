@@ -27,14 +27,23 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'io.fabric.tools:gradle:1.21.5'
     }
 }
 
 repositories {
     jcenter()
+    maven { url "https://jitpack.io" }
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.google.com' }
+}
+
+ext {
+    appId = 'org.catrobat.catroid'
+    appName = '@string/app_name'
+    manifestAppName = '@string/app_name'
+    manifestAppIcon = '@drawable/ic_launcher'
 }
 
 apply plugin: 'com.android.application'
@@ -49,9 +58,6 @@ apply from: 'gradle/standalone_apk_tasks.gradle'
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
 
-def appId = 'org.catrobat.catroid'
-def appName = '@string/app_name'
-
 // When -Pindependent was provided on the gradle command the APP name is changed.
 // This allows to have multiple Catroid versions installed in parallel for testing purposes.
 // Furthermore these installations do not interfere with the actual Catroid app.
@@ -59,6 +65,7 @@ if (project.hasProperty('independent')) {
     def today = new Date()
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
     appName = property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
+    manifestAppName = appName
 }
 ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
 ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
@@ -70,6 +77,8 @@ android {
     packagingOptions {
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+        exclude 'META-INF/INDEX.LIST'  //compile problem with parrot arsdk
+        exclude 'lib/arm64-v8a/*' // exclude all arm64-v8a libs as we don't have all libs for that architecture
     }
 
     buildTypes {
@@ -78,6 +87,7 @@ android {
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PARROT_JUMPING_SUMO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
@@ -85,6 +95,8 @@ android {
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "true"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
         }
@@ -93,6 +105,7 @@ android {
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_PARROT_JUMPING_SUMO_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
@@ -100,6 +113,7 @@ android {
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
@@ -128,16 +142,23 @@ android {
     productFlavors {
         catroid {
             applicationId appId
+            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
         }
 
         standalone {
-            applicationId appId + '.' + getPackageNameSuffix()
+            applicationId appId
             versionCode 1
             versionName '1.0'
 
-            buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true)}\""
-            buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
+            buildConfigField "String", "START_PROJECT", "\"$projectId\""
+            buildConfigField "String", "PROJECT_NAME", "\"$appName\""
+            // here!
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
         }
 
@@ -175,11 +196,13 @@ ext {
 }
 
 configurations {
+    compile.exclude group: 'org.apache.sanselan' //compile problem with parrot arsdk
     compile.exclude group: 'xpp3' //compile problem with xstream
     natives
 }
 
 dependencies {
+    compile 'com.parrot:arsdk:3.12.6'
     //CAST
     compile 'com.android.support:mediarouter-v7:22.+'
     compile 'com.google.android.gms:play-services-cast:9.4.0'
@@ -194,7 +217,9 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.3.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
-    compile 'com.thoughtworks.xstream:xstream:1.4.7'
+    compile ('com.thoughtworks.xstream:xstream:1.4.7') {
+        exclude group: 'xmlpull'
+    }
     compile 'com.github.oliewa92:MidiDroid:v1.1'
 
     def gdxVersion = '1.6.2'
@@ -212,22 +237,23 @@ dependencies {
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.github.billthefarmer:mididriver:v1.13'
 
     compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
     compile fileTree(include: '*.jar', dir: 'src/main/libs')
     compile fileTree(include: '*.jar', dir: 'src/main/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'src/androidTest/libs')
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
-    androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:1.5.1'
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
+    androidTestCompile 'org.mockito:mockito-core:2.8.47'
 
-    androidTestCompile ('com.android.support.test:runner:0.5') {
+    androidTestCompile ('com.android.support.test:runner:1.0.1') {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.2') {
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:3.0.1') {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:3.0.1') {
         exclude group: 'com.android.support'
     }
 
@@ -235,10 +261,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
-    compile ('com.android.support.test.espresso:espresso-core:2.2.2') {
-        exclude group: 'com.android.support'
-    }
-    compile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+    compile ('com.android.support.test.espresso:espresso-core:3.0.1') {
         exclude group: 'com.android.support'
     }
 
@@ -247,12 +270,12 @@ dependencies {
     }
 
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.mockito:mockito-core:2.8.47'
 
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
     checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
+        transitive = true
     }
 }
 
@@ -274,11 +297,12 @@ android {
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         versionCode 39
         println "VersionCode is " + versionCode
-        versionName "0.9.31"
+        versionName "0.9.32"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
         multiDexEnabled true
+        manifestPlaceholders += [appName: manifestAppName, appIcon: manifestAppIcon]
     }
 
     packagingOptions {
@@ -310,9 +334,9 @@ android {
 }
 
 task copyAndroidNatives() {
-    file("src/main/jniLibs/armeabi/").mkdirs();
-    file("src/main/jniLibs/armeabi-v7a/").mkdirs();
-    file("src/main/jniLibs/x86/").mkdirs();
+    file("src/main/jniLibs/armeabi/").mkdirs()
+    file("src/main/jniLibs/armeabi-v7a/").mkdirs()
+    file("src/main/jniLibs/x86/").mkdirs()
     configurations.natives.files.each { jar ->
         def outputDir = null
         if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("src/main/jniLibs/armeabi-v7a")

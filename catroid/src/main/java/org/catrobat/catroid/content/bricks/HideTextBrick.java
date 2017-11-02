@@ -154,8 +154,9 @@ public class HideTextBrick extends UserVariableBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		if (userVariable.getName() == null) {
-			userVariable.setName(Constants.NO_VARIABLE_SELECTED);
+		if (userVariable == null || userVariable.getName() == null) {
+			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
+			userVariable.setDummy(true);
 		}
 
 		sequence.addAction(sprite.getActionFactory().createHideVariableAction(sprite, userVariable));

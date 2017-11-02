@@ -23,13 +23,17 @@
 
 package org.catrobat.catroid.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.stage.ShowTextActor;
+import org.catrobat.catroid.stage.StageActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -47,6 +51,22 @@ public class HideTextAction extends TemporalAction {
 
 		List<UserVariable> variableList = dataContainer.getProjectVariables();
 		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
+
+		if (StageActivity.stageListener != null) {
+			Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
+			ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, sprite, userBrick);
+
+			for (Actor actor : stageActors) {
+				if (actor.getClass().equals(dummyActor.getClass())) {
+					ShowTextActor showTextActor = (ShowTextActor) actor;
+					if (showTextActor.getVariableNameToCompare().equals(variableToHide.getName())
+							&& showTextActor.getSprite().equals(sprite)
+							&& (userBrick == null || showTextActor.getUserBrick().equals(userBrick))) {
+						actor.remove();
+					}
+				}
+			}
+		}
 
 		setVariablesVisible(variableList);
 

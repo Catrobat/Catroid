@@ -23,26 +23,21 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
 public abstract class DroneMoveBrick extends FormulaBrick {
-	private static final String TAG = DroneMoveBrick.class.getSimpleName();
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
@@ -94,23 +89,6 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 				.setTextFieldId(R.id.brick_drone_move_edit_text_second);
 		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS).refreshTextField(view);
 
-		TextView times = (TextView) view.findViewById(R.id.brick_drone_move_text_view_second);
-
-		if (getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS).isSingleNumberFormula()) {
-			try {
-				times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
-			} catch (InterpretationException interpretationException) {
-				Log.d(TAG, "Formula interpretation for this specific Brick failed.", interpretationException);
-			}
-		} else {
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
-		}
-
 		TextView label = (TextView) view.findViewById(R.id.brick_drone_move_label);
 		label.setText(getBrickLabel(view));
 
@@ -138,13 +116,10 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		TextView textPercent = (TextView) prototypeView.findViewById(R.id.brick_set_power_to_percent);
 		String textPercentString = "% ".concat(prototypeView.getResources().getString(R.string.brick_drone_percent_power));
 		textPercent.setText(textPercentString);
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
 		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_edit_text_power);
 		textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
 
 		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
-		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
 		return prototypeView;
 	}
 

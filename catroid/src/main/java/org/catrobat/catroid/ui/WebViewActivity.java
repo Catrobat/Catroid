@@ -243,11 +243,8 @@ public class WebViewActivity extends BaseActivity {
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
 			// help URL has to be opened in an external browser
-			if ((url.contains(Constants.MAIN_URL_HTTPS) && !url.contains(Constants.CATROBAT_HELP_URL))
-					|| url.contains(Constants.LIBRARY_BASE_URL)) {
-				return false;
-			}
-			return true;
+			return !((url.contains(Constants.MAIN_URL_HTTPS) && !url.contains(Constants.CATROBAT_HELP_URL))
+					|| url.contains(Constants.LIBRARY_BASE_URL));
 		}
 	}
 
@@ -355,5 +352,11 @@ public class WebViewActivity extends BaseActivity {
 		public void trackNolbProjectSubmission(String projectID) {
 			Utils.getTrackingUtilProxy().trackSubmitProject(projectID);
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		webView.setDownloadListener(null);
+		super.onDestroy();
 	}
 }

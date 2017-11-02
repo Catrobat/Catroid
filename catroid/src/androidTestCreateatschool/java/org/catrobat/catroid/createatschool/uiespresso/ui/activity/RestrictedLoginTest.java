@@ -75,7 +75,6 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasDat
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withResourceName;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;

@@ -823,7 +823,6 @@
   <string name="default_drone_project_name">Mitt første drone program</string>
   <string name="default_drone_project_sprites_takeoff">Ta av</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Roter</string>
   <string name="default_drone_project_sprites_up">Opp</string>
   <string name="default_drone_project_sprites_down">Ned</string>
   <string name="default_drone_project_sprites_left">Venstre</string>
@@ -1069,7 +1068,6 @@
   <string name="brick_drone_move_backward">Flytt bakover</string>
   <string name="brick_drone_move_up">Flytt opp</string>
   <string name="brick_drone_move_down">Flytt ned</string>
-  <string name="brick_drone_flip">Vend</string>
   <string name="brick_drone_emergency">Nødsituasjon</string>
   <string name="brick_drone_turn_right">Snu høyre</string>
   <string name="brick_drone_turn_left">Snu venstre</string>

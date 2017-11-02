@@ -828,7 +828,6 @@
   <string name="default_drone_project_name">Mi primer programa robot</string>
   <string name="default_drone_project_sprites_takeoff">Despegar</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Rotar</string>
   <string name="default_drone_project_sprites_up">Arriba</string>
   <string name="default_drone_project_sprites_down">Abajo</string>
   <string name="default_drone_project_sprites_left">Izquierda</string>
@@ -1074,7 +1073,6 @@
   <string name="brick_drone_move_backward">Retroceder</string>
   <string name="brick_drone_move_up">Mover hacia arriba</string>
   <string name="brick_drone_move_down">Mover hacia abajo</string>
-  <string name="brick_drone_flip">Voltear</string>
   <string name="brick_drone_emergency">Emergencia</string>
   <string name="brick_drone_turn_right">Girar a la derecha</string>
   <string name="brick_drone_turn_left">Girar a la izquierda</string>

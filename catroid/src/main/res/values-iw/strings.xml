@@ -883,7 +883,6 @@
   <string name="default_drone_project_name">My first Drone program</string>
   <string name="default_drone_project_sprites_takeoff">המראה</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">סיבוב</string>
   <string name="default_drone_project_sprites_up">למעלה</string>
   <string name="default_drone_project_sprites_down">Down</string>
   <string name="default_drone_project_sprites_left">לשמאל</string>
@@ -1131,7 +1130,6 @@
   <string name="brick_drone_move_backward">Move backward</string>
   <string name="brick_drone_move_up">Move up</string>
   <string name="brick_drone_move_down">Move down</string>
-  <string name="brick_drone_flip">הפוך</string>
   <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">הסתובב ימינה</string>
   <string name="brick_drone_turn_left">הסתובב שמאלה</string>

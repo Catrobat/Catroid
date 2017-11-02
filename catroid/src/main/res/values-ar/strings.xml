@@ -893,7 +893,6 @@
   <string name="default_drone_project_name">برنامجي طائرة بدون طيار الأول</string>
   <string name="default_drone_project_sprites_takeoff">إقلاع</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">تدوير</string>
   <string name="default_drone_project_sprites_up">الأعلى</string>
   <string name="default_drone_project_sprites_down">الأسفل</string>
   <string name="default_drone_project_sprites_left">اليسار</string>
@@ -1139,7 +1138,6 @@
   <string name="brick_drone_move_backward">الطيران للخلف</string>
   <string name="brick_drone_move_up">الطيران لأعلى</string>
   <string name="brick_drone_move_down">الطيران لأسفل</string>
-  <string name="brick_drone_flip">قلب افقي-عمودي</string>
   <string name="brick_drone_emergency">حالات الطوارئ</string>
   <string name="brick_drone_turn_right">انعطف نحو اليمين</string>
   <string name="brick_drone_turn_left">انعطف نحو اليسار</string>
@@ -1565,4 +1563,15 @@
   <string name="crash_dialog_always_send">دائماً أرسل</string>
   <string name="crash_dialog_send">أرسل</string>
   <!--  -->
+
+  <!-- UtilFile SizeUnits String -->
+  <string name="Byte_short">بايت</string>
+  <string name="KiloByte_short">كيلوبايت</string>
+  <string name="MegaByte_short">ميغابايت</string>
+  <string name="GigaByte_short">غيغابايت</string>
+  <string name="TeraByte_short">تيرابايت</string>
+  <string name="PetaByte_short">بيتابايت</string>
+  <string name="ExaByte_short">إكسابايت</string>
+  <!--  -->
+
 </resources>

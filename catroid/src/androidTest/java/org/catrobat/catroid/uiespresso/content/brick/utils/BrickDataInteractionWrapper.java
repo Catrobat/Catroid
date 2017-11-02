@@ -25,22 +25,28 @@ package org.catrobat.catroid.uiespresso.content.brick.utils;
 
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.action.CoordinatesProvider;
+import android.support.test.espresso.action.GeneralClickAction;
 import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Swipe;
+import android.support.test.espresso.action.Tap;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 
 import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.core.AnyOf.anyOf;
 
 public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 
@@ -89,5 +95,16 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 				BrickCoordinatesProvider.UPPER_LEFT_CORNER,
 				destinationCoordinatesProvider,
 				Press.FINGER));
+	}
+
+	public void performDeleteBrick() {
+		dataInteraction.perform(new GeneralClickAction(Tap.SINGLE,
+				BrickCoordinatesProvider.UPPER_LEFT_CORNER,
+				Press.FINGER));
+		onView(anyOf(withText(R.string.brick_context_dialog_delete_brick),
+				withText(R.string.brick_context_dialog_delete_script)))
+				.perform(click());
+		onView(withText(R.string.yes))
+				.perform(click());
 	}
 }

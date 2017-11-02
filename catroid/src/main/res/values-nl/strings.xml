@@ -849,7 +849,6 @@
   <string name="default_drone_project_name">Mijn eerste Drone-programma</string>
   <string name="default_drone_project_sprites_takeoff">Opstijgen</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Draaien</string>
   <string name="default_drone_project_sprites_up">Omhoog</string>
   <string name="default_drone_project_sprites_down">Omlaag</string>
   <string name="default_drone_project_sprites_left">Links</string>
@@ -1097,7 +1096,6 @@
   <string name="brick_drone_move_backward">Beweeg naar achteren</string>
   <string name="brick_drone_move_up">Beweeg omhoog</string>
   <string name="brick_drone_move_down">Beweeg omlaag</string>
-  <string name="brick_drone_flip">Spiegelen</string>
   <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">Draai rechtsom</string>
   <string name="brick_drone_turn_left">Draai linksom</string>

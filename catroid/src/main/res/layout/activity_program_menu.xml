@@ -59,28 +59,28 @@
                 android:id="@+id/program_menu_button_scripts"
                 style="@style/ProgramMenuButton"
                 android:layout_marginTop="3dp"
-                android:drawableLeft="@drawable/ic_program_menu_scripts"
+                android:drawableStart="@drawable/ic_program_menu_scripts"
                 android:onClick="handleScriptsButton"
                 android:text="@string/scripts" />
 
             <Button
                 android:id="@+id/program_menu_button_looks"
                 style="@style/ProgramMenuButton"
-                android:drawableLeft="@drawable/ic_program_menu_looks"
+                android:drawableStart="@drawable/ic_program_menu_looks"
                 android:onClick="handleLooksButton"
                 android:text="@string/looks" />
 
             <Button
                 android:id="@+id/program_menu_button_sounds"
                 style="@style/ProgramMenuButton"
-                android:drawableLeft="@drawable/ic_program_menu_sounds"
+                android:drawableStart="@drawable/ic_program_menu_sounds"
                 android:onClick="handleSoundsButton"
                 android:text="@string/sounds" />
 
             <Button
                 android:id="@+id/program_menu_button_nfctags"
                 style="@style/ProgramMenuButton"
-                android:drawableLeft="@drawable/ic_program_menu_nfc"
+                android:drawableStart="@drawable/ic_program_menu_nfc"
                 android:onClick="handleNfcTagsButton"
                 android:text="@string/nfctags" />
 

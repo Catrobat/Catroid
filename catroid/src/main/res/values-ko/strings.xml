@@ -311,7 +311,6 @@
   <string name="dialog_confirm_delete_object_message">이 작업은 되돌릴 수 없습니다!</string>
   <string name="select_all">모두 선택</string>
   <string name="deselect_all">모든 선택 취소</string>
-  <string name="backpack_replace_object"> \"%1$s\" 스프라이트는 스프라이트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
   <string name="backpack_replace_scene">모양 %1$s 는 오브젝트 모음에 이미 있습니다. 그것을 대체하시겠습니까?</string>
   <string name="backpack_replace_object_multiple">오브젝트는 오브젝트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
   <string name="groups_create">그룹 만들기</string>
@@ -371,7 +370,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">이 모양들을 삭제하시겠습니까?</string>
   <string name="dialog_confirm_delete_look_message">이 작업은 되돌릴 수 없습니다!</string>
   <string name="lookname">모양 이름:</string>
-  <string name="backpack_replace_look"> \"%1$s\" 는 오브젝트 모음에 이미 있습니다. 그것을 바꾸시겠습니까?</string>
   <string name="backpack_replace_look_multiple">이미 있습니다. 그것을 대체하시겠습니까?</string>
   <!--  -->
   <!-- Sound fragment -->
@@ -808,7 +806,6 @@
   <string name="default_drone_project_name">내 첫 번째 무인 항공기 프로그램</string>
   <string name="default_drone_project_sprites_takeoff">이륙</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">회전하기</string>
   <string name="default_drone_project_sprites_up">위로</string>
   <string name="default_drone_project_sprites_down">아래로</string>
   <string name="default_drone_project_sprites_left">왼쪽으로</string>
@@ -1054,7 +1051,6 @@
   <string name="brick_drone_move_backward">뒤로 이동</string>
   <string name="brick_drone_move_up">위로 이동</string>
   <string name="brick_drone_move_down">아래로 이동</string>
-  <string name="brick_drone_flip">뒤집기</string>
   <string name="brick_drone_emergency">긴급</string>
   <string name="brick_drone_turn_right">오른쪽으로 돌기</string>
   <string name="brick_drone_turn_left">왼쪽으로 돌기</string>

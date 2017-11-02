@@ -845,7 +845,6 @@
   <string name="default_drone_project_name">My first Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">گھمايو</string>
   <string name="default_drone_project_sprites_up">Up</string>
   <string name="default_drone_project_sprites_down">Down</string>
   <string name="default_drone_project_sprites_left">کاٻي</string>
@@ -1093,7 +1092,6 @@
   <string name="brick_drone_move_backward">Move backward</string>
   <string name="brick_drone_move_up">Move up</string>
   <string name="brick_drone_move_down">Move down</string>
-  <string name="brick_drone_flip">پَلٽيو</string>
   <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">Turn right</string>
   <string name="brick_drone_turn_left">Turn left</string>

@@ -145,7 +145,6 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 	}
 
 	protected void handleOkButtonClick() {
-
 		createLandscapeProject = landscapeMode.isChecked();
 		createCastProject = cast.isChecked();
 
@@ -153,7 +152,7 @@ public class OrientationDialog extends DialogFragment implements LoadProjectTask
 			downloadTemplateFile();
 		} else {
 			try {
-				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject, createCastProject);
+				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject, createCastProject, false);
 			} catch (IllegalArgumentException illegalArgumentException) {
 				Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 				return;

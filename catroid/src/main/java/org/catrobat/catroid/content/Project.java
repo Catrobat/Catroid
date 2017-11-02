@@ -490,6 +490,14 @@ public class Project implements Serializable {
 		}
 	}
 
+	public void updateArduinoValues994to995() {
+		for (Scene scene : sceneList) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.updateArduinoValues994to995();
+			}
+		}
+	}
+
 	public synchronized void updateMessageContainer() {
 		List<String> usedMessages = new ArrayList<>();
 		for (Scene scene : getSceneList()) {

@@ -67,7 +67,7 @@
             android:id="@+id/dialog_about_text_view_version_name"
             style="@style/DefaultDialog.Item"
             android:layout_below="@id/dialog_about_text_catrobat_url"
-            android:gravity="right|bottom"
+            android:gravity="end|bottom"
             android:minHeight="0dp"
             android:paddingBottom="5dp"
             android:textSize="8sp"

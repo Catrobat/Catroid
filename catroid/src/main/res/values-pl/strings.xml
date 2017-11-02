@@ -841,7 +841,6 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <string name="default_drone_project_name">Mój pierwszy program dla drona</string>
   <string name="default_drone_project_sprites_takeoff">Startuj</string>
   <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Obróć</string>
   <string name="default_drone_project_sprites_up">W górę</string>
   <string name="default_drone_project_sprites_down">W dół</string>
   <string name="default_drone_project_sprites_left">Lewo</string>
@@ -1087,7 +1086,6 @@ Przypominamy, że należy przestrzegać warunków użytkowania i korzystania z P
   <string name="brick_drone_move_backward">Do tyłu</string>
   <string name="brick_drone_move_up">Do góry</string>
   <string name="brick_drone_move_down">W dół</string>
-  <string name="brick_drone_flip">Kręć</string>
   <string name="brick_drone_emergency">Tryb awaryjny</string>
   <string name="brick_drone_turn_right">Obróć w prawo</string>
   <string name="brick_drone_turn_left">Obróć w lewo</string>

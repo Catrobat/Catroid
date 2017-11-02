@@ -74,7 +74,7 @@ public class ProjectListAdapter extends CheckBoxListAdapter<ProjectData> {
 			listItemViewHolder.rightTopDetails.setText(lastAccess);
 
 			listItemViewHolder.leftBottomDetails.setText(getContext().getString(R.string.size));
-			String size = UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectData.projectName)));
+			String size = UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectData.projectName)), getContext());
 			listItemViewHolder.rightBottomDetails.setText(size);
 		}
 
