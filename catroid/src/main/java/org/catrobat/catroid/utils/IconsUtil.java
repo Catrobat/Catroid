@@ -145,7 +145,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.legonxt_neg);
 				} else if (category.equals(context.getString(R.string.category_arduino))) {
 					drawable = context.getResources().getDrawable(R.drawable.arduino_neg);
-				} else if (category.equals(context.getString(R.string.category_drone))) {
+				} else if (category.equals(context.getString(R.string.category_drone))
+						|| category.equals(context.getString(R.string.category_jumping_sumo))) {
 					drawable = context.getResources().getDrawable(R.drawable.ardrone_neg);
 				} else if (category.equals(context.getString(R.string.category_phiro))) {
 					drawable = context.getResources().getDrawable(R.drawable.phiro_neg);
@@ -175,7 +176,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.legonxt_pos);
 				} else if (category.equals(context.getString(R.string.category_arduino))) {
 					drawable = context.getResources().getDrawable(R.drawable.arduino_pos);
-				} else if (category.equals(context.getString(R.string.category_drone))) {
+				} else if (category.equals(context.getString(R.string.category_drone))
+						|| category.equals(context.getString(R.string.category_jumping_sumo))) {
 					drawable = context.getResources().getDrawable(R.drawable.ardrone_pos);
 				} else if (category.equals(context.getString(R.string.category_phiro))) {
 					drawable = context.getResources().getDrawable(R.drawable.phiro_pos);
@@ -225,7 +227,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.legonxt_neg);
 				} else if (category.equals(context.getString(R.string.category_arduino))) {
 					drawable = context.getResources().getDrawable(R.drawable.arduino_neg);
-				} else if (category.equals(context.getString(R.string.category_drone))) {
+				} else if (category.equals(context.getString(R.string.category_drone))
+						|| category.equals(context.getString(R.string.category_jumping_sumo))) {
 					drawable = context.getResources().getDrawable(R.drawable.ardrone_neg);
 				} else if (category.equals(context.getString(R.string.category_phiro))) {
 					drawable = context.getResources().getDrawable(R.drawable.phiro_neg);
@@ -255,7 +258,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.legonxt_pos);
 				} else if (category.equals(context.getString(R.string.category_arduino))) {
 					drawable = context.getResources().getDrawable(R.drawable.arduino_pos);
-				} else if (category.equals(context.getString(R.string.category_drone))) {
+				} else if (category.equals(context.getString(R.string.category_drone))
+						|| category.equals(context.getString(R.string.category_jumping_sumo))) {
 					drawable = context.getResources().getDrawable(R.drawable.ardrone_pos);
 				} else if (category.equals(context.getString(R.string.category_phiro))) {
 					drawable = context.getResources().getDrawable(R.drawable.phiro_pos);

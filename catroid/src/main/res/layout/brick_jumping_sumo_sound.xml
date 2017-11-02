@@ -46,38 +46,38 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_jumping_sumo_sound_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/default_jumping_sumo_project_sprites_sound" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <Spinner
+        <org.catrobat.catroid.utils.BrickSpinner
             android:id="@+id/brick_jumping_sumo_sound_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false" >
-        </Spinner >
+        </org.catrobat.catroid.utils.BrickSpinner >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_jumping_sumo_sound_volume"
             style="@style/BrickText.SingleLine"
             android:text="@string/jumping_sumo_volume" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_jumping_sumo_sound_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true"
             android:clickable="false" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_jumping_sumo_sound_percent"
             style="@style/BrickText"
             android:text="@string/percent_symbol" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
     </org.catrobat.catroid.ui.BrickLayout >
 </LinearLayout>

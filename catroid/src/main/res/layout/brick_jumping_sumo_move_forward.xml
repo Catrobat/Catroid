@@ -45,30 +45,30 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_jumping_sumo_move_forward_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_jumping_sumo_move_forward" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_jumping_sumo_move_forward_edit_text_second"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true"
             app:layout_newLine="true" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_jumping_sumo_move_forward_text_view_power"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_drone_with" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_jumping_sumo_move_forward_edit_text_power"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_jumping_sumo_set_power_to_percent"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_jumping_sumo_percent_power" />
