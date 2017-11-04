@@ -74,6 +74,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okio.BufferedSink;
 import okio.Okio;
@@ -313,6 +315,51 @@ public final class ServerCalls implements ScratchDataFetcher {
 		Preconditions.checkArgument(numberOfItems > 0, "Parameter numberOfItems must be greater than 0");
 		Preconditions.checkArgument(pageNumber >= 0, "Parameter page must be greater or equal than 0");
 
+		List<ScratchProgramData> foundPrograms = new ArrayList<>();
+
+		//search for ID
+		if (query.matches("[0-9]+")) {
+			StringBuilder urlStringBuilder = new StringBuilder(Constants.SCRATCH_API_PROJECT_URL);
+			urlStringBuilder.append(query);
+			urlStringBuilder.append("/?format=json");
+			final String url = urlStringBuilder.toString();
+			resultString = getRequestInterruptable(url);
+			Log.d(TAG, "Result string: " + resultString);
+
+			try {
+				if (resultString.length() > 0) {
+					final JSONObject result = new JSONObject(resultString);
+					foundPrograms.add(extractScratchProgramDataFromJson(result));
+				}
+			} catch (Exception exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
+				throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+			}
+		}
+
+		//search for URLs
+		Pattern p = Pattern.compile(Constants.SCRATCH_PROJECT_URL + "[0-9]+/?");
+		Matcher m = p.matcher(query);
+		if (m.find()) {
+			StringBuilder urlStringBuilder = new StringBuilder(Constants.SCRATCH_API_PROJECT_URL);
+			urlStringBuilder.append(query.replace(Constants.SCRATCH_PROJECT_URL, "").replace("/", ""));
+			urlStringBuilder.append("/?format=json");
+			final String url = urlStringBuilder.toString();
+			resultString = getRequestInterruptable(url);
+			Log.d(TAG, "Result string: " + resultString);
+
+			try {
+				if (resultString.length() > 0) {
+					final JSONObject result = new JSONObject(resultString);
+					foundPrograms.add(extractScratchProgramDataFromJson(result));
+				}
+			} catch (Exception exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
+				throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+			}
+		}
+
+		//Scratch Search API
 		try {
 			final HashMap<String, String> httpGetParams = new HashMap<String, String>() {
 				{
@@ -339,9 +386,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Log.d(TAG, "Result string: " + resultString);
 
 			final JSONArray results = new JSONArray(resultString);
-			final List<ScratchProgramData> programDataList = extractScratchProgramDataListFromJson(results);
+			foundPrograms.addAll(extractScratchProgramDataListFromJson(results));
 
-			return new ScratchSearchResult(programDataList, query, pageNumber);
+			return new ScratchSearchResult(foundPrograms, query, pageNumber);
 		} catch (InterruptedIOException exception) {
 			Log.d(TAG, "OK! Request cancelled");
 			throw exception;
@@ -349,6 +396,38 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Log.e(TAG, Log.getStackTraceString(exception));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
+	}
+
+	private ScratchProgramData extractScratchProgramDataFromJson(JSONObject jsonObject) throws JSONException,
+			ParseException {
+		//FIXME: Momentarilly this is the only way to fetch the correct data from the scratch servers
+		//example json at: https://scratch.mit.edu/api/v1/project/125634693/?format=json
+
+		JSONObject programJsonData = jsonObject;
+		final long id = programJsonData.getLong("id");
+		final String title = programJsonData.getString("title");
+		final String notesAndCredits = programJsonData.getString("description");
+		String imageURL = programJsonData.isNull("thumbnail") ? null : programJsonData.getString("thumbnail");
+		imageURL = "https:" + imageURL;
+		final JSONObject authorJsonData = programJsonData.getJSONObject("creator");
+		final String ownerUserName = authorJsonData.getString("username");
+		final int views = programJsonData.getInt("view_count");
+		final int loves = programJsonData.getInt("love_count");
+		final int favorites = programJsonData.getInt("favorite_count");
+
+		WebImage image = null;
+		if (imageURL != null) {
+			image = new WebImage(Uri.parse(imageURL), Constants.SCRATCH_IMAGE_DEFAULT_WIDTH,
+					Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT);
+		}
+
+		final ScratchProgramData programData = new ScratchProgramData(id, title, ownerUserName, image);
+		programData.setNotesAndCredits(notesAndCredits);
+		programData.setViews(views);
+		programData.setLoves(loves);
+		programData.setFavorites(favorites);
+
+		return programData;
 	}
 
 	private List<ScratchProgramData> extractScratchProgramDataListFromJson(final JSONArray jsonArray)
