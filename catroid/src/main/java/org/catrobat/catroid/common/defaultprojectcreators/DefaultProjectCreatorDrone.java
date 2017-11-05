@@ -204,6 +204,16 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(turnRightSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_TURN_RIGHT_BRICK, 100, 475, turnRightFile, 2000));
 
+		//Flip Sprite
+		String flipSpriteName = context.getString(R.string.default_drone_project_sprites_flip);
+
+		File flipFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, flipSpriteName
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_flip, context,
+				true, backgroundImageScaleFactor);
+
+		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(flipSpriteName,
+				DroneBrickFactory.DroneBricks.Drone_Flip_Brick, -280, 200, flipFile, 2000));
+
 		//Emergency Sprite
 		String emergencySpriteName = context.getString(R.string.default_drone_project_sprites_emergency);
 

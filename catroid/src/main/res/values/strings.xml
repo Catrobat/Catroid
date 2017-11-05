@@ -951,7 +951,7 @@
     <!-- defaultDroneValues -->
     <string name="default_drone_project_name">My first Drone program</string>
     <string name="default_drone_project_sprites_takeoff">Take off</string>
-
+    <string name="default_drone_project_sprites_flip">Flip</string>
     <string name="default_drone_project_sprites_up">Up</string>
     <string name="default_drone_project_sprites_down">Down</string>n
     <string name="default_drone_project_sprites_left">Left</string>
