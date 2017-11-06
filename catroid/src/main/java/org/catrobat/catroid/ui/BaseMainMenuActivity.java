@@ -24,9 +24,6 @@ package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -99,7 +96,6 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
 
 	public static final String RESTART_INTENT = "restart";
-	private final int restartDelayMsAfterAppClose = 500;
 
 	private static final String TYPE_FILE = "file";
 	private static final String TYPE_HTTP = "http";
@@ -119,11 +115,10 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 		}
 
 		if (getIntent().getBooleanExtra(RESTART_INTENT, false)) {
-			Intent restartIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage(getApplicationContext().getPackageName());
-			PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0, restartIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-			AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-			manager.set(AlarmManager.RTC, System.currentTimeMillis() + restartDelayMsAfterAppClose, intent);
-			System.exit(0);
+			finish();
+			Intent intent = getIntent();
+			intent.removeExtra(RESTART_INTENT);
+			startActivity(intent);
 		}
 
 		if (!BuildConfig.RESTRICTED_LOGIN) {
@@ -145,7 +140,7 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 			UtilZip.unzipProgram(this);
 			loadStageProject(Constants.STANDALONE_PROJECT_NAME);
 		} else {
-			if (!DividerUtil.isActivated()) {
+			if (!DividerUtil.isElementSpacing()) {
 				setContentView(R.layout.activity_main_menu);
 			} else {
 				setContentView(R.layout.activity_main_menu_with_dividers);

@@ -85,7 +85,7 @@ public abstract class BaseBrickCategoryFragment extends ListFragment {
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_sound);
 		addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_looks);
 
-		if (!CategoryBricksFactory.getStarterBricksEnabled()) {
+		if (!CategoryBricksFactory.isStarterBricks()) {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_pen);
 		}
 
@@ -100,7 +100,7 @@ public abstract class BaseBrickCategoryFragment extends ListFragment {
 		}
 
 		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null
-				&& !CategoryBricksFactory.getStarterBricksEnabled()) {
+				&& !CategoryBricksFactory.isStarterBricks()) {
 			addToBrickCategoriesIfNotAlreadyContained(R.layout.brick_category_userbricks);
 		}
 

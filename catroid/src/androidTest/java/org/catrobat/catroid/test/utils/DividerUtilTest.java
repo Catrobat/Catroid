@@ -45,7 +45,7 @@ public final class DividerUtilTest extends ActivityInstrumentationTestCase2<Main
 		context = mainMenuActivity.getApplicationContext();
 		linearLayout = (LinearLayout) mainMenuActivity.findViewById(R.id.main_menu_buttons_container);
 
-		DividerUtil.setActivated(true);
+		DividerUtil.setElementSpacing(true);
 	}
 
 	public void testAddIcons() {

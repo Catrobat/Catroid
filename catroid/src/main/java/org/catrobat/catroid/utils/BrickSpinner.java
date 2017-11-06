@@ -33,7 +33,7 @@ public class BrickSpinner extends Spinner {
 
 	private static final int SHADOW_RADIUS = 3;
 	private static final int SHADOW_REPEAT = 3;
-	private static boolean drawShadowBorder = false;
+	private static boolean highContrast = false;
 
 	public BrickSpinner(Context context) {
 		super(context);
@@ -50,7 +50,7 @@ public class BrickSpinner extends Spinner {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		TextView textView = (TextView) getSelectedView();
-		if (drawShadowBorder) {
+		if (highContrast) {
 			if (textView != null) {
 				textView.getPaint().setShadowLayer(SHADOW_RADIUS, 0, 0, Color.BLACK);
 				textView.getPaint().setShader(null);
@@ -68,7 +68,7 @@ public class BrickSpinner extends Spinner {
 		}
 	}
 
-	public static void enableShadowBorder() {
-		drawShadowBorder = true;
+	public static void setHighContrast(boolean enabled) {
+		highContrast = enabled;
 	}
 }

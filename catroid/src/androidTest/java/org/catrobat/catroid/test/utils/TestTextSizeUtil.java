@@ -46,13 +46,13 @@ public class TestTextSizeUtil extends AndroidTestCase {
 		putNewEntryInMap(R.layout.activity_script);
 		putNewEntryInMap(R.layout.activity_prestage);
 
-		TextSizeUtil.enableTextSizeUtil();
+		TextSizeUtil.setLargeText(true);
 	}
 
 	public void tearDown() throws Exception {
 		super.tearDown();
 		viewGroups.clear();
-		TextSizeUtil.disableTextSizeUtil();
+		TextSizeUtil.setLargeText(false);
 	}
 
 	public void testEnlargeViewGroup() {

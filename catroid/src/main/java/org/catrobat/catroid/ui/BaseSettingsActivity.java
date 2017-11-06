@@ -444,34 +444,27 @@ public class BaseSettingsActivity extends PreferenceActivity {
 
 	public static void applyAccessibilitySettings(Context context) {
 		TextSizeUtil.mapTextSizesToDeviceSize();
+		TextSizeUtil.setLargeText(getAccessibilityLargeTextEnabled(context));
+
 		IconsUtil.mapIconSizesToDeviceSize();
-		if (getAccessibilityLargeTextEnabled(context)) {
-			TextSizeUtil.enableTextSizeUtil();
-		}
-		if (getAccessibilityHighContrastEnabled(context)) {
-			BrickTextView.enableShadowBorder();
-			BrickEditText.enableShadowBorder();
-			BrickSpinner.enableShadowBorder();
-		}
-		if (getAccessibilityAdditionalIconsEnabled(context)) {
-			IconsUtil.setActivated(true);
-		}
-		if (getAccessibilityLargeIconsEnabled(context)) {
-			IconsUtil.setLargeSize(true);
-		}
-		if (getAccessibilityHighContrastIconsEnabled(context)) {
-			IconsUtil.setContrast(true);
-		}
-		if (getAccessibilityLargeElementSpacingEnabled(context)) {
-			DividerUtil.setActivated(true);
-		}
-		if (getAccessibilityStarterBricksEnabled(context)) {
-			CategoryBricksFactory.enableStarterBricks();
-		}
-		if (getAccessibilityDragndropDelayEnabled(context)) {
-			DragAndDropListView.enableLongpressDelay();
-		}
-		if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SERIF)) {
+		IconsUtil.setAdditionalIcons(getAccessibilityAdditionalIconsEnabled(context));
+		IconsUtil.setLargeSize(getAccessibilityLargeIconsEnabled(context));
+
+		IconsUtil.setContrast(getAccessibilityHighContrastIconsEnabled(context));
+		boolean highContrastEnabled = getAccessibilityHighContrastEnabled(context);
+		BrickTextView.setHighContrast(highContrastEnabled);
+		BrickEditText.setHighContrast(highContrastEnabled);
+		BrickSpinner.setHighContrast(highContrastEnabled);
+
+		DividerUtil.setElementSpacing(getAccessibilityLargeElementSpacingEnabled(context));
+
+		CategoryBricksFactory.setStarterBricks(getAccessibilityStarterBricksEnabled(context));
+
+		DragAndDropListView.setDragAndDropDelay(getAccessibilityDragndropDelayEnabled(context));
+
+		if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_STANDARD)) {
+			Utils.replaceFont(ACCESS_APPLICATION_FONT, null);
+		} else if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SERIF)) {
 			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_SERIF);
 		} else if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_DYSLEXIC);

@@ -33,7 +33,7 @@ import org.catrobat.catroid.ui.BrickLayout;
 
 public final class DividerUtil {
 
-	private static boolean activated = false;
+	private static boolean elementSpacing = false;
 
 	public static int dividerHeight = 60;
 
@@ -41,7 +41,7 @@ public final class DividerUtil {
 	}
 
 	public static void setDivider(Context context, LinearLayout linearLayout) {
-		if (isActivated()) {
+		if (isElementSpacing()) {
 			linearLayout.setDividerDrawable(context.getResources().getDrawable(R.drawable.divider));
 			linearLayout.setDividerPadding(dividerHeight);
 			linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
@@ -49,13 +49,13 @@ public final class DividerUtil {
 	}
 
 	public static void setDivider(Context context, ListView listView) {
-		if (isActivated()) {
+		if (isElementSpacing()) {
 			listView.setDividerHeight(dividerHeight);
 		}
 	}
 
 	public static void setDivider(BrickLayout brickLayout) {
-		if (isActivated()) {
+		if (isElementSpacing()) {
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(BrickLayout.LayoutParams.MATCH_PARENT, BrickLayout.LayoutParams.WRAP_CONTENT);
 			lp.setMargins(0, 0, 0, dividerHeight);
 			brickLayout.setLayoutParams(lp);
@@ -63,7 +63,7 @@ public final class DividerUtil {
 	}
 
 	public static void setDivider(Context context, ViewGroup viewGroup) {
-		if (isActivated()) {
+		if (isElementSpacing()) {
 			for (int i = 0; i < viewGroup.getChildCount(); i++) {
 				if (viewGroup.getChildAt(i) instanceof BrickLayout) {
 					setDivider((BrickLayout) viewGroup.getChildAt(i));
@@ -72,11 +72,11 @@ public final class DividerUtil {
 		}
 	}
 
-	public static boolean isActivated() {
-		return activated;
+	public static boolean isElementSpacing() {
+		return elementSpacing;
 	}
 
-	public static void setActivated(boolean active) {
-		activated = active;
+	public static void setElementSpacing(boolean enabled) {
+		elementSpacing = enabled;
 	}
 }

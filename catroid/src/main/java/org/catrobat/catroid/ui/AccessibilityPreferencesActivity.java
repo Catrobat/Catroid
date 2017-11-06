@@ -58,10 +58,10 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 
 	private static final String TAG = AccessibilityPreferencesActivity.class.getSimpleName();
 
-	private static final String XML_PROFILE_TAG = "profile";
-	private static final String XML_PARAMETER_TAG = "parameter";
-	private static final String XML_NAME_FIELD = "name";
-	private static final String XML_VALUE_FIELD = "value";
+	public static final String XML_PROFILE_TAG = "profile";
+	public static final String XML_PARAMETER_TAG = "parameter";
+	public static final String XML_NAME_FIELD = "name";
+	public static final String XML_VALUE_FIELD = "value";
 	private static final int FONTFACE_STANDARD = 0;
 	private static final int FONTFACE_SERIF = 1;
 	private static final int FONTFACE_DYSLEXIC = 2;
@@ -277,6 +277,7 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 						BaseSettingsActivity.setActiveAccessibilityProfile(getApplicationContext(), selectedProfileName);
 						updateAccessibilityActiveProfile();
 
+						BaseSettingsActivity.applyAccessibilitySettings(getApplicationContext());
 						Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						intent.putExtra(BaseMainMenuActivity.RESTART_INTENT, true);
