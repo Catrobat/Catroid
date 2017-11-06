@@ -74,7 +74,7 @@ public final class IconsUtil {
 	private static Rect largeIconSizeStageDialogContinue = new Rect();
 	private static int largeIconBottomBar;
 
-	private static String uglySpacingString = " ";
+	public static String uglySpacingString = " ";
 
 	private IconsUtil() {
 	}
@@ -141,7 +141,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.userbrick_neg);
 				} else if (category.equals(context.getString(R.string.category_data))) {
 					drawable = context.getResources().getDrawable(R.drawable.data_neg);
-				} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
+				} else if (category.equals(context.getString(R.string.category_lego_nxt))
+						|| category.equals(context.getString(R.string.category_lego_ev3))) {
 					drawable = context.getResources().getDrawable(R.drawable.legonxt_neg);
 				} else if (category.equals(context.getString(R.string.category_arduino))) {
 					drawable = context.getResources().getDrawable(R.drawable.arduino_neg);
@@ -171,7 +172,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.userbrick_pos);
 				} else if (category.equals(context.getString(R.string.category_data))) {
 					drawable = context.getResources().getDrawable(R.drawable.data_pos);
-				} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
+				} else if (category.equals(context.getString(R.string.category_lego_nxt))
+						|| category.equals(context.getString(R.string.category_lego_ev3))) {
 					drawable = context.getResources().getDrawable(R.drawable.legonxt_pos);
 				} else if (category.equals(context.getString(R.string.category_arduino))) {
 					drawable = context.getResources().getDrawable(R.drawable.arduino_pos);
@@ -221,7 +223,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.userbrick_neg);
 				} else if (category.equals(context.getString(R.string.category_data))) {
 					drawable = context.getResources().getDrawable(R.drawable.data_neg);
-				} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
+				} else if (category.equals(context.getString(R.string.category_lego_nxt))
+						|| category.equals(context.getString(R.string.category_lego_ev3))) {
 					drawable = context.getResources().getDrawable(R.drawable.legonxt_neg);
 				} else if (category.equals(context.getString(R.string.category_arduino))) {
 					drawable = context.getResources().getDrawable(R.drawable.arduino_neg);
@@ -251,7 +254,8 @@ public final class IconsUtil {
 					drawable = context.getResources().getDrawable(R.drawable.userbrick_pos);
 				} else if (category.equals(context.getString(R.string.category_data))) {
 					drawable = context.getResources().getDrawable(R.drawable.data_pos);
-				} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
+				} else if (category.equals(context.getString(R.string.category_lego_nxt))
+						|| category.equals(context.getString(R.string.category_lego_ev3))) {
 					drawable = context.getResources().getDrawable(R.drawable.legonxt_pos);
 				} else if (category.equals(context.getString(R.string.category_arduino))) {
 					drawable = context.getResources().getDrawable(R.drawable.arduino_pos);
@@ -310,6 +314,9 @@ public final class IconsUtil {
 							TextView textView = (TextView) tr.getChildAt(0);
 							addIcon(viewGroup.getContext(), textView, category);
 						}
+					} else if (ll.getChildAt(0) instanceof TextView) {
+						TextView textView = (TextView) ll.getChildAt(0);
+						addIcon(viewGroup.getContext(), textView, category);
 					}
 				}
 			}

@@ -51,7 +51,7 @@ public class BrickCategoryAdapter extends BaseAdapter {
 		TextView textView = (TextView) layout.getChildAt(0);
 
 		String text = textView.getText().toString();
-		if (IconsUtil.isAdditionalIcons()) {
+		if (IconsUtil.isAdditionalIcons() && text.substring(0, 1).equals(IconsUtil.uglySpacingString)) {
 			text = text.substring(1);
 		}
 		return text;
