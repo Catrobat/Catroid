@@ -40,8 +40,8 @@
              android:textAppearance="?android:attr/textAppearanceSmall"
              android:textColor="@color/white"
              android:textAllCaps="true"
-             android:layout_marginLeft="25dp"
-             android:layout_marginRight="25dp"
+             android:layout_marginStart="25dp"
+             android:layout_marginEnd="25dp"
              android:layout_marginTop="15dp"
              android:layout_marginBottom="5dp"
              android:text="@string/preference_access_active_profile" />
@@ -50,8 +50,8 @@
              android:id="@+id/access_separation_line_active_profile"
              android:layout_width="fill_parent"
              android:layout_height="1.0dp"
-             android:layout_marginLeft="15dp"
-             android:layout_marginRight="15dp"
+             android:layout_marginStart="15dp"
+             android:layout_marginEnd="15dp"
              android:background="@color/holo_blue_bright" />
 
          <LinearLayout
@@ -62,7 +62,7 @@
              android:orientation="horizontal"
              android:weightSum="10"
              android:layout_marginBottom="10dp"
-             android:layout_marginLeft="25dp">
+             android:layout_marginStart="25dp">
 
              <LinearLayout
                  android:layout_width="0dp"
@@ -83,7 +83,7 @@
                  android:layout_width="0dp"
                  android:layout_height="wrap_content"
                  android:layout_weight="8"
-                 android:layout_marginRight="15dp">
+                 android:layout_marginStart="15dp">
 
                  <TextView
                      android:id="@+id/access_active_profile_title"
@@ -111,8 +111,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/white"
             android:textAllCaps="true"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginBottom="5dp"
             android:text="@string/preference_access_profiles" />
 
@@ -120,8 +120,8 @@
             android:id="@+id/access_separation_line_profiles"
             android:layout_width="fill_parent"
             android:layout_height="1.0dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:layout_marginBottom="10dp"
             android:background="@color/holo_blue_bright" />
 
@@ -138,7 +138,7 @@
                 android:id="@+id/access_profilestandard_image"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="9dp"
+                android:layout_marginStart="9dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:src="@drawable/nolb_standard_myprofile"
@@ -159,7 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginStart="10dp"/>
 
                 <TextView
                     android:id="@+id/access_summary_profilestandard"
@@ -167,8 +167,8 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_below="@+id/access_title_profilestandard" />
 
@@ -189,7 +189,7 @@
                 android:id="@+id/access_profilemyprofile_image"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="9dp"
+                android:layout_marginStart="9dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:src="@drawable/nolb_standard_myprofile"
@@ -210,7 +210,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginStart="10dp"/>
 
                 <TextView
                     android:id="@+id/access_summary_profilemyprofile"
@@ -218,8 +218,8 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_below="@+id/access_title_profilemyprofile" />
 
@@ -234,8 +234,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/white"
             android:textAllCaps="true"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             android:text="@string/preference_access_predefined_profiles" />
@@ -244,8 +244,8 @@
             android:id="@+id/access_separation_line_predefined_profiles"
             android:layout_width="fill_parent"
             android:layout_height="1.0dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:layout_marginBottom="10dp"
             android:background="@color/holo_blue_bright" />
 
@@ -262,7 +262,7 @@
                 android:id="@+id/access_profile1_image"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="9dp"
+                android:layout_marginStart="9dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:src="@drawable/nolb_argus"
@@ -283,7 +283,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginStart="10dp"/>
 
                 <TextView
                     android:id="@+id/access_summary_profile1"
@@ -291,8 +291,8 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_below="@+id/access_title_profile1" />
 
@@ -313,7 +313,7 @@
                 android:id="@+id/access_profile2_image"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="9dp"
+                android:layout_marginStart="9dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:src="@drawable/nolb_odin"
@@ -334,7 +334,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginStart="10dp"/>
 
                 <TextView
                     android:id="@+id/access_summary_profile2"
@@ -342,8 +342,8 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_below="@+id/access_title_profile2" />
 
@@ -364,7 +364,7 @@
                 android:id="@+id/access_profile3_image"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="9dp"
+                android:layout_marginStart="9dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:src="@drawable/nolb_fenrir"
@@ -385,7 +385,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginStart="10dp"/>
 
                 <TextView
                     android:id="@+id/access_summary_profile3"
@@ -393,8 +393,8 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_below="@+id/access_title_profile3" />
 
@@ -415,7 +415,7 @@
                 android:id="@+id/access_profile4_image"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="9dp"
+                android:layout_marginStart="9dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:src="@drawable/nolb_tiro"
@@ -436,7 +436,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginStart="10dp"/>
 
                 <TextView
                     android:id="@+id/access_summary_profile4"
@@ -444,8 +444,8 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_below="@+id/access_title_profile4" />
 

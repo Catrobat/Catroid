@@ -1573,5 +1573,59 @@
   <string name="PetaByte_short">بيتابايت</string>
   <string name="ExaByte_short">إكسابايت</string>
   <!--  -->
-
+  <!-- Accessibility -->
+  <string name="preference_title_access">إمكانية الوصول</string>
+    <string name="preference_description_access">اختر مظهر وقم بضبط اعداداتك الشخصية لواجهة المستخدم</string>
+    <string name="preference_access_title_activity_access">تفضيلات إمكانية الوصول</string>
+    <string name="preference_access_profiles">المظاهر</string>
+    <string name="preference_access_predefined_profiles"> مظاهر محددة مسبقاً</string>
+    <string name="preference_access_active_profile">مظهر نشط</string>
+    <string name="preference_access_selected_profile">مظهر محدد</string>
+    <string name="preference_access_change_profile">التبديل الى مظاهر معرفة مسبقاً</string>
+    <string name="preference_access_apply_profile">تطبيق هذا المظهر</string>
+    <string name="preference_access_settings">الإعدادات</string>
+    <string name="preference_access_title_large_text">نص عريض</string>
+    <string name="preference_access_summary_large_text">.إعدادات النص العريض ستزيد من حجم النص.</string>
+    <string name="preference_access_choose_fontface">اختر نوع خط</string>
+    <string name="preference_access_title_fontface">نوع خط</string>
+    <string name="preference_access_summary_fontface">نوع الخط يسمح لك بإختيار نمط خط مفضل.</string>
+    <string name="preference_access_title_fontface_standard">أساسي</string>
+    <string name="preference_access_title_fontface_serif">رقيق</string>
+    <string name="preference_access_title_fontface_dyslexic">عسر القراءة</string>
+    <string name="preference_access_title_high_contrast">تباين عالي</string>
+    <string name="preference_access_summary_high_contrast">زيادة التباين لجعل نص الّبنات البرمجية أسهل للقراءة.</string>
+    <string name="preference_access_title_additional_icons">أيقونات إضافية</string>
+    <string name="preference_access_summary_additional_icons">أضافة أيقونات للفئات واللّبنات لتحسين التعرف
+عليها.</string>
+    <string name="preference_access_title_large_icons">أيقونات كبيرة</string>
+    <string name="preference_access_summary_large_icons">زيادة حجم الأيقونات.</string>
+    <string name="preference_access_title_high_contrast_icons">تباين الأيقونات</string>
+    <string name="preference_access_summary_high_contrast_icons">تغيير أيقونات اللّبنات البرمجية الى أيقونات بتباين عالي
+       </string>
+    <string name="preference_access_title_largeelementspacing">تباعد الكائنات</string>
+    <string name="preference_access_summary_largeelementspacing">تباعد الكائنات يزيد المسافة بين الكائنات
+القابلة للمس.</string>
+    <string name="preference_access_title_starter_bricks">اللّبنات البرمجية البدائية</string>
+    <string name="preference_access_summary_starter_bricks">أظهر فقط اللّبنات البرمجية البدائية لسهولة التعلم.</string>
+    <string name="preference_access_title_dragndrop_delay">تأخير السحب والإفلات</string>
+    <string name="preference_access_summary_dragndrop_delay">إضافة تأخير زمني للسحب والإفلات لـ اللّبنات
+البرمجية.</string>
+    <string name="preference_access_title_profile_standard">إفتراضي</string>
+    <string name="preference_access_summary_profile_standard">إعداداتي الإفتراضية</string>
+    <string name="preference_access_title_profile_myprofile">ملفي الشخصي</string>
+    <string name="preference_access_summary_profile_myprofile">إعداداتي الشخصية</string>
+    <string name="preference_access_title_profile_1">أرغوس</string>
+    <string name="preference_access_summary_profile_1">تحسينات مرئية: تباين عالي, أيقونات إضافية.</string>
+    <string name="preference_access_title_profile_2">أودين</string>
+    <string name="preference_access_summary_profile_2">تحسينات مرئية: نص عريض,أيقونات كبيرة,تباعد الكائنات,
+ تباين عالي</string>
+    <string name="preference_access_title_profile_3">الذئب العملاق</string>
+    <string name="preference_access_summary_profile_3">تحسينات الإدخال: تباعد الكائنات,تأخير السحب واللإفلات</string>
+    <string name="preference_access_title_profile_4">مبتدىء</string>
+    <string name="preference_access_summary_profile_4">التعلم: اللّبنات البرمجية البدائية</string>
+    <string name="preference_access_title_created_profile">مظاهر منشئة</string>
+    <string name="preference_access_summary_created_profile">لقد أنشأت ملف
+شخصي جديد! التغييرات التي قمت بها يمكن إيجادها في /ملفي الشخصي/</string>
+    <string name="preference_access_title_restart">تم تطبيق المظهر</string>
+    <string name="preference_access_summary_restart">سيتم إعادة تشغيل بوكت كوود لتطبيق التغيرات التي قمت بها</string>
 </resources>
