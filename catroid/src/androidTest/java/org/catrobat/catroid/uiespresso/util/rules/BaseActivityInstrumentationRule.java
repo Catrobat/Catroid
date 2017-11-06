@@ -91,6 +91,7 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 
 	//http://stackoverflow.com/questions/8295100/how-to-re-run-failed-junit-tests-immediately
 	//http://stackoverflow.com/questions/1492856/easy-way-of-running-the-same-junit-test-over-and-over
+	@Override
 	public Statement apply(Statement base, Description description) {
 		return statement(base, description);
 	}

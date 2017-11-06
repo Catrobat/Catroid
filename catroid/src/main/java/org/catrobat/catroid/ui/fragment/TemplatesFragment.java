@@ -98,4 +98,8 @@ public class TemplatesFragment extends ListFragment implements TemplateAdapter.O
 		dialog.setBaseUrlForTemplates(adapter.getBaseUrl());
 		dialog.show(getFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
+
+	public TemplateAdapter getTemplateAdapter() {
+		return adapter;
+	}
 }

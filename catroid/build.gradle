@@ -29,6 +29,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'io.fabric.tools:gradle:1.21.5'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 
@@ -50,6 +51,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
+apply plugin: 'com.neenbedankt.android-apt'
 
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
@@ -238,6 +240,20 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.billthefarmer:mididriver:v1.13'
+
+    def retrofitVersion = '2.3.0'
+    compile 'com.squareup.retrofit2:retrofit:' + retrofitVersion
+    compile 'com.squareup.retrofit2:converter-gson:' + retrofitVersion
+    compile 'com.squareup.retrofit2:adapter-rxjava2:'+ retrofitVersion
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    def daggerVersion = '2.11'
+    compile 'com.google.dagger:dagger:' + daggerVersion
+    apt 'com.google.dagger:dagger-compiler:' + daggerVersion
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    androidTestApt 'com.google.dagger:dagger-compiler:' + daggerVersion
+    androidTestCompile 'com.github.fabioCollini.daggermock:daggermock:0.8.1'
 
     compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
     compile fileTree(include: '*.jar', dir: 'src/main/libs')

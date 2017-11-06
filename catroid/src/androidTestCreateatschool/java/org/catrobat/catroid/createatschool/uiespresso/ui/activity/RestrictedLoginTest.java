@@ -41,8 +41,10 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dialogs.BasePrivacyPolicyDialogFragment;
-import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 import org.hamcrest.Matcher;
@@ -50,6 +52,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -75,6 +78,7 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasDat
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withResourceName;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -125,6 +129,7 @@ public class RestrictedLoginTest {
 		setFakeToken(baseActivityTestRule.getActivity(), false);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void loginDialogsUiBehaviorTest() {
 		onView(withText(R.string.dialog_restricted_login_title))
@@ -169,6 +174,7 @@ public class RestrictedLoginTest {
 				.check(matches(isDisplayed()));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void restrictedLoginDialogLinkTest() {
 		String link = Locale.getDefault().getLanguage().equals(Locale.GERMAN.getLanguage())
@@ -184,6 +190,7 @@ public class RestrictedLoginTest {
 		Intents.release();
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void restrictedLoginDialogNotShownAfterConfirmationTest() {
 		onView(withId(android.R.id.button1))
@@ -193,6 +200,7 @@ public class RestrictedLoginTest {
 		assertTrue("Token has been set but shouldn't be!", sharedPreferences.getBoolean(Constants.RESTRICTED_LOGIN_ACCEPTED, false));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void loginDialogAppearsAfterLogoutTest() {
 		setFakeToken(baseActivityTestRule.getActivity(), true);
@@ -218,6 +226,7 @@ public class RestrictedLoginTest {
 				.check(matches(isDisplayed()));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void loginWithOtherThanCreateAtSchoolUserTest() throws WebconnectionException {
 		String testUserName = "testUser" + System.currentTimeMillis();

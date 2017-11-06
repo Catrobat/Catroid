@@ -32,12 +32,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.HashMap;
@@ -74,6 +77,7 @@ public class PhiroScriptActivityTest {
 		baseActivityTestRule.launchActivity(null);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void phiroIsFirstInBrickCategoryTest() {
 		onView(withId(R.id.button_add))
@@ -86,6 +90,7 @@ public class PhiroScriptActivityTest {
 				.check(matches(withText(expectedCategoryString)));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void phiroIsFirstInFormulaEditorDeviceCategoryTest() {
 		onView(withId(R.id.brick_set_x_edit_text))

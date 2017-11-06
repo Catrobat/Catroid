@@ -252,7 +252,7 @@
             android:icon="@drawable/ic_pocketmusic"/>
 
         <activity
-            android:name="org.catrobat.catroid.ui.TemplatesActivity"
+            android:name="org.catrobat.catroid.ui.TemplateActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait" />
 

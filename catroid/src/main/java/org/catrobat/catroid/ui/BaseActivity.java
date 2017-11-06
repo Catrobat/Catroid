@@ -38,6 +38,7 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
@@ -121,7 +122,8 @@ public abstract class BaseActivity extends Activity {
 				} else if (returnByPressingBackButton) {
 					onBackPressed();
 				} else if (returnToTemplatesList) {
-					Intent intent = new Intent(this, TemplatesActivity.class);
+					Intent intent = new Intent(this, TemplateActivity.class);
+					intent.putExtra(Constants.FETCH_TEMPLATES_FROM_SERVER, true);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 				}
