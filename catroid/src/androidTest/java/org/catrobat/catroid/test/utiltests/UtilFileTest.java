@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.utiltests;
 
 import android.os.Environment;
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
@@ -131,7 +132,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 	}
 
 	public void testGetProjectNames() {
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		ProjectManager.getInstance().setProject(project);
 		Sprite sprite = new SingleSprite("new sprite");
 		project.getDefaultScene().addSprite(sprite);

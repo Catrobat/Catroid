@@ -40,7 +40,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,11 +69,6 @@ public class GoToBrick extends BrickBaseType {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		return clone();
 	}
 
 	@Override
@@ -306,19 +300,7 @@ public class GoToBrick extends BrickBaseType {
 		return copy;
 	}
 
-	public Sprite getDestinationSprite() {
-		return destinationSprite;
-	}
-
-	public void setDestinationSprite(Sprite destinationSprite) {
-		this.destinationSprite = destinationSprite;
-	}
-
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpackHiddenSprite(getDestinationSprite());
-		setDestinationSprite(backPackedSprite);
-		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}
 }

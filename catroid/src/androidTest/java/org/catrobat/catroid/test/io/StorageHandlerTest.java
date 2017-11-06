@@ -59,20 +59,14 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -80,16 +74,12 @@ import java.util.Set;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
 import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
-import static org.catrobat.catroid.utils.Utils.buildPath;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 
 public class StorageHandlerTest extends InstrumentationTestCase {
 	private final StorageHandler storageHandler;
 	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
-	private final String backpackJsonValid = "backpack.json";
-	private final String backpackJsonInvalid = "backpack_invalid.json";
-	private final String backpackFilePath = buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
-			StorageHandler.BACKPACK_FILENAME);
+	private Project currentProject;
 	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
 	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
@@ -102,17 +92,17 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 	public void setUp() throws Exception {
 		DefaultProjectHandler.createAndSaveDefaultProject(getInstrumentation().getTargetContext());
 		super.setUp();
-//		currentProject = ProjectManager.getInstance().getCurrentProject();
+		currentProject = ProjectManager.getInstance().getCurrentProject();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-//		ProjectManager.getInstance().setProject(currentProject);
+		ProjectManager.getInstance().setProject(currentProject);
 		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
 
-	public void testSerializeProject() {
+	public void testSerializeProject() throws Exception {
 		final int xPosition = 457;
 		final int yPosition = 598;
 		final float size = 0.8f;
@@ -187,15 +177,6 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 				interpretFormula(actualXPosition, null).intValue());
 		assertEquals("YPosition was not deserialized right", yPosition,
 				interpretFormula(actualYPosition, null).intValue());
-
-		// Test version codes and names
-		//		final int preVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", project, false);
-		//		final int postVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", loadedProject, false);
-		//		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
-		//
-		//		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
-		//		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
-		//		assertEquals("Version names are not equal", preVersionName, postVersionName);
 	}
 
 	public void testSanityCheck() throws IOException {
@@ -311,8 +292,6 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
 		};
 
-		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronousTask", false);
-
 		Project project = generateMultiplePermissionsProject();
 		ProjectManager.getInstance().setProject(project);
 
@@ -367,48 +346,6 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
 		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
 		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
-	}
-
-	public void testDeserializeInvalidBackpackFile() throws IOException {
-		File backPackFile = loadBackpackFile(backpackJsonInvalid);
-
-		BackPackListManager.getInstance().loadBackpack();
-		TestUtils.sleep(1000);
-
-		assertTrue("Backpacked items loaded despite file is invalid!", BackPackListManager.getInstance().getBackpack()
-				.backpackedScripts.isEmpty());
-		assertFalse("Backpack.json should be deleted!", backPackFile.exists());
-	}
-
-	public void testDeserializeValidBackpackFile() throws IOException {
-		File backPackFile = loadBackpackFile(backpackJsonValid);
-
-		BackPackListManager.getInstance().loadBackpack();
-		TestUtils.sleep(1000);
-
-		assertFalse("Backpacked sprites not loaded!", BackPackListManager.getInstance().getBackpack().backpackedSprites.isEmpty());
-		assertFalse("Backpacked scripts not loaded!", BackPackListManager.getInstance().getBackpack().hiddenBackpackedScripts.isEmpty());
-		assertFalse("Backpacked looks not loaded!", BackPackListManager.getInstance().getBackpack().hiddenBackpackedLooks.isEmpty());
-		assertFalse("Backpacked sounds not loaded!", BackPackListManager.getInstance().getBackpack().hiddenBackpackedSounds.isEmpty());
-		assertTrue("Backpack.json should not be deleted!", backPackFile.exists());
-	}
-
-	private File loadBackpackFile(String jsonName) throws IOException {
-		UiTestUtils.clearBackPack(true);
-		InputStream inputStream = getInstrumentation().getContext().getResources().getAssets().open(jsonName);
-		File backPackFile = new File(backpackFilePath);
-		assertFalse("Backpack.json should not exist!", backPackFile.exists());
-
-		byte[] buffer = new byte[inputStream.available()];
-		inputStream.read(buffer);
-
-		File targetFile = new File(backpackFilePath);
-		OutputStream outStream = new FileOutputStream(targetFile);
-		outStream.write(buffer);
-		assertTrue("Backpack.json should exist!", backPackFile.exists());
-		assertTrue("Backpacked items not deleted!", BackPackListManager.getInstance().getBackpack()
-				.backpackedScripts.isEmpty());
-		return backPackFile;
 	}
 
 	private Project generateMultiplePermissionsProject() {

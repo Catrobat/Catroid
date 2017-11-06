@@ -312,7 +312,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("No password do not match error appeared", solo.searchText(solo.getString(R.string.register_password_mismatch)));
 		solo.clickOnButton(0);
 
-		//Check show password is checked and unchecked because solo automatically shows hidden password
+		//Check showDialog password is checked and unchecked because solo automatically shows hidden password
 		CheckBox showPassword = (CheckBox) solo.getView(R.id.dialog_register_checkbox_showpassword);
 		solo.clickOnView(showPassword);
 		solo.sleep(300);

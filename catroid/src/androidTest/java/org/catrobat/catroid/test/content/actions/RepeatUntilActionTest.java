@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -63,7 +64,7 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		testSprite = new SingleSprite("testSprite");
-		project = new Project(null, "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		testScript = new StartScript();
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);

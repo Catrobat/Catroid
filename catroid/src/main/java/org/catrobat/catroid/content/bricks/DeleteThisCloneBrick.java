@@ -58,12 +58,6 @@ public class DeleteThisCloneBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		DeleteThisCloneBrick copyBrick = (DeleteThisCloneBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public Brick clone() {
 		return new DeleteThisCloneBrick();
 	}

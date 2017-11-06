@@ -22,32 +22,19 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ListFragment;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -60,327 +47,34 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.dialogs.RenameVariableDialog;
-import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.utils.ToastUtil;
 
-public class FormulaEditorDataFragment extends ListFragment implements Dialog.OnKeyListener,
-		DataAdapter.OnCheckedChangeListener, DataAdapter.OnListItemClickListener, NewUserListDialogListener, NewDataDialog.NewVariableDialogListener {
-	private static final String TAG = FormulaEditorDataFragment.class.getSimpleName();
+public class FormulaEditorDataFragment extends ListFragment implements
+		DataAdapter.OnCheckedChangeListener,
+		DataAdapter.OnListItemClickListener,
+		NewUserListDialogListener,
+		NewDataDialog.NewVariableDialogListener {
 
 	public static final String USER_DATA_TAG = "userDataFragment";
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 
-	private String actionBarTitle;
-	private ActionMode contextActionMode;
-	private View selectAllActionModeButton;
-	private boolean inContextMode;
-	private int index;
 	private DataAdapter adapter;
+	private ActionMode actionMode;
 
-	public FormulaEditorDataFragment() {
-		contextActionMode = null;
-		index = -1;
-		inContextMode = false;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.d(TAG, "FormulaEditorData onresume()");
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-		initializeDataAdapter();
-
-		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_formula_editor_data_list, container, false);
-	}
-
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		if (!inContextMode) {
-			super.onCreateContextMenu(menu, view, menuInfo);
-			getActivity().getMenuInflater().inflate(R.menu.context_menu_formulaeditor_userlist, menu);
-			boolean visible = !(getActivity() instanceof UserBrickScriptActivity);
-			menu.findItem(R.id.context_formula_editor_userlist_delete).setVisible(visible);
-			menu.findItem(R.id.context_formula_editor_userlist_rename).setVisible(visible);
-		}
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.menu_formulaeditor_data_fragment, menu);
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		for (int index = 0; index < menu.size(); index++) {
-			menu.getItem(index).setVisible(false);
-		}
-		boolean deleteVisible = !(getActivity() instanceof UserBrickScriptActivity);
-		menu.findItem(R.id.formula_editor_data_item_delete).setVisible(deleteVisible);
-
-		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
-		getActivity().getActionBar().setTitle(actionBarTitle);
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-
-		super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				closeFormulaEditorDataFragment();
-				return true;
-
-			case R.id.formula_editor_data_item_delete:
-				inContextMode = true;
-				contextActionMode = getActivity().startActionMode(contextModeCallback);
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public void onListItemClick(int position) {
-		if (!inContextMode) {
-			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity()
-					.getFragmentManager().findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-			if (formulaEditor != null) {
-				Object itemToAdd = adapter.getItem(position);
-				if (itemToAdd instanceof UserVariable) {
-					formulaEditor.addUserVariableToActiveFormula(((UserVariable) itemToAdd).getName());
-				} else if (itemToAdd instanceof UserList) {
-					formulaEditor.addUserListToActiveFormula(((UserList) itemToAdd).getName());
-				}
-				formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
-			}
-			KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
-			onKey(null, keyEvent.getKeyCode(), keyEvent);
-		}
-	}
-
-	@Override
-	public void onCheckedChange() {
-		if (!inContextMode) {
-			return;
-		}
-
-		updateActionModeTitle();
-		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
-				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
-	}
-
-	private void updateActionModeTitle() {
-		String title = adapter.getAmountOfCheckedItems()
-				+ " "
-				+ getActivity().getResources().getQuantityString(
-				R.plurals.formula_editor_data_fragment_context_action_item_selected,
-				adapter.getAmountOfCheckedItems());
-
-		contextActionMode.setTitle(title);
-	}
-
-	@Override
-	public void onStart() {
-
-		this.registerForContextMenu(getListView());
-		getListView().setItemsCanFocus(true);
-		getListView().setLongClickable(true);
-		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
-				if (!inContextMode) {
-					index = position;
-					getActivity().openContextMenu(getListView());
-					return true;
-				}
-				return false;
-			}
-		});
-
-		setAddButtonListener(getActivity());
-
-		adapter.notifyDataSetChanged();
-
-		super.onStart();
-	}
-
-	public void setAddButtonListener(final Activity activity) {
-		ImageButton buttonAdd = (ImageButton) activity.findViewById(R.id.button_add);
-		buttonAdd.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				NewDataDialog dialog = new NewDataDialog(NewDataDialog.DialogType.SHOW_LIST_CHECKBOX);
-				dialog.addUserListDialogListener(FormulaEditorDataFragment.this);
-				dialog.addVariableDialogListener(FormulaEditorDataFragment.this);
-				dialog.show(activity.getFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
-			}
-		});
-	}
-
-	@Override
-	public boolean onContextItemSelected(android.view.MenuItem item) {
-
-		switch (item.getItemId()) {
-			case R.id.context_formula_editor_userlist_delete:
-				if (!adapter.isEmpty()) {
-					Object itemToDelete = adapter.getItem(index);
-					if (itemToDelete instanceof UserList) {
-						ProjectManager.getInstance().getCurrentScene().getDataContainer()
-								.deleteUserListByName(getNameOfItemInAdapter(index));
-						adapter.notifyDataSetChanged();
-						getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_USERLIST_DELETED));
-					} else {
-						final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-						alertDialog.setTitle(R.string.deletion_alert_title);
-						alertDialog.setMessage(R.string.deletion_alert_text);
-						alertDialog.setPositiveButton(R.string.deletion_alert_yes,
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog, int which) {
-										ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(getNameOfItemInAdapter(index));
-										adapter.notifyDataSetChanged();
-										getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_VARIABLE_DELETED));
-									}
-								});
-						alertDialog.setNegativeButton(R.string.deletion_alert_no, new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-							}
-						});
-						alertDialog.show();
-					}
-				}
-				return true;
-			case R.id.context_formula_editor_userlist_rename:
-				Object itemToRename = adapter.getItem(index);
-				RenameVariableDialog dialog;
-				if (itemToRename instanceof UserVariable) {
-					dialog = new RenameVariableDialog((UserVariable) itemToRename, adapter, RenameVariableDialog
-							.DialogType.USER_VARIABLE);
-				} else if (itemToRename instanceof UserList) {
-					dialog = new RenameVariableDialog((UserList) itemToRename, adapter, RenameVariableDialog
-							.DialogType.USER_LIST);
-				} else {
-					return false;
-				}
-				dialog.show(getActivity().getFragmentManager(), RenameVariableDialog.DIALOG_FRAGMENT_TAG);
-				return true;
-			default:
-				return super.onContextItemSelected(item);
-		}
-	}
-
-	@Override
-	public void onFinishNewUserListDialog(Spinner spinnerToUpdate, UserList userList) {
-		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void onFinishNewVariableDialog(Spinner spinnerToUpdate, UserVariable newUserVariable) {
-		adapter.notifyDataSetChanged();
-	}
-
-	public void showFragment(Context context) {
-		Activity activity = (Activity) context;
-		FragmentManager fragmentManager = activity.getFragmentManager();
-		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-
-		Fragment formulaEditorFragment = fragmentManager
-				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		fragTransaction.hide(formulaEditorFragment);
-
-		BottomBar.showBottomBar(activity);
-		BottomBar.hidePlayButton(activity);
-
-		fragTransaction.show(this);
-		fragTransaction.commit();
-
-		if (adapter != null) {
-			initializeDataAdapter();
-		}
-	}
-
-	private void initializeDataAdapter() {
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		DataContainer dataContainer = currentScene.getDataContainer();
-		adapter = dataContainer.createDataAdapter(getActivity(), currentUserBrick, currentSprite);
-		setListAdapter(adapter);
-		adapter.setOnCheckedChangeListener(this);
-		adapter.setOnListItemClickListener(this);
-		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public boolean onKey(DialogInterface d, int keyCode, KeyEvent event) {
-		switch (keyCode) {
-			case KeyEvent.KEYCODE_BACK:
-				closeFormulaEditorDataFragment();
-				return true;
-			default:
-				break;
-		}
-		return false;
-	}
-
-	private void closeFormulaEditorDataFragment() {
-		BottomBar.hideBottomBar(getActivity());
-		((ScriptActivity) getActivity()).updateHandleAddButtonClickListener();
-
-		FragmentTransaction fragmentTransaction = getActivity().getFragmentManager()
-				.beginTransaction();
-		fragmentTransaction.hide(this);
-		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getActivity()
-				.getFragmentManager().findFragmentByTag(
-						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		formulaEditorFragment.updateBrickView();
-		fragmentTransaction.show(formulaEditorFragment);
-		fragmentTransaction.commit();
-	}
-
-	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
-		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				for (int position = 0; position < adapter.getCount(); position++) {
-					adapter.addCheckedItem(position);
-				}
-				adapter.notifyDataSetChanged();
-				onCheckedChange();
-			}
-		});
-	}
-
-	private ActionMode.Callback contextModeCallback = new ActionMode.Callback() {
+	private ActionMode.Callback callback = new ActionMode.Callback() {
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			adapter.setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			adapter.notifyDataSetChanged();
-			mode.setTitle("0 "
-					+ getActivity().getResources().getQuantityString(
-					R.plurals.formula_editor_data_fragment_context_action_item_selected, 0));
+
+			mode.setTitle(getResources().getQuantityString(R.plurals.formula_editor_data_am_title, 0, 0));
 			BottomBar.hideBottomBar(getActivity());
-			addSelectAllActionModeButton(mode, menu);
 			return true;
 		}
 
@@ -396,53 +90,216 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			final DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
-			if (!adapter.isEmpty()) {
-
-				final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-				alertDialog.setTitle(R.string.deletion_alert_title);
-				alertDialog.setMessage(R.string.deletion_alert_text);
-				alertDialog.setPositiveButton(R.string.deletion_alert_yes,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								for (UserList var : adapter.getCheckedUserLists()) {
-									dataContainer.deleteUserListByName(var.getName());
-								}
-								for (UserVariable var : adapter.getCheckedUserVariables()) {
-									dataContainer.deleteUserVariableByName(var.getName());
-								}
-
-								adapter.notifyDataSetChanged();
-								getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_USERLIST_DELETED));
-								getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_VARIABLE_DELETED));
-
-								adapter.setSelectMode(ListView.CHOICE_MODE_NONE);
-								contextActionMode = null;
-								inContextMode = false;
-								getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
-							}
-						});
-				alertDialog.setNegativeButton(R.string.deletion_alert_no, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						adapter.setSelectMode(ListView.CHOICE_MODE_NONE);
-						contextActionMode = null;
-						inContextMode = false;
-						getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
-					}
-				});
-				alertDialog.show();
+			if (adapter.getCheckedItems().isEmpty()) {
+				finishActionMode();
+			} else {
+				showDeleteAlert();
 			}
 		}
 	};
 
-	private String getNameOfItemInAdapter(int position) {
-		Object item = adapter.getItem(position);
-		if (item instanceof UserList) {
-			return ((UserList) item).getName();
-		} else if (item instanceof UserVariable) {
-			return ((UserVariable) item).getName();
+	private void finishActionMode() {
+		adapter.setSelectMode(ListView.CHOICE_MODE_NONE);
+		adapter.clearCheckedItems();
+		adapter.notifyDataSetChanged();
+		actionMode = null;
+		BottomBar.showBottomBar(getActivity());
+	}
+
+	public void showDeleteAlert() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle(R.string.deletion_alert_title)
+				.setMessage(R.string.deletion_alert_text)
+				.setPositiveButton(R.string.deletion_alert_yes, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						deleteItems();
+						finishActionMode();
+					}
+				})
+				.setNegativeButton(R.string.deletion_alert_no, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finishActionMode();
+						dialog.dismiss();
+					}
+				});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+	}
+
+	private void deleteItems() {
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+
+		for (UserList var : adapter.getCheckedUserLists()) {
+			dataContainer.deleteUserListByName(var.getName());
+		}
+		for (UserVariable var : adapter.getCheckedUserVariables()) {
+			dataContainer.deleteUserVariableByName(var.getName());
 		}
 
-		return null;
+		adapter.notifyDataSetChanged();
+		finishActionMode();
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_formula_editor_data_list, container, false);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstance) {
+		super.onActivityCreated(savedInstance);
+		setHasOptionsMenu(true);
+		initializeDataAdapter();
+
+		getListView().setLongClickable(true);
+		getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+				CharSequence[] items = new CharSequence[] {
+						getString(R.string.delete),
+						getString(R.string.rename),
+				};
+
+				builder.setItems(items, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+							case 0:
+								adapter.addCheckedItem(position);
+								showDeleteAlert();
+								break;
+							case 1:
+								Object itemToRename = adapter.getItem(position);
+								RenameVariableDialog renameDialog;
+
+								if (itemToRename instanceof UserVariable) {
+									renameDialog = new RenameVariableDialog((UserVariable) itemToRename, adapter,
+											RenameVariableDialog.DialogType.USER_VARIABLE);
+									renameDialog.show(getFragmentManager(), RenameVariableDialog.DIALOG_FRAGMENT_TAG);
+								} else if (itemToRename instanceof UserList) {
+									renameDialog = new RenameVariableDialog((UserList) itemToRename, adapter,
+											RenameVariableDialog.DialogType.USER_LIST);
+									renameDialog.show(getFragmentManager(), RenameVariableDialog.DIALOG_FRAGMENT_TAG);
+								}
+								break;
+							default:
+								dialog.dismiss();
+						}
+					}
+				});
+
+				builder.setCancelable(true);
+				builder.show();
+				return false;
+			}
+		});
+	}
+
+	@Override
+	public void onResume() {
+		getActivity().getActionBar().setTitle(R.string.category_data);
+		BottomBar.showBottomBar(getActivity());
+		BottomBar.hidePlayButton(getActivity());
+		super.onResume();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		BottomBar.hideBottomBar(getActivity());
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, view, menuInfo);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_formulaeditor_userlist, menu);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		for (int index = 0; index < menu.size(); index++) {
+			menu.getItem(index).setVisible(false);
+		}
+		menu.findItem(R.id.delete).setVisible(true);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.delete:
+				startActionMode();
+				break;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+		return true;
+	}
+
+	private void startActionMode() {
+		// This won't work because getCount() of the data adapter.
+		if (adapter.isEmpty()) {
+			ToastUtil.showError(getActivity(), R.string.am_empty_list);
+		} else {
+			actionMode = getActivity().startActionMode(callback);
+		}
+	}
+
+	@Override
+	public void onListItemClick(int position) {
+		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
+				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+
+		Object itemToAdd = adapter.getItem(position);
+		if (itemToAdd instanceof UserVariable) {
+			formulaEditor.addUserVariableToActiveFormula(((UserVariable) itemToAdd).getName());
+		} else if (itemToAdd instanceof UserList) {
+			formulaEditor.addUserListToActiveFormula(((UserList) itemToAdd).getName());
+		}
+
+		formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+		getActivity().onBackPressed();
+	}
+
+	@Override
+	public void onCheckedChange() {
+		if (actionMode != null) {
+			actionMode.setTitle(getResources().getQuantityString(R.plurals.formula_editor_data_am_title,
+					adapter.getAmountOfCheckedItems(),
+					adapter.getAmountOfCheckedItems()));
+		}
+	}
+
+	public void handleAddButton() {
+		NewDataDialog dialog = new NewDataDialog(NewDataDialog.DialogType.SHOW_LIST_CHECKBOX);
+		dialog.addUserListDialogListener(this);
+		dialog.addVariableDialogListener(this);
+		dialog.show(getFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	@Override
+	public void onFinishNewUserListDialog(Spinner spinnerToUpdate, UserList userList) {
+		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onFinishNewVariableDialog(Spinner spinnerToUpdate, UserVariable newUserVariable) {
+		adapter.notifyDataSetChanged();
+	}
+
+	private void initializeDataAdapter() {
+		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		DataContainer dataContainer = currentScene.getDataContainer();
+		adapter = dataContainer.createDataAdapter(getActivity(), currentUserBrick, currentSprite);
+		setListAdapter(adapter);
+		adapter.setOnCheckedChangeListener(this);
+		adapter.setOnListItemClickListener(this);
+		adapter.notifyDataSetChanged();
 	}
 }

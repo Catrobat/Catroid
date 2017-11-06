@@ -95,12 +95,6 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		SetRotationStyleBrick copyBrick = (SetRotationStyleBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_rotation_style, null);
 

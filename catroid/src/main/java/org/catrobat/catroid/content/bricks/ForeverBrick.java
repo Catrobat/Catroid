@@ -37,12 +37,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	protected transient LoopEndBrick loopEndBrick;
-	private transient long beginLoopTime;
-
-	private transient LoopBeginBrick copy;
 
 	public ForeverBrick() {
 	}
@@ -54,7 +52,9 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	@Override
 	public Brick clone() {
-		return new ForeverBrick();
+		ForeverBrick clone = new ForeverBrick();
+		clone.setLoopEndBrick(loopEndBrick);
+		return clone;
 	}
 
 	@Override
@@ -85,24 +85,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
-		ForeverBrick copyBrick = (ForeverBrick) clone();
-		copy = copyBrick;
-		return copyBrick;
-	}
-
-	@Override
-	public long getBeginLoopTime() {
-		return beginLoopTime;
-	}
-
-	@Override
-	public void setBeginLoopTime(long beginLoopTime) {
-		this.beginLoopTime = beginLoopTime;
-	}
-
-	@Override
 	public LoopEndBrick getLoopEndBrick() {
 		return loopEndBrick;
 	}
@@ -110,11 +92,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	@Override
 	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
 		this.loopEndBrick = loopEndBrick;
-	}
-
-	@Override
-	public LoopBeginBrick getCopy() {
-		return copy;
 	}
 
 	@Override

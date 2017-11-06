@@ -44,7 +44,7 @@
   <string name="move">Hamisha</string>
   <string name="backpack_add">Ongeza kwenye Mkoba</string>
   <string name="backpack">Mkoba</string>
-  <string name="packing">Fungasha</string>
+  <string name="pack">Fungasha</string>
   <string name="unpack">pakua</string>
   <string name="unpack_bg">Fungusha kama mandharinyuma</string>
   <string name="unpack_object">Fungusha kama kipengele</string>
@@ -1448,7 +1448,7 @@
   <string name="formula_editor_intro_summary_device">Kwenye \"kifaa\"unaweza kupata taarifa kuhusu rekodi za simu au tableti yako.\n Kwa mfano, ugeuzaji wa kifaa chako, au sauti kubwa ya sehemu inayokuzunguka.</string>
   <string name="formula_editor_intro_title_data">Data</string>
   <string name="formula_editor_intro_summary_data">Vitofautishi na orodha ambazo hutumika kwenye programu vinaweza kupatikana hapa\nUnaweza ongeza haya kwenye fomula yako, au ongeza mpya.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="one">Kipengele kilichoteuliwa!</item>
     <item quantity="other">Items selected!</item>
   </plurals>

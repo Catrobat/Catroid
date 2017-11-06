@@ -37,19 +37,17 @@ public class WhenNfcScript extends Script {
 	private boolean matchAll = true;
 
 	public WhenNfcScript() {
-		super();
 		nfcTag = null;
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenNfcScript cloneScript = new WhenNfcScript(nfcTag);
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		WhenNfcScript clone = new WhenNfcScript(nfcTag);
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
 	public WhenNfcScript(NfcTagData nfcTag) {
-		super();
 		this.nfcTag = nfcTag;
 	}
 

@@ -44,7 +44,7 @@
   <string name="move">Flytt</string>
   <string name="backpack_add">Legg til i backpack</string>
   <string name="backpack">Backpack</string>
-  <string name="packing">Pakk sammen</string>
+  <string name="pack">Pakk sammen</string>
   <string name="unpack">Pakk ut</string>
   <string name="unpack_bg">Pakk ut som bakgrunn</string>
   <string name="unpack_object">Pakk ut som objekt</string>
@@ -1458,7 +1458,7 @@
         smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
   <string name="formula_editor_intro_title_data">Data</string>
   <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="one">Element valgt!</item>
     <item quantity="other">Elementer valgt!</item>
   </plurals>

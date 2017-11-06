@@ -182,19 +182,8 @@ public class AskBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public AskBrick copyBrickForSprite(Sprite sprite) {
-		AskBrick copyBrick = clone();
-		if (userVariable != null) {
-			copyBrick.userVariable = userVariable;
-		}
-
-		return copyBrick;
-	}
-
-	@Override
 	public AskBrick clone() {
-		AskBrick clonedBrick = new AskBrick(getFormulaWithBrickField(BrickField.ASK_QUESTION)
-				.clone(), userVariable);
+		AskBrick clonedBrick = new AskBrick(getFormulaWithBrickField(BrickField.ASK_QUESTION).clone(), userVariable);
 		clonedBrick.setBackPackedData(backPackedData);
 		return clonedBrick;
 	}

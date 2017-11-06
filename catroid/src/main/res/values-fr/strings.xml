@@ -44,7 +44,7 @@
   <string name="move">Déplacer</string>
   <string name="backpack_add">Ajouter au sac à dos</string>
   <string name="backpack">Sac à dos</string>
-  <string name="packing">Grouper</string>
+  <string name="pack">Grouper</string>
   <string name="unpack">Dégrouper</string>
   <string name="unpack_bg">Dégrouper comme arrière-plan</string>
   <string name="unpack_object">Dégrouper comme objet</string>
@@ -1464,7 +1464,7 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
         smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
   <string name="formula_editor_intro_title_data">Données</string>
   <string name="formula_editor_intro_summary_data">Les variables et listes utilisées dans votre programme se trouvent ici. \nVous pouvez simplement les insérer dans votre formule, ou en ajouter de nouvelles.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="one">Élément sélectionné</item>
     <item quantity="other">Éléments sélectionnés</item>
   </plurals>

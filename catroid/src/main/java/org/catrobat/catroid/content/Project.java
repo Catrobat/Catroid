@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -78,11 +77,13 @@ public class Project implements Serializable {
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
+	public Project() {
+	}
+
 	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
 
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
-
 		xmlHeader.setlandscapeMode(landscapeMode);
 
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
@@ -95,6 +96,7 @@ public class Project implements Serializable {
 		}
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
+
 		setDeviceData(context);
 
 		if (isCastProject) {
@@ -102,13 +104,8 @@ public class Project implements Serializable {
 		}
 
 		MessageContainer.clear();
-		//This is used for tests
-		if (context == null) {
-			//Because in test project we can't find the string
-			sceneList.add(new Scene(context, "Scene 1", this));
-		} else {
-			sceneList.add(new Scene(context, context.getString(R.string.default_scene_name, 1), this));
-		}
+
+		sceneList.add(new Scene(context, context.getString(R.string.default_scene_name, 1), this));
 		xmlHeader.scenesEnabled = true;
 	}
 
@@ -120,24 +117,20 @@ public class Project implements Serializable {
 		this(context, name, false);
 	}
 
-	public Project(SupportProject oldProject, Context context) {
-		xmlHeader = oldProject.xmlHeader;
-		settings = oldProject.settings;
-		projectVariables = oldProject.dataContainer.projectVariables;
-		projectLists = oldProject.dataContainer.projectLists;
-		Scene scene;
+	public Project(SupportProject supportProject, Context context) {
+		xmlHeader = supportProject.xmlHeader;
+		settings = supportProject.settings;
 
-		try {
-			scene = new Scene(context, context.getString(R.string.default_scene_name, 1), this);
-		} catch (Resources.NotFoundException e) {
-			//Because in test project we can't find the string
-			scene = new Scene(context, "Scene 1", this);
-		}
+		projectVariables = supportProject.dataContainer.projectVariables;
+		projectLists = supportProject.dataContainer.projectLists;
+
 		DataContainer container = new DataContainer(this);
-		removeInvalidVariablesAndLists(oldProject.dataContainer);
-		container.setSpriteVariablesForSupportContainer(oldProject.dataContainer);
+		removeInvalidVariablesAndLists(supportProject.dataContainer);
+		container.setSpriteVariablesForSupportContainer(supportProject.dataContainer);
+
+		Scene scene = new Scene(context, context.getString(R.string.default_scene_name, 1), this);
 		scene.setDataContainer(container);
-		scene.setSpriteList(oldProject.spriteList);
+		scene.setSpriteList(supportProject.spriteList);
 		sceneList.add(scene);
 	}
 
@@ -179,10 +172,6 @@ public class Project implements Serializable {
 		return sceneOrder;
 	}
 
-	public void setSceneList(List<Scene> scenes) {
-		sceneList = scenes;
-	}
-
 	public void addScene(Scene scene) {
 		sceneList.add(scene);
 	}
@@ -209,24 +198,6 @@ public class Project implements Serializable {
 		return projectLists;
 	}
 
-	public UserVariable getProjectVariableWithName(String name) {
-		for (UserVariable variable : getProjectVariables()) {
-			if (name.equals(variable.getName())) {
-				return variable;
-			}
-		}
-		return null;
-	}
-
-	public UserList getProjectListWithName(String name) {
-		for (UserList list : getProjectLists()) {
-			if (name.equals(list.getName())) {
-				return list;
-			}
-		}
-		return null;
-	}
-
 	public void setChromecastFields() {
 		xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
 		xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
@@ -248,10 +219,6 @@ public class Project implements Serializable {
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
 			ScreenValues.SCREEN_WIDTH = tmp;
 		}
-	}
-
-	public boolean isScenesEnabled() {
-		return sceneList.size() > 1;
 	}
 
 	public void setName(String name) {
@@ -346,10 +313,6 @@ public class Project implements Serializable {
 		xmlHeader.setTags(tags);
 	}
 
-	// default constructor for XMLParser
-	public Project() {
-	}
-
 	public List<Setting> getSettings() {
 		return settings;
 	}
@@ -363,10 +326,6 @@ public class Project implements Serializable {
 		return null;
 	}
 
-	public boolean containsScene(Scene scene) {
-		return getSceneOrder().contains(scene.getName());
-	}
-
 	public boolean manualScreenshotExists(String manualScreenshotName) {
 
 		String path = Utils.buildProjectPath(getName()) + "/" + manualScreenshotName;
@@ -375,10 +334,6 @@ public class Project implements Serializable {
 			return false;
 		}
 		return true;
-	}
-
-	public void setXmlHeader(XmlHeader xmlHeader) {
-		this.xmlHeader = xmlHeader;
 	}
 
 	public void saveLegoNXTSettingsToProject(Context context) {
@@ -465,12 +420,6 @@ public class Project implements Serializable {
 
 	public boolean isCastProject() {
 		return xmlHeader.isCastProject();
-	}
-
-	public void refreshSpriteReferences() {
-		for (Scene scene : sceneList) {
-			scene.refreshSpriteReferences();
-		}
 	}
 
 	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {

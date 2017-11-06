@@ -22,11 +22,13 @@
  */
 
 import groovy.json.StringEscapeUtils
-import groovy.xml.XmlUtil
 import groovy.xml.StreamingMarkupBuilder
+import groovy.xml.XmlUtil
+
 import java.nio.file.Files
-import static java.nio.file.StandardCopyOption.*
 import java.util.zip.ZipFile
+
+import static java.nio.file.StandardCopyOption.*
 
 ext {
     projectId = ''

@@ -24,6 +24,7 @@
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
 import android.nfc.NdefMessage;
+import android.support.test.InstrumentationRegistry;
 
 import junit.framework.Assert;
 
@@ -77,7 +78,7 @@ public class WhenNfcBrickStageTest {
 	private WhenNfcScript scriptUnderTest;
 
 	private WhenNfcScript createProjectWithNfcAndSetVariable() {
-		Project project = new Project(null, "nfcStageTestProject");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "nfcStageTestProject");
 
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		readTagId = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_ID);

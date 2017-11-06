@@ -156,7 +156,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.BackPackActivity"
+            android:name=".ui.recyclerview.backpack.BackpackActivity"
             android:noHistory="true"
 
             android:screenOrientation="portrait"
@@ -189,17 +189,17 @@
              android:name=".ui.BaseActivity"
              android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.ProgramMenuActivity"
+            android:name=".ui.SpriteAttributesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.ScriptActivity"
+            android:name=".ui.SpriteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.UserBrickScriptActivity"
+            android:name=".ui.UserBrickSpriteActivity"
 
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.MyProjectsActivity"
+            android:name=".ui.ProjectListActivity"
             android:noHistory="false"
 
             android:screenOrientation="portrait" />

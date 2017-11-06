@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.devices.arduino;
 
 import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,9 +36,10 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
-import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
 
@@ -59,7 +61,8 @@ public class ArduinoSettingsTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 
-	public void testIfArduinoBricksAreEnabledIfItItUsedInAProgram() throws IOException, CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+	public void testIfArduinoBricksAreEnabledIfItItUsedInAProgram() throws IOException, CompatibilityProjectException,
+			OutdatedVersionProjectException, LoadingProjectException, InterruptedException {
 
 		createProjectArduino();
 
@@ -71,21 +74,23 @@ public class ArduinoSettingsTest extends InstrumentationTestCase {
 		assertTrue("After loading a project which needs Arduino it should be enabled",
 				SettingsActivity.isArduinoSharedPreferenceEnabled(context));
 
-		ProjectManager.getInstance().deleteProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, context);
+		StorageHandler.deleteDir(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 	}
 
-	private void createProjectArduino() {
-		Project projectArduino = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+	private void createProjectArduino() throws InterruptedException {
+		Project projectArduino = new Project(InstrumentationRegistry.getTargetContext(),
+				UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new SingleSprite("Arduino");
+
 		StartScript startScript = new StartScript();
 		ArduinoSendPWMValueBrick arduinoArduinoSendPWMValueBrick = new ArduinoSendPWMValueBrick(3, 255);
 		startScript.addBrick(arduinoArduinoSendPWMValueBrick);
 		sprite.addScript(startScript);
 		projectArduino.getDefaultScene().addSprite(sprite);
 
-		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronousTask", false);
 		ProjectManager.getInstance().setProject(projectArduino);
 		ProjectManager.getInstance().saveProject(context);
+		Thread.sleep(100);
 		ProjectManager.getInstance().setProject(null);
 	}
 }

@@ -44,7 +44,7 @@
   <string name="move">منتقل ڪيو</string>
   <string name="backpack_add">پٺي واري ٿيلهي ۾ وجهو</string>
   <string name="backpack">بيڪ پيڪ</string>
-  <string name="packing">ويڙهيو</string>
+  <string name="pack">ويڙهيو</string>
   <string name="unpack">کوليو</string>
   <string name="unpack_bg">پوئين نظاري طور کوليو</string>
   <string name="unpack_object">آبجيڪٽ طور کوليو</string>
@@ -1478,7 +1478,7 @@
         smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
   <string name="formula_editor_intro_title_data">Data</string>
   <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="one">Item selected!</item>
     <item quantity="other">Items selected!</item>
   </plurals>

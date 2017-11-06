@@ -22,10 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.DataSetObserver;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,20 +41,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.GroupSprite;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.BackPackSpriteController;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogWrapper;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PointToBrick extends BrickBaseType implements BrickWithSpriteReference {
-
-	public static final String EXTRA_NEW_SPRITE_NAME = "EXTRA_NEW_SPRITE_NAME";
 
 	private static final long serialVersionUID = 1L;
 
@@ -76,12 +68,6 @@ public class PointToBrick extends BrickBaseType implements BrickWithSpriteRefere
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		PointToBrick copyBrick = (PointToBrick) clone();
-		return copyBrick;
 	}
 
 	@Override
@@ -199,7 +185,7 @@ public class PointToBrick extends BrickBaseType implements BrickWithSpriteRefere
 		return arrayAdapter;
 	}
 
-	public final class SpinnerAdapterWrapper implements SpinnerAdapter {
+	public final class SpinnerAdapterWrapper implements SpinnerAdapter, NewItemInterface<Sprite> {
 
 		protected Context context;
 		protected Spinner spinner;
@@ -298,54 +284,17 @@ public class PointToBrick extends BrickBaseType implements BrickWithSpriteRefere
 			return spinnerAdapter;
 		}
 
-		protected void showNewSpriteDialog() {
-			NewSpriteDialog dialog = new NewSpriteDialog(this);
-			dialog.show(((ScriptActivity) context).getFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		private void showNewSpriteDialog() {
+			NewSpriteDialogWrapper dialogWrapper = new NewSpriteDialogWrapper(
+					this, ProjectManager.getInstance().getCurrentScene());
+			dialogWrapper.showDialog(((Activity) context).getFragmentManager());
 		}
 
-		public void refreshSpinnerAfterNewSprite(final Context context, final String newSpriteName) {
-			Scene scene = ProjectManager.getInstance().getCurrentScene();
-			for (Sprite sprite : scene.getSpriteList()) {
-				if (sprite.getName().equals(newSpriteName)) {
-					pointedObject = sprite;
-				}
-			}
-
-			setSpinnerSelection(spinner);
-
-			AlertDialog dialog = new CustomAlertDialogBuilder(context)
-					.setTitle(R.string.dialog_new_object_switch_title)
-					.setMessage(R.string.dialog_new_object_switch_message)
-					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							ProjectManager.getInstance().setCurrentSprite(pointedObject);
-
-							Intent intent = new Intent(context, ProgramMenuActivity.class);
-							intent.putExtra(ProgramMenuActivity.FORWARD_TO_SCRIPT_ACTIVITY,
-									ScriptActivity.FRAGMENT_SCRIPTS);
-							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-							context.startActivity(intent);
-
-							dialog.dismiss();
-						}
-					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							spinnerAdapter.notifyDataSetChanged();
-							dialog.dismiss();
-						}
-					}).create();
-			dialog.setCanceledOnTouchOutside(true);
-			dialog.show();
-		}
-
-		public void updateSpinner() {
-			setSpinnerSelection(spinner);
+		@Override
+		public void addItem(Sprite item) {
+			ProjectManager.getInstance().getCurrentScene().addSprite(item);
+			pointedObject = item;
+			spinnerAdapter.notifyDataSetChanged();
 		}
 	}
 
@@ -361,9 +310,5 @@ public class PointToBrick extends BrickBaseType implements BrickWithSpriteRefere
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpackHiddenSprite(getSprite());
-		setSprite(backPackedSprite);
-		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}
 }

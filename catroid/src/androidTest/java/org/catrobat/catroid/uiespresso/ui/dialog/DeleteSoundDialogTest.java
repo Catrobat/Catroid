@@ -33,11 +33,12 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -58,14 +59,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class DeleteSoundDialogTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
 
 	private String toBeDeletedSoundName = "testLook2";
 
@@ -74,7 +76,7 @@ public class DeleteSoundDialogTest {
 		createProject("deleteSoundDialogTest");
 
 		Intent intent = new Intent();
-		intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, ScriptActivity.FRAGMENT_SOUNDS);
+		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SOUNDS);
 
 		baseActivityTestRule.launchActivity(intent);
 	}
@@ -85,10 +87,13 @@ public class DeleteSoundDialogTest {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		onView(withText(toBeDeletedSoundName)).perform(click());
-		onView(withContentDescription("Done")).perform(click());
+		onRVAtPosition(1)
+				.performCheckItem();
 
-		onView(withText(R.string.dialog_confirm_delete_sound_title)).inRoot(isDialog())
+		onView(withContentDescription(R.string.done)).perform(click());
+
+		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sounds, 1)))
+				.inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
 		onView(withText(R.string.dialog_confirm_delete_sound_message)).inRoot(isDialog())
@@ -112,13 +117,16 @@ public class DeleteSoundDialogTest {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		onView(withText(toBeDeletedSoundName)).perform(click());
-		onView(withContentDescription("Done")).perform(click());
+		onRVAtPosition(1)
+				.performCheckItem();
 
-		onView(withText(R.string.dialog_confirm_delete_sound_title)).inRoot(isDialog())
+		onView(withContentDescription(R.string.done)).perform(click());
+
+		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sounds, 1)))
+				.inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_confirm_delete_sound_message)).inRoot(isDialog())
+		onView(withText(R.string.dialog_confirm_delete)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
@@ -134,7 +142,7 @@ public class DeleteSoundDialogTest {
 	}
 
 	private void createProject(String projectName) {
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		Sprite sprite = new SingleSprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
@@ -142,31 +150,27 @@ public class DeleteSoundDialogTest {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		File soundFile = UiTestUtils.saveFileToProject(
+		File soundFile = FileTestUtils.saveFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
-				org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getTargetContext(),
-				UiTestUtils.FileTypes.SOUND
+				org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
+				FileTestUtils.FileTypes.SOUND
 		);
 
-		File soundFile2 = UiTestUtils.saveFileToProject(
+		File soundFile2 = FileTestUtils.saveFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "testsoundui.mp3",
-				org.catrobat.catroid.test.R.raw.testsoundui, InstrumentationRegistry.getTargetContext(),
-				UiTestUtils.FileTypes.SOUND
+				org.catrobat.catroid.test.R.raw.testsoundui, InstrumentationRegistry.getContext(),
+				FileTestUtils.FileTypes.SOUND
 		);
 
 		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setSoundFileName(soundFile.getName());
-		soundInfo.setTitle("testLook1");
+		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setName("testLook1");
 		soundInfoList.add(soundInfo);
-		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 
 		SoundInfo soundInfo2 = new SoundInfo();
-		soundInfo2.setSoundFileName(soundFile2.getName());
-		soundInfo2.setTitle(toBeDeletedSoundName);
+		soundInfo2.setFileName(soundFile2.getName());
+		soundInfo2.setName(toBeDeletedSoundName);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 	}
 }

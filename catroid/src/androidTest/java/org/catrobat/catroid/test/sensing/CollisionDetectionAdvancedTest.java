@@ -53,8 +53,8 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 
 	protected static LookData generateLookData(File testImage) {
 		LookData lookData = new LookData();
-		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName(testImage.getName());
+		lookData.setFileName(testImage.getName());
+		lookData.setName(testImage.getName());
 		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 		return lookData;
@@ -80,7 +80,7 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 		collisionInformation.loadOrCreateCollisionPolygon();
 
 		sprite.look.setLookData(lookData);
-		sprite.getLookDataList().add(lookData);
+		sprite.getLookList().add(lookData);
 		sprite.look.setHeight(sprite.look.getLookData().getPixmap().getHeight());
 		sprite.look.setWidth(sprite.look.getLookData().getPixmap().getWidth());
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);

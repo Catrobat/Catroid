@@ -56,19 +56,14 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -78,8 +73,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -403,19 +396,6 @@ public final class Utils {
 		showDialog(context, dialog);
 	}
 
-	public static void showErrorDialog(Context context, String msg, int errorTitleId) {
-		Builder builder = new CustomAlertDialogBuilder(context);
-		builder.setTitle(errorTitleId);
-		builder.setMessage(msg);
-		builder.setNeutralButton(R.string.close, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			}
-		});
-		Dialog dialog = builder.create();
-		showDialog(context, dialog);
-	}
-
 	public static void showErrorDialog(Context context, int errorTitleId, int errorMessageId) {
 		Builder builder = new CustomAlertDialogBuilder(context);
 		builder.setTitle(errorTitleId);
@@ -534,38 +514,10 @@ public final class Utils {
 		return (int) (densityIndependentPixels * scale + 0.5f);
 	}
 
-	public static Activity getActivity() throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException,
-			NoSuchMethodException, InvocationTargetException {
-		Class activityThreadClass = Class.forName("android.app.ActivityThread");
-		Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
-		Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
-		activitiesField.setAccessible(true);
-		HashMap activities = (HashMap) activitiesField.get(activityThread);
-		for (Object activityRecord : activities.values()) {
-			Class activityRecordClass = activityRecord.getClass();
-			Field pausedField = activityRecordClass.getDeclaredField("paused");
-			pausedField.setAccessible(true);
-			if (!pausedField.getBoolean(activityRecord)) {
-				Field activityField = activityRecordClass.getDeclaredField("activity");
-				activityField.setAccessible(true);
-				Activity activity = (Activity) activityField.get(activityRecord);
-				return activity;
-			}
-		}
-		return null;
-	}
-
 	public static void saveToPreferences(Context context, String key, String message) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		Editor edit = sharedPreferences.edit();
 		edit.putString(key, message);
-		edit.commit();
-	}
-
-	public static void removeFromPreferences(Context context, String key) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		SharedPreferences.Editor edit = preferences.edit();
-		edit.remove(key);
 		edit.commit();
 	}
 
@@ -609,200 +561,6 @@ public final class Utils {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
 	}
 
-	public static String getUniqueObjectName(String name) {
-		return searchForNonExistingObjectNameInCurrentProgram(name, 0);
-	}
-
-	private static String searchForNonExistingObjectNameInCurrentProgram(String name, int nextNumber) {
-		String newName;
-
-		if (nextNumber == 0) {
-			newName = name;
-		} else {
-			newName = name + "_" + nextNumber;
-		}
-
-		if (ProjectManager.getInstance().getCurrentScene().containsSpriteBySpriteName(newName)) {
-			return searchForNonExistingObjectNameInCurrentProgram(name, ++nextNumber);
-		}
-
-		return newName;
-	}
-
-	public static String getUniqueNfcTagName(String name) {
-		return searchForNonExistingNfcTagName(name, 0);
-	}
-
-	private static String searchForNonExistingNfcTagName(String name, int nextNumber) {
-		String newName;
-		List<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
-		if (nextNumber == 0) {
-			newName = name;
-		} else {
-			newName = name + "_" + nextNumber;
-		}
-		for (NfcTagData nfcTagData : nfcTagDataList) {
-			if (nfcTagData.getNfcTagName().equals(newName)) {
-				return searchForNonExistingNfcTagName(name, ++nextNumber);
-			}
-		}
-		return newName;
-	}
-
-	public static String getUniqueLookName(LookData lookData, boolean forBackPack) {
-		return searchForNonExistingLookName(lookData, 0, forBackPack);
-	}
-
-	private static String searchForNonExistingLookName(LookData originalLookData,
-			int nextNumber, boolean forBackPack) {
-		String newName;
-		List<LookData> lookDataList;
-		if (forBackPack) {
-			lookDataList = BackPackListManager.getInstance().getAllBackPackedLooks();
-		} else {
-			lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
-		}
-
-		if (nextNumber == 0) {
-			newName = originalLookData.getLookName();
-		} else {
-			newName = originalLookData.getLookName() + "_" + nextNumber;
-		}
-		for (LookData lookData : lookDataList) {
-			if (lookData.getLookName().equals(newName)) {
-				return searchForNonExistingLookName(originalLookData, ++nextNumber, forBackPack);
-			}
-		}
-		return newName;
-	}
-
-	public static String getUniqueSpriteName(Sprite sprite) {
-		return searchForNonExistingSpriteName(sprite, 0);
-	}
-
-	private static String searchForNonExistingSpriteName(Sprite sprite, int nextNumber) {
-		String newName;
-		List<Sprite> spriteList;
-		if (!sprite.isBackpackObject) {
-			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
-		} else {
-			spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-		}
-
-		if (nextNumber == 0) {
-			newName = sprite.getName();
-		} else {
-			newName = sprite.getName() + "_" + nextNumber;
-		}
-		for (Sprite spriteListItem : spriteList) {
-			if (spriteListItem.getName().equals(newName)) {
-				return searchForNonExistingSpriteName(sprite, ++nextNumber);
-			}
-		}
-		return newName;
-	}
-
-	public static String getUniqueSceneName(String sceneName, Project firstProject, Project secondProject) {
-		Project backup = ProjectManager.getInstance().getCurrentProject();
-		ProjectManager.getInstance().setCurrentProject(firstProject);
-		String result = getUniqueSceneName(sceneName, false);
-		ProjectManager.getInstance().setCurrentProject(secondProject);
-		sceneName = getUniqueSceneName(result, false);
-		ProjectManager.getInstance().setCurrentProject(backup);
-		return sceneName;
-	}
-
-	public static String getUniqueSceneName(String sceneName, boolean forBackPack) {
-		List<Scene> sceneList;
-
-		if (forBackPack) {
-			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
-		} else {
-			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
-		}
-
-		String possibleNewName = sceneName;
-		Boolean check = true;
-		int nextNumber = 1;
-		while (check) {
-
-			check = false;
-			possibleNewName = sceneName + "_" + nextNumber;
-			for (Scene sceneListItem : sceneList) {
-				if (sceneListItem.getName().equals(possibleNewName)) {
-					check = true;
-					break;
-				}
-			}
-			nextNumber += 1;
-		}
-
-		return possibleNewName;
-	}
-
-	public static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
-		List<Scene> sceneList;
-
-		if (forBackPack) {
-			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
-		} else {
-			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
-		}
-
-		String possibleNewName = String.format(sceneName, nextNumber);
-		for (Scene sceneListItem : sceneList) {
-			if (sceneListItem.getName().equals(possibleNewName)) {
-				return searchForNonExistingSceneName(sceneName, ++nextNumber, forBackPack);
-			}
-		}
-
-		return possibleNewName;
-	}
-
-	public static String getUniqueSoundName(SoundInfo soundInfo, boolean forBackPack) {
-		return searchForNonExistingSoundTitle(soundInfo, 0, forBackPack);
-	}
-
-	public static Project findValidProject(Context context) {
-		Project loadableProject = null;
-
-		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
-		for (String projectName : projectNameList) {
-			loadableProject = StorageHandler.getInstance().loadProject(projectName, context);
-			if (loadableProject != null) {
-				break;
-			}
-		}
-		return loadableProject;
-	}
-
-	private static String searchForNonExistingSoundTitle(SoundInfo soundInfo, int nextNumber, boolean forBackPack) {
-		// search for sounds with the same title
-		String newTitle = "";
-		List<SoundInfo> soundInfoList;
-		if (forBackPack) {
-			soundInfoList = BackPackListManager.getInstance().getAllBackPackedSounds();
-		} else {
-			soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		}
-
-		if (nextNumber == 0) {
-			if (soundInfo != null) {
-				newTitle = soundInfo.getTitle();
-			}
-		} else {
-			if (soundInfo != null) {
-				newTitle = soundInfo.getTitle() + "_" + nextNumber;
-			}
-		}
-		for (SoundInfo soundInfoFromList : soundInfoList) {
-			if (soundInfoFromList.getTitle().equals(newTitle)) {
-				return searchForNonExistingSoundTitle(soundInfo, ++nextNumber, forBackPack);
-			}
-		}
-		return newTitle;
-	}
-
 	public static Pixmap getPixmapFromFile(File imageFile) {
 		Pixmap pixmap;
 		try {
@@ -816,104 +574,12 @@ public final class Utils {
 		return pixmap;
 	}
 
-	public static void rewriteImageFileForStage(Context context, File lookFile) throws IOException {
-		// if pixmap cannot be created, image would throw an Exception in stage
-		// so has to be loaded again with other Config
-		Pixmap pixmap;
-		pixmap = Utils.getPixmapFromFile(lookFile);
-
-		if (pixmap == null) {
-			ImageEditing.overwriteImageFileWithNewBitmap(lookFile);
-			pixmap = Utils.getPixmapFromFile(lookFile);
-
-			if (pixmap == null) {
-				Log.e(TAG, "error_load_image rewriteImageFileForStage");
-				Utils.showErrorDialog(context, R.string.error_load_image);
-				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath(), false);
-				throw new IOException("Pixmap could not be fixed");
-			}
-		}
-	}
-
 	public static String getUniqueProjectName() {
 		String projectName = "project_" + System.currentTimeMillis();
 		while (StorageHandler.getInstance().projectExists(projectName)) {
 			projectName = "project_" + System.currentTimeMillis();
 		}
 		return projectName;
-	}
-
-	public static boolean isStandardScene(Project project, String sceneName, Context context) {
-		try {
-			Project standardProject = DefaultProjectHandler.createAndSaveDefaultProject(getUniqueProjectName(),
-					context);
-			Scene standardScene = standardProject.getDefaultScene();
-			ProjectManager.getInstance().deleteCurrentProject(null);
-
-			ProjectManager.getInstance().setProject(project);
-			ProjectManager.getInstance().saveProject(context);
-			Scene sceneToCheck = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
-
-			if (sceneToCheck == null) {
-				Log.e(TAG, "isStandardScene: scene not found");
-				return false;
-			}
-
-			boolean result = true;
-
-			for (int i = 0; i < standardScene.getSpriteList().size(); i++) {
-				Sprite standardSprite = standardScene.getSpriteList().get(i);
-				Sprite spriteToCheck = sceneToCheck.getSpriteList().get(i);
-
-				for (int t = 0; t < standardSprite.getLookDataList().size(); t++) {
-					LookData standardLook = standardSprite.getLookDataList().get(t);
-					LookData lookToCheck = spriteToCheck.getLookDataList().get(t);
-
-					result &= standardLook.equals(lookToCheck);
-					if (!result) {
-						Log.e(TAG, "isStandardScene: " + standardLook.getLookName() + " was not the same as "
-								+ lookToCheck.getLookName());
-						return false;
-					}
-				}
-
-				for (int t = 0; t < standardSprite.getSoundList().size(); t++) {
-					SoundInfo standardSound = standardSprite.getSoundList().get(t);
-					SoundInfo soundToCheck = spriteToCheck.getSoundList().get(t);
-
-					result &= standardSound.equals(soundToCheck);
-					if (!result) {
-						Log.e(TAG, "isStandardScene: " + standardSound.getTitle() + " was not the same as "
-								+ standardSound.getTitle());
-						return false;
-					}
-				}
-
-				for (int t = 0; t < standardSprite.getListWithAllBricks().size(); t++) {
-					Brick standardBrick = standardSprite.getListWithAllBricks().get(t);
-					Brick brickToCheck = spriteToCheck.getListWithAllBricks().get(t);
-
-					result &= standardBrick.getClass().toString().equals(brickToCheck.getClass().toString());
-					if (!result) {
-						Log.e(TAG, "isStandardScene: " + standardBrick.getClass().toString() + " was not the same as "
-								+ brickToCheck.getClass().toString());
-						return false;
-					}
-				}
-
-				result &= standardSprite.equals(spriteToCheck);
-				if (!result) {
-					Log.e(TAG, "isStandardScene: " + standardSprite.getName() + " was not the same as "
-							+ spriteToCheck.getName());
-					return false;
-				}
-			}
-
-			return result;
-		} catch (Exception e) {
-			Log.e(TAG, "Exception: isStandardScene: ", e);
-			return false;
-		}
 	}
 
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
@@ -924,7 +590,6 @@ public final class Utils {
 			int start = standardProjectXMLString.indexOf("<scenes>");
 			int end = standardProjectXMLString.indexOf("</scenes>");
 			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
-			ProjectManager.getInstance().deleteCurrentProject(null);
 
 			ProjectManager.getInstance().setProject(projectToCheck);
 			ProjectManager.getInstance().saveProject(context);
@@ -970,8 +635,8 @@ public final class Utils {
 	}
 
 	public static boolean checkIfLookExists(String name) {
-		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
-			if (lookData.getLookName().compareTo(name) == 0) {
+		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookList()) {
+			if (lookData.getName().compareTo(name) == 0) {
 				return true;
 			}
 		}
@@ -980,7 +645,7 @@ public final class Utils {
 
 	public static boolean checkIfSoundExists(String name) {
 		for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
-			if (soundInfo.getTitle().compareTo(name) == 0) {
+			if (soundInfo.getName().compareTo(name) == 0) {
 				return true;
 			}
 		}

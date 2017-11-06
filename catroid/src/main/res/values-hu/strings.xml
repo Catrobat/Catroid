@@ -44,7 +44,7 @@
   <string name="move">Mozgatás</string>
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Hátizsák</string>
-  <string name="packing">Pack</string>
+  <string name="pack">Pack</string>
   <string name="unpack">Unpack</string>
   <string name="unpack_bg">Unpack as background</string>
   <string name="unpack_object">Unpack as object</string>
@@ -1482,7 +1482,7 @@
         smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
   <string name="formula_editor_intro_title_data">Adatok</string>
   <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="one">Elem kijelölve!</item>
     <item quantity="other">Elem kijelölve!</item>
   </plurals>

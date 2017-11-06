@@ -36,6 +36,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingBrick {
+
 	private static final long serialVersionUID = 1L;
 	protected transient IfThenLogicEndBrick ifEndBrick;
 
@@ -79,15 +80,6 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 	@Override
 	public boolean isDraggableOver(Brick brick) {
 		return brick != ifEndBrick;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		IfThenLogicBeginBrick copyBrick = (IfThenLogicBeginBrick) clone();
-		copyBrick.ifEndBrick = null; // will be set in copyBrickForSprite method of IfThenLogicEndBrick
-
-		this.copy = copyBrick;
-		return copyBrick;
 	}
 
 	@Override

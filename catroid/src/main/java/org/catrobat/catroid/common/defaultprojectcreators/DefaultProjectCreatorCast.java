@@ -151,41 +151,38 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 					soundFile1.getName(), soundFile2.getName(), birdWingDownLeftFile.getName(), birdWingUpLeftFile.getName()));
 
 			LookData backgroundLookData = new LookData();
-			backgroundLookData.setLookName(backgroundName);
-			backgroundLookData.setLookFilename(backgroundFile.getName());
+			backgroundLookData.setName(backgroundName);
+			backgroundLookData.setFileName(backgroundFile.getName());
 
 			Sprite backgroundSprite = defaultProject.getDefaultScene().getSpriteList().get(0);
-			backgroundSprite.getLookDataList().add(backgroundLookData);
+			backgroundSprite.getLookList().add(backgroundLookData);
 
 			LookData birdWingUpLookData = new LookData();
-			birdWingUpLookData.setLookName(birdWingUpLookName);
-			birdWingUpLookData.setLookFilename(birdWingUpFile.getName());
+			birdWingUpLookData.setName(birdWingUpLookName);
+			birdWingUpLookData.setFileName(birdWingUpFile.getName());
 
 			LookData birdWingDownLookData = new LookData();
-			birdWingDownLookData.setLookName(birdWingDownLookName);
-			birdWingDownLookData.setLookFilename(birdWingDownFile.getName());
+			birdWingDownLookData.setName(birdWingDownLookName);
+			birdWingDownLookData.setFileName(birdWingDownFile.getName());
 
 			LookData birdWingUpLeftLookData = new LookData();
-			birdWingUpLeftLookData.setLookName(birdWingUpLeftLookName);
-			birdWingUpLeftLookData.setLookFilename(birdWingUpLeftFile.getName());
+			birdWingUpLeftLookData.setName(birdWingUpLeftLookName);
+			birdWingUpLeftLookData.setFileName(birdWingUpLeftFile.getName());
 
 			LookData birdWingDownLeftLookData = new LookData();
-			birdWingDownLeftLookData.setLookName(birdWingDownLeftLookName);
-			birdWingDownLeftLookData.setLookFilename(birdWingDownLeftFile.getName());
+			birdWingDownLeftLookData.setName(birdWingDownLeftLookName);
+			birdWingDownLeftLookData.setFileName(birdWingDownLeftFile.getName());
 
 			LookData cloudLookData = new LookData();
-			cloudLookData.setLookName(cloudName);
-			cloudLookData.setLookFilename(cloudFile.getName());
+			cloudLookData.setName(cloudName);
+			cloudLookData.setFileName(cloudFile.getName());
 
 			SoundInfo soundInfo1 = new SoundInfo();
-			soundInfo1.setTitle(tweet1);
-			soundInfo1.setSoundFileName(soundFile1.getName());
+			soundInfo1.setName(tweet1);
+			soundInfo1.setFileName(soundFile1.getName());
 			SoundInfo soundInfo2 = new SoundInfo();
-			soundInfo2.setTitle(tweet2);
-			soundInfo2.setSoundFileName(soundFile2.getName());
-
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo1.getChecksum(), soundInfo1.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
+			soundInfo2.setName(tweet2);
+			soundInfo2.setFileName(soundFile2.getName());
 
 			DataContainer userVariables = defaultProject.getDefaultScene().getDataContainer();
 
@@ -196,8 +193,8 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			Sprite cloudSprite1 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName1);
 			Sprite cloudSprite2 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName2);
 
-			cloudSprite1.getLookDataList().add(cloudLookData);
-			cloudSprite2.getLookDataList().add(cloudLookData);
+			cloudSprite1.getLookList().add(cloudLookData);
+			cloudSprite2.getLookList().add(cloudLookData);
 
 			Script cloudSpriteScript1 = new StartScript();
 			Script cloudSpriteScript2 = new StartScript();
@@ -239,10 +236,10 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			//Bird
 			Sprite birdSprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), birdLookName);
 
-			birdSprite.getLookDataList().add(birdWingUpLookData);
-			birdSprite.getLookDataList().add(birdWingDownLookData);
-			birdSprite.getLookDataList().add(birdWingUpLeftLookData);
-			birdSprite.getLookDataList().add(birdWingDownLeftLookData);
+			birdSprite.getLookList().add(birdWingUpLookData);
+			birdSprite.getLookList().add(birdWingDownLookData);
+			birdSprite.getLookList().add(birdWingUpLeftLookData);
+			birdSprite.getLookList().add(birdWingDownLeftLookData);
 			birdSprite.getSoundList().add(soundInfo1);
 			birdSprite.getSoundList().add(soundInfo2);
 
@@ -408,17 +405,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			birdScriptButtonB.addBrick(ifLogicEndBrickBirdLeft);
 
 			birdSprite.addScript(birdScriptButtonB);
-
 			defaultProject.getDefaultScene().addSprite(birdSprite);
-			///Bird
-
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingUpLookData.getChecksum(), birdWingUpLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingDownLookData.getChecksum(), birdWingDownLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingUpLeftLookData.getChecksum(), birdWingUpLeftLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingDownLeftLookData.getChecksum(), birdWingDownLeftLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(cloudLookData.getChecksum(), cloudLookData.getAbsolutePath());
-
-			StorageHandler.getInstance().fillChecksumContainer();
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new IOException(TAG, illegalArgumentException);
 		}

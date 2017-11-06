@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- General terms -->
     <string name="app_name">Pocket Code</string>
@@ -40,15 +40,10 @@
     <string name="disagree">Disagree</string>
     <string name="delete_account">Delete my account</string>
     <string name="copy">Copy</string>
-    <string name="cut">Cut</string>
-    <string name="move">Move</string>
     <string name="backpack_add">Add to backpack</string>
     <string name="backpack">Backpack</string>
-    <string name="packing">Pack</string>
+    <string name="pack">Pack</string>
     <string name="unpack">Unpack</string>
-    <string name="unpack_bg">Unpack as background</string>
-    <string name="unpack_object">Unpack as object</string>
-    <string name="copy_addition">copy</string>
     <string name="close">Close</string>
     <string name="error">Error</string>
     <string name="please_wait">Please wait</string>
@@ -73,16 +68,11 @@
     <string name="undo">Undo</string>
     <string name="name_exists">Name already exists</string>
     <string name="no_name">No name</string>
-    <string name="is_empty">is empty</string>
+
     <string name="new_group">New group</string>
     <string name="my_group">My group</string>
     <string name="name">Name:</string>
-    <string name="nothing_to_copy">Nothing to copy</string>
-    <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
-    <string name="nothing_to_unpack">Nothing to unpack</string>
-    <string name="nothing_to_delete">Nothing to delete</string>
-    <string name="nothing_to_rename">Nothing to rename</string>
-    <string name="unpack_background">Program\'s background will be replaced</string>
+
     <string name="degrees">degrees</string>
     <string name="landscape">landscape</string>
     <string name="portrait">portrait</string>
@@ -251,15 +241,236 @@
     <!--  -->
 
 
-    <!-- New Object Dialog -->
-    <string name="dialog_new_object_pocketpaint">Draw image</string>
-    <string name="dialog_new_object_gallery">Select image</string>
-    <string name="dialog_new_object_camera">Take picture</string>
-    <string name="dialog_new_object_look_preview">look preview</string>
-    <string name="dialog_new_object_name">Object name</string>
-    <string name="dialog_new_object_switch_title">New object created</string>
-    <string name="dialog_new_object_switch_message">Switch to new object?</string>
+    <!-- ERRORS -->
+    <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
+
+    <!-- Project Handling Errors -->
+    <string name="error_copy_project">An error occurred while copying Project</string>
+
+    <!-- Recycler View -->
+    <string name="am_empty_list">There are no items in this list yet.</string>
+    <string name="am_backpack">Pack</string>
+    <string name="am_unpack">Unpack</string>
+    <string name="am_copy">Copy</string>
+    <string name="am_delete">Delete</string>
+    <string name="am_rename">Rename</string>
+    <string name="dialog_confirm_delete">This cannot be undone!</string>
+
+    <!-- Action Mode Titles -->
+    <plurals name="am_projects_title">
+        <item quantity="one">%d Project</item>
+        <item quantity="other">%d Projects</item>
+    </plurals>
+    <plurals name="am_scenes_title">
+        <item quantity="one">%d Scene</item>
+        <item quantity="other">%d Scenes</item>
+    </plurals>
+    <plurals name="am_sprites_title">
+        <item quantity="one">%d Sprite</item>
+        <item quantity="other">%d Sprites</item>
+    </plurals>
+    <plurals name="am_looks_title">
+        <item quantity="one">%d Look</item>
+        <item quantity="other">%d Looks</item>
+    </plurals>
+    <plurals name="am_sounds_title">
+        <item quantity="one">%d Sound</item>
+        <item quantity="other">%d Sounds</item>
+    </plurals>
+    <plurals name="am_nfc_tags_title">
+        <item quantity="one">%d NFC Tag</item>
+        <item quantity="other">%d NFC Tags</item>
+    </plurals>
+
+    <!--
+    <plurals name="am_scripts_title">
+        <item quantity="one">%d Script</item>
+        <item quantity="other">%d Scripts</item>
+    </plurals>
+    -->
+
+    <!-- New Dialog Titles -->
+    <string name="new_scene_dialog">New Scene</string>
+    <string name="scene_name">Scene name:</string>
+
+    <!-- Delete Dialog Titles -->
+    <plurals name="delete_projects">
+        <item quantity="one">Delete this Project?</item>
+        <item quantity="other">Delete these Projects?</item>
+    </plurals>
+    <plurals name="delete_scenes">
+        <item quantity="one">Delete this Scene?</item>
+        <item quantity="other">Delete these Scenes?</item>
+    </plurals>
+    <plurals name="delete_sprites">
+        <item quantity="one">Delete this Object?</item>
+        <item quantity="other">Delete these Objects?</item>
+    </plurals>
+    <plurals name="delete_looks">
+        <item quantity="one">Delete this Look?</item>
+        <item quantity="other">Delete these Looks?</item>
+    </plurals>
+    <plurals name="delete_sounds">
+        <item quantity="one">Delete this Sound?</item>
+        <item quantity="other">Delete these Sounds?</item>
+    </plurals>
+    <plurals name="delete_nfc_tags">
+        <item quantity="one">Delete this Tag?</item>
+        <item quantity="other">Delete these Tags?</item>
+    </plurals>
+    <plurals name="delete_scripts">
+        <item quantity="one">Delete this Script?</item>
+        <item quantity="other">Delete these Scripts?</item>
+    </plurals>
+    <plurals name="delete_bricks">
+        <item quantity="one">Delete this Brick?</item>
+        <item quantity="other">Delete these Bricks?</item>
+    </plurals>
+
+    <!-- Rename Dialog Titles -->
+    <string name="rename_project">Rename Program</string>
+    <string name="rename_scene_dialog">Rename Scene</string>
+    <string name="rename_sprite_dialog">Rename Object</string>
+    <string name="rename_look_dialog">Rename Look</string>
+    <string name="rename_sound_dialog">Rename Sound</string>
+    <string name="rename_nfctag_dialog">Rename NFC tag</string>
+
+    <!-- Action Toasts -->
+    <plurals name="packed_scenes">
+        <item quantity="one">Backpacked %d Scene!</item>
+        <item quantity="other">Backpacked %d Scenes!</item>
+    </plurals>
+    <plurals name="packed_sprites">
+        <item quantity="one">Backpacked %d Object!</item>
+        <item quantity="other">Backpacked %d Objects!</item>
+    </plurals>
+    <plurals name="packed_looks">
+        <item quantity="one">Backpacked %d Look!</item>
+        <item quantity="other">Backpacked %d Looks!</item>
+    </plurals>
+    <plurals name="packed_sounds">
+        <item quantity="one">Backpacked %d Sound!</item>
+        <item quantity="other">Backpacked %d Sounds!</item>
+    </plurals>
+
+    <string name="packed_script_group">Backpacked 1 Script Group!</string>
+
+    <plurals name="unpacked_scenes">
+        <item quantity="one">Unpacked %d Scene!</item>
+        <item quantity="other">Unpacked %d Scenes!</item>
+    </plurals>
+    <plurals name="unpacked_sprites">
+        <item quantity="one">Unpacked %d Object!</item>
+        <item quantity="other">Unpacked %d Objects!</item>
+    </plurals>
+    <plurals name="unpacked_looks">
+        <item quantity="one">Unpacked %d Look!</item>
+        <item quantity="other">Unpacked %d Looks!</item>
+    </plurals>
+    <plurals name="unpacked_sounds">
+        <item quantity="one">Unpacked %d Sound!</item>
+        <item quantity="other">Unpacked %d Sounds!</item>
+    </plurals>
+    <plurals name="unpacked_scripts">
+        <item quantity="one">Unpacked %d Script!</item>
+        <item quantity="other">Unpacked %d Scripts!</item>
+    </plurals>
+
+    <plurals name="copied_scenes">
+        <item quantity="one">Copied %d Scene!</item>
+        <item quantity="other">Copied %d Scenes!</item>
+    </plurals>
+    <plurals name="copied_sprites">
+        <item quantity="one">Copied %d Object!</item>
+        <item quantity="other">Copied %d Objects!</item>
+    </plurals>
+    <plurals name="copied_looks">
+        <item quantity="one">Copied %d Look!</item>
+        <item quantity="other">Copied %d Looks!</item>
+    </plurals>
+    <plurals name="copied_sounds">
+        <item quantity="one">Copied %d Sound!</item>
+        <item quantity="other">Copied %d Sounds!</item>
+    </plurals>
+    <plurals name="copied_nfc_tags">
+        <item quantity="one">Copied %d NFC Tag!</item>
+        <item quantity="other">Copied %d NFC Tags!</item>
+    </plurals>
+
+    <plurals name="deleted_projects">
+        <item quantity="one">Deleted %d Project!</item>
+        <item quantity="other">Deleted %d Projects!</item>
+    </plurals>
+    <plurals name="deleted_scenes">
+        <item quantity="one">Deleted %d Scene!</item>
+        <item quantity="other">Deleted %d Scenes!</item>
+    </plurals>
+    <plurals name="deleted_sprites">
+        <item quantity="one">Deleted %d Sprite!</item>
+        <item quantity="other">Deleted %d Sprites!</item>
+    </plurals>
+    <plurals name="deleted_looks">
+        <item quantity="one">Deleted %d Look!</item>
+        <item quantity="other">Deleted %d Looks!</item>
+    </plurals>
+    <plurals name="deleted_sounds">
+        <item quantity="one">Deleted %d Sound!</item>
+        <item quantity="other">Deleted %d Sounds!</item>
+    </plurals>
+    <plurals name="deleted_nfc_tags">
+        <item quantity="one">Deleted %d NFC Tag!</item>
+        <item quantity="other">Deleted %d NFC Tags!</item>
+    </plurals>
+    <plurals name="deleted_scripts">
+        <item quantity="one">Deleted %d Script!</item>
+        <item quantity="other">Deleted %d Scripts!</item>
+    </plurals>
     <!--  -->
+
+
+    <!-- Backpack -->
+    <string name="backpack_title">Your Backpack</string>
+    <!--  -->
+
+    <!-- Sprite Attribute Activity -->
+    <string name="scripts">Scripts</string>
+    <string name="backgrounds">Backgrounds</string>
+    <string name="looks">Looks</string>
+    <string name="sounds">Sounds</string>
+    <string name="nfctags">Nfc Tags</string>
+    <string name="size">Size:</string>
+
+
+    <!-- New project dialog -->
+    <string name="new_project_dialog_title">New Program</string>
+    <string name="new_project_dialog_hint">My Program</string>
+    <string name="new_project_description_dialog_hint">My description</string>
+    <string name="new_project_name">Program name</string>
+    <string name="new_project_empty">Create empty program</string>
+    <string name="new_project_default">Create example program</string>
+    <string name="new_project_default_drone">Create example AR.Drone 2.0 program</string>
+    <string name="new_project_default_jumping_sumo">Create example Jumping Sumo program</string>
+    <string name="project_orientation_title">Orientation:</string>
+    <string name="project_select_screen_title">Screen</string>
+    <!--  -->
+
+
+    <!-- New Look Dialog -->
+    <string name="new_look_dialog_title">Add Look</string>
+    <string name="add_look_from_camera">Take picture</string>
+    <string name="add_look_draw_new_image">Draw image</string>
+    <string name="add_look_choose_image">Select image</string>
+    <string name="add_look_media_library">Media Library</string>
+    <string name="new_look_name">Look name:</string>
+    <string name="look_rename_overwrite">A look with this name already exists. Please choose a different one!</string>
+    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
+    <!--  -->
+
+    <!-- New Sound Dialog -->
+    <string name="new_sound_dialog_title">Add Sound</string>
+    <string name="add_sound_from_recorder">Record Sound</string>
+    <string name="add_sound_choose_file">Select File</string>
+    <string name="add_sound_music">Music Composer</string>
 
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Privacy policy</string>
@@ -350,66 +561,17 @@
     <!-- Project activity view -->
     <string name="project_name">Program:</string>
     <string name="my_projects_activity_title">Programs</string>
-    <string name="number_of_objects">Objects:</string>
-    <string name="start_scene_name">%1$s (First Scene)</string>
     <string name="number_of_scripts">Scripts:</string>
     <string name="number_of_bricks">Bricks:</string>
     <string name="number_of_looks">Looks:</string>
     <string name="number_of_sounds">Sounds:</string>
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
-    <string name="insert_below">Insert below</string>
-    <string name="sprite">Object</string>
-    <string name="sprites">Objects</string>
-    <string name="spritelist_background_headline">Background</string>
-    <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
-    <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
-    <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="backpack_replace_object">The object %1$s already exists in the backpack. Do you want to replace it?</string>
-    <string name="backpack_replace_scene">The scene %1$s already exists in the backpack. Do you want to replace
-        it?</string>
-    <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
-    <string name="groups_create">Create group</string>
-    <string name="group_created">Group successfully created!</string>
-    <string name="ungroup">Ungroup</string>
-    <string name="group_objects_delete">Delete group and objects</string>
-    <string name="group">Group</string>
-    <string name="backpack_replace_scene_multiple">Scenes already exist in the backpack. Do you want to replace
-        them?</string>
-    <!--  -->
-
-
-    <!-- Sprite activity -->
-    <string name="copy_sprite_name_suffix">_Copy</string>
-    <!--  -->
-
-
-    <!-- Script activity -->
-    <string name="scripts">Scripts</string>
-    <string name="look">Look</string>
-    <string name="looks">Looks</string>
-    <string name="sound">Sound</string>
-    <string name="sounds">Sounds</string>
-    <string name="backgrounds">Backgrounds</string>
-    <string name="size">Size:</string>
-    <string name="script_group">Script group</string>
-    <string name="script_groups">Script groups</string>
-    <string name="script_group_name_given">A group with this name already exists. Please choose a different one!</string>
-    <string name="group_or_object_name_given">A group or object with this name already exists. Please choose a
-        different one!</string>
     <!--  -->
 
 
     <!-- Script fragment -->
     <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
-    <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
-    <string name="dialog_confirm_delete_script_title">Delete this script?</string>
-    <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
-    <string name="dialog_confirm_delete_backpack_group_title">Delete this group?</string>
-    <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these groups?</string>
-    <string name="dialog_confirm_delete_brick_message">This cannot be undone!</string>
 
     <plurals name="number_of_bricks_to_delete">
         <item quantity="one">Delete %d brick</item>
@@ -428,59 +590,26 @@
 
     <!-- Look fragment -->
     <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
-    <string name="fragment_background_text_description">Tap \"+\" to add backgrounds</string>
-    <string name="rename_look_dialog">Rename look</string>
     <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
     <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
-    <string name="pocket_paint_not_installed">Do you want to install it?</string>
-    <string name="default_look_name">look</string>
-    <string name="delete_look_dialog">Delete look?</string>
+    <string name="default_look_name">Look</string>
     <string name="select_look_from_gallery">Select image</string>
     <string name="select_look_from_camera">Select photo</string>
     <string name="look_measure">Measure:</string>
-    <string name="dialog_confirm_delete_look_title">Delete this look?</string>
-    <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
-    <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
-    <string name="lookname">Look name:</string>
-    <string name="backpack_replace_look">The look %1$s already exists in the backpack. Do you want to replace it?</string>
-    <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
 
     <!-- Sound fragment -->
     <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
-    <string name="rename_sound_dialog">Rename sound</string>
-    <string name="backpack_title">Your backpack</string>
-    <string name="sound_play">play</string>
-    <string name="sound_stop">stop</string>
     <string name="sound_select_source">Select a sound</string>
-    <string name="sound_time_seperator">/</string>
-    <string name="delete_sound_dialog">Delete sound?</string>
     <string name="length">Length:</string>
-    <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
-    <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
-    <string name="dialog_confirm_delete_sound_message">This cannot be undone!</string>
     <string name="sound_name">Sound name:</string>
     <string name="new_sound_name">Sound name:</string>
-    <string name="rename_sound_overwrite">A sound with this name already exists. Please choose a different one!</string>
-    <string name="backpack_replace_sound">The sound %1$s already exists in the backpack. Do you want to replace it?</string>
-    <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
 
     <!-- NfcTags fragment -->
     <string name="fragment_nfctag_text_description">Scan tags to add</string>
-    <string name="rename_nfctag_dialog">Rename NFC tag</string>
-    <string name="nfctagname_invalid">This  NFC tag\'s name is invalid</string>
-    <string name="nfctag_scan">scan</string>
-    <string name="delete_nfctag_dialog">Delete NFC tag?</string>
-    <string name="dialog_confirm_delete_nfctag_title">Delete this NFC tag?</string>
-    <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these NFC tags?</string>
-    <string name="dialog_confirm_delete_nfctag_message">This cannot be undone!</string>
-    <string name="nfctag_name">NFC tag name:</string>
-    <string name="nfctag">NFC tag</string>
-    <string name="nfctags">NFC tags</string>
-    <string name="uid">ID</string>
     <string name="ndef_record_label">as NDEF record type</string>
     <string name="brick_set_nfc_tag">Set next NFC tag to</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
@@ -495,38 +624,12 @@
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
 
-    <plurals name="unpacking_items_plural">
-        <item quantity="one">was unpacked!</item>
-        <item quantity="other">were unpacked!</item>
-    </plurals>
-
-    <plurals name="packing_items_plural">
-        <item quantity="one">was backpacked!</item>
-        <item quantity="other">were backpacked!</item>
-    </plurals>
-
-    <plurals name="scripts_plural">
-        <item quantity="one">Script</item>
-        <item quantity="other">Scripts</item>
-    </plurals>
 
     <!-- My Projects activity -->
     <string name="last_used">Last access:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
-    <string name="rename_project">Rename program</string>
-    <string name="copy_project_finished"> copied.</string>
-    <string name="program">Program</string>
-    <string name="programs">Programs</string>
-    <string name="scene">Scene</string>
-    <string name="scenes">Scenes</string>
-    <string name="dialog_confirm_delete_program_title">Delete this program?</string>
-    <string name="dialog_confirm_delete_multiple_programs_title">Delete these programs?</string>
-    <string name="dialog_confirm_delete_scene_title">Delete this scene?</string>
-    <string name="dialog_confirm_delete_multiple_scenes_title">Delete these scenes?</string>
     <string name="details_date_today">Today</string>
-    <string name="details_date_yesterday">Yesterday</string>
-    <string name="dialog_copy_project_title">Copy program</string>
     <!--  -->
 
 
@@ -581,52 +684,8 @@
     <string name="brick_context_dialog_comment_out">Disable Brick</string>
     <string name="brick_context_dialog_help">Help</string>
     <string name="comment_in_out">Disable/Enable</string>
-    <string name="comment_in_out_impossible">Nothing to Disable/Enable</string>
     <!--  -->
 
-
-    <!-- New look dialog -->
-    <string name="new_look_dialog_title">Add Look</string>
-    <string name="add_look_from_camera">Take picture</string>
-    <string name="add_look_draw_new_image">Draw image</string>
-    <string name="add_look_choose_image">Select image</string>
-    <string name="add_look_media_library">Media Library</string>
-    <string name="new_look_name">Look name:</string>
-    <string name="look_rename_overwrite">A look with this name already exists. Please choose a different one!</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
-    <!--  -->
-
-    <!-- New Sound dialog -->
-    <string name="new_sound_dialog_title">Add Sound</string>
-    <string name="add_sound_from_recorder">Record Sound</string>
-    <string name="add_sound_choose_file">Select File</string>
-    <string name="add_sound_music">Music Composer</string>
-
-
-    <!-- New project dialog -->
-    <string name="new_project_dialog_title">New Program</string>
-    <string name="new_project_dialog_hint">My Program</string>
-    <string name="new_project_description_dialog_hint">My description</string>
-    <string name="new_project_name">Program name</string>
-    <string name="new_project_empty">Create empty program</string>
-    <string name="new_project_default">Create example program</string>
-    <string name="new_project_default_drone">Create example AR.Drone 2.0 program</string>
-    <string name="new_project_default_jumping_sumo">Create example Jumping Sumo program</string>
-    <string name="project_orientation_title">Orientation:</string>
-    <string name="project_select_screen_title">Screen</string>
-    <!--  -->
-
-    <!-- New scene dialog -->
-    <string name="new_scene_dialog_hint">My Scene</string>
-    <string name="new_scene_name">Scene name</string>
-    <string name="new_scene_dialog_title">New Scene</string>
-    <string name="rename_scene_dialog">Rename Scene</string>
-    <string name="scene_name">Scene name:</string>
-    <!--  -->
-
-    <!-- Merge Scene Dialog -->
-    <string name="merge_scene_option">Merge Scenes</string>
-    <string name="merge_scene_label_one">Merge</string>
 
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Play Scene:</string>
@@ -635,12 +694,8 @@
     <!--  -->
 
     <!-- New sprite dialog -->
-    <string name="new_sprite_dialog_default_sprite_name">My Object</string>
+
     <string name="new_sprite_dialog_title">New Object</string>
-    <string name="spritename_already_exists">Please choose another object name.</string>
-    <string name="rename_sprite_dialog">Rename Object</string>
-    <string name="spritename_invalid">This object name is invalid</string>
-    <string name="no_spritename_entered">Please enter an object name.</string>
     <string name="sprite_name">Object name:</string>
     <!--  -->
 
@@ -1036,12 +1091,6 @@
     <string name="error_no_program_name_entered">Please enter a program name.</string>
     <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
     <string name="error_project_exists">Please choose another program name.</string>
-    <string name="error_scene_exists">Please choose another scene name.</string>
-    <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
-    <string name="error_scene_not_copied">An error occurred while copying a scene.</string>
-    <string name="error_scene_backpack">An error occurred in scene backpack.</string>
-    <string name="error_delete_project">An error occurred while deleting the program.</string>
-    <string name="error_unknown_project">A program with that name does not exist.</string>
     <string name="error_project_upload">An error occurred while uploading the program.</string>
     <string name="error_project_download">An error occurred while downloading the program.</string>
     <string name="error_new_project">An error occurred while creating a new program.</string>
@@ -1049,15 +1098,10 @@
     <string name="error_rename_scene">An error occurred while renaming the scene.</string>
     <string name="error_load_project">An error occurred while loading the program.</string>
     <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
-    <string name="error_load_image">An error occurred while loading the image.</string>
-    <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
-        characters (e.g. &#36;, &#37;, &amp;, …)? </string>
-    <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_no_internet">Please establish an Internet connection.</string>
     <string name="error_project_compatability">The program is not compatible with this version of the app.</string>
     <string name="error_outdated_version">This app version is outdated. Update now?</string>
-    <string name="error_copy_project">An error occurred while copying the program.</string>
     <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
     <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
     <string name="error_adding_brick">An error occurred while adding this brick.</string>
@@ -1075,7 +1119,7 @@
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
-    <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
+
     <string name="error_unknown_error">An unknown error occurred.</string>
     <string name="error_gps_not_available">Error, GPS was not available.</string>
     <string name="error_set_description">An error occurred while saving the new description.</string>
@@ -1642,9 +1686,9 @@
     <string name="formula_editor_intro_title_data">Data</string>
     <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
 
-    <plurals name="formula_editor_data_fragment_context_action_item_selected">
-        <item quantity="one">Item selected!</item>
-        <item quantity="other">Items selected!</item>
+    <plurals name="formula_editor_data_am_title">
+        <item quantity="one">%d Item selected</item>
+        <item quantity="other">%d Items selected</item>
     </plurals>
     <!--  -->
 
@@ -1656,7 +1700,6 @@
     <!-- -->
 
     <!-- Brick Data Editor Strings -->
-    <string name="brick_data_editor_title">Brick editor</string>
     <string name="separator">|</string>
     <string name="add_text">Add text</string>
     <string name="edit_text">Edit text</string>
@@ -1675,28 +1718,8 @@
     <string name="new_user_brick">New Brick</string>
     <string name="new_user_brick_variable">Variable</string>
     <string name="new_user_brick_name">Please choose a brick name:</string>
-    <string name="recursive_user_brick_forbidden">Adding a user-defined brick to a user-defined brick is not allowed yet!</string>
+    <!--  -->
 
-    <!-- Merge strings -->
-    <string name="merge_button">Merge with</string>
-    <string name="name_merge_result">Enter name for result</string>
-    <string name="merge_info">successfully merged into</string>
-
-    <string name="warning">Warning</string>
-    <string name="error_merge">Error while merging programs</string>
-    <string name="error_merge_with_self_scene">Current scene and selected scene are the same!</string>
-    <string name="error_merge_scene_not_found">Scene not found!</string>
-    <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
-        has resolution %2$d×%3$d and %4$s has resolution %5$d×%6$d. Using resolution of %1$s.</string>
-    <string name="abort">Abort</string>
-
-    <string name="merge_conflict">Merging not possible</string>
-
-    <string name="merge_conflict_variable">Variable %1$s is used in both programs. If programs use the same
-    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
-
-    <string name="merge_conflict_list">List %1$s is used in both programs. If programs use the same
-    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
 
     <!-- Camera related strings -->
     <string name="brick_video">Turn camera</string>

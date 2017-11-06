@@ -108,7 +108,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 
 		// Background sprite
 		Sprite backgroundSprite = defaultPhysicsProject.getDefaultScene().getSpriteList().get(0);
-		backgroundSprite.getLookDataList().add(backgroundLookData);
+		backgroundSprite.getLookList().add(backgroundLookData);
 
 		Sprite ball = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Ball");
 		Sprite leftButton = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left button");
@@ -277,7 +277,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 				backgroundImageScaleFactor);
 
 		LookData lookData = new LookData(fileName, file.getName());
-		List<LookData> looks = sprite.getLookDataList();
+		List<LookData> looks = sprite.getLookList();
 		looks.add(lookData);
 
 		Script startScript = new StartScript();
@@ -332,7 +332,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		File file = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, filename, R.drawable
 				.physics_button_pressed, context, true, backgroundImageScaleFactor);
 		LookData lookData = new LookData(filename, file.getName());
-		List<LookData> looks = sprite.getLookDataList();
+		List<LookData> looks = sprite.getLookList();
 		looks.add(lookData);
 
 		SetLookBrick lookBrick = new SetLookBrick();

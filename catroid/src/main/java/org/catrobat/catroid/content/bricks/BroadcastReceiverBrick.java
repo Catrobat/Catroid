@@ -64,13 +64,6 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		BroadcastReceiverBrick copyBrick = (BroadcastReceiverBrick) clone();
-		copyBrick.receiveScript = receiveScript;
-		return copyBrick;
-	}
-
-	@Override
 	public Brick clone() {
 		BroadcastScript broadcastScript = new BroadcastScript(getBroadcastMessage());
 		if (receiveScript != null) {

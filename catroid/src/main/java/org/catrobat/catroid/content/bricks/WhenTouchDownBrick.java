@@ -53,14 +53,6 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		WhenTouchDownBrick copyBrick = (WhenTouchDownBrick) clone();
-
-		copyBrick.whenTouchDownScript = whenTouchDownScript;
-		return copyBrick;
-	}
-
-	@Override
 	public Script getScriptSafe() {
 		if (whenTouchDownScript == null) {
 			setWhenTouchDownScript(new WhenTouchDownScript());

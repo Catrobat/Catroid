@@ -41,14 +41,14 @@ public class CollisionPolygonCreationTask implements Runnable {
 	public void run() {
 		android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 		long startTime = System.currentTimeMillis();
-		Log.i(TAG, "Creating polygon in runnable for " + lookdata.getLookFileName());
+		Log.i(TAG, "Creating polygon in runnable for " + lookdata.getFileName());
 		lookdata.getCollisionInformation().loadOrCreateCollisionPolygon();
 		if (lookdata.getCollisionInformation().isCalculationCancelled()) {
 			return;
 		}
 		long stopTime = System.currentTimeMillis();
 		long time = (stopTime - startTime) / 1000;
-		Log.i(TAG, "Finished Creating polygon in runnable for " + lookdata.getLookFileName() + " in "
+		Log.i(TAG, "Finished Creating polygon in runnable for " + lookdata.getFileName() + " in "
 				+ "" + time + " seconds.");
 	}
 }

@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.devices.phiro;
 
 import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
@@ -38,9 +39,10 @@ import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
 
@@ -62,7 +64,8 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 
-	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, CompatibilityProjectException,
+			OutdatedVersionProjectException, LoadingProjectException, InterruptedException {
 
 		createProjectPhiro();
 
@@ -74,11 +77,11 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 		assertTrue("After loading a project which needs phiro it should be enabled",
 				SettingsActivity.isPhiroSharedPreferenceEnabled(context));
 
-		ProjectManager.getInstance().deleteProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, context);
+		StorageHandler.deleteDir(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 	}
 
-	private void createProjectPhiro() {
-		Project projectPhiro = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+	private void createProjectPhiro() throws InterruptedException {
+		Project projectPhiro = new Project(InstrumentationRegistry.getTargetContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new SingleSprite("Phiro");
 		StartScript startScript = new StartScript();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
@@ -87,9 +90,9 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 		sprite.addScript(startScript);
 		projectPhiro.getDefaultScene().addSprite(sprite);
 
-		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronousTask", false);
 		ProjectManager.getInstance().setProject(projectPhiro);
 		ProjectManager.getInstance().saveProject(context);
+		Thread.sleep(100);
 		ProjectManager.getInstance().setProject(null);
 	}
 }

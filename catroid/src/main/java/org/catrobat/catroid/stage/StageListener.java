@@ -266,8 +266,8 @@ public class StageListener implements ApplicationListener {
 		Map<String, List<String>> scriptActions = new HashMap<>();
 		copy.createStartScriptActionSequenceAndPutToMap(scriptActions);
 		precomputeActionsForBroadcastEvents(scriptActions);
-		if (!copy.getLookDataList().isEmpty()) {
-			copy.look.setLookData(copy.getLookDataList().get(0));
+		if (!copy.getLookList().isEmpty()) {
+			copy.look.setLookData(copy.getLookList().get(0));
 		}
 
 		copy.createWhenClonedAction();
@@ -511,8 +511,8 @@ public class StageListener implements ApplicationListener {
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
 				sprite.createStartScriptActionSequenceAndPutToMap(scriptActions);
-				if (!sprite.getLookDataList().isEmpty()) {
-					sprite.look.setLookData(sprite.getLookDataList().get(0));
+				if (!sprite.getLookList().isEmpty()) {
+					sprite.look.setLookData(sprite.getLookList().get(0));
 				}
 			}
 
@@ -840,7 +840,7 @@ public class StageListener implements ApplicationListener {
 	private void disposeTextures() {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
-				for (LookData lookData : sprite.getLookDataList()) {
+				for (LookData lookData : sprite.getLookList()) {
 					lookData.dispose();
 				}
 			}

@@ -58,12 +58,6 @@ public class ComeToFrontBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		ComeToFrontBrick copyBrick = (ComeToFrontBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public Brick clone() {
 		return new ComeToFrontBrick();
 	}

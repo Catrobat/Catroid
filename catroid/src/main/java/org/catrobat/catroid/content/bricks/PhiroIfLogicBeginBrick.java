@@ -41,10 +41,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemSelectedListener {
+
 	private static final long serialVersionUID = 1L;
 	protected transient IfLogicElseBrick ifElseBrick;
 	protected transient IfLogicEndBrick ifEndBrick;
-	private transient PhiroIfLogicBeginBrick copy;
 	private int sensorSpinnerPosition = 0;
 
 	public PhiroIfLogicBeginBrick() {
@@ -62,10 +62,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	public IfLogicEndBrick getIfEndBrick() {
 		return ifEndBrick;
-	}
-
-	public PhiroIfLogicBeginBrick getCopy() {
-		return copy;
 	}
 
 	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
@@ -189,15 +185,5 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		returnActionList.add(ifAction);
 
 		return returnActionList;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		//ifEndBrick and ifElseBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
-		PhiroIfLogicBeginBrick copyBrick = (PhiroIfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		copyBrick.ifElseBrick = null; //if the Formula gets a field sprite, a separate copy method will be needed
-		copyBrick.ifEndBrick = null;
-		this.copy = copyBrick;
-		return copyBrick;
 	}
 }

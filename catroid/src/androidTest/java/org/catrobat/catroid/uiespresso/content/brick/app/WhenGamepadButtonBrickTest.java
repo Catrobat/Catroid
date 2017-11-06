@@ -28,7 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -50,8 +50,8 @@ public class WhenGamepadButtonBrickTest {
 	private int brickPosition;
 
 	@Rule
-	public DontGenerateDefaultProjectActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			DontGenerateDefaultProjectActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public DontGenerateDefaultProjectActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			DontGenerateDefaultProjectActivityInstrumentationRule<>(SpriteActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {

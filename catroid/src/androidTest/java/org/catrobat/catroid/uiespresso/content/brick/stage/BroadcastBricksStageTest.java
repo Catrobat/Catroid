@@ -91,7 +91,7 @@ public class BroadcastBricksStageTest {
 	private Script createProjectAndGetStartScriptWithImages(String projectName) {
 		String defaultMessage = "defaultMessage";
 
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 
@@ -99,13 +99,13 @@ public class BroadcastBricksStageTest {
 
 		LookData redLookData = new LookData();
 		String redImageName = "red_image.bmp";
-		redLookData.setLookName(redImageName);
-		sprite.getLookDataList().add(redLookData);
+		redLookData.setName(redImageName);
+		sprite.getLookList().add(redLookData);
 
 		LookData greenLookData = new LookData();
 		String greenImageName = "green_image.bmp";
-		greenLookData.setLookName(greenImageName);
-		sprite.getLookDataList().add(greenLookData);
+		greenLookData.setName(greenImageName);
+		sprite.getLookList().add(greenLookData);
 
 		script.addBrick(new PlaceAtBrick(0, 0));
 		script.addBrick(new SetSizeToBrick(5000));
@@ -130,8 +130,8 @@ public class BroadcastBricksStageTest {
 				org.catrobat.catroid.test.R.raw.green_image, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.IMAGE);
 
-		redLookData.setLookFilename(redImageFile.getName());
-		greenLookData.setLookFilename(greenImageFile.getName());
+		redLookData.setFileName(redImageFile.getName());
+		greenLookData.setFileName(greenImageFile.getName());
 
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);

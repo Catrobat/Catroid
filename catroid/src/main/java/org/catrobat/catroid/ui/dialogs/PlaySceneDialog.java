@@ -28,27 +28,25 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.RadioButton;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
 
 public class PlaySceneDialog extends DialogFragment {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_play_scene";
+	public static final String TAG = PlaySceneDialog.class.getSimpleName();
 
-	private static final String TAG = PlaySceneDialog.class.getSimpleName();
-
+	private PlaySceneInterface playSceneInterface;
 	private RadioButton playFirstScene;
+
+	public PlaySceneDialog(PlaySceneInterface playSceneInterface) {
+		this.playSceneInterface = playSceneInterface;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -59,24 +57,20 @@ public class PlaySceneDialog extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+				})
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 					}
-				}).create();
+				})
+				.create();
 
 		playSceneDialog.setCanceledOnTouchOutside(true);
-		playSceneDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+
 		playSceneDialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
-				if (getActivity() == null) {
-					Log.e(TAG, "onShow() Activity was null!");
-					return;
-				}
-
 				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-				positiveButton.setEnabled(true);
 				positiveButton.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -102,27 +96,23 @@ public class PlaySceneDialog extends DialogFragment {
 	}
 
 	protected void handleOkButtonClick() {
-		if (getActivity() == null) {
-			Log.e(TAG, "handleOkButtonClick() Activity was null!");
-			return;
-		}
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+
 		if (playFirstScene.isChecked()) {
-			ProjectManager.getInstance().setSceneToPlay(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
+			projectManager.setSceneToPlay(projectManager.getCurrentProject().getDefaultScene());
 		} else {
-			ProjectManager.getInstance().setSceneToPlay(ProjectManager.getInstance().getCurrentScene());
+			projectManager.setSceneToPlay(projectManager.getCurrentScene());
 		}
 
-		ProjectManager.getInstance().setStartScene(ProjectManager.getInstance().getSceneToPlay());
+		projectManager.setStartScene(ProjectManager.getInstance().getSceneToPlay());
+		playSceneInterface.startPreStageActivity();
 
-		if (getActivity() instanceof ProjectActivity) {
-			((ProjectActivity) getActivity()).startPreStageActivity();
-		}
-		if (getActivity() instanceof ScriptActivity) {
-			((ScriptActivity) getActivity()).startPreStageActivity();
-		}
-		if (getActivity() instanceof ProgramMenuActivity) {
-			((ProgramMenuActivity) getActivity()).startPreStageActivity();
-		}
 		dismiss();
+	}
+
+	public interface PlaySceneInterface {
+
+		void startPreStageActivity();
 	}
 }

@@ -90,10 +90,8 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		try {
 			camera = Camera.open();
 			IcsFaceDetector detector = new IcsFaceDetector();
-			boolean success = false;
 			if ((camera.getParameters()).getMaxNumDetectedFaces() > 0) {
-				success = detector.startFaceDetection();
-				assertFalse("IcsFaceDetector should not start if camera not available.", success);
+				assertFalse("IcsFaceDetector should not start if camera not available.", detector.startFaceDetection());
 			}
 		} catch (Exception exc) {
 			fail("Camera not available (" + exc.getMessage() + ")");

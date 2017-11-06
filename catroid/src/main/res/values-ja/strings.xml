@@ -45,7 +45,7 @@
   <string name="move">移動</string>
   <string name="backpack_add">バックパックに追加</string>
   <string name="backpack">バックパック</string>
-  <string name="packing">パック</string>
+  <string name="pack">パック</string>
   <string name="unpack">解凍</string>
   <string name="unpack_bg">背景として解凍</string>
   <string name="unpack_object">オブジェクトとして解凍</string>
@@ -1436,7 +1436,7 @@
   <string name="formula_editor_intro_summary_device">\"デバイス\" で、お使いのスマートフォンやタブレットの記録した情報を見つけることができます。 \n例えば、お使いのデバイスの傾きや、周辺の音の大きさなど。</string>
   <string name="formula_editor_intro_title_data">データ</string>
   <string name="formula_editor_intro_summary_data">プログラムで使用される変数やリストをここで見つけることができます。\n数式にこれらを挿入したり、新しいものを追加することができます。</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="other">アイテム選択済!</item>
   </plurals>
   <!--  -->

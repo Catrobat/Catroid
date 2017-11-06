@@ -158,18 +158,6 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
-		if (currentScene == null) {
-			throw new RuntimeException("The current project must be set before cloning it");
-		}
-
-		InsertItemIntoUserListBrick copyBrick = (InsertItemIntoUserListBrick) clone();
-		copyBrick.userList = currentScene.getDataContainer().getUserList(sprite, userList.getName());
-		return copyBrick;
-	}
-
-	@Override
 	public void updateReferenceAfterMerge(Scene into, Scene from) {
 		super.updateUserListReference(into, from);
 	}

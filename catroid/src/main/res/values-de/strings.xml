@@ -44,7 +44,7 @@
   <string name="move">Verschieben</string>
   <string name="backpack_add">In den Rucksack packen</string>
   <string name="backpack">Rucksack</string>
-  <string name="packing">Einpacken</string>
+  <string name="pack">Einpacken</string>
   <string name="unpack">Auspacken</string>
   <string name="unpack_bg">Als Hintergrund entpacken</string>
   <string name="unpack_object">Als Objekt entpacken</string>
@@ -1441,7 +1441,7 @@ Wir möchten dich daran erinnern die Nutzungsbedingungen von Parrot sowie diese 
         Smartphone oder Tablet aufzeichnet.\nZum Beispiel die Neigung deines Geräts oder die Lautstärke in deiner Umgebung. </string>
   <string name="formula_editor_intro_title_data">Daten</string>
   <string name="formula_editor_intro_summary_data">Hier findest du Variablen und Listen, welche in deinem Programm verwendet werden. \nDu kannst diese einfach in deine Formel einfügen. </string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="one">Element ausgewählt!</item>
     <item quantity="other">Elemente ausgewählt!</item>
   </plurals>

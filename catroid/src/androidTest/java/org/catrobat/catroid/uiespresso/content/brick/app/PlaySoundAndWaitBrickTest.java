@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.ui.SpriteAttributesActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -67,6 +67,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -84,8 +85,8 @@ public class PlaySoundAndWaitBrickTest {
 	private int playSoundBrickPosition;
 
 	@Rule
-	public BaseActivityInstrumentationRule<ProgramMenuActivity> programMenuActivityRule = new
-			BaseActivityInstrumentationRule<>(ProgramMenuActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteAttributesActivity> programMenuActivityRule = new
+			BaseActivityInstrumentationRule<>(SpriteAttributesActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
@@ -126,7 +127,7 @@ public class PlaySoundAndWaitBrickTest {
 				.checkShowsText(soundName);
 		pressBack();
 
-		deleteSoundByName(soundName);
+		deleteSound(0);
 
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
@@ -175,7 +176,7 @@ public class PlaySoundAndWaitBrickTest {
 
 		pressBack();
 
-		renameSound(soundName, newName);
+		renameSound(0, soundName, newName);
 
 		onView(withId(R.id.program_menu_button_scripts))
 				.perform(click());
@@ -186,14 +187,14 @@ public class PlaySoundAndWaitBrickTest {
 				.checkShowsText(newName);
 	}
 
-	private void deleteSoundByName(String soundName) {
+	private void deleteSound(int position) {
 		onView(withId(R.id.program_menu_button_sounds))
 				.perform(click());
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.delete))
 				.perform(click());
-		onView(withText(soundName))
-				.perform(click());
+		onRVAtPosition(position)
+				.performCheckItem();
 		onView(withContentDescription(R.string.done))
 				.perform(click());
 
@@ -208,14 +209,14 @@ public class PlaySoundAndWaitBrickTest {
 		pressBack();
 	}
 
-	private void renameSound(String oldName, String newName) {
+	private void renameSound(int position, String oldName, String newName) {
 		onView(withId(R.id.program_menu_button_sounds))
 				.perform(click());
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.rename))
 				.perform(click());
-		onView(withText(oldName))
-				.perform(click());
+		onRVAtPosition(position)
+				.performCheckItem();
 		onView(withContentDescription(R.string.done))
 				.perform(click());
 
@@ -265,26 +266,22 @@ public class PlaySoundAndWaitBrickTest {
 
 		soundFile = FileTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene()
 						.getName(),
-				"longsound.mp3", RESOURCE_SOUND, InstrumentationRegistry.getTargetContext(),
+				"longsound.mp3", RESOURCE_SOUND, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setSoundFileName(soundFile.getName());
-		soundInfo.setTitle(soundName);
+		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setName(soundName);
 
 		soundFile2 = FileTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene()
 						.getName(),
-				"testsoundui.mp3", RESOURCE_SOUND2, InstrumentationRegistry.getTargetContext(),
+				"testsoundui.mp3", RESOURCE_SOUND2, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo2 = new SoundInfo();
-		soundInfo2.setSoundFileName(soundFile2.getName());
-		soundInfo2.setTitle(soundName2);
+		soundInfo2.setFileName(soundFile2.getName());
+		soundInfo2.setName(soundName2);
 
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 	}
 }

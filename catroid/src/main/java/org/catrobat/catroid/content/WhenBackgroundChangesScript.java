@@ -36,10 +36,10 @@ public class WhenBackgroundChangesScript extends Script {
 	private LookData look;
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenBackgroundChangesScript cloneScript = new WhenBackgroundChangesScript();
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		WhenBackgroundChangesScript clone = new WhenBackgroundChangesScript();
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
 	@Override

@@ -41,15 +41,8 @@ public class PenDownBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		PenDownBrick copyBrick = (PenDownBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_pen_down, null);
-
 		return view;
 	}
 

@@ -314,7 +314,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent intent = new Intent(this, MyProjectsActivity.class);
+		Intent intent = new Intent(this, ProjectListActivity.class);
 		startActivity(intent);
 	}
 

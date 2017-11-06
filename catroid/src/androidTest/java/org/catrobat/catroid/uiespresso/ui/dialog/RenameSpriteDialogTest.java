@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
+import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -55,6 +56,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -69,7 +71,9 @@ public class RenameSpriteDialogTest {
 	@Before
 	public void setUp() throws Exception {
 		createProject("renameSpriteDialogTest");
-		baseActivityTestRule.launchActivity(null);
+		Intent intent = new Intent();
+		intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+		baseActivityTestRule.launchActivity(intent);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -77,7 +81,7 @@ public class RenameSpriteDialogTest {
 	@Flaky
 	public void renameSpriteDialogTest() {
 		String newSpriteName = "renamedSprite";
-		renameFirstSpriteTo(newSpriteName);
+		renameSpriteTo(newSpriteName);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -85,15 +89,17 @@ public class RenameSpriteDialogTest {
 	@Flaky
 	public void renameSpriteSwitchCaseDialogTest() {
 		String newSpriteName = "SeConDspRite";
-		renameFirstSpriteTo(newSpriteName);
+		renameSpriteTo(newSpriteName);
 	}
 
-	private void renameFirstSpriteTo(String newSpriteName) {
+	private void renameSpriteTo(String newSpriteName) {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.rename)).perform(click());
 
-		onView(withText(oldSpriteName)).perform(click());
-		onView(withContentDescription("Done")).perform(click());
+		onRVAtPosition(2)
+				.performCheckItem();
+
+		onView(withContentDescription(R.string.done)).perform(click());
 
 		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -112,7 +118,7 @@ public class RenameSpriteDialogTest {
 	}
 
 	private void createProject(String projectName) {
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
 		Sprite secondSprite = new SingleSprite(oldSpriteName);
@@ -121,6 +127,6 @@ public class RenameSpriteDialogTest {
 		project.getDefaultScene().addSprite(secondSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
 	}
 }

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.MotionEvent;
@@ -41,15 +42,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.SoundController;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
-import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.List;
 
 public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListener,
-		OnSoundInfoListChangedAfterNewListener {
+		NewItemInterface<SoundInfo> {
 	private static final long serialVersionUID = 1L;
 
 	private SoundInfo sound;
@@ -61,26 +60,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		PlaySoundBrick copyBrick = (PlaySoundBrick) clone();
-
-		if (sound != null && (sound.isBackpackSoundInfo() || sprite.isClone())) {
-			copyBrick.sound = sound;
-			copyBrick.sound.setBackpackSoundInfo(false);
-			return copyBrick;
-		}
-
-		for (SoundInfo soundInfo : sprite.getSoundList()) {
-			if (sound != null && soundInfo != null && soundInfo.getAbsolutePath().equals(sound.getAbsolutePath())) {
-				copyBrick.sound = soundInfo;
-				copyBrick.sound.setBackpackSoundInfo(false);
-				break;
-			}
-		}
-		return copyBrick;
 	}
 
 	@Override
@@ -115,7 +94,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 				android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		SoundInfo dummySoundInfo = new SoundInfo();
-		dummySoundInfo.setTitle(context.getString(R.string.new_broadcast_message));
+		dummySoundInfo.setName(context.getString(R.string.new_broadcast_message));
 		arrayAdapter.add(dummySoundInfo);
 		for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
 			arrayAdapter.add(soundInfo);
@@ -136,7 +115,9 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 	@Override
 	public Brick clone() {
-		return new PlaySoundBrick();
+		PlaySoundBrick clone = new PlaySoundBrick();
+		clone.setSoundInfo(sound);
+		return clone;
 	}
 
 	public void setSoundInfo(SoundInfo soundInfo) {
@@ -185,12 +166,17 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		return sound;
 	}
 
-	private void setOnSoundInfoListChangedAfterNewListener(Context context) {
-		ScriptActivity scriptActivity = (ScriptActivity) context;
-		SoundFragment soundFragment = (SoundFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
-		if (soundFragment != null) {
-			soundFragment.setOnSoundInfoListChangedAfterNewListener(this);
-		}
+	private void showNewSoundDialog(Activity activity) {
+		NewSoundDialog dialog = new NewSoundDialog(
+				this, ProjectManager.getInstance().getCurrentScene(), ProjectManager.getInstance().getCurrentSprite());
+		dialog.show(activity.getFragmentManager(), NewSoundDialog.TAG);
+	}
+
+	@Override
+	public void addItem(SoundInfo soundInfo) {
+		ProjectManager.getInstance().getCurrentSprite().getSoundList().add(soundInfo);
+		sound = soundInfo;
+		oldSelectedSound = soundInfo;
 	}
 
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {
@@ -230,7 +216,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		@Override
 		public long getItemId(int paramInt) {
 			SoundInfo currentSound = spinnerAdapter.getItem(paramInt);
-			if (!currentSound.getTitle().equals(context.getString(R.string.new_broadcast_message))) {
+			if (!currentSound.getName().equals(context.getString(R.string.new_broadcast_message))) {
 				oldSelectedSound = currentSound;
 			}
 			return spinnerAdapter.getItemId(paramInt);
@@ -246,7 +232,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 			if (isTouchInDropDownView) {
 				isTouchInDropDownView = false;
 				if (paramInt == 0) {
-					switchToSoundFragmentFromScriptFragment();
+					showNewSoundDialog((Activity) context);
 				}
 			}
 			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
@@ -281,29 +267,9 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 			return dropDownView;
 		}
-
-		private void switchToSoundFragmentFromScriptFragment() {
-			ScriptActivity scriptActivity = ((ScriptActivity) context);
-			scriptActivity.switchToFragmentFromScriptFragment(ScriptActivity.FRAGMENT_SOUNDS);
-
-			setOnSoundInfoListChangedAfterNewListener(context);
-		}
-	}
-
-	@Override
-	public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo) {
-		sound = soundInfo;
-		oldSelectedSound = soundInfo;
 	}
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		if (sound == null) {
-			return;
-		}
-		sound = SoundController.getInstance().backPackHiddenSound(sound);
-		if (sprite != null && !sprite.getSoundList().contains(sound)) {
-			sprite.getSoundList().add(sound);
-		}
 	}
 }

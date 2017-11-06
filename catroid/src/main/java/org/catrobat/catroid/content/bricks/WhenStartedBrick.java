@@ -57,13 +57,6 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		WhenStartedBrick copyBrick = (WhenStartedBrick) clone();
-		copyBrick.script = script;
-		return copyBrick;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, final BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;

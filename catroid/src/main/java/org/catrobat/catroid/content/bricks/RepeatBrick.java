@@ -45,14 +45,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
 	protected transient LoopEndBrick loopEndBrick;
-	private transient long beginLoopTime;
-
-	private transient LoopBeginBrick copy;
 
 	public RepeatBrick() {
 		addAllowedBrickField(BrickField.TIMES_TO_REPEAT);
@@ -148,24 +146,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
-		RepeatBrick copyBrick = (RepeatBrick) clone();
-		copy = copyBrick;
-		return copyBrick;
-	}
-
-	@Override
-	public long getBeginLoopTime() {
-		return beginLoopTime;
-	}
-
-	@Override
-	public void setBeginLoopTime(long beginLoopTime) {
-		this.beginLoopTime = beginLoopTime;
-	}
-
-	@Override
 	public LoopEndBrick getLoopEndBrick() {
 		return loopEndBrick;
 	}
@@ -173,11 +153,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	@Override
 	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
 		this.loopEndBrick = loopEndBrick;
-	}
-
-	@Override
-	public LoopBeginBrick getCopy() {
-		return copy;
 	}
 
 	@Override

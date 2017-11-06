@@ -96,12 +96,17 @@ public class SmokeTest {
 		//onView(withText(toUpperCase(R.string.spritelist_background_headline))).check(matches(isDisplayed()));
 		//onView(withText(toUpperCase(R.string.sprites))).check(matches(isDisplayed()));
 
+		//open scene
+		String sceneName = UiTestUtils.getResources().getString(R.string.default_scene_name, 1);
+		onView(withText(sceneName))
+				.perform(click());
+
 		//add sprite
 		onView(withId(R.id.button_add))
 				.perform(click());
 
 		//check if new object dialog is displayed
-		onView(withText(R.string.new_sprite_dialog_title))
+		onView(withText(R.string.new_look_dialog_title))
 				.check(matches(isDisplayed()));
 		//cancel by back
 		pressBack();

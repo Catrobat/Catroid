@@ -41,13 +41,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCase2<SpriteActivity> {
 
 	private static final String TAG = SetPhysicsObjectTypeBrickTest.class.getSimpleName();
 
@@ -56,7 +56,7 @@ public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCa
 	private SetPhysicsObjectTypeBrick setPhysicsObjectTypeBrick;
 
 	public SetPhysicsObjectTypeBrickTest() {
-		super(ScriptActivity.class);
+		super(SpriteActivity.class);
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCa
 
 		solo.pressSpinnerItem(0, spinnerItemIndex);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForActivity(SpriteActivity.class.getSimpleName());
 
 		PhysicsObject.Type choosenPhysicsType = (PhysicsObject.Type) Reflection.getPrivateField(
 				setPhysicsObjectTypeBrick, "type");

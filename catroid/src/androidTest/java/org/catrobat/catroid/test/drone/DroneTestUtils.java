@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.drone;
 
+import android.support.test.InstrumentationRegistry;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -39,7 +41,7 @@ public abstract class DroneTestUtils {
 	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
 
 	public static void createDefaultDroneProject() {
-		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new SingleSprite("DroneBricksTest");
 		Script script = new StartScript();
 

@@ -68,7 +68,7 @@ public final class DefaultProjectHandler {
 		Project defaultProject = null;
 
 		if (StorageHandler.getInstance().projectExists(projectName) && !forScene) {
-			StorageHandler.getInstance().deleteProject(projectName);
+			StorageHandler.deleteDir(Utils.buildProjectPath(projectName));
 		}
 
 		if (forScene) {

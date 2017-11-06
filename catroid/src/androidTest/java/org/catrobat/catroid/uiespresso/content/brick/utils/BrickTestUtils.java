@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
+import android.support.test.InstrumentationRegistry;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -47,7 +49,7 @@ public final class BrickTestUtils {
 	}
 
 	public static Script createProjectAndGetStartScript(String projectName) {
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 

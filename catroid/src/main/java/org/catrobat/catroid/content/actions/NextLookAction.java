@@ -35,7 +35,7 @@ public class NextLookAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		final List<LookData> lookDataList = sprite.getLookDataList();
+		final List<LookData> lookDataList = sprite.getLookList();
 		int lookDataListSize = lookDataList.size();
 
 		if (lookDataListSize > 0 && sprite.look.getLookData() != null) {

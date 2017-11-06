@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -37,8 +36,8 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import java.util.List;
 
 public abstract class BrickBaseType implements Brick {
+
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = BrickBaseType.class.getSimpleName();
 	public transient View view;
 	protected transient CheckBox checkbox;
 	protected transient BrickAdapter adapter;
@@ -122,17 +121,6 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		return (Brick) super.clone();
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		BrickBaseType copyBrick = null;
-		try {
-			copyBrick = (BrickBaseType) clone();
-		} catch (CloneNotSupportedException exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
-		}
-		return copyBrick;
 	}
 
 	@Override

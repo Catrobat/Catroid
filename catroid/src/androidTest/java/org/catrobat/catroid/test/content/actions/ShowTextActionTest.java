@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -42,7 +43,7 @@ public class ShowTextActionTest extends AndroidTestCase {
 
 	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
 		Sprite sprite = new Sprite(SPRITE_NAME);
-		Project project = new Project(null, "testProject");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

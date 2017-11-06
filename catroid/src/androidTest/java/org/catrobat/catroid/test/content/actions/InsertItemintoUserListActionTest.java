@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
@@ -51,7 +52,7 @@ public class InsertItemintoUserListActionTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		actionFactory = new ActionFactory();
 		testSprite = new SingleSprite("testSingleSprite");
-		project = new Project(null, "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
 		userList = ProjectManager.getInstance().getCurrentScene().getDataContainer()

@@ -22,12 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,10 +30,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -58,7 +51,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class FormulaEditorCategoryListFragment extends ListFragment implements Dialog.OnKeyListener, CategoryListAdapter.OnListItemClickListener {
+public class FormulaEditorCategoryListFragment extends ListFragment implements
+		CategoryListAdapter.OnListItemClickListener {
 
 	public static final String TAG = FormulaEditorCategoryListFragment.class.getSimpleName();
 	public static final String OBJECT_TAG = "objectFragment";
@@ -242,20 +236,17 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 				if (itemsIds[position] == R.string.formula_editor_function_collision) {
 					showChooseSpriteDialog(formulaEditor);
 				} else {
-
 					formulaEditor.addResourceToActiveFormula(itemsIds[position]);
-					formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 				}
 			}
-			KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
-			onKey(null, keyEvent.getKeyCode(), keyEvent);
+			getActivity().onBackPressed();
 		}
 	}
 
 	private boolean isNXTItem(int position) {
 		String clickedItem = getString(itemsIds[position]);
-		for (int index = 0; index < NXT_SENSOR_ITEMS.length; index++) {
-			if (getString(NXT_SENSOR_ITEMS[index]).equals(clickedItem)) {
+		for (int sensorItem : NXT_SENSOR_ITEMS) {
+			if (getString(sensorItem).equals(clickedItem)) {
 				return true;
 			}
 		}
@@ -264,8 +255,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 	private boolean isEV3Item(int position) {
 		String clickedItem = getString(itemsIds[position]);
-		for (int index = 0; index < EV3_SENSOR_ITEMS.length; index++) {
-			if (getString(EV3_SENSOR_ITEMS[index]).equals(clickedItem)) {
+		for (int sensorItem : EV3_SENSOR_ITEMS) {
+			if (getString(sensorItem).equals(clickedItem)) {
 				return true;
 			}
 		}
@@ -301,13 +292,13 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		int item = getLegoPort(resultCode, data.getType().equals("NXT") ? true : false);
+		int item = getLegoPort(resultCode, data.getType().equals("NXT"));
 		if (formulaEditor != null && item != -1) {
 			formulaEditor.addResourceToActiveFormula(item);
 			formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 		}
-		KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
-		onKey(null, keyEvent.getKeyCode(), keyEvent);
+
+		getActivity().onBackPressed();
 	}
 
 	private int getLegoPort(int port, boolean nxt) {
@@ -349,7 +340,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 			ProjectManager projectManager = ProjectManager.getInstance();
 			Sprite currentSprite = projectManager.getCurrentSprite();
-			if (projectManager.getCurrentScene().isBackgroundObject(currentSprite)) {
+			if (projectManager.getCurrentScene().getSpriteList().indexOf(currentSprite) == 0) {
 				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_BACKGROUND);
 			} else {
 				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_LOOK);
@@ -504,46 +495,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				closeCategoryListFragment();
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_formula_editor_list, container, false);
-	}
-
-	public void showFragment(Context context) {
-		Activity activity = (Activity) context;
-		FragmentManager fragmentManager = activity.getFragmentManager();
-		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-		Fragment formulaEditorFragment = fragmentManager
-				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		fragTransaction.hide(formulaEditorFragment);
-
-		fragTransaction.show(this);
-		fragTransaction.commit();
-	}
-
-	@Override
-	public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			closeCategoryListFragment();
-			return true;
-		}
-		return false;
-	}
-
-	private void closeCategoryListFragment() {
-		FragmentTransaction fragTransaction = getActivity().getFragmentManager().beginTransaction();
-		fragTransaction.hide(this);
-		fragTransaction.show(getActivity().getFragmentManager()
-				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
-		fragTransaction.commit();
 	}
 }

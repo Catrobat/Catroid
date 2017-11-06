@@ -34,7 +34,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 
 import java.util.Collections;
 import java.util.List;
@@ -50,11 +49,6 @@ public class CloneBrick extends BrickBaseType implements BrickWithSpriteReferenc
 	}
 
 	public CloneBrick() {
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		return clone();
 	}
 
 	@Override
@@ -95,13 +89,6 @@ public class CloneBrick extends BrickBaseType implements BrickWithSpriteReferenc
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		if (objectToClone == null) {
-			return;
-		}
-
-		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-		objectToClone = BackPackSpriteController.getInstance().backpackHiddenSprite(objectToClone);
-		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}
 
 	private void setupValueSpinner(final Context context) {

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -67,7 +68,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		ActionFactory factory = sprite.getActionFactory();
 		ifOnEdgeBounceAction = factory.createIfOnEdgeBounceAction(sprite);
 
-		Project project = new Project(null, "Test", false);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "Test", false);
 		project.getXmlHeader().virtualScreenWidth = SCREEN_WIDTH;
 		project.getXmlHeader().virtualScreenHeight = SCREEN_HEIGHT;
 

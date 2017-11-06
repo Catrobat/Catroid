@@ -146,7 +146,7 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			LookData backgroundLookData = new LookData(backgroundName, backgroundFile.getName());
 
 			Sprite backgroundSprite = defaultProject.getDefaultScene().getSpriteList().get(0);
-			backgroundSprite.getLookDataList().add(backgroundLookData);
+			backgroundSprite.getLookList().add(backgroundLookData);
 
 			LookData birdWingUpLookData = new LookData(birdWingUpLookName, birdWingUpFile.getName());
 			LookData birdWingDownLookData = new LookData(birdWingDownLookName, birdWingDownFile.getName());
@@ -156,16 +156,10 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			SoundInfo soundInfo1 = new SoundInfo(tweet1, soundFile1.getName());
 			SoundInfo soundInfo2 = new SoundInfo(tweet2, soundFile2.getName());
 
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo1.getChecksum(), soundInfo1.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingUpLookData.getChecksum(), birdWingUpLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingDownLookData.getChecksum(), birdWingDownLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(cloudLookData.getChecksum(), cloudLookData.getAbsolutePath());
-
 			Sprite cloudSprite1 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName1);
 			Sprite cloudSprite2 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName2);
-			cloudSprite1.getLookDataList().add(cloudLookData);
-			cloudSprite2.getLookDataList().add(cloudLookData.clone());
+			cloudSprite1.getLookList().add(cloudLookData);
+			cloudSprite2.getLookList().add(cloudLookData.clone());
 
 			Script cloudSpriteScript1 = new StartScript();
 			Script cloudSpriteScript2 = new StartScript();
@@ -209,8 +203,8 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			defaultProject.getDefaultScene().addSprite(cloudSprite2);
 
 			Sprite birdSprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), birdLookName);
-			birdSprite.getLookDataList().add(birdWingUpLookData);
-			birdSprite.getLookDataList().add(birdWingDownLookData);
+			birdSprite.getLookList().add(birdWingUpLookData);
+			birdSprite.getLookList().add(birdWingDownLookData);
 			birdSprite.getSoundList().add(soundInfo1);
 			birdSprite.getSoundList().add(soundInfo2);
 			Script birdStartScript = new StartScript();

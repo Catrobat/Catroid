@@ -80,7 +80,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		FormulaBrick clonedBrick = (FormulaBrick) super.clone();
-		clonedBrick.formulaMap = this.formulaMap.clone();
+		clonedBrick.formulaMap = formulaMap.clone();
 		return clonedBrick;
 	}
 

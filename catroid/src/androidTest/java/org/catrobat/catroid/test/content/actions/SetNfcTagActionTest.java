@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
@@ -55,7 +56,7 @@ public class SetNfcTagActionTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		project = new Project(null, "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
 		super.setUp();
 	}

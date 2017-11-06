@@ -97,13 +97,13 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 		//LookData backgroundLookData = new DroneVideoLookData();
 		LookData backgroundLookData = new LookData();
-		backgroundLookData.setLookName(context.getString(R.string.add_look_jumping_sumo_video));
-		backgroundLookData.setLookFilename(backgroundFile.getName());
-		sprite.getLookDataList().add(backgroundLookData);
+		backgroundLookData.setName(context.getString(R.string.add_look_jumping_sumo_video));
+		backgroundLookData.setFileName(backgroundFile.getName());
+		sprite.getLookList().add(backgroundLookData);
 
 		Sprite backgroundSprite = defaultJumpingSumoProject.getDefaultScene().getSpriteList().get(0);
 
-		backgroundSprite.getLookDataList().add(backgroundLookData);
+		backgroundSprite.getLookList().add(backgroundLookData);
 		Script backgroundStartScript = new StartScript();
 
 		SetLookBrick setLookBrick = new SetLookBrick();
@@ -254,11 +254,11 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		whenProjectStartsScript.addBrick(setSizeBrick);
 
 		LookData lookData = new LookData();
-		lookData.setLookName(spriteName + " icon");
+		lookData.setName(spriteName + " icon");
 
-		lookData.setLookFilename(lookFile.getName());
+		lookData.setFileName(lookFile.getName());
 
-		sprite.getLookDataList().add(lookData);
+		sprite.getLookList().add(lookData);
 
 		sprite.addScript(whenSpriteTappedScript);
 		sprite.addScript(whenProjectStartsScript);

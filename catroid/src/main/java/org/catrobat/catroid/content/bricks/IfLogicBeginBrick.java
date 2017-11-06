@@ -42,11 +42,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
+
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
 	protected transient IfLogicElseBrick ifElseBrick;
 	protected transient IfLogicEndBrick ifEndBrick;
-	protected transient IfLogicBeginBrick copy;
 
 	public IfLogicBeginBrick() {
 		addAllowedBrickField(BrickField.IF_CONDITION);
@@ -76,10 +76,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 	public IfLogicEndBrick getIfEndBrick() {
 		return ifEndBrick;
-	}
-
-	public IfLogicBeginBrick getCopy() {
-		return copy;
 	}
 
 	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
@@ -186,15 +182,5 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		returnActionList.add(ifAction);
 
 		return returnActionList;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		//ifEndBrick and ifElseBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
-		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		copyBrick.ifElseBrick = null; //if the Formula gets a field sprite, a separate copy method will be needed
-		copyBrick.ifEndBrick = null;
-		this.copy = copyBrick;
-		return copyBrick;
 	}
 }

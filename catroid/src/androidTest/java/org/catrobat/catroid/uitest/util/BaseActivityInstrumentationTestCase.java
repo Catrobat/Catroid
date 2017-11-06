@@ -30,13 +30,10 @@ import android.util.Log;
 
 import com.robotium.solo.Solo;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 
@@ -75,8 +72,6 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		this.createSoloInSetUp = createSoloInSetUp;
 	}
 
-	private boolean unzip;
-
 	@Override
 	protected void setUp() throws Exception {
 		Log.v(TAG, "setUp");
@@ -85,7 +80,6 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		systemAnimations = new SystemAnimations(getInstrumentation().getTargetContext());
 		systemAnimations.disableAll();
 
-		unzip = false;
 		saveProjectsToZip();
 
 		if (clazz.getSimpleName().equalsIgnoreCase(MainMenuActivity.class.getSimpleName())) {
@@ -170,17 +164,6 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 					zipFile.delete();
 					throw new IOException("Cannot write data to Zip File!");
 				}
-
-				for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
-					Log.d(TAG, projectName + "will be deleted");
-					ProjectManager.getInstance().deleteProject(projectName, this.getInstrumentation().getTargetContext());
-				}
-
-				for (int i = 0; i < paths.length; i++) {
-					Log.d(TAG, "Path to delete: " + paths[i]);
-					StorageHandler.getInstance().deleteAllFile(paths[i]);
-				}
-				unzip = true;
 			} catch (IOException e) {
 				Log.d(TAG, "Zipping failed!", e);
 				fail("IOException while zipping projects");
@@ -189,38 +172,5 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 	}
 
 	public void unzipProjects() {
-
-		try {
-
-			File rootDirectory = new File(Constants.DEFAULT_ROOT);
-
-			for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
-				Log.d(TAG, projectName + "will be deleted");
-				ProjectManager.getInstance().deleteProject(projectName, this.getInstrumentation().getTargetContext());
-			}
-
-			String[] paths = rootDirectory.list();
-			for (int i = 0; i < paths.length; i++) {
-				paths[i] = Utils.buildPath(rootDirectory.getAbsolutePath(), paths[i]);
-			}
-
-			String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
-
-			for (int i = 0; i < paths.length; i++) {
-				if (!paths[i].equals(zipFileString)) {
-					Log.d(TAG, "Path to delete: " + paths[i]);
-					StorageHandler.getInstance().deleteAllFile(paths[i]);
-				}
-			}
-
-			if (unzip) {
-				Log.d(TAG, "i am the unzipfile: " + zipFileString);
-				File zipFile = new File(zipFileString);
-				UtilZip.unZipFile(zipFileString, Constants.DEFAULT_ROOT);
-				zipFile.delete();
-			}
-		} catch (IOException e) {
-			Log.d(TAG, "Something wet wrong while unzip files in tear down", e);
-		}
 	}
 }

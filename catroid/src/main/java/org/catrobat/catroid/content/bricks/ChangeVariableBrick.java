@@ -129,12 +129,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public ChangeVariableBrick copyBrickForSprite(Sprite sprite) {
-		ChangeVariableBrick copyBrick = clone();
-		return copyBrick;
-	}
-
-	@Override
 	public ChangeVariableBrick clone() {
 		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getFormulaWithBrickField(
 				BrickField.VARIABLE_CHANGE).clone(), userVariable);

@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.UserBrickScriptActivity;
+import org.catrobat.catroid.ui.UserBrickSpriteActivity;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 
 import java.io.Serializable;
@@ -81,7 +81,7 @@ public class DataContainer extends BaseDataContainer {
 
 	public DataAdapter createDataAdapter(Context context, UserBrick userBrick, Sprite sprite) {
 		List<UserVariable> userBrickVariables;
-		if (userBrick == null || !(context instanceof UserBrickScriptActivity)) {
+		if (userBrick == null || !(context instanceof UserBrickSpriteActivity)) {
 			userBrickVariables = new LinkedList<>();
 		} else {
 			userBrickVariables = getOrCreateVariableListForUserBrick(userBrick);

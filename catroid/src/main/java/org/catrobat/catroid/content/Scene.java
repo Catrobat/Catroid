@@ -67,7 +67,7 @@ public class Scene implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XStreamAlias("name")
-	private String sceneName;
+	private String name;
 	@XStreamAlias("objectList")
 	private List<Sprite> spriteList = new ArrayList<>();
 	@XStreamAlias("data")
@@ -83,7 +83,7 @@ public class Scene implements Serializable {
 	public transient boolean isBackPackScene = false;
 
 	public Scene(Context context, String name, Project project) {
-		sceneName = name;
+		this.name = name;
 		dataContainer = new DataContainer(project);
 		this.project = project;
 
@@ -108,7 +108,17 @@ public class Scene implements Serializable {
 	}
 
 	public String getName() {
-		return sceneName;
+		return name;
+	}
+
+	public String getPath() {
+		String path;
+		if (isBackPackScene) {
+			path = Utils.buildBackpackScenePath(name);
+		} else {
+			path = Utils.buildScenePath(project.getName(), name);
+		}
+		return path;
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -120,56 +130,6 @@ public class Scene implements Serializable {
 
 	public synchronized boolean removeSprite(Sprite sprite) {
 		return spriteList.remove(sprite);
-	}
-
-	@Override
-	public Scene clone() {
-		Scene clonedScene = new Scene();
-		clonedScene.sceneName = sceneName;
-		clonedScene.originalWidth = originalWidth;
-		clonedScene.originalHeight = originalHeight;
-		clonedScene.physicsWorld = new PhysicsWorld(originalWidth, originalHeight);
-		clonedScene.project = project;
-		clonedScene.firstStart = firstStart;
-		clonedScene.isBackPackScene = isBackPackScene;
-
-		clonedScene.dataContainer = new DataContainer(project);
-		ProjectManager.getInstance().setCurrentScene(this);
-		for (Sprite sprite : spriteList) {
-			Sprite cloneSprite = sprite.clone();
-			for (UserBrick userBrick : cloneSprite.getUserBrickList()) {
-				ProjectManager.getInstance().setCurrentScene(clonedScene);
-				userBrick.updateUserBrickParametersAndVariables();
-				ProjectManager.getInstance().setCurrentScene(this);
-			}
-			clonedScene.spriteList.add(cloneSprite);
-		}
-
-		clonedScene.dataContainer.cloneSpriteListsForScene(clonedScene, dataContainer);
-		clonedScene.dataContainer.cloneSpriteVariablesForScene(clonedScene, dataContainer);
-		if (!isBackPackScene) {
-			clonedScene.correctUserVariableAndListReferences();
-		}
-
-		return clonedScene;
-	}
-
-	public Scene cloneForBackPack() {
-		Scene clonedScene;
-		try {
-			ProjectManager.getInstance().checkNestingBrickReferences(false, true, true);
-			clonedScene = clone();
-			clonedScene.isBackPackScene = false;
-			if (!clonedScene.mergeProjectVariables()) {
-				return null;
-			}
-			clonedScene.correctUserVariableAndListReferences();
-		} catch (Exception e) {
-			Log.e("Scene.cloneForBackpack", e.getMessage());
-			return null;
-		}
-
-		return clonedScene;
 	}
 
 	public boolean mergeProjectVariables() {
@@ -215,18 +175,6 @@ public class Scene implements Serializable {
 		return true;
 	}
 
-	public boolean isBackgroundObject(Sprite sprite) {
-		if (spriteList.indexOf(sprite) == 0) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return sceneName;
-	}
-
 	public int getOriginalWidth() {
 		return originalWidth;
 	}
@@ -269,9 +217,9 @@ public class Scene implements Serializable {
 		if (name.equals(getName())) {
 			return true;
 		}
-		File oldSceneDirectory = new File(Utils.buildScenePath(project.getName(), sceneName));
+		File oldSceneDirectory = new File(Utils.buildScenePath(project.getName(), this.name));
 		File newSceneDirectory = new File(Utils.buildScenePath(project.getName(), name));
-		String oldName = sceneName;
+		String oldName = this.name;
 
 		boolean directoryRenamed = true;
 
@@ -280,7 +228,7 @@ public class Scene implements Serializable {
 		}
 
 		if (directoryRenamed) {
-			sceneName = name;
+			this.name = name;
 			ProjectManager.getInstance().saveProject(context);
 		}
 
@@ -308,8 +256,8 @@ public class Scene implements Serializable {
 		return true;
 	}
 
-	public synchronized void setSceneName(String name) {
-		sceneName = name;
+	public synchronized void setName(String name) {
+		this.name = name;
 	}
 
 	public PhysicsWorld getPhysicsWorld() {
@@ -381,10 +329,6 @@ public class Scene implements Serializable {
 		return true;
 	}
 
-	public boolean containsSpriteBySpriteName(String searchedSprite) {
-		return getSpriteBySpriteName(searchedSprite) != null;
-	}
-
 	public UserVariable getProjectVariableWithName(String name) {
 		for (UserVariable variable : dataContainer.getProjectVariables()) {
 			if (name.equals(variable.getName())) {
@@ -444,20 +388,6 @@ public class Scene implements Serializable {
 			}
 		}
 		return null;
-	}
-
-	public synchronized void replaceBackgroundSprite(Sprite unpackedSprite) {
-		unpackedSprite.setName(spriteList.get(0).getName());
-		spriteList.set(0, unpackedSprite);
-	}
-
-	public boolean containsSprite(Sprite selectedSprite) {
-		for (Sprite sprite : spriteList) {
-			if (sprite.equals(selectedSprite)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public synchronized void correctUserVariableAndListReferences() {

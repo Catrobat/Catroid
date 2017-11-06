@@ -74,11 +74,10 @@ public class RaspiInterruptScript extends BroadcastScript {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		RaspiInterruptScript cloneScript = new RaspiInterruptScript(pin, eventValue);
-
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		RaspiInterruptScript clone = new RaspiInterruptScript(pin, eventValue);
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
 	@Override

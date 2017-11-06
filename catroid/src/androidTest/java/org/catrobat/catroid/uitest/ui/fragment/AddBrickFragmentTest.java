@@ -29,8 +29,8 @@ import android.widget.ListView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -75,7 +75,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 				currentSprite);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.waitForActivity(ScriptActivity.class);
+		solo.waitForActivity(SpriteActivity.class);
 		solo.waitForFragmentById(R.id.fragment_script);
 
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong before adding a brick", "cat",

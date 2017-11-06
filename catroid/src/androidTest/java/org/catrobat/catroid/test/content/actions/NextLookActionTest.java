@@ -87,14 +87,14 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFileName(testImage.getName());
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		LookData lookData2 = new LookData();
-		lookData2.setLookFilename(testImage.getName());
-		lookData2.setLookName("testImage2");
-		sprite.getLookDataList().add(lookData2);
+		lookData2.setFileName(testImage.getName());
+		lookData2.setName("testImage2");
+		sprite.getLookList().add(lookData2);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action setLookAction = factory.createSetLookAction(sprite, lookData1);
@@ -110,22 +110,22 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		lookData1.setLookFilename("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFileName(testImage.getName());
+		lookData1.setName("testImage1");
+		lookData1.setFileName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		LookData lookData2 = new LookData();
-		lookData2.setLookFilename(testImage.getName());
-		lookData2.setLookName("testImage");
-		lookData2.setLookFilename("testImage2");
-		sprite.getLookDataList().add(lookData2);
+		lookData2.setFileName(testImage.getName());
+		lookData2.setName("testImage");
+		lookData2.setFileName("testImage2");
+		sprite.getLookList().add(lookData2);
 
 		LookData lookData3 = new LookData();
-		lookData3.setLookFilename(testImage.getName());
-		lookData3.setLookName("testImage");
-		lookData3.setLookFilename("testImage3");
-		sprite.getLookDataList().add(lookData3);
+		lookData3.setFileName(testImage.getName());
+		lookData3.setName("testImage");
+		lookData3.setFileName("testImage3");
+		sprite.getLookList().add(lookData3);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action setLookAction = factory.createSetLookAction(sprite, lookData3);
@@ -151,9 +151,9 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFileName(testImage.getName());
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action setLookAction = factory.createSetLookAction(sprite, lookData1);
@@ -174,9 +174,9 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		Action nextLookAction = factory.createNextLookAction(sprite);
 
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFileName(testImage.getName());
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		nextLookAction.act(1.0f);
 

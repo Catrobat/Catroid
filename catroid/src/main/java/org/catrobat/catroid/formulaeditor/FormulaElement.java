@@ -827,7 +827,7 @@ public class FormulaElement implements Serializable {
 	private Object interpretObjectSensor(Sensors sensor, Sprite sprite) {
 		Object returnValue = 0d;
 		LookData lookData = sprite.look.getLookData();
-		List<LookData> lookDataList = sprite.getLookDataList();
+		List<LookData> lookDataList = sprite.getLookList();
 		if (lookData == null && lookDataList.size() > 0) {
 			lookData = lookDataList.get(0);
 		}
@@ -871,7 +871,7 @@ public class FormulaElement implements Serializable {
 				break;
 			case OBJECT_LOOK_NAME:
 			case OBJECT_BACKGROUND_NAME:
-				returnValue = (lookData != null) ? lookData.getLookName() : "";
+				returnValue = (lookData != null) ? lookData.getName() : "";
 				break;
 			case OBJECT_DISTANCE_TO:
 				returnValue = (double) sprite.look.getDistanceToTouchPositionInUserInterfaceDimensions();

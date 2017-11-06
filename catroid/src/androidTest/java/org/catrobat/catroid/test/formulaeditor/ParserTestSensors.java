@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import android.graphics.Point;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -221,7 +222,7 @@ public class ParserTestSensors {
 	}
 
 	private void createProject() {
-		this.project = new Project(null, "testProject");
+		this.project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		firstSprite = new SingleSprite("zwoosh");
 		startScript1 = new StartScript();
 		Brick changeBrick = new ChangeSizeByNBrick(10);

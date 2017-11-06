@@ -57,12 +57,6 @@ public class StopAllSoundsBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		StopAllSoundsBrick copyBrick = (StopAllSoundsBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public Brick clone() {
 		return new StopAllSoundsBrick();
 	}

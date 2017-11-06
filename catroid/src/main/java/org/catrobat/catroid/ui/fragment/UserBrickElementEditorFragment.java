@@ -30,7 +30,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,15 +55,16 @@ import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.DragAndDropBrickLayoutListener;
 import org.catrobat.catroid.ui.DragNDropBrickLayout;
 import org.catrobat.catroid.ui.LineBreakListener;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.UserBrickEditElementDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserBrickElementEditorFragment extends Fragment implements OnKeyListener,
-		DragAndDropBrickLayoutListener, UserBrickEditElementDialog.DialogListener, LineBreakListener {
-	private static final String TAG = UserBrickElementEditorFragment.class.getSimpleName();
+public class UserBrickElementEditorFragment extends Fragment implements
+		OnKeyListener,
+		DragAndDropBrickLayoutListener,
+		UserBrickEditElementDialog.DialogListener,
+		LineBreakListener {
 
 	public static final String BRICK_DATA_EDITOR_FRAGMENT_TAG = "brick_data_editor_fragment";
 	private static final String BRICK_BUNDLE_ARGUMENT = "current_brick";
@@ -74,7 +74,6 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 	private LinearLayout editorBrickSpace;
 	private View brickView;
 	private View fragmentView;
-	private String actionBarTitleToRestore;
 
 	public UserBrickElementEditorFragment() {
 	}
@@ -83,13 +82,6 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
-		ActionBar actionBar = getActivity().getActionBar();
-		if (actionBar != null) {
-			actionBarTitleToRestore = actionBar.getTitle().toString();
-			actionBar.setTitle(getString(R.string.brick_data_editor_title));
-		}
-
 		currentBrick = (UserScriptDefinitionBrick) getArguments().getSerializable(BRICK_BUNDLE_ARGUMENT);
 	}
 
@@ -124,24 +116,6 @@ public class UserBrickElementEditorFragment extends Fragment implements OnKeyLis
 	}
 
 	private void onUserDismiss() {
-		Activity activity = getActivity();
-
-		FragmentManager fragmentManager = activity.getFragmentManager();
-		fragmentManager.popBackStack();
-
-		if (activity instanceof ScriptActivity) {
-			((ScriptActivity) activity).setupActionBar();
-			((ScriptActivity) activity).redrawBricks();
-		} else {
-			Log.e(TAG, "UserBrickDataEditor.onUserDismiss() called when the parent activity is not a UserBrickScriptActivity!\n"
-					+ "This should never happen, afaik. I don't know how to correctly reset the action bar...");
-		}
-
-		ActionBar actionBar = activity.getActionBar();
-		if (actionBar != null) {
-			actionBar.setTitle(actionBarTitleToRestore);
-		}
-		BottomBar.showBottomBar(getActivity());
 	}
 
 	@Override

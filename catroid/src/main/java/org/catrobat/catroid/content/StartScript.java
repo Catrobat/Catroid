@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 
 public class StartScript extends Script {
@@ -53,25 +51,16 @@ public class StartScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			if (!isUserScript) {
-				brick = new WhenStartedBrick(this);
-			} else {
-				brick = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick();
-				if (brick == null) {
-					brick = new UserScriptDefinitionBrick();
-				}
-			}
+			brick = new WhenStartedBrick(this);
 		}
 
 		return brick;
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-
-		Script cloneScript = new StartScript(isUserScript);
-
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		Script clone = new StartScript(isUserScript);
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 }

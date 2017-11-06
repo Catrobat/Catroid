@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -35,18 +36,16 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.ui.BackPackActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.BackPackScriptController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
+import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,27 +138,24 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 
 	private void backPackScript(String groupName) {
 		if (!checkedBricks.isEmpty()) {
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			int scriptsBackPacked = BackPackScriptController.getInstance().backpack(
-					groupName, checkedBricks, false, currentSprite).size();
-			scriptFragment.clearCheckedBricksAndEnableButtons();
-			showToast(scriptsBackPacked, R.plurals.scripts_plural);
 
-			startBackPackActivity(ScriptActivity.FRAGMENT_SCRIPTS);
+			ScriptController scriptController = new ScriptController();
+			try {
+				scriptController.pack(groupName, checkedBricks);
+				scriptFragment.clearCheckedBricksAndEnableButtons();
+				ToastUtil.showSuccess(context, context.getString(R.string.packed_script_group));
+				startBackPackActivity(BackpackActivity.FRAGMENT_SCRIPTS);
+			} catch (IOException | CloneNotSupportedException e) {
+				Log.e("BrickBaseAdapter", Log.getStackTraceString(e));
+			}
+
+			scriptFragment.clearCheckedBricksAndEnableButtons();
 		}
 	}
 
-	private void showToast(int numberOfBackPackedItems, int groupsPlural) {
-		String textForBackpacking = context.getResources().getQuantityString(
-				R.plurals.packing_items_plural, numberOfBackPackedItems);
-		String textForScripts = context.getResources().getQuantityString(groupsPlural, numberOfBackPackedItems);
-		ToastUtil.showSuccess(context, numberOfBackPackedItems + " " + textForScripts + " "
-				+ textForBackpacking);
-	}
-
 	private void startBackPackActivity(int fragment) {
-		Intent intent = new Intent(context, BackPackActivity.class);
-		intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, fragment);
+		Intent intent = new Intent(context, BackpackActivity.class);
+		intent.putExtra(BackpackActivity.EXTRA_FRAGMENT_POSITION, fragment);
 		context.startActivity(intent);
 	}
 }

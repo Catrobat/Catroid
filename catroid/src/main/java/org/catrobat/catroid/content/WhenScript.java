@@ -79,10 +79,9 @@ public class WhenScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenScript cloneScript = new WhenScript();
-		doCopy(copySprite, cloneScript);
-
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		WhenScript clone = new WhenScript();
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 }

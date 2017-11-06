@@ -40,16 +40,11 @@ import org.catrobat.catroid.content.Sprite;
 import java.util.List;
 
 public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessage {
+
 	private static final long serialVersionUID = 1L;
 
 	public BroadcastWaitBrick(String broadcastMessage) {
 		super(broadcastMessage);
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		BroadcastWaitBrick copyBrick = (BroadcastWaitBrick) clone();
-		return copyBrick;
 	}
 
 	@Override

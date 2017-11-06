@@ -31,10 +31,10 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.io.StorageHandler;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class DroneVideoLookData extends LookData {
 
@@ -47,18 +47,17 @@ public class DroneVideoLookData extends LookData {
 
 	@Override
 	public DroneVideoLookData clone() {
-		DroneVideoLookData cloneVideoLookData = new DroneVideoLookData();
-
-		cloneVideoLookData.name = this.name;
-		cloneVideoLookData.fileName = this.fileName;
-		String filePath = getPathToImageDirectory() + "/" + fileName;
+		String copiedFileName;
 		try {
-			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
-		} catch (FileNotFoundException fileNotFoundexception) {
-			Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
+			copiedFileName = StorageHandler.copyFile(getAbsolutePath()).getName();
+		} catch (IOException e) {
+			Log.e(TAG, "Could not copy file: " + fileName + ", fallback to shallow clone.");
+			copiedFileName = fileName;
 		}
-
-		return cloneVideoLookData;
+		DroneVideoLookData clone = new DroneVideoLookData();
+		clone.setName(name);
+		clone.setFileName(copiedFileName);
+		return clone;
 	}
 
 	@Override

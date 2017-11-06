@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
+import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -34,6 +35,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -48,10 +51,12 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -66,7 +71,9 @@ public class DeleteSpriteDialogTest {
 	@Before
 	public void setUp() throws Exception {
 		createProject("DeleteSpriteDialogTest");
-		baseActivityTestRule.launchActivity(null);
+		Intent intent = new Intent();
+		intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+		baseActivityTestRule.launchActivity(intent);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -75,13 +82,16 @@ public class DeleteSpriteDialogTest {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		onView(withText(toBeDeletedSpriteName)).perform(click());
-		onView(withContentDescription("Done")).perform(click());
+		onRVAtPosition(2)
+				.performCheckItem();
 
-		onView(withText(R.string.dialog_confirm_delete_object_title)).inRoot(isDialog())
+		onView(withContentDescription(R.string.done)).perform(click());
+
+		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sprites, 1)))
+				.inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_confirm_delete_object_message)).inRoot(isDialog())
+		onView(withText(R.string.dialog_confirm_delete)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
@@ -92,6 +102,7 @@ public class DeleteSpriteDialogTest {
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
 				.perform(click());
 
+		onView(isRoot()).perform(CustomActions.wait(5000));
 		onView(withText(toBeDeletedSpriteName))
 				.check(doesNotExist());
 	}
@@ -102,13 +113,16 @@ public class DeleteSpriteDialogTest {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
-		onView(withText(toBeDeletedSpriteName)).perform(click());
-		onView(withContentDescription("Done")).perform(click());
+		onRVAtPosition(2)
+				.performCheckItem();
 
-		onView(withText(R.string.dialog_confirm_delete_object_title)).inRoot(isDialog())
+		onView(withContentDescription(R.string.done)).perform(click());
+
+		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sprites, 1)))
+				.inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_confirm_delete_object_message)).inRoot(isDialog())
+		onView(withText(R.string.dialog_confirm_delete)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
@@ -124,7 +138,7 @@ public class DeleteSpriteDialogTest {
 	}
 
 	private void createProject(String projectName) {
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
 		Sprite secondSprite = new SingleSprite(toBeDeletedSpriteName);
@@ -133,6 +147,6 @@ public class DeleteSpriteDialogTest {
 		project.getDefaultScene().addSprite(secondSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
 	}
 }

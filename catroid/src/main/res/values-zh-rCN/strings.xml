@@ -44,7 +44,7 @@
   <string name="move">移动</string>
   <string name="backpack_add">添加到背包</string>
   <string name="backpack">背包</string>
-  <string name="packing">打包</string>
+  <string name="pack">打包</string>
   <string name="unpack">取出</string>
   <string name="unpack_bg">取出设为背景</string>
   <string name="unpack_object">取出作为对象</string>
@@ -1404,7 +1404,7 @@
   <string name="formula_editor_intro_summary_device">在\"设备\"中您可以找到您的智能手机或平板电脑记录的信息。 \n例如您的设备的倾斜角度或您周围环境的响度。</string>
   <string name="formula_editor_intro_title_data">数据</string>
   <string name="formula_editor_intro_summary_data">在这里可以找到程序中使用的变量和列表。\n它们可以被方便地插入公式，或随时创建新的变量或列表。</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="other">项目已选中！</item>
   </plurals>
   <!--  -->

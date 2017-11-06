@@ -124,10 +124,4 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 		sequence.addAction(sprite.getActionFactory().createSetPhysicsObjectTypeAction(sprite, type));
 		return null;
 	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		SetPhysicsObjectTypeBrick copyBrick = (SetPhysicsObjectTypeBrick) clone();
-		return copyBrick;
-	}
 }
