@@ -50,11 +50,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <TextView
+            <org.catrobat.catroid.utils.BrickTextView
                 android:id="@+id/ev3_motor_stop_text_view"
                 style="@style/BrickText.SingleLine"
                 android:text="@string/ev3_motor_stop" >
-            </TextView >
+            </org.catrobat.catroid.utils.BrickTextView >
 
             <org.catrobat.catroid.utils.BrickSpinner
                 android:id="@+id/ev3_stop_motor_spinner"
