@@ -183,7 +183,7 @@ public class WebViewActivity extends BaseActivity {
 				webViewLoadingDialog.show();
 			}
 
-			if (callMainMenu && urlClient.equals(Constants.BASE_URL_HTTPS)) {
+			if (callMainMenu && (urlClient.equals(Constants.BASE_URL_HTTPS) || urlClient.equals(Utils.getFlavoredUrl(WebViewActivity.this)))) {
 				startActivity(new Intent(getBaseContext(), MainMenuActivity.class));
 			}
 		}

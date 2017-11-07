@@ -394,7 +394,7 @@ public class BaseMainMenuActivity extends BaseCastActivity implements OnLoadProj
 		}
 		Utils.getTrackingUtilProxy().trackStartWebSessionExplore();
 
-		String url = Constants.FLAVORED_BASE_URL_HTTPS;
+		String url = Utils.getFlavoredUrl(this);
 		url = Utils.addUsernameAndTokenInfoToUrl(url, this);
 		startWebViewActivity(url);
 	}

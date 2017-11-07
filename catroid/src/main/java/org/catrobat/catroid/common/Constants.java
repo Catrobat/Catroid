@@ -25,8 +25,6 @@ package org.catrobat.catroid.common;
 import android.os.Environment;
 
 import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.R;
 
 import java.util.Calendar;
 
@@ -107,8 +105,6 @@ public final class Constants {
 	//Web:
 	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
-	public static final String FLAVORED_BASE_URL_HTTPS = MAIN_URL_HTTPS + "/"
-			+ CatroidApplication.getAppContext().getString(R.string.flavor) + "/";
 	public static final String LIBRARY_LOOKS_URL = BASE_URL_HTTPS + "pocket-library/looks";
 	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = BASE_URL_HTTPS + "pocket-library/backgrounds-portrait";
 	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = BASE_URL_HTTPS + "pocket-library/backgrounds-landscape";
