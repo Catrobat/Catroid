@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.drone.ardrone;
 
+import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
+
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
@@ -69,7 +71,7 @@ public final class DroneBrickFactory {
 				return new DroneFlipBrick();
 
 			case DRONE_PLAY_LED_ANIMATION_BRICK:
-				return new DronePlayLedAnimationBrick();
+				return new DronePlayLedAnimationBrick(ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_GREEN_RED);
 
 			case DRONE_MOVE_DOWN_BRICK:
 				return new DroneMoveDownBrick(timeInMilliseconds, powerInPercent);

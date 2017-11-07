@@ -1247,6 +1247,29 @@
     <string name="brick_drone_percent_power">power</string>
     <!--  -->
 
+    <!-- Drone play led animation strings -->
+    <string name="drone_animation_blinkgreenred">Blink Green Red</string>
+    <string name="drone_animation_blinkgreen">Blink Green</string>
+    <string name="drone_animation_blinkred">Blink Red</string>
+    <string name="drone_animation_blinkorange">Blink Orange</string>
+    <string name="drone_animation_snakegreenred">Snake Green Red</string>
+    <string name="drone_animation_fire">Fire</string>
+    <string name="drone_animation_standard">Standard</string>
+    <string name="drone_animation_red">Red</string>
+    <string name="drone_animation_green">Green</string>
+    <string name="drone_animation_redsnake">Red Snake</string>
+    <string name="drone_animation_blank">Blank</string>
+    <string name="drone_animation_rightmissile">Right Missile</string>
+    <string name="drone_animation_leftmissile">Left Missile</string>
+    <string name="drone_animation_doublemissile">Double Missile</string>
+    <string name="drone_animation_frontleftgreenothersred">Front Left Green Others Red</string>
+    <string name="drone_animation_frontrightgreenothersred">Front Right Green Others Red</string>
+    <string name="drone_animation_rearrightgreenothersred">Rear Right Green Others Red</string>
+    <string name="drone_animation_rearleftgreenothersred">Rear Left Green Others Red</string>
+    <string name="drone_animation_leftgreenrightred">Left Green Right Red</string>
+    <string name="drone_animation_leftredrightgreen">Left Red Right Green</string>
+    <string name="drone_animation_blinkstandard">Blink Standard</string>
+
     <!-- Jumping Sumo Bricks -->
     <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
     <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>

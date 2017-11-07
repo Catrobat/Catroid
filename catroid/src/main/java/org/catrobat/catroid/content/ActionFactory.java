@@ -26,6 +26,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
@@ -949,8 +950,10 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createDronePlayLedAnimationAction() {
-		return action(DronePlayLedAnimationAction.class);
+	public Action createDronePlayLedAnimationAction(ARDRONE_LED_ANIMATION ledAnimationType) {
+		DronePlayLedAnimationAction action = action(DronePlayLedAnimationAction.class);
+		action.setAnimationType(ledAnimationType);
+		return action;
 	}
 
 	public Action createDroneSwitchCameraAction() {
