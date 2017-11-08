@@ -36,9 +36,9 @@
   <string name="no">لا</string>
   <string name="back">رجوع</string>
   <string name="ok">موافق</string>
-  <string name="agree">Agree</string>
-  <string name="disagree">Disagree</string>
-  <string name="delete_account">Delete my account</string>
+  <string name="agree">موافق</string>
+  <string name="disagree">غير موافق</string>
+  <string name="delete_account">حذف حسابي</string>
   <string name="copy">نسخ</string>
   <string name="cut">قص</string>
   <string name="move">تحرك</string>
@@ -83,7 +83,7 @@
   <string name="nothing_to_delete">لا يوجد شيء للحذف</string>
   <string name="nothing_to_rename">لا يوجد شيء لاعادة تسميته</string>
   <string name="unpack_background">سيتم استبدال خلفية البرنامج</string>
-  <string name="degrees">درجات</string>
+  <string name="degrees">درجة</string>
   <string name="landscape">المشهد الطبيعي</string>
   <string name="portrait">بورتريت</string>
   <string name="unknown">غير معروف</string>
@@ -97,7 +97,7 @@
   <string name="main_menu_help">المساعدة</string>
   <string name="main_menu_web">إستعراض</string>
   <string name="main_menu_upload">تحميل</string>
-  <string name="main_menu_privacy_policy">Privacy policy</string>
+  <string name="main_menu_privacy_policy">سياسة الخصوصية</string>
   <string name="main_menu_about">حول تطبيق بوكت كوود</string>
   <string name="main_menu_terms_of_use">شروط الاستخدام والخدمات</string>
   <string name="main_menu_rate_app">قم بالتقييم!</string>
@@ -113,8 +113,12 @@
   <string name="marketing_more_on_google_play">مزيد من التطبيقات في متجر جوجل بلي</string>
   <!-- Settings activity -->
   <string name="preference_title">إعدادات</string>
-  <string name="preference_title_enable_quadcopter_bricks">لبّنات برمجية للطائرة بدون طيار</string>
+  <string name="preference_title_language">اللغة</string>
+  <string name="preference_description_language">اختر لغة التطبيق</string>
+  <string name="preference_title_enable_quadcopter_bricks">اللبّنات البرمجية للطائرة بدون طيار</string>
   <string name="preference_description_quadcopter_bricks">السماح بالتحكم في الطائرة بدون طيار 2.0</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
+  <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">لبّنات برمجية لـ ليغو مايندستورمز (NXT)</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">لبّنات برمجية لـ ليغو مايندستورمز (EV3)</string>
   <string name="preference_description_mindstorms_nxt_bricks">السماح بالتحكم في روبوتات ليغو مايندستورمز(NXT)</string>
@@ -129,8 +133,8 @@
   <string name="preference_description_cast_feature_globally_enabled">إظهار زر البث والإرسال والسماح بإنشاء مشروع بث وإرسال</string>
   <string name="preference_title_enable_nfc_bricks">تقنية التواصل قريب المدى</string>
   <string name="preference_description_nfc_bricks">السماح باستخدام وسوم NFC في البرنامج</string>
-  <string name="preference_description_crash_reports">السماح بإرسال تقارير الأعطال تلقائياً</string>
   <string name="preference_title_enable_crash_reports">إرسال تقارير الأعطال الغير معروفة</string>
+  <string name="preference_description_crash_reports">السماح بإرسال تقارير الأعطال تلقائياً</string>
   <!-- -->
   <string name="preference_description_arduino_bricks">السماح بالتحكم في لوحات الاردوينو</string>
   <string name="preference_title_enable_raspi_bricks">لبّنات راسبيري باي البرمجية</string>
@@ -207,7 +211,7 @@
   <string name="list_view_section_title_converted_programs">البرامج التي تم تحويلها</string>
   <string name="status">الحالة</string>
   <string name="title">العنوان</string>
-  <string name="by_x">من قبل %s</string>
+  <string name="by_x">من قبل %1$s</string>
   <string name="by_author">الكاتب</string>
   <string name="warning_program_visibility">تحذير: n\ على ما يبدو أنه برنامج خاص. قد تفشل عملية التحويل!</string>
   <string name="instructions">التعليمات</string>
@@ -260,53 +264,34 @@
   <string name="dialog_new_object_switch_message">قم بالتبديل إلى كائن جديد؟</string>
   <!--  -->
   <!-- Privacy Policy -->
-  <string name="dialog_privacy_policy_title">Privacy policy</string>
-  <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
+  <string name="dialog_privacy_policy_title">سياسة الخصوصية</string>
+  <string name="dialog_privacy_policy_text">الإصدار 2.0, 20 أيلول 2017\n\n
 
-        To offer you all collaborative benefits of our services and the associated account, it is necessary to
-        collect certain data from you.\n\n
+        لكي نقدم لكم كل فوائد التعاون في خدماتنا والحساب المقترن بها, من الضروري        جمع بيانات محددة منكم.\n\n
 
-    • To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
-        updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
-        store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
-        Plus or Facebook, we additionally store an identification key connected to your account on these services. We
-        will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
+    • لاستخدام حسابك في أنظمتنا, وحتى يتم ابلاغك بالتغييرات الضرورية في حسابك ( مثلاً,,         التحديثات / انتهاك شروط الاستخدام للخدمة أو لقواعد المجتمع) أو سياساتنا, سوف        نقوم بتخزين اسم المستخدم الخاص بك, اذا قمت بتزويدنا به, الايميل الالكتروني الخاص بك. في حال كان حسابك متصل بجوجل        بلص أو فيسبوك, بلاضافة لذلك نقوم بتخزين مفتاح تحديد الهوية المرتبط بحسابك على هذه الخدمات. لن         نقوم باستخدام هذه البيانات لاي أغراض اخرى (مثلاً.. التسويق), ما لم تسمح انت لنا بالقيام بذلك.\n\n
 
-    • To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
-        purposes, the user
-        generated public data will be stored internally in a database, together with a timestamp and the used IP
-        address.\n\n
+    • لتجنب اساءة خدماتنا (مثلاً.. من خلال تحميلات أو تعليقات المستخدم المساهم) لأغراض         غير مشروعة, المستخدم        سيولد بيانات عامة والتي سوف تخزن داخليا في قاعدة البيانات, جنباً الى جنب مع الطابع الزمني و رقم         الايبي.\n\n
 
-    • To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
-        use Google
-        Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited
-        pages/screens, used operating system, and information about the network provider). This analysis and the collected
-        data is not linked to your profile and does not contain any personal information.\n\n
+    • لتحسين خدماتنا ( التطبيقات والموقع الإلكتروني) و للقيام ببحث علمي في المجالات التعليمية ICT و STEM, نحن نستخدم  خدمات جوجل Google
+        Analytics, Crashlytics and Firebas. للحصول على بيانات التعريف حول الاستخدام ( مثلاً..الطوابع الزمنية والصفحات / الشاشات       التي قمت بزيارتها, انظمة التشغيل المستخدمة, ومعلومات حول موفر خدمة الانترنت). هذا التحليل والبيانات         التي تم جمعها غير مرتبطة بملف التعريف الخاص بك ولا تحتوي أية معلومات شخصية.\n\n
 
-    • On a voluntary basis, you can give us your country of residence through your account page on the sharing
-        site. This
-        will only be used for statistical and research purposes by us and can be removed at any time in your profile
-        settings.\n\n
+    • على أساس تطوعي, يمكنك تزويدنا بمعلومات بلد الاقامة من خلال صفحة ملف تعريفك على موقعنا التشاركي. والذي           سوف يتم استخدامه من قبلنا لاغراض الاحصاء والبحث ويمكن ازالتها في أي وقت من خلال اعدادات          ملفك الشخصي.\n\n
 
-    • You can withdraw the usage of this data at any time by deleting your account through your profile page on
-        https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
-        but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
-        linked to your account, e.g. uploaded programs, comments, will get deleted.\n\n
+    • يمكنك التراجع عن استخدام هذه البيانات بحذف حسابك من خلال صفحة ملف تعريفك الشخصي على         https://share.catrob.at/. بعد القيام بحذف حسابك سوف تكون قادراً على استخدام الخدمات المقدمة,         ولكن لن تستطيع المشاركة, مثلاُ  تحميل برامج أو كتابة التعليقات أو الاعجابات..
+أيضا كل المحتوى المرتبط بحسابك          مثلاُ البرامج المحملة والتعليقات, سوف يتم حذفها.\n\n
 
-    • All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
-        International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
+    • كل الخدمات موفرة من قبل مشروع كاتروبات المفتوح المصدر والغير هادف للربح تحت مظلة رابطة كاتروبات الدولية -         International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
 
-    • To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
+    •  للاتصال بنا, من خلال الايميل الالكتروني على contact@catrobat.org  أو من خلال البريد على العنوان التالي,\n
         c/o\n
         Institute of Software Technology,\n
         Inffeldgasse 16b/II,\n
         8010 Graz, Austria.\n\n
 
-    In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
+    في حال كان عمرك أقل من 16, يجب ان تقبل هذه السياسة بوصي قانوني ( عادة الأهل).
     </string>
-  <string name="dialog_privacy_policy_declined_text">It is necessary to agree the Privacy Policy to register or to
-        further use your account. If you do not want that this data gets collected you can delete your existing account
-        via the profile page on our web interface and still use all services of this app that do not need an account.
+  <string name="dialog_privacy_policy_declined_text">من الضروري الموافقة على سياسة الخصوصية للتسجيل أو         لمواصلة استخدام حسابك. في حال لم يناسبك أن يتم جمع هذه البيانات يمكنك حذف حسابك الحالي         عبر صفحة ملف التعريف على موقعنا و الاستمرار في الاستخدام كل الخدمات لهذا التطبيق والتي لا تحتاج الى حساب.
     </string>
   <!-- -->
   <!-- Terms of Use Dialog -->
@@ -317,9 +302,17 @@
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">شروط الاستخدام والخدمات لـ بوكت كود</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">يمكنك الشروع في استخدام \"البوكت كوود\" جنباً إلى جنب مع الطائرة بدون طيار من شركة Parrot.
-نذكركم بشدة الامتثال لشروط الاستخدام والخدمات للطائرة بدون طيار من شركة Parrot وشروط الاستخدام الخاصة بالبوكت كود من كاتروبات.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
+        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
+        Catrobat\'s
+        Terms of
+        Use and Services.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">لاتذكرني مرة أخرى.</string>
+  <!--  -->
+  <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">حول تطبيق بوكت كوود</string>
@@ -412,7 +405,7 @@
   <string name="fragment_background_text_description">انقر فوق \"+\" لإضافة الخلفيات</string>
   <string name="rename_look_dialog">إعادة تسمية المنظر</string>
   <string name="pocket_paint_not_installed_title">لم يتم تثبيت بوكت بينت!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
+  <string name="pocket_paint_not_installed_message">الرجاء قم بتثبيت بوكت بينت</string>
   <string name="pocket_paint_not_installed">هل تريد تثبيته؟</string>
   <string name="default_look_name">منظر</string>
   <string name="delete_look_dialog">هل تريد حذف المنظر؟</string>
@@ -459,7 +452,7 @@
   <string name="nfctags">وسوم NFC</string>
   <string name="uid">رقم المعرف الشخصي</string>
   <string name="ndef_record_label">تحديد نوع سجل البيانات الى</string>
-  <string name="brick_set_nfc_tag">تعيين النقطة التفاعلية التالية لـ NFC</string>
+  <string name="brick_set_nfc_tag">تعيين النقطة التفاعلية التالية لـ NFC الى</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
   <string name="default_tag_name">وسم Nfc</string>
   <string name="tnf_empty">فارغ</string>
@@ -526,6 +519,8 @@
   <string name="prestage_text_to_speech_engine_not_installed">محرك تحويل النص إلى كلام غير مثبت! \n هل تريد تثبيته؟</string>
   <string name="prestage_resource_not_available_title">المكون غير متوفر</string>
   <string name="prestage_resource_not_available_text">لا يمكن تشغيل هذه اللعبة على الجهاز الخاص بك. المكونات التالية غير متوفرة: \n\n</string>
+  <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
+        are the only Controller for the Drone.</string>
   <string name="prestage_no_flash_available">\u2022 الفلاش\n</string>
   <string name="prestage_no_vibrator_available">\u2022 الهزاز\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 جهاز استشعار التسارع\n</string>
@@ -535,6 +530,7 @@
   <string name="prestage_text_to_speech_error">\u2022 محرك تحويل النص إلى كلام\n</string>
   <string name="prestage_no_back_camera_available">\u2022 العودة للكاميرا الأمامية\n</string>
   <string name="prestage_no_camera_available">\u2022 اكتشاف الوجه\n</string>
+  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
   <string name="prestage_no_front_camera_available">\u2022 الكاميرا الأمامية المواجهة\n</string>
   <string name="prestage_default_resource_not_available">\u2022 مكون غير معروف\n</string>
   <string name="no_nfc_available">NFC غير متوفر</string>
@@ -579,6 +575,7 @@
   <string name="new_project_empty">إنشاء برنامج فارغ</string>
   <string name="new_project_default">إنشاء برنامج يحتوي على مثال</string>
   <string name="new_project_default_drone">إنشاء برنامح مثال على \"طائرة بدون طيار\"</string>
+  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
   <string name="project_orientation_title">الإتجاه:</string>
   <string name="project_select_screen_title">الشاشة</string>
   <!--  -->
@@ -673,7 +670,8 @@
   <string name="category_data">البيانات</string>
   <string name="category_lego_nxt">ليغو NXT</string>
   <string name="category_lego_ev3">ليغو EV3</string>
-  <string name="category_drone">طائرة بدون طيار</string>
+  <string name="category_drone">AR.Drone 2.0</string>
+  <string name="category_jumping_sumo">Jumping Sumo</string>
   <string name="category_phiro">روبوت الاطفال</string>
   <string name="category_arduino">الاردوينو</string>
   <string name="category_cast">بث وإرسال</string>
@@ -705,11 +703,11 @@
   <string name="brick_move">تحرك</string>
   <plurals name="brick_move_n_step_plural">
     <item quantity="zero">خطوة</item>
-    <item quantity="one">خطوات</item>
-    <item quantity="two">خطوات</item>
+    <item quantity="one">خطوة</item>
+    <item quantity="two">خطوتان</item>
     <item quantity="few">خطوات</item>
     <item quantity="many">خطوات</item>
-    <item quantity="other">خطوات</item>
+    <item quantity="other">خطوة</item>
   </plurals>
   <string name="brick_turn_left">إتجه إلى اليسار</string>
   <string name="brick_turn_right">إتجه إلى اليمين</string>
@@ -730,10 +728,10 @@
   <string name="brick_set_mass">"تعيين قيمة الكتلة الى "</string>
   <string name="brick_set_mass_unit">كيلوغرام</string>
   <string name="brick_set_gravity_to">"تعيين الجاذبية لكافة الكائنات إلى "</string>
-  <string name="brick_set_gravity_unit">الخطوات/ثانية²</string>
+  <string name="brick_set_gravity_unit">خطوة/ثانية²</string>
   <string name="brick_set_velocity_to">"تعيين السرعة إلى "</string>
-  <string name="brick_set_velocity_unit">الخطوات/ثانية</string>
-  <string name="brick_turn_speed_unit">درجات/ ثانية</string>
+  <string name="brick_set_velocity_unit">خطوة/ثانية</string>
+  <string name="brick_turn_speed_unit">درجة/ ثانية</string>
   <string name="brick_set_friction">"تعيين قيمة الاحتكاك إلى "</string>
   <string name="brick_set_bounce_factor">"تعيين عامل الارتداد إلى "</string>
   <string name="brick_rotate_left">"استدارة إلى اليسار "</string>
@@ -749,13 +747,13 @@
   <string name="brick_change_size_by">تغيير الحجم بمقدار</string>
   <string name="brick_hide">إخفاء</string>
   <string name="brick_show">إظهار</string>
-  <string name="brick_set_transparency">"تعيين درجة الشفافية الى "</string>
-  <string name="brick_change_ghost_effect">"تغيير درجة الشفافية بمقدار "</string>
-  <string name="brick_set_brightness">"تعيين درجة السطوع الى "</string>
-  <string name="brick_change_brightness">"تغيير درجة السطوع بمقدار "</string>
-  <string name="brick_set_color">"تعيين اللون الى "</string>
+  <string name="brick_set_transparency">"تعيين درجة الشفافية "</string>
+  <string name="brick_change_ghost_effect">"تغيير درجة الشفافية "</string>
+  <string name="brick_set_brightness">"تعيين درجة السطوع "</string>
+  <string name="brick_change_brightness">"تغيير درجة السطوع "</string>
+  <string name="brick_set_color">"تعيين اللون "</string>
   <string name="brick_change_color">"تغيير اللون "</string>
-  <string name="by_label">إلى</string>
+  <string name="by_label">بمقدار</string>
   <string name="to_label">إلى</string>
   <string name="brick_clear_graphic_effect">مسح التأثيرات الرسومية</string>
   <string name="brick_next_look">المنظر التالي</string>
@@ -764,7 +762,7 @@
   <string name="brick_previous_background">خلفية الشاشة السابقة</string>
   <string name="brick_flash">تشغيل ضوء الفلاش</string>
   <string name="brick_flash_on">تشغيل</string>
-  <string name="brick_flash_off">إيقاف التشغيل</string>
+  <string name="brick_flash_off">إطفاء</string>
   <string name="brick_vibration">الإهتزاز لـفترة</string>
   <string name="brick_ask_label">اسأل</string>
   <string name="brick_ask_store">خَزن جواب مكتوب في</string>
@@ -797,7 +795,7 @@
   <string name="brick_when_started">عند بدء تشغيل البرنامج</string>
   <string name="brick_when">عند النقر</string>
   <string name="brick_when_condition_when">عندما</string>
-  <string name="brick_when_becomes_true">يصبح صحيحاً</string>
+  <string name="brick_when_becomes_true">يتحقق الشرط</string>
   <string name="brick_wait">انتظر</string>
   <string name="brick_when_gamepad_button">عندما يكون لوح تحكم الألعاب</string>
   <string name="brick_when_gamepad_button_tapped">تم النقر عليه</string>
@@ -809,7 +807,7 @@
   <plurals name="second_plural">
     <item quantity="zero">"ثانية "</item>
     <item quantity="one">"ثانية "</item>
-    <item quantity="two">"ثوان "</item>
+    <item quantity="two">"ثانيتان "</item>
     <item quantity="few">"ثوان "</item>
     <item quantity="many">"ثوان "</item>
     <item quantity="other">"ثوان "</item>
@@ -835,16 +833,16 @@
   <string name="brick_delete_this_clone">حذف هذه النسخة</string>
   <plurals name="time_plural">
     <item quantity="zero">مرة</item>
-    <item quantity="one">مرات</item>
-    <item quantity="two">مرات</item>
+    <item quantity="one">مرة</item>
+    <item quantity="two">مرتان</item>
     <item quantity="few">مرات</item>
     <item quantity="many">مرات</item>
     <item quantity="other">مرات</item>
   </plurals>
   <string name="brick_loop_end">نهاية التكرار</string>
-  <string name="brick_if_begin">إذا كان</string>
-  <string name="brick_if_begin_second_part">صحيحاً ثم</string>
-  <string name="brick_if_else">غير ذلك</string>
+  <string name="brick_if_begin">إذا</string>
+  <string name="brick_if_begin_second_part">تحقق الشرط</string>
+  <string name="brick_if_else">عدا ذلك</string>
   <string name="brick_if_end">نهاية إذا</string>
   <string name="brick_broadcast_invalid_symbol">"رسالة محفوظة لـ:\n\"عند التصادم الفعلي بين\"-اللبّنات البرمجية\n من فضلك جرب مرة أُخرى!"</string>
   <string name="brick_set_variable">تعيين قيمة المتغير</string>
@@ -853,7 +851,7 @@
   <string name="brick_note_default_value">"أضف تعليق هنا…"</string>
   <string name="brick_think_bubble_default_value">"همممم!"</string>
   <string name="brick_say_bubble_default_value">"مرحباً!"</string>
-  <string name="brick_broadcast_default_value">"رسالة 1"</string>
+  <string name="brick_broadcast_default_value">"رسالة جديدة"</string>
   <string name="brick_add_item_to_userlist_add">إضافة</string>
   <string name="brick_add_item_to_userlist">الى القائمة</string>
   <string name="brick_delete_item_from_userlist_delete">حذف عنصر من قائمة</string>
@@ -894,8 +892,6 @@
   <!-- defaultDroneValues -->
   <string name="default_drone_project_name">برنامجي طائرة بدون طيار الأول</string>
   <string name="default_drone_project_sprites_takeoff">إقلاع</string>
-  <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">تدوير</string>
   <string name="default_drone_project_sprites_up">الأعلى</string>
   <string name="default_drone_project_sprites_down">الأسفل</string>
   <string name="default_drone_project_sprites_left">اليسار</string>
@@ -962,10 +958,11 @@
   <string name="drone_emergency_battery_low">البطارية منخفضة (الهبوط الأوتوماتيكي).</string>
   <string name="drone_emergency_camera">كاميرا واحدة أو أكثر لا تعطي إستجابة.</string>
   <string name="drone_emergency_ultrasound">استشعار الموجات فوق الصوتية لا يستجيب.</string>
-  <string name="drone_emergency_angle">طائرة بدون طيار ذهبت عالية في الارتفاع. إيقاف تشغيل المحركات لمنع التصرفات عير المرغوبة.</string>
+  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
+        behavior.</string>
   <string name="drone_emergency_cutout">واحد أو أكثر من المحركات توقفت بسبب البيئة.</string>
   <string name="drone_alert_battery_low">طاقة البطارية منخفض جداً للإنطلاق مرة أخرى.</string>
-  <string name="drone_alert_ultrasound">استشعار الموجات فوق الصوتية لا يمكنه تحديد ارتفاع الطائرة بدون طيار.</string>
+  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
   <string name="drone_alert_vision">لا يوجد تقدير لسرعة الكاميرا المواجهة السفلية.</string>
   <string name="drone_emergency_title">حالات الطوارئ</string>
   <!--  -->
@@ -999,12 +996,18 @@
   <string name="error_upload_default_project">لا يمكن تحميل هذا البرنامج لأنه هو نفسه كما في \'برنامجي الأول\'. الرجاء تعديل ذلك، وحاول مرة أخرى.</string>
   <string name="error_adding_brick">حدث خطأ أثناء إضافة هذه اللبّنة البرمجية</string>
   <string name="error_copying_brick">حدث خطأ أثناء نسخ هذه اللبّنة البرمجية</string>
-  <string name="error_no_drone_connected_title">لا يمكن العثور على الطائرة بدون طيار</string>
-  <string name="error_no_drone_connected">قم بإيصال واي فاي بالطائرة بدون طيار، ثم حاول مرة أخرى.</string>
-  <string name="error_drone_low_battery_title">البطارية منخفضة: %d %%</string>
+  <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
+  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
+  <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
   <string name="error_drone_low_battery">أدخل بطارية مشحونة وحاول مرة أخرى.</string>
-  <string name="error_drone_wrong_platform_title">لا يوجد دعم لطائرة بدون طيار</string>
-  <string name="error_drone_wrong_platform">لا يمكن تشغيل مشروع طائرة بدون طيار على الجهاز الخاص بك.</string>
+  <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
+  <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
+  <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
+  <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+  <string name="error_jumpingsumo_battery">أدخل بطارية مشحونة وحاول مرة أخرى.</string>
+  <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
+  <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
+  <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
   <string name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
   <string name="error_unpack_scene_with_different_resolution">تحذير! تم الكشف عن دقة شاشة مختلفة.</string>
   <string name="error_unknown_error">حدث خطأ غير معروف.</string>
@@ -1015,8 +1018,7 @@
   <string name="error_no_network_multiple_bricks">اللبّنات البرمجية التالية سوف تستخدم اتصال الشبكة:</string>
   <string name="error_no_network_title">لا يوجد اتصال بالشبكة</string>
   <string name="error_no_whatsapp">تطبيق الواتساب غير مُثبت</string>
-  <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
-        program.</string>
+  <string name="error_unsupported_bricks_chromecast">لا يمكن إضافة اللبّنات البرمجية الموجودة ضمن البرنامج النصي الى برنامج         بث كروم كاست.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">لا يمكن تفعيل تقنية bluetooth، إغلاق المرحلة</string>
@@ -1040,7 +1042,7 @@
   <string name="brick_raspi_select_digital_value">تعيين قيمة إبرة راسبيري باي</string>
   <string name="brick_raspi_set_pin_value_to">إلى</string>
   <string name="brick_raspi_if_begin">إذا إبرة راسبيري باي</string>
-  <string name="brick_raspi_if_begin_second_part">صحيحاً ثم</string>
+  <string name="brick_raspi_if_begin_second_part">مُحققة</string>
   <string name="brick_raspi_when_begin">عندما إبرة راسبيري باي</string>
   <string name="brick_raspi_when_equals">يتغير إلى</string>
   <string name="brick_raspi_pressed_text">مرتفع</string>
@@ -1056,12 +1058,12 @@
   <string name="nxt_motor_speed_to">إلى</string>
   <string name="nxt_motor_speed">سرعة</string>
   <string name="nxt_brick_motor_turn_angle">تشغيل محرك NXT</string>
-  <string name="nxt_motor_move_by">إلى</string>
+  <string name="nxt_motor_move_by">بمقدار</string>
   <string name="nxt_motor_stop">إيقاف محرك NXT</string>
   <string name="nxt_play_tone">تشغيل نغمة NXT</string>
   <string name="nxt_tone_duration">المدة</string>
   <string name="nxt_tone_frequency">التردد</string>
-  <string name="nxt_tone_hundred_hz">x100Hz</string>
+  <string name="nxt_tone_hundred_hz">X ١٠٠هرتز</string>
   <string name="nxt_seconds">ثوان</string>
   <string name="nxt_motor_a">أ</string>
   <string name="nxt_motor_b">ب</string>
@@ -1119,7 +1121,7 @@
   <string name="ev3_motor_stop">إيقاف محرك EV3</string>
   <string name="ev3_motor_move">تعيين محرك EV3</string>
   <string name="ev3_brick_motor_turn_angle">تشغيل محرك EV3</string>
-  <string name="ev3_motor_move_by">إلى</string>
+  <string name="ev3_motor_move_by">بمقدار</string>
   <string name="ev3_set_led_status">تعيين حالة أزرار الإضاءة EV3 الى</string>
   <string name="ev3_led_status_off">غير مفعل</string>
   <string name="ev3_led_status_green">أخضر</string>
@@ -1133,29 +1135,74 @@
   <string name="ev3_led_status_orange_pulse">النبض البرتقالي</string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">الإقلاع/الهبوط</string>
-  <string name="brick_drone_play_led_animation">تشغيل فلاش الرسوم المتحركة</string>
-  <string name="brick_drone_move_left">الطيران لليسار</string>
-  <string name="brick_drone_move_right">الطيران لليمين</string>
-  <string name="brick_drone_move_forward">الطيران للأمام</string>
-  <string name="brick_drone_move_backward">الطيران للخلف</string>
-  <string name="brick_drone_move_up">الطيران لأعلى</string>
-  <string name="brick_drone_move_down">الطيران لأسفل</string>
-  <string name="brick_drone_flip">قلب افقي-عمودي</string>
-  <string name="brick_drone_emergency">حالات الطوارئ</string>
-  <string name="brick_drone_turn_right">انعطف نحو اليمين</string>
-  <string name="brick_drone_turn_left">انعطف نحو اليسار</string>
-  <string name="brick_drone_turn_left_magneto">انعطف نحو اليسار [angle]</string>
-  <string name="brick_drone_turn_right_magneto">انعطف نحو اليمين[angle]</string>
-  <string name="brick_drone_angle">الزاوية</string>
-  <string name="brick_drone_set_config">تعيين الضبط</string>
-  <string name="brick_drone_switch_camera">تبديل كاميرا الطائرة بدون طيار</string>
-  <string name="brick_drone_set_altitude">الحد الأقصى للارتفاع</string>
+  <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
+  <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+  <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
+  <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
+  <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
+  <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
+  <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
+  <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
+  <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
+  <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
+  <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
+  <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
+  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
+  <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
+  <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
+  <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
+  <string name="brick_drone_set_altitude">Altitude limit </string>
   <string name="brick_drone_set_vertical_speed">الحد الأقصى للسرعة العمودية</string>
   <string name="brick_drone_set_rotation_speed">الحد الأقصى لسرعة الدوران</string>
   <string name="brick_drone_set_tilt_limit">الحد الأقصى للميل</string>
-  <string name="brick_drone_with">مع</string>
+  <string name="brick_drone_with">seconds with</string>
   <string name="brick_drone_percent_power">قوة دفع</string>
+  <!--  -->
+  <!-- Jumping Sumo Bricks -->
+  <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
+  <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
+  <string name="brick_jumping_sumo_percent_power">% power</string>
+  <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
+  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+  <string name="brick_jumping_sumo_sound">الصوت</string>
+  <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
+  <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
+  <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
+  <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+  <string name="brick_jumping_sumo_rotate_text">°</string>
+  <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+  <!--  -->
+  <!-- defaultJumpingSumoValues -->
+  <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+  <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+  <string name="default_jumping_sumo_project_sprites_forward">الأمام</string>
+  <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
+  <string name="default_jumping_sumo_project_sprites_animation">الرسوم المتحركة</string>
+  <string name="default_jumping_sumo_project_sprites_sound">الصوت</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+  <string name="default_jumping_sumo_project_sprites_turn_left">إتجه إلى اليسار</string>
+  <string name="default_jumping_sumo_project_sprites_turn_right">إتجه إلى اليمين</string>
+  <string name="default_jumping_sumo_project_sprites_flip">قلب افقي-عمودي</string>
+  <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+  <!--  -->
+  <!-- Jumping Sumo animation strings -->
+  <string name="animation_spin">Spin</string>
+  <string name="animation_tab">Tab</string>
+  <string name="animation_slowshake">Slowshake</string>
+  <string name="animation_metronome">Metronome</string>
+  <string name="animation_ondulation">Ondulation</string>
+  <string name="animation_spinjump">Spinjump</string>
+  <string name="animation_spiral">Spiral</string>
+  <string name="animation_slalom">Slalom</string>
+  <!-- Jumping Sumo sound strings -->
+  <string name="jumping_sumo_volume">مستوى الصوت</string>
+  <string name="sound_default">Normal</string>
+  <string name="sound_robot">Robot</string>
+  <string name="sound_insect">Insect</string>
+  <string name="sound_monster">Monster</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
@@ -1187,13 +1234,13 @@
   <string name="phiro_tone_ti">تي</string>
   <!--  -->
   <!-- Phiro motor strings -->
-  <string name="phiro_motor_left">اليسار</string>
-  <string name="phiro_motor_right">اليمين</string>
+  <string name="phiro_motor_left">المحرك اليساري</string>
+  <string name="phiro_motor_right">المحرك اليميني</string>
   <string name="phiro_motor_both">كلاهما</string>
   <!--  -->
   <!-- Phiro light strings -->
-  <string name="phiro_light_left">اليسار</string>
-  <string name="phiro_light_right">اليمين</string>
+  <string name="phiro_light_left">اليساري</string>
+  <string name="phiro_light_right">اليميني</string>
   <string name="phiro_light_both">كلاهما</string>
   <!--  -->
   <!-- Phiro sensor strings -->
@@ -1502,14 +1549,14 @@
   <!-- Camera related strings -->
   <string name="brick_video">تشغيل الكاميرا</string>
   <string name="video_brick_camera_on">تشغيل</string>
-  <string name="video_brick_camera_off">إيقاف التشغيل</string>
+  <string name="video_brick_camera_off">إطفاء</string>
   <string name="brick_choose_camera">إستخدام الكاميرا
  </string>
-  <string name="choose_camera_front">الأمام</string>
-  <string name="choose_camera_back">الرجوع للخلف</string>
+  <string name="choose_camera_front">الأمامية</string>
+  <string name="choose_camera_back">الخلفية</string>
   <string name="error_flash_camera">"الفلاش يمكن استخدامه فقط مع الكاميرا التي تحتوي فلاش. من فضلك قم بإضافة اللّبنة البرمجية \"استخدام         كاميرا\" وقم باختيار كاميرا جهازك التي تحتوي فلاش."</string>
   <string name="brick_wait_until">انتظر حتى</string>
-  <string name="brick_wait_until_second_part">يصبح صحيحاً</string>
+  <string name="brick_wait_until_second_part">تحقق الشرط</string>
   <!-- -->
   <!-- Cast strings -->
   <string name="cast_gamepad_A">أ</string>
@@ -1567,15 +1614,20 @@
   <string name="crash_dialog_always_send">دائماً أرسل</string>
   <string name="crash_dialog_send">أرسل</string>
   <!--  -->
-
+  <!-- Multilingual List -->
+  <string name="device_language">لغة الجهاز</string>
   <!-- UtilFile SizeUnits String -->
-  <string name="Byte_short">بايت</string>
+  <string name="Byte_short">ب</string>
   <string name="KiloByte_short">كيلوبايت</string>
   <string name="MegaByte_short">ميغابايت</string>
   <string name="GigaByte_short">غيغابايت</string>
   <string name="TeraByte_short">تيرابايت</string>
   <string name="PetaByte_short">بيتابايت</string>
   <string name="ExaByte_short">إكسابايت</string>
+  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
+         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
+         goodies and giveaways from Google and Catrobat for participants!</string>
+  <string name="google_code_in_check_out">Check it out on</string>
+  <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
-
 </resources>
