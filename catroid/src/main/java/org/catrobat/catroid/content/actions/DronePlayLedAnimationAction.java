@@ -35,7 +35,7 @@ public class DronePlayLedAnimationAction extends TemporalAction {
 		super.begin();
 		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
 		if (dcs != null) {
-			dcs.playLedAnimation(5.0f, 3, ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_LEFT_RED_RIGHT_GREEN.ordinal());
+			dcs.playLedAnimation(5.0f, 3, ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_ORANGE.ordinal());
 		}
 	}
 
