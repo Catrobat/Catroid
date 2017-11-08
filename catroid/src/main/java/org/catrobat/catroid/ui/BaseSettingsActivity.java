@@ -54,6 +54,7 @@ import org.catrobat.catroid.utils.BrickSpinner;
 import org.catrobat.catroid.utils.BrickTextView;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.DividerUtil;
+import org.catrobat.catroid.utils.DynamicListPreference;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
@@ -1021,7 +1022,7 @@ public class BaseSettingsActivity extends PreferenceActivity {
 		String[] languages = new String[languagesNames.size()];
 		languagesNames.toArray(languages);
 
-		final ListPreference listPreference = (ListPreference) findPreference(SETTINGS_MULTILINGUAL);
+		final DynamicListPreference listPreference = (DynamicListPreference) findPreference(SETTINGS_MULTILINGUAL);
 		listPreference.setEntries(languages);
 		listPreference.setEntryValues(LANGUAGE_CODE);
 		listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

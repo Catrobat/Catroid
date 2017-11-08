@@ -22,12 +22,17 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <org.catrobat.catroid.utils.DynamicListPreference
-        android:defaultValue="false"
-        android:key="setting_multilingual"
-        android:summary="@string/preference_description_language"
-        android:title="@string/preference_title_language" />
-
-</PreferenceScreen>
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/language_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:textColor="?android:attr/textColorAlertDialogListItem"
+    android:textSize="21sp"
+    android:gravity="center_vertical"
+    android:paddingStart="12dip"
+    android:paddingEnd="7dip"
+    android:checkMark="?android:attr/listChoiceIndicatorSingle"
+    android:ellipsize="marquee"
+    />
