@@ -113,8 +113,12 @@
   <string name="marketing_more_on_google_play">구글 플레이에서 앱 열기</string>
   <!-- Settings activity -->
   <string name="preference_title">설정</string>
-  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 블록</string>
+  <string name="preference_title_language">Language</string>
+  <string name="preference_description_language">Select the language of the app</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
   <string name="preference_description_quadcopter_bricks">ARDrone 2.0 quadcopter 제어 허용하기</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
+  <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">레고 마인드스톰 NXT 블록</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">레고 마인드스톰 EV3 블록</string>
   <string name="preference_description_mindstorms_nxt_bricks">레고 마인드스톰 NXT 로봇 제어 가능 허용하기</string>
@@ -129,8 +133,8 @@
   <string name="preference_description_cast_feature_globally_enabled">캐스트 버튼을 표시하고  캐스트 프로그램 만들기 허용하기</string>
   <string name="preference_title_enable_nfc_bricks">NFC(Near Field Communication)</string>
   <string name="preference_description_nfc_bricks">NFC 태그를 사용할 수 있게 승인</string>
-  <string name="preference_description_crash_reports">충돌 보고서를 자동으로 보내도록 허용</string>
   <string name="preference_title_enable_crash_reports">익명 충돌 보고서 보내기</string>
+  <string name="preference_description_crash_reports">충돌 보고서를 자동으로 보내도록 허용</string>
   <!-- -->
   <string name="preference_description_arduino_bricks">아두이노 제어 가능 허용</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi 블록</string>
@@ -281,8 +285,17 @@
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">포켓 코드 이용 약관 및 서비스</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">Parrot의 AR.Drone을 포켓 코드에 사용하려고 합니다. Parrot의 이용 약관과 Catrobat의 이용약관을 살펴보기를 권장합니다.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
+        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
+        Catrobat\'s
+        Terms of
+        Use and Services.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">다시 보지 않기</string>
+  <!--  -->
+  <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">앱 소개</string>
@@ -457,6 +470,8 @@
   <string name="prestage_text_to_speech_engine_not_installed">텍스트 음성 변환 엔진이 설치되어 있지 않습니다! \n 설치하겠습니까?</string>
   <string name="prestage_resource_not_available_title">구성 요소 사용할 수 없음</string>
   <string name="prestage_resource_not_available_text">이 게임은 장치에서 실행할 수 없습니다. 다음 구성 요소는 사용할 수 없습니다: \n\n</string>
+  <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
+        are the only Controller for the Drone.</string>
   <string name="prestage_no_flash_available">\u2022 플래시\n</string>
   <string name="prestage_no_vibrator_available">\u2022 진동\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 가속센서\n</string>
@@ -466,6 +481,7 @@
   <string name="prestage_text_to_speech_error">\u2022 텍스트 음성 변환 엔진\n</string>
   <string name="prestage_no_back_camera_available">\u2022 후면 카메라\n</string>
   <string name="prestage_no_camera_available">\u2022 얼굴인식\n</string>
+  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
   <string name="prestage_no_front_camera_available">\u2022 전면 카메라\n</string>
   <string name="prestage_default_resource_not_available">\u2022 알 수 없는 구성요소\n</string>
   <string name="no_nfc_available">NFC 이용 불가</string>
@@ -510,6 +526,7 @@
   <string name="new_project_empty">빈 프로그램 만들기</string>
   <string name="new_project_default">예제 프로그램 작성</string>
   <string name="new_project_default_drone">예제 드론 프로그램 만들기</string>
+  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
   <string name="project_orientation_title">방향:</string>
   <string name="project_select_screen_title">화면</string>
   <!--  -->
@@ -604,7 +621,8 @@
   <string name="category_data">변수</string>
   <string name="category_lego_nxt">레고 NXT</string>
   <string name="category_lego_ev3">레고 EV3</string>
-  <string name="category_drone">ARDrone</string>
+  <string name="category_drone">AR.Drone 2.0</string>
+  <string name="category_jumping_sumo">Jumping Sumo</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">아두이노</string>
   <string name="category_cast">캐스트</string>
@@ -872,10 +890,11 @@
   <string name="drone_emergency_battery_low">배터리 부족 (자동 종료).</string>
   <string name="drone_emergency_camera">카메라가 응답하지 않습니다.</string>
   <string name="drone_emergency_ultrasound">초음파 센서가 응답하지 않습니다.</string>
-  <string name="drone_emergency_angle">AR.Drone euler의 각도가 너무 높습니다. 잘못 작동되는 것을 피하려면 모터를 정지하세요.</string>
+  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
+        behavior.</string>
   <string name="drone_emergency_cutout">환경때문에 모터가 정지되었습니다.</string>
   <string name="drone_alert_battery_low">다시 이륙하기에는 배터리가 부족합니다.</string>
-  <string name="drone_alert_ultrasound">초음파 센서가 AR.Drone의 높이를 결정할 수 없습니다. </string>
+  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
   <string name="drone_alert_vision">바닥의 카메라가 속도를 측정할 수 없습니다.</string>
   <string name="drone_emergency_title">긴급</string>
   <!--  -->
@@ -909,12 +928,18 @@
   <string name="error_upload_default_project">그것은 \'나의 첫 번째 프로그램\'으로 동일하기 때문에 이 프로그램을 업로드할 수 없습니다. 수정하고 다시 시도하십시오.</string>
   <string name="error_adding_brick">이 블록을 추가하는 동안 오류가 발생했습니다.</string>
   <string name="error_copying_brick">이 블록을 복사하는 동안 오류가 발생했습니다.</string>
-  <string name="error_no_drone_connected_title">ARDrone를 찾을 수 없습니다.</string>
-  <string name="error_no_drone_connected">ARDrone에 당신의 wifi를 연결하고 다시 시도하십시오.</string>
-  <string name="error_drone_low_battery_title">드론의 배터리가 약합니다: %d%%</string>
+  <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
+  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
+  <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
   <string name="error_drone_low_battery">충전된 배터리를 삽입하고 다시 시도하십시오.</string>
-  <string name="error_drone_wrong_platform_title">ARDrone을 지원하지 않습니다</string>
-  <string name="error_drone_wrong_platform">이 장치에서 ARDrone 프로그램을 실행할 수 없습니다.</string>
+  <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
+  <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
+  <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
+  <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+  <string name="error_jumpingsumo_battery">충전된 배터리를 삽입하고 다시 시도하십시오.</string>
+  <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
+  <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
+  <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
   <string name="error_rename_incompatible_project">호환 되지 않는 프로그램의 이름을 바꿀 수 없습니다.</string>
   <string name="error_unpack_scene_with_different_resolution">주의! 해상도가 다릅니다.</string>
   <string name="error_unknown_error">알 수 없는 오류가 발생했습니다.</string>
@@ -1043,28 +1068,74 @@
   <string name="ev3_led_status_orange_pulse">주황색 펄스</string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">이륙/착륙</string>
-  <string name="brick_drone_play_led_animation">플래시 애니메이션 재생</string>
-  <string name="brick_drone_move_left">왼쪽으로 이동</string>
-  <string name="brick_drone_move_right">오른쪽을 이동</string>
-  <string name="brick_drone_move_forward">앞으로 이동</string>
-  <string name="brick_drone_move_backward">뒤로 이동</string>
-  <string name="brick_drone_move_up">위로 이동</string>
-  <string name="brick_drone_move_down">아래로 이동</string>
-  <string name="brick_drone_emergency">긴급</string>
-  <string name="brick_drone_turn_right">오른쪽으로 돌기</string>
-  <string name="brick_drone_turn_left">왼쪽으로 돌기</string>
-  <string name="brick_drone_turn_left_magneto">왼쪽으로 [angle] 돌기</string>
-  <string name="brick_drone_turn_right_magneto">오른쪽으로 [angle] 돌기</string>
-  <string name="brick_drone_angle">각도</string>
-  <string name="brick_drone_set_config">구성 설정</string>
-  <string name="brick_drone_switch_camera">드론 카메라 스위치</string>
-  <string name="brick_drone_set_altitude">고도 제한</string>
+  <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
+  <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+  <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
+  <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
+  <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
+  <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
+  <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
+  <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
+  <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
+  <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
+  <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
+  <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
+  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
+  <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
+  <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
+  <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
+  <string name="brick_drone_set_altitude">Altitude limit </string>
   <string name="brick_drone_set_vertical_speed">수직 속도 제한</string>
   <string name="brick_drone_set_rotation_speed">회전 속도 제한</string>
   <string name="brick_drone_set_tilt_limit">기울기 제한</string>
-  <string name="brick_drone_with">으로</string>
+  <string name="brick_drone_with">seconds with</string>
   <string name="brick_drone_percent_power">거듭제곱</string>
+  <!--  -->
+  <!-- Jumping Sumo Bricks -->
+  <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
+  <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
+  <string name="brick_jumping_sumo_percent_power">% power</string>
+  <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
+  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+  <string name="brick_jumping_sumo_sound">소리</string>
+  <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
+  <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
+  <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
+  <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+  <string name="brick_jumping_sumo_rotate_text">°</string>
+  <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+  <!--  -->
+  <!-- defaultJumpingSumoValues -->
+  <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+  <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+  <string name="default_jumping_sumo_project_sprites_forward">앞으로</string>
+  <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
+  <string name="default_jumping_sumo_project_sprites_animation">애니메이션</string>
+  <string name="default_jumping_sumo_project_sprites_sound">소리</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+  <string name="default_jumping_sumo_project_sprites_turn_left">왼쪽으로 돌기</string>
+  <string name="default_jumping_sumo_project_sprites_turn_right">오른쪽으로 돌기</string>
+  <string name="default_jumping_sumo_project_sprites_flip">뒤집기</string>
+  <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+  <!--  -->
+  <!-- Jumping Sumo animation strings -->
+  <string name="animation_spin">Spin</string>
+  <string name="animation_tab">Tab</string>
+  <string name="animation_slowshake">Slowshake</string>
+  <string name="animation_metronome">Metronome</string>
+  <string name="animation_ondulation">Ondulation</string>
+  <string name="animation_spinjump">Spinjump</string>
+  <string name="animation_spiral">Spiral</string>
+  <string name="animation_slalom">Slalom</string>
+  <!-- Jumping Sumo sound strings -->
+  <string name="jumping_sumo_volume">소리 크기</string>
+  <string name="sound_default">Normal</string>
+  <string name="sound_robot">Robot</string>
+  <string name="sound_insect">Insect</string>
+  <string name="sound_monster">Monster</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
@@ -1468,5 +1539,21 @@
   <string name="crash_dialog_text">우리에게 충돌 보고서를 전송하여 포켓코드를 개선하기 위해 도와 주세요!</string>
   <string name="crash_dialog_always_send">항상 보내기</string>
   <string name="crash_dialog_send">보내기</string>
+  <!--  -->
+  <!-- Multilingual List -->
+  <string name="device_language">Device Language</string>
+  <!-- UtilFile SizeUnits String -->
+  <string name="Byte_short">B</string>
+  <string name="KiloByte_short">KB</string>
+  <string name="MegaByte_short">MB</string>
+  <string name="GigaByte_short">GB</string>
+  <string name="TeraByte_short">TB</string>
+  <string name="PetaByte_short">PB</string>
+  <string name="ExaByte_short">EB</string>
+  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
+         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
+         goodies and giveaways from Google and Catrobat for participants!</string>
+  <string name="google_code_in_check_out">Check it out on</string>
+  <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
 </resources>
