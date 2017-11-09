@@ -36,9 +36,9 @@
   <string name="no">否</string>
   <string name="back">后退</string>
   <string name="ok">确定</string>
-  <string name="agree">Agree</string>
-  <string name="disagree">Disagree</string>
-  <string name="delete_account">Delete my account</string>
+  <string name="agree">同意</string>
+  <string name="disagree">不同意</string>
+  <string name="delete_account">删除帐户</string>
   <string name="copy">复制</string>
   <string name="cut">剪切</string>
   <string name="move">移动</string>
@@ -97,12 +97,12 @@
   <string name="main_menu_help">帮助</string>
   <string name="main_menu_web">浏览</string>
   <string name="main_menu_upload">上传</string>
-  <string name="main_menu_privacy_policy">Privacy policy</string>
+  <string name="main_menu_privacy_policy">隐私策略</string>
   <string name="main_menu_about">关于本应用</string>
   <string name="main_menu_terms_of_use">使用与服务条例</string>
   <string name="main_menu_rate_app">给我们评分！</string>
   <string name="main_menu_play_store_not_installed">未安装Google Play商店</string>
-  <string name="main_menu_logout">&#x4E00;&#x5929;&#x524D;</string>
+  <string name="main_menu_logout">登出</string>
   <string name="main_menu_login">登录</string>
   <string name="main_menu_scratch_converter">Scratch转换模块</string>
   <string name="logout_successful">成功登出</string>
@@ -113,8 +113,12 @@
   <string name="marketing_more_on_google_play">Google Play上的更多应用</string>
   <!-- Settings activity -->
   <string name="preference_title">设置</string>
-  <string name="preference_title_enable_quadcopter_bricks">Parrot AR无人机积木</string>
+  <string name="preference_title_language">语言</string>
+  <string name="preference_description_language">Select the language of the app</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
   <string name="preference_description_quadcopter_bricks">允许控制AR2.0版四轴控制无人机</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
+  <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">乐高头脑风暴NXT积木</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">乐高头脑风暴EV3积木</string>
   <string name="preference_description_mindstorms_nxt_bricks">允许控制乐高头脑风暴NXT机器人</string>
@@ -129,8 +133,8 @@
   <string name="preference_description_cast_feature_globally_enabled">显示cast按钮并允许创建cast项目</string>
   <string name="preference_title_enable_nfc_bricks">近距离无线通信</string>
   <string name="preference_description_nfc_bricks">允许在程序中使用NFC标签</string>
-  <string name="preference_description_crash_reports">允许自动发送故障报告</string>
   <string name="preference_title_enable_crash_reports">发送匿名故障报告</string>
+  <string name="preference_description_crash_reports">允许自动发送故障报告</string>
   <!-- -->
   <string name="preference_description_arduino_bricks">允许控制Arduino控制板</string>
   <string name="preference_title_enable_raspi_bricks">树莓派积木</string>
@@ -225,54 +229,30 @@
   <string name="dialog_new_object_switch_message">切换到新的对象吗？</string>
   <!--  -->
   <!-- Privacy Policy -->
-  <string name="dialog_privacy_policy_title">Privacy policy</string>
-  <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
-
-        To offer you all collaborative benefits of our services and the associated account, it is necessary to
-        collect certain data from you.\n\n
-
-    • To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
-        updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
-        store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
-        Plus or Facebook, we additionally store an identification key connected to your account on these services. We
-        will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
-
-    • To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
-        purposes, the user
-        generated public data will be stored internally in a database, together with a timestamp and the used IP
-        address.\n\n
-
-    • To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
-        use Google
-        Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited
-        pages/screens, used operating system, and information about the network provider). This analysis and the collected
-        data is not linked to your profile and does not contain any personal information.\n\n
-
-    • On a voluntary basis, you can give us your country of residence through your account page on the sharing
-        site. This
-        will only be used for statistical and research purposes by us and can be removed at any time in your profile
-        settings.\n\n
-
-    • You can withdraw the usage of this data at any time by deleting your account through your profile page on
-        https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
-        but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
-        linked to your account, e.g. uploaded programs, comments, will get deleted.\n\n
-
-    • All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
-        International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
-
-    • To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
-        c/o\n
-        Institute of Software Technology,\n
+  <string name="dialog_privacy_policy_title">隐私策略</string>
+  <string name="dialog_privacy_policy_text">版本2.0，2017年9月20日\n\n
+        为了向您提供我们的服务和关联账号的协作性利益，有必要向您收集一些数据。\n\n
+    
+        为了在我们的系统中使用您的帐户，并通知您关于您的帐户的必要的改变（例如，更新/违反我们的使用条款、服务条款或社区规则）或者我们的政策变化，我们会保存您的用户名或您提供的您的电子邮件地址。如果您通过谷歌Plus或脸谱网连接您的帐户，我们还将存储这些服务中连接到您帐户上的标识密钥。我们不会将这个数据使用于任何其他（如市场营销）的目的，除非您明确地允许我们这样做。\n\n
+    
+        为了避免滥用我们的服务（例如，通过用户上传或评论）用于非法用途，用户生成的公共数据将存储在内部数据库，连同一个时间戳和所使用的IP地址。\n\n
+    
+        为了改进我们的服务（应用程序和网站）并开展ICT和STEM教育的科学研究，我们使用谷歌分析，谷歌crashlytics和Firebase获取关于使用（例如，时间戳，访问页面/屏幕，使用的操作系统，关于网络供应商的信息）的元数据。这一分析和所收集的数据没有关联到您的个人资料，也不包含任何个人信息。
+    
+        根据自愿的原则，您可以通过分享网站的账户页面提供您所居住的国家，这将只用于统计和研究的目的，您可以在任何时间将其从配置文件中删除。\n\n
+    
+        您可以通过在http://share.catrob.at/的个人资料首页上删除您的帐户随时撤回对该数据的使用。删除您的帐户后，您仍然可以使用我们提供的服务，但不能进行协作，例如上传程序、评论或喜欢。和所有关联到您的帐户的内容，例如上传的程序，评论，都将被删除。\n\n
+    
+        所有服务都是由国际Catrobat联盟- Verein zur F?rderung freier Software (Graz, Austria)下的非营利组织-开源的catrobat项目提供。\n\n
+    
+        欢迎与我们联系，请发送电子邮件至contact@catrobat.org或邮寄到Catrobat，\n
+        c/o\n         
+        Institute of Software Technology,\n         
         Inffeldgasse 16b/II,\n
         8010 Graz, Austria.\n\n
-
-    In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
-    </string>
-  <string name="dialog_privacy_policy_declined_text">It is necessary to agree the Privacy Policy to register or to
-        further use your account. If you do not want that this data gets collected you can delete your existing account
-        via the profile page on our web interface and still use all services of this app that do not need an account.
-    </string>
+    
+        如果你是16岁以下，这一政策必须由法定监护人（通常是父母）接受。</string>
+  <string name="dialog_privacy_policy_declined_text">为了注册或进一步使用您的帐户有必要同意隐私政策。如果您不想被收集数据您可以通过我们的 web 界面上的配置文件页面删除您现有的帐户，之后仍然可以使用这个应用程序的所有不需要帐户的服务。    </string>
   <!-- -->
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">使用与服务条例</string>
@@ -281,8 +261,17 @@
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">使用与服务条例</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">您尝试将这一程序应用于Parrot AR.无人机。我们强烈提醒您遵守Parrot无人机的使用和服务条款以及Catrobat 的使用和服务条款。</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
+        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
+        Catrobat\'s
+        Terms of
+        Use and Services.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">不要再次提醒我。</string>
+  <!--  -->
+  <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">关于本应用</string>
@@ -359,7 +348,7 @@
   <string name="fragment_background_text_description">按“+”添加背景</string>
   <string name="rename_look_dialog">重命名外观</string>
   <string name="pocket_paint_not_installed_title">尚未安装口袋画板 ！</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
+  <string name="pocket_paint_not_installed_message">请安装口袋画板</string>
   <string name="pocket_paint_not_installed">你想要安装这个功能吗?</string>
   <string name="default_look_name">外观</string>
   <string name="delete_look_dialog">删除外观？</string>
@@ -458,6 +447,8 @@
   <string name="prestage_text_to_speech_engine_not_installed">文字转语音引擎未安装！\n你要安装它么？</string>
   <string name="prestage_resource_not_available_title">组件不可用</string>
   <string name="prestage_resource_not_available_text">此程序不能在您的设备上运行。以下组件不可用： \n\n</string>
+  <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
+        are the only Controller for the Drone.</string>
   <string name="prestage_no_flash_available">\u2022 闪光灯\n</string>
   <string name="prestage_no_vibrator_available">\u2022 震动器\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 加速度传感器\n</string>
@@ -467,6 +458,7 @@
   <string name="prestage_text_to_speech_error">\u2022 文字转语音引擎\n</string>
   <string name="prestage_no_back_camera_available">\u2022 后置摄像头\n</string>
   <string name="prestage_no_camera_available">\u2022 人脸侦测\n</string>
+  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
   <string name="prestage_no_front_camera_available">\u2022 前置摄像头\n</string>
   <string name="prestage_default_resource_not_available">\u2022 未知部件\n</string>
   <string name="no_nfc_available">NFC 不可用</string>
@@ -511,6 +503,7 @@
   <string name="new_project_empty">创新新程序</string>
   <string name="new_project_default">创建示例程序</string>
   <string name="new_project_default_drone">创建示例无人机程序</string>
+  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
   <string name="project_orientation_title">方向：</string>
   <string name="project_select_screen_title">屏幕</string>
   <!--  -->
@@ -605,7 +598,8 @@
   <string name="category_data">数据</string>
   <string name="category_lego_nxt">乐高NXT</string>
   <string name="category_lego_ev3">乐高EV3</string>
-  <string name="category_drone">AR.无人机</string>
+  <string name="category_drone">AR.Drone 2.0</string>
+  <string name="category_jumping_sumo">Jumping Sumo</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">Arduino</string>
   <string name="category_cast">Cast</string>
@@ -806,8 +800,6 @@
   <!-- defaultDroneValues -->
   <string name="default_drone_project_name">我的第一个无人机程序</string>
   <string name="default_drone_project_sprites_takeoff">起飞</string>
-  <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">旋转</string>
   <string name="default_drone_project_sprites_up">上升</string>
   <string name="default_drone_project_sprites_down">下降</string>
   <string name="default_drone_project_sprites_left">左移</string>
@@ -874,10 +866,11 @@
   <string name="drone_emergency_battery_low">电池电量太低 （自动着陆）。</string>
   <string name="drone_emergency_camera">一个或多个摄像头没有响应。</string>
   <string name="drone_emergency_ultrasound">超声波传感器无响应</string>
-  <string name="drone_emergency_angle">AR.无人机欧拉角太高。为了避免危险马达已关闭。</string>
+  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
+        behavior.</string>
   <string name="drone_emergency_cutout">一个或多个马达受环境影响停止。</string>
   <string name="drone_alert_battery_low">电量过低，无法再次起飞。</string>
-  <string name="drone_alert_ultrasound">超声波传感器无法确定AR.无人机高度。</string>
+  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
   <string name="drone_alert_vision">底部摄像头无法估算出速度。</string>
   <string name="drone_emergency_title">紧急情况</string>
   <!--  -->
@@ -911,12 +904,18 @@
   <string name="error_upload_default_project">您无法上传这个程序，因为它和 \'我的第一个程序\' 内容相同。请修改它，然后再试一次。</string>
   <string name="error_adding_brick">在添加积木的时候发生了一个错误。</string>
   <string name="error_copying_brick">在复制积木的时候发生了一个错误。</string>
-  <string name="error_no_drone_connected_title">找不到AR.无人机</string>
-  <string name="error_no_drone_connected">将AR.无人机连接到您的无线网络，然后重试。</string>
-  <string name="error_drone_low_battery_title">无人机电量低： %d%%</string>
+  <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
+  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
+  <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
   <string name="error_drone_low_battery">插入充好电的电池，然后重试。</string>
-  <string name="error_drone_wrong_platform_title">没有AR.无人机相关支持。</string>
-  <string name="error_drone_wrong_platform">我们无法在您的设备上运行AR.无人机项目。</string>
+  <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
+  <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
+  <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
+  <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+  <string name="error_jumpingsumo_battery">插入充好电的电池，然后重试。</string>
+  <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
+  <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
+  <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
   <string name="error_rename_incompatible_project">重命名不兼容的程序是不可能的。</string>
   <string name="error_unpack_scene_with_different_resolution">注意！检测到不同的分辨率。</string>
   <string name="error_unknown_error">发生未知错误。</string>
@@ -927,8 +926,7 @@
   <string name="error_no_network_multiple_bricks">以下的积木将使用网络：</string>
   <string name="error_no_network_title">没有网络</string>
   <string name="error_no_whatsapp">未安装 WhatsApp</string>
-  <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
-        program.</string>
+  <string name="error_unsupported_bricks_chromecast">无法将此脚本中的积木添加给一个Chromecast程序。</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">启用蓝牙失败，舞台关闭中</string>
@@ -1045,29 +1043,74 @@
   <string name="ev3_led_status_orange_pulse">橙色脉冲</string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">起飞/着陆</string>
-  <string name="brick_drone_play_led_animation">播放LED闪烁动画</string>
-  <string name="brick_drone_move_left">向左移动</string>
-  <string name="brick_drone_move_right">向右移动</string>
-  <string name="brick_drone_move_forward">向前移动</string>
-  <string name="brick_drone_move_backward">后退</string>
-  <string name="brick_drone_move_up">上升</string>
-  <string name="brick_drone_move_down">下降</string>
-  <string name="brick_drone_flip">翻转</string>
-  <string name="brick_drone_emergency">紧急情况</string>
-  <string name="brick_drone_turn_right">右转</string>
-  <string name="brick_drone_turn_left">左转</string>
-  <string name="brick_drone_turn_left_magneto">左转 [angle]</string>
-  <string name="brick_drone_turn_right_magneto">右转 [angle]</string>
-  <string name="brick_drone_angle">角度</string>
-  <string name="brick_drone_set_config">修改配置</string>
-  <string name="brick_drone_switch_camera">切换无人机相机</string>
-  <string name="brick_drone_set_altitude">高度限制</string>
+  <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
+  <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+  <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
+  <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
+  <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
+  <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
+  <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
+  <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
+  <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
+  <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
+  <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
+  <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
+  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
+  <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
+  <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
+  <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
+  <string name="brick_drone_set_altitude">Altitude limit </string>
   <string name="brick_drone_set_vertical_speed">垂直速度极限</string>
   <string name="brick_drone_set_rotation_speed">旋转速度极限</string>
   <string name="brick_drone_set_tilt_limit">倾斜极限</string>
-  <string name="brick_drone_with">以</string>
+  <string name="brick_drone_with">seconds with</string>
   <string name="brick_drone_percent_power">求幂</string>
+  <!--  -->
+  <!-- Jumping Sumo Bricks -->
+  <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
+  <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
+  <string name="brick_jumping_sumo_percent_power">% power</string>
+  <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
+  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+  <string name="brick_jumping_sumo_sound">声音</string>
+  <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
+  <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
+  <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
+  <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+  <string name="brick_jumping_sumo_rotate_text">°</string>
+  <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+  <!--  -->
+  <!-- defaultJumpingSumoValues -->
+  <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+  <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+  <string name="default_jumping_sumo_project_sprites_forward">前进</string>
+  <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
+  <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
+  <string name="default_jumping_sumo_project_sprites_sound">声音</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+  <string name="default_jumping_sumo_project_sprites_turn_left">左转</string>
+  <string name="default_jumping_sumo_project_sprites_turn_right">右转</string>
+  <string name="default_jumping_sumo_project_sprites_flip">翻转</string>
+  <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+  <!--  -->
+  <!-- Jumping Sumo animation strings -->
+  <string name="animation_spin">Spin</string>
+  <string name="animation_tab">Tab</string>
+  <string name="animation_slowshake">Slowshake</string>
+  <string name="animation_metronome">Metronome</string>
+  <string name="animation_ondulation">Ondulation</string>
+  <string name="animation_spinjump">Spinjump</string>
+  <string name="animation_spiral">Spiral</string>
+  <string name="animation_slalom">Slalom</string>
+  <!-- Jumping Sumo sound strings -->
+  <string name="jumping_sumo_volume">音量</string>
+  <string name="sound_default">Normal</string>
+  <string name="sound_robot">Robot</string>
+  <string name="sound_insect">Insect</string>
+  <string name="sound_monster">Monster</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
@@ -1471,5 +1514,21 @@
   <string name="crash_dialog_text">请向我们发送匿名崩溃报告以帮助我们改善这个应用程序 ！</string>
   <string name="crash_dialog_always_send">总是发送</string>
   <string name="crash_dialog_send">发送</string>
+  <!--  -->
+  <!-- Multilingual List -->
+  <string name="device_language">Device Language</string>
+  <!-- UtilFile SizeUnits String -->
+  <string name="Byte_short">B</string>
+  <string name="KiloByte_short">KB</string>
+  <string name="MegaByte_short">MB</string>
+  <string name="GigaByte_short">GB</string>
+  <string name="TeraByte_short">TB</string>
+  <string name="PetaByte_short">PB</string>
+  <string name="ExaByte_short">EB</string>
+  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
+         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
+         goodies and giveaways from Google and Catrobat for participants!</string>
+  <string name="google_code_in_check_out">Check it out on</string>
+  <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
 </resources>
