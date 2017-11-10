@@ -391,10 +391,9 @@ public class SettingsActivity extends PreferenceActivity {
 		return false;
 	}
 
-
 	@SuppressWarnings("deprecation")
 	private void updateActionBar() {
-		ActionBar actionBar =  getActionBar();
+		ActionBar actionBar = getActionBar();
 		if (actionBar != null) {
 			actionBar.setTitle(R.string.preference_title);
 			actionBar.setHomeButtonEnabled(true);
