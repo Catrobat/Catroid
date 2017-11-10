@@ -622,12 +622,13 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	public void addSoundRecord() {
+		soundSource = TrackingConstants.RECORD;
 		Intent intent = new Intent(getActivity(), SoundRecorderActivity.class);
 		startActivityForResult(intent, SoundController.REQUEST_SELECT_OR_RECORD_SOUND);
-		soundSource = TrackingConstants.RECORD;
 	}
 
 	public void addSoundChooseFile() {
+		soundSource = TrackingConstants.DEVICE;
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -635,8 +636,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
 				SoundController.REQUEST_SELECT_MUSIC);
-		soundSource = TrackingConstants.DEVICE;
-		soundName = soundInfoList.get(soundInfoList.size() - 1).getTitle();
 	}
 
 	public void addSoundMediaLibrary() {
