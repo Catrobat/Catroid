@@ -4,6 +4,12 @@
 import shutil
 import os
 import time
+import sys
+
+def getVersion():
+    buildGradle = open("../catroid/build.gradle", "r").read()
+    versionCode = buildGradle.split('versionName "')[1].split('"')[0]
+    return versionCode
 
 def updateBuildGradle():
     shutil.copyfile("../catroid/build.gradle", "../catroid/build.gradle_backup")
@@ -14,11 +20,11 @@ def updateBuildGradle():
     buildGradle = buildGradle.replace(debugBuildTypesBlock, releaseBuildTypesBlock)
     open("../catroid/build.gradle","w").write(buildGradle)
 
-def updateAndroidManifest():
+def updateAndroidManifest(versionName):
     shutil.copyfile("../catroid/src/main/AndroidManifest.xml", "../catroid/src/main/AndroidManifest.xml_backup")
     androidManifest = open("../catroid/src/main/AndroidManifest.xml","r").read()
     applicationTag = androidManifest.split("<application")[1].split(">")[0]
-    newApplicationTag = applicationTag.replace('android:label="${appName}"','android:label="testapk"')
+    newApplicationTag = applicationTag.replace('android:label="${appName}"','android:label="' + versionName + '"')
     androidManifest = androidManifest.replace(applicationTag, newApplicationTag)
     open("../catroid/src/main/AndroidManifest.xml","w").write(androidManifest)
 
@@ -35,12 +41,12 @@ def restoreBuildGradleAndAndroidManifest():
     shutil.move("../catroid/build.gradle_backup", "../catroid/build.gradle")
     shutil.move("../catroid/src/main/AndroidManifest.xml_backup", "../catroid/src/main/AndroidManifest.xml")
 
-
-
 # ###############################################
 def main():
+    versionName = getVersion()
+
     updateBuildGradle()
-    updateAndroidManifest()
+    updateAndroidManifest(versionName + "beta")
     buildApk()
     restoreBuildGradleAndAndroidManifest()
 
