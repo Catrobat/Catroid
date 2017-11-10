@@ -53,6 +53,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AccessibilityPreferencesActivity extends BaseActivity {
 
@@ -66,7 +67,7 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 	private static final int FONTFACE_SERIF = 1;
 	private static final int FONTFACE_DYSLEXIC = 2;
 	private static final int FONTFACE_SABAA = 3;
-  	private static final int FONTFACE_STC = 4;
+	private static final int FONTFACE_STC = 4;
 	private int selectedFontface;
 
 	public AccessibilityCheckboxAdapter adapter;
@@ -234,13 +235,18 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 	}
 
 	public void showFontfaceDialog(View view) {
-		final String[] fontfaces = {
-				getResources().getString(R.string.preference_access_title_fontface_standard),
-				getResources().getString(R.string.preference_access_title_fontface_serif),
-				getResources().getString(R.string.preference_access_title_fontface_dyslexic),
-				getResources().getString(R.string.preference_access_title_fontface_dyslexic),
-				getResources().getString(R.string.preference_access_title_fontface_sabaa),
-				getResources().getString(R.string.preference_access_title_fontface_stc)};
+		final String[] fontfaces;
+		if (Locale.getDefault().getLanguage().equals("ar")) {
+			fontfaces = new String[] {
+					getResources().getString(R.string.preference_access_title_fontface_standard),
+					getResources().getString(R.string.preference_access_title_fontface_sabaa),
+					getResources().getString(R.string.preference_access_title_fontface_stc) };
+		} else {
+			fontfaces = new String[] {
+					getResources().getString(R.string.preference_access_title_fontface_standard),
+					getResources().getString(R.string.preference_access_title_fontface_serif),
+					getResources().getString(R.string.preference_access_title_fontface_dyslexic) };
+		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getResources().getString(R.string.preference_access_choose_fontface));
@@ -251,16 +257,18 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 						selectedFontface = FONTFACE_STANDARD;
 						break;
 					case 1:
-						selectedFontface = FONTFACE_SERIF;
+						if (Locale.getDefault().getLanguage().equals("ar")) {
+							selectedFontface = FONTFACE_SABAA;
+						} else {
+							selectedFontface = FONTFACE_SERIF;
+						}
 						break;
 					case 2:
-						selectedFontface = FONTFACE_DYSLEXIC;
-						break;
-					case 3:
-						selectedFontface = FONTFACE_SABAA;
-						break;
-					case 4:
-						selectedFontface = FONTFACE_STC;
+						if (Locale.getDefault().getLanguage().equals("ar")) {
+							selectedFontface = FONTFACE_STC;
+						} else {
+							selectedFontface = FONTFACE_DYSLEXIC;
+						}
 						break;
 				}
 				if (!selectedProfileName.equals(BaseSettingsActivity.ACCESS_PROFILE_MYPROFILE)) {
@@ -500,7 +508,7 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 			selectedFontface = FONTFACE_SERIF;
 		} else if (BaseSettingsActivity.getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 			selectedFontface = FONTFACE_DYSLEXIC;
-		}else if (BaseSettingsActivity.getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA)) {
+		} else if (BaseSettingsActivity.getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA)) {
 			selectedFontface = FONTFACE_SABAA;
 		} else if (BaseSettingsActivity.getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_STC)) {
 			selectedFontface = FONTFACE_STC;
@@ -660,7 +668,7 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 				selectedFontface = FONTFACE_SERIF;
 			} else if (fontface.equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 				selectedFontface = FONTFACE_DYSLEXIC;
-			}else if (fontface.equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA)) {
+			} else if (fontface.equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA)) {
 				selectedFontface = FONTFACE_SABAA;
 			} else if (fontface.equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_STC)) {
 				selectedFontface = FONTFACE_STC;

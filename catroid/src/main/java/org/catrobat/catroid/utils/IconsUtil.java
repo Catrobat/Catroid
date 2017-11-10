@@ -204,9 +204,9 @@ public final class IconsUtil {
 				String textWithSpacing = uglySpacingString + textView.getText();
 				textView.setText(textWithSpacing);
 				textView.setGravity(Gravity.FILL_VERTICAL);
-				if (context.getResources().getConfiguration().getLayoutDirection() == LayoutDirection.RTL){
+				if (context.getResources().getConfiguration().getLayoutDirection() == LayoutDirection.RTL) {
 					textView.setCompoundDrawables(null, null, drawable, null);
-				}else {
+				} else {
 					textView.setCompoundDrawables(drawable, null, null, null);
 				}
 			}
@@ -291,9 +291,9 @@ public final class IconsUtil {
 				}
 				String textWithSpacing = uglySpacingString + textView.getText();
 				textView.setText(textWithSpacing);
-				if (context.getResources().getConfiguration().getLayoutDirection() == LayoutDirection.RTL){
+				if (context.getResources().getConfiguration().getLayoutDirection() == LayoutDirection.RTL) {
 					textView.setCompoundDrawables(null, null, drawable, null);
-				}else {
+				} else {
 					textView.setCompoundDrawables(drawable, null, null, null);
 				}
 			}

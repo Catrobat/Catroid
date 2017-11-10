@@ -769,7 +769,6 @@ public class CategoryBricksFactory {
 		} else if (brick instanceof NestingBrick) {
 			category = res.getString(R.string.category_control);
 		}
-		
 		return category;
 	}
 
