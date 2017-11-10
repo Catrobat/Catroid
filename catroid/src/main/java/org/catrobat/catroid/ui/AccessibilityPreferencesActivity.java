@@ -65,6 +65,8 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 	private static final int FONTFACE_STANDARD = 0;
 	private static final int FONTFACE_SERIF = 1;
 	private static final int FONTFACE_DYSLEXIC = 2;
+	private static final int FONTFACE_SABAA = 3;
+  	private static final int FONTFACE_STC = 4;
 	private int selectedFontface;
 
 	public AccessibilityCheckboxAdapter adapter;
@@ -235,7 +237,10 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 		final String[] fontfaces = {
 				getResources().getString(R.string.preference_access_title_fontface_standard),
 				getResources().getString(R.string.preference_access_title_fontface_serif),
-				getResources().getString(R.string.preference_access_title_fontface_dyslexic) };
+				getResources().getString(R.string.preference_access_title_fontface_dyslexic),
+				getResources().getString(R.string.preference_access_title_fontface_dyslexic),
+				getResources().getString(R.string.preference_access_title_fontface_sabaa),
+				getResources().getString(R.string.preference_access_title_fontface_stc)};
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getResources().getString(R.string.preference_access_choose_fontface));
@@ -250,6 +255,12 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 						break;
 					case 2:
 						selectedFontface = FONTFACE_DYSLEXIC;
+						break;
+					case 3:
+						selectedFontface = FONTFACE_SABAA;
+						break;
+					case 4:
+						selectedFontface = FONTFACE_STC;
 						break;
 				}
 				if (!selectedProfileName.equals(BaseSettingsActivity.ACCESS_PROFILE_MYPROFILE)) {
@@ -419,6 +430,10 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 			BaseSettingsActivity.setAccessibilityFontFace(context, BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SERIF);
 		} else if (selectedFontface == FONTFACE_DYSLEXIC) {
 			BaseSettingsActivity.setAccessibilityFontFace(context, BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC);
+		} else if (selectedFontface == FONTFACE_SABAA) {
+			BaseSettingsActivity.setAccessibilityFontFace(context, BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA);
+		} else if (selectedFontface == FONTFACE_STC) {
+			BaseSettingsActivity.setAccessibilityFontFace(context, BaseSettingsActivity.ACCESS_FONTFACE_VALUE_STC);
 		}
 	}
 
@@ -450,6 +465,10 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 			BaseSettingsActivity.setAccessibilityMyProfileFontFace(context, BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SERIF);
 		} else if (selectedFontface == FONTFACE_DYSLEXIC) {
 			BaseSettingsActivity.setAccessibilityMyProfileFontFace(context, BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC);
+		} else if (selectedFontface == FONTFACE_SABAA) {
+			BaseSettingsActivity.setAccessibilityMyProfileFontFace(context, BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA);
+		} else if (selectedFontface == FONTFACE_STC) {
+			BaseSettingsActivity.setAccessibilityMyProfileFontFace(context, BaseSettingsActivity.ACCESS_FONTFACE_VALUE_STC);
 		}
 	}
 
@@ -481,6 +500,10 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 			selectedFontface = FONTFACE_SERIF;
 		} else if (BaseSettingsActivity.getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 			selectedFontface = FONTFACE_DYSLEXIC;
+		}else if (BaseSettingsActivity.getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA)) {
+			selectedFontface = FONTFACE_SABAA;
+		} else if (BaseSettingsActivity.getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_STC)) {
+			selectedFontface = FONTFACE_STC;
 		}
 	}
 
@@ -512,6 +535,10 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 			selectedFontface = FONTFACE_SERIF;
 		} else if (BaseSettingsActivity.getAccessibilityMyProfileFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 			selectedFontface = FONTFACE_DYSLEXIC;
+		} else if (BaseSettingsActivity.getAccessibilityMyProfileFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA)) {
+			selectedFontface = FONTFACE_SABAA;
+		} else if (BaseSettingsActivity.getAccessibilityMyProfileFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_STC)) {
+			selectedFontface = FONTFACE_STC;
 		}
 	}
 
@@ -633,6 +660,10 @@ public class AccessibilityPreferencesActivity extends BaseActivity {
 				selectedFontface = FONTFACE_SERIF;
 			} else if (fontface.equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 				selectedFontface = FONTFACE_DYSLEXIC;
+			}else if (fontface.equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA)) {
+				selectedFontface = FONTFACE_SABAA;
+			} else if (fontface.equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_STC)) {
+				selectedFontface = FONTFACE_STC;
 			}
 		}
 	}

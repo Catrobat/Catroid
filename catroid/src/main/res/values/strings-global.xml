@@ -64,6 +64,10 @@
     <string name="animation_cache_enabled">false</string>
     <!--  -->
 
+    <!--FontFace -->
+    <string name="preference_access_title_fontface_sabaa" translatable="false">Sabaa</string>
+    <string name="preference_access_title_fontface_stc" translatable="false">STC</string>
+
     <string name="facebook_app_id" translatable="false">1602051133371458</string>
 
     <string name="schoolreg_link">http://catrob.at/schoolregistration</string>

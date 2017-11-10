@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 
 import org.catrobat.catroid.ProjectManager;
@@ -190,7 +189,6 @@ import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 public class CategoryBricksFactory {
 
@@ -659,10 +657,6 @@ public class CategoryBricksFactory {
 		categoryBricks = setupControlCategoryList(context);
 
 		Resources res = context.getResources();
-		Configuration config = res.getConfiguration();
-		Locale savedLocale = config.locale;
-		config.locale = Locale.ENGLISH;
-		res.updateConfiguration(config, null);
 		String category = "No match";
 
 		for (Brick categoryBrick : categoryBricks) {
@@ -775,10 +769,7 @@ public class CategoryBricksFactory {
 		} else if (brick instanceof NestingBrick) {
 			category = res.getString(R.string.category_control);
 		}
-
-		config.locale = savedLocale;
-		res.updateConfiguration(config, null);
-
+		
 		return category;
 	}
 

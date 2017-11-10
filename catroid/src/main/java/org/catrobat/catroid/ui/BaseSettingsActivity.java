@@ -116,6 +116,8 @@ public class BaseSettingsActivity extends PreferenceActivity {
 	public static final String ACCESS_APPLICATION_FONT = "SANS_SERIF";
 	public static final String ACCESS_PATH_FONT_SERIF = "fonts/CrimsonText-Roman.ttf";
 	public static final String ACCESS_PATH_FONT_DYSLEXIC = "fonts/OpenDyslexic-Regular.otf";
+	public static final String ACCESS_PATH_FONT_SABAA = "fonts/saudi.ttf";
+ 	public static final String ACCESS_PATH_FONT_STC = "fonts/STC.otf";
 	public static final String ACCESS_BUTTON = "preference_button_access";
 	public static final String ACCESS_PROFILE_NONE = "setting_access_profile_none";
 	public static final String ACCESS_PROFILE_ACTIVE = "setting_access_profile_active";
@@ -130,6 +132,8 @@ public class BaseSettingsActivity extends PreferenceActivity {
 	public static final String ACCESS_FONTFACE_VALUE_STANDARD = "standard";
 	public static final String ACCESS_FONTFACE_VALUE_SERIF = "serif";
 	public static final String ACCESS_FONTFACE_VALUE_DYSLEXIC = "dyslexic";
+	public static final String ACCESS_FONTFACE_VALUE_SABAA = "sabaa";
+ 	public static final String ACCESS_FONTFACE_VALUE_STC = "stc";
 	public static final String ACCESS_HIGH_CONTRAST = "setting_access_high_contrast";
 	public static final String ACCESS_ADDITIONAL_ICONS = "setting_access_additional_icons";
 	public static final String ACCESS_LARGE_ICONS = "setting_access_large_icons";
@@ -468,6 +472,10 @@ public class BaseSettingsActivity extends PreferenceActivity {
 			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_SERIF);
 		} else if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_DYSLEXIC)) {
 			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_DYSLEXIC);
+		}else if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_SABAA)) {
+			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_SABAA);
+		} else if (getAccessibilityFontFace(context).equals(BaseSettingsActivity.ACCESS_FONTFACE_VALUE_STC)) {
+			Utils.setDefaultFont(context, ACCESS_APPLICATION_FONT, ACCESS_PATH_FONT_STC);
 		}
 	}
 
