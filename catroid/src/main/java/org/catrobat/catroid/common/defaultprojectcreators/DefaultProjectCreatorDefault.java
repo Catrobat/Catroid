@@ -48,6 +48,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
+import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
@@ -220,12 +221,20 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			birdStartScriptTwo.addBrick(foreverBrickTwo);
 
 			FormulaElement randomElement = new FormulaElement(FormulaElement.ElementType.FUNCTION, Functions.RAND.toString(), null);
-			randomElement.setLeftChild(new FormulaElement(FormulaElement.ElementType.NUMBER, "-300", randomElement));
+			FormulaElement randomElementLeftChild = new FormulaElement(FormulaElement.ElementType.OPERATOR,
+					Operators.MINUS.toString(), randomElement);
+			randomElementLeftChild.setRightChild(new FormulaElement(FormulaElement.ElementType.NUMBER, "300",
+					randomElementLeftChild));
+			randomElement.setLeftChild(randomElementLeftChild);
 			randomElement.setRightChild(new FormulaElement(FormulaElement.ElementType.NUMBER, "300", randomElement));
 			Formula randomGlide1 = new Formula(randomElement);
 			FormulaElement randomElement2 = new FormulaElement(FormulaElement.ElementType.FUNCTION, Functions.RAND.toString(), null);
-			randomElement2.setLeftChild(new FormulaElement(FormulaElement.ElementType.NUMBER, "-200", randomElement));
-			randomElement2.setRightChild(new FormulaElement(FormulaElement.ElementType.NUMBER, "200", randomElement));
+			FormulaElement randomElement2LeftChild = new FormulaElement(FormulaElement.ElementType.OPERATOR,
+					Operators.MINUS.toString(), randomElement2);
+			randomElement2LeftChild.setRightChild(new FormulaElement(FormulaElement.ElementType.NUMBER, "200",
+					randomElement2LeftChild));
+			randomElement2.setLeftChild(randomElement2LeftChild);
+			randomElement2.setRightChild(new FormulaElement(FormulaElement.ElementType.NUMBER, "200", randomElement2));
 			Formula randomGlide2 = new Formula(randomElement2);
 			GlideToBrick glideToBrickBird = new GlideToBrick(randomGlide1, randomGlide2, new Formula(1));
 			birdStartScript.addBrick(glideToBrickBird);
