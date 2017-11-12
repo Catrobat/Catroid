@@ -203,7 +203,9 @@ public final class TextSizeUtil {
 				enlargePreference(preference, R.layout.preference_enlarged);
 			} else if (preference instanceof EditTextPreference) {
 				enlargePreference(preference, R.layout.preference_enlarged);
-			} else if (preference instanceof Preference) {
+			} else if (preference instanceof ListPreference) {
+				enlargePreference(preference, R.layout.list_language_item);
+			} else if (preference != null) {
 				enlargePreference(preference, R.layout.preference_enlarged);
 			}
 		}
@@ -236,5 +238,9 @@ public final class TextSizeUtil {
 			modifier = 1.0f;
 			enlargedObjects.clear();
 		}
+	}
+
+	public static boolean isLargeText() {
+		return modifier > 1.0f;
 	}
 }

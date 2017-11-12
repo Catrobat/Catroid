@@ -198,7 +198,7 @@ public class SettingsActivityTest {
 						.check(matches(isDisplayed()));
 			}
 		}
-		onView(withId(android.R.id.button2))
+		onView(withId(R.id.language_dialog_cancel_button))
 				.check(matches(isDisplayed()));
 	}
 }
