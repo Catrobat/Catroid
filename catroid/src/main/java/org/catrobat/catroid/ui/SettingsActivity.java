@@ -91,6 +91,8 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String EV3_SENSOR_4 = "setting_mindstorms_ev3_sensor_4";
 	public static final String[] EV3_SENSORS = {EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4};
 
+	public static final String DRONE_SETTINGS_SCREEN = "settings_drone_screen";
+	public static final String DRONE_SETTINGS_CATEGORY = "setting_drone_category";
 	public static final String DRONE_CONFIGS = "setting_drone_basic_configs";
 	public static final String DRONE_ALTITUDE_LIMIT = "setting_drone_altitude_limit";
 	public static final String DRONE_VERTICAL_SPEED = "setting_drone_vertical_speed";
@@ -135,9 +137,11 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
-			PreferenceScreen dronePreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+			PreferenceScreen dronePreference = (PreferenceScreen) findPreference(DRONE_SETTINGS_SCREEN);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
+		} else {
+			setDronePreferences();
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED) {
@@ -230,11 +234,22 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 	}
 
+	@SuppressWarnings("deprecation")
 	private void setDronePreferences() {
+		CheckBoxPreference droneCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+		final PreferenceCategory droneConnectionSettings = (PreferenceCategory) findPreference(DRONE_SETTINGS_CATEGORY);
+		droneConnectionSettings.setEnabled(droneCheckBoxPreference.isChecked());
 
-		boolean areChoosersEnabled = getDroneChooserEnabled(this);
+		final String[] dronePreferences = new String[] {DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED,
+				DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
 
-		final String[] dronePreferences = new String[] {DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
+		droneCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object isChecked) {
+				droneConnectionSettings.setEnabled((Boolean) isChecked);
+				return true;
+			}
+		});
+
 		for (String dronePreference : dronePreferences) {
 			ListPreference listPreference = (ListPreference) findPreference(dronePreference);
 
@@ -305,7 +320,6 @@ public class SettingsActivity extends PreferenceActivity {
 					break;
 			}
 			listPreference.setEntryValues(DroneConfigPreference.Preferences.getPreferenceCodes());
-			listPreference.setEnabled(areChoosersEnabled);
 		}
 	}
 
