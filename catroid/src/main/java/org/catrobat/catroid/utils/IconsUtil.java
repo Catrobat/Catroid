@@ -29,6 +29,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.LayoutDirection;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -203,7 +204,11 @@ public final class IconsUtil {
 				String textWithSpacing = uglySpacingString + textView.getText();
 				textView.setText(textWithSpacing);
 				textView.setGravity(Gravity.FILL_VERTICAL);
-				textView.setCompoundDrawables(drawable, null, null, null);
+				if (context.getResources().getConfiguration().getLayoutDirection() == LayoutDirection.RTL) {
+					textView.setCompoundDrawables(null, null, drawable, null);
+				} else {
+					textView.setCompoundDrawables(drawable, null, null, null);
+				}
 			}
 		}
 	}
@@ -286,7 +291,11 @@ public final class IconsUtil {
 				}
 				String textWithSpacing = uglySpacingString + textView.getText();
 				textView.setText(textWithSpacing);
-				textView.setCompoundDrawables(drawable, null, null, null);
+				if (context.getResources().getConfiguration().getLayoutDirection() == LayoutDirection.RTL) {
+					textView.setCompoundDrawables(null, null, drawable, null);
+				} else {
+					textView.setCompoundDrawables(drawable, null, null, null);
+				}
 			}
 		}
 	}
