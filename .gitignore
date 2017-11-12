@@ -64,3 +64,4 @@ build/
 
 #api-keys
 catroid/google-services.json
+catroid/fabric.properties
