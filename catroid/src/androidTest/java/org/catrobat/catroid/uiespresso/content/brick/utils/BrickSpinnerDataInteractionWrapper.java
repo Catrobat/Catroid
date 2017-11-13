@@ -25,18 +25,24 @@ package org.catrobat.catroid.uiespresso.content.brick.utils;
 
 import android.support.test.espresso.DataInteraction;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -49,6 +55,16 @@ public class BrickSpinnerDataInteractionWrapper extends DataInteractionWrapper {
 	public BrickSpinnerDataInteractionWrapper checkShowsText(String text) {
 		dataInteraction.onChildView(withText(text))
 				.check(matches(isDisplayed()));
+		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
+	}
+
+	public BrickSpinnerDataInteractionWrapper checkHasVariable(String variableName) {
+		dataInteraction.perform(click());
+		onView(allOf(
+				withText(variableName),
+				hasSibling(withText(R.string.brick_variable_spinner_create_new_variable)))).
+				check(matches(isDisplayed()));
+		pressBack();
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 

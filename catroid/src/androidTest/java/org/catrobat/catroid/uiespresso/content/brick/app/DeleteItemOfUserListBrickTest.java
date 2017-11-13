@@ -41,9 +41,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -51,6 +49,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.deleteItemWithTextFromFormulaEditorDataList;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
@@ -119,14 +118,8 @@ public class DeleteItemOfUserListBrickTest {
 
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
 				.perform(click());
+		deleteItemWithTextFromFormulaEditorDataList(secondUserListName);
 
-		onView(withId(R.id.formula_editor_keyboard_data))
-				.perform(click());
-		onView(withText(secondUserListName))
-				.perform(longClick());
-		onView(withText(R.string.delete))
-				.perform(click());
-		pressBack();
 		onView(withText(secondUserListName))
 				.check(doesNotExist());
 
