@@ -133,7 +133,7 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 
 	@Override
 	public void onItemChecked() {
-		if (isRenameActionMode || actionMode == null) {
+		if (isRenameActionMode || actionMode == null || actionModeTitle == null) {
 			return;
 		}
 		updateActionModeTitle();
