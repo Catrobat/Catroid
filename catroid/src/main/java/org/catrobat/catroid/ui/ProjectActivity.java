@@ -139,7 +139,6 @@ public class ProjectActivity extends BaseCastActivity {
 		super.onStart();
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
 		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
-		SettingsActivity.setDroneChooserEnabled(this, true);
 	}
 
 	@Override
