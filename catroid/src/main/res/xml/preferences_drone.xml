@@ -24,10 +24,10 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceScreen
-        android:key="setting_parrot_ar_drone_bricks"
-        android:summary="@string/preference_description_quadcopter_bricks"
-        android:title="@string/preference_title_enable_quadcopter_bricks">
+     <PreferenceScreen
+         android:key="settings_drone_screen"
+         android:summary="@string/preference_description_quadcopter_bricks"
+         android:title="@string/preference_title_enable_quadcopter_bricks">
 
         <CheckBoxPreference
             android:defaultValue="false"
@@ -36,31 +36,47 @@
             android:title="@string/preference_title_enable_quadcopter_bricks" />
 
 
-        <PreferenceCategory android:title="@string/preference_title_drone_config_properties">
-            <Preference android:summary="@string/preference_title_drone_properties_setting_description" />
+        <PreferenceCategory
+            android:key="setting_drone_category"
+            android:title="@string/preference_title_drone_config_properties">
 
             <ListPreference
-                android:defaultValue="SECOND"
+                android:defaultValue="@string/drone_config_indoor_with_hull"
+                android:entries="@array/drone_setting_default_config"
+                android:entryValues="@array/drone_setting_default_config"
                 android:key="setting_drone_basic_configs"
                 android:summary="%s"
                 android:title="@string/brick_drone_set_config" />
+
             <ListPreference
-                android:defaultValue="SECOND"
+                android:defaultValue="@string/drone_set_altitude_max_5m"
+                android:entries="@array/drone_altitude_spinner_items"
+                android:entryValues="@array/drone_altitude_spinner_items"
                 android:key="setting_drone_altitude_limit"
                 android:summary="%s"
                 android:title="@string/brick_drone_set_altitude" />
+
+
             <ListPreference
-                android:defaultValue="SECOND"
+                android:defaultValue="@string/drone_set_vertical_indoor"
+                android:entries="@array/drone_max_vertical_speed_items"
+                android:entryValues="@array/drone_max_vertical_speed_items"
                 android:key="setting_drone_vertical_speed"
                 android:summary="%s"
                 android:title="@string/brick_drone_set_vertical_speed" />
+
             <ListPreference
-                android:defaultValue="SECOND"
+                android:defaultValue="@string/drone_set_rotation_indoor"
+                android:entries="@array/drone_max_rotation_speed_items"
+                android:entryValues="@array/drone_max_rotation_speed_items"
                 android:key="setting_drone_rotation_speed"
                 android:summary="%s"
                 android:title="@string/brick_drone_set_rotation_speed" />
+
             <ListPreference
-                android:defaultValue="SECOND"
+                android:defaultValue="@string/drone_set_rotation_indoor"
+                android:entries="@array/drone_max_tilt_angle_items"
+                android:entryValues="@array/drone_max_tilt_angle_items"
                 android:key="setting_drone_tilt_angle"
                 android:summary="%s"
                 android:title="@string/brick_drone_set_tilt_limit" />

@@ -37,6 +37,7 @@ public abstract class DroneMoveAction extends TemporalAction {
 	private Sprite sprite;
 	private Formula duration;
 	private Formula powerInPercent;
+	private float moveEndDuration = 5.0f;
 
 	protected static final float DRONE_MOVE_SPEED_STOP = 0.0f;
 
@@ -99,6 +100,7 @@ public abstract class DroneMoveAction extends TemporalAction {
 	protected void end() {
 		super.end();
 		moveEnd();
+		super.setDuration(moveEndDuration);
 	}
 
 	protected void setCommandAndYawEnabled(boolean enable) {
