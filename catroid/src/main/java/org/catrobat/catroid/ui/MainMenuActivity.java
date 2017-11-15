@@ -171,9 +171,6 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			return;
 		}
 
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
-		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, false);
-
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		} else if (CastManager.getInstance().isConnected()) {

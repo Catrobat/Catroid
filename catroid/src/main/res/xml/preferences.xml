@@ -32,7 +32,7 @@
         android:title="@string/preference_title_language" />
 
     <PreferenceScreen
-        android:key="setting_mindstorms_nxt_bricks"
+        android:key="setting_nxt_screen"
         android:summary="@string/preference_description_mindstorms_nxt_bricks"
         android:title="@string/preference_title_enable_mindstorms_nxt_bricks">
 
@@ -48,32 +48,33 @@
             android:summary="@string/preference_disable_nxt_info_dialog_description"
             android:title="@string/preference_disable_nxt_info_dialog" />
 
-        <PreferenceCategory android:title="@string/preference_title_mindstorms_nxt_sensors">
+        <PreferenceCategory android:key="setting_nxt_category"
+            android:title="@string/preference_title_mindstorms_nxt_sensors">
             <Preference android:summary="@string/preference_title_mindstorms_nxt_sensors_description" />
 
             <ListPreference
-                android:defaultValue="@string/nxt_sensor_touch"
+                android:defaultValue="NO_SENSOR"
                 android:entries="@array/nxt_sensor_chooser"
                 android:entryValues="@array/nxt_sensor_chooser"
                 android:key="setting_mindstorms_nxt_sensor_1"
                 android:summary="%s"
                 android:title="@string/nxt_choose_sensor_1" />
             <ListPreference
-                android:defaultValue="@string/nxt_sensor_sound"
+                android:defaultValue="NO_SENSOR"
                 android:entries="@array/nxt_sensor_chooser"
                 android:entryValues="@array/nxt_sensor_chooser"
                 android:key="setting_mindstorms_nxt_sensor_2"
                 android:summary="%s"
                 android:title="@string/nxt_choose_sensor_2" />
             <ListPreference
-                android:defaultValue="@string/nxt_sensor_light"
+                android:defaultValue="NO_SENSOR"
                 android:entries="@array/nxt_sensor_chooser"
                 android:entryValues="@array/nxt_sensor_chooser"
                 android:key="setting_mindstorms_nxt_sensor_3"
                 android:summary="%s"
                 android:title="@string/nxt_choose_sensor_3" />
             <ListPreference
-                android:defaultValue="@string/nxt_sensor_ultrasonic"
+                android:defaultValue="NO_SENSOR"
                 android:entries="@array/nxt_sensor_chooser"
                 android:entryValues="@array/nxt_sensor_chooser"
                 android:key="setting_mindstorms_nxt_sensor_4"
@@ -84,7 +85,7 @@
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:key="setting_mindstorms_ev3_bricks"
+        android:key="setting_ev3_screen"
         android:summary="@string/preference_description_mindstorms_ev3_bricks"
         android:title="@string/preference_title_enable_mindstorms_ev3_bricks">
 
@@ -100,32 +101,34 @@
             android:summary="@string/preference_disable_ev3_info_dialog_description"
             android:title="@string/preference_disable_nxt_info_dialog" />
 
-        <PreferenceCategory android:title="@string/preference_title_mindstorms_ev3_sensors">
+        <PreferenceCategory
+            android:key="setting_ev3_category"
+            android:title="@string/preference_title_mindstorms_ev3_sensors">
             <Preference android:summary="@string/preference_title_mindstorms_ev3_sensors_description" />
 
             <ListPreference
-                android:defaultValue="@string/ev3_sensor_touch"
+                android:defaultValue="NO_SENSOR"
                 android:entries="@array/ev3_sensor_chooser"
                 android:entryValues="@array/ev3_sensor_chooser"
                 android:key="setting_mindstorms_ev3_sensor_1"
                 android:summary="%s"
                 android:title="@string/ev3_choose_sensor_1" />
             <ListPreference
-                android:defaultValue="@string/ev3_sensor_color"
+                android:defaultValue="NO_SENSOR"
                 android:entries="@array/ev3_sensor_chooser"
                 android:entryValues="@array/ev3_sensor_chooser"
                 android:key="setting_mindstorms_ev3_sensor_2"
                 android:summary="%s"
                 android:title="@string/ev3_choose_sensor_2" />
             <ListPreference
-                android:defaultValue="@string/ev3_sensor_infrared"
+                android:defaultValue="NO_SENSOR"
                 android:entries="@array/ev3_sensor_chooser"
                 android:entryValues="@array/ev3_sensor_chooser"
                 android:key="setting_mindstorms_ev3_sensor_3"
                 android:summary="%s"
                 android:title="@string/ev3_choose_sensor_3" />
             <ListPreference
-                android:defaultValue="@string/ev3_no_sensor"
+                android:defaultValue="NO_SENSOR"
                 android:entries="@array/ev3_sensor_chooser"
                 android:entryValues="@array/ev3_sensor_chooser"
                 android:key="setting_mindstorms_ev3_sensor_4"
@@ -151,7 +154,7 @@
             android:title="@string/preference_title_drone_config_properties">
 
             <ListPreference
-                android:defaultValue="@string/drone_config_indoor_with_hull"
+                android:defaultValue="FIRST"
                 android:entries="@array/drone_setting_default_config"
                 android:entryValues="@array/drone_setting_default_config"
                 android:key="setting_drone_basic_configs"
@@ -159,7 +162,7 @@
                 android:title="@string/brick_drone_set_config" />
 
             <ListPreference
-                android:defaultValue="@string/drone_set_altitude_max_5m"
+                android:defaultValue="FIRST"
                 android:entries="@array/drone_altitude_spinner_items"
                 android:entryValues="@array/drone_altitude_spinner_items"
                 android:key="setting_drone_altitude_limit"
@@ -168,7 +171,7 @@
 
 
             <ListPreference
-                android:defaultValue="@string/drone_set_vertical_indoor"
+                android:defaultValue="SECOND"
                 android:entries="@array/drone_max_vertical_speed_items"
                 android:entryValues="@array/drone_max_vertical_speed_items"
                 android:key="setting_drone_vertical_speed"
@@ -176,7 +179,7 @@
                 android:title="@string/brick_drone_set_vertical_speed" />
 
             <ListPreference
-                android:defaultValue="@string/drone_set_rotation_indoor"
+                android:defaultValue="SECOND"
                 android:entries="@array/drone_max_rotation_speed_items"
                 android:entryValues="@array/drone_max_rotation_speed_items"
                 android:key="setting_drone_rotation_speed"
@@ -184,7 +187,7 @@
                 android:title="@string/brick_drone_set_rotation_speed" />
 
             <ListPreference
-                android:defaultValue="@string/drone_set_rotation_indoor"
+                android:defaultValue="SECOND"
                 android:entries="@array/drone_max_tilt_angle_items"
                 android:entryValues="@array/drone_max_tilt_angle_items"
                 android:key="setting_drone_tilt_angle"
