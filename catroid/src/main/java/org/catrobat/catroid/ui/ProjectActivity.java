@@ -146,13 +146,6 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		BaseSettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
-		BaseSettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 		setActionBarTitle();
