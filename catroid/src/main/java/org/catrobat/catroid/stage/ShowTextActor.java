@@ -46,16 +46,15 @@ import java.util.Map;
 
 public class ShowTextActor extends Actor {
 
+	private final float textSize = 45;
 	private int xPosition;
 	private int yPosition;
 	private UserVariable variableToShow;
 	private String variableNameToCompare;
-	private String variableValue;
 	private String variableValueWithoutDecimal;
 
 	private Sprite sprite;
 	private UserBrick userBrick;
-	private float scale = 3f;
 
 	public ShowTextActor(UserVariable userVariable, int xPosition, int yPosition, Sprite sprite, UserBrick userBrick) {
 		this.variableToShow = userVariable;
@@ -113,7 +112,7 @@ public class ShowTextActor extends Actor {
 		} else {
 			for (UserVariable variable : variableList) {
 				if (variable.getName().equals(variableToShow.getName())) {
-					variableValue = variable.getValue().toString();
+					String variableValue = variable.getValue().toString();
 					if (variable.getVisible()) {
 						if (isNumberAndInteger(variableValue)) {
 							drawText(batch, variableValueWithoutDecimal, xPosition, yPosition);
@@ -147,13 +146,15 @@ public class ShowTextActor extends Actor {
 	private void drawText(Batch batch, String text, float posX, float posY) {
 		// Convert to bitmap
 		Paint paint = new Paint();
-		paint.setTextSize(17 * scale);
+		float textSizeInPx = textSize;
+		paint.setTextSize(textSizeInPx);
 		paint.setColor(android.graphics.Color.BLACK);
 		paint.setAntiAlias(true);
 		paint.setTextAlign(Paint.Align.LEFT);
 		float baseline = -paint.ascent();
-		int width = (int) (paint.measureText(text) + 0.6f);
-		int height = (int) (baseline + paint.descent() + 0.6f);
+		int width = (int) (paint.measureText(text));
+		int height = (int) (baseline + paint.descent());
+
 		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
 		canvas.drawText(text, 0, baseline, paint);
@@ -166,7 +167,8 @@ public class ShowTextActor extends Actor {
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 		bitmap.recycle();
 		// Draw and dispose
-		batch.draw(tex, posX, posY);
+		float xOffset = 3.0f;
+		batch.draw(tex, posX - xOffset, posY - textSizeInPx);
 		batch.flush();
 		tex.dispose();
 	}
