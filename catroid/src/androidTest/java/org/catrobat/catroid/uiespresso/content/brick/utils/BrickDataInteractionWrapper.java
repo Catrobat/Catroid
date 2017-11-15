@@ -107,4 +107,13 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 		onView(withText(R.string.yes))
 				.perform(click());
 	}
+
+	public void performCopyBrick() {
+		dataInteraction.perform(new GeneralClickAction(Tap.SINGLE,
+				BrickCoordinatesProvider.UPPER_LEFT_CORNER,
+				Press.FINGER));
+		onView(withText(R.string.brick_context_dialog_copy_brick))
+				.perform(click());
+		dataInteraction.perform(click());
+	}
 }
