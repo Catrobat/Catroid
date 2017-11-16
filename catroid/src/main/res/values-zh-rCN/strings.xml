@@ -993,7 +993,6 @@
   <string name="preference_disable_nxt_info_dialog">禁用信息对话框</string>
   <string name="preference_disable_nxt_info_dialog_description">打开程序时不显示程序指定的NXT设置。</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">NXT传感器与端口的配对由程序指定，必须由打开的程序进行配置。</string>
-  <string name="preference_title_drone_properties_setting_description">无人机配置属性的选项由程序确定，只可以在程序内配置。</string>
   <string name="lego_nxt_sensor_config_info_text">当前程序使用了乐高头脑风暴NXT积木或传感器。如果要正确使用这些功能请将传感器与机器人按以下方式连接</string>
   <string name="nxt_port_1">端口 1</string>
   <string name="nxt_port_2">端口 2</string>

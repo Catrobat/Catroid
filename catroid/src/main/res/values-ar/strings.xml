@@ -117,8 +117,8 @@
   <string name="preference_description_language">اختر لغة التطبيق</string>
   <string name="preference_title_enable_quadcopter_bricks">اللبّنات البرمجية للطائرة بدون طيار</string>
   <string name="preference_description_quadcopter_bricks">السماح بالتحكم في الطائرة بدون طيار 2.0</string>
-  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
-  <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">اللبّنات البرمجية لـ Parrot Jumping Sumo</string>
+  <string name="preference_description_jumpingsumo_bricks">السماح بالتحكم في Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">لبّنات برمجية لـ ليغو مايندستورمز (NXT)</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">لبّنات برمجية لـ ليغو مايندستورمز (EV3)</string>
   <string name="preference_description_mindstorms_nxt_bricks">السماح بالتحكم في روبوتات ليغو مايندستورمز(NXT)</string>
@@ -302,17 +302,17 @@
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">شروط الاستخدام والخدمات لـ بوكت كود</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
-        Catrobat\'s
-        Terms of
-        Use and Services.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">يمكنك الشروع في استخدام التطبيق جنباً إلى جنب مع الطائرة بدون طيار من شركة Parrot
+        نذكركم بشدة الامتثال لشروط الاستخدام والخدمات للطائرة بدون طيار من شركة Parrot
+         وشروط الاستخدام والخدمة
+         الخاصة بـ
+        كاتروبات.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">لاتذكرني مرة أخرى.</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
-        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
-        use for Pocket Code.</string>
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">يمكنك الشروع في استخدام \"البوكت كوود\" جنباً إلى جنب مع Parrot\'s
+        Jumping Sumo. نذكركم بشدة الامتثال لشروط الاستخدام والخدمات للطائرة بدون طيار من شركة Parrot وشروط الاستخدام الخاصة بالبوكت كود من
+        كاتروبات.</string>
   <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">حول تطبيق بوكت كوود</string>
@@ -519,8 +519,8 @@
   <string name="prestage_text_to_speech_engine_not_installed">محرك تحويل النص إلى كلام غير مثبت! \n هل تريد تثبيته؟</string>
   <string name="prestage_resource_not_available_title">المكون غير متوفر</string>
   <string name="prestage_resource_not_available_text">لا يمكن تشغيل هذه اللعبة على الجهاز الخاص بك. المكونات التالية غير متوفرة: \n\n</string>
-  <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
-        are the only Controller for the Drone.</string>
+  <string name="prestage_resource_in_use_text">جهاز أخر متصل بـ  Jumping Sumo. تأكد من أنك 
+        المتحكم الوحيد بالطائرة بدون طيار.</string>
   <string name="prestage_no_flash_available">\u2022 الفلاش\n</string>
   <string name="prestage_no_vibrator_available">\u2022 الهزاز\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 جهاز استشعار التسارع\n</string>
@@ -575,7 +575,7 @@
   <string name="new_project_empty">إنشاء برنامج فارغ</string>
   <string name="new_project_default">إنشاء برنامج يحتوي على مثال</string>
   <string name="new_project_default_drone">إنشاء برنامح مثال على \"طائرة بدون طيار\"</string>
-  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
+  <string name="new_project_default_jumping_sumo">إنشاء برنامج مثال على Jumping Sumo</string>
   <string name="project_orientation_title">الإتجاه:</string>
   <string name="project_select_screen_title">الشاشة</string>
   <!--  -->
@@ -670,7 +670,7 @@
   <string name="category_data">البيانات</string>
   <string name="category_lego_nxt">ليغو NXT</string>
   <string name="category_lego_ev3">ليغو EV3</string>
-  <string name="category_drone">AR.Drone 2.0</string>
+  <string name="category_drone">طائرة بدون طيار 2.0</string>
   <string name="category_jumping_sumo">Jumping Sumo</string>
   <string name="category_phiro">روبوت الاطفال</string>
   <string name="category_arduino">الاردوينو</string>
@@ -958,11 +958,10 @@
   <string name="drone_emergency_battery_low">البطارية منخفضة (الهبوط الأوتوماتيكي).</string>
   <string name="drone_emergency_camera">كاميرا واحدة أو أكثر لا تعطي إستجابة.</string>
   <string name="drone_emergency_ultrasound">استشعار الموجات فوق الصوتية لا يستجيب.</string>
-  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
-        behavior.</string>
+  <string name="drone_emergency_angle">الطائرة بدون طيار أرتفعت عالياً. تم إيقاف المحركات لتفادي أي تصرف         خطير.</string>
   <string name="drone_emergency_cutout">واحد أو أكثر من المحركات توقفت بسبب البيئة.</string>
   <string name="drone_alert_battery_low">طاقة البطارية منخفض جداً للإنطلاق مرة أخرى.</string>
-  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
+  <string name="drone_alert_ultrasound">استشعار الموجات فوق الصوتية لا يمكنه تحديد إرتفاع الطائرة بدون طيار.</string>
   <string name="drone_alert_vision">لا يوجد تقدير لسرعة الكاميرا المواجهة السفلية.</string>
   <string name="drone_emergency_title">حالات الطوارئ</string>
   <!--  -->
@@ -996,18 +995,18 @@
   <string name="error_upload_default_project">لا يمكن تحميل هذا البرنامج لأنه هو نفسه كما في \'برنامجي الأول\'. الرجاء تعديل ذلك، وحاول مرة أخرى.</string>
   <string name="error_adding_brick">حدث خطأ أثناء إضافة هذه اللبّنة البرمجية</string>
   <string name="error_copying_brick">حدث خطأ أثناء نسخ هذه اللبّنة البرمجية</string>
-  <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
-  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
-  <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
+  <string name="error_no_drone_connected_title">لا يمكن العثور على الطائرة بدون طيار 2.0.</string>
+  <string name="error_no_drone_connected">قم بإيصال واي فاي بالطائرة بدون طيار2.0، ثم حاول مرة أخرى.</string>
+  <string name="error_drone_low_battery_title">بطارية الطائرة بدون طيار منخفضة:%d%%</string>
   <string name="error_drone_low_battery">أدخل بطارية مشحونة وحاول مرة أخرى.</string>
-  <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
-  <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
-  <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
-  <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+  <string name="error_jumpingsumo_wrong_platform">لا يمكننا تشغيل مشروع Jumping Sumo على جهازك.</string>
+  <string name="error_no_jumpingsumo_connected_title">لا يمكن العثور على Jumping Sumo</string>
+  <string name="error_no_jumpingsumo_connected">قم بإيصال واي فاي بـ Jumping Sumo ثم حاول مرة أخرى.</string>
+  <string name="error_jumpingsumo_battery_title">بطارية Jumping Sumo منخفضة</string>
   <string name="error_jumpingsumo_battery">أدخل بطارية مشحونة وحاول مرة أخرى.</string>
-  <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
-  <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
-  <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
+  <string name="error_jumpingsumo_wrong_platform_title">لا يوجد دعم لـ Jumping Sumo</string>
+  <string name="error_drone_wrong_platform_title">لا يوجد دعم لطائرة بدون طيار2.0.</string>
+  <string name="error_drone_wrong_platform">لا يمكننا تشغيل مشروع الطائرة بدون طيار 2.0 على الجهاز الخاص بك.</string>
   <string name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
   <string name="error_unpack_scene_with_different_resolution">تحذير! تم الكشف عن دقة شاشة مختلفة.</string>
   <string name="error_unknown_error">حدث خطأ غير معروف.</string>
@@ -1085,7 +1084,6 @@
   <string name="preference_disable_nxt_info_dialog">تعطيل مربع حوار المعلومات</string>
   <string name="preference_disable_nxt_info_dialog_description">إعدادات برنامج (NXT) المُحدد لن تُعرض عند فتح البرنامج.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">مسح أجهزة استشعار (NXT) للمنافذ هو برنامج مُحدد يمكن تكوينه فقط للبرامج المفتوحة!</string>
-  <string name="preference_title_drone_properties_setting_description">اختيار خصائص التكوين للطائرة بدون طيار هو برنامج مُحدد ويمكن تكوينه ضمن البرنامج.</string>
   <string name="lego_nxt_sensor_config_info_text">البرنامج الحالي يستخدم أجهزة الاستشعار أو اللبّنات البرمجية لـ ليغو مايندستورمز(NXT). للحصول على وظائف مناسبة الرجاء توصيل أجهزة الاستشعار بالروبوت على النحو التالي</string>
   <string name="nxt_port_1">المنفذ 1</string>
   <string name="nxt_port_2">المنفذ 2</string>
@@ -1135,74 +1133,74 @@
   <string name="ev3_led_status_orange_pulse">النبض البرتقالي</string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
-  <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
-  <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
-  <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
-  <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
-  <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
-  <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
-  <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
-  <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
-  <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
-  <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
-  <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
-  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
-  <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
-  <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
-  <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
-  <string name="brick_drone_set_altitude">Altitude limit </string>
+  <string name="brick_drone_takeoff_land">الإقلاع / الهبوط</string>
+  <string name="brick_drone_play_led_animation">تشغيل مؤثرات الفلاش بالطائرة بدون طيار</string>
+  <string name="brick_drone_move_left">التحرك نحو اليسار</string>
+  <string name="brick_drone_move_right">التحرك نحو اليمين</string>
+  <string name="brick_drone_move_forward">التحرك نحو الأمام</string>
+  <string name="brick_drone_move_backward">التحرك نحو الخلف</string>
+  <string name="brick_drone_move_up">التحرك نحو الأعلى</string>
+  <string name="brick_drone_move_down">التحرك نحو الأسفل</string>
+  <string name="brick_drone_emergency">حالة الطوارىء</string>
+  <string name="brick_drone_turn_right">التوجه نحو اليمين</string>
+  <string name="brick_drone_turn_left">التوجه نحو اليسار</string>
+  <string name="brick_drone_turn_left_magneto">التوجه نحو اليسار [angle]</string>
+  <string name="brick_drone_turn_right_magneto">التوجه نحو اليمين [angle]</string>
+  <string name="brick_drone_angle">زاوية الطائرة بدون طيار</string>
+  <string name="brick_drone_set_config">تعيين إعدادات الطائرة بدون طيار 2.0</string>
+  <string name="brick_drone_switch_camera">تبديل كاميرا الطائرة بدون طيار</string>
+  <string name="brick_drone_set_altitude">الحد الأقصى للارتفاع </string>
   <string name="brick_drone_set_vertical_speed">الحد الأقصى للسرعة العمودية</string>
   <string name="brick_drone_set_rotation_speed">الحد الأقصى لسرعة الدوران</string>
   <string name="brick_drone_set_tilt_limit">الحد الأقصى للميل</string>
-  <string name="brick_drone_with">seconds with</string>
+  <string name="brick_drone_with">ثانية مع</string>
   <string name="brick_drone_percent_power">قوة دفع</string>
   <!--  -->
   <!-- Jumping Sumo Bricks -->
-  <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
-  <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
-  <string name="brick_jumping_sumo_percent_power">% power</string>
-  <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+  <string name="brick_jumping_sumo_move_forward">تحريك Jumping Sumo نحو الأمام</string>
+  <string name="brick_jumping_sumo_move_backward">تحريك Jumping Sumo نحو الخلف</string>
+  <string name="brick_jumping_sumo_percent_power">٪ قوة دفع</string>
+  <string name="brick_jumping_sumo_animation">حركات Jumping Sumo</string>
+  <string name="brick_jumping_sumo_no_sound">Jumping Sumo بدون صوت</string>
   <string name="brick_jumping_sumo_sound">الصوت</string>
-  <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
-  <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
-  <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
-  <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+  <string name="brick_jumping_sumo_jump_long">قفزة طويلة لـ Jumping Sumo</string>
+  <string name="brick_jumping_sumo_jump_high">قفزة عالية لـ Jumping Sumo</string>
+  <string name="brick_jumping_sumo_rotate_left">استدارة Jumping Sumo نحو اليسار</string>
+  <string name="brick_jumping_sumo_rotate_right">استدارة Jumping Sumo نحو اليمين</string>
   <string name="brick_jumping_sumo_rotate_text">°</string>
-  <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
-  <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+  <string name="brick_jumping_sumo_turn">تشغيل Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">التقاط صورة من Jumping Sumo</string>
   <!--  -->
   <!-- defaultJumpingSumoValues -->
-  <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
-  <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+  <string name="default_jumping_sumo_project_name">برنامجي الأول مع Jumping Sumo</string>
+  <string name="add_look_jumping_sumo_video">فيديو Jumping Sumo</string>
   <string name="default_jumping_sumo_project_sprites_forward">الأمام</string>
-  <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
+  <string name="default_jumping_sumo_project_sprites_backward">الى الخلف</string>
   <string name="default_jumping_sumo_project_sprites_animation">الرسوم المتحركة</string>
   <string name="default_jumping_sumo_project_sprites_sound">الصوت</string>
-  <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
-  <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
-  <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">لا يوجد صوت</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">اقفز طويلاً</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">اقفز عالياً</string>
   <string name="default_jumping_sumo_project_sprites_turn_left">إتجه إلى اليسار</string>
   <string name="default_jumping_sumo_project_sprites_turn_right">إتجه إلى اليمين</string>
   <string name="default_jumping_sumo_project_sprites_flip">قلب افقي-عمودي</string>
-  <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+  <string name="default_jumping_sumo_project_sprites_picture">إلتقط صور</string>
   <!--  -->
   <!-- Jumping Sumo animation strings -->
-  <string name="animation_spin">Spin</string>
-  <string name="animation_tab">Tab</string>
-  <string name="animation_slowshake">Slowshake</string>
-  <string name="animation_metronome">Metronome</string>
-  <string name="animation_ondulation">Ondulation</string>
-  <string name="animation_spinjump">Spinjump</string>
-  <string name="animation_spiral">Spiral</string>
-  <string name="animation_slalom">Slalom</string>
+  <string name="animation_spin">لف مغزلي</string>
+  <string name="animation_tab">تاب</string>
+  <string name="animation_slowshake">رجفة بطيئة</string>
+  <string name="animation_metronome">إيقاع</string>
+  <string name="animation_ondulation">تموج</string>
+  <string name="animation_spinjump">قفز ولف مغزلي</string>
+  <string name="animation_spiral">لولبي</string>
+  <string name="animation_slalom">تزلج متعرج</string>
   <!-- Jumping Sumo sound strings -->
   <string name="jumping_sumo_volume">مستوى الصوت</string>
-  <string name="sound_default">Normal</string>
-  <string name="sound_robot">Robot</string>
-  <string name="sound_insect">Insect</string>
-  <string name="sound_monster">Monster</string>
+  <string name="sound_default">عادي</string>
+  <string name="sound_robot">روبوت</string>
+  <string name="sound_insect">حشرة</string>
+  <string name="sound_monster">وحش</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
@@ -1624,10 +1622,8 @@
   <string name="TeraByte_short">تيرابايت</string>
   <string name="PetaByte_short">بيتابايت</string>
   <string name="ExaByte_short">إكسابايت</string>
-  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
-         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
-         goodies and giveaways from Google and Catrobat for participants!</string>
-  <string name="google_code_in_check_out">Check it out on</string>
+  <string name="google_code_in_message">إنشاء ألعاب رهيبة ومشاريع أخرى للفوز بجوائز رائعة! الجائزة الكبرى          دعوة إلى مقر جوجل في كاليفورنيا مع أحد الوالدين، مع طن من          الأشياء الجيدة وهبات من Google وكاتروبات للمشتركين!</string>
+  <string name="google_code_in_check_out">تفحصها على</string>
   <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
 </resources>

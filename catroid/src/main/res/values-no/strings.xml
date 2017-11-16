@@ -1036,7 +1036,6 @@
   <string name="preference_disable_nxt_info_dialog">Deaktiver dialogboksen</string>
   <string name="preference_disable_nxt_info_dialog_description">Programspesifikke NXT innstillinger vises ikke når du åpner et program.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Tilordningen av NXT sensorer til porter er programspesifikke og kan bare konfigureres for åpen programmer!</string>
-  <string name="preference_title_drone_properties_setting_description">Valg av drone konfigurasjons egenskaper er programspesifikke og kan bare konfigureres i programmet.</string>
   <string name="lego_nxt_sensor_config_info_text">Gjeldende programmet bruker Lego Mindstorms NXT blokker eller sensorer. For riktig funksjonalitet koble sensorer til roboten som følger</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>

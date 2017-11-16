@@ -1052,7 +1052,6 @@
   <string name="preference_disable_nxt_info_dialog">Wyłącz okno dialogowe Informacji</string>
   <string name="preference_disable_nxt_info_dialog_description">Konkretne ustawienia programu NXT nie są wyświetlane, gdy program jest otwierany.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Mapowanie czujników NXT do portów jest specyficzne dla programu i może być konfigurowane tylko dla otwieranych programów!</string>
-  <string name="preference_title_drone_properties_setting_description">Wybór właściwości konfiguracji drona jest specyficzny dla programu i może być skonfigurowany tylko w ramach programu.</string>
   <string name="lego_nxt_sensor_config_info_text">Bieżący program korzysta z klocków Lego Mindstorms NXT lub czujników. Dla pełnej funkcjonalności proszę podłączyć czujniki do robota w następujący sposób</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>
