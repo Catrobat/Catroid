@@ -1562,7 +1562,7 @@ Wir möchten dich daran erinnern die Nutzungsbedingungen von Parrot sowie diese 
   <string name="TeraByte_short">TB</string>
   <string name="PetaByte_short">PB</string>
   <string name="ExaByte_short">EB</string>
-  <string name="google_code_in_message">Erstelle deine eigenen Spiele und andere Projekte und gewinne tolle Preise! Der Hauptpreis ist eine Einladung in das Google-Hauptquartier in Kalifornien zusammen mit einem Elternteil, sowie oderviele andere Geschenke und Give-Aways von Google und Catrobat für die Teilnehmer/-innen!</string>
+  <string name="google_code_in_message">Erstelle deine eigenen Spiele und andere Projekte und gewinne tolle Preise! Der Hauptpreis ist eine Einladung in das Google-Hauptquartier in Kalifornien zusammen mit einem Elternteil, oder viele andere Geschenke und Give-Aways von Google und Catrobat für die Teilnehmer/-innen!</string>
   <string name="google_code_in_check_out">Details (englisch):</string>
   <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
