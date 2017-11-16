@@ -115,7 +115,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	private static final MediaType MEDIA_TYPE_ZIPFILE = MediaType.parse("application/zip");
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
-	private static final String FILE_UPLOAD_URL = Constants.BASE_URL_HTTPS + "api/upload/upload.json";
+	private static final String FILE_UPLOAD_URL = "api/upload/upload.json";
 	private static final String CHECK_TOKEN_URL = Constants.BASE_URL_HTTPS + "api/checkToken/check.json";
 	private static final String LOGIN_URL = Constants.BASE_URL_HTTPS + "api/login/Login.json";
 	private static final String REGISTRATION_URL = Constants.BASE_URL_HTTPS + "api/register/Register.json";
@@ -415,8 +415,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 		try {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
+			String flavorUrl = Utils.getFlavoredUrl(context) + FILE_UPLOAD_URL;
 
-			final String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL;
+			final String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : flavorUrl;
 
 			Log.v(TAG, "Url to upload: " + serverUrl);
 
