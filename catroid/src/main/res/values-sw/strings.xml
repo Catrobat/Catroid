@@ -1036,7 +1036,6 @@
   <string name="preference_disable_nxt_info_dialog">Lemaza taarifa ongezi</string>
   <string name="preference_disable_nxt_info_dialog_description">Vipimo Programu maalum NXT hazionyeshwi unapofungua programu.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Ramani ya NXT Vihisio katika bandari ni programu maalum na inaweza tu kusakinishwa kwa programu zilizofunguliwa!</string>
-  <string name="preference_title_drone_properties_setting_description">Uteuzi wa rubani usanidi sifa ni programu maalum na inaweza kusanikiwa tu ndani ya programu.</string>
   <string name="lego_nxt_sensor_config_info_text">Programu ya sasa hutumia matofali ya Lego Mindstorms NXT au Vihisio. Kwa ajili ya utendaji sahihi Tafadhali kuunganisha Vihisio ya robot kama ifuatavyo</string>
   <string name="nxt_port_1">Bandari 1</string>
   <string name="nxt_port_2">Bandari 2</string>
@@ -1488,8 +1487,7 @@
   <string name="error_merge">Kosa limetokea wakati wa kuunganisha programu hizi</string>
   <string name="error_merge_with_self_scene">Tukio la sasa na tukio ulilochagua yako sawa!</string>
   <string name="error_merge_scene_not_found">Tukio halijaonekana!</string>
-  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected.
-    %1$s has resolution %2$d×%3$d and %4$s has resolution %5$d×%6$d. Using resolution of %1$s.</string>
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Tahadhari! maazimio tofauti yamegunduliwa.%1$s ina azimio %2$dx%6$d. Kutumia azimio ya %1$s.</string>
   <string name="abort">Katiza</string>
   <string name="merge_conflict">Kuunganisha hakuwezekani</string>
   <string name="merge_conflict_variable">Kitofautishi%1$s kinatumika kwenye programu zote. Kama programu zinatumia majina  sawa ya kitofautishi haziwezi kuungana. Tafadhali andika upya jina la kitofautishi kati ya programu moja na jaribu tena.</string>
