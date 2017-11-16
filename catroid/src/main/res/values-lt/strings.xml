@@ -169,6 +169,7 @@
         programs are not supported!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
     <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
+    <item quantity="few">Cannot convert more than %d programs simultaneously!</item>
     <item quantity="other">Cannot convert more than %d programs simultaneously!</item>
   </plurals>
   <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
@@ -179,6 +180,7 @@
   <string name="authentication_failed">Authentication failed, please contact the Catrobat team!</string>
   <plurals name="scratch_conversion_scheduled_x">
     <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
+    <item quantity="few">Scheduled %d Scratch programs&#8230;</item>
     <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
   </plurals>
   <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
@@ -190,10 +192,12 @@
   <string name="status_conversion_finished">Conversion finished</string>
   <plurals name="status_in_progress_x_jobs">
     <item quantity="one">In progress: 1 job</item>
+    <item quantity="few">In progress: %d jobs</item>
     <item quantity="other">In progress: %d jobs</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
     <item quantity="one">Completed: 1 job</item>
+    <item quantity="few">Completed: %d jobs</item>
     <item quantity="other">Completed: %d jobs</item>
   </plurals>
   <string name="status_conversion_failed">Conversion failed!</string>
@@ -224,14 +228,17 @@
   <string name="reconvert_text">This program has been converted %1$s ago.</string>
   <plurals name="minutes">
     <item quantity="one">1 minute</item>
+    <item quantity="few">%d minutes</item>
     <item quantity="other">%d minutes</item>
   </plurals>
   <plurals name="hours">
     <item quantity="one">1 hour</item>
+    <item quantity="few">%d hours</item>
     <item quantity="other">%d hours</item>
   </plurals>
   <plurals name="days">
     <item quantity="one">1 day</item>
+    <item quantity="few">%d days</item>
     <item quantity="other">%d days</item>
   </plurals>
   <string name="reconvert_dialog_download">Download already converted program</string>
@@ -378,7 +385,7 @@
         different one!</string>
   <!--  -->
   <!-- Script fragment -->
-  <string name="fragment_script_text_description">Tap \"+\" to add Scripts</string>
+  <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
   <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
   <string name="dialog_confirm_delete_script_title">Delete this script?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
@@ -387,21 +394,24 @@
   <string name="dialog_confirm_delete_brick_message">This cannot be undone!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete %d brick</item>
+    <item quantity="few">Delete %d bricks</item>
     <item quantity="other">Delete %d bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
     <item quantity="one">Copy %d brick</item>
+    <item quantity="few">Copy %d bricks</item>
     <item quantity="other">Copy %d bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
     <item quantity="one">Backpack %d brick</item>
+    <item quantity="few">Backpack %d bricks</item>
     <item quantity="other">Backpack %d bricks</item>
   </plurals>
   <!--  -->
   <!-- Look fragment -->
-  <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
-  <string name="fragment_background_text_description">Tap \"+\" to add Backgrounds</string>
-  <string name="rename_look_dialog">Rename Look</string>
+  <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
+  <string name="fragment_background_text_description">Tap \"+\" to add backgrounds</string>
+  <string name="rename_look_dialog">Rename look</string>
   <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
   <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
   <string name="pocket_paint_not_installed">Do you want to install it?</string>
@@ -418,8 +428,8 @@
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!--  -->
   <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
-  <string name="rename_sound_dialog">Rename Sound</string>
+  <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
+  <string name="rename_sound_dialog">Rename sound</string>
   <string name="backpack_title">Your backpack</string>
   <string name="sound_play">play</string>
   <string name="sound_stop">stop</string>
@@ -460,25 +470,28 @@
   <string name="tnf_well_known_https">HTTPS</string>
   <string name="tnf_well_known_tel">Phone number</string>
   <string name="tnf_well_known_sms">SMS</string>
-  <string name="tnf_well_known_mailto">E-Mail</string>
+  <string name="tnf_well_known_mailto">El. paštas</string>
   <!--  -->
   <plurals name="unpacking_items_plural">
     <item quantity="one">was unpacked!</item>
+    <item quantity="few">were unpacked!</item>
     <item quantity="other">were unpacked!</item>
   </plurals>
   <plurals name="packing_items_plural">
     <item quantity="one">was backpacked!</item>
+    <item quantity="few">were backpacked!</item>
     <item quantity="other">were backpacked!</item>
   </plurals>
   <plurals name="scripts_plural">
     <item quantity="one">Script</item>
+    <item quantity="few">Scripts</item>
     <item quantity="other">Scripts</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Last access:</string>
   <string name="description">Description:</string>
   <string name="set_description">Set description</string>
-  <string name="rename_project">Rename Program</string>
+  <string name="rename_project">Rename program</string>
   <string name="copy_project_finished"> copied.</string>
   <string name="program">Program</string>
   <string name="programs">Programs</string>
@@ -493,7 +506,7 @@
   <string name="dialog_copy_project_title">Copy program</string>
   <!--  -->
   <!-- Soundrecorder activity -->
-  <string name="soundrecorder_name">Pocket Code Recorder</string>
+  <string name="soundrecorder_name">Sound Recorder</string>
   <string name="soundrecorder_error">Sound recording failed</string>
   <string name="soundrecorder_recorded_filename">record</string>
   <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
@@ -599,13 +612,13 @@
   <string name="new_user_registered">New account created</string>
   <string name="user_logged_in">Successfully logged in</string>
   <string name="register_error">Invalid login</string>
-  <string name="register_terms">By registering, you agree to our</string>
+  <string name="register_terms">By registering you agree to our</string>
   <string name="register_code_terms_of_use_text">Terms of Use and Services</string>
   <string name="login">Login</string>
   <string name="register">Register</string>
   <string name="or">OR</string>
   <string name="password_confirm">Confirm Password</string>
-  <string name="accountName">E-Mail</string>
+  <string name="accountName">El. paštas</string>
   <string name="signin_thanks">Thank you for signing up!</string>
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
@@ -680,6 +693,7 @@
   <string name="brick_set_rotation_style_no">don\'t rotate</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">layer</item>
+    <item quantity="few">layers</item>
     <item quantity="other">layers</item>
   </plurals>
   <string name="brick_come_to_front">Go to front</string>
@@ -687,6 +701,7 @@
   <string name="brick_move">Move</string>
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">step</item>
+    <item quantity="few">steps</item>
     <item quantity="other">steps</item>
   </plurals>
   <string name="brick_turn_left">Turn left</string>
@@ -786,6 +801,7 @@
   <string name="brick_stop_other_scripts">other scripts of this object</string>
   <plurals name="second_plural">
     <item quantity="one">"second "</item>
+    <item quantity="few">"seconds "</item>
     <item quantity="other">"seconds "</item>
   </plurals>
   <string name="brick_collision_receive">When physical collision with</string>
@@ -809,6 +825,7 @@
   <string name="brick_delete_this_clone">Delete this clone</string>
   <plurals name="time_plural">
     <item quantity="one">time</item>
+    <item quantity="few">times</item>
     <item quantity="other">times</item>
   </plurals>
   <string name="brick_loop_end">End of loop</string>
@@ -823,7 +840,7 @@
   <string name="brick_note_default_value">"add comment here…"</string>
   <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
   <string name="brick_say_bubble_default_value">"Hello!"</string>
-  <string name="brick_broadcast_default_value">"message 1"</string>
+  <string name="brick_broadcast_default_value">"new message"</string>
   <string name="brick_add_item_to_userlist_add">Add</string>
   <string name="brick_add_item_to_userlist">to list</string>
   <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
@@ -952,7 +969,7 @@
   <string name="error_project_upload">An error occurred while uploading the program.</string>
   <string name="error_project_download">An error occurred while downloading the program.</string>
   <string name="error_new_project">An error occurred while creating a new program.</string>
-  <string name="error_rename_project">An error occurred while renaming the program before upload.</string>
+  <string name="error_rename_project">An error occurred while renaming the program before uploading it.</string>
   <string name="error_rename_scene">An error occurred while renaming the scene.</string>
   <string name="error_load_project">An error occurred while loading the program.</string>
   <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
@@ -962,13 +979,13 @@
   <string name="error_load_sound">An error occurred while loading the sound.</string>
   <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
-  <string name="error_project_compatability">The program is not compatible with this version of Pocket Code.</string>
+  <string name="error_project_compatability">The program is not compatible with this version of the app.</string>
   <string name="error_outdated_version">This app version is outdated. Update now?</string>
   <string name="error_copy_project">An error occurred while copying the program.</string>
   <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
   <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
-  <string name="error_adding_brick">An error occurred while adding this Brick</string>
-  <string name="error_copying_brick">An error occurred while copying this Brick</string>
+  <string name="error_adding_brick">An error occurred while adding this brick.</string>
+  <string name="error_copying_brick">An error occurred while copying this brick.</string>
   <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
   <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
   <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
@@ -1038,7 +1055,7 @@
   <string name="nxt_play_tone">Play NXT tone</string>
   <string name="nxt_tone_duration">Duration</string>
   <string name="nxt_tone_frequency">Frequency</string>
-  <string name="nxt_tone_hundred_hz">x100Hz</string>
+  <string name="nxt_tone_hundred_hz">×100Hz</string>
   <string name="nxt_seconds">seconds</string>
   <string name="nxt_motor_a">A</string>
   <string name="nxt_motor_b">B</string>
@@ -1430,7 +1447,7 @@
   <string name="formula_editor_operator_divide">÷</string>
   <string name="formula_editor_operator_power">^</string>
   <string name="formula_editor_image_button_description_delete">delete</string>
-  <string name="formula_editor_variable_dialog_title">New Variable</string>
+  <string name="formula_editor_variable_dialog_title">New variable</string>
   <string name="formula_editor_list_dialog_title">New list</string>
   <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
   <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
@@ -1447,7 +1464,7 @@
   <string name="formula_editor_data_dialog_is_list">Make it a list</string>
   <string name="formula_editor_lists">Lists</string>
   <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string>
-  <string name="formula_editor_sensor_face_detected">is_face_detected</string>
+  <string name="formula_editor_sensor_face_detected">face_is_visible</string>
   <string name="formula_editor_sensor_face_size">face_size</string>
   <string name="formula_editor_sensor_face_x_position">face_x_position</string>
   <string name="formula_editor_sensor_face_y_position">face_y_position</string>
@@ -1484,6 +1501,7 @@
   <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
     <item quantity="one">Item selected!</item>
+    <item quantity="few">Items selected!</item>
     <item quantity="other">Items selected!</item>
   </plurals>
   <!--  -->
@@ -1512,7 +1530,7 @@
   <string name="new_user_brick">New Brick</string>
   <string name="new_user_brick_variable">Variable</string>
   <string name="new_user_brick_name">Please choose a brick name:</string>
-  <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
+  <string name="recursive_user_brick_forbidden">Adding a user-defined brick to a user-defined brick is not allowed yet!</string>
   <!-- Merge strings -->
   <string name="merge_button">Merge with</string>
   <string name="name_merge_result">Enter name for result</string>
@@ -1601,7 +1619,7 @@
   <string name="app_has_crashed">The app has crashed!</string>
   <string name="crash_dialog_text">Please help to improve our app by sending us anonymous crash reports!</string>
   <string name="crash_dialog_always_send">Always send</string>
-  <string name="crash_dialog_send">Send</string>
+  <string name="crash_dialog_send">Siųsti</string>
   <!--  -->
   <!-- Multilingual List -->
   <string name="device_language">Device Language</string>

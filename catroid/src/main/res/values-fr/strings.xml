@@ -1043,7 +1043,6 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
   <string name="preference_disable_nxt_info_dialog_description">Program specific NXT settings are not shown when opening a program.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is program specific and can only be configured for opened programs!</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">The current program uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
   <string name="nxt_port_1">Port d\'entrée 1</string>
   <string name="nxt_port_2">Port d\'entrée 2</string>
@@ -1596,10 +1595,8 @@ il faut accepter les conditions d\'utilisation et de services, et les respecter.
   <string name="TeraByte_short">TB</string>
   <string name="PetaByte_short">PB</string>
   <string name="ExaByte_short">EB</string>
-  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
-         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
-         goodies and giveaways from Google and Catrobat for participants!</string>
-  <string name="google_code_in_check_out">Check it out on</string>
+  <string name="google_code_in_message">Crée tes propres jeux et autres projets tout en gagnant des prix fantastiques ! Le grand prix est une invitation au siège de Google en Californie avec un parent, et il y a des tonnes d’autres goodies et cadeaux de Google et de Catrobat pour les participants !</string>
+  <string name="google_code_in_check_out">Plus d\'infos (en anglais) :</string>
   <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
 </resources>
