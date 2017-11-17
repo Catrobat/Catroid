@@ -24,8 +24,8 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
-  <string name="app_name">Δημιουργώ@Σχολείο</string>
-  <string name="cancel">Cancel</string>
+  <string name="app_name">Pocket Code</string>
+  <string name="cancel">Ακύρωση</string>
   <string name="next">Επόμενο</string>
   <string name="done">Done</string>
   <string name="name_already_exists">Αυτό το όνομα υπάρχει ήδη. Επιλέξτε κάποιο άλλο!</string>

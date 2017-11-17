@@ -24,8 +24,8 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
-  <string name="app_name">Create@School</string>
-  <string name="cancel">Cancel</string>
+  <string name="app_name">Pocket Code</string>
+  <string name="cancel">Avbryt</string>
   <string name="next">Neste</string>
   <string name="done">Done</string>
   <string name="name_already_exists">Dette navnet finnes allerede, vennligst velg et annet!</string>

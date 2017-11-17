@@ -24,7 +24,7 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
-  <string name="app_name">Yarat@Məktəb</string>
+  <string name="app_name">Pocket Code</string>
   <string name="cancel">İmtina et</string>
   <string name="next">Next</string>
   <string name="done">Done</string>
