@@ -24,7 +24,7 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
-  <string name="app_name">Create@school</string>
+  <string name="app_name">Pocket Code</string>
   <string name="cancel">Annuleren</string>
   <string name="next">Next</string>
   <string name="done">Gereed</string>

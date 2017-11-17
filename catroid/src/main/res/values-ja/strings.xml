@@ -24,7 +24,8 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
-  <string name="app_name">Create@School</string>
+  <string name="app_name">ポケット
+コード</string>
   <string name="cancel">キャンセル</string>
   <string name="next">次へ</string>
   <string name="done">完了</string>

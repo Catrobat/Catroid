@@ -24,7 +24,7 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
-  <string name="app_name">Create@School</string>
+  <string name="app_name">口袋编程</string>
   <string name="cancel">取消</string>
   <string name="next">下一步</string>
   <string name="done">已完成</string>
