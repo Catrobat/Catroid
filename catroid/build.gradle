@@ -241,7 +241,7 @@ android {
         targetSdkVersion 22
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 39
+        versionCode 40
         println "VersionCode is " + versionCode
         versionName "0.9.32"
         println "VersionName is " + versionName
