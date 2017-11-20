@@ -48,7 +48,8 @@ public final class CrashReporter {
 	}
 
 	private static boolean isReportingEnabled() {
-		return preferences != null && preferences.getBoolean(BaseSettingsActivity.SETTINGS_CRASH_REPORTS, false) && isCrashReportEnabled;
+		return preferences != null && preferences.getBoolean(BaseSettingsActivity.SETTINGS_CRASH_REPORTS, true)
+				&& isCrashReportEnabled;
 	}
 
 	@VisibleForTesting
