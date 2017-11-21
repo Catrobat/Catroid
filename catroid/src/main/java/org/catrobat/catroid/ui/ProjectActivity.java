@@ -216,6 +216,8 @@ public class ProjectActivity extends BaseCastActivity {
 			handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		} else {
 			menu.findItem(R.id.groups_create).setVisible(false);
+			menu.findItem(R.id.merge_scene).setVisible(true);
+			menu.findItem(R.id.show_details).setVisible(false);
 		}
 
 		return super.onPrepareOptionsMenu(menu);
