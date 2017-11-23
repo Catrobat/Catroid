@@ -167,7 +167,7 @@ android {
         createatschool {
             appId = 'org.catrobat.catroid.createatschool'
             applicationId appId
-            versionCode 12
+            versionCode 13
 
             buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
             buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
