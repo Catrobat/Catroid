@@ -102,7 +102,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	private List<NfcTagData> nfcTagDataList;
 	private NfcTagData selectedNfcTag;
 
-	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
 
 	NfcAdapter nfcAdapter;
@@ -346,7 +345,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			actionMode = getActivity().startActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
-			isRenameActionMode = false;
 		}
 	}
 
@@ -361,7 +359,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			actionMode = getActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
-			isRenameActionMode = true;
 		}
 	}
 
@@ -371,7 +368,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			actionMode = getActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
-			isRenameActionMode = false;
 		}
 	}
 
@@ -389,7 +385,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	}
 
 	public void onNfcTagChecked() {
-		if (isRenameActionMode || actionMode == null) {
+		if (actionMode == null) {
 			return;
 		}
 
@@ -399,6 +395,10 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	}
 
 	private void updateActionModeTitle() {
+		if (getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
+			return;
+		}
+
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {

@@ -124,7 +124,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	private ActionMode actionMode;
 	private View selectAllActionModeButton;
 
-	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
 	private Activity activity;
 
@@ -356,7 +355,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void startCopyActionMode() {
-		startActionMode(copyModeCallBack, false);
+		startActionMode(copyModeCallBack);
 	}
 
 	@Override
@@ -366,20 +365,20 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void startBackPackActionMode() {
-		startActionMode(backPackModeCallBack, false);
+		startActionMode(backPackModeCallBack);
 	}
 
 	@Override
 	public void startRenameActionMode() {
-		startActionMode(renameModeCallBack, true);
+		startActionMode(renameModeCallBack);
 	}
 
 	@Override
 	public void startDeleteActionMode() {
-		startActionMode(deleteModeCallBack, false);
+		startActionMode(deleteModeCallBack);
 	}
 
-	private void startActionMode(ActionMode.Callback actionModeCallback, boolean isRenameMode) {
+	private void startActionMode(ActionMode.Callback actionModeCallback) {
 		if (actionMode == null) {
 			if (adapter.isEmpty()) {
 				if (actionModeCallback.equals(copyModeCallBack)) {
@@ -400,7 +399,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				actionMode = getActivity().startActionMode(actionModeCallback);
 				unregisterForContextMenu(listView);
 				BottomBar.hideBottomBar(getActivity());
-				isRenameActionMode = isRenameMode;
 			}
 		}
 	}
@@ -463,7 +461,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void onSoundChecked() {
-		if (isRenameActionMode || actionMode == null) {
+		if (actionMode == null) {
 			return;
 		}
 
@@ -473,6 +471,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	private void updateActionModeTitle() {
+		if (getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
+			return;
+		}
+
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {

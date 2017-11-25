@@ -168,7 +168,6 @@ public class SceneListFragment extends ListActivityFragment implements CheckBoxL
 		} else {
 			actionMode = getActivity().startActionMode(actionModeCallback);
 			BottomBar.hideBottomBar(getActivity());
-			isRenameActionMode = actionModeCallback.equals(renameModeCallBack);
 		}
 	}
 

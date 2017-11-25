@@ -118,7 +118,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	private LookListTouchActionUpReceiver lookListTouchActionUpReceiver;
 	private ActionMode actionMode;
 	private View selectAllActionModeButton;
-	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
 	private OnLookDataListChangedAfterNewListener lookDataListChangedAfterNewListener;
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -169,8 +168,9 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_SINGLE);
-			mode.setTitle(R.string.rename);
 
+			actionModeTitle = getString(R.string.rename);
+			mode.setTitle(actionModeTitle);
 			setActionModeActive(true);
 
 			return true;
@@ -241,7 +241,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
@@ -642,7 +641,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public void startCopyActionMode() {
-		startActionMode(copyModeCallBack, false);
+		startActionMode(copyModeCallBack);
 	}
 
 	@Override
@@ -652,20 +651,20 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public void startRenameActionMode() {
-		startActionMode(renameModeCallBack, true);
+		startActionMode(renameModeCallBack);
 	}
 
 	@Override
 	public void startDeleteActionMode() {
-		startActionMode(deleteModeCallBack, false);
+		startActionMode(deleteModeCallBack);
 	}
 
 	@Override
 	public void startBackPackActionMode() {
-		startActionMode(backPackModeCallBack, false);
+		startActionMode(backPackModeCallBack);
 	}
 
-	private void startActionMode(ActionMode.Callback actionModeCallback, boolean isRenameMode) {
+	private void startActionMode(ActionMode.Callback actionModeCallback) {
 		if (actionMode == null) {
 			if (adapter.isEmpty()) {
 				if (actionModeCallback.equals(copyModeCallBack)) {
@@ -685,7 +684,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 				actionMode = getActivity().startActionMode(actionModeCallback);
 				unregisterForContextMenu(listView);
 				BottomBar.hideBottomBar(getActivity());
-				isRenameActionMode = isRenameMode;
 			}
 		}
 	}
@@ -763,7 +761,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public void onLookChecked() {
-		if (isRenameActionMode || actionMode == null) {
+		if (actionMode == null) {
 			return;
 		}
 
@@ -773,6 +771,10 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	}
 
 	private void updateActionModeTitle() {
+		if (getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
+			return;
+		}
+
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {
