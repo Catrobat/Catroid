@@ -174,7 +174,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
         <activity
-            android:name=".drone.DroneStageActivity"
+            android:name=".drone.ardrone.DroneStageActivity"
             android:configChanges="orientation"
             android:label="@string/stage"
             android:screenOrientation="portrait"
@@ -243,7 +243,12 @@
             android:screenOrientation="portrait"
             android:label="@string/add_sound_music"
             android:icon="@drawable/ic_pocketmusic"/>
-
+         <activity
+             android:name=".ui.GoogleCodeInActivity"
+             android:configChanges="orientation|keyboardHidden|screenSize"
+             android:label="@string/app_name"
+             android:screenOrientation="portrait">
+        </activity>
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
         <service android:name=".transfers.MediaDownloadService" />

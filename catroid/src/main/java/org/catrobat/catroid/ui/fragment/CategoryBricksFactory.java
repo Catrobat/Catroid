@@ -672,6 +672,12 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_drone);
 			}
 		}
+		categoryBricks = setupJumpingSumoCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_jumping_sumo);
+			}
+		}
 		categoryBricks = setupPhiroProCategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {

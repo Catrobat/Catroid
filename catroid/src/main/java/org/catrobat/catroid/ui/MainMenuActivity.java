@@ -24,9 +24,11 @@ package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -152,6 +154,32 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 				CastManager.getInstance().initializeCast(this);
 			}
 		}
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		if (sharedPreferences.getBoolean(Constants.FIRST_APPLICATION_LAUNCH, true)
+				&& BuildConfig.BUILD_TYPE.equals("release")
+				&& isStringTranslated(R.string.google_code_in_check_out)) {
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putBoolean(Constants.FIRST_APPLICATION_LAUNCH, false);
+			editor.commit();
+			Intent intent = new Intent(this, GoogleCodeInActivity.class);
+			startActivity(intent);
+		}
+	}
+
+	private boolean isStringTranslated(int stringId) {
+		Locale currentLocale = getResources().getConfiguration().locale;
+		Context context = getApplicationContext();
+		String currentTranslation = getString(stringId);
+
+		Locale fallbackLocale = new Locale("en");
+		Configuration config = new Configuration(context.getResources().getConfiguration());
+		config.setLocale(fallbackLocale);
+		String fallbackTranslation = context.createConfigurationContext(config).getText(stringId).toString();
+
+		boolean isEnglishLocale = currentLocale.getLanguage().equals(fallbackLocale.getLanguage());
+		boolean isSameAsFallbackTranslation = currentTranslation.equals(fallbackTranslation);
+
+		return isEnglishLocale || !isSameAsFallbackTranslation;
 	}
 
 	@Override
@@ -161,11 +189,6 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
-
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
-		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, false);
-
-		SettingsActivity.setDroneChooserEnabled(this, false);
 
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
