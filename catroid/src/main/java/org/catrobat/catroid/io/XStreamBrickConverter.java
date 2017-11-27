@@ -68,10 +68,12 @@ public class XStreamBrickConverter extends ReflectionConverter {
 				return super.doUnmarshal(brick, reader, context);
 			} catch (ClassNotFoundException exception) {
 				Log.d(TAG, "Brick " + type + " not found in " + BRICKS_PACKAGE_NAMES[index]);
-				CrashReporter.logException(exception);
 			}
 		}
-		Log.i(TAG, "Brick " + type + " not found in packages");
+
+		Log.e(TAG, "Brick " + type + " not found in packages");
+		CrashReporter.logException(new RuntimeException("Brick " + type + " not found in packages"));
+
 		return super.doUnmarshal(result, reader, context);
 	}
 }
