@@ -21,89 +21,94 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import groovy.json.StringEscapeUtils
 import groovy.xml.XmlUtil
 import groovy.xml.StreamingMarkupBuilder
+import java.nio.file.Files
+import static java.nio.file.StandardCopyOption.*
+import java.util.zip.ZipFile
 
 ext {
-    projectName = "WHACK A MOLE"
-    id = "1"
+    projectId = ''
+    appZipFile = null
+    appZipFileInAssets = null
 
-    assetsPath = "src/main/assets/"
-    standaloneZipPath = assetsPath + "project.zip"
-    standaloneTmpPath = assetsPath + "standalone/"
-
-    manifestPath = "src/main/AndroidManifest.xml"
-    resPath = "src/main/res/drawable-nodpi"
-    googleServicesJsonPath = "google-services.json"
-
-    buildStandaloneInfoTmpPath = "buildStandaloneInfoTmp"
+    assetsPath = 'src/main/assets/'
+    manifestPath = 'src/main/AndroidManifest.xml'
+    resPath = 'src/main/res/drawable-nodpi'
+    iconPath = "$resPath/icon.png"
+    iconBakPath = "icon_bak.png"
 }
 
-task buildStandalone() << {
-    def id = 824; //debugging purpose only
-    def downloadUrl = "";
+task standalonePreparation() {
+    /*
+     * Configuration
+     *
+     * Do the downloading of the APP _before_ the configuration.
+     * This is to ensure that the variables like the application name are
+     * already present when the configuration step comes to the android extension.
+     */
+    if (project.hasProperty('download')) {
+        project.ext.projectId = project['suffix']
+        project.ext.appId += '.' + project['suffix']
+        project.ext.manifestAppIcon = '@drawable/icon'
+        project.ext.appZipFile = new File(makeAppsCache().absolutePath + '/' + project.ext.projectId + '.zip')
 
-    if (project.hasProperty("download")) {
-        downloadUrl = project["download"]
-        id = project["suffix"]
-    } else {
-        downloadUrl = "https://pocketcode.org/download/" + id + ".catrobat"
+        downloadIfNotExisting(new URL(project['download']), project.ext.appZipFile)
+        determineProjectName(new ZipFile(project.ext.appZipFile))
     }
 
-    project.ext.id = id
+    /*
+     * Actual task
+     */
+    doLast {
+        if (!project.ext.appZipFile) {
+            /*
+             * This action is executed among others by the check task.
+             * Thus ensure that it does nothing if no app was downloaded.
+             */
+            return
+        }
 
-    println "downloading.... " + downloadUrl
+        backupFile(file(project.ext.iconPath))
+        backupFile(file(project.ext.manifestPath))
 
-    project.ext.standaloneZipPath = project.ext.assetsPath + project.ext.id + ".zip"
+        copy {
+            from project.ext.appZipFile
+            into project.ext.assetsPath
+        }
+        project.ext.appZipFileInAssets = file("$project.ext.assetsPath/${project.ext.projectId}.zip")
+        ZipFile app = new ZipFile(project.ext.appZipFileInAssets)
 
-    File programZip = file(project.ext.standaloneZipPath)
-    println "programZip: " + programZip.absolutePath
-
-    programZip.withOutputStream {
-        it << new URL(downloadUrl).content
+        removeUnecessaryPermissions(app)
+        copyScreenshotAsIcon(app)
     }
+}
 
-    File zipOutDir = file(project.ext.standaloneTmpPath)
-    zipOutDir.mkdirs()
+task standaloneCleanup() {
+    doLast {
+        if (!project.ext.appZipFile) {
+            /*
+             * This action is executed among others by the check task.
+             * Thus ensure that it does nothing if no app was downloaded.
+             */
+            return
+        }
 
-    println "zipOutDir: " + zipOutDir.absolutePath
-
-    copy {
-        from zipTree(programZip)
-        into zipOutDir
+        restoreFile(file(project.ext.iconPath))
+        restoreFile(file(project.ext.manifestPath))
+        delete project.ext.appZipFileInAssets
     }
+}
 
-    project.ext.projectName = getProjectName()
-
-    println "buildStandalone task triggered"
-    File manifestFile = file(project.ext.manifestPath)
-    println "manifestFile: " + manifestFile.absolutePath
-    def manifestText = manifestFile.text
-
-    String projectName = getProjectName();
-    projectName = projectName.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
-            .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
-
-    manifestText = manifestText.replaceAll("@string/app_name", projectName);
-    manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
-    manifestFile.write(manifestText)
-
-    removeUnecessaryPermissions()
-
-    File googleServicesJsonFile = file(project.ext.googleServicesJsonPath)
-    def googleServicesJsonText = googleServicesJsonFile.text
-
-    googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", "org.catrobat.catroid." + getPackageNameSuffix())
-    googleServicesJsonFile.write(googleServicesJsonText)
-
-    File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
-    println "standaloneInfoTmpFile: " + standaloneInfoTmpFile.absolutePath
-    standaloneInfoTmpFile.write(project.ext.id + "\n")
-    standaloneInfoTmpFile.append(project.ext.projectName)
-
-    copyScreenshotAsIcon()
-
-    delete project.ext.standaloneTmpPath
+task buildStandalone() {
+    doLast {
+        /*
+         * Present for backwards compatibility with Jenkins jobs.
+         * That way Jenkins jobs can support the older way to generated standalone APKs
+         * and the newer way at the same time.
+         */
+    }
 }
 
 task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
@@ -114,61 +119,68 @@ task testremoveIntentFilters() << {
     messUpIntentFilters()
 }
 
-ext.getProjectName = {
-    File xmlFile = file(project.ext.standaloneTmpPath + "code.xml")
-    File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
-
-    if (xmlFile.exists()) {
-        String sanitizedXml = xmlFile.text.replaceAll("&#x0;", "")
-        def programNode = new XmlSlurper().parseText(sanitizedXml)
-        return programNode.header.programName.text()
-    } else if (standaloneInfoTmpFile.exists()) {
-        def lines = standaloneInfoTmpFile.readLines()
-        assert 2 == lines.size()
-        return lines[1]
-    }
-
-    return "Default Project"
+def makeAppsCache() {
+    File appsCache = new File(project.rootDir.absolutePath + '/.apps')
+    appsCache.mkdirs()
+    appsCache
 }
 
-ext.getPackageNameSuffix = {
-    println ':getPackageNameSuffix'
-    if (project.hasProperty("suffix")) {
-        return project["suffix"]
-    } else {
-        //return "standalone"
-        return "g" + getProgramId(false);
-    }
-}
-
-ext.getProgramId = { boolean deleteInfoFile ->
-    File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
-    if (standaloneInfoTmpFile.exists()) {
-        def lines = standaloneInfoTmpFile.readLines()
-        assert 2 == lines.size()
-
-        if (deleteInfoFile) {
-            delete buildStandaloneInfoTmpPath
-        }
-
-        return lines[0]
-    }
-
-    return "noID"
-}
-
-def removeUnecessaryPermissions() {
-    println "managing Permissions"
-    File permissionsFile = file(project.ext.standaloneTmpPath + "permissions.txt")
-    File manifestFile = file(project.ext.manifestPath);
-    def manifestText = manifestFile.text;
-
-    if(!permissionsFile.exists()) {
-        println "no permissionTXT"
+def downloadIfNotExisting(URL src, File dest) {
+    if (dest.exists()) {
+        println "Using already downloaded app at '$dest.absolutePath'."
         return
     }
-    def permissionsText = permissionsFile.text
+    println "Downloading... " + src
+    dest.withOutputStream {
+        it << src.content
+    }
+    println "Downloaded to: " + dest.absolutePath
+}
 
+void determineProjectName(ZipFile appZip) {
+    def codeXmlEntry = appZip.getEntry('code.xml')
+    String codeXmlContents = appZip.getInputStream(codeXmlEntry).text
+    codeXmlContents = codeXmlContents.replaceAll("&#x0;", "") // no \0 characters are allowed in xml
+    def programNode = new XmlSlurper().parseText(codeXmlContents)
+    String programName = programNode.header.programName.text()
+
+    project.ext.manifestAppName = escapeXml(programName)
+    project.ext.appName = escapeJava(programName)
+}
+
+String escapeXml(String text) {
+    XmlUtil.escapeXml(text)
+}
+
+String escapeJava(String text) {
+    StringEscapeUtils.escapeJava(text)
+}
+
+def backupFile(File fileToBackup) {
+    File backup = new File(fileToBackup.parent + '/bak_' + fileToBackup.name)
+    Files.copy(fileToBackup.toPath(), backup.toPath(), COPY_ATTRIBUTES, REPLACE_EXISTING)
+}
+
+def restoreFile(File fileToBackup) {
+    File backup = new File(fileToBackup.parent + '/bak_' + fileToBackup.name)
+    if (backup.exists()) {
+        Files.copy(backup.toPath(), fileToBackup.toPath(), COPY_ATTRIBUTES, REPLACE_EXISTING)
+        delete backup
+    }
+}
+
+def removeUnecessaryPermissions(ZipFile appZipFile) {
+    println 'Managing Permissions.'
+
+    def permissionsEntry = appZipFile.getEntry('permissions.txt')
+    if (!permissionsEntry || permissionsEntry.isDirectory()) {
+        println 'No permissions.txt file found in the app.'
+        return
+    }
+    def permissionsText = appZipFile.getInputStream(permissionsEntry).text
+
+    File manifestFile = file(project.ext.manifestPath);
+    def manifestText = manifestFile.text;
     def manifestXml = new XmlSlurper().parseText(manifestText)
 
     def permissionsToRemove = []
@@ -213,39 +225,31 @@ def removeUnecessaryPermissions() {
     manifestFile.write(manifestText)
 }
 
-def copyScreenshotAsIcon() {
-    def automaticScreenshots = []
-    File screenshot
-    File standaloneTmpPath = file(project.ext.standaloneTmpPath)
-    standaloneTmpPath.traverse(type: groovy.io.FileType.ANY) {
-        if (it.getName().equals("automatic_screenshot.png")) {
-            automaticScreenshots.add(it)
+def copyScreenshotAsIcon(ZipFile appZipFile) {
+    def screenshotBytes = loadScreenshotBytes(appZipFile)
+    if (!screenshotBytes) {
+        println 'Could not find a screenshot.'
+        return
+    }
+    file(project.ext.iconPath).setBytes(screenshotBytes)
+}
 
-            println "Found automatic screenshot: " + it.getPath()
-        } else if (it.getName().equals("manual_screenshot.png")) {
-            def bytes = it.getBytes()[0..7]
-            def pngMagicNumber = [-119, 80, 78, 71, 13, 10, 26, 10]
-            if (bytes == pngMagicNumber) {
-                screenshot = it
-                println "Found valid manual screenshot: " + it.getPath()
-            }
+def loadScreenshotBytes(ZipFile zip) {
+    def pngMagicNumber = [-119, 80, 78, 71, 13, 10, 26, 10]
+    def validNames = ['manual_screenshot.png', 'automatic_screenshot.png']
+    def screenshots = zip.entries().grep { !it.directory }
+                                   .grep { entry -> validNames.any { it == entry.name || entry.name.endsWith("/$it") } }
+                                   .toSorted { validNames.indexOf(it.name) }
+
+    for (def entry : screenshots) {
+        def bytes = zip.getInputStream(entry).bytes
+        if (bytes[0..7] == pngMagicNumber) {
+            println "Found screenshot at '$entry.name'."
+            return bytes
         }
     }
 
-    if (screenshot == null && !automaticScreenshots.isEmpty() && automaticScreenshots.get(0).exists()) {
-        screenshot = automaticScreenshots.get(0)
-        println "Picking automatic screenshot: " + screenshot.getPath()
-    }
-
-    if (screenshot != null && screenshot.exists()) {
-        copy {
-            from screenshot.getPath()
-            into project.ext.resPath
-            rename { String fileName ->
-                fileName.replace(screenshot.getName(), 'icon.png')
-            }
-        }
-    }
+    return null
 }
 
 def messUpIntentFilters() {
@@ -255,4 +259,16 @@ def messUpIntentFilters() {
     String regex = "<intent-filter>\\n.+?<action android:name=\"android.intent.action.(VIEW|GET_CONTENT)(.|\\n)+?</intent-filter>"
     String noIntentManifest = manifestText.replaceAll(regex, "")
     manifestFile.write(noIntentManifest)
+}
+
+/*
+ * Ensure that the assembleStandaloneDebug task does the correct preparation
+ * and clean-up steps necessary for standalone APK creation.
+ */
+tasks.whenTaskAdded { task ->
+    if (task.name == 'prepareStandaloneDebugDependencies') {
+        task.dependsOn 'standalonePreparation'
+    } else if (task.name == 'assembleStandaloneDebug') {
+        task.finalizedBy 'standaloneCleanup'
+    }
 }

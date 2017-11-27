@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public final class BroadcastHandler {
@@ -126,7 +127,6 @@ public final class BroadcastHandler {
 		senderBroadcastWaitSequenceMap.setCurrentBroadcastEvent(event);
 		String sceneName = ProjectManager.getInstance().getSceneToPlay().getName();
 		List<SequenceAction> broadcastSequence = look.sprite.getBroadcastSequenceMap().get(broadcastMessage, sceneName);
-
 		if (broadcastSequence != null) {
 			for (SequenceAction action : broadcastSequence) {
 				SequenceAction broadcastWaitAction = ActionFactory.sequence(action,
@@ -134,12 +134,14 @@ public final class BroadcastHandler {
 				Script receiverScript = actionScriptMap.get(action);
 				actionScriptMap.put(broadcastWaitAction, receiverScript);
 				Sprite receiverSprite = scriptSpriteMap.get(receiverScript);
-				String actionName = broadcastWaitAction.toString() + Constants.ACTION_SPRITE_SEPARATOR + receiverSprite.getName() + receiverSprite.getScriptIndex(receiverScript);
-				stringActionMap.put(actionName, broadcastWaitAction);
-				if (!handleActionFromBroadcastWait(look.sprite, broadcastWaitAction)) {
-					event.raiseNumberOfReceivers();
-					actionList.add(broadcastWaitAction);
-					addOrRestartAction(look, broadcastWaitAction);
+				if (receiverSprite != null) {
+					String actionName = broadcastWaitAction.toString() + Constants.ACTION_SPRITE_SEPARATOR + receiverSprite.getName() + receiverSprite.getScriptIndex(receiverScript);
+					stringActionMap.put(actionName, broadcastWaitAction);
+					if (!handleActionFromBroadcastWait(look.sprite, broadcastWaitAction)) {
+						event.raiseNumberOfReceivers();
+						actionList.add(broadcastWaitAction);
+						addOrRestartAction(look, broadcastWaitAction);
+					}
 				}
 			}
 			if (actionList.size() > 0) {
@@ -151,6 +153,9 @@ public final class BroadcastHandler {
 
 	private static boolean handleAction(Action action, Script scriptOfAction) {
 		Sprite spriteOfAction = scriptSpriteMap.get(scriptOfAction);
+		if (spriteOfAction == null) {
+			return false;
+		}
 		String actionToHandle = action.toString() + Constants.ACTION_SPRITE_SEPARATOR + spriteOfAction.getName() + spriteOfAction.getScriptIndex(scriptOfAction);
 
 		if (!actionsToRestartMap.containsKey(actionToHandle)) {
@@ -196,6 +201,15 @@ public final class BroadcastHandler {
 			}
 		}
 		return false;
+	}
+
+	public static void removeSpriteFromScriptSpriteMap(Sprite sprite) {
+		Iterator<Script> it = scriptSpriteMap.keySet().iterator();
+		while (it.hasNext()) {
+			if (scriptSpriteMap.get(it.next()) == sprite) {
+				it.remove();
+			}
+		}
 	}
 
 	public static void clearActionMaps() {

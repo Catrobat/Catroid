@@ -48,9 +48,8 @@ public class ParserTestUserLists extends AndroidTestCase {
 	private static final String PROJECT_USER_LIST_NAME = "project_user_list";
 	private static final String SPRITE_USER_LIST_NAME = "sprite_user_list";
 	private Sprite firstSprite;
-	private static final Double DELTA = 0.01;
 
-	private static final Double EMPTY_USER_LIST_INTERPRETATION_VALUE = 0d;
+	private static final String EMPTY_USER_LIST_INTERPRETATION_VALUE = "";
 
 	private static final String USER_LIST_VALUES_SINGLE_NUMBER_STRING_INTERPRETATION_VALUE = "1";
 	private static final List<Object> USER_LIST_VALUES_SINGLE_NUMBER_STRING = new ArrayList<Object>();
@@ -161,7 +160,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).getList().clear();
 
 		assertEquals("Formula interpretation of List is not as expected", EMPTY_USER_LIST_INTERPRETATION_VALUE,
-				(Double) interpretUserList(PROJECT_USER_LIST_NAME), DELTA);
+				interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	public void testUserListReset() {

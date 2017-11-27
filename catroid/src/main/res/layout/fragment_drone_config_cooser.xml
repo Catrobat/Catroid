@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginTop="10dp"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:text="@string/brick_drone_set_altitude"
             android:textColor="@color/drone_altitude_color"/>
 
@@ -100,7 +100,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginTop="10dp"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:text="@string/brick_drone_set_vertical_speed"
             android:textColor="@color/drone_vertical_color" />
 
@@ -157,7 +157,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginTop="10dp"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:text="@string/brick_drone_set_rotation_speed"
             android:textColor="@color/drone_rotation_color" />
 
@@ -213,7 +213,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:layout_marginTop="10dp"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:text="@string/brick_drone_set_tilt_limit"
             android:textColor="@color/drone_tilt_color" />
 

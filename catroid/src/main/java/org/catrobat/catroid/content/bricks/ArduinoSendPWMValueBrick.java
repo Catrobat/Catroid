@@ -33,6 +33,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -128,5 +130,19 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.ARDUINO_ANALOG_PIN_NUMBER);
 				break;
 		}
+	}
+
+	public void updateArduinoValues994to995() {
+		Formula formula = getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE);
+		FormulaElement oldFormulaElement = formula.getFormulaTree();
+
+		FormulaElement multiplication =
+				new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.MULT.toString(), null);
+		FormulaElement twoPointFiveFive = new FormulaElement(FormulaElement.ElementType.NUMBER, "2.55", null);
+
+		multiplication.setLeftChild(twoPointFiveFive);
+		multiplication.setRightChild(oldFormulaElement);
+
+		setFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE, new Formula(multiplication));
 	}
 }

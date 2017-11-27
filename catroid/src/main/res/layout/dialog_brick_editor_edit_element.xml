@@ -22,14 +22,13 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <EditText
         android:id="@+id/dialog_brick_editor_edit_element_edit_text"
-        style="@style/DefaultDialog.EditText"
-        tools:ignore="LabelFor" />
+        android:labelFor="@+id/dialog_brick_editor_edit_element_edit_text"
+        style="@style/DefaultDialog.EditText" />
 
 </LinearLayout>

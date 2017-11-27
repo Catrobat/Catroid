@@ -240,6 +240,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.994f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.994f) {
+				project.updateArduinoValues994to995();
+				project.setCatrobatLanguageVersion(0.995f);
+			}
+			if (project.getCatrobatLanguageVersion() == 0.995f) {
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
 //			insert further conversions here
@@ -269,6 +273,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 			if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
 				SettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
+			}
+
+			if ((resources & Brick.JUMPING_SUMO) > 0) {
+				SettingsActivity.setJumpingSumoSharedPreferenceEnabled(context, true);
 			}
 
 			if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
@@ -327,7 +335,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode, boolean castEnabled)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone,
+			boolean landscapeMode, boolean castEnabled, boolean jumpingSumo)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
@@ -340,6 +349,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			} else if (castEnabled) {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_CAST);
+			} else if (jumpingSumo) {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_JUMPING_SUMO);
 			} else {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DEFAULT);

@@ -35,10 +35,12 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -99,10 +101,44 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testSetLook() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createSetLookAction(sprite, firstLookData);
 		action.act(1.0f);
 		assertEquals("Action didn't set the LookData", firstLookData, sprite.look.getLookData());
+	}
+
+	@Test
+	public void testSetLookByIndex() {
+		Formula formula = new Formula(1);
+
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetLookByIndexAction(sprite, formula);
+		action.act(1.0f);
+		assertEquals("Action didn't set the first LookData", firstLookData, sprite.look.getLookData());
+
+		formula = new Formula(2);
+		action = factory.createSetLookByIndexAction(sprite, formula);
+		action.act(1.0f);
+		assertEquals("Action didn't set the second LookData", secondLookData, sprite.look.getLookData());
+	}
+
+	@Test
+	public void testSetLookByWrongIndex() {
+		sprite.look.setLookData(firstLookData);
+
+		Formula formula = new Formula(-1);
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetLookByIndexAction(sprite, formula);
+		action.act(1.0f);
+		assertEquals("Action did set Lookdata wrongly with negative Formula value.", firstLookData, sprite.look
+				.getLookData());
+
+		formula = new Formula(42);
+		action = factory.createSetLookByIndexAction(sprite, formula);
+		action.act(1.0f);
+		assertEquals("Action did set Lookdata wrongly with wrong Formula value.", firstLookData,
+				sprite.look.getLookData());
 	}
 }

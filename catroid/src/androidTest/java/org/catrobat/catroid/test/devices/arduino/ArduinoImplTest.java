@@ -31,8 +31,6 @@ import org.catrobat.catroid.common.firmata.FirmataUtils;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.arduino.ArduinoImpl;
 
-import java.util.Random;
-
 import name.antonsmirnov.firmata.message.SetPinModeMessage;
 import name.antonsmirnov.firmata.writer.AnalogMessageWriter;
 import name.antonsmirnov.firmata.writer.DigitalMessageWriter;
@@ -55,6 +53,8 @@ public class ArduinoImplTest extends AndroidTestCase {
 	private static final int ANALOG_MESSAGE_COMMAND = AnalogMessageWriter.COMMAND;
 	private static final int REPORT_ANALOG_PIN_COMMAND = ReportAnalogPinMessageWriter.COMMAND;
 	private static final int SET_PIN_MODE_COMMAND = SetPinModeMessageWriter.COMMAND;
+
+	private static final int MAX_ANALOG_VALUE_FIRMATA = (1 << 14) - 1;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -166,44 +166,22 @@ public class ArduinoImplTest extends AndroidTestCase {
 		arduino.initialise();
 		doTestFirmataInitialization();
 
-		int pin;
-		int value;
+		int pin = 0;
 		for (int i = 0; i < ArduinoImpl.NUMBER_OF_ANALOG_PINS; i++) {
 			pin = i;
-			value = 0;
-			arduino.setAnalogArduinoPin(pin, value);
-			testAnalog(value, pin);
-			value = 100;
-			arduino.setAnalogArduinoPin(pin, value);
-			testAnalog(value, pin);
-			value = 1;
-			arduino.setAnalogArduinoPin(pin, value);
-			testAnalog(value, pin);
-			value = 99;
-			arduino.setAnalogArduinoPin(pin, value);
-			testAnalog(value, pin);
-			value = 54;
-			arduino.setAnalogArduinoPin(pin, value);
-			testAnalog(value, pin);
-			value = 42;
-			arduino.setAnalogArduinoPin(pin, value);
-			testAnalog(value, pin);
+			testAnalog(pin, 0);
+			testAnalog(pin, 1);
+			testAnalog(pin, 99);
+			testAnalog(pin, 100);
+			testAnalog(pin, 101);
+			testAnalog(pin, 255);
+			testAnalog(pin, 256);
+			testAnalog(pin, 1024);
+			testAnalog(pin, MAX_ANALOG_VALUE_FIRMATA);
 		}
-	}
 
-	public void testSetAnalogArduinoPinRandomly() {
-		arduino.initialise();
-		doTestFirmataInitialization();
-
-		int pin;
-		int value;
-		Random r = new Random();
-		for (int i = 0; i < 50; i++) {
-			pin = r.nextInt(ArduinoImpl.NUMBER_OF_ANALOG_PINS);
-			value = r.nextInt(101);
-			arduino.setAnalogArduinoPin(pin, value);
-			testAnalog(value, pin);
-		}
+		testAnalogOutOfRange(pin, MAX_ANALOG_VALUE_FIRMATA + 1, 0);
+		testAnalogOutOfRange(pin, -1, MAX_ANALOG_VALUE_FIRMATA);
 	}
 
 	public void testGetDigitalArduinoPin() {
@@ -255,7 +233,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		assertEquals("Wrong port value", portValue, m.getData());
 	}
 
-	private void testAnalog(int percent, int pin) {
+	private void checkAnalog(int pin, int expectedValue) {
 		FirmataMessage m = firmataUtils.getSetPinModeMessage();
 		assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
 		assertEquals("Wrong pin used to set pin mode", pin, m.getPin());
@@ -264,18 +242,17 @@ public class ArduinoImplTest extends AndroidTestCase {
 		m = firmataUtils.getAnalogMessageData();
 		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
 				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin", pin, m.getPin());
-		assertEquals("Wrong value", percentToValue(percent), m.getData());
+		assertEquals("Wrong pin sent via Firmata", pin, m.getPin());
+		assertEquals("Wrong value sent via Firmata", expectedValue, m.getData());
 	}
 
-	private int percentToValue(int percent) {
-		if (percent <= 0) {
-			return 0;
-		}
-		if (percent >= 100) {
-			return 255;
-		}
+	private void testAnalog(int pin, int value) {
+		arduino.setAnalogArduinoPin(pin, value);
+		checkAnalog(pin, value);
+	}
 
-		return (int) (percent * 2.55);
+	private void testAnalogOutOfRange(int pin, int value, int expectedValue) {
+		arduino.setAnalogArduinoPin(pin, value);
+		checkAnalog(pin, expectedValue);
 	}
 }

@@ -33,8 +33,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:visibility="gone" />
 
     <RelativeLayout
@@ -48,7 +48,7 @@
             android:layout_width="@dimen/scratch_project_thumbnail_width"
             android:layout_height="@dimen/scratch_project_thumbnail_height"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="9dp"
+            android:layout_marginStart="9dp"
             android:background="@drawable/my_projects_activity_list_item_thumbnail_border"
             android:cropToPadding="true"
             android:padding="1.5dp"

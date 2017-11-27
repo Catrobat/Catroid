@@ -49,7 +49,7 @@ public class BrickFormulaEditTextDataInteractionWrapper extends DataInteractionW
 	}
 
 	public <V extends Number> BrickFormulaEditTextDataInteractionWrapper checkShowsNumber(V value) {
-		dataInteraction.check(matches(withText(value + " ")));
+		dataInteraction.check(matches(withText((value + " ").replace("-", "- "))));
 		return new BrickFormulaEditTextDataInteractionWrapper(dataInteraction);
 	}
 

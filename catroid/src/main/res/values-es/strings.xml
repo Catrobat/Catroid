@@ -36,9 +36,9 @@
   <string name="no">No</string>
   <string name="back">Atrás</string>
   <string name="ok">OK</string>
-  <string name="agree">Agree</string>
-  <string name="disagree">Disagree</string>
-  <string name="delete_account">Delete my account</string>
+  <string name="agree">Acepto</string>
+  <string name="disagree">No acepto</string>
+  <string name="delete_account">Eliminar mi cuenta</string>
   <string name="copy">Copiar</string>
   <string name="cut">Cortar</string>
   <string name="move">Mover</string>
@@ -97,7 +97,7 @@
   <string name="main_menu_help">Ayuda</string>
   <string name="main_menu_web">Explorar</string>
   <string name="main_menu_upload">Cargar</string>
-  <string name="main_menu_privacy_policy">Privacy policy</string>
+  <string name="main_menu_privacy_policy">Política de privacidad</string>
   <string name="main_menu_about">Información de esta app</string>
   <string name="main_menu_terms_of_use">Términos de uso y servicios</string>
   <string name="main_menu_rate_app">Valóranos!</string>
@@ -113,8 +113,12 @@
   <string name="marketing_more_on_google_play">Más aplicaciones en Google Play</string>
   <!-- Settings activity -->
   <string name="preference_title">Configuración</string>
-  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bloques</string>
+  <string name="preference_title_language">Idioma</string>
+  <string name="preference_description_language">Seleccione el idioma de la aplicación</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone</string>
   <string name="preference_description_quadcopter_bricks">Permite controlar cuadricóptero ARDrone 2.0</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo</string>
+  <string name="preference_description_jumpingsumo_bricks">Permite controlar Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Bloque de LEGO Mindstorms NXT</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">Bloques de LEGO Mindstorms EV3</string>
   <string name="preference_description_mindstorms_nxt_bricks">Permiten controlar los robots NTX de Lego Mindstorms</string>
@@ -125,12 +129,12 @@
   <string name="preference_title_enable_phiro_bricks">Bloques Phiro</string>
   <string name="preference_description_phiro_bricks">Permite controlar los robots Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Bloques Arduino</string>
-  <string name="preference_title_cast_feature_globally_enabled">Enable cast features</string>
-  <string name="preference_description_cast_feature_globally_enabled">Show cast button and allow cast project creation</string>
+  <string name="preference_title_cast_feature_globally_enabled">Habilitar funciones de cast</string>
+  <string name="preference_description_cast_feature_globally_enabled">Mostrar el botón cast y permitir crear un proyecto cast</string>
   <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
   <string name="preference_description_nfc_bricks">Permite utilizar etiquetas NFC en los programas</string>
-  <string name="preference_description_crash_reports">Permite enviar automáticamente informes de errores</string>
   <string name="preference_title_enable_crash_reports">Enviar los informes de errores de manera anónima</string>
+  <string name="preference_description_crash_reports">Permite enviar automáticamente informes de errores</string>
   <!-- -->
   <string name="preference_description_arduino_bricks">Permite controlar las placas Arduino</string>
   <string name="preference_title_enable_raspi_bricks">Bloques Raspberry Pi</string>
@@ -149,8 +153,7 @@
   <string name="error_request_timeout">Ups! Nuestro servidor no está accesible en este momento. Por favor inténtelo más tarde!</string>
   <string name="error_scratch_program_conversion_failed">Ups! No se ha podido convertir el programa de Scratch. Por favor inténtelo más tarde!</string>
   <string name="error_specific_scratch_program_conversion_failed_x">Ups! No se pudo convertir %1$s. Por favor inténtelo de nuevo más tarde!</string>
-  <string name="error_scratch_converter_outdated_app_version">Your app is outdated. Our Scratch
-        converter only supports the latest app version. Please update it on the Google Play Store!</string>
+  <string name="error_scratch_converter_outdated_app_version">Su aplicación está desactualizada. Nuestro convertidor Scratch solo es compatible con la última versión de la aplicación. Por favor, actualice en Google Play Store!</string>
   <string name="error_cannot_open_not_existing_scratch_program">¡No se puede abrir el programa de Scratch. Parece que has cancelado la conversión y/o descarga del programa Scratch o has renombrado y/o borrado el programa en el ínterin!</string>
   <string name="error_cannot_open_currently_downloading_scratch_program">No se puede abrir este programa de Scratch mientras se está descargando. ¡Por favor Inténtalo de nuevo más tarde!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">¡No se puede abrir este programa de Scratch ya que no se ha descargado aún! ¡Por favor Inténtalo de nuevo más tarde!</string>
@@ -233,54 +236,9 @@
   <string name="dialog_new_object_switch_message">¿Cambiar al nuevo objeto?</string>
   <!--  -->
   <!-- Privacy Policy -->
-  <string name="dialog_privacy_policy_title">Privacy policy</string>
-  <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
-
-        To offer you all collaborative benefits of our services and the associated account, it is necessary to
-        collect certain data from you.\n\n
-
-    • To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
-        updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
-        store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
-        Plus or Facebook, we additionally store an identification key connected to your account on these services. We
-        will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
-
-    • To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
-        purposes, the user
-        generated public data will be stored internally in a database, together with a timestamp and the used IP
-        address.\n\n
-
-    • To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
-        use Google
-        Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited
-        pages/screens, used operating system, and information about the network provider). This analysis and the collected
-        data is not linked to your profile and does not contain any personal information.\n\n
-
-    • On a voluntary basis, you can give us your country of residence through your account page on the sharing
-        site. This
-        will only be used for statistical and research purposes by us and can be removed at any time in your profile
-        settings.\n\n
-
-    • You can withdraw the usage of this data at any time by deleting your account through your profile page on
-        https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
-        but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
-        linked to your account, e.g. uploaded programs, comments, will get deleted.\n\n
-
-    • All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
-        International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
-
-    • To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
-        c/o\n
-        Institute of Software Technology,\n
-        Inffeldgasse 16b/II,\n
-        8010 Graz, Austria.\n\n
-
-    In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
-    </string>
-  <string name="dialog_privacy_policy_declined_text">It is necessary to agree the Privacy Policy to register or to
-        further use your account. If you do not want that this data gets collected you can delete your existing account
-        via the profile page on our web interface and still use all services of this app that do not need an account.
-    </string>
+  <string name="dialog_privacy_policy_title">Política de privacidad</string>
+  <string name="dialog_privacy_policy_text">Versión 2.0, 20 de septiembre 2017\n\n para ofrecerle todos los beneficios de colaboración de nuestros servicios y la cuenta asociada, es necesario recopilar ciertos datos de usted. • \n\n para utilizar su cuenta en nuestros sistemas y para informarle acerca de cambios necesarios sobre su cuenta (por ejemplo, actualizaciones o violación de nuestro uso de términos de uso y servicio o de las normas comunitarias) o nuestras políticas, nos guardará su nombre de usuario y, si es que usted, su dirección de correo electrónico. Si has conectado tu cuenta a través de Google Plus y Facebook, además almacenamos una clave de identificación conectada a tu cuenta en estos servicios. No utilizaremos esta información para cualquier otro (por ejemplo, marketing) propósitos, a menos que usted expresamente nos permitió hacer so. \n\n • para evitar el mal uso de nuestros servicios (por ejemplo, a través de ficheros subidos por usuarios contribuido o comentarios) para fines ilícitos, el pub de usuario generado Lic. datos se almacenarán internamente en una base de datos, junto con una marca de hora y la IP address.\n\n • usados para mejorar nuestros servicios (aplicaciones y sitios web) y hacer investigación científica en la educación las TIC y el tallo, utilizamos Google Analytics, Crashlytics un ND bases avanzadas por Google Inc. para obtener metadatos acerca del uso (por ejemplo, las marcas de tiempo, pantallas de páginas visitadas, sistema operativo utilizado e información sobre el proveedor de red). Este análisis y los datos recogidos no está vinculada a tu perfil y no contiene ningún • information.\n\n personal de forma voluntaria, nos puede dar su país de residencia a través de la página de su cuenta en el sitio de intercambio. Esto sólo se utilizará para la estadística y la investigación propósitos por nosotros y se puede quitar en cualquier momento en tu perfil • settings.\n\n puede retirar el uso de estos datos en cualquier momento borrando su cuenta a través de su página de perfil en https://sh are.catrob.at/. Después de eliminar tu cuenta todavía podrás utilizar los servicios prestados, pero no para colaborar, por ejemplo, a través de subir programas, comentando o gusto. También todos siempre contenido vinculado a su cuenta, por ejemplo cargado programas, comentan, conseguirán deleted.\n\n • todos los servicios son proporcionados por el sin fines de lucro gratuito de código abierto Catrobat proyecto bajo el paraguas de la Asociación Internacional de Catrobat – Verei n zur Förderung freier Software (Graz, Austria).\n\n • para ponerse en contacto con nosotros, por favor envíe un correo electrónico a contact@catrobat.org o escríbanos a Catrobat, \n c/o\n Instituto de tecnología de Software, \n Inffeldgasse 16b/II, \n 8010 Graz, Austria. \n \n en caso de estar por debajo de la edad de 16 años, esta política debe ser aceptada por un tutor (generalmente los padres).    </string>
+  <string name="dialog_privacy_policy_declined_text">Es necesario aceptar la política de privacidad para registrarse o utilizar más tu cuenta. Si no desea que este dato es recogido puede eliminar una cuenta existente a través de la página de Perfil de nuestra interfaz web y utilizar todos los servicios de esta aplicación que no necesita una cuenta.    </string>
   <!-- -->
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Términos de uso y servicios</string>
@@ -289,17 +247,20 @@
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Términos de uso y servicios de Pocket Code</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">Intentas utilizar Pockect Code junto con el Parrot AR.Drone. Le recordamos firmemente a respetar los términos de uso de Parrot para el Drone y las condiciones de uso de Catrobat  para el Pocket Code.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">Intenta utilizar esta aplicación junto con Parrot\'s AR.Drone 2.0. Le recomendamos encarecidamente que cumpla con los Términos de uso y servicios de  Parrot\'s AR.Drone 2.0 y los Términos de uso y servicios de Catrobat\'s.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">No recordarmelo nuevamente.</string>
   <!--  -->
+  <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Intenta utilizar Pocket Code junto con  Parrot\'s Jumping Sumo. Le recomendamos encarecidamente que respete los términos de uso de Parrot para el dron y los términos de uso de Catrobat para Pocket Code.</string>
+  <!--  -->
   <!-- About Dialog -->
-  <string name="dialog_about_title">About this app</string>
+  <string name="dialog_about_title">Acerca de esta aplicación</string>
   <string name="dialog_about_license_info">Pocket Code es un entorno de programación
         e interpretación para dispositivos Android que utiliza el lenguaje 
         de programación visual Catrobat.\n\n
         El código fuente de Pocket Code está principalmente bajo la Licencia GNU AGPL v3. 
         Ver el enlace de abajo para obtener más detalles sobre la licencia.\n</string>
-  <string name="dialog_about_license_link_text">Source Code License</string>
+  <string name="dialog_about_license_link_text">Licencia de código fuente</string>
   <string name="dialog_about_catrobat_link_text">Acerca de Catrobat</string>
   <!--  -->
   <!-- Project activity view -->
@@ -351,9 +312,9 @@
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Pulse \"+\" para añadir lineas de comandos
 </string>
-  <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
-  <string name="dialog_confirm_delete_script_title">Delete this script?</string>
-  <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
+  <string name="dialog_confirm_delete_brick_title">¿Desea eliminar este Bloque?</string>
+  <string name="dialog_confirm_delete_script_title">¿Desea eliminar este comando?</string>
+  <string name="dialog_confirm_delete_multiple_bricks_title">¿Desea eliminar estos bloques?</string>
   <string name="dialog_confirm_delete_backpack_group_title">¿Eliminar este Grupo?</string>
   <string name="dialog_confirm_delete_multiple_backpack_groups_title">¿Eliminar estos Grupos?</string>
   <string name="dialog_confirm_delete_brick_message">Esto no se puede desechar!</string>
@@ -375,7 +336,7 @@
   <string name="fragment_background_text_description">Pulse \"+\" añadir fondos</string>
   <string name="rename_look_dialog">Renombre la apariencia</string>
   <string name="pocket_paint_not_installed_title">Pocket Pintar no está instalado!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
+  <string name="pocket_paint_not_installed_message">Por favor, instale la aplicación Pocket Paint de Google PlayStore</string>
   <string name="pocket_paint_not_installed">¿Desea instalarlo?</string>
   <string name="default_look_name">Apariencia</string>
   <string name="delete_look_dialog">¿Eliminar Apariencia?</string>
@@ -477,6 +438,7 @@
   <string name="prestage_text_to_speech_engine_not_installed">¡El motor Texto-A-Voz no está instalado!\n¿Quiere instalarlo?</string>
   <string name="prestage_resource_not_available_title">Componente no disponible</string>
   <string name="prestage_resource_not_available_text">Este juego no se puede ejecutar en tu dispositivo. Los siguientes componentes no están disponibles: \n\n</string>
+  <string name="prestage_resource_in_use_text">Otro dispositivo está conectado al Jumping Sumo. Asegúrese de ser el único controlador del Drone.</string>
   <string name="prestage_no_flash_available">\u2022 Flash\n</string>
   <string name="prestage_no_vibrator_available">\u2022 Vibración\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 Sensor aceleración\n</string>
@@ -486,6 +448,7 @@
   <string name="prestage_text_to_speech_error">\u2022 Motor Texto-A-Voz\n</string>
   <string name="prestage_no_back_camera_available">\u2022 Camara trasera\n</string>
   <string name="prestage_no_camera_available">\u2022 Deteccion de cara\n</string>
+  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Camara delantera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Componente desconocido\n</string>
   <string name="no_nfc_available">NFC no disponible</string>
@@ -521,7 +484,7 @@
   <string name="new_sound_dialog_title">Añadir sonido</string>
   <string name="add_sound_from_recorder">Grabar Sonido</string>
   <string name="add_sound_choose_file">Seleccione Archivo</string>
-  <string name="add_sound_music">Music Composer</string>
+  <string name="add_sound_music">Compositor musical</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nuevo programa</string>
   <string name="new_project_dialog_hint">Mi programa</string>
@@ -530,8 +493,9 @@
   <string name="new_project_empty">Crear un Programa vacío</string>
   <string name="new_project_default">Crear un programa de ejemplo</string>
   <string name="new_project_default_drone">Crear un programa para drone de ejemplo</string>
+  <string name="new_project_default_jumping_sumo">Crear un ejemplo del programa Jumping Sumo</string>
   <string name="project_orientation_title">Orientación:</string>
-  <string name="project_select_screen_title">Screen</string>
+  <string name="project_select_screen_title">Pantalla</string>
   <!--  -->
   <!-- New scene dialog -->
   <string name="new_scene_dialog_hint">Mi Escena</string>
@@ -572,7 +536,7 @@
   <string name="or">O</string>
   <string name="password_confirm">Confirma tu contraseña</string>
   <string name="accountName">Email</string>
-  <string name="signin_thanks">Thank you for signing up!</string>
+  <string name="signin_thanks">¡Gracias por registrarte!</string>
   <string name="signin_choose_username">Por favor, elija un nombre de usuario:</string>
   <string name="signin_choose_username_empty">Por favor introduzca el nombre de usuario</string>
   <string name="signin_choose_username_hint">El nombre de usuario no debe ser su nombre real.</string>
@@ -624,10 +588,11 @@
   <string name="category_data">Datos</string>
   <string name="category_lego_nxt">LEGO NXT</string>
   <string name="category_lego_ev3">Lego EV3</string>
-  <string name="category_drone">ARDrone</string>
+  <string name="category_drone">AR. Drone 2.0</string>
+  <string name="category_jumping_sumo">Jumping Sumo</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">Arduino</string>
-  <string name="category_cast">Cast</string>
+  <string name="category_cast">Transmite</string>
   <string name="category_raspi">Raspberry Pi</string>
   <!--  -->
   <!-- Motion bricks -->
@@ -683,9 +648,9 @@
   <string name="brick_rotate_right">"Girar a la derecha"</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">Cambiar a Apariencia</string>
-  <string name="brick_set_look_by_index">Switch to look with number</string>
+  <string name="brick_set_look_by_index">Cambiar a apariencia con número</string>
   <string name="brick_set_background">Establecer una imagen de fondo</string>
-  <string name="brick_set_background_by_index">Set background to number</string>
+  <string name="brick_set_background_by_index">Asociar fondo al número</string>
   <string name="brick_and_wait">y esperar</string>
   <string name="brick_when_background">Cuando el fondo se cambie a</string>
   <string name="brick_set_size_to">Establecer el tamaño en</string>
@@ -742,7 +707,7 @@
   <string name="brick_when_condition_when">Cuando</string>
   <string name="brick_when_becomes_true">se convierte en verdadero</string>
   <string name="brick_wait">Espere</string>
-  <string name="brick_when_gamepad_button">When gamepad button</string>
+  <string name="brick_when_gamepad_button">Cuando botón gamepad</string>
   <string name="brick_when_gamepad_button_tapped">pulsado</string>
   <string name="brick_when_nfc">Cuando NFC</string>
   <string name="brick_stop_script">Detener secuencia(s) de comando(s)</string>
@@ -818,19 +783,17 @@
   <string name="default_cast_project_cloud_sprite_name1">Nubes1</string>
   <string name="default_cast_project_cloud_sprite_name2">Nubes2</string>
   <string name="default_cast_project_sprites_bird_name">Aves</string>
-  <string name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
-  <string name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
-  <string name="default_cast_project_sprites_bird_name_wing_up_left">Bird Wings up left</string>
-  <string name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
+  <string name="default_cast_project_sprites_bird_name_wing_up">Pájaro con alas hacia arriba</string>
+  <string name="default_cast_project_sprites_bird_name_wing_down">Pájaro con alas hacia abajo</string>
+  <string name="default_cast_project_sprites_bird_name_wing_up_left">Pájaro con alas hacia arriba e izquierda</string>
+  <string name="default_cast_project_sprites_bird_name_wing_down_left">Pájaro con alas hacia abajo e izquierda</string>
   <string name="default_cast_project_sprites_tweet_1">Tweet1</string>
   <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
   <string name="default_cast_project_var_direction">dirección</string>
-  <string name="default_cast_project_name">My first Cast program</string>
+  <string name="default_cast_project_name">Mi primer programa de Cast</string>
   <!-- defaultDroneValues -->
   <string name="default_drone_project_name">Mi primer programa robot</string>
   <string name="default_drone_project_sprites_takeoff">Despegar</string>
-  <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Rotar</string>
   <string name="default_drone_project_sprites_up">Arriba</string>
   <string name="default_drone_project_sprites_down">Abajo</string>
   <string name="default_drone_project_sprites_left">Izquierda</string>
@@ -897,10 +860,10 @@
   <string name="drone_emergency_battery_low">Batería está baja (descanso automático).</string>
   <string name="drone_emergency_camera">Una o mas cámaras no responden.</string>
   <string name="drone_emergency_ultrasound">Sensor de ultrasonido no está respondiendo.</string>
-  <string name="drone_emergency_angle">Los ángulos de AR.Drone euler se fueron demasiado alto. Los motores se apagaran para evitar malos comportamientos.</string>
+  <string name="drone_emergency_angle">Los ángulos de Euler de AR.Drone 2.0 han sido demasiado altos. Se han apagado los motores para evitar un comportamiento peligroso.</string>
   <string name="drone_emergency_cutout">Uno o más motores fueron detenidos por el entorno.</string>
   <string name="drone_alert_battery_low">La batería es demasiado baja para despegar otra vez.</string>
-  <string name="drone_alert_ultrasound">Sensor de ultrasonido no puede determinar la AR. Altitud de el drone.</string>
+  <string name="drone_alert_ultrasound">El sensor de ultrasonido no puede determinar la altitud de AR.Drone 2.0.</string>
   <string name="drone_alert_vision">No hay estimación de velocidad de la cámara trasera.</string>
   <string name="drone_emergency_title">Emergencia</string>
   <!--  -->
@@ -928,18 +891,24 @@
   <string name="error_internet_connection">Se produjo un error desconocido. Compruebe su conexión a Internet.</string>
   <string name="error_no_internet">Compruebe su conexión a Internet.</string>
   <string name="error_project_compatability">El programa no es compatible con esta versión de bolsillo código.</string>
-  <string name="error_outdated_version">This app version is outdated. Update now?</string>
+  <string name="error_outdated_version">Esta versión está obsoleta. ¿Actualiza ahora?</string>
   <string name="error_copy_project">Un error ha ocurrido durante el proceso de carga.</string>
   <string name="error_upload_project_with_default_name">No puedes cargar un programa con el nombre \'Mi primer programa\'. Por favor, cambie el nombre del programa.</string>
   <string name="error_upload_default_project">No puedes cargar este programa porque es el mismo que \'Mi primer programa\'. Por favor, modificarlo e inténtelo de nuevo.</string>
   <string name="error_adding_brick">Error al agregar este bloque</string>
   <string name="error_copying_brick">Error al copiar este bloque</string>
-  <string name="error_no_drone_connected_title">No se puede encontrar ARDrone</string>
-  <string name="error_no_drone_connected">Conectar tu wifi a la ARDrone e inténtelo de nuevo.</string>
-  <string name="error_drone_low_battery_title">La batería de Drone está baja: %d %%</string>
+  <string name="error_no_drone_connected_title">No se puede encontrar a AR. Drone 2.0.</string>
+  <string name="error_no_drone_connected">Conecte el AR.Drone 2.0 a su WiFi e inténtelo de nuevo.</string>
+  <string name="error_drone_low_battery_title">La batería de AR.Drone 2.0 está baja: %d%%</string>
   <string name="error_drone_low_battery">Inserte una batería cargada y vuelva a intentarlo.</string>
-  <string name="error_drone_wrong_platform_title">No hay soporte ARDrone</string>
-  <string name="error_drone_wrong_platform">No podemos ejecutar un proyecto de ARDrone en su dispositivo.</string>
+  <string name="error_jumpingsumo_wrong_platform">No podemos ejecutar un proyecto de Jumping Sumo en su dispositivo.</string>
+  <string name="error_no_jumpingsumo_connected_title">No se puede encontrar a Jumping Sumo</string>
+  <string name="error_no_jumpingsumo_connected">Conecte Jumping Sumo a su WiFi e inténtelo de nuevo.</string>
+  <string name="error_jumpingsumo_battery_title">Batería baja de Jumping Sumo</string>
+  <string name="error_jumpingsumo_battery">Inserte una batería cargada y vuelva a intentarlo.</string>
+  <string name="error_jumpingsumo_wrong_platform_title">No hay soporte para Jumping Sumo</string>
+  <string name="error_drone_wrong_platform_title">No hay soporte para AR.Drone 2.0.</string>
+  <string name="error_drone_wrong_platform">No podemos ejecutar un proyecto de AR.Drone 2.0 en su dispositivo.</string>
   <string name="error_rename_incompatible_project">No es posible renombrar un proyecto incompatible.</string>
   <string name="error_unpack_scene_with_different_resolution">¡ Precaución! Diferentes resoluciones detectadas.</string>
   <string name="error_unknown_error">Se ha producido un error desconocido.</string>
@@ -949,9 +918,8 @@
   <string name="error_no_network_one_brick">Siguiente bloque usará la red:</string>
   <string name="error_no_network_multiple_bricks">Los siguientes bloques usaran la red:</string>
   <string name="error_no_network_title">No hay red</string>
-  <string name="error_no_whatsapp">WhatsApp not installed</string>
-  <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
-        program.</string>
+  <string name="error_no_whatsapp">WhatsApp no instalada</string>
+  <string name="error_unsupported_bricks_chromecast">No se pueden agregar los bloques que contiene esta secuencia de comandos a un programa de Chromecast.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetooth no puede está disponible, fase de cierre</string>
@@ -1018,7 +986,6 @@
   <string name="preference_disable_nxt_info_dialog">Desactivar el cuadro de diálogo de información</string>
   <string name="preference_disable_nxt_info_dialog_description">Los ajustes específicos de NXT programa no aparecen al abrir un programa.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">El mapeo de los sensores NXT a puertos es específico de el programa y sólo se puede configurar para abrir programas!</string>
-  <string name="preference_title_drone_properties_setting_description">La selección de propiedades de configuración de drone es específico del programa y sólo se puede configurar para el programa.</string>
   <string name="lego_nxt_sensor_config_info_text">El programa actual utiliza bloques de Lego Mindstorms NXT o sensores. Para un funcionamiento correcto por favor conectar los sensores al robot como sigue</string>
   <string name="nxt_port_1">Puerto 1</string>
   <string name="nxt_port_2">Puerto 2</string>
@@ -1068,29 +1035,74 @@
   <string name="ev3_led_status_orange_pulse">Pulsador naranja</string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">Sacar / tierra</string>
-  <string name="brick_drone_play_led_animation">Reproducir la animación Led</string>
-  <string name="brick_drone_move_left">Mover a izquierda</string>
-  <string name="brick_drone_move_right">Mover hacia la derecha</string>
-  <string name="brick_drone_move_forward">Avanzar</string>
-  <string name="brick_drone_move_backward">Retroceder</string>
-  <string name="brick_drone_move_up">Mover hacia arriba</string>
-  <string name="brick_drone_move_down">Mover hacia abajo</string>
-  <string name="brick_drone_flip">Voltear</string>
-  <string name="brick_drone_emergency">Emergencia</string>
-  <string name="brick_drone_turn_right">Girar a la derecha</string>
-  <string name="brick_drone_turn_left">Girar a la izquierda</string>
-  <string name="brick_drone_turn_left_magneto">Gire a la izquierda [ángulo]</string>
-  <string name="brick_drone_turn_right_magneto">Gire a la derecha [ángulo]</string>
-  <string name="brick_drone_angle">Angulo</string>
-  <string name="brick_drone_set_config">Establecer configuracion</string>
-  <string name="brick_drone_switch_camera">Cambiar la cámara</string>
-  <string name="brick_drone_set_altitude">Límite de altitud</string>
+  <string name="brick_drone_takeoff_land">Despegar / Aterrizar AR. Drone 2.0</string>
+  <string name="brick_drone_play_led_animation">Reproducir la animación flash AR.Drone 2.0</string>
+  <string name="brick_drone_move_left">Mover AR.Drone 2.0 a la izquierda</string>
+  <string name="brick_drone_move_right">Mover AR.Drone 2.0 a la derecha</string>
+  <string name="brick_drone_move_forward">Mover AR.Drone 2.0 hacia adelante</string>
+  <string name="brick_drone_move_backward">Mover AR.Drone 2.0 hacia atrás</string>
+  <string name="brick_drone_move_up">Mover AR.Drone 2.0 hacia arriba</string>
+  <string name="brick_drone_move_down">Mover AR.Drone 2.0 hacia abajo</string>
+  <string name="brick_drone_emergency">Emergencia AR. Drone 2.0</string>
+  <string name="brick_drone_turn_right">Mover AR.Drone 2.0 a la derecha</string>
+  <string name="brick_drone_turn_left">Mover AR.Drone 2.0 a la izquierda</string>
+  <string name="brick_drone_turn_left_magneto">Gira el ángulo AR.Drone 2.0 a la izquierda</string>
+  <string name="brick_drone_turn_right_magneto">Gira el ángulo AR.Drone 2.0 a la derecha</string>
+  <string name="brick_drone_angle">Ángulo de AR.Drone 2.0</string>
+  <string name="brick_drone_set_config">Establecer configuración de AR. Drone 2.0</string>
+  <string name="brick_drone_switch_camera">Interruptor de la cámara del AR.Drone 2.0</string>
+  <string name="brick_drone_set_altitude">Límite de altitud </string>
   <string name="brick_drone_set_vertical_speed">Limite de Velocidad Vertical</string>
   <string name="brick_drone_set_rotation_speed">Limite de Velocidad de rotación</string>
   <string name="brick_drone_set_tilt_limit">Limite de inclinacion</string>
-  <string name="brick_drone_with">con</string>
+  <string name="brick_drone_with">segundos con</string>
   <string name="brick_drone_percent_power">energía</string>
+  <!--  -->
+  <!-- Jumping Sumo Bricks -->
+  <string name="brick_jumping_sumo_move_forward">Mover a Jumping Sumo hacia adelante</string>
+  <string name="brick_jumping_sumo_move_backward">Mover el Jumping Sumo hacia atrás</string>
+  <string name="brick_jumping_sumo_percent_power">% potencia</string>
+  <string name="brick_jumping_sumo_animation">Animación Jumping Sumo</string>
+  <string name="brick_jumping_sumo_no_sound">Jumping Sumo sin sonido</string>
+  <string name="brick_jumping_sumo_sound">Sonido</string>
+  <string name="brick_jumping_sumo_jump_long">Salto largo de Jumping Sumo</string>
+  <string name="brick_jumping_sumo_jump_high">Salto alto de Jumping Sumo</string>
+  <string name="brick_jumping_sumo_rotate_left">Girar Jumping Sumo hacia la izquierda</string>
+  <string name="brick_jumping_sumo_rotate_right">Girar Jumping Sumo hacia la derecha</string>
+  <string name="brick_jumping_sumo_rotate_text">°</string>
+  <string name="brick_jumping_sumo_turn">Girar Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">Tomar una foto al saltar Jumping Sumo</string>
+  <!--  -->
+  <!-- defaultJumpingSumoValues -->
+  <string name="default_jumping_sumo_project_name">Mi primer programa Jumping Sumo</string>
+  <string name="add_look_jumping_sumo_video">Jumping Sumo hace un video</string>
+  <string name="default_jumping_sumo_project_sprites_forward">Hacia adelante</string>
+  <string name="default_jumping_sumo_project_sprites_backward">Hacia atrás</string>
+  <string name="default_jumping_sumo_project_sprites_animation">Animaciones</string>
+  <string name="default_jumping_sumo_project_sprites_sound">Sonido</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">Sin sonido</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">Salto largo</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">Salto alto</string>
+  <string name="default_jumping_sumo_project_sprites_turn_left">Girar a la izquierda</string>
+  <string name="default_jumping_sumo_project_sprites_turn_right">Girar a la derecha</string>
+  <string name="default_jumping_sumo_project_sprites_flip">Invertir</string>
+  <string name="default_jumping_sumo_project_sprites_picture">Hacer una foto</string>
+  <!--  -->
+  <!-- Jumping Sumo animation strings -->
+  <string name="animation_spin">Girar</string>
+  <string name="animation_tab">Animación de pestañas</string>
+  <string name="animation_slowshake">Slowshake</string>
+  <string name="animation_metronome">Metrónomo</string>
+  <string name="animation_ondulation">Ondulación</string>
+  <string name="animation_spinjump">Spinjump</string>
+  <string name="animation_spiral">Espiral</string>
+  <string name="animation_slalom">Slalom</string>
+  <!-- Jumping Sumo sound strings -->
+  <string name="jumping_sumo_volume">Volumen</string>
+  <string name="sound_default">Normal</string>
+  <string name="sound_robot">Robot</string>
+  <string name="sound_insect">Insecto</string>
+  <string name="sound_monster">Monstruo</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
@@ -1275,12 +1287,12 @@
   <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_color</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_color_ambiente</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_color_reflejado</string>
-  <string name="formula_editor_sensor_gamepad_a_pressed">gamepad_a_pressed</string>
-  <string name="formula_editor_sensor_gamepad_b_pressed">gamepad_b_pressed</string>
-  <string name="formula_editor_sensor_gamepad_up_pressed">gamepad_up_pressed</string>
-  <string name="formula_editor_sensor_gamepad_down_pressed">gamepad_down_pressed</string>
-  <string name="formula_editor_sensor_gamepad_left_pressed">gamepad_left_pressed</string>
-  <string name="formula_editor_sensor_gamepad_right_pressed">gamepad_right_pressed</string>
+  <string name="formula_editor_sensor_gamepad_a_pressed">botón A pulsado</string>
+  <string name="formula_editor_sensor_gamepad_b_pressed">botón B pulsado</string>
+  <string name="formula_editor_sensor_gamepad_up_pressed">botón Arriba pulsado</string>
+  <string name="formula_editor_sensor_gamepad_down_pressed">botón Abajo pulsado</string>
+  <string name="formula_editor_sensor_gamepad_left_pressed">botón Izquierda pulsado</string>
+  <string name="formula_editor_sensor_gamepad_right_pressed">botón Derecha pulsado</string>
   <string name="formula_editor_phiro_sensor_front_left">phiro_sensor_frontal_izquierdo</string>
   <string name="formula_editor_phiro_sensor_front_right">phiro_sensor_frontal_derecho</string>
   <string name="formula_editor_phiro_sensor_side_left">phiro_sensor_lado_izquierdo</string>
@@ -1309,12 +1321,12 @@
   <string name="formula_editor_functions">Funciones</string>
   <string name="formula_editor_logic">Lógica</string>
   <string name="formula_editor_device">Dispositivo</string>
-  <string name="formula_editor_device_sensors">Device sensors</string>
+  <string name="formula_editor_device_sensors">Sensores del dispositivo</string>
   <string name="formula_editor_variables">Variables</string>
   <string name="formula_editor_functions_maths">Matemáticas</string>
   <string name="formula_editor_functions_strings">Strings (Cadenas)</string>
   <string name="formula_editor_functions_lists">Listas</string>
-  <string name="formula_editor_logic_boolean">Logical (boolean) operators</string>
+  <string name="formula_editor_logic_boolean">Operadores lógicos (booleanos)</string>
   <string name="formula_editor_logic_comparison">operador de comparación</string>
   <string name="formula_editor_object_general">propiedades generales</string>
   <string name="formula_editor_object_movement">propiedades de movimiento</string>
@@ -1327,7 +1339,7 @@
   <string name="formula_editor_device_raspberry">Raspberry Pi</string>
   <string name="formula_editor_device_drone">Drone</string>
   <string name="formula_editor_device_nfc">NFC</string>
-  <string name="formula_editor_device_cast">Cast</string>
+  <string name="formula_editor_device_cast">Transmite</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -1367,45 +1379,34 @@
   <string name="formula_editor_sensor_face_y_position">cara_y_posición</string>
   <string name="formula_editor_function_number_of_items">número_de_elementos</string>
   <string name="formula_editor_function_number_of_items_parameter">(* lista de nombre)</string>
-  <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
-  <string name="formula_editor_intro_summary_formula_editor">The formula editor allows you to create mathematical and
-        logical formulas that you can use in your bricks.\n\nYou can advance this little intro by touching
-        the \"Next\" button in the bottom right corner, and you can skip it by touching the \"SKIP\" button in the
-        bottom left corner.</string>
-  <string name="formula_editor_intro_title_input_field">Input field</string>
-  <string name="formula_editor_intro_summary_input_field">Here you can see your formula, and can also edit it.</string>
-  <string name="formula_editor_intro_title_keyboard">Keyboard</string>
-  <string name="formula_editor_intro_summary_keyboard">Similar to a calculator, this is where you can create
-        your formula.</string>
+  <string name="formula_editor_intro_title_formula_editor">Editor de fórmulas</string>
+  <string name="formula_editor_intro_summary_formula_editor">El editor de fórmulas le permite crear fórmulas matemáticas y lógicas que puede utilizar en sus bloques.\n\nPuede avanzar esta pequeña introducción presionando el botón \"Siguiente\" en la esquina inferior derecha, y puede omitirla presionando el botón \"SKIP\" en la esquina inferior izquierda.</string>
+  <string name="formula_editor_intro_title_input_field">Campo de entrada</string>
+  <string name="formula_editor_intro_summary_input_field">Aquí puede ver su fórmula y también puede editarla.</string>
+  <string name="formula_editor_intro_title_keyboard">Teclado</string>
+  <string name="formula_editor_intro_summary_keyboard">Similar a una calculadora, aquí es donde puede crear su fórmula.</string>
   <string name="formula_editor_intro_title_compute">Calcular</string>
-  <string name="formula_editor_intro_summary_compute">To test your formula and display its current result, you can
-        use \"Compute\".</string>
+  <string name="formula_editor_intro_summary_compute">Para probar su fórmula y mostrar su resultado final, puede utilizar \"Calcular\".</string>
   <string name="formula_editor_intro_title_object">Objeto</string>
-  <string name="formula_editor_intro_summary_object">This is a collection of values that describe your
-        current object. Some of these values are for example the x- and y-coordinates, or the current speed.</string>
+  <string name="formula_editor_intro_summary_object">Esta es una colección de valores que describen su elemento actual. Algunos de estos valores son, por ejemplo, las coordenadas x e y, o la velocidad actual.</string>
   <string name="formula_editor_intro_title_functions">Funciones</string>
-  <string name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
-        a multitude of mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\", but
-        also a random number generator or text and list functions.</string>
+  <string name="formula_editor_intro_summary_functions">Como una calculadora, el editor de fórmulas ofrece que una multitud de funciones matemáticas. \nPuede encontrar funciones trigonométricas tales como \"seno\" y \"coseno\", o también un generador de números  aleatorios o texto y la lista de las funciones.</string>
   <string name="formula_editor_intro_title_logic">Lógica</string>
-  <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo compare
-        values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine logical formulas
-        you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
+  <string name="formula_editor_intro_summary_logic">La lógica se utiliza para comparar valores y combinar fórmulas lógicas. \nPara comparar valores puede utilizar operaciones lógicas como \"&gt;\" (mayor que) o \"=\" (igual). \nPara combinar fórmulas lógicas se pueden utilizar operaciones lógicas tales como \"AND\", \"OR\" y \"NOT\".</string>
   <string name="formula_editor_intro_title_device">Dispositivo</string>
-  <string name="formula_editor_intro_summary_device">In \"Device\" you can find information that your
-        smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
+  <string name="formula_editor_intro_summary_device">En \"Dispositivo\" puede encontrar información que tu smartphone o tablet registra. \nPor ejemplo, la inclinación de su dispositivo, o el volumen de su entorno.</string>
   <string name="formula_editor_intro_title_data">Datos</string>
-  <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
+  <string name="formula_editor_intro_summary_data">Las variables y las listas que se utilizan en el programa pueden encontrarse aquí. \nPuede simplemente insertar éstos en la fórmula, o añadir nuevas.</string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
     <item quantity="one">Elemento seleccionado!</item>
     <item quantity="other">Elementos seleccionado!</item>
   </plurals>
   <!--  -->
   <!-- New Data Dialog -->
-  <string name="user_variablename_already_exists">Please choose another variable name.</string>
-  <string name="user_listname_already_exists">Please choose another list name.</string>
-  <string name="no_variablename_entered">Please enter a variable name.</string>
-  <string name="no_listname_entered">Please enter a list name.</string>
+  <string name="user_variablename_already_exists">Por favor selecciona otro nombre para la variable.</string>
+  <string name="user_listname_already_exists">Por favor selecciona otro nombre para la lista.</string>
+  <string name="no_variablename_entered">Por favor, introduzca el nombre de una variable.</string>
+  <string name="no_listname_entered">Por favor, introduzca el nombre de una lista.</string>
   <!-- -->
   <!-- Brick Data Editor Strings -->
   <string name="brick_data_editor_title">Editor de bloques</string>
@@ -1449,32 +1450,31 @@
   <string name="brick_choose_camera">Utilizar la cámara</string>
   <string name="choose_camera_front">frontal</string>
   <string name="choose_camera_back">atrás</string>
-  <string name="error_flash_camera">"The flash can be used only with the camera that has a flash. Please add a \"Use
-        camera\" brick and change to your device\'s camera that has a flash."</string>
+  <string name="error_flash_camera">"El flash se puede utilizar solamente con la cámara trasera. Por favor agregue un bloque de \"Utilizar la cámara\" y cambie a la cámara trasera del dispositivo. "</string>
   <string name="brick_wait_until">Espera hasta que</string>
   <string name="brick_wait_until_second_part">es verdadero</string>
   <!-- -->
   <!-- Cast strings -->
   <string name="cast_gamepad_A">A</string>
   <string name="cast_gamepad_B">B</string>
-  <string name="cast_gamepad_up">up</string>
-  <string name="cast_gamepad_down">down</string>
+  <string name="cast_gamepad_up">arriba</string>
+  <string name="cast_gamepad_down">abajo</string>
   <string name="cast_gamepad_left">izquierda</string>
   <string name="cast_gamepad_right">derecha</string>
-  <string name="cast_error_not_connected_msg">Please connect to your Chromecast first</string>
-  <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses cast bricks and can\'t be started locally</string>
-  <string name="cast_device_selector_dialog_title">Cast to</string>
-  <string name="cast_button_menu_item_title">Cast button</string>
-  <string name="cast_ready_to_cast">Ready to cast to</string>
-  <string name="cast_enable_cast_feature">Cast features disabled. Please enable cast features in the settings.</string>
-  <string name="cast_searching_for_cast_devices">Searching for cast devices</string>
-  <string name="cast_trouble_finding_devices_tip">.\nNot seeing your device? Try turning your phone\'s Wifi off and on.</string>
-  <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
-  <string name="cast_screen_pause_text">Paused</string>
+  <string name="cast_error_not_connected_msg">Por favor, conéctese a su Chromecast primero</string>
+  <string name="cast_error_cast_bricks_in_no_cast_project">Su proyecto utiliza bloques de emisión y no se puede iniciar localmente</string>
+  <string name="cast_device_selector_dialog_title">Transmitir a</string>
+  <string name="cast_button_menu_item_title">Botón de cast</string>
+  <string name="cast_ready_to_cast">Listo para enviar a</string>
+  <string name="cast_enable_cast_feature">Características cast desactivadas. Por favor, habilite las características cast en la configuración.</string>
+  <string name="cast_searching_for_cast_devices">Buscando dispositivos Cast</string>
+  <string name="cast_trouble_finding_devices_tip">.\n¿No está viendo su dispositivo? Pruebe encendiendo y apagando el WiFi de su teléfono.</string>
+  <string name="cast_connection_timout_msg">El tiempo de conexión expiro. Por favor inténtelo de nuevo.</string>
+  <string name="cast_screen_pause_text">Pausado</string>
   <!-- -->
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Evaluar Pocket Code</string>
-  <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play!</string>
+  <string name="rating_google_play_dialog_text">Si te gusta Pocket Code, por favor califiquenos en Google Play!</string>
   <string name="rating_dialog_rate_now">Ahora</string>
   <string name="rating_dialog_rate_later">Despues</string>
   <string name="rating_dialog_rate_never">Nunca</string>
@@ -1505,9 +1505,23 @@
   <string name="hint_scenes">Un programa puede consistir en diversas escenas independientes. Para agregar un nuevo  escena pulse en el símbolo \"+\".</string>
   <!--  -->
   <!-- Crash report dialog -->
-  <string name="app_has_crashed">The app has crashed!</string>
+  <string name="app_has_crashed">¡La aplicación se ha bloqueado!</string>
   <string name="crash_dialog_text">Por favor ayudar a mejorar el Pocket Code enviando informes anonimos de bloqueo!</string>
   <string name="crash_dialog_always_send">Enviar siempre</string>
   <string name="crash_dialog_send">Enviar</string>
+  <!--  -->
+  <!-- Multilingual List -->
+  <string name="device_language">Seleccione un Idioma</string>
+  <!-- UtilFile SizeUnits String -->
+  <string name="Byte_short">B</string>
+  <string name="KiloByte_short">KB</string>
+  <string name="MegaByte_short">MB</string>
+  <string name="GigaByte_short">GB</string>
+  <string name="TeraByte_short">TB</string>
+  <string name="PetaByte_short">PB</string>
+  <string name="ExaByte_short">EB</string>
+  <string name="google_code_in_message">¡Crear impresionantes juegos y otros proyectos para ganar fantásticos premios! El premio es una invitación a la sede de Google en California junto a un familiar, con un montón de golosinas y regalos de Google y Catrobat para los participantes!</string>
+  <string name="google_code_in_check_out">Encuéntrenos en</string>
+  <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
 </resources>

@@ -38,7 +38,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.drone.ardrone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 
@@ -77,6 +77,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 					if (checkboxTermsOfUseAcceptedPermanently != null
 							&& checkboxTermsOfUseAcceptedPermanently.isChecked()) {
 						SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
+						SettingsActivity.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
 					}
 					DroneInitializer droneInitializer = ((PreStageActivity) getActivity()).getDroneInitialiser();
 					if (droneInitializer != null && droneInitializer.checkRequirements()) {

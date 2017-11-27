@@ -27,17 +27,24 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ui.BaseExceptionHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.CrashReporter;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.ui.BaseActivity.RECOVERED_FROM_CRASH;
 import static org.catrobat.catroid.utils.CrashReporter.EXCEPTION_FOR_REPORT;
 
-public class BaseExceptionHandlerTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class BaseExceptionHandlerTest {
 
 	private Context context;
 	private SharedPreferences sharedPreferences;
@@ -45,7 +52,6 @@ public class BaseExceptionHandlerTest extends AndroidTestCase {
 
 	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		context = InstrumentationRegistry.getTargetContext();
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		editor = sharedPreferences.edit();
@@ -56,14 +62,14 @@ public class BaseExceptionHandlerTest extends AndroidTestCase {
 		CrashReporter.initialize(context);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		CrashReporter.setIsCrashReportEnabled(false);
 		editor.clear();
 		editor.commit();
-		super.tearDown();
 	}
 
+	@Test
 	public void testExceptionStoredOnCallingUncaughtException() {
 		assertTrue(sharedPreferences.getString(EXCEPTION_FOR_REPORT, "").isEmpty());
 
@@ -78,6 +84,7 @@ public class BaseExceptionHandlerTest extends AndroidTestCase {
 		assertFalse(sharedPreferences.getString(EXCEPTION_FOR_REPORT, "").isEmpty());
 	}
 
+	@Test
 	public void testSetRecoveredFromCrashFlag() {
 		assertFalse(sharedPreferences.getBoolean(RECOVERED_FROM_CRASH, false));
 

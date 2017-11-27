@@ -26,6 +26,7 @@ import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
@@ -40,6 +41,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -79,22 +81,28 @@ public final class UtilFile {
 		return progress * 100 / fileByteSize;
 	}
 
-	public static String getSizeAsString(File fileOrDirectory) {
-		final int unit = 1024;
+	public static String getSizeAsString(File fileOrDirectory, Context context) {
 		long bytes = UtilFile.getSizeOfFileOrDirectoryInByte(fileOrDirectory);
+		return formatFileSize(bytes, context);
+	}
 
-		if (bytes < unit) {
-			return bytes + " Byte";
-		}
+	private static String formatFileSize(long sizeInByte, Context context) {
+		List<Integer> fileSizeExtension = Arrays.asList(
+				R.string.Byte_short,
+				R.string.KiloByte_short,
+				R.string.MegaByte_short,
+				R.string.GigaByte_short,
+				R.string.TeraByte_short,
+				R.string.PetaByte_short,
+				R.string.ExaByte_short);
 
-		/*
-		 * Logarithm of "bytes" to base "unit"
-		 * log(a) / log(b) == logarithm of a to the base of b
-		 */
-		int exponent = (int) (Math.log(bytes) / Math.log(unit));
-		char prefix = "KMGTPE".charAt(exponent - 1);
+		final double base = 1024;
+		int exponent = (int) Math.floor(Math.log(sizeInByte) / Math.log(base));
 
-		return String.format(Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit, exponent), prefix);
+		String unitForDisplay = context.getString(fileSizeExtension.get(exponent));
+		double sizeForDisplay = sizeInByte / Math.pow(base, exponent);
+
+		return String.format(Locale.getDefault(), "%.1f %s", sizeForDisplay, unitForDisplay);
 	}
 
 	public static boolean deleteDirectory(File fileOrDirectory) {

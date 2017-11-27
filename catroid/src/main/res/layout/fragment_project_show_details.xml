@@ -49,7 +49,7 @@
             android:id="@+id/name"
             style="@style/ListViewItemTitleText"
             android:ellipsize="end"
-            android:paddingRight="1.5dp"
+            android:paddingEnd="1.5dp"
             android:paddingTop="20dp" />
     </LinearLayout>
 

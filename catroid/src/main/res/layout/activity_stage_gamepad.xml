@@ -35,7 +35,7 @@
         android:src="@drawable/gamepad_pad_bg"
         android:scaleType="fitXY"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginStart="20dp" />
 
     <ImageButton
         android:id="@+id/gamepadButtonA"
@@ -46,7 +46,6 @@
         android:scaleType="fitXY"
         android:src="@drawable/gamepad_button_a"
         android:layout_alignTop="@+id/gamepadButtonB"
-        android:layout_toLeftOf="@+id/gamepadButtonB"
         android:layout_toStartOf="@+id/gamepadButtonB" />
 
 
@@ -55,10 +54,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@null"
         android:nestedScrollingEnabled="false"
         android:scaleType="fitXY"
@@ -73,7 +71,6 @@
         android:scaleType="fitXY"
         android:src="@drawable/gamepad_pad_up"
         android:layout_above="@+id/gamepadButtonRight"
-        android:layout_toRightOf="@+id/gamepadButtonLeft"
         android:layout_toEndOf="@+id/gamepadButtonLeft" />
 
 
@@ -85,7 +82,6 @@
         android:scaleType="fitXY"
         android:src="@drawable/gamepad_pad_down"
         android:layout_below="@+id/gamepadButtonRight"
-        android:layout_alignLeft="@+id/gamepadButtonUp"
         android:layout_alignStart="@+id/gamepadButtonUp" />
 
     <ImageButton
@@ -96,7 +92,6 @@
         android:scaleType="fitXY"
         android:src="@drawable/gamepad_pad_right"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/gamepadButtonDown"
         android:layout_toEndOf="@+id/gamepadButtonDown" />
 
     <ImageButton
@@ -106,10 +101,8 @@
         android:background="@null"
         android:scaleType="fitXY"
         android:src="@drawable/gamepad_pad_left"
-        android:layout_marginLeft="27dp"
         android:layout_marginStart="27dp"
         android:layout_above="@+id/gamepadButtonDown"
-        android:layout_alignLeft="@+id/gamepadBackground"
         android:layout_alignStart="@+id/gamepadBackground" />
 
     <ImageButton

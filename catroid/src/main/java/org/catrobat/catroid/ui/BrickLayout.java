@@ -60,6 +60,7 @@ public class BrickLayout extends ViewGroup {
 	private final int linesToAllocate = 10;
 	private final int elementsToAllocatePerLine = 10;
 
+	private int layoutDirection = 1;
 	private int horizontalSpacing = 0;
 	private int verticalSpacing = 0;
 	private int orientation = 0;
@@ -69,18 +70,21 @@ public class BrickLayout extends ViewGroup {
 
 	public BrickLayout(Context context) {
 		super(context);
+		setLayoutDirection(context);
 		allocateLineData();
 		this.readStyleParameters(context, null);
 	}
 
 	public BrickLayout(Context context, AttributeSet attributeSet) {
 		super(context, attributeSet);
+		setLayoutDirection(context);
 		allocateLineData();
 		this.readStyleParameters(context, attributeSet);
 	}
 
 	public BrickLayout(Context context, AttributeSet attributeSet, int defStyle) {
 		super(context, attributeSet, defStyle);
+		setLayoutDirection(context);
 		allocateLineData();
 		this.readStyleParameters(context, attributeSet);
 	}
@@ -89,6 +93,12 @@ public class BrickLayout extends ViewGroup {
 		lines = new LinkedList<LineData>();
 		for (int i = 0; i < linesToAllocate; i++) {
 			allocateNewLine();
+		}
+	}
+
+	private void setLayoutDirection(Context context) {
+		if (context.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+			layoutDirection = -1;
 		}
 	}
 
@@ -335,6 +345,21 @@ public class BrickLayout extends ViewGroup {
 		}
 
 		this.setMeasuredDimension(resolveSize(x, widthMeasureSpec), resolveSize(y, heightMeasureSpec));
+		this.applyLayoutDirection();
+	}
+
+	private void applyLayoutDirection() {
+		// Deal with RTL languages, mirror whole view group, and then mirror its separate elements back to have text
+		// the right way round. RTL layoutDirection = -1, LTR layoutDirection = 1
+		this.setScaleX(layoutDirection);
+		for (LineData line : lines) {
+			for (ElementData element : line.elements) {
+				View child = element.view;
+				if (child != null && child.getVisibility() != GONE) {
+					child.setScaleX(layoutDirection);
+				}
+			}
+		}
 	}
 
 	private int preLayoutMeasureWidth(View child, int sizeWidth, int sizeHeight, int modeWidth, int modeHeight) {

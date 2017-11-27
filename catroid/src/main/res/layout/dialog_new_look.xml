@@ -92,7 +92,7 @@
                 android:id="@+id/dialog_new_look_drone_video"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
+                android:layout_gravity="start|center_vertical"
                 android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_video"

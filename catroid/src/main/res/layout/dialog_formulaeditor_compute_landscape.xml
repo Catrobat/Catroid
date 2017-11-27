@@ -26,8 +26,8 @@
     android:layout_height="500dp"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/dialog_relative_layout_padding"
-    android:paddingRight="@dimen/dialog_relative_layout_padding"
+    android:paddingStart="@dimen/dialog_relative_layout_padding"
+    android:paddingEnd="@dimen/dialog_relative_layout_padding"
     android:rotation="90" >
 
     <TextView

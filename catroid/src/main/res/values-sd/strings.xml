@@ -36,9 +36,9 @@
   <string name="no">نه</string>
   <string name="back">پوئتي</string>
   <string name="ok">ٺيڪ</string>
-  <string name="agree">Agree</string>
-  <string name="disagree">Disagree</string>
-  <string name="delete_account">Delete my account</string>
+  <string name="agree">راِضي</string>
+  <string name="disagree">انڪار</string>
+  <string name="delete_account">منهنجو اڪائونٽ مٽائي</string>
   <string name="copy">ڪاپي</string>
   <string name="cut">ڪٽيو</string>
   <string name="move">منتقل ڪيو</string>
@@ -87,8 +87,8 @@
   <string name="landscape">لينڊاسڪيپ</string>
   <string name="portrait">پورٽريٽ</string>
   <string name="unknown">اڻ ڄاڻ</string>
-  <string name="skip">skip</string>
-  <string name="disconnect">Disconnect</string>
+  <string name="skip">ڇڏيو</string>
+  <string name="disconnect">ڊسڪنيڪٽ</string>
   <!--  -->
   <!-- Main menu activity -->
   <string name="main_menu_new">نئون</string>
@@ -97,14 +97,14 @@
   <string name="main_menu_help">مدد</string>
   <string name="main_menu_web">ڳوليو</string>
   <string name="main_menu_upload">اپلوڊ ڪيو</string>
-  <string name="main_menu_privacy_policy">Privacy policy</string>
-  <string name="main_menu_about">About this app</string>
+  <string name="main_menu_privacy_policy">پرئيويسي پوليسي</string>
+  <string name="main_menu_about">هن اپليڪيشن بابت</string>
   <string name="main_menu_terms_of_use">استعمال ڪرڻ ۽ خدمتن جا شرط</string>
   <string name="main_menu_rate_app">ريٽ ڪيو!</string>
   <string name="main_menu_play_store_not_installed">پلي اسٽور ائپ نه ملي</string>
   <string name="main_menu_logout">لاگ آئوٽ</string>
   <string name="main_menu_login">لاگ ان</string>
-  <string name="main_menu_scratch_converter">Scratch Converter</string>
+  <string name="main_menu_scratch_converter">اسڪريچ پروگرام مٽائيندڙ</string>
   <string name="logout_successful">ڪامياب لاگ آئوٽ</string>
   <!--  -->
   <!-- Marketing activity -->
@@ -113,8 +113,12 @@
   <string name="marketing_more_on_google_play">گوگل پلي تي وڌيڪ ايپس</string>
   <!-- Settings activity -->
   <string name="preference_title">سيٽنگ</string>
-  <string name="preference_title_enable_quadcopter_bricks">پيرٽ اي آر.ڊرون برڪس</string>
+  <string name="preference_title_language">Language</string>
+  <string name="preference_description_language">Select the language of the app</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
   <string name="preference_description_quadcopter_bricks">اي آرڊرون 2.0 ڪئاڊڪوپٽرن کي سنڀالڻ جي اجازت ڏيڻ</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
+  <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">ليگو مائنڊاسٽورمز اين ايڪس ٽي برڪس</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">ليگو مائنڊاسٽورمز اِي وِي3 برڪس</string>
   <string name="preference_description_mindstorms_nxt_bricks">ليگو مائنڊاسٽورمز اين ايڪس ٽي روباٽس کي سنڀالڻ جي اجازت ڏيڻ</string>
@@ -129,15 +133,15 @@
   <string name="preference_description_cast_feature_globally_enabled">Show cast button and allow cast project creation</string>
   <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
   <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
-  <string name="preference_description_crash_reports">Allow to send crash reports automatically</string>
   <string name="preference_title_enable_crash_reports">Send anonymous crash reports</string>
+  <string name="preference_description_crash_reports">Allow to send crash reports automatically</string>
   <!-- -->
   <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
   <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
   <string name="preference_raspi_enable_bricks">Enable Raspberry Pi bricks</string>
-  <string name="preference_raspi_help">Help / Getting started</string>
-  <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
+  <string name="preference_raspi_help">مدد/ تعارف</string>
+  <string name="preference_raspi_help_summary">ڪنيڪشن ڪئين سيٽ ڪجي لاء مدد حاصل ڪريو</string>
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
   <!--  -->
@@ -180,7 +184,7 @@
   <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
   <string name="convert">Convert</string>
   <string name="converting">Converting&#8230;</string>
-  <string name="status_scheduled">Scheduled</string>
+  <string name="status_scheduled">طي ٿيل</string>
   <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
   <string name="status_started">Started&#8230;</string>
   <string name="status_conversion_finished">Conversion finished</string>
@@ -242,7 +246,7 @@
   <string name="dialog_new_object_switch_message">نئين آبجيڪٽ ڏانهن مٽائڻ?</string>
   <!--  -->
   <!-- Privacy Policy -->
-  <string name="dialog_privacy_policy_title">Privacy policy</string>
+  <string name="dialog_privacy_policy_title">پرئيويسي پوليسي</string>
   <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
 
         To offer you all collaborative benefits of our services and the associated account, it is necessary to
@@ -299,11 +303,16 @@
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">پاڪٽ ڪوڊ استعمال ڪرڻ ۽ خدمتن جا شرط</string>
   <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
-        AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
+        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
         Catrobat\'s
         Terms of
         Use and Services.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+  <!--  -->
+  <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">About this app</string>
@@ -325,12 +334,12 @@
   <string name="number_of_looks">ڏيکَ:</string>
   <string name="number_of_sounds">آواز:</string>
   <string name="show_details">Show details</string>
-  <string name="hide_details">Hide details</string>
+  <string name="hide_details">تفصيل لِڪاءِ</string>
   <string name="insert_below">Insert below</string>
   <string name="sprite">آبجيڪٽ</string>
   <string name="sprites">آبجيڪٽَ</string>
   <string name="spritelist_background_headline">پس منظر</string>
-  <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
+  <string name="dialog_confirm_delete_object_title">هن آبجيڪٽ کي ختم ڪجي?</string>
   <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
   <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
   <string name="select_all">سڀ چونڊيو</string>
@@ -343,7 +352,7 @@
   <string name="group_created">Group successfully created!</string>
   <string name="ungroup">Ungroup</string>
   <string name="group_objects_delete">Delete group and objects</string>
-  <string name="group">Group</string>
+  <string name="group">گروپ</string>
   <string name="backpack_replace_scene_multiple">Scenes already exist in the backpack. Do you want to replace
         them?</string>
   <!--  -->
@@ -356,7 +365,7 @@
   <string name="looks">Looks</string>
   <string name="sound">آواز</string>
   <string name="sounds">آواز</string>
-  <string name="backgrounds">Backgrounds</string>
+  <string name="backgrounds">بيڪ گرائونڊس</string>
   <string name="size">Size:</string>
   <string name="script_group">Script group</string>
   <string name="script_groups">Script groups</string>
@@ -392,7 +401,7 @@
   <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
   <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
   <string name="pocket_paint_not_installed">Do you want to install it?</string>
-  <string name="default_look_name">look</string>
+  <string name="default_look_name">لوڪ</string>
   <string name="delete_look_dialog">Delete look?</string>
   <string name="select_look_from_gallery">Select image</string>
   <string name="select_look_from_camera">Select photo</string>
@@ -408,17 +417,17 @@
   <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
   <string name="rename_sound_dialog">Rename sound</string>
   <string name="backpack_title">Your backpack</string>
-  <string name="sound_play">play</string>
-  <string name="sound_stop">stop</string>
+  <string name="sound_play">هلايو</string>
+  <string name="sound_stop">روڪيو</string>
   <string name="sound_select_source">Select a sound</string>
   <string name="sound_time_seperator">/</string>
-  <string name="delete_sound_dialog">Delete sound?</string>
+  <string name="delete_sound_dialog">آواٿ مٽايون؟</string>
   <string name="length">Length:</string>
   <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
   <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
   <string name="dialog_confirm_delete_sound_message">This cannot be undone!</string>
-  <string name="sound_name">Sound name:</string>
-  <string name="new_sound_name">Sound name:</string>
+  <string name="sound_name">آواٿ جو نالو:</string>
+  <string name="new_sound_name">آواٿ جو نالو:</string>
   <string name="rename_sound_overwrite">A sound with this name already exists. Please choose a different one!</string>
   <string name="backpack_replace_sound">The sound %1$s already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
@@ -440,7 +449,7 @@
   <string name="brick_set_nfc_tag">Set next NFC tag to</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
   <string name="default_tag_name">nfc_tag</string>
-  <string name="tnf_empty">Empty</string>
+  <string name="tnf_empty">خالي</string>
   <string name="tnf_external_type">External type</string>
   <string name="tnf_mime_media">متن</string>
   <string name="tnf_well_known_http">HTTP</string>
@@ -463,7 +472,7 @@
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Last access:</string>
-  <string name="description">Description:</string>
+  <string name="description">تشريح:</string>
   <string name="set_description">Set description</string>
   <string name="rename_project">Rename program</string>
   <string name="copy_project_finished"> copied.</string>
@@ -493,6 +502,8 @@
   <string name="prestage_resource_not_available_title">Component not available</string>
   <string name="prestage_resource_not_available_text">This program cannot be run on your device. The following
         components are unavailable:\n\n</string>
+  <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
+        are the only Controller for the Drone.</string>
   <string name="prestage_no_flash_available">\u2022 Flash\n</string>
   <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
@@ -502,6 +513,7 @@
   <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
   <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
   <string name="prestage_no_camera_available">\u2022 Face detection\n</string>
+  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
   <string name="no_nfc_available">NFC not available</string>
@@ -535,18 +547,19 @@
   <string name="add_look_drone_video">Drone Video</string>
   <!--  -->
   <!-- New Sound dialog -->
-  <string name="new_sound_dialog_title">Add Sound</string>
-  <string name="add_sound_from_recorder">Record Sound</string>
-  <string name="add_sound_choose_file">Select File</string>
-  <string name="add_sound_music">Music Composer</string>
+  <string name="new_sound_dialog_title">آواز وجهو</string>
+  <string name="add_sound_from_recorder">آواز ريڪارڊ ڪريو</string>
+  <string name="add_sound_choose_file">فائيل چونڊيو</string>
+  <string name="add_sound_music">ميوزڪ ڪمپوزر</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">نئون پروگرام</string>
   <string name="new_project_dialog_hint">منهنجو پروگرام</string>
   <string name="new_project_description_dialog_hint">منهنجي بابت</string>
-  <string name="new_project_name">Program name</string>
+  <string name="new_project_name">پروگرام جو نالو</string>
   <string name="new_project_empty">خالي پروگرام جوڙيو</string>
-  <string name="new_project_default">Create example program</string>
-  <string name="new_project_default_drone">Create example Drone program</string>
+  <string name="new_project_default">مثالي پروگرام ٺاهيو</string>
+  <string name="new_project_default_drone">مثالي ڊرون پروگرام ٺاهيو</string>
+  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
   <string name="project_orientation_title">Orientation:</string>
   <string name="project_select_screen_title">Screen</string>
   <!--  -->
@@ -633,17 +646,18 @@
   <string name="categories">ڪئٽيگريون</string>
   <string name="category_motion">حرڪت</string>
   <string name="category_looks">ڏيکَ</string>
-  <string name="category_pen">Pen</string>
+  <string name="category_pen">قلم</string>
   <string name="category_sound">آواز</string>
   <string name="category_control">ڪنٽرول</string>
   <string name="category_event">ايونٽ</string>
   <string name="category_user_bricks">My Bricks</string>
   <string name="category_data">Data</string>
-  <string name="category_lego_nxt">Lego NXT</string>
-  <string name="category_lego_ev3">Lego EV3</string>
-  <string name="category_drone">AR.Drone</string>
-  <string name="category_phiro">Phiro</string>
-  <string name="category_arduino">Arduino</string>
+  <string name="category_lego_nxt">ليگو اين اڪس ٽي</string>
+  <string name="category_lego_ev3">ليگو ايِ ويِ 3</string>
+  <string name="category_drone">AR.Drone 2.0</string>
+  <string name="category_jumping_sumo">Jumping Sumo</string>
+  <string name="category_phiro">ڦائيرو</string>
+  <string name="category_arduino">آرڊينو</string>
   <string name="category_cast">Cast</string>
   <string name="category_raspi">Raspberry Pi</string>
   <!--  -->
@@ -707,14 +721,14 @@
   <string name="brick_when_background">When background changes to</string>
   <string name="brick_set_size_to">Set size to</string>
   <string name="brick_change_size_by">Change size by</string>
-  <string name="brick_hide">Hide</string>
-  <string name="brick_show">Show</string>
+  <string name="brick_hide">لڪائي</string>
+  <string name="brick_show">ڏيکار</string>
   <string name="brick_set_transparency">"Set transparency "</string>
   <string name="brick_change_ghost_effect">"Change transparency "</string>
-  <string name="brick_set_brightness">"Set brightness "</string>
-  <string name="brick_change_brightness">"Change brightness "</string>
-  <string name="brick_set_color">"Set color "</string>
-  <string name="brick_change_color">"Change color "</string>
+  <string name="brick_set_brightness">"روشني ٺاهيو "</string>
+  <string name="brick_change_brightness">"روشني تبديل ڪريو "</string>
+  <string name="brick_set_color">"رنگ ٺاهيو "</string>
+  <string name="brick_change_color">"رنگ مٽايو "</string>
   <string name="by_label">by</string>
   <string name="to_label">to</string>
   <string name="brick_clear_graphic_effect">Clear graphic effects</string>
@@ -728,25 +742,25 @@
   <string name="brick_vibration">Vibrate for</string>
   <string name="brick_ask_label">پڇو</string>
   <string name="brick_ask_store">and store written answer in</string>
-  <string name="brick_ask_default_question">\'What\'s your name?\'</string>
-  <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
-  <string name="brick_ask_dialog_submit">Submit answer</string>
+  <string name="brick_ask_default_question">توهان جو نالي ڇا آهي؟</string>
+  <string name="brick_ask_dialog_hint">"پنهنجو نالي لکو"</string>
+  <string name="brick_ask_dialog_submit">جواب جمع ڪريو</string>
   <string name="brick_ask_speech_label">پڇو</string>
   <string name="brick_ask_speech_store">and store spoken answer in</string>
-  <string name="brick_ask_speech_default_question">\'What\'s your name?\'</string>
+  <string name="brick_ask_speech_default_question">توهان جو نالي ڇا آهي؟</string>
   <!--  -->
   <!-- Pen bricks -->
-  <string name="brick_pen_down">Pen down</string>
-  <string name="brick_pen_up">Pen up</string>
+  <string name="brick_pen_down">قلم هيٺ</string>
+  <string name="brick_pen_up">قلم مٿي</string>
   <string name="brick_pen_size">Set pen size to</string>
   <string name="brick_pen_color">Set pen color to</string>
-  <string name="brick_clear_background">Clear</string>
+  <string name="brick_clear_background">صاف</string>
   <string name="brick_stamp">ٺپو</string>
   <!--  -->
   <!-- Sound bricks -->
-  <string name="brick_play_sound">Start sound</string>
+  <string name="brick_play_sound">آواز شروع ڪريو</string>
   <string name="brick_play_sound_and_wait">Start sound and wait</string>
-  <string name="brick_stop_all_sounds">Stop all sounds</string>
+  <string name="brick_stop_all_sounds">سڀ آواز بند ڪريو</string>
   <string name="brick_set_volume_to">Set volume to</string>
   <string name="brick_change_volume_by">Change volume by</string>
   <string name="brick_speak">ڳالهايو</string>
@@ -755,14 +769,14 @@
   <!--  -->
   <!-- Control bricks -->
   <string name="brick_when_started">When program starts</string>
-  <string name="brick_when">When tapped</string>
+  <string name="brick_when">ڇا ٿيو</string>
   <string name="brick_when_condition_when">When</string>
   <string name="brick_when_becomes_true">becomes true</string>
-  <string name="brick_wait">Wait</string>
+  <string name="brick_wait">انتظار</string>
   <string name="brick_when_gamepad_button">When gamepad button</string>
   <string name="brick_when_gamepad_button_tapped">tapped</string>
   <string name="brick_when_nfc">When NFC</string>
-  <string name="brick_stop_script">Stop</string>
+  <string name="brick_stop_script">روڪيو</string>
   <string name="brick_stop_this_script">this script</string>
   <string name="brick_stop_all_scripts">all scripts</string>
   <string name="brick_stop_other_scripts">other scripts of this object</string>
@@ -794,10 +808,10 @@
     <item quantity="other">دفعا</item>
   </plurals>
   <string name="brick_loop_end">End of loop</string>
-  <string name="brick_if_begin">If</string>
-  <string name="brick_if_begin_second_part">is true then</string>
-  <string name="brick_if_else">Else</string>
-  <string name="brick_if_end">End If</string>
+  <string name="brick_if_begin">جيڪڏهن</string>
+  <string name="brick_if_begin_second_part">جي صحيح هجي ته</string>
+  <string name="brick_if_else">نه ته</string>
+  <string name="brick_if_end">جيڪڏهن جو ڇهڙو</string>
   <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">Set variable</string>
   <string name="brick_change_variable">Change variable</string>
@@ -805,17 +819,17 @@
   <string name="brick_note_default_value">"add comment here…"</string>
   <string name="brick_think_bubble_default_value">"هم.."</string>
   <string name="brick_say_bubble_default_value">"Hello!"</string>
-  <string name="brick_broadcast_default_value">"new message"</string>
+  <string name="brick_broadcast_default_value">"نئون نياپو"</string>
   <string name="brick_add_item_to_userlist_add">Add</string>
   <string name="brick_add_item_to_userlist">to list</string>
   <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
   <string name="brick_delete_item_from_userlist">at position</string>
-  <string name="brick_insert_item_into_userlist_insert_into">Insert</string>
-  <string name="brick_insert_item_into_userlist_into_list">into list</string>
+  <string name="brick_insert_item_into_userlist_insert_into">وجهو</string>
+  <string name="brick_insert_item_into_userlist_into_list">لسٽ ۾</string>
   <string name="brick_insert_item_into_userlist_at_position">at position</string>
   <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
   <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
-  <string name="brick_replace_item_in_userlist_with_value">with</string>
+  <string name="brick_replace_item_in_userlist_with_value">ساڻ</string>
   <!--  -->
   <!-- defaultValues -->
   <string name="default_project_name">My first program</string>
@@ -824,7 +838,7 @@
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>
   <string name="default_project_cloud_sprite_name_2">Clouds2</string>
-  <string name="default_project_sprites_bird_name">Bird</string>
+  <string name="default_project_sprites_bird_name">پکي</string>
   <string name="default_project_sprites_bird_name_wing_up">Bird wings up</string>
   <string name="default_project_sprites_bird_name_wing_down">Bird wings down</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
@@ -834,7 +848,7 @@
   <string name="default_cast_project_cloud_name">Clouds</string>
   <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
   <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
-  <string name="default_cast_project_sprites_bird_name">Bird</string>
+  <string name="default_cast_project_sprites_bird_name">پکي</string>
   <string name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
   <string name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
   <string name="default_cast_project_sprites_bird_name_wing_up_left">Bird Wings up left</string>
@@ -846,10 +860,8 @@
   <!-- defaultDroneValues -->
   <string name="default_drone_project_name">My first Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
-  <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">گھمايو</string>
-  <string name="default_drone_project_sprites_up">Up</string>
-  <string name="default_drone_project_sprites_down">Down</string>
+  <string name="default_drone_project_sprites_up">مٿي</string>
+  <string name="default_drone_project_sprites_down">هيٺ</string>
   <string name="default_drone_project_sprites_left">کاٻي</string>
   <string name="default_drone_project_sprites_right">ساڄي</string>
   <string name="default_drone_project_sprites_forward">Forward</string>
@@ -909,15 +921,16 @@
   <string name="size_of_project">Size:</string>
   <string name="upload_button">اپلوڊ ڪيو</string>
   <string name="upload_project_dialog_title">Upload program</string>
-  <string name="upload_description">Description:</string>
+  <string name="upload_description">تشريح:</string>
   <string name="upload_tag_dialog_title">Choose up to three categories</string>
   <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
   <string name="drone_emergency_camera">One or more cameras are not responding.</string>
   <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-  <string name="drone_emergency_angle">AR.Drone Euler angles went too high. Motors shutdown to prevent dangerous behavior.</string>
+  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
+        behavior.</string>
   <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
   <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
-  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
+  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
   <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
   <string name="drone_emergency_title">Emergency</string>
   <!--  -->
@@ -952,12 +965,18 @@
   <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
   <string name="error_adding_brick">An error occurred while adding this brick.</string>
   <string name="error_copying_brick">An error occurred while copying this brick.</string>
-  <string name="error_no_drone_connected_title">Cannot find AR.Drone.</string>
-  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone and try again.</string>
-  <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
+  <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
+  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
+  <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
   <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
-  <string name="error_drone_wrong_platform_title">No AR.Drone support.</string>
-  <string name="error_drone_wrong_platform">We cannot run an AR.Drone project on your device.</string>
+  <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
+  <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
+  <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
+  <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+  <string name="error_jumpingsumo_battery">Insert a charged battery and try again.</string>
+  <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
+  <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
+  <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
   <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
   <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
@@ -994,7 +1013,7 @@
   <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
   <string name="brick_raspi_set_pin_value_to">to</string>
   <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
-  <string name="brick_raspi_if_begin_second_part">is true then</string>
+  <string name="brick_raspi_if_begin_second_part">جي صحيح هجي ته</string>
   <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
   <string name="brick_raspi_when_equals">changes to</string>
   <string name="brick_raspi_pressed_text">high</string>
@@ -1037,7 +1056,6 @@
   <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
   <string name="preference_disable_nxt_info_dialog_description">Program specific NXT settings are not shown when opening a program.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is program specific and can only be configured for opened programs!</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">The current program uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>
@@ -1087,29 +1105,74 @@
   <string name="ev3_led_status_orange_pulse">Orange pulse</string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">Take off / Land</string>
-  <string name="brick_drone_play_led_animation">Play flash animation</string>
-  <string name="brick_drone_move_left">Move left</string>
-  <string name="brick_drone_move_right">Move right</string>
-  <string name="brick_drone_move_forward">Move forward</string>
-  <string name="brick_drone_move_backward">Move backward</string>
-  <string name="brick_drone_move_up">Move up</string>
-  <string name="brick_drone_move_down">Move down</string>
-  <string name="brick_drone_flip">پَلٽيو</string>
-  <string name="brick_drone_emergency">Emergency</string>
-  <string name="brick_drone_turn_right">Turn right</string>
-  <string name="brick_drone_turn_left">Turn left</string>
-  <string name="brick_drone_turn_left_magneto">Turn left [angle]</string>
-  <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
-  <string name="brick_drone_angle">Angle</string>
-  <string name="brick_drone_set_config">Set config</string>
-  <string name="brick_drone_switch_camera">Switch drone camera</string>
-  <string name="brick_drone_set_altitude">Altitude limit</string>
+  <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
+  <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+  <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
+  <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
+  <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
+  <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
+  <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
+  <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
+  <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
+  <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
+  <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
+  <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
+  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
+  <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
+  <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
+  <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
+  <string name="brick_drone_set_altitude">Altitude limit </string>
   <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
   <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
-  <string name="brick_drone_with">with</string>
+  <string name="brick_drone_with">seconds with</string>
   <string name="brick_drone_percent_power">power</string>
+  <!--  -->
+  <!-- Jumping Sumo Bricks -->
+  <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
+  <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
+  <string name="brick_jumping_sumo_percent_power">% power</string>
+  <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
+  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+  <string name="brick_jumping_sumo_sound">آواز</string>
+  <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
+  <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
+  <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
+  <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+  <string name="brick_jumping_sumo_rotate_text">°</string>
+  <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+  <!--  -->
+  <!-- defaultJumpingSumoValues -->
+  <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+  <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+  <string name="default_jumping_sumo_project_sprites_forward">Forward</string>
+  <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
+  <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
+  <string name="default_jumping_sumo_project_sprites_sound">آواز</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+  <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
+  <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
+  <string name="default_jumping_sumo_project_sprites_flip">پَلٽيو</string>
+  <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+  <!--  -->
+  <!-- Jumping Sumo animation strings -->
+  <string name="animation_spin">Spin</string>
+  <string name="animation_tab">Tab</string>
+  <string name="animation_slowshake">Slowshake</string>
+  <string name="animation_metronome">Metronome</string>
+  <string name="animation_ondulation">Ondulation</string>
+  <string name="animation_spinjump">Spinjump</string>
+  <string name="animation_spiral">Spiral</string>
+  <string name="animation_slalom">Slalom</string>
+  <!-- Jumping Sumo sound strings -->
+  <string name="jumping_sumo_volume">Volume</string>
+  <string name="sound_default">Normal</string>
+  <string name="sound_robot">Robot</string>
+  <string name="sound_insect">Insect</string>
+  <string name="sound_monster">Monster</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
@@ -1341,8 +1404,8 @@
   <string name="formula_editor_device_date_and_time">Date and time</string>
   <string name="formula_editor_device_touch_detection">Touch detection</string>
   <string name="formula_editor_device_lego">Lego</string>
-  <string name="formula_editor_device_arduino">Arduino</string>
-  <string name="formula_editor_device_phiro">Phiro</string>
+  <string name="formula_editor_device_arduino">آرڊينو</string>
+  <string name="formula_editor_device_phiro">ڦائيرو</string>
   <string name="formula_editor_device_raspberry">Raspberry Pi</string>
   <string name="formula_editor_device_drone">Drone</string>
   <string name="formula_editor_device_nfc">NFC</string>
@@ -1535,5 +1598,21 @@
   <string name="crash_dialog_text">Please help to improve our app by sending us anonymous crash reports!</string>
   <string name="crash_dialog_always_send">سدائين موڪليو</string>
   <string name="crash_dialog_send">موڪليو</string>
+  <!--  -->
+  <!-- Multilingual List -->
+  <string name="device_language">Device Language</string>
+  <!-- UtilFile SizeUnits String -->
+  <string name="Byte_short">B</string>
+  <string name="KiloByte_short">KB</string>
+  <string name="MegaByte_short">MB</string>
+  <string name="GigaByte_short">GB</string>
+  <string name="TeraByte_short">TB</string>
+  <string name="PetaByte_short">PB</string>
+  <string name="ExaByte_short">EB</string>
+  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
+         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
+         goodies and giveaways from Google and Catrobat for participants!</string>
+  <string name="google_code_in_check_out">Check it out on</string>
+  <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
 </resources>

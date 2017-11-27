@@ -32,7 +32,7 @@
         android:layout_height="80dp"
         android:id="@+id/empty_view_item"
         android:gravity="center_vertical"
-        android:paddingLeft="5dp">
+        android:paddingStart="5dp">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cast_searching_for_cast_devices"
-            android:layout_marginLeft="15dp" />
+            android:layout_marginStart="15dp" />
 
     </LinearLayout>
 

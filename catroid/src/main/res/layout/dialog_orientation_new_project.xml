@@ -31,8 +31,8 @@
         android:checkedButton="@+id/portrait"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dialog_radio_group_margin"
-        android:layout_marginRight="@dimen/dialog_radio_group_margin"
+        android:layout_marginStart="@dimen/dialog_radio_group_margin"
+        android:layout_marginEnd="@dimen/dialog_radio_group_margin"
         android:paddingTop="16dp" >
 
         <RadioButton
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
-            android:drawableLeft="@drawable/dialog_orientation_portrait"
+            android:drawableStart="@drawable/dialog_orientation_portrait"
             android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
             android:padding="@dimen/dialog_radio_button_padding" ></RadioButton>
 
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
-            android:drawableLeft="@drawable/dialog_orientation_landscape"
+            android:drawableStart="@drawable/dialog_orientation_landscape"
             android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
             android:padding="@dimen/dialog_radio_button_padding"></RadioButton>
      <RadioButton
@@ -58,7 +58,7 @@
          android:layout_width="wrap_content"
          android:layout_height="match_parent"
          android:layout_weight="0.33"
-         android:drawableLeft="@drawable/ic_tv_black_24dp"
+         android:drawableStart="@drawable/ic_tv_black_24dp"
          android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
          android:padding="@dimen/dialog_radio_button_padding"></RadioButton>
 

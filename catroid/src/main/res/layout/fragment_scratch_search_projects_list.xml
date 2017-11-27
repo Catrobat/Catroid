@@ -34,18 +34,18 @@
     android:layout_height="45dp"
     android:layout_alignParentTop="true"
     android:layout_marginTop="5dp"
-    android:layout_marginLeft="0dp"
-    android:layout_marginRight="0dp" />
+    android:layout_marginStart="0dp"
+    android:layout_marginEnd="0dp" />
 
 <SearchView
     android:id="@+id/search_view_scratch"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
-    android:layout_toLeftOf="@+id/mic_button_image_scratch"
+    android:layout_toStartOf="@+id/mic_button_image_scratch"
     android:layout_marginTop="5dp"
-    android:layout_marginLeft="0dp"
-    android:layout_marginRight="5dp"
+    android:layout_marginStart="0dp"
+    android:layout_marginEnd="5dp"
     android:queryHint="@string/search_hint"
     android:iconifiedByDefault="false"
     android:focusable="true"
@@ -55,9 +55,9 @@
     android:id="@+id/mic_button_image_scratch"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
     android:layout_alignParentTop="true"
-    android:layout_marginRight="11dp"
+    android:layout_marginEnd="11dp"
     android:layout_marginTop="11dp"
     android:background="@color/transparent"
     android:src="@android:drawable/ic_btn_speak_now" />

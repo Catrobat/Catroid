@@ -49,17 +49,17 @@
             android:id="@+id/scratch_convert_icon"
             android:layout_width="@dimen/scratch_project_tiny_thumbnail_width"
             android:layout_height="@dimen/scratch_project_tiny_thumbnail_height"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="14dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="14dp"
             android:src="@drawable/views_72x72"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerInParent="true" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/scratch_convert_icon"
-            android:layout_toLeftOf="@+id/scratch_up_down_image_button"
+            android:layout_toEndOf="@+id/scratch_convert_icon"
+            android:layout_toStartOf="@+id/scratch_up_down_image_button"
             android:gravity="center_vertical">
 
             <TextView
@@ -94,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@android:style/Widget.Holo.ProgressBar.Horizontal"
-                    android:layout_toLeftOf="@+id/scratch_convert_status_progress_text"
+                    android:layout_toStartOf="@+id/scratch_convert_status_progress_text"
                     android:layout_centerVertical="true"
                     android:progress="60" />
 
@@ -103,12 +103,12 @@
                     style="@style/ListViewItemDetailsText"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:ellipsize="end"
                     android:textAlignment="gravity"
-                    android:gravity="right" />
+                    android:gravity="end" />
 
             </RelativeLayout>
         </RelativeLayout>
@@ -117,9 +117,9 @@
             android:id="@+id/scratch_up_down_image_button"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/default_scratch_converter_arrow_up"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerInParent="true" />
 
     </RelativeLayout>

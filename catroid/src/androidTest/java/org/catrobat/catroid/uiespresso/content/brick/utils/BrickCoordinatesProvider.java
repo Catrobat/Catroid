@@ -68,6 +68,30 @@ public enum BrickCoordinatesProvider implements CoordinatesProvider{
 			Log.d(TAG, "UpOnePosition: " + "x: " + coordinates[0] + "y: " + coordinates[1]);
 			return coordinates;
 		}
+	},
+
+	DOWN_TO_BOTTOM {
+		@Override
+		public float[] calculateCoordinates(View view) {
+			final int[] viewsCoordinates = new int[2];
+			view.getLocationOnScreen(viewsCoordinates);
+			float dragDestinationCoordinate = view.getContext().getResources().getDisplayMetrics().heightPixels;
+			float[] coordinates = {viewsCoordinates[0], dragDestinationCoordinate};
+			Log.d(TAG, "DownToBottom: " + "x: " + coordinates[0] + "y: " + coordinates[1]);
+			return coordinates;
+		}
+	},
+
+	UP_TO_TOP {
+		@Override
+		public float[] calculateCoordinates(View view) {
+			final int[] viewsCoordinates = new int[2];
+			view.getLocationOnScreen(viewsCoordinates);
+			float dragDestinationCoordinate = 0;
+			float[] coordinates = {viewsCoordinates[0], dragDestinationCoordinate};
+			Log.d(TAG, "DownToBottom: " + "x: " + coordinates[0] + "y: " + coordinates[1]);
+			return coordinates;
+		}
 	};
 
 	private static final String TAG = BrickCoordinatesProvider.class.getSimpleName();

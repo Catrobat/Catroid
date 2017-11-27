@@ -31,7 +31,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/device_text_view_margin_small"
-        android:paddingLeft="@dimen/device_text_view_padding"
+        android:paddingStart="@dimen/device_text_view_padding"
         android:text="@string/title_paired_devices"
         android:textSize="@dimen/device_text_view_text_size"
         android:visibility="gone" />
@@ -52,7 +52,7 @@
         android:id="@+id/title_new_devices"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/device_text_view_padding"
+        android:paddingStart="@dimen/device_text_view_padding"
         android:layout_marginTop="@dimen/device_text_view_margin_small"
         android:text="@string/title_other_devices"
         android:textSize="@dimen/device_text_view_text_size"

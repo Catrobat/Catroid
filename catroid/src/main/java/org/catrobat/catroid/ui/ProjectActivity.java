@@ -56,8 +56,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.drone.DroneServiceWrapper;
-import org.catrobat.catroid.drone.DroneStageActivity;
+import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.ardrone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -132,14 +132,6 @@ public class ProjectActivity extends BaseCastActivity {
 		fragmentTransaction.commit();
 
 		showLegoInfoFragmentIfNeeded(this.getFragmentManager());
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
-		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
-		SettingsActivity.setDroneChooserEnabled(this, true);
 	}
 
 	@Override

@@ -25,8 +25,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/dialog_relative_layout_padding"
-    android:paddingRight="@dimen/dialog_relative_layout_padding" >
+    android:paddingStart="@dimen/dialog_relative_layout_padding"
+    android:paddingEnd="@dimen/dialog_relative_layout_padding" >
 
     <TextView
         android:id="@+id/formula_editor_compute_dialog_textview"

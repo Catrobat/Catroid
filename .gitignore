@@ -5,6 +5,9 @@ sed_replace.txt
 *.apk
 *.ap_
 
+# cache for standalone apps
+.apps/
+
 # workspace settings
 *.metadata
 

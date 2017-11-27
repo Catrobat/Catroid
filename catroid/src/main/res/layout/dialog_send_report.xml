@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dialog_send_report"
-            android:layout_alignLeft="@+id/dialog_send_report"
+            android:layout_alignStart="@+id/dialog_send_report"
             android:text="@string/crash_dialog_always_send" />
 
     </RelativeLayout>

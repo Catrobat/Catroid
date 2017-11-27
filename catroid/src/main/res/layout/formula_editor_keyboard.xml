@@ -36,7 +36,7 @@
             android:id="@+id/formula_editor_keyboard_compute"
             style="@style/FormulaEditorButton"
             android:layout_marginTop="@dimen/key_margin"
-            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginStart="@dimen/key_margin"
             android:text="@string/formula_editor_compute"
             android:layout_span="2" />
 
@@ -72,7 +72,7 @@
         <Button
             android:id="@+id/formula_editor_keyboard_object"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginStart="@dimen/key_margin"
             android:text="@string/formula_editor_object"
             android:layout_span="2" />
 
@@ -109,7 +109,7 @@
         <Button
             android:id="@+id/formula_editor_keyboard_function"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginStart="@dimen/key_margin"
             android:text="@string/formula_editor_functions"
             android:layout_span="2" />
 
@@ -146,7 +146,7 @@
         <Button
             android:id="@+id/formula_editor_keyboard_logic"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginStart="@dimen/key_margin"
             android:text="@string/formula_editor_logic"
             android:layout_span="2" />
 
@@ -183,7 +183,7 @@
         <Button
             android:id="@+id/formula_editor_keyboard_sensors"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginStart="@dimen/key_margin"
             android:text="@string/formula_editor_device"
             android:layout_span="2" />
 
@@ -220,7 +220,7 @@
         <Button
             android:id="@+id/formula_editor_keyboard_data"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_marginStart="@dimen/key_margin"
             android:text="@string/formula_editor_data"
             android:layout_span="2" />
 

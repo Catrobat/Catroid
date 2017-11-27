@@ -29,24 +29,32 @@ import android.preference.PreferenceManager;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ui.SettingsActivity;
 
-import io.fabric.sdk.android.Fabric;
-
 public final class CrashReporter {
 
 	private static final String TAG = CrashReporter.class.getSimpleName();
 
-	private static SharedPreferences preferences;
 	public static final String EXCEPTION_FOR_REPORT = "EXCEPTION_FOR_REPORT";
+
+	protected static SharedPreferences preferences;
 	private static boolean isCrashReportEnabled = BuildConfig.CRASHLYTICS_CRASH_REPORT_ENABLED;
+	private static CrashReporterInterface reporter = new CrashlyticsCrashReporter();
 
 	private CrashReporter() {
+	}
+
+	private static boolean isReportingEnabled() {
+		return preferences != null && preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, true)
+				&& isCrashReportEnabled;
+	}
+
+	@VisibleForTesting
+	public static void setCrashReporterInterface(CrashReporterInterface crashReporterInterface) {
+		reporter = crashReporterInterface;
 	}
 
 	public static boolean initialize(Context context) {
@@ -54,34 +62,27 @@ public final class CrashReporter {
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
 		if (isReportingEnabled()) {
-			Crashlytics crashlyticsKit = new Crashlytics.Builder()
-					.core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
-					.build();
-			Fabric.with(context, crashlyticsKit);
+			reporter.initialize(context);
 			Log.d(TAG, "INITIALIZED!");
 			return true;
 		}
+
 		Log.d(TAG, "INITIALIZATION FAILED! [ Report : " + isReportingEnabled() + "]");
 		return false;
 	}
 
-	private static boolean isReportingEnabled() {
-		return preferences != null && preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false) && isCrashReportEnabled;
+	public static boolean logException(Throwable exception) {
+
+		if (isReportingEnabled()) {
+			reporter.logException(exception);
+			return true;
+		}
+		return false;
 	}
 
 	@VisibleForTesting
 	public static void setIsCrashReportEnabled(boolean isEnabled) {
 		isCrashReportEnabled = isEnabled;
-	}
-
-	public static boolean logException(Throwable t) {
-
-		if (isReportingEnabled()) {
-			Crashlytics.logException(t);
-			return true;
-		}
-
-		return false;
 	}
 
 	public static void sendUnhandledCaughtException() {

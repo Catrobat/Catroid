@@ -39,8 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/activity_check_box_margin"
-            android:layout_marginRight="@dimen/activity_check_box_margin"
+            android:layout_marginStart="@dimen/activity_check_box_margin"
+            android:layout_marginEnd="@dimen/activity_check_box_margin"
             android:visibility="gone" />
 
         <RelativeLayout
@@ -54,7 +54,7 @@
                 android:layout_width="72dp"
                 android:layout_height="65dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="9dp"
+                android:layout_marginStart="9dp"
                 android:background="@drawable/spritelist_item_thumbnail_border"
                 android:cropToPadding="true"
                 android:padding="1.5dp"
@@ -74,7 +74,7 @@
                 android:id="@+id/sprite_group_indicators"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft = "5dip"
+                android:paddingStart = "5dip"
                 android:layout_alignParentBottom="true">
 
                 <ImageView
@@ -88,14 +88,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/sprite_group_indicators">
+                android:layout_toEndOf="@+id/sprite_group_indicators">
 
                 <TextView
                     android:id="@+id/project_activity_group_sprite_title"
                     style="@style/ListViewItemTitleText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft = "20dip"
+                    android:paddingStart="20dip"
                     android:ellipsize="end" />
 
         </RelativeLayout>

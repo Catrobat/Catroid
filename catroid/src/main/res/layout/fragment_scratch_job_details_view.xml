@@ -28,7 +28,7 @@
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
     android:paddingBottom="9dp"
-    android:layout_toRightOf="@+id/scratch_job_list_item_image">
+    android:layout_toEndOf="@+id/scratch_job_list_item_image">
 
     <TextView
         android:id="@+id/scratch_job_list_item_title"
@@ -43,7 +43,7 @@
     <TextView
         android:id="@+id/scratch_job_list_item_status"
         style="@style/ListViewItemDetailsText"
-        android:paddingLeft="12.5dp"
+        android:paddingStart="12.5dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
@@ -61,8 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@android:style/Widget.Holo.ProgressBar.Horizontal"
-            android:layout_marginLeft="12dp"
-            android:layout_toLeftOf="@+id/scratch_job_list_item_progress_text"
+            android:layout_marginStart="12dp"
+            android:layout_toStartOf="@+id/scratch_job_list_item_progress_text"
             android:layout_centerVertical="true" />
 
         <TextView
@@ -70,12 +70,12 @@
             style="@style/ListViewItemDetailsText"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:textAlignment="gravity"
-            android:gravity="right" />
+            android:gravity="end" />
 
     </RelativeLayout>
 
