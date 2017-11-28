@@ -113,8 +113,12 @@
   <string name="marketing_more_on_google_play">Programu zaidi kwenye Google Play</string>
   <!-- Settings activity -->
   <string name="preference_title">Mipangilio</string>
-  <string name="preference_title_enable_quadcopter_bricks">Kasuku AR.Ndege nyuki matofari</string>
+  <string name="preference_title_language">Lugha</string>
+  <string name="preference_description_language">Select the language of the app</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
   <string name="preference_description_quadcopter_bricks">Ruhusu kuthibiti AR.Ndege nyuki ya 2.0 ya mapanga zunguka</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
+  <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Mkondo wa vifaa unganiko NXT matofari</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">Mkondo wa vifaa unganiko EV3 matofari</string>
   <string name="preference_description_mindstorms_nxt_bricks">ruhusu kuthibiti mkondo wa vifaa unganiko NXT roboti</string>
@@ -129,8 +133,8 @@
   <string name="preference_description_cast_feature_globally_enabled">onyesha batani ya kurushia na ruhusu uundaji wa mradi</string>
   <string name="preference_title_enable_nfc_bricks">mawasiliano karibu ya uga</string>
   <string name="preference_description_nfc_bricks">Ruhusu kutumia lebo ya NFC katika programu</string>
-  <string name="preference_description_crash_reports">ruhusu taarifa ya ajari kujituma yenyewe</string>
   <string name="preference_title_enable_crash_reports">Tuma ripoti ya ajali bila kujitambulisha</string>
+  <string name="preference_description_crash_reports">ruhusu taarifa ya ajari kujituma yenyewe</string>
   <!-- -->
   <string name="preference_description_arduino_bricks">Ruhusu kudhibiti Phiro robots</string>
   <string name="preference_title_enable_raspi_bricks">Matofali ya Raspberry Pi</string>
@@ -288,8 +292,17 @@
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Masharti ya matumizi na huduma</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">Unajaribiu kutumia programu hii pamoja na ndege ya AR isiyoongozwa na rubani. Tunakukumbusha sana kufuata masharti ya matumizi ya Ndege hiyo na kwa masharti ya matumizi na huduma za Catrobat.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
+        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
+        Catrobat\'s
+        Terms of
+        Use and Services.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Si Nikumbushe tena.</string>
+  <!--  -->
+  <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">Kuhusu programu hii</string>
@@ -471,6 +484,8 @@
   <string name="prestage_text_to_speech_engine_not_installed">Injini text-to-Speech haija sanidiwa! \n je  unataka kusakinisha?</string>
   <string name="prestage_resource_not_available_title">Kijenzi hakipatikani</string>
   <string name="prestage_resource_not_available_text">Programu hii haiwezi kuendeshwa kwenye kifaa chako. Vijenzi vifuatavyo havipatikani: \n\n</string>
+  <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
+        are the only Controller for the Drone.</string>
   <string name="prestage_no_flash_available">\u2022 mwanga\n</string>
   <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 sensor ongeza kasi\n</string>
@@ -480,6 +495,7 @@
   <string name="prestage_text_to_speech_error">Injini Text-to-Speech </string>
   <string name="prestage_no_back_camera_available">Mgongo/nyuma unaokabiri camera</string>
   <string name="prestage_no_camera_available">\u2022 uso ugunduzi\n</string>
+  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
   <string name="prestage_no_front_camera_available">\u2022 mbele yanayokabili camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 kijenzi hakijulikani\n</string>
   <string name="no_nfc_available">NFC haipatikani</string>
@@ -524,6 +540,7 @@
   <string name="new_project_empty">Unda programu tupu</string>
   <string name="new_project_default">Unda programu ya mfano</string>
   <string name="new_project_default_drone">Unda programu ya Ndege isiyoongozwa na rubani ya mfano</string>
+  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
   <string name="project_orientation_title">Mwelekeo:</string>
   <string name="project_select_screen_title">Skrini</string>
   <!--  -->
@@ -619,7 +636,8 @@
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">Lego NXT </string>
   <string name="category_lego_ev3">Lego EV3</string>
-  <string name="category_drone">AR. Ndege isiyoongozwa na rubani</string>
+  <string name="category_drone">AR.Drone 2.0</string>
+  <string name="category_jumping_sumo">Jumping Sumo</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">Arduino</string>
   <string name="category_cast">Rusha </string>
@@ -824,8 +842,6 @@
   <!-- defaultDroneValues -->
   <string name="default_drone_project_name">Programu yangu ya kwanza kurusha</string>
   <string name="default_drone_project_sprites_takeoff">Ondoka</string>
-  <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Zungusha</string>
   <string name="default_drone_project_sprites_up">Juu</string>
   <string name="default_drone_project_sprites_down">Chini</string>
   <string name="default_drone_project_sprites_left">Kushoto</string>
@@ -892,10 +908,11 @@
   <string name="drone_emergency_battery_low">Betri iko chini (kutua otomatiki).</string>
   <string name="drone_emergency_camera">Kamera moja au zaidi ni haziitiki.</string>
   <string name="drone_emergency_ultrasound">Kihisio cha ultrasound hakiitikii.</string>
-  <string name="drone_emergency_angle">AR. Ndege isiyoongozwa na rubani Euler pembe akaenda juu sana. Pikipiki uzimaji ili kuzuia tabia hatari.</string>
+  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
+        behavior.</string>
   <string name="drone_emergency_cutout">mota Moja au zaidi walisimamishwa na mazingira.</string>
   <string name="drone_alert_battery_low">Betri iko chini sana kuchukua tena.</string>
-  <string name="drone_alert_ultrasound">Kihisio cha ultrasound haiwezi kuamua AR. Rubani ya mwinuko.</string>
+  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
   <string name="drone_alert_vision">Hakuna hesabu ya kasi kutoka chini inakabiliwa na kamera.</string>
   <string name="drone_emergency_title">Dharura</string>
   <!--  -->
@@ -929,12 +946,18 @@
   <string name="error_upload_default_project">Hauwezi kupakia programu hii kwasababu ni sawa na \'Programu yangu ya kwanza\'. Tafadhali iboreshe, na jaribu tena.</string>
   <string name="error_adding_brick">Kosa limetokea wakati wa kuongeza tofali hili.</string>
   <string name="error_copying_brick">Kosa limetokea wakati wa kunakili tofali hili.</string>
-  <string name="error_no_drone_connected_title">Haiwezi kupata AR.Ndegenyuki.</string>
-  <string name="error_no_drone_connected">Uunganisha wifi yako kwenye AR.Ndegenyuki na jaribu tena.</string>
-  <string name="error_drone_low_battery_title">Betri ya Ndegenyuki iko chini:%d%%</string>
+  <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
+  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
+  <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
   <string name="error_drone_low_battery">Chomeka betri iliyochagiwa na jaribu tena.</string>
-  <string name="error_drone_wrong_platform_title">Hakuna msaada wa AR.Ndegenyuki.</string>
-  <string name="error_drone_wrong_platform">Hatuwezi kuendesha mradi wa AR.Ndegenyuki kwenye kifaa chako.</string>
+  <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
+  <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
+  <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
+  <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+  <string name="error_jumpingsumo_battery">Chomeka betri iliyochagiwa na jaribu tena.</string>
+  <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
+  <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
+  <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
   <string name="error_rename_incompatible_project">Haiwezekani kuita jina jipya wa mradi usiopatanifu.</string>
   <string name="error_unpack_scene_with_different_resolution">Tahadhari! maazimio tofauti yamegunduliwa.</string>
   <string name="error_unknown_error">Kosa lisilojulikana limetokea.</string>
@@ -1013,7 +1036,6 @@
   <string name="preference_disable_nxt_info_dialog">Lemaza taarifa ongezi</string>
   <string name="preference_disable_nxt_info_dialog_description">Vipimo Programu maalum NXT hazionyeshwi unapofungua programu.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Ramani ya NXT Vihisio katika bandari ni programu maalum na inaweza tu kusakinishwa kwa programu zilizofunguliwa!</string>
-  <string name="preference_title_drone_properties_setting_description">Uteuzi wa rubani usanidi sifa ni programu maalum na inaweza kusanikiwa tu ndani ya programu.</string>
   <string name="lego_nxt_sensor_config_info_text">Programu ya sasa hutumia matofali ya Lego Mindstorms NXT au Vihisio. Kwa ajili ya utendaji sahihi Tafadhali kuunganisha Vihisio ya robot kama ifuatavyo</string>
   <string name="nxt_port_1">Bandari 1</string>
   <string name="nxt_port_2">Bandari 2</string>
@@ -1064,29 +1086,74 @@
 </string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">paisha/shusha</string>
-  <string name="brick_drone_play_led_animation">chezesha mwanga tuli</string>
-  <string name="brick_drone_move_left">Sogeza kushoto</string>
-  <string name="brick_drone_move_right">Sogeza kulia</string>
-  <string name="brick_drone_move_forward">Sogeza mbele</string>
-  <string name="brick_drone_move_backward">Sogeza nyuma</string>
-  <string name="brick_drone_move_up">Sogeza juu</string>
-  <string name="brick_drone_move_down">Sogeza chini</string>
-  <string name="brick_drone_flip">Geuza</string>
-  <string name="brick_drone_emergency">Dharura</string>
-  <string name="brick_drone_turn_right">Geuka kulia</string>
-  <string name="brick_drone_turn_left">Geuka kushoto</string>
-  <string name="brick_drone_turn_left_magneto">Geuka[pembe] kushoto</string>
-  <string name="brick_drone_turn_right_magneto">Geuka[pembe] kulia</string>
-  <string name="brick_drone_angle">Pembe</string>
-  <string name="brick_drone_set_config">Seti usanidi</string>
-  <string name="brick_drone_switch_camera">Badili  kwa Kamera</string>
-  <string name="brick_drone_set_altitude">Ukomo wa mwinuko</string>
+  <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
+  <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+  <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
+  <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
+  <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
+  <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
+  <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
+  <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
+  <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
+  <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
+  <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
+  <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
+  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
+  <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
+  <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
+  <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
+  <string name="brick_drone_set_altitude">Altitude limit </string>
   <string name="brick_drone_set_vertical_speed">Kidhibiti mwendokasi wima</string>
   <string name="brick_drone_set_rotation_speed">Kidhibiti kasi mzunguko</string>
   <string name="brick_drone_set_tilt_limit">Geuza kikomo</string>
-  <string name="brick_drone_with">na</string>
+  <string name="brick_drone_with">seconds with</string>
   <string name="brick_drone_percent_power">nguvu</string>
+  <!--  -->
+  <!-- Jumping Sumo Bricks -->
+  <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
+  <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
+  <string name="brick_jumping_sumo_percent_power">% power</string>
+  <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
+  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+  <string name="brick_jumping_sumo_sound">Sauti</string>
+  <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
+  <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
+  <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
+  <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+  <string name="brick_jumping_sumo_rotate_text">°</string>
+  <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+  <!--  -->
+  <!-- defaultJumpingSumoValues -->
+  <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+  <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+  <string name="default_jumping_sumo_project_sprites_forward">Mbele</string>
+  <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
+  <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
+  <string name="default_jumping_sumo_project_sprites_sound">Sauti</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+  <string name="default_jumping_sumo_project_sprites_turn_left">Geuka kushoto</string>
+  <string name="default_jumping_sumo_project_sprites_turn_right">Geuka kulia</string>
+  <string name="default_jumping_sumo_project_sprites_flip">Geuza</string>
+  <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+  <!--  -->
+  <!-- Jumping Sumo animation strings -->
+  <string name="animation_spin">Spin</string>
+  <string name="animation_tab">Tab</string>
+  <string name="animation_slowshake">Slowshake</string>
+  <string name="animation_metronome">Metronome</string>
+  <string name="animation_ondulation">Ondulation</string>
+  <string name="animation_spinjump">Spinjump</string>
+  <string name="animation_spiral">Spiral</string>
+  <string name="animation_slalom">Slalom</string>
+  <!-- Jumping Sumo sound strings -->
+  <string name="jumping_sumo_volume">Kiasi</string>
+  <string name="sound_default">Normal</string>
+  <string name="sound_robot">Robot</string>
+  <string name="sound_insect">Insect</string>
+  <string name="sound_monster">Monster</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
@@ -1420,8 +1487,8 @@
   <string name="error_merge">Kosa limetokea wakati wa kuunganisha programu hizi</string>
   <string name="error_merge_with_self_scene">Tukio la sasa na tukio ulilochagua yako sawa!</string>
   <string name="error_merge_scene_not_found">Tukio halijaonekana!</string>
-  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected.
-    %1$s has resolution %2$d×%3$d and %4$s has resolution %5$d×%6$d. Using resolution of %1$s.</string>
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
+        has resolution %2$d×%3$d and %4$s has resolution %5$d×%6$d. Using resolution of %1$s.</string>
   <string name="abort">Katiza</string>
   <string name="merge_conflict">Kuunganisha hakuwezekani</string>
   <string name="merge_conflict_variable">Kitofautishi%1$s kinatumika kwenye programu zote. Kama programu zinatumia majina  sawa ya kitofautishi haziwezi kuungana. Tafadhali andika upya jina la kitofautishi kati ya programu moja na jaribu tena.</string>
@@ -1492,5 +1559,21 @@
   <string name="crash_dialog_text">Tafadhali saidia kuboresha programu yetu kwa kututumia ripoti ya matatizo ambayo hayajulikani!</string>
   <string name="crash_dialog_always_send">Tuma kila wakati</string>
   <string name="crash_dialog_send">Tuma</string>
+  <!--  -->
+  <!-- Multilingual List -->
+  <string name="device_language">Device Language</string>
+  <!-- UtilFile SizeUnits String -->
+  <string name="Byte_short">B</string>
+  <string name="KiloByte_short">KB</string>
+  <string name="MegaByte_short">MB</string>
+  <string name="GigaByte_short">GB</string>
+  <string name="TeraByte_short">TB</string>
+  <string name="PetaByte_short">PB</string>
+  <string name="ExaByte_short">EB</string>
+  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
+         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
+         goodies and giveaways from Google and Catrobat for participants!</string>
+  <string name="google_code_in_check_out">Check it out on</string>
+  <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
 </resources>

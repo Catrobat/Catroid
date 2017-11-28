@@ -113,8 +113,12 @@
   <string name="marketing_more_on_google_play">Další aplikace na Google Play</string>
   <!-- Settings activity -->
   <string name="preference_title">Nastavení</string>
-  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bloky</string>
+  <string name="preference_title_language">Language</string>
+  <string name="preference_description_language">Select the language of the app</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
   <string name="preference_description_quadcopter_bricks">Povolit ovládání ARDrone 2.0 quadcopter</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
+  <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">LEGO Mindstorms NXT bloky</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">LEGO Mindstorms EV3 kostky</string>
   <string name="preference_description_mindstorms_nxt_bricks">Povolit ovládání robotů Lego Mindstorms NXT</string>
@@ -129,8 +133,8 @@
   <string name="preference_description_cast_feature_globally_enabled">Show cast button and allow cast project creation</string>
   <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
   <string name="preference_description_nfc_bricks">Povolit použití NFC tagů v programech</string>
-  <string name="preference_description_crash_reports">Povolit automaticky odesílat zprávy o selhání</string>
   <string name="preference_title_enable_crash_reports">Odesílat anonymní zprávy o selhání</string>
+  <string name="preference_description_crash_reports">Povolit automaticky odesílat zprávy o selhání</string>
   <!-- -->
   <string name="preference_description_arduino_bricks">Povolit ovládání Arduino desek</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bloky</string>
@@ -296,8 +300,17 @@
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code podmínky užití a služeb</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">Pokus o použití Pocket Code společně s Parrot AR. Dronem. Důrazně doporučujeme se řídit Parrot podmínkami použití a služeb pro drona a Catrobat podmínky používání pro Pocket Code.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
+        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
+        Catrobat\'s
+        Terms of
+        Use and Services.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Znovu nepřípomínat.</string>
+  <!--  -->
+  <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">About this app</string>
@@ -486,6 +499,8 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech není nainstalován!\nChcete ho nainstalovat?</string>
   <string name="prestage_resource_not_available_title">Komponent není k dispozici.</string>
   <string name="prestage_resource_not_available_text">Tato hra nemůže běžet na tvém zařízení. Následující         komponenty nejsou k dispozici:\n\n</string>
+  <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
+        are the only Controller for the Drone.</string>
   <string name="prestage_no_flash_available">\u2022 Blesk\n</string>
   <string name="prestage_no_vibrator_available">\u2022 Vibrace\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 Senzor zrychlení\n</string>
@@ -495,6 +510,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
   <string name="prestage_no_back_camera_available">\u2022 Zadní kamera\n</string>
   <string name="prestage_no_camera_available">\u2022 Rozpoznávání obličeje\n</string>
+  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Přední kamera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Neznámá komponenta\n</string>
   <string name="no_nfc_available">NFC není dostupný</string>
@@ -539,6 +555,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="new_project_empty">Vytvořit prázdný Program</string>
   <string name="new_project_default">Vytvořit příklad Programu</string>
   <string name="new_project_default_drone">Vytvořit příklad Drone Programu</string>
+  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
   <string name="project_orientation_title">Orientace:</string>
   <string name="project_select_screen_title">Screen</string>
   <!--  -->
@@ -633,7 +650,8 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_lego_ev3">LEGO EV3</string>
-  <string name="category_drone">ARDrone</string>
+  <string name="category_drone">AR.Drone 2.0</string>
+  <string name="category_jumping_sumo">Jumping Sumo</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">Arduino</string>
   <string name="category_cast">Cast</string>
@@ -842,8 +860,6 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <!-- defaultDroneValues -->
   <string name="default_drone_project_name">Můj první Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Vzlétnout</string>
-  <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-  <string name="default_drone_project_sprites_rotate">Otočit</string>
   <string name="default_drone_project_sprites_up">Nahoru</string>
   <string name="default_drone_project_sprites_down">Dolů</string>
   <string name="default_drone_project_sprites_left">Nalevo</string>
@@ -910,10 +926,11 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
   <string name="drone_emergency_camera">One or more cameras are not responding.</string>
   <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-  <string name="drone_emergency_angle">AR.Drone Euler angles went too high. Motors shutdown to prevent dangerous behavior.</string>
+  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
+        behavior.</string>
   <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
   <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
-  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
+  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
   <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
   <string name="drone_emergency_title">Pohotovost</string>
   <!--  -->
@@ -947,12 +964,18 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="error_upload_default_project">Tento program nelze nahrát, protože je to stejné jako \"Můj první program\". Prosím změňte jej a akci opakujte.</string>
   <string name="error_adding_brick">Došlo k chybě při přidávání bloku</string>
   <string name="error_copying_brick">Došlo k chybě při kopírování bloku</string>
-  <string name="error_no_drone_connected_title">Nelze najít ARDrone</string>
-  <string name="error_no_drone_connected">Připojte wifi k ARDrone a opakujte akci.</string>
-  <string name="error_drone_low_battery_title">Dorne baterie je skoro vybitá %d%%</string>
+  <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
+  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
+  <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
   <string name="error_drone_low_battery">Vlože nabitou baterii a opakujte akci.</string>
-  <string name="error_drone_wrong_platform_title">Žádná podpora ARDrone</string>
-  <string name="error_drone_wrong_platform">Nelze spustit ARDrone projekt na vašem zařízení.</string>
+  <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
+  <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
+  <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
+  <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+  <string name="error_jumpingsumo_battery">Vlože nabitou baterii a opakujte akci.</string>
+  <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
+  <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
+  <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
   <string name="error_rename_incompatible_project">Přejmenování nekompatibilní projektu není možné.</string>
   <string name="error_unpack_scene_with_different_resolution">Pozor! Zjištěna různá rozlišení.</string>
   <string name="error_unknown_error">Došlo k neznámé chybě.</string>
@@ -1031,7 +1054,6 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="preference_disable_nxt_info_dialog">Zakázat Informační Dialog</string>
   <string name="preference_disable_nxt_info_dialog_description">Program specific NXT settings are not shown when opening a program.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is program specific and can only be configured for opened programs!</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">The current program uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>
@@ -1081,29 +1103,74 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="ev3_led_status_orange_pulse">Oranžový puls</string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">Vzlétnout</string>
-  <string name="brick_drone_play_led_animation">Přehrát blikající animace</string>
-  <string name="brick_drone_move_left">Pohyb vlevo</string>
-  <string name="brick_drone_move_right">Pohyb vpravo</string>
-  <string name="brick_drone_move_forward">Pohyb vpřed</string>
-  <string name="brick_drone_move_backward">Pohyb dozadu</string>
-  <string name="brick_drone_move_up">Přesunout nahoru</string>
-  <string name="brick_drone_move_down">Přesunout dolů</string>
-  <string name="brick_drone_flip">Překlopit</string>
-  <string name="brick_drone_emergency">Pohotovost</string>
-  <string name="brick_drone_turn_right">Zatočit vpravo</string>
-  <string name="brick_drone_turn_left">Zatočit vlevo</string>
-  <string name="brick_drone_turn_left_magneto">Otočit vlevo [Úhel]</string>
-  <string name="brick_drone_turn_right_magneto">Otočit vpravo [Úhel]</string>
-  <string name="brick_drone_angle">Úhel</string>
-  <string name="brick_drone_set_config">Uložit konfiguraci</string>
-  <string name="brick_drone_switch_camera">Přepnout kameru drona</string>
-  <string name="brick_drone_set_altitude">Limit nadmořské výšky</string>
+  <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
+  <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+  <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
+  <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
+  <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
+  <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
+  <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
+  <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
+  <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
+  <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
+  <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
+  <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
+  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
+  <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
+  <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
+  <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
+  <string name="brick_drone_set_altitude">Altitude limit </string>
   <string name="brick_drone_set_vertical_speed">Limit vertikální rychlosti</string>
   <string name="brick_drone_set_rotation_speed">Limit rychlosti otáčení</string>
   <string name="brick_drone_set_tilt_limit">Limit náklonu</string>
-  <string name="brick_drone_with">s</string>
+  <string name="brick_drone_with">seconds with</string>
   <string name="brick_drone_percent_power">síla</string>
+  <!--  -->
+  <!-- Jumping Sumo Bricks -->
+  <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
+  <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
+  <string name="brick_jumping_sumo_percent_power">% power</string>
+  <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
+  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+  <string name="brick_jumping_sumo_sound">Zvuk</string>
+  <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
+  <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
+  <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
+  <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+  <string name="brick_jumping_sumo_rotate_text">°</string>
+  <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+  <!--  -->
+  <!-- defaultJumpingSumoValues -->
+  <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+  <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+  <string name="default_jumping_sumo_project_sprites_forward">Dopředu</string>
+  <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
+  <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
+  <string name="default_jumping_sumo_project_sprites_sound">Zvuk</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+  <string name="default_jumping_sumo_project_sprites_turn_left">Zatočit vlevo</string>
+  <string name="default_jumping_sumo_project_sprites_turn_right">Zatočit vpravo</string>
+  <string name="default_jumping_sumo_project_sprites_flip">Překlopit</string>
+  <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+  <!--  -->
+  <!-- Jumping Sumo animation strings -->
+  <string name="animation_spin">Spin</string>
+  <string name="animation_tab">Tab</string>
+  <string name="animation_slowshake">Slowshake</string>
+  <string name="animation_metronome">Metronome</string>
+  <string name="animation_ondulation">Ondulation</string>
+  <string name="animation_spinjump">Spinjump</string>
+  <string name="animation_spiral">Spiral</string>
+  <string name="animation_slalom">Slalom</string>
+  <!-- Jumping Sumo sound strings -->
+  <string name="jumping_sumo_volume">Hlasitost</string>
+  <string name="sound_default">Normal</string>
+  <string name="sound_robot">Robot</string>
+  <string name="sound_insect">Insect</string>
+  <string name="sound_monster">Monster</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
@@ -1528,5 +1595,21 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
   <string name="crash_dialog_text">Please help to improve our app by sending us anonymous crash reports!</string>
   <string name="crash_dialog_always_send">Always send</string>
   <string name="crash_dialog_send">Odeslat</string>
+  <!--  -->
+  <!-- Multilingual List -->
+  <string name="device_language">Device Language</string>
+  <!-- UtilFile SizeUnits String -->
+  <string name="Byte_short">B</string>
+  <string name="KiloByte_short">KB</string>
+  <string name="MegaByte_short">MB</string>
+  <string name="GigaByte_short">GB</string>
+  <string name="TeraByte_short">TB</string>
+  <string name="PetaByte_short">PB</string>
+  <string name="ExaByte_short">EB</string>
+  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
+         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
+         goodies and giveaways from Google and Catrobat for participants!</string>
+  <string name="google_code_in_check_out">Check it out on</string>
+  <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
 </resources>

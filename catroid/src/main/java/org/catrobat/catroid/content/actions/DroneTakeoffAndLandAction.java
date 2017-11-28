@@ -29,12 +29,15 @@ import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 
 public class DroneTakeoffAndLandAction extends TemporalAction {
 
+	private float duration = 8.0f;
+
 	@Override
 	protected void begin() {
 		super.begin();
 		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
 		if (dcs != null) {
 			dcs.triggerTakeOff();
+			super.setDuration(duration);
 		}
 	}
 
