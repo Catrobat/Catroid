@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -58,6 +59,7 @@ public class ShowDetailsFragment extends Fragment implements SetDescriptionDialo
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View showDetailsFragment = inflater.inflate(R.layout.fragment_project_show_details, container, false);
+		setHasOptionsMenu(true);
 
 		try {
 			projectData = (ProjectData) getArguments().getSerializable(SELECTED_PROJECT_KEY);
@@ -113,6 +115,15 @@ public class ShowDetailsFragment extends Fragment implements SetDescriptionDialo
 		SetDescriptionDialog dialog = new SetDescriptionDialog(R.string.set_description, R.string.description,
 				projectData.project.getDescription(), this);
 		dialog.show(getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		menu.findItem(R.id.delete).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.rename).setVisible(false);
+		menu.findItem(R.id.show_details).setVisible(false);
 	}
 
 	private String getLastAccess() {
