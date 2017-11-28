@@ -61,7 +61,7 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View backPackLookListFragment = inflater.inflate(R.layout.fragment_backpack, container, false);
 		listView = (ListView) backPackLookListFragment.findViewById(android.R.id.list);
-
+		setHasOptionsMenu(true);
 		return backPackLookListFragment;
 	}
 
@@ -137,6 +137,8 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 		super.onPrepareOptionsMenu(menu);
 		if (BackPackListManager.getInstance().getBackPackedLooks().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(false);
+			menu.findItem(R.id.show_details).setVisible(false);
+			menu.findItem(R.id.delete).setVisible(false);
 		}
 	}
 
@@ -200,6 +202,7 @@ public class BackPackLookListFragment extends BackPackActivityFragment implement
 
 	private void deleteLook() {
 		BackPackListManager.getInstance().removeItemFromLookBackPack(lookToEdit);
+		lookAdapter.remove(lookToEdit);
 		checkEmptyBackgroundBackPack();
 		lookAdapter.notifyDataSetChanged();
 	}

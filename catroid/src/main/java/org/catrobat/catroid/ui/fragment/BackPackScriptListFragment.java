@@ -61,7 +61,7 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View backPackScriptListFragment = inflater.inflate(R.layout.fragment_backpack, container, false);
 		listView = (ListView) backPackScriptListFragment.findViewById(android.R.id.list);
-
+		setHasOptionsMenu(true);
 		return backPackScriptListFragment;
 	}
 
@@ -133,6 +133,8 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 		super.onPrepareOptionsMenu(menu);
 		if (BackPackListManager.getInstance().getBackPackedScripts().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(false);
+			menu.findItem(R.id.show_details).setVisible(false);
+			menu.findItem(R.id.delete).setVisible(false);
 		}
 	}
 
@@ -197,8 +199,9 @@ public class BackPackScriptListFragment extends BackPackActivityFragment impleme
 
 	private void deleteScript() {
 		BackPackListManager.getInstance().removeItemFromScriptBackPack(scriptToEdit);
-		checkEmptyBackgroundBackPack();
 		scriptAdapter.remove(scriptToEdit);
+		checkEmptyBackgroundBackPack();
+		scriptAdapter.notifyDataSetChanged();
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {

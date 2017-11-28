@@ -62,7 +62,7 @@ public class BackPackSceneListFragment extends BackPackActivityFragment implemen
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View backPackSceneListFragment = inflater.inflate(R.layout.fragment_backpack, container, false);
 		listView = (ListView) backPackSceneListFragment.findViewById(android.R.id.list);
-
+		setHasOptionsMenu(true);
 		return backPackSceneListFragment;
 	}
 

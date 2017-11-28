@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -63,7 +65,7 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View backPackSoundListFragment = inflater.inflate(R.layout.fragment_sound_backpack, container, false);
 		listView = (ListView) backPackSoundListFragment.findViewById(android.R.id.list);
-
+		setHasOptionsMenu(true);
 		return backPackSoundListFragment;
 	}
 
@@ -144,11 +146,12 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
 		if (BackPackListManager.getInstance().getBackPackedSounds().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(false);
+			menu.findItem(R.id.show_details).setVisible(false);
+			menu.findItem(R.id.delete).setVisible(false);
 		}
-
-		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -172,7 +175,7 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 				unpackCheckedItems(true);
 				break;
 			case R.id.context_menu_delete:
-				deleteCheckedItems(true);
+				showDeleteDialog(true);
 				break;
 		}
 		return super.onContextItemSelected(item);
@@ -199,10 +202,32 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 
 	@Override
 	protected void showDeleteDialog(boolean singleItem) {
+		int titleId;
+		if (soundAdapter.getCheckedItems().size() == 1 || singleItem) {
+			titleId = R.string.dialog_confirm_delete_sound_title;
+		} else {
+			titleId = R.string.dialog_confirm_delete_multiple_sounds_title;
+		}
+		showDeleteDialog(titleId, singleItem);
 	}
 
 	@Override
 	protected void deleteCheckedItems(boolean singleItem) {
+		if (singleItem) {
+			deleteSound();
+			return;
+		}
+		for (SoundInfo sound : soundAdapter.getCheckedItems()) {
+			soundInfoToEdit = sound;
+			deleteSound();
+		}
+	}
+
+	private void deleteSound() {
+		BackPackListManager.getInstance().removeItemFromSoundBackPack(soundInfoToEdit);
+		soundAdapter.remove(soundInfoToEdit);
+		checkEmptyBackgroundBackPack();
+		soundAdapter.notifyDataSetChanged();
 	}
 
 	protected void unpackCheckedItems(boolean singleItem) {
@@ -219,6 +244,16 @@ public class BackPackSoundListFragment extends BackPackActivityFragment implemen
 		showUnpackingCompleteToast(soundAdapter.getCheckedItems().size());
 		clearCheckedItems();
 		getActivity().finish();
+	}
+
+	protected void checkEmptyBackgroundBackPack() {
+		if (soundAdapter.isEmpty()) {
+			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.fragment_sound_text_heading);
+			emptyViewHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
+			emptyViewHeading.setText(R.string.backpack);
+			TextView emptyViewDescription = (TextView) getActivity().findViewById(R.id.fragment_sound_text_description);
+			emptyViewDescription.setText(R.string.is_empty);
+		}
 	}
 
 	private void unpackSound() {

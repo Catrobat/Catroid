@@ -129,6 +129,7 @@ public final class BackPackListManager {
 		for (LookData lookData : getBackpack().backpackedLooks) {
 			if (lookData.getLookName().equals(name)) {
 				getBackpack().backpackedLooks.remove(lookData);
+				return;
 			}
 		}
 	}
@@ -146,7 +147,7 @@ public final class BackPackListManager {
 		getBackpack().backpackedSounds.add(soundInfo);
 	}
 
-	void removeItemFromSoundBackPack(SoundInfo currentSoundInfo) {
+	public void removeItemFromSoundBackPack(SoundInfo currentSoundInfo) {
 		getBackpack().backpackedSounds.remove(currentSoundInfo);
 	}
 
@@ -154,6 +155,7 @@ public final class BackPackListManager {
 		for (SoundInfo soundInfo : getBackpack().backpackedSounds) {
 			if (soundInfo.getTitle().equals(title)) {
 				getBackpack().backpackedSounds.remove(soundInfo);
+				return;
 			}
 		}
 	}
