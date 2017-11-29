@@ -61,7 +61,7 @@ public class HideTextAction extends TemporalAction {
 					ShowTextActor showTextActor = (ShowTextActor) actor;
 					if (showTextActor.getVariableNameToCompare().equals(variableToHide.getName())
 							&& showTextActor.getSprite().equals(sprite)
-							&& (userBrick != null ? showTextActor.getUserBrick().equals(userBrick) : true)) {
+							&& (userBrick == null || showTextActor.getUserBrick().equals(userBrick))) {
 						actor.remove();
 					}
 				}

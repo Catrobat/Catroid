@@ -174,9 +174,9 @@ public class ProgramMenuActivity extends BaseActivity {
 
 			Intent intent;
 			if (DroneServiceWrapper.checkARDroneAvailability()) {
-				intent = new Intent(ProgramMenuActivity.this, DroneStageActivity.class);
+				intent = new Intent(this, DroneStageActivity.class);
 			} else {
-				intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
+				intent = new Intent(this, StageActivity.class);
 			}
 			startActivity(intent);
 		}

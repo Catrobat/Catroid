@@ -187,7 +187,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability()) {
 			CatroidApplication.loadSDKLib();
 			if (CatroidApplication.parrotJSLibrariesLoaded) {
-				JumpingSumoServiceWrapper.initJumpingSumo(PreStageActivity.this);
+				JumpingSumoServiceWrapper.initJumpingSumo(this);
 			}
 		}
 
@@ -332,7 +332,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		if (RaspberryPiService.getInstance().connect(host, port)) {
 			resourceInitialized();
 		} else {
-			ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
+			ToastUtil.showError(this, "Error: connecting to " + host + ":" + port + " failed");
 			resourceFailed();
 		}
 	}
@@ -645,7 +645,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	private void nfcInitialize() {
 		NfcAdapter adapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
 		if (adapter != null && !adapter.isEnabled()) {
-			ToastUtil.showError(PreStageActivity.this, R.string.nfc_not_activated);
+			ToastUtil.showError(this, R.string.nfc_not_activated);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
 				startActivity(intent);
@@ -654,7 +654,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 				startActivity(intent);
 			}
 		} else if (adapter == null) {
-			ToastUtil.showError(PreStageActivity.this, R.string.no_nfc_available);
+			ToastUtil.showError(this, R.string.no_nfc_available);
 			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
 		}
 		resourceInitialized();

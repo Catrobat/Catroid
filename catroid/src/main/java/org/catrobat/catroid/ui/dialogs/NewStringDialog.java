@@ -81,7 +81,7 @@ public class NewStringDialog extends DialogFragment {
 				}).create();
 		newStringEditText = (EditText) dialogView.findViewById(R.id.formula_editor_string_name_edit_text);
 
-		if (previousFormulaString != null && !previousFormulaString.trim().isEmpty()) {
+		if (previousFormulaString != null && !previousFormulaString.matches("\\s*")) {
 			newStringDialog.setTitle(R.string.formula_editor_dialog_change_text);
 			newStringEditText.setText(previousFormulaString);
 		}
@@ -106,7 +106,7 @@ public class NewStringDialog extends DialogFragment {
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		if (formulaEditor != null) {
 
-			if (previousFormulaString != null && !previousFormulaString.trim().isEmpty()) {
+			if (previousFormulaString != null && !previousFormulaString.matches("\\s*")) {
 				formulaEditor.overrideSelectedText(userInput);
 			} else {
 				formulaEditor.addStringToActiveFormula(userInput);

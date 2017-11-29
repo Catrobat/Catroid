@@ -30,9 +30,7 @@
 
     <rule ref="rulesets/java/android.xml" />
 
-    <rule ref="rulesets/java/basic.xml" >
-        <exclude name="UselessParentheses" />
-    </rule >
+    <rule ref="rulesets/java/basic.xml" />
 
     <rule ref="rulesets/java/braces.xml" />
 
@@ -42,7 +40,6 @@
         <exclude name="AvoidFinalLocalVariable" />
         <exclude name="AvoidPrefixingMethodParameters" />
         <exclude name="AvoidLiteralsInIfCondition" />
-        <exclude name="BooleanInversion" />
         <exclude name="CallSuperInConstructor" />
         <exclude name="DataflowAnomalyAnalysis" />
         <exclude name="NullAssignment" />

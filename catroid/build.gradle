@@ -218,10 +218,14 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.8.47'
 
-    pmd 'net.sourceforge.pmd:pmd:5.1.1'
+    pmd(
+            'net.sourceforge.pmd:pmd-core:5.8.1',
+            'net.sourceforge.pmd:pmd-java:5.8.1'
+    )
+
     checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
+        transitive = true
     }
 }
 
