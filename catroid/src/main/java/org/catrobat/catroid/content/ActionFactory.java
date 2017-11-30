@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.DroneEmergencyAction;
+import org.catrobat.catroid.content.actions.DroneFlipAction;
 import org.catrobat.catroid.content.actions.DroneMoveBackwardAction;
 import org.catrobat.catroid.content.actions.DroneMoveDownAction;
 import org.catrobat.catroid.content.actions.DroneMoveForwardAction;
@@ -862,6 +863,10 @@ public class ActionFactory extends Actions {
 
 	public Action createDroneTakeOffAndLandAction() {
 		return action(DroneTakeoffAndLandAction.class);
+	}
+
+	public Action createDroneFlipAction() {
+		return action(DroneFlipAction.class);
 	}
 
 	public Action createDroneMoveUpAction(Sprite sprite, Formula seconds, Formula powerInPercent) {

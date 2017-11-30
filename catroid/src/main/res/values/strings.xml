@@ -129,7 +129,7 @@
     <string name="preference_description_mindstorms_ev3_bricks">Allow to control Lego Mindstorms EV3 robots</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
     <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 sensors</string>
-    <string name="preference_title_drone_config_properties">Drone configuration properties</string>
+    <string name="preference_title_drone_config_properties">AR.Drone 2.0 configuration properties</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
     <string name="preference_description_phiro_bricks">Allow to control Phiro robots</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
@@ -325,16 +325,14 @@
     <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Services</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
-        Catrobat\'s
-        Terms of
-        Use and Services.</string>
+        Catrobat\'s Terms of Use and Services.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
     <!--  -->
 
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
-        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
-        use for Pocket Code.</string>
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to
+        Catrobat\'s Terms of Use for Pocket Code.</string>
     <!--  -->
 
     <!-- About Dialog -->
@@ -549,8 +547,8 @@
     <string name="prestage_resource_not_available_title">Component not available</string>
     <string name="prestage_resource_not_available_text">This program cannot be run on your device. The following
         components are unavailable:\n\n</string>
-    <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
-        are the only Controller for the Drone.</string>
+    <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Be sure, you
+        are the only controller for the drone.</string>
     <string name="prestage_no_flash_available">\u2022 Flash\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
@@ -595,7 +593,7 @@
     <string name="add_look_media_library">Media Library</string>
     <string name="new_look_name">Look name:</string>
     <string name="look_rename_overwrite">A look with this name already exists. Please choose a different one!</string>
-    <string name="add_look_drone_video">Drone Video</string>
+    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
     <!--  -->
 
     <!-- New Sound dialog -->
@@ -612,8 +610,8 @@
     <string name="new_project_name">Program name</string>
     <string name="new_project_empty">Create empty program</string>
     <string name="new_project_default">Create example program</string>
-    <string name="new_project_default_drone">Create example Drone program</string>
-    <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
+    <string name="new_project_default_drone">Create example AR.Drone 2.0 program</string>
+    <string name="new_project_default_jumping_sumo">Create example Jumping Sumo program</string>
     <string name="project_orientation_title">Orientation:</string>
     <string name="project_select_screen_title">Screen</string>
     <!--  -->
@@ -949,9 +947,9 @@
 
 
     <!-- defaultDroneValues -->
-    <string name="default_drone_project_name">My first Drone program</string>
+    <string name="default_drone_project_name">My first AR.Drone 2.0 program</string>
     <string name="default_drone_project_sprites_takeoff">Take off</string>
-
+    <string name="default_drone_project_sprites_flip">Flip</string>
     <string name="default_drone_project_sprites_up">Up</string>
     <string name="default_drone_project_sprites_down">Down</string>n
     <string name="default_drone_project_sprites_left">Left</string>
@@ -1226,6 +1224,7 @@
     <!-- Drone Bricks -->
     <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
     <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+    <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
     <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
     <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
     <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
@@ -1253,7 +1252,7 @@
     <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
     <string name="brick_jumping_sumo_percent_power">% power</string>
     <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-    <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+    <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
     <string name="brick_jumping_sumo_sound">Sound</string>
     <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
@@ -1261,23 +1260,23 @@
     <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
     <string name="brick_jumping_sumo_rotate_text">°</string>
     <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
-    <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+    <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->
 
     <!-- defaultJumpingSumoValues -->
     <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+    <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
     <string name="default_jumping_sumo_project_sprites_forward">Forward</string>
     <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
     <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
     <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+    <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
     <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
     <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
     <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
     <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
     <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
-    <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+    <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
     <!--  -->
 
     <!-- Jumping Sumo animation strings -->
