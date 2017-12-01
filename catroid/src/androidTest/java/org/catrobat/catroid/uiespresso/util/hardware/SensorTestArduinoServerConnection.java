@@ -30,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import static junit.framework.Assert.assertFalse;
@@ -56,14 +57,13 @@ public final class SensorTestArduinoServerConnection {
 	private static final int GET_LIGHT_VALUE_ID = 2;
 	private static final int CALIBRATE_VIBRATION_SENSOR_ID = 3;
 	private static final int GET_AUDIO_VALUE_ID = 4;
-	public static final int SET_LED_ON_VALUE = 1;
 
+	public static final int SET_LED_ON_VALUE = 1;
 	public static final int SET_LED_OFF_VALUE = 0;
 	public static final int SET_VIBRATION_ON_VALUE = 1;
-
 	public static final int SET_VIBRATION_OFF_VALUE = 0;
-
 	public static final int SET_AUDIO_ON_VALUE = 1;
+	public static final int SET_AUDIO_OFF_VALUE = 0;
 	public static final int NETWORK_DELAY_MS = 400;
 	public static final int SOCKET_TIMEOUT = 2000;
 
@@ -72,8 +72,8 @@ public final class SensorTestArduinoServerConnection {
 
 	public static void connectToArduinoServer() throws IOException {
 		Log.d(TAG, "Trying to connect to server...");
-		clientSocket = new Socket(ARDUINO_SERVER_IP, SERVER_PORT);
-		clientSocket.setSoTimeout(SOCKET_TIMEOUT);
+		clientSocket = new Socket();
+		clientSocket.connect(new InetSocketAddress(ARDUINO_SERVER_IP, SERVER_PORT), SOCKET_TIMEOUT);
 
 		Log.d(TAG, "Connected to: " + ARDUINO_SERVER_IP + " on port " + SERVER_PORT);
 		sendToServer = new DataOutputStream(clientSocket.getOutputStream());
