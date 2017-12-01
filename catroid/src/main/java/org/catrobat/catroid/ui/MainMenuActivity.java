@@ -324,7 +324,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			Log.d("STANDALONE", "onLoadProjectSucess -> startStage");
 			startStageProject();
 		} else if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
-			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
+			Intent intent = new Intent(this, ProjectActivity.class);
 			startActivity(intent);
 		}
 	}
@@ -342,7 +342,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent intent = new Intent(MainMenuActivity.this, MyProjectsActivity.class);
+		Intent intent = new Intent(this, MyProjectsActivity.class);
 		startActivity(intent);
 	}
 
@@ -381,7 +381,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 	}
 
 	public void startWebViewActivity(String url) {
-		Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
+		Intent intent = new Intent(this, WebViewActivity.class);
 		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 		startActivity(intent);
 	}
@@ -473,7 +473,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 				SensorHandler.startSensorListener(this);
 
-				Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+				Intent intent = new Intent(this, StageActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

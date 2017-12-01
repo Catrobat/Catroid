@@ -243,7 +243,7 @@ public class WebViewActivity extends BaseActivity {
 	}
 
 	public void createProgressDialog(String mediaName) {
-		progressDialog = new ProgressDialog(WebViewActivity.this);
+		progressDialog = new ProgressDialog(this);
 
 		progressDialog.setTitle(getString(R.string.notification_download_title_pending) + mediaName);
 		progressDialog.setMessage(getString(R.string.notification_download_pending));

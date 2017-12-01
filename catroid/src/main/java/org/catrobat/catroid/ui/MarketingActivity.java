@@ -140,7 +140,7 @@ public class MarketingActivity extends Activity {
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL_HTTPS));
 			startActivity(browserIntent);
 		} else {
-			Intent intent = new Intent(MarketingActivity.this, WebViewActivity.class);
+			Intent intent = new Intent(this, WebViewActivity.class);
 			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 			startActivity(intent);
 		}

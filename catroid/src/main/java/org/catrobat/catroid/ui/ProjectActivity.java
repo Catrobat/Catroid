@@ -141,7 +141,6 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	private void setActionBarTitle() {
-
 		String programName = getString(R.string.app_name);
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
@@ -362,9 +361,9 @@ public class ProjectActivity extends BaseCastActivity {
 			Intent intent;
 			if (data != null) {
 				if (DroneServiceWrapper.checkARDroneAvailability()) {
-					intent = new Intent(ProjectActivity.this, DroneStageActivity.class);
+					intent = new Intent(this, DroneStageActivity.class);
 				} else {
-					intent = new Intent(ProjectActivity.this, StageActivity.class);
+					intent = new Intent(this, StageActivity.class);
 				}
 				startActivity(intent);
 			}

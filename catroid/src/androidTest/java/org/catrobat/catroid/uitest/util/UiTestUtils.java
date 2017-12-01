@@ -418,7 +418,7 @@ public final class UiTestUtils {
 	 * @param value The value you want to put into the EditText
 	 */
 	public static void insertDoubleIntoEditText(Solo solo, double value) {
-		insertValue(solo, new BigDecimal(value).toPlainString());
+		insertValue(solo, new BigDecimal(value).toPlainString());	//NOPMD
 	}
 
 	public static void insertStringIntoEditText(Solo solo, String newValue) {

@@ -278,7 +278,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			ScriptActivity scriptActivity = (ScriptActivity) activity;
 			if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
 					&& scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
-				SoundController.getInstance().switchToScriptFragment(SoundFragment.this, (ScriptActivity) activity);
+				SoundController.getInstance().switchToScriptFragment(this, (ScriptActivity) activity);
 			}
 		}
 	}
@@ -446,7 +446,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 					scriptActivity.getScriptFragment().handleAddButton();
 				}
 			});
-			SoundController.getInstance().switchToScriptFragment(SoundFragment.this, (ScriptActivity) activity);
+			SoundController.getInstance().switchToScriptFragment(this, (ScriptActivity) activity);
 		}
 		ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(false);
 	}
@@ -901,7 +901,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			case KeyEvent.KEYCODE_BACK:
 				ScriptActivity scriptActivity = (ScriptActivity) getActivity();
 				if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()) {
-					SoundController.getInstance().switchToScriptFragment(SoundFragment.this, (ScriptActivity) activity);
+					SoundController.getInstance().switchToScriptFragment(this, (ScriptActivity) activity);
 
 					return true;
 				}

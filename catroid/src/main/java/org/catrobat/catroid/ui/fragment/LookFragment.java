@@ -424,7 +424,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			ScriptActivity scriptActivity = (ScriptActivity) activity;
 			if (scriptActivity.getIsLookFragmentFromSetLookBrickNew()
 					&& scriptActivity.getIsLookFragmentHandleAddButtonHandled()) {
-				LookController.getInstance().switchToScriptFragment(LookFragment.this, (ScriptActivity) activity);
+				LookController.getInstance().switchToScriptFragment(this, (ScriptActivity) activity);
 			}
 		}
 	}

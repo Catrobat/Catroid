@@ -76,7 +76,7 @@ public class ShowTextAction extends TemporalAction {
 						ShowTextActor showTextActor = (ShowTextActor) actor;
 						if (showTextActor.getVariableNameToCompare().equals(variableToShow.getName())
 								&& showTextActor.getSprite().equals(sprite)
-								&& (userBrick != null ? showTextActor.getUserBrick().equals(userBrick) : true)) {
+								&& (userBrick == null || showTextActor.getUserBrick().equals(userBrick))) {
 							actor.remove();
 						}
 					}

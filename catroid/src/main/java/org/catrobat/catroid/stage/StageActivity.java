@@ -246,7 +246,7 @@ public class StageActivity extends AndroidApplication {
 	public void onBackPressed() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			PreStageActivity.shutdownPersistentResources();
-			Intent marketingIntent = new Intent(StageActivity.this, MarketingActivity.class);
+			Intent marketingIntent = new Intent(this, MarketingActivity.class);
 			startActivity(marketingIntent);
 			finish();
 		} else {
