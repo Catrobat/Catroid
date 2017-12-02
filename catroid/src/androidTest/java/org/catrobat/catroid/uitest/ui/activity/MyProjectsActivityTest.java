@@ -1841,7 +1841,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		boolean screenshotExists = ProjectManager.getInstance().getCurrentProject()
 				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION);
-		assertEquals("there should be no manual screenshot", true, screenshotExists);
+		assertTrue("there should be no manual screenshot", screenshotExists);
 		playTheProject(false, false, false); // green to green
 		byte[] greenPixel1 = createScreenshotBitmap();
 
@@ -1854,7 +1854,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
 				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION);
-		assertEquals("there should be no manual screenshot", true, screenshotExists);
+		assertTrue("there should be no manual screenshot", screenshotExists);
 		playTheProject(true, false, false); // green to red
 		byte[] redPixel1 = createScreenshotBitmap();
 		assertTrue("The extracted pixel was not red", UiTestUtils.comparePixelRgbaArrays(redPixel, redPixel1));
@@ -1863,7 +1863,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
 				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION);
-		assertEquals("there should be no manual screenshot", true, screenshotExists);
+		assertTrue("there should be no manual screenshot", screenshotExists);
 		playTheProject(false, true, true); // red to green + screenshot
 		byte[] greenPixel2 = createScreenshotBitmap();
 		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel2));
@@ -1872,7 +1872,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
 				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION);
-		assertEquals("there should be a manual screenshot", false, screenshotExists);
+		assertFalse("there should be a manual screenshot", screenshotExists);
 		playTheProject(true, false, false); // green to red, screenshot must stay green
 		byte[] greenPixel3 = createScreenshotBitmap();
 		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel3));

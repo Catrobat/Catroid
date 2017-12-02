@@ -508,7 +508,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int numberSoundsAfter = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
 		assertEquals("No Sound was added from Media Library!", expectedNumberOfSounds, numberSoundsAfter);
 		String newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore).getTitle();
-		assertEquals("Temp File for " + newSoundName + " was not deleted!", false, UiTestUtils
+		assertFalse("Temp File for " + newSoundName + " was not deleted!", UiTestUtils
 				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
 		solo.sleep(TIME_TO_WAIT);
 
@@ -543,7 +543,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("Sound was added from Media Library!", expectedNumberOfSounds, numberSoundsAfter);
 		newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore)
 				.getTitle();
-		assertEquals("Temp File for " + newSoundName + " was not deleted!", false, UiTestUtils
+		assertFalse("Temp File for " + newSoundName + " was not deleted!", UiTestUtils
 				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
 		solo.sleep(TIME_TO_WAIT);
 
@@ -572,11 +572,11 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		numberSoundsAfter = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
 		assertEquals("Second Sound was not added from Media Library!", expectedNumberOfSounds, numberSoundsAfter);
 		newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore).getTitle();
-		assertEquals("Temp File for " + newSoundName + " was not deleted!", false, UiTestUtils
+		assertFalse("Temp File for " + newSoundName + " was not deleted!", UiTestUtils
 				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
 		newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(expectedNumberOfSounds - 1)
 				.getTitle();
-		assertEquals("Temp File for  " + newSoundName + " was not deleted!(", false, UiTestUtils
+		assertFalse("Temp File for  " + newSoundName + " was not deleted!(", UiTestUtils
 				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
 	}
 

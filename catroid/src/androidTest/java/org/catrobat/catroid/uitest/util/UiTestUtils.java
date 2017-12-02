@@ -2359,7 +2359,7 @@ public final class UiTestUtils {
 	}
 
 	public static void waitForText(Solo solo, String text) {
-		assertEquals("Text not found!", true, solo.waitForText(text, 0, 3000));
+		assertTrue("Text not found!", solo.waitForText(text, 0, 3000));
 	}
 
 	public static void switchToFragmentInScriptActivity(Solo solo, int fragmentIndex) {
@@ -2450,7 +2450,7 @@ public final class UiTestUtils {
 
 		//check if hint is set
 		String hintString = addNewSpriteEditText.getHint().toString();
-		assertEquals("Not the proper hint set", true, hintString.startsWith(spriteName));
+		assertTrue("Not the proper hint set", hintString.startsWith(spriteName));
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.enterText(0, spriteName);
 	}
@@ -2470,17 +2470,17 @@ public final class UiTestUtils {
 
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForDialogToClose();
-		assertEquals("Not in expected object", true, solo.waitForText(spriteName, 0, 500));
-		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.scripts), 0, 500));
+		assertTrue("Not in expected object", solo.waitForText(spriteName, 0, 500));
+		assertTrue("Not in expected fragment", solo.waitForText(solo.getString(R.string.scripts), 0, 500));
 		solo.goBack();
 		solo.waitForActivity(ProgramMenuActivity.class);
-		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.scripts), 0, 500));
-		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.looks), 0, 500));
-		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.sounds), 0, 500));
+		assertTrue("Not in expected fragment", solo.waitForText(solo.getString(R.string.scripts), 0, 500));
+		assertTrue("Not in expected fragment", solo.waitForText(solo.getString(R.string.looks), 0, 500));
+		assertTrue("Not in expected fragment", solo.waitForText(solo.getString(R.string.sounds), 0, 500));
 		solo.goBack();
 		hidePocketPaintDialog(solo);
 		solo.waitForFragmentById(R.id.fragment_container);
-		assertEquals("Not in expected fragment", true,
+		assertTrue("Not in expected fragment",
 				solo.waitForText(ProjectManager.getInstance().getCurrentProject().getName(), 0, 500));
 	}
 

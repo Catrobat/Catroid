@@ -38,6 +38,7 @@ import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.io.File;
 
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class PhysicsBaseTest extends InstrumentationTestCase {
 
 	protected Sprite sprite;

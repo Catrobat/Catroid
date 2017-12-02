@@ -37,7 +37,8 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class SensorLoudnessTest {
@@ -60,8 +61,8 @@ public class SensorLoudnessTest {
 		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
 
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		assertEquals("LoudnessSensor not startet recording, isRecording()", true, simSoundRec.isRecording());
+		assertTrue("LoudnessSensor not startet recording, isRecording()", simSoundRec.isRecording());
 		SensorHandler.stopSensorListeners();
-		assertEquals("LoudnessSensor not stopped recording, isRecording()", false, simSoundRec.isRecording());
+		assertFalse("LoudnessSensor not stopped recording, isRecording()", simSoundRec.isRecording());
 	}
 }
