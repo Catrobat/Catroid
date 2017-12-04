@@ -68,7 +68,7 @@ public class WebViewActivity extends BaseActivity {
 	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	private WebView webView;
-	private boolean callMainMenu = false;
+	private boolean allowGoBack = false;
 	private String url;
 	private String callingActivity;
 	private ProgressDialog progressDialog;
@@ -162,7 +162,7 @@ public class WebViewActivity extends BaseActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-			callMainMenu = false;
+			allowGoBack = false;
 			webView.goBack();
 			return true;
 		}
@@ -172,23 +172,21 @@ public class WebViewActivity extends BaseActivity {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
-			if (webViewLoadingDialog == null) {
+			if (webViewLoadingDialog == null && !allowGoBack) {
 				webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
 				webViewLoadingDialog.setCancelable(true);
 				webViewLoadingDialog.setCanceledOnTouchOutside(false);
 				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 				webViewLoadingDialog.show();
-			}
-
-			if (callMainMenu && urlClient.equals(Constants.BASE_URL_HTTPS)) {
-				Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
-				startActivity(intent);
+			} else if (allowGoBack && urlClient.equals(Constants.BASE_URL_HTTPS)) {
+				allowGoBack = false;
+				onBackPressed();
 			}
 		}
 
 		@Override
 		public void onPageFinished(WebView view, String url) {
-			callMainMenu = true;
+			allowGoBack = true;
 			if (webViewLoadingDialog != null) {
 				webViewLoadingDialog.dismiss();
 				webViewLoadingDialog = null;
