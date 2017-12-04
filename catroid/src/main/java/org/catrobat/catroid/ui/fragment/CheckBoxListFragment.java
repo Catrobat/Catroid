@@ -53,8 +53,6 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 	protected String singleItemTitle;
 	protected String multipleItemsTitle;
 
-	protected boolean isRenameActionMode = false;
-
 	protected CapitalizedTextView selectAllView;
 
 	@Override
@@ -109,7 +107,7 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 
 	@Override
 	public void onItemChecked() {
-		if (isRenameActionMode || actionMode == null || actionModeTitle == null) {
+		if (actionMode == null) {
 			return;
 		}
 		updateActionModeTitle();
@@ -117,6 +115,10 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 	}
 
 	protected void updateActionModeTitle() {
+		if (getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
+			return;
+		}
+
 		int numberOfSelectedItems = adapter.getCheckedItems().size();
 
 		if (numberOfSelectedItems == 0) {
@@ -162,6 +164,9 @@ public abstract class CheckBoxListFragment extends ListFragment implements Check
 	}
 
 	protected void updateSelectAllView() {
+		if (getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
+			return;
+		}
 		if (areAllItemsChecked()) {
 			selectAllView.setText(R.string.deselect_all);
 		} else {

@@ -116,10 +116,9 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_SINGLE);
+			actionModeTitle = getString(R.string.rename);
+			mode.setTitle(actionModeTitle);
 
-			mode.setTitle(R.string.rename);
-
-			isRenameActionMode = true;
 			return true;
 		}
 
@@ -130,7 +129,6 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			isRenameActionMode = false;
 			if (adapter.getCheckedItems().isEmpty()) {
 				clearCheckedItems();
 			} else {
@@ -205,7 +203,6 @@ public abstract class ListActivityFragment extends CheckBoxListFragment implemen
 		} else {
 			actionMode = getActivity().startActionMode(actionModeCallback);
 			BottomBar.hideBottomBar(getActivity());
-			isRenameActionMode = actionModeCallback.equals(renameModeCallBack);
 		}
 	}
 
