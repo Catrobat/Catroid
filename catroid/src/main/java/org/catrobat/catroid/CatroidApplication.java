@@ -117,7 +117,7 @@ public class CatroidApplication extends MultiDexApplication {
 
 		try {
 			System.loadLibrary("curl");
-			System.loadLibrary("json-c");
+			System.loadLibrary("json");
 			System.loadLibrary("arsal");
 			System.loadLibrary("arsal_android");
 			System.loadLibrary("arnetworkal");
