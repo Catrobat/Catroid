@@ -167,7 +167,7 @@ android {
         createatschool {
             appId = 'org.catrobat.catroid.createatschool'
             applicationId appId
-            versionCode 13
+            versionCode 14
 
             buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
             buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
@@ -183,7 +183,7 @@ android {
         phiro {
             appId = 'org.catrobat.catroid.phiro'
             applicationId appId
-            versionCode 5
+            versionCode 6
 
             buildConfigField "boolean", "PHIRO_CODE", "true"
 
