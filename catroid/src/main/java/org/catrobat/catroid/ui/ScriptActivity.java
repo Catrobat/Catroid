@@ -144,6 +144,7 @@ public class ScriptActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SettingsActivity.setToChosenLanguage(this);
 		setContentView(R.layout.activity_script);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		currentFragmentPosition = FRAGMENT_SCRIPTS;

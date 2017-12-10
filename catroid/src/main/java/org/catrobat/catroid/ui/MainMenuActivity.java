@@ -113,6 +113,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SettingsActivity.setToChosenLanguage(this);
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}

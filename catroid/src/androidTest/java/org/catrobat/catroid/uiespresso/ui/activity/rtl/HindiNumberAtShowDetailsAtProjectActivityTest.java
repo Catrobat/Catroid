@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -64,7 +61,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -73,7 +69,6 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ProjectActivity.class);
 	private Locale arLocale = new Locale("ar");
-	private Locale defaultLocale = Locale.getDefault();
 	private String expectedHindiNumberOfScripts = "٢"; // 2
 	private String expectedHindiNumberOfBricks = "٧"; // 7
 	private String expectedHindiNumberOfLooks = "٢"; // 2
@@ -82,7 +77,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	@Before
 	public void setUp() {
 		createProject();
-		SettingsActivity.updateLocale(getTargetContext(), "ar", "");
+		SettingsActivity.setLanguageSharedPreference(getTargetContext(), "ar");
 		baseActivityTestRule.launchActivity(null);
 
 		setShowDetails(true);
@@ -98,7 +93,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 
 	@After
 	public void tearDown() {
-		resetToDefaultLanguage();
+		SettingsActivity.removeLanguageSharedPreference(getTargetContext());
 		setShowDetails(false);
 	}
 
@@ -106,7 +101,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	@Test
 	public void hindiNumbers() throws Exception {
 		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 
 		onView(allOf(withId(R.id.textView_number_of_scripts), isDisplayed()))
 				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_scripts) + " " + expectedHindiNumberOfScripts)));
@@ -152,15 +147,5 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-	}
-
-	private void resetToDefaultLanguage() {
-		SharedPreferences.Editor editor = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
-				.edit();
-		editor.putString(LANGUAGE_TAG_KEY, defaultLocale.getLanguage());
-		editor.commit();
-		SettingsActivity.updateLocale(InstrumentationRegistry.getTargetContext(), defaultLocale.getLanguage(),
-				defaultLocale.getCountry());
 	}
 }

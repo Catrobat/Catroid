@@ -63,6 +63,7 @@ public class ProgramMenuActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SettingsActivity.setToChosenLanguage(this);
 
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null && bundle.containsKey(FORWARD_TO_SCRIPT_ACTIVITY)) {
