@@ -43,6 +43,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
@@ -145,6 +146,8 @@ public class RenameVariableDialog extends DialogFragment {
 			if (!isVariableNameValid(newName)) {
 				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 			} else {
+				((FormulaEditorFragment) getActivity().getFragmentManager().findFragmentByTag(FormulaEditorFragment
+						.FORMULA_EDITOR_FRAGMENT_TAG)).updateFormulaUserList(userList.getName(), newName);
 				ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.renameProjectUserList(newName, userList.getName());
 			}
@@ -161,6 +164,8 @@ public class RenameVariableDialog extends DialogFragment {
 			if (!isVariableNameValid(newName)) {
 				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 			} else {
+				((FormulaEditorFragment) getActivity().getFragmentManager().findFragmentByTag(FormulaEditorFragment
+						.FORMULA_EDITOR_FRAGMENT_TAG)).updateFormulaUserVariable(userVariable.getName(), newName);
 				ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.renameProjectUserVariable(newName, userVariable.getName());
 			}

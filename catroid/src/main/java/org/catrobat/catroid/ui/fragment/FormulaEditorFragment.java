@@ -762,6 +762,20 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		}
 	}
 
+	public void updateFormulaUserVariable(String oldName, String newName) {
+		if (formulaEditorEditText == null) {
+			return;
+		}
+		formulaEditorEditText.updateVariableReferences(oldName, newName);
+	}
+
+	public void updateFormulaUserList(String oldName, String newName) {
+		if (formulaEditorEditText == null) {
+			return;
+		}
+		formulaEditorEditText.updateListReferences(oldName, newName);
+	}
+
 	private void showFormularEditorCategorylistFragment(String tag, int actionbarResId) {
 		FragmentManager fragmentManager = ((Activity) context).getFragmentManager();
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);
