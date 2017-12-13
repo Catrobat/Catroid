@@ -64,6 +64,7 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 
+	@SuppressWarnings("PMD.DoNotCallGarbageCollectionExplicitly")
 	@Override
 	protected void onDestroy() {
 		// Partly from http://stackoverflow.com/a/5069354

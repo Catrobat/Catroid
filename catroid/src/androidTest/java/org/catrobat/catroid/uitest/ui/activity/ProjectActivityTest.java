@@ -174,7 +174,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickLongOnText(defaultSpriteName);
 		solo.sleep(200);
 
-		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+		assertTrue("Copy is not in context menu!", solo.searchText(getActivity().getString(R.string.copy)));
 
 		solo.clickOnText(getActivity().getString(R.string.copy));
 		solo.clickLongOnText(defaultSpriteName);
@@ -240,7 +240,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.sleep(200);
 		solo.clickLongOnText("Pocket Code");
 		solo.sleep(200);
-		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+		assertTrue("Copy is not in context menu!", solo.searchText(getActivity().getString(R.string.copy)));
 		solo.clickOnText(getActivity().getString(R.string.copy));
 		solo.sleep(200);
 
@@ -310,7 +310,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.sleep(200);
 		solo.clickLongOnText(defaultSpriteName);
 		solo.sleep(200);
-		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+		assertTrue("Copy is not in context menu!", solo.searchText(getActivity().getString(R.string.copy)));
 		solo.clickOnText(getActivity().getString(R.string.copy));
 		solo.sleep(1000);
 
@@ -363,7 +363,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.sleep(200);
 		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
 		solo.sleep(200);
-		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+		assertTrue("Copy is not in context menu!", solo.searchText(getActivity().getString(R.string.copy)));
 		solo.clickOnText(getActivity().getString(R.string.copy));
 		solo.sleep(1000);
 

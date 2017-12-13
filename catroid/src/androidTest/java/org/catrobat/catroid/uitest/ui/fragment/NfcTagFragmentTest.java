@@ -143,7 +143,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		int newCount = adapter.getCount();
 
 		assertEquals("Tag not added!", oldCount + 1, newCount);
-		assertEquals("Tag added but not visible!", solo.searchText(solo.getString(R.string.default_tag_name), 1), true);
+		assertTrue("Tag added but not visible!", solo.searchText(solo.getString(R.string.default_tag_name), 1));
 	}
 
 	public void testInitialLayout() {

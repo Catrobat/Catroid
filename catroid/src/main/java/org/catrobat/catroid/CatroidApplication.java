@@ -73,6 +73,7 @@ public class CatroidApplication extends MultiDexApplication {
 		return settings;
 	}
 
+	@SuppressWarnings("PMD.AvoidUsingNativeCode")
 	public static synchronized boolean loadNativeLibs() {
 		if (parrotLibrariesLoaded) {
 			return true;
@@ -110,6 +111,7 @@ public class CatroidApplication extends MultiDexApplication {
 		}
 	}
 
+	@SuppressWarnings("PMD.AvoidUsingNativeCode")
 	public static synchronized boolean loadSDKLib() {
 		if (parrotJSLibrariesLoaded) {
 			return true;

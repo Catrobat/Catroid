@@ -67,7 +67,7 @@ public class MessageContainerTest extends AndroidTestCase {
 			ProjectManager.getInstance().loadProject(projectName1, getContext());
 
 			Set<String> keySet = getMessages();
-			assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
+			assertTrue("Broadcast message is not in the message container", keySet.contains(broadcastMessage1));
 		} catch (ProjectException projectException) {
 			fail("Project is not loaded successfully");
 		}
@@ -82,7 +82,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		}
 
 		Set<String> keySet = getMessages();
-		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
+		assertTrue("Broadcast message is not in the message container", keySet.contains(broadcastMessage1));
 
 		try {
 			ProjectManager.getInstance().loadProject(projectName2, getContext());
@@ -92,8 +92,8 @@ public class MessageContainerTest extends AndroidTestCase {
 		}
 
 		keySet = getMessages();
-		assertEquals("Broadcast message is in the message container", false, keySet.contains(broadcastMessage1));
-		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage2));
+		assertFalse("Broadcast message is in the message container", keySet.contains(broadcastMessage1));
+		assertTrue("Broadcast message is not in the message container", keySet.contains(broadcastMessage2));
 	}
 
 	public void testLoadCorruptedProjectAndCheckForBackup() {
@@ -105,7 +105,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		}
 
 		Set<String> keySet = getMessages();
-		assertEquals("Broadcast message has the false position", true, keySet.contains(broadcastMessage1));
+		assertTrue("Broadcast message has the false position", keySet.contains(broadcastMessage1));
 
 		try {
 			ProjectManager.getInstance().loadProject(projectName3, getContext());
@@ -116,7 +116,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		}
 
 		keySet = getMessages();
-		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
+		assertTrue("Broadcast message is not in the message container", keySet.contains(broadcastMessage1));
 	}
 
 	private void createTestProjects() {

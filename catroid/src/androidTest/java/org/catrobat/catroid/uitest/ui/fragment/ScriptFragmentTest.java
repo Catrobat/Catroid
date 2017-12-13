@@ -607,7 +607,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 
 		UiTestUtils.clickOnCheckBox(solo, 4);
-		assertEquals("Fourth checkbox should be checked", true, solo.getCurrentViews(CheckBox.class).get(4).isChecked());
+		assertTrue("Fourth checkbox should be checked", solo.getCurrentViews(CheckBox.class).get(4).isChecked());
 
 		solo.sleep(500);
 		UiTestUtils.clickOnCheckBox(solo, 1);

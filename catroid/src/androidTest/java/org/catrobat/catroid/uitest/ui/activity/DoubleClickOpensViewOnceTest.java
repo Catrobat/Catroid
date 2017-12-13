@@ -57,6 +57,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.io.File;
 import java.util.List;
 
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class DoubleClickOpensViewOnceTest extends TestSuite {
 	private static final int SOLO_WAIT_FOR_VIEW_TIMEOUT = 3000;
 

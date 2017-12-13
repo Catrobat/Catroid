@@ -73,7 +73,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong initialization!", 0f, look.getColorInUserInterfaceDimensionUnit());
 		assertEquals("Wrong initialization!", 100f, look.getSizeInUserInterfaceDimensionUnit());
 		assertEquals("Wrong initialization!", 0, look.getZIndex());
-		assertEquals("Wrong initialization!", true, look.isVisible());
+		assertTrue("Wrong initialization!", look.isVisible());
 		assertEquals("Wrong initialization!", Touchable.enabled, look.getTouchable());
 		assertEquals("Wrong initialization!", "", look.getImagePath());
 	}

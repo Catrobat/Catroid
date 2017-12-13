@@ -880,7 +880,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int numberLooksAfter = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();
 		assertEquals("No Look was added from Media Library!", numberLooksBefore + 1, numberLooksAfter);
 		String newLookName = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(numberLooksBefore).getLookName();
-		assertEquals("Temp File was not deleted!", false, UiTestUtils.checkTempFileFromMediaLibrary(Constants
+		assertFalse("Temp File was not deleted!", UiTestUtils.checkTempFileFromMediaLibrary(Constants
 				.TMP_LOOKS_PATH, newLookName));
 		solo.sleep(TIME_TO_WAIT);
 
@@ -906,7 +906,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Look was added from Media Library!", numberLooksBefore + 1, numberLooksAfter);
 		newLookName = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(numberLooksBefore)
 				.getLookName();
-		assertEquals("Temp File was not deleted!", false, UiTestUtils.checkTempFileFromMediaLibrary(Constants
+		assertFalse("Temp File was not deleted!", UiTestUtils.checkTempFileFromMediaLibrary(Constants
 				.TMP_LOOKS_PATH, newLookName));
 		solo.sleep(TIME_TO_WAIT);
 
@@ -935,9 +935,11 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		numberLooksAfter = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();
 		assertEquals("Second Look was not added from Media Library!", numberLooksBefore + 2, numberLooksAfter);
 		newLookName = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(numberLooksBefore).getLookName();
-		assertEquals("Temp File was not deleted!", false, UiTestUtils.checkTempFileFromMediaLibrary(Constants.TMP_LOOKS_PATH, newLookName));
+		assertFalse("Temp File was not deleted!", UiTestUtils.checkTempFileFromMediaLibrary(Constants
+				.TMP_LOOKS_PATH, newLookName));
 		newLookName = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(numberLooksBefore + 1).getLookName();
-		assertEquals("Temp File was not deleted!", false, UiTestUtils.checkTempFileFromMediaLibrary(Constants.TMP_LOOKS_PATH, newLookName));
+		assertFalse("Temp File was not deleted!", UiTestUtils.checkTempFileFromMediaLibrary(Constants
+				.TMP_LOOKS_PATH, newLookName));
 	}
 
 	@Device
