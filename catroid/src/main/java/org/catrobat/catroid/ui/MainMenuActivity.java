@@ -30,7 +30,6 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -476,9 +475,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 				Intent intent = new Intent(this, StageActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-					intent.addFlags(0x8000); // equal to Intent.FLAG_ACTIVITY_CLEAR_TASK which is only available from API level 11
-				}
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
 			}
 			if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
