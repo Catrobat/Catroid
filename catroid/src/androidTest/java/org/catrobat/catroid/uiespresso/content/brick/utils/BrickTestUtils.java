@@ -23,16 +23,27 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
+import android.support.test.espresso.NoMatchingViewException;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
+import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
+import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
+import org.hamcrest.core.Is;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -40,6 +51,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
 
 public final class BrickTestUtils {
 	private BrickTestUtils() {
@@ -84,4 +98,36 @@ public final class BrickTestUtils {
 		onView(withText(userListName))
 				.check(matches(isDisplayed()));
 	}
+
+	public static void addBrick(Class<?> brickHeaderClass, int brickCategoryId) {
+		onView(withId(R.id.button_add))
+				.perform(click());
+		onData(allOf(Is.is(instanceOf(String.class)), Is.is(UiTestUtils.getResourcesString(brickCategoryId))))
+				.inAdapterView(BrickCategoryListMatchers.isBrickCategoryView())
+				.perform(click());
+		onData(Is.is(instanceOf(brickHeaderClass))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.perform(click());
+
+		onData(instanceOf(Brick.class))
+				.inAdapterView(ScriptListMatchers.isScriptListView()).atPosition(1)
+				.perform(click());
+	}
+
+	public static void deleteItemWithTextFromFormulaEditorDataList(String text) {
+		onView(withId(R.id.formula_editor_keyboard_data))
+				.perform(click());
+		onView(allOf(withText(text), withId(R.id
+				.fragment_formula_editor_datalist_item_name_text_view)))
+				.perform(longClick());
+		onView(withText(R.string.delete))
+				.perform(click());
+		try {
+			onView(withText(R.string.deletion_alert_yes))
+					.perform(click());
+		} catch (NoMatchingViewException ex) {
+			//The deletion alert is only shown for items in use
+		}
+		pressBack();
+	}
+
 }
