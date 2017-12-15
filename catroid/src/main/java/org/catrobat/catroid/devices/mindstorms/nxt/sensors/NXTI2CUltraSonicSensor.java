@@ -122,7 +122,7 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 	}
 
 	@Override
-	public int getValue() {
+	public float getValue() {
 		int sensorValue = readRegister(SensorRegister.Result1.getByte(), 1)[0] & 0xFF;
 		return getValueInDefinedUnitSystem(sensorValue);
 	}

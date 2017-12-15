@@ -210,7 +210,7 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	}
 
 	@Override
-	public synchronized int getSensorValue(Sensors sensor) {
+	public synchronized float getSensorValue(Sensors sensor) {
 
 		switch (sensor) {
 			case NXT_SENSOR_1:

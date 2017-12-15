@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.common.bluetooth.models;
 
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandOpCode;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandType;
@@ -32,6 +33,8 @@ import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorMode;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -46,7 +49,7 @@ public class MindstormsEV3TestModel implements DeviceModel {
 	private EV3Sensor.Sensor[] sensors = {EV3Sensor.Sensor.NO_SENSOR, EV3Sensor.Sensor.NO_SENSOR,
 			EV3Sensor.Sensor.NO_SENSOR, EV3Sensor.Sensor.NO_SENSOR};
 	private byte[] portSensorMode = {0, 0, 0, 0};
-	private int[] portSensorValue = {255, 255, 255, 255};
+	private float[] portSensorValue = {255, 255, 255, 255};
 	private boolean[] portSensorActive = {false, false, false, false};
 	private int keepAliveTime = 0;
 	private boolean keepAliveSet = false;
@@ -211,16 +214,25 @@ public class MindstormsEV3TestModel implements DeviceModel {
 			reply[2] = DIRECT_REPLY_ERROR;
 		} else {
 			portSensorMode[port] = message[9];
+			if (message[3] == 1) {
+				reply = new byte[4];
+				byte value = (byte) portSensorValue[port];
+				reply[3] = value;
+			} else if (message[3] == 4) {
+				reply = new byte[7];
+				byte[] floatValueAsByte = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putFloat(portSensorValue[port]).array();
 
-			reply = new byte[4];
+				for (int i = 0; i < floatValueAsByte.length; i++) {
+					reply[3 + i] = floatValueAsByte[i];
+				}
+			} else {
+				throw new MindstormsException("read siValue with unusual length");
+			}
 
 			reply[0] = messageNumber[0];
 			reply[1] = messageNumber[1];
 
 			reply[2] = DIRECT_REPLY;
-
-			byte value = (byte) portSensorValue[port];
-			reply[3] = value;
 		}
 		return reply;
 	}
@@ -333,18 +345,47 @@ public class MindstormsEV3TestModel implements DeviceModel {
 					setSensorValue(port, 255);
 				}
 				break;
+			case HT_NXT_COLOR:
+				if (sensorMode == EV3SensorMode.MODE0.getByte()) {
+					setSensorValue(port, sensorValueRandom.nextInt(18));
+				} else {
+					setSensorValue(port, 255);
+				}
+				break;
+			case NXT_TEMPERATURE_C:
+				float minVal = -550.0f;
+				float maxVal = 1280.0f;
+				if (sensorMode == EV3SensorMode.MODE0.getByte()) {
+					setSensorValue(port, sensorValueRandom.nextFloat() * (maxVal - minVal) + minVal);
+				} else {
+					setSensorValue(port, 255);
+				}
+				break;
+			case NXT_TEMPERATURE_F:
+				float minValF = -670.0f;
+				float maxValF = 2624.0f;
+				if (sensorMode == EV3SensorMode.MODE1.getByte()) {
+					setSensorValue(port, sensorValueRandom.nextFloat() * (maxValF - minValF) + minValF);
+				} else {
+					setSensorValue(port, 255);
+				}
+				break;
 			default:
 				setSensorValue(port, 255);
 				break;
 		}
 	}
 
-	public void setSensorValue(int port, int value) {
+	public void setSensorValue(int port, float value) {
 		portSensorValue[port] = value;
 	}
 
 	public boolean isSensorActive(int port) {
 		return portSensorActive[port];
+	}
+
+	public byte getSensormode(int port) {
+		return portSensorMode[port];
 	}
 
 	public void setSensorType(int port, EV3Sensor.Sensor sensorType) {

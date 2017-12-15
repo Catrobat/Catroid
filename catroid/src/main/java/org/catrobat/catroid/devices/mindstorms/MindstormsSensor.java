@@ -24,11 +24,11 @@ package org.catrobat.catroid.devices.mindstorms;
 
 public interface MindstormsSensor {
 
-	int getValue();
+	float getValue();
 
 	int getUpdateInterval();
 	void updateLastSensorValue();
-	int getLastSensorValue();
+	float getLastSensorValue();
 
 	String getName();
 

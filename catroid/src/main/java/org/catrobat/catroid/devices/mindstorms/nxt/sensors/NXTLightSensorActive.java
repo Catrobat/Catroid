@@ -35,7 +35,7 @@ public class NXTLightSensorActive extends NXTSensor {
 	}
 
 	@Override
-	public int getValue() {
+	public float getValue() {
 		return getScaledValue();
 	}
 }

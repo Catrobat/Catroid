@@ -24,6 +24,7 @@
 package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
 import android.util.Log;
+import android.util.SparseArray;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
@@ -36,7 +37,6 @@ import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandVari
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandType;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3Reply;
 
-import java.math.BigInteger;
 import java.util.Locale;
 
 public abstract class EV3Sensor implements MindstormsSensor {
@@ -47,7 +47,10 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		COLOR,
 		COLOR_AMBIENT,
 		COLOR_REFLECT,
-		INFRARED;
+		INFRARED,
+		HT_NXT_COLOR,
+		NXT_TEMPERATURE_C,
+		NXT_TEMPERATURE_F;
 
 		public static String[] getSensorCodes() {
 			String[] valueStrings = new String[values().length];
@@ -80,6 +83,49 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		}
 	}
 
+	public enum SensorConnectionType {
+		CONN_UNKNOWN(0x6F),
+
+		CONN_DAISYCHAIN(0x75),
+		CONN_NXT_COLOR(0x76),
+		CONN_NXT_ANALOG(0x77),
+		CONN_NXT_IIC(0x78),
+
+		CONN_EV3_IN_DUMB(0x79),
+		CONN_EV3_IN_UART(0x7A),
+		CONN_EV3_OUT_DUMB(0x7B),
+		CONN_EV3_OUT_INTELLIGENT(0x7C),
+		CONN_EV3_OUT_TACHO(0x7D),
+
+		CONN_NONE(0x7E),
+		CONN_ERROR(0x7F);
+
+		private int sensorConnectionByteCode;
+
+		private static final SparseArray<SensorConnectionType> LOOKUP = new SparseArray<SensorConnectionType>();
+		static {
+			for (SensorConnectionType c : SensorConnectionType.values()) {
+				LOOKUP.put(c.sensorConnectionByteCode, c);
+			}
+		}
+
+		public static SensorConnectionType getSensorConnectionTypeByValue(byte value) {
+			return LOOKUP.get(value & 0xFF);
+		}
+
+		public static boolean isMember(byte memberToTest) {
+			return LOOKUP.get(memberToTest & 0xFF) != null;
+		}
+
+		SensorConnectionType(int sensorConnectionType) {
+			this.sensorConnectionByteCode = sensorConnectionType;
+		}
+
+		public byte getByte() {
+			return (byte) sensorConnectionByteCode;
+		}
+	}
+
 	protected final int port;
 	protected final EV3SensorType sensorType;
 	protected final EV3SensorMode sensorMode;
@@ -88,7 +134,7 @@ public abstract class EV3Sensor implements MindstormsSensor {
 	protected final MindstormsConnection connection;
 
 	protected boolean hasInit;
-	protected int lastValidValue = 0;
+	protected float lastValidValue = 0;
 
 	public static final String TAG = EV3Sensor.class.getSimpleName();
 
@@ -98,6 +144,33 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		this.sensorMode = sensorMode;
 
 		this.connection = connection;
+	}
+
+	public SensorConnectionType getConnectionType(int chainLayer) {
+		int commandCount = connection.getCommandCounter();
+		byte connectionType = 0x00;
+
+		EV3Command command = new EV3Command(connection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY,
+				1, 0, EV3CommandOpCode.OP_INPUT_DEVICE);
+		connection.incCommandCounter();
+
+		command.append(EV3CommandByteCode.INPUT_DEVICE_GET_CONNECTION.getByte());
+
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, this.port);
+		command.append(EV3CommandVariableScope.PARAM_VARIABLE_SCOPE_GLOBAL, 0);
+
+		try {
+			EV3Reply reply = new EV3Reply(connection.sendAndReceive(command));
+
+			if (!reply.isValid(commandCount)) {
+				throw new MindstormsException("Reply not valid!");
+			}
+			connectionType = reply.getByte(3);
+		} catch (MindstormsException e) {
+			Log.e(TAG, e.getMessage());
+		}
+		return SensorConnectionType.getSensorConnectionTypeByValue(connectionType);
 	}
 
 	protected void setMode(EV3SensorMode mode) {
@@ -142,7 +215,7 @@ public abstract class EV3Sensor implements MindstormsSensor {
 
 			int chainLayer = 0;
 			int type = 0;  // don't change type
-			int mode = -1; // don't change mode
+			int mode = this.sensorMode.getByte();
 			int returnValue = 1; // request 1 return value
 			int returnValueIndex = 0;
 
@@ -208,8 +281,8 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		return percentValue;
 	}
 
-	public int getRawValue() {
-		int rawValue = 0;
+	public byte[] getRawValue(int numBytes) {
+		byte[] valueBytes = new byte[numBytes];
 
 		if (!hasInit) {
 			initialize();
@@ -217,7 +290,7 @@ public abstract class EV3Sensor implements MindstormsSensor {
 			int commandCount = connection.getCommandCounter();
 
 			EV3Command command = new EV3Command(connection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY,
-					1, 0, EV3CommandOpCode.OP_INPUT_DEVICE);
+					numBytes, 0, EV3CommandOpCode.OP_INPUT_DEVICE);
 			connection.incCommandCounter();
 
 			int chainLayer = 0;
@@ -234,18 +307,53 @@ public abstract class EV3Sensor implements MindstormsSensor {
 				if (!reply.isValid(commandCount)) {
 					throw new MindstormsException("Reply not valid!");
 				}
-
 				int offset = 3;
 				int replyLength = reply.getLength();
-				byte[] valueBytes = reply.getData(offset, replyLength - offset);
-				BigInteger intValue = new BigInteger(valueBytes);
-
-				rawValue = intValue.intValue();
+				valueBytes = reply.getData(offset, replyLength - offset);
 			} catch (MindstormsException e) {
 				Log.e(TAG, e.getMessage());
 			}
 		}
-		return rawValue;
+		return valueBytes;
+	}
+
+	public byte[] getSiValue(int numBytes) {
+		byte[] siValue = new byte[numBytes];
+
+		if (!hasInit) {
+			initialize();
+		} else {
+			int commandCount = connection.getCommandCounter();
+
+			EV3Command command = new EV3Command(connection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY,
+					numBytes, 0, EV3CommandOpCode.OP_INPUT_READ_SI);
+			connection.incCommandCounter();
+
+			int chainLayer = 0;
+			int type = 0;  // don't change type
+			int mode = -1; // don't change mode
+			int returnValueIndex = 0;
+
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, this.port);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, type);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, mode);
+			command.append(EV3CommandVariableScope.PARAM_VARIABLE_SCOPE_GLOBAL, returnValueIndex);
+
+			try {
+				EV3Reply reply = new EV3Reply(connection.sendAndReceive(command));
+
+				if (!reply.isValid(commandCount)) {
+					throw new MindstormsException("Reply not valid!");
+				}
+				int offset = 3;
+				int replyLength = reply.getLength();
+				siValue = reply.getData(offset, replyLength - offset);
+			} catch (MindstormsException e) {
+				Log.e(TAG, e.getMessage());
+			}
+		}
+		return siValue;
 	}
 
 	@Override
@@ -263,7 +371,7 @@ public abstract class EV3Sensor implements MindstormsSensor {
 	}
 
 	@Override
-	public int getLastSensorValue() {
+	public float getLastSensorValue() {
 		return lastValidValue;
 	}
 
