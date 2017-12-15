@@ -101,7 +101,7 @@ public class ReplaceItemInUserListTest {
 				.perform(click());
 		onView(withText(R.string.formula_editor_data))
 				.perform(click());
-		onView(withText(secondUserListName))
+		onView(allOf(withText(secondUserListName), isDisplayed()))
 				.perform(longClick());
 		onView(withText(R.string.delete))
 				.perform(click());

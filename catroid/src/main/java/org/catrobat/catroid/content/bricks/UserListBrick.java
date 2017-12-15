@@ -23,6 +23,10 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -56,11 +60,11 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 
 		updateUserListIfDeleted(userListAdapterWrapper);
 
-		if (userList != null) {
-			userListSpinner.setSelection(userListAdapterWrapper.getPositionOfItem(userList), true);
-		} else if (newUserList != null) {
+		if (newUserList != null) {
 			userListSpinner.setSelection(userListAdapterWrapper.getPositionOfItem(newUserList), true);
 			userList = newUserList;
+		} else if (userList != null) {
+			userListSpinner.setSelection(userListAdapterWrapper.getPositionOfItem(userList), true);
 		} else {
 			userListSpinner.setSelection(userListAdapterWrapper.getCount() - 1, true);
 			userList = userListAdapterWrapper.getItem(userListAdapterWrapper.getCount() - 1);
@@ -177,5 +181,47 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		}
 		backPackedData.userList = userList;
 		backPackedData.userListType = type;
+	}
+
+	protected AdapterView.OnItemSelectedListener createListSpinnerItemSelectedListener() {
+		return new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (position == 0 && ((UserListAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
+					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_LIST);
+					dialog.addUserListDialogListener(UserListBrick.this);
+					int spinnerPos = ((UserListAdapterWrapper) parent.getAdapter())
+							.getPositionOfItem(userList);
+					dialog.setUserVariableIfCancel(spinnerPos);
+					dialog.show(((Activity) view.getContext()).getFragmentManager(),
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
+				}
+				((UserListAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
+				userList = ((UserList) parent.getItemAtPosition(position));
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				userList = null;
+			}
+		};
+	}
+
+	protected View.OnTouchListener createListSpinnerTouchListener() {
+		return new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View view, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN
+						&& ((Spinner) view).getSelectedItemPosition() == 0
+						&& ((Spinner) view).getAdapter().getCount() == 1) {
+					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_LIST);
+					dialog.addUserListDialogListener(UserListBrick.this);
+					dialog.show(((Activity) view.getContext()).getFragmentManager(),
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
+					return true;
+				}
+				return false;
+			}
+		};
 	}
 }
