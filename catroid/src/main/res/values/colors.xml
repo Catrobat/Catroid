@@ -41,6 +41,11 @@
     <color name="holo_blue_light">#ff33b5e5</color>
     <color name="terms_of_use_text_color">#E68B00</color>
 
+    <!-- Google CodeIn Colors -->
+    <color name="gci_background_color">#5DBCD2</color>
+    <color name="gci_button_color">#00ACC1</color>
+    <color name="gci_link_color">#CC00475E</color>
+
     <!-- Main Menu Colors -->
     <color name="main_menu_button_text_color">#A8DFF4</color>
     <color name="main_menu_button_text_shadow_color">#7F000000</color>

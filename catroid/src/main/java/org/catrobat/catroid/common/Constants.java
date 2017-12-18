@@ -221,6 +221,8 @@ public final class Constants {
 
 	public static final int CAST_IDLE_BACKGROUND_COLOR = 0x66000000;
 
+	public static final String FIRST_APPLICATION_LAUNCH = "firstApplicationLaunch";
+
 	// background sprite is always on index 0
 	public static final int Z_INDEX_BACKGROUND = 0;
 
