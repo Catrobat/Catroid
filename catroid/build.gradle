@@ -167,7 +167,7 @@ android {
         createatschool {
             appId = 'org.catrobat.catroid.createatschool'
             applicationId appId
-            versionCode 14
+            versionCode 15
 
             buildConfigField "boolean", "CREATE_AT_SCHOOL", "true"
             buildConfigField "boolean", "FEATURE_ACCESSIBILITY_SETTINGS_ENABLED", "true"
@@ -183,7 +183,7 @@ android {
         phiro {
             appId = 'org.catrobat.catroid.phiro'
             applicationId appId
-            versionCode 6
+            versionCode 7
 
             buildConfigField "boolean", "PHIRO_CODE", "true"
 
@@ -314,7 +314,7 @@ android {
         targetSdkVersion 22
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 41
+        versionCode 42
         println "VersionCode is " + versionCode
         versionName "0.9.33"
         println "VersionName is " + versionName
