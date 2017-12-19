@@ -77,8 +77,10 @@ public class SetVariableTest {
 
 	public void createProject() {
 		SetVariableBrick setVariableTestBrick1 = new SetVariableBrick(10);
+		SetVariableBrick setVariableTestBrick2 = new SetVariableBrick(0);
 		Script script = BrickTestUtils.createProjectAndGetStartScript("setVariableTest");
 		script.addBrick(setVariableTestBrick1);
+		script.addBrick(setVariableTestBrick2);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -106,12 +108,13 @@ public class SetVariableTest {
 				.check(matches(isDisplayed()));
 	}
 
+
+	//TODO: Move this to a Formula Editor Test, which?
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testCreateUserVariableInFormulaEditor() {
 		String userVariableName = "testVariable1";
 		addNewVariableViaFormulaEditor(1, userVariableName);
-		pressBack();
 		onView(allOf(withParent(withId(R.id.set_variable_spinner)), withText(userVariableName)))
 				.check(matches(isDisplayed()));
 		pressBack();
@@ -123,18 +126,14 @@ public class SetVariableTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testViewInFormulaEditorAfterClone() {
-		//There is no clonening in the original test, why this name?
+	public void testIfSetVariableSpinnerCanHoldMultipleVariables() {
 		String userVariableName = "testVariable1";
 		String userVariableNameTwo = "testVariable2";
 		addNewVariableViaFormulaEditor(1, userVariableName);
-		pressBack();
 		onView(withId(R.id.formula_editor_keyboard_ok))
 				.perform(click());
-		BrickTestUtils.addBrick(SetVariableBrick.class, R.string.category_data);
 		onBrickAtPosition(1).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(userVariableNameTwo);
-
 		onBrickAtPosition(2).onVariableSpinner(R.id.set_variable_spinner)
 				.checkHasVariable(userVariableName);
 		onBrickAtPosition(2).onVariableSpinner(R.id.set_variable_spinner)
@@ -154,5 +153,6 @@ public class SetVariableTest {
 				.perform(click());
 		onView(allOf(withChild(withText(userVariableName)), withChild(withText("0.0"))))
 				.check(matches(isDisplayed()));
+		pressBack();
 	}
 }
