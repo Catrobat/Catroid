@@ -448,6 +448,9 @@ public class StageListener implements ApplicationListener {
 		}
 		PhysicsShapeBuilder.getInstance().reset();
 		CameraManager.getInstance().setToDefaultCamera();
+		if (penActor != null) {
+			penActor.dispose();
+		}
 		finished = true;
 	}
 
@@ -462,6 +465,9 @@ public class StageListener implements ApplicationListener {
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			stage.clear();
+			if (penActor != null) {
+				penActor.dispose();
+			}
 			SoundManager.getInstance().clear();
 
 			physicsWorld = scene.resetPhysicsWorld();
@@ -697,6 +703,10 @@ public class StageListener implements ApplicationListener {
 		font.draw(batch, String.valueOf((int) virtualHeightHalf), layout.height / 2, virtualHeightHalf - 3);
 		font.draw(batch, "0", layout.height / 2, -layout.height / 2);
 		batch.end();
+	}
+
+	public PenActor getPenActor() {
+		return penActor;
 	}
 
 	@Override
