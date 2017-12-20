@@ -591,7 +591,6 @@ public final class StorageHandler {
 		if (!root.exists()) {
 			throw new IOException("Pocket Code root dir does not exist.");
 		}
-
 		if (!codeFileSanityCheck(name)) {
 			throw new LoadingProjectException("Code file is invalid");
 		}

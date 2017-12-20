@@ -95,7 +95,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		}
 		if (receiveScript == null) {
 			receiveScript = new BroadcastScript(broadcastMessage);
-			MessageContainer.addMessage(getBroadcastMessage());
+			MessageContainer.addMessage(broadcastMessage);
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
@@ -168,7 +168,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 
 				receiveScript.setBroadcastMessage(newMessage);
 				broadcastMessage = newMessage;
-				MessageContainer.addMessage(newMessage);
+				MessageContainer.addMessage(broadcastMessage);
 				setSpinnerSelection(spinner);
 				return true;
 			}

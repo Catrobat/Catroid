@@ -260,7 +260,7 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
 		eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));
-		eventBrickList.add(new CollisionReceiverBrick("object"));
+		eventBrickList.add(new CollisionReceiverBrick(null));
 		eventBrickList.add(new WhenBackgroundChangesBrick());
 		eventBrickList.add(new WhenClonedBrick());
 

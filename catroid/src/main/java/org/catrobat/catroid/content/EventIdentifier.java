@@ -20,22 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-
-public class BroadcastListener implements EventListener {
-
-	@Override
-	public boolean handle(Event event) {
-		if (event instanceof BroadcastEvent) {
-			handleBroadcastEvent((BroadcastEvent) event);
-			return true;
-		}
-		return false;
-	}
-
-	public void handleBroadcastEvent(BroadcastEvent event) {
-	}
+public abstract class EventIdentifier {
+	public abstract boolean equals(Object o);
+	public abstract int hashCode();
 }

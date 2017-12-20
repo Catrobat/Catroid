@@ -25,23 +25,18 @@ package org.catrobat.catroid.common;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.CollisionScript;
-import org.catrobat.catroid.physics.PhysicsCollision;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public final class MessageContainer {
 
-	private static Map<String, List<BroadcastScript>> receiverMap = new HashMap<>();
-	private static Map<String, List<BroadcastScript>> backupReceiverMap = null;
+	private static Multimap<String, BroadcastScript> receiverMap = ArrayListMultimap.create();
 	private static ArrayAdapter<String> messageAdapter = null;
-	private static Map<String, List<CollisionScript>> collisionReceiverMap = new HashMap<>();
-	private static int hiddenEntries = 0;
 
 	// Suppress default constructor for noninstantiability
 	private MessageContainer() {
@@ -50,58 +45,31 @@ public final class MessageContainer {
 
 	public static void clear() {
 		receiverMap.clear();
-		hiddenEntries = 0;
 		messageAdapter = null;
-	}
-
-	public static void createBackup() {
-		backupReceiverMap = receiverMap;
-		receiverMap = new HashMap<>();
 	}
 
 	public static void clearBackup() {
-		backupReceiverMap = null;
 		messageAdapter = null;
 	}
 
-	public static void restoreBackup() {
-		receiverMap = backupReceiverMap;
-		backupReceiverMap = null;
-	}
-
 	public static void addMessage(String message) {
-		if (message == null || message.isEmpty()) {
+		if (message == null) {
 			return;
 		}
-
-		if (!PhysicsCollision.isCollisionBroadcastMessage(message)) {
-			if (!receiverMap.containsKey(message)) {
-				receiverMap.put(message, new ArrayList<BroadcastScript>());
-				if (message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
-					hiddenEntries++;
-				} else {
-					addMessageToAdapter(message);
-				}
-			}
-		} else {
-			if (!collisionReceiverMap.containsKey(message)) {
-				collisionReceiverMap.put(message, new ArrayList<CollisionScript>());
-			}
-		}
+		// BC-TODO: RASPI Event Identifier
+		/*if (message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
+			hiddenEntries++;
+		} else {*/
+		addMessageToAdapter(message);
+		//}
 	}
 
 	public static void addMessage(String message, BroadcastScript script) {
-		if (message == null || message.isEmpty()) {
+		if (message == null) {
 			return;
 		}
-
-		if (!PhysicsCollision.isCollisionBroadcastMessage(message)) {
-			addMessage(message);
-			receiverMap.get(message).add(script);
-		} else if (script instanceof CollisionScript) {
-			addMessage(message);
-			collisionReceiverMap.get(message).add((CollisionScript) script);
-		}
+		addMessage(message);
+		receiverMap.put(message, script);
 	}
 
 	private static void addMessageToAdapter(String message) {
@@ -114,15 +82,7 @@ public final class MessageContainer {
 		if (message == null || message.isEmpty()) {
 			return;
 		}
-
-		if (!PhysicsCollision.isCollisionBroadcastMessage(message)) {
-			if (receiverMap.containsKey(message)) {
-				receiverMap.get(message).remove(script);
-			}
-		} else if (collisionReceiverMap.containsKey(message) && script instanceof CollisionScript) {
-			CollisionScript collisionScript = (CollisionScript) script;
-			collisionReceiverMap.get(message).remove(collisionScript);
-		}
+		receiverMap.remove(message, script);
 	}
 
 	public static ArrayAdapter<String> getMessageAdapter(Context context) {
@@ -130,15 +90,17 @@ public final class MessageContainer {
 			messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 			messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			messageAdapter.add(context.getString(R.string.new_broadcast_message));
-			if (receiverMap.size() == hiddenEntries) {
-				addMessage(context.getString(R.string.brick_broadcast_default_value));
-			} else {
-				for (String message : receiverMap.keySet()) {
-					if (message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
-						continue;
-					}
-					addMessageToAdapter(message);
-				}
+			boolean addedMessage = false;
+			for (String message : receiverMap.keySet()) {
+				// BC-TODO: Create RASPI Event Identifier
+				// if (message (Constants.RASPI_BROADCAST_PREFIX)) {
+				//	continue;
+				//}
+				addMessageToAdapter(message);
+				addedMessage = true;
+			}
+			if (!addedMessage) {
+				addMessageToAdapter(context.getString(R.string.brick_broadcast_default_value));
 			}
 		}
 		return messageAdapter;
@@ -157,12 +119,10 @@ public final class MessageContainer {
 
 	public static void removeUnusedMessages(List<String> usedMessages) {
 		messageAdapter = null;
-		receiverMap = new HashMap<>();
-		collisionReceiverMap = new HashMap<>();
-		hiddenEntries = 0;
+		receiverMap = ArrayListMultimap.create();
 
 		for (String message : usedMessages) {
-			addMessage(message);
+			receiverMap.put(message, null);
 		}
 
 		if (messageAdapter != null) {

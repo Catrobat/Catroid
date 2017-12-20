@@ -49,16 +49,8 @@ public class PhysicsCollision implements ContactListener {
 
 	private Map<String, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = new HashMap<>();
 
-	public static String generateBroadcastMessage(String collisionObjectOneIdentifier, String
-			collisionObjectTwoIdentifier) {
-		return collisionObjectOneIdentifier + COLLISION_MESSAGE_CONNECTOR + collisionObjectTwoIdentifier;
-	}
-
 	public static boolean isCollisionBroadcastMessage(String message) {
-		if (message == null) {
-			return false;
-		}
-		return message.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
+		return message != null && message.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
 	}
 
 	private static String generateKey(Sprite sprite1, Sprite sprite2) {
@@ -69,7 +61,7 @@ public class PhysicsCollision implements ContactListener {
 		String key1 = generateKey(sprite1, sprite2);
 		String key2 = generateKey(sprite2, sprite1);
 		if (!physicsCollisionBroadcasts.containsKey(key1)) {
-			PhysicsCollisionBroadcast physicsCollisionBroadcast = new PhysicsCollisionBroadcast(sprite1.getName(), sprite2.getName());
+			PhysicsCollisionBroadcast physicsCollisionBroadcast = new PhysicsCollisionBroadcast(sprite1, sprite2);
 			physicsCollisionBroadcasts.put(key1, physicsCollisionBroadcast);
 			physicsCollisionBroadcasts.put(key2, physicsCollisionBroadcast);
 		}

@@ -55,7 +55,6 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
@@ -173,7 +172,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		setPhysicsProperties(restart, startScriptRestart, PhysicsObject.Type.FIXED, 60.0f, 40.0f);
 		startScriptRestart.addBrick(new ComeToFrontBrick());
 
-		Script physicsCollisionScript = new CollisionScript(restartName + PhysicsCollision.COLLISION_MESSAGE_CONNECTOR + "Ball");
+		Script physicsCollisionScript = new CollisionScript(ball);
 		physicsCollisionScript.addBrick(new BroadcastBrick("reset_ball"));
 		physicsCollisionScript.addBrick(new PlaceAtBrick(0, 0));
 		restart.addScript(physicsCollisionScript);

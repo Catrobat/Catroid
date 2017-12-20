@@ -44,6 +44,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -53,7 +54,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
@@ -62,13 +62,14 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BackgroundWaitHandler;
-import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
+import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
+import org.catrobat.catroid.content.actions.BroadcastSequenceAction;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
@@ -277,30 +278,28 @@ public class StageListener implements ApplicationListener {
 		if (!sprite.isClone()) {
 			return;
 		}
-
 		Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
 		DataContainer userVariables = currentScene.getDataContainer();
 		userVariables.removeVariableListForSprite(sprite);
-		BroadcastHandler.removeSpriteFromScriptSpriteMap(sprite);
+		for (Action action : sprite.look.getActions()) {
+			if (action instanceof BroadcastSequenceAction) {
+				BroadcastSequenceAction bsaction = (BroadcastSequenceAction) action;
+				Action lastAction = bsaction.getActions().get(bsaction.getActions().size - 1);
+				if (lastAction instanceof BroadcastNotifyAction) {
+					lastAction.act(0);
+				}
+			}
+		}
 		sprite.look.setLookVisible(false);
 		sprite.look.remove();
 		sprites.remove(sprite);
 		clonedSprites.remove(sprite);
 	}
 
-	public void clearAllClonedSpritesFromStage() {
-		Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
-		DataContainer userVariables = currentScene.getDataContainer();
+	public void removeAllClonedSpritesFromStage() {
 		for (Sprite sprite : clonedSprites) {
-			userVariables.removeVariableListForSprite(sprite);
-
-			BroadcastHandler.removeSpriteFromScriptSpriteMap(sprite);
-
-			sprite.look.setLookVisible(false);
-			sprite.look.remove();
-			sprites.remove(sprite);
+			removeClonedSpriteFromStage(sprite);
 		}
-		clonedSprites.clear();
 	}
 
 	private void disposeClonedSprites() {
@@ -383,11 +382,10 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		transitionToScene(sceneName);
-		for (Sprite sprite : sceneToStart.getSpriteList()) {
-			sprite.getBroadcastSequenceMap().clear(sceneName);
-			sprite.getBroadcastWaitSequenceMap().clear(sceneName, sprite);
-			sprite.getBroadcastWaitSequenceMap().clearCurrentBroadcastEvent();
-		}
+		// BC-TODO: Wozu sollte man clearen?
+		/*for (Sprite sprite : sceneToStart.getSpriteList()) {
+			sprite.getBroadcastScriptMap().clearScene(sceneName);
+		}*/
 		SoundManager.getInstance().clear();
 		stageBackupMap.remove(sceneName);
 		scene.firstStart = true;
@@ -414,7 +412,7 @@ public class StageListener implements ApplicationListener {
 		TouchUtil.reset();
 		BackgroundWaitHandler.reset();
 
-		clearAllClonedSpritesFromStage();
+		removeAllClonedSpritesFromStage();
 
 		reloadProject = true;
 	}
@@ -615,11 +613,8 @@ public class StageListener implements ApplicationListener {
 		return broadcastWaitNotifyActions;
 	}
 
+	// BC-TODO: Fix this and StopAllScriptsAction
 	public void precomputeActionsForBroadcastEvents(Map<String, List<String>> currentActions) {
-		Multimap<String, String> actionsToRestartMap = BroadcastHandler.getActionsToRestartMap();
-		if (!actionsToRestartMap.isEmpty()) {
-			return;
-		}
 		List<String> actions = new ArrayList<>();
 		if (currentActions.get(Constants.START_SCRIPT) != null) {
 			actions.addAll(currentActions.get(Constants.START_SCRIPT));
@@ -633,7 +628,7 @@ public class StageListener implements ApplicationListener {
 		if (currentActions.get(Constants.RASPI_SCRIPT) != null) {
 			actions.addAll(currentActions.get(Constants.RASPI_SCRIPT));
 		}
-		for (String action : actions) {
+		/*for (String action : actions) {
 			for (String actionOfLook : actions) {
 				if (action.equals(actionOfLook)
 						|| isFirstSequenceActionAndEqualsSecond(action, actionOfLook)
@@ -645,10 +640,10 @@ public class StageListener implements ApplicationListener {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
-	private static boolean isFirstSequenceActionAndEqualsSecond(String action1, String action2) {
+	/*private static boolean isFirstSequenceActionAndEqualsSecond(String action1, String action2) {
 		String spriteOfAction1 = action1.substring(action1.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
 		String spriteOfAction2 = action2.substring(action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
 
@@ -666,7 +661,7 @@ public class StageListener implements ApplicationListener {
 
 		String action2Sub = action2.substring(0, action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
 		return innerAction1.equals(action2Sub);
-	}
+	}*/
 
 	private void printPhysicsLabelOnScreen() {
 		PhysicsObject tempPhysicsObject;

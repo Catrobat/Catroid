@@ -122,7 +122,7 @@ public final class ProjectManager implements
 			CompatibilityProjectException {
 
 		Project previousProject = project;
-		MessageContainer.createBackup();
+		MessageContainer.clear();
 
 		try {
 			project = StorageHandler.getInstance().loadProject(projectName, context);
@@ -230,7 +230,7 @@ public final class ProjectManager implements
 
 	private void restorePreviousProject(Project previousProject) {
 		project = previousProject;
-		MessageContainer.restoreBackup();
+		MessageContainer.clear();
 
 		if (previousProject != null) {
 			sceneToPlay = project.getDefaultScene();

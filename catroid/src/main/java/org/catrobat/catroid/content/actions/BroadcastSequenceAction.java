@@ -20,33 +20,48 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.content.BroadcastEvent;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Script;
 
-public class BroadcastNotifyAction extends Action {
+public class BroadcastSequenceAction extends SequenceAction {
+	private Script script;
 
-	private BroadcastEvent event;
-	private Sprite sprite;
-
-	@Override
-	public boolean act(float delta) {
-		event.removeInterrupter(sprite);
-		return true;
+	public BroadcastSequenceAction(Script script) {
+		super();
+		this.script = script;
 	}
 
-	public void setEvent(BroadcastEvent event) {
-		this.event = event;
+	public BroadcastSequenceAction(Action action1, Script script) {
+		super(action1);
+		this.script = script;
 	}
 
-	public BroadcastEvent getEvent() {
-		return event;
+	public BroadcastSequenceAction(Action action1, Action action2, Script script) {
+		super(action1, action2);
+		this.script = script;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public BroadcastSequenceAction(Action action1, Action action2, Action action3, Script script) {
+		super(action1, action2, action3);
+		this.script = script;
+	}
+
+	public BroadcastSequenceAction(Action action1, Action action2, Action action3, Action action4, Script script) {
+		super(action1, action2, action3, action4);
+		this.script = script;
+	}
+
+	public BroadcastSequenceAction(Action action1, Action action2, Action action3, Action action4, Action action5, Script script) {
+		super(action1, action2, action3, action4, action5);
+		this.script = script;
+	}
+
+	public Script getScript() {
+		return script;
 	}
 }

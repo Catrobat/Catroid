@@ -31,7 +31,7 @@ import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 public class RaspiInterruptScript extends BroadcastScript {
 
 	private static final long serialVersionUID = 1L;
-
+	// BC-TODO alles
 	private String pin;
 	private String eventValue;
 

@@ -26,7 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.BroadcastEvent;
-import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.List;
@@ -39,13 +38,15 @@ public class BroadcastAction extends Action {
 	@Override
 	public boolean act(float delta) {
 		if (executeOnce) {
+			executeOnce = false;
 			List<Sprite> sprites = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
 			for (Sprite spriteOfList : sprites) {
 				spriteOfList.look.fire(event);
 			}
-			executeOnce = false;
 		}
-		if (event.getRun() || event.getNumberOfReceivers() == 0) {
+		List<Sprite> interrupters = event.getInterrupters();
+
+		if (interrupters.size() == 0 && !executeOnce) {
 			return true;
 		}
 		return false;
@@ -54,9 +55,6 @@ public class BroadcastAction extends Action {
 	@Override
 	public void restart() {
 		executeOnce = true;
-		if (event.getType().equals(BroadcastType.broadcastWait)) {
-			event.setRun(false);
-		}
 	}
 
 	public void setBroadcastEvent(BroadcastEvent event) {
