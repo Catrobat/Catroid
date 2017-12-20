@@ -107,9 +107,9 @@ public class JumpingSumoMoveBackwardBrick extends FormulaBrick {
 
 		TextView textPower = (TextView) prototypeView.findViewById(R.id
 				.brick_jumping_sumo_move_backward_edit_text_power);
-		textTime.setText(String.valueOf(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
+		textTime.setText(getStringForPrototypeView(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
 
-		textPower.setText(String.valueOf(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+		textPower.setText(getStringForPrototypeView(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 		setSecondText(context, prototypeView, R.id.brick_jumping_sumo_move_backward_text_second);
 		return prototypeView;
 	}

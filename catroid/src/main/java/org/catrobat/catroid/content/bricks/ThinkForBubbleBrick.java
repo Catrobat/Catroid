@@ -148,7 +148,7 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 		TextView textDuration = (TextView) prototypeView.findViewById(textDurationId);
 		TextView seconds = (TextView) prototypeView.findViewById(thinkSaySecondsLabelId);
 		textText.setText(context.getString(defaultStringId));
-		textDuration.setText(Utils.getNumberStringForBricks(BrickValues.DURATION));
+		textDuration.setText(getStringForPrototypeView(BrickValues.DURATION));
 		seconds.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.DURATION)));
 		return prototypeView;

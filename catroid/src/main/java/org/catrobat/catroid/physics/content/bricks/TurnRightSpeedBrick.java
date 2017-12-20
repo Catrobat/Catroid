@@ -91,7 +91,7 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_turn_right_speed, null);
 		TextView textTurnRightSpeed = (TextView) prototypeView.findViewById(R.id.brick_turn_right_speed_edit_text);
-		textTurnRightSpeed.setText(String.valueOf(BrickValues.PHYSIC_TURN_DEGREES));
+		textTurnRightSpeed.setText(getStringForPrototypeView(BrickValues.PHYSIC_TURN_DEGREES));
 		return prototypeView;
 	}
 

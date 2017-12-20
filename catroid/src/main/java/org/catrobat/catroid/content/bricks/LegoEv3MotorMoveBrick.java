@@ -90,7 +90,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_ev3_motor_move, null);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.ev3_motor_move_speed_edit_text);
-		textSpeed.setText(String.valueOf(BrickValues.LEGO_SPEED));
+		textSpeed.setText(getStringForPrototypeView(BrickValues.LEGO_SPEED));
 
 		Spinner motorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ev3_motor_move_spinner);
 		motorSpinner.setFocusableInTouchMode(false);

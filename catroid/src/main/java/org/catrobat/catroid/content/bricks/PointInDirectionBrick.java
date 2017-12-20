@@ -34,7 +34,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -106,7 +105,7 @@ public class PointInDirectionBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
 		TextView setAngleTextView = (TextView) prototypeView
 				.findViewById(R.id.brick_point_in_direction_edit_text);
-		setAngleTextView.setText(Utils.getNumberStringForBricks(BrickValues.POINT_IN_DIRECTION));
+		setAngleTextView.setText(getStringForPrototypeView(BrickValues.POINT_IN_DIRECTION));
 		return prototypeView;
 	}
 

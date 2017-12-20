@@ -126,12 +126,10 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		userListSpinner.setAdapter(userListAdapterWrapper);
 		setSpinnerSelection(userListSpinner, null);
 
-		TextView textViewValueToInsert = (TextView) prototypeView
-				.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
-		textViewValueToInsert.setText(String.valueOf(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE));
-		TextView textViewInsertIndex = (TextView) prototypeView
-				.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
-		textViewInsertIndex.setText(String.valueOf(BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
+		TextView textViewValueToInsert = (TextView) prototypeView.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
+		textViewValueToInsert.setText(getStringForPrototypeView(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE));
+		TextView textViewInsertIndex = (TextView) prototypeView.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
+		textViewInsertIndex.setText(getStringForPrototypeView(BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 
 		return prototypeView;
 	}

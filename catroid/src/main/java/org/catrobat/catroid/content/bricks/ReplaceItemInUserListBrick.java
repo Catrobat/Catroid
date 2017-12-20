@@ -121,10 +121,10 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 
 		TextView textViewValueToInsert = (TextView) prototypeView
 				.findViewById(R.id.brick_replace_item_in_userlist_value_edit_text);
-		textViewValueToInsert.setText(String.valueOf(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE));
+		textViewValueToInsert.setText(getStringForPrototypeView(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE));
 		TextView textViewInsertIndex = (TextView) prototypeView
 				.findViewById(R.id.brick_replace_item_in_userlist_at_index_edit_text);
-		textViewInsertIndex.setText(String.valueOf(BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
+		textViewInsertIndex.setText(getStringForPrototypeView(BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 
 		return prototypeView;
 	}

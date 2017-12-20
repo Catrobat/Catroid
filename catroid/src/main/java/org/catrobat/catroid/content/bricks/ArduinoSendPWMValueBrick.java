@@ -76,9 +76,9 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_arduino_send_analog, null);
 
 		TextView textSetPinNumber = (TextView) prototypeView.findViewById(R.id.brick_arduino_set_analog_pin_edit_text);
-		textSetPinNumber.setText(String.valueOf(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER));
+		textSetPinNumber.setText(getStringForPrototypeView(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER));
 		TextView textSetPinValue = (TextView) prototypeView.findViewById(R.id.brick_arduino_set_analog_value_edit_text);
-		textSetPinValue.setText(String.valueOf(BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
+		textSetPinValue.setText(getStringForPrototypeView(BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
 
 		return prototypeView;
 	}

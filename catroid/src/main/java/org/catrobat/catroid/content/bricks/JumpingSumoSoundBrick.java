@@ -87,7 +87,7 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_sound, null);
 		TextView editVolume = (TextView) prototypeView.findViewById(R.id.brick_jumping_sumo_sound_edit_text);
-		editVolume.setText(String.valueOf(BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
+		editVolume.setText(getStringForPrototypeView(BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
 
 		Spinner soundSpinner = (Spinner) prototypeView.findViewById(R.id.brick_jumping_sumo_sound_spinner);
 		soundSpinner.setFocusableInTouchMode(false);

@@ -78,9 +78,9 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_raspi_send_digital, null);
 
 		TextView textSetPinNumber = (TextView) prototypeView.findViewById(R.id.brick_raspi_set_digital_pin_edit_text);
-		textSetPinNumber.setText(String.valueOf(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
+		textSetPinNumber.setText(getStringForPrototypeView(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 		TextView textSetPinValue = (TextView) prototypeView.findViewById(R.id.brick_raspi_set_digital_value_edit_text);
-		textSetPinValue.setText(String.valueOf(BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
+		textSetPinValue.setText(getStringForPrototypeView(BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
 
 		return prototypeView;
 	}

@@ -77,7 +77,7 @@ public class WaitUntilBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_wait_until, null);
 		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_wait_until_edit_text);
-		textIfBegin.setText(String.valueOf(BrickValues.IF_CONDITION));
+		textIfBegin.setText(BrickValues.IF_CONDITION);
 		return prototypeView;
 	}
 

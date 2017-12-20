@@ -87,7 +87,7 @@ public class JumpingSumoRotateRightBrick extends FormulaBrick {
 		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_rotate_right, null);
 		TextView textDegree = (TextView) prototypeView.findViewById(R.id
 				.brick_jumping_sumo_change_right_variable_edit_text);
-		textDegree.setText(String.valueOf(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
+		textDegree.setText(getStringForPrototypeView(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
 		return prototypeView;
 	}
 

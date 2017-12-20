@@ -208,4 +208,19 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	public List<BackPackedVariableData> getBackPackedVariableData() {
 		return backPackedVariableData;
 	}
+
+	protected <T> String getStringForPrototypeView(T value) {
+
+		String number = String.valueOf(value);
+
+		if (!number.contains(".")) {
+			return number;
+		}
+
+		if (number.matches("-?[0-9]+.0+")) {
+			return number.substring(0, number.indexOf('.'));
+		}
+
+		return number;
+	}
 }

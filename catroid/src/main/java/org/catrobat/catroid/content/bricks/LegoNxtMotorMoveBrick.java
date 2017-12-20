@@ -91,7 +91,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_edit_text);
-		textSpeed.setText(String.valueOf(BrickValues.LEGO_SPEED));
+		textSpeed.setText(getStringForPrototypeView(BrickValues.LEGO_SPEED));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_action_spinner);
 

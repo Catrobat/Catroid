@@ -433,22 +433,22 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(SetGravityBrick.class, R.string.x_label);
 		checkIfBrickShowsText(SetGravityBrick.class, R.string.y_label);
 		checkIfBrickShowsText(SetGravityBrick.class, R.string.brick_set_gravity_unit);
-		checkIfBrickShowsText(SetGravityBrick.class, "0.0");
-		checkIfBrickShowsText(SetGravityBrick.class, "-10.0");
+		checkIfBrickShowsText(SetGravityBrick.class, "0");
+		checkIfBrickShowsText(SetGravityBrick.class, "-10");
 
 		//Set mass
 		checkIfBrickShowsText(SetMassBrick.class, R.string.brick_set_mass);
-		checkIfBrickShowsText(SetMassBrick.class, "1.0");
+		checkIfBrickShowsText(SetMassBrick.class, "1");
 		checkIfBrickShowsText(SetMassBrick.class, R.string.brick_set_mass_unit);
 
 		//Set bounce
 		checkIfBrickShowsText(SetBounceBrick.class, R.string.brick_set_bounce_factor);
-		checkIfBrickShowsText(SetBounceBrick.class, "80.0");
+		checkIfBrickShowsText(SetBounceBrick.class, "80");
 		checkIfBrickShowsText(SetBounceBrick.class, R.string.percent_symbol);
 
 		//Set friction
 		checkIfBrickShowsText(SetFrictionBrick.class, R.string.brick_set_friction);
-		checkIfBrickShowsText(SetFrictionBrick.class, "20.0");
+		checkIfBrickShowsText(SetFrictionBrick.class, "20");
 		checkIfBrickShowsText(SetFrictionBrick.class, R.string.percent_symbol);
 	}
 
@@ -471,11 +471,11 @@ public class BrickValueParameterTest {
 		//set volume to - edit text "60%"
 		checkIfBrickShowsText(SetVolumeToBrick.class, R.string.brick_set_volume_to);
 		checkIfBrickShowsText(SetVolumeToBrick.class, R.string.percent_symbol);
-		checkIfBrickShowsEditTextWithText(SetVolumeToBrick.class, R.id.brick_set_volume_to_edit_text, "60.0");
+		checkIfBrickShowsEditTextWithText(SetVolumeToBrick.class, R.id.brick_set_volume_to_edit_text, "60");
 
 		//change volume by - edit text "-10.0"
 		checkIfBrickShowsText(ChangeVolumeByNBrick.class, R.string.brick_change_volume_by);
-		checkIfBrickShowsEditTextWithText(ChangeVolumeByNBrick.class, R.id.brick_change_volume_by_edit_text, "-10.0");
+		checkIfBrickShowsEditTextWithText(ChangeVolumeByNBrick.class, R.id.brick_change_volume_by_edit_text, "-10");
 
 		//speak - edit text "hello"
 		checkIfBrickShowsText(SpeakBrick.class, R.string.brick_speak);
@@ -564,10 +564,10 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(ChangeBrightnessByNBrick.class, "25");
 
 		checkIfBrickShowsText(SetColorBrick.class, R.string.brick_set_color);
-		checkIfBrickShowsText(SetColorBrick.class, "0.0");
+		checkIfBrickShowsText(SetColorBrick.class, "0");
 
 		checkIfBrickShowsText(ChangeColorByNBrick.class, R.string.brick_change_color);
-		checkIfBrickShowsText(ChangeColorByNBrick.class, "25.0");
+		checkIfBrickShowsText(ChangeColorByNBrick.class, "25");
 
 		checkIfBrickShowsText(ClearGraphicEffectBrick.class, R.string.brick_clear_graphic_effect);
 
@@ -626,14 +626,14 @@ public class BrickValueParameterTest {
 
 		checkIfBrickShowsText(SetVariableBrick.class, R.string.brick_set_variable);
 		checkIfBrickShowsText(SetVariableBrick.class, R.string.to_label);
-		checkIfBrickShowsText(SetVariableBrick.class, "1.0");
+		checkIfBrickShowsText(SetVariableBrick.class, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(SetVariableBrick.class,
 				R.id.set_variable_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
 
 		checkIfBrickShowsText(ChangeVariableBrick.class, R.string.brick_change_variable);
 		checkIfBrickShowsText(ChangeVariableBrick.class, R.string.by_label);
-		checkIfBrickShowsText(ChangeVariableBrick.class, "1.0");
+		checkIfBrickShowsText(ChangeVariableBrick.class, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(ChangeVariableBrick.class,
 				R.id.change_variable_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
@@ -655,7 +655,7 @@ public class BrickValueParameterTest {
 
 		checkIfBrickShowsText(AddItemToUserListBrick.class, R.string.brick_add_item_to_userlist_add);
 		checkIfBrickShowsText(AddItemToUserListBrick.class, R.string.brick_add_item_to_userlist);
-		checkIfBrickShowsText(AddItemToUserListBrick.class, "1.0");
+		checkIfBrickShowsText(AddItemToUserListBrick.class, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(AddItemToUserListBrick.class,
 				R.id.add_item_to_userlist_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
@@ -670,8 +670,8 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(InsertItemIntoUserListBrick.class, R.string.brick_insert_item_into_userlist_insert_into);
 		checkIfBrickShowsText(InsertItemIntoUserListBrick.class, R.string.brick_insert_item_into_userlist_into_list);
 		checkIfBrickShowsText(InsertItemIntoUserListBrick.class, R.string.brick_insert_item_into_userlist_at_position);
-		checkIfBrickShowsText(InsertItemIntoUserListBrick.class, "1.0");
-		checkIfBrickShowsText(InsertItemIntoUserListBrick.class, "1");
+		checkIfBrickShowsEditTextWithText(InsertItemIntoUserListBrick.class, R.id.brick_insert_item_into_userlist_value_edit_text, "1");
+		checkIfBrickShowsEditTextWithText(InsertItemIntoUserListBrick.class, R.id.brick_insert_item_into_userlist_at_index_edit_text, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(InsertItemIntoUserListBrick.class,
 				R.id.insert_item_into_userlist_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
@@ -679,8 +679,8 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(ReplaceItemInUserListBrick.class, R.string.brick_replace_item_in_userlist_replace_in_list);
 		checkIfBrickShowsText(ReplaceItemInUserListBrick.class, R.string.brick_replace_item_in_userlist_item_at_index);
 		checkIfBrickShowsText(ReplaceItemInUserListBrick.class, R.string.brick_replace_item_in_userlist_with_value);
-		checkIfBrickShowsText(ReplaceItemInUserListBrick.class, "1.0");
-		checkIfBrickShowsText(ReplaceItemInUserListBrick.class, "1");
+		checkIfBrickShowsEditTextWithText(ReplaceItemInUserListBrick.class, R.id.brick_replace_item_in_userlist_at_index_edit_text, "1");
+		checkIfBrickShowsEditTextWithText(ReplaceItemInUserListBrick.class, R.id.brick_replace_item_in_userlist_value_edit_text, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(ReplaceItemInUserListBrick.class,
 				R.id.replace_item_in_userlist_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
@@ -998,8 +998,8 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(RaspiPwmBrick.class, R.string.percent_symbol);
 		checkIfBrickShowsText(RaspiPwmBrick.class, R.string.hertz_symbol);
 		checkIfBrickShowsText(RaspiPwmBrick.class, "3");
-		checkIfBrickShowsText(RaspiPwmBrick.class, "50.0");
-		checkIfBrickShowsText(RaspiPwmBrick.class, "100.0");
+		checkIfBrickShowsText(RaspiPwmBrick.class, "50");
+		checkIfBrickShowsText(RaspiPwmBrick.class, "100");
 	}
 
 	//Educational Test on how to deal with old/hacked spinner default values

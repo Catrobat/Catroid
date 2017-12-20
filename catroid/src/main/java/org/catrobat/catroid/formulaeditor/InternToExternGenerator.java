@@ -27,8 +27,8 @@ import android.util.Log;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.Utils;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -275,18 +275,7 @@ public class InternToExternGenerator {
 		switch (internToken.getInternTokenType()) {
 			case NUMBER:
 				String number = internToken.getTokenStringValue();
-				if (trimNumbers) {
-					number = Utils.getNumberStringForBricks(Float.parseFloat(number));
-				}
-
-				if (!number.contains(".")) {
-					return number;
-				}
-
-				String left = number.substring(0, number.indexOf('.'));
-				String right = number.substring(number.indexOf('.') + 1);
-
-				return left + getExternStringForInternTokenValue(".", context) + right;
+				return generateExternNumberStringForToken(number, trimNumbers);
 
 			case OPERATOR:
 
@@ -317,6 +306,26 @@ public class InternToExternGenerator {
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);
 		}
+	}
+
+	private String generateExternNumberStringForToken(String number, boolean trimNumbers) {
+
+		if (!number.contains(".")) {
+			return number;
+		}
+
+		if (trimNumbers) {
+			return cutTrailingZerosofString(number);
+		}
+
+		String left = number.substring(0, number.indexOf('.'));
+		String right = number.substring(number.indexOf('.') + 1);
+
+		return left + getExternStringForInternTokenValue(".", context) + right;
+	}
+
+	private String cutTrailingZerosofString(String number) {
+		return new BigDecimal(number).stripTrailingZeros().toPlainString();
 	}
 
 	private boolean appendWhiteSpace(InternToken currentToken, InternToken nextToken) {

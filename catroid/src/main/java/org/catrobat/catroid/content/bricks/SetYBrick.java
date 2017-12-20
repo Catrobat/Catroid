@@ -34,7 +34,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -85,7 +84,7 @@ public class SetYBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_y, null);
 		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_edit_text);
-		textYPosition.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
+		textYPosition.setText(getStringForPrototypeView(BrickValues.Y_POSITION));
 		return prototypeView;
 	}
 

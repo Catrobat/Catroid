@@ -99,7 +99,7 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_repeat_until, null);
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_until_edit_text);
-		textRepeat.setText(String.valueOf(BrickValues.IF_CONDITION));
+		textRepeat.setText(BrickValues.IF_CONDITION);
 		return prototypeView;
 	}
 

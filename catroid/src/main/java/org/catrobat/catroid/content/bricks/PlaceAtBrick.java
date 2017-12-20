@@ -34,7 +34,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -103,9 +102,9 @@ public class PlaceAtBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_place_at, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_edit_text_x);
-		textX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
+		textX.setText(getStringForPrototypeView(BrickValues.X_POSITION));
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_edit_text_y);
-		textY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
+		textY.setText(getStringForPrototypeView(BrickValues.Y_POSITION));
 		return prototypeView;
 	}
 

@@ -118,7 +118,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 
 		TextView textAddItemToList = (TextView) prototypeView
 				.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
-		textAddItemToList.setText(String.valueOf(BrickValues.DELETE_ITEM_OF_USERLIST));
+		textAddItemToList.setText(getStringForPrototypeView(BrickValues.DELETE_ITEM_OF_USERLIST));
 
 		return prototypeView;
 	}
