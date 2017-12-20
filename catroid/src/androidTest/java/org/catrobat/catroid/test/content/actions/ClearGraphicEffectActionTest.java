@@ -42,7 +42,7 @@ public class ClearGraphicEffectActionTest extends AndroidTestCase {
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createClearGraphicEffectAction(sprite);
-		sprite.look.addAction(action);
+		sprite.look.startAction(action);
 		action.act(1.0f);
 		assertEquals("Look's ghost effect is removed.", 0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 		assertEquals("Look's brightness effect is removed.", 100f,

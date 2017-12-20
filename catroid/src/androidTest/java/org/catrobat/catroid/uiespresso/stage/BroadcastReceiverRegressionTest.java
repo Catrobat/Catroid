@@ -28,7 +28,6 @@ import android.support.test.runner.AndroidJUnit4;
 import junit.framework.Assert;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -83,7 +82,6 @@ public class BroadcastReceiverRegressionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BroadcastHandler.clearActionMaps();
 		createProject();
 	}
 

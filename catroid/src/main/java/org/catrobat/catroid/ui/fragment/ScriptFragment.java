@@ -42,6 +42,7 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
@@ -208,6 +209,8 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initListeners();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		currentProject.getBroadcastMessageContainer().update();
 	}
 
 	@Override
@@ -228,7 +231,6 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		if (BackPackListManager.getInstance().isBackpackEmpty()) {
 			BackPackListManager.getInstance().loadBackpack();
 		}
-
 		BottomBar.showBottomBar(getActivity());
 		BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
@@ -245,7 +247,6 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 
 		if (projectManager.getCurrentScene() != null) {
 			projectManager.saveProject(getActivity().getApplicationContext());
-			projectManager.getCurrentProject().updateMessageContainer(); // TODO: Find better place
 		}
 	}
 

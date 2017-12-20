@@ -27,7 +27,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
-import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
@@ -67,7 +66,6 @@ public class MultipleBroadcastsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BroadcastHandler.clearActionMaps();
 		project = UiTestUtils.createEmptyProject("test");
 		dataContainer = project.getDefaultScene().getDataContainer();
 		userVariables = new ArrayList<>();

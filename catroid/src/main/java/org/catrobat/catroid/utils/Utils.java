@@ -518,8 +518,6 @@ public final class Utils {
 			ProjectManager.getInstance().setProject(projectToCheck);
 			ProjectManager.getInstance().saveProject(context);
 
-			projectToCheck.updateMessageContainer();
-
 			//TODO: Do something more reasonable or at least remove project.
 
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);

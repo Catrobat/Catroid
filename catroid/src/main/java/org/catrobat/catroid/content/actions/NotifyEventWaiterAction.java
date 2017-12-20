@@ -20,52 +20,49 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastMessageBrick;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 
-import java.util.List;
+public class NotifyEventWaiterAction extends Action {
 
-public class BroadcastBrick extends BroadcastMessageBrick {
-	private static final long serialVersionUID = 1L;
+	private EventWrapper event;
+	private Sprite sprite;
+	private boolean firstStart = true;
 
-	protected String broadcastMessage;
-
-	public BroadcastBrick(String broadcastMessage) {
-		this.broadcastMessage = broadcastMessage;
-		this.viewId = R.layout.brick_broadcast;
+	@Override
+	public boolean act(float delta) {
+		if (firstStart) {
+			event.notify(sprite);
+			firstStart = false;
+		}
+		return true;
 	}
 
-	protected Object readResolve() {
-		super.readResolve();
-		this.viewId = R.layout.brick_broadcast;
-		return this;
+	public void setEvent(EventWrapper event) {
+		this.event = event;
+	}
+
+	public EventWrapper getEvent() {
+		return event;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
 	@Override
-	public Brick clone() {
-		return new BroadcastBrick(broadcastMessage);
+	public void restart() {
+		super.restart();
+		firstStart = true;
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.NO_WAIT));
-		return null;
-	}
-
-	@Override
-	public void setBroadcastMessage(String newBroadcastMessage) {
-		this.broadcastMessage = newBroadcastMessage;
-		messageAdapter.add(newBroadcastMessage);
-	}
-
-	@Override
-	public String getBroadcastMessage() {
-		return broadcastMessage;
+	public void reset() {
+		event.notify(sprite);
+		super.reset();
 	}
 }

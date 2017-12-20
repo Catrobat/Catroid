@@ -31,9 +31,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 
-import java.util.HashMap;
-import java.util.List;
-
 public class StartScriptTest extends AndroidTestCase {
 
 	public void testStartScript() throws InterruptedException {
@@ -47,7 +44,7 @@ public class StartScriptTest extends AndroidTestCase {
 		testScript.addBrick(setSizeToBrick);
 		testSprite.addScript(testScript);
 
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
 
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);

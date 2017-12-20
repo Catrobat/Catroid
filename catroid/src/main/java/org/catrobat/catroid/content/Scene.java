@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.BrickWithSpriteReference;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -50,7 +49,9 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @XStreamAlias("scene")
 // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -289,45 +290,26 @@ public class Scene implements Serializable {
 		return dataContainer;
 	}
 
-	public synchronized void addUsedMessagesToList(List<String> usedMessages) {
+	public Set<String> getBroadcastMessagesInUse() {
+		Set<String> messagesInUse = new LinkedHashSet<>();
 		for (Sprite currentSprite : spriteList) {
-			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
-				Script currentScript = currentSprite.getScript(scriptIndex);
-				if (currentScript instanceof BroadcastMessage) {
-					addBroadcastMessage(((BroadcastMessage) currentScript).getBroadcastMessage(), usedMessages);
+			for (Script currentScript : currentSprite.getScriptList()) {
+				if (currentScript instanceof BroadcastScript) {
+					messagesInUse.add(((BroadcastScript) currentScript).getBroadcastMessage());
 				}
-
-				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
-					Brick currentBrick = currentScript.getBrick(brickIndex);
-					if (currentBrick instanceof BroadcastMessage) {
-						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
-					}
-				}
-			}
-			for (UserBrick userBrick : currentSprite.getUserBrickList()) {
-				Script userScript = userBrick.getDefinitionBrick().getUserScript();
-				for (Brick currentBrick : userScript.getBrickList()) {
-					if (currentBrick instanceof BroadcastMessage) {
-						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
+				for (Brick currentBrick : currentScript.getBrickList()) {
+					if (currentBrick instanceof BroadcastMessageBrick) {
+						messagesInUse.add(((BroadcastMessageBrick) currentBrick).getBroadcastMessage());
 					}
 				}
 			}
 		}
-	}
-
-	private void addBroadcastMessage(String broadcastMessageToAdd, List<String> broadcastMessages) {
-		if (broadcastMessageToAdd != null && !broadcastMessageToAdd.isEmpty()
-				&& !broadcastMessages.contains(broadcastMessageToAdd)) {
-			broadcastMessages.add(broadcastMessageToAdd);
-		}
+		return messagesInUse;
 	}
 
 	public boolean screenshotExists(String screenshotName) {
 		File screenShot = new File(Utils.buildScenePath(project.getName(), getName()), screenshotName);
-		if (screenShot.exists()) {
-			return false;
-		}
-		return true;
+		return !screenShot.exists();
 	}
 
 	public UserVariable getProjectVariableWithName(String name) {
@@ -387,6 +369,13 @@ public class Scene implements Serializable {
 			if (searchedSprite.equals(sprite.getName())) {
 				return sprite;
 			}
+		}
+		return null;
+	}
+
+	public Sprite getBackgroundSprite() {
+		if (spriteList != null && spriteList.size() > 0) {
+			return spriteList.get(0);
 		}
 		return null;
 	}

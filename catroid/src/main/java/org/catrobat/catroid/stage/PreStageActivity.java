@@ -51,6 +51,7 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -311,6 +312,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		}
 
 		if ((requiredResources & Brick.SOCKET_RASPI) != 0) {
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			RaspberryPiService.getInstance().enableRaspberryInterruptPinsForProject(currentProject);
 			connectRaspberrySocket();
 		}
 	}

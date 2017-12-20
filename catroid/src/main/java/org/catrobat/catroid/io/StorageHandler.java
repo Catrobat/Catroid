@@ -525,6 +525,7 @@ public final class StorageHandler {
 
 		// Physics Script
 		xstream.alias("script", CollisionScript.class);
+
 		// Physics Bricks
 		xstream.alias("brick", CollisionReceiverBrick.class);
 		xstream.alias("brick", SetBounceBrick.class);
@@ -591,7 +592,6 @@ public final class StorageHandler {
 		if (!root.exists()) {
 			throw new IOException("Pocket Code root dir does not exist.");
 		}
-
 		if (!codeFileSanityCheck(name)) {
 			throw new LoadingProjectException("Code file is invalid");
 		}

@@ -294,7 +294,7 @@ public class BrickValueParameterTest {
 
 		//Broadcast and wait
 		checkIfBrickShowsText(BroadcastWaitBrick.class, R.string.brick_broadcast_wait);
-		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(BroadcastReceiverBrick.class, R.id.brick_broadcast_wait_spinner, R.string
+		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(BroadcastReceiverBrick.class, R.id.brick_broadcast_spinner, R.string
 				.brick_broadcast_default_value);
 
 		//When  becomes true

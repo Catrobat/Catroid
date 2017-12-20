@@ -29,7 +29,6 @@ import android.util.Log;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -85,7 +84,6 @@ public final class ProjectManager {
 			CompatibilityProjectException {
 
 		Project previousProject = project;
-		MessageContainer.createBackup();
 
 		try {
 			project = StorageHandler.getInstance().loadProject(projectName, context);
@@ -155,6 +153,10 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.995f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.995f) {
+			project.updateCollisionScripts();
+			project.setCatrobatLanguageVersion(0.996f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.996f) {
 			project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
 
@@ -193,8 +195,6 @@ public final class ProjectManager {
 
 	private void restorePreviousProject(Project previousProject) {
 		project = previousProject;
-		MessageContainer.restoreBackup();
-
 		if (previousProject != null) {
 			sceneToPlay = project.getDefaultScene();
 		}
@@ -249,7 +249,6 @@ public final class ProjectManager {
 			currentScene.getSpriteList().get(0).setName(context.getString(R.string.background));
 			currentScene.getSpriteList().get(0).look.setZIndex(0);
 		}
-		MessageContainer.clearBackup();
 		currentSprite = null;
 		currentScript = null;
 		Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());

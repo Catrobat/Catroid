@@ -20,47 +20,52 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.eventids.BroadcastEventId;
+import android.support.annotation.IntDef;
+
+import com.badlogic.gdx.scenes.scene2d.Event;
+
 import org.catrobat.catroid.content.eventids.EventId;
 
-public class BroadcastScript extends Script implements EventScript {
+import java.lang.annotation.Retention;
+import java.util.ArrayList;
+import java.util.List;
 
-	private static final long serialVersionUID = 1L;
-	private String receivedMessage;
+import static java.lang.annotation.RetentionPolicy.SOURCE;
 
-	public BroadcastScript(String broadcastMessage) {
-		this.receivedMessage = broadcastMessage;
+public class EventWrapper extends Event {
+	@Retention(SOURCE)
+	@IntDef({WAIT, NO_WAIT})
+	@interface WaitMode {
 	}
 
-	@Override
-	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new BroadcastReceiverBrick(this);
+	public static final int WAIT = 0;
+	public static final int NO_WAIT = 1;
+
+	@WaitMode
+	final int waitMode;
+	final EventId eventId;
+	private List<Sprite> spritesToWaitFor;
+
+	public EventWrapper(EventId eventId, @WaitMode int waitMode) {
+		this.eventId = eventId;
+		this.waitMode = waitMode;
+		if (waitMode == WAIT) {
+			spritesToWaitFor = new ArrayList<>();
 		}
-		return brick;
 	}
 
-	public String getBroadcastMessage() {
-		return receivedMessage;
+	public void notify(Sprite sprite) {
+		spritesToWaitFor.remove(sprite);
 	}
 
-	public void setBroadcastMessage(String broadcastMessage) {
-		this.receivedMessage = broadcastMessage;
+	void addSpriteToWaitFor(Sprite sprite) {
+		spritesToWaitFor.add(sprite);
 	}
 
-	@Override
-	public Script clone() throws CloneNotSupportedException {
-		BroadcastScript clone = new BroadcastScript(receivedMessage);
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
-	}
-
-	@Override
-	public EventId createEventId(Sprite sprite) {
-		return new BroadcastEventId(receivedMessage);
+	public List<Sprite> getSpritesToWaitFor() {
+		return spritesToWaitFor;
 	}
 }

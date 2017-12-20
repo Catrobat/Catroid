@@ -110,7 +110,7 @@ public final class BackgroundWaitHandler {
 				action = sprite.createBackgroundChangedAction(lookData);
 				mapOfSprite.put(lookData, action);
 			} else {
-				Look.actionsToRestartAdd(action);
+				action.restart();
 			}
 		}
 	}
