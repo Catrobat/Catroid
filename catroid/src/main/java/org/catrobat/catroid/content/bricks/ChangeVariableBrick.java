@@ -124,7 +124,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_edit_text);
-		textChangeVariable.setText(String.valueOf(BrickValues.CHANGE_VARIABLE));
+		textChangeVariable.setText(FormulaBrick.getStringFromFloatForBrickView((float) BrickValues.CHANGE_VARIABLE));
 		return prototypeView;
 	}
 

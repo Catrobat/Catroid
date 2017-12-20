@@ -128,7 +128,8 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 
 		TextView textViewValueToInsert = (TextView) prototypeView
 				.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
-		textViewValueToInsert.setText(String.valueOf(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE));
+		textViewValueToInsert.setText(FormulaBrick.getStringFromFloatForBrickView((float) BrickValues
+				.INSERT_ITEM_INTO_USERLIST_VALUE));
 		TextView textViewInsertIndex = (TextView) prototypeView
 				.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
 		textViewInsertIndex.setText(String.valueOf(BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));

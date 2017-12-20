@@ -89,7 +89,7 @@ public class SetColorBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_color_to, null);
 		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_color_edit_text);
-		textSetSizeTo.setText(String.valueOf(BrickValues.SET_COLOR_TO));
+		textSetSizeTo.setText(FormulaBrick.getStringFromFloatForBrickView(BrickValues.SET_COLOR_TO));
 		return prototypeView;
 	}
 

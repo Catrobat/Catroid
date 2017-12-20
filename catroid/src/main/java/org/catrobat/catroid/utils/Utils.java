@@ -1062,10 +1062,6 @@ public final class Utils {
 		return tokenValid;
 	}
 
-	public static String getNumberStringForBricks(float value) {
-		return (int) value == value ? "" + (int) value : "" + value;
-	}
-
 	public static <T> List<T> distinctListByClassOfObjects(List<T> listToDistinct) {
 		Map<Class, T> uniqueMap = new HashMap<>();
 		for (T objectInstance : listToDistinct) {

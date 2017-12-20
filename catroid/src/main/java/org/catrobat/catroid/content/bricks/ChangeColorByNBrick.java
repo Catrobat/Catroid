@@ -87,7 +87,7 @@ public class ChangeColorByNBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_change_color_by, null);
 		TextView textChangeColor = (TextView) prototypeView
 				.findViewById(R.id.brick_change_color_by_edit_text);
-		textChangeColor.setText(String.valueOf(BrickValues.CHANGE_COLOR_BY));
+		textChangeColor.setText(FormulaBrick.getStringFromFloatForBrickView(BrickValues.CHANGE_COLOR_BY));
 		return prototypeView;
 	}
 

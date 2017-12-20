@@ -92,7 +92,8 @@ public class SetBounceBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_bounce_factor, null);
 		TextView textBounceFactor = (TextView) prototypeView
 				.findViewById(R.id.brick_set_bounce_factor_edit_text);
-		textBounceFactor.setText(String.valueOf(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
+		textBounceFactor.setText(FormulaBrick.getStringFromFloatForBrickView(BrickValues
+				.PHYSIC_BOUNCE_FACTOR * 100));
 		return prototypeView;
 	}
 

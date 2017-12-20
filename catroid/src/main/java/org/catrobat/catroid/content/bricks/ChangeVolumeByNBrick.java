@@ -88,7 +88,7 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
 		TextView textSetVolumenTo = (TextView) prototypeView
 				.findViewById(R.id.brick_change_volume_by_edit_text);
-		textSetVolumenTo.setText(String.valueOf(BrickValues.CHANGE_VOLUME_BY));
+		textSetVolumenTo.setText(FormulaBrick.getStringFromFloatForBrickView(BrickValues.CHANGE_VOLUME_BY));
 		return prototypeView;
 	}
 

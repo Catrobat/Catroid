@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import java.text.NumberFormat;
 import java.util.List;
 
 public class LegoEv3PlayToneBrick extends FormulaBrick {
@@ -79,9 +78,7 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_ev3_tone_duration_edit_text);
 
-		NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
-		nf.setMinimumFractionDigits(1);
-		textDuration.setText(nf.format(BrickValues.LEGO_DURATION));
+		textDuration.setText(FormulaBrick.getStringFromFloatForBrickView(BrickValues.LEGO_DURATION));
 
 		TextView textFreq = (TextView) prototypeView.findViewById(R.id.brick_ev3_tone_freq_edit_text);
 		textFreq.setText(String.valueOf(BrickValues.LEGO_FREQUENCY));
