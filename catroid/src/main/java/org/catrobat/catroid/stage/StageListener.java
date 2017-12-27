@@ -89,7 +89,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -146,7 +146,6 @@ public class StageListener implements ApplicationListener {
 	private PenActor penActor;
 
 	private List<Sprite> sprites;
-	private HashSet<Sprite> clonedSprites;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -216,7 +215,6 @@ public class StageListener implements ApplicationListener {
 
 		physicsWorld = scene.resetPhysicsWorld();
 
-		clonedSprites = new HashSet<>();
 		sprites = new ArrayList<>(scene.getSpriteList());
 		boolean addPenActor = true;
 		for (Sprite sprite : sprites) {
@@ -262,11 +260,8 @@ public class StageListener implements ApplicationListener {
 		copy.look.createBrightnessContrastHueShader();
 		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
 		sprites.add(copy);
-		clonedSprites.add(copy);
-
-		Map<String, List<String>> scriptActions = new HashMap<>();
-		copy.createStartScriptActionSequenceAndPutToMap(scriptActions);
-		precomputeActionsForBroadcastEvents(scriptActions);
+		// BC-TODO check if this should be true
+		copy.initializeActionsIncludingStartActions(true);
 		if (!copy.getLookList().isEmpty()) {
 			copy.look.setLookData(copy.getLookList().get(0));
 		}
@@ -274,9 +269,9 @@ public class StageListener implements ApplicationListener {
 		copy.createWhenClonedAction();
 	}
 
-	public void removeClonedSpriteFromStage(Sprite sprite) {
+	public boolean removeClonedSpriteFromStage(Sprite sprite) {
 		if (!sprite.isClone()) {
-			return;
+			return false;
 		}
 		Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
 		DataContainer userVariables = currentScene.getDataContainer();
@@ -292,14 +287,17 @@ public class StageListener implements ApplicationListener {
 		}
 		sprite.look.setLookVisible(false);
 		sprite.look.remove();
-		sprites.remove(sprite);
-		clonedSprites.remove(sprite);
+		sprite.removeSprite();
+		return sprites.remove(sprite);
 	}
 
 	public void removeAllClonedSpritesFromStage() {
-		for (Sprite sprite : clonedSprites) {
-			removeClonedSpriteFromStage(sprite);
+		for (int index = 0; index < sprites.size(); index++) {
+			if (removeClonedSpriteFromStage(sprites.get(index))) {
+				index--;
+			}
 		}
+		StageActivity.resetNumberOfClonedSprites();
 	}
 
 	private void disposeClonedSprites() {
@@ -382,10 +380,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		transitionToScene(sceneName);
-		// BC-TODO: Wozu sollte man clearen?
-		/*for (Sprite sprite : sceneToStart.getSpriteList()) {
-			sprite.getBroadcastScriptMap().clearScene(sceneName);
-		}*/
+
 		SoundManager.getInstance().clear();
 		stageBackupMap.remove(sceneName);
 		scene.firstStart = true;
@@ -402,18 +397,16 @@ public class StageListener implements ApplicationListener {
 		}
 		stageBackupMap.clear();
 
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			scene.firstStart = true;
-			scene.getDataContainer().resetAllDataObjects();
-		}
-
 		FlashUtil.reset();
 		VibratorUtil.reset();
 		TouchUtil.reset();
 		BackgroundWaitHandler.reset();
-
 		removeAllClonedSpritesFromStage();
 
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			scene.firstStart = true;
+			scene.getDataContainer().resetAllDataObjects();
+		}
 		reloadProject = true;
 	}
 
@@ -504,23 +497,13 @@ public class StageListener implements ApplicationListener {
 
 		if (scene.firstStart) {
 			int spriteSize = sprites.size();
-
-			Map<String, List<String>> scriptActions = new HashMap<>();
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
-				sprite.createStartScriptActionSequenceAndPutToMap(scriptActions);
+				sprite.initializeActionsIncludingStartActions(true);
 				if (!sprite.getLookList().isEmpty()) {
 					sprite.look.setLookData(sprite.getLookList().get(0));
 				}
 			}
-
-			if (scriptActions.get(Constants.BROADCAST_SCRIPT) != null && !scriptActions.get(Constants.BROADCAST_SCRIPT).isEmpty()) {
-				List<String> broadcastWaitNotifyActions = reconstructNotifyActions(scriptActions);
-				Map<String, List<String>> notifyMap = new HashMap<>();
-				notifyMap.put(Constants.BROADCAST_NOTIFY_ACTION, broadcastWaitNotifyActions);
-				scriptActions.putAll(notifyMap);
-			}
-			precomputeActionsForBroadcastEvents(scriptActions);
 			scene.firstStart = false;
 		}
 		if (!paused) {
@@ -603,65 +586,6 @@ public class StageListener implements ApplicationListener {
 			drawDebugCollisionPolygons();
 		}
 	}
-
-	private List<String> reconstructNotifyActions(Map<String, List<String>> actions) {
-		List<String> broadcastWaitNotifyActions = new ArrayList<>();
-		for (String actionString : actions.get(Constants.BROADCAST_SCRIPT)) {
-			String broadcastNotifyString = SEQUENCE + actionString.substring(0, actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR)) + BROADCAST_NOTIFY + actionString.substring(actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
-			broadcastWaitNotifyActions.add(broadcastNotifyString);
-		}
-		return broadcastWaitNotifyActions;
-	}
-
-	// BC-TODO: Fix this and StopAllScriptsAction
-	public void precomputeActionsForBroadcastEvents(Map<String, List<String>> currentActions) {
-		List<String> actions = new ArrayList<>();
-		if (currentActions.get(Constants.START_SCRIPT) != null) {
-			actions.addAll(currentActions.get(Constants.START_SCRIPT));
-		}
-		if (currentActions.get(Constants.BROADCAST_SCRIPT) != null) {
-			actions.addAll(currentActions.get(Constants.BROADCAST_SCRIPT));
-		}
-		if (currentActions.get(Constants.BROADCAST_NOTIFY_ACTION) != null) {
-			actions.addAll(currentActions.get(Constants.BROADCAST_NOTIFY_ACTION));
-		}
-		if (currentActions.get(Constants.RASPI_SCRIPT) != null) {
-			actions.addAll(currentActions.get(Constants.RASPI_SCRIPT));
-		}
-		/*for (String action : actions) {
-			for (String actionOfLook : actions) {
-				if (action.equals(actionOfLook)
-						|| isFirstSequenceActionAndEqualsSecond(action, actionOfLook)
-						|| isFirstSequenceActionAndEqualsSecond(actionOfLook, action)) {
-					if (!actionsToRestartMap.containsKey(action)) {
-						actionsToRestartMap.put(action, actionOfLook);
-					} else {
-						actionsToRestartMap.get(action).add(actionOfLook);
-					}
-				}
-			}
-		}*/
-	}
-
-	/*private static boolean isFirstSequenceActionAndEqualsSecond(String action1, String action2) {
-		String spriteOfAction1 = action1.substring(action1.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
-		String spriteOfAction2 = action2.substring(action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
-
-		if (!spriteOfAction1.equals(spriteOfAction2)) {
-			return false;
-		}
-
-		if (!action1.startsWith(SEQUENCE) || !action1.contains(BROADCAST_NOTIFY)) {
-			return false;
-		}
-
-		int startIndex1 = action1.indexOf(Constants.OPENING_BRACE) + 1;
-		int endIndex1 = action1.indexOf(BROADCAST_NOTIFY);
-		String innerAction1 = action1.substring(startIndex1, endIndex1);
-
-		String action2Sub = action2.substring(0, action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
-		return innerAction1.equals(action2Sub);
-	}*/
 
 	private void printPhysicsLabelOnScreen() {
 		PhysicsObject tempPhysicsObject;

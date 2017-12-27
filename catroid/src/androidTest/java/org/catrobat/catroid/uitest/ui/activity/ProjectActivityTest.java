@@ -343,8 +343,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		Sprite spriteOne = spriteList.get(1);
 		Sprite spriteTwo = spriteList.get(2);
-		CollisionScript collisionScript = new CollisionScript("");
-		collisionScript.setSpriteToCollideWith(spriteOne, spriteTwo);
+		CollisionScript collisionScript = new CollisionScript(spriteTwo);
 		collisionScript.getScriptBrick();
 		spriteOne.addScript(collisionScript);
 

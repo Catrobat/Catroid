@@ -48,10 +48,7 @@ import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
@@ -109,31 +106,40 @@ public class Look extends Image {
 			@Override
 			public void handleBroadcastEvent(BroadcastEvent event) {
 				Sprite handlingSprite = Look.this.sprite;
-				Collection<Script> scripts = handlingSprite.getBroadcastScriptMap().get(event.getEventIdentifier());
-				for (Script script : scripts) {
-					BroadcastSequenceAction actionToBeAdded = createBroadcastActionSequence(handlingSprite, script);
+
+				Collection<BroadcastSequenceAction> sequenceActions = handlingSprite.getBroadcastSequenceActionMap().get(event.getIdentifier());
+				for (BroadcastSequenceAction actionToBeAdded : sequenceActions) {
 					if (event.waitForCompletion()) {
 						event.addInterrupter(handlingSprite);
+						actionToBeAdded = shallowCopyOfBroadcastSequenceAction(actionToBeAdded);
 						actionToBeAdded.addAction(ActionFactory.createBroadcastNotifyAction(handlingSprite, event));
 					}
-					restartAction(actionToBeAdded);
+					stopActionWithScript(actionToBeAdded.getScript());
+					startAction(actionToBeAdded);
 				}
 			}
 
-			private void restartAction(BroadcastSequenceAction actionToBeAdded) {
+			BroadcastSequenceAction shallowCopyOfBroadcastSequenceAction(BroadcastSequenceAction actionToBeCopied) {
+				BroadcastSequenceAction copy = (BroadcastSequenceAction) ActionFactory.createBroadcastSequence(actionToBeCopied.getScript());
+				for (Action childAction : actionToBeCopied.getActions()) {
+					copy.addAction(childAction);
+				}
+				return copy;
+			}
+
+			private void stopActionWithScript(Script script) {
 				for (Action action : Look.this.getActions()) {
-					if (action instanceof BroadcastSequenceAction && ((BroadcastSequenceAction) action).getScript() == actionToBeAdded.getScript()) {
-						action.restart();
+					if (action instanceof BroadcastSequenceAction
+							&& ((BroadcastSequenceAction) action).getScript() == script) {
+						Look.this.getActions().removeValue(action, true);
 						return;
 					}
 				}
-				Look.this.addAction(actionToBeAdded);
 			}
 
-			private BroadcastSequenceAction createBroadcastActionSequence(Sprite sprite, Script script) {
-				BroadcastSequenceAction sequence = (BroadcastSequenceAction) ActionFactory.createBroadcastSequence(script);
-				script.run(sprite, sequence);
-				return sequence;
+			private void startAction(BroadcastSequenceAction actionToBeAdded) {
+				actionToBeAdded.restart();
+				Look.this.addAction(actionToBeAdded);
 			}
 		});
 	}
@@ -152,6 +158,14 @@ public class Look extends Image {
 
 	static void actionsToRestartAdd(Action action) {
 		Look.actionsToRestart.add(action);
+	}
+
+	@Override
+	public boolean remove() {
+		boolean returnValue = super.remove();
+		this.sprite = null;
+		this.lookData = null;
+		return returnValue;
 	}
 
 	public void copyTo(final Look destination) {
@@ -184,6 +198,9 @@ public class Look extends Image {
 				sprite.createWhenScriptActionSequence("Tapped");
 			} else {
 				whenParallelAction.restart();
+				if (!getActions().contains(whenParallelAction, true)) {
+					addAction(whenParallelAction);
+				}
 			}
 			return true;
 		}
@@ -580,6 +597,10 @@ public class Look extends Image {
 		return breakDownCatroidAngle(catroidAngle);
 	}
 
+	public void initializeActionsIncludingStartActions(boolean includeStartActions) {
+		sprite.initializeActionsIncludingStartActions(includeStartActions);
+	}
+
 	private class BrightnessContrastHueShader extends ShaderProgram {
 
 		private static final String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
@@ -655,13 +676,6 @@ public class Look extends Image {
 			setUniformf(HUE_STRING_IN_SHADER, hue);
 			end();
 		}
-	}
-
-	public Map<String, List<String>> createScriptActions() {
-		this.setWhenParallelAction(null);
-		Map<String, List<String>> scriptActions = new HashMap<>();
-		sprite.createStartScriptActionSequenceAndPutToMap(scriptActions, false);
-		return scriptActions;
 	}
 
 	public Polygon[] getCurrentCollisionPolygon() {

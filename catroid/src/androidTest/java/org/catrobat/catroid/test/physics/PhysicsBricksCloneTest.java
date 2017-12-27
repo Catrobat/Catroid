@@ -87,7 +87,7 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 
 	public void testCloneCollisionReceiverBrick() {
 
-		Brick brick = new CollisionReceiverBrick(new CollisionScript(COLLISION_RECEIVER_TEST_MESSAGE));
+		Brick brick = new CollisionReceiverBrick(new CollisionScript(null));
 
 		Brick clonedBrick = null;
 		try {

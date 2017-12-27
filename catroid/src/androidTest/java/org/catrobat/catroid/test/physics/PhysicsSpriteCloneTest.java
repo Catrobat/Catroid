@@ -118,7 +118,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 	}
 
 	public void testSpriteCloneWithPhysicsScriptAndBricks() {
-		CollisionScript collisionScript = new CollisionScript(COLLISION_RECEIVER_TEST_MESSAGE);
+		CollisionScript collisionScript = new CollisionScript(null);
 		collisionScript.getScriptBrick();
 		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
 		Brick setFrictionBrick = new SetFrictionBrick(FRICTION_TEST_VALUE);
@@ -146,7 +146,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 	}
 
 	public void testSpriteCloneWithCollisionScript() {
-		CollisionScript collisionScript = new CollisionScript(COLLISION_RECEIVER_TEST_MESSAGE);
+		CollisionScript collisionScript = new CollisionScript(null);
 		collisionScript.getScriptBrick();
 		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
 
@@ -162,7 +162,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		ScriptBrick clonedScriptBrick = clonedScript.getScriptBrick();
 		assertTrue("Cloned script brick has wrong class.", clonedScriptBrick instanceof CollisionReceiverBrick);
 		String clonedBroadcastMessage = ((CollisionReceiverBrick) clonedScriptBrick).getBroadcastMessage();
-		assertEquals("Cloned broadcast message is not equal to origin message.", COLLISION_RECEIVER_TEST_MESSAGE, clonedBroadcastMessage);
+		assertEquals("Cloned broadcast message is not equal to origin message.", clonedBroadcastMessage, clonedBroadcastMessage);
 
 		Brick clonedSetBounceBrick = clonedScript.getBrickList().get(0);
 		assertTrue("Cloned brick has wrong class.", clonedSetBounceBrick instanceof SetBounceBrick);

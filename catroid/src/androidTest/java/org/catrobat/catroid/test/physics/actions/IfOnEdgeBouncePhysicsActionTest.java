@@ -39,8 +39,6 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
@@ -181,7 +179,7 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		spriteCollisionScript.addBrick(testBrick);
 		sprite.addScript(spriteCollisionScript);
 
-		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite.initializeActionsIncludingStartActions(true);
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);

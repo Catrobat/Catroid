@@ -64,4 +64,10 @@ public class BroadcastSequenceAction extends SequenceAction {
 	public Script getScript() {
 		return script;
 	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		script = null;
+	}
 }

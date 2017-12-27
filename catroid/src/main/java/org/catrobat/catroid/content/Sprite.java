@@ -37,7 +37,6 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -64,7 +63,6 @@ import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @XStreamFieldKeyOrder({
 		"name",
@@ -184,6 +182,10 @@ public class Sprite implements Serializable, Cloneable {
 		penConfiguration = new PenConfiguration();
 	}
 
+	public void removeSprite() {
+		broadcastSequenceActionMap = null;
+	}
+
 	public UserBrick addUserBrick(UserBrick brick) {
 		if (userBricks == null) {
 			userBricks = new ArrayList<>();
@@ -223,43 +225,40 @@ public class Sprite implements Serializable, Cloneable {
 		return matchingUserBricks;
 	}
 
-	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions,
-			boolean includeStartScripts) {
-		for (int scriptCounter = 0; scriptCounter < scriptList.size(); scriptCounter++) {
-			Script script = scriptList.get(scriptCounter);
-			if (script instanceof StartScript && !isClone && includeStartScripts) {
-				Action sequenceAction = createActionSequence(script);
-				look.addAction(sequenceAction);
-				String actionName = sequenceAction.toString() + Constants.ACTION_SPRITE_SEPARATOR + name + scriptCounter;
-				if (scriptActions.containsKey(Constants.START_SCRIPT)) {
-					scriptActions.get(Constants.START_SCRIPT).add(actionName);
-				} else {
-					List<String> startScriptList = new ArrayList<>();
-					startScriptList.add(actionName);
-					scriptActions.put(Constants.START_SCRIPT, startScriptList);
-				}
+	public void initializeActionsIncludingStartActions(boolean includeStartActions) {
+		for (Script script : scriptList) {
+			if (script.isCommentedOut()) {
+				continue;
+			} else if (script instanceof StartScript && !isClone && includeStartActions) {
+				initializeActionByStartScript(script);
 			} else if (script instanceof CollisionScript) {
-				CollisionScript collisionScript = (CollisionScript) script;
-				EventIdentifier identifier = new CollisionEventIdentifier(this, collisionScript
-						.getSpriteToCollideWith(), ProjectManager.getInstance().getSceneToPlay());
-
-				broadcastSequenceActionMap.put(identifier, createBroadcastActionSequence(script));
+				initializeActionByCollisionScript((CollisionScript) script);
 			} else if (script instanceof BroadcastScript) {
-				BroadcastScript broadcastScript = (BroadcastScript) script;
-				EventIdentifier identifier = new BroadcastEventIdentifier(broadcastScript.getBroadcastMessage(),
-						ProjectManager.getInstance().getSceneToPlay(), BroadcastEventType.RASPI);
-				broadcastSequenceActionMap.put(identifier, createBroadcastActionSequence(script));
+				initializeActionByBroadcastScript((BroadcastScript) script);
 			} else if (script instanceof WhenConditionScript) {
-				createWhenConditionBecomesTrueAction((WhenConditionScript) script);
+				initializeActionByWhenConditionScript((WhenConditionScript) script);
 			}
 		}
 	}
 
-	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
-		createStartScriptActionSequenceAndPutToMap(scriptActions, true);
+	private void initializeActionByStartScript(Script startScript) {
+		Action sequenceAction = createActionSequence(startScript);
+		look.addAction(sequenceAction);
 	}
 
-	private void createWhenConditionBecomesTrueAction(WhenConditionScript script) {
+	private void initializeActionByBroadcastScript(BroadcastScript broadcastScript) {
+		EventIdentifier identifier = new BroadcastEventIdentifier(broadcastScript.getBroadcastMessage(),
+				ProjectManager.getInstance().getSceneToPlay(), BroadcastEventType.DEFAULT);
+		broadcastSequenceActionMap.put(identifier, createBroadcastActionSequence(broadcastScript));
+	}
+
+	private void initializeActionByCollisionScript(CollisionScript collisionScript) {
+		EventIdentifier identifier = new CollisionEventIdentifier(this, collisionScript
+				.getSpriteToCollideWith(), ProjectManager.getInstance().getSceneToPlay());
+		broadcastSequenceActionMap.put(identifier, createBroadcastActionSequence(collisionScript));
+	}
+
+	private void initializeActionByWhenConditionScript(WhenConditionScript script) {
 		ActionFactory actionFactory = getActionFactory();
 		Formula condition = ((WhenConditionBrick) script.getScriptBrick()).getConditionFormula();
 		Formula negatedCondition = new Formula(condition.getRoot().clone()) {
@@ -331,7 +330,6 @@ public class Sprite implements Serializable, Cloneable {
 
 		cloneSprite.soundList = this.soundList;
 		cloneSprite.nfcTagList = this.nfcTagList;
-
 		cloneSprite.broadcastSequenceActionMap = HashMultimap.create();
 
 		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();

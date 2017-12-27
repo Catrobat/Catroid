@@ -56,10 +56,6 @@ public final class MessageContainer {
 		if (message == null) {
 			return;
 		}
-		// BC-TODO: RASPI Event Identifier
-		/*if (message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
-			hiddenEntries++;
-		} else {*/
 		addMessageToAdapter(message);
 		//}
 	}

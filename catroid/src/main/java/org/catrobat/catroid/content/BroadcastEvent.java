@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BroadcastEvent extends Event {
-	private EventIdentifier eventIdentifier;
+	private EventIdentifier identifier;
 	private Sprite sender;
 	private boolean waitForCompletion;
 	private List<Sprite> interrupters;
@@ -41,8 +41,8 @@ public class BroadcastEvent extends Event {
 		}
 	}
 
-	public void setEventIdentifier(EventIdentifier eventIdentifier) {
-		this.eventIdentifier = eventIdentifier;
+	public void setIdentifier(EventIdentifier identifier) {
+		this.identifier = identifier;
 	}
 
 	public boolean removeInterrupter(Sprite sprite) {
@@ -53,8 +53,8 @@ public class BroadcastEvent extends Event {
 		interrupters.add(sprite);
 	}
 
-	public EventIdentifier getEventIdentifier() {
-		return eventIdentifier;
+	public EventIdentifier getIdentifier() {
+		return identifier;
 	}
 
 	public boolean waitForCompletion() {

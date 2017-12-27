@@ -68,7 +68,7 @@ public class PhysicsCollisionBroadcast {
 	public static void fireEvent(Sprite sprite1, Sprite sprite2) {
 		BroadcastEvent event = new BroadcastEvent(false);
 		CollisionEventIdentifier identifier = new CollisionEventIdentifier(sprite1, sprite2, ProjectManager.getInstance().getCurrentScene());
-		event.setEventIdentifier(identifier);
+		event.setIdentifier(identifier);
 		List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
 		for (Sprite spriteOfList : sprites) {
 			spriteOfList.look.fire(event);

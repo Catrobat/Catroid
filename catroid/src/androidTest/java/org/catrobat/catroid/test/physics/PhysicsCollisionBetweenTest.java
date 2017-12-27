@@ -36,8 +36,6 @@ import org.catrobat.catroid.physics.PhysicsCollisionBroadcast;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.test.utils.Reflection;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
@@ -109,7 +107,7 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 		secondSpriteCollisionScript.addBrick(testBrick);
 		sprite2.addScript(secondSpriteCollisionScript);
 
-		sprite2.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite2.initializeActionsIncludingStartActions(true);
 
 		simulateFullCollision();
 

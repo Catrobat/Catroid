@@ -39,9 +39,6 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.test.utils.LegacyFileUtils;
 
-import java.util.HashMap;
-import java.util.List;
-
 public class BroadcastActionTest extends AndroidTestCase {
 
 	public void testBroadcast() {
@@ -63,7 +60,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		scene.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite.initializeActionsIncludingStartActions(true);
 
 		while (!allActionsOfAllSpritesAreFinished()) {
 			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
@@ -98,7 +95,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		scene.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite.initializeActionsIncludingStartActions(true);
 
 		while (!allActionsOfAllSpritesAreFinished()) {
 			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
@@ -136,7 +133,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite.initializeActionsIncludingStartActions(true);
 
 		int loopCounter = 0;
 		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
@@ -178,7 +175,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite.initializeActionsIncludingStartActions(true);
 
 		int loopCounter = 0;
 		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
