@@ -347,8 +347,8 @@ public class SettingsActivity extends PreferenceActivity {
 		final String[] sensorPreferences = new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
 		for (int i = 0; i < sensorPreferences.length; ++i) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
-			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
 			listPreference.setEntries(R.array.nxt_sensor_chooser);
+			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
 		}
 	}
 

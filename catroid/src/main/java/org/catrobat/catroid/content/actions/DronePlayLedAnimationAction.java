@@ -28,14 +28,45 @@ import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 
+import java.util.HashMap;
+
 public class DronePlayLedAnimationAction extends TemporalAction {
+	private DroneControlService dcs;
+	private ARDRONE_LED_ANIMATION ledAnimationType;
+	private int ledNumber;
+	private float duration = 5.0f;
+
+	private static final HashMap<String, Integer> ANIMATION_TYPE_MAPPING;
+
+	static {
+		ANIMATION_TYPE_MAPPING = new HashMap<>();
+		for (ARDRONE_LED_ANIMATION ledType : ARDRONE_LED_ANIMATION.values()) {
+			ANIMATION_TYPE_MAPPING.put(ledType.name(), ARDRONE_LED_ANIMATION.valueOf(ledType.name()).ordinal());
+		}
+	}
+
+	public void setAnimationType(ARDRONE_LED_ANIMATION ledAnimationType) {
+		this.ledAnimationType = ledAnimationType;
+	}
 
 	@Override
 	protected void begin() {
 		super.begin();
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
+		dcs = DroneServiceWrapper.getInstance().getDroneService();
 		if (dcs != null) {
-			dcs.playLedAnimation(5.0f, 3, ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_ORANGE.ordinal());
+			ledAnimation();
+		}
+	}
+
+	protected void sendLedAnimation(int ledType) {
+		dcs.playLedAnimation(5.0f, (int) duration, ledType);
+		super.setDuration(duration);
+	}
+
+	protected void ledAnimation() {
+		if (dcs != null) {
+			ledNumber = ANIMATION_TYPE_MAPPING.get(ledAnimationType.name());
+			sendLedAnimation(ledNumber);
 		}
 	}
 

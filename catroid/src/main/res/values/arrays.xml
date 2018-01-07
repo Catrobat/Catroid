@@ -167,6 +167,31 @@
  		<item >@string/close</item >
  	</string-array >
 
+    <!-- Drone Play LED animation spinner -->
+    <string-array name="brick_drone_play_led_animation_spinner">
+        <item>@string/drone_animation_blinkgreenred</item>
+        <item>@string/drone_animation_blinkgreen</item>
+        <item>@string/drone_animation_blinkred</item>
+        <item>@string/drone_animation_blinkorange</item>
+        <item>@string/drone_animation_snakegreenred</item>
+        <item>@string/drone_animation_fire</item>
+        <item>@string/drone_animation_standard</item>
+        <item>@string/drone_animation_red</item>
+        <item>@string/drone_animation_green</item>
+        <item>@string/drone_animation_redsnake</item>
+        <item>@string/drone_animation_blank</item>
+        <item>@string/drone_animation_rightmissile</item>
+        <item>@string/drone_animation_leftmissile</item>
+        <item>@string/drone_animation_doublemissile</item>
+        <item>@string/drone_animation_frontleftgreenothersred</item>
+        <item>@string/drone_animation_frontrightgreenothersred</item>
+        <item>@string/drone_animation_rearrightgreenothersred</item>
+        <item>@string/drone_animation_rearleftgreenothersred</item>
+        <item>@string/drone_animation_leftgreenrightred</item>
+        <item>@string/drone_animation_leftredrightgreen</item>
+        <item>@string/drone_animation_blinkstandard</item>
+    </string-array>
+
     <!-- Jumping Sumo animation spinner -->
     <string-array name="brick_jumping_sumo_select_animation_spinner">
         <item>@string/animation_spin</item>

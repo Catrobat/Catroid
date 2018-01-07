@@ -65,6 +65,7 @@ import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
@@ -680,6 +681,9 @@ public class RtlBrickTest {
 
 		// Flip
 		checkIfBrickISRtl(DroneFlipBrick.class, R.id.brick_drone_flip_layout);
+
+		// Play Led Animation
+		checkIfBrickISRtl(DronePlayLedAnimationBrick.class, R.id.brick_drone_play_led_animation_layout);
 
 		// Switch Drone camera
 		checkIfBrickISRtl(DroneSwitchCameraBrick.class, R.id.brick_drone_basic_look_layout);
