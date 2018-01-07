@@ -87,30 +87,22 @@ public class OrientationDialogTest {
 	}
 
 	@Test
-	//@category({Level.Smoke.class, Cat.AppUi.class, Cat.Gadgets.class})
 	@Category({Level.Smoke.class, Cat.AppUi.class, Cat.Gadgets.class})
 	public void newProject() {
 		onView(withId(R.id.main_menu_button_new))
 				.perform(click());
-
-		//check if dialog title is displayed
 		onView(withText(R.string.new_project_dialog_title))
 				.check(matches(isDisplayed()));
-
-		//enter new project name
 		onView(withId(R.id.project_name_edittext))
 				.perform(typeText("TestCastProject"));
 		onView(withText(R.string.ok))
 				.perform(click());
-
-		//check if orientation dialog is displayed
 		onView(withText(R.string.project_select_screen_title))
 				.check(matches(isDisplayed()));
 		onView(withId(R.id.cast)).perform(click());
 		onView(withText(R.string.ok))
 				.perform(click());
 
-		//check if user ends up in right activity either by checking activity itself:
 		assertTrue(UiTestUtils.getCurrentActivity() instanceof ProjectActivity);
 	}
 
