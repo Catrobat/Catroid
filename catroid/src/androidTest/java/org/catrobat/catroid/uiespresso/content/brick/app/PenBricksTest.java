@@ -66,25 +66,44 @@ public class PenBricksTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testPenBricks() {
+	public void testPenDownBrick() {
 		int positionStartedBrick = 0;
 		int positionPenDownBrick = 1;
-		int positionPenUpBrick = 2;
-		int positionPenSizeBrick = 3;
-		int positionPenColorBrick = 4;
 
+		onBrickAtPosition(positionStartedBrick)
+				.checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(positionPenDownBrick)
+				.checkShowsText(R.string.brick_pen_down);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testPenUpBrick() {
+		int positionPenUpBrick = 2;
+
+		onBrickAtPosition(positionPenUpBrick)
+				.checkShowsText(R.string.brick_pen_up);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testPenSizeBrick() {
 		int penSize = 10;
+		int positionPenSizeBrick = 3;
+
+		onBrickAtPosition(positionPenSizeBrick)
+				.checkShowsText(R.string.brick_pen_size);
+		onBrickAtPosition(positionPenSizeBrick).onFormulaTextField(R.id.brick_set_pen_size_edit_text)
+				.checkShowsNumber(penSize);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testPenColorBrick() {
+		int positionPenColorBrick = 4;
 		int rgbValueRed = 1;
 		int rgbValueGreen = 2;
 		int rgbValueBlue = 3;
-
-		onBrickAtPosition(positionStartedBrick).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(positionPenDownBrick).checkShowsText(R.string.brick_pen_down);
-		onBrickAtPosition(positionPenUpBrick).checkShowsText(R.string.brick_pen_up);
-
-		onBrickAtPosition(positionPenSizeBrick).checkShowsText(R.string.brick_pen_size);
-		onBrickAtPosition(positionPenSizeBrick).onFormulaTextField(R.id.brick_set_pen_size_edit_text)
-				.checkShowsNumber(penSize);
 
 		onBrickAtPosition(positionPenColorBrick).onFormulaTextField(R.id.brick_set_pen_color_action_red_edit_text)
 				.checkShowsNumber(rgbValueRed);
@@ -92,9 +111,16 @@ public class PenBricksTest {
 				.checkShowsNumber(rgbValueGreen);
 		onBrickAtPosition(positionPenColorBrick).onFormulaTextField(R.id.brick_set_pen_color_action_blue_edit_text)
 				.perform(click());
-		onView(withId(R.id.rgb_blue_value)).perform(click());
-		onView(withId(R.id.formula_editor_edit_field)).perform(CustomActions.typeInValue("3"));
-		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
+		onView(withId(R.id.rgb_blue_value))
+				.perform(click());
+
+		//TODO: check visibilities
+		// TODO talk to batmanandrobin swipeaction
+
+		onView(withId(R.id.formula_editor_edit_field))
+				.perform(CustomActions.typeInValue("3"));
+		onView(withId(R.id.formula_editor_keyboard_ok))
+				.perform(click());
 		onBrickAtPosition(positionPenColorBrick).onFormulaTextField(R.id.brick_set_pen_color_action_blue_edit_text)
 				.checkShowsNumber(rgbValueBlue);
 	}
