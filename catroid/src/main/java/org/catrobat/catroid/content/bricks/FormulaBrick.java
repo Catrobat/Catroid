@@ -170,4 +170,12 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	public List<BackPackedVariableData> getBackPackedVariableData() {
 		return backPackedVariableData;
 	}
+
+	public static String getStringFromFloatForBrickView(float value) {
+		if (((value % 1.0) == 0) ? true : false) {
+			return Integer.toString((int) value);
+		} else {
+			return String.valueOf(value);
+		}
+	}
 }

@@ -73,11 +73,11 @@ public class RaspiPwmBrick extends FormulaBrick {
 
 		TextView textPwmPercentage = (TextView) prototypeView.findViewById(R.id
 				.brick_raspi_pwm_percentage_edit_text);
-		textPwmPercentage.setText(String.valueOf(BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
+		textPwmPercentage.setText(FormulaBrick.getStringFromFloatForBrickView((float) BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
 
 		TextView textPwmFrequency = (TextView) prototypeView.findViewById(R.id
 				.brick_raspi_pwm_frequency_edit_text);
-		textPwmFrequency.setText(String.valueOf(BrickValues.RASPI_PWM_INITIAL_FREQUENCY));
+		textPwmFrequency.setText(FormulaBrick.getStringFromFloatForBrickView((float) BrickValues.RASPI_PWM_INITIAL_FREQUENCY));
 
 		return prototypeView;
 	}

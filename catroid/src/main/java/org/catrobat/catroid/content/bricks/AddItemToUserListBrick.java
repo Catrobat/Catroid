@@ -118,7 +118,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 
 		TextView textAddItemToList = (TextView) prototypeView
 				.findViewById(R.id.brick_add_item_to_userlist_edit_text);
-		textAddItemToList.setText(String.valueOf(BrickValues.ADD_ITEM_TO_USERLIST));
+		textAddItemToList.setText(FormulaBrick.getStringFromFloatForBrickView((float) BrickValues.ADD_ITEM_TO_USERLIST));
 
 		return prototypeView;
 	}

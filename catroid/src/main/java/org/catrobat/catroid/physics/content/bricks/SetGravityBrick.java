@@ -99,9 +99,9 @@ public class SetGravityBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_gravity, null);
 		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_x);
-		textGravityX.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.x));
+		textGravityX.setText(FormulaBrick.getStringFromFloatForBrickView(BrickValues.PHYSIC_GRAVITY.x));
 		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_y);
-		textGravityY.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.y));
+		textGravityY.setText(FormulaBrick.getStringFromFloatForBrickView(BrickValues.PHYSIC_GRAVITY.y));
 		return prototypeView;
 	}
 

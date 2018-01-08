@@ -156,7 +156,7 @@ public class SetVariableBrick extends UserVariableBrick {
 			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
 			textSetVariable.setText(context.getText(defaultValueId));
 		} else {
-			textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
+			textSetVariable.setText(FormulaBrick.getStringFromFloatForBrickView((float) BrickValues.SET_VARIABLE));
 		}
 		return prototypeView;
 	}

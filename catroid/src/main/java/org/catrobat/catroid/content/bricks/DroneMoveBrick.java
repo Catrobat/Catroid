@@ -117,9 +117,11 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		String textPercentString = "% ".concat(prototypeView.getResources().getString(R.string.brick_drone_percent_power));
 		textPercent.setText(textPercentString);
 		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_edit_text_power);
-		textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
+		textTime.setText(FormulaBrick.getStringFromFloatForBrickView(
+				BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
 
-		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
+		textPower.setText(FormulaBrick.getStringFromFloatForBrickView(
+				BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
 		return prototypeView;
 	}
 
