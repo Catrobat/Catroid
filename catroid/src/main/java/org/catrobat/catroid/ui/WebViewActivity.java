@@ -31,6 +31,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -148,13 +149,20 @@ public class WebViewActivity extends BaseActivity {
 
 	BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
 		public void onReceive(Context context, Intent intent) {
-
 			long id = intent.getExtras().getLong(DownloadManager.EXTRA_DOWNLOAD_ID);
 			DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+
+			Cursor cursor = downloadManager.query(new DownloadManager.Query().setFilterById(id));
+			if (cursor == null) {
+				return;
+			}
+			cursor.moveToFirst();
+			String path = "file://" + cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
+			Uri uri = Uri.parse(path);
+
 			intent = new Intent(Intent.ACTION_VIEW);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.setDataAndType(downloadManager.getUriForDownloadedFile(id),
-					downloadManager.getMimeTypeForDownloadedFile(id));
+			intent.setDataAndType(uri, downloadManager.getMimeTypeForDownloadedFile(id));
 			startActivity(intent);
 		}
 	};
