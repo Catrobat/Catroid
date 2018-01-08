@@ -50,7 +50,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.facebook.AccessToken;
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 
 import org.catrobat.catroid.BuildConfig;
@@ -65,15 +64,9 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.Translatable;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -112,13 +105,6 @@ public final class Utils {
 	private enum RemixUrlParsingState {
 		STARTING, TOKEN, BETWEEN
 	}
-
-	private static final CharMatcher MATCHER =
-			CharMatcher.javaLetterOrDigit()
-					.or(CharMatcher.is('.'))
-					.or(CharMatcher.is('_'))
-					.or(CharMatcher.whitespace())
-					.precomputed();
 
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 
@@ -1127,267 +1113,6 @@ public final class Utils {
 
 	public static String getNumberStringForBricks(float value) {
 		return (int) value == value ? "" + (int) value : "" + value;
-	}
-
-	public static void replaceTranslatableStringsInProject(String templateName, Context context) {
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		List<String> stringEntriesList = new ArrayList<>();
-
-		List<String> spriteVariablesToReplaceInFormulas = new ArrayList<>();
-		List<String> spriteListsToReplaceInFormulas = new ArrayList<>();
-		List<String> projectVariablesToReplaceInFormulas = new ArrayList<>();
-		List<String> projectListsToReplaceInFormulas = new ArrayList<>();
-		List<String> spritesToReplaceInFormulas = new ArrayList<>();
-
-		locateAndReplaceGlobalVariableAndListStrings(project, templateName, stringEntriesList, projectListsToReplaceInFormulas,
-				projectVariablesToReplaceInFormulas, context);
-
-		buildSpriteMap(project, spritesToReplaceInFormulas);
-
-		for (Scene scene : project.getSceneList()) {
-			locateAndReplaceSceneStrings(scene, templateName, stringEntriesList, context);
-			for (Sprite sprite : scene.getSpriteList()) {
-				locateAndReplaceSpriteStrings(sprite, templateName, stringEntriesList, context);
-			}
-		}
-
-		for (Scene scene : project.getSceneList()) {
-			DataContainer dataContainer = scene.getDataContainer();
-
-			for (Sprite sprite : scene.getSpriteList()) {
-				locateAndReplaceLookStrings(sprite, templateName, stringEntriesList, context);
-				locateAndReplaceSoundStrings(sprite, templateName, stringEntriesList, context);
-
-				locateLocalVariableAndListStrings(sprite, templateName, stringEntriesList,
-						spriteVariablesToReplaceInFormulas, spriteListsToReplaceInFormulas, dataContainer);
-
-				locateAndReplaceBricksAndBrickFormulas(sprite, templateName, stringEntriesList,
-						projectVariablesToReplaceInFormulas, spriteVariablesToReplaceInFormulas,
-						projectListsToReplaceInFormulas, spriteListsToReplaceInFormulas, spritesToReplaceInFormulas,
-						scene, context);
-
-				replaceLocalVariableAndListStrings(sprite, templateName, dataContainer, context);
-
-				spriteListsToReplaceInFormulas.clear();
-				spriteVariablesToReplaceInFormulas.clear();
-			}
-		}
-
-		String entries = "";
-		for (String entry : stringEntriesList) {
-			entries += entry;
-		}
-
-		logLargeString(entries);
-	}
-
-	private static void buildSpriteMap(Project project, List<String> spritesToReplaceInFormulas) {
-		for (Scene scene : project.getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				spritesToReplaceInFormulas.add(sprite.getName());
-			}
-		}
-	}
-
-	private static void locateAndReplaceGlobalVariableAndListStrings(Project project, String templateName,
-			List<String> stringEntriesList, List<String> projectListsToReplaceInFormulas,
-			List<String> projectVariablesToReplaceInFormulas, Context context) {
-
-		String key = templateName + Constants.TRANSLATION_PROJECT_VARIABLE;
-		for (UserVariable variable : project.getProjectVariables()) {
-			String variableName = variable.getName();
-
-			addIfNotInList(stringEntriesList, createStringEntry(key, variableName));
-			projectVariablesToReplaceInFormulas.add(variableName);
-
-			variable.setName(getStringResourceByName(getStringResourceName(key, variableName), variableName, context));
-		}
-
-		key = templateName + Constants.TRANSLATION_PROJECT_LIST;
-		for (UserList list : project.getProjectLists()) {
-			String listName = list.getName();
-
-			addIfNotInList(stringEntriesList, createStringEntry(key, listName));
-			projectListsToReplaceInFormulas.add(listName);
-
-			list.setName(getStringResourceByName(getStringResourceName(key, listName), listName, context));
-		}
-	}
-
-	private static void locateLocalVariableAndListStrings(Sprite sprite, String templateName,
-			List<String> stringEntriesList, List<String> spriteVariablesToReplaceInFormulas,
-			List<String> spriteListsToReplaceInFormulas, DataContainer dataContainer) {
-
-		String key = templateName + Constants.TRANSLATION_SPRITE_VARIABLE;
-		for (UserVariable variable : dataContainer.getOrCreateVariableListForSprite(sprite)) {
-
-			String variableName = variable.getName();
-			addIfNotInList(stringEntriesList, createStringEntry(key, variableName));
-			spriteVariablesToReplaceInFormulas.add(variableName);
-		}
-
-		key = templateName + Constants.TRANSLATION_SPRITE_LIST;
-		for (UserList list : dataContainer.getOrCreateUserListForSprite(sprite)) {
-
-			addIfNotInList(stringEntriesList, createStringEntry(key, list.getName()));
-			spriteListsToReplaceInFormulas.add(list.getName());
-		}
-	}
-
-	private static void replaceLocalVariableAndListStrings(Sprite sprite, String templateName,
-			DataContainer dataContainer, Context context) {
-
-		String key = templateName + Constants.TRANSLATION_SPRITE_VARIABLE;
-		for (UserVariable variable : dataContainer.getOrCreateVariableListForSprite(sprite)) {
-			variable.setName(getStringResourceByName(getStringResourceName(key, variable.getName()), variable.getName(), context));
-		}
-
-		key = templateName + Constants.TRANSLATION_SPRITE_LIST;
-		for (UserList list : dataContainer.getOrCreateUserListForSprite(sprite)) {
-			list.setName(getStringResourceByName(getStringResourceName(key, list.getName()), list.getName(), context));
-		}
-	}
-
-	private static void locateAndReplaceSceneStrings(Scene scene, String templateName, List<String>
-			stringEntriesList, Context context) {
-		String key = templateName + Constants.TRANSLATION_SCENE;
-		String oldSceneName = scene.getName();
-		addIfNotInList(stringEntriesList, createStringEntry(key, oldSceneName));
-
-		scene.setSceneName(getStringResourceByName(getStringResourceName(key, oldSceneName), oldSceneName, context));
-		UtilFile.renameSceneDirectory(oldSceneName, scene.getName());
-	}
-
-	private static void locateAndReplaceSpriteStrings(Sprite sprite, String templateName,
-			List<String> stringEntriesList, Context context) {
-		String key = templateName + Constants.TRANSLATION_SPRITE;
-		String spriteName = sprite.getName();
-
-		addIfNotInList(stringEntriesList, createStringEntry(key, spriteName));
-
-		sprite.setName(getStringResourceByName(getStringResourceName(key, spriteName), spriteName, context));
-	}
-
-	private static void locateAndReplaceSoundStrings(Sprite sprite, String templateName, List<String>
-			stringEntriesList, Context context) {
-		String key = templateName + Constants.TRANSLATION_SOUND;
-
-		for (SoundInfo soundInfo : sprite.getSoundList()) {
-			addIfNotInList(stringEntriesList, createStringEntry(key, soundInfo.getTitle()));
-
-			String soundName = soundInfo.getTitle();
-			soundInfo.setTitle(getStringResourceByName(getStringResourceName(key, soundName), soundName, context));
-		}
-	}
-
-	private static void locateAndReplaceLookStrings(Sprite sprite, String templateName, List<String>
-			stringEntriesList, Context context) {
-		String key = templateName + Constants.TRANSLATION_LOOK;
-
-		for (LookData lookData : sprite.getLookDataList()) {
-			addIfNotInList(stringEntriesList, createStringEntry(key, lookData.getLookName()));
-
-			String lookName = lookData.getLookName();
-			lookData.setLookName(getStringResourceByName(getStringResourceName(key, lookName), lookName, context));
-		}
-	}
-
-	private static void locateAndReplaceBricksAndBrickFormulas(Sprite sprite, String templateName,
-			List<String> stringEntriesList, List<String> projectVariablesToReplaceInFormulas,
-			List<String> spriteVariablesToReplaceInFormulas,
-			List<String> projectListsToReplaceInFormulas,
-			List<String> spriteListsToReplaceInFormulas, List<String> spritesToReplaceInFormulas,
-			Scene scene, Context context) {
-		for (Brick brick : sprite.getListWithAllBricks()) {
-
-			replaceFormulaDataStrings(projectVariablesToReplaceInFormulas, brick,
-					templateName + Constants.TRANSLATION_PROJECT_VARIABLE, context);
-			replaceFormulaDataStrings(spriteVariablesToReplaceInFormulas, brick,
-					templateName + Constants.TRANSLATION_SPRITE_VARIABLE, context);
-			replaceFormulaDataStrings(projectListsToReplaceInFormulas, brick,
-					templateName + Constants.TRANSLATION_PROJECT_LIST, context);
-			replaceFormulaDataStrings(spriteListsToReplaceInFormulas, brick,
-					templateName + Constants.TRANSLATION_SPRITE_LIST, context);
-
-			replaceFormulaSpriteStrings(spritesToReplaceInFormulas, brick, templateName + Constants
-					.TRANSLATION_SPRITE, context);
-
-			if (brick instanceof Translatable) {
-				String stringEntry = ((Translatable) brick).translate(templateName, scene, sprite, context);
-				if (stringEntry != null) {
-					addIfNotInList(stringEntriesList, stringEntry);
-				}
-			}
-		}
-	}
-
-	private static void replaceFormulaSpriteStrings(List<String> spritesToReplaceInFormulas, Brick brick,
-			String key, Context context) {
-		if (!(brick instanceof FormulaBrick)) {
-			return;
-		}
-
-		for (String spriteName : spritesToReplaceInFormulas) {
-			String newName = getStringResourceByName(getStringResourceName(key, spriteName), spriteName, context);
-			for (Formula formula : ((FormulaBrick) brick).getFormulas()) {
-				formula.updateCollisionFormulas(spriteName, newName, context);
-			}
-		}
-	}
-
-	private static void replaceFormulaDataStrings(List<String> dataToReplaceInFormulas, Brick brick, String key,
-			Context context) {
-		if (!(brick instanceof FormulaBrick)) {
-			return;
-		}
-
-		for (String variable : dataToReplaceInFormulas) {
-			String newName = getStringResourceByName(getStringResourceName(key, variable), variable, context);
-			for (Formula formula : ((FormulaBrick) brick).getFormulas()) {
-				formula.updateVariableReferences(variable, newName, context);
-			}
-		}
-	}
-
-	public static String getStringResourceByName(String key, String originalName, Context context) {
-		String packageName = context.getPackageName();
-		int resId = context.getResources().getIdentifier(key, "string", packageName);
-		Log.d(TAG, "Loading resId:" + resId + " for key: " + key);
-		if (resId != 0) {
-			return context.getString(resId);
-		} else {
-			Log.d(TAG, "No resId for key: " + key);
-		}
-		return originalName;
-	}
-
-	private static void addIfNotInList(List<String> stringEntriesList, String stringEntry) {
-		if (!stringEntriesList.contains(stringEntry)) {
-			stringEntriesList.add(stringEntry);
-		}
-	}
-
-	//This method prints valid strings.xml output as log message.
-	//Intended to use when new templates are added - simply copy and paste the auto-generated xml content.
-	private static void logLargeString(String stringEntries) {
-		if (stringEntries.length() > Constants.MAX_LOGCAT_OUTPUT_CHARS) {
-			Log.i(TAG, stringEntries.substring(0, Constants.MAX_LOGCAT_OUTPUT_CHARS));
-			logLargeString(stringEntries.substring(Constants.MAX_LOGCAT_OUTPUT_CHARS));
-		} else {
-			Log.i(TAG, stringEntries);
-		}
-	}
-
-	public static String createStringEntry(String key, String value) {
-		return "<string name=\"" + getStringResourceName(key, value) + "\">" + value + "</string>\n";
-	}
-
-	public static String getStringResourceName(String key, String value) {
-		return removeInvalidCharacters(key.concat(value)).toLowerCase(Locale.US);
-	}
-
-	private static String removeInvalidCharacters(String string) {
-		return MATCHER.retainFrom(string).replace(" ", "_");
 	}
 
 	// http://stackoverflow.com/questions/2711858/is-it-possible-to-set-font-for-entire-application/16883281#16883281

@@ -35,11 +35,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.CollisionScript;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.Translatable;
@@ -49,7 +47,7 @@ import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.TranslationUtils;
 
 import java.util.List;
 
@@ -218,11 +216,12 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
-		String key = templateName + Constants.TRANSLATION_BROADCAST_MESSAGE;
-		String value = getBroadcastMessage();
+	public void translate(Context context) {
+		setMessage(TranslationUtils.getStringResourceByName(getBroadcastMessage(), context));
+	}
 
-		setMessage(Utils.getStringResourceByName(Utils.getStringResourceName(key, value), value, context));
-		return Utils.createStringEntry(key, value);
+	@Override
+	public String describe() {
+		return getBroadcastMessage();
 	}
 }

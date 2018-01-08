@@ -25,6 +25,7 @@ package org.catrobat.catroid.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.common.io.CharSource;
 import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
@@ -44,6 +45,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -356,7 +358,7 @@ public final class UtilFile {
 		return projectName;
 	}
 
-	static boolean renameSceneDirectory(String oldSceneName, String newSceneName) {
+	public static boolean renameSceneDirectory(String oldSceneName, String newSceneName) {
 		if (oldSceneName.equals(newSceneName)) {
 			return false;
 		}
@@ -413,6 +415,38 @@ public final class UtilFile {
 		in.close();
 		out.flush();
 		out.close();
+	}
+
+	public static void writeFile(String filePath, List<String> stringEntries) {
+		File file = new File(filePath);
+
+		try {
+			List<String> containedStrings = readFile(filePath);
+
+			for (String entry : stringEntries) {
+				entry = entry.replace("\n", "");
+
+				if (!containedStrings.contains(entry)) {
+					Files.append(entry.concat("\n"), file, Charset.defaultCharset());
+				}
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "Could not write generated string xml file: " + e.getMessage());
+		}
+	}
+
+	public static List<String> readFile(String filePath) {
+		File file = new File(filePath);
+		CharSource charSource = Files.asCharSource(file, Charset.defaultCharset());
+		List<String> containedStrings = new ArrayList<>();
+		try {
+			if (file.exists()) {
+				containedStrings = charSource.readLines();
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "Could not write generated string xml file: " + e.getMessage());
+		}
+		return containedStrings;
 	}
 
 	public enum FileType {

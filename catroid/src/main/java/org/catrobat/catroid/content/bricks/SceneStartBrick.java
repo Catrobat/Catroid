@@ -40,7 +40,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.Translatable;
@@ -48,7 +47,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.utils.DynamicTextSizeArrayAdapter;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.TranslationUtils;
 
 import java.util.List;
 
@@ -191,10 +190,13 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 	}
 
 	@Override
-	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
-		String key = templateName + Constants.TRANSLATION_SCENE;
-		sceneToStart = Utils.getStringResourceByName(Utils.getStringResourceName(key, sceneToStart), sceneToStart, context);
-		return null;
+	public void translate(Context context) {
+		sceneToStart = TranslationUtils.getStringResourceByName(sceneToStart, context);
+	}
+
+	@Override
+	public String describe() {
+		return sceneToStart;
 	}
 
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {

@@ -43,11 +43,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.Translatable;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.TranslationUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -242,14 +242,12 @@ public class ShowTextBrick extends UserVariableBrick implements Translatable {
 	}
 
 	@Override
-	public String translate(String templateName, Scene scene, Sprite sprite, Context context) {
-		String variableName = userVariable.getName();
+	public void translate(Context context) {
+		setUserVariableName(TranslationUtils.getStringResourceByName(userVariable.getName(), context));
+	}
 
-		String key = scene.getDataContainer().getTypeOfUserVariable(variableName, sprite)
-				== DataContainer.DataType.USER_VARIABLE_SPRITE
-				? templateName + Constants.TRANSLATION_SPRITE_VARIABLE
-				: templateName + Constants.TRANSLATION_PROJECT_VARIABLE;
-		setUserVariableName(Utils.getStringResourceByName(Utils.getStringResourceName(key, variableName), variableName, context));
-		return null;
+	@Override
+	public String describe() {
+		return userVariable.getName();
 	}
 }

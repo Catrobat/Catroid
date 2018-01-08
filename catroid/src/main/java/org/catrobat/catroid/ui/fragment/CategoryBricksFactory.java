@@ -653,8 +653,7 @@ public class CategoryBricksFactory {
 	}
 
 	public String getBrickCategory(Brick brick, Sprite sprite, Context context) {
-		List<Brick> categoryBricks = new LinkedList<>();
-		categoryBricks = setupControlCategoryList(context);
+		List<Brick> categoryBricks = setupControlCategoryList(context);
 
 		Resources res = context.getResources();
 		String category = "No match";

@@ -52,7 +52,7 @@
   <string name="close">关闭</string>
   <string name="error">错误</string>
   <string name="please_wait">请等待</string>
-  <string name="loading">载入中...</string>
+  <string name="loading">载入中…</string>
   <string name="search_hint">搜索&#8230;</string>
   <string name="no_internet">未连接到网络</string>
   <string name="loading_check_token">在服务器进行了认证检查&#8230;</string>
