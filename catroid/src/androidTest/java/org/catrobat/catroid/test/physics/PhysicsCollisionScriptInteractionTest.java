@@ -164,4 +164,16 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 			Assert.fail("Unexpected Exception in Reflection");
 		}
 	}
+
+	public void testCollisionScriptMessageOfClone() {
+		Sprite clone = firstSprite.cloneForCloneBrick();
+
+		for (Script script : clone.getScriptList()) {
+			if (script instanceof CollisionScript) {
+				String expected = clone.getName() + PhysicsCollision.COLLISION_MESSAGE_CONNECTOR + SECOND_SPRITE_NAME;
+				assertEquals("collision broadcast message is wrong for cloned sprite", expected,
+						((CollisionScript) script).getBroadcastMessage());
+			}
+		}
+	}
 }

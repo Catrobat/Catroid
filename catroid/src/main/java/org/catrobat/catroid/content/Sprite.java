@@ -363,8 +363,8 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.soundList = this.soundList;
 		cloneSprite.nfcTagList = this.nfcTagList;
 
-		cloneSprite.broadcastSequenceMap = this.broadcastSequenceMap;
-		cloneSprite.broadcastWaitSequenceMap = this.broadcastWaitSequenceMap;
+		cloneSprite.broadcastSequenceMap = new BroadcastSequenceMap();
+		cloneSprite.broadcastWaitSequenceMap = new BroadcastWaitSequenceMap();
 
 		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();
 		ProjectManager.getInstance().setCurrentSprite(cloneSprite);

@@ -59,7 +59,7 @@ public class CollisionScript extends BroadcastScript {
 	@Override
 	public Script copyScriptForSprite(Sprite copySprite) {
 		CollisionScript cloneScript = new CollisionScript(receivedMessage);
-
+		cloneScript.updateBroadcastMessage(splitBroadcastMessage().collisionObjectOneIdentifier, copySprite.getName());
 		doCopy(copySprite, cloneScript);
 		return cloneScript;
 	}
