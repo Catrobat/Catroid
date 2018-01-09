@@ -68,6 +68,10 @@ public class EV3Command implements MindstormsCommand {
 		commandData.write(data, 0, data.length);
 	}
 
+	public void append(byte[] data, int offset, int length) {
+		commandData.write(data, offset, length);
+	}
+
 	public void append(int data) {
 		append((byte) (0xFF & data));
 		append((byte) (0xFF & (data >> 8)));
@@ -90,6 +94,34 @@ public class EV3Command implements MindstormsCommand {
 		append((byte) byteToAppend);
 	}
 
+	public void append(EV3CommandParamByteCode numberOfFollowByte, int data) {
+		int byteToAppend;
+		int controlByte;
+
+		if (numberOfFollowByte == EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE) {
+			controlByte = EV3CommandParamFormat.PARAM_FORMAT_LONG.getByte()
+					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
+					| EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte();
+
+			byteToAppend = data & 0xFF;
+
+			append((byte) controlByte);
+			append((byte) byteToAppend);
+		} else if (numberOfFollowByte == EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE) {
+			int secondByteToAppend;
+			controlByte = EV3CommandParamFormat.PARAM_FORMAT_LONG.getByte()
+					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
+					| EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte();
+
+			byteToAppend = data & 0x00FF;
+			secondByteToAppend = (data & 0xFF00) >> 8;
+
+			append((byte) controlByte);
+			append((byte) byteToAppend);
+			append((byte) secondByteToAppend);
+		}
+	}
+
 	public void append(EV3CommandParamFormat paramFormat, int data) {
 		int byteToAppend;
 
@@ -106,33 +138,21 @@ public class EV3Command implements MindstormsCommand {
 
 			append((byte) byteToAppend);
 		} else {
-			int controlByte;
 
 			if ((data >= 0 && data <= 0x7F) || (data < 0 && data <= 0xFF)) {
-
-				controlByte = EV3CommandParamFormat.PARAM_FORMAT_LONG.getByte()
-						| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-						| EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte();
-
-				byteToAppend = data & 0xFF;
-
-				append((byte) controlByte);
-				append((byte) byteToAppend);
+				append(EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE, data);
 			} else {
-
-				int secondByteToAppend;
-				controlByte = EV3CommandParamFormat.PARAM_FORMAT_LONG.getByte()
-						| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-						| EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte();
-
-				byteToAppend = data & 0x00FF;
-				secondByteToAppend = (data & 0xFF00) >> 8;
-
-				append((byte) controlByte);
-				append((byte) byteToAppend);
-				append((byte) secondByteToAppend);
+				append(EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE, data);
 			}
 		}
+	}
+
+	public void append(String data) {
+		int byteToAppend = EV3CommandParamFormat.PARAM_FORMAT_LONG.getByte()
+				| EV3CommandParamByteCode.PARAM_FOLLOW_TERMINATED2.getByte();
+		append((byte) byteToAppend);
+		append(data.getBytes());
+		append(EV3CommandParamByteCode.PARAM_FOLLOW_TERMINATED.getByte());
 	}
 
 	@Override
@@ -153,7 +173,7 @@ public class EV3Command implements MindstormsCommand {
 		}
 
 		for (int i = 0; i < rawBytes.length; i++) {
-			commandHexString += Integer.toHexString(rawBytes[i] & 0xFF);
+			commandHexString += String.format("%02X", rawBytes[i] & 0xFF);
 			commandHexString += "_";
 		}
 

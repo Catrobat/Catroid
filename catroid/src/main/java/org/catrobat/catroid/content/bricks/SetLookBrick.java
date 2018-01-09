@@ -53,7 +53,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	private static final long serialVersionUID = 1L;
 	protected LookData look;
 	private transient View prototypeView;
-	private transient LookData oldSelectedLook;
+	protected transient LookData oldSelectedLook;
 
 	protected transient boolean wait;
 
@@ -90,6 +90,10 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	public String getImagePath() {
 		return look.getAbsolutePath();
+	}
+
+	protected int getTextForView() {
+		return R.string.brick_set_background;
 	}
 
 	@Override
@@ -132,7 +136,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
-			textField.setText(R.string.brick_set_background);
+			textField.setText(getTextForView());
 		}
 
 		if (!wait) {
@@ -159,7 +163,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		prototypeView = View.inflate(context, R.layout.brick_set_look, null);
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) prototypeView.findViewById(R.id.brick_set_look_prototype_text_view);
-			textField.setText(R.string.brick_set_background);
+			textField.setText(getTextForView());
 		}
 
 		if (!wait) {

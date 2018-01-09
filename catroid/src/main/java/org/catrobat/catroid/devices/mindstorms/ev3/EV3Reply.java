@@ -28,14 +28,15 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsReply;
 
 public class EV3Reply extends MindstormsReply {
 
-	public static final byte NO_ERROR = 0x02;
+	public static final byte DIRECT_REPLY_NO_ERROR = 0x02;
+	public static final byte SYSTEM_REPLY_NO_ERROR = 0x03;
 	public static final int MIN_REPLY_MESSAGE_LENGTH = 3;
 
 	public static final String TAG = EV3Reply.class.getSimpleName();
 
 	@Override
 	public boolean hasError() {
-		if (getStatusByte() == NO_ERROR) {
+		if (getStatusByte() == DIRECT_REPLY_NO_ERROR || getStatusByte() == SYSTEM_REPLY_NO_ERROR) {
 			return false;
 		}
 		return true;
@@ -75,7 +76,7 @@ public class EV3Reply extends MindstormsReply {
 		}
 
 		for (int i = 0; i < rawBytes.length; i++) {
-			commandHexString += Integer.toHexString(rawBytes[i] & 0xFF);
+			commandHexString += String.format("%02X", rawBytes[i] & 0xFF);
 			commandHexString += "_";
 		}
 

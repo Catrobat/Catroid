@@ -30,6 +30,9 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 
 public interface LegoEV3 extends Mindstorms, BluetoothDevice {
 
+	String EV3_IMAGE_NAME = "c4Tr01D.rgf";
+	String EV3_SHOW_IMAGE_PROGRAM_NAME = "LegoEv3ShowImageCatroid.rbf";
+
 	boolean isAlive();
 
 	void playTone(int frequency, int duration, int volumeInPercent);
@@ -45,6 +48,10 @@ public interface LegoEV3 extends Mindstorms, BluetoothDevice {
 			int step3Tacho, boolean brake);
 	void moveMotorSpeed(byte outputField, int chainLayer, int speed);
 	void stopMotor(byte outputField, int chainLayer, boolean brake);
+
+	byte[] getLegoEv3ShowImageProgram();
+	String downloadFileToEv3(String fileName, byte[] content);
+	void startProgram(String programName);
 
 	void setLed(int ledStatus);
 

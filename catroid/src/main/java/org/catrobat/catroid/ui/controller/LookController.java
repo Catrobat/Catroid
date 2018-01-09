@@ -49,11 +49,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
+import org.catrobat.catroid.common.LegoImageLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.LookFragment;
@@ -80,6 +82,9 @@ public final class LookController {
 	public static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
 	public static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsLooks";
+	public enum LookDataType {
+		LOOK_DATA, DRONE_LOOK_DATA, LEGO_LOOK_DATA
+	}
 
 	private static final String TAG = LookController.class.getSimpleName();
 	private static final LookController INSTANCE = new LookController();
@@ -277,15 +282,17 @@ public final class LookController {
 	}
 
 	public void updateLookAdapter(String name, String fileName, List<LookData> lookDataList, LookFragment fragment) {
-		updateLookAdapter(name, fileName, lookDataList, fragment, false);
+		updateLookAdapter(name, fileName, lookDataList, fragment, LookDataType.LOOK_DATA);
 	}
 
 	private void updateLookAdapter(String name, String fileName, List<LookData> lookDataList, LookFragment fragment,
-			boolean isDroneVideo) {
+			LookDataType type) {
 		LookData lookData;
 
-		if (isDroneVideo) {
+		if (type.equals(LookDataType.DRONE_LOOK_DATA)) {
 			lookData = new DroneVideoLookData();
+		} else if (type.equals(LookDataType.LEGO_LOOK_DATA)) {
+			lookData = new LegoImageLookData();
 		} else {
 			lookData = new LookData();
 		}
@@ -304,7 +311,7 @@ public final class LookController {
 			lookDataList, LookFragment fragment) {
 		try {
 			File imageFile = StorageHandler.getInstance().copyImageFromResourceToCatroid(activity, imageId, defaultImageName);
-			updateLookAdapter(defaultImageName, imageFile.getName(), lookDataList, fragment, true);
+			updateLookAdapter(defaultImageName, imageFile.getName(), lookDataList, fragment, LookDataType.DRONE_LOOK_DATA);
 		} catch (IOException e) {
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 		}
@@ -316,6 +323,7 @@ public final class LookController {
 	private void copyImageToCatroid(String originalImagePath, Activity activity, List<LookData> lookDataList,
 			LookFragment fragment) {
 		try {
+			boolean lego = SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(activity);
 			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 
 			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
@@ -358,7 +366,8 @@ public final class LookController {
 					return;
 				}
 			}
-			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
+			updateLookAdapter(imageName, imageFileName, lookDataList, fragment, lego ? LookDataType.LEGO_LOOK_DATA
+					: LookDataType.LOOK_DATA);
 		} catch (IOException e) {
 			Log.e(TAG, "Error loading image in copyImageToCatroid IOException");
 			Utils.showErrorDialog(activity, R.string.error_load_image);
