@@ -25,8 +25,10 @@ package org.catrobat.catroid.stage;
 
 import android.graphics.PointF;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -39,17 +41,22 @@ import org.catrobat.catroid.content.XmlHeader;
 
 public class PenActor extends Actor {
 	private FrameBuffer buffer;
+	private Batch bufferBatch;
+	private OrthographicCamera camera;
 
 	public PenActor() {
 		XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
 		buffer = new FrameBuffer(Pixmap.Format.RGBA8888, header.virtualScreenWidth, header.virtualScreenHeight, false);
+		bufferBatch = new SpriteBatch();
+		camera = new OrthographicCamera(header.virtualScreenWidth, header.virtualScreenHeight);
+		bufferBatch.setProjectionMatrix(camera.combined);
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		buffer.begin();
 		for (Sprite sprite : ProjectManager.getInstance().getSceneToPlay().getSpriteList()) {
-			drawLinesAndStampsForSprite(sprite, batch, parentAlpha);
+			drawLinesForSprite(sprite);
 		}
 		buffer.end();
 
@@ -68,7 +75,21 @@ public class PenActor extends Actor {
 		buffer = new FrameBuffer(Pixmap.Format.RGBA8888, header.virtualScreenWidth, header.virtualScreenHeight, false);
 	}
 
-	private void drawLinesAndStampsForSprite(Sprite sprite, Batch batch, float parentAlpha) {
+	public void stampToFrameBuffer() {
+		bufferBatch.begin();
+		buffer.begin();
+		for (Sprite sprite : ProjectManager.getInstance().getSceneToPlay().getSpriteList()) {
+			Sprite.PenConfiguration pen = sprite.penConfiguration;
+			if (pen.stamp) {
+				sprite.look.draw(bufferBatch, 1.0f);
+				pen.stamp = false;
+			}
+		}
+		buffer.end();
+		bufferBatch.end();
+	}
+
+	private void drawLinesForSprite(Sprite sprite) {
 		float x = sprite.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite.look.getYInUserInterfaceDimensionUnit();
 		Sprite.PenConfiguration pen = sprite.penConfiguration;
@@ -88,13 +109,19 @@ public class PenActor extends Actor {
 			renderer.circle(x, y, pen.penSize / 2);
 		}
 
-		if (pen.stamp) {
-			sprite.look.draw(batch, parentAlpha);
-			pen.stamp = false;
-		}
-
 		renderer.end();
 		pen.previousPoint.x = x;
 		pen.previousPoint.y = y;
+	}
+
+	public void dispose() {
+		if (buffer != null) {
+			buffer.dispose();
+			buffer = null;
+		}
+		if (bufferBatch != null) {
+			bufferBatch.dispose();
+			bufferBatch = null;
+		}
 	}
 }
