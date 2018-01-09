@@ -69,10 +69,10 @@ public class ARDroneMoveDownBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_drone_move_down);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_second)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_down_edit_text_second)
 				.performEnterNumber(secondsValue)
 				.checkShowsNumber(secondsValue);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_edit_text_power)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_drone_move_down_edit_text_power)
 				.performEnterNumber(powerValue)
 				.checkShowsNumber(powerValue);
 	}

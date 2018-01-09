@@ -650,34 +650,34 @@ public class RtlBrickTest {
 		openCategory(R.string.category_drone);
 
 		// Take off
-		checkIfBrickISRtl(DroneTakeOffLandBrick.class, R.id.brick_drone_basic_layout);
+		checkIfBrickISRtl(DroneTakeOffLandBrick.class, R.id.brick_drone_takeoff_land_layout);
 
 		// Emergency
-		checkIfBrickISRtl(DroneEmergencyBrick.class, R.id.brick_drone_basic_layout);
+		checkIfBrickISRtl(DroneEmergencyBrick.class, R.id.brick_drone_emergency_layout);
 
 		// Move up
-		checkIfBrickISRtl(DroneMoveUpBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveUpBrick.class, R.id.brick_drone_move_up_layout);
 
 		// Move down
-		checkIfBrickISRtl(DroneMoveDownBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveDownBrick.class, R.id.brick_drone_move_down_layout);
 
 		// Move Left
-		checkIfBrickISRtl(DroneMoveLeftBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveLeftBrick.class, R.id.brick_drone_move_left_layout);
 
 		// Move Right
-		checkIfBrickISRtl(DroneMoveRightBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveRightBrick.class, R.id.brick_drone_move_right_layout);
 
 		// Move forward
-		checkIfBrickISRtl(DroneMoveForwardBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveForwardBrick.class, R.id.brick_drone_move_forward_layout);
 
 		// Move Backward
-		checkIfBrickISRtl(DroneMoveBackwardBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveBackwardBrick.class, R.id.brick_drone_move_backward_layout);
 
 		// Turn Left
-		checkIfBrickISRtl(DroneTurnLeftBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneTurnLeftBrick.class, R.id.brick_drone_turn_left_layout);
 
 		// Turn Right
-		checkIfBrickISRtl(DroneTurnRightBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneTurnRightBrick.class, R.id.brick_drone_turn_right_layout);
 
 		// Flip
 		checkIfBrickISRtl(DroneFlipBrick.class, R.id.brick_drone_flip_layout);
@@ -686,7 +686,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(DronePlayLedAnimationBrick.class, R.id.brick_drone_play_led_animation_layout);
 
 		// Switch Drone camera
-		checkIfBrickISRtl(DroneSwitchCameraBrick.class, R.id.brick_drone_basic_look_layout);
+		checkIfBrickISRtl(DroneSwitchCameraBrick.class, R.id.brick_drone_switch_camera_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

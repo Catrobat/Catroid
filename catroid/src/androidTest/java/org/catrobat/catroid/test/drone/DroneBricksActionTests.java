@@ -45,7 +45,6 @@ import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.when;
@@ -58,12 +57,12 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	public TemporalAction action;
 	Sprite sprite;
 	SequenceAction sequenceAction;
-	private Formula powerInPercent;
-	private Formula durationInSeconds;
+	private int powerInPercent;
+	private int durationInSeconds;
 
 	public DroneBricksActionTests() {
-		powerInPercent = new Formula(0.2 * 100);
-		durationInSeconds = new Formula(2);
+		powerInPercent = 20;
+		durationInSeconds = 2;
 	}
 
 	@Override

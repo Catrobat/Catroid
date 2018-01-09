@@ -779,7 +779,7 @@ public class BrickValueParameterTest {
 				+ " "
 				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveUpBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveUpBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveUpBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveDownBrick.class, R.string.brick_drone_move_down);
 		checkIfBrickShowsText(DroneMoveDownBrick.class, R.string.brick_drone_with);
@@ -787,7 +787,7 @@ public class BrickValueParameterTest {
 				+ " "
 				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveDownBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveDownBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveDownBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, R.string.brick_drone_move_left);
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, R.string.brick_drone_with);
@@ -795,7 +795,7 @@ public class BrickValueParameterTest {
 				+ " "
 				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveLeftBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveLeftBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveRightBrick.class, R.string.brick_drone_move_right);
 		checkIfBrickShowsText(DroneMoveRightBrick.class, R.string.brick_drone_with);
@@ -803,7 +803,7 @@ public class BrickValueParameterTest {
 				+ " "
 				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveRightBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveRightBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveRightBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, R.string.brick_drone_move_forward);
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, R.string.brick_drone_with);
@@ -811,7 +811,7 @@ public class BrickValueParameterTest {
 				+ " "
 				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveForwardBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveForwardBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, R.string.brick_drone_move_backward);
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, R.string.brick_drone_with);
@@ -819,7 +819,7 @@ public class BrickValueParameterTest {
 				+ " "
 				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveBackwardBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveBackwardBrick.class, "20");
 
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, R.string.brick_drone_turn_left);
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, R.string.brick_drone_with);
@@ -827,7 +827,7 @@ public class BrickValueParameterTest {
 				+ " "
 				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, "1");
-		checkIfBrickShowsText(DroneTurnLeftBrick.class, "20.0");
+		checkIfBrickShowsText(DroneTurnLeftBrick.class, "20");
 
 		checkIfBrickShowsText(DroneTurnRightBrick.class, R.string.brick_drone_turn_right);
 		checkIfBrickShowsText(DroneTurnRightBrick.class, R.string.brick_drone_with);
@@ -835,7 +835,7 @@ public class BrickValueParameterTest {
 				+ " "
 				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneTurnRightBrick.class, "1");
-		checkIfBrickShowsText(DroneTurnRightBrick.class, "20.0");
+		checkIfBrickShowsText(DroneTurnRightBrick.class, "20");
 
 		checkIfBrickShowsText(DroneSwitchCameraBrick.class, R.string.brick_drone_switch_camera);
 	}
