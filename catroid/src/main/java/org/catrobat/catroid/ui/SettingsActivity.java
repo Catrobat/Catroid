@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,7 +40,13 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
@@ -115,9 +122,7 @@ public class SettingsActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		addPreferencesFromResource(R.xml.preferences);
-
 		setAnonymousCrashReportPreference();
 		setNXTSensors();
 		setEV3Sensors();
@@ -386,9 +391,48 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 	}
 
+	@SuppressWarnings("deprecation")
+	@Override
+	//slightly modified from https://stackoverflow.com/a/18197725
+	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+		super.onPreferenceTreeClick(preferenceScreen, preference);
+
+		if (preference instanceof PreferenceScreen) {
+			final Dialog dialog = preferenceScreen.getDialog();
+			if (dialog != null) {
+				ActionBar actionBar = dialog.getActionBar();
+				if (actionBar != null) {
+					actionBar.setDisplayHomeAsUpEnabled(true);
+				}
+
+				View homeBtn = dialog.findViewById(android.R.id.home);
+				if (homeBtn != null) {
+					View.OnClickListener dismissDialogClickListener = new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							dialog.dismiss();
+						}
+					};
+					ViewParent homeBtnContainer = homeBtn.getParent();
+					if (homeBtnContainer instanceof FrameLayout) {
+						ViewGroup containerParent = (ViewGroup) homeBtnContainer.getParent();
+						if (containerParent instanceof LinearLayout) {
+							containerParent.setOnClickListener(dismissDialogClickListener);
+						} else {
+							((FrameLayout) homeBtnContainer).setOnClickListener(dismissDialogClickListener);
+						}
+					} else {
+						homeBtn.setOnClickListener(dismissDialogClickListener);
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	@SuppressWarnings("deprecation")
 	private void updateActionBar() {
 		ActionBar actionBar = getActionBar();
-
 		if (actionBar != null) {
 			actionBar.setTitle(R.string.preference_title);
 			actionBar.setHomeButtonEnabled(true);
