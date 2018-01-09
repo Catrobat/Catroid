@@ -114,5 +114,12 @@
     <!-- PocketMusic -->
     <dimen name="pocketmusic_trackrow_margin">0.5dp</dimen>
     <dimen name="plus_button_size">82sp</dimen>
+    <dimen name="fastscroll__bubble_corner">20dp</dimen>
+    <dimen name="fastscroll__handle_corner">3dp</dimen>
+    <dimen name="fastscroll__handle_height">26dp</dimen>
+    <dimen name="fastscroll__handle_inset">9dp</dimen>
+    <dimen name="fastscroll__handle_inset_top">18dp</dimen>
+    <dimen name="fastscroll__handle_inset_bottom">3dp</dimen>
+    <dimen name="fastscroll__handle_clickable_width">50dp</dimen>
 
 </resources>

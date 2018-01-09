@@ -41,4 +41,10 @@
         <attr name="layout_horizontalSpacing" format="dimension"/>
         <attr name="layout_verticalSpacing" format="dimension"/>
     </declare-styleable>
+    <attr name="fastscroll__style" format="reference" />
+    <declare-styleable name="fastscroll__fastScroller">
+	    <attr name="fastscroll__bubbleColor" format="color" />
+	    <attr name="fastscroll__handleColor" format="color" />
+	    <attr name="fastscroll__bubbleTextAppearance" format="reference" />
+	</declare-styleable>
 </resources>

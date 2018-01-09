@@ -24,6 +24,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <ImageButton
         android:id="@+id/pocketmusic_play_button"
@@ -49,11 +50,25 @@
             android:layout_height="match_parent"
             android:layout_weight=".78"
             android:background="@color/solid_black">
-            <org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView
-                android:id="@+id/tact_scroller"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="horizontal"/>
+                android:layout_height="match_parent">
+                <org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView
+                    android:id="@+id/tact_scroller"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"/>
+                <org.catrobat.catroid.pocketmusic.fastscroll.FastScroller
+                    android:id="@+id/fastscroll"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    android:layout_marginBottom="0dp"
+                    android:layout_alignParentBottom="true"
+                    app:fastscroll__handleColor="@color/turquoise_play_line"/>
+            </RelativeLayout>
+
             <View
                 android:id="@+id/pocketmusic_play_line"
                 android:layout_width="2dp"

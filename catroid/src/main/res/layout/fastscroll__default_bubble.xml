@@ -21,7 +21,15 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
-	<string name="app_name_test">CatroidTest</string>
-	<string name="fastscroll__app_name">RecyclerViewFastScroll</string>
-</resources>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="64dp"
+    android:layout_height="64dp"
+    android:gravity="center"
+    android:textSize="24sp"
+    android:background="@drawable/fastscroll__default_bubble"
+    android:visibility="invisible"
+    android:elevation="2dp"
+    android:layout_margin="1dp"
+    tools:text="A"
+    tools:visibility="visible" />

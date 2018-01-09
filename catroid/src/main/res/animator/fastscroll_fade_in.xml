@@ -21,7 +21,17 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
-	<string name="app_name_test">CatroidTest</string>
-	<string name="fastscroll__app_name">RecyclerViewFastScroll</string>
-</resources>
+
+
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/accelerate_interpolator"
+    >
+
+    <objectAnimator
+        android:propertyName="alpha"
+        android:valueFrom="0.0"
+        android:valueTo="1.0"
+        android:duration="200"
+        />
+
+</set>

@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
-	<string name="app_name_test">CatroidTest</string>
-	<string name="fastscroll__app_name">RecyclerViewFastScroll</string>
-</resources>
+<shape  xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="@dimen/fastscroll__handle_corner" />
+    <solid android:color="@android:color/darker_gray" />
+</shape>
