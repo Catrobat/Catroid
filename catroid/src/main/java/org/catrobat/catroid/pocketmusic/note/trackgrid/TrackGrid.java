@@ -169,14 +169,18 @@ public class TrackGrid {
 		playRunnables.clear();
 		long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
 		long currentTime = SystemClock.uptimeMillis();
+
 		for (GridRow row : gridRows) {
 			for (int i = 0; i < row.getGridRowPositions().size(); i++) {
-				List<GridRowPosition> gridRowPositions = row.getGridRowPositions().get(row.getGridRowPositions()
-						.keyAt(i));
+
+				int tactOffset = row.getGridRowPositions().keyAt(i);
+				int tactOffsetTime = (int) (playLength * tactOffset * beat.getBottomNumber());
+
+				List<GridRowPosition> gridRowPositions = row.getGridRowPositions().get(tactOffset);
 				for (GridRowPosition position : gridRowPositions) {
 					MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, row.getNoteName(), playLength - 10,
 							handler, midiDriver);
-					handler.postAtTime(runnable, currentTime + playLength * position.getColumnStartIndex() + 10);
+					handler.postAtTime(runnable, currentTime + playLength * position.getColumnStartIndex() + 10 + tactOffsetTime);
 					playRunnables.add(runnable);
 				}
 			}
