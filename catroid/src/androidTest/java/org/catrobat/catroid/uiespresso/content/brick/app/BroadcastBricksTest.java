@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
-import android.support.test.runner.AndroidJUnit4;
+import android.support.annotation.IdRes;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -33,8 +33,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -43,98 +43,103 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.action.ViewActions.typeTextIntoFocusedView;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.junit.runners.Parameterized.Parameter;
+import static org.junit.runners.Parameterized.Parameters;
 
-@RunWith(AndroidJUnit4.class)
+@Category({Cat.AppUi.class, Level.Smoke.class})
+@RunWith(Parameterized.class)
 public class BroadcastBricksTest {
-	private String defaultMessage = "defaultMessage";
-	private int broadcastSendPosition = 1;
-	private int broadcastReceivePosition = 2;
-
 	@Rule
 	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
 
+	private static int whenBrickPosition = 0;
+	private static int broadcastSendPosition = 1;
+	private static int broadcastReceivePosition = 2;
+	private static int broadcastAndWaitPosition = 3;
+
+	@Parameters(name = "{2}")
+	public static Iterable<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{broadcastSendPosition, R.id.brick_broadcast_spinner, "BroadcastSendTest"},
+				{broadcastReceivePosition, R.id.brick_broadcast_receive_spinner, "BroadcastReceiveTest"},
+				{broadcastAndWaitPosition, R.id.brick_broadcast_wait_spinner, "BroadcastAndWaitTest"}
+		});
+	}
+
+	@Parameter
+	public int brickPosition;
+
+	@Parameter(1)
+	public @IdRes int spinnerId;
+
+	@Parameter(2)
+	public String testName;
+
+	private String defaultMessage = "defaultMessage";
+
 	@Before
 	public void setUp() throws Exception {
-		createProjectAndGetStartScriptWithImages("BroadcastBrickTest");
+		createProject("BroadcastBricksTest");
 		baseActivityTestRule.launchActivity(null);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testBroadcastBricksLayout() {
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+	public void removeUnusedMessagesBroadcastTest() {
+		onBrickAtPosition(whenBrickPosition).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(broadcastSendPosition).checkShowsText(R.string.brick_broadcast);
 		onBrickAtPosition(broadcastReceivePosition).checkShowsText(R.string.brick_broadcast_receive);
-	}
+		onBrickAtPosition(broadcastAndWaitPosition).checkShowsText(R.string.brick_broadcast_wait);
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
-	@Test
-	@Flaky
-	public void testRemoveUnusedMessagesBroadcastSend() {
-		String uselessMessage = "useless";
+		onBrickAtPosition(brickPosition).onSpinner(spinnerId)
+				.checkShowsText(defaultMessage);
 
-		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastSendPosition, uselessMessage);
+		String newMessage = "newMessage";
+		onBrickAtPosition(brickPosition).onSpinner(spinnerId)
+				.perform(click());
+		onView(withText(R.string.new_broadcast_message))
+				.perform(click());
+		onView(withId(R.id.edit_text))
+				.perform(clearText(), typeTextIntoFocusedView(newMessage));
+		onView(withText(R.string.ok))
+				.perform(click());
+		onBrickAtPosition(brickPosition).onSpinner(spinnerId)
+				.checkShowsText(newMessage);
 
-		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
-				.performSelect(defaultMessage);
+		onBrickAtPosition(brickPosition).onSpinner(spinnerId)
+				.perform(click());
+		onView(withText(defaultMessage))
+				.perform(click());
+		onBrickAtPosition(brickPosition).onSpinner(spinnerId)
+				.checkShowsText(defaultMessage);
 
 		onView(withId(R.id.button_play))
 				.perform(click());
-		pressBack();
-		onView(withId(R.id.stage_dialog_button_back))
-				.perform(click());
-		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
-				.perform(click());
-
-		onView(withText(uselessMessage)).check(doesNotExist());
 
 		pressBack();
+		pressBack();
 
-		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
-				.checkShowsText(defaultMessage);
+		onBrickAtPosition(brickPosition).onSpinner(spinnerId)
+				.perform(click());
+		onView(withText(newMessage))
+				.check(doesNotExist());
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
-	@Test
-	@Flaky
-	public void testRemoveUnusedMessagesBroadcastReceive() {
-		String uselessMessage = "useless";
-		createNewMessageOnSpinner(R.id.brick_broadcast_receive_spinner, broadcastReceivePosition, uselessMessage);
-
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
-				.performSelect(defaultMessage);
-
-		onView(withId(R.id.button_play))
-				.perform(click());
-		pressBack();
-		onView(withId(R.id.stage_dialog_button_back))
-				.perform(click());
-
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
-				.perform(click());
-
-		onView(withText(uselessMessage)).check(doesNotExist());
-
-		pressBack();
-
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
-				.checkShowsText(defaultMessage);
-	}
-
-	private Script createProjectAndGetStartScriptWithImages(String projectName) {
+	private Script createProject(String projectName) {
 		Project project = new Project(null, projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
@@ -143,28 +148,12 @@ public class BroadcastBricksTest {
 
 		script.addBrick(new BroadcastBrick(defaultMessage));
 		script.addBrick(new BroadcastReceiverBrick(defaultMessage));
+		script.addBrick(new BroadcastWaitBrick(defaultMessage));
 
 		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		return script;
-	}
-
-	public static void createNewMessageOnSpinner(int spinnerResourceId, int position, String message) {
-		onBrickAtPosition(position).onSpinner(spinnerResourceId)
-				.perform(click());
-
-		onView(withText(R.string.brick_variable_spinner_create_new_variable))
-				.perform(click());
-
-		onView(withId(R.id.edit_text))
-				.perform(clearText(), typeText(message), closeSoftKeyboard());
-
-		onView(withId(android.R.id.button1))
-				.perform(click());
-		// todo: CAT-2359 to fix this:
-		onBrickAtPosition(position).onSpinner(spinnerResourceId)
-				.checkShowsText(message);
 	}
 }
