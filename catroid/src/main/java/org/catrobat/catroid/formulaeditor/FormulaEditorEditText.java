@@ -179,6 +179,28 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
 	}
 
+	public void updateVariableReferences(String oldName, String newName) {
+		if (internFormula == null) {
+			return;
+		}
+		internFormula.updateVariableReferences(oldName, newName, this.context);
+		history.push(internFormula.getInternFormulaState());
+		String resultingText = updateTextAndCursorFromInternFormula();
+		setSelection(absoluteCursorPosition);
+		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+	}
+
+	public void updateListReferences(String oldName, String newName) {
+		if (internFormula == null) {
+			return;
+		}
+		internFormula.updateListReferences(oldName, newName, this.context);
+		history.push(internFormula.getInternFormulaState());
+		String resultingText = updateTextAndCursorFromInternFormula();
+		setSelection(absoluteCursorPosition);
+		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+	}
+
 	private Runnable cursorAnimation = new Runnable() {
 		@Override
 		public void run() {

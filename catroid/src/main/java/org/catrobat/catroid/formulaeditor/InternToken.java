@@ -54,6 +54,12 @@ public class InternToken {
 		}
 	}
 
+	public void updateListReferences(String oldName, String newName) {
+		if (internTokenType == InternTokenType.USER_LIST && tokenStringValue.equals(oldName)) {
+			tokenStringValue = newName;
+		}
+	}
+
 	public void getVariableAndListNames(List<String> variables, List<String> lists) {
 		if (internTokenType == InternTokenType.USER_VARIABLE && !variables.contains(tokenStringValue)) {
 			variables.add(tokenStringValue);
