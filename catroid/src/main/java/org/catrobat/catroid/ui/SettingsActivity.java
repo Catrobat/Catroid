@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,6 +43,7 @@ import android.util.DisplayMetrics;
 import android.view.MenuItem;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
@@ -50,10 +52,12 @@ import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
+import static org.catrobat.catroid.CatroidApplication.getAppContext;
 import static org.catrobat.catroid.common.Constants.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.Constants.LANGUAGE_CODE;
 import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
@@ -115,6 +119,7 @@ public class SettingsActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setToChosenLanguage(this);
 
 		addPreferencesFromResource(R.xml.preferences);
 
@@ -733,18 +738,7 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				String selectedLanguageCode = newValue.toString();
-				if (selectedLanguageCode.equals(DEVICE_LANGUAGE)) {
-					updateLocale(getBaseContext(), defaultSystemLanguage, "");
-					setLanguageSharedPreference(defaultSystemLanguage);
-				} else if (selectedLanguageCode.length() == 2) {
-					updateLocale(getBaseContext(), selectedLanguageCode, "");
-					setLanguageSharedPreference(selectedLanguageCode);
-				} else if (selectedLanguageCode.length() == 6) {
-					String language = selectedLanguageCode.substring(0, 2);
-					String country = selectedLanguageCode.substring(4);
-					updateLocale(getBaseContext(), language, country);
-					setLanguageSharedPreference(selectedLanguageCode);
-				}
+				setLanguageSharedPreference(getBaseContext(), selectedLanguageCode);
 				startActivity(new Intent(getBaseContext(), MainMenuActivity.class));
 				finishAffinity();
 				return true;
@@ -752,21 +746,45 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 	}
 
-	public static void updateLocale(Context context, String languageTag, String countryTag) {
-		Locale mLocale;
-		mLocale = new Locale(languageTag, countryTag);
+	public static void setToChosenLanguage(Activity activity) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
+		Locale mLocale = Arrays.asList(LANGUAGE_CODE).contains(languageTag)
+				? getLocaleFromLanguageTag(languageTag)
+				: new Locale(CatroidApplication.defaultSystemLanguage);
+
+		Locale.setDefault(mLocale);
+		updateLocale(activity, mLocale);
+		updateLocale(activity.getApplicationContext(), mLocale);
+	}
+
+	public static void updateLocale(Context context, Locale locale) {
 		Resources resources = context.getResources();
 		DisplayMetrics displayMetrics = resources.getDisplayMetrics();
 		Configuration conf = resources.getConfiguration();
-		conf.locale = mLocale;
-		Locale.setDefault(mLocale);
-		conf.setLayoutDirection(mLocale);
+		conf.setLocale(locale);
 		resources.updateConfiguration(conf, displayMetrics);
 	}
 
-	private void setLanguageSharedPreference(String value) {
-		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+	private static Locale getLocaleFromLanguageTag(String languageTag) {
+		if (languageTag.contains("-r")) {
+			String[] tags = languageTag.split("-r");
+			return new Locale(tags[0], tags[1]);
+		} else if (languageTag.equals(getAppContext().getResources().getString(R.string.device_language))) {
+			return new Locale(defaultSystemLanguage);
+		} else {
+			return new Locale(languageTag);
+		}
+	}
+
+	public static void setLanguageSharedPreference(Context context, String value) {
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 		editor.putString(LANGUAGE_TAG_KEY, value);
 		editor.commit();
+	}
+
+	public static void removeLanguageSharedPreference(Context mContext) {
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+		editor.remove(LANGUAGE_TAG_KEY).commit();
 	}
 }

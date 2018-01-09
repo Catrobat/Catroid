@@ -104,6 +104,7 @@ public class ProjectActivity extends BaseCastActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SettingsActivity.setToChosenLanguage(this);
 
 		initializeFacebookSdk();
 

@@ -37,6 +37,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.Locale;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
@@ -50,32 +51,35 @@ public class UtilFileSizeTranslationsTest {
 	private File projectFolder;
 	private File imageFile;
 	private File soundFile;
+	private NumberFormat currentNumberformat;
 
 	@Before
 	public void setUp() throws Exception {
-		SettingsActivity.updateLocale(getTargetContext(), "ar", "");
+		SettingsActivity.updateLocale(getTargetContext(), new Locale("ar"));
+
 		createProjectWithFiles();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		SettingsActivity.updateLocale(getTargetContext(), defaultLocale.getLanguage(), defaultLocale.getCountry());
+		SettingsActivity.updateLocale(getTargetContext(), defaultLocale);
 	}
 
 	@Test
 	public void testFileSize() {
+		currentNumberformat = NumberFormat.getInstance(Locale.getDefault());
 		String arabicKb = "كيلوبايت";
-		String soundExpectedSize = "٣٫٧";
-		String lookExpectedSize = "٢٫٦";
-		String projectExpectedSize = "٧٫٧";
+		double soundExpectedSize = 3.7;
+		double lookExpectedSize = 2.6;
+		double projectExpectedSize = 7.7;
 
-		assertEquals(soundExpectedSize + " " + arabicKb,
+		assertEquals(currentNumberformat.format(soundExpectedSize) + " " + arabicKb,
 				UtilFile.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));
 
-		assertEquals(lookExpectedSize + " " + arabicKb,
+		assertEquals(currentNumberformat.format(lookExpectedSize) + " " + arabicKb,
 				UtilFile.getSizeAsString(imageFile, InstrumentationRegistry.getTargetContext()));
 
-		assertEquals(projectExpectedSize + " " + arabicKb,
+		assertEquals(currentNumberformat.format(projectExpectedSize) + " " + arabicKb,
 				UtilFile.getSizeAsString(projectFolder, InstrumentationRegistry.getTargetContext()));
 	}
 

@@ -50,6 +50,7 @@ public class MyProjectsActivity extends BaseCastActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SettingsActivity.setToChosenLanguage(this);
 		setContentView(R.layout.activity_my_projects);
 		setUpActionBar();
 
