@@ -68,7 +68,7 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View backPackSpriteListFragment = inflater.inflate(R.layout.fragment_backpack, container, false);
 		listView = (ListView) backPackSpriteListFragment.findViewById(android.R.id.list);
-
+		setHasOptionsMenu(true);
 		return backPackSpriteListFragment;
 	}
 
@@ -140,6 +140,8 @@ public class BackPackSpriteListFragment extends BackPackActivityFragment impleme
 		super.onPrepareOptionsMenu(menu);
 		if (BackPackListManager.getInstance().getBackPackedSprites().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(false);
+			menu.findItem(R.id.show_details).setVisible(false);
+			menu.findItem(R.id.delete).setVisible(false);
 		}
 	}
 

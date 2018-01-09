@@ -87,6 +87,9 @@ public final class UtilFile {
 	}
 
 	private static String formatFileSize(long sizeInByte, Context context) {
+		if (sizeInByte <= 0) {
+			return String.valueOf(0);
+		}
 		List<Integer> fileSizeExtension = Arrays.asList(
 				R.string.Byte_short,
 				R.string.KiloByte_short,
