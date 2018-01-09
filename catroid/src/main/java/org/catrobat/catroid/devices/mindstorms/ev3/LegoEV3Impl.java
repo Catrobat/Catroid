@@ -210,7 +210,7 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 
 		setSpeedCommand.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
 		setSpeedCommand.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, outputField);
-		setSpeedCommand.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, speed);
+		setSpeedCommand.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, speed);
 
 		EV3Command startMotorCommand = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType
 				.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_START);
