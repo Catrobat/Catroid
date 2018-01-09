@@ -174,6 +174,10 @@ public final class Constants {
 			+ ".downloadStatePref";
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
+	public static final String SCRATCH_PROJECT_URL = "https://scratch.mit.edu/projects/";
+	//SCRATCH_API_PROJECT_URL is deprecated, but as there is no alternative, because the Scratch search api is not
+	//capable searching for project IDs or URLs, we have to use it
+	public static final String SCRATCH_API_PROJECT_URL = "https://scratch.mit.edu/api/v1/project/";
 	public static final String SCRATCH_IMAGE_BASE_URL = "https://uploads.scratch.mit.edu/projects/thumbnails/";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
 	public static final String SCRATCH_CONVERTER_WEB_SOCKET = "ws://" + SCRATCH_CONVERTER_HOST + "/convertersocket";
