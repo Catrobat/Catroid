@@ -37,8 +37,8 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.LegacyFileUtils;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -69,17 +69,17 @@ public class ArduinoSettingsTest extends InstrumentationTestCase {
 		assertFalse("By default Arduino should be disabled",
 				SettingsActivity.isArduinoSharedPreferenceEnabled(context));
 
-		ProjectManager.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, context);
+		ProjectManager.getInstance().loadProject(LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME, context);
 
 		assertTrue("After loading a project which needs Arduino it should be enabled",
 				SettingsActivity.isArduinoSharedPreferenceEnabled(context));
 
-		StorageHandler.deleteDir(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
+		StorageHandler.deleteDir(Utils.buildProjectPath(LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME));
 	}
 
 	private void createProjectArduino() throws InterruptedException {
 		Project projectArduino = new Project(InstrumentationRegistry.getTargetContext(),
-				UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+				LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new SingleSprite("Arduino");
 
 		StartScript startScript = new StartScript();

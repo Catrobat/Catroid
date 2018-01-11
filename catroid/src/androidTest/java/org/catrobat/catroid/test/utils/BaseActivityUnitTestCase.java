@@ -27,7 +27,6 @@ import android.test.ActivityUnitTestCase;
 import android.util.Log;
 
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public abstract class BaseActivityUnitTestCase<T extends Activity> extends ActivityUnitTestCase<T> {
 
@@ -41,14 +40,14 @@ public abstract class BaseActivityUnitTestCase<T extends Activity> extends Activ
 	protected void setUp() throws Exception {
 		Log.v(TAG, "setUp");
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
+		LegacyFileUtils.clearAllUtilTestProjects();
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		Log.v(TAG, "tearDown");
-		UiTestUtils.clearAllUtilTestProjects();
+		LegacyFileUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 }

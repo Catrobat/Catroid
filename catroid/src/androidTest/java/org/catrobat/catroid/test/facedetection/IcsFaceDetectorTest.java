@@ -33,7 +33,7 @@ import org.catrobat.catroid.facedetection.IcsFaceDetector;
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uiespresso.annotations.Device;
 
 import java.util.Random;
 

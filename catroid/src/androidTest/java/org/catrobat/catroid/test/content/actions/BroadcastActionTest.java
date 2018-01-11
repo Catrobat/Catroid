@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.test.utils.LegacyFileUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +58,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		broadcastScript.addBrick(testBrick);
 		sprite.addScript(broadcastScript);
 
-		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(getContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
 		Scene scene = project.getDefaultScene();
 		scene.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
@@ -93,7 +93,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		broadcastScript.addBrick(setXBrick2);
 		sprite.addScript(broadcastScript);
 
-		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(getContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
 		Scene scene = project.getDefaultScene();
 		scene.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
@@ -132,7 +132,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 
 		sprite.addScript(broadcastScript);
 
-		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(getContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
@@ -174,7 +174,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		broadcastScriptMessageTwo.addBrick(broadcastWaitBrickTwo);
 		sprite.addScript(broadcastScriptMessageTwo);
 
-		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(getContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 

@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
 import org.catrobat.catroid.drone.ardrone.DroneBrickFactory.DroneBricks;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.test.utils.LegacyFileUtils;
 
 public abstract class DroneTestUtils {
 
@@ -41,7 +41,7 @@ public abstract class DroneTestUtils {
 	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
 
 	public static void createDefaultDroneProject() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new SingleSprite("DroneBricksTest");
 		Script script = new StartScript();
 
