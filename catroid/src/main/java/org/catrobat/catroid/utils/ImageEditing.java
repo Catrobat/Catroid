@@ -145,19 +145,6 @@ public final class ImageEditing {
 		return scaledImageDimensions;
 	}
 
-	public static void overwriteImageFileWithNewBitmap(File imageFile) throws FileNotFoundException {
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		Bitmap immutableBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-		int bitmapWidth = immutableBitmap.getWidth();
-		int bitmapHeight = immutableBitmap.getHeight();
-		int[] bitmapPixels = new int[bitmapWidth * bitmapHeight];
-		immutableBitmap.getPixels(bitmapPixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
-
-		Bitmap mutableBitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
-		mutableBitmap.setPixels(bitmapPixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
-		StorageHandler.saveBitmapToImageFile(imageFile, mutableBitmap);
-	}
-
 	public static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegree) {
 		Matrix rotateMatrix = new Matrix();
 		rotateMatrix.postRotate(rotationDegree);

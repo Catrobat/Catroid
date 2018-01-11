@@ -281,13 +281,10 @@
         <item quantity="one">%d NFC Tag</item>
         <item quantity="other">%d NFC Tags</item>
     </plurals>
-
-    <!--
     <plurals name="am_scripts_title">
         <item quantity="one">%d Script</item>
         <item quantity="other">%d Scripts</item>
     </plurals>
-    -->
 
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New Scene</string>
