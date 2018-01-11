@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false"
+            android:textDirection="locale"
             app:layout_newLine="true" />
 
     </org.catrobat.catroid.ui.BrickLayout>

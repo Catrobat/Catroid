@@ -66,6 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textDirection="locale"
                     android:clickable="false"
                     android:focusable="false" >
                 </Spinner >

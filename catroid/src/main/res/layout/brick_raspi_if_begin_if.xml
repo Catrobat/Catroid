@@ -60,7 +60,7 @@
         <TextView
             android:id="@+id/if_raspi_label_second_part"
             style="@style/BrickText.Multiple"
-            android:paddingLeft="5dip"
+            android:paddingStart="5dip"
             android:text="@string/brick_raspi_if_begin_second_part" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >

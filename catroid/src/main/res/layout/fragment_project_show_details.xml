@@ -37,7 +37,7 @@
             android:layout_width="72dp"
             android:layout_height="65dp"
             android:id="@+id/image"
-            android:layout_marginLeft="9dp"
+            android:layout_marginStart="9dp"
             android:background="@drawable/spritelist_item_thumbnail_border"
             android:cropToPadding="true"
             android:padding="1.5dp"

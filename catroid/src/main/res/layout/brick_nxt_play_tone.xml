@@ -68,8 +68,7 @@
 
         <TextView
             android:id="@+id/brick_nxt_play_tone_seconds"
-            style="@style/BrickText.Multiple"
-            android:text="@string/nxt_seconds" />
+            style="@style/BrickText.Multiple" />
 
         <!--- Frequency -->
 

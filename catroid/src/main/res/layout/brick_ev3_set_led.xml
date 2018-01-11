@@ -57,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_newLine="true"
+            android:textDirection="locale"
             android:clickable="false"
             android:focusable="false" >
         </Spinner>

@@ -55,6 +55,7 @@
             android:id="@+id/brick_when_nfc_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textDirection="locale"
             android:clickable="false"
             android:focusable="false" />
     </org.catrobat.catroid.ui.BrickLayout>

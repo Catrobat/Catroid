@@ -23,19 +23,25 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +120,38 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	public abstract void showFormulaEditorToEditFormula(View view);
 
 	public void updateReferenceAfterMerge(Scene into, Scene from) {
+	}
+
+	public void setSecondText(View view, int textViewId, int editTextDurationId, BrickField brickField) {
+		TextView editDuration = (TextView) view.findViewById(editTextDurationId);
+		getFormulaWithBrickField(brickField)
+				.setTextFieldId(editTextDurationId);
+		getFormulaWithBrickField(brickField).refreshTextField(view);
+
+		TextView times = (TextView) view.findViewById(textViewId);
+
+		if (getFormulaWithBrickField(brickField).isSingleNumberFormula()) {
+			try {
+				times.setText(view.getResources().getQuantityString(
+						R.plurals.second_plural,
+						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(brickField)
+								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
+				));
+			} catch (InterpretationException interpretationException) {
+				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
+			}
+		} else {
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+		}
+
+		editDuration.setOnClickListener(this);
+	}
+
+	public void setSecondText(Context context, View prototypeView, int textViewId) {
+		TextView second = (TextView) prototypeView.findViewById(textViewId);
+		second.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
 	}
 
 	@Override

@@ -72,8 +72,7 @@
 
         <TextView
             android:id="@+id/brick_ev3_tone_seconds"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/nxt_seconds" >
+            style="@style/BrickText.SingleLine">
         </TextView >
 
         <TextView

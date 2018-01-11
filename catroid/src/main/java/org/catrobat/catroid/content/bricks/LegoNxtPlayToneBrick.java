@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -78,6 +79,9 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 		NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
 		nf.setMinimumFractionDigits(1);
 		textDuration.setText(nf.format(BrickValues.LEGO_DURATION));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_nxt_play_tone_seconds);
+		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.LEGO_DURATION)));
 		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_edit_text);
 
 		textFreq.setText(String.valueOf(BrickValues.LEGO_FREQUENCY));
@@ -97,12 +101,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
 
-		TextView editDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)
-				.setTextFieldId(R.id.nxt_tone_duration_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).refreshTextField(view);
-
-		editDuration.setOnClickListener(this);
+		setSecondText(view, R.id.brick_nxt_play_tone_seconds, R.id.nxt_tone_duration_edit_text, BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 
 		editFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).setTextFieldId(R.id.nxt_tone_freq_edit_text);

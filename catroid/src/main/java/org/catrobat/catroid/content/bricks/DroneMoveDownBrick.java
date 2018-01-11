@@ -81,6 +81,9 @@ public class DroneMoveDownBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_drone_move_down_checkbox);
 
+		setSecondText(view, R.id.brick_drone_move_down_text_second, R.id
+				.brick_drone_move_down_edit_text_second, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+
 		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_down_edit_text_second);
 		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
 				.setTextFieldId(R.id.brick_drone_move_down_edit_text_second);
@@ -108,6 +111,8 @@ public class DroneMoveDownBrick extends FormulaBrick {
 		textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
 
 		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+
+		setSecondText(context, prototypeView, R.id.brick_drone_move_down_text_second);
 		return prototypeView;
 	}
 
