@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
+import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -33,7 +35,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -57,13 +59,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class FormulaEditorKeyboardTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
 		createProject("formulaEditorKeyboardTest");
-		baseActivityTestRule.launchActivity(null);
+		Intent intent = new Intent();
+		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+		baseActivityTestRule.launchActivity(intent);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -85,7 +89,7 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.formula_editor_keyboard_1)).perform(click());
 		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
 
-		onView(withId(R.id.formula_editor_edit_field))
+		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("1234567890"
 						+ UiTestUtils.getResourcesString(R.string.formula_editor_decimal_mark) + "1 ")));
 	}
@@ -110,7 +114,7 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.formula_editor_keyboard_1)).perform(click());
 		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
 
-		onView(withId(R.id.formula_editor_edit_field))
+		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("( 1 ) + 1 - 1 × 1 ÷ 1 = 1 ")));
 	}
 
@@ -131,7 +135,7 @@ public class FormulaEditorKeyboardTest {
 
 		onView(withId(R.id.formula_editor_keyboard_ok))
 				.perform(click());
-		onView(withId(R.id.formula_editor_edit_field))
+		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("'Foo' ")));
 	}
 
@@ -140,7 +144,7 @@ public class FormulaEditorKeyboardTest {
 	}
 
 	public Project createProject(String projectName) {
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 

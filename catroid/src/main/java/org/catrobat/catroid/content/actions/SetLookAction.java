@@ -41,7 +41,7 @@ public class SetLookAction extends Action {
 		if (wait) {
 			BackgroundWaitHandler.addObserver(look, this);
 		}
-		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
+		if (look != null && sprite != null && sprite.getLookList().contains(look)) {
 			sprite.look.setLookData(look);
 			setLookDone = true;
 		}

@@ -71,7 +71,7 @@ public class UtilFileSizeTranslationsTest {
 		String arabicKb = "كيلوبايت";
 		double soundExpectedSize = 3.7;
 		double lookExpectedSize = 2.6;
-		double projectExpectedSize = 7.7;
+		double projectExpectedSize = 7.9;
 
 		assertEquals(currentNumberformat.format(soundExpectedSize) + " " + arabicKb,
 				UtilFile.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));
@@ -85,7 +85,7 @@ public class UtilFileSizeTranslationsTest {
 
 	public void createProjectWithFiles() {
 		String projectName = "fileSizeArabicTest";
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 
 		projectFolder = new File(Utils.buildProjectPath(projectName));

@@ -149,9 +149,9 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		SetLookBrick setLookCat = new SetLookBrick();
 
 		LookData lookDataCat = new LookData();
-		lookDataCat.setLookName(catFilename);
+		lookDataCat.setName(catFilename);
 
-		cat.getLookDataList().add(lookDataCat);
+		cat.getLookList().add(lookDataCat);
 		setLookCat.setLook(lookDataCat);
 		startScriptCat.addBrick(setLookCat);
 		cat.addScript(startScriptCat);
@@ -169,9 +169,9 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		setTransparencyBrick = new SetTransparencyBrick(0.0);
 
 		LookData lookDataFish = new LookData();
-		lookDataFish.setLookName(fishFilename);
+		lookDataFish.setName(fishFilename);
 
-		fish.getLookDataList().add(lookDataFish);
+		fish.getLookList().add(lookDataFish);
 		setLookFish.setLook(lookDataFish);
 		startScriptFish.addBrick(setLookFish);
 		startScriptFish.addBrick(setTransparencyBrick);
@@ -192,8 +192,8 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		File fishImageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), fishFilename,
 				org.catrobat.catroid.test.R.drawable.fish, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		lookDataCat.setLookFilename(catImageFile.getName());
-		lookDataFish.setLookFilename(fishImageFile.getName());
+		lookDataCat.setFileName(catImageFile.getName());
+		lookDataFish.setFileName(fishImageFile.getName());
 
 		ProjectManager.getInstance().setProject(project);
 		StorageHandler.getInstance().saveProject(project);

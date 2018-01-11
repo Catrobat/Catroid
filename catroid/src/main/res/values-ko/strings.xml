@@ -44,7 +44,7 @@
   <string name="move">움직이기</string>
   <string name="backpack_add">스크립트 모음에 추가</string>
   <string name="backpack">스크립트 모음</string>
-  <string name="packing">묶기</string>
+  <string name="pack">묶기</string>
   <string name="unpack">풀기</string>
   <string name="unpack_bg">배경으로 모음 풀기</string>
   <string name="unpack_object">오브젝트로 모음 풀기</string>
@@ -1430,7 +1430,7 @@
   <string name="formula_editor_intro_summary_device">\"장치\"에서는 스마트폰이나 태블릿의 정보나 기록을 사용할 수 있다. \nFor 예를 들어 기울기 또는 주변 소리 크기를 알 수 있다.</string>
   <string name="formula_editor_intro_title_data">변수</string>
   <string name="formula_editor_intro_summary_data">변수 및 프로그램에서 사용되는 리스트를 보실 수 있습니다.  \nYou 단순히 수식에 삽입하거나 새로 추가할 수 있습니다.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="other">항목이 선택되었음!</item>
   </plurals>
   <!--  -->

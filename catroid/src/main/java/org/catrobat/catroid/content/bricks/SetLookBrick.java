@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.MotionEvent;
@@ -42,14 +43,12 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.List;
 
-public class SetLookBrick extends BrickBaseType implements OnLookDataListChangedAfterNewListener {
+public class SetLookBrick extends BrickBaseType implements NewItemInterface<LookData> {
 	private static final long serialVersionUID = 1L;
 	protected LookData look;
 	private transient View prototypeView;
@@ -67,25 +66,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	public LookData getLook() {
 		return this.look;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		SetLookBrick copyBrick = (SetLookBrick) clone();
-
-		if (look != null && look.isBackpackLookData) {
-			copyBrick.look = look;
-			return copyBrick;
-		}
-
-		for (LookData data : sprite.getLookDataList()) {
-			if (look != null && data != null && data.getAbsolutePath().equals(look.getAbsolutePath())) {
-				copyBrick.look = data;
-				break;
-			}
-		}
-		copyBrick.look.isBackpackLookData = false;
-		return copyBrick;
 	}
 
 	public String getImagePath() {
@@ -146,9 +126,9 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		ArrayAdapter<LookData> arrayAdapter = new ArrayAdapter<LookData>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		LookData dummyLookData = new LookData();
-		dummyLookData.setLookName(context.getString(R.string.new_broadcast_message));
+		dummyLookData.setName(context.getString(R.string.new_broadcast_message));
 		arrayAdapter.add(dummyLookData);
-		for (LookData lookData : getSprite().getLookDataList()) {
+		for (LookData lookData : getSprite().getLookList()) {
 			arrayAdapter.add(lookData);
 		}
 		return arrayAdapter;
@@ -175,9 +155,9 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	@Override
 	public Brick clone() {
-		SetLookBrick clonedBrick = new SetLookBrick();
-		clonedBrick.setLook(look);
-		return clonedBrick;
+		SetLookBrick clone = new SetLookBrick();
+		clone.setLook(look);
+		return clone;
 	}
 
 	@Override
@@ -187,13 +167,13 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		if (getSprite().getLookDataList().contains(look)) {
+		if (getSprite().getLookList().contains(look)) {
 			oldSelectedLook = look;
-			spinner.setSelection(getSprite().getLookDataList().indexOf(look) + 1, true);
+			spinner.setSelection(getSprite().getLookList().indexOf(look) + 1, true);
 		} else {
 			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 1) {
-				if (getSprite().getLookDataList().indexOf(oldSelectedLook) >= 0) {
-					spinner.setSelection(getSprite().getLookDataList()
+				if (getSprite().getLookList().indexOf(oldSelectedLook) >= 0) {
+					spinner.setSelection(getSprite().getLookList()
 							.indexOf(oldSelectedLook) + 1, true);
 				} else {
 					spinner.setSelection(1, true);
@@ -204,12 +184,17 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		}
 	}
 
-	private void setOnLookDataListChangedAfterNewListener(Context context) {
-		ScriptActivity scriptActivity = (ScriptActivity) context;
-		LookFragment lookFragment = (LookFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
-		if (lookFragment != null) {
-			lookFragment.setOnLookDataListChangedAfterNewListener(this);
-		}
+	private void showNewLookDialog(Activity activity) {
+		NewLookDialog dialog = new NewLookDialog(
+				this, ProjectManager.getInstance().getCurrentScene(), ProjectManager.getInstance().getCurrentSprite());
+		dialog.show(activity.getFragmentManager(), NewLookDialog.TAG);
+	}
+
+	@Override
+	public void addItem(LookData lookData) {
+		ProjectManager.getInstance().getCurrentSprite().getLookList().add(lookData);
+		look = lookData;
+		oldSelectedLook = lookData;
 	}
 
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {
@@ -249,7 +234,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		@Override
 		public long getItemId(int paramInt) {
 			LookData currentLook = spinnerAdapter.getItem(paramInt);
-			if (!currentLook.getLookName().equals(context.getString(R.string.new_broadcast_message))) {
+			if (!currentLook.getName().equals(context.getString(R.string.new_broadcast_message))) {
 				oldSelectedLook = currentLook;
 			}
 			return spinnerAdapter.getItemId(paramInt);
@@ -265,7 +250,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 			if (isTouchInDropDownView) {
 				isTouchInDropDownView = false;
 				if (paramInt == 0) {
-					switchToLookFragmentFromScriptFragment();
+					showNewLookDialog((Activity) context);
 				}
 			}
 			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
@@ -300,31 +285,10 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 			return dropDownView;
 		}
-
-		private void switchToLookFragmentFromScriptFragment() {
-			ProjectManager.getInstance().setCurrentSprite(getSprite());
-			ScriptActivity scriptActivity = ((ScriptActivity) context);
-			scriptActivity.switchToFragmentFromScriptFragment(ScriptActivity.FRAGMENT_LOOKS);
-
-			setOnLookDataListChangedAfterNewListener(context);
-		}
-	}
-
-	@Override
-	public void onLookDataListChangedAfterNew(LookData lookData) {
-		look = lookData;
-		oldSelectedLook = lookData;
 	}
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		if (look == null) {
-			return;
-		}
-		look = LookController.getInstance().backPackHiddenLook(this.getLook());
-		if (sprite != null && !sprite.getLookDataList().contains(look)) {
-			sprite.getLookDataList().add(look);
-		}
 	}
 
 	protected Sprite getSprite() {

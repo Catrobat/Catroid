@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
@@ -38,7 +39,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -71,8 +72,8 @@ public class WhenNfcBrickHardwareStageTest {
 	private String tagID = "123456";
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
@@ -81,7 +82,7 @@ public class WhenNfcBrickHardwareStageTest {
 	}
 
 	private void createProjectWithNfcAndSetVariable() {
-		Project project = new Project(null, "whenNfcBrickHardwareTest");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "whenNfcBrickHardwareTest");
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		numDetectedTags = dataContainer.addProjectUserVariable(NUM_DETECTED_TAGS);
 		readTagId = dataContainer.addProjectUserVariable(READ_TAG_ID);

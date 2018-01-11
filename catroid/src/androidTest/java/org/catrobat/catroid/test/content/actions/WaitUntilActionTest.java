@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
@@ -48,7 +49,7 @@ public class WaitUntilActionTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		testSprite = new SingleSprite("testSprite");
-		project = new Project(null, "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));

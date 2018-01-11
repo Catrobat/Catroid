@@ -34,11 +34,11 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-public class PhiroSeekBarColorBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class PhiroSeekBarColorBrickTest extends BaseActivityInstrumentationTestCase<SpriteActivity> {
 
 	private static final double SEEK_BAR_VALUE = 126;
 	// Clicking on a seek bar sets the value to 126 or 127 depending on the screen size.
@@ -47,7 +47,7 @@ public class PhiroSeekBarColorBrickTest extends BaseActivityInstrumentationTestC
 	private static final double SEEK_BAR_VALUE_THRESHOLD = 1;
 
 	public PhiroSeekBarColorBrickTest() {
-		super(ScriptActivity.class);
+		super(SpriteActivity.class);
 	}
 
 	@Override

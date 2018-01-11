@@ -139,8 +139,8 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		SetSizeToBrick yellowSetSizeToBrick = new SetSizeToBrick(200d);
 		LookData yellowLookData = new LookData();
 		String yellowImageName = "yellow_image.bmp";
-		yellowLookData.setLookName(yellowImageName);
-		yellowSprite.getLookDataList().add(yellowLookData);
+		yellowLookData.setName(yellowImageName);
+		yellowSprite.getLookList().add(yellowLookData);
 		yellowLookBrick.setLook(yellowLookData);
 		yellowStartScript.addBrick(yellowLookBrick);
 		yellowStartScript.addBrick(yellowSetSizeToBrick);
@@ -162,9 +162,9 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
-		blueLookData.setLookName(blueImageName);
+		blueLookData.setName(blueImageName);
 
-		blueSprite.getLookDataList().add(blueLookData);
+		blueSprite.getLookList().add(blueLookData);
 
 		blueLookBrick.setLook(blueLookData);
 		blueStartScript.addBrick(blueLookBrick);
@@ -185,9 +185,9 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		LookData greenLookData = new LookData();
 		String greenImageName = "green_image.bmp";
 
-		greenLookData.setLookName(greenImageName);
+		greenLookData.setName(greenImageName);
 
-		greenSprite.getLookDataList().add(greenLookData);
+		greenSprite.getLookList().add(greenLookData);
 
 		greenLookBrick.setLook(greenLookData);
 		greenStartScript.addBrick(greenLookBrick);
@@ -224,11 +224,11 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 				org.catrobat.catroid.test.R.raw.green_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 
-		yellowLookData.setLookFilename(yellowImageFile.getName());
+		yellowLookData.setFileName(yellowImageFile.getName());
 
-		blueLookData.setLookFilename(blueImageFile.getName());
+		blueLookData.setFileName(blueImageFile.getName());
 
-		greenLookData.setLookFilename(greenImageFile.getName());
+		greenLookData.setFileName(greenImageFile.getName());
 		StorageHandler.getInstance().saveProject(projectWhenBrick);
 		ProjectManager.getInstance().setProject(projectWhenBrick);
 	}

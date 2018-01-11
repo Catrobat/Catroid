@@ -41,12 +41,6 @@ public class StampBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		StampBrick copyBrick = (StampBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_stamp, null);
 

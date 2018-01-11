@@ -35,14 +35,14 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class PhiroColorBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class PhiroColorBrickTest extends BaseActivityInstrumentationTestCase<SpriteActivity> {
 	private static final int SET_RED = 0;
 	private static final int SET_GREEN = 100;
 	private static final int SET_BLUE = 200;
@@ -52,7 +52,7 @@ public class PhiroColorBrickTest extends BaseActivityInstrumentationTestCase<Scr
 	private PhiroRGBLightBrick colorBrick;
 
 	public PhiroColorBrickTest() {
-		super(ScriptActivity.class);
+		super(SpriteActivity.class);
 	}
 
 	@Override
@@ -103,13 +103,13 @@ public class PhiroColorBrickTest extends BaseActivityInstrumentationTestCase<Scr
 
 		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(phiroSpinnerIndex);
 		solo.pressSpinnerItem(phiroSpinnerIndex, 2);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForActivity(SpriteActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", lights[2], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(phiroSpinnerIndex, -1);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForActivity(SpriteActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", lights[1], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(phiroSpinnerIndex, -1);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForActivity(SpriteActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", lights[0], currentSpinner.getSelectedItem());
 	}
 

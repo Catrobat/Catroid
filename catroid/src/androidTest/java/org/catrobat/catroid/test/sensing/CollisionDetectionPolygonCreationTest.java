@@ -48,8 +48,8 @@ public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCa
 
 	public static LookData generateLookData(File testImage) {
 		LookData lookData = new LookData();
-		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName(testImage.getName());
+		lookData.setFileName(testImage.getName());
+		lookData.setName(testImage.getName());
 		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 		return lookData;
@@ -81,7 +81,7 @@ public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCa
 		}
 
 		LookData lookData = generateLookData(file);
-		sprite.getLookDataList().add(lookData);
+		sprite.getLookList().add(lookData);
 
 		CollisionInformation collisionInformation = lookData.getCollisionInformation();
 		collisionInformation.loadOrCreateCollisionPolygon();

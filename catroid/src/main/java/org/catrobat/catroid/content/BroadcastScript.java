@@ -64,10 +64,9 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		BroadcastScript cloneScript = new BroadcastScript(receivedMessage);
-
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		BroadcastScript clone = new BroadcastScript(receivedMessage);
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 }

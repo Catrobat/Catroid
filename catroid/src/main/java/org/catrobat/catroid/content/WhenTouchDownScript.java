@@ -33,10 +33,10 @@ public class WhenTouchDownScript extends Script {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenTouchDownScript cloneScript = new WhenTouchDownScript();
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		WhenTouchDownScript clone = new WhenTouchDownScript();
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
 	@Override

@@ -92,8 +92,8 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		SetLookBrick setAlphaLookBrick = new SetLookBrick();
 
 		LookData touchLookData = new LookData();
-		touchLookData.setLookName(alphaTestImageName);
-		touchSprite.getLookDataList().add(touchLookData);
+		touchLookData.setName(alphaTestImageName);
+		touchSprite.getLookList().add(touchLookData);
 
 		setAlphaLookBrick.setLook(touchLookData);
 
@@ -113,7 +113,7 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		File alphaTestImage = UiTestUtils.saveFileToProject(testProject.getName(), testProject.getDefaultScene().getName(), alphaTestImageName,
 				org.catrobat.catroid.test.R.raw.alpha_test_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		touchLookData.setLookFilename(alphaTestImage.getName());
+		touchLookData.setFileName(alphaTestImage.getName());
 
 		StorageHandler.getInstance().saveProject(testProject);
 		ProjectManager.getInstance().setProject(testProject);

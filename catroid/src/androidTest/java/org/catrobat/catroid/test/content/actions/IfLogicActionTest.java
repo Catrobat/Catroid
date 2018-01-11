@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -70,7 +71,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		testSprite = new SingleSprite("testSprite");
-		project = new Project(null, "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));

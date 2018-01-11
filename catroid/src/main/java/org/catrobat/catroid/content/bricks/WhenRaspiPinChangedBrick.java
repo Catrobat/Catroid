@@ -62,13 +62,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		WhenRaspiPinChangedBrick copyBrick = (WhenRaspiPinChangedBrick) clone();
-		copyBrick.script = script;
-		return copyBrick;
-	}
-
-	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;

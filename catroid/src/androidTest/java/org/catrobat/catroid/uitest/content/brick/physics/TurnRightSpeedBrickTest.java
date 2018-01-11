@@ -37,19 +37,19 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class TurnRightSpeedBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class TurnRightSpeedBrickTest extends ActivityInstrumentationTestCase2<SpriteActivity> {
 	private Solo solo;
 	private Project project;
 	private TurnRightSpeedBrick turnRightSpeedBrick;
 
 	public TurnRightSpeedBrickTest() {
-		super(ScriptActivity.class);
+		super(SpriteActivity.class);
 	}
 
 	@Override

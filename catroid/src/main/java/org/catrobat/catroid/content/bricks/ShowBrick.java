@@ -57,12 +57,6 @@ public class ShowBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		ShowBrick copyBrick = (ShowBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_show, null);
 	}

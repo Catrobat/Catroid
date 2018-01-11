@@ -29,7 +29,7 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
@@ -61,8 +61,8 @@ public class CameraResourceTest {
 	private static final int ON = 1;
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {

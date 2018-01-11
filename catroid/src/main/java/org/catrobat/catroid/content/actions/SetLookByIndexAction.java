@@ -37,7 +37,7 @@ public class SetLookByIndexAction extends SetLookAction {
 	protected void doLookUpdate() {
 		updateLookFromFormula();
 
-		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
+		if (look != null && sprite != null && sprite.getLookList().contains(look)) {
 			if (wait) {
 				BackgroundWaitHandler.addObserver(look, this);
 			}
@@ -55,8 +55,8 @@ public class SetLookByIndexAction extends SetLookAction {
 			Log.d(getClass().getSimpleName(), "Formula Interpretation for look index failed", ex);
 		}
 
-		if (lookPosition > 0 && lookPosition <= sprite.getLookDataList().size()) {
-			look = sprite.getLookDataList().get(lookPosition - 1);
+		if (lookPosition > 0 && lookPosition <= sprite.getLookList().size()) {
+			look = sprite.getLookList().get(lookPosition - 1);
 		}
 	}
 

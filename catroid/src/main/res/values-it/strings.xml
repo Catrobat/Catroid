@@ -44,7 +44,7 @@
   <string name="move">Muovi</string>
   <string name="backpack_add">Aggiungi allo zaino</string>
   <string name="backpack">Zaino</string>
-  <string name="packing">Impacchetta</string>
+  <string name="pack">Impacchetta</string>
   <string name="unpack">Scompatta</string>
   <string name="unpack_bg">Scompatta come sfondo</string>
   <string name="unpack_object">Scompatta come oggetto</string>
@@ -1470,7 +1470,7 @@
         smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
   <string name="formula_editor_intro_title_data">Dati</string>
   <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="one">Elemento selezionato!</item>
     <item quantity="other">Elementi selezionati!</item>
   </plurals>

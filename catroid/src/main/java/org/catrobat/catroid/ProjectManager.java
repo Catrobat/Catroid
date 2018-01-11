@@ -35,9 +35,10 @@ import com.facebook.AccessToken;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
-import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -74,7 +75,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener, CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
+public final class ProjectManager implements
+		OnLoadProjectCompleteListener,
+		OnCheckTokenCompleteListener,
+		CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener,
+		FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
+
 	private static final ProjectManager INSTANCE = new ProjectManager();
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
@@ -84,45 +90,17 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Scene startScene;
 	private Script currentScript;
 	private Sprite currentSprite;
-	private Sprite previousSprite;
 	private UserBrick currentUserBrick;
-	private boolean asynchronousTask = true;
-	private boolean comingFromScriptFragmentToSoundFragment;
-	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean handleNewSceneFromScriptActivity;
 	private boolean showUploadDialog = false;
 	private boolean showLegoSensorInfoDialog = true;
 
-	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
-
 	private ProjectManager() {
-		this.comingFromScriptFragmentToSoundFragment = false;
-		this.comingFromScriptFragmentToLooksFragment = false;
 		this.handleNewSceneFromScriptActivity = false;
 	}
 
 	public static ProjectManager getInstance() {
 		return INSTANCE;
-	}
-
-	public boolean getComingFromScriptFragmentToSoundFragment() {
-		return this.comingFromScriptFragmentToSoundFragment;
-	}
-
-	public void setComingFromScriptFragmentToSoundFragment(boolean value) {
-		this.comingFromScriptFragmentToSoundFragment = value;
-	}
-
-	public boolean getComingFromScriptFragmentToLooksFragment() {
-		return this.comingFromScriptFragmentToLooksFragment;
-	}
-
-	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
-		this.comingFromScriptFragmentToLooksFragment = value;
-	}
-
-	public void setHandleNewSceneFromScriptActivity() {
-		handleNewSceneFromScriptActivity = true;
 	}
 
 	public boolean getHandleNewSceneFromScriptActivity() {
@@ -152,138 +130,162 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void loadProject(String projectName, Context context) throws LoadingProjectException,
-			OutdatedVersionProjectException, CompatibilityProjectException {
-		fileChecksumContainer = new FileChecksumContainer();
-		Project oldProject = project;
+			OutdatedVersionProjectException,
+			CompatibilityProjectException {
+
+		Project previousProject = project;
 		MessageContainer.createBackup();
-		project = StorageHandler.getInstance().loadProject(projectName, context);
-		StorageHandler.getInstance().fillChecksumContainer();
 
-		if (project == null) {
-			if (oldProject != null) {
-				project = oldProject;
-				currentScene = project.getDefaultScene();
-				sceneToPlay = currentScene;
-				MessageContainer.restoreBackup();
-			} else {
-				project = Utils.findValidProject(context);
-				if (project == null) {
-					try {
-						project = DefaultProjectHandler.createAndSaveDefaultProject(context);
-						MessageContainer.clearBackup();
-					} catch (IOException ioException) {
-						Log.e(TAG, "Cannot load project.", ioException);
-						throw new LoadingProjectException(context.getString(R.string.error_load_project));
-					}
-				}
-			}
+		try {
+			project = StorageHandler.getInstance().loadProject(projectName, context);
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			restorePreviousProject(previousProject);
 			throw new LoadingProjectException(context.getString(R.string.error_load_project));
-		} else if (project.getCatrobatLanguageVersion() > Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
-			if (project.getCatrobatLanguageVersion() == 0.93f) {
-				// this was done because of insufficient error message in older program versions
-				project.setCatrobatLanguageVersion(0.92f);
-			} else {
-				project = oldProject;
-				currentScene = oldProject.getDefaultScene();
-				sceneToPlay = currentScene;
-				throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_version));
-			}
-		} else {
-			if (project.getCatrobatLanguageVersion() == 0.8f) {
-				//TODO insert in every "When project starts" script list a "show" brick
-				project.setCatrobatLanguageVersion(0.9f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.9f) {
-				project.setCatrobatLanguageVersion(0.91f);
-				//no convertion needed - only change to white background
-			}
-			if (project.getCatrobatLanguageVersion() == 0.91f) {
-				project.setCatrobatLanguageVersion(0.92f);
-				project.setScreenMode(ScreenModes.STRETCH);
-				checkNestingBrickReferences(false, false);
-			}
-
-			if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
-				//0.93 should be left out because it available unintentional for a day
-				//raise language version here to 0.94
-				project.setCatrobatLanguageVersion(0.94f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.94f) {
-				project.setCatrobatLanguageVersion(0.95f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.95f) {
-				project.setCatrobatLanguageVersion(0.96f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.96f) {
-				project.setCatrobatLanguageVersion(0.97f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.97f) {
-				project.setCatrobatLanguageVersion(0.98f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.98f) {
-				project.setCatrobatLanguageVersion(0.99f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.99f) {
-				project.setCatrobatLanguageVersion(0.991f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.991f) {
-				//With the introduction of grouping there are several Sprite-classes
-				//This is simply done in XStreamSpriteConverter
-				project.setCatrobatLanguageVersion(0.992f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.992f) {
-				project.updateCollisionFormulasToVersion(0.993f);
-				project.setCatrobatLanguageVersion(0.993f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.993f) {
-				project.updateSetPenColorFormulas();
-				project.setCatrobatLanguageVersion(0.994f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.994f) {
-				project.updateArduinoValues994to995();
-				project.setCatrobatLanguageVersion(0.995f);
-			}
-			if (project.getCatrobatLanguageVersion() == 0.995f) {
-				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
-			}
-//			insert further conversions here
-
-			checkNestingBrickReferences(true, false);
-			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
-				//project seems to be converted now and can be loaded
-				localizeBackgroundSprite(context);
-			} else {
-				//project cannot be converted
-				project = oldProject;
-				if (oldProject != null) {
-					currentScene = oldProject.getDefaultScene();
-					sceneToPlay = currentScene;
-				}
-
-				throw new CompatibilityProjectException(context.getString(R.string.error_project_compatability));
-			}
 		}
 
-		if (project != null) {
-			project.loadLegoNXTSettingsFromProject(context);
-			project.loadLegoEV3SettingsFromProject(context);
-			showLegoSensorInfoDialog = true;
+		if (project.getCatrobatLanguageVersion() > Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
+			restorePreviousProject(previousProject);
+			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_version));
+		}
 
-			int resources = project.getRequiredResources();
+		if (project.getCatrobatLanguageVersion() == 0.8f) {
+			//TODO insert in every "When project starts" script list a "showDialog" brick
+			project.setCatrobatLanguageVersion(0.9f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9f) {
+			project.setCatrobatLanguageVersion(0.91f);
+			//no convertion needed - only change to white background
+		}
+		if (project.getCatrobatLanguageVersion() == 0.91f) {
+			project.setCatrobatLanguageVersion(0.92f);
+			project.setScreenMode(ScreenModes.STRETCH);
+			checkNestingBrickReferences(false, false);
+		}
 
-			if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
-				SettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
+		if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
+			//0.93 should be left out because it available unintentional for a day
+			//raise language version here to 0.94
+			project.setCatrobatLanguageVersion(0.94f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.94f) {
+			project.setCatrobatLanguageVersion(0.95f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.95f) {
+			project.setCatrobatLanguageVersion(0.96f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.96f) {
+			project.setCatrobatLanguageVersion(0.97f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.97f) {
+			project.setCatrobatLanguageVersion(0.98f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.98f) {
+			project.setCatrobatLanguageVersion(0.99f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.99f) {
+			project.setCatrobatLanguageVersion(0.991f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.991f) {
+			//With the introduction of grouping there are several Sprite-classes
+			//This is simply done in XStreamSpriteConverter
+			project.setCatrobatLanguageVersion(0.992f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.992f) {
+			project.updateCollisionFormulasToVersion(0.993f);
+			project.setCatrobatLanguageVersion(0.993f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.993f) {
+			project.updateSetPenColorFormulas();
+			project.setCatrobatLanguageVersion(0.994f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.994f) {
+			project.updateArduinoValues994to995();
+			project.setCatrobatLanguageVersion(0.995f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.995f) {
+			project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
+		}
+
+		//insert further conversions here
+
+		makeShallowCopiesDeepAgain(project);
+		checkNestingBrickReferences(true, false);
+
+		if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
+			localizeBackgroundSprite(context);
+		} else {
+			restorePreviousProject(previousProject);
+			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatability));
+		}
+
+		project.loadLegoNXTSettingsFromProject(context);
+		project.loadLegoEV3SettingsFromProject(context);
+		showLegoSensorInfoDialog = true;
+
+		int resources = project.getRequiredResources();
+
+		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
+			SettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
+		}
+
+		if ((resources & Brick.JUMPING_SUMO) > 0) {
+			SettingsActivity.setJumpingSumoSharedPreferenceEnabled(context, true);
+		}
+
+		if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+			SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
+		}
+
+		sceneToPlay = project.getDefaultScene();
+	}
+
+	private void restorePreviousProject(Project previousProject) {
+		project = previousProject;
+		MessageContainer.restoreBackup();
+
+		if (previousProject != null) {
+			sceneToPlay = project.getDefaultScene();
+		}
+	}
+
+	private void makeShallowCopiesDeepAgain(Project project) {
+		for (Scene scene : project.getSceneList()) {
+
+			String imgDir = Utils.buildPath(Utils.buildScenePath(project.getName(), scene.getName()),
+					Constants.IMAGE_DIRECTORY);
+			String soundDir = Utils.buildPath(Utils.buildScenePath(project.getName(), scene.getName()),
+					Constants.SOUND_DIRECTORY);
+
+			List<String> fileNames = new ArrayList<>();
+
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (LookData look : sprite.getLookList()) {
+					if (fileNames.contains(look.getFileName())) {
+						try {
+							String fileName = StorageHandler.copyFile(
+									Utils.buildPath(imgDir, look.getFileName())).getName();
+							look.setFileName(fileName);
+						} catch (IOException e) {
+							Log.e(TAG, "Could not copy :" + look.getFileName());
+						}
+					}
+					fileNames.add(look.getFileName());
+				}
+
+				for (SoundInfo sound : sprite.getSoundList()) {
+					if (fileNames.contains(sound.getFileName())) {
+						try {
+							String fileName = StorageHandler.copyFile(
+									Utils.buildPath(soundDir, sound.getFileName())).getName();
+							sound.setFileName(fileName);
+						} catch (IOException e) {
+							Log.e(TAG, "Could not copy :" + sound.getFileName());
+						}
+					}
+					fileNames.add(sound.getFileName());
+				}
 			}
-
-			if ((resources & Brick.JUMPING_SUMO) > 0) {
-				SettingsActivity.setJumpingSumoSharedPreferenceEnabled(context, true);
-			}
-
-			if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
-				SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
-			}
-			currentScene = project.getDefaultScene();
-			sceneToPlay = currentScene;
 		}
 	}
 
@@ -310,17 +312,12 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		project.saveLegoNXTSettingsToProject(context);
 		project.saveLegoEV3SettingsToProject(context);
 
-		if (asynchronousTask) {
-			SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
-			saveTask.execute();
-		} else {
-			StorageHandler.getInstance().saveProject(project);
-		}
+		SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
+		saveTask.execute();
 	}
 
 	public boolean initializeDefaultProject(Context context) {
 		try {
-			fileChecksumContainer = new FileChecksumContainer();
 			project = DefaultProjectHandler.createAndSaveDefaultProject(context);
 
 			currentSprite = null;
@@ -338,7 +335,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone,
 			boolean landscapeMode, boolean castEnabled, boolean jumpingSumo)
 			throws IllegalArgumentException, IOException {
-		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
 			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode, castEnabled);
@@ -420,37 +416,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		this.project = project;
 	}
 
-	//@Deprecated
-	public void deleteCurrentProject(Context context) throws IllegalArgumentException, IOException {
-		deleteProject(project.getName(), context);
-	}
-
-	public void deleteProject(String projectName, Context context) throws IllegalArgumentException, IOException {
-		Log.d(TAG, "deleteProject " + projectName);
-		if (StorageHandler.getInstance().projectExists(projectName)) {
-			StorageHandler.getInstance().deleteProject(projectName);
-		}
-
-		if (project != null && project.getName().equals(projectName)) {
-			Log.d(TAG, "deleteProject(): project instance set to null");
-
-			project = null;
-
-			if (context != null) {
-				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-				String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, "notFound");
-				if (!currentProjectName.equals("notFound")) {
-					Utils.removeFromPreferences(context, Constants.PREF_PROJECTNAME_KEY);
-				}
-			}
-		}
-	}
-
-	public void deleteScene(String projectName, String sceneName) throws IOException {
-		Log.d(TAG, "deleteScene " + sceneName);
-		StorageHandler.getInstance().deleteScene(projectName, sceneName);
-	}
-
 	public boolean renameProject(String newProjectName, Context context) {
 		if (StorageHandler.getInstance().projectExists(newProjectName)) {
 			Utils.showErrorDialog(context, R.string.error_project_exists);
@@ -493,12 +458,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void setCurrentSprite(Sprite sprite) {
-		previousSprite = currentSprite;
 		currentSprite = sprite;
-	}
-
-	public Sprite getPreviousSprite() {
-		return previousSprite;
 	}
 
 	public Script getCurrentScript() {
@@ -508,10 +468,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public void setCurrentScene(Scene scene) {
 		this.currentScene = scene;
 		sceneToPlay = scene;
-	}
-
-	public void addScene(Scene scene) {
-		project.addScene(scene);
 	}
 
 	public void setCurrentScript(Script script) {
@@ -530,32 +486,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		currentUserBrick = brick;
 	}
 
-	public void addSprite(Sprite sprite) {
-		getCurrentScene().addSprite(sprite);
-	}
-
-	public void addScript(Script script) {
-		currentSprite.addScript(script);
-	}
-
-	public boolean spriteExists(String spriteName) {
-		for (Sprite sprite : getCurrentScene().getSpriteList()) {
-			if (sprite.getName().equalsIgnoreCase(spriteName)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean sceneExists(String sceneName) {
-		for (Scene scene : project.getSceneList()) {
-			if (scene.getName().equalsIgnoreCase(sceneName)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public int getCurrentSpritePosition() {
 		return getCurrentScene().getSpriteList().indexOf(currentSprite);
 	}
@@ -569,14 +499,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			suffixCounter++;
 		}
 		return temporaryDirectoryName;
-	}
-
-	public FileChecksumContainer getFileChecksumContainer() {
-		return this.fileChecksumContainer;
-	}
-
-	public void setFileChecksumContainer(FileChecksumContainer fileChecksumContainer) {
-		this.fileChecksumContainer = fileChecksumContainer;
 	}
 
 	@Override
@@ -671,21 +593,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public boolean checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack) {
-		return checkNestingBrickReferences(assumeWrong, inBackPack, false);
-	}
-
-	public boolean checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack, boolean sceneBackpack) {
-		List<Sprite> spritesToCheck = new ArrayList<>();
 		boolean projectCorrect = true;
-
 		if (inBackPack) {
-			if (sceneBackpack) {
-				for (Scene scene : BackPackListManager.getInstance().getAllBackpackedScenes()) {
-					spritesToCheck.addAll(scene.getSpriteList());
-				}
-			} else {
-				spritesToCheck = BackPackListManager.getInstance().getAllBackPackedSprites();
-			}
+
+			List<Sprite> spritesToCheck = BackPackListManager.getInstance().getAllBackPackedSprites();
 
 			HashMap<String, List<Script>> backPackedScripts = BackPackListManager.getInstance().getAllBackPackedScripts();
 			for (String scriptGroup : backPackedScripts.keySet()) {
@@ -702,13 +613,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 		} else {
 			for (Scene scene : project.getSceneList()) {
-
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				if (currentProject == null) {
+				if (ProjectManager.getInstance().getCurrentProject() == null) {
 					return false;
 				}
-				spritesToCheck = scene.getSpriteList();
-				for (Sprite currentSprite : spritesToCheck) {
+
+				for (Sprite currentSprite : scene.getSpriteList()) {
 					if (!checkCurrentSprite(currentSprite, assumeWrong)) {
 						projectCorrect = false;
 					}
@@ -852,7 +761,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			bricksWithInvalidReferences.add(brick);
 		}
 
-		script.removeBricks(bricksWithInvalidReferences);
+		for (Brick brick : bricksWithInvalidReferences) {
+			script.removeBrick(brick);
+		}
 	}
 
 	public boolean getShowLegoSensorInfoDialog() {

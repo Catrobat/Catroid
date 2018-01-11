@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uiespresso.util.rules;
 
 import android.app.Activity;
+import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
@@ -51,7 +52,8 @@ public class DontGenerateDefaultProjectActivityInstrumentationRule<T extends Act
 	void setUpDummyProject() {
 		File newUiTestFolder = new File(Constants.DEFAULT_ROOT);
 		newUiTestFolder.mkdir();
-		Project project = new Project(null, "DummyToPreventDefaultProjectCreation");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(),
+				"DummyToPreventDefaultProjectCreation");
 		StorageHandler.getInstance().saveProject(project);
 	}
 }

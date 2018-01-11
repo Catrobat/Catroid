@@ -44,7 +44,7 @@
   <string name="move">تحرك</string>
   <string name="backpack_add">إضافة الى حزمة الظهر</string>
   <string name="backpack">حقيبة الظهر</string>
-  <string name="packing">حزمة</string>
+  <string name="pack">حزمة</string>
   <string name="unpack">فك الحزمة</string>
   <string name="unpack_bg">فك الحزمة كخلفية</string>
   <string name="unpack_object">فك الحزمة ككائن</string>
@@ -1495,7 +1495,7 @@
   <string name="formula_editor_intro_summary_device">في \"الجهاز\" يمكنك إيجاد معلومات والتي        يقوم هاتفك أو لوحك الذكي بتسجيلها.\n مثلاً, مَيل جهازك, أو قيمة الضجيج في مُحيطك.</string>
   <string name="formula_editor_intro_title_data">البيانات</string>
   <string name="formula_editor_intro_summary_data">المتغيرات والقوائم المُستخدمة في          برنامجك موجودة هنا.\n يمكنك ببساطة إدراجها في صيغتك, أو إضافة واحدة جديدة.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="zero">العنصر محدد!</item>
     <item quantity="one">العنصران محددان!</item>
     <item quantity="two">العناصر محددة!</item>

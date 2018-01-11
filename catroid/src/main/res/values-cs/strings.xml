@@ -44,7 +44,7 @@
   <string name="move">Přesunout</string>
   <string name="backpack_add">Přidat do batohu</string>
   <string name="backpack">Batoh</string>
-  <string name="packing">Zabalit</string>
+  <string name="pack">Zabalit</string>
   <string name="unpack">Vybalit</string>
   <string name="unpack_bg">Vybal jako pozadí</string>
   <string name="unpack_object">Vybal jako objekt</string>
@@ -1477,7 +1477,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licence. 
         smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
   <string name="formula_editor_intro_title_data">Data</string>
   <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="one">Item selected!</item>
     <item quantity="few">Items selected!</item>
     <item quantity="other">Items selected!</item>

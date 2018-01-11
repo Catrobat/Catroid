@@ -70,13 +70,6 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		CollisionReceiverBrick copyBrick = (CollisionReceiverBrick) clone();
-		copyBrick.collisionScript = collisionScript;
-		return copyBrick;
-	}
-
-	@Override
 	public Brick clone() {
 		return new CollisionReceiverBrick(new CollisionScript(getBroadcastMessage()));
 	}

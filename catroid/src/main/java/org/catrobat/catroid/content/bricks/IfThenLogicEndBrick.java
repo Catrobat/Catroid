@@ -45,9 +45,6 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 
 	public IfThenLogicEndBrick(IfThenLogicBeginBrick beginBrick) {
 		this.ifBeginBrick = beginBrick;
-		if (beginBrick != null) {
-			beginBrick.setIfThenEndBrick(this);
-		}
 	}
 
 	@Override
@@ -113,17 +110,6 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 		LinkedList<SequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(sequence);
 		return returnActionList;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		IfThenLogicEndBrick copyBrick = (IfThenLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		if (ifBeginBrick != null) {
-			ifBeginBrick.setIfThenEndBrick(this);
-		}
-
-		copyBrick.ifBeginBrick = null;
-		return copyBrick;
 	}
 
 	public IfThenLogicBeginBrick getIfBeginBrick() {

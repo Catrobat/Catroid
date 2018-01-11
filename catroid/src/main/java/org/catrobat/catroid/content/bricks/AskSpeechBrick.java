@@ -183,16 +183,6 @@ public class AskSpeechBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public AskSpeechBrick copyBrickForSprite(Sprite sprite) {
-		AskSpeechBrick copyBrick = clone();
-		if (userVariable != null) {
-			copyBrick.userVariable = userVariable;
-		}
-
-		return copyBrick;
-	}
-
-	@Override
 	public AskSpeechBrick clone() {
 		AskSpeechBrick clonedBrick = new AskSpeechBrick(getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION)
 				.clone(), userVariable);

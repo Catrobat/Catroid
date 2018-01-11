@@ -79,13 +79,13 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		sprite = new SingleSprite("new sprite");
 		project.getDefaultScene().addSprite(sprite);
 		firstLookData = new LookData();
-		firstLookData.setLookFilename(testImage.getName());
-		firstLookData.setLookName("first look");
+		firstLookData.setFileName(testImage.getName());
+		firstLookData.setName("first look");
 		secondLookData = new LookData();
-		secondLookData.setLookFilename(testImage.getName());
-		secondLookData.setLookName("second look");
-		sprite.getLookDataList().add(firstLookData);
-		sprite.getLookDataList().add(secondLookData);
+		secondLookData.setFileName(testImage.getName());
+		secondLookData.setName("second look");
+		sprite.getLookList().add(firstLookData);
+		sprite.getLookList().add(secondLookData);
 	}
 
 	@Override

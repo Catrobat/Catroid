@@ -44,7 +44,7 @@
   <string name="move">Przenieś</string>
   <string name="backpack_add">Dodaj do plecaka</string>
   <string name="backpack">Plecak</string>
-  <string name="packing">Zapakuj</string>
+  <string name="pack">Zapakuj</string>
   <string name="unpack">Rozpakuj</string>
   <string name="unpack_bg">Rozpakuj jako tło</string>
   <string name="unpack_object">Rozpakuj jako obiekt</string>
@@ -1463,7 +1463,7 @@
   <string name="formula_editor_intro_summary_device">W \"Urządzenie\" znajdziesz informacje, które odczytuje smartfon lub tablet.\nNa przykład: nachylenie urządzenia lub głośność otoczenia.</string>
   <string name="formula_editor_intro_title_data">Dane</string>
   <string name="formula_editor_intro_summary_data">Zmienne i listy, które są używane w programie można znaleźć tutaj.\nMożna po prostu wstawić je do formuły lub dodać nowe.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="one">Element wybrany!</item>
     <item quantity="few">Elementy wybrane!</item>
     <item quantity="other">Elementów wybranych!</item>

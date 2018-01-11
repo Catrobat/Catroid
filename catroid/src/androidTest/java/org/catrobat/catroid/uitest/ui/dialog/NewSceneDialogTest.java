@@ -69,6 +69,6 @@ public class NewSceneDialogTest extends BaseActivityInstrumentationTestCase<Main
 		assertNotNull("New scene was not added", newScene);
 		assertTrue("New Scene is not empty", newScene.getSpriteList().size() == 1 && newScene.getSpriteList().get(0)
 				.getListWithAllBricks().size() == 0 && newScene.getSpriteList().get(0).getSoundList().size() == 0
-				&& newScene.getSpriteList().get(0).getLookDataList().size() == 0);
+				&& newScene.getSpriteList().get(0).getLookList().size() == 0);
 	}
 }

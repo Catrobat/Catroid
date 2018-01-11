@@ -189,7 +189,7 @@ import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.UserBrickScriptActivity;
+import org.catrobat.catroid.ui.UserBrickSpriteActivity;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -200,7 +200,7 @@ public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
 
-		boolean isUserScriptMode = context instanceof UserBrickScriptActivity;
+		boolean isUserScriptMode = context instanceof UserBrickSpriteActivity;
 		List<Brick> tempList = new LinkedList<>();
 		List<Brick> toReturn = new ArrayList<>();
 		if (category.equals(context.getString(R.string.category_event))) {

@@ -144,7 +144,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLACK_BRIGHTNESS_PIXEL, -54, 55);
 	}
 
-	public void testBehaviourWithoutBricks() {
+	public void testBehaviourWithoutBricks() throws Exception {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		assertNotNull("current project was null", project);
 
@@ -187,9 +187,9 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		LookData yellowLookData = new LookData();
 		String yellowImageName = "yellow_image.bmp";
 
-		yellowLookData.setLookName(yellowImageName);
+		yellowLookData.setName(yellowImageName);
 
-		yellowSprite.getLookDataList().add(yellowLookData);
+		yellowSprite.getLookList().add(yellowLookData);
 
 		yellowStartScript.addBrick(new PlaceAtBrick(-21, 21));
 
@@ -207,9 +207,9 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
-		blueLookData.setLookName(blueImageName);
+		blueLookData.setName(blueImageName);
 
-		blueSprite.getLookDataList().add(blueLookData);
+		blueSprite.getLookList().add(blueLookData);
 
 		blueStartScript.addBrick(new PlaceAtBrick(21, 21));
 
@@ -227,9 +227,9 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		LookData greenLookData = new LookData();
 		String greenImageName = "green_image.bmp";
 
-		greenLookData.setLookName(greenImageName);
+		greenLookData.setName(greenImageName);
 
-		greenSprite.getLookDataList().add(greenLookData);
+		greenSprite.getLookList().add(greenLookData);
 
 		greenStartScript.addBrick(new PlaceAtBrick(21, -21));
 
@@ -247,9 +247,9 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		LookData redLookData = new LookData();
 		String redImageName = "red_image.bmp";
 
-		redLookData.setLookName(redImageName);
+		redLookData.setName(redImageName);
 
-		redSprite.getLookDataList().add(redLookData);
+		redSprite.getLookList().add(redLookData);
 
 		redStartScript.addBrick(new PlaceAtBrick(-21, -21));
 
@@ -271,9 +271,9 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		LookData blackLookData = new LookData();
 		String blackImageName = "black_image.bmp";
 
-		blackLookData.setLookName(blackImageName);
+		blackLookData.setName(blackImageName);
 
-		blackSprite.getLookDataList().add(blackLookData);
+		blackSprite.getLookList().add(blackLookData);
 
 		blackStartScript.addBrick(new PlaceAtBrick(-50, 50));
 
@@ -310,11 +310,11 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		File blackImageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), blackImageName,
 				org.catrobat.catroid.test.R.raw.black_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		yellowLookData.setLookFilename(yellowImageFile.getName());
-		greenLookData.setLookFilename(greenImageFile.getName());
-		blueLookData.setLookFilename(blueImageFile.getName());
-		redLookData.setLookFilename(redImageFile.getName());
-		blackLookData.setLookFilename(blackImageFile.getName());
+		yellowLookData.setFileName(yellowImageFile.getName());
+		greenLookData.setFileName(greenImageFile.getName());
+		blueLookData.setFileName(blueImageFile.getName());
+		redLookData.setFileName(redImageFile.getName());
+		blackLookData.setFileName(blackImageFile.getName());
 
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);

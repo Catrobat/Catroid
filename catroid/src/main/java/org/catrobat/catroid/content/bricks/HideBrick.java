@@ -58,12 +58,6 @@ public class HideBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		HideBrick copyBrick = (HideBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public Brick clone() {
 		return new HideBrick();
 	}

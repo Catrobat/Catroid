@@ -60,12 +60,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		BroadcastBrick copyBrick = (BroadcastBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public Brick clone() {
 		return new BroadcastBrick(broadcastMessage);
 	}

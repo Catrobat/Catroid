@@ -41,12 +41,6 @@ public class ClearBackgroundBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		ClearBackgroundBrick copyBrick = (ClearBackgroundBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_clear_background, null);
 

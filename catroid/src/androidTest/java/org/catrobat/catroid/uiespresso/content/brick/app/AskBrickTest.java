@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -32,7 +33,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AskBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -49,8 +50,8 @@ import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesStrin
 public class AskBrickTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
@@ -74,7 +75,7 @@ public class AskBrickTest {
 	}
 
 	private void createProject(String projectName) {
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite sprite1 = new Sprite("testSprite");
 		Script sprite1StartScript = new StartScript();
 		sprite1.addScript(sprite1StartScript);

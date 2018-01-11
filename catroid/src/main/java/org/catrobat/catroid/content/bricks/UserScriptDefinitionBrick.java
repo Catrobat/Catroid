@@ -52,7 +52,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BrickLayout;
-import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -125,17 +125,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	@Override
 	public CheckBox getCheckBox() {
 		return null;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		UserScriptDefinitionBrick clonedBrick = new UserScriptDefinitionBrick();
-		clonedBrick.userScriptDefinitionBrickElements = cloneDefinitionBrickElements();
-		for (Brick brick : this.script.getBrickList()) {
-			clonedBrick.script.addBrick(brick.copyBrickForSprite(sprite));
-		}
-
-		return clonedBrick;
 	}
 
 	public List<UserScriptDefinitionBrickElement> cloneDefinitionBrickElements() {
@@ -246,7 +235,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 		view.measure(MeasureSpec.makeMeasureSpec(ScreenValues.SCREEN_WIDTH, MeasureSpec.EXACTLY), MeasureSpec
 				.makeMeasureSpec(
-						Utils.getPhysicalPixels(BrickDragAndDropListView.WIDTH_OF_BRICK_PREVIEW_IMAGE, view.getContext()),
+						Utils.getPhysicalPixels(BrickListView.WIDTH_OF_BRICK_PREVIEW_IMAGE, view.getContext()),
 						MeasureSpec.AT_MOST));
 		view.layout(0, 0, ScreenValues.SCREEN_WIDTH, view.getMeasuredHeight());
 

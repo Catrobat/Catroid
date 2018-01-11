@@ -76,9 +76,9 @@ public class WhenGamepadButtonScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenGamepadButtonScript cloneScript = new WhenGamepadButtonScript();
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		WhenGamepadButtonScript clone = new WhenGamepadButtonScript();
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 }

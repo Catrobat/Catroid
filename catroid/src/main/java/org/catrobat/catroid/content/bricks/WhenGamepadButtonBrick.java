@@ -68,13 +68,6 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		WhenGamepadButtonBrick copyBrick = (WhenGamepadButtonBrick) clone();
-		copyBrick.whenGamepadButtonScript = whenGamepadButtonScript;
-		return copyBrick;
-	}
-
-	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;

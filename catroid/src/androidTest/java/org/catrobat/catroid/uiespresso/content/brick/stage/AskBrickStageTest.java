@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -103,7 +104,7 @@ public class AskBrickStageTest {
 
 	private void createProject(String projectName) {
 		String userVariableName = "TempVariable";
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite sprite1 = new Sprite("testSprite");
 		Script sprite1StartScript = new StartScript();
 		sprite1.addScript(sprite1StartScript);

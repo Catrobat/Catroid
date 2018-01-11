@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
+import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -46,14 +48,13 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.hamcrest.Matchers.allOf;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectActivityNumberOfBricksRegressionTest {
@@ -65,39 +66,38 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 	@Before
 	public void setUp() {
 		createProject();
-		baseActivityTestRule.launchActivity(null);
+		Intent intent = new Intent();
+		intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+		baseActivityTestRule.launchActivity(intent);
 
-		setShowDetails(true);
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		onView(withText(R.string.show_details)).perform(click());
 	}
 
 	@After
 	public void tearDown() {
-		setShowDetails(false);
-	}
-
-	private void setShowDetails(final boolean show) {
-		getInstrumentation().runOnMainSync(new Runnable() {
-			public void run() {
-				baseActivityTestRule.getActivity().getSpritesListFragment().setShowDetails(show);
-			}
-		});
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		onView(withText(R.string.hide_details)).perform(click());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void numberOfBricksDetailsRegressionTest() throws Exception {
-		onView(allOf(withId(R.id.textView_number_of_scripts), isDisplayed()))
+		onRVAtPosition(1).onChildView(R.id.details_left_bottom)
 				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_scripts).concat(" 2"))));
 
-		onView(allOf(withId(R.id.textView_number_of_bricks), isDisplayed()))
+		onRVAtPosition(1).onChildView(R.id.details_right_bottom)
 				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_bricks).concat(" 7"))));
 
-		onView(allOf(withId(R.id.textView_number_of_looks), isDisplayed()))
+		onRVAtPosition(1).onChildView(R.id.details_left_top)
 				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_looks).concat(" 2"))));
+
+		onRVAtPosition(1).onChildView(R.id.details_right_top)
+				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_sounds).concat(" 0"))));
 	}
 
 	private void createProject() {
-		Project project = new Project(null, "ProjectActivityNumberOfBricksRegressionTest");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "ProjectActivityNumberOfBricksRegressionTest");
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
 
@@ -113,14 +113,14 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 		firstSprite.addScript(secondScript);
 
 		LookData lookData = new LookData();
-		lookData.setLookFilename("red");
-		lookData.setLookName("red");
-		firstSprite.getLookDataList().add(lookData);
+		lookData.setFileName("red");
+		lookData.setName("red");
+		firstSprite.getLookList().add(lookData);
 
 		LookData anotherLookData = new LookData();
-		anotherLookData.setLookFilename("blue");
-		anotherLookData.setLookName("blue");
-		firstSprite.getLookDataList().add(anotherLookData);
+		anotherLookData.setFileName("blue");
+		anotherLookData.setName("blue");
+		firstSprite.getLookList().add(anotherLookData);
 
 		project.getDefaultScene().addSprite(firstSprite);
 

@@ -57,11 +57,6 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		return clone();
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_clear_graphic_effect, null);
 	}

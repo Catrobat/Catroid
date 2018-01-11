@@ -26,56 +26,40 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.test.InstrumentationRegistry;
 import android.util.Log;
 import android.util.SparseArray;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.FileChecksumContainer;
-import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDrone;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
-import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,54 +147,9 @@ public final class TestUtils {
 		return testImage;
 	}
 
-	public static String getProjectfileAsString(String projectName) {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.PROJECTCODE_NAME);
-		if (!projectFile.exists()) {
-			return null;
-		}
-		StringBuilder contents = new StringBuilder();
-
-		try {
-			BufferedReader input = new BufferedReader(new FileReader(projectFile), Constants.BUFFER_8K);
-			try {
-				String line = null;
-				while ((line = input.readLine()) != null) {
-					contents.append(line);
-					contents.append(System.getProperty("line.separator"));
-				}
-			} finally {
-				input.close();
-			}
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-		}
-		return contents.toString();
-	}
-
-	//	private static class ProjectWithCatrobatLanguageVersion extends Project {
-	//		static final long serialVersionUID = 1L;
-	//		private final float catrobatLanguageVersion;
-	//
-	//		@SuppressWarnings("unused")
-	//		public ProjectWithCatrobatLanguageVersion() {
-	//			catrobatLanguageVersion = 0.1f;
-	//		}
-	//
-	//		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
-	//			super(null, name);
-	//			this.catrobatLanguageVersion = catrobatLanguageVersion;
-	//		}
-	//
-	//		@Override
-	//		public float getCatrobatLanguageVersion() {
-	//			return catrobatLanguageVersion;
-	//		}
-	//	}
-
 	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
 			float catrobatLanguageVersion, String name) {
-		//		Project project = new ProjectWithCatrobatLanguageVersion(name, catrobatLanguageVersion);
-		Project project = new Project(null, name);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), name);
 		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
 
 		Sprite firstSprite = new SingleSprite("cat");
@@ -227,7 +166,7 @@ public final class TestUtils {
 
 	public static List<Brick> createTestProjectWithWrongIfClauseReferences() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		Project project = new Project(null, CORRUPT_PROJECT_NAME);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), CORRUPT_PROJECT_NAME);
 		Sprite firstSprite = new SingleSprite("corruptReferences");
 
 		Script testScript = new StartScript();
@@ -268,7 +207,6 @@ public final class TestUtils {
 
 		project.getDefaultScene().addSprite(firstSprite);
 
-		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
@@ -282,15 +220,12 @@ public final class TestUtils {
 	}
 
 	public static Project createEmptyProject() {
-		Project project = new Project(null, EMPTY_PROJECT);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), EMPTY_PROJECT);
 		StorageHandler.getInstance().saveProject(project);
 		return project;
 	}
 
 	public static void deleteTestProjects(String... additionalProjectNames) {
-		Log.d(TAG, "deleteTestProjects");
-		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
-
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
@@ -301,26 +236,6 @@ public final class TestUtils {
 			if (directory.exists()) {
 				UtilFile.deleteDirectory(directory);
 			}
-		}
-	}
-
-	public static boolean isUrlValidAndReachable(String urlString) {
-		try {
-			URL url = new URL(urlString);
-			InputStream i = null;
-			try {
-				i = url.openStream();
-			} catch (UnknownHostException ex) {
-				return false;
-			} catch (IOException ex) {
-				return false;
-			}
-			if (i == null) {
-				return false;
-			}
-			return true;
-		} catch (MalformedURLException e) {
-			return false;
 		}
 	}
 
@@ -341,103 +256,11 @@ public final class TestUtils {
 		notificationMap.clear();
 	}
 
-	public static Script addUserBrickToSpriteAndGetUserScript(UserBrick userBrick, Sprite sprite) {
-		UserScriptDefinitionBrick definitionBrick = (UserScriptDefinitionBrick) Reflection.getPrivateField(userBrick,
-				"definitionBrick");
-		sprite.addUserBrick(userBrick);
-		return definitionBrick.getScriptSafe();
-	}
-
 	public static void removeFromPreferences(Context context, String key) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor edit = preferences.edit();
 		edit.remove(key);
 		edit.commit();
-	}
-
-	public static void loadExistingOrCreateDefaultDroneProject(Context context) {
-		String droneDefaultProjectName = context.getString(R.string.default_drone_project_name);
-		try {
-			ProjectManager.getInstance().loadProject(droneDefaultProjectName, context);
-		} catch (ProjectException cannotLoadDroneProjectException) {
-			Log.e(TAG, "Cannot load default drone project", cannotLoadDroneProjectException);
-		}
-
-		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
-		if (!currentName.equals(droneDefaultProjectName)) {
-			try {
-				ProjectManager.getInstance().setProject(createAndSaveDefaultDroneProject(
-						context));
-				return;
-			} catch (IOException ioException) {
-				Log.e(TAG, "Cannot initialize default drone project.", ioException);
-				Assert.fail("Cannot initialize default drone project.");
-			}
-		}
-		Assert.fail("Cannot initialize default default drone project.");
-	}
-
-	public static Project createAndSaveDefaultDroneProject(Context context) throws IOException {
-		Log.d(TAG, "createAndSaveDefaultDroneProject");
-		String projectName = context.getString(R.string.default_drone_project_name);
-		return createAndSaveDefaultDroneProject(projectName, context);
-	}
-
-	public static Project createAndSaveDefaultDroneProject(String projectName, Context context) throws IOException,
-			IllegalArgumentException {
-		DefaultProjectCreatorDrone defaultProjectCreatorDrone = new DefaultProjectCreatorDrone();
-		return defaultProjectCreatorDrone.createDefaultProject(projectName, context);
-	}
-
-	public static Project createProjectWithGlobalValues(String name, String spriteName, String valueName, Context context) {
-		Project project = new Project(context, name);
-
-		project.getDefaultScene().getDataContainer().addProjectUserList(valueName);
-		project.getDefaultScene().getDataContainer().addProjectUserVariable(valueName);
-
-		Sprite sprite = new SingleSprite(spriteName);
-		Script script = new StartScript();
-
-		SetVariableBrick variableBrick = new SetVariableBrick(new Formula(1), project.getProjectVariableWithName(valueName));
-		AddItemToUserListBrick listBrick = new AddItemToUserListBrick(new Formula(1), project.getProjectListWithName(valueName));
-
-		script.addBrick(variableBrick);
-		script.addBrick(listBrick);
-		sprite.addScript(script);
-		project.getDefaultScene().getSpriteList().get(0).addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-
-		return project;
-	}
-
-	public static Project createProjectWithSpriteValues(String name, String spriteName, String valueName, Context context) {
-		Project project = new Project(context, name);
-
-		Sprite sprite = new SingleSprite(spriteName);
-
-		UserList firstList = project.getDefaultScene().getDataContainer().addSpriteUserListToSprite(project.getDefaultScene().getSpriteList().get(0), valueName);
-		UserList secondList = project.getDefaultScene().getDataContainer().addSpriteUserListToSprite(sprite, valueName);
-		UserVariable firstVariable = project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(project.getDefaultScene().getSpriteList().get(0), valueName);
-		UserVariable secondVariable = project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, valueName);
-
-		Script firstScript = new StartScript();
-		Script secondScript = new StartScript();
-
-		SetVariableBrick firstVariableBrick = new SetVariableBrick(new Formula(1), firstVariable);
-		SetVariableBrick secondVariableBrick = new SetVariableBrick(new Formula(1), secondVariable);
-		AddItemToUserListBrick firstListBrick = new AddItemToUserListBrick(new Formula(1), firstList);
-		AddItemToUserListBrick secondListBrick = new AddItemToUserListBrick(new Formula(1), secondList);
-
-		firstScript.addBrick(firstVariableBrick);
-		firstScript.addBrick(firstListBrick);
-		secondScript.addBrick(secondVariableBrick);
-		secondScript.addBrick(secondListBrick);
-
-		sprite.addScript(secondScript);
-		project.getDefaultScene().getSpriteList().get(0).addScript(firstScript);
-		project.getDefaultScene().addSprite(sprite);
-
-		return project;
 	}
 
 	public static Project createProjectWithOldCollisionFormulas(String name, Context context, String firstSprite,

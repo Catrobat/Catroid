@@ -31,7 +31,6 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.UtilZip;
@@ -55,7 +54,6 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		super.setUp();
 		UtilUi.updateScreenWidthAndHeight(getInstrumentation().getTargetContext());
 		projectManager = ProjectManager.getInstance();
-		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronousTask", false);
 	}
 
 	@Override
@@ -117,7 +115,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
 	}
 
-	public void testShouldLoadAnotherProjectIfCannotLoadSpecificProject() throws Exception {
+	public void testLoadProjectException() throws Exception {
 		assertNull("Current project not null.", projectManager.getCurrentProject());
 
 		try {
@@ -125,10 +123,6 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 			fail("Load project didn't failed to load project");
 		} catch (ProjectException expected) {
 		}
-
-		Project currentProject = projectManager.getCurrentProject();
-
-		assertNotNull("Could not load any project.", currentProject);
 	}
 
 	public void testSavingAProjectDuringDelete() {

@@ -38,34 +38,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class LoopEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
-	static final int FOREVER = -1;
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LoopEndBrick.class.getSimpleName();
 	private transient LoopBeginBrick loopBeginBrick;
 
-	public LoopEndBrick(LoopBeginBrick loopStartingBrick) {
-		this.loopBeginBrick = loopStartingBrick;
-		if (loopStartingBrick != null) {
-			loopStartingBrick.setLoopEndBrick(this);
-		}
+	public LoopEndBrick() {
 	}
 
-	public LoopEndBrick() {
+	public LoopEndBrick(LoopBeginBrick loopBeginBrick) {
+		this.loopBeginBrick = loopBeginBrick;
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		LoopEndBrick copyBrick = (LoopEndBrick) clone();
-		if (loopBeginBrick != null) {
-			loopBeginBrick.setLoopEndBrick(this);
-		}
-		return copyBrick;
 	}
 
 	public LoopBeginBrick getLoopBeginBrick() {
@@ -95,7 +82,7 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 
 	@Override
 	public Brick clone() {
-		return new LoopEndBrick(getLoopBeginBrick());
+		return new LoopEndBrick();
 	}
 
 	@Override

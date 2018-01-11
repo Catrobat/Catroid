@@ -43,18 +43,16 @@ public class WhenConditionScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenConditionScript cloneScript = new WhenConditionScript(null);
-
+	public Script clone() throws CloneNotSupportedException {
+		WhenConditionScript clone = new WhenConditionScript(null);
 		try {
-			cloneScript.formulaMap = this.formulaMap.clone();
+			clone.formulaMap = formulaMap.clone();
 		} catch (CloneNotSupportedException e) {
 			Log.e(getClass().getSimpleName(), "clone exception should never happen");
 			CrashReporter.logException(e);
 		}
-
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
 	@Override

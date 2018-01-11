@@ -58,12 +58,6 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		IfOnEdgeBounceBrick copyBrick = (IfOnEdgeBounceBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
 	public Brick clone() {
 		return new IfOnEdgeBounceBrick();
 	}

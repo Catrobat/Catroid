@@ -43,22 +43,13 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 	private transient IfLogicBeginBrick ifBeginBrick;
 	private transient IfLogicEndBrick ifEndBrick;
 
-	private transient IfLogicElseBrick copy;
-
 	public IfLogicElseBrick(IfLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
-		if (ifBeginBrick != null) {
-			ifBeginBrick.setIfElseBrick(this);
-		}
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	public IfLogicElseBrick getCopy() {
-		return copy;
 	}
 
 	@Override
@@ -130,7 +121,7 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 			nestingBrickList.add(this);
 			nestingBrickList.add(ifEndBrick);
 		} else {
-			//nestingBrickList.add(this);
+			nestingBrickList.add(this);
 			nestingBrickList.add(ifBeginBrick);
 			nestingBrickList.add(ifEndBrick);
 		}
@@ -143,22 +134,5 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(sequence);
 		return returnActionList;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		//ifEndBrick and ifBeginBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
-		IfLogicElseBrick copyBrick = (IfLogicElseBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		if (ifBeginBrick != null) {
-			ifBeginBrick.setIfElseBrick(this);
-		}
-		if (ifEndBrick != null) {
-			ifEndBrick.setIfElseBrick(this);
-		}
-
-		copyBrick.ifBeginBrick = null;
-		copyBrick.ifEndBrick = null;
-		this.copy = copyBrick;
-		return copyBrick;
 	}
 }

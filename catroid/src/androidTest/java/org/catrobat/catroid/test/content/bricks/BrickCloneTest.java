@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.bricks;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
@@ -198,7 +199,7 @@ public class BrickCloneTest extends AndroidTestCase {
 
 	private <T extends Brick> void testVariableReferences(Class<T> typeOfBrick) throws Exception {
 		// set up project
-		Project project = new Project(null, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		ProjectManager.getInstance().setProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		StartScript script = new StartScript();

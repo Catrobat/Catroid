@@ -114,9 +114,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 
-	//needed for the Sprite#clone()-Method
-	Brick copyBrickForSprite(Sprite sprite);
-
 	View getView(Context context, int brickId, BaseAdapter adapter);
 
 	View getPrototypeView(Context context);

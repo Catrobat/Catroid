@@ -40,19 +40,13 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicEndBrick.class.getSimpleName();
-	private transient IfLogicElseBrick ifElseBrick;
 
+	private transient IfLogicElseBrick ifElseBrick;
 	private transient IfLogicBeginBrick ifBeginBrick;
 
 	public IfLogicEndBrick(IfLogicElseBrick elseBrick, IfLogicBeginBrick beginBrick) {
 		this.ifElseBrick = elseBrick;
 		this.ifBeginBrick = beginBrick;
-		if (beginBrick != null) {
-			beginBrick.setIfEndBrick(this);
-		}
-		if (elseBrick != null) {
-			elseBrick.setIfEndBrick(this);
-		}
 	}
 
 	@Override
@@ -136,20 +130,5 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(sequence);
 		return returnActionList;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		if (ifBeginBrick != null) {
-			ifBeginBrick.setIfEndBrick(this);
-		}
-		if (ifElseBrick != null) {
-			ifElseBrick.setIfEndBrick(this);
-		}
-
-		copyBrick.ifBeginBrick = null;
-		copyBrick.ifElseBrick = null;
-		return copyBrick;
 	}
 }

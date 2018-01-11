@@ -40,9 +40,9 @@ import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteAttributesActivity;
+import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -100,7 +100,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForActivity(SpriteActivity.class.getSimpleName());
 		solo.clickOnText(soundName);
 		solo.clickOnText(soundName2);
 		assertTrue(soundName2 + " is not selected in Spinner", solo.searchText(soundName2));
@@ -189,12 +189,12 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnImageButton(0);
 
 		solo.waitForText(recordedFilename);
-		solo.waitForFragmentByTag(SoundFragment.TAG);
+		solo.waitForFragmentByTag(SoundListFragment.TAG);
 		solo.sleep(1000);
 		assertTrue("New sound file is not selected", solo.waitForText(recordedFilename));
 
 		solo.goBack();
-		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
+		String programMenuActivityClass = SpriteAttributesActivity.class.getSimpleName();
 		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
 				.equals(programMenuActivityClass));
 	}
@@ -219,21 +219,17 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(), "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setSoundFileName(soundFile.getName());
-		soundInfo.setTitle(soundName);
+		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setName(soundName);
 
 		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(), "testsoundui.mp3",
 				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo2 = new SoundInfo();
-		soundInfo2.setSoundFileName(soundFile2.getName());
-		soundInfo2.setTitle(soundName2);
+		soundInfo2.setFileName(soundFile2.getName());
+		soundInfo2.setName(soundName2);
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 	}
 
 	@SuppressWarnings("unchecked")

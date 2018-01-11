@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uiespresso.facedetection;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,7 +36,7 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -62,14 +63,14 @@ public class FaceDetectionResourceStartedTest {
 	private ScriptEvaluationGateBrick lastBrickInScript;
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Flaky
 	@Test
 	public void facedetectionResourceEnabledTest() {
@@ -90,7 +91,7 @@ public class FaceDetectionResourceStartedTest {
 		assertFalse(FaceDetectionHandler.isFaceDetectionRunning());
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Test
 	public void facedetectionResourceNotEnabledTest() {
 		formula = new Formula(
@@ -110,7 +111,7 @@ public class FaceDetectionResourceStartedTest {
 		assertFalse(FaceDetectionHandler.isFaceDetectionRunning());
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Flaky
 	@Test
 	public void facedetectionResourceChangedTest() {
@@ -138,7 +139,7 @@ public class FaceDetectionResourceStartedTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(null, "FaceDetectionResourceStartedTest");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "FaceDetectionResourceStartedTest");
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(formula);

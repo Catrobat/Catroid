@@ -57,11 +57,10 @@ public class CollisionScript extends BroadcastScript {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		CollisionScript cloneScript = new CollisionScript(receivedMessage);
-
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		CollisionScript clone = new CollisionScript(receivedMessage);
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
 	public void updateBroadcastMessage(String oldCollisionObjectIdentifier, String newCollisionObjectIdentifier) {

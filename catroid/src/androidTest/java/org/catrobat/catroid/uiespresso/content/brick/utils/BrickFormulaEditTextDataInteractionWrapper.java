@@ -70,7 +70,7 @@ public class BrickFormulaEditTextDataInteractionWrapper extends DataInteractionW
 		onView(withId(R.id.formula_editor_keyboard_ok))
 				.perform(click());
 
-		// When using double or float, but value is an integer, the textField will show it as an integer
+		// When using double or float, but value is an integer, the textField will showDialog it as an integer
 		// e.g 12.0 -> 12
 		return new BrickFormulaEditTextDataInteractionWrapper(dataInteraction);
 	}

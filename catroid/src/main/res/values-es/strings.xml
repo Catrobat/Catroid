@@ -44,7 +44,7 @@
   <string name="move">Mover</string>
   <string name="backpack_add">Agregar a la Mochila</string>
   <string name="backpack">Mochila</string>
-  <string name="packing">Empacar</string>
+  <string name="pack">Empacar</string>
   <string name="unpack">Desempacar</string>
   <string name="unpack_bg">Desempacar como fondo</string>
   <string name="unpack_object">Desempacar como objeto</string>
@@ -1397,7 +1397,7 @@
   <string name="formula_editor_intro_summary_device">En \"Dispositivo\" puede encontrar información que tu smartphone o tablet registra. \nPor ejemplo, la inclinación de su dispositivo, o el volumen de su entorno.</string>
   <string name="formula_editor_intro_title_data">Datos</string>
   <string name="formula_editor_intro_summary_data">Las variables y las listas que se utilizan en el programa pueden encontrarse aquí. \nPuede simplemente insertar éstos en la fórmula, o añadir nuevas.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="one">Elemento seleccionado!</item>
     <item quantity="other">Elementos seleccionado!</item>
   </plurals>

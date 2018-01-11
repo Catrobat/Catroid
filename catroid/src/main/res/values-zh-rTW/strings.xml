@@ -44,7 +44,7 @@
   <string name="move">移動</string>
   <string name="backpack_add">放進背包</string>
   <string name="backpack">背包</string>
-  <string name="packing">打包</string>
+  <string name="pack">打包</string>
   <string name="unpack">取出</string>
   <string name="unpack_bg">取出設為背景</string>
   <string name="unpack_object">取出作為對象</string>
@@ -1455,7 +1455,7 @@
         smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
   <string name="formula_editor_intro_title_data">變數資料</string>
   <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
-  <plurals name="formula_editor_data_fragment_context_action_item_selected">
+  <plurals name="formula_editor_data_am_title">
     <item quantity="other">資料已選取</item>
   </plurals>
   <!--  -->

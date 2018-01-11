@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
@@ -43,7 +44,7 @@ public class AskActionTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
-		project = new Project(null, "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
 		userVariableForAnswer = ProjectManager.getInstance().getCurrentScene().getDataContainer()

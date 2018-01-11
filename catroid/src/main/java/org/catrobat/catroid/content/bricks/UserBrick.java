@@ -72,13 +72,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public UserBrick copyBrickForSprite(Sprite sprite) {
-		UserBrick clonedBrick = (UserBrick) clone();
-		clonedBrick.definitionBrick = (UserScriptDefinitionBrick) definitionBrick.copyBrickForSprite(sprite);
-		return clonedBrick;
-	}
-
-	@Override
 	public Brick clone() {
 		animationState = false;
 		UserBrick clonedUserBrick = new UserBrick(definitionBrick);
@@ -345,9 +338,5 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		definitionBrick = (UserScriptDefinitionBrick) definitionBrick.copyBrickForSprite(sprite);
-		for (Brick brick : definitionBrick.getUserScript().getBrickList()) {
-			brick.storeDataForBackPack(sprite);
-		}
 	}
 }

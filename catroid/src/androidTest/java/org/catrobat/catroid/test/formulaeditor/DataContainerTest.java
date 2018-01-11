@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
@@ -82,7 +83,7 @@ public class DataContainerTest extends AndroidTestCase {
 	}
 	@Override
 	protected void setUp() {
-		Project project = new Project(null, "testProject");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		firstSprite = new SingleSprite("firstSprite");
 		StartScript startScript = new StartScript();
 		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);

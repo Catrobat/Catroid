@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.MotionEvent;
@@ -42,13 +41,12 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
-import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.List;
 
-public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnNewSceneListener {
+public class SceneStartBrick extends BrickBaseType implements NewItemInterface<Scene> {
 	private static final long serialVersionUID = 1L;
 
 	private String sceneToStart;
@@ -56,12 +54,6 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 
 	public SceneStartBrick(String scene) {
 		this.sceneToStart = scene;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		SceneStartBrick copyBrick = (SceneStartBrick) clone();
-		return copyBrick;
 	}
 
 	@Override
@@ -156,12 +148,6 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 		return prototypeView;
 	}
 
-	private void setOnNewSceneListener(NewSceneDialog dialog) {
-		if (dialog != null) {
-			dialog.setOnNewSceneListener(this);
-		}
-	}
-
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSceneStartAction(sceneToStart));
@@ -181,10 +167,16 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 		return arrayAdapter;
 	}
 
+	private void showNewSceneDialog(Activity activity) {
+		NewSceneDialog dialog = new NewSceneDialog(this, ProjectManager.getInstance().getCurrentProject());
+		dialog.show(activity.getFragmentManager(), NewSceneDialog.TAG);
+	}
+
 	@Override
-	public void onNewScene(Scene scene) {
-		oldSelectedScene = this.sceneToStart;
-		this.sceneToStart = scene.getName();
+	public void addItem(Scene item) {
+		ProjectManager.getInstance().getCurrentProject().getSceneList().add(item);
+		oldSelectedScene = sceneToStart;
+		sceneToStart = item.getName();
 	}
 
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {
@@ -241,7 +233,7 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 				isTouchInDropDownView = false;
 				if (paramInt == 0) {
 					sceneToStart = oldSelectedScene;
-					switchToNewSceneDialogFromScriptFragment();
+					showNewSceneDialog((Activity) context);
 				}
 			}
 			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
@@ -275,20 +267,6 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 			});
 
 			return dropDownView;
-		}
-
-		private void switchToNewSceneDialogFromScriptFragment() {
-			ScriptActivity activity = ((ScriptActivity) context);
-			FragmentTransaction fragmentTransaction = activity.getFragmentManager().beginTransaction();
-			Fragment previousFragment;
-
-			previousFragment = activity.getFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-			if (previousFragment != null) {
-				fragmentTransaction.remove(previousFragment);
-			}
-			NewSceneDialog newSceneDialog = new NewSceneDialog(true, false);
-			setOnNewSceneListener(newSceneDialog);
-			newSceneDialog.show(fragmentTransaction, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 		}
 	}
 }

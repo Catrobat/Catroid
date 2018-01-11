@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -73,7 +74,7 @@ public class BroadcastAndWaitForDeletedClonesRegressionTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(null, "BroadcastForDeletedClonesRegressionTest");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "BroadcastForDeletedClonesRegressionTest");
 		ProjectManager.getInstance().setProject(project);
 
 		Sprite sprite = new Sprite("testSprite");
@@ -92,7 +93,7 @@ public class BroadcastAndWaitForDeletedClonesRegressionTest {
 		sprite.addScript(broadcastReceiveScript);
 		broadCastReceived = ScriptEvaluationGateBrick.appendToScript(broadcastReceiveScript);
 
-		ProjectManager.getInstance().addSprite(sprite);
+		ProjectManager.getInstance().getCurrentScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

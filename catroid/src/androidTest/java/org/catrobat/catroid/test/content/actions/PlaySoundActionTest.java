@@ -106,7 +106,7 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 
 	private SoundInfo createSoundInfo(File soundFile) {
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setFileName(soundFile.getName());
 		return soundInfo;
 	}
 

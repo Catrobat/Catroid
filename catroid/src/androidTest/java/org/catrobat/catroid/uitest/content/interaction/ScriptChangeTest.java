@@ -37,13 +37,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<SpriteActivity> {
 
 	private ArrayList<Brick> brickListToCheck;
 	private Script testScript;
@@ -51,7 +51,7 @@ public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<Script
 	private Script testScript3;
 
 	public ScriptChangeTest() {
-		super(ScriptActivity.class);
+		super(SpriteActivity.class);
 	}
 
 	@Override

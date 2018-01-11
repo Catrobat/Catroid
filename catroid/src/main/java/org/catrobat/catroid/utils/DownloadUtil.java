@@ -39,8 +39,8 @@ import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameMediaDialog;
-import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.web.ProgressResponseBody;
 
 import java.io.UnsupportedEncodingException;
@@ -82,7 +82,7 @@ public final class DownloadUtil {
 
 		boolean programNameExists = Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(programName);
 		if (programNameExists) {
-			Log.v(TAG, "Program name exists - show overwrite dialog");
+			Log.v(TAG, "Program name exists - showDialog overwrite dialog");
 			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog();
 
 			renameDialog.setContext(activity);
@@ -102,7 +102,7 @@ public final class DownloadUtil {
 		}
 
 		boolean mediaNameExists;
-		if (callingActivity.contains(LookFragment.TAG) || callingActivity.contains(SoundFragment.TAG)) {
+		if (callingActivity.contains(LookListFragment.TAG) || callingActivity.contains(SoundListFragment.TAG)) {
 			switch (mediaType) {
 				case Constants.MEDIA_TYPE_LOOK:
 					mediaNameExists = Utils.checkIfLookExists(mediaName);

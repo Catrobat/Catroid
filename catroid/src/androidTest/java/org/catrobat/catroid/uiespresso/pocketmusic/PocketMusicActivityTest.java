@@ -169,8 +169,8 @@ public class PocketMusicActivityTest {
 		assertFalse("Soundinfo not found", soundInfo.isEmpty());
 
 		Intent pocketMusicDataIntent = new Intent();
-		pocketMusicDataIntent.putExtra("FILENAME", soundInfo.get(0).getSoundFileName());
-		pocketMusicDataIntent.putExtra("TITLE", soundInfo.get(0).getTitle());
+		pocketMusicDataIntent.putExtra("FILENAME", soundInfo.get(0).getFileName());
+		pocketMusicDataIntent.putExtra("TITLE", soundInfo.get(0).getName());
 
 		pocketMusicActivityRule.launchActivity(pocketMusicDataIntent);
 		onView(withId(android.R.id.content)).check(matches(isDisplayed()));

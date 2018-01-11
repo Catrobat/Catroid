@@ -77,7 +77,7 @@ public class GroupSprite extends Sprite {
 		Log.i("GroupSprite", "Creating Collision Polygons for all Sprites of group!");
 		List<Sprite> groupSprites = getSpritesFromGroupWithGroupName(getName());
 		for (Sprite sprite : groupSprites) {
-			for (LookData lookData : sprite.getLookDataList()) {
+			for (LookData lookData : sprite.getLookList()) {
 				lookData.getCollisionInformation().calculate();
 			}
 		}

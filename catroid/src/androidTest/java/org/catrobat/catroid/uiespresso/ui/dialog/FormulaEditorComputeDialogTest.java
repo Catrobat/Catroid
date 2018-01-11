@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
+import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.CoordinatesProvider;
 import android.support.test.espresso.action.GeneralClickAction;
@@ -38,7 +40,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -61,15 +63,19 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class FormulaEditorComputeDialogTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class);
 
 	private Integer someIntegerVaule = 911;
 
 	@Before
 	public void setUp() throws Exception {
 		createProject("formulaEditorComputeDialogTest");
-		baseActivityTestRule.launchActivity(null);
+
+		Intent intent = new Intent();
+		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+
+		baseActivityTestRule.launchActivity(intent);
 	}
 
 	private void openComputeDialog() {
@@ -127,7 +133,7 @@ public class FormulaEditorComputeDialogTest {
 	}
 
 	public Project createProject(String projectName) {
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 

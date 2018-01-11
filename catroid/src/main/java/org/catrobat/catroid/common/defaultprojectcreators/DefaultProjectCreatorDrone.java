@@ -96,13 +96,13 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), backgroundName);
 
 		LookData backgroundLookData = new DroneVideoLookData();
-		backgroundLookData.setLookName(context.getString(R.string.add_look_drone_video));
-		backgroundLookData.setLookFilename(backgroundFile.getName());
-		sprite.getLookDataList().add(backgroundLookData);
+		backgroundLookData.setName(context.getString(R.string.add_look_drone_video));
+		backgroundLookData.setFileName(backgroundFile.getName());
+		sprite.getLookList().add(backgroundLookData);
 
 		Sprite backgroundSprite = defaultDroneProject.getDefaultScene().getSpriteList().get(0);
 
-		backgroundSprite.getLookDataList().add(backgroundLookData);
+		backgroundSprite.getLookList().add(backgroundLookData);
 		Script backgroundStartScript = new StartScript();
 
 		SetLookBrick setLookBrick = new SetLookBrick();
@@ -261,7 +261,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		whenProjectStartsScript.addBrick(turnLeftBrick);
 
 		LookData lookData = new LookData(spriteName + " icon", lookFile.getName());
-		sprite.getLookDataList().add(lookData);
+		sprite.getLookList().add(lookData);
 
 		sprite.addScript(whenSpriteTappedScript);
 		sprite.addScript(whenProjectStartsScript);

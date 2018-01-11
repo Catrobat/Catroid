@@ -32,48 +32,89 @@ import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
-import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	protected ArrayList<Brick> brickList;
-
 	protected transient ScriptBrick brick;
-
 	protected boolean commentedOut = false;
 
-	public Script() {
+	protected Script() {
 		brickList = new ArrayList<>();
 	}
 
-	public abstract Script copyScriptForSprite(Sprite copySprite);
+	public ArrayList<Brick> getBrickList() {
+		return brickList;
+	}
 
-	public void doCopy(Sprite copySprite, Script cloneScript) {
-		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
-		cloneScript.commentedOut = commentedOut;
-		for (Brick brick : getBrickList()) {
-			Brick copiedBrick = brick.copyBrickForSprite(copySprite);
-			if (!(copiedBrick instanceof ScriptBrick)) {
-				copiedBrick.setCommentedOut(brick.isCommentedOut());
-			}
+	public abstract Script clone() throws CloneNotSupportedException;
 
-			if (copiedBrick instanceof IfLogicEndBrick) {
-				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
-			} else if (copiedBrick instanceof IfThenLogicEndBrick) {
-				setIfThenBrickReferences((IfThenLogicEndBrick) copiedBrick, (IfThenLogicEndBrick) brick);
-			} else if (copiedBrick instanceof LoopEndBrick) {
-				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
-			}
-			cloneBrickList.add(copiedBrick);
+	public List<Brick> cloneBrickList() throws CloneNotSupportedException {
+		List<Brick> copies = new ArrayList<>();
+
+		for (Brick brick : brickList) {
+			copies.add(brick.clone());
 		}
+
+		for (Brick brick : brickList) {
+			if (brick instanceof LoopBeginBrick) {
+				int begin = brickList.indexOf(brick);
+				int end = brickList.indexOf(((LoopBeginBrick) brick).getLoopEndBrick());
+
+				// The structure of the nested bricks should be reworked -> having to update references in all bricks
+				// is error prone and has no benefit whatsoever. This workaround should not be necessary:
+				if (end == -1) {
+					continue;
+				}
+
+				LoopBeginBrick beginBrick = (LoopBeginBrick) copies.get(begin);
+				LoopEndBrick endBrick = (LoopEndBrick) copies.get(end);
+
+				beginBrick.setLoopEndBrick(endBrick);
+				endBrick.setLoopBeginBrick(beginBrick);
+			}
+			if (brick instanceof IfThenLogicBeginBrick) {
+				int begin = brickList.indexOf(brick);
+				int end = brickList.indexOf(((IfThenLogicBeginBrick) brick).getIfThenEndBrick());
+
+				IfThenLogicBeginBrick beginBrick = (IfThenLogicBeginBrick) copies.get(begin);
+				IfThenLogicEndBrick endBrick = (IfThenLogicEndBrick) copies.get(end);
+
+				beginBrick.setIfThenEndBrick(endBrick);
+				endBrick.setIfThenBeginBrick(beginBrick);
+			} else if (brick instanceof IfLogicBeginBrick) {
+				int begin = brickList.indexOf(brick);
+				int middle = brickList.indexOf(((IfLogicBeginBrick) brick).getIfElseBrick());
+				int end = brickList.indexOf(((IfLogicBeginBrick) brick).getIfEndBrick());
+
+				// The structure of the nested bricks should be reworked -> having to update references in all bricks
+				// is error prone and has no benefit whatsoever. This workaround should not be necessary:
+				if (middle == -1 || end == -1) {
+					continue;
+				}
+
+				IfLogicBeginBrick beginBrick = (IfLogicBeginBrick) copies.get(begin);
+				IfLogicElseBrick elseBrick = (IfLogicElseBrick) copies.get(middle);
+				IfLogicEndBrick endBrick = (IfLogicEndBrick) copies.get(end);
+
+				beginBrick.setIfElseBrick(elseBrick);
+				beginBrick.setIfEndBrick(endBrick);
+				elseBrick.setIfBeginBrick(beginBrick);
+				elseBrick.setIfEndBrick(endBrick);
+				endBrick.setIfBeginBrick(beginBrick);
+				endBrick.setIfElseBrick(elseBrick);
+			}
+		}
+
+		return copies;
 	}
 
 	protected Object readResolve() {
@@ -108,17 +149,13 @@ public abstract class Script implements Serializable {
 	}
 
 	public void addBrick(Brick brick) {
-		if (brick != null) {
-			brickList.add(brick);
-			updateUserBricksIfNecessary(brick);
-		}
+		brickList.add(brick);
+		updateUserBricksIfNecessary(brick);
 	}
 
 	public void addBrick(int position, Brick brick) {
-		if (brick != null) {
-			brickList.add(position, brick);
-			updateUserBricksIfNecessary(brick);
-		}
+		brickList.add(position, brick);
+		updateUserBricksIfNecessary(brick);
 	}
 
 	private void updateUserBricksIfNecessary(Brick brick) {
@@ -128,36 +165,8 @@ public abstract class Script implements Serializable {
 		}
 	}
 
-	public void removeInstancesOfUserBrick(UserBrick userBrickToRemove) {
-
-		LinkedList<Brick> toRemove = new LinkedList<>();
-
-		for (Brick brick : brickList) {
-			if (brick instanceof UserBrick) {
-				UserBrick userBrick = (UserBrick) brick;
-				if (userBrick.getDefinitionBrick() == userBrickToRemove.getDefinitionBrick()) {
-					toRemove.add(brick);
-				}
-			}
-		}
-
-		for (Brick brick : toRemove) {
-			brickList.remove(brick);
-		}
-	}
-
-	public void removeBricks(List<Brick> bricksToRemove) {
-		for (Brick brick : bricksToRemove) {
-			removeBrick(brick);
-		}
-	}
-
 	public void removeBrick(Brick brick) {
 		brickList.remove(brick);
-	}
-
-	public ArrayList<Brick> getBrickList() {
-		return brickList;
 	}
 
 	public int getRequiredResources() {
@@ -171,79 +180,12 @@ public abstract class Script implements Serializable {
 		return resources;
 	}
 
-	public boolean containsBrickOfType(Class<?> type) {
-		for (Brick brick : brickList) {
-			//Log.i(TAG, brick.REQUIRED_RESSOURCES + "");
-			if (brick.getClass() == type) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public int containsBrickOfTypeReturnsFirstIndex(Class<?> type) {
-		int i = 0;
-		for (Brick brick : brickList) {
-
-			if (brick.getClass() == type) {
-				return i;
-			}
-			i++;
-		}
-		return -1;
-	}
-
-	//
-	//	public boolean containsBluetoothBrick() {
-	//		for (Brick brick : brickList) {
-	//			if ((brick instanceof NXTMotorActionBrick) || (brick instanceof NXTMotorTurnAngleBrick)
-	//					|| (brick instanceof NXTMotorStopBrick) || (brick instanceof NXTPlayToneBrick)) {
-	//				return true;
-	//			}
-	//		}
-	//		return false;
-	//	}
-
 	public Brick getBrick(int index) {
-		if (index < 0 || index >= brickList.size()) {
-			return null;
-		}
-
 		return brickList.get(index);
 	}
 
 	public void setBrick(ScriptBrick brick) {
 		this.brick = brick;
-	}
-
-	protected void setIfBrickReferences(IfLogicEndBrick copiedIfEndBrick, IfLogicEndBrick originalIfEndBrick) {
-		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
-		IfLogicBeginBrick copiedIfBeginBrick = ((IfLogicBeginBrick) ifBrickList.get(0)).getCopy();
-		IfLogicElseBrick copiedIfElseBrick = ((IfLogicElseBrick) ifBrickList.get(1)).getCopy();
-
-		copiedIfBeginBrick.setIfElseBrick(copiedIfElseBrick);
-		copiedIfBeginBrick.setIfEndBrick(copiedIfEndBrick);
-		copiedIfElseBrick.setIfBeginBrick(copiedIfBeginBrick);
-		copiedIfElseBrick.setIfEndBrick(copiedIfEndBrick);
-		copiedIfEndBrick.setIfBeginBrick(copiedIfBeginBrick);
-		copiedIfEndBrick.setIfElseBrick(copiedIfElseBrick);
-	}
-
-	protected void setIfThenBrickReferences(IfThenLogicEndBrick copiedIfEndBrick, IfThenLogicEndBrick
-			originalIfEndBrick) {
-		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
-		IfThenLogicBeginBrick copiedIfBeginBrick = (IfThenLogicBeginBrick) ((IfThenLogicBeginBrick) ifBrickList.get(0)).getCopy();
-
-		copiedIfBeginBrick.setIfThenEndBrick(copiedIfEndBrick);
-		copiedIfEndBrick.setIfThenBeginBrick(copiedIfBeginBrick);
-	}
-
-	protected void setLoopBrickReferences(LoopEndBrick copiedBrick, LoopEndBrick originalBrick) {
-		List<NestingBrick> loopBrickList = originalBrick.getAllNestingBrickParts(true);
-		LoopBeginBrick copiedLoopBeginBrick = ((LoopBeginBrick) loopBrickList.get(0)).getCopy();
-
-		copiedLoopBeginBrick.setLoopEndBrick(copiedBrick);
-		copiedBrick.setLoopBeginBrick(copiedLoopBeginBrick);
 	}
 
 	public boolean isCommentedOut() {
@@ -260,7 +202,7 @@ public abstract class Script implements Serializable {
 	}
 
 	public List<Brick> getBricksRequiringResources(int resource) {
-		List<Brick> resourceBrickList = new ArrayList<Brick>();
+		List<Brick> resourceBrickList = new ArrayList<>();
 
 		for (Brick brick : brickList) {
 			if ((brick.getRequiredResources() & resource) != 0) {

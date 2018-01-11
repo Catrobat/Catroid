@@ -61,8 +61,7 @@ import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView;
+import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -88,7 +87,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	private Script script;
 	private int dragTargetPosition;
 	private Brick draggedBrick;
-	private BrickDragAndDropListView brickDragAndDropListView;
+	private BrickListView brickDragAndDropListView;
 	private View insertionView;
 	private boolean initInsertedBrick;
 	private boolean addingNewBrick;
@@ -112,7 +111,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	private ActionModeEnum actionMode = ActionModeEnum.NO_ACTION;
 
-	public BrickAdapter(ScriptFragment scriptFragment, Sprite sprite, BrickDragAndDropListView listView) {
+	public BrickAdapter(ScriptFragment scriptFragment, Sprite sprite, BrickListView listView) {
 		this.scriptFragment = scriptFragment;
 		this.context = scriptFragment.getActivity();
 		this.sprite = sprite;
@@ -675,7 +674,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	private void scrollToPosition(final int position) {
-		BrickDragAndDropListView list = brickDragAndDropListView;
+		BrickListView list = brickDragAndDropListView;
 		if (list.getFirstVisiblePosition() < position && position < list.getLastVisiblePosition()) {
 			return;
 		}
@@ -1079,17 +1078,15 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	private void showConfirmDeleteDialog(int itemPosition) {
 		this.clickItemPosition = itemPosition;
-		int titleId;
 
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		if (getItem(clickItemPosition) instanceof ScriptBrick) {
-			titleId = R.string.dialog_confirm_delete_script_title;
+			builder.setTitle(context.getResources().getQuantityString(R.plurals.delete_scripts, 1));
 		} else {
-			titleId = R.string.dialog_confirm_delete_brick_title;
+			builder.setTitle(context.getResources().getQuantityString(R.plurals.delete_bricks, 1));
 		}
 
-		AlertDialog.Builder builder = new CustomAlertDialogBuilder(context);
-		builder.setTitle(titleId);
-		builder.setMessage(R.string.dialog_confirm_delete_brick_message);
+		builder.setMessage(R.string.dialog_confirm_delete);
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
