@@ -28,6 +28,7 @@
     <string name="cancel">Cancel</string>
     <string name="next">Next</string>
     <string name="done">Done</string>
+    <string name="select_all">Select All</string>
     <string name="name_already_exists">This name already exists, please choose another one!</string>
     <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
     <string name="rename">Rename</string>
@@ -40,6 +41,7 @@
     <string name="disagree">Disagree</string>
     <string name="delete_account">Delete my account</string>
     <string name="copy">Copy</string>
+    <string name="warning">Warning</string>
     <string name="backpack_add">Add to backpack</string>
     <string name="backpack">Backpack</string>
     <string name="pack">Pack</string>
@@ -468,6 +470,8 @@
     <string name="add_sound_from_recorder">Record Sound</string>
     <string name="add_sound_choose_file">Select File</string>
     <string name="add_sound_music">Music Composer</string>
+    <string name="rename_sound_overwrite">A look with this name already exists. Please choose a different
+        one!</string>
 
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Privacy policy</string>

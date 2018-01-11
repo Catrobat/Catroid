@@ -22,7 +22,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <!-- General terms -->
   <string name="app_name">Msimbo Mfuko</string>
   <string name="cancel">Katisha</string>
@@ -40,15 +40,10 @@
   <string name="disagree">Disagree</string>
   <string name="delete_account">Delete my account</string>
   <string name="copy">Nakili</string>
-  <string name="cut">Kata</string>
-  <string name="move">Hamisha</string>
   <string name="backpack_add">Ongeza kwenye Mkoba</string>
   <string name="backpack">Mkoba</string>
-  <string name="pack">Fungasha</string>
+  <string name="pack">Pack</string>
   <string name="unpack">pakua</string>
-  <string name="unpack_bg">Fungusha kama mandharinyuma</string>
-  <string name="unpack_object">Fungusha kama kipengele</string>
-  <string name="copy_addition">nakili</string>
   <string name="close">Funga</string>
   <string name="error">Dosari</string>
   <string name="please_wait">Subiri</string>
@@ -73,16 +68,9 @@
   <string name="undo">Tengua</string>
   <string name="name_exists">Jina tayari ipo</string>
   <string name="no_name">Hakuna jina</string>
-  <string name="is_empty">ni tupu</string>
   <string name="new_group">Kikundi kipya</string>
   <string name="my_group">Kikundi changu</string>
   <string name="name">Jina:</string>
-  <string name="nothing_to_copy">Hakuna Nakala</string>
-  <string name="nothing_to_backpack_and_unpack">hakuna cha kupakia na kupakua</string>
-  <string name="nothing_to_unpack">hakuna cha kupakua</string>
-  <string name="nothing_to_delete">Hakuna cha Kufuta</string>
-  <string name="nothing_to_rename">Hakuna jina la kubadilisha</string>
-  <string name="unpack_background">Mandharinyuma ya programu kubadilishwa</string>
   <string name="degrees">nyuzi</string>
   <string name="landscape">kurasa mlalo</string>
   <string name="portrait">kurasa wima</string>
@@ -226,15 +214,214 @@
   <string name="reconvert_dialog_download">Pakua programu iliyobadilishwa</string>
   <string name="reconvert_dialog_reconvert">Geuza tena programu hii</string>
   <!--  -->
-  <!-- New Object Dialog -->
-  <string name="dialog_new_object_pocketpaint">Chora picha</string>
-  <string name="dialog_new_object_gallery">Teua Taswira</string>
-  <string name="dialog_new_object_camera">Chukua Picha</string>
-  <string name="dialog_new_object_look_preview">kuangalia Kihakiki</string>
-  <string name="dialog_new_object_name">Jina la kipengee</string>
-  <string name="dialog_new_object_switch_title">Kipengee mpya kuundwa</string>
-  <string name="dialog_new_object_switch_message">Geuza hadi katika kipengee kipya?</string>
+  <!-- ERRORS -->
+  <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
+  <!-- Project Handling Errors -->
+  <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Recycler View -->
+  <string name="am_empty_list">There are no items in this list yet.</string>
+  <string name="am_backpack">Pack</string>
+  <string name="am_unpack">pakua</string>
+  <string name="am_copy">Nakili</string>
+  <string name="am_delete">Futa</string>
+  <string name="am_rename">Andika jina upya</string>
+  <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <!-- Action Mode Titles -->
+  <plurals name="am_projects_title">
+    <item quantity="one">%d Project</item>
+    <item quantity="other">%d Projects</item>
+  </plurals>
+  <plurals name="am_scenes_title">
+    <item quantity="one">%d Scene</item>
+    <item quantity="other">%d Scenes</item>
+  </plurals>
+  <plurals name="am_sprites_title">
+    <item quantity="one">%d Sprite</item>
+    <item quantity="other">%d Sprites</item>
+  </plurals>
+  <plurals name="am_looks_title">
+    <item quantity="one">%d Look</item>
+    <item quantity="other">%d Looks</item>
+  </plurals>
+  <plurals name="am_sounds_title">
+    <item quantity="one">%d Sound</item>
+    <item quantity="other">%d Sounds</item>
+  </plurals>
+  <plurals name="am_nfc_tags_title">
+    <item quantity="one">%d NFC Tag</item>
+    <item quantity="other">%d NFC Tags</item>
+  </plurals>
+  <plurals name="am_scripts_title">
+    <item quantity="one">%d Script</item>
+    <item quantity="other">%d Scripts</item>
+  </plurals>
+  <!-- New Dialog Titles -->
+  <string name="new_scene_dialog">New Scene</string>
+  <string name="scene_name">Jina la tukio:</string>
+  <!-- Delete Dialog Titles -->
+  <plurals name="delete_projects">
+    <item quantity="one">Delete this Project?</item>
+    <item quantity="other">Delete these Projects?</item>
+  </plurals>
+  <plurals name="delete_scenes">
+    <item quantity="one">Delete this Scene?</item>
+    <item quantity="other">Delete these Scenes?</item>
+  </plurals>
+  <plurals name="delete_sprites">
+    <item quantity="one">Delete this Object?</item>
+    <item quantity="other">Delete these Objects?</item>
+  </plurals>
+  <plurals name="delete_looks">
+    <item quantity="one">Delete this Look?</item>
+    <item quantity="other">Delete these Looks?</item>
+  </plurals>
+  <plurals name="delete_sounds">
+    <item quantity="one">Delete this Sound?</item>
+    <item quantity="other">Delete these Sounds?</item>
+  </plurals>
+  <plurals name="delete_nfc_tags">
+    <item quantity="one">Delete this Tag?</item>
+    <item quantity="other">Delete these Tags?</item>
+  </plurals>
+  <plurals name="delete_scripts">
+    <item quantity="one">Delete this Script?</item>
+    <item quantity="other">Delete these Scripts?</item>
+  </plurals>
+  <plurals name="delete_bricks">
+    <item quantity="one">Delete this Brick?</item>
+    <item quantity="other">Delete these Bricks?</item>
+  </plurals>
+  <!-- Rename Dialog Titles -->
+  <string name="rename_project">Patia programu jina upya</string>
+  <string name="rename_scene_dialog">Taja jina jipya la eneo</string>
+  <string name="rename_sprite_dialog">Andika tena kipengele</string>
+  <string name="rename_look_dialog">Patia jina upya mwonekano</string>
+  <string name="rename_sound_dialog">Badili jina la sauti</string>
+  <string name="rename_nfctag_dialog">Andika upya lebo ya NFC</string>
+  <!-- Action Toasts -->
+  <plurals name="packed_scenes">
+    <item quantity="one">Backpacked %d Scene!</item>
+    <item quantity="other">Backpacked %d Scenes!</item>
+  </plurals>
+  <plurals name="packed_sprites">
+    <item quantity="one">Backpacked %d Object!</item>
+    <item quantity="other">Backpacked %d Objects!</item>
+  </plurals>
+  <plurals name="packed_looks">
+    <item quantity="one">Backpacked %d Look!</item>
+    <item quantity="other">Backpacked %d Looks!</item>
+  </plurals>
+  <plurals name="packed_sounds">
+    <item quantity="one">Backpacked %d Sound!</item>
+    <item quantity="other">Backpacked %d Sounds!</item>
+  </plurals>
+  <string name="packed_script_group">Backpacked 1 Script Group!</string>
+  <plurals name="unpacked_scenes">
+    <item quantity="one">Unpacked %d Scene!</item>
+    <item quantity="other">Unpacked %d Scenes!</item>
+  </plurals>
+  <plurals name="unpacked_sprites">
+    <item quantity="one">Unpacked %d Object!</item>
+    <item quantity="other">Unpacked %d Objects!</item>
+  </plurals>
+  <plurals name="unpacked_looks">
+    <item quantity="one">Unpacked %d Look!</item>
+    <item quantity="other">Unpacked %d Looks!</item>
+  </plurals>
+  <plurals name="unpacked_sounds">
+    <item quantity="one">Unpacked %d Sound!</item>
+    <item quantity="other">Unpacked %d Sounds!</item>
+  </plurals>
+  <plurals name="unpacked_scripts">
+    <item quantity="one">Unpacked %d Script!</item>
+    <item quantity="other">Unpacked %d Scripts!</item>
+  </plurals>
+  <plurals name="copied_scenes">
+    <item quantity="one">Copied %d Scene!</item>
+    <item quantity="other">Copied %d Scenes!</item>
+  </plurals>
+  <plurals name="copied_sprites">
+    <item quantity="one">Copied %d Object!</item>
+    <item quantity="other">Copied %d Objects!</item>
+  </plurals>
+  <plurals name="copied_looks">
+    <item quantity="one">Copied %d Look!</item>
+    <item quantity="other">Copied %d Looks!</item>
+  </plurals>
+  <plurals name="copied_sounds">
+    <item quantity="one">Copied %d Sound!</item>
+    <item quantity="other">Copied %d Sounds!</item>
+  </plurals>
+  <plurals name="copied_nfc_tags">
+    <item quantity="one">Copied %d NFC Tag!</item>
+    <item quantity="other">Copied %d NFC Tags!</item>
+  </plurals>
+  <plurals name="deleted_projects">
+    <item quantity="one">Deleted %d Project!</item>
+    <item quantity="other">Deleted %d Projects!</item>
+  </plurals>
+  <plurals name="deleted_scenes">
+    <item quantity="one">Deleted %d Scene!</item>
+    <item quantity="other">Deleted %d Scenes!</item>
+  </plurals>
+  <plurals name="deleted_sprites">
+    <item quantity="one">Deleted %d Sprite!</item>
+    <item quantity="other">Deleted %d Sprites!</item>
+  </plurals>
+  <plurals name="deleted_looks">
+    <item quantity="one">Deleted %d Look!</item>
+    <item quantity="other">Deleted %d Looks!</item>
+  </plurals>
+  <plurals name="deleted_sounds">
+    <item quantity="one">Deleted %d Sound!</item>
+    <item quantity="other">Deleted %d Sounds!</item>
+  </plurals>
+  <plurals name="deleted_nfc_tags">
+    <item quantity="one">Deleted %d NFC Tag!</item>
+    <item quantity="other">Deleted %d NFC Tags!</item>
+  </plurals>
+  <plurals name="deleted_scripts">
+    <item quantity="one">Deleted %d Script!</item>
+    <item quantity="other">Deleted %d Scripts!</item>
+  </plurals>
   <!--  -->
+  <!-- Backpack -->
+  <string name="backpack_title">Mkoba wako</string>
+  <!--  -->
+  <!-- Sprite Attribute Activity -->
+  <string name="scripts">Hati</string>
+  <string name="backgrounds">Mandharinyuma</string>
+  <string name="looks">Muonekano</string>
+  <string name="sounds">Sauti</string>
+  <string name="nfctags">Lebo za NFC</string>
+  <string name="size">Ukubwa:</string>
+  <!-- New project dialog -->
+  <string name="new_project_dialog_title">Programu mpya</string>
+  <string name="new_project_dialog_hint">Programu Yangu</string>
+  <string name="new_project_description_dialog_hint">Maelezo yangu</string>
+  <string name="new_project_name">Jina la programu</string>
+  <string name="new_project_empty">Unda programu tupu</string>
+  <string name="new_project_default">Unda programu ya mfano</string>
+  <string name="new_project_default_drone">Create example AR.Drone 2.0 program</string>
+  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo program</string>
+  <string name="project_orientation_title">Mwelekeo:</string>
+  <string name="project_select_screen_title">Skrini</string>
+  <!--  -->
+  <!-- New Look Dialog -->
+  <string name="new_look_dialog_title">Ongeza Muonekano</string>
+  <string name="add_look_from_camera">Chukua Picha</string>
+  <string name="add_look_draw_new_image">Chora picha</string>
+  <string name="add_look_choose_image">Teua Taswira</string>
+  <string name="add_look_media_library">Maktaba ya midia</string>
+  <string name="new_look_name">Angalia jina:</string>
+  <string name="look_rename_overwrite">kikundi chenye jina hili tayari ipo. Tafadhali chagua nyingine tofauti!</string>
+  <string name="add_look_drone_video">AR.Drone 2.0 video</string>
+  <!--  -->
+  <!-- New Sound Dialog -->
+  <string name="new_sound_dialog_title">Ongeza sauti</string>
+  <string name="add_sound_from_recorder">Rekodi sauti</string>
+  <string name="add_sound_choose_file">Chagua faili</string>
+  <string name="add_sound_music">Mtungaji wa muziki</string>
   <!-- Privacy Policy -->
   <string name="dialog_privacy_policy_title">Privacy policy</string>
   <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
@@ -294,15 +481,13 @@
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Masharti ya matumizi na huduma</string>
   <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
-        Catrobat\'s
-        Terms of
-        Use and Services.</string>
+        Catrobat\'s Terms of Use and Services.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Si Nikumbushe tena.</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot Jumping Sumo-->
   <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
-        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
-        use for Pocket Code.</string>
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to
+        Catrobat\'s Terms of Use for Pocket Code.</string>
   <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">Kuhusu programu hii</string>
@@ -313,57 +498,15 @@
   <!-- Project activity view -->
   <string name="project_name">Programu:</string>
   <string name="my_projects_activity_title">Programu</string>
-  <string name="number_of_objects">Vipengee:</string>
-  <string name="start_scene_name">%1$s (eneo la kwanza)</string>
   <string name="number_of_scripts">Hati:</string>
   <string name="number_of_bricks">Matofali:</string>
   <string name="number_of_looks">Mwonekano:</string>
   <string name="number_of_sounds">Sauti:</string>
   <string name="show_details">Onyesha maelezo</string>
   <string name="hide_details">Ficha Mafafanuzi</string>
-  <string name="insert_below">Chomeka chini</string>
-  <string name="sprite">Kipengee</string>
-  <string name="sprites">Vipengee</string>
-  <string name="spritelist_background_headline">Mandharinyuma</string>
-  <string name="dialog_confirm_delete_object_title">Futa kipengee hiki?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Futa kipengee hiki?</string>
-  <string name="dialog_confirm_delete_object_message">Huwezi tengua!</string>
-  <string name="select_all">Teua zote</string>
-  <string name="deselect_all">Ghairi uteuzi kwa zote</string>
-  <string name="backpack_replace_object">%1$s kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
-  <string name="backpack_replace_scene">%1$s kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
-  <string name="backpack_replace_object_multiple">kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
-  <string name="groups_create">Unda kikundi</string>
-  <string name="group_created">Kikundi kimeundwa kwa mafanikio!</string>
-  <string name="ungroup">Tenganisha</string>
-  <string name="group_objects_delete">Futa kikundi na vipengee</string>
-  <string name="group">Kikundi</string>
-  <string name="backpack_replace_scene_multiple">Pazia tayari zipo katika Mkoba wa mgongoni. Je, unataka kubadilisha yao?</string>
-  <!--  -->
-  <!-- Sprite activity -->
-  <string name="copy_sprite_name_suffix">_Nakala</string>
-  <!--  -->
-  <!-- Script activity -->
-  <string name="scripts">Hati</string>
-  <string name="look">Angalia</string>
-  <string name="looks">Muonekano</string>
-  <string name="sound">Sauti</string>
-  <string name="sounds">Sauti</string>
-  <string name="backgrounds">Mandharinyuma</string>
-  <string name="size">Ukubwa:</string>
-  <string name="script_group">Kikundi cha maneno</string>
-  <string name="script_groups">Makundi ya hati</string>
-  <string name="script_group_name_given">kikundi chenye jina hili tayari ipo. Tafadhali chagua nyingine tofauti!</string>
-  <string name="group_or_object_name_given">kikundi chenye jina hili tayari ipo. Tafadhali chagua nyingine tofauti!</string>
   <!--  -->
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Bofya \"+\" kuongeza hati</string>
-  <string name="dialog_confirm_delete_brick_title">Futa hili Tofali?</string>
-  <string name="dialog_confirm_delete_script_title">Futa hati hii?</string>
-  <string name="dialog_confirm_delete_multiple_bricks_title">Futa matofali haya?</string>
-  <string name="dialog_confirm_delete_backpack_group_title">Futa kikundi hiki?</string>
-  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Kufuta vikundi hivi?</string>
-  <string name="dialog_confirm_delete_brick_message">Huwezi tengua!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Futa %d matofali</item>
     <item quantity="other">Futa %d matofali</item>
@@ -379,55 +522,22 @@
   <!--  -->
   <!-- Look fragment -->
   <string name="fragment_look_text_description">Gusa \"+\" kuongeza mwonekano</string>
-  <string name="fragment_background_text_description">Gusa \"+\" kuongeza mandhari</string>
-  <string name="rename_look_dialog">Patia jina upya mwonekano</string>
   <string name="pocket_paint_not_installed_title">Rangi ya mfukoni haijasakinishwa!</string>
   <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
-  <string name="pocket_paint_not_installed">Je, unataka kusakinisha?</string>
   <string name="default_look_name">mwonekano</string>
-  <string name="delete_look_dialog">Futa Mwonekano?</string>
   <string name="select_look_from_gallery">Teua Taswira</string>
   <string name="select_look_from_camera">Teua picha</string>
   <string name="look_measure">Pima:</string>
-  <string name="dialog_confirm_delete_look_title">Futa Mwonekano?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Futa Mwonekano?</string>
-  <string name="dialog_confirm_delete_look_message">Huwezi tengua!</string>
-  <string name="lookname">Angalia jina:</string>
-  <string name="backpack_replace_look">%1$s kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
-  <string name="backpack_replace_look_multiple">kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
   <!--  -->
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Bofya \"+\" kuongeza sauti</string>
-  <string name="rename_sound_dialog">Badili jina la sauti</string>
-  <string name="backpack_title">Mkoba wako</string>
-  <string name="sound_play">cheza</string>
-  <string name="sound_stop">Komesha</string>
   <string name="sound_select_source">Chagua sauti</string>
-  <string name="sound_time_seperator">/</string>
-  <string name="delete_sound_dialog">Futa sauti?</string>
   <string name="length">Urefu:</string>
-  <string name="dialog_confirm_delete_sound_title">Futa hii sauti?</string>
-  <string name="dialog_confirm_delete_multiple_sounds_title">Futa hizi sauti?</string>
-  <string name="dialog_confirm_delete_sound_message">Huwezi tengua!</string>
   <string name="sound_name">Jina la sauti:</string>
   <string name="new_sound_name">Jina la sauti:</string>
-  <string name="rename_sound_overwrite">Sauti yenye jina hili tayari ipo. Tafadhali chagua nyingine tofauti!</string>
-  <string name="backpack_replace_sound">%1$s kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
-  <string name="backpack_replace_sound_multiple">kipengee tayari kipo katika Mkoba. Unataka kukibadilisha?</string>
   <!--  -->
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Tambaza lebo ili kuongeza</string>
-  <string name="rename_nfctag_dialog">Andika upya lebo ya NFC</string>
-  <string name="nfctagname_invalid">Jina la lebo hii ni batili</string>
-  <string name="nfctag_scan">Tambaza</string>
-  <string name="delete_nfctag_dialog">Futa Lebo ya NFC?</string>
-  <string name="dialog_confirm_delete_nfctag_title">Futa Lebo hii NFC?</string>
-  <string name="dialog_confirm_delete_multiple_nfctags_title">Futa Lebo hizi za NFC?</string>
-  <string name="dialog_confirm_delete_nfctag_message">Huwezi tengua!</string>
-  <string name="nfctag_name">Jina la lebo ya NFC:</string>
-  <string name="nfctag">Lebo ya NFC</string>
-  <string name="nfctags">Lebo za NFC</string>
-  <string name="uid">Kitambulisho : ID</string>
   <string name="ndef_record_label">kama aina ya rekodi ya NDEF</string>
   <string name="brick_set_nfc_tag">Lebo za NFC Seti inayofuata</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
@@ -441,35 +551,11 @@
   <string name="tnf_well_known_sms">SMS</string>
   <string name="tnf_well_known_mailto">Barua pepe</string>
   <!--  -->
-  <plurals name="unpacking_items_plural">
-    <item quantity="one">zilifungushwa!</item>
-    <item quantity="other">zilifungushwa!</item>
-  </plurals>
-  <plurals name="packing_items_plural">
-    <item quantity="one">zilifungashwa</item>
-    <item quantity="other">zilifungashwa</item>
-  </plurals>
-  <plurals name="scripts_plural">
-    <item quantity="one">Hati</item>
-    <item quantity="other">Hati</item>
-  </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Fikio la mwisho:</string>
   <string name="description">Maelezo:</string>
   <string name="set_description">Weka maelezo</string>
-  <string name="rename_project">Patia programu jina upya</string>
-  <string name="copy_project_finished"> imenakiliwa.</string>
-  <string name="program">Programu</string>
-  <string name="programs">Programu</string>
-  <string name="scene">Eneo la tukio</string>
-  <string name="scenes">Eneo la tukio</string>
-  <string name="dialog_confirm_delete_program_title">Futa programu hii?</string>
-  <string name="dialog_confirm_delete_multiple_programs_title">Futa programu hizi?</string>
-  <string name="dialog_confirm_delete_scene_title">Futa kipengele hiki?</string>
-  <string name="dialog_confirm_delete_multiple_scenes_title">Futa vipengele hivi?</string>
   <string name="details_date_today">Leo</string>
-  <string name="details_date_yesterday">Jana</string>
-  <string name="dialog_copy_project_title">Nakili programu</string>
   <!--  -->
   <!-- Soundrecorder activity -->
   <string name="soundrecorder_name">Kirekodi sauti</string>
@@ -484,8 +570,8 @@
   <string name="prestage_text_to_speech_engine_not_installed">Injini text-to-Speech haija sanidiwa! \n je  unataka kusakinisha?</string>
   <string name="prestage_resource_not_available_title">Kijenzi hakipatikani</string>
   <string name="prestage_resource_not_available_text">Programu hii haiwezi kuendeshwa kwenye kifaa chako. Vijenzi vifuatavyo havipatikani: \n\n</string>
-  <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
-        are the only Controller for the Drone.</string>
+  <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Be sure, you
+        are the only controller for the drone.</string>
   <string name="prestage_no_flash_available">\u2022 mwanga\n</string>
   <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 sensor ongeza kasi\n</string>
@@ -504,68 +590,23 @@
   <!--  -->
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Sogeza tofali</string>
-  <string name="brick_context_dialog_show_source">Onyesha chanzo cha tofali</string>
   <string name="brick_context_dialog_delete_brick">Futa tofali</string>
   <string name="brick_context_dialog_copy_brick">Nakili tofali</string>
   <string name="brick_context_dialog_animate_bricks">Huisha matofali-sehemu</string>
-  <string name="brick_context_dialog_add_to_script">Ongeza kwenye hati</string>
   <string name="brick_context_dialog_formula_edit_brick">Hariri fomula</string>
   <string name="brick_context_dialog_delete_script">Futa hati</string>
   <string name="brick_context_dialog_comment_in">Wezesha tofali</string>
   <string name="brick_context_dialog_comment_out">Legeza tofari</string>
   <string name="brick_context_dialog_help">Msaada</string>
   <string name="comment_in_out">Dhoofisha/wezesha</string>
-  <string name="comment_in_out_impossible">Hakuna cha kudhoofisha/kuwezesha</string>
   <!--  -->
-  <!-- New look dialog -->
-  <string name="new_look_dialog_title">Ongeza Muonekano</string>
-  <string name="add_look_from_camera">Chukua Picha</string>
-  <string name="add_look_draw_new_image">Chora picha</string>
-  <string name="add_look_choose_image">Teua Taswira</string>
-  <string name="add_look_media_library">Maktaba ya midia</string>
-  <string name="new_look_name">Angalia jina:</string>
-  <string name="look_rename_overwrite">kikundi chenye jina hili tayari ipo. Tafadhali chagua nyingine tofauti!</string>
-  <string name="add_look_drone_video">Video ya Ndege isiyoongozwa na rubani</string>
-  <!--  -->
-  <!-- New Sound dialog -->
-  <string name="new_sound_dialog_title">Ongeza sauti</string>
-  <string name="add_sound_from_recorder">Rekodi sauti</string>
-  <string name="add_sound_choose_file">Chagua faili</string>
-  <string name="add_sound_music">Mtungaji wa muziki</string>
-  <!-- New project dialog -->
-  <string name="new_project_dialog_title">Programu mpya</string>
-  <string name="new_project_dialog_hint">Programu Yangu</string>
-  <string name="new_project_description_dialog_hint">Maelezo yangu</string>
-  <string name="new_project_name">Jina la programu</string>
-  <string name="new_project_empty">Unda programu tupu</string>
-  <string name="new_project_default">Unda programu ya mfano</string>
-  <string name="new_project_default_drone">Unda programu ya Ndege isiyoongozwa na rubani ya mfano</string>
-  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
-  <string name="project_orientation_title">Mwelekeo:</string>
-  <string name="project_select_screen_title">Skrini</string>
-  <!--  -->
-  <!-- New scene dialog -->
-  <string name="new_scene_dialog_hint">Eneo langu</string>
-  <string name="new_scene_name">Jina la tukio</string>
-  <string name="new_scene_dialog_title">Tukio jipya</string>
-  <string name="rename_scene_dialog">Taja jina jipya la eneo</string>
-  <string name="scene_name">Jina la tukio:</string>
-  <!--  -->
-  <!-- Merge Scene Dialog -->
-  <string name="merge_scene_option">Changanya maeneo</string>
-  <string name="merge_scene_label_one">Changanisha</string>
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">Chezesha tukio:</string>
   <string name="play_scene_dialog_default">Tukio la kwanza(%1$s)</string>
   <string name="play_scene_dialog_current">Sasa(%1$s)</string>
   <!--  -->
   <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_default_sprite_name">Kipengee changu</string>
   <string name="new_sprite_dialog_title">Kipengee kipya</string>
-  <string name="spritename_already_exists">Tafadhali chagua tena jina la kipengele.</string>
-  <string name="rename_sprite_dialog">Andika tena kipengele</string>
-  <string name="spritename_invalid">Jina kipengele hiki ni batili</string>
-  <string name="no_spritename_entered">Tafadhali ingiza jina la kipengele.</string>
   <string name="sprite_name">Jina la kipengee:</string>
   <!--  -->
   <!-- Sign In dialogs -->
@@ -840,8 +881,9 @@
   <string name="default_cast_project_var_direction">mwelekeo</string>
   <string name="default_cast_project_name">Programu yangu ya kwanza kurushwa</string>
   <!-- defaultDroneValues -->
-  <string name="default_drone_project_name">Programu yangu ya kwanza kurusha</string>
+  <string name="default_drone_project_name">My first AR.Drone 2.0 program</string>
   <string name="default_drone_project_sprites_takeoff">Ondoka</string>
+  <string name="default_drone_project_sprites_flip">Geuza</string>
   <string name="default_drone_project_sprites_up">Juu</string>
   <string name="default_drone_project_sprites_down">Chini</string>
   <string name="default_drone_project_sprites_left">Kushoto</string>
@@ -921,12 +963,6 @@
   <string name="error_no_program_name_entered">Tafadhali ingiza jina la programu.</string>
   <string name="error_no_userbrick_name_entered">Tafadhali ingiza jina la tofali.</string>
   <string name="error_project_exists">Tafadhali chagua jina lingine la programu.</string>
-  <string name="error_scene_exists">Tafadhali chagua jina jingine la tukio.</string>
-  <string name="error_scene_not_deleted">Kosa limetokea wakati wa kufuta tukio.</string>
-  <string name="error_scene_not_copied">Kosa limetokea wakati wa kunakili tukio.</string>
-  <string name="error_scene_backpack">Kosa limetokea katika eneo la tukio Shanta.</string>
-  <string name="error_delete_project">Kosa limetokea wakati wa kufuta programu.</string>
-  <string name="error_unknown_project">Programu yenye jina hilo haipo.</string>
   <string name="error_project_upload">Kosa limetokea wakati wa kupakia programu.</string>
   <string name="error_project_download">Kosa limetokea wakati wa kupakua programu.</string>
   <string name="error_new_project">Kosa limetokea wakati wa kuunda programu upya.</string>
@@ -934,14 +970,10 @@
   <string name="error_rename_scene">Kosa limetokea wakati wa kuandika upya tukio hili.</string>
   <string name="error_load_project">Kosa limetokea wakati wa kuiwezesha programu.</string>
   <string name="error_screenshot_failed">Kosa limetokea wakati wa kuhifadhi mwonekano wa picha.</string>
-  <string name="error_load_image">Kosa limetokea wakati wa kuiwezesha picha.</string>
-  <string name="error_load_image_special_chars">haiwezi kuiwezesha picha. hivi jina la file limebeba vibambo maalumu (k.m $, %, &amp;&#8230;)? </string>
-  <string name="error_load_sound">Kosa limetokea wakati wa kuiwezesha picha.</string>
   <string name="error_internet_connection">Kosa lisilojulikana limetokea. Kagua muunganisho wa mtandao wako.</string>
   <string name="error_no_internet">Tafadhali anzisha muunganisho wa mtandao.</string>
   <string name="error_project_compatability">Programu sio patanifu na toleo hili la programu.</string>
   <string name="error_outdated_version">Toleo hili la programu limepitwa na wakati. Sasisha sasa?</string>
-  <string name="error_copy_project">Kosa limetokea wakati wa kunakili programu.</string>
   <string name="error_upload_project_with_default_name">Huwezi kupakia programu yenye jina \'Programu yangu ya kwanza\'. Tafadhali andika upya jina la programu.</string>
   <string name="error_upload_default_project">Hauwezi kupakia programu hii kwasababu ni sawa na \'Programu yangu ya kwanza\'. Tafadhali iboreshe, na jaribu tena.</string>
   <string name="error_adding_brick">Kosa limetokea wakati wa kuongeza tofali hili.</string>
@@ -959,7 +991,6 @@
   <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
   <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
   <string name="error_rename_incompatible_project">Haiwezekani kuita jina jipya wa mradi usiopatanifu.</string>
-  <string name="error_unpack_scene_with_different_resolution">Tahadhari! maazimio tofauti yamegunduliwa.</string>
   <string name="error_unknown_error">Kosa lisilojulikana limetokea.</string>
   <string name="error_gps_not_available">Kosa, GPS ilikua haipatikani.</string>
   <string name="error_set_description">Kosa limetokea wakati wa kuhifadhi maelezo mapya.</string>
@@ -1058,6 +1089,9 @@
   <string name="ev3_sensor_color">EV3 rangi kihisio</string>
   <string name="ev3_sensor_color_ambient">EV3 rangi kihisio iliyoko</string>
   <string name="ev3_sensor_color_reflected">Kihisio cha rangi ya Ev3 kilicho akisiwa</string>
+  <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
+  <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
+  <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
   <string name="ev3_motor_a">A</string>
   <string name="ev3_motor_b">B</string>
   <string name="ev3_motor_c">C</string>
@@ -1088,6 +1122,7 @@
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
   <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+  <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
   <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
   <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
   <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
@@ -1099,7 +1134,6 @@
   <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
   <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
   <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
-  <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
   <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
   <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
   <string name="brick_drone_set_altitude">Altitude limit </string>
@@ -1107,14 +1141,36 @@
   <string name="brick_drone_set_rotation_speed">Kidhibiti kasi mzunguko</string>
   <string name="brick_drone_set_tilt_limit">Geuza kikomo</string>
   <string name="brick_drone_with">seconds with</string>
-  <string name="brick_drone_percent_power">nguvu</string>
+  <string name="brick_drone_percent_power">% power</string>
   <!--  -->
+  <!-- Drone play led animation strings -->
+  <string name="drone_animation_blinkgreenred">Blink Green Red</string>
+  <string name="drone_animation_blinkgreen">Blink Green</string>
+  <string name="drone_animation_blinkred">Blink Red</string>
+  <string name="drone_animation_blinkorange">Blink Orange</string>
+  <string name="drone_animation_snakegreenred">Snake Green Red</string>
+  <string name="drone_animation_fire">Fire</string>
+  <string name="drone_animation_standard">Kiwango</string>
+  <string name="drone_animation_red">Nyekundu</string>
+  <string name="drone_animation_green">Kijani</string>
+  <string name="drone_animation_redsnake">Red Snake</string>
+  <string name="drone_animation_blank">Blank</string>
+  <string name="drone_animation_rightmissile">Right Missile</string>
+  <string name="drone_animation_leftmissile">Left Missile</string>
+  <string name="drone_animation_doublemissile">Double Missile</string>
+  <string name="drone_animation_frontleftgreenothersred">Front Left Green Others Red</string>
+  <string name="drone_animation_frontrightgreenothersred">Front Right Green Others Red</string>
+  <string name="drone_animation_rearrightgreenothersred">Rear Right Green Others Red</string>
+  <string name="drone_animation_rearleftgreenothersred">Rear Left Green Others Red</string>
+  <string name="drone_animation_leftgreenrightred">Left Green Right Red</string>
+  <string name="drone_animation_leftredrightgreen">Left Red Right Green</string>
+  <string name="drone_animation_blinkstandard">Blink Standard</string>
   <!-- Jumping Sumo Bricks -->
   <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
   <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
   <string name="brick_jumping_sumo_percent_power">% power</string>
   <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
   <string name="brick_jumping_sumo_sound">Sauti</string>
   <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
   <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
@@ -1122,22 +1178,22 @@
   <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
   <string name="brick_jumping_sumo_rotate_text">°</string>
   <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
-  <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
   <!--  -->
   <!-- defaultJumpingSumoValues -->
   <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
-  <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+  <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
   <string name="default_jumping_sumo_project_sprites_forward">Mbele</string>
   <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
   <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
   <string name="default_jumping_sumo_project_sprites_sound">Sauti</string>
-  <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
   <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
   <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
   <string name="default_jumping_sumo_project_sprites_turn_left">Geuka kushoto</string>
   <string name="default_jumping_sumo_project_sprites_turn_right">Geuka kulia</string>
   <string name="default_jumping_sumo_project_sprites_flip">Geuza</string>
-  <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+  <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
   <!--  -->
   <!-- Jumping Sumo animation strings -->
   <string name="animation_spin">Spin</string>
@@ -1253,7 +1309,7 @@
   <string name="formula_editor_function_arctan">arctan</string>
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
-  <string name="formula_editor_function_exp_parameter">(0)</string>
+  <string name="formula_editor_function_exp_parameter">(1)</string>
   <string name="formula_editor_function_power">nguvu</string>
   <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">sakafu</string>
@@ -1271,7 +1327,7 @@
   <string name="formula_editor_function_letter">barua</string>
   <string name="formula_editor_function_letter_parameter">(1,\'ulimwengu habari\')</string>
   <string name="formula_editor_function_join">jiunga</string>
-  <string name="formula_editor_function_join_parameter">(\'ulimwengu habari\')</string>
+  <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
   <string name="formula_editor_function_arduino_read_pin_value_digital">aduino_digatili_funga</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analogia_pin</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">raspberi_funga</string>
@@ -1338,6 +1394,9 @@
   <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_rangi</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_rangi_iliyoko</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_rangi_imeakisiwa</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_color</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3_NXT_temperature_°C</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3_NXT_temperature_°F</string>
   <string name="formula_editor_sensor_gamepad_a_pressed">bonyeza_a_mchezopadi</string>
   <string name="formula_editor_sensor_gamepad_b_pressed">bonyeza_b_mchezopadi</string>
   <string name="formula_editor_sensor_gamepad_up_pressed">bonyeza_juu_mchezopadi</string>
@@ -1384,7 +1443,8 @@
   <string name="formula_editor_device_face_detection">Kigundua uso</string>
   <string name="formula_editor_device_date_and_time">Tarehe na saa</string>
   <string name="formula_editor_device_touch_detection">Gusa kigunduzi</string>
-  <string name="formula_editor_device_lego">Lego</string>
+  <string name="formula_editor_device_lego_nxt">Lego NXT </string>
+  <string name="formula_editor_device_lego_ev3">Lego EV3</string>
   <string name="formula_editor_device_arduino">Arduino</string>
   <string name="formula_editor_device_phiro">Phiro</string>
   <string name="formula_editor_device_raspberry">Rasiberi pi</string>
@@ -1449,8 +1509,8 @@
   <string name="formula_editor_intro_title_data">Data</string>
   <string name="formula_editor_intro_summary_data">Vitofautishi na orodha ambazo hutumika kwenye programu vinaweza kupatikana hapa\nUnaweza ongeza haya kwenye fomula yako, au ongeza mpya.</string>
   <plurals name="formula_editor_data_am_title">
-    <item quantity="one">Kipengele kilichoteuliwa!</item>
-    <item quantity="other">Items selected!</item>
+    <item quantity="one">%d Item selected</item>
+    <item quantity="other">%d Items selected</item>
   </plurals>
   <!--  -->
   <!-- New Data Dialog -->
@@ -1460,7 +1520,6 @@
   <string name="no_listname_entered">Tafadhali ingiza jina la orodha.</string>
   <!-- -->
   <!-- Brick Data Editor Strings -->
-  <string name="brick_data_editor_title">Kihariri tofali</string>
   <string name="separator">|</string>
   <string name="add_text">Ongeza andishi</string>
   <string name="edit_text">Hariri andishi</string>
@@ -1478,21 +1537,7 @@
   <string name="new_user_brick">Tofali jipya</string>
   <string name="new_user_brick_variable">Kitofautishi</string>
   <string name="new_user_brick_name">Tafadhali chagua jina la tofali:</string>
-  <string name="recursive_user_brick_forbidden">Kuongeza tofali lililotengenezwa/tafsiriwa na mtumiaji kwnye tofali lililotengenezwa/tafsiriwa na mtumiaji haihusiwi!</string>
-  <!-- Merge strings -->
-  <string name="merge_button">Unganisha kwa</string>
-  <string name="name_merge_result">Ingiza jina kwajili ya matokeo</string>
-  <string name="merge_info">imeunganishwa kwa ufanisi kwenye</string>
-  <string name="warning">Tahadhari</string>
-  <string name="error_merge">Kosa limetokea wakati wa kuunganisha programu hizi</string>
-  <string name="error_merge_with_self_scene">Tukio la sasa na tukio ulilochagua yako sawa!</string>
-  <string name="error_merge_scene_not_found">Tukio halijaonekana!</string>
-  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
-        has resolution %2$d×%3$d and %4$s has resolution %5$d×%6$d. Using resolution of %1$s.</string>
-  <string name="abort">Katiza</string>
-  <string name="merge_conflict">Kuunganisha hakuwezekani</string>
-  <string name="merge_conflict_variable">Kitofautishi%1$s kinatumika kwenye programu zote. Kama programu zinatumia majina  sawa ya kitofautishi haziwezi kuungana. Tafadhali andika upya jina la kitofautishi kati ya programu moja na jaribu tena.</string>
-  <string name="merge_conflict_list">Orodha%1$s imetumika kwenye programu sawa. Kama programu zinatumia majina sawa kwaajili ya orodha yake haziwezi kuungana. Tafadhali andika upya jina la orodha  ya programu mojawapo na jaribu tena.</string>
+  <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">Geuza kamera</string>
   <string name="video_brick_camera_on">waka</string>
@@ -1570,10 +1615,5 @@
   <string name="TeraByte_short">TB</string>
   <string name="PetaByte_short">PB</string>
   <string name="ExaByte_short">EB</string>
-  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
-         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
-         goodies and giveaways from Google and Catrobat for participants!</string>
-  <string name="google_code_in_check_out">Check it out on</string>
-  <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
 </resources>

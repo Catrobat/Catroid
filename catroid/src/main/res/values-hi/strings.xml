@@ -22,73 +22,63 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <!-- General terms -->
   <string name="app_name">पॉकेट कोड</string>
   <string name="cancel">रद्द करें</string>
-  <string name="next">Next</string>
+  <string name="next">अगला</string>
   <string name="done">पूर्ण</string>
-  <string name="name_already_exists">This name already exists, please choose another one!</string>
-  <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
+  <string name="name_already_exists">यह_नाम_ पहले_से_मौजूद_है</string>
+  <string name="name_consists_of_spaces_only">इस_नाम_में_सिर्फ_रिक्तियाॅ_हैं</string>
   <string name="rename">नाम बदलिए</string>
   <string name="delete">मिटायें</string>
   <string name="yes">हां</string>
   <string name="no">नहीं</string>
   <string name="back">पीछे जाए</string>
   <string name="ok">ठीक है।</string>
-  <string name="agree">Agree</string>
-  <string name="disagree">Disagree</string>
-  <string name="delete_account">Delete my account</string>
+  <string name="agree">सहमत</string>
+  <string name="disagree">असहमत</string>
+  <string name="delete_account">खाता_हटाए</string>
   <string name="copy">प्रतिलिपि बनाएं</string>
-  <string name="cut">Cut</string>
-  <string name="move">स्थानांतरित करें</string>
-  <string name="backpack_add">Add to backpack</string>
-  <string name="backpack">Backpack</string>
+  <string name="backpack_add">बैग_में_जोड़ें</string>
+  <string name="backpack">बैग</string>
   <string name="pack">Pack</string>
-  <string name="unpack">Unpack</string>
-  <string name="unpack_bg">Unpack as background</string>
-  <string name="unpack_object">Unpack as object</string>
-  <string name="copy_addition">copy</string>
+  <string name="unpack">अनपैक</string>
   <string name="close">बंद करें</string>
   <string name="error">त्रुटि</string>
-  <string name="please_wait">Please wait</string>
+  <string name="please_wait">कृपया प्रतीक्षा करें</string>
   <string name="loading">तैयार हो रहा है&#8230;</string>
-  <string name="search_hint">Search&#8230;</string>
-  <string name="no_internet">No Internet</string>
-  <string name="loading_check_token">Token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
-  <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
-  <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#8230;</string>
-  <string name="loading_facebook_login">Facebook login is completed on our server&#8230;</string>
-  <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
-  <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
+  <string name="search_hint">Verb form: 
+1. खोजना
+2. ढूंढ़ना</string>
+  <string name="no_internet">इंटरनेट नहीं है</string>
+  <string name="loading_check_token">टोकन की हमारे सर्वर पर जांच की गई है.. ।</string>
+  <string name="loading_check_facebook_data">फेसबुक का डेटा पुनर्प्राप्त किया गया है</string>
+  <string name="loading_check_email">ई-मेल की उपलब्धता हमारे सर्वर पर जांच की जा रही है.. ।</string>
+  <string name="loading_check_oauth_token">ोौथ के टोकन की हमारे सर्वर पर जांच की गई है.. ।</string>
+  <string name="loading_check_facebook_token_validity">फेसबुक के टोकन की वैधता हमारे सर्वर पर जाँच की जा रही है…</string>
+  <string name="loading_check_oauth_username">प्रयोक्ता नाम की उपलब्धता हमारे सर्वर पर जांच की जा रही है.. ।</string>
+  <string name="loading_facebook_exchange_token">फेसबुक के टोकन का हमारे सर्वर पर विमर्श किया गया है…</string>
+  <string name="loading_facebook_login">फेसबुक का लॉगिन हमारे सर्वर पर पूरा हो गया है…</string>
+  <string name="loading_google_exchange_code">गूगल + कोड को हमारे सर्वर पर विमर्श किया गया है.. ।</string>
+  <string name="loading_google_login">गूगल + का लॉगिन हमारे सर्वर पर पूरा हो गया है.. ।</string>
   <string name="background">पृष्ठभूमि</string>
-  <string name="stage">Stage</string>
-  <string name="play">Play</string>
+  <string name="stage">मंच</string>
+  <string name="play">चलाएँ</string>
   <string name="settings">व्यवस्था</string>
   <string name="redo">फिर से करें</string>
   <string name="undo">अकृत करें</string>
-  <string name="name_exists">Name already exists</string>
-  <string name="no_name">No name</string>
-  <string name="is_empty">is empty</string>
-  <string name="new_group">New group</string>
-  <string name="my_group">My group</string>
-  <string name="name">Name:</string>
-  <string name="nothing_to_copy">Nothing to copy</string>
-  <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
-  <string name="nothing_to_unpack">Nothing to unpack</string>
-  <string name="nothing_to_delete">Nothing to delete</string>
-  <string name="nothing_to_rename">Nothing to rename</string>
-  <string name="unpack_background">Program\'s background will be replaced</string>
-  <string name="degrees">degrees</string>
-  <string name="landscape">landscape</string>
-  <string name="portrait">portrait</string>
-  <string name="unknown">unknown</string>
-  <string name="skip">skip</string>
-  <string name="disconnect">Disconnect</string>
+  <string name="name_exists">नाम पहले से मौजूद है</string>
+  <string name="no_name">कोई नाम नहीं</string>
+  <string name="new_group">नया समूह</string>
+  <string name="my_group">मेरा समूह</string>
+  <string name="name">नाम</string>
+  <string name="degrees">अंश</string>
+  <string name="landscape">भू-दृश्य</string>
+  <string name="portrait">चित्र</string>
+  <string name="unknown">अज्ञात</string>
+  <string name="skip">छोड़ें</string>
+  <string name="disconnect">काटना</string>
   <!--  -->
   <!-- Main menu activity -->
   <string name="main_menu_new">नवीन</string>
@@ -97,50 +87,50 @@
   <string name="main_menu_help">मदद</string>
   <string name="main_menu_web">समन्वेषण करे</string>
   <string name="main_menu_upload">उद्यतन करे</string>
-  <string name="main_menu_privacy_policy">Privacy policy</string>
-  <string name="main_menu_about">About this app</string>
-  <string name="main_menu_terms_of_use">Terms of Use and Services</string>
-  <string name="main_menu_rate_app">Rate us!</string>
-  <string name="main_menu_play_store_not_installed">Play Store app not found</string>
+  <string name="main_menu_privacy_policy">गोपनीयता नीति</string>
+  <string name="main_menu_about">इस ऐप्प के बारे में</string>
+  <string name="main_menu_terms_of_use">उपयोग और सेवाओं की शर्तें</string>
+  <string name="main_menu_rate_app">हमें दर दे!</string>
+  <string name="main_menu_play_store_not_installed">प्ले स्टोर का ऐप नहीं पाया गया</string>
   <string name="main_menu_logout">बाहर जाए</string>
   <string name="main_menu_login">प्रवेश करे</string>
-  <string name="main_menu_scratch_converter">Scratch Converter</string>
-  <string name="logout_successful">Logout successful</string>
+  <string name="main_menu_scratch_converter">स्क्रैच का कनवर्टर</string>
+  <string name="logout_successful">लॉगआउट सफल हुआ</string>
   <!--  -->
   <!-- Marketing activity -->
-  <string name="marketing_created_with">Created with</string>
-  <string name="marketing_app_details">Details about this app</string>
-  <string name="marketing_more_on_google_play">More apps on Google Play</string>
+  <string name="marketing_created_with">ने बनाया</string>
+  <string name="marketing_app_details">इस एप्लिकेशन के बारे में विवरण</string>
+  <string name="marketing_more_on_google_play">गूगल प्ले पर अधिक ऐप्स</string>
   <!-- Settings activity -->
   <string name="preference_title">व्यवस्था</string>
-  <string name="preference_title_language">Language</string>
-  <string name="preference_description_language">Select the language of the app</string>
-  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
-  <string name="preference_description_quadcopter_bricks">Allow to control AR.Drone 2.0 quadcopters</string>
-  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
-  <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
-  <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
-  <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 bricks</string>
-  <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
-  <string name="preference_description_mindstorms_ev3_bricks">Allow to control Lego Mindstorms EV3 robots</string>
-  <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
-  <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 sensors</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
-  <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
-  <string name="preference_description_phiro_bricks">Allow to control Phiro robots</string>
-  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
-  <string name="preference_title_cast_feature_globally_enabled">Enable cast features</string>
-  <string name="preference_description_cast_feature_globally_enabled">Show cast button and allow cast project creation</string>
-  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
-  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
-  <string name="preference_title_enable_crash_reports">Send anonymous crash reports</string>
-  <string name="preference_description_crash_reports">Allow to send crash reports automatically</string>
+  <string name="preference_title_language">भाषा</string>
+  <string name="preference_description_language">एप्लिकेशन की भाषा को चुने</string>
+  <string name="preference_title_enable_quadcopter_bricks">तोता हवा । ड्रोन २.० ईंट</string>
+  <string name="preference_description_quadcopter_bricks">AR नियंत्रित करने की अनुमति दें । ड्रोन २.० quadcopters</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">तोता कूदते सूमो ईंटें</string>
+  <string name="preference_description_jumpingsumo_bricks">तोते कूदते सूमो को नियंत्रित करने की अनुमति दे</string>
+  <string name="preference_title_enable_mindstorms_nxt_bricks">लीगो माईन्दस्तोर्म ईंटें</string>
+  <string name="preference_title_enable_mindstorms_ev3_bricks">लीगो माईन्दस्तोर्म ev3 ईंटें</string>
+  <string name="preference_description_mindstorms_nxt_bricks">लीगो माईन्दस्तोर्म nxt यंत्रमानावो को नियंत्रित करने की अनुमति दें</string>
+  <string name="preference_description_mindstorms_ev3_bricks">लीगो माईन्दस्तोर्म ev3 यंत्रमानावो को नियंत्रित करने की अनुमति दें</string>
+  <string name="preference_title_mindstorms_nxt_sensors">लेगो NXT संवेदक</string>
+  <string name="preference_title_mindstorms_ev3_sensors">लेगो EV3 संवेदक</string>
+  <string name="preference_title_drone_config_properties">ड्रोन विन्यास गुण</string>
+  <string name="preference_title_enable_phiro_bricks">फिरो ईंटें</string>
+  <string name="preference_description_phiro_bricks">फिरो रोबोट को नियंत्रित करने की अनुमति दे</string>
+  <string name="preference_title_enable_arduino_bricks">ार्डुइनो ईंटें</string>
+  <string name="preference_title_cast_feature_globally_enabled">कास्ट सुविधाएं को सक्षम करें</string>
+  <string name="preference_description_cast_feature_globally_enabled">कास्ट बटन दिखाएं और कास्ट प्रोजेक्ट निर्माण की अनुमति दें</string>
+  <string name="preference_title_enable_nfc_bricks">पास के क्षेत्र का चिट्ठी-पत्री</string>
+  <string name="preference_description_nfc_bricks">प्रोग्राम में एन.एफ.सी टैग का उपयोग करने की अनुमति दें</string>
+  <string name="preference_title_enable_crash_reports">अनाम क्रैश रिपोर्ट भेजें</string>
+  <string name="preference_description_crash_reports">दुर्घटना रिपोर्ट को स्वचालित रूप से भेजने की अनुमति दें</string>
   <!-- -->
-  <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
-  <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
-  <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
+  <string name="preference_description_arduino_bricks">आर्डुइनो बोर्डों को नियंत्रित करने की अनुमति दें</string>
+  <string name="preference_title_enable_raspi_bricks">रास्पबेरी पाई की ईंटें</string>
+  <string name="preference_description_raspi_bricks">रास्पबेरी पाई के कंप्यूटरों को नियंत्रित करने की अनुमति दें</string>
   <string name="preference_raspi_enable_bricks">Enable Raspberry Pi bricks</string>
-  <string name="preference_raspi_help">Help / Getting started</string>
+  <string name="preference_raspi_help">मदद</string>
   <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
@@ -173,81 +163,279 @@
   </plurals>
   <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
         failed!</string>
-  <string name="search_failed">Search failed, please retry later!</string>
+  <string name="search_failed">खोज विफल रही, कृपया बाद में पुनर्प्रयास करें!</string>
   <string name="connection_lost_or_closed_by_server">Connection lost or closed by server!</string>
-  <string name="connection_failed">Connection to server failed, please retry later!</string>
+  <string name="connection_failed">सर्वर से कनेक्शन विफल रहा, कृपया बाद में पुनर्प्रयास करें!</string>
   <string name="authentication_failed">Authentication failed, please contact the Catrobat team!</string>
   <plurals name="scratch_conversion_scheduled_x">
     <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
     <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
   </plurals>
   <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
-  <string name="convert">Convert</string>
-  <string name="converting">Converting&#8230;</string>
-  <string name="status_scheduled">Scheduled</string>
-  <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-  <string name="status_started">Started&#8230;</string>
-  <string name="status_conversion_finished">Conversion finished</string>
+  <string name="convert">बदलें</string>
+  <string name="converting">बदल रहा है</string>
+  <string name="status_scheduled">अनुसूचित</string>
+  <string name="status_waiting_for_worker">एक स्वतंत्र कार्यकर्ता की तलाश में है.. । कृपया प्रतीक्षा करे…</string>
+  <string name="status_started">शुरू</string>
+  <string name="status_conversion_finished">रूपांतरण पूर्ण हो गया है</string>
   <plurals name="status_in_progress_x_jobs">
-    <item quantity="one">In progress: 1 job</item>
-    <item quantity="other">In progress: %d jobs</item>
+    <item quantity="one">प्रगति में: 1 काम</item>
+    <item quantity="other">प्रगति में: %d काम</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
-    <item quantity="one">Completed: 1 job</item>
-    <item quantity="other">Completed: %d jobs</item>
+    <item quantity="one">पूर्ण: %d काम</item>
+    <item quantity="other">पूर्ण: %d काम</item>
   </plurals>
-  <string name="status_conversion_failed">Conversion failed!</string>
-  <string name="status_conversion_canceled">Conversion canceled!</string>
-  <string name="status_downloading">Downloading&#8230;</string>
-  <string name="status_download_finished">Download finished!</string>
-  <string name="status_download_canceled">Download canceled!</string>
-  <string name="list_view_section_title_in_progress">In progress</string>
-  <string name="list_view_section_title_converted_programs">Converted programs</string>
-  <string name="status">Status</string>
-  <string name="title">Title</string>
-  <string name="by_x">by %1$s</string>
-  <string name="by_author">by author</string>
-  <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. Converting it may
-        fail!</string>
-  <string name="instructions">Instructions</string>
+  <string name="status_conversion_failed">रूपांतरण असफल हो गया है</string>
+  <string name="status_conversion_canceled">रूपांतरण रद्द!</string>
+  <string name="status_downloading">डाउनलोड हो रहा है…</string>
+  <string name="status_download_finished">डाउनलोड हो गया</string>
+  <string name="status_download_canceled">डाउनलोड रद्द किया गया है</string>
+  <string name="list_view_section_title_in_progress">प्रगति में है</string>
+  <string name="list_view_section_title_converted_programs">बदले गए प्रोग्राम्स</string>
+  <string name="status">स्थिति</string>
+  <string name="title">शीर्षक</string>
+  <string name="by_x">%1$s द्वारा</string>
+  <string name="by_author">लेखक द्वारा</string>
+  <string name="warning_program_visibility">चेतावनी: \ n एक निजी कार्यक्रम लगता है । परिवर्तन विफल हो सकता है!</string>
+  <string name="instructions">निर्देश</string>
   <string name="notes_and_credits">Notes and Credits</string>
   <string name="shared_at_x">Shared: %1$s</string>
   <string name="modified_at_x">Modified: %1$s</string>
   <string name="remixes">Remixes</string>
   <!--  -->
-  <string name="author">Author:</string>
-  <string name="screen_size">Screen Size:</string>
+  <string name="author">लेखक</string>
+  <string name="screen_size">स्क्रीन आकार:</string>
   <string name="mode">Mode:</string>
   <string name="remix_of">Remix of:</string>
   <string name="description_hint">Press to add description</string>
   <!-- ScratchReconvertDialog Strings -->
   <string name="reconvert_text">This program has been converted %1$s ago.</string>
   <plurals name="minutes">
-    <item quantity="one">1 minute</item>
+    <item quantity="one">1 मिनट</item>
     <item quantity="other">%d minutes</item>
   </plurals>
   <plurals name="hours">
-    <item quantity="one">1 hour</item>
+    <item quantity="one">1 घंटा</item>
     <item quantity="other">%d hours</item>
   </plurals>
   <plurals name="days">
-    <item quantity="one">1 day</item>
+    <item quantity="one">1 दिन</item>
     <item quantity="other">%d days</item>
   </plurals>
   <string name="reconvert_dialog_download">Download already converted program</string>
   <string name="reconvert_dialog_reconvert">Reconvert this program</string>
   <!--  -->
-  <!-- New Object Dialog -->
-  <string name="dialog_new_object_pocketpaint">चित्र बनाए</string>
-  <string name="dialog_new_object_gallery">चित्र का चयन करें</string>
-  <string name="dialog_new_object_camera">Take picture</string>
-  <string name="dialog_new_object_look_preview">पूर्वावलोकन को देखो</string>
-  <string name="dialog_new_object_name">वस्तु का नाम</string>
-  <string name="dialog_new_object_switch_title">New object created</string>
-  <string name="dialog_new_object_switch_message">Switch to new object?</string>
+  <!-- ERRORS -->
+  <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
+  <!-- Project Handling Errors -->
+  <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Recycler View -->
+  <string name="am_empty_list">There are no items in this list yet.</string>
+  <string name="am_backpack">Pack</string>
+  <string name="am_unpack">अनपैक</string>
+  <string name="am_copy">प्रतिलिपि बनाएं</string>
+  <string name="am_delete">मिटायें</string>
+  <string name="am_rename">नाम बदलिए</string>
+  <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <!-- Action Mode Titles -->
+  <plurals name="am_projects_title">
+    <item quantity="one">%d Project</item>
+    <item quantity="other">%d Projects</item>
+  </plurals>
+  <plurals name="am_scenes_title">
+    <item quantity="one">%d Scene</item>
+    <item quantity="other">%d Scenes</item>
+  </plurals>
+  <plurals name="am_sprites_title">
+    <item quantity="one">%d Sprite</item>
+    <item quantity="other">%d Sprites</item>
+  </plurals>
+  <plurals name="am_looks_title">
+    <item quantity="one">%d Look</item>
+    <item quantity="other">%d Looks</item>
+  </plurals>
+  <plurals name="am_sounds_title">
+    <item quantity="one">%d Sound</item>
+    <item quantity="other">%d Sounds</item>
+  </plurals>
+  <plurals name="am_nfc_tags_title">
+    <item quantity="one">%d NFC Tag</item>
+    <item quantity="other">%d NFC Tags</item>
+  </plurals>
+  <plurals name="am_scripts_title">
+    <item quantity="one">%d Script</item>
+    <item quantity="other">%d Scripts</item>
+  </plurals>
+  <!-- New Dialog Titles -->
+  <string name="new_scene_dialog">New Scene</string>
+  <string name="scene_name">Scene name:</string>
+  <!-- Delete Dialog Titles -->
+  <plurals name="delete_projects">
+    <item quantity="one">Delete this Project?</item>
+    <item quantity="other">Delete these Projects?</item>
+  </plurals>
+  <plurals name="delete_scenes">
+    <item quantity="one">Delete this Scene?</item>
+    <item quantity="other">Delete these Scenes?</item>
+  </plurals>
+  <plurals name="delete_sprites">
+    <item quantity="one">Delete this Object?</item>
+    <item quantity="other">Delete these Objects?</item>
+  </plurals>
+  <plurals name="delete_looks">
+    <item quantity="one">Delete this Look?</item>
+    <item quantity="other">Delete these Looks?</item>
+  </plurals>
+  <plurals name="delete_sounds">
+    <item quantity="one">Delete this Sound?</item>
+    <item quantity="other">Delete these Sounds?</item>
+  </plurals>
+  <plurals name="delete_nfc_tags">
+    <item quantity="one">Delete this Tag?</item>
+    <item quantity="other">Delete these Tags?</item>
+  </plurals>
+  <plurals name="delete_scripts">
+    <item quantity="one">Delete this Script?</item>
+    <item quantity="other">Delete these Scripts?</item>
+  </plurals>
+  <plurals name="delete_bricks">
+    <item quantity="one">Delete this Brick?</item>
+    <item quantity="other">Delete these Bricks?</item>
+  </plurals>
+  <!-- Rename Dialog Titles -->
+  <string name="rename_project">प्रोग्राम का नाम बदले</string>
+  <string name="rename_scene_dialog">Rename Scene</string>
+  <string name="rename_sprite_dialog">वस्तु को पुनः नाम दे</string>
+  <string name="rename_look_dialog">नज़ारे का नाम बदलें</string>
+  <string name="rename_sound_dialog">ध्वनि का नाम बदले</string>
+  <string name="rename_nfctag_dialog">NFC टैग का नाम बदलें</string>
+  <!-- Action Toasts -->
+  <plurals name="packed_scenes">
+    <item quantity="one">Backpacked %d Scene!</item>
+    <item quantity="other">Backpacked %d Scenes!</item>
+  </plurals>
+  <plurals name="packed_sprites">
+    <item quantity="one">Backpacked %d Object!</item>
+    <item quantity="other">Backpacked %d Objects!</item>
+  </plurals>
+  <plurals name="packed_looks">
+    <item quantity="one">Backpacked %d Look!</item>
+    <item quantity="other">Backpacked %d Looks!</item>
+  </plurals>
+  <plurals name="packed_sounds">
+    <item quantity="one">Backpacked %d Sound!</item>
+    <item quantity="other">Backpacked %d Sounds!</item>
+  </plurals>
+  <string name="packed_script_group">Backpacked 1 Script Group!</string>
+  <plurals name="unpacked_scenes">
+    <item quantity="one">Unpacked %d Scene!</item>
+    <item quantity="other">Unpacked %d Scenes!</item>
+  </plurals>
+  <plurals name="unpacked_sprites">
+    <item quantity="one">Unpacked %d Object!</item>
+    <item quantity="other">Unpacked %d Objects!</item>
+  </plurals>
+  <plurals name="unpacked_looks">
+    <item quantity="one">Unpacked %d Look!</item>
+    <item quantity="other">Unpacked %d Looks!</item>
+  </plurals>
+  <plurals name="unpacked_sounds">
+    <item quantity="one">Unpacked %d Sound!</item>
+    <item quantity="other">Unpacked %d Sounds!</item>
+  </plurals>
+  <plurals name="unpacked_scripts">
+    <item quantity="one">Unpacked %d Script!</item>
+    <item quantity="other">Unpacked %d Scripts!</item>
+  </plurals>
+  <plurals name="copied_scenes">
+    <item quantity="one">Copied %d Scene!</item>
+    <item quantity="other">Copied %d Scenes!</item>
+  </plurals>
+  <plurals name="copied_sprites">
+    <item quantity="one">Copied %d Object!</item>
+    <item quantity="other">Copied %d Objects!</item>
+  </plurals>
+  <plurals name="copied_looks">
+    <item quantity="one">Copied %d Look!</item>
+    <item quantity="other">Copied %d Looks!</item>
+  </plurals>
+  <plurals name="copied_sounds">
+    <item quantity="one">Copied %d Sound!</item>
+    <item quantity="other">Copied %d Sounds!</item>
+  </plurals>
+  <plurals name="copied_nfc_tags">
+    <item quantity="one">Copied %d NFC Tag!</item>
+    <item quantity="other">Copied %d NFC Tags!</item>
+  </plurals>
+  <plurals name="deleted_projects">
+    <item quantity="one">Deleted %d Project!</item>
+    <item quantity="other">Deleted %d Projects!</item>
+  </plurals>
+  <plurals name="deleted_scenes">
+    <item quantity="one">Deleted %d Scene!</item>
+    <item quantity="other">Deleted %d Scenes!</item>
+  </plurals>
+  <plurals name="deleted_sprites">
+    <item quantity="one">Deleted %d Sprite!</item>
+    <item quantity="other">Deleted %d Sprites!</item>
+  </plurals>
+  <plurals name="deleted_looks">
+    <item quantity="one">Deleted %d Look!</item>
+    <item quantity="other">Deleted %d Looks!</item>
+  </plurals>
+  <plurals name="deleted_sounds">
+    <item quantity="one">Deleted %d Sound!</item>
+    <item quantity="other">Deleted %d Sounds!</item>
+  </plurals>
+  <plurals name="deleted_nfc_tags">
+    <item quantity="one">Deleted %d NFC Tag!</item>
+    <item quantity="other">Deleted %d NFC Tags!</item>
+  </plurals>
+  <plurals name="deleted_scripts">
+    <item quantity="one">Deleted %d Script!</item>
+    <item quantity="other">Deleted %d Scripts!</item>
+  </plurals>
   <!--  -->
+  <!-- Backpack -->
+  <string name="backpack_title">Your Backpack</string>
+  <!--  -->
+  <!-- Sprite Attribute Activity -->
+  <string name="scripts">लिपिया:</string>
+  <string name="backgrounds">पृष्ठभूमियाँ</string>
+  <string name="looks">नज़ारे:</string>
+  <string name="sounds">ध्वनियाँ</string>
+  <string name="nfctags">एनएफसी के टैग</string>
+  <string name="size">आकार:</string>
+  <!-- New project dialog -->
+  <string name="new_project_dialog_title">नया प्रोग्राम</string>
+  <string name="new_project_dialog_hint">मेरा प्रोग्राम</string>
+  <string name="new_project_description_dialog_hint">My description</string>
+  <string name="new_project_name">प्रोग्राम का नाम:</string>
+  <string name="new_project_empty">Create empty program</string>
+  <string name="new_project_default">Create example program</string>
+  <string name="new_project_default_drone">Create example AR.Drone 2.0 program</string>
+  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo program</string>
+  <string name="project_orientation_title">Orientation:</string>
+  <string name="project_select_screen_title">Screen</string>
+  <!--  -->
+  <!-- New Look Dialog -->
+  <string name="new_look_dialog_title">नज़ारा जोड़ें</string>
+  <string name="add_look_from_camera">तस्वीर खींचे</string>
+  <string name="add_look_draw_new_image">चित्र बनाए</string>
+  <string name="add_look_choose_image">चित्र का चयन करें</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look name:</string>
+  <string name="look_rename_overwrite">A look with this name already exists. Please choose a different one!</string>
+  <string name="add_look_drone_video">AR.Drone 2.0 video</string>
+  <!--  -->
+  <!-- New Sound Dialog -->
+  <string name="new_sound_dialog_title">Add Sound</string>
+  <string name="add_sound_from_recorder">Record Sound</string>
+  <string name="add_sound_choose_file">Select File</string>
+  <string name="add_sound_music">Music Composer</string>
   <!-- Privacy Policy -->
-  <string name="dialog_privacy_policy_title">Privacy policy</string>
+  <string name="dialog_privacy_policy_title">गोपनीयता नीति</string>
   <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
 
         To offer you all collaborative benefits of our services and the associated account, it is necessary to
@@ -297,26 +485,24 @@
     </string>
   <!-- -->
   <!-- Terms of Use Dialog -->
-  <string name="dialog_terms_of_use_title">Terms of Use and Services</string>
+  <string name="dialog_terms_of_use_title">उपयोग और सेवाओं की शर्तें</string>
   <string name="dialog_terms_of_use_info">In order to
     be allowed to use the apps and other executables offered by the Catrobat project, you
     must agree to our Terms of Use and Services and strictly follow them when you use our apps
     and other executables. Please see the link below for their precise formulation.\n</string>
-  <string name="dialog_terms_of_use_link_text">Terms of Use and Services</string>
+  <string name="dialog_terms_of_use_link_text">उपयोग और सेवाओं की शर्तें</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Services</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">उपयोग और सेवाओं की शर्तें</string>
   <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
-        Catrobat\'s
-        Terms of
-        Use and Services.</string>
-  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+        Catrobat\'s Terms of Use and Services.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">मुझे फिर से याद न दिलाएं</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot Jumping Sumo-->
   <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
-        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
-        use for Pocket Code.</string>
+        Jumping Sumo. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to
+        Catrobat\'s Terms of Use for Pocket Code.</string>
   <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">About this app</string>
@@ -331,60 +517,15 @@
   <!-- Project activity view -->
   <string name="project_name">प्रोग्राम:</string>
   <string name="my_projects_activity_title">प्रोग्राम्स</string>
-  <string name="number_of_objects">Objects:</string>
-  <string name="start_scene_name">%1$s (First Scene)</string>
   <string name="number_of_scripts">लिपिया:</string>
   <string name="number_of_bricks">ईंटें:</string>
   <string name="number_of_looks">नज़ारे:</string>
   <string name="number_of_sounds">ध्वनियाँ:</string>
-  <string name="show_details">Show details</string>
+  <string name="show_details">विवरण दिखाएँ</string>
   <string name="hide_details">Hide details</string>
-  <string name="insert_below">Insert below</string>
-  <string name="sprite">वस्तु</string>
-  <string name="sprites">वस्तुए</string>
-  <string name="spritelist_background_headline">पृष्ठभूमि</string>
-  <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
-  <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
-  <string name="select_all">सभी का चयन करें</string>
-  <string name="deselect_all">Deselect all</string>
-  <string name="backpack_replace_object">The object %1$s already exists in the backpack. Do you want to replace it?</string>
-  <string name="backpack_replace_scene">The scene %1$s already exists in the backpack. Do you want to replace
-        it?</string>
-  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
-  <string name="groups_create">Create group</string>
-  <string name="group_created">Group successfully created!</string>
-  <string name="ungroup">Ungroup</string>
-  <string name="group_objects_delete">Delete group and objects</string>
-  <string name="group">Group</string>
-  <string name="backpack_replace_scene_multiple">Scenes already exist in the backpack. Do you want to replace
-        them?</string>
-  <!--  -->
-  <!-- Sprite activity -->
-  <string name="copy_sprite_name_suffix">_प्रतिलिपि</string>
-  <!--  -->
-  <!-- Script activity -->
-  <string name="scripts">लिपिया:</string>
-  <string name="look">देखो</string>
-  <string name="looks">नज़ारे:</string>
-  <string name="sound">आवाज़</string>
-  <string name="sounds">ध्वनियाँ</string>
-  <string name="backgrounds">पृष्ठभूमियाँ</string>
-  <string name="size">आकार:</string>
-  <string name="script_group">Script group</string>
-  <string name="script_groups">Script groups</string>
-  <string name="script_group_name_given">A group with this name already exists. Please choose a different one!</string>
-  <string name="group_or_object_name_given">A group or object with this name already exists. Please choose a
-        different one!</string>
   <!--  -->
   <!-- Script fragment -->
   <string name="fragment_script_text_description">\"+\" दबाए लिपियाँ जोड़ने के लिए</string>
-  <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
-  <string name="dialog_confirm_delete_script_title">Delete this script?</string>
-  <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
-  <string name="dialog_confirm_delete_backpack_group_title">Delete this group?</string>
-  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these groups?</string>
-  <string name="dialog_confirm_delete_brick_message">This cannot be undone!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete %d brick</item>
     <item quantity="other">Delete %d bricks</item>
@@ -400,97 +541,40 @@
   <!--  -->
   <!-- Look fragment -->
   <string name="fragment_look_text_description">नज़ारे जोड़ने के लिए \"+\" को दबाए</string>
-  <string name="fragment_background_text_description">पृष्टभूमि को जोड़ने के लिए \"+\" दबाए</string>
-  <string name="rename_look_dialog">नज़ारे का नाम बदलें</string>
   <string name="pocket_paint_not_installed_title">पॉकेट पेंट स्थापित नहीं हो पाया हैं!</string>
   <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
-  <string name="pocket_paint_not_installed">क्या आप इसे स्थापित करना चाहते हैं ?</string>
   <string name="default_look_name">देखे</string>
-  <string name="delete_look_dialog">Delete look?</string>
   <string name="select_look_from_gallery">चित्र का चयन करें</string>
   <string name="select_look_from_camera">छवि का चयन करें</string>
   <string name="look_measure">माप:</string>
-  <string name="dialog_confirm_delete_look_title">Delete this look?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
-  <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
-  <string name="lookname">Look name:</string>
-  <string name="backpack_replace_look">The look %1$s already exists in the backpack. Do you want to replace it?</string>
-  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!--  -->
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">ध्वनियाँ डालने के लिए \"+\" दबाए</string>
-  <string name="rename_sound_dialog">ध्वनि का नाम बदले</string>
-  <string name="backpack_title">Your backpack</string>
-  <string name="sound_play">चलायें</string>
-  <string name="sound_stop">बंद करें</string>
   <string name="sound_select_source">Select a sound</string>
-  <string name="sound_time_seperator">/</string>
-  <string name="delete_sound_dialog">Delete sound?</string>
   <string name="length">लंबाई:</string>
-  <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
-  <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
-  <string name="dialog_confirm_delete_sound_message">This cannot be undone!</string>
-  <string name="sound_name">Sound name:</string>
-  <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">A sound with this name already exists. Please choose a different one!</string>
-  <string name="backpack_replace_sound">The sound %1$s already exists in the backpack. Do you want to replace it?</string>
-  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
+  <string name="sound_name">ध्वनि का नाम:</string>
+  <string name="new_sound_name">ध्वनि का नाम:</string>
   <!--  -->
   <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Scan tags to add</string>
-  <string name="rename_nfctag_dialog">Rename NFC tag</string>
-  <string name="nfctagname_invalid">This  NFC tag\'s name is invalid</string>
-  <string name="nfctag_scan">scan</string>
-  <string name="delete_nfctag_dialog">Delete NFC tag?</string>
-  <string name="dialog_confirm_delete_nfctag_title">Delete this NFC tag?</string>
-  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these NFC tags?</string>
-  <string name="dialog_confirm_delete_nfctag_message">This cannot be undone!</string>
-  <string name="nfctag_name">NFC tag name:</string>
-  <string name="nfctag">NFC tag</string>
-  <string name="nfctags">NFC tags</string>
-  <string name="uid">ID</string>
-  <string name="ndef_record_label">as NDEF record type</string>
-  <string name="brick_set_nfc_tag">Set next NFC tag to</string>
+  <string name="fragment_nfctag_text_description">जोड़ने के लिए टैग स्कैन करें</string>
+  <string name="ndef_record_label">nDEF रिकॉर्ड प्रकार के रूप में</string>
+  <string name="brick_set_nfc_tag">अगले NFC टैग को सेट करें</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">nfc_tag</string>
-  <string name="tnf_empty">Empty</string>
-  <string name="tnf_external_type">External type</string>
-  <string name="tnf_mime_media">Text</string>
-  <string name="tnf_well_known_http">HTTP</string>
-  <string name="tnf_well_known_https">HTTPS</string>
-  <string name="tnf_well_known_tel">Phone number</string>
-  <string name="tnf_well_known_sms">SMS</string>
-  <string name="tnf_well_known_mailto">E-Mail</string>
+  <string name="default_tag_name">nfc_टैग</string>
+  <string name="tnf_empty">खाली</string>
+  <string name="tnf_external_type">बाहरी प्रकार</string>
+  <string name="tnf_mime_media">शब्द</string>
+  <string name="tnf_well_known_http">Http</string>
+  <string name="tnf_well_known_https">Https</string>
+  <string name="tnf_well_known_tel">फोन का क्रमांक</string>
+  <string name="tnf_well_known_sms">एस एम एस</string>
+  <string name="tnf_well_known_mailto">ई-मेल</string>
   <!--  -->
-  <plurals name="unpacking_items_plural">
-    <item quantity="one">को खोला!</item>
-    <item quantity="other">को खोला गया!</item>
-  </plurals>
-  <plurals name="packing_items_plural">
-    <item quantity="one">was backpacked!</item>
-    <item quantity="other">were backpacked!</item>
-  </plurals>
-  <plurals name="scripts_plural">
-    <item quantity="one">Script</item>
-    <item quantity="other">Scripts</item>
-  </plurals>
   <!-- My Projects activity -->
   <string name="last_used">अंतिम पहुँच:</string>
   <string name="description">विवरण:</string>
   <string name="set_description">विवरण ठीक करें</string>
-  <string name="rename_project">प्रोग्राम का नाम बदले</string>
-  <string name="copy_project_finished">प्रतिलिपि बनाई गई हैं।</string>
-  <string name="program">प्रोग्राम</string>
-  <string name="programs">प्रोग्राम्स</string>
-  <string name="scene">Scene</string>
-  <string name="scenes">Scenes</string>
-  <string name="dialog_confirm_delete_program_title">Delete this program?</string>
-  <string name="dialog_confirm_delete_multiple_programs_title">Delete these programs?</string>
-  <string name="dialog_confirm_delete_scene_title">Delete this scene?</string>
-  <string name="dialog_confirm_delete_multiple_scenes_title">Delete these scenes?</string>
   <string name="details_date_today">आज</string>
-  <string name="details_date_yesterday">बीता कल</string>
-  <string name="dialog_copy_project_title">प्रोग्राम की प्रतिलिपि बनाए</string>
   <!--  -->
   <!-- Soundrecorder activity -->
   <string name="soundrecorder_name">पॉकेट कोड रिकार्डर</string>
@@ -499,22 +583,20 @@
   <string name="soundrecorder_text_view">रिकॉर्डिंग प्रारम्भ करने और रोकने के लिए उपरोक्त चिह्न को दबाए।</string>
   <!--  -->
   <!-- Music activity -->
-  <string name="music_recorded_filename">Music</string>
+  <string name="music_recorded_filename">संगीत</string>
   <!--  -->
   <!-- PreStage activity -->
-  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
-  <string name="prestage_resource_not_available_title">Component not available</string>
-  <string name="prestage_resource_not_available_text">This program cannot be run on your device. The following
-        components are unavailable:\n\n</string>
-  <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
-        are the only Controller for the Drone.</string>
+  <string name="prestage_text_to_speech_engine_not_installed">लिखे हुए को बोल में बदलने वाला इंजन स्थापित नहीं हैं!\nआप इसे स्थापित करना चाहते हैं?</string>
+  <string name="prestage_resource_not_available_title">घटक उपलब्ध नहीं है</string>
+  <string name="prestage_resource_not_available_text">यह प्रोग्राम आपके डिवाइस पर नहीं चलाया जा सकता । निंन घटक अनुपलब्ध हैं: \ n\n</string>
+  <string name="prestage_resource_in_use_text">एक अन्य उपकरण सूमो से जुड़ा है । ध्यान रखे, आप अकेले ही गबन के लिए ही नियंत्रक रहे।</string>
   <string name="prestage_no_flash_available">\u2022 Flash\n</string>
   <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
-  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
-  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 त्वरण संवेदक\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 त्वरण संवेदक\n</string>
   <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
   <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
-  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 पाठ-से-वाक् engine\n</string>
   <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
   <string name="prestage_no_camera_available">\u2022 Face detection\n</string>
   <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
@@ -527,68 +609,23 @@
   <!--  -->
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">ईंट को स्थानांतरित करें</string>
-  <string name="brick_context_dialog_show_source">स्रोत ईंट दिखाएँ</string>
   <string name="brick_context_dialog_delete_brick">ईंट को हटाएं</string>
   <string name="brick_context_dialog_copy_brick">ईंट की प्रतिलिपि बनाएँ</string>
   <string name="brick_context_dialog_animate_bricks">ईंट-भागों को चलाये</string>
-  <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
   <string name="brick_context_dialog_formula_edit_brick">सूत्र को संपादित करें</string>
   <string name="brick_context_dialog_delete_script">लिपि हटाएँ</string>
   <string name="brick_context_dialog_comment_in">Enable Brick</string>
   <string name="brick_context_dialog_comment_out">Disable Brick</string>
   <string name="brick_context_dialog_help">मदद</string>
   <string name="comment_in_out">Disable/Enable</string>
-  <string name="comment_in_out_impossible">Nothing to Disable/Enable</string>
   <!--  -->
-  <!-- New look dialog -->
-  <string name="new_look_dialog_title">नज़ारा जोड़ें</string>
-  <string name="add_look_from_camera">Take picture</string>
-  <string name="add_look_draw_new_image">चित्र बनाए</string>
-  <string name="add_look_choose_image">चित्र का चयन करें</string>
-  <string name="add_look_media_library">Media Library</string>
-  <string name="new_look_name">Look name:</string>
-  <string name="look_rename_overwrite">A look with this name already exists. Please choose a different one!</string>
-  <string name="add_look_drone_video">Drone Video</string>
-  <!--  -->
-  <!-- New Sound dialog -->
-  <string name="new_sound_dialog_title">Add Sound</string>
-  <string name="add_sound_from_recorder">Record Sound</string>
-  <string name="add_sound_choose_file">Select File</string>
-  <string name="add_sound_music">Music Composer</string>
-  <!-- New project dialog -->
-  <string name="new_project_dialog_title">नया प्रोग्राम</string>
-  <string name="new_project_dialog_hint">मेरा प्रोग्राम</string>
-  <string name="new_project_description_dialog_hint">My description</string>
-  <string name="new_project_name">प्रोग्राम का नाम:</string>
-  <string name="new_project_empty">Create empty program</string>
-  <string name="new_project_default">Create example program</string>
-  <string name="new_project_default_drone">Create example Drone program</string>
-  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
-  <string name="project_orientation_title">Orientation:</string>
-  <string name="project_select_screen_title">Screen</string>
-  <!--  -->
-  <!-- New scene dialog -->
-  <string name="new_scene_dialog_hint">My Scene</string>
-  <string name="new_scene_name">Scene name</string>
-  <string name="new_scene_dialog_title">New Scene</string>
-  <string name="rename_scene_dialog">Rename Scene</string>
-  <string name="scene_name">Scene name:</string>
-  <!--  -->
-  <!-- Merge Scene Dialog -->
-  <string name="merge_scene_option">Merge Scenes</string>
-  <string name="merge_scene_label_one">Merge</string>
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">Play Scene:</string>
   <string name="play_scene_dialog_default">First Scene (%1$s)</string>
   <string name="play_scene_dialog_current">Current (%1$s)</string>
   <!--  -->
   <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_default_sprite_name">मेरी वस्तु</string>
   <string name="new_sprite_dialog_title">नयी वस्तु</string>
-  <string name="spritename_already_exists">Please choose another object name.</string>
-  <string name="rename_sprite_dialog">वस्तु को पुनः नाम दे</string>
-  <string name="spritename_invalid">वस्तु का नाम उप्युक्त नहीं हैं</string>
-  <string name="no_spritename_entered">Please enter an object name.</string>
   <string name="sprite_name">वस्तु का नाम:</string>
   <!--  -->
   <!-- Sign In dialogs -->
@@ -600,20 +637,20 @@
   <string name="user_logged_in">Successfully logged in</string>
   <string name="register_error">Invalid login</string>
   <string name="register_terms">पंजीकरण करके, आप सेहमत है हमारें</string>
-  <string name="register_code_terms_of_use_text">Terms of Use and Services</string>
+  <string name="register_code_terms_of_use_text">उपयोग और सेवाओं की शर्तें</string>
   <string name="login">प्रवेश करे</string>
-  <string name="register">Register</string>
+  <string name="register">पंजीकरण</string>
   <string name="or">या</string>
   <string name="password_confirm">Confirm Password</string>
-  <string name="accountName">E-Mail</string>
+  <string name="accountName">ई-मेल</string>
   <string name="signin_thanks">Thank you for signing up!</string>
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
-  <string name="signin_choose_username_hint">The username should not be your real name.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
-  <string name="show_password">Show Password</string>
-  <string name="register_password_mismatch">Passwords do not match</string>
-  <string name="sign_in_error">Error during Sign-In</string>
+  <string name="signin_choose_username_hint">उपयोगकर्ता का नाम आपका असली नाम नहीं होना चाहिए ।</string>
+  <string name="oauth_username_taken">उपयोगकर्ता नाम पहले ही ले लिया । कृपया एक अलग नाम चुनें!</string>
+  <string name="show_password">पासवर्ड दिखाएँ</string>
+  <string name="register_password_mismatch">पासवर्ड्स समान नहीं हैं</string>
+  <string name="sign_in_error">साइन-इन के दौरान त्रुटि</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
   <string name="overwrite_text">A program with this name already exists. Please choose a different one!</string>
@@ -746,12 +783,12 @@
   <string name="brick_vibration">थरथराए</string>
   <string name="brick_ask_label">Ask</string>
   <string name="brick_ask_store">and store written answer in</string>
-  <string name="brick_ask_default_question">\'What\'s your name?\'</string>
+  <string name="brick_ask_default_question">\'आपका नाम क्या है?\'</string>
   <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
   <string name="brick_ask_dialog_submit">Submit answer</string>
   <string name="brick_ask_speech_label">Ask</string>
   <string name="brick_ask_speech_store">and store spoken answer in</string>
-  <string name="brick_ask_speech_default_question">\'What\'s your name?\'</string>
+  <string name="brick_ask_speech_default_question">\'आपका नाम क्या है?\'</string>
   <!--  -->
   <!-- Pen bricks -->
   <string name="brick_pen_down">Pen down</string>
@@ -807,7 +844,7 @@
   <string name="brick_clone">Create clone of</string>
   <string name="brick_clone_this">yourself</string>
   <string name="brick_when_cloned">When you start as a clone</string>
-  <string name="brick_delete_this_clone">Delete this clone</string>
+  <string name="brick_delete_this_clone">इस क्लोन को हटाएं</string>
   <plurals name="time_plural">
     <item quantity="one">समय
 समय</item>
@@ -865,8 +902,9 @@
   <string name="default_cast_project_var_direction">दिशा</string>
   <string name="default_cast_project_name">My first Cast program</string>
   <!-- defaultDroneValues -->
-  <string name="default_drone_project_name">मेरा पहला ड्रोन प्रोग्राम</string>
+  <string name="default_drone_project_name">My first AR.Drone 2.0 program</string>
   <string name="default_drone_project_sprites_takeoff">उड़ान भरे</string>
+  <string name="default_drone_project_sprites_flip">पलटे</string>
   <string name="default_drone_project_sprites_up">ऊपर</string>
   <string name="default_drone_project_sprites_down">नीचे</string>
   <string name="default_drone_project_sprites_left">बाएँ</string>
@@ -876,7 +914,7 @@
   <string name="default_drone_project_sprites_turn_left">बाएँ मुड़ें</string>
   <string name="default_drone_project_sprites_turn_right">दाएँ मुड़ें</string>
   <string name="default_drone_project_sprites_emergency">Emergency</string>
-  <string name="drone_brick_set_text">Text</string>
+  <string name="drone_brick_set_text">शब्द</string>
   <string name="drone_brick_set_x">X:</string>
   <!--  -->
   <!-- Drone config spinner values  -->
@@ -917,7 +955,7 @@
   <string name="notification_upload_pending">Upload in progress</string>
   <string name="notification_upload_finished">Upload successful</string>
   <string name="notification_upload_rejected">Uploaded program rejected</string>
-  <string name="notification_upload_retry">Retry</string>
+  <string name="notification_upload_retry">पुनः प्रयास करें</string>
   <string name="notification_open_play_store">Open Play Store</string>
   <string name="notification_download_title_pending">"Downloading "</string>
   <string name="notification_download_pending">Download in progress</string>
@@ -946,12 +984,6 @@
   <string name="error_no_program_name_entered">Please enter a program name.</string>
   <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Please choose another program name.</string>
-  <string name="error_scene_exists">Please choose another scene name.</string>
-  <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
-  <string name="error_scene_not_copied">An error occurred while copying a scene.</string>
-  <string name="error_scene_backpack">An error occurred in scene backpack.</string>
-  <string name="error_delete_project">An error occurred while deleting the program.</string>
-  <string name="error_unknown_project">A program with that name does not exist.</string>
   <string name="error_project_upload">An error occurred while uploading the program.</string>
   <string name="error_project_download">An error occurred while downloading the program.</string>
   <string name="error_new_project">An error occurred while creating a new program.</string>
@@ -959,15 +991,10 @@
   <string name="error_rename_scene">An error occurred while renaming the scene.</string>
   <string name="error_load_project">An error occurred while loading the program.</string>
   <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
-  <string name="error_load_image">An error occurred while loading the image.</string>
-  <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
-        characters (e.g. $, %, &amp;, &#8230;)? </string>
-  <string name="error_load_sound">An error occurred while loading the sound.</string>
   <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
   <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">The program is not compatible with this version of the app.</string>
   <string name="error_outdated_version">This app version is outdated. Update now?</string>
-  <string name="error_copy_project">An error occurred while copying the program.</string>
   <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
   <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
   <string name="error_adding_brick">An error occurred while adding this brick.</string>
@@ -985,7 +1012,6 @@
   <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
   <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
   <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
-  <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="error_gps_not_available">Error, GPS was not available.</string>
   <string name="error_set_description">An error occurred while saving the new description.</string>
@@ -1085,6 +1111,9 @@
   <string name="ev3_sensor_color">EV3 color sensor</string>
   <string name="ev3_sensor_color_ambient">EV3 color sensor ambient</string>
   <string name="ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
+  <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
+  <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
+  <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
   <string name="ev3_motor_a">ए</string>
   <string name="ev3_motor_b">बी</string>
   <string name="ev3_motor_c">सी</string>
@@ -1114,6 +1143,7 @@
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
   <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
+  <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
   <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
   <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
   <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
@@ -1125,7 +1155,6 @@
   <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
   <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
   <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
-  <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
   <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
   <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
   <string name="brick_drone_set_altitude">Altitude limit </string>
@@ -1133,14 +1162,36 @@
   <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
   <string name="brick_drone_with">seconds with</string>
-  <string name="brick_drone_percent_power">power</string>
+  <string name="brick_drone_percent_power">% शक्ति</string>
   <!--  -->
+  <!-- Drone play led animation strings -->
+  <string name="drone_animation_blinkgreenred">Blink Green Red</string>
+  <string name="drone_animation_blinkgreen">Blink Green</string>
+  <string name="drone_animation_blinkred">Blink Red</string>
+  <string name="drone_animation_blinkorange">Blink Orange</string>
+  <string name="drone_animation_snakegreenred">Snake Green Red</string>
+  <string name="drone_animation_fire">Fire</string>
+  <string name="drone_animation_standard">सामान्य</string>
+  <string name="drone_animation_red">लाल</string>
+  <string name="drone_animation_green">हरा</string>
+  <string name="drone_animation_redsnake">Red Snake</string>
+  <string name="drone_animation_blank">Blank</string>
+  <string name="drone_animation_rightmissile">Right Missile</string>
+  <string name="drone_animation_leftmissile">Left Missile</string>
+  <string name="drone_animation_doublemissile">Double Missile</string>
+  <string name="drone_animation_frontleftgreenothersred">Front Left Green Others Red</string>
+  <string name="drone_animation_frontrightgreenothersred">Front Right Green Others Red</string>
+  <string name="drone_animation_rearrightgreenothersred">Rear Right Green Others Red</string>
+  <string name="drone_animation_rearleftgreenothersred">Rear Left Green Others Red</string>
+  <string name="drone_animation_leftgreenrightred">Left Green Right Red</string>
+  <string name="drone_animation_leftredrightgreen">Left Red Right Green</string>
+  <string name="drone_animation_blinkstandard">Blink Standard</string>
   <!-- Jumping Sumo Bricks -->
   <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
   <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
-  <string name="brick_jumping_sumo_percent_power">% power</string>
+  <string name="brick_jumping_sumo_percent_power">% शक्ति</string>
   <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
   <string name="brick_jumping_sumo_sound">आवाज़</string>
   <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
   <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
@@ -1148,26 +1199,26 @@
   <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
   <string name="brick_jumping_sumo_rotate_text">°</string>
   <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
-  <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
   <!--  -->
   <!-- defaultJumpingSumoValues -->
   <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
-  <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+  <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
   <string name="default_jumping_sumo_project_sprites_forward">आगे बड़े</string>
   <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
   <string name="default_jumping_sumo_project_sprites_animation">जीव-संचारण</string>
   <string name="default_jumping_sumo_project_sprites_sound">आवाज़</string>
-  <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
-  <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
-  <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
-  <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
-  <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">कोई ध्वनि नहीं</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">लम्बा कूद</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">उच्च कूद</string>
+  <string name="default_jumping_sumo_project_sprites_turn_left">बाएँ मुड़ें</string>
+  <string name="default_jumping_sumo_project_sprites_turn_right">दाएँ मुड़ें</string>
   <string name="default_jumping_sumo_project_sprites_flip">पलटे</string>
-  <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+  <string name="default_jumping_sumo_project_sprites_picture">चित्र लें</string>
   <!--  -->
   <!-- Jumping Sumo animation strings -->
-  <string name="animation_spin">Spin</string>
-  <string name="animation_tab">Tab</string>
+  <string name="animation_spin">घूमे</string>
+  <string name="animation_tab">टैब</string>
   <string name="animation_slowshake">Slowshake</string>
   <string name="animation_metronome">Metronome</string>
   <string name="animation_ondulation">Ondulation</string>
@@ -1279,8 +1330,8 @@
   <string name="formula_editor_function_arctan">आर्क टैन</string>
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">घातांक</string>
-  <string name="formula_editor_function_exp_parameter">(0)</string>
-  <string name="formula_editor_function_power">power</string>
+  <string name="formula_editor_function_exp_parameter">(1)</string>
+  <string name="formula_editor_function_power">शक्ति</string>
   <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">floor</string>
   <string name="formula_editor_function_floor_parameter">(0.7)</string>
@@ -1297,7 +1348,7 @@
   <string name="formula_editor_function_letter">पत्र</string>
   <string name="formula_editor_function_letter_parameter">(1,\'नमस्कार दुनिया\')</string>
   <string name="formula_editor_function_join">सम्मिलित करें</string>
-  <string name="formula_editor_function_join_parameter">(\'नमस्कार\',\'दुनिया\')</string>
+  <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1364,6 +1415,9 @@
   <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_color</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_color_ambient</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_color_reflected</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_color</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3_NXT_temperature_°C</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3_NXT_temperature_°F</string>
   <string name="formula_editor_sensor_gamepad_a_pressed">gamepad_a_pressed</string>
   <string name="formula_editor_sensor_gamepad_b_pressed">gamepad_b_pressed</string>
   <string name="formula_editor_sensor_gamepad_up_pressed">gamepad_up_pressed</string>
@@ -1401,7 +1455,7 @@
   <string name="formula_editor_device_sensors">Device sensors</string>
   <string name="formula_editor_variables">चर</string>
   <string name="formula_editor_functions_maths">Maths</string>
-  <string name="formula_editor_functions_strings">Text</string>
+  <string name="formula_editor_functions_strings">शब्द</string>
   <string name="formula_editor_functions_lists">Lists</string>
   <string name="formula_editor_logic_boolean">Logical (boolean) operators</string>
   <string name="formula_editor_logic_comparison">Comparison operators</string>
@@ -1410,7 +1464,8 @@
   <string name="formula_editor_device_face_detection">Face detection</string>
   <string name="formula_editor_device_date_and_time">Date and time</string>
   <string name="formula_editor_device_touch_detection">Touch detection</string>
-  <string name="formula_editor_device_lego">Lego</string>
+  <string name="formula_editor_device_lego_nxt">Lego NXT</string>
+  <string name="formula_editor_device_lego_ev3">Lego EV3</string>
   <string name="formula_editor_device_arduino">Arduino</string>
   <string name="formula_editor_device_phiro">Phiro</string>
   <string name="formula_editor_device_raspberry">Raspberry Pi</string>
@@ -1486,8 +1541,8 @@
   <string name="formula_editor_intro_title_data">Data</string>
   <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
   <plurals name="formula_editor_data_am_title">
-    <item quantity="one">Item selected!</item>
-    <item quantity="other">Items selected!</item>
+    <item quantity="one">%d Item selected</item>
+    <item quantity="other">%d Items selected</item>
   </plurals>
   <!--  -->
   <!-- New Data Dialog -->
@@ -1497,7 +1552,6 @@
   <string name="no_listname_entered">Please enter a list name.</string>
   <!-- -->
   <!-- Brick Data Editor Strings -->
-  <string name="brick_data_editor_title">Brick editor</string>
   <string name="separator">|</string>
   <string name="add_text">Add text</string>
   <string name="edit_text">Edit text</string>
@@ -1506,7 +1560,7 @@
   <string name="add_line_break">Add line break</string>
   <string name="edit_variable">Edit variable</string>
   <string name="variable_hint">Variable name</string>
-  <string name="brick_show_variable">Show variable</string>
+  <string name="brick_show_variable">वेरियेबल दिखये</string>
   <string name="brick_show_variable_position">"at "</string>
   <string name="brick_hide_variable">Hide variable</string>
   <!-- -->
@@ -1515,23 +1569,7 @@
   <string name="new_user_brick">नई ईंट</string>
   <string name="new_user_brick_variable">Variable</string>
   <string name="new_user_brick_name">Please choose a brick name:</string>
-  <string name="recursive_user_brick_forbidden">उपयोगकर्ता ईंट को उपयोगकर्ता ईंट में जोड़ना की अभी तक अनुमति नहीं है!</string>
-  <!-- Merge strings -->
-  <string name="merge_button">Merge with</string>
-  <string name="name_merge_result">Enter name for result</string>
-  <string name="merge_info">successfully merged into</string>
-  <string name="warning">Warning</string>
-  <string name="error_merge">Error while merging programs</string>
-  <string name="error_merge_with_self_scene">Current scene and selected scene are the same!</string>
-  <string name="error_merge_scene_not_found">Scene not found!</string>
-  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
-        has resolution %2$d×%3$d and %4$s has resolution %5$d×%6$d. Using resolution of %1$s.</string>
-  <string name="abort">Abort</string>
-  <string name="merge_conflict">Merging not possible</string>
-  <string name="merge_conflict_variable">Variable %1$s is used in both programs. If programs use the same
-    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
-  <string name="merge_conflict_list">List %1$s is used in both programs. If programs use the same
-    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
+  <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">Turn camera</string>
   <string name="video_brick_camera_on">on</string>
@@ -1604,10 +1642,10 @@
   <string name="app_has_crashed">The app has crashed!</string>
   <string name="crash_dialog_text">Please help to improve our app by sending us anonymous crash reports!</string>
   <string name="crash_dialog_always_send">Always send</string>
-  <string name="crash_dialog_send">Send</string>
+  <string name="crash_dialog_send">भेजे</string>
   <!--  -->
   <!-- Multilingual List -->
-  <string name="device_language">Device Language</string>
+  <string name="device_language">डिवाइस भाषा</string>
   <!-- UtilFile SizeUnits String -->
   <string name="Byte_short">बी</string>
   <string name="KiloByte_short">KB</string>
@@ -1616,10 +1654,5 @@
   <string name="TeraByte_short">TB</string>
   <string name="PetaByte_short">PB</string>
   <string name="ExaByte_short">EB</string>
-  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
-         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
-         goodies and giveaways from Google and Catrobat for participants!</string>
-  <string name="google_code_in_check_out">Check it out on</string>
-  <string name="google_code_in_address">http://catrob.at/gci</string>
   <!--  -->
 </resources>

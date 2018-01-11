@@ -96,7 +96,7 @@ public class DeleteLookDialogTest {
 				.inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_confirm_delete_look_message)).inRoot(isDialog())
+		onView(withText(R.string.dialog_confirm_delete)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
@@ -126,7 +126,7 @@ public class DeleteLookDialogTest {
 				.inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.dialog_confirm_delete_look_message)).inRoot(isDialog())
+		onView(withText(R.string.dialog_confirm_delete)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))

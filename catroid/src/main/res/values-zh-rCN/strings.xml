@@ -22,7 +22,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <!-- General terms -->
   <string name="app_name">口袋编程</string>
   <string name="cancel">取消</string>
@@ -40,15 +40,10 @@
   <string name="disagree">不同意</string>
   <string name="delete_account">删除帐户</string>
   <string name="copy">复制</string>
-  <string name="cut">剪切</string>
-  <string name="move">移动</string>
   <string name="backpack_add">添加到背包</string>
   <string name="backpack">背包</string>
-  <string name="pack">打包</string>
+  <string name="pack">Pack</string>
   <string name="unpack">取出</string>
-  <string name="unpack_bg">取出设为背景</string>
-  <string name="unpack_object">取出作为对象</string>
-  <string name="copy_addition">复制</string>
   <string name="close">关闭</string>
   <string name="error">错误</string>
   <string name="please_wait">请等待</string>
@@ -73,16 +68,9 @@
   <string name="undo">撤销</string>
   <string name="name_exists">名称早已存在</string>
   <string name="no_name">没有名字</string>
-  <string name="is_empty">为空</string>
   <string name="new_group">新建组</string>
   <string name="my_group">我的组</string>
   <string name="name">名称:</string>
-  <string name="nothing_to_copy">没有内容可被复制</string>
-  <string name="nothing_to_backpack_and_unpack">没有什么可放进背包或取出</string>
-  <string name="nothing_to_unpack">没有什么可从背包取出</string>
-  <string name="nothing_to_delete">没有什么可被删除</string>
-  <string name="nothing_to_rename">没有什么可重命名</string>
-  <string name="unpack_background">程序背景将被替换</string>
   <string name="degrees">度</string>
   <string name="landscape">横向</string>
   <string name="portrait">纵向</string>
@@ -114,11 +102,11 @@
   <!-- Settings activity -->
   <string name="preference_title">设置</string>
   <string name="preference_title_language">语言</string>
-  <string name="preference_description_language">Select the language of the app</string>
-  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
+  <string name="preference_description_language">请选择应用程序的语言</string>
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR无人机2.0积木</string>
   <string name="preference_description_quadcopter_bricks">允许控制AR2.0版四轴控制无人机</string>
-  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
-  <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo积木</string>
+  <string name="preference_description_jumpingsumo_bricks">允许控制Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">乐高头脑风暴NXT积木</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">乐高头脑风暴EV3积木</string>
   <string name="preference_description_mindstorms_nxt_bricks">允许控制乐高头脑风暴NXT机器人</string>
@@ -219,15 +207,178 @@
   <string name="reconvert_dialog_download">下载已转换过的程序</string>
   <string name="reconvert_dialog_reconvert">重新转换此程序</string>
   <!--  -->
-  <!-- New Object Dialog -->
-  <string name="dialog_new_object_pocketpaint">绘制图像</string>
-  <string name="dialog_new_object_gallery">选择图像</string>
-  <string name="dialog_new_object_camera">拍摄照片</string>
-  <string name="dialog_new_object_look_preview">外观预览</string>
-  <string name="dialog_new_object_name">对象名称</string>
-  <string name="dialog_new_object_switch_title">新的对象已创建</string>
-  <string name="dialog_new_object_switch_message">切换到新的对象吗？</string>
+  <!-- ERRORS -->
+  <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
+  <!-- Project Handling Errors -->
+  <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Recycler View -->
+  <string name="am_empty_list">There are no items in this list yet.</string>
+  <string name="am_backpack">Pack</string>
+  <string name="am_unpack">取出</string>
+  <string name="am_copy">复制</string>
+  <string name="am_delete">删除</string>
+  <string name="am_rename">Rename</string>
+  <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <!-- Action Mode Titles -->
+  <plurals name="am_projects_title">
+    <item quantity="other">%d Projects</item>
+  </plurals>
+  <plurals name="am_scenes_title">
+    <item quantity="other">%d Scenes</item>
+  </plurals>
+  <plurals name="am_sprites_title">
+    <item quantity="other">%d Sprites</item>
+  </plurals>
+  <plurals name="am_looks_title">
+    <item quantity="other">%d Looks</item>
+  </plurals>
+  <plurals name="am_sounds_title">
+    <item quantity="other">%d Sounds</item>
+  </plurals>
+  <plurals name="am_nfc_tags_title">
+    <item quantity="other">%d NFC Tags</item>
+  </plurals>
+  <plurals name="am_scripts_title">
+    <item quantity="other">%d Scripts</item>
+  </plurals>
+  <!-- New Dialog Titles -->
+  <string name="new_scene_dialog">New Scene</string>
+  <string name="scene_name">场景名称：</string>
+  <!-- Delete Dialog Titles -->
+  <plurals name="delete_projects">
+    <item quantity="other">Delete these Projects?</item>
+  </plurals>
+  <plurals name="delete_scenes">
+    <item quantity="other">Delete these Scenes?</item>
+  </plurals>
+  <plurals name="delete_sprites">
+    <item quantity="other">Delete these Objects?</item>
+  </plurals>
+  <plurals name="delete_looks">
+    <item quantity="other">Delete these Looks?</item>
+  </plurals>
+  <plurals name="delete_sounds">
+    <item quantity="other">Delete these Sounds?</item>
+  </plurals>
+  <plurals name="delete_nfc_tags">
+    <item quantity="other">Delete these Tags?</item>
+  </plurals>
+  <plurals name="delete_scripts">
+    <item quantity="other">Delete these Scripts?</item>
+  </plurals>
+  <plurals name="delete_bricks">
+    <item quantity="other">Delete these Bricks?</item>
+  </plurals>
+  <!-- Rename Dialog Titles -->
+  <string name="rename_project">重命名项目</string>
+  <string name="rename_scene_dialog">重命名场景</string>
+  <string name="rename_sprite_dialog">重命名对象</string>
+  <string name="rename_look_dialog">重命名外观</string>
+  <string name="rename_sound_dialog">重命名声音</string>
+  <string name="rename_nfctag_dialog">重命名NFC标签</string>
+  <!-- Action Toasts -->
+  <plurals name="packed_scenes">
+    <item quantity="other">Backpacked %d Scenes!</item>
+  </plurals>
+  <plurals name="packed_sprites">
+    <item quantity="other">Backpacked %d Objects!</item>
+  </plurals>
+  <plurals name="packed_looks">
+    <item quantity="other">Backpacked %d Looks!</item>
+  </plurals>
+  <plurals name="packed_sounds">
+    <item quantity="other">Backpacked %d Sounds!</item>
+  </plurals>
+  <string name="packed_script_group">Backpacked 1 Script Group!</string>
+  <plurals name="unpacked_scenes">
+    <item quantity="other">Unpacked %d Scenes!</item>
+  </plurals>
+  <plurals name="unpacked_sprites">
+    <item quantity="other">Unpacked %d Objects!</item>
+  </plurals>
+  <plurals name="unpacked_looks">
+    <item quantity="other">Unpacked %d Looks!</item>
+  </plurals>
+  <plurals name="unpacked_sounds">
+    <item quantity="other">Unpacked %d Sounds!</item>
+  </plurals>
+  <plurals name="unpacked_scripts">
+    <item quantity="other">Unpacked %d Scripts!</item>
+  </plurals>
+  <plurals name="copied_scenes">
+    <item quantity="other">Copied %d Scenes!</item>
+  </plurals>
+  <plurals name="copied_sprites">
+    <item quantity="other">Copied %d Objects!</item>
+  </plurals>
+  <plurals name="copied_looks">
+    <item quantity="other">Copied %d Looks!</item>
+  </plurals>
+  <plurals name="copied_sounds">
+    <item quantity="other">Copied %d Sounds!</item>
+  </plurals>
+  <plurals name="copied_nfc_tags">
+    <item quantity="other">Copied %d NFC Tags!</item>
+  </plurals>
+  <plurals name="deleted_projects">
+    <item quantity="other">Deleted %d Projects!</item>
+  </plurals>
+  <plurals name="deleted_scenes">
+    <item quantity="other">Deleted %d Scenes!</item>
+  </plurals>
+  <plurals name="deleted_sprites">
+    <item quantity="other">Deleted %d Sprites!</item>
+  </plurals>
+  <plurals name="deleted_looks">
+    <item quantity="other">Deleted %d Looks!</item>
+  </plurals>
+  <plurals name="deleted_sounds">
+    <item quantity="other">Deleted %d Sounds!</item>
+  </plurals>
+  <plurals name="deleted_nfc_tags">
+    <item quantity="other">Deleted %d NFC Tags!</item>
+  </plurals>
+  <plurals name="deleted_scripts">
+    <item quantity="other">Deleted %d Scripts!</item>
+  </plurals>
   <!--  -->
+  <!-- Backpack -->
+  <string name="backpack_title">你的背包</string>
+  <!--  -->
+  <!-- Sprite Attribute Activity -->
+  <string name="scripts">脚本</string>
+  <string name="backgrounds">背景</string>
+  <string name="looks">外观</string>
+  <string name="sounds">声音</string>
+  <string name="nfctags">NFC 标签</string>
+  <string name="size">大小：</string>
+  <!-- New project dialog -->
+  <string name="new_project_dialog_title">新建程序</string>
+  <string name="new_project_dialog_hint">我的程序</string>
+  <string name="new_project_description_dialog_hint">我的描述</string>
+  <string name="new_project_name">程序名称</string>
+  <string name="new_project_empty">创新新程序</string>
+  <string name="new_project_default">创建示例程序</string>
+  <string name="new_project_default_drone">Create example AR.Drone 2.0 program</string>
+  <string name="new_project_default_jumping_sumo">创建Jumping Sumo示例程序</string>
+  <string name="project_orientation_title">方向：</string>
+  <string name="project_select_screen_title">屏幕</string>
+  <!--  -->
+  <!-- New Look Dialog -->
+  <string name="new_look_dialog_title">添加外观</string>
+  <string name="add_look_from_camera">拍摄照片</string>
+  <string name="add_look_draw_new_image">绘制图像</string>
+  <string name="add_look_choose_image">选择图像</string>
+  <string name="add_look_media_library">媒体库</string>
+  <string name="new_look_name">外观名称：</string>
+  <string name="look_rename_overwrite">使用此名称的造型已存在。请选择其他的名称！</string>
+  <string name="add_look_drone_video">AR.Drone 2.0 video</string>
+  <!--  -->
+  <!-- New Sound Dialog -->
+  <string name="new_sound_dialog_title">添加声音</string>
+  <string name="add_sound_from_recorder">录制声音</string>
+  <string name="add_sound_choose_file">选择文件</string>
+  <string name="add_sound_music">音乐作曲家</string>
   <!-- Privacy Policy -->
   <string name="dialog_privacy_policy_title">隐私策略</string>
   <string name="dialog_privacy_policy_text">版本2.0，2017年9月20日\n\n
@@ -261,17 +412,11 @@
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">使用与服务条例</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
-        Catrobat\'s
-        Terms of
-        Use and Services.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">您正尝试将本app应用于Parrot AR2.0无人机。我们强烈提醒您遵守Parrot无人机的使用和服务条款以及Catrobat 的使用和服务条款。</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">不要再次提醒我。</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
-        Jumping Sumo. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
-        use for Pocket Code.</string>
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">您正尝试将本app应用于Parrots Jumping Sumo。我们强烈提醒您遵守Parrot无人机的使用和服务条款以及Catrobat 的使用和服务条款。</string>
   <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">关于本应用</string>
@@ -282,57 +427,15 @@
   <!-- Project activity view -->
   <string name="project_name">程序：</string>
   <string name="my_projects_activity_title">程序</string>
-  <string name="number_of_objects">对象：</string>
-  <string name="start_scene_name">%1$s(场景一)</string>
   <string name="number_of_scripts">脚本：</string>
   <string name="number_of_bricks">积木：</string>
   <string name="number_of_looks">外观：</string>
   <string name="number_of_sounds">声音：</string>
   <string name="show_details">显示详情</string>
   <string name="hide_details">隐藏详情</string>
-  <string name="insert_below">在下方插入</string>
-  <string name="sprite">对象</string>
-  <string name="sprites">对象</string>
-  <string name="spritelist_background_headline">背景</string>
-  <string name="dialog_confirm_delete_object_title">删除这个对象吗？</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">删除这些对象吗？</string>
-  <string name="dialog_confirm_delete_object_message">此操作不能被撤消！</string>
-  <string name="select_all">全部选中</string>
-  <string name="deselect_all">取消选择</string>
-  <string name="backpack_replace_object">对象%1$s已经在背包中了。你想要替换它吗？</string>
-  <string name="backpack_replace_scene">场景%1$s已经在背包中了。你想要替换它吗？</string>
-  <string name="backpack_replace_object_multiple">这些对象已经在背包中了。你想要替换它们吗？</string>
-  <string name="groups_create">创建分组</string>
-  <string name="group_created">分组已成功创建！</string>
-  <string name="ungroup">取消分组</string>
-  <string name="group_objects_delete">删除分组和对象</string>
-  <string name="group">分组</string>
-  <string name="backpack_replace_scene_multiple">这些场景已经在背包中。你想要替换它们吗？</string>
-  <!--  -->
-  <!-- Sprite activity -->
-  <string name="copy_sprite_name_suffix">复制</string>
-  <!--  -->
-  <!-- Script activity -->
-  <string name="scripts">脚本</string>
-  <string name="look">外观</string>
-  <string name="looks">外观</string>
-  <string name="sound">声音</string>
-  <string name="sounds">声音</string>
-  <string name="backgrounds">背景</string>
-  <string name="size">大小：</string>
-  <string name="script_group">脚本组</string>
-  <string name="script_groups">脚本组</string>
-  <string name="script_group_name_given">使用此名称的组已存在。请选择其他的名称！</string>
-  <string name="group_or_object_name_given">使用此名称的组或对象已存在。请选择其他的名称！</string>
   <!--  -->
   <!-- Script fragment -->
   <string name="fragment_script_text_description">点击\"+\"来添加脚本</string>
-  <string name="dialog_confirm_delete_brick_title">删除这块积木么？</string>
-  <string name="dialog_confirm_delete_script_title">删除这段脚本么？</string>
-  <string name="dialog_confirm_delete_multiple_bricks_title">删除这些积木么？</string>
-  <string name="dialog_confirm_delete_backpack_group_title">删除这个组么？</string>
-  <string name="dialog_confirm_delete_multiple_backpack_groups_title">删除这些组么？</string>
-  <string name="dialog_confirm_delete_brick_message">此操作不能被撤消！</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">删除 %d 积木</item>
   </plurals>
@@ -345,55 +448,22 @@
   <!--  -->
   <!-- Look fragment -->
   <string name="fragment_look_text_description">按“+”添加外观</string>
-  <string name="fragment_background_text_description">按“+”添加背景</string>
-  <string name="rename_look_dialog">重命名外观</string>
   <string name="pocket_paint_not_installed_title">尚未安装口袋画板 ！</string>
   <string name="pocket_paint_not_installed_message">请安装口袋画板</string>
-  <string name="pocket_paint_not_installed">你想要安装这个功能吗?</string>
   <string name="default_look_name">外观</string>
-  <string name="delete_look_dialog">删除外观？</string>
   <string name="select_look_from_gallery">选择图像</string>
   <string name="select_look_from_camera">选择照片</string>
   <string name="look_measure">方法：</string>
-  <string name="dialog_confirm_delete_look_title">删除这个外观吗？</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">删除这些外观吗？</string>
-  <string name="dialog_confirm_delete_look_message">此操作不能被撤消！</string>
-  <string name="lookname">外观名称：</string>
-  <string name="backpack_replace_look">这个外观 %1$s 已经在背包中存在。你要替换它么？</string>
-  <string name="backpack_replace_look_multiple">这些外观已经在背包中存在。你要替换它么？</string>
   <!--  -->
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">按“+”添加声音</string>
-  <string name="rename_sound_dialog">重命名声音</string>
-  <string name="backpack_title">你的背包</string>
-  <string name="sound_play">开始</string>
-  <string name="sound_stop">停止</string>
   <string name="sound_select_source">选择一个声音</string>
-  <string name="sound_time_seperator">/</string>
-  <string name="delete_sound_dialog">删除声音吗？</string>
   <string name="length">长度：</string>
-  <string name="dialog_confirm_delete_sound_title">删除这个声音吗？</string>
-  <string name="dialog_confirm_delete_multiple_sounds_title">删除这些声音吗？</string>
-  <string name="dialog_confirm_delete_sound_message">此操作不能被撤消！</string>
   <string name="sound_name">音乐名称：</string>
   <string name="new_sound_name">音乐名称：</string>
-  <string name="rename_sound_overwrite">使用此名称的声音已存在。请选择其他的名称！</string>
-  <string name="backpack_replace_sound">声音%1$s已经在背包中了。你想要替换它吗？</string>
-  <string name="backpack_replace_sound_multiple">这些声音已经在背包中。你想要替换它们吗？</string>
   <!--  -->
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">扫描要添加的标签</string>
-  <string name="rename_nfctag_dialog">重命名NFC标签</string>
-  <string name="nfctagname_invalid">这个NFC标签的名称无效</string>
-  <string name="nfctag_scan">搜索</string>
-  <string name="delete_nfctag_dialog">删除NFC标签？</string>
-  <string name="dialog_confirm_delete_nfctag_title">删除这个NFC标签？</string>
-  <string name="dialog_confirm_delete_multiple_nfctags_title">删除这些NFC标签？</string>
-  <string name="dialog_confirm_delete_nfctag_message">此操作不能被撤消！</string>
-  <string name="nfctag_name">NFC标签名称：</string>
-  <string name="nfctag">NFC 标签</string>
-  <string name="nfctags">NFC 标签</string>
-  <string name="uid">ID</string>
   <string name="ndef_record_label">按照NDEF记录类型</string>
   <string name="brick_set_nfc_tag">设置下一个NFC标签为</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
@@ -407,32 +477,11 @@
   <string name="tnf_well_known_sms">短信</string>
   <string name="tnf_well_known_mailto">邮箱</string>
   <!--  -->
-  <plurals name="unpacking_items_plural">
-    <item quantity="other">已从背包中取出！</item>
-  </plurals>
-  <plurals name="packing_items_plural">
-    <item quantity="other">已放入背包！</item>
-  </plurals>
-  <plurals name="scripts_plural">
-    <item quantity="other">脚本</item>
-  </plurals>
   <!-- My Projects activity -->
   <string name="last_used">最近访问:</string>
   <string name="description">描述：</string>
   <string name="set_description">设置描述</string>
-  <string name="rename_project">重命名项目</string>
-  <string name="copy_project_finished"> 已复制.</string>
-  <string name="program">程序</string>
-  <string name="programs">程序</string>
-  <string name="scene">场景</string>
-  <string name="scenes">场景</string>
-  <string name="dialog_confirm_delete_program_title">删除这个程序吗？</string>
-  <string name="dialog_confirm_delete_multiple_programs_title">删除这些程序吗？</string>
-  <string name="dialog_confirm_delete_scene_title">删除这个场景吗？</string>
-  <string name="dialog_confirm_delete_multiple_scenes_title">删除这些场景吗？</string>
   <string name="details_date_today">今天</string>
-  <string name="details_date_yesterday">昨天</string>
-  <string name="dialog_copy_project_title">复制程序</string>
   <!--  -->
   <!-- Soundrecorder activity -->
   <string name="soundrecorder_name">录音机</string>
@@ -447,8 +496,7 @@
   <string name="prestage_text_to_speech_engine_not_installed">文字转语音引擎未安装！\n你要安装它么？</string>
   <string name="prestage_resource_not_available_title">组件不可用</string>
   <string name="prestage_resource_not_available_text">此程序不能在您的设备上运行。以下组件不可用： \n\n</string>
-  <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
-        are the only Controller for the Drone.</string>
+  <string name="prestage_resource_in_use_text">另一台设备连接到Jumping Sumo。当然, 你是无人机的唯一控制者。</string>
   <string name="prestage_no_flash_available">\u2022 闪光灯\n</string>
   <string name="prestage_no_vibrator_available">\u2022 震动器\n</string>
   <string name="prestage_no_acceleration_sensor_available">\u2022 加速度传感器\n</string>
@@ -467,68 +515,23 @@
   <!--  -->
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">移动积木</string>
-  <string name="brick_context_dialog_show_source">显示原始积木</string>
   <string name="brick_context_dialog_delete_brick">删除积木</string>
   <string name="brick_context_dialog_copy_brick">复制积木</string>
   <string name="brick_context_dialog_animate_bricks">动画积木元件</string>
-  <string name="brick_context_dialog_add_to_script">添加到脚本</string>
   <string name="brick_context_dialog_formula_edit_brick">编辑公式</string>
   <string name="brick_context_dialog_delete_script">删除脚本</string>
   <string name="brick_context_dialog_comment_in">启用积木</string>
   <string name="brick_context_dialog_comment_out">禁用积木</string>
   <string name="brick_context_dialog_help">帮助</string>
   <string name="comment_in_out">禁用/启用</string>
-  <string name="comment_in_out_impossible">没有内容可被禁用/启用</string>
   <!--  -->
-  <!-- New look dialog -->
-  <string name="new_look_dialog_title">添加外观</string>
-  <string name="add_look_from_camera">拍摄照片</string>
-  <string name="add_look_draw_new_image">绘制图像</string>
-  <string name="add_look_choose_image">选择图像</string>
-  <string name="add_look_media_library">媒体库</string>
-  <string name="new_look_name">外观名称：</string>
-  <string name="look_rename_overwrite">使用此名称的造型已存在。请选择其他的名称！</string>
-  <string name="add_look_drone_video">无人机视频</string>
-  <!--  -->
-  <!-- New Sound dialog -->
-  <string name="new_sound_dialog_title">添加声音</string>
-  <string name="add_sound_from_recorder">录制声音</string>
-  <string name="add_sound_choose_file">选择文件</string>
-  <string name="add_sound_music">音乐作曲家</string>
-  <!-- New project dialog -->
-  <string name="new_project_dialog_title">新建程序</string>
-  <string name="new_project_dialog_hint">我的程序</string>
-  <string name="new_project_description_dialog_hint">我的描述</string>
-  <string name="new_project_name">程序名称</string>
-  <string name="new_project_empty">创新新程序</string>
-  <string name="new_project_default">创建示例程序</string>
-  <string name="new_project_default_drone">创建示例无人机程序</string>
-  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
-  <string name="project_orientation_title">方向：</string>
-  <string name="project_select_screen_title">屏幕</string>
-  <!--  -->
-  <!-- New scene dialog -->
-  <string name="new_scene_dialog_hint">我的场景</string>
-  <string name="new_scene_name">场景名称</string>
-  <string name="new_scene_dialog_title">新建场景</string>
-  <string name="rename_scene_dialog">重命名场景</string>
-  <string name="scene_name">场景名称：</string>
-  <!--  -->
-  <!-- Merge Scene Dialog -->
-  <string name="merge_scene_option">合并场景</string>
-  <string name="merge_scene_label_one">合并</string>
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">游戏场景：</string>
   <string name="play_scene_dialog_default">第一个场景 (%1$s)</string>
   <string name="play_scene_dialog_current">当前场景 (%1$s)</string>
   <!--  -->
   <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_default_sprite_name">我的对象</string>
   <string name="new_sprite_dialog_title">新建对象</string>
-  <string name="spritename_already_exists">请为对象选择其他名称.</string>
-  <string name="rename_sprite_dialog">重命名对象</string>
-  <string name="spritename_invalid">此对象名称是无效的</string>
-  <string name="no_spritename_entered">请输入对象名称.</string>
   <string name="sprite_name">对象名称：</string>
   <!--  -->
   <!-- Sign In dialogs -->
@@ -598,7 +601,7 @@
   <string name="category_data">数据</string>
   <string name="category_lego_nxt">乐高NXT</string>
   <string name="category_lego_ev3">乐高EV3</string>
-  <string name="category_drone">AR.Drone 2.0</string>
+  <string name="category_drone">AR无人机2.0</string>
   <string name="category_jumping_sumo">Jumping Sumo</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">Arduino</string>
@@ -798,8 +801,9 @@
   <string name="default_cast_project_var_direction">方向</string>
   <string name="default_cast_project_name">我的第一个Cast程序</string>
   <!-- defaultDroneValues -->
-  <string name="default_drone_project_name">我的第一个无人机程序</string>
+  <string name="default_drone_project_name">My first AR.Drone 2.0 program</string>
   <string name="default_drone_project_sprites_takeoff">起飞</string>
+  <string name="default_drone_project_sprites_flip">翻转</string>
   <string name="default_drone_project_sprites_up">上升</string>
   <string name="default_drone_project_sprites_down">下降</string>
   <string name="default_drone_project_sprites_left">左移</string>
@@ -866,11 +870,10 @@
   <string name="drone_emergency_battery_low">电池电量太低 （自动着陆）。</string>
   <string name="drone_emergency_camera">一个或多个摄像头没有响应。</string>
   <string name="drone_emergency_ultrasound">超声波传感器无响应</string>
-  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
-        behavior.</string>
+  <string name="drone_emergency_angle">AR.无人机欧拉角太高，为了避免危险马达已被关闭。</string>
   <string name="drone_emergency_cutout">一个或多个马达受环境影响停止。</string>
   <string name="drone_alert_battery_low">电量过低，无法再次起飞。</string>
-  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
+  <string name="drone_alert_ultrasound">超声波传感器无法确定AR 2.0无人机的高度。</string>
   <string name="drone_alert_vision">底部摄像头无法估算出速度。</string>
   <string name="drone_emergency_title">紧急情况</string>
   <!--  -->
@@ -879,12 +882,6 @@
   <string name="error_no_program_name_entered">请输入程序名称。</string>
   <string name="error_no_userbrick_name_entered">请输入积木名称。</string>
   <string name="error_project_exists">请为程序选择其他名称。</string>
-  <string name="error_scene_exists">请为场景选择其他名称。</string>
-  <string name="error_scene_not_deleted">在删除场景的时候发生了一个错误。</string>
-  <string name="error_scene_not_copied">在复制场景的时候发生了一个错误。</string>
-  <string name="error_scene_backpack">场景背包发生了一个错误。</string>
-  <string name="error_delete_project">在删除程序的时候发生了一个错误。</string>
-  <string name="error_unknown_project">不存在使用该名称的程序。</string>
   <string name="error_project_upload">在上传程序的时候发生了一个错误。</string>
   <string name="error_project_download">下载程序时发生了一个错误。</string>
   <string name="error_new_project">创建新程序时发生了一个错误。</string>
@@ -892,32 +889,27 @@
   <string name="error_rename_scene">在重命名场景时发生了一个错误。</string>
   <string name="error_load_project">在加载程序的时候发生了一个错误。</string>
   <string name="error_screenshot_failed">在保存预览图片时发生了一个错误。</string>
-  <string name="error_load_image">在加载图像的时候发生了一个错误。</string>
-  <string name="error_load_image_special_chars">无法加载图像。文件名是否包含特殊字符（如$、%、&amp;&#8230;）？ </string>
-  <string name="error_load_sound">在加载声音的时候发生了一个错误。</string>
   <string name="error_internet_connection">发生未知错误。请检查您的互联网连接。</string>
   <string name="error_no_internet">请建立互联网连接。</string>
   <string name="error_project_compatability">这个程序与当前版本的应用程序不兼容。</string>
   <string name="error_outdated_version">您的应用版本已过时，立即更新?</string>
-  <string name="error_copy_project">在复制程序的时候发生了一个错误。</string>
   <string name="error_upload_project_with_default_name">您无法上传用\"我的第一个程序\"命名的程序。请重命名程序。</string>
   <string name="error_upload_default_project">您无法上传这个程序，因为它和 \'我的第一个程序\' 内容相同。请修改它，然后再试一次。</string>
   <string name="error_adding_brick">在添加积木的时候发生了一个错误。</string>
   <string name="error_copying_brick">在复制积木的时候发生了一个错误。</string>
-  <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
-  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
-  <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
+  <string name="error_no_drone_connected_title">找不到AR 2.0无人机</string>
+  <string name="error_no_drone_connected">将AR 2.0无人机连接到您的无线网络，然后重试。</string>
+  <string name="error_drone_low_battery_title">AR2.0无人机电量低: %d%%</string>
   <string name="error_drone_low_battery">插入充好电的电池，然后重试。</string>
-  <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
-  <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
-  <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
-  <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+  <string name="error_jumpingsumo_wrong_platform">我们无法在您的设备上运行Jumping Sumo项目。</string>
+  <string name="error_no_jumpingsumo_connected_title">找不到Jumping Sumo</string>
+  <string name="error_no_jumpingsumo_connected">将您的Jumping Sumo连接到您的无线网络，然后重试。</string>
+  <string name="error_jumpingsumo_battery_title">Jumping Sumo电量低</string>
   <string name="error_jumpingsumo_battery">插入充好电的电池，然后重试。</string>
-  <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
-  <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
-  <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
+  <string name="error_jumpingsumo_wrong_platform_title">暂不支持Jumping Sumo</string>
+  <string name="error_drone_wrong_platform_title">暂不支持AR无人机2.0</string>
+  <string name="error_drone_wrong_platform">我们无法在您的设备上运行AR2.0无人机项目。</string>
   <string name="error_rename_incompatible_project">重命名不兼容的程序是不可能的。</string>
-  <string name="error_unpack_scene_with_different_resolution">注意！检测到不同的分辨率。</string>
   <string name="error_unknown_error">发生未知错误。</string>
   <string name="error_gps_not_available">错误，GPS 不可用。</string>
   <string name="error_set_description">在保存说明时发生了一个错误。</string>
@@ -1015,6 +1007,9 @@
   <string name="ev3_sensor_color">EV3 颜色传感器</string>
   <string name="ev3_sensor_color_ambient">EV3 环境颜色传感器</string>
   <string name="ev3_sensor_color_reflected">Ev3 反射颜色传感器</string>
+  <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
+  <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
+  <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
   <string name="ev3_motor_a">A</string>
   <string name="ev3_motor_b">B</string>
   <string name="ev3_motor_c">C</string>
@@ -1042,74 +1037,96 @@
   <string name="ev3_led_status_orange_pulse">橙色脉冲</string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
-  <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
-  <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
-  <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
-  <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
-  <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
-  <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
-  <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
-  <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
-  <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
-  <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
-  <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
-  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
-  <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
-  <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
-  <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
-  <string name="brick_drone_set_altitude">Altitude limit </string>
+  <string name="brick_drone_takeoff_land">起飞/着陆 AR2.0无人机</string>
+  <string name="brick_drone_play_led_animation">启动AR2.0无人机闪光灯动画</string>
+  <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
+  <string name="brick_drone_move_left">向左移动 AR2.0无人机</string>
+  <string name="brick_drone_move_right">向右移动 AR2.0无人机</string>
+  <string name="brick_drone_move_forward">向前移动 AR2.0无人机</string>
+  <string name="brick_drone_move_backward">向后移动 AR2.0无人机</string>
+  <string name="brick_drone_move_up">向上移动 AR2.0无人机</string>
+  <string name="brick_drone_move_down">向下移动 AR2.0无人机</string>
+  <string name="brick_drone_emergency">AR2.0无人机紧急情况</string>
+  <string name="brick_drone_turn_right">右转AR2.0无人机</string>
+  <string name="brick_drone_turn_left">左转AR2.0无人机</string>
+  <string name="brick_drone_turn_left_magneto">左转AR2.0无人机[角度]</string>
+  <string name="brick_drone_turn_right_magneto">右转AR2.0无人机[角度]</string>
+  <string name="brick_drone_set_config">设置AR2.0无人机配置</string>
+  <string name="brick_drone_switch_camera">开关AR2.0无人机摄像头</string>
+  <string name="brick_drone_set_altitude">高度限制 </string>
   <string name="brick_drone_set_vertical_speed">垂直速度极限</string>
   <string name="brick_drone_set_rotation_speed">旋转速度极限</string>
   <string name="brick_drone_set_tilt_limit">倾斜极限</string>
-  <string name="brick_drone_with">seconds with</string>
-  <string name="brick_drone_percent_power">求幂</string>
+  <string name="brick_drone_with">秒与</string>
+  <string name="brick_drone_percent_power">% 电量</string>
   <!--  -->
+  <!-- Drone play led animation strings -->
+  <string name="drone_animation_blinkgreenred">Blink Green Red</string>
+  <string name="drone_animation_blinkgreen">Blink Green</string>
+  <string name="drone_animation_blinkred">Blink Red</string>
+  <string name="drone_animation_blinkorange">Blink Orange</string>
+  <string name="drone_animation_snakegreenred">Snake Green Red</string>
+  <string name="drone_animation_fire">Fire</string>
+  <string name="drone_animation_standard">Standard</string>
+  <string name="drone_animation_red">红色</string>
+  <string name="drone_animation_green">绿色</string>
+  <string name="drone_animation_redsnake">Red Snake</string>
+  <string name="drone_animation_blank">Blank</string>
+  <string name="drone_animation_rightmissile">Right Missile</string>
+  <string name="drone_animation_leftmissile">Left Missile</string>
+  <string name="drone_animation_doublemissile">Double Missile</string>
+  <string name="drone_animation_frontleftgreenothersred">Front Left Green Others Red</string>
+  <string name="drone_animation_frontrightgreenothersred">Front Right Green Others Red</string>
+  <string name="drone_animation_rearrightgreenothersred">Rear Right Green Others Red</string>
+  <string name="drone_animation_rearleftgreenothersred">Rear Left Green Others Red</string>
+  <string name="drone_animation_leftgreenrightred">Left Green Right Red</string>
+  <string name="drone_animation_leftredrightgreen">Left Red Right Green</string>
+  <string name="drone_animation_blinkstandard">Blink Standard</string>
   <!-- Jumping Sumo Bricks -->
-  <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
-  <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
-  <string name="brick_jumping_sumo_percent_power">% power</string>
-  <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo Sound</string>
+  <string name="brick_jumping_sumo_move_forward">向前移动Jumping Sumo</string>
+  <string name="brick_jumping_sumo_move_backward">向后移动Jumping Sumo</string>
+  <string name="brick_jumping_sumo_percent_power">% 电量</string>
+  <string name="brick_jumping_sumo_animation">Jumping Sumo表演</string>
+  <string name="brick_jumping_sumo_no_sound">Jumping Sumo没有声音</string>
   <string name="brick_jumping_sumo_sound">声音</string>
-  <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
-  <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
-  <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
-  <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+  <string name="brick_jumping_sumo_jump_long">Jumping Sumo长距离跳跃</string>
+  <string name="brick_jumping_sumo_jump_high">Jumping Sumo跳高</string>
+  <string name="brick_jumping_sumo_rotate_left">左转Jumping Sumo</string>
+  <string name="brick_jumping_sumo_rotate_right">右转Jumping Sumo</string>
   <string name="brick_jumping_sumo_rotate_text">°</string>
-  <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
-  <string name="brick_jumping_sumo_taking_picture">Taking Picture Jumping Sumo</string>
+  <string name="brick_jumping_sumo_turn">转动Jumping Sumo</string>
+  <string name="brick_jumping_sumo_taking_picture">Jumping Sumo拍摄照片</string>
   <!--  -->
   <!-- defaultJumpingSumoValues -->
-  <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
-  <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+  <string name="default_jumping_sumo_project_name">我的第一个Jumping Sumo程序</string>
+  <string name="add_look_jumping_sumo_video">Jumping Sumo视频</string>
   <string name="default_jumping_sumo_project_sprites_forward">前进</string>
-  <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
-  <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
+  <string name="default_jumping_sumo_project_sprites_backward">后退</string>
+  <string name="default_jumping_sumo_project_sprites_animation">动画</string>
   <string name="default_jumping_sumo_project_sprites_sound">声音</string>
-  <string name="default_jumping_sumo_project_sprites_no_sound">No Sound</string>
-  <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
-  <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">静音</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">长距离跳跃</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">跳高</string>
   <string name="default_jumping_sumo_project_sprites_turn_left">左转</string>
   <string name="default_jumping_sumo_project_sprites_turn_right">右转</string>
   <string name="default_jumping_sumo_project_sprites_flip">翻转</string>
-  <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+  <string name="default_jumping_sumo_project_sprites_picture">拍照</string>
   <!--  -->
   <!-- Jumping Sumo animation strings -->
-  <string name="animation_spin">Spin</string>
-  <string name="animation_tab">Tab</string>
-  <string name="animation_slowshake">Slowshake</string>
-  <string name="animation_metronome">Metronome</string>
-  <string name="animation_ondulation">Ondulation</string>
-  <string name="animation_spinjump">Spinjump</string>
-  <string name="animation_spiral">Spiral</string>
-  <string name="animation_slalom">Slalom</string>
+  <string name="animation_spin">旋转</string>
+  <string name="animation_tab">选项卡</string>
+  <string name="animation_slowshake">慢速振动</string>
+  <string name="animation_metronome">节拍器</string>
+  <string name="animation_ondulation">波动</string>
+  <string name="animation_spinjump">螺旋跳跃</string>
+  <string name="animation_spiral">螺旋</string>
+  <string name="animation_slalom">障碍</string>
   <!-- Jumping Sumo sound strings -->
   <string name="jumping_sumo_volume">音量</string>
-  <string name="sound_default">Normal</string>
-  <string name="sound_robot">Robot</string>
-  <string name="sound_insect">Insect</string>
-  <string name="sound_monster">Monster</string>
+  <string name="sound_default">正常</string>
+  <string name="sound_robot">机器人</string>
+  <string name="sound_insect">昆虫</string>
+  <string name="sound_monster">怪物</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
@@ -1209,7 +1226,7 @@
   <string name="formula_editor_function_arctan">arctan</string>
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
-  <string name="formula_editor_function_exp_parameter">(0)</string>
+  <string name="formula_editor_function_exp_parameter">(1)</string>
   <string name="formula_editor_function_power">求幂</string>
   <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">向下取整</string>
@@ -1227,7 +1244,7 @@
   <string name="formula_editor_function_letter">字母</string>
   <string name="formula_editor_function_letter_parameter">(1，\'你好，世界\')</string>
   <string name="formula_editor_function_join">连接</string>
-  <string name="formula_editor_function_join_parameter">(\'你好\'，\'世界\')</string>
+  <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino数字端口</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino模拟端口</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">树莓派端口</string>
@@ -1294,6 +1311,9 @@
   <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3颜色传感器</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3环境颜色传感器</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3反射颜色传感器</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_color</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3_NXT_temperature_°C</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3_NXT_temperature_°F</string>
   <string name="formula_editor_sensor_gamepad_a_pressed">游戏操作杆a键被按下</string>
   <string name="formula_editor_sensor_gamepad_b_pressed">游戏操作杆b键被按下</string>
   <string name="formula_editor_sensor_gamepad_up_pressed">游戏操作杆向上键被按下</string>
@@ -1340,7 +1360,8 @@
   <string name="formula_editor_device_face_detection">人脸检测</string>
   <string name="formula_editor_device_date_and_time">日期与时间</string>
   <string name="formula_editor_device_touch_detection">触碰检测</string>
-  <string name="formula_editor_device_lego">乐高</string>
+  <string name="formula_editor_device_lego_nxt">乐高NXT</string>
+  <string name="formula_editor_device_lego_ev3">乐高EV3</string>
   <string name="formula_editor_device_arduino">Arduino</string>
   <string name="formula_editor_device_phiro">Phiro</string>
   <string name="formula_editor_device_raspberry">树莓派</string>
@@ -1405,7 +1426,7 @@
   <string name="formula_editor_intro_title_data">数据</string>
   <string name="formula_editor_intro_summary_data">在这里可以找到程序中使用的变量和列表。\n它们可以被方便地插入公式，或随时创建新的变量或列表。</string>
   <plurals name="formula_editor_data_am_title">
-    <item quantity="other">项目已选中！</item>
+    <item quantity="other">%d Items selected</item>
   </plurals>
   <!--  -->
   <!-- New Data Dialog -->
@@ -1415,7 +1436,6 @@
   <string name="no_listname_entered">请输入列表名称。</string>
   <!-- -->
   <!-- Brick Data Editor Strings -->
-  <string name="brick_data_editor_title">积木编辑器</string>
   <string name="separator">|</string>
   <string name="add_text">添加文本</string>
   <string name="edit_text">编辑文本</string>
@@ -1433,20 +1453,7 @@
   <string name="new_user_brick">新积木</string>
   <string name="new_user_brick_variable">变量</string>
   <string name="new_user_brick_name">请选择积木名称：</string>
-  <string name="recursive_user_brick_forbidden">暂时还不允许将用户定义的积木添加到另一块用户定义的积木的脚本中！</string>
-  <!-- Merge strings -->
-  <string name="merge_button">合并</string>
-  <string name="name_merge_result">输入结果程序的名称</string>
-  <string name="merge_info">成功地合并到</string>
-  <string name="warning">警告</string>
-  <string name="error_merge">合并程序时出错</string>
-  <string name="error_merge_with_self_scene">当前场景和所选的场景是相同的 ！</string>
-  <string name="error_merge_scene_not_found">未找到场景！</string>
-  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">警告 ！检测到的不同的分辨率。%1$s 的分辨率为 %2$d ×%3$d ， %4$s 的分辨率为 %5$d ×%6$d。使用 %1$s 的分辨率。</string>
-  <string name="abort">中止</string>
-  <string name="merge_conflict">无法合并</string>
-  <string name="merge_conflict_variable">两个程序都使用了变量 %1$s。如果程序使用相同的变量名，他们就不能合并。请重命名一个程序中的该变量名，然后重试。</string>
-  <string name="merge_conflict_list">两个程序都使用了列表 %1$s。如果程序使用相同的列表名，他们就不能合并。请重命名一个程序中的该列表名，然后重试。</string>
+  <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">设置相机状态</string>
   <string name="video_brick_camera_on">开</string>
@@ -1515,19 +1522,14 @@
   <string name="crash_dialog_send">发送</string>
   <!--  -->
   <!-- Multilingual List -->
-  <string name="device_language">Device Language</string>
+  <string name="device_language">设备语言</string>
   <!-- UtilFile SizeUnits String -->
   <string name="Byte_short">B</string>
-  <string name="KiloByte_short">KB</string>
-  <string name="MegaByte_short">MB</string>
-  <string name="GigaByte_short">GB</string>
-  <string name="TeraByte_short">TB</string>
-  <string name="PetaByte_short">PB</string>
-  <string name="ExaByte_short">EB</string>
-  <string name="google_code_in_message">Create awesome games and other projects to win fantastic prizes! The grand
-         prize is an invitation to the Google headquarters in California together with a parent, with tons of other
-         goodies and giveaways from Google and Catrobat for participants!</string>
-  <string name="google_code_in_check_out">Check it out on</string>
-  <string name="google_code_in_address">http://catrob.at/gci</string>
+  <string name="KiloByte_short">K字节</string>
+  <string name="MegaByte_short">M字节</string>
+  <string name="GigaByte_short">G字节</string>
+  <string name="TeraByte_short">T字节</string>
+  <string name="PetaByte_short">P字节</string>
+  <string name="ExaByte_short">E字节</string>
   <!--  -->
 </resources>

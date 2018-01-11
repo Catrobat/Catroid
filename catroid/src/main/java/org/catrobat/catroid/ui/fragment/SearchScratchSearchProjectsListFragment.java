@@ -31,9 +31,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.text.InputType;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -77,9 +74,7 @@ public class SearchScratchSearchProjectsListFragment extends Fragment
 	private ConversionManager conversionManager;
 
 	private ScratchConverterActivity activity;
-	private String convertActionModeTitle;
-	private static String singleItemAppendixConvertActionMode;
-	private static String multipleItemAppendixConvertActionMode;
+	private String actionModeTitle;
 
 	private SearchView searchView;
 	private ImageButton audioButton;
@@ -116,11 +111,9 @@ public class SearchScratchSearchProjectsListFragment extends Fragment
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 
-			convertActionModeTitle = getString(R.string.convert);
-			singleItemAppendixConvertActionMode = getString(R.string.program);
-			multipleItemAppendixConvertActionMode = getString(R.string.programs);
+			actionModeTitle = getString(R.string.convert);
 
-			mode.setTitle(convertActionModeTitle);
+			mode.setTitle(actionModeTitle);
 			searchView.setVisibility(View.GONE);
 			audioButton.setVisibility(View.GONE);
 			setSearchResultsListViewMargin(0, 0, 0, 0);
@@ -344,27 +337,9 @@ public class SearchScratchSearchProjectsListFragment extends Fragment
 
 	private void updateActionModeTitle() {
 		int numberOfSelectedItems = scratchProgramAdapter.getAmountOfCheckedPrograms();
-		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(convertActionModeTitle);
-		} else {
-			String appendix = multipleItemAppendixConvertActionMode;
-
-			if (numberOfSelectedItems == 1) {
-				appendix = singleItemAppendixConvertActionMode;
-			}
-
-			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = convertActionModeTitle + " " + numberOfItems + " " + appendix;
-
-			int titleLength = convertActionModeTitle.length();
-
-			Spannable completeSpannedTitle = new SpannableString(completeTitle);
-			completeSpannedTitle.setSpan(
-					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
-					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			actionMode.setTitle(completeSpannedTitle);
-		}
+		actionMode.setTitle(actionModeTitle + " " + getResources().getQuantityString(R.plurals.am_looks_title,
+				numberOfSelectedItems,
+				numberOfSelectedItems));
 	}
 
 	@Override
