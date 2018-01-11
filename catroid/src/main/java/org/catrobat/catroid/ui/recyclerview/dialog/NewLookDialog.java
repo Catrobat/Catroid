@@ -51,7 +51,6 @@ import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
-import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -154,7 +153,7 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 				break;
 			case R.id.dialog_new_look_camera:
 				Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				uri = UtilCamera.getDefaultLookFromCameraUri(getString(R.string.default_look_name));
+				uri = getDefaultLookFromCameraUri(getString(R.string.default_look_name));
 
 				cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 				Intent chooserIntent = Intent.createChooser(cameraIntent, getString(R.string.select_look_from_camera));
@@ -253,5 +252,10 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 		}
 
 		return buildPath(path, IMAGE_DIRECTORY);
+	}
+
+	private Uri getDefaultLookFromCameraUri(String defLookName) {
+		File pictureFile = new File(Constants.DEFAULT_ROOT, defLookName + ".jpg");
+		return Uri.fromFile(pictureFile);
 	}
 }

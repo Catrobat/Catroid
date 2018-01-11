@@ -97,7 +97,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 	@Override
 	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(actionModeTitle + " " + getResources().getQuantityString(R.plurals.am_sprites_title,
+		actionMode.setTitle(actionModeTitle + " " + getResources().getQuantityString(R.plurals.am_scripts_title,
 				selectedItemCnt,
 				selectedItemCnt));
 	}
