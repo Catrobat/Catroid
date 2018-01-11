@@ -40,8 +40,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.LegacyFileUtils;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -72,16 +72,16 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 		assertFalse("By default phiro should be disabled",
 				SettingsActivity.isPhiroSharedPreferenceEnabled(context));
 
-		ProjectManager.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, context);
+		ProjectManager.getInstance().loadProject(LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME, context);
 
 		assertTrue("After loading a project which needs phiro it should be enabled",
 				SettingsActivity.isPhiroSharedPreferenceEnabled(context));
 
-		StorageHandler.deleteDir(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
+		StorageHandler.deleteDir(Utils.buildProjectPath(LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME));
 	}
 
 	private void createProjectPhiro() throws InterruptedException {
-		Project projectPhiro = new Project(InstrumentationRegistry.getTargetContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project projectPhiro = new Project(InstrumentationRegistry.getTargetContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new SingleSprite("Phiro");
 		StartScript startScript = new StartScript();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,

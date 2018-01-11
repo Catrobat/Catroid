@@ -36,8 +36,8 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
+import org.catrobat.catroid.test.utils.LegacyFileUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
@@ -46,7 +46,7 @@ public class NextLookActionTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private File testImage;
-	private String projectName = UiTestUtils.DEFAULT_TEST_PROJECT_NAME;
+	private String projectName = LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -57,7 +57,7 @@ public class NextLookActionTest extends InstrumentationTestCase {
 			UtilFile.deleteDirectory(projectFile);
 		}
 
-		UiTestUtils.createEmptyProject();
+		LegacyFileUtils.createEmptyProject();
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);

@@ -673,11 +673,9 @@
 
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move Brick</string>
-    <string name="brick_context_dialog_show_source">Show Source Brick</string>
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
-    <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
     <string name="brick_context_dialog_comment_in">Enable Brick</string>
@@ -1283,7 +1281,6 @@
     <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
     <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
     <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
-    <string name="brick_drone_angle">Angle AR.Drone 2.0</string>
     <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
     <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
     <string name="brick_drone_set_altitude">Altitude limit </string>

@@ -36,7 +36,7 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.test.utils.LegacyFileUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 	@Override
 	protected void setUp() {
 		testSprite = new SingleSprite("testsprite");
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), UiTestUtils.PROJECTNAME1);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), LegacyFileUtils.PROJECTNAME1);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
