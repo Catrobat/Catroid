@@ -258,6 +258,9 @@
     <string name="am_rename">Rename</string>
     <string name="dialog_confirm_delete">This cannot be undone!</string>
 
+    <string name="list_headline_background">Background</string>
+    <string name="list_headline_sprites">Objects</string>
+
     <!-- Action Mode Titles -->
     <plurals name="am_projects_title">
         <item quantity="one">%d Project</item>
@@ -268,8 +271,8 @@
         <item quantity="other">%d Scenes</item>
     </plurals>
     <plurals name="am_sprites_title">
-        <item quantity="one">%d Sprite</item>
-        <item quantity="other">%d Sprites</item>
+        <item quantity="one">%d Object</item>
+        <item quantity="other">%d Objects</item>
     </plurals>
     <plurals name="am_looks_title">
         <item quantity="one">%d Look</item>

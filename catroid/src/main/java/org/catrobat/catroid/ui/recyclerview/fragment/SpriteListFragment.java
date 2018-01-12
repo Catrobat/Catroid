@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Intent;
 import android.util.Log;
-import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,8 +33,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.SpriteAttributesActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.recyclerview.adapter.SpriteAdapter;
-import org.catrobat.catroid.ui.recyclerview.adapter.ViewHolder;
+import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogWrapper;
@@ -69,23 +67,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		sharedPreferenceDetailsKey = "showDetailsSpriteList";
 		hasDetails = true;
 		List<Sprite> items = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-		adapter = new SpriteAdapter(items) {
-
-			@Override
-			public void onBindViewHolder(ViewHolder holder, int position) {
-				super.onBindViewHolder(holder, position);
-
-				if (holder.getAdapterPosition() == 0) {
-					holder.background.setOnLongClickListener(null);
-					holder.checkBox.setVisibility(View.GONE);
-				}
-			}
-
-			@Override
-			public boolean onItemMove(int fromPosition, int toPosition) {
-				return fromPosition == 0 || toPosition == 0 || super.onItemMove(fromPosition, toPosition);
-			}
-		};
+		adapter = new MultiViewSpriteAdapter(items);
 		onAdapterReady();
 	}
 
