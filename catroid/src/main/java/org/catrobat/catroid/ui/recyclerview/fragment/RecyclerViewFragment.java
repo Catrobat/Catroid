@@ -203,6 +203,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 				getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
+		adapter.notifyDataSetChanged();
 		recyclerView.setAdapter(adapter);
 
 		adapter.setSelectionListener(this);

@@ -148,6 +148,10 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	public void onAdapterReady() {
+		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
+				getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
+		adapter.notifyDataSetChanged();
+
 		recyclerView.setAdapter(adapter);
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
