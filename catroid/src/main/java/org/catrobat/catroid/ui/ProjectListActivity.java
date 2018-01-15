@@ -38,7 +38,7 @@ public class ProjectListActivity extends BaseCastActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getActionBar().setTitle(R.string.my_projects_activity_title);
+		getActionBar().setTitle(R.string.project_list_title);
 		setContentView(R.layout.activity_project_list);
 		BottomBar.hidePlayButton(this);
 

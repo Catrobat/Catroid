@@ -28,10 +28,7 @@
   <string name="cancel">Avbryt</string>
   <string name="next">Neste</string>
   <string name="done">Ferdig</string>
-  <string name="name_already_exists">Dette navnet finnes allerede, vennligst velg et annet!</string>
-  <string name="name_consists_of_spaces_only">Navnet kan ikke være tomt.</string>
-  <string name="rename">Gi nytt navn</string>
-  <string name="delete">Slett</string>
+  <string name="select_all">Select All</string>
   <string name="yes">Ja</string>
   <string name="no">Nei</string>
   <string name="back">Tilbake</string>
@@ -39,11 +36,8 @@
   <string name="agree">Agree</string>
   <string name="disagree">Disagree</string>
   <string name="delete_account">Delete my account</string>
-  <string name="copy">Kopier</string>
+  <string name="warning">Warning</string>
   <string name="backpack_add">Legg til i backpack</string>
-  <string name="backpack">Backpack</string>
-  <string name="pack">Pack</string>
-  <string name="unpack">Pakk ut</string>
   <string name="close">Lukk</string>
   <string name="error">Feil</string>
   <string name="please_wait">Et øyeblikk</string>
@@ -219,6 +213,9 @@
   <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Dialog Errors -->
+  <string name="name_already_exists">Dette navnet finnes allerede, vennligst velg et annet!</string>
+  <string name="name_consists_of_spaces_only">Navnet kan ikke være tomt.</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet.</string>
   <string name="am_backpack">Pack</string>
@@ -227,6 +224,15 @@
   <string name="am_delete">Slett</string>
   <string name="am_rename">Rename</string>
   <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <string name="list_headline_background">Bakgrunn</string>
+  <string name="list_headline_sprites">Objekter</string>
+  <!-- Options Menu Options -->
+  <string name="backpack">Backpack</string>
+  <string name="copy">Kopier</string>
+  <string name="delete">Slett</string>
+  <string name="rename">Gi nytt navn</string>
+  <string name="show_details">Vis detaljer</string>
+  <string name="hide_details">Skjul detaljer</string>
   <!-- Action Mode Titles -->
   <plurals name="am_projects_title">
     <item quantity="one">%d Project</item>
@@ -237,8 +243,8 @@
     <item quantity="other">%d Scenes</item>
   </plurals>
   <plurals name="am_sprites_title">
-    <item quantity="one">%d Sprite</item>
-    <item quantity="other">%d Sprites</item>
+    <item quantity="one">%d Object</item>
+    <item quantity="other">%d Objects</item>
   </plurals>
   <plurals name="am_looks_title">
     <item quantity="one">%d Look</item>
@@ -292,6 +298,17 @@
     <item quantity="one">Delete this Brick?</item>
     <item quantity="other">Delete these Bricks?</item>
   </plurals>
+  <!-- Dialog Labels -->
+  <string name="project_name_label">Program:</string>
+  <string name="sprite_name_label">Object name:</string>
+  <string name="look_name_label">Look name:</string>
+  <string name="sound_name_label">Sound name:</string>
+  <!-- Details Labels -->
+  <string name="number_of_scripts">Skript:</string>
+  <string name="number_of_bricks">Blokker:</string>
+  <string name="number_of_looks">Utseende:</string>
+  <string name="number_of_sounds">Lyder:</string>
+  <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">Gi programmet nytt navn</string>
   <string name="rename_scene_dialog">Gi nytt navn til scenen</string>
@@ -386,8 +403,61 @@
     <item quantity="other">Deleted %d Scripts!</item>
   </plurals>
   <!--  -->
+  <!-- ProjectListActivity and ProjectListFragment -->
+  <string name="project_list_title">Programs</string>
+  <string name="last_used">Sist tilgang:</string>
+  <string name="description">Beskrivelse:</string>
+  <string name="set_description">Angi beskrivelse</string>
+  <string name="details_date_today">I dag</string>
+  <!--  -->
+  <!-- ScriptListFragment -->
+  <string name="fragment_script_text_description">Trykk på \"+\" for å legge til skript</string>
+  <plurals name="number_of_bricks_to_delete">
+    <item quantity="one">Slette %d blokken</item>
+    <item quantity="other">Slette %d blokker</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_copy">
+    <item quantity="one">Kopier %d blokken</item>
+    <item quantity="other">Kopier %d blokker</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="one">Backpack %d blokken</item>
+    <item quantity="other">Backpack %d blokker</item>
+  </plurals>
+  <!--  -->
+  <!-- LookListFragment -->
+  <string name="fragment_look_text_description">Trykk på \"+\" for å legge til utseende</string>
+  <string name="pocket_paint_not_installed_title">Pocket Paint er ikke installert!</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
+  <string name="default_look_name">utseende</string>
+  <string name="select_look_from_gallery">Velg bilde</string>
+  <string name="select_look_from_camera">Velg foto</string>
+  <string name="look_measure">Mål:</string>
+  <!--  -->
+  <!-- SoundListFragment -->
+  <string name="fragment_sound_text_description">Trykk på \"+\" for å legge til lyder</string>
+  <string name="sound_select_source">Velg en lyd</string>
+  <string name="length">Lengde:</string>
+  <!--  -->
+  <!-- NfcTagListFragment -->
+  <string name="fragment_nfctag_text_description">Skanne koder for å legge til</string>
+  <string name="ndef_record_label">som NDEF oppføringstype</string>
+  <string name="brick_set_nfc_tag">Angi neste NFC tag som</string>
+  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+  <string name="default_tag_name">nfc_tag</string>
+  <string name="tnf_empty">Tom</string>
+  <string name="tnf_external_type">Ekstern type</string>
+  <string name="tnf_mime_media">Tekst</string>
+  <string name="tnf_well_known_http">HTTP</string>
+  <string name="tnf_well_known_https">HTTPS</string>
+  <string name="tnf_well_known_tel">Telefonnummer</string>
+  <string name="tnf_well_known_sms">SMS</string>
+  <string name="tnf_well_known_mailto">E-post</string>
+  <!--  -->
   <!-- Backpack -->
   <string name="backpack_title">Din backpack</string>
+  <string name="pack">Pack</string>
+  <string name="unpack">Pakk ut</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
   <string name="scripts">Skript</string>
@@ -396,7 +466,7 @@
   <string name="sounds">Lyder</string>
   <string name="nfctags">NFC Tags</string>
   <string name="size">Størrelse:</string>
-  <!-- New project dialog -->
+  <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">Nytt Program</string>
   <string name="new_project_dialog_hint">Mitt Program</string>
   <string name="new_project_description_dialog_hint">Min beskrivelse</string>
@@ -408,17 +478,18 @@
   <string name="project_orientation_title">Orientering:</string>
   <string name="project_select_screen_title">Screen</string>
   <!--  -->
-  <!-- New Look Dialog -->
+  <!-- NewSpriteDialog -->
+  <string name="new_sprite_dialog_title">Nytt objekt</string>
+  <!--  -->
+  <!-- NewLookDialog -->
   <string name="new_look_dialog_title">Legg til utseende</string>
   <string name="add_look_from_camera">Ta et bilde</string>
   <string name="add_look_draw_new_image">Tegn tegning</string>
   <string name="add_look_choose_image">Velg tegning</string>
   <string name="add_look_media_library">Mediebibliotek</string>
-  <string name="new_look_name">Utseende navn:</string>
-  <string name="look_rename_overwrite">Utseende med dette navnet finnes allerede. Velg en annen!</string>
   <string name="add_look_drone_video">AR.Drone 2.0 video</string>
   <!--  -->
-  <!-- New Sound Dialog -->
+  <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">Legg til lyd</string>
   <string name="add_sound_from_recorder">Ta opp lyd</string>
   <string name="add_sound_choose_file">Velg fil</string>
@@ -496,69 +567,7 @@
   <string name="dialog_about_license_link_text">Source Code License</string>
   <string name="dialog_about_catrobat_link_text">Om Catrobat</string>
   <!--  -->
-  <!-- Project activity view -->
-  <string name="project_name">Program:</string>
-  <string name="my_projects_activity_title">Programmer</string>
-  <string name="number_of_scripts">Skript:</string>
-  <string name="number_of_bricks">Blokker:</string>
-  <string name="number_of_looks">Utseende:</string>
-  <string name="number_of_sounds">Lyder:</string>
-  <string name="show_details">Vis detaljer</string>
-  <string name="hide_details">Skjul detaljer</string>
-  <!--  -->
-  <!-- Script fragment -->
-  <string name="fragment_script_text_description">Trykk på \"+\" for å legge til skript</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Slette %d blokken</item>
-    <item quantity="other">Slette %d blokker</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Kopier %d blokken</item>
-    <item quantity="other">Kopier %d blokker</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Backpack %d blokken</item>
-    <item quantity="other">Backpack %d blokker</item>
-  </plurals>
-  <!--  -->
-  <!-- Look fragment -->
-  <string name="fragment_look_text_description">Trykk på \"+\" for å legge til utseende</string>
-  <string name="pocket_paint_not_installed_title">Pocket Paint er ikke installert!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
-  <string name="default_look_name">utseende</string>
-  <string name="select_look_from_gallery">Velg bilde</string>
-  <string name="select_look_from_camera">Velg foto</string>
-  <string name="look_measure">Mål:</string>
-  <!--  -->
-  <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">Trykk på \"+\" for å legge til lyder</string>
-  <string name="sound_select_source">Velg en lyd</string>
-  <string name="length">Lengde:</string>
-  <string name="sound_name">Lyd navn:</string>
-  <string name="new_sound_name">Lyd navn:</string>
-  <!--  -->
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Skanne koder for å legge til</string>
-  <string name="ndef_record_label">som NDEF oppføringstype</string>
-  <string name="brick_set_nfc_tag">Angi neste NFC tag som</string>
-  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">nfc_tag</string>
-  <string name="tnf_empty">Tom</string>
-  <string name="tnf_external_type">Ekstern type</string>
-  <string name="tnf_mime_media">Tekst</string>
-  <string name="tnf_well_known_http">HTTP</string>
-  <string name="tnf_well_known_https">HTTPS</string>
-  <string name="tnf_well_known_tel">Telefonnummer</string>
-  <string name="tnf_well_known_sms">SMS</string>
-  <string name="tnf_well_known_mailto">E-post</string>
-  <!--  -->
-  <!-- My Projects activity -->
-  <string name="last_used">Sist tilgang:</string>
-  <string name="description">Beskrivelse:</string>
-  <string name="set_description">Angi beskrivelse</string>
-  <string name="details_date_today">I dag</string>
-  <!--  -->
-  <!-- Soundrecorder activity -->
+  <!-- SoundRecorderActivty -->
   <string name="soundrecorder_name">Pocket Code opptaker</string>
   <string name="soundrecorder_error">Lydopptak mislyktes</string>
   <string name="soundrecorder_recorded_filename">opptak</string>
@@ -605,10 +614,6 @@
   <string name="play_scene_dialog_title">Spill scene:</string>
   <string name="play_scene_dialog_default">Første scene (%1$s)</string>
   <string name="play_scene_dialog_current">Gjeldende (%1$s)</string>
-  <!--  -->
-  <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_title">Nytt objekt</string>
-  <string name="sprite_name">Objektnavn:</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Logg på</string>
@@ -1606,7 +1611,6 @@
   <string name="hint_looks">Her finner du ulike utseende av objektet. For å legge til en ny utseende Trykk på \"+\"-symbolet.</string>
   <string name="hint_sounds">Her kan du legge til nye lyder til objektet. Husk på å bruke en blokk fra kategorien lyd.</string>
   <string name="hint_objects">Et program består av forskjellige objekter som kan kommunisere med hverandre. Legge til et nytt objekt Trykk på \"+\"-symbolet.</string>
-  <string name="hint_merge">Hvis du vil flette sammen to programmer lang-trykk på ett program for å åpne menyen og trykk på \'Flette med\'.</string>
   <string name="hint_stage">Trykk på tilbake-knappen for pause programmet. For å vise akser og skjermstørrelsen på telefon trykk \"Akser på\".</string>
   <string name="hint_scenes">Et program kan bestå av forskjellige uavhengige scener. For å legge til en ny scene Trykk på \"+\"-symbolet.</string>
   <!--  -->

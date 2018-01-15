@@ -162,7 +162,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	@Override
 	protected void showRenameDialog(List<LookData> selectedItems) {
 		String name = selectedItems.get(0).getName();
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_look_dialog, R.string.new_look_name, name, this);
+		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_look_dialog, R.string.look_name_label, name, this);
 		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
 	}
 

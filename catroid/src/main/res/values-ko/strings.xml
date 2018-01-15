@@ -28,10 +28,7 @@
   <string name="cancel">취소</string>
   <string name="next">다음</string>
   <string name="done">완료</string>
-  <string name="name_already_exists">이미 존재하는 유저명입니다. 새로 선택해주세요.</string>
-  <string name="name_consists_of_spaces_only">스페이스 만으로 이름을 할 수 는 없습니다.</string>
-  <string name="rename">이름 바꾸기</string>
-  <string name="delete">삭제</string>
+  <string name="select_all">모두 선택</string>
   <string name="yes">예</string>
   <string name="no">아니오</string>
   <string name="back">돌아가기</string>
@@ -39,11 +36,8 @@
   <string name="agree">Agree</string>
   <string name="disagree">Disagree</string>
   <string name="delete_account">Delete my account</string>
-  <string name="copy">복사하기</string>
+  <string name="warning">Warning</string>
   <string name="backpack_add">스크립트 모음에 추가</string>
-  <string name="backpack">스크립트 모음</string>
-  <string name="pack">Pack</string>
-  <string name="unpack">풀기</string>
   <string name="close">닫기</string>
   <string name="error">오류</string>
   <string name="please_wait">잠시 기다려 주세요</string>
@@ -211,6 +205,9 @@
   <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Dialog Errors -->
+  <string name="name_already_exists">이미 존재하는 유저명입니다. 새로 선택해주세요.</string>
+  <string name="name_consists_of_spaces_only">스페이스 만으로 이름을 할 수 는 없습니다.</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet.</string>
   <string name="am_backpack">Pack</string>
@@ -219,6 +216,15 @@
   <string name="am_delete">삭제</string>
   <string name="am_rename">이름 바꾸기</string>
   <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <string name="list_headline_background">배경</string>
+  <string name="list_headline_sprites">오브젝트</string>
+  <!-- Options Menu Options -->
+  <string name="backpack">스크립트 모음</string>
+  <string name="copy">복사하기</string>
+  <string name="delete">삭제</string>
+  <string name="rename">이름 바꾸기</string>
+  <string name="show_details">세부 정보 표시</string>
+  <string name="hide_details">세부 사항 숨기기</string>
   <!-- Action Mode Titles -->
   <plurals name="am_projects_title">
     <item quantity="other">%d Projects</item>
@@ -227,7 +233,7 @@
     <item quantity="other">%d Scenes</item>
   </plurals>
   <plurals name="am_sprites_title">
-    <item quantity="other">%d Sprites</item>
+    <item quantity="other">%d Objects</item>
   </plurals>
   <plurals name="am_looks_title">
     <item quantity="other">%d Looks</item>
@@ -269,6 +275,17 @@
   <plurals name="delete_bricks">
     <item quantity="other">Delete these Bricks?</item>
   </plurals>
+  <!-- Dialog Labels -->
+  <string name="project_name_label">Program:</string>
+  <string name="sprite_name_label">Object name:</string>
+  <string name="look_name_label">Look name:</string>
+  <string name="sound_name_label">Sound name:</string>
+  <!-- Details Labels -->
+  <string name="number_of_scripts">스크립트:</string>
+  <string name="number_of_bricks">블록:</string>
+  <string name="number_of_looks">모양:</string>
+  <string name="number_of_sounds">소리:</string>
+  <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">프로그램 이름 바꾸기</string>
   <string name="rename_scene_dialog">장면 이름 바꾸기</string>
@@ -342,8 +359,58 @@
     <item quantity="other">Deleted %d Scripts!</item>
   </plurals>
   <!--  -->
+  <!-- ProjectListActivity and ProjectListFragment -->
+  <string name="project_list_title">프로그램</string>
+  <string name="last_used">최종 사용 :</string>
+  <string name="description">설명:</string>
+  <string name="set_description">설명 설정</string>
+  <string name="details_date_today">오늘</string>
+  <!--  -->
+  <!-- ScriptListFragment -->
+  <string name="fragment_script_text_description">스크립트를 추가하려면 \"+\"를 터치</string>
+  <plurals name="number_of_bricks_to_delete">
+    <item quantity="other">블록 삭제</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_copy">
+    <item quantity="other">%d 블록 복사</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="other"> %d 스크립트 모음</item>
+  </plurals>
+  <!--  -->
+  <!-- LookListFragment -->
+  <string name="fragment_look_text_description">모양을 추가하려면 \"+\"를 터치하세요</string>
+  <string name="pocket_paint_not_installed_title">포켓 페인트가 설치되어 있지 않습니다!</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
+  <string name="default_look_name">모양</string>
+  <string name="select_look_from_gallery">그림 선택하기</string>
+  <string name="select_look_from_camera">사진 선택하기</string>
+  <string name="look_measure">측정:</string>
+  <!--  -->
+  <!-- SoundListFragment -->
+  <string name="fragment_sound_text_description">소리를 추가하려면 \"+\"를 터치하세요</string>
+  <string name="sound_select_source">소리 선택</string>
+  <string name="length">길이:</string>
+  <!--  -->
+  <!-- NfcTagListFragment -->
+  <string name="fragment_nfctag_text_description">추가할 태그를 검사합니다</string>
+  <string name="ndef_record_label">NDEF 레코드 유형으로</string>
+  <string name="brick_set_nfc_tag">다음 NFC 태그 설정</string>
+  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+  <string name="default_tag_name">nfc_tag</string>
+  <string name="tnf_empty">비어 있음</string>
+  <string name="tnf_external_type">외부 형식</string>
+  <string name="tnf_mime_media">텍스트</string>
+  <string name="tnf_well_known_http">HTTP</string>
+  <string name="tnf_well_known_https">HTTPS</string>
+  <string name="tnf_well_known_tel">전화 번호</string>
+  <string name="tnf_well_known_sms">SMS 메세지</string>
+  <string name="tnf_well_known_mailto">이메일</string>
+  <!--  -->
   <!-- Backpack -->
   <string name="backpack_title">당신의 스크립트 모음</string>
+  <string name="pack">Pack</string>
+  <string name="unpack">풀기</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
   <string name="scripts">스크립트</string>
@@ -352,7 +419,7 @@
   <string name="sounds">소리</string>
   <string name="nfctags">NFC 태그</string>
   <string name="size">프로젝트 크기 :</string>
-  <!-- New project dialog -->
+  <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">새로운 프로그램</string>
   <string name="new_project_dialog_hint">내 프로그램</string>
   <string name="new_project_description_dialog_hint">내 설명</string>
@@ -364,17 +431,18 @@
   <string name="project_orientation_title">방향:</string>
   <string name="project_select_screen_title">화면</string>
   <!--  -->
-  <!-- New Look Dialog -->
+  <!-- NewSpriteDialog -->
+  <string name="new_sprite_dialog_title">새 오브젝트</string>
+  <!--  -->
+  <!-- NewLookDialog -->
   <string name="new_look_dialog_title">모양 추가</string>
   <string name="add_look_from_camera">사진 촬영</string>
   <string name="add_look_draw_new_image">그림 그리기</string>
   <string name="add_look_choose_image">그림 선택하기</string>
   <string name="add_look_media_library">미디어 라이브러리</string>
-  <string name="new_look_name">모양 이름:</string>
-  <string name="look_rename_overwrite">이 이름을 가진 스크립트 그룹은 이미 존재합니다. 다른 하나를 선택하십시오!</string>
   <string name="add_look_drone_video">AR.Drone 2.0 video</string>
   <!--  -->
-  <!-- New Sound Dialog -->
+  <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">소리 추가</string>
   <string name="add_sound_from_recorder">소리 녹음</string>
   <string name="add_sound_choose_file">파일 선택</string>
@@ -453,66 +521,7 @@
   <string name="dialog_about_license_link_text">소스 코드 라이센스</string>
   <string name="dialog_about_catrobat_link_text">Catrobat에 대하여</string>
   <!--  -->
-  <!-- Project activity view -->
-  <string name="project_name">프로그램:</string>
-  <string name="my_projects_activity_title">프로그램</string>
-  <string name="number_of_scripts">스크립트:</string>
-  <string name="number_of_bricks">블록:</string>
-  <string name="number_of_looks">모양:</string>
-  <string name="number_of_sounds">소리:</string>
-  <string name="show_details">세부 정보 표시</string>
-  <string name="hide_details">세부 사항 숨기기</string>
-  <!--  -->
-  <!-- Script fragment -->
-  <string name="fragment_script_text_description">스크립트를 추가하려면 \"+\"를 터치</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="other">블록 삭제</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="other">%d 블록 복사</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="other"> %d 스크립트 모음</item>
-  </plurals>
-  <!--  -->
-  <!-- Look fragment -->
-  <string name="fragment_look_text_description">모양을 추가하려면 \"+\"를 터치하세요</string>
-  <string name="pocket_paint_not_installed_title">포켓 페인트가 설치되어 있지 않습니다!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
-  <string name="default_look_name">모양</string>
-  <string name="select_look_from_gallery">그림 선택하기</string>
-  <string name="select_look_from_camera">사진 선택하기</string>
-  <string name="look_measure">측정:</string>
-  <!--  -->
-  <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">소리를 추가하려면 \"+\"를 터치하세요</string>
-  <string name="sound_select_source">소리 선택</string>
-  <string name="length">길이:</string>
-  <string name="sound_name">소리 이름:</string>
-  <string name="new_sound_name">소리 이름:</string>
-  <!--  -->
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">추가할 태그를 검사합니다</string>
-  <string name="ndef_record_label">NDEF 레코드 유형으로</string>
-  <string name="brick_set_nfc_tag">다음 NFC 태그 설정</string>
-  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">nfc_tag</string>
-  <string name="tnf_empty">비어 있음</string>
-  <string name="tnf_external_type">외부 형식</string>
-  <string name="tnf_mime_media">텍스트</string>
-  <string name="tnf_well_known_http">HTTP</string>
-  <string name="tnf_well_known_https">HTTPS</string>
-  <string name="tnf_well_known_tel">전화 번호</string>
-  <string name="tnf_well_known_sms">SMS 메세지</string>
-  <string name="tnf_well_known_mailto">이메일</string>
-  <!--  -->
-  <!-- My Projects activity -->
-  <string name="last_used">최종 사용 :</string>
-  <string name="description">설명:</string>
-  <string name="set_description">설명 설정</string>
-  <string name="details_date_today">오늘</string>
-  <!--  -->
-  <!-- Soundrecorder activity -->
+  <!-- SoundRecorderActivty -->
   <string name="soundrecorder_name">소리 녹음기</string>
   <string name="soundrecorder_error">녹음 실패</string>
   <string name="soundrecorder_recorded_filename">녹음</string>
@@ -559,10 +568,6 @@
   <string name="play_scene_dialog_title">플레이 장면:</string>
   <string name="play_scene_dialog_default">첫 번째 장면 (%1$s)</string>
   <string name="play_scene_dialog_current">현재 (\"%1$s\")</string>
-  <!--  -->
-  <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_title">새 오브젝트</string>
-  <string name="sprite_name">오브젝트 이름:</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">로그인</string>
@@ -1543,7 +1548,6 @@
   <string name="hint_looks">오브젝트의 다른 모양을 찾을 수 있습니다. 추가 하려면 \"+\"를 터치하세요.</string>
   <string name="hint_sounds">여기 새로운 소리를 추가할 수 있습니다. 소리 카테고리를 활용하세요.</string>
   <string name="hint_objects">서로 작용할 수 있는 오브젝트가 다른 프로그램에 의하여 이루어져 있다. 추가하려면  \"+\"를 터치하세요.</string>
-  <string name="hint_merge">두 프로그램을 병합하려면 한 프로그램에서 메뉴를 열고 \'병합\'에 탭을 누릅니다.</string>
   <string name="hint_stage">프로그램을 일시 중지 하려면 취소버튼을 터치하세요. 축을 보거나 화면 크기를 보려면 \"축 보이기\"를 터치하세요.</string>
   <string name="hint_scenes">프로그램은 다른 독립적인 장면 구성할 수 있습니다. 추가 하려면 \"+\" 를 터치하세요.</string>
   <!--  -->

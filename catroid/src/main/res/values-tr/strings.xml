@@ -28,10 +28,7 @@
   <string name="cancel">İptal et</string>
   <string name="next">İleri</string>
   <string name="done">Tamam</string>
-  <string name="name_already_exists">Bu isim zaten kullanılıyor, lütfen başka bir isim seçiniz!</string>
-  <string name="name_consists_of_spaces_only">İsim yalnızca boşluklardan oluşamaz.</string>
-  <string name="rename">Yeniden adlandır</string>
-  <string name="delete">Sil</string>
+  <string name="select_all">Hepsini seç</string>
   <string name="yes">Evet</string>
   <string name="no">Hayır</string>
   <string name="back">Geri</string>
@@ -39,27 +36,24 @@
   <string name="agree">Kabul ediyorum</string>
   <string name="disagree">Kabul etmiyorum</string>
   <string name="delete_account">Hesabımı sil</string>
-  <string name="copy">Kopyala</string>
+  <string name="warning">Warning</string>
   <string name="backpack_add">Sırt çantasına ekle</string>
-  <string name="backpack">Sırt çantası</string>
-  <string name="pack">Pack</string>
-  <string name="unpack">Çıkart</string>
   <string name="close">Kapat</string>
   <string name="error">Hata</string>
   <string name="please_wait">Lütfen bekleyin</string>
   <string name="loading">Yükleniyor&#8230;</string>
   <string name="search_hint">Ara&#8230;</string>
   <string name="no_internet">Internet yok</string>
-  <string name="loading_check_token">Jeton serverimiz de kontrol edildi&#8230;</string>
-  <string name="loading_check_facebook_data">Facebook verileri alındı&#8230;</string>
-  <string name="loading_check_email">Sunucumuzda e-posta mevcudiyeti kontrol edildi&#8230;</string>
-  <string name="loading_check_oauth_token">OAuth token sunucumuzda kontrol edildi&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Facebook token geçerliliği sunucumuzda kontrol edildi&#8230;</string>
-  <string name="loading_check_oauth_username">Kullanıcı adı kullanılabilirliği sunucumuzda kontrol edildi&#8230;</string>
-  <string name="loading_facebook_exchange_token">Facebook token sunucumuzda değiştirilir&#8230;</string>
-  <string name="loading_facebook_login">Facebook oturum açma sunucumuzda tamamlandı&#8230;</string>
-  <string name="loading_google_exchange_code">Google+ kodu sunucumuzda değiştirilir&#8230;</string>
-  <string name="loading_google_login">Sunucumuzda Google+ oturum açma tamamlandı&#8230;</string>
+  <string name="loading_check_token">Jeton serverimiz de kontrol edildi…</string>
+  <string name="loading_check_facebook_data">Facebook verileri alındı…</string>
+  <string name="loading_check_email">Sunucumuzda e-posta mevcudiyeti kontrol edildi…</string>
+  <string name="loading_check_oauth_token">OAuth token sunucumuzda kontrol edildi…</string>
+  <string name="loading_check_facebook_token_validity">Facebook token geçerliliği sunucumuzda kontrol edildi…</string>
+  <string name="loading_check_oauth_username">Kullanıcı adı kullanılabilirliği sunucumuzda kontrol edildi…</string>
+  <string name="loading_facebook_exchange_token">Facebook token sunucumuzda değiştirilir…</string>
+  <string name="loading_facebook_login">Facebook oturum açma sunucumuzda tamamlandı…</string>
+  <string name="loading_google_exchange_code">Google+ kodu sunucumuzda değiştirilir…</string>
+  <string name="loading_google_login">Sunucumuzda Google+ oturum açma tamamlandı…</string>
   <string name="background">Arka plan</string>
   <string name="stage">Aşama</string>
   <string name="play">Oynat</string>
@@ -164,7 +158,7 @@
     <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
     <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
   </plurals>
-  <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
+  <string name="scratch_conversion_started">Started to convert Scratch program…</string>
   <string name="convert">Dönüştür</string>
   <string name="converting">Dönüştürülüyor&#8230;</string>
   <string name="status_scheduled">Planlama</string>
@@ -226,6 +220,9 @@
   <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Dialog Errors -->
+  <string name="name_already_exists">Bu isim zaten kullanılıyor, lütfen başka bir isim seçiniz!</string>
+  <string name="name_consists_of_spaces_only">İsim yalnızca boşluklardan oluşamaz.</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet.</string>
   <string name="am_backpack">Pack</string>
@@ -234,6 +231,15 @@
   <string name="am_delete">Sil</string>
   <string name="am_rename">Yeniden adlandır</string>
   <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <string name="list_headline_background">Arka plan</string>
+  <string name="list_headline_sprites">Nesneler</string>
+  <!-- Options Menu Options -->
+  <string name="backpack">Sırt çantası</string>
+  <string name="copy">Kopyala</string>
+  <string name="delete">Sil</string>
+  <string name="rename">Yeniden adlandır</string>
+  <string name="show_details">Detayları göster</string>
+  <string name="hide_details">Detayları gizle</string>
   <!-- Action Mode Titles -->
   <plurals name="am_projects_title">
     <item quantity="one">%d Project</item>
@@ -244,8 +250,8 @@
     <item quantity="other">%d Scenes</item>
   </plurals>
   <plurals name="am_sprites_title">
-    <item quantity="one">%d Sprite</item>
-    <item quantity="other">%d Sprites</item>
+    <item quantity="one">%d Object</item>
+    <item quantity="other">%d Objects</item>
   </plurals>
   <plurals name="am_looks_title">
     <item quantity="one">%d Look</item>
@@ -299,6 +305,17 @@
     <item quantity="one">Delete this Brick?</item>
     <item quantity="other">Delete these Bricks?</item>
   </plurals>
+  <!-- Dialog Labels -->
+  <string name="project_name_label">Program:</string>
+  <string name="sprite_name_label">Object name:</string>
+  <string name="look_name_label">Look name:</string>
+  <string name="sound_name_label">Sound name:</string>
+  <!-- Details Labels -->
+  <string name="number_of_scripts">Komut dosyaları:</string>
+  <string name="number_of_bricks">Tuğlalar:</string>
+  <string name="number_of_looks">Görünüş:</string>
+  <string name="number_of_sounds">Sesler:</string>
+  <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">Programı yeniden adlandır</string>
   <string name="rename_scene_dialog">Ekranı yeniden adlandır</string>
@@ -393,8 +410,62 @@
     <item quantity="other">Deleted %d Scripts!</item>
   </plurals>
   <!--  -->
+  <!-- ProjectListActivity and ProjectListFragment -->
+  <string name="project_list_title">Programlar</string>
+  <string name="last_used">Son giriş :</string>
+  <string name="description">Açıklama:</string>
+  <string name="set_description">Açıklayınız</string>
+  <string name="details_date_today">Bugün</string>
+  <!--  -->
+  <!-- ScriptListFragment -->
+  <string name="fragment_script_text_description">Komut dosyası eklemek için buraya \"+\" dokunun</string>
+  <plurals name="number_of_bricks_to_delete">
+    <item quantity="one">Tuğlayı sil %d</item>
+    <item quantity="other">Tuğlaları sil %d</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_copy">
+    <item quantity="one">Copy %d brick</item>
+    <item quantity="other">Copy %d bricks</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="one">Backpack %d brick</item>
+    <item quantity="other">Backpack %d bricks</item>
+  </plurals>
+  <!--  -->
+  <!-- LookListFragment -->
+  <string name="fragment_look_text_description">Görüntü eklemek icin buraya \"+\" dokun</string>
+  <string name="pocket_paint_not_installed_title">Cep Resim yüklü değil!</string>
+  <string name="pocket_paint_not_installed_message">Pocket Paint\'i lütfen yükleyin</string>
+  <string name="default_look_name">Görünüş</string>
+  <string name="select_look_from_gallery">Resim seç</string>
+  <string name="select_look_from_camera">Fotoğraf seç</string>
+  <string name="look_measure">Ölç:</string>
+  <!--  -->
+  <!-- SoundListFragment -->
+  <string name="fragment_sound_text_description">Ses eklemek için buraya \"+\" dokunun</string>
+  <string name="sound_select_source">Bir parça seç</string>
+  <string name="length">Uzunluk:</string>
+  <!--  -->
+  <!-- NfcTagListFragment -->
+  <string name="fragment_nfctag_text_description">Eklemek için etiketleri tara</string>
+  <string name="ndef_record_label">NDEF olarak kayıt türü</string>
+  <string name="brick_set_nfc_tag">Sıradaki NFC etiketine ayarlayın</string>
+  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+  <string name="default_tag_name">nfc_tag</string>
+  <string name="tnf_empty">Boş
+</string>
+  <string name="tnf_external_type">Harici tür</string>
+  <string name="tnf_mime_media">Metin</string>
+  <string name="tnf_well_known_http">HTTP</string>
+  <string name="tnf_well_known_https">HTTPS</string>
+  <string name="tnf_well_known_tel">Telefon numarası</string>
+  <string name="tnf_well_known_sms">SMS</string>
+  <string name="tnf_well_known_mailto">E-Posta</string>
+  <!--  -->
   <!-- Backpack -->
   <string name="backpack_title">Çantan</string>
+  <string name="pack">Pack</string>
+  <string name="unpack">Çıkart</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
   <string name="scripts">Komut dosyaları</string>
@@ -403,7 +474,7 @@
   <string name="sounds">Sesler</string>
   <string name="nfctags">NFC etiketleri</string>
   <string name="size">Ölçü:</string>
-  <!-- New project dialog -->
+  <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">Yeni program</string>
   <string name="new_project_dialog_hint">Benim programım</string>
   <string name="new_project_description_dialog_hint">Açıklama</string>
@@ -415,17 +486,18 @@
   <string name="project_orientation_title">Oryantasyon:</string>
   <string name="project_select_screen_title">Ekran</string>
   <!--  -->
-  <!-- New Look Dialog -->
+  <!-- NewSpriteDialog -->
+  <string name="new_sprite_dialog_title">Yeni nesne</string>
+  <!--  -->
+  <!-- NewLookDialog -->
   <string name="new_look_dialog_title">Görünüm Ekle</string>
   <string name="add_look_from_camera">Resim çek</string>
   <string name="add_look_draw_new_image">Resim Çiz</string>
   <string name="add_look_choose_image">Resim seç</string>
   <string name="add_look_media_library">Medya kütüphanesi</string>
-  <string name="new_look_name">Görüntü adı:</string>
-  <string name="look_rename_overwrite">Bu ada sahip bir görünüm zaten var. Lütfen farklı bir tane seçin!</string>
   <string name="add_look_drone_video">AR.Drone 2.0 video</string>
   <!--  -->
-  <!-- New Sound Dialog -->
+  <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">Ses ekle</string>
   <string name="add_sound_from_recorder">Ses kaydet</string>
   <string name="add_sound_choose_file">Dosya Seç
@@ -487,70 +559,7 @@ Eğer 16 yaşınızın altındaysanız, bu sözleşmeyi, yasal vasilerinizin (an
   <string name="dialog_about_license_link_text">Kaynak kod lisansı</string>
   <string name="dialog_about_catrobat_link_text">Catrobat hakkında</string>
   <!--  -->
-  <!-- Project activity view -->
-  <string name="project_name">Program:</string>
-  <string name="my_projects_activity_title">Programlar</string>
-  <string name="number_of_scripts">Komut dosyaları:</string>
-  <string name="number_of_bricks">Tuğlalar:</string>
-  <string name="number_of_looks">Görünüş:</string>
-  <string name="number_of_sounds">Sesler:</string>
-  <string name="show_details">Detayları göster</string>
-  <string name="hide_details">Detayları gizle</string>
-  <!--  -->
-  <!-- Script fragment -->
-  <string name="fragment_script_text_description">Komut dosyası eklemek için buraya \"+\" dokunun</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Tuğlayı sil %d</item>
-    <item quantity="other">Tuğlaları sil %d</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copy %d brick</item>
-    <item quantity="other">Copy %d bricks</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Backpack %d brick</item>
-    <item quantity="other">Backpack %d bricks</item>
-  </plurals>
-  <!--  -->
-  <!-- Look fragment -->
-  <string name="fragment_look_text_description">Görüntü eklemek icin buraya \"+\" dokun</string>
-  <string name="pocket_paint_not_installed_title">Cep Resim yüklü değil!</string>
-  <string name="pocket_paint_not_installed_message">Pocket Paint\'i lütfen yükleyin</string>
-  <string name="default_look_name">Görünüş</string>
-  <string name="select_look_from_gallery">Resim seç</string>
-  <string name="select_look_from_camera">Fotoğraf seç</string>
-  <string name="look_measure">Ölç:</string>
-  <!--  -->
-  <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">Ses eklemek için buraya \"+\" dokunun</string>
-  <string name="sound_select_source">Bir parça seç</string>
-  <string name="length">Uzunluk:</string>
-  <string name="sound_name">Parça ismi:</string>
-  <string name="new_sound_name">Parça ismi:</string>
-  <!--  -->
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Eklemek için etiketleri tara</string>
-  <string name="ndef_record_label">NDEF olarak kayıt türü</string>
-  <string name="brick_set_nfc_tag">Sıradaki NFC etiketine ayarlayın</string>
-  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">nfc_tag</string>
-  <string name="tnf_empty">Boş
-</string>
-  <string name="tnf_external_type">Harici tür</string>
-  <string name="tnf_mime_media">Metin</string>
-  <string name="tnf_well_known_http">HTTP</string>
-  <string name="tnf_well_known_https">HTTPS</string>
-  <string name="tnf_well_known_tel">Telefon numarası</string>
-  <string name="tnf_well_known_sms">SMS</string>
-  <string name="tnf_well_known_mailto">E-Posta</string>
-  <!--  -->
-  <!-- My Projects activity -->
-  <string name="last_used">Son giriş :</string>
-  <string name="description">Açıklama:</string>
-  <string name="set_description">Açıklayınız</string>
-  <string name="details_date_today">Bugün</string>
-  <!--  -->
-  <!-- Soundrecorder activity -->
+  <!-- SoundRecorderActivty -->
   <string name="soundrecorder_name">Cep kodu ses kayıt</string>
   <string name="soundrecorder_error">Ses kaydı başarısız</string>
   <string name="soundrecorder_recorded_filename">Kaydet</string>
@@ -598,10 +607,6 @@ Eğer 16 yaşınızın altındaysanız, bu sözleşmeyi, yasal vasilerinizin (an
   <string name="play_scene_dialog_title">Sahneyi Oynat:</string>
   <string name="play_scene_dialog_default">İlk Sahne (%1$s)</string>
   <string name="play_scene_dialog_current">Geçerli (%1$s)</string>
-  <!--  -->
-  <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_title">Yeni nesne</string>
-  <string name="sprite_name">Nesne adı:</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Giriş yap</string>
@@ -1134,6 +1139,8 @@ Eğer 16 yaşınızın altındaysanız, bu sözleşmeyi, yasal vasilerinizin (an
   <string name="brick_drone_set_vertical_speed">Dikey hız sınırı</string>
   <string name="brick_drone_set_rotation_speed">Dönme hızı limiti</string>
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
+  <string name="brick_drone_with">saniyeler ile</string>
+  <string name="brick_drone_percent_power">%% güç</string>
   <!--  -->
   <!-- Drone play led animation strings -->
   <string name="drone_animation_blinkgreenred">Blink Green Red</string>
@@ -1159,6 +1166,8 @@ Eğer 16 yaşınızın altındaysanız, bu sözleşmeyi, yasal vasilerinizin (an
   <string name="drone_animation_blinkstandard">Blink Standard</string>
   <!-- Jumping Sumo Bricks -->
   <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
+  <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
+  <string name="brick_jumping_sumo_percent_power">%% güç</string>
   <string name="brick_jumping_sumo_animation">Jumping Sumo Animasyonları</string>
   <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
   <string name="brick_jumping_sumo_sound">Ses</string>
@@ -1596,7 +1605,6 @@ Eğer 16 yaşınızın altındaysanız, bu sözleşmeyi, yasal vasilerinizin (an
   <string name="hint_looks">Burada nesnenizin farklı görünümlerini bulabilirsiniz. Yeni bir görünüm eklemek için \"+\" sembolüne tıklayın.</string>
   <string name="hint_sounds">Burada nesnenize yeni sesler ekleyebilirsiniz. Ses kategorisinden bir tuğla kullanmak için daima aklınızda bulunsun.</string>
   <string name="hint_objects">Programınız birbiriyle etkileşim kurabilen farklı nesnelerden oluşur. Yeni bir nesne eklemek için \"+\" sembolüne tıklayın.</string>
-  <string name="hint_merge">İki programı birleştirmek için, menüyü açmak için programa uzun basın ve \'Birleştir\'i tıklayın.</string>
   <string name="hint_stage">Programınızı duraklatmak için geri düğmesine basın. Eksenlerini ve cihazınızın ekran boyutunu göstermek için \"Axes on\"         düğmesine dokunun.</string>
   <string name="hint_scenes">Bir program farklı bağımsız sahnelerden oluşabilir. Yeni bir sahne eklemek için \"+\" sembolüne tıklayın</string>
   <!--  -->

@@ -150,7 +150,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 	@Override
 	protected void showRenameDialog(List<SoundInfo> selectedItems) {
 		String name = selectedItems.get(0).getName();
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_sound_dialog, R.string.sound_name, name, this);
+		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_sound_dialog, R.string.sound_name_label, name, this);
 		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
 	}
 

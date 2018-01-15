@@ -54,7 +54,7 @@
             android:id="@+id/dialog_overwrite_media_edit_text"
             android:labelFor="@+id/dialog_overwrite_media_edit"
             style="@style/DefaultDialog.TextView"
-            android:text="@string/new_look_name"
+            android:text="@string/look_name_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"/>

@@ -28,10 +28,7 @@
   <string name="cancel">Отмена</string>
   <string name="next">Next</string>
   <string name="done">Готово</string>
-  <string name="name_already_exists">Это имя уже существует, пожалуйста, выберите другое!</string>
-  <string name="name_consists_of_spaces_only">Название не может состоять только из пробелов.</string>
-  <string name="rename">Переименовать</string>
-  <string name="delete">Удалить</string>
+  <string name="select_all">Select All</string>
   <string name="yes">Да</string>
   <string name="no">Нет</string>
   <string name="back">Назад</string>
@@ -39,11 +36,8 @@
   <string name="agree">Agree</string>
   <string name="disagree">Disagree</string>
   <string name="delete_account">Delete my account</string>
-  <string name="copy">Копировать</string>
+  <string name="warning">Warning</string>
   <string name="backpack_add">Положить в рюкзак</string>
-  <string name="backpack">Положить в рюкзак</string>
-  <string name="pack">Pack</string>
-  <string name="unpack">Вытащить</string>
   <string name="close">Закрыть</string>
   <string name="error">Ошибка</string>
   <string name="please_wait">Пожалуйста, подождите</string>
@@ -231,6 +225,9 @@
   <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Dialog Errors -->
+  <string name="name_already_exists">Это имя уже существует, пожалуйста, выберите другое!</string>
+  <string name="name_consists_of_spaces_only">Название не может состоять только из пробелов.</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet.</string>
   <string name="am_backpack">Pack</string>
@@ -239,6 +236,15 @@
   <string name="am_delete">Удалить</string>
   <string name="am_rename">Переименовать</string>
   <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <string name="list_headline_background">Фон</string>
+  <string name="list_headline_sprites">Объекты</string>
+  <!-- Options Menu Options -->
+  <string name="backpack">Положить в рюкзак</string>
+  <string name="copy">Копировать</string>
+  <string name="delete">Удалить</string>
+  <string name="rename">Переименовать</string>
+  <string name="show_details">Показать детали</string>
+  <string name="hide_details">Скрыть детали</string>
   <!-- Action Mode Titles -->
   <plurals name="am_projects_title">
     <item quantity="one">%d Project</item>
@@ -251,9 +257,9 @@
     <item quantity="other">%d Scenes</item>
   </plurals>
   <plurals name="am_sprites_title">
-    <item quantity="one">%d Sprite</item>
-    <item quantity="few">%d Sprites</item>
-    <item quantity="other">%d Sprites</item>
+    <item quantity="one">%d Object</item>
+    <item quantity="few">%d Objects</item>
+    <item quantity="other">%d Objects</item>
   </plurals>
   <plurals name="am_looks_title">
     <item quantity="one">%d Look</item>
@@ -319,6 +325,17 @@
     <item quantity="few">Delete these Bricks?</item>
     <item quantity="other">Delete these Bricks?</item>
   </plurals>
+  <!-- Dialog Labels -->
+  <string name="project_name_label">Program:</string>
+  <string name="sprite_name_label">Object name:</string>
+  <string name="look_name_label">Look name:</string>
+  <string name="sound_name_label">Sound name:</string>
+  <!-- Details Labels -->
+  <string name="number_of_scripts">Скрипты:</string>
+  <string name="number_of_bricks">Блоки:</string>
+  <string name="number_of_looks">Образ:</string>
+  <string name="number_of_sounds">Звуки:</string>
+  <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">Переименовать программу</string>
   <string name="rename_scene_dialog">Переименовать сцену</string>
@@ -434,8 +451,64 @@
     <item quantity="other">Deleted %d Scripts!</item>
   </plurals>
   <!--  -->
+  <!-- ProjectListActivity and ProjectListFragment -->
+  <string name="project_list_title">Программы</string>
+  <string name="last_used">Использован:</string>
+  <string name="description">Описание:</string>
+  <string name="set_description">Добавить описание</string>
+  <string name="details_date_today">Сегодня</string>
+  <!--  -->
+  <!-- ScriptListFragment -->
+  <string name="fragment_script_text_description">Нажмите «+» чтобы добавить скрипт</string>
+  <plurals name="number_of_bricks_to_delete">
+    <item quantity="one">Удалить %d блок</item>
+    <item quantity="few">Удалить %d блока</item>
+    <item quantity="other">Удалить %d блоков</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_copy">
+    <item quantity="one">Копировать %d блок</item>
+    <item quantity="few">Копировать %d блока</item>
+    <item quantity="other">Копировать %d блоков</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="one">Положить %d блок в рюкзак</item>
+    <item quantity="few">Положить в рюкзак %d блока</item>
+    <item quantity="other">Положить %d блоков в рюкзак</item>
+  </plurals>
+  <!--  -->
+  <!-- LookListFragment -->
+  <string name="fragment_look_text_description">Нажмите «+», чтобы добавить образы</string>
+  <string name="pocket_paint_not_installed_title">Приложение Pocket Paint не утсановлено!</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
+  <string name="default_look_name">образ</string>
+  <string name="select_look_from_gallery">Выберите изображение</string>
+  <string name="select_look_from_camera">Выберите фотографию</string>
+  <string name="look_measure">Разрешение:</string>
+  <!--  -->
+  <!-- SoundListFragment -->
+  <string name="fragment_sound_text_description">Нажмите «+», чтобы добавить звуки</string>
+  <string name="sound_select_source">Выберите звук</string>
+  <string name="length">Длительность:</string>
+  <!--  -->
+  <!-- NfcTagListFragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="ndef_record_label">as NDEF record type</string>
+  <string name="brick_set_nfc_tag">Set next NFC tag to</string>
+  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+  <string name="default_tag_name">nfc_тег</string>
+  <string name="tnf_empty">Empty</string>
+  <string name="tnf_external_type">External type</string>
+  <string name="tnf_mime_media">Текст</string>
+  <string name="tnf_well_known_http">HTTP</string>
+  <string name="tnf_well_known_https">HTTPS</string>
+  <string name="tnf_well_known_tel">Номер телефона</string>
+  <string name="tnf_well_known_sms">СМС</string>
+  <string name="tnf_well_known_mailto">E-Mail</string>
+  <!--  -->
   <!-- Backpack -->
   <string name="backpack_title">Ваш рюкзак</string>
+  <string name="pack">Pack</string>
+  <string name="unpack">Вытащить</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
   <string name="scripts">Скрипты</string>
@@ -444,7 +517,7 @@
   <string name="sounds">Звуки</string>
   <string name="nfctags">NFC-теги</string>
   <string name="size">Размер:</string>
-  <!-- New project dialog -->
+  <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">Название новой программы</string>
   <string name="new_project_dialog_hint">Моя программа</string>
   <string name="new_project_description_dialog_hint">Моё описание</string>
@@ -456,17 +529,18 @@
   <string name="project_orientation_title">Ориентация:</string>
   <string name="project_select_screen_title">Screen</string>
   <!--  -->
-  <!-- New Look Dialog -->
+  <!-- NewSpriteDialog -->
+  <string name="new_sprite_dialog_title">Новый объект</string>
+  <!--  -->
+  <!-- NewLookDialog -->
   <string name="new_look_dialog_title">Добавить образ</string>
   <string name="add_look_from_camera">Сделать снимок</string>
   <string name="add_look_draw_new_image">Камера</string>
   <string name="add_look_choose_image">Из галереи</string>
   <string name="add_look_media_library">Загрузить из библиотеки</string>
-  <string name="new_look_name">Название образа:</string>
-  <string name="look_rename_overwrite">Образ с таким названием уже существует. Пожалуйста, выберите другое название!</string>
   <string name="add_look_drone_video">AR.Drone 2.0 video</string>
   <!--  -->
-  <!-- New Sound Dialog -->
+  <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">Добавить звук</string>
   <string name="add_sound_from_recorder">Записать звук</string>
   <string name="add_sound_choose_file">Выбрать файл</string>
@@ -548,72 +622,7 @@
   <string name="dialog_about_license_link_text">Source Code License</string>
   <string name="dialog_about_catrobat_link_text">О проекте Catrobat</string>
   <!--  -->
-  <!-- Project activity view -->
-  <string name="project_name">Программа:</string>
-  <string name="my_projects_activity_title">Программы</string>
-  <string name="number_of_scripts">Скрипты:</string>
-  <string name="number_of_bricks">Блоки:</string>
-  <string name="number_of_looks">Образ:</string>
-  <string name="number_of_sounds">Звуки:</string>
-  <string name="show_details">Показать детали</string>
-  <string name="hide_details">Скрыть детали</string>
-  <!--  -->
-  <!-- Script fragment -->
-  <string name="fragment_script_text_description">Нажмите «+» чтобы добавить скрипт</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Удалить %d блок</item>
-    <item quantity="few">Удалить %d блока</item>
-    <item quantity="other">Удалить %d блоков</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Копировать %d блок</item>
-    <item quantity="few">Копировать %d блока</item>
-    <item quantity="other">Копировать %d блоков</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Положить %d блок в рюкзак</item>
-    <item quantity="few">Положить в рюкзак %d блока</item>
-    <item quantity="other">Положить %d блоков в рюкзак</item>
-  </plurals>
-  <!--  -->
-  <!-- Look fragment -->
-  <string name="fragment_look_text_description">Нажмите «+», чтобы добавить образы</string>
-  <string name="pocket_paint_not_installed_title">Приложение Pocket Paint не утсановлено!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
-  <string name="default_look_name">образ</string>
-  <string name="select_look_from_gallery">Выберите изображение</string>
-  <string name="select_look_from_camera">Выберите фотографию</string>
-  <string name="look_measure">Разрешение:</string>
-  <!--  -->
-  <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">Нажмите «+», чтобы добавить звуки</string>
-  <string name="sound_select_source">Выберите звук</string>
-  <string name="length">Длительность:</string>
-  <string name="sound_name">Название звука:</string>
-  <string name="new_sound_name">Название звука:</string>
-  <!--  -->
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Scan tags to add</string>
-  <string name="ndef_record_label">as NDEF record type</string>
-  <string name="brick_set_nfc_tag">Set next NFC tag to</string>
-  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">nfc_тег</string>
-  <string name="tnf_empty">Empty</string>
-  <string name="tnf_external_type">External type</string>
-  <string name="tnf_mime_media">Текст</string>
-  <string name="tnf_well_known_http">HTTP</string>
-  <string name="tnf_well_known_https">HTTPS</string>
-  <string name="tnf_well_known_tel">Номер телефона</string>
-  <string name="tnf_well_known_sms">СМС</string>
-  <string name="tnf_well_known_mailto">E-Mail</string>
-  <!--  -->
-  <!-- My Projects activity -->
-  <string name="last_used">Использован:</string>
-  <string name="description">Описание:</string>
-  <string name="set_description">Добавить описание</string>
-  <string name="details_date_today">Сегодня</string>
-  <!--  -->
-  <!-- Soundrecorder activity -->
+  <!-- SoundRecorderActivty -->
   <string name="soundrecorder_name">Pocket Code диктофон</string>
   <string name="soundrecorder_error">Ошибка записи звука</string>
   <string name="soundrecorder_recorded_filename">Новая запись</string>
@@ -660,10 +669,6 @@
   <string name="play_scene_dialog_title">Play Scene:</string>
   <string name="play_scene_dialog_default">Первая сцена (%1$s)</string>
   <string name="play_scene_dialog_current">Current (%1$s)</string>
-  <!--  -->
-  <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_title">Новый объект</string>
-  <string name="sprite_name">Имя:</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Войти</string>
@@ -1668,7 +1673,6 @@
   <string name="hint_looks">Здесь находятся разные образы Вашего объекта, определяющие внешний вид объекта. Чтобы добавить новый образ, нажмите на символ «+».</string>
   <string name="hint_sounds">Здесь Вы можете добавить новые звуки к Вашему объекту. Для использования звуков в скрипте, используйте блоки из категории «Звук».</string>
   <string name="hint_objects">Программа состоит из различных объектов, которые могут взаимодействовать друг с другом. Для добавления нового объекта нажмите на символ «+».</string>
-  <string name="hint_merge">Чтобы совместить две программы, долго нажмите на одну программу, чтобы открыть меню. Затем нажмите на «Совместить с».</string>
   <string name="hint_stage">Нажми на кнопку Назад, чтобы поставить твою программу на паузу. Для того, чтобы показать координатные оси и размер экрана твоего телефона, нажми \"Показать оси\".</string>
   <string name="hint_scenes">Программа может состоять из различных независимых сцен. Для того, чтобы добавить новую сцену, нажмите на символ «+».</string>
   <!--  -->

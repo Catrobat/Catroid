@@ -28,10 +28,7 @@
   <string name="cancel">取消</string>
   <string name="next">下一步</string>
   <string name="done">已完成</string>
-  <string name="name_already_exists">名称已存在，请选择其他名称！</string>
-  <string name="name_consists_of_spaces_only">名称不能包含空格。</string>
-  <string name="rename">重命名</string>
-  <string name="delete">删除</string>
+  <string name="select_all">Select All</string>
   <string name="yes">是</string>
   <string name="no">否</string>
   <string name="back">后退</string>
@@ -39,11 +36,8 @@
   <string name="agree">同意</string>
   <string name="disagree">不同意</string>
   <string name="delete_account">删除帐户</string>
-  <string name="copy">复制</string>
+  <string name="warning">Warning</string>
   <string name="backpack_add">添加到背包</string>
-  <string name="backpack">背包</string>
-  <string name="pack">Pack</string>
-  <string name="unpack">取出</string>
   <string name="close">关闭</string>
   <string name="error">错误</string>
   <string name="please_wait">请等待</string>
@@ -211,6 +205,9 @@
   <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Dialog Errors -->
+  <string name="name_already_exists">名称已存在，请选择其他名称！</string>
+  <string name="name_consists_of_spaces_only">名称不能包含空格。</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet.</string>
   <string name="am_backpack">Pack</string>
@@ -219,6 +216,15 @@
   <string name="am_delete">删除</string>
   <string name="am_rename">Rename</string>
   <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <string name="list_headline_background">背景</string>
+  <string name="list_headline_sprites">对象</string>
+  <!-- Options Menu Options -->
+  <string name="backpack">背包</string>
+  <string name="copy">复制</string>
+  <string name="delete">删除</string>
+  <string name="rename">重命名</string>
+  <string name="show_details">显示详情</string>
+  <string name="hide_details">隐藏详情</string>
   <!-- Action Mode Titles -->
   <plurals name="am_projects_title">
     <item quantity="other">%d Projects</item>
@@ -227,7 +233,7 @@
     <item quantity="other">%d Scenes</item>
   </plurals>
   <plurals name="am_sprites_title">
-    <item quantity="other">%d Sprites</item>
+    <item quantity="other">%d Objects</item>
   </plurals>
   <plurals name="am_looks_title">
     <item quantity="other">%d Looks</item>
@@ -269,6 +275,17 @@
   <plurals name="delete_bricks">
     <item quantity="other">Delete these Bricks?</item>
   </plurals>
+  <!-- Dialog Labels -->
+  <string name="project_name_label">Program:</string>
+  <string name="sprite_name_label">Object name:</string>
+  <string name="look_name_label">Look name:</string>
+  <string name="sound_name_label">Sound name:</string>
+  <!-- Details Labels -->
+  <string name="number_of_scripts">脚本：</string>
+  <string name="number_of_bricks">积木：</string>
+  <string name="number_of_looks">外观：</string>
+  <string name="number_of_sounds">声音：</string>
+  <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">重命名项目</string>
   <string name="rename_scene_dialog">重命名场景</string>
@@ -342,8 +359,58 @@
     <item quantity="other">Deleted %d Scripts!</item>
   </plurals>
   <!--  -->
+  <!-- ProjectListActivity and ProjectListFragment -->
+  <string name="project_list_title">Programs</string>
+  <string name="last_used">最近访问:</string>
+  <string name="description">描述：</string>
+  <string name="set_description">设置描述</string>
+  <string name="details_date_today">今天</string>
+  <!--  -->
+  <!-- ScriptListFragment -->
+  <string name="fragment_script_text_description">点击\"+\"来添加脚本</string>
+  <plurals name="number_of_bricks_to_delete">
+    <item quantity="other">删除 %d 积木</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_copy">
+    <item quantity="other">复制 %d 积木</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="other">背包%d块积木</item>
+  </plurals>
+  <!--  -->
+  <!-- LookListFragment -->
+  <string name="fragment_look_text_description">按“+”添加外观</string>
+  <string name="pocket_paint_not_installed_title">尚未安装口袋画板 ！</string>
+  <string name="pocket_paint_not_installed_message">请安装口袋画板</string>
+  <string name="default_look_name">外观</string>
+  <string name="select_look_from_gallery">选择图像</string>
+  <string name="select_look_from_camera">选择照片</string>
+  <string name="look_measure">方法：</string>
+  <!--  -->
+  <!-- SoundListFragment -->
+  <string name="fragment_sound_text_description">按“+”添加声音</string>
+  <string name="sound_select_source">选择一个声音</string>
+  <string name="length">长度：</string>
+  <!--  -->
+  <!-- NfcTagListFragment -->
+  <string name="fragment_nfctag_text_description">扫描要添加的标签</string>
+  <string name="ndef_record_label">按照NDEF记录类型</string>
+  <string name="brick_set_nfc_tag">设置下一个NFC标签为</string>
+  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+  <string name="default_tag_name">NFC标签</string>
+  <string name="tnf_empty">清空</string>
+  <string name="tnf_external_type">外部类型</string>
+  <string name="tnf_mime_media">正文</string>
+  <string name="tnf_well_known_http">HTTP</string>
+  <string name="tnf_well_known_https">HTTPS</string>
+  <string name="tnf_well_known_tel">手机号码</string>
+  <string name="tnf_well_known_sms">短信</string>
+  <string name="tnf_well_known_mailto">邮箱</string>
+  <!--  -->
   <!-- Backpack -->
   <string name="backpack_title">你的背包</string>
+  <string name="pack">Pack</string>
+  <string name="unpack">取出</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
   <string name="scripts">脚本</string>
@@ -352,7 +419,7 @@
   <string name="sounds">声音</string>
   <string name="nfctags">NFC 标签</string>
   <string name="size">大小：</string>
-  <!-- New project dialog -->
+  <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">新建程序</string>
   <string name="new_project_dialog_hint">我的程序</string>
   <string name="new_project_description_dialog_hint">我的描述</string>
@@ -364,17 +431,18 @@
   <string name="project_orientation_title">方向：</string>
   <string name="project_select_screen_title">屏幕</string>
   <!--  -->
-  <!-- New Look Dialog -->
+  <!-- NewSpriteDialog -->
+  <string name="new_sprite_dialog_title">新建对象</string>
+  <!--  -->
+  <!-- NewLookDialog -->
   <string name="new_look_dialog_title">添加外观</string>
   <string name="add_look_from_camera">拍摄照片</string>
   <string name="add_look_draw_new_image">绘制图像</string>
   <string name="add_look_choose_image">选择图像</string>
   <string name="add_look_media_library">媒体库</string>
-  <string name="new_look_name">外观名称：</string>
-  <string name="look_rename_overwrite">使用此名称的造型已存在。请选择其他的名称！</string>
   <string name="add_look_drone_video">AR.Drone 2.0 video</string>
   <!--  -->
-  <!-- New Sound Dialog -->
+  <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">添加声音</string>
   <string name="add_sound_from_recorder">录制声音</string>
   <string name="add_sound_choose_file">选择文件</string>
@@ -424,66 +492,7 @@
   <string name="dialog_about_license_link_text">源代码许可证</string>
   <string name="dialog_about_catrobat_link_text">关于 Catrobat</string>
   <!--  -->
-  <!-- Project activity view -->
-  <string name="project_name">程序：</string>
-  <string name="my_projects_activity_title">程序</string>
-  <string name="number_of_scripts">脚本：</string>
-  <string name="number_of_bricks">积木：</string>
-  <string name="number_of_looks">外观：</string>
-  <string name="number_of_sounds">声音：</string>
-  <string name="show_details">显示详情</string>
-  <string name="hide_details">隐藏详情</string>
-  <!--  -->
-  <!-- Script fragment -->
-  <string name="fragment_script_text_description">点击\"+\"来添加脚本</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="other">删除 %d 积木</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="other">复制 %d 积木</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="other">背包%d块积木</item>
-  </plurals>
-  <!--  -->
-  <!-- Look fragment -->
-  <string name="fragment_look_text_description">按“+”添加外观</string>
-  <string name="pocket_paint_not_installed_title">尚未安装口袋画板 ！</string>
-  <string name="pocket_paint_not_installed_message">请安装口袋画板</string>
-  <string name="default_look_name">外观</string>
-  <string name="select_look_from_gallery">选择图像</string>
-  <string name="select_look_from_camera">选择照片</string>
-  <string name="look_measure">方法：</string>
-  <!--  -->
-  <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">按“+”添加声音</string>
-  <string name="sound_select_source">选择一个声音</string>
-  <string name="length">长度：</string>
-  <string name="sound_name">音乐名称：</string>
-  <string name="new_sound_name">音乐名称：</string>
-  <!--  -->
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">扫描要添加的标签</string>
-  <string name="ndef_record_label">按照NDEF记录类型</string>
-  <string name="brick_set_nfc_tag">设置下一个NFC标签为</string>
-  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">NFC标签</string>
-  <string name="tnf_empty">清空</string>
-  <string name="tnf_external_type">外部类型</string>
-  <string name="tnf_mime_media">正文</string>
-  <string name="tnf_well_known_http">HTTP</string>
-  <string name="tnf_well_known_https">HTTPS</string>
-  <string name="tnf_well_known_tel">手机号码</string>
-  <string name="tnf_well_known_sms">短信</string>
-  <string name="tnf_well_known_mailto">邮箱</string>
-  <!--  -->
-  <!-- My Projects activity -->
-  <string name="last_used">最近访问:</string>
-  <string name="description">描述：</string>
-  <string name="set_description">设置描述</string>
-  <string name="details_date_today">今天</string>
-  <!--  -->
-  <!-- Soundrecorder activity -->
+  <!-- SoundRecorderActivty -->
   <string name="soundrecorder_name">录音机</string>
   <string name="soundrecorder_error">声音录制失败</string>
   <string name="soundrecorder_recorded_filename">录音</string>
@@ -529,10 +538,6 @@
   <string name="play_scene_dialog_title">游戏场景：</string>
   <string name="play_scene_dialog_default">第一个场景 (%1$s)</string>
   <string name="play_scene_dialog_current">当前场景 (%1$s)</string>
-  <!--  -->
-  <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_title">新建对象</string>
-  <string name="sprite_name">对象名称：</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">登录</string>
@@ -1511,7 +1516,6 @@
   <string name="hint_looks">在这里您可以找到您的对象的不同外观。要添加一个新的外观，请点击\"+\"符号。</string>
   <string name="hint_sounds">在这里你可以向对象添加新的声音。请记住去使用一块声音类别的积木。</string>
   <string name="hint_objects">您的程序包含了可以彼此交互作用的不同对象。若要添加一个新对象，请点击\"+\"符号。</string>
-  <string name="hint_merge">若要合并两个程序，长按一个程序打开菜单，然后点击“合并”。</string>
   <string name="hint_stage">点击系统返回键暂停当前程序的运行。点击“显示坐标轴”可以显示坐标轴和屏幕尺寸。</string>
   <string name="hint_scenes">一个程序可以包含不同的独立场景。若要添加一个新的场景，请点击\"+\"符号。</string>
   <!--  -->
