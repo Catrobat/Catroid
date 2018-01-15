@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
-import android.os.Bundle;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -42,12 +41,6 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	public static final String TAG = BackpackSceneFragment.class.getSimpleName();
 
 	private SceneController sceneController = new SceneController();
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		hasDetails = false;
-	}
 
 	@Override
 	protected void initializeAdapter() {

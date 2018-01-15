@@ -67,7 +67,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	protected ActionMode actionMode;
 	protected String actionModeTitle = "";
 	protected String sharedPreferenceDetailsKey = "";
-	public boolean hasDetails = true;
+	public boolean hasDetails = false;
 
 	protected ItemTouchHelper touchHelper;
 
