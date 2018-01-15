@@ -28,10 +28,7 @@
   <string name="cancel">रद्द करें</string>
   <string name="next">अगला</string>
   <string name="done">पूर्ण</string>
-  <string name="name_already_exists">यह_नाम_ पहले_से_मौजूद_है</string>
-  <string name="name_consists_of_spaces_only">इस_नाम_में_सिर्फ_रिक्तियाॅ_हैं</string>
-  <string name="rename">नाम बदलिए</string>
-  <string name="delete">मिटायें</string>
+  <string name="select_all">सभी का चयन करे</string>
   <string name="yes">हां</string>
   <string name="no">नहीं</string>
   <string name="back">पीछे जाए</string>
@@ -39,11 +36,8 @@
   <string name="agree">सहमत</string>
   <string name="disagree">असहमत</string>
   <string name="delete_account">खाता_हटाए</string>
-  <string name="copy">प्रतिलिपि बनाएं</string>
+  <string name="warning">Warning</string>
   <string name="backpack_add">बैग_में_जोड़ें</string>
-  <string name="backpack">बैग</string>
-  <string name="pack">Pack</string>
-  <string name="unpack">अनपैक</string>
   <string name="close">बंद करें</string>
   <string name="error">त्रुटि</string>
   <string name="please_wait">कृपया प्रतीक्षा करें</string>
@@ -158,7 +152,7 @@
   <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s! Older Scratch before %2$s
         programs are not supported!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
-    <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
+    <item quantity="one">Cannot convert more than %d program simultaneously!</item>
     <item quantity="other">Cannot convert more than %d programs simultaneously!</item>
   </plurals>
   <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
@@ -168,7 +162,7 @@
   <string name="connection_failed">सर्वर से कनेक्शन विफल रहा, कृपया बाद में पुनर्प्रयास करें!</string>
   <string name="authentication_failed">Authentication failed, please contact the Catrobat team!</string>
   <plurals name="scratch_conversion_scheduled_x">
-    <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
+    <item quantity="one">Scheduled %d Scratch program&#8230;</item>
     <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
   </plurals>
   <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
@@ -179,7 +173,7 @@
   <string name="status_started">शुरू</string>
   <string name="status_conversion_finished">रूपांतरण पूर्ण हो गया है</string>
   <plurals name="status_in_progress_x_jobs">
-    <item quantity="one">प्रगति में: 1 काम</item>
+    <item quantity="one">प्रगति में: %d काम</item>
     <item quantity="other">प्रगति में: %d काम</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
@@ -230,6 +224,9 @@
   <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Dialog Errors -->
+  <string name="name_already_exists">यह_नाम_ पहले_से_मौजूद_है</string>
+  <string name="name_consists_of_spaces_only">इस_नाम_में_सिर्फ_रिक्तियाॅ_हैं</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet.</string>
   <string name="am_backpack">Pack</string>
@@ -238,6 +235,15 @@
   <string name="am_delete">मिटायें</string>
   <string name="am_rename">नाम बदलिए</string>
   <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <string name="list_headline_background">पृष्ठभूमि</string>
+  <string name="list_headline_sprites">वस्तुए</string>
+  <!-- Options Menu Options -->
+  <string name="backpack">बैग</string>
+  <string name="copy">प्रतिलिपि बनाएं</string>
+  <string name="delete">मिटायें</string>
+  <string name="rename">नाम बदलिए</string>
+  <string name="show_details">विवरण दिखाएँ</string>
+  <string name="hide_details">Hide details</string>
   <!-- Action Mode Titles -->
   <plurals name="am_projects_title">
     <item quantity="one">%d Project</item>
@@ -248,8 +254,8 @@
     <item quantity="other">%d Scenes</item>
   </plurals>
   <plurals name="am_sprites_title">
-    <item quantity="one">%d Sprite</item>
-    <item quantity="other">%d Sprites</item>
+    <item quantity="one">%d Object</item>
+    <item quantity="other">%d Objects</item>
   </plurals>
   <plurals name="am_looks_title">
     <item quantity="one">%d Look</item>
@@ -303,6 +309,17 @@
     <item quantity="one">Delete this Brick?</item>
     <item quantity="other">Delete these Bricks?</item>
   </plurals>
+  <!-- Dialog Labels -->
+  <string name="project_name_label">Program:</string>
+  <string name="sprite_name_label">Object name:</string>
+  <string name="look_name_label">Look name:</string>
+  <string name="sound_name_label">Sound name:</string>
+  <!-- Details Labels -->
+  <string name="number_of_scripts">लिपिया:</string>
+  <string name="number_of_bricks">ईंटें:</string>
+  <string name="number_of_looks">नज़ारे:</string>
+  <string name="number_of_sounds">ध्वनियाँ:</string>
+  <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">प्रोग्राम का नाम बदले</string>
   <string name="rename_scene_dialog">Rename Scene</string>
@@ -397,8 +414,61 @@
     <item quantity="other">Deleted %d Scripts!</item>
   </plurals>
   <!--  -->
+  <!-- ProjectListActivity and ProjectListFragment -->
+  <string name="project_list_title">प्रोग्राम्स</string>
+  <string name="last_used">अंतिम पहुँच:</string>
+  <string name="description">विवरण:</string>
+  <string name="set_description">विवरण ठीक करें</string>
+  <string name="details_date_today">आज</string>
+  <!--  -->
+  <!-- ScriptListFragment -->
+  <string name="fragment_script_text_description">\"+\" दबाए लिपियाँ जोड़ने के लिए</string>
+  <plurals name="number_of_bricks_to_delete">
+    <item quantity="one">Delete %d brick</item>
+    <item quantity="other">Delete %d bricks</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_copy">
+    <item quantity="one">Copy %d brick</item>
+    <item quantity="other">Copy %d bricks</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="one">Backpack %d brick</item>
+    <item quantity="other">Backpack %d bricks</item>
+  </plurals>
+  <!--  -->
+  <!-- LookListFragment -->
+  <string name="fragment_look_text_description">नज़ारे जोड़ने के लिए \"+\" को दबाए</string>
+  <string name="pocket_paint_not_installed_title">पॉकेट पेंट स्थापित नहीं हो पाया हैं!</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
+  <string name="default_look_name">देखे</string>
+  <string name="select_look_from_gallery">चित्र का चयन करें</string>
+  <string name="select_look_from_camera">छवि का चयन करें</string>
+  <string name="look_measure">माप:</string>
+  <!--  -->
+  <!-- SoundListFragment -->
+  <string name="fragment_sound_text_description">ध्वनियाँ डालने के लिए \"+\" दबाए</string>
+  <string name="sound_select_source">Select a sound</string>
+  <string name="length">लंबाई:</string>
+  <!--  -->
+  <!-- NfcTagListFragment -->
+  <string name="fragment_nfctag_text_description">जोड़ने के लिए टैग स्कैन करें</string>
+  <string name="ndef_record_label">nDEF रिकॉर्ड प्रकार के रूप में</string>
+  <string name="brick_set_nfc_tag">अगले NFC टैग को सेट करें</string>
+  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+  <string name="default_tag_name">nfc_टैग</string>
+  <string name="tnf_empty">खाली</string>
+  <string name="tnf_external_type">बाहरी प्रकार</string>
+  <string name="tnf_mime_media">शब्द</string>
+  <string name="tnf_well_known_http">Http</string>
+  <string name="tnf_well_known_https">Https</string>
+  <string name="tnf_well_known_tel">फोन का क्रमांक</string>
+  <string name="tnf_well_known_sms">एस एम एस</string>
+  <string name="tnf_well_known_mailto">ई-मेल</string>
+  <!--  -->
   <!-- Backpack -->
   <string name="backpack_title">Your Backpack</string>
+  <string name="pack">Pack</string>
+  <string name="unpack">अनपैक</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
   <string name="scripts">लिपिया:</string>
@@ -407,7 +477,7 @@
   <string name="sounds">ध्वनियाँ</string>
   <string name="nfctags">एनएफसी के टैग</string>
   <string name="size">आकार:</string>
-  <!-- New project dialog -->
+  <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">नया प्रोग्राम</string>
   <string name="new_project_dialog_hint">मेरा प्रोग्राम</string>
   <string name="new_project_description_dialog_hint">My description</string>
@@ -419,17 +489,18 @@
   <string name="project_orientation_title">Orientation:</string>
   <string name="project_select_screen_title">Screen</string>
   <!--  -->
-  <!-- New Look Dialog -->
+  <!-- NewSpriteDialog -->
+  <string name="new_sprite_dialog_title">नयी वस्तु</string>
+  <!--  -->
+  <!-- NewLookDialog -->
   <string name="new_look_dialog_title">नज़ारा जोड़ें</string>
   <string name="add_look_from_camera">तस्वीर खींचे</string>
   <string name="add_look_draw_new_image">चित्र बनाए</string>
   <string name="add_look_choose_image">चित्र का चयन करें</string>
   <string name="add_look_media_library">Media Library</string>
-  <string name="new_look_name">Look name:</string>
-  <string name="look_rename_overwrite">A look with this name already exists. Please choose a different one!</string>
   <string name="add_look_drone_video">AR.Drone 2.0 video</string>
   <!--  -->
-  <!-- New Sound Dialog -->
+  <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -514,69 +585,7 @@
   <string name="dialog_about_license_link_text">Source Code License</string>
   <string name="dialog_about_catrobat_link_text">कैटरोबैट के बारे में</string>
   <!--  -->
-  <!-- Project activity view -->
-  <string name="project_name">प्रोग्राम:</string>
-  <string name="my_projects_activity_title">प्रोग्राम्स</string>
-  <string name="number_of_scripts">लिपिया:</string>
-  <string name="number_of_bricks">ईंटें:</string>
-  <string name="number_of_looks">नज़ारे:</string>
-  <string name="number_of_sounds">ध्वनियाँ:</string>
-  <string name="show_details">विवरण दिखाएँ</string>
-  <string name="hide_details">Hide details</string>
-  <!--  -->
-  <!-- Script fragment -->
-  <string name="fragment_script_text_description">\"+\" दबाए लिपियाँ जोड़ने के लिए</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Delete %d brick</item>
-    <item quantity="other">Delete %d bricks</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copy %d brick</item>
-    <item quantity="other">Copy %d bricks</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Backpack %d brick</item>
-    <item quantity="other">Backpack %d bricks</item>
-  </plurals>
-  <!--  -->
-  <!-- Look fragment -->
-  <string name="fragment_look_text_description">नज़ारे जोड़ने के लिए \"+\" को दबाए</string>
-  <string name="pocket_paint_not_installed_title">पॉकेट पेंट स्थापित नहीं हो पाया हैं!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
-  <string name="default_look_name">देखे</string>
-  <string name="select_look_from_gallery">चित्र का चयन करें</string>
-  <string name="select_look_from_camera">छवि का चयन करें</string>
-  <string name="look_measure">माप:</string>
-  <!--  -->
-  <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">ध्वनियाँ डालने के लिए \"+\" दबाए</string>
-  <string name="sound_select_source">Select a sound</string>
-  <string name="length">लंबाई:</string>
-  <string name="sound_name">ध्वनि का नाम:</string>
-  <string name="new_sound_name">ध्वनि का नाम:</string>
-  <!--  -->
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">जोड़ने के लिए टैग स्कैन करें</string>
-  <string name="ndef_record_label">nDEF रिकॉर्ड प्रकार के रूप में</string>
-  <string name="brick_set_nfc_tag">अगले NFC टैग को सेट करें</string>
-  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">nfc_टैग</string>
-  <string name="tnf_empty">खाली</string>
-  <string name="tnf_external_type">बाहरी प्रकार</string>
-  <string name="tnf_mime_media">शब्द</string>
-  <string name="tnf_well_known_http">Http</string>
-  <string name="tnf_well_known_https">Https</string>
-  <string name="tnf_well_known_tel">फोन का क्रमांक</string>
-  <string name="tnf_well_known_sms">एस एम एस</string>
-  <string name="tnf_well_known_mailto">ई-मेल</string>
-  <!--  -->
-  <!-- My Projects activity -->
-  <string name="last_used">अंतिम पहुँच:</string>
-  <string name="description">विवरण:</string>
-  <string name="set_description">विवरण ठीक करें</string>
-  <string name="details_date_today">आज</string>
-  <!--  -->
-  <!-- Soundrecorder activity -->
+  <!-- SoundRecorderActivty -->
   <string name="soundrecorder_name">पॉकेट कोड रिकार्डर</string>
   <string name="soundrecorder_error">ध्वनि रिकॉर्डिंग में विफल रहा</string>
   <string name="soundrecorder_recorded_filename">रिकॉर्ड</string>
@@ -623,10 +632,6 @@
   <string name="play_scene_dialog_title">Play Scene:</string>
   <string name="play_scene_dialog_default">First Scene (%1$s)</string>
   <string name="play_scene_dialog_current">Current (%1$s)</string>
-  <!--  -->
-  <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_title">नयी वस्तु</string>
-  <string name="sprite_name">वस्तु का नाम:</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Sign In</string>
@@ -1631,8 +1636,6 @@
   <string name="hint_looks">Here you can find the different appearances of your object. To add a new look, tap on the \"+\" symbol.</string>
   <string name="hint_sounds">Here you can add new sounds to your object. Keep in mind to use a brick from the sound category.</string>
   <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object, tap on the \"+\" symbol.</string>
-  <string name="hint_merge">To merge two programs, long press on one program to open the menu and tap on \'Merge
-        with\'.</string>
   <string name="hint_stage">Hit the back-button to pause your program. To show axes and the screen size of your
         device, tap \"Axes on\".</string>
   <string name="hint_scenes">A program can consist of different independent scenes. To add a new scene, tap on the \"+\"

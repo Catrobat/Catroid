@@ -28,10 +28,7 @@
   <string name="cancel">Otkaži</string>
   <string name="next">Next</string>
   <string name="done">Done</string>
-  <string name="name_already_exists">This name already exists, please choose another one!</string>
-  <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
-  <string name="rename">Preimenuj</string>
-  <string name="delete">Obriši</string>
+  <string name="select_all">Select All</string>
   <string name="yes">Da</string>
   <string name="no">Ne</string>
   <string name="back">Back</string>
@@ -39,11 +36,8 @@
   <string name="agree">Agree</string>
   <string name="disagree">Disagree</string>
   <string name="delete_account">Delete my account</string>
-  <string name="copy">Kopiraj</string>
+  <string name="warning">Warning</string>
   <string name="backpack_add">Add to backpack</string>
-  <string name="backpack">Backpack</string>
-  <string name="pack">Pack</string>
-  <string name="unpack">Unpack</string>
   <string name="close">Zatvori</string>
   <string name="error">Greška</string>
   <string name="please_wait">Please wait</string>
@@ -236,6 +230,9 @@
   <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Dialog Errors -->
+  <string name="name_already_exists">This name already exists, please choose another one!</string>
+  <string name="name_consists_of_spaces_only">The name cannot consist of spaces only.</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet.</string>
   <string name="am_backpack">Pack</string>
@@ -244,6 +241,15 @@
   <string name="am_delete">Obriši</string>
   <string name="am_rename">Preimenuj</string>
   <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <string name="list_headline_background">Pozadina</string>
+  <string name="list_headline_sprites">Objects</string>
+  <!-- Options Menu Options -->
+  <string name="backpack">Backpack</string>
+  <string name="copy">Kopiraj</string>
+  <string name="delete">Obriši</string>
+  <string name="rename">Preimenuj</string>
+  <string name="show_details">Show details</string>
+  <string name="hide_details">Hide details</string>
   <!-- Action Mode Titles -->
   <plurals name="am_projects_title">
     <item quantity="one">%d Project</item>
@@ -256,9 +262,9 @@
     <item quantity="other">%d Scenes</item>
   </plurals>
   <plurals name="am_sprites_title">
-    <item quantity="one">%d Sprite</item>
-    <item quantity="few">%d Sprites</item>
-    <item quantity="other">%d Sprites</item>
+    <item quantity="one">%d Object</item>
+    <item quantity="few">%d Objects</item>
+    <item quantity="other">%d Objects</item>
   </plurals>
   <plurals name="am_looks_title">
     <item quantity="one">%d Look</item>
@@ -324,6 +330,17 @@
     <item quantity="few">Delete these Bricks?</item>
     <item quantity="other">Delete these Bricks?</item>
   </plurals>
+  <!-- Dialog Labels -->
+  <string name="project_name_label">Program:</string>
+  <string name="sprite_name_label">Object name:</string>
+  <string name="look_name_label">Look name:</string>
+  <string name="sound_name_label">Sound name:</string>
+  <!-- Details Labels -->
+  <string name="number_of_scripts">Scripts:</string>
+  <string name="number_of_bricks">Bricks:</string>
+  <string name="number_of_looks">Looks:</string>
+  <string name="number_of_sounds">Sounds:</string>
+  <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">Rename Program</string>
   <string name="rename_scene_dialog">Rename Scene</string>
@@ -439,8 +456,64 @@
     <item quantity="other">Deleted %d Scripts!</item>
   </plurals>
   <!--  -->
+  <!-- ProjectListActivity and ProjectListFragment -->
+  <string name="project_list_title">Programi</string>
+  <string name="last_used">Last access:</string>
+  <string name="description">Description:</string>
+  <string name="set_description">Set description</string>
+  <string name="details_date_today">Today</string>
+  <!--  -->
+  <!-- ScriptListFragment -->
+  <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+  <plurals name="number_of_bricks_to_delete">
+    <item quantity="one">Delete %d brick</item>
+    <item quantity="few">Delete %d bricks</item>
+    <item quantity="other">Delete %d bricks</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_copy">
+    <item quantity="one">Copy %d brick</item>
+    <item quantity="few">Copy %d bricks</item>
+    <item quantity="other">Copy %d bricks</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="one">Backpack %d brick</item>
+    <item quantity="few">Backpack %d bricks</item>
+    <item quantity="other">Backpack %d bricks</item>
+  </plurals>
+  <!--  -->
+  <!-- LookListFragment -->
+  <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
+  <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
+  <string name="default_look_name">Look</string>
+  <string name="select_look_from_gallery">Izaberi sliku</string>
+  <string name="select_look_from_camera">Izaberi fotografiju</string>
+  <string name="look_measure">Mera:</string>
+  <!--  -->
+  <!-- SoundListFragment -->
+  <string name="fragment_sound_text_description">Pritisni \"+\" da bi dodali zvuk</string>
+  <string name="sound_select_source">Select a sound</string>
+  <string name="length">Length:</string>
+  <!--  -->
+  <!-- NfcTagListFragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="ndef_record_label">as NDEF record type</string>
+  <string name="brick_set_nfc_tag">Set next NFC tag to</string>
+  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+  <string name="default_tag_name">nfc_tag</string>
+  <string name="tnf_empty">Empty</string>
+  <string name="tnf_external_type">External type</string>
+  <string name="tnf_mime_media">Text</string>
+  <string name="tnf_well_known_http">HTTP</string>
+  <string name="tnf_well_known_https">HTTPS</string>
+  <string name="tnf_well_known_tel">Phone number</string>
+  <string name="tnf_well_known_sms">SMS</string>
+  <string name="tnf_well_known_mailto">E-Mail</string>
+  <!--  -->
   <!-- Backpack -->
   <string name="backpack_title">Your Backpack</string>
+  <string name="pack">Pack</string>
+  <string name="unpack">Unpack</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
   <string name="scripts">Scripts</string>
@@ -449,7 +522,7 @@
   <string name="sounds">Sounds</string>
   <string name="nfctags">Nfc Tags</string>
   <string name="size">Size:</string>
-  <!-- New project dialog -->
+  <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">New Program</string>
   <string name="new_project_dialog_hint">My Program</string>
   <string name="new_project_description_dialog_hint">My description</string>
@@ -461,17 +534,18 @@
   <string name="project_orientation_title">Orientation:</string>
   <string name="project_select_screen_title">Screen</string>
   <!--  -->
-  <!-- New Look Dialog -->
+  <!-- NewSpriteDialog -->
+  <string name="new_sprite_dialog_title">New Object</string>
+  <!--  -->
+  <!-- NewLookDialog -->
   <string name="new_look_dialog_title">Add Look</string>
   <string name="add_look_from_camera">Take picture</string>
   <string name="add_look_draw_new_image">Draw image</string>
   <string name="add_look_choose_image">Izaberi sliku</string>
   <string name="add_look_media_library">Media Library</string>
-  <string name="new_look_name">Look name:</string>
-  <string name="look_rename_overwrite">A look with this name already exists. Please choose a different one!</string>
   <string name="add_look_drone_video">AR.Drone 2.0 video</string>
   <!--  -->
-  <!-- New Sound Dialog -->
+  <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -556,72 +630,7 @@
   <string name="dialog_about_license_link_text">Source Code License</string>
   <string name="dialog_about_catrobat_link_text">About Catrobat</string>
   <!--  -->
-  <!-- Project activity view -->
-  <string name="project_name">Program:</string>
-  <string name="my_projects_activity_title">Programi</string>
-  <string name="number_of_scripts">Scripts:</string>
-  <string name="number_of_bricks">Bricks:</string>
-  <string name="number_of_looks">Looks:</string>
-  <string name="number_of_sounds">Sounds:</string>
-  <string name="show_details">Show details</string>
-  <string name="hide_details">Hide details</string>
-  <!--  -->
-  <!-- Script fragment -->
-  <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Delete %d brick</item>
-    <item quantity="few">Delete %d bricks</item>
-    <item quantity="other">Delete %d bricks</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copy %d brick</item>
-    <item quantity="few">Copy %d bricks</item>
-    <item quantity="other">Copy %d bricks</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Backpack %d brick</item>
-    <item quantity="few">Backpack %d bricks</item>
-    <item quantity="other">Backpack %d bricks</item>
-  </plurals>
-  <!--  -->
-  <!-- Look fragment -->
-  <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
-  <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
-  <string name="default_look_name">Look</string>
-  <string name="select_look_from_gallery">Izaberi sliku</string>
-  <string name="select_look_from_camera">Izaberi fotografiju</string>
-  <string name="look_measure">Mera:</string>
-  <!--  -->
-  <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">Pritisni \"+\" da bi dodali zvuk</string>
-  <string name="sound_select_source">Select a sound</string>
-  <string name="length">Length:</string>
-  <string name="sound_name">Sound name:</string>
-  <string name="new_sound_name">Sound name:</string>
-  <!--  -->
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Scan tags to add</string>
-  <string name="ndef_record_label">as NDEF record type</string>
-  <string name="brick_set_nfc_tag">Set next NFC tag to</string>
-  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">nfc_tag</string>
-  <string name="tnf_empty">Empty</string>
-  <string name="tnf_external_type">External type</string>
-  <string name="tnf_mime_media">Text</string>
-  <string name="tnf_well_known_http">HTTP</string>
-  <string name="tnf_well_known_https">HTTPS</string>
-  <string name="tnf_well_known_tel">Phone number</string>
-  <string name="tnf_well_known_sms">SMS</string>
-  <string name="tnf_well_known_mailto">E-Mail</string>
-  <!--  -->
-  <!-- My Projects activity -->
-  <string name="last_used">Last access:</string>
-  <string name="description">Description:</string>
-  <string name="set_description">Set description</string>
-  <string name="details_date_today">Today</string>
-  <!--  -->
-  <!-- Soundrecorder activity -->
+  <!-- SoundRecorderActivty -->
   <string name="soundrecorder_name">Sound Recorder</string>
   <string name="soundrecorder_error">Sound recording failed</string>
   <string name="soundrecorder_recorded_filename">record</string>
@@ -670,10 +679,6 @@
   <string name="play_scene_dialog_title">Play Scene:</string>
   <string name="play_scene_dialog_default">First Scene (%1$s)</string>
   <string name="play_scene_dialog_current">Current (%1$s)</string>
-  <!--  -->
-  <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_title">New Object</string>
-  <string name="sprite_name">Object name:</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Sign In</string>
@@ -1680,8 +1685,6 @@
   <string name="hint_looks">Here you can find the different appearances of your object. To add a new look, tap on the \"+\" symbol.</string>
   <string name="hint_sounds">Here you can add new sounds to your object. Keep in mind to use a brick from the sound category.</string>
   <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object, tap on the \"+\" symbol.</string>
-  <string name="hint_merge">To merge two programs, long press on one program to open the menu and tap on \'Merge
-        with\'.</string>
   <string name="hint_stage">Hit the back-button to pause your program. To show axes and the screen size of your
         device, tap \"Axes on\".</string>
   <string name="hint_scenes">A program can consist of different independent scenes. To add a new scene, tap on the \"+\"

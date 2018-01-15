@@ -71,7 +71,7 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 	private class NewSpriteDialog extends TextDialog {
 
 		NewSpriteDialog() {
-			super(R.string.new_sprite_dialog_title, R.string.sprite_name, "", false);
+			super(R.string.new_sprite_dialog_title, R.string.sprite_name_label, "", false);
 		}
 
 		@Override

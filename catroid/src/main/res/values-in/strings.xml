@@ -28,10 +28,7 @@
   <string name="cancel">Batal</string>
   <string name="next">Lanjut</string>
   <string name="done">Selesai</string>
-  <string name="name_already_exists">Nama ini sudah ada, silahkan pilih yang lain!</string>
-  <string name="name_consists_of_spaces_only">Nama tidak bisa terdiri dari spasi saja.</string>
-  <string name="rename">Ganti nama</string>
-  <string name="delete">Hapus</string>
+  <string name="select_all">Pilih Semua</string>
   <string name="yes">Ya</string>
   <string name="no">Tidak</string>
   <string name="back">Kembali</string>
@@ -39,11 +36,8 @@
   <string name="agree">Setuju</string>
   <string name="disagree">Tidak setuju</string>
   <string name="delete_account">Hapus akun Saya</string>
-  <string name="copy">Salin</string>
+  <string name="warning">Warning</string>
   <string name="backpack_add">Tambahkan ke ransel</string>
-  <string name="backpack">Ransel</string>
-  <string name="pack">Pack</string>
-  <string name="unpack">Membuka</string>
   <string name="close">Tutup</string>
   <string name="error">Galat</string>
   <string name="please_wait">Mohon tungggu</string>
@@ -233,6 +227,9 @@ Selesai: %d pekerjaan</item>
   <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Dialog Errors -->
+  <string name="name_already_exists">Nama ini sudah ada, silahkan pilih yang lain!</string>
+  <string name="name_consists_of_spaces_only">Nama tidak bisa terdiri dari spasi saja.</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet.</string>
   <string name="am_backpack">Pack</string>
@@ -241,6 +238,15 @@ Selesai: %d pekerjaan</item>
   <string name="am_delete">Hapus</string>
   <string name="am_rename">Ganti nama</string>
   <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <string name="list_headline_background">Latar belakang</string>
+  <string name="list_headline_sprites">Objek</string>
+  <!-- Options Menu Options -->
+  <string name="backpack">Ransel</string>
+  <string name="copy">Salin</string>
+  <string name="delete">Hapus</string>
+  <string name="rename">Ganti nama</string>
+  <string name="show_details">Tampilkan rincian</string>
+  <string name="hide_details">Sembunyikan rincian</string>
   <!-- Action Mode Titles -->
   <plurals name="am_projects_title">
     <item quantity="other">%d Projects</item>
@@ -249,7 +255,7 @@ Selesai: %d pekerjaan</item>
     <item quantity="other">%d Scenes</item>
   </plurals>
   <plurals name="am_sprites_title">
-    <item quantity="other">%d Sprites</item>
+    <item quantity="other">%d Objects</item>
   </plurals>
   <plurals name="am_looks_title">
     <item quantity="other">%d Looks</item>
@@ -291,6 +297,17 @@ Selesai: %d pekerjaan</item>
   <plurals name="delete_bricks">
     <item quantity="other">Delete these Bricks?</item>
   </plurals>
+  <!-- Dialog Labels -->
+  <string name="project_name_label">Program:</string>
+  <string name="sprite_name_label">Object name:</string>
+  <string name="look_name_label">Look name:</string>
+  <string name="sound_name_label">Sound name:</string>
+  <!-- Details Labels -->
+  <string name="number_of_scripts">Script:</string>
+  <string name="number_of_bricks">Bricks:</string>
+  <string name="number_of_looks">Penampilan:</string>
+  <string name="number_of_sounds">Suara:</string>
+  <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">Ubah nama Program</string>
   <string name="rename_scene_dialog">Ubah nama adegan</string>
@@ -364,8 +381,58 @@ Selesai: %d pekerjaan</item>
     <item quantity="other">Deleted %d Scripts!</item>
   </plurals>
   <!--  -->
+  <!-- ProjectListActivity and ProjectListFragment -->
+  <string name="project_list_title">Program</string>
+  <string name="last_used">Akses terakhir:</string>
+  <string name="description">Keterangan:</string>
+  <string name="set_description">Atur keterangan</string>
+  <string name="details_date_today">Hari ini</string>
+  <!--  -->
+  <!-- ScriptListFragment -->
+  <string name="fragment_script_text_description">Tekan \"+\" untuk menambahkan skrip</string>
+  <plurals name="number_of_bricks_to_delete">
+    <item quantity="other">Hapus %d batu bata</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_copy">
+    <item quantity="other">Salin %d bata</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="other">Ransel %d batu bata</item>
+  </plurals>
+  <!--  -->
+  <!-- LookListFragment -->
+  <string name="fragment_look_text_description">Tekan \"+\" untuk menambah tampilan</string>
+  <string name="pocket_paint_not_installed_title">Pocket Paint tidak terinstal!</string>
+  <string name="pocket_paint_not_installed_message">Silahkan install Pocket Paint</string>
+  <string name="default_look_name">Lihat</string>
+  <string name="select_look_from_gallery">Pilih gambar</string>
+  <string name="select_look_from_camera">Pilih foto</string>
+  <string name="look_measure">Ukur:</string>
+  <!--  -->
+  <!-- SoundListFragment -->
+  <string name="fragment_sound_text_description">Tekan \"+\" untuk menambah suara</string>
+  <string name="sound_select_source">Pilih suara</string>
+  <string name="length">Panjang:</string>
+  <!--  -->
+  <!-- NfcTagListFragment -->
+  <string name="fragment_nfctag_text_description">Pindai tag untuk menambahkan</string>
+  <string name="ndef_record_label">sebagai tipe record NDEF</string>
+  <string name="brick_set_nfc_tag">Tetapkan tag NFC berikutnya ke</string>
+  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+  <string name="default_tag_name">nfc_tag</string>
+  <string name="tnf_empty">Kosong</string>
+  <string name="tnf_external_type">Tipe eksternal</string>
+  <string name="tnf_mime_media">Teks</string>
+  <string name="tnf_well_known_http">HTTP</string>
+  <string name="tnf_well_known_https">HTTPS</string>
+  <string name="tnf_well_known_tel">Nomor telepon</string>
+  <string name="tnf_well_known_sms">SMS</string>
+  <string name="tnf_well_known_mailto">E-mail</string>
+  <!--  -->
   <!-- Backpack -->
   <string name="backpack_title">Ransel anda</string>
+  <string name="pack">Pack</string>
+  <string name="unpack">Membuka</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
   <string name="scripts">Script</string>
@@ -374,7 +441,7 @@ Selesai: %d pekerjaan</item>
   <string name="sounds">Suara</string>
   <string name="nfctags">Tag NFC</string>
   <string name="size">Ukuran:</string>
-  <!-- New project dialog -->
+  <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">Program Baru</string>
   <string name="new_project_dialog_hint">Program saya</string>
   <string name="new_project_description_dialog_hint">Deskripsi saya</string>
@@ -386,17 +453,18 @@ Selesai: %d pekerjaan</item>
   <string name="project_orientation_title">Orientasi:</string>
   <string name="project_select_screen_title">Layar</string>
   <!--  -->
-  <!-- New Look Dialog -->
+  <!-- NewSpriteDialog -->
+  <string name="new_sprite_dialog_title">Objek baru</string>
+  <!--  -->
+  <!-- NewLookDialog -->
   <string name="new_look_dialog_title">Tambahkan tampilan</string>
   <string name="add_look_from_camera">Ambil gambar</string>
   <string name="add_look_draw_new_image">Membuat gambar</string>
   <string name="add_look_choose_image">Pilih gambar</string>
   <string name="add_look_media_library">Perpustakaan media</string>
-  <string name="new_look_name">Lihat nama:</string>
-  <string name="look_rename_overwrite">Tampilan dengan nama ini sudah ada. Silahkan pilih yang lain!</string>
   <string name="add_look_drone_video">AR.Drone 2.0 video</string>
   <!--  -->
-  <!-- New Sound Dialog -->
+  <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">Tambahkan Suara</string>
   <string name="add_sound_from_recorder">Rekam suara</string>
   <string name="add_sound_choose_file">Pilih File</string>
@@ -473,66 +541,7 @@ Selesai: %d pekerjaan</item>
   <string name="dialog_about_license_link_text">Lisensi kode sumber</string>
   <string name="dialog_about_catrobat_link_text">Tentang Catrobat</string>
   <!--  -->
-  <!-- Project activity view -->
-  <string name="project_name">Program:</string>
-  <string name="my_projects_activity_title">Program</string>
-  <string name="number_of_scripts">Script:</string>
-  <string name="number_of_bricks">Bricks:</string>
-  <string name="number_of_looks">Penampilan:</string>
-  <string name="number_of_sounds">Suara:</string>
-  <string name="show_details">Tampilkan rincian</string>
-  <string name="hide_details">Sembunyikan rincian</string>
-  <!--  -->
-  <!-- Script fragment -->
-  <string name="fragment_script_text_description">Tekan \"+\" untuk menambahkan skrip</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="other">Hapus %d batu bata</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="other">Salin %d bata</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="other">Ransel %d batu bata</item>
-  </plurals>
-  <!--  -->
-  <!-- Look fragment -->
-  <string name="fragment_look_text_description">Tekan \"+\" untuk menambah tampilan</string>
-  <string name="pocket_paint_not_installed_title">Pocket Paint tidak terinstal!</string>
-  <string name="pocket_paint_not_installed_message">Silahkan install Pocket Paint</string>
-  <string name="default_look_name">Lihat</string>
-  <string name="select_look_from_gallery">Pilih gambar</string>
-  <string name="select_look_from_camera">Pilih foto</string>
-  <string name="look_measure">Ukur:</string>
-  <!--  -->
-  <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">Tekan \"+\" untuk menambah suara</string>
-  <string name="sound_select_source">Pilih suara</string>
-  <string name="length">Panjang:</string>
-  <string name="sound_name">Nama suara:</string>
-  <string name="new_sound_name">Nama suara:</string>
-  <!--  -->
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Pindai tag untuk menambahkan</string>
-  <string name="ndef_record_label">sebagai tipe record NDEF</string>
-  <string name="brick_set_nfc_tag">Tetapkan tag NFC berikutnya ke</string>
-  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">nfc_tag</string>
-  <string name="tnf_empty">Kosong</string>
-  <string name="tnf_external_type">Tipe eksternal</string>
-  <string name="tnf_mime_media">Teks</string>
-  <string name="tnf_well_known_http">HTTP</string>
-  <string name="tnf_well_known_https">HTTPS</string>
-  <string name="tnf_well_known_tel">Nomor telepon</string>
-  <string name="tnf_well_known_sms">SMS</string>
-  <string name="tnf_well_known_mailto">E-mail</string>
-  <!--  -->
-  <!-- My Projects activity -->
-  <string name="last_used">Akses terakhir:</string>
-  <string name="description">Keterangan:</string>
-  <string name="set_description">Atur keterangan</string>
-  <string name="details_date_today">Hari ini</string>
-  <!--  -->
-  <!-- Soundrecorder activity -->
+  <!-- SoundRecorderActivty -->
   <string name="soundrecorder_name">Perekam Pocket Code</string>
   <string name="soundrecorder_error">Rekaman suara gagal</string>
   <string name="soundrecorder_recorded_filename">rekam</string>
@@ -579,10 +588,6 @@ Selesai: %d pekerjaan</item>
   <string name="play_scene_dialog_title">Bermain adegan:</string>
   <string name="play_scene_dialog_default">Adegan pertama (%1$s)</string>
   <string name="play_scene_dialog_current">Saat ini ( %1$s)</string>
-  <!--  -->
-  <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_title">Objek baru</string>
-  <string name="sprite_name">Nama objek:</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Masuk</string>
@@ -1577,8 +1582,6 @@ Selesai: %d pekerjaan</item>
   <string name="hint_looks">Di sini Anda bisa menemukan penampilan yang berbeda dari objek Anda. Untuk menambahkan tampilan baru, ketuk simbol \"+\".</string>
   <string name="hint_sounds">Di sini anda bisa menambahkan suara baru ke objek Anda. Ingatlah untuk menggunakan batu bata dari kategori suara.</string>
   <string name="hint_objects">Program anda terdiri dari berbagai objek yang saling berinteraksi. Untuk menambahkan objek baru, tekan simbol \"+\".</string>
-  <string name="hint_merge">Untuk menggabungkan dua program, tekan lama pada satu program untuk membuka menu dan tekan \'Merge
-        dengan\'.</string>
   <string name="hint_stage">Tekan tombol kembali untuk menghentikan sementara program Anda. Untuk menunjukkan sumbu dan ukuran layar Anda
          perangkat, tekan \"Axes on\".</string>
   <string name="hint_scenes">Sebuah program dapat terdiri dari berbagai adegan independen. Untuk menambahkan adegan baru, tekan tombol \"+\"

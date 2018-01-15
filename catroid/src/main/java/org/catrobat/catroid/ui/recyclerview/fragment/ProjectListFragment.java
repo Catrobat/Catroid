@@ -179,7 +179,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	protected void showRenameDialog(List<ProjectData> selectedItems) {
 		String name = selectedItems.get(0).projectName;
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_project, R.string.project_name, name, this);
+		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_project, R.string.project_name_label, name, this);
 		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
 	}
 

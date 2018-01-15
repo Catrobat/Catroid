@@ -28,10 +28,7 @@
   <string name="cancel">إلغاء</string>
   <string name="next">التالي</string>
   <string name="done">موافق</string>
-  <string name="name_already_exists">هذا الاسم مُستخدم بالفعل. يرجى اختيار اسم آخر!</string>
-  <string name="name_consists_of_spaces_only">لا يمكن أن يتكون الاسم من مسافات فقط.</string>
-  <string name="rename">إعادة تسمية</string>
-  <string name="delete">حذف</string>
+  <string name="select_all">اختيار الكلّ</string>
   <string name="yes">نعم</string>
   <string name="no">لا</string>
   <string name="back">رجوع</string>
@@ -39,11 +36,8 @@
   <string name="agree">موافق</string>
   <string name="disagree">غير موافق</string>
   <string name="delete_account">حذف حسابي</string>
-  <string name="copy">نسخ</string>
+  <string name="warning">تحذير</string>
   <string name="backpack_add">إضافة الى حزمة الظهر</string>
-  <string name="backpack">حقيبة الظهر</string>
-  <string name="pack">Pack</string>
-  <string name="unpack">فك الحزمة</string>
   <string name="close">إغلاق</string>
   <string name="error">خطأ</string>
   <string name="please_wait">الرجاء الانتظار</string>
@@ -243,76 +237,88 @@
   <string name="reconvert_dialog_reconvert">إعادة تحويل هذا البرنامج</string>
   <!--  -->
   <!-- ERRORS -->
-  <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
+  <string name="wtf_error">حدث خطأ غير متوقع: لا يمكن إستعادة البرنامج الإفتراضي.</string>
   <!-- Project Handling Errors -->
-  <string name="error_copy_project">An error occurred while copying Project</string>
+  <string name="error_copy_project">حدث خطأ أثناء نسخ المشروع</string>
+  <!-- Dialog Errors -->
+  <string name="name_already_exists">هذا الاسم مُستخدم بالفعل. يرجى اختيار اسم آخر!</string>
+  <string name="name_consists_of_spaces_only">لا يمكن أن يتكون الاسم من مسافات فقط.</string>
   <!-- Recycler View -->
-  <string name="am_empty_list">There are no items in this list yet.</string>
-  <string name="am_backpack">Pack</string>
+  <string name="am_empty_list">لا توجد عناصر في هذه القائمة حالياً.</string>
+  <string name="am_backpack">حزمة</string>
   <string name="am_unpack">فك الحزمة</string>
   <string name="am_copy">نسخ</string>
   <string name="am_delete">حذف</string>
   <string name="am_rename">إعادة تسمية</string>
-  <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <string name="dialog_confirm_delete">لا يمكن التراجع عن هذا!</string>
+  <string name="list_headline_background">خلفية</string>
+  <string name="list_headline_sprites">كائنات</string>
+  <!-- Options Menu Options -->
+  <string name="backpack">حقيبة الظهر</string>
+  <string name="copy">نسخ</string>
+  <string name="delete">حذف</string>
+  <string name="rename">إعادة تسمية</string>
+  <string name="show_details">إظهار التفاصيل</string>
+  <string name="hide_details">إخفاء التفاصيل</string>
   <!-- Action Mode Titles -->
   <plurals name="am_projects_title">
-    <item quantity="zero">%d Projects</item>
-    <item quantity="one">%d Project</item>
-    <item quantity="two">%d Projects</item>
-    <item quantity="few">%d Projects</item>
-    <item quantity="many">%d Projects</item>
-    <item quantity="other">%d Projects</item>
+    <item quantity="zero">%d مشروع</item>
+    <item quantity="one">%d مشروع</item>
+    <item quantity="two">%d مشاريع</item>
+    <item quantity="few">%d مشاريع</item>
+    <item quantity="many">%d مشاريع</item>
+    <item quantity="other">%d مشاريع</item>
   </plurals>
   <plurals name="am_scenes_title">
-    <item quantity="zero">%d Scenes</item>
-    <item quantity="one">%d Scene</item>
-    <item quantity="two">%d Scenes</item>
-    <item quantity="few">%d Scenes</item>
-    <item quantity="many">%d Scenes</item>
-    <item quantity="other">%d Scenes</item>
+    <item quantity="zero">%d مشهد</item>
+    <item quantity="one">%d مشاهد</item>
+    <item quantity="two">%d مشاهد</item>
+    <item quantity="few">%d مشاهد</item>
+    <item quantity="many">%d مشاهد</item>
+    <item quantity="other">%d مشاهد</item>
   </plurals>
   <plurals name="am_sprites_title">
-    <item quantity="zero">%d Sprites</item>
-    <item quantity="one">%d Sprite</item>
-    <item quantity="two">%d Sprites</item>
-    <item quantity="few">%d Sprites</item>
-    <item quantity="many">%d Sprites</item>
-    <item quantity="other">%d Sprites</item>
+    <item quantity="zero">%d كائن</item>
+    <item quantity="one">%d كائن</item>
+    <item quantity="two">%d كائنات</item>
+    <item quantity="few">%d كائنات</item>
+    <item quantity="many">%d كائنات</item>
+    <item quantity="other">%d كائنات</item>
   </plurals>
   <plurals name="am_looks_title">
-    <item quantity="zero">%d Looks</item>
-    <item quantity="one">%d Look</item>
-    <item quantity="two">%d Looks</item>
-    <item quantity="few">%d Looks</item>
-    <item quantity="many">%d Looks</item>
-    <item quantity="other">%d Looks</item>
+    <item quantity="zero">%d مظهر</item>
+    <item quantity="one">%d مظهر</item>
+    <item quantity="two">%d مظاهر</item>
+    <item quantity="few">%d مظاهر</item>
+    <item quantity="many">%d مظاهر</item>
+    <item quantity="other">%d مظاهر</item>
   </plurals>
   <plurals name="am_sounds_title">
-    <item quantity="zero">%d Sounds</item>
-    <item quantity="one">%d Sound</item>
-    <item quantity="two">%d Sounds</item>
-    <item quantity="few">%d Sounds</item>
-    <item quantity="many">%d Sounds</item>
-    <item quantity="other">%d Sounds</item>
+    <item quantity="zero">%d ملف صوتي</item>
+    <item quantity="one">%d ملف صوتي</item>
+    <item quantity="two">%d ملفات صوتية</item>
+    <item quantity="few">%d ملفات صوتية</item>
+    <item quantity="many">%d ملفات صوتية</item>
+    <item quantity="other">%d ملفات صوتية</item>
   </plurals>
   <plurals name="am_nfc_tags_title">
-    <item quantity="zero">%d NFC Tags</item>
-    <item quantity="one">%d NFC Tag</item>
-    <item quantity="two">%d NFC Tags</item>
-    <item quantity="few">%d NFC Tags</item>
-    <item quantity="many">%d NFC Tags</item>
-    <item quantity="other">%d NFC Tags</item>
+    <item quantity="zero">%d وسم NFC</item>
+    <item quantity="one">%d وسم NFC</item>
+    <item quantity="two">%d وسوم NFC</item>
+    <item quantity="few">%d وسوم NFC</item>
+    <item quantity="many">%d وسوم NFC</item>
+    <item quantity="other">%d وسوم NFC</item>
   </plurals>
   <plurals name="am_scripts_title">
-    <item quantity="zero">%d Scripts</item>
-    <item quantity="one">%d Script</item>
-    <item quantity="two">%d Scripts</item>
-    <item quantity="few">%d Scripts</item>
-    <item quantity="many">%d Scripts</item>
-    <item quantity="other">%d Scripts</item>
+    <item quantity="zero">%d نص برمجي</item>
+    <item quantity="one">%d نص برمجي</item>
+    <item quantity="two">%d نصوص برمجية</item>
+    <item quantity="few">%d نصوص برمجية</item>
+    <item quantity="many">%d نصوص برمجية</item>
+    <item quantity="other">%d نصوص برمجية</item>
   </plurals>
   <!-- New Dialog Titles -->
-  <string name="new_scene_dialog">New Scene</string>
+  <string name="new_scene_dialog">مشهد جديد</string>
   <string name="scene_name">اسم المشهد:</string>
   <!-- Delete Dialog Titles -->
   <plurals name="delete_projects">
@@ -379,6 +385,17 @@
     <item quantity="many">Delete these Bricks?</item>
     <item quantity="other">Delete these Bricks?</item>
   </plurals>
+  <!-- Dialog Labels -->
+  <string name="project_name_label">Program:</string>
+  <string name="sprite_name_label">Object name:</string>
+  <string name="look_name_label">Look name:</string>
+  <string name="sound_name_label">Sound name:</string>
+  <!-- Details Labels -->
+  <string name="number_of_scripts">النص البرمجي:</string>
+  <string name="number_of_bricks">اللّبنات البرمجية:</string>
+  <string name="number_of_looks">المناظر:</string>
+  <string name="number_of_sounds">الأصوات:</string>
+  <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">إعادة تسمية البرنامج</string>
   <string name="rename_scene_dialog">إعادة تسمية المشهد</string>
@@ -557,8 +574,73 @@
     <item quantity="other">Deleted %d Scripts!</item>
   </plurals>
   <!--  -->
+  <!-- ProjectListActivity and ProjectListFragment -->
+  <string name="project_list_title">البرامج</string>
+  <string name="last_used">تاريخ آخر وصول:</string>
+  <string name="description">الوصف:</string>
+  <string name="set_description">وصف مجموعة</string>
+  <string name="details_date_today">اليوم</string>
+  <!--  -->
+  <!-- ScriptListFragment -->
+  <string name="fragment_script_text_description">انقر فوق \"+\" لإضافة نصوص برمجية</string>
+  <plurals name="number_of_bricks_to_delete">
+    <item quantity="zero">حذف %d لبّنة برمجية</item>
+    <item quantity="one">حذف %d لبنة</item>
+    <item quantity="two">حذف %d لبّنات</item>
+    <item quantity="few">حذف %d لبّنات</item>
+    <item quantity="many">حذف %d لبّنات</item>
+    <item quantity="other">حذف %d لبّنات</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_copy">
+    <item quantity="zero">نسخ %d لبّنة برمجية</item>
+    <item quantity="one">نسخ %d لبنات</item>
+    <item quantity="two">نسخ %d لبنات</item>
+    <item quantity="few">نسخ %d لبنات</item>
+    <item quantity="many">نسخ %d لبنات</item>
+    <item quantity="other">نسخ %d لبنات</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="zero">إنشاء حقيبة الظهر %d لبّنة برمجية</item>
+    <item quantity="one">إنشاء حقيبة الظهر %d لبّنة</item>
+    <item quantity="two">إنشاء حقيبة الظهر %d لبّنة</item>
+    <item quantity="few">إنشاء حقيبة الظهر %d لبّنة</item>
+    <item quantity="many">إنشاء حقيبة الظهر %d لبّنة</item>
+    <item quantity="other">إنشاء حقيبة الظهر %d لبّنة</item>
+  </plurals>
+  <!--  -->
+  <!-- LookListFragment -->
+  <string name="fragment_look_text_description">انقر فوق \"+\" لإضافة منظر</string>
+  <string name="pocket_paint_not_installed_title">لم يتم تثبيت بوكت بينت!</string>
+  <string name="pocket_paint_not_installed_message">الرجاء قم بتثبيت بوكت بينت</string>
+  <string name="default_look_name">منظر</string>
+  <string name="select_look_from_gallery">قم بإختيارالصورة</string>
+  <string name="select_look_from_camera">قم بتحديد الصورة</string>
+  <string name="look_measure">القياس:</string>
+  <!--  -->
+  <!-- SoundListFragment -->
+  <string name="fragment_sound_text_description">انقر فوق \"+\" لإضافة الأصوات</string>
+  <string name="sound_select_source">قم بتحديد ملف الصوت</string>
+  <string name="length">الطول:</string>
+  <!--  -->
+  <!-- NfcTagListFragment -->
+  <string name="fragment_nfctag_text_description">المسح الضوئي للعلامات من أجل الإضافة</string>
+  <string name="ndef_record_label">تحديد نوع سجل البيانات الى</string>
+  <string name="brick_set_nfc_tag">تعيين النقطة التفاعلية التالية لـ NFC الى</string>
+  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+  <string name="default_tag_name">وسم Nfc</string>
+  <string name="tnf_empty">فارغ</string>
+  <string name="tnf_external_type">نوع خارجي</string>
+  <string name="tnf_mime_media">النص</string>
+  <string name="tnf_well_known_http">HTTP</string>
+  <string name="tnf_well_known_https">HTTPS</string>
+  <string name="tnf_well_known_tel">رقم الهاتف</string>
+  <string name="tnf_well_known_sms">رسالة قصيرة</string>
+  <string name="tnf_well_known_mailto">البريد الإلكتروني</string>
+  <!--  -->
   <!-- Backpack -->
   <string name="backpack_title">حقيبة الظهر الخاصة بك</string>
+  <string name="pack">حزمة</string>
+  <string name="unpack">فك الحزمة</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
   <string name="scripts">النصوص البرمجية</string>
@@ -567,7 +649,7 @@
   <string name="sounds">الأصوات</string>
   <string name="nfctags">وسوم NFC</string>
   <string name="size">الحجم:</string>
-  <!-- New project dialog -->
+  <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">برنامج جديد</string>
   <string name="new_project_dialog_hint">البرنامج الخاص بي</string>
   <string name="new_project_description_dialog_hint">الوصف الخاص بي</string>
@@ -579,17 +661,18 @@
   <string name="project_orientation_title">الإتجاه:</string>
   <string name="project_select_screen_title">الشاشة</string>
   <!--  -->
-  <!-- New Look Dialog -->
+  <!-- NewSpriteDialog -->
+  <string name="new_sprite_dialog_title">كائن جديد</string>
+  <!--  -->
+  <!-- NewLookDialog -->
   <string name="new_look_dialog_title">إضافة منظر</string>
   <string name="add_look_from_camera">إلتقط صورة</string>
   <string name="add_look_draw_new_image">رسم صورة </string>
   <string name="add_look_choose_image">اختر الصورة</string>
   <string name="add_look_media_library">مكتبة الوسائط</string>
-  <string name="new_look_name">اسم المنظر:</string>
-  <string name="look_rename_overwrite">منظر بهذا الاسم موجود مسبقاً. الرجاء اختيار اسم أخر مختلف!</string>
   <string name="add_look_drone_video">AR.Drone 2.0 video</string>
   <!--  -->
-  <!-- New Sound Dialog -->
+  <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">إضافة صوت</string>
   <string name="add_sound_from_recorder">تسجيل صوت</string>
   <string name="add_sound_choose_file">حدد الملف</string>
@@ -652,81 +735,7 @@
   <string name="dialog_about_license_link_text">ترخيص مصدر النص البرمجي</string>
   <string name="dialog_about_catrobat_link_text">حول كاتروبات</string>
   <!--  -->
-  <!-- Project activity view -->
-  <string name="project_name">البرنامج:</string>
-  <string name="my_projects_activity_title">البرامج</string>
-  <string name="number_of_scripts">النص البرمجي:</string>
-  <string name="number_of_bricks">اللّبنات البرمجية:</string>
-  <string name="number_of_looks">المناظر:</string>
-  <string name="number_of_sounds">الأصوات:</string>
-  <string name="show_details">إظهار التفاصيل</string>
-  <string name="hide_details">إخفاء التفاصيل</string>
-  <!--  -->
-  <!-- Script fragment -->
-  <string name="fragment_script_text_description">انقر فوق \"+\" لإضافة نصوص برمجية</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="zero">حذف %d لبّنة برمجية</item>
-    <item quantity="one">حذف %d لبنة</item>
-    <item quantity="two">حذف %d لبّنات</item>
-    <item quantity="few">حذف %d لبّنات</item>
-    <item quantity="many">حذف %d لبّنات</item>
-    <item quantity="other">حذف %d لبّنات</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="zero">نسخ %d لبّنة برمجية</item>
-    <item quantity="one">نسخ %d لبنات</item>
-    <item quantity="two">نسخ %d لبنات</item>
-    <item quantity="few">نسخ %d لبنات</item>
-    <item quantity="many">نسخ %d لبنات</item>
-    <item quantity="other">نسخ %d لبنات</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="zero">إنشاء حقيبة الظهر %d لبّنة برمجية</item>
-    <item quantity="one">إنشاء حقيبة الظهر %d لبّنة</item>
-    <item quantity="two">إنشاء حقيبة الظهر %d لبّنة</item>
-    <item quantity="few">إنشاء حقيبة الظهر %d لبّنة</item>
-    <item quantity="many">إنشاء حقيبة الظهر %d لبّنة</item>
-    <item quantity="other">إنشاء حقيبة الظهر %d لبّنة</item>
-  </plurals>
-  <!--  -->
-  <!-- Look fragment -->
-  <string name="fragment_look_text_description">انقر فوق \"+\" لإضافة منظر</string>
-  <string name="pocket_paint_not_installed_title">لم يتم تثبيت بوكت بينت!</string>
-  <string name="pocket_paint_not_installed_message">الرجاء قم بتثبيت بوكت بينت</string>
-  <string name="default_look_name">منظر</string>
-  <string name="select_look_from_gallery">قم بإختيارالصورة</string>
-  <string name="select_look_from_camera">قم بتحديد الصورة</string>
-  <string name="look_measure">القياس:</string>
-  <!--  -->
-  <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">انقر فوق \"+\" لإضافة الأصوات</string>
-  <string name="sound_select_source">قم بتحديد ملف الصوت</string>
-  <string name="length">الطول:</string>
-  <string name="sound_name">اسم ملف الصوت:</string>
-  <string name="new_sound_name">اسم ملف الصوت:</string>
-  <!--  -->
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">المسح الضوئي للعلامات من أجل الإضافة</string>
-  <string name="ndef_record_label">تحديد نوع سجل البيانات الى</string>
-  <string name="brick_set_nfc_tag">تعيين النقطة التفاعلية التالية لـ NFC الى</string>
-  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">وسم Nfc</string>
-  <string name="tnf_empty">فارغ</string>
-  <string name="tnf_external_type">نوع خارجي</string>
-  <string name="tnf_mime_media">النص</string>
-  <string name="tnf_well_known_http">HTTP</string>
-  <string name="tnf_well_known_https">HTTPS</string>
-  <string name="tnf_well_known_tel">رقم الهاتف</string>
-  <string name="tnf_well_known_sms">رسالة قصيرة</string>
-  <string name="tnf_well_known_mailto">البريد الإلكتروني</string>
-  <!--  -->
-  <!-- My Projects activity -->
-  <string name="last_used">تاريخ آخر وصول:</string>
-  <string name="description">الوصف:</string>
-  <string name="set_description">وصف مجموعة</string>
-  <string name="details_date_today">اليوم</string>
-  <!--  -->
-  <!-- Soundrecorder activity -->
+  <!-- SoundRecorderActivty -->
   <string name="soundrecorder_name">مسجل البوكت كوود</string>
   <string name="soundrecorder_error">لقد فشل في تسجيل الصوت</string>
   <string name="soundrecorder_recorded_filename">تسجيل</string>
@@ -773,10 +782,6 @@
   <string name="play_scene_dialog_title">تشغيل المشهد:</string>
   <string name="play_scene_dialog_default">المشهد الأول (%1$s)</string>
   <string name="play_scene_dialog_current">الحالي (%1$s)</string>
-  <!--  -->
-  <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_title">كائن جديد</string>
-  <string name="sprite_name">اسم الكائن:</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">تسجيل الدخول</string>
@@ -1781,7 +1786,6 @@
   <string name="hint_looks">هنا يمكنك أن تجد المظاهر المختلفة للكائن الخاص بك. لإضافة منظر جديد أنقر على الرمز \"+\".</string>
   <string name="hint_sounds">هنا يمكنك إضافة أصوات جديدة للكائن الخاص بك. ضع في اعتبارك استخدام لبّنة برمجية من فئة الصوت.</string>
   <string name="hint_objects">يتكون البرنامج الخاص بك من كائنات مختلفة يمكن لها أن تتفاعل مع بعضها البعض. لإضافة كائن جديد أنقر على الرمز \"+\".</string>
-  <string name="hint_merge">لدمج برنامجين اثنين فقط اضغط طويلا على برنامج واحد لفتح القائمة وأنقر على \'دمج مع\'.</string>
   <string name="hint_stage">أنقر على الزر \'الرجوع الى الوراء\' لإيقاف البرنامج الخاص بك. لإظهار المحاور وحجم الشاشة الخاص بجهازك أنقر على  أيقونة \"المحاور\".</string>
   <string name="hint_scenes">يمكن أن يتألف البرنامج من مشاهد مختلفة و مستقلة. لإضافة مشهد جديد أُتقر على الرمز \"+\".</string>
   <!--  -->

@@ -29,10 +29,7 @@
   <string name="cancel">キャンセル</string>
   <string name="next">次へ</string>
   <string name="done">完了</string>
-  <string name="name_already_exists">この名前はすでに存在します。別の名前を選択してください!</string>
-  <string name="name_consists_of_spaces_only">スペースだけの名前は受け付けられません。</string>
-  <string name="rename">名前の変更</string>
-  <string name="delete">削除</string>
+  <string name="select_all">Select All</string>
   <string name="yes">はい</string>
   <string name="no">いいえ</string>
   <string name="back">戻る</string>
@@ -40,11 +37,8 @@
   <string name="agree">同意する</string>
   <string name="disagree">同意しない</string>
   <string name="delete_account">アカウントを削除</string>
-  <string name="copy">コピー</string>
+  <string name="warning">Warning</string>
   <string name="backpack_add">バックパックに追加</string>
-  <string name="backpack">バックパック</string>
-  <string name="pack">Pack</string>
-  <string name="unpack">解凍</string>
   <string name="close">閉じる</string>
   <string name="error">エラー</string>
   <string name="please_wait">しばらくお待ちください</string>
@@ -213,6 +207,9 @@
   <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">An error occurred while copying Project</string>
+  <!-- Dialog Errors -->
+  <string name="name_already_exists">この名前はすでに存在します。別の名前を選択してください!</string>
+  <string name="name_consists_of_spaces_only">スペースだけの名前は受け付けられません。</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet.</string>
   <string name="am_backpack">Pack</string>
@@ -221,6 +218,15 @@
   <string name="am_delete">削除</string>
   <string name="am_rename">名前の変更</string>
   <string name="dialog_confirm_delete">This cannot be undone!</string>
+  <string name="list_headline_background">背景</string>
+  <string name="list_headline_sprites">オブジェクト</string>
+  <!-- Options Menu Options -->
+  <string name="backpack">バックパック</string>
+  <string name="copy">コピー</string>
+  <string name="delete">削除</string>
+  <string name="rename">名前の変更</string>
+  <string name="show_details">詳細を表示</string>
+  <string name="hide_details">詳細を隠す</string>
   <!-- Action Mode Titles -->
   <plurals name="am_projects_title">
     <item quantity="other">%d Projects</item>
@@ -229,7 +235,7 @@
     <item quantity="other">%d Scenes</item>
   </plurals>
   <plurals name="am_sprites_title">
-    <item quantity="other">%d Sprites</item>
+    <item quantity="other">%d Objects</item>
   </plurals>
   <plurals name="am_looks_title">
     <item quantity="other">%d Looks</item>
@@ -271,6 +277,17 @@
   <plurals name="delete_bricks">
     <item quantity="other">Delete these Bricks?</item>
   </plurals>
+  <!-- Dialog Labels -->
+  <string name="project_name_label">Program:</string>
+  <string name="sprite_name_label">Object name:</string>
+  <string name="look_name_label">Look name:</string>
+  <string name="sound_name_label">Sound name:</string>
+  <!-- Details Labels -->
+  <string name="number_of_scripts">スクリプト：</string>
+  <string name="number_of_bricks">ブロック：</string>
+  <string name="number_of_looks">外見：</string>
+  <string name="number_of_sounds">サウンド：</string>
+  <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">プログラム名を変更</string>
   <string name="rename_scene_dialog">シーンの名前を変更</string>
@@ -344,8 +361,58 @@
     <item quantity="other">Deleted %d Scripts!</item>
   </plurals>
   <!--  -->
+  <!-- ProjectListActivity and ProjectListFragment -->
+  <string name="project_list_title">プログラム</string>
+  <string name="last_used">最新の使用：</string>
+  <string name="description">デスクリプション：</string>
+  <string name="set_description">説明を設定する</string>
+  <string name="details_date_today">今日</string>
+  <!--  -->
+  <!-- ScriptListFragment -->
+  <string name="fragment_script_text_description">スクリプトを追加するために「+」をタップしてください</string>
+  <plurals name="number_of_bricks_to_delete">
+    <item quantity="other">%d 個のブロックを削除</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_copy">
+    <item quantity="other">%d 個のブロックをコピー</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="other">%d 個のブロックをバックパック</item>
+  </plurals>
+  <!--  -->
+  <!-- LookListFragment -->
+  <string name="fragment_look_text_description">外見を追加するに「+」をタップしてください</string>
+  <string name="pocket_paint_not_installed_title">ポケットペイントがインストールされていない ！</string>
+  <string name="pocket_paint_not_installed_message">ポケットペイントをインストールしてください</string>
+  <string name="default_look_name">外見</string>
+  <string name="select_look_from_gallery">画像を選択</string>
+  <string name="select_look_from_camera">写真を選択</string>
+  <string name="look_measure">測定:</string>
+  <!--  -->
+  <!-- SoundListFragment -->
+  <string name="fragment_sound_text_description">「+」をタップしてのサウンドを追加するには</string>
+  <string name="sound_select_source">サウンドを選択</string>
+  <string name="length">長さ:</string>
+  <!--  -->
+  <!-- NfcTagListFragment -->
+  <string name="fragment_nfctag_text_description">追加するタグをスキャン</string>
+  <string name="ndef_record_label">NDEF レコードタイプとして</string>
+  <string name="brick_set_nfc_tag">次の NFC タグを設定</string>
+  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+  <string name="default_tag_name">nfc_tag</string>
+  <string name="tnf_empty">空</string>
+  <string name="tnf_external_type">外部タイプ</string>
+  <string name="tnf_mime_media">テキスト</string>
+  <string name="tnf_well_known_http">HTTP</string>
+  <string name="tnf_well_known_https">HTTPS</string>
+  <string name="tnf_well_known_tel">電話番号</string>
+  <string name="tnf_well_known_sms">SMS</string>
+  <string name="tnf_well_known_mailto">メール</string>
+  <!--  -->
   <!-- Backpack -->
   <string name="backpack_title">あなたのバックパック</string>
+  <string name="pack">Pack</string>
+  <string name="unpack">解凍</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
   <string name="scripts">スクリプト</string>
@@ -354,7 +421,7 @@
   <string name="sounds">サウンド</string>
   <string name="nfctags">NFC タグ</string>
   <string name="size">プログラムのサイズ：</string>
-  <!-- New project dialog -->
+  <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">新規プログラムの名前</string>
   <string name="new_project_dialog_hint">私のプログラム</string>
   <string name="new_project_description_dialog_hint">私の説明</string>
@@ -366,17 +433,18 @@
   <string name="project_orientation_title">向き:</string>
   <string name="project_select_screen_title">画面</string>
   <!--  -->
-  <!-- New Look Dialog -->
+  <!-- NewSpriteDialog -->
+  <string name="new_sprite_dialog_title">新しいオブジェクトの名前</string>
+  <!--  -->
+  <!-- NewLookDialog -->
   <string name="new_look_dialog_title">外見を追加します。</string>
   <string name="add_look_from_camera">写真を撮る</string>
   <string name="add_look_draw_new_image">新しい画像を描画します。</string>
   <string name="add_look_choose_image">画像を選択</string>
   <string name="add_look_media_library">メディア ライブラリー</string>
-  <string name="new_look_name">外見名:</string>
-  <string name="look_rename_overwrite">この名前の外見がすでに存在します。別のものを選択してください!</string>
   <string name="add_look_drone_video">AR.Drone 2.0 video</string>
   <!--  -->
-  <!-- New Sound Dialog -->
+  <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">サウンドを追加</string>
   <string name="add_sound_from_recorder">サウンドの録音</string>
   <string name="add_sound_choose_file">ファイルを選択</string>
@@ -455,66 +523,7 @@
   <string name="dialog_about_license_link_text">ソースコード ライセンス</string>
   <string name="dialog_about_catrobat_link_text">キャトロバットについて</string>
   <!--  -->
-  <!-- Project activity view -->
-  <string name="project_name">プログラム：</string>
-  <string name="my_projects_activity_title">プログラム</string>
-  <string name="number_of_scripts">スクリプト：</string>
-  <string name="number_of_bricks">ブロック：</string>
-  <string name="number_of_looks">外見：</string>
-  <string name="number_of_sounds">サウンド：</string>
-  <string name="show_details">詳細を表示</string>
-  <string name="hide_details">詳細を隠す</string>
-  <!--  -->
-  <!-- Script fragment -->
-  <string name="fragment_script_text_description">スクリプトを追加するために「+」をタップしてください</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="other">%d 個のブロックを削除</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="other">%d 個のブロックをコピー</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="other">%d 個のブロックをバックパック</item>
-  </plurals>
-  <!--  -->
-  <!-- Look fragment -->
-  <string name="fragment_look_text_description">外見を追加するに「+」をタップしてください</string>
-  <string name="pocket_paint_not_installed_title">ポケットペイントがインストールされていない ！</string>
-  <string name="pocket_paint_not_installed_message">ポケットペイントをインストールしてください</string>
-  <string name="default_look_name">外見</string>
-  <string name="select_look_from_gallery">画像を選択</string>
-  <string name="select_look_from_camera">写真を選択</string>
-  <string name="look_measure">測定:</string>
-  <!--  -->
-  <!-- Sound fragment -->
-  <string name="fragment_sound_text_description">「+」をタップしてのサウンドを追加するには</string>
-  <string name="sound_select_source">サウンドを選択</string>
-  <string name="length">長さ:</string>
-  <string name="sound_name">サウンド名:</string>
-  <string name="new_sound_name">サウンド名:</string>
-  <!--  -->
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">追加するタグをスキャン</string>
-  <string name="ndef_record_label">NDEF レコードタイプとして</string>
-  <string name="brick_set_nfc_tag">次の NFC タグを設定</string>
-  <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-  <string name="default_tag_name">nfc_tag</string>
-  <string name="tnf_empty">空</string>
-  <string name="tnf_external_type">外部タイプ</string>
-  <string name="tnf_mime_media">テキスト</string>
-  <string name="tnf_well_known_http">HTTP</string>
-  <string name="tnf_well_known_https">HTTPS</string>
-  <string name="tnf_well_known_tel">電話番号</string>
-  <string name="tnf_well_known_sms">SMS</string>
-  <string name="tnf_well_known_mailto">メール</string>
-  <!--  -->
-  <!-- My Projects activity -->
-  <string name="last_used">最新の使用：</string>
-  <string name="description">デスクリプション：</string>
-  <string name="set_description">説明を設定する</string>
-  <string name="details_date_today">今日</string>
-  <!--  -->
-  <!-- Soundrecorder activity -->
+  <!-- SoundRecorderActivty -->
   <string name="soundrecorder_name">ポケットコードのサウンドレコーダー</string>
   <string name="soundrecorder_error">録音に失敗しました</string>
   <string name="soundrecorder_recorded_filename">録音</string>
@@ -562,10 +571,6 @@
   <string name="play_scene_dialog_title">再生シーン:</string>
   <string name="play_scene_dialog_default">最初のシーン (%1$s)</string>
   <string name="play_scene_dialog_current">現在 (%1$s)</string>
-  <!--  -->
-  <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_title">新しいオブジェクトの名前</string>
-  <string name="sprite_name">オブジェクト名:</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">サインイン</string>
@@ -1549,7 +1554,6 @@
   <string name="hint_looks">ここで、異なる外観のオブジェクトを見つけることができます。\"+\" 記号をタップして、新しい外見を追加します。</string>
   <string name="hint_sounds">ここで、オブジェクトに新しいサウンドを追加できます。サウンドのカテゴリからブロックを使うことを覚えておいてください。</string>
   <string name="hint_objects">プログラムは、互いにインタラクションすることができる、異なるオブジェクトで構成されます。\"+\" 記号をタップして、新しいオブジェクトを追加します。</string>
-  <string name="hint_merge">2 つのプログラムをマージするには、1 つのプログラムを長押ししてメニューを開き、\'マージする\' をタップします。</string>
   <string name="hint_stage">戻るボタンを押すと、プログラムを一時停止します。「軸オン」をタップすると、軸とお使いの電話の画面サイズを表示します。</string>
   <string name="hint_scenes">プログラムは、さまざまな独立したシーンで構成することができます。\"+\" 記号をタップして、新しいシーンを追加します。</string>
   <!--  -->

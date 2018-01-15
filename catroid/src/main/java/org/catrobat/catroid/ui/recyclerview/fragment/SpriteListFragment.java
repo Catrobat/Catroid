@@ -148,7 +148,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void showRenameDialog(List<Sprite> selectedItems) {
 		String name = selectedItems.get(0).getName();
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_sprite_dialog, R.string.sprite_name, name, this);
+		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_sprite_dialog, R.string.sprite_name_label, name, this);
 		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
 	}
 

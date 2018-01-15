@@ -120,7 +120,7 @@ public class SpriteAttributesActivity extends BaseActivity implements
 		String name = ProjectManager.getInstance().getCurrentSprite().getName();
 		RenameItemDialog dialog = new RenameItemDialog(
 				R.string.rename_sprite_dialog,
-				R.string.sprite_name, name,
+				R.string.sprite_name_label, name,
 				this);
 		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
 	}

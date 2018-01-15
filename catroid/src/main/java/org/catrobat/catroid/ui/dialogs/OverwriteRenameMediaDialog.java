@@ -125,22 +125,22 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 		final int renameHeaderText;
 		switch (mediaType) {
 			case Constants.MEDIA_TYPE_LOOK:
-				header = R.string.look_rename_overwrite;
+				header = R.string.name_already_exists;
 				replaceText = R.string.overwrite_replace_look;
 				renameText = R.string.overwrite_rename_look;
-				renameHeaderText = R.string.new_look_name;
+				renameHeaderText = R.string.look_name_label;
 				break;
 			case Constants.MEDIA_TYPE_SOUND:
-				header = R.string.rename_sound_overwrite;
+				header = R.string.name_already_exists;
 				replaceText = R.string.overwrite_replace_sound;
 				renameText = R.string.overwrite_rename_sound;
-				renameHeaderText = R.string.new_sound_name;
+				renameHeaderText = R.string.sound_name_label;
 				break;
 			default:
 				header = R.string.rename_sprite_dialog;
 				replaceText = R.string.overwrite_replace_default;
 				renameText = R.string.overwrite_rename_default;
-				renameHeaderText = R.string.new_sound_name;
+				renameHeaderText = R.string.sprite_name_label;
 		}
 
 		replaceButton.setText(replaceText);
@@ -253,7 +253,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 				case Constants.MEDIA_TYPE_LOOK:
 					if (callingActivity.contains(LookListFragment.TAG)) {
 						if (Utils.checkIfLookExists(newMediaName)) {
-							ToastUtil.showError(context, R.string.look_rename_overwrite);
+							ToastUtil.showError(context, R.string.name_already_exists);
 							return false;
 						}
 					} else {
@@ -262,7 +262,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 					break;
 				case Constants.MEDIA_TYPE_SOUND:
 					if (Utils.checkIfSoundExists(newMediaName)) {
-						ToastUtil.showError(context, R.string.rename_sound_overwrite);
+						ToastUtil.showError(context, R.string.name_already_exists);
 						return false;
 					}
 					break;
