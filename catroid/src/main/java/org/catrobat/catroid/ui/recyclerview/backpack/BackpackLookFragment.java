@@ -45,6 +45,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	@Override
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = "showDetailsLookList";
+		hasDetails = true;
 		List<LookData> items = BackPackListManager.getInstance().getBackPackedLooks();
 		adapter = new LookAdapter(items);
 		onAdapterReady();
