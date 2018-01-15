@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -49,10 +50,8 @@ import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -64,18 +63,17 @@ import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewIn
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class RenameSoundFragmentTest {
+public class DeleteSoundTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
 
-	private String oldSoundName = "oldSoundName";
-	private String newSoundName = "newSoundName";
+	private String toBeDeletedSoundName = "testSound2";
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("renameSoundFragmentTest");
+		createProject("deleteSoundFragmentTest");
 
 		Intent intent = new Intent();
 		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SOUNDS);
@@ -85,50 +83,58 @@ public class RenameSoundFragmentTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void renameSoundFragmentTest() {
+	public void deleteSoundTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-		onView(withText(R.string.rename)).perform(click());
+		onView(withText(R.string.delete)).perform(click());
 
-		onRVAtPosition(0)
+		onRVAtPosition(1)
 				.performCheckItem();
 
 		onView(withContentDescription("Done")).perform(click());
 
-		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
+		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sounds, 1)))
+				.inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withId(R.id.edit_text)).perform(clearText(), typeText(newSoundName), closeSoftKeyboard());
-
-		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
+		onView(withText(R.string.dialog_confirm_delete)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+		onView(allOf(withId(android.R.id.button2), withText(R.string.no)))
+				.check(matches(isDisplayed()));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
 				.perform(click());
 
-		onView(withText(newSoundName)).check(matches(isDisplayed()));
+		onView(withText(toBeDeletedSoundName))
+				.check(doesNotExist());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void cancelRenameSoundFragmentTest() {
+	public void cancelDeleteSoundTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-		onView(withText(R.string.rename)).perform(click());
+		onView(withText(R.string.delete)).perform(click());
 
-		onRVAtPosition(0)
+		onRVAtPosition(1)
 				.performCheckItem();
 
 		onView(withContentDescription("Done")).perform(click());
 
-		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
+		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sounds, 1)))
+				.inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+		onView(withText(R.string.dialog_confirm_delete)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+				.check(matches(isDisplayed()));
+
+		onView(allOf(withId(android.R.id.button2), withText(R.string.no)))
 				.perform(click());
 
-		onView(withText(oldSoundName)).check(matches(isDisplayed()));
+		onView(withText(toBeDeletedSoundName))
+				.check(matches(isDisplayed()));
 	}
 
 	private void createProject(String projectName) {
@@ -138,7 +144,6 @@ public class RenameSoundFragmentTest {
 		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		File soundFile = FileTestUtils.saveFileToProject(
@@ -147,10 +152,21 @@ public class RenameSoundFragmentTest {
 				FileTestUtils.FileTypes.SOUND
 		);
 
+		File soundFile2 = FileTestUtils.saveFileToProject(
+				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "testsoundui.mp3",
+				org.catrobat.catroid.test.R.raw.testsoundui, InstrumentationRegistry.getContext(),
+				FileTestUtils.FileTypes.SOUND
+		);
+
 		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFileName(soundFile.getName());
-		soundInfo.setName(oldSoundName);
+		soundInfo.setName("testSound1");
 		soundInfoList.add(soundInfo);
+
+		SoundInfo soundInfo2 = new SoundInfo();
+		soundInfo2.setFileName(soundFile2.getName());
+		soundInfo2.setName(toBeDeletedSoundName);
+		soundInfoList.add(soundInfo2);
 	}
 }

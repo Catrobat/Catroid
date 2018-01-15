@@ -58,7 +58,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class CopySoundFragmentTest {
+public class CopySoundTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
@@ -78,7 +78,7 @@ public class CopySoundFragmentTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void copySoundFragmentTest() {
+	public void copySoundTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.copy)).perform(click());
 
