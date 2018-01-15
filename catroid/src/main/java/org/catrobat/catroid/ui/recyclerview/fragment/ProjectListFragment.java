@@ -220,11 +220,16 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	public void onCreateFinished(boolean success) {
 		if (success) {
-			initializeAdapter();
+			updateAdapter();
 		} else {
 			ToastUtil.showError(getActivity(), R.string.wtf_error);
 			getActivity().finish();
 		}
+	}
+
+	private void updateAdapter() {
+		adapter.setItems(getItemList());
+		setShowProgressBar(false);
 	}
 
 	@Override
