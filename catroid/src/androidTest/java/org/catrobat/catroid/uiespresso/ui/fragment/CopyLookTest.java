@@ -49,33 +49,26 @@ import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
-import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class RenameLookFragmentTest {
+public class CopyLookTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
 
-	private String oldLookName = "oldLookName";
-	private String newLookName = "newLookName";
+	private String toBeCopiedLookName = "testLook";
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("renameLookFragmentTest");
+		createProject("copyLookFragmentTest");
 
 		Intent intent = new Intent();
 		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
@@ -85,50 +78,20 @@ public class RenameLookFragmentTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void renameLookFragmentTest() {
+	public void copyLookTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-		onView(withText(R.string.rename)).perform(click());
+		onView(withText(R.string.copy)).perform(click());
 
 		onRVAtPosition(0)
-				.performCheckItem();
+			.performCheckItem();
 
 		onView(withContentDescription("Done")).perform(click());
 
-		onView(withText(R.string.rename_look_dialog)).inRoot(isDialog())
+		onView(withText(toBeCopiedLookName))
 				.check(matches(isDisplayed()));
 
-		onView(withId(R.id.edit_text)).perform(clearText(), typeText(newLookName), closeSoftKeyboard());
-
-		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
+		onView(withText(toBeCopiedLookName + " (1)"))
 				.check(matches(isDisplayed()));
-
-		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
-				.perform(click());
-
-		onView(withText(newLookName)).check(matches(isDisplayed()));
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void cancelRenameLookFragmentTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-		onView(withText(R.string.rename)).perform(click());
-
-		onRVAtPosition(0)
-				.performCheckItem();
-
-		onView(withContentDescription("Done")).perform(click());
-
-		onView(withText(R.string.rename_look_dialog)).inRoot(isDialog())
-				.check(matches(isDisplayed()));
-
-		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
-				.check(matches(isDisplayed()));
-
-		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
-				.perform(click());
-
-		onView(withText(oldLookName)).check(matches(isDisplayed()));
 	}
 
 	private void createProject(String projectName) {
@@ -149,7 +112,7 @@ public class RenameLookFragmentTest {
 		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
 		LookData lookData = new LookData();
 		lookData.setFileName(imageFile.getName());
-		lookData.setName(oldLookName);
+		lookData.setName(toBeCopiedLookName);
 		lookDataList.add(lookData);
 	}
 }
