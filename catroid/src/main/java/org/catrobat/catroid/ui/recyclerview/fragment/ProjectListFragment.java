@@ -45,7 +45,6 @@ import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCreatorTask;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
-import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -77,7 +76,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	protected void initializeAdapter() {
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_merge);
 		sharedPreferenceDetailsKey = "showDetailsProjectList";
 		hasDetails = true;
 		adapter = new ProjectAdapter(getItemList());
