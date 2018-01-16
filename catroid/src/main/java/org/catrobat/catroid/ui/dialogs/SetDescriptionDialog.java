@@ -22,37 +22,24 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextDialog;
 
 public class SetDescriptionDialog extends TextDialog {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_set_description";
+	public static final String TAG = SetDescriptionDialog.class.getSimpleName();
 
 	private ChangeDescriptionInterface descriptionInterface;
 
-	public SetDescriptionDialog(int title, int inputLabel, String previousText, ChangeDescriptionInterface
-			descriptionInterface) {
-		super(title, inputLabel, previousText, true);
+	public SetDescriptionDialog(String text, ChangeDescriptionInterface descriptionInterface) {
+		super(R.string.set_description, R.string.description, text, true);
 		this.descriptionInterface = descriptionInterface;
 	}
 
 	@Override
-	protected View inflateLayout() {
-		final LayoutInflater inflater = getActivity().getLayoutInflater();
-		View view = inflater.inflate(R.layout.dialog_text_input, null);
-		EditText input = (EditText) view.findViewById(R.id.edit_text);
-		input.setSingleLine(false);
-		return view;
-	}
-
-	@Override
 	protected boolean handlePositiveButtonClick() {
-		String newDescription = input.getText().toString().trim();
-		descriptionInterface.setDescription(newDescription);
+		String description = inputLayout.getEditText().getText().toString().trim();
+		descriptionInterface.setDescription(description);
 		return true;
 	}
 

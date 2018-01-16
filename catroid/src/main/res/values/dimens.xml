@@ -23,6 +23,11 @@
   -->
 <resources>
 
+    <!-- Text -->
+    <dimen name="text_size_medium" >16sp</dimen >
+    <dimen name="text_size_large" >18sp</dimen >
+    <dimen name="text_size_small" >12sp</dimen >
+
     <dimen name="actionbar_height" >48dip</dimen >
     <dimen name="project_thumbnail_height" >65dip</dimen >
     <dimen name="project_thumbnail_width" >72dip</dimen >
@@ -39,13 +44,7 @@
     <dimen name="scratch_conversion_list_view_margin_bottom">15dp</dimen>
     <dimen name="scratch_remixes_list_view_margin_top">15dp</dimen>
     <dimen name="scratch_remixes_list_view_margin_bottom">15dp</dimen>
-    <dimen name="text_size_medium" >16sp</dimen >
-    <dimen name="text_size_large" >18sp</dimen >
-    <dimen name="text_size_small" >12sp</dimen >
-    <dimen name="text_size_main_menu_buttons" >22sp</dimen >
-    <dimen name="text_size_main_menu_button_continue_program_name" >14sp</dimen >
-    <dimen name="text_size_program_menu_buttons" >22sp</dimen >
-    <dimen name="program_menu_button_height" >90dp</dimen >
+
     <dimen name="my_projects_list_item_height">90dip</dimen>
     <dimen name="brick_edit_text_and_prototype_text_view_minimum_width" >48dp</dimen >
     <dimen name="brick_height_small" >72dp</dimen >
@@ -75,19 +74,33 @@
     <dimen name="dialog_margin" >16dp</dimen >
     <dimen name="dialog_item_text_size" >14sp</dimen >
     <dimen name="dialog_relative_layout_padding" >40dp</dimen >
-    <dimen name="dialog_text_view_text_size_small" >14sp</dimen >
     <dimen name="dialog_text_view_text_size_large" >40sp</dimen >
     <dimen name="dialog_check_box_margin_bottom_right" > 16dp</dimen >
-    <dimen name="dialog_text_view_layout_width" >0dp</dimen >
-    <dimen name="dialog_radio_group_margin" >16dp</dimen >
-    <dimen name="dialog_radio_button_drawable_padding" >16dp</dimen >
-    <dimen name="dialog_radio_button_padding" >20dp</dimen >
     <dimen name="dialog_text_view_margin" >10dp</dimen >
-    <dimen name="dialog_button_padding_top" >10dp</dimen >
-    <dimen name="dialog_view_layout_margin_top" >20dp</dimen >
     <dimen name="dialog_image_button_layout_width_height" >50dp</dimen >
     <dimen name="dialog_capitalized_text_view_margin_left" >0dp</dimen >
     <!--  -->
+
+    <!-- Material Design Dialogs -->
+    <dimen name="dialog_content_area_padding_top">20dp</dimen>
+    <dimen name="dialog_content_area_padding">24dp</dimen>
+    <dimen name="dialog_content_area_padding_text_input">22dp</dimen>
+
+    <!-- RecyclerView ViewHolder -->
+    <dimen name="view_holder_height">90dp</dimen>
+    <dimen name="view_holder_padding">8dp</dimen>
+    <dimen name="checkbox_margin">8dp</dimen>
+    <dimen name="view_holder_image_margin">12dp</dimen>
+    <dimen name="view_holder_details_spacing">20dp</dimen>
+    <dimen name="view_holder_title_text_size">18sp</dimen>
+
+    <!-- Buttons -->
+    <dimen name="button_height">90dp</dimen>
+    <dimen name="button_padding">15dp</dimen>
+    <dimen name="button_drawable_padding">24dp</dimen>
+
+    <!-- MainMenuButtons -->
+    <dimen name="text_size_main_menu_button_continue_program_name">12sp</dimen>
 
     <!-- Flow Layout -->
     <dimen name="brick_flow_layout_vertical_spacing">0dp</dimen>

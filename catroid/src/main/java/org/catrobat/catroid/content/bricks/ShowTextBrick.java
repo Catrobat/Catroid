@@ -23,11 +23,8 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,7 +41,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
-import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -55,7 +51,6 @@ public class ShowTextBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	public String userVariableName;
 
 	public static final String TAG = ShowTextBrick.class.getSimpleName();
 
@@ -130,7 +125,7 @@ public class ShowTextBrick extends UserVariableBrick {
 
 		editTextY.setOnClickListener(this);
 
-		Spinner showVariableSpinner = (Spinner) view.findViewById(R.id.show_variable_spinner);
+		Spinner variableSpinner = (Spinner) view.findViewById(R.id.show_variable_spinner);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 
@@ -140,47 +135,11 @@ public class ShowTextBrick extends UserVariableBrick {
 				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
-		showVariableSpinner.setAdapter(userVariableAdapterWrapper);
-		setSpinnerSelection(showVariableSpinner, null);
+		variableSpinner.setAdapter(userVariableAdapterWrapper);
+		setSpinnerSelection(variableSpinner, null);
 
-		showVariableSpinner.setOnTouchListener(new View.OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN
-						&& (((Spinner) view).getSelectedItemPosition() == 0
-						&& ((Spinner) view).getAdapter().getCount() == 1)) {
-					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(ShowTextBrick.this);
-					dialog.show(((Activity) view.getContext()).getFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
-					return true;
-				}
-
-				return false;
-			}
-		});
-
-		showVariableSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
-					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(ShowTextBrick.this);
-					int spinnerPos = ((UserVariableAdapterWrapper) parent.getAdapter())
-							.getPositionOfItem(userVariable);
-					dialog.setUserVariableIfCancel(spinnerPos);
-					dialog.show(((Activity) view.getContext()).getFragmentManager(),
-							NewDataDialog.DIALOG_FRAGMENT_TAG);
-				}
-				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
-				userVariable = (UserVariable) parent.getItemAtPosition(position);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				userVariable = (UserVariable) arg0.getItemAtPosition(1);
-			}
-		});
+		variableSpinner.setOnTouchListener(createSpinnerOnTouchListener());
+		variableSpinner.setOnItemSelectedListener(createVariableSpinnerItemSelectedListener());
 
 		return view;
 	}
@@ -211,6 +170,12 @@ public class ShowTextBrick extends UserVariableBrick {
 	}
 
 	@Override
+	public void onNewVariable(UserVariable userVariable) {
+		Spinner spinner = view.findViewById(R.id.show_variable_spinner);
+		setSpinnerSelection(spinner, userVariable);
+	}
+
+	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		if (userVariable == null || userVariable.getName() == null) {
 			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
@@ -219,18 +184,6 @@ public class ShowTextBrick extends UserVariableBrick {
 		sequence.addAction(sprite.getActionFactory().createShowVariableAction(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION), userVariable));
 		return null;
-	}
-
-	void setUserVariableName(UserVariable userVariable) {
-		if (userVariable.getName() != null) {
-			userVariableName = userVariable.getName();
-		} else {
-			userVariableName = Constants.NO_VARIABLE_SELECTED;
-		}
-	}
-
-	void setUserVariableName(String userVariableName) {
-		this.userVariableName = userVariableName;
 	}
 
 	@Override

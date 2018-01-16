@@ -23,20 +23,9 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.Catroid" parent="android:Theme.Holo" >
-        <item name="android:actionBarStyle" >@style/Widget.Catroid.ActionBar</item >
-        <item name="android:windowBackground" >@color/application_background_color</item >
-    </style >
-
-    <style name="Widget.Catroid.ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse" >
-        <item name="android:background" >@drawable/actionbar_background</item >
-        <item name="android:homeAsUpIndicator" >@drawable/ic_actionbar_back</item >
-        <item name="android:titleTextStyle" >@style/Widget.Catroid.ActionBar.Title</item >
-        <item name="android:height" >@dimen/actionbar_height</item >
-    </style >
-
-    <style name="Widget.Catroid.ActionBar.Title" parent="android:TextAppearance.Holo.Widget.ActionBar.Title" >
-        <item name="android:textColor" >@color/actionbar_title_color</item >
+    <style name="Theme.Catroid" parent="Theme.AppCompat.NoActionBar" >
+        <item name="windowActionModeOverlay">true</item>
+        <item name="colorAccent">#A8DFF4</item>
     </style >
 
     <style name="DefaultDialog" parent="android:Theme.Dialog" >
@@ -116,51 +105,43 @@
         <item name="android:windowBackground" >@null</item >
         <item name="android:windowNoTitle" >true</item >
         <item name="android:windowIsFloating" >true</item >
-        <item name="android:windowAnimationStyle" >@style/slide_up_dialog_animation</item >
     </style >
 
-    <style name="slide_left_dialog_animation" >
-        <item name="android:windowEnterAnimation" >@anim/slide_in</item >
-        <item name="android:windowExitAnimation" >@anim/slide_out</item >
-    </style >
+    <style name="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:paddingStart">@dimen/button_padding</item>
+        <item name="android:paddingEnd">@dimen/button_padding</item>
+        <item name="android:drawablePadding">@dimen/button_drawable_padding</item>
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+    
+    <style name="MainMenuButton" parent="Button">
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 
-    <style name="slide_up_dialog_animation" >
-        <item name="android:windowEnterAnimation" >@anim/slide_up</item >
-        <item name="android:windowExitAnimation" >@anim/slide_down</item >
-    </style >
+    <style name="SpriteAttributesButton" parent="Button">
+        <item name="android:layout_height">@dimen/button_height</item>
+    </style>
 
-    <style name="ListViewShadowed" >
-        <item name="android:cacheColorHint" >@color/solid_black</item >
-        <item name="android:drawSelectorOnTop" >false</item >
-        <item name="android:drawingCacheQuality" >high</item >
-        <item name="android:fadingEdgeLength" >10dp</item >
-        <item name="android:fastScrollEnabled" >true</item >
-        <!-- TODO Causing error needs api 14: <item name="android:requiresFadingEdge">vertical</item> -->
-        <item name="android:scrollingCache" >@string/scrolling_cache_enabled</item >
-        <item name="android:animationCache" >@string/animation_cache_enabled</item >
-    </style >
-
-    <style name="MainMenuButton" >
-        <item name="android:layout_width" >match_parent</item >
-        <item name="android:layout_height" >0dp</item >
-        <item name="android:layout_weight" >1</item >
-        <item name="android:background" >@drawable/button_background_selector</item >
-        <item name="android:drawablePadding" >28dp</item >
-        <item name="android:gravity" >start|center_vertical</item >
-        <item name="android:paddingStart" >21dp</item >
-        <item name="android:paddingEnd" >14dp</item >
-        <item name="android:textSize" >@dimen/text_size_main_menu_buttons</item >
-        <item name="android:textColor" >@color/main_menu_button_text_color</item >
-        <item name="android:shadowColor" >@color/main_menu_button_text_shadow_color</item >
-        <item name="android:shadowRadius" >1.5</item >
-        <item name="android:shadowDx" >0</item >
-        <item name="android:shadowDy" >3</item >
-    </style >
+    <style name="BottomBarButton">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/bottom_bar_background_selector</item>
+    </style>
 
     <style name="MainMenuButtonTextSecondLine" >
         <item name="android:textSize" >@dimen/text_size_main_menu_button_continue_program_name</item >
         <item name="android:textColor" >@color/main_menu_button_text_continue_program_name_color</item >
-    </style >
+    </style>
+
+    <style name="ViewHolderTitle">
+        <item name="android:textSize">@dimen/view_holder_title_text_size</item>
+    </style>
 
     <style name="ListViewItemTitleText" >
         <item name="android:paddingStart" >12.5dp</item >
@@ -202,22 +183,6 @@
         <item name="android:paddingStart" >15sp</item>
         <item name="android:paddingEnd" >15sp</item>
         <item name="android:paddingTop" >1sp</item>
-    </style >
-
-    <style name="ProgramMenuButton" >
-        <item name="android:layout_width" >match_parent</item >
-        <item name="android:layout_height" >@dimen/program_menu_button_height</item >
-        <item name="android:background" >@drawable/button_background_selector</item >
-        <item name="android:drawablePadding" >28dp</item >
-        <item name="android:gravity" >start|center_vertical</item >
-        <item name="android:paddingStart" >21dp</item >
-        <item name="android:paddingEnd" >15dp</item >
-        <item name="android:textSize" >@dimen/text_size_program_menu_buttons</item >
-        <item name="android:textColor" >@color/program_menu_button_text_color</item >
-        <item name="android:shadowColor" >@color/program_menu_button_text_shadow_color</item >
-        <item name="android:shadowRadius" >1.5</item >
-        <item name="android:shadowDx" >0</item >
-        <item name="android:shadowDy" >3</item >
     </style >
 
     <style name="BrickText" >
@@ -729,19 +694,6 @@
         <item name="android:layout_height" >wrap_content</item >
     </style >
 
-    <style name="OAuthButton">
-         <item name="android:layout_width">wrap_content</item>
-         <item name="android:layout_height">50dip</item>
-         <item name="android:layout_gravity">center_horizontal|bottom</item >
-         <item name="android:layout_marginTop">5dip</item >
-         <item name="android:layout_marginBottom">5dip</item >
-         <item name="android:layout_marginStart">45dip</item >
-         <item name="android:layout_marginEnd">45dip</item >
-         <item name="android:paddingBottom">5dip</item >
-         <item name="android:gravity">center</item >
-         <item name="android:layout_centerHorizontal">true</item >
-    </style>
-
      <style name="WebViewLoadingCircle" parent="android:Theme.Holo.Dialog">
         <item name="android:alertDialogStyle">@style/WebViewLoadingCircleStyle</item>
         <item name="android:windowBackground">@color/transparent</item>
@@ -763,14 +715,6 @@
         <item name="android:fullDark">@color/transparent</item>
         <item name="android:topBright">@color/transparent</item>
         <item name="android:topDark">@color/transparent</item>
-    </style>
-
-    <style name="BottomBarImageButton">
-        <item name="android:layout_width">0dip</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/bottom_bar_background_selector</item>
     </style>
 
     <style name="SingleSeekbarTextView">

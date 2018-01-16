@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -55,7 +54,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -67,18 +65,15 @@ public class DeleteSoundDialogTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
-
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_SOUNDS);
 	private String toBeDeletedSoundName = "testLook2";
 
 	@Before
 	public void setUp() throws Exception {
 		createProject("deleteSoundDialogTest");
 
-		Intent intent = new Intent();
-		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SOUNDS);
-
-		baseActivityTestRule.launchActivity(intent);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -90,7 +85,7 @@ public class DeleteSoundDialogTest {
 		onRVAtPosition(1)
 				.performCheckItem();
 
-		onView(withContentDescription(R.string.done)).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
 
 		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sounds, 1)))
 				.inRoot(isDialog())
@@ -120,7 +115,7 @@ public class DeleteSoundDialogTest {
 		onRVAtPosition(1)
 				.performCheckItem();
 
-		onView(withContentDescription(R.string.done)).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
 
 		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sounds, 1)))
 				.inRoot(isDialog())

@@ -217,11 +217,13 @@ import static org.hamcrest.core.Is.is;
 public class RtlBrickTest {
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_SCRIPTS);
 	private Locale arLocale = new Locale("ar");
 	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
-			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS, SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS));
+			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS,
+			SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS));
 	private List<String> enabledByThisTestPeripheralCategories = new ArrayList<>();
 
 	@Before
@@ -238,7 +240,7 @@ public class RtlBrickTest {
 				enabledByThisTestPeripheralCategories.add(category);
 			}
 		}
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@After

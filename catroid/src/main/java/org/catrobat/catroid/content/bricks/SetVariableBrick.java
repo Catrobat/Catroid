@@ -129,7 +129,7 @@ public class SetVariableBrick extends UserVariableBrick {
 
 		setSpinnerSelection(variableSpinner, null);
 
-		variableSpinner.setOnTouchListener(createVariableSpinnerTouchListener());
+		variableSpinner.setOnTouchListener(createSpinnerOnTouchListener());
 		variableSpinner.setOnItemSelectedListener(createVariableSpinnerItemSelectedListener());
 		return view;
 	}
@@ -159,6 +159,12 @@ public class SetVariableBrick extends UserVariableBrick {
 			textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
 		}
 		return prototypeView;
+	}
+
+	@Override
+	public void onNewVariable(UserVariable userVariable) {
+		Spinner spinner = view.findViewById(R.id.set_variable_spinner);
+		setSpinnerSelection(spinner, userVariable);
 	}
 
 	@Override

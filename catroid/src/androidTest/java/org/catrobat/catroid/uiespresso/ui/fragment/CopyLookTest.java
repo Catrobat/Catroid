@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -52,7 +51,6 @@ import static android.support.test.espresso.Espresso.openActionBarOverflowOrOpti
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
@@ -62,18 +60,15 @@ public class CopyLookTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
-
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_LOOKS);
 	private String toBeCopiedLookName = "testLook";
 
 	@Before
 	public void setUp() throws Exception {
 		createProject("copyLookFragmentTest");
 
-		Intent intent = new Intent();
-		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
-
-		baseActivityTestRule.launchActivity(intent);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -85,7 +80,7 @@ public class CopyLookTest {
 		onRVAtPosition(0)
 			.performCheckItem();
 
-		onView(withContentDescription("Done")).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
 
 		onView(withText(toBeCopiedLookName))
 				.check(matches(isDisplayed()));

@@ -83,7 +83,7 @@ import static org.hamcrest.Matchers.allOf;
 public class WhenNfcBrickTest {
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	private int nfcBrickPosition;
 	private int setVariableIDPosition;
@@ -92,7 +92,7 @@ public class WhenNfcBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		createProjectWithNfcAndSetVariable();
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.SettingsAndPermissions.class})
@@ -263,7 +263,7 @@ public class WhenNfcBrickTest {
 				.perform(click());
 		onView(withText(R.string.rename_nfctag_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_text), withText(tagName), isDisplayed()))
+		onView(allOf(withText(tagName), isDisplayed()))
 				.perform(replaceText(renameString));
 		closeSoftKeyboard();
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))

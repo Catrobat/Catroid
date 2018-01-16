@@ -25,6 +25,7 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -47,30 +48,33 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastBricksTest {
 	private String defaultMessage = "defaultMessage";
+
 	private int broadcastSendPosition = 1;
 	private int broadcastReceivePosition = 2;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
 		createProjectAndGetStartScriptWithImages("BroadcastBrickTest");
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -81,7 +85,7 @@ public class BroadcastBricksTest {
 		onBrickAtPosition(broadcastReceivePosition).checkShowsText(R.string.brick_broadcast_receive);
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Test
 	@Flaky
 	public void testRemoveUnusedMessagesBroadcastSend() {
@@ -108,7 +112,7 @@ public class BroadcastBricksTest {
 				.checkShowsText(defaultMessage);
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Test
 	@Flaky
 	public void testRemoveUnusedMessagesBroadcastReceive() {
@@ -152,15 +156,16 @@ public class BroadcastBricksTest {
 		return script;
 	}
 
-	public static void createNewMessageOnSpinner(int spinnerResourceId, int position, String message) {
+	public void createNewMessageOnSpinner(int spinnerResourceId, int position, String message) {
 		onBrickAtPosition(position).onSpinner(spinnerResourceId)
 				.perform(click());
 
-		onView(withText(R.string.brick_variable_spinner_create_new_variable))
+		onView(withText(R.string.new_broadcast_message))
 				.perform(click());
 
-		onView(withId(R.id.edit_text))
-				.perform(clearText(), typeText(message), closeSoftKeyboard());
+		onView(allOf(withText(R.string.new_broadcast_message), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(message));
+		closeSoftKeyboard();
 
 		onView(withId(android.R.id.button1))
 				.perform(click());

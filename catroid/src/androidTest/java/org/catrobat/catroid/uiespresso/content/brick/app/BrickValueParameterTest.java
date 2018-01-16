@@ -204,7 +204,7 @@ public class BrickValueParameterTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
@@ -214,7 +214,7 @@ public class BrickValueParameterTest {
 	@Before
 	public void setUp() throws Exception {
 		createProject("brickDefaultValueParameterTest");
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 
 		SharedPreferences sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());

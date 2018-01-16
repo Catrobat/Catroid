@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -61,14 +60,11 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class);
-
+			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
 	@Before
 	public void setUp() {
 		createProject();
-		Intent intent = new Intent();
-		intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
-		baseActivityTestRule.launchActivity(intent);
+		baseActivityTestRule.launchActivity();
 
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 		onView(withText(R.string.show_details)).perform(click());

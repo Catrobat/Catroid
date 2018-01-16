@@ -80,7 +80,7 @@ public class BrickFormulaEditTextDataInteractionWrapper extends DataInteractionW
 
 		onView(withId(R.id.formula_editor_keyboard_string))
 				.perform(click());
-		onView(withId(R.id.formula_editor_string_name_edit_text))
+		onView(withId(R.id.input_edit_text))
 				.perform(clearText(), typeText(stringToBeEntered));
 		onView(withText(R.string.ok))
 				.perform(click());
@@ -94,7 +94,7 @@ public class BrickFormulaEditTextDataInteractionWrapper extends DataInteractionW
 
 		onView(withId(R.id.formula_editor_keyboard_string))
 				.perform(click());
-		onView(withId(R.id.formula_editor_string_name_edit_text))
+		onView(withId(R.id.input_edit_text))
 				.perform(typeText(UiTestUtils.getResourcesString(stringResourceId)));
 		onView(withText(R.string.ok))
 				.perform(click());

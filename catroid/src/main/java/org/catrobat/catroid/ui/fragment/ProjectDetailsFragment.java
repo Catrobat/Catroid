@@ -111,9 +111,8 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 	}
 
 	private void handleDescriptionPressed() {
-		SetDescriptionDialog dialog = new SetDescriptionDialog(R.string.set_description, R.string.description,
-				projectData.project.getDescription(), this);
-		dialog.show(getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+		SetDescriptionDialog dialog = new SetDescriptionDialog(projectData.project.getDescription(), this);
+		dialog.show(getFragmentManager(), SetDescriptionDialog.TAG);
 	}
 
 	@Override

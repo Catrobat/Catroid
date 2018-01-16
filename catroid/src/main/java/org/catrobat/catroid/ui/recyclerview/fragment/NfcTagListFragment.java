@@ -52,7 +52,6 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
 
 		nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 
@@ -128,6 +127,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	@Override
 	protected void copyItems(List<NfcTagData> selectedItems) {
+		finishActionMode();
 		for (NfcTagData item : selectedItems) {
 			String name = uniqueNameProvider.getUniqueName(item.getNfcTagName(), getScope());
 
@@ -158,6 +158,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	@Override
 	protected void deleteItems(List<NfcTagData> selectedItems) {
+		finishActionMode();
 		for (NfcTagData item : selectedItems) {
 			adapter.remove(item);
 		}
@@ -184,7 +185,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		if (!item.getNfcTagName().equals(name)) {
 			item.setNfcTagName(name);
 		}
-		adapter.notifyDataSetChanged();
+		finishActionMode();
 	}
 
 	@Override

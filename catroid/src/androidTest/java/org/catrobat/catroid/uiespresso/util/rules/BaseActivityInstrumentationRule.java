@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uiespresso.util.rules;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
@@ -41,6 +42,7 @@ import java.io.File;
 public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
 	private SystemAnimations systemAnimations;
 	private static final String TAG = BaseActivityInstrumentationRule.class.getSimpleName();
+	private Intent launchIntent = null;
 
 	public BaseActivityInstrumentationRule(Class<T> activityClass, boolean initialTouchMode, boolean launchActivity) {
 		super(activityClass, initialTouchMode, launchActivity);
@@ -55,6 +57,16 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 	public BaseActivityInstrumentationRule(Class<T> activityClass) {
 		super(activityClass);
 		setUpTestProjectFolder();
+	}
+
+	public BaseActivityInstrumentationRule(Class<T> activityClass, String extraFragementPosition, int fragment) {
+		super(activityClass, true, false);
+		launchIntent = new Intent();
+		launchIntent.putExtra(extraFragementPosition, fragment);
+	}
+
+	public void launchActivity() {
+		super.launchActivity(launchIntent);
 	}
 
 	@Override

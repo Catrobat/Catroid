@@ -32,17 +32,16 @@ import android.widget.Spinner;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
-import org.catrobat.catroid.ui.dialogs.NewDataDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewVariableDialog;
 
 import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_DATA_EMPTY;
 
-public abstract class UserVariableBrick extends FormulaBrick implements NewDataDialog.NewVariableDialogListener {
+public abstract class UserVariableBrick extends FormulaBrick implements NewVariableDialog.NewVariableInterface {
 
 	protected UserVariable userVariable;
 
@@ -68,33 +67,6 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		} else {
 			variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1, true);
 			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
-		}
-	}
-
-	@Override
-	public void onFinishNewVariableDialog(Spinner spinnerToUpdate, UserVariable newUserVariable) {
-		UserVariableAdapterWrapper userVariableAdapterWrapper = ((UserVariableAdapterWrapper) spinnerToUpdate
-				.getAdapter());
-		userVariableAdapterWrapper.notifyDataSetChanged();
-		setSpinnerSelection(spinnerToUpdate, newUserVariable);
-
-		for (Brick brick : ProjectManager.getInstance().getCurrentSprite().getAllBricks()) {
-			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() == null) {
-				if (brick instanceof SetVariableBrick) {
-					Spinner spinner = (Spinner) ((SetVariableBrick) brick).view.findViewById(R.id.set_variable_spinner);
-					setSpinnerSelection(spinner, newUserVariable);
-				} else if (brick instanceof ShowTextBrick) {
-					Spinner spinner = (Spinner) ((ShowTextBrick) brick).view.findViewById(R.id.show_variable_spinner);
-					setSpinnerSelection(spinner, newUserVariable);
-				} else if (brick instanceof HideTextBrick) {
-					Spinner spinner = (Spinner) ((HideTextBrick) brick).view.findViewById(R.id.hide_variable_spinner);
-					setSpinnerSelection(spinner, newUserVariable);
-				} else if (brick instanceof ChangeVariableBrick) {
-					Spinner spinner = (Spinner) ((ChangeVariableBrick) brick).view.findViewById(R.id
-							.change_variable_spinner);
-					setSpinnerSelection(spinner, newUserVariable);
-				}
-			}
 		}
 	}
 
@@ -168,17 +140,12 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		this.backPackedData.userVariableType = type;
 	}
 
-	protected View.OnTouchListener createVariableSpinnerTouchListener() {
+	protected View.OnTouchListener createSpinnerOnTouchListener() {
 		return new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN
-						&& ((Spinner) view).getSelectedItemPosition() == 0
-						&& ((Spinner) view).getAdapter().getCount() == 1) {
-					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(UserVariableBrick.this);
-					dialog.show(((Activity) view.getContext()).getFragmentManager(),
-							NewDataDialog.DIALOG_FRAGMENT_TAG);
+				if (event.getAction() == MotionEvent.ACTION_DOWN && ((Spinner) view).getAdapter().getCount() == 1) {
+					showNewVariableDialog();
 					return true;
 				}
 				return false;
@@ -190,17 +157,11 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		return new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
-					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(UserVariableBrick.this);
-					int spinnerPos = ((UserVariableAdapterWrapper) parent.getAdapter())
-							.getPositionOfItem(userVariable);
-					dialog.setUserVariableIfCancel(spinnerPos);
-					dialog.show(((Activity) view.getContext()).getFragmentManager(),
-							NewDataDialog.DIALOG_FRAGMENT_TAG);
+				if (position == 0) {
+					showNewVariableDialog();
+				} else {
+					userVariable = (UserVariable) parent.getItemAtPosition(position);
 				}
-				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
-				userVariable = (UserVariable) parent.getItemAtPosition(position);
 			}
 
 			@Override
@@ -208,5 +169,10 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 				userVariable = null;
 			}
 		};
+	}
+
+	private void showNewVariableDialog() {
+		NewVariableDialog dialog = new NewVariableDialog(this);
+		dialog.show(((Activity) view.getContext()).getFragmentManager(), NewVariableDialog.TAG);
 	}
 }

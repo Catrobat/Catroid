@@ -22,11 +22,9 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -35,6 +33,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -65,11 +64,14 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
-import org.catrobat.catroid.ui.dialogs.NewStringDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewStringDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.utils.FormulaEditorIntroUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
-public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener {
+public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener,
+		NewItemInterface<String> {
+
 	private static final String TAG = FormulaEditorFragment.class.getSimpleName();
 
 	private static final int SET_FORMULA_ON_CREATE_VIEW = 0;
@@ -97,9 +99,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
 	private int confirmSwitchEditTextCounter = 0;
-	private CharSequence previousActionBarTitle;
 	private static OnFormulaChangedListener onFormulaChangedListener;
 	private boolean hasFormulaBeenChanged = false;
+
+	private String previousTitle = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -123,16 +126,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private void setUpActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		previousActionBarTitle = ProjectManager.getInstance().getCurrentSprite().getName();
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(R.string.formula_editor_title);
+		previousTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
 	}
 
 	private void resetActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		actionBar.setTitle(previousActionBarTitle);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(previousTitle);
 	}
 
 	private void cloneFormulaBrick(FormulaBrick formulaBrick) {
@@ -146,7 +145,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private static void showFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField, boolean showCustomView) {
-
 		Activity activity = (Activity) view.getContext();
 
 		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getFragmentManager()
@@ -437,17 +435,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 							endFormulaEditor();
 							return true;
 						case R.id.formula_editor_keyboard_string:
-							FragmentManager fragmentManager = ((Activity) context)
-									.getFragmentManager();
-							Fragment dialogFragment = fragmentManager
-									.findFragmentByTag(NewStringDialog.DIALOG_FRAGMENT_TAG);
-
-							if (dialogFragment == null) {
-								dialogFragment = NewStringDialog.newInstance();
-							}
-
-							((NewStringDialog) dialogFragment).show(fragmentManager,
-									NewStringDialog.DIALOG_FRAGMENT_TAG);
+							showNewStringDialog();
 							return true;
 						case R.id.formula_editor_keyboard_delete:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
@@ -474,6 +462,22 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 
 		super.onStart();
+	}
+
+	private void showNewStringDialog() {
+		NewStringDialog dialog = new NewStringDialog(getSelectedFormulaText(), this);
+		dialog.show(getFragmentManager(), NewStringDialog.TAG);
+	}
+
+	@Override
+	public void addItem(String string) {
+		String previousString = getSelectedFormulaText();
+		if (previousString != null && !previousString.matches("\\s*")) {
+			overrideSelectedText(string);
+		} else {
+			addStringToActiveFormula(string);
+		}
+		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 	}
 
 	private void showComputeDialog(FormulaElement formulaElement) {
@@ -523,8 +527,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		menu.findItem(R.id.menu_undo).setVisible(true);
 		menu.findItem(R.id.menu_redo).setVisible(true);
-		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
-		getActivity().getActionBar().setTitle(getString(R.string.formula_editor_title));
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -538,9 +540,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				exitFormulaEditorFragment();
-				return true;
 			case R.id.menu_undo:
 				formulaEditorEditText.undo();
 				break;

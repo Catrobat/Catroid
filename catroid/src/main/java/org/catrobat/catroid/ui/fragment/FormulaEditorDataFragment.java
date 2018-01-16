@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -36,7 +37,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -48,16 +48,14 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
-import org.catrobat.catroid.ui.dialogs.NewDataDialog;
-import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.dialogs.RenameVariableDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewDataDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 
 public class FormulaEditorDataFragment extends ListFragment implements
 		DataAdapter.OnCheckedChangeListener,
 		DataAdapter.OnListItemClickListener,
-		NewUserListDialogListener,
-		NewDataDialog.NewVariableDialogListener {
+		NewDataDialog.NewDataInterface {
 
 	public static final String USER_DATA_TAG = "userDataFragment";
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
@@ -201,7 +199,7 @@ public class FormulaEditorDataFragment extends ListFragment implements
 
 	@Override
 	public void onResume() {
-		getActivity().getActionBar().setTitle(R.string.category_data);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.category_data);
 		BottomBar.showBottomBar(getActivity());
 		BottomBar.hidePlayButton(getActivity());
 		super.onResume();
@@ -275,19 +273,13 @@ public class FormulaEditorDataFragment extends ListFragment implements
 	}
 
 	public void handleAddButton() {
-		NewDataDialog dialog = new NewDataDialog(NewDataDialog.DialogType.SHOW_LIST_CHECKBOX);
-		dialog.addUserListDialogListener(this);
-		dialog.addVariableDialogListener(this);
-		dialog.show(getFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
+		NewDataDialog dialog = new NewDataDialog();
+		dialog.setNewDataInterface(this);
+		dialog.show(getFragmentManager(), NewDataDialog.TAG);
 	}
 
 	@Override
-	public void onFinishNewUserListDialog(Spinner spinnerToUpdate, UserList userList) {
-		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void onFinishNewVariableDialog(Spinner spinnerToUpdate, UserVariable newUserVariable) {
+	public void onNewData() {
 		adapter.notifyDataSetChanged();
 	}
 

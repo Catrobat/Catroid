@@ -24,8 +24,8 @@
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -56,19 +56,20 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
 public class PlaySoundAndWaitBrickTest {
@@ -195,7 +196,7 @@ public class PlaySoundAndWaitBrickTest {
 				.perform(click());
 		onRVAtPosition(position)
 				.performCheckItem();
-		onView(withContentDescription(R.string.done))
+		onView(withText(R.string.confirm))
 				.perform(click());
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
@@ -217,15 +218,15 @@ public class PlaySoundAndWaitBrickTest {
 				.perform(click());
 		onRVAtPosition(position)
 				.performCheckItem();
-		onView(withContentDescription(R.string.done))
+
+		onView(withText(R.string.confirm))
 				.perform(click());
 
 		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_text), withText(oldName), isDisplayed()))
+		onView(allOf(withText(oldName), isDisplayed(), instanceOf(EditText.class)))
 				.perform(replaceText(newName));
-
-		Espresso.closeSoftKeyboard();
+		closeSoftKeyboard();
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.perform(click());

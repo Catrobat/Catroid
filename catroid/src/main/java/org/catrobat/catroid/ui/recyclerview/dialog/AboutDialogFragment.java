@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -37,41 +37,42 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
 
 public class AboutDialogFragment extends DialogFragment {
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_about_pocketcode";
+
+	public static final String TAG = AboutDialogFragment.class.getSimpleName();
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
 		View view = View.inflate(getActivity(), R.layout.dialog_about, null);
 
-		TextView aboutUrlTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_url);
-		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		TextView developerUrlView = view.findViewById(R.id.dialog_about_text_view_url);
+		developerUrlView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		String aboutUrl = getString(R.string.about_link_template, Constants.ABOUT_POCKETCODE_LICENSE_URL,
+		String developerUrl = getString(R.string.about_link_template, Constants.ABOUT_POCKETCODE_LICENSE_URL,
 				getString(R.string.dialog_about_license_link_text));
 
-		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
+		developerUrlView.setText(Html.fromHtml(developerUrl));
 
-		TextView aboutUrlCatrobatView = (TextView) view.findViewById(R.id.dialog_about_text_catrobat_url);
-		aboutUrlCatrobatView.setMovementMethod(LinkMovementMethod.getInstance());
+		TextView aboutCatrobatView = view.findViewById(R.id.dialog_about_text_catrobat_url);
+		aboutCatrobatView.setMovementMethod(LinkMovementMethod.getInstance());
 
 		String aboutCatrobatUrl = getString(R.string.about_link_template, Constants.CATROBAT_ABOUT_URL,
 				getString(R.string.dialog_about_catrobat_link_text));
 
-		aboutUrlCatrobatView.setText(Html.fromHtml(aboutCatrobatUrl));
+		aboutCatrobatView.setText(Html.fromHtml(aboutCatrobatUrl));
 
-		TextView aboutVersionNameTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_version_name);
+		TextView aboutVersionNameTextView = view.findViewById(R.id.dialog_about_text_view_version_name);
 		String versionName = this.getString(R.string.android_version_prefix) + Utils.getVersionName(getActivity());
 		aboutVersionNameTextView.setText(versionName);
 
-		Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.dialog_about_title)
+		return new AlertDialog.Builder(getActivity())
+				.setView(view)
+				.setTitle(R.string.dialog_about_title)
 				.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
 					}
-				}).create();
-		aboutDialog.setCanceledOnTouchOutside(true);
-
-		return aboutDialog;
+				})
+				.create();
 	}
 }

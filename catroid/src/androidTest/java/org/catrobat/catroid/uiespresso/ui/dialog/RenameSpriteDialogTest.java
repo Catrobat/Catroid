@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -52,7 +51,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -64,16 +62,15 @@ public class RenameSpriteDialogTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class, true, false);
-
+			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION,
+			ProjectActivity.FRAGMENT_SPRITES);
 	private String oldSpriteName = "secondSprite";
 
 	@Before
 	public void setUp() throws Exception {
 		createProject("renameSpriteDialogTest");
-		Intent intent = new Intent();
-		intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
-		baseActivityTestRule.launchActivity(intent);
+
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -99,11 +96,11 @@ public class RenameSpriteDialogTest {
 		onRVAtPosition(2)
 				.performCheckItem();
 
-		onView(withContentDescription(R.string.done)).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
 
 		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_text), withText(oldSpriteName), isDisplayed()))
+		onView(allOf(withText(oldSpriteName), isDisplayed()))
 				.perform(replaceText(newSpriteName));
 
 		closeSoftKeyboard();

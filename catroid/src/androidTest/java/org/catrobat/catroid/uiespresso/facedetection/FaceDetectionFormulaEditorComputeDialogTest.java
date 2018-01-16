@@ -59,12 +59,11 @@ public class FaceDetectionFormulaEditorComputeDialogTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class);
-
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 	@Before
 	public void setUp() throws Exception {
 		createProject("FaceDetectionFormulaEditorComputeDialogTest");
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	private void openComputeDialog() {

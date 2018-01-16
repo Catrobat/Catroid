@@ -42,6 +42,7 @@ import java.util.Arrays;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -58,12 +59,12 @@ public class ChangeVariableTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
 		createProject();
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Test
@@ -139,8 +140,8 @@ public class ChangeVariableTest {
 				.perform(click());
 		onView(withId(R.id.button_add))
 				.perform(click());
-		onView(withId(R.id.dialog_formula_editor_data_name_edit_text))
-				.perform(typeText(variableName));
+		onView(withId(R.id.input_edit_text))
+				.perform(typeText(variableName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
 		pressBack();

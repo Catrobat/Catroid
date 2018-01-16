@@ -28,7 +28,7 @@
     <string name="cancel">Cancel</string>
     <string name="next">Next</string>
     <string name="done">Done</string>
-    <string name="select_all">Select All</string>
+    <string name="confirm">Confirm</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="back">Back</string>
@@ -60,12 +60,6 @@
     <string name="settings">Settings</string>
     <string name="redo">Redo</string>
     <string name="undo">Undo</string>
-    <string name="name_exists">Name already exists</string>
-    <string name="no_name">No name</string>
-
-    <string name="new_group">New group</string>
-    <string name="my_group">My group</string>
-    <string name="name">Name:</string>
 
     <string name="degrees">degrees</string>
     <string name="landscape">landscape</string>
@@ -254,7 +248,6 @@
     <string name="am_rename">Rename</string>
     <string name="dialog_confirm_delete">This cannot be undone!</string>
 
-    <string name="list_headline_background">Background</string>
     <string name="list_headline_sprites">Objects</string>
 
     <!-- Options Menu Options -->
@@ -298,7 +291,6 @@
 
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New Scene</string>
-    <string name="scene_name">Scene name:</string>
 
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
@@ -335,10 +327,14 @@
     </plurals>
 
     <!-- Dialog Labels -->
-    <string name="project_name_label">Program:</string>
-    <string name="sprite_name_label">Object name:</string>
-    <string name="look_name_label">Look name:</string>
-    <string name="sound_name_label">Sound name:</string>
+    <string name="project_name_label">Program Name</string>
+    <string name="scene_name">Scene Name</string>
+    <string name="sprite_name_label">Object Name</string>
+    <string name="script_group_label">Script Group Name</string>
+    <string name="look_name_label">Look Name</string>
+    <string name="sound_name_label">Sound Name</string>
+    <string name="string_label">Text</string>
+    <string name="data_label">Name</string>
 
     <!-- Details Labels -->
     <string name="number_of_scripts">Scripts:</string>
@@ -354,6 +350,9 @@
     <string name="rename_look_dialog">Rename Look</string>
     <string name="rename_sound_dialog">Rename Sound</string>
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
+
+    <!-- New Script Group Dialog -->
+    <string name="new_group">New group</string>
 
     <!-- Action Toasts -->
     <plurals name="packed_scenes">
@@ -629,7 +628,7 @@
     <string name="dialog_about_title">About this app</string>
     <string name="dialog_about_license_info">This app offers a programming
         environment and interpreter for the visual
-        programming language Catrobat.\n\n
+        programming language Catrobat.\n
         The source code of this app is mainly licensed under the GNU AGPL v3 License.
         For further details on the license see the link below.\n</string>
     <string name="dialog_about_license_link_text">Source Code License</string>
@@ -637,7 +636,17 @@
     <!--  -->
 
 
-    <!-- SoundRecorderActivty -->
+    <!-- NoNetworkDialog -->
+    <string name="error_no_network_title">No network</string>
+    <string name="error_no_network">You need a network connection to use this program. Please turn on
+        mobile network or Wi-Fi in the settings.</string>
+    <plurals name="bricks_using_network_headline">
+        <item quantity="one">The following brick will use the network:</item>
+        <item quantity="other">The following bricks will use the network:</item>
+    </plurals>
+
+
+    <!-- SoundRecorderActivity -->
     <string name="soundrecorder_name">Sound Recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
@@ -698,8 +707,8 @@
 
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Sign In</string>
-    <string name="username">Username:</string>
-    <string name="password">Password:</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
     <string name="password_forgotten">Password forgotten?</string>
     <string name="new_user_registered">New account created</string>
     <string name="user_logged_in">Successfully logged in</string>
@@ -708,7 +717,6 @@
     <string name="register_code_terms_of_use_text">Terms of Use and Services</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
-    <string name="or">OR</string>
     <string name="password_confirm">Confirm Password</string>
     <string name="accountName">E-Mail</string>
     <string name="signin_thanks">Thank you for signing up!</string>
@@ -1085,9 +1093,6 @@
 
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">This app requires writable external storage like a SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting a SD card, then trying again.</string>
-    <string name="error_no_program_name_entered">Please enter a program name.</string>
-    <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
-    <string name="error_project_exists">Please choose another program name.</string>
     <string name="error_project_upload">An error occurred while uploading the program.</string>
     <string name="error_project_download">An error occurred while downloading the program.</string>
     <string name="error_new_project">An error occurred while creating a new program.</string>
@@ -1120,11 +1125,6 @@
     <string name="error_unknown_error">An unknown error occurred.</string>
     <string name="error_gps_not_available">Error, GPS was not available.</string>
     <string name="error_set_description">An error occurred while saving the new description.</string>
-    <string name="error_no_network">You need a network connection to use this program. Please turn on
-        mobile network or Wi-Fi in the settings.</string>
-    <string name="error_no_network_one_brick">Following brick will use the network:</string>
-    <string name="error_no_network_multiple_bricks">Following bricks will use the network:</string>
-    <string name="error_no_network_title">No network</string>
     <string name="error_no_whatsapp">WhatsApp not installed</string>
     <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
         program.</string>
@@ -1626,19 +1626,16 @@
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="formula_editor_variable_dialog_title">New variable</string>
-    <string name="formula_editor_list_dialog_title">New list</string>
+    <string name="formula_editor_variable_dialog_title">New Variable</string>
+    <string name="formula_editor_list_dialog_title">New List</string>
     <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
-    <string name="formula_editor_dialog_change_text">Change text</string>
     <string name="formula_editor_data_dialog_hint">Enter name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
-    <string name="formula_editor_new_string_name">New text</string>
-    <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
-    <string name="formula_editor_data_dialog_title">New</string>
+    <string name="formula_editor_new_string_name">New Text</string>
+    <string name="formula_editor_dialog_change_text">Change Text</string>
     <string name="formula_editor_rename_variable_dialog_title">Rename</string>
-    <string name="formula_editor_existing_data_item">Name already in use!</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>
     <string name="formula_editor_lists">Lists</string>
@@ -1686,12 +1683,6 @@
     </plurals>
     <!--  -->
 
-    <!-- New Data Dialog -->
-    <string name="user_variablename_already_exists">Please choose another variable name.</string>
-    <string name="user_listname_already_exists">Please choose another list name.</string>
-    <string name="no_variablename_entered">Please enter a variable name.</string>
-    <string name="no_listname_entered">Please enter a list name.</string>
-    <!-- -->
 
     <!-- Brick Data Editor Strings -->
     <string name="separator">|</string>
@@ -1709,9 +1700,6 @@
 
     <!-- User Bricks strings -->
     <string name="define">Define</string>
-    <string name="new_user_brick">New Brick</string>
-    <string name="new_user_brick_variable">Variable</string>
-    <string name="new_user_brick_name">Please choose a brick name:</string>
     <!--  -->
 
 
@@ -1788,10 +1776,6 @@
     <!--  -->
 
     <!-- Crash report dialog -->
-    <string name="app_has_crashed">The app has crashed!</string>
-    <string name="crash_dialog_text">Please help to improve our app by sending us anonymous crash reports!</string>
-    <string name="crash_dialog_always_send">Always send</string>
-    <string name="crash_dialog_send">Send</string>
     <string name="plus" translatable="false">+</string>
     <!--  -->
 

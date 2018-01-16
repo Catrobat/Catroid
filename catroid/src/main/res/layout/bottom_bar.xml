@@ -30,7 +30,7 @@
               android:orientation="horizontal" >
 
     <ImageButton
-        style="@style/BottomBarImageButton"
+        style="@style/BottomBarButton"
         android:id="@+id/button_add"
         android:onClick="handleAddButton"
         android:src="@drawable/ic_plus" />
@@ -45,7 +45,7 @@
         android:src="@drawable/bottombar_separator" />
 
     <ImageButton
-        style="@style/BottomBarImageButton"
+        style="@style/BottomBarButton"
         android:id="@+id/button_play"
         android:onClick="handlePlayButton"
         android:src="@drawable/ic_play" />

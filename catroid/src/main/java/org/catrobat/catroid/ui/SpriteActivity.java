@@ -26,8 +26,8 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -68,7 +68,13 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialog.Play
 		super.onCreate(savedInstanceState);
 		SettingsActivity.setToChosenLanguage(this);
 
-		setContentView(R.layout.activity_script);
+		setContentView(R.layout.activity_recycler);
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		String title = ProjectManager.getInstance().getCurrentScene().getName()
+				+ ": " + ProjectManager.getInstance().getCurrentSprite();
+		getSupportActionBar().setTitle(title);
 
 		if (savedInstanceState == null) {
 			Bundle bundle = this.getIntent().getExtras();
@@ -95,7 +101,7 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialog.Play
 				fragmentTransaction.replace(R.id.fragment_container, new SoundListFragment(), SoundListFragment.TAG);
 				break;
 			case FRAGMENT_NFC_TAGS:
-				fragmentTransaction.replace(R.id.fragment_container, new NfcTagListFragment(), SoundListFragment.TAG);
+				fragmentTransaction.replace(R.id.fragment_container, new NfcTagListFragment(), NfcTagListFragment.TAG);
 				break;
 			default:
 				return;
@@ -125,18 +131,6 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialog.Play
 			menu.findItem(R.id.comment_in_out).setVisible(true);
 		}
 		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				onBackPressed();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-		return true;
 	}
 
 	@Override
@@ -200,7 +194,6 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialog.Play
 	}
 
 	public void handlePlayButton(View view) {
-
 		if (isHoveringActive()) {
 			ScriptFragment fragment = ((ScriptFragment) getFragmentManager().findFragmentById(R.id.fragment_container));
 			fragment.getListView().animateHoveringBrick();

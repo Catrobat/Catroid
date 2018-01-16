@@ -41,6 +41,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -79,9 +80,9 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_sound, (ViewGroup) getView(), false);
 
-		view.findViewById(R.id.dialog_new_sound_recorder);
-		view.findViewById(R.id.dialog_new_sound_media_library);
-		view.findViewById(R.id.dialog_new_sound_gallery);
+		view.findViewById(R.id.dialog_new_sound_recorder).setOnClickListener(this);
+		view.findViewById(R.id.dialog_new_sound_media_library).setOnClickListener(this);
+		view.findViewById(R.id.dialog_new_sound_gallery).setOnClickListener(this);
 
 		if (BuildConfig.FEATURE_POCKETMUSIC_ENABLED) {
 			view.findViewById(R.id.dialog_new_sound_pocketmusic).setOnClickListener(this);
@@ -116,6 +117,10 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 				fileChooserIntent.setType("audio/*");
 				startActivityForResult(Intent.createChooser(
 						fileChooserIntent, getString(R.string.sound_select_source)), FILE);
+				break;
+			case R.id.dialog_new_sound_pocketmusic:
+				Intent intent = new Intent(getActivity(), PocketMusicActivity.class);
+				startActivity(intent);
 				break;
 		}
 	}
