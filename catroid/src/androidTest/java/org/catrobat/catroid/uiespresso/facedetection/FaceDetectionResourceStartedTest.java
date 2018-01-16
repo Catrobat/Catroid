@@ -64,8 +64,7 @@ public class FaceDetectionResourceStartedTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
-
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 	@Before
 	public void setUp() throws Exception {
 	}
@@ -78,7 +77,7 @@ public class FaceDetectionResourceStartedTest {
 				new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.FACE_SIZE.name(), null));
 		createProject();
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);

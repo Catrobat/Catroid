@@ -66,20 +66,20 @@ public final class BrickTestUtils {
 		onView(withId(R.id.button_add))
 				.perform(click());
 
-		onView(withId(R.id.dialog_formula_editor_data_name_edit_text))
+		onView(withId(R.id.input_edit_text))
 				.perform(typeText(userListName), closeSoftKeyboard());
 
-		onView(withId(R.id.dialog_formula_editor_data_is_list_checkbox))
+		onView(withId(R.id.make_list))
 				.perform(scrollTo(), click());
 
-		onView(withId(R.id.dialog_formula_editor_data_is_list_checkbox))
+		onView(withId(R.id.make_list))
 				.check(matches(isChecked()));
 
 		if (forAllSprites) {
-			onView(withId(R.id.dialog_formula_editor_data_name_global_variable_radio_button))
+			onView(withId(R.id.local))
 					.perform(click());
 		} else {
-			onView(withId(R.id.dialog_formula_editor_data_name_local_variable_radio_button))
+			onView(withId(R.id.global))
 					.perform(click());
 		}
 		onView(withId(android.R.id.button1)).perform(click());

@@ -100,7 +100,7 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 
 		setSpinnerSelection(userListSpinner, null);
 
-		userListSpinner.setOnTouchListener(createListSpinnerTouchListener());
+		userListSpinner.setOnTouchListener(createSpinnerOnTouchListener());
 		userListSpinner.setOnItemSelectedListener(createListSpinnerItemSelectedListener());
 		return view;
 	}
@@ -127,6 +127,12 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 		textViewInsertIndex.setText(String.valueOf(BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 
 		return prototypeView;
+	}
+
+	@Override
+	public void onNewList(UserList userList) {
+		Spinner spinner = view.findViewById(R.id.replace_item_in_userlist_spinner);
+		setSpinnerSelection(spinner, userList);
 	}
 
 	@Override

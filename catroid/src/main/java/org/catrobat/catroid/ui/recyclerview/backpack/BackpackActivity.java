@@ -27,8 +27,8 @@ import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BaseActivity;
@@ -50,10 +50,11 @@ public class BackpackActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getActionBar().setTitle(R.string.backpack_title);
-		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#83B3C7")));
-
-		setContentView(R.layout.activity_backpack);
+		setContentView(R.layout.activity_recycler);
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setTitle(R.string.backpack_title);
+		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#83B3C7")));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState == null) {
 			Bundle bundle = getIntent().getExtras();
@@ -104,24 +105,11 @@ public class BackpackActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-
 		BackpackRecyclerViewFragment currentFragment = ((BackpackRecyclerViewFragment) getFragmentManager()
 				.findFragmentById(R.id
 				.fragment_container));
 
 		menu.findItem(R.id.show_details).setVisible(currentFragment.hasDetails);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				onBackPressed();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
 		return true;
 	}
 }

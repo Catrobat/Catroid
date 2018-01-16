@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -55,7 +56,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 		super.onResume();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
-		getActivity().getActionBar().setTitle(currentProject.getName());
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(currentProject.getName());
 	}
 
 	@Override

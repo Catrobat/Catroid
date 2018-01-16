@@ -21,12 +21,31 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<org.catrobat.catroid.ui.CapitalizedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/select_all"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingEnd="16dp"
-    android:text="@string/select_all"
-    android:textColor="@color/white"
-    android:textSize="12sp"
-    android:textStyle="bold" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dialog_content_area_padding">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_no_network" />
+
+    <TextView
+        android:id="@+id/headline_bricks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_no_network_one_brick" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/brick_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

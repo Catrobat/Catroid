@@ -46,7 +46,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -93,17 +92,6 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 		view.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(this);
 		view.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(this);
 		view.findViewById(R.id.dialog_new_look_camera).setOnClickListener(this);
-
-		View button = view.findViewById(R.id.dialog_new_look_drone_video);
-		View droneView = view.findViewById(R.id.dialog_new_look_drone);
-
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
-			droneView.setOnClickListener(this);
-			button.setVisibility(View.VISIBLE);
-		} else {
-			button.setVisibility(View.GONE);
-			droneView.setVisibility(View.GONE);
-		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setView(view).setTitle(R.string.new_look_dialog_title);
@@ -158,8 +146,6 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 				cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 				Intent chooserIntent = Intent.createChooser(cameraIntent, getString(R.string.select_look_from_camera));
 				startActivityForResult(chooserIntent, CAMERA);
-				break;
-			case R.id.dialog_new_look_drone:
 				break;
 		}
 	}

@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,12 +54,14 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_soundrecorder);
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setTitle(R.string.soundrecorder_name);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		recordButton = (RecordButton) findViewById(R.id.soundrecorder_record_button);
-		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
+		recordButton = findViewById(R.id.soundrecorder_record_button);
+		timeRecorderChronometer = findViewById(R.id.soundrecorder_chronometer_time_recorded);
 		recordButton.setOnClickListener(this);
 		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

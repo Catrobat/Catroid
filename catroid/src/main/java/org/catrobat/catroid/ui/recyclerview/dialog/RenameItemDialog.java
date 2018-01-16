@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.dialogs.TextDialog;
 
 public class RenameItemDialog extends TextDialog {
 
@@ -32,32 +31,32 @@ public class RenameItemDialog extends TextDialog {
 
 	private RenameItemInterface renameItemInterface;
 
-	public RenameItemDialog(int title, int inputLabel, String defaultText, RenameItemInterface renameItemInterface) {
-		super(title, inputLabel, defaultText, false);
+	public RenameItemDialog(int title, int label, String text, RenameItemInterface renameItemInterface) {
+		super(title, label, text, false);
 		this.renameItemInterface = renameItemInterface;
 	}
 
 	@Override
 	protected boolean handlePositiveButtonClick() {
-		String name = input.getText().toString().trim();
+		String name = inputLayout.getEditText().getText().toString().trim();
 
 		if (name.isEmpty()) {
-			input.setError(getString(R.string.name_consists_of_spaces_only));
+			inputLayout.setError(getString(R.string.name_consists_of_spaces_only));
 			return false;
 		}
 
-		if (renameItemInterface.isNameUnique(name) || name.equals(previousText)) {
+		if (renameItemInterface.isNameUnique(name) || name.equals(text)) {
 			renameItemInterface.renameItem(name);
 			return true;
 		} else {
-			input.setError(getString(R.string.name_already_exists));
+			inputLayout.setError(getString(R.string.name_already_exists));
 			return false;
 		}
 	}
 
 	@Override
 	protected void handleNegativeButtonClick() {
-		renameItemInterface.renameItem(previousText);
+		renameItemInterface.renameItem(text);
 	}
 
 	public interface RenameItemInterface {

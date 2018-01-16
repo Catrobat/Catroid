@@ -26,20 +26,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <org.catrobat.catroid.ui.CapitalizedTextView
-            android:text="@string/list_headline_background"
-            style="@style/headlineTextView" />
-
-    <View style="@style/headlineView" />
+    android:layout_height="wrap_content">
 
     <include layout="@layout/list_item" />
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/list_headline_sprites"
-        style="@style/headlineTextView" />
-
-    <View style="@style/headlineView" />
+        android:padding="@dimen/view_holder_padding"/>
 
 </LinearLayout>

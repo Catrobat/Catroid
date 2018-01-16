@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -49,27 +49,19 @@ public class NoNetworkDialog extends AlertDialog {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		View dialogLayout = View.inflate(this.getContext(), R.layout.dialog_error_networkconnection, null);
-		LinearLayout imageLayout = (LinearLayout) dialogLayout
-				.findViewById(R.id.dialog_error_network_brickimages_layout);
-
-		for (Brick networkBrick : brickList) {
-			imageLayout.addView(networkBrick.getPrototypeView(getContext()));
-		}
+		View root = View.inflate(getContext(), R.layout.dialog_no_network_connection, null);
+		LinearLayout brickContainer = root.findViewById(R.id.brick_container);
 
 		setTitle(R.string.error_no_network_title);
-		if (brickList.size() > 1) {
-			TextView brickDescription = (TextView) dialogLayout.findViewById(R.id.dialog_text_headtext_bricks);
-			brickDescription.setText(this.getContext().getText(R.string.error_no_network_multiple_bricks));
+		((TextView) root.findViewById(R.id.headline_bricks))
+				.setText(getContext().getResources().getQuantityString(R.plurals.bricks_using_network_headline,
+				brickList.size()));
+
+		for (Brick brick : brickList) {
+			brickContainer.addView(brick.getPrototypeView(getContext()));
 		}
+
 		setCancelable(false);
-		setButton(BUTTON_NEGATIVE, getContext().getString(R.string.cancel),
-				new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						dismiss();
-					}
-				});
 		setButton(BUTTON_POSITIVE, getContext().getString(R.string.preference_title),
 				new OnClickListener() {
 					@Override
@@ -78,7 +70,15 @@ public class NoNetworkDialog extends AlertDialog {
 						getContext().startActivity(i);
 					}
 				});
-		setView(dialogLayout);
+		setButton(BUTTON_NEGATIVE, getContext().getString(R.string.cancel),
+				new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dismiss();
+					}
+				});
+
+		setView(root);
 		super.onCreate(savedInstanceState);
 	}
 }

@@ -34,6 +34,7 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -62,7 +63,7 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 		dataInteraction.onChildView(withText(R.string.brick_variable_spinner_create_new_variable))
 				.perform(click());
 
-		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
+		enterTextOnDialogue(R.id.input_edit_text, variableName);
 
 		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);
 	}
@@ -73,18 +74,16 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 		onView(withText(R.string.brick_variable_spinner_create_new_variable))
 				.perform(click());
 
-		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
+		enterTextOnDialogue(R.id.input_edit_text, variableName);
 		// todo: CAT-2359 to fix this:
 		checkShowsText(variableName);
 
 		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
-	private static void enterTextOnDialogue(int dialogueId, String textToEnter) {
-		onView(withId(dialogueId))
-				.check(matches(isDisplayed()));
-		onView(withId(dialogueId))
-				.perform(typeText(textToEnter));
+	private static void enterTextOnDialogue(int editTextId, String textToEnter) {
+		onView(withId(editTextId))
+				.perform(typeText(textToEnter), closeSoftKeyboard());
 		onView(withId(android.R.id.button1))
 				.perform(click());
 	}

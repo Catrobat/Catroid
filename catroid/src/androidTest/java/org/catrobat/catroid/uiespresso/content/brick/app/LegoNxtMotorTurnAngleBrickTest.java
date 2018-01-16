@@ -50,7 +50,7 @@ public class LegoNxtMotorTurnAngleBrickTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
@@ -58,7 +58,7 @@ public class LegoNxtMotorTurnAngleBrickTest {
 		final int initialAngle = 90;
 		BrickTestUtils.createProjectAndGetStartScript("legoNxtMotorTurnAngleBrickTest1").addBrick(new
 				LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, initialAngle));
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})

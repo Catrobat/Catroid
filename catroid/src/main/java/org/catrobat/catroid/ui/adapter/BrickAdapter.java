@@ -60,7 +60,6 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.ui.ViewSwitchLock;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
@@ -1045,8 +1044,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 						checkedBricks.add(brickList.get(currentPosition));
 						currentPosition++;
 					}
-					List<String> backPackedScriptGroups = BackPackListManager.getInstance().getAllBackPackedScriptGroups();
-					showNewGroupBackPackDialog(backPackedScriptGroups, false);
+					scriptFragment.showNewScriptGroupDialog();
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_comment_in))) {
 					commentBrickOut(brickList.get(itemPosition), false);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_comment_out))) {
@@ -1228,13 +1226,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 	}
 
-	public void checkAllItems() {
-		for (Brick brick : brickList) {
-			setCheckbox(brick, true);
-			handleCheck(brick, true);
-		}
-	}
-
 	private void unCheckAllItems() {
 		for (Brick brick : brickList) {
 			setCheckbox(brick, false);
@@ -1348,9 +1339,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 					break;
 			}
 		}
-		if (scriptFragment.getActionModeActive()) {
-			scriptFragment.updateActionModeTitle();
-		}
+
+		scriptFragment.updateActionModeTitle();
 	}
 
 	void enableCorrespondingScriptBrick(int indexBegin) {
@@ -1368,12 +1358,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		if (!(checkedBricks.contains(brick)) && !(brick instanceof UserScriptDefinitionBrick)) {
 			checkedBricks.add(brick);
 		}
-	}
-
-	public void onDestroyActionModeBackPack() {
-		actionMode = ActionModeEnum.NO_ACTION;
-		List<String> backPackedScriptGroups = BackPackListManager.getInstance().getAllBackPackedScriptGroups();
-		showNewGroupBackPackDialog(backPackedScriptGroups, false);
 	}
 
 	public void handleScriptDelete(Sprite spriteToEdit, Script scriptToDelete) {
@@ -1407,20 +1391,5 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	public void setUserBrick(UserBrick userBrick) {
 		this.userBrick = userBrick;
-	}
-
-	public void animateUnpackingFromBackpack(int numberOfInsertedBricks) {
-		int insertedBricksStartPosition = brickList.size() - 1 - numberOfInsertedBricks;
-		if (insertedBricksStartPosition < 0) {
-			return;
-		}
-		int maxNumberAnimatedBricks = 4;
-		for (int position = insertedBricksStartPosition; position < brickList.size() && ((position
-				- insertedBricksStartPosition) < maxNumberAnimatedBricks); position++) {
-			if (position < brickList.size()) {
-				animatedBricks.add(brickList.get(position));
-			}
-		}
-		scrollToPosition(insertedBricksStartPosition);
 	}
 }

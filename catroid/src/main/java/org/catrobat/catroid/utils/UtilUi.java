@@ -24,14 +24,8 @@ package org.catrobat.catroid.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 
 public final class UtilUi {
@@ -52,17 +46,5 @@ public final class UtilUi {
 			//a null-context should never be passed. However, an educated guess is needed in that case.
 			ScreenValues.setToDefaultSreenSize();
 		}
-	}
-
-	public static View addSelectAllActionModeButton(LayoutInflater inflater, ActionMode mode, Menu menu) {
-		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-		MenuItem item = menu.findItem(R.id.select_all);
-		View view = item.getActionView();
-		if (view.getId() == R.id.select_all) {
-			View selectAllView = View.inflate(inflater.getContext(), R.layout.action_mode_select_all, null);
-			item.setActionView(selectAllView);
-			return selectAllView;
-		}
-		return null;
 	}
 }

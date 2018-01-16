@@ -36,7 +36,6 @@ import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ViewHolder;
@@ -44,6 +43,7 @@ import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCreatorTask;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
@@ -104,8 +104,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	public void handleAddButton() {
 		NewProjectDialog dialog = new NewProjectDialog();
-		dialog.setOpenedFromProjectList(true);
-		dialog.show(getFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+		dialog.show(getFragmentManager(), NewProjectDialog.TAG);
 	}
 
 	@Override
@@ -153,7 +152,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	protected void deleteItems(List<ProjectData> selectedItems) {
 		finishActionMode();
-
 		for (ProjectData item : selectedItems) {
 			try {
 				projectController.delete(item);

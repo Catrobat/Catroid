@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.dialogs.TextDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.io.IOException;
@@ -71,25 +70,25 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 	private class NewSpriteDialog extends TextDialog {
 
 		NewSpriteDialog() {
-			super(R.string.new_sprite_dialog_title, R.string.sprite_name_label, "", false);
+			super(R.string.new_sprite_dialog_title, R.string.sprite_name_label, null, false);
 		}
 
 		@Override
 		protected boolean handlePositiveButtonClick() {
-			String name = input.getText().toString().trim();
+			String name = inputLayout.getEditText().getText().toString().trim();
 
 			if (name.isEmpty()) {
-				input.setError(getString(R.string.name_consists_of_spaces_only));
+				inputLayout.setError(getString(R.string.name_consists_of_spaces_only));
 				return false;
 			}
 
-			if (!getScope(dstScene).contains(name)) {
+			if (getScope(dstScene).contains(name)) {
+				inputLayout.setError(getString(R.string.name_already_exists));
+				return false;
+			} else {
 				sprite.setName(name);
 				newItemInterface.addItem(sprite);
 				return true;
-			} else {
-				input.setError(getString(R.string.name_already_exists));
-				return false;
 			}
 		}
 

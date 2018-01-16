@@ -62,7 +62,7 @@ public class CameraResourceTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
@@ -74,7 +74,7 @@ public class CameraResourceTest {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("cameraResourceNotUsed");
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -89,7 +89,7 @@ public class CameraResourceTest {
 		script.addBrick(new CameraBrick(ON));
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -105,7 +105,7 @@ public class CameraResourceTest {
 		script.addBrick(new CameraBrick(ON));
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -122,7 +122,7 @@ public class CameraResourceTest {
 		script.addBrick(new CameraBrick(OFF));
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -139,7 +139,7 @@ public class CameraResourceTest {
 		script.addBrick(new CameraBrick(ON));
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -158,7 +158,7 @@ public class CameraResourceTest {
 		script.addBrick(new CameraBrick(ON));
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);

@@ -63,7 +63,7 @@ public class PhiroColorBrickTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Parameters(name = "{2}")
 	public static Iterable<Object[]> data() {
@@ -94,7 +94,7 @@ public class PhiroColorBrickTest {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("PhiroColorBrickTest");
 		script.addBrick(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, INIT_COLOR, INIT_COLOR, INIT_COLOR));
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Test

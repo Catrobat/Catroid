@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -60,14 +59,11 @@ public class FormulaEditorKeyboardTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
-
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 	@Before
 	public void setUp() throws Exception {
 		createProject("formulaEditorKeyboardTest");
-		Intent intent = new Intent();
-		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-		baseActivityTestRule.launchActivity(intent);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -128,7 +124,7 @@ public class FormulaEditorKeyboardTest {
 
 		onView(withText(R.string.formula_editor_new_string_name))
 				.check(matches(isDisplayed()));
-		onView(withId(R.id.formula_editor_string_name_edit_text))
+		onView(withId(R.id.input_edit_text))
 				.perform(typeText("Foo"));
 		onView(withText(R.string.ok))
 				.perform(click());

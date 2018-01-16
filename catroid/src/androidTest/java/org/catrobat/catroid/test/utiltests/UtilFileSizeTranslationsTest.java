@@ -69,9 +69,9 @@ public class UtilFileSizeTranslationsTest {
 	public void testFileSize() {
 		currentNumberformat = NumberFormat.getInstance(Locale.getDefault());
 		String arabicKb = "كيلوبايت";
-		double soundExpectedSize = 3.7;
+		double soundExpectedSize = 1.7;
 		double lookExpectedSize = 2.6;
-		double projectExpectedSize = 7.9;
+		double projectExpectedSize = 5.9;
 
 		assertEquals(currentNumberformat.format(soundExpectedSize) + " " + arabicKb,
 				UtilFile.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));
