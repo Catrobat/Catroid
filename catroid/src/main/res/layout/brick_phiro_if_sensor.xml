@@ -55,6 +55,7 @@
             android:id="@+id/brick_phiro_sensor_action_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textDirection="locale"
             android:clickable="false"
             android:focusable="false" >
 
@@ -64,7 +65,7 @@
         <TextView
             android:id="@+id/phiro_sensor_label_second_part"
             style="@style/BrickText.SingleLine"
-            android:paddingLeft="5dip"
+            android:paddingStart="5dip"
             android:text="@string/brick_phiro_sensor_second_part" >
         </TextView >
 

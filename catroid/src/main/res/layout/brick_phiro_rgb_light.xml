@@ -56,6 +56,7 @@
         style="@style/BrickText.SingleLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textDirection="locale"
         android:clickable="false"
         android:focusable="false" >
     <!-- do not add spinner items here! -->

@@ -38,6 +38,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -49,7 +50,6 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 
 	private String tone;
 	private transient Tone toneEnum;
-	private transient TextView editDuration;
 
 	public enum Tone {
 		DO, RE, MI, FA, SO, LA, TI
@@ -93,6 +93,9 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_phiro_play_tone, null);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_phiro_play_tone_duration_edit_text);
 		textDuration.setText(String.valueOf(BrickValues.PHIRO_DURATION));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_phiro_play_tone_seconds_text_view);
+		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.PHIRO_DURATION)));
 
 		Spinner phiroProToneSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_select_tone_spinner);
 
@@ -115,11 +118,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_phiro_play_tone_checkbox);
 
-		editDuration = (TextView) view.findViewById(R.id.brick_phiro_play_tone_duration_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS).setTextFieldId(R.id.brick_phiro_play_tone_duration_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS).refreshTextField(view);
-
-		editDuration.setOnClickListener(this);
+		setSecondText(view, R.id.brick_phiro_play_tone_seconds_text_view, R.id.brick_phiro_play_tone_duration_edit_text, BrickField.PHIRO_DURATION_IN_SECONDS);
 
 		ArrayAdapter<CharSequence> toneAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_select_tone_spinner,
 				android.R.layout.simple_spinner_item);

@@ -64,7 +64,7 @@
                 android:id="@+id/dialog_new_sound_gallery"
                 android:layout_width="@dimen/dialog_text_view_layout_width"
                 android:layout_height="match_parent"
-                android:layout_gravity="left|center_vertical"
+                android:layout_gravity="start|center_vertical"
                 android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_gallery"

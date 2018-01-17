@@ -1179,7 +1179,6 @@
     <string name="nxt_tone_duration">Duration</string>
     <string name="nxt_tone_frequency">Frequency</string>
     <string name="nxt_tone_hundred_hz">×100Hz</string>
-    <string name="nxt_seconds">seconds</string>
 
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
@@ -1286,8 +1285,8 @@
     <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
     <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
-    <string name="brick_drone_with">seconds with</string>
-    <string name="brick_drone_percent_power">% power</string>
+    <string name="brick_drone_with.">with</string>
+    <string name="brick_drone_power">power</string>
     <!--  -->
 
     <!-- Drone play led animation strings -->
@@ -1316,7 +1315,6 @@
     <!-- Jumping Sumo Bricks -->
     <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
     <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
-    <string name="brick_jumping_sumo_percent_power">% power</string>
     <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
     <string name="brick_jumping_sumo_sound">Sound</string>
@@ -1800,6 +1798,9 @@
     <!-- Multilingual List -->
     <string name="device_language">Device Language</string>
 
+    <!-- Symbols -->
+    <string name="percent_symbol">%</string>
+    <string name="hertz_symbol">㎐</string>
 
     <!-- UtilFile SizeUnits String -->
      <string name="Byte_short">B</string>

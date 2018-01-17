@@ -80,6 +80,7 @@ public class DroneTurnLeftMagnetoBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_drone_turn_left_magneto_checkbox);
+		setSecondText(view, R.id.brick_drone_turn_left_magneto_text_second, R.id.brick_drone_turn_left_magneto_edit_text_second, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 
 		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_turn_left_magneto_edit_text_second);
 		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
@@ -108,6 +109,7 @@ public class DroneTurnLeftMagnetoBrick extends FormulaBrick {
 		textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
 
 		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		setSecondText(context, prototypeView, R.id.brick_drone_turn_left_magneto_text_second);
 		return prototypeView;
 	}
 

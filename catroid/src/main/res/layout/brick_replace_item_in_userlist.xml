@@ -55,6 +55,7 @@
             android:id="@+id/replace_item_in_userlist_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textDirection="locale"
             android:clickable="false"
             android:focusable="false" />
          

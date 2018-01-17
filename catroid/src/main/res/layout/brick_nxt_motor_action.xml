@@ -66,6 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textDirection="locale"
                     android:clickable="false"
                     android:focusable="false" >
 
@@ -102,7 +103,7 @@
                 <TextView
                     android:id="@+id/lego_motor_action_speed_text"
                     style="@style/BrickText"
-                    android:layout_marginLeft="3sp"
+                    android:layout_marginStart="3sp"
                     android:text="@string/nxt_motor_speed" >
                 </TextView >
             </LinearLayout>

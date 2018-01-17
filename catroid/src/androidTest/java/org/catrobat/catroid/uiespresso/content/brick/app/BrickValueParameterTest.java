@@ -30,6 +30,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -191,6 +192,7 @@ import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_NFC_BRICKS;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResources;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -713,7 +715,8 @@ public class BrickValueParameterTest {
 
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, R.string.nxt_play_tone);
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, R.string.nxt_tone_duration);
-		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, R.string.nxt_seconds);
+		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.LEGO_DURATION)));
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, R.string.nxt_tone_frequency);
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, R.string.nxt_tone_hundred_hz);
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, "1.0");
@@ -749,7 +752,8 @@ public class BrickValueParameterTest {
 
 		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.ev3_play_tone);
 		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.ev3_tone_duration_for);
-		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.nxt_seconds);
+		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.LEGO_DURATION)));
 		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.nxt_tone_frequency);
 		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.nxt_tone_hundred_hz);
 		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.ev3_tone_volume);
@@ -774,66 +778,80 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(DroneEmergencyBrick.class, R.string.brick_drone_emergency);
 
 		checkIfBrickShowsText(DroneMoveUpBrick.class, R.string.brick_drone_move_up);
-		checkIfBrickShowsText(DroneMoveUpBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveUpBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveUpBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveUpBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveUpBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveUpBrick.class, UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveUpBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveUpBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveDownBrick.class, R.string.brick_drone_move_down);
-		checkIfBrickShowsText(DroneMoveDownBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveDownBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveDownBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveDownBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveDownBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveDownBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveDownBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveDownBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, R.string.brick_drone_move_left);
-		checkIfBrickShowsText(DroneMoveLeftBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveLeftBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveLeftBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveLeftBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveLeftBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveLeftBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveRightBrick.class, R.string.brick_drone_move_right);
-		checkIfBrickShowsText(DroneMoveRightBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveRightBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveRightBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveRightBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveRightBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveRightBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveRightBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveRightBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, R.string.brick_drone_move_forward);
-		checkIfBrickShowsText(DroneMoveForwardBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveForwardBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveForwardBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveForwardBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveForwardBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveForwardBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, R.string.brick_drone_move_backward);
-		checkIfBrickShowsText(DroneMoveBackwardBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveBackwardBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveBackwardBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveBackwardBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveBackwardBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveBackwardBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, "1");
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, "20");
 
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, R.string.brick_drone_turn_left);
-		checkIfBrickShowsText(DroneTurnLeftBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneTurnLeftBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneTurnLeftBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneTurnLeftBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneTurnLeftBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneTurnLeftBrick.class, UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, "1");
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, "20");
 
 		checkIfBrickShowsText(DroneTurnRightBrick.class, R.string.brick_drone_turn_right);
-		checkIfBrickShowsText(DroneTurnRightBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneTurnRightBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneTurnRightBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneTurnRightBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneTurnRightBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneTurnRightBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneTurnRightBrick.class, "1");
 		checkIfBrickShowsText(DroneTurnRightBrick.class, "20");
 
@@ -873,7 +891,8 @@ public class BrickValueParameterTest {
 
 		checkIfBrickShowsText(PhiroPlayToneBrick.class, R.string.phiro_play_tone);
 		checkIfBrickShowsText(PhiroPlayToneBrick.class, R.string.phiro_tone_duration);
-		checkIfBrickShowsText(PhiroPlayToneBrick.class, R.string.phiro_seconds);
+		checkIfBrickShowsText(PhiroPlayToneBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.PHIRO_DURATION)));
 		checkIfBrickShowsText(PhiroPlayToneBrick.class, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(PhiroPlayToneBrick.class,
 				R.id.brick_phiro_select_tone_spinner,
@@ -1005,7 +1024,7 @@ public class BrickValueParameterTest {
 		//wait - edit text "1" - second
 		checkIfBrickShowsText(WaitBrick.class, R.string.brick_wait);
 		checkIfBrickShowsEditTextWithText(WaitBrick.class, R.id.brick_wait_edit_text, "1");
-		checkIfBrickShowsText(WaitBrick.class, UiTestUtils.getResources().getQuantityString(R.plurals.second_plural,
+		checkIfBrickShowsText(WaitBrick.class, getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(1)));
 
 		//note - edit text "add comment here..."
@@ -1036,7 +1055,7 @@ public class BrickValueParameterTest {
 		//repeat  - edit text "10" - times
 		checkIfBrickShowsText(RepeatBrick.class, R.string.brick_repeat);
 		checkIfBrickShowsEditTextWithText(RepeatBrick.class, R.id.brick_repeat_edit_text, "10");
-		checkIfBrickShowsText(RepeatBrick.class, UiTestUtils.getResources().getQuantityString(R.plurals.time_plural,
+		checkIfBrickShowsText(RepeatBrick.class, getResources().getQuantityString(R.plurals.time_plural,
 				Utils.convertDoubleToPluralInteger(10)));
 
 		//repeat until - edit text "1 st 2" - is true

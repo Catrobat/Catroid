@@ -85,6 +85,9 @@ public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_jumping_sumo_move_forward_checkbox);
 
+		setSecondText(view, R.id.brick_jumping_sumo_move_forward_text_second, R.id
+				.brick_jumping_sumo_move_forward_edit_text_second, BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
+
 		TextView editTime = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_forward_edit_text_second);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS)
 				.setTextFieldId(R.id.brick_jumping_sumo_move_forward_edit_text_second);
@@ -111,6 +114,7 @@ public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 		textTime.setText(String.valueOf(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
 
 		textPower.setText(String.valueOf(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+		setSecondText(context, prototypeView, R.id.brick_jumping_sumo_move_forward_text_second);
 		return prototypeView;
 	}
 

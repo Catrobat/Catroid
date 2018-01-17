@@ -60,6 +60,7 @@
             android:id="@+id/brick_phiro_select_tone_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textDirection="locale"
             android:clickable="false"
             android:focusable="false" />
         <!-- do not add spinner items here! -->
@@ -84,8 +85,7 @@
 
         <TextView
             android:id="@+id/brick_phiro_play_tone_seconds_text_view"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/phiro_seconds" >
+            style="@style/BrickText.SingleLine">
         </TextView >
 
     </org.catrobat.catroid.ui.BrickLayout >

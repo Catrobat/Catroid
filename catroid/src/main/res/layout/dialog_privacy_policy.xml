@@ -32,7 +32,7 @@
         android:text="@string/dialog_privacy_policy_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10sp"
-        android:layout_marginRight="10sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginEnd="10sp"
         android:gravity="fill_horizontal"/>
 </ScrollView>

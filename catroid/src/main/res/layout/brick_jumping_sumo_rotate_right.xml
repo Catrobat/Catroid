@@ -54,6 +54,7 @@
             android:id="@+id/brick_jumping_sumo_change_right_variable_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
+            app:layout_newLine="true"
             app:layout_textField="true" />
 
         <TextView

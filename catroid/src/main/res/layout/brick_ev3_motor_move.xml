@@ -104,7 +104,7 @@
                 <TextView
                     android:id="@+id/brick_ev3_motor_move_speed_text"
                     style="@style/BrickText"
-                    android:layout_marginLeft="3sp"
+                    android:layout_marginStart="3sp"
                     android:text="@string/nxt_motor_speed" >
                 </TextView >
 
