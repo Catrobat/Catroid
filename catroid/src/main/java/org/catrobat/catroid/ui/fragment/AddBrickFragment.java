@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -57,7 +57,6 @@ public class AddBrickFragment extends ListFragment {
 	private CharSequence previousActionBarTitle;
 	private PrototypeBrickAdapter adapter;
 	private CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
-	public static AddBrickFragment addButtonHandler = null;
 
 	private static int listIndexToFocus = -1;
 
@@ -73,10 +72,11 @@ public class AddBrickFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_brick_add, container, false);
+		previousActionBarTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle();
+		((AppCompatActivity) getActivity())
+				.getSupportActionBar().setTitle(getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY));
 
-		setUpActionBar();
 		setupSelectedBrickCategory();
-
 		return view;
 	}
 
@@ -96,22 +96,6 @@ public class AddBrickFragment extends ListFragment {
 		setHasOptionsMenu(true);
 	}
 
-	private void setUpActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		if (actionBar != null) {
-			actionBar.setDisplayShowTitleEnabled(true);
-			previousActionBarTitle = actionBar.getTitle();
-			actionBar.setTitle(this.getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY));
-		}
-	}
-
-	private void resetActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		if (actionBar != null) {
-			actionBar.setTitle(previousActionBarTitle);
-		}
-	}
-
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
 		menu.findItem(R.id.comment_in_out).setVisible(false);
@@ -120,7 +104,7 @@ public class AddBrickFragment extends ListFragment {
 
 	@Override
 	public void onDestroy() {
-		resetActionBar();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(previousActionBarTitle);
 		super.onDestroy();
 	}
 

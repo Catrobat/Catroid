@@ -116,7 +116,6 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scratch_project_details);
 		setUpActionBar();
-		setReturnByPressingBackButton(true);
 
 		programData = getIntent().getParcelableExtra(Constants.INTENT_SCRATCH_PROGRAM_DATA);
 		Preconditions.checkState(programData != null);

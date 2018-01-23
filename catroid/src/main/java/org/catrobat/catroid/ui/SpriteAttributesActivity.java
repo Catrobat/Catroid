@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,30 +58,23 @@ public class SpriteAttributesActivity extends BaseActivity implements
 		SettingsActivity.setToChosenLanguage(this);
 
 		setContentView(R.layout.activity_sprite_attributes);
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		BottomBar.hideAddButton(this);
 
 		updateActionBarTitle();
 	}
 
 	private void updateActionBarTitle() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		String currentSceneName = ProjectManager.getInstance().getCurrentScene().getName();
 		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
-		String title = currentSpriteName;
-
-		if (currentProject.getSceneList().size() > 1) {
-			title = currentSceneName + ": " + currentSpriteName;
-		}
-
-		getActionBar().setTitle(title);
+		getSupportActionBar().setTitle(currentSceneName + ": " + currentSpriteName);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				onBackPressed();
-				return true;
 			case R.id.menu_rename_sprite:
 				showRenameDialog();
 				break;

@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.ActionBar;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -133,17 +133,14 @@ public class BrickCategoryFragment extends ListFragment {
 	}
 
 	private void setUpActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		actionBar.setDisplayShowTitleEnabled(true);
-
-		this.previousActionBarTitle = actionBar.getTitle();
-		actionBar.setTitle(R.string.categories);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+		previousActionBarTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.categories);
 	}
 
 	private void resetActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(this.previousActionBarTitle);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(this.previousActionBarTitle);
 	}
 
 	private void setupBrickCategories() {

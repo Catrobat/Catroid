@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,29 +37,24 @@ import android.widget.AdapterView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
-import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends AppCompatActivity {
 
-	private boolean returnToProjectsList;
-	private String titleActionBar;
-	private boolean returnByPressingBackButton;
 	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		titleActionBar = null;
-		returnToProjectsList = false;
-		returnByPressingBackButton = false;
+
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
@@ -78,10 +74,6 @@ public abstract class BaseActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
-		if (getTitleActionBar() != null) {
-			getActionBar().setTitle(getTitleActionBar());
-		}
-
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
@@ -93,15 +85,7 @@ public abstract class BaseActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				if (returnToProjectsList) {
-					Intent intent = new Intent(this, ProjectListActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-				} else if (returnByPressingBackButton) {
-					onBackPressed();
-				} else {
-					return false;
-				}
+				onBackPressed();
 				break;
 			case R.id.settings:
 				Intent settingsIntent = new Intent(this, SettingsActivity.class);
@@ -128,7 +112,7 @@ public abstract class BaseActivity extends Activity {
 				return true;
 			case R.id.menu_about:
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
-				aboutDialog.show(getFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+				aboutDialog.show(getFragmentManager(), AboutDialogFragment.TAG);
 				return true;
 			case R.id.menu_logout:
 				Utils.logoutUser(this);
@@ -188,25 +172,5 @@ public abstract class BaseActivity extends Activity {
 			}
 			((ViewGroup) view).removeAllViews();
 		}
-	}
-
-	public boolean isReturnToProjectsList() {
-		return returnToProjectsList;
-	}
-
-	public void setReturnToProjectsList(boolean returnToProjectsList) {
-		this.returnToProjectsList = returnToProjectsList;
-	}
-
-	public void setReturnByPressingBackButton(boolean returnByPressingBackButton) {
-		this.returnByPressingBackButton = returnByPressingBackButton;
-	}
-
-	public String getTitleActionBar() {
-		return titleActionBar;
-	}
-
-	public void setTitleActionBar(String titleActionBar) {
-		this.titleActionBar = titleActionBar;
 	}
 }

@@ -22,33 +22,46 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dialog_content_area_padding_text_input">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/dialog_formula_editor_data_name_edit_text"
-            style="@style/DefaultDialog.EditText"
-            android:hint="@string/formula_editor_data_dialog_hint" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:hintEnabled="true">
 
-        <RadioGroup
-            android:id="@+id/dialog_formula_editor_data_name_radio_group"
-            style="@style/DefaultDialog.Item"
-            android:paddingBottom="0dp">
-
-            <RadioButton
-                android:id="@+id/dialog_formula_editor_data_name_global_variable_radio_button"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="true"
+                android:selectAllOnFocus="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/global">
+
+            <RadioButton
+                android:id="@+id/global"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/formula_editor_dialog_for_all_sprites"
                 android:textColor="@color/spritelist_details_text_color" />
 
             <RadioButton
-                android:id="@+id/dialog_formula_editor_data_name_local_variable_radio_button"
+                android:id="@+id/local"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/formula_editor_dialog_for_this_sprite_only"
@@ -56,9 +69,10 @@
         </RadioGroup>
 
         <CheckBox
-            android:id="@+id/dialog_formula_editor_data_is_list_checkbox"
-            style="@style/DefaultDialog.Item"
+            android:id="@+id/make_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/formula_editor_data_dialog_is_list" />
-    </LinearLayout>
 
+    </LinearLayout>
 </ScrollView>

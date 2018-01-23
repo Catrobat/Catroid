@@ -63,7 +63,6 @@
     android:src="@android:drawable/ic_btn_speak_now" />
 
 <ListView
-    style="@style/ListViewShadowed"
     android:id="@+id/list_view_search_scratch"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

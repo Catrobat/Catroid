@@ -29,6 +29,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -489,9 +490,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements
 			menu.getItem(index).setVisible(false);
 		}
 
-		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
-		getActivity().getActionBar().setTitle(actionBarTitle);
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(actionBarTitle);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

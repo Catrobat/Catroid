@@ -23,9 +23,9 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -49,26 +50,26 @@ import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
 public class RenameLookTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_LOOKS);
 
 	private String oldLookName = "oldLookName";
 	private String newLookName = "newLookName";
@@ -77,27 +78,26 @@ public class RenameLookTest {
 	public void setUp() throws Exception {
 		createProject("renameLookFragmentTest");
 
-		Intent intent = new Intent();
-		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
-
-		baseActivityTestRule.launchActivity(intent);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void renameLookTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRVAtPosition(0)
 				.performCheckItem();
 
-		onView(withContentDescription("Done")).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
 
 		onView(withText(R.string.rename_look_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(withId(R.id.edit_text)).perform(clearText(), typeText(newLookName), closeSoftKeyboard());
+		onView(allOf(withText(oldLookName), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(newLookName));
+		closeSoftKeyboard();
 
 		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
 				.check(matches(isDisplayed()));
@@ -111,13 +111,13 @@ public class RenameLookTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelRenameLookTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRVAtPosition(0)
 				.performCheckItem();
 
-		onView(withContentDescription("Done")).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
 
 		onView(withText(R.string.rename_look_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));

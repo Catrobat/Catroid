@@ -21,21 +21,15 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView
-    style="@style/DefaultDialog"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dialog_content_area_padding">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <TextView
+        android:id="@+id/dialog_rate_us_text"
+        style="@style/DefaultDialog.Item"
+        android:text="@string/rating_google_play_dialog_text"
+        android:textColor="@color/spritelist_details_text_color" />
 
-        <TextView
-            android:id="@+id/dialog_rate_us_text"
-            style="@style/DefaultDialog.Item"
-            android:text="@string/rating_google_play_dialog_text"
-            android:textColor="@color/spritelist_details_text_color" />
-
-    </RelativeLayout>
 </ScrollView>

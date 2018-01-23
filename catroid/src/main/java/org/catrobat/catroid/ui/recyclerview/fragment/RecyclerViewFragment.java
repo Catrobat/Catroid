@@ -29,11 +29,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,9 +109,6 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	protected ActionMode.Callback callback = new ActionMode.Callback() {
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			adapter.showCheckBoxes = true;
-			adapter.notifyDataSetChanged();
-
 			switch (actionModeType) {
 				case BACKPACK:
 					actionModeTitle = getString(R.string.am_backpack);
@@ -125,9 +124,13 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 					actionModeTitle = getString(R.string.am_rename);
 					break;
 				case NONE:
-					actionMode.finish();
 					return false;
 			}
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.context_menu, menu);
+
+			adapter.showCheckBoxes = true;
+			adapter.notifyDataSetChanged();
 			mode.setTitle(actionModeTitle);
 			return true;
 		}
@@ -139,39 +142,45 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
+			switch (item.getItemId()) {
+				case R.id.confirm:
+					handleContextualAction();
+					break;
+				default:
+					return false;
+			}
+			return true;
 		}
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			if (adapter.getSelectedItems().isEmpty()) {
-				finishActionMode();
-				return;
-			}
-
-			switch (actionModeType) {
-				case BACKPACK:
-					packItems(adapter.getSelectedItems());
-					break;
-				case COPY:
-					copyItems(adapter.getSelectedItems());
-					break;
-				case DELETE:
-					showDeleteAlert(adapter.getSelectedItems());
-					break;
-				case RENAME:
-					showRenameDialog(adapter.getSelectedItems());
-					break;
-				case NONE:
-					break;
-			}
+			resetActionModeParameters();
+			adapter.notifyDataSetChanged();
+			BottomBar.showBottomBar(getActivity());
 		}
 	};
 
-	protected void finishActionMode() {
-		resetActionModeParameters();
-		adapter.notifyDataSetChanged();
-		BottomBar.showBottomBar(getActivity());
+	private void handleContextualAction() {
+		if (adapter.getSelectedItems().isEmpty()) {
+			actionMode.finish();
+		}
+
+		switch (actionModeType) {
+			case BACKPACK:
+				packItems(adapter.getSelectedItems());
+				break;
+			case COPY:
+				copyItems(adapter.getSelectedItems());
+				break;
+			case DELETE:
+				showDeleteAlert(adapter.getSelectedItems());
+				break;
+			case RENAME:
+				showRenameDialog(adapter.getSelectedItems());
+				break;
+			case NONE:
+				throw new IllegalStateException("ActionModeType not set Correctly");
+		}
 	}
 
 	protected void resetActionModeParameters() {
@@ -185,8 +194,8 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		parent = inflater.inflate(R.layout.fragment_list_view, container, false);
-		recyclerView = (RecyclerView) parent.findViewById(R.id.recycler_view);
-		emptyView = (TextView) parent.findViewById(R.id.empty);
+		recyclerView = parent.findViewById(R.id.recycler_view);
+		emptyView = parent.findViewById(R.id.empty);
 		setShowProgressBar(true);
 		setHasOptionsMenu(true);
 		return parent;
@@ -205,6 +214,9 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 				getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
 		adapter.notifyDataSetChanged();
 		recyclerView.setAdapter(adapter);
+
+		recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
+				DividerItemDecoration.VERTICAL));
 
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
@@ -243,10 +255,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	@Override
 	public void onStop() {
 		super.onStop();
-		if (actionModeType != NONE) {
-			adapter.clearSelection();
-			actionMode.finish();
-		}
+		finishActionMode();
 	}
 
 	@Override
@@ -315,6 +324,12 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		}
 	}
 
+	protected void finishActionMode() {
+		if (actionModeType != NONE) {
+			actionMode.finish();
+		}
+	}
+
 	protected void showBackpackModeChooser() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
@@ -352,10 +367,9 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 						dialog.dismiss();
 					}
 				})
-				.setCancelable(false);
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
+				.setCancelable(false)
+				.create()
+				.show();
 	}
 
 	public void setShowProgressBar(boolean show) {

@@ -133,14 +133,14 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 
 			@Override
 			protected boolean handlePositiveButtonClick() {
-				String newMessage = input.getText().toString().trim();
+				String newMessage = inputLayout.getEditText().getText().toString().trim();
 				if (newMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					dismiss();
 					return false;
 				}
 
 				if (newMessage.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR)) {
-					input.setError(getString(R.string.brick_broadcast_invalid_symbol));
+					inputLayout.setError(getString(R.string.brick_broadcast_invalid_symbol));
 					return false;
 				}
 

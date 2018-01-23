@@ -24,8 +24,8 @@ package org.catrobat.catroid.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -38,8 +38,12 @@ public class ProjectListActivity extends BaseCastActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getActionBar().setTitle(R.string.project_list_title);
-		setContentView(R.layout.activity_project_list);
+		setContentView(R.layout.activity_recycler);
+
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setTitle(R.string.project_list_title);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		BottomBar.hidePlayButton(this);
 
 		loadFragment(new ProjectListFragment());
@@ -55,18 +59,6 @@ public class ProjectListActivity extends BaseCastActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_projects_activity, menu);
 		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				onBackPressed();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-		return true;
 	}
 
 	@Override

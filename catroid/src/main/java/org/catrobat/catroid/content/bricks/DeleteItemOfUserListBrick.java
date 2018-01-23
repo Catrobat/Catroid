@@ -97,7 +97,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 
 		setSpinnerSelection(userListSpinner, null);
 
-		userListSpinner.setOnTouchListener(createListSpinnerTouchListener());
+		userListSpinner.setOnTouchListener(createSpinnerOnTouchListener());
 		userListSpinner.setOnItemSelectedListener(createListSpinnerItemSelectedListener());
 		return view;
 	}
@@ -121,6 +121,12 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 		textAddItemToList.setText(String.valueOf(BrickValues.DELETE_ITEM_OF_USERLIST));
 
 		return prototypeView;
+	}
+
+	@Override
+	public void onNewList(UserList userList) {
+		Spinner spinner = view.findViewById(R.id.delete_item_of_userlist_spinner);
+		setSpinnerSelection(spinner, userList);
 	}
 
 	@Override

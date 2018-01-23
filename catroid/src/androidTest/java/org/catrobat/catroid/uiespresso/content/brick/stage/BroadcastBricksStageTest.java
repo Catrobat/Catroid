@@ -108,7 +108,7 @@ public class BroadcastBricksStageTest {
 		sprite.getLookList().add(greenLookData);
 
 		script.addBrick(new PlaceAtBrick(0, 0));
-		script.addBrick(new SetSizeToBrick(5000));
+		script.addBrick(new SetSizeToBrick(10000));
 		Formula condition = new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
 				Sensors.COLLIDES_WITH_FINGER.name(), null));
 		script.addBrick(new WhenConditionBrick(condition));

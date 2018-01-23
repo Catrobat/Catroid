@@ -21,50 +21,26 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView
-    style="@style/DefaultDialog"
+<RadioGroup
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="0dp">
+    android:paddingTop="@dimen/dialog_content_area_padding"
+    android:paddingStart="@dimen/dialog_content_area_padding"
+    android:paddingEnd="@dimen/dialog_content_area_padding">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/dialog_item_margin"
-            android:id="@+id/play_scene_dialog_layout">
+    <RadioButton
+        android:id="@+id/play_default_scene_radiobutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="@string/play_scene_dialog_default" />
 
-                <org.catrobat.catroid.ui.CapitalizedTextView
-                    android:id="@+id/play_scene_dialog_title"
-                    style="@style/DefaultDialog.TextView"
-                    android:text="@string/play_scene_dialog_title"/>
-
-                <View
-                    android:id="@+id/scene_name_line"
-                    style="@style/DefaultDialog.Line"
-                    android:layout_below="@+id/play_scene_dialog_title"/>
-
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checkedButton="@+id/scene_empty_radio_button"
-                    android:layout_below="@+id/scene_name_line"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/play_default_scene_radiobutton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="@string/play_scene_dialog_default" />
-
-                    <RadioButton
-                        android:id="@+id/play_current_scene_radiobutton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="@string/play_scene_dialog_current" />
-                </RadioGroup>
-        </RelativeLayout>
-</ScrollView>
+    <RadioButton
+        android:id="@+id/play_current_scene_radiobutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="@string/play_scene_dialog_current" />
+</RadioGroup>

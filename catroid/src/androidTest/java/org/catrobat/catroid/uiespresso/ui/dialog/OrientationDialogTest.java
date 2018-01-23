@@ -46,15 +46,18 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CAST_GLOBALLY_ENABLED;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
 public class OrientationDialogTest {
@@ -93,8 +96,8 @@ public class OrientationDialogTest {
 				.perform(click());
 		onView(withText(R.string.new_project_dialog_title))
 				.check(matches(isDisplayed()));
-		onView(withId(R.id.project_name_edittext))
-				.perform(typeText("TestCastProject"));
+		onView(withClassName(is("android.support.design.widget.TextInputEditText")))
+				.perform(typeText("TestCastProject"), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
 		onView(withText(R.string.project_select_screen_title))

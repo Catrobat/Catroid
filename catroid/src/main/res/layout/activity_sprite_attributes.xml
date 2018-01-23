@@ -21,43 +21,50 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/program_menu_button_scripts"
-        style="@style/ProgramMenuButton"
-        android:layout_marginTop="3dp"
-        android:drawableStart="@drawable/ic_program_menu_scripts"
-        android:onClick="handleScriptsButton"
-        android:text="@string/scripts" />
+    <include layout="@layout/toolbar" />
 
-    <Button
-        android:id="@+id/program_menu_button_looks"
-        style="@style/ProgramMenuButton"
-        android:layout_below="@id/program_menu_button_scripts"
-        android:drawableStart="@drawable/ic_program_menu_looks"
-        android:onClick="handleLooksButton"
-        android:text="@string/looks" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/program_menu_button_sounds"
-        style="@style/ProgramMenuButton"
-        android:layout_below="@id/program_menu_button_looks"
-        android:drawableStart="@drawable/ic_program_menu_sounds"
-        android:onClick="handleSoundsButton"
-        android:text="@string/sounds" />
+        <Button
+            android:id="@+id/program_menu_button_scripts"
+            style="@style/SpriteAttributesButton"
+            android:layout_marginTop="3dp"
+            android:drawableStart="@drawable/ic_program_menu_scripts"
+            android:onClick="handleScriptsButton"
+            android:text="@string/scripts" />
 
-    <Button
-        android:id="@+id/program_menu_button_nfctags"
-        style="@style/ProgramMenuButton"
-        android:layout_below="@id/program_menu_button_sounds"
-        android:drawableStart="@drawable/ic_program_menu_nfc"
-        android:onClick="handleNfcTagsButton"
-        android:text="@string/nfctags" />
+        <Button
+            android:id="@+id/program_menu_button_looks"
+            style="@style/SpriteAttributesButton"
+            android:layout_below="@id/program_menu_button_scripts"
+            android:drawableStart="@drawable/ic_program_menu_looks"
+            android:onClick="handleLooksButton"
+            android:text="@string/looks" />
 
-    <include layout="@layout/bottom_bar" />
+        <Button
+            android:id="@+id/program_menu_button_sounds"
+            style="@style/SpriteAttributesButton"
+            android:layout_below="@id/program_menu_button_looks"
+            android:drawableStart="@drawable/ic_program_menu_sounds"
+            android:onClick="handleSoundsButton"
+            android:text="@string/sounds" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/program_menu_button_nfctags"
+            style="@style/SpriteAttributesButton"
+            android:layout_below="@id/program_menu_button_sounds"
+            android:drawableStart="@drawable/ic_program_menu_nfc"
+            android:onClick="handleNfcTagsButton"
+            android:text="@string/nfctags" />
+
+        <include layout="@layout/bottom_bar" />
+
+    </RelativeLayout>
+</LinearLayout>

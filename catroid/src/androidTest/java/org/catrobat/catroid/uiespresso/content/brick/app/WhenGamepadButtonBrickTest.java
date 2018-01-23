@@ -58,7 +58,7 @@ public class WhenGamepadButtonBrickTest {
 		brickPosition = 1;
 		BrickTestUtils.createProjectAndGetStartScript("WhenGamepadButtonBrickTest")
 				.addBrick(new WhenGamepadButtonBrick(new WhenGamepadButtonScript()));
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Test

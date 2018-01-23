@@ -42,13 +42,17 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertTrue;
+
+import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
 public class SmokeTest {
@@ -77,8 +81,9 @@ public class SmokeTest {
 				.check(matches(isDisplayed()));
 
 		//enter new project name
-		onView(withId(R.id.project_name_edittext))
-				.perform(typeText("TestProject"));
+		onView(withClassName(is("android.support.design.widget.TextInputEditText")))
+				.perform(typeText("TestProject"), closeSoftKeyboard());
+		//onView(withId(R.id.input)).perform(typeText("TestProject"));
 		onView(withText(R.string.ok))
 				.perform(click());
 
@@ -91,10 +96,6 @@ public class SmokeTest {
 
 		//check if user ends up in right activity either by checking activity itself:
 		assertTrue(UiTestUtils.getCurrentActivity() instanceof ProjectActivity);
-
-		//or better by checking on ui elements that identify this activity
-		//onView(withText(toUpperCase(R.string.spritelist_background_headline))).check(matches(isDisplayed()));
-		//onView(withText(toUpperCase(R.string.sprites))).check(matches(isDisplayed()));
 
 		//open scene
 		String sceneName = UiTestUtils.getResources().getString(R.string.default_scene_name, 1);

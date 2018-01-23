@@ -53,7 +53,7 @@ public class PointToBrickTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
@@ -65,7 +65,7 @@ public class PointToBrickTest {
 	public void pointToBrickOneSpriteTest() {
 		BrickTestUtils.createProjectAndGetStartScript("PointToBrickTest")
 				.addBrick(new PointToBrick());
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_point_to);
 
@@ -85,7 +85,7 @@ public class PointToBrickTest {
 		String secondSpriteName = "secondTestSprite";
 		Sprite sprite = new Sprite(secondSpriteName);
 		ProjectManager.getInstance().getCurrentProject().getDefaultScene().addSprite(sprite);
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_point_to);
 

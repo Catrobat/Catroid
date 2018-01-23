@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import org.catrobat.catroid.ui.recyclerview.dialog.TextDialog;
+
 public class BrickTextDialog extends TextDialog {
 
-	public BrickTextDialog(int title, int inputLabel, String previousText) {
-		super(title, inputLabel, previousText, false);
+	public BrickTextDialog(int title, int label, String previousText) {
+		super(title, label, previousText, false);
 	}
 
 	@Override

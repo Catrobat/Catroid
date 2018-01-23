@@ -97,7 +97,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 
 		setSpinnerSelection(userListSpinner, null);
 
-		userListSpinner.setOnTouchListener(createListSpinnerTouchListener());
+		userListSpinner.setOnTouchListener(createSpinnerOnTouchListener());
 		userListSpinner.setOnItemSelectedListener(createListSpinnerItemSelectedListener());
 		return view;
 	}
@@ -121,6 +121,12 @@ public class AddItemToUserListBrick extends UserListBrick {
 		textAddItemToList.setText(String.valueOf(BrickValues.ADD_ITEM_TO_USERLIST));
 
 		return prototypeView;
+	}
+
+	@Override
+	public void onNewList(UserList userList) {
+		Spinner spinner = view.findViewById(R.id.add_item_to_userlist_spinner);
+		setSpinnerSelection(spinner, userList);
 	}
 
 	@Override

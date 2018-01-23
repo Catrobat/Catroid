@@ -22,20 +22,27 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/bottom_bar"
-        layout="@layout/bottom_bar" />
+    <include layout="@layout/toolbar" />
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar" />
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <include
+            android:id="@+id/bottom_bar"
+            layout="@layout/bottom_bar" />
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_bar" />
+
+    </RelativeLayout>
+</LinearLayout>

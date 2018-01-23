@@ -32,17 +32,16 @@ import android.widget.Spinner;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
-import org.catrobat.catroid.ui.dialogs.NewDataDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewListDialog;
 
 import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_DATA_EMPTY;
 
-public abstract class UserListBrick extends FormulaBrick implements NewDataDialog.NewUserListDialogListener {
+public abstract class UserListBrick extends FormulaBrick implements NewListDialog.NewListInterface {
 
 	protected UserList userList;
 
@@ -68,35 +67,6 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		} else {
 			userListSpinner.setSelection(userListAdapterWrapper.getCount() - 1, true);
 			userList = userListAdapterWrapper.getItem(userListAdapterWrapper.getCount() - 1);
-		}
-	}
-
-	@Override
-	public void onFinishNewUserListDialog(Spinner spinnerToUpdate, UserList newUserList) {
-		UserListAdapterWrapper userListAdapterWrapper = ((UserListAdapterWrapper) spinnerToUpdate.getAdapter());
-		userListAdapterWrapper.notifyDataSetChanged();
-		setSpinnerSelection(spinnerToUpdate, newUserList);
-
-		for (Brick brick : ProjectManager.getInstance().getCurrentSprite().getAllBricks()) {
-			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() == null) {
-				if (brick instanceof AddItemToUserListBrick) {
-					Spinner spinner = (Spinner) ((AddItemToUserListBrick) brick).view.findViewById(R.id
-							.add_item_to_userlist_spinner);
-					setSpinnerSelection(spinner, newUserList);
-				} else if (brick instanceof ReplaceItemInUserListBrick) {
-					Spinner spinner = (Spinner) ((ReplaceItemInUserListBrick) brick).view.findViewById(R.id
-							.replace_item_in_userlist_spinner);
-					setSpinnerSelection(spinner, newUserList);
-				} else if (brick instanceof InsertItemIntoUserListBrick) {
-					Spinner spinner = (Spinner) ((InsertItemIntoUserListBrick) brick).view.findViewById(R.id
-							.insert_item_into_userlist_spinner);
-					setSpinnerSelection(spinner, newUserList);
-				} else if (brick instanceof DeleteItemOfUserListBrick) {
-					Spinner spinner = (Spinner) ((DeleteItemOfUserListBrick) brick).view.findViewById(R.id
-							.delete_item_of_userlist_spinner);
-					setSpinnerSelection(spinner, newUserList);
-				}
-			}
 		}
 	}
 
@@ -159,11 +129,8 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		boolean firstIsProjectVariable = mergeResult.getDataContainer().existProjectList(first);
 		boolean secondIsProjectVariable = current.getDataContainer().existProjectList(second);
 
-		if ((firstIsProjectVariable && secondIsProjectVariable)
-				|| (!firstIsProjectVariable && !secondIsProjectVariable)) {
-			return true;
-		}
-		return false;
+		return (firstIsProjectVariable && secondIsProjectVariable)
+				|| (!firstIsProjectVariable && !secondIsProjectVariable);
 	}
 
 	@Override
@@ -183,21 +150,28 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		backPackedData.userListType = type;
 	}
 
-	protected AdapterView.OnItemSelectedListener createListSpinnerItemSelectedListener() {
+	protected View.OnTouchListener createSpinnerOnTouchListener() {
+		return new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View view, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN && ((Spinner) view).getAdapter().getCount() == 1) {
+					showNewListDialog();
+					return true;
+				}
+				return false;
+			}
+		};
+	}
+
+	AdapterView.OnItemSelectedListener createListSpinnerItemSelectedListener() {
 		return new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0 && ((UserListAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
-					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_LIST);
-					dialog.addUserListDialogListener(UserListBrick.this);
-					int spinnerPos = ((UserListAdapterWrapper) parent.getAdapter())
-							.getPositionOfItem(userList);
-					dialog.setUserVariableIfCancel(spinnerPos);
-					dialog.show(((Activity) view.getContext()).getFragmentManager(),
-							NewDataDialog.DIALOG_FRAGMENT_TAG);
+				if (position == 0) {
+					showNewListDialog();
+				} else {
+					userList = ((UserList) parent.getItemAtPosition(position));
 				}
-				((UserListAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
-				userList = ((UserList) parent.getItemAtPosition(position));
 			}
 
 			@Override
@@ -207,21 +181,8 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		};
 	}
 
-	protected View.OnTouchListener createListSpinnerTouchListener() {
-		return new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN
-						&& ((Spinner) view).getSelectedItemPosition() == 0
-						&& ((Spinner) view).getAdapter().getCount() == 1) {
-					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_LIST);
-					dialog.addUserListDialogListener(UserListBrick.this);
-					dialog.show(((Activity) view.getContext()).getFragmentManager(),
-							NewDataDialog.DIALOG_FRAGMENT_TAG);
-					return true;
-				}
-				return false;
-			}
-		};
+	private void showNewListDialog() {
+		NewListDialog dialog = new NewListDialog(this);
+		dialog.show(((Activity) view.getContext()).getFragmentManager(), NewListDialog.TAG);
 	}
 }

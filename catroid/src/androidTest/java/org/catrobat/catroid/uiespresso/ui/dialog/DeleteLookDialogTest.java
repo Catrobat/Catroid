@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -36,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -55,7 +55,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -67,7 +66,8 @@ public class DeleteLookDialogTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_LOOKS);
 
 	private String toBeDeletedLookName = "testLook2";
 
@@ -75,22 +75,19 @@ public class DeleteLookDialogTest {
 	public void setUp() throws Exception {
 		createProject("deleteLooksDialogTest");
 
-		Intent intent = new Intent();
-		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
-
-		baseActivityTestRule.launchActivity(intent);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteLookDialogTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete)).perform(click());
 
 		onRVAtPosition(1)
 				.performCheckItem();
 
-		onView(withContentDescription(R.string.done)).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
 
 		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_looks, 1)))
 				.inRoot(isDialog())
@@ -114,13 +111,13 @@ public class DeleteLookDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelDeleteLookDialogTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete)).perform(click());
 
 		onRVAtPosition(1)
 				.performCheckItem();
 
-		onView(withContentDescription(R.string.done)).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
 
 		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_looks, 1)))
 				.inRoot(isDialog())

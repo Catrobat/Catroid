@@ -41,6 +41,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -57,7 +58,6 @@ import static android.support.test.espresso.Espresso.openActionBarOverflowOrOpti
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
@@ -81,13 +81,13 @@ public class CopyProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void copyProjectTest() throws Exception {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.copy)).perform(click());
 
 		onRVAtPosition(0)
 			.performCheckItem();
 
-		onView(withContentDescription("Done")).perform(click());
+		onView(withText(R.string.confirm)).perform(click());
 
 		onView(withText(toBeCopiedProjectName))
 				.check(matches(isDisplayed()));
