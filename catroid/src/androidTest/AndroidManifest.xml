@@ -64,10 +64,11 @@
             android:name="org.catrobat.catroid.uitest.mockups.MockSoundActivity"
             android:exported="true">
         </activity>
-
+<!--
         <intent-filter>
             <category android:name="android.intent.category.DEFAULT"/>
         </intent-filter>
+        -->
     </application>
 
     <instrumentation
