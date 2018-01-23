@@ -44,6 +44,7 @@ import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.hamcrest.Description;
@@ -238,7 +239,7 @@ public class WhenNfcBrickTest {
 	}
 
 //	private void contextMenuActionDelete(String tagName) {
-//		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+//		RecyclerViewActions.openOverflowMenu();
 //		onView(withText(R.string.delete))
 //				.perform(click());
 //		onData(allOf(instanceOf(NfcTagData.class), NFCTagDataNameMatchers.isNFCTagDataName(tagName)))
@@ -254,7 +255,7 @@ public class WhenNfcBrickTest {
 //	}
 
 	private void contextMenuActionRename(String tagName, String renameString) {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename))
 				.perform(click());
 		onView(withText(tagName))

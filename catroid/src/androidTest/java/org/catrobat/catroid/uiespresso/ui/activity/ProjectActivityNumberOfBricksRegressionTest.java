@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.After;
@@ -66,13 +67,13 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 		createProject();
 		baseActivityTestRule.launchActivity();
 
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.show_details)).perform(click());
 	}
 
 	@After
 	public void tearDown() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.hide_details)).perform(click());
 	}
 

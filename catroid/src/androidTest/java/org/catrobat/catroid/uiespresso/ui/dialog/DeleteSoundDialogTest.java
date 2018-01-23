@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -79,7 +80,7 @@ public class DeleteSoundDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteSoundDialogTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete)).perform(click());
 
 		onRVAtPosition(1)
@@ -109,7 +110,7 @@ public class DeleteSoundDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelDeleteSoundDialogTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete)).perform(click());
 
 		onRVAtPosition(1)

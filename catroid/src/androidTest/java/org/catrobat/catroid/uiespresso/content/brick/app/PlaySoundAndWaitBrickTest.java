@@ -39,6 +39,7 @@ import org.catrobat.catroid.uiespresso.annotations.Device;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -191,7 +192,7 @@ public class PlaySoundAndWaitBrickTest {
 	private void deleteSound(int position) {
 		onView(withId(R.id.program_menu_button_sounds))
 				.perform(click());
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete))
 				.perform(click());
 		onRVAtPosition(position)
@@ -213,7 +214,7 @@ public class PlaySoundAndWaitBrickTest {
 	private void renameSound(int position, String oldName, String newName) {
 		onView(withId(R.id.program_menu_button_sounds))
 				.perform(click());
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename))
 				.perform(click());
 		onRVAtPosition(position)

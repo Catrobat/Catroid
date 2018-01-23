@@ -35,6 +35,7 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -90,7 +91,7 @@ public class RenameSpriteDialogTest {
 	}
 
 	private void renameSpriteTo(String newSpriteName) {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRVAtPosition(2)

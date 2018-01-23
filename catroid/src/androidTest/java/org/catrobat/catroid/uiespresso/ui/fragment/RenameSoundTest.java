@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -82,7 +83,7 @@ public class RenameSoundTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void renameSoundTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRVAtPosition(0)
@@ -109,7 +110,7 @@ public class RenameSoundTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelRenameSoundTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRVAtPosition(0)

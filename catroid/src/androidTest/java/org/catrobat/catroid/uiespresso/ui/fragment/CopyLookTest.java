@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -74,7 +75,7 @@ public class CopyLookTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void copyLookTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.copy)).perform(click());
 
 		onRVAtPosition(0)

@@ -37,6 +37,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -78,7 +79,7 @@ public class DeleteProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteProjectTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete)).perform(click());
 
 		onRVAtPosition(0)
@@ -106,7 +107,7 @@ public class DeleteProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelDeleteProjectTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete)).perform(click());
 
 		onRVAtPosition(1)
