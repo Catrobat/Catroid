@@ -48,11 +48,11 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorKeyboardTest {
@@ -71,19 +71,9 @@ public class FormulaEditorKeyboardTest {
 	public void numericKeysTest() {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 
-		onView(withId(R.id.formula_editor_keyboard_1)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_2)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_3)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_4)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_5)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_6)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_7)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_8)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_9)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_0)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_decimal_mark)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_1)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
+		onFormulaEditor()
+				.performEnterNumber(1234567890.1)
+				.performCloseAndSave();
 
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("1234567890"
@@ -95,20 +85,11 @@ public class FormulaEditorKeyboardTest {
 	public void basicMathOperatorKeysTest() {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 
-		onView(withId(R.id.formula_editor_keyboard_bracket_open)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_1)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_bracket_close)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_plus)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_1)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_minus)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_1)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_mult)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_1)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_divide)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_1)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_equal)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_1)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_ok)).perform(click());
+		onFormulaEditor()
+				.performEnterFormula("(1)+1-1*1/1=1");
+
+		onFormulaEditor()
+				.performCloseAndSave();
 
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("( 1 ) + 1 - 1 × 1 ÷ 1 = 1 ")));
@@ -119,18 +100,11 @@ public class FormulaEditorKeyboardTest {
 	public void enterStringTest() {
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
-		onView(withId(R.id.formula_editor_keyboard_string))
-				.perform(click());
 
-		onView(withText(R.string.formula_editor_new_string_name))
-				.check(matches(isDisplayed()));
-		onView(withId(R.id.input_edit_text))
-				.perform(typeText("Foo"));
-		onView(withText(R.string.ok))
-				.perform(click());
+		onFormulaEditor()
+				.performEnterString("Foo")
+				.performCloseAndSave();
 
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("'Foo' ")));
 	}

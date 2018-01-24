@@ -41,7 +41,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.util.matchers.UserVariableMatchers.withUserVariableName;
+import static org.catrobat.catroid.uiespresso.util.matchers.UserDataItemMatchers.withUserVariableName;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -75,7 +75,6 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 				.perform(click());
 
 		enterTextOnDialogue(R.id.input_edit_text, variableName);
-		// todo: CAT-2359 to fix this:
 		checkShowsText(variableName);
 
 		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);

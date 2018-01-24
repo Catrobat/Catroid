@@ -30,10 +30,10 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.matchers.FormulaEditorFunctionListMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,18 +44,11 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.core.Is.is;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.junit.runners.Parameterized.Parameter;
 import static org.junit.runners.Parameterized.Parameters;
 
@@ -128,21 +121,17 @@ public class FormulaEditorFunctionListTest {
 		onBrickAtPosition(changeSizeBrickPosition).onChildView(withId(R.id.brick_change_size_by_edit_text))
 				.perform(click());
 
-		onView(withText(R.string.formula_editor_functions)).perform(click());
-
 		String formulaEditorFunctionString = UiTestUtils.getResourcesString(formulaEditorFunction);
 		String formulaEditorFunctionParameterString = UiTestUtils.getResourcesString(formulaEditorFunctionParameter);
 		String editorFunction = formulaEditorFunctionString + formulaEditorFunctionParameterString;
 		String selectedFunctionString = getSelectedFunctionString(editorFunction);
 
-		onData(allOf(is(instanceOf(String.class)), is(editorFunction)))
-				.inAdapterView(FormulaEditorFunctionListMatchers.isFunctionListView())
-				.onChildView(withId(R.id.fragment_formula_editor_list_item))
-				.check(matches(isDisplayed()))
-				.perform(click());
+		onFormulaEditor()
+				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
+				.performSelect(editorFunction);
 
-		onView(withId(R.id.formula_editor_edit_field))
-				.check(matches(withText(selectedFunctionString)));
+		onFormulaEditor()
+				.checkShows(selectedFunctionString);
 	}
 
 	private String getSelectedFunctionString(String functionString) {

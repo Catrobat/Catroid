@@ -32,7 +32,6 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -48,6 +47,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.junit.runners.Parameterized.Parameter;
 import static org.junit.runners.Parameterized.Parameters;
 
@@ -110,10 +110,10 @@ public class PhiroColorBrickTest {
 				.perform(click());
 		onView(withId(rgbValueId))
 				.perform(click());
-		onView(withId(R.id.formula_editor_edit_field))
-				.perform(CustomActions.typeInValue(SET_COLOR.toString()));
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
+		onFormulaEditor()
+				.performEnterNumber(SET_COLOR)
+				.performCloseAndSave();
+
 		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(brickActionEditTextId)
 				.checkShowsNumber(SET_COLOR);
 	}

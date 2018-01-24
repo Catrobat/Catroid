@@ -37,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -54,6 +55,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+
 @RunWith(AndroidJUnit4.class)
 public class FaceDetectionFormulaEditorComputeDialogTest {
 
@@ -66,17 +69,14 @@ public class FaceDetectionFormulaEditorComputeDialogTest {
 		baseActivityTestRule.launchActivity();
 	}
 
-	private void openComputeDialog() {
-		onView(withId(R.id.brick_note_edit_text))
-				.perform(click());
-		onView(withId(R.id.formula_editor_keyboard_compute))
-				.perform(click());
-	}
-
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	public void computeDialogFacedetectionResourceTest() {
-		openComputeDialog();
+		onView(withId(R.id.brick_note_edit_text))
+				.perform(click());
+
+		onFormulaEditor()
+				.performClickOn(FormulaEditorWrapper.Control.COMPUTE);
 
 		assertTrue(FaceDetectionHandler.isFaceDetectionRunning());
 
@@ -84,11 +84,11 @@ public class FaceDetectionFormulaEditorComputeDialogTest {
 
 		assertFalse(FaceDetectionHandler.isFaceDetectionRunning());
 
-		onView(withId(R.id.formula_editor_keyboard_0))
-				.perform(click());
+		onFormulaEditor()
+				.performClickOn(FormulaEditorWrapper.NumPad.NUM0);
 
-		onView(withId(R.id.formula_editor_keyboard_compute))
-				.perform(click());
+		onFormulaEditor()
+				.performClickOn(FormulaEditorWrapper.Control.COMPUTE);
 
 		assertFalse(FaceDetectionHandler.isFaceDetectionRunning());
 	}

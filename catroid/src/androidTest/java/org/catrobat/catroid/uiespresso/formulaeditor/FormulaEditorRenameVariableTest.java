@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -39,17 +40,12 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.longClick;
-import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorRenameVariableTest {
@@ -78,33 +74,30 @@ public class FormulaEditorRenameVariableTest {
 		onBrickAtPosition(changeSizeBrickPosition).onChildView(withId(R.id.brick_change_size_by_edit_text))
 				.perform(click());
 
-		onView(withId(R.id.formula_editor_keyboard_data))
-				.perform(click());
-		onView(withId(R.id.button_add))
-				.perform(click());
-		onView(withId(R.id.input_edit_text))
-				.perform(replaceText(variableNameOld), closeSoftKeyboard());
-		onView(withText(R.string.ok))
+		onFormulaEditor()
+				.performOpenDataFragment();
+
+		onDataList()
+				.performAdd(variableNameOld);
+
+		onDataList()
+				.onVariableWithName(variableNameOld)
 				.perform(click());
 
-		onView(withText(variableNameOld))
-				.perform(click());
-		onView(withId(R.id.formula_editor_edit_field))
-				.check(matches(withText(getUserVariableEditText(variableNameOld))));
+		onFormulaEditor()
+				.checkShows(getUserVariableEditText(variableNameOld));
 
-		onView(withId(R.id.formula_editor_keyboard_data))
-				.perform(click());
-		onView(withText(variableNameOld))
-				.perform(longClick());
-		onView(withText(R.string.rename))
-				.perform(click());
-		onView(withId(R.id.dialog_formula_rename_variable_name_edit_text))
-				.perform(replaceText(variableNameNew), closeSoftKeyboard());
-		onView(withText(R.string.ok))
-				.perform(click());
-		pressBack();
+		onFormulaEditor()
+				.performOpenDataFragment();
 
-		onView(withId(R.id.formula_editor_edit_field)).check(matches(withText(getUserVariableEditText(variableNameNew))));
+		onDataList().onVariableWithName(variableNameOld)
+				.performRename(variableNameNew);
+
+		onDataList()
+				.performClose();
+
+		onFormulaEditor()
+				.checkShows(getUserVariableEditText(variableNameNew));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -116,35 +109,30 @@ public class FormulaEditorRenameVariableTest {
 		onBrickAtPosition(changeSizeBrickPosition).onChildView(withId(R.id.brick_change_size_by_edit_text))
 				.perform(click());
 
-		onView(withId(R.id.formula_editor_keyboard_data))
-				.perform(click());
-		onView(withId(R.id.button_add))
-				.perform(click());
-		onView(withId(R.id.input_edit_text))
-				.perform(replaceText(variableNameOld), closeSoftKeyboard());
-		onView(withId(R.id.make_list))
-				.perform(click());
-		onView(withText(R.string.ok))
-				.perform(click());
+		onFormulaEditor()
+				.performOpenDataFragment();
 
-		onView(withText(variableNameOld))
-				.perform(click());
-		onView(withId(R.id.formula_editor_edit_field))
-				.check(matches(withText(getUserListEditText(variableNameOld))));
+		onDataList()
+				.performAdd(variableNameOld, FormulaEditorDataListWrapper.ItemType.LIST);
 
-		onView(withId(R.id.formula_editor_keyboard_data))
-				.perform(click());
-		onView(withText(variableNameOld))
-				.perform(longClick());
-		onView(withText(R.string.rename))
-				.perform(click());
-		onView(withId(R.id.dialog_formula_rename_variable_name_edit_text))
-				.perform(replaceText(variableNameNew), closeSoftKeyboard());
-		onView(withText(R.string.ok))
-				.perform(click());
-		pressBack();
+		onDataList()
+				.onListWithName(variableNameOld)
+				.performSelect();
 
-		onView(withId(R.id.formula_editor_edit_field)).check(matches(withText(getUserListEditText(variableNameNew))));
+		onFormulaEditor()
+				.checkShows(getUserListEditText(variableNameOld));
+
+		onFormulaEditor()
+				.performOpenDataFragment();
+
+		onDataList().onListWithName(variableNameOld)
+				.performRename(variableNameNew);
+
+		onDataList()
+				.performClose();
+
+		onFormulaEditor()
+				.checkShows(getUserListEditText(variableNameNew));
 	}
 
 	private String getUserVariableEditText(String variableName) {

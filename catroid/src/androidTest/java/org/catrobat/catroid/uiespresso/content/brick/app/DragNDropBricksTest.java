@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickCoordinatesProvider;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
@@ -71,7 +70,7 @@ public class DragNDropBricksTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void dragTest() throws InterpretationException {
+	public void dragTest() {
 		onBrickAtPosition(2).performDragNDrop(BrickCoordinatesProvider.DOWN_ONE_POSITION);
 
 		onBrickAtPosition(2).performDragNDrop(BrickCoordinatesProvider.DOWN_ONE_POSITION);
