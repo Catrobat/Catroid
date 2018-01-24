@@ -48,7 +48,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_terms_of_use";
 	public static final String DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT = "dialog_terms_of_use_accept";
 
-	CheckBox checkboxTermsOfUseAcceptedPermanently = null;
+	CheckBox acceptedPermanentlyCheckbox = null;
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
@@ -60,22 +60,22 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 
 		View view = View.inflate(getActivity(), R.layout.dialog_terms_of_use, null);
 
-		TextView termsOfUseTextView = (TextView) view.findViewById(R.id.dialog_terms_of_use_text_view_info);
-		TextView termsOfUseUrlTextView = (TextView) view.findViewById(R.id.dialog_terms_of_use_text_view_url);
+		TextView termsOfUseTextView = view.findViewById(R.id.dialog_terms_of_use_text_view_info);
+		TextView termsOfUseUrlTextView = view.findViewById(R.id.dialog_terms_of_use_text_view_url);
 
 		termsOfUseUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		String termsOfUseUrlStringText = null;
+		String termsOfUseUrlStringText;
 
-		AlertDialog.Builder termsOfUseDialogBuilder = new AlertDialog.Builder(getActivity()).setView(view).setTitle(
-				R.string.dialog_terms_of_use_title);
+		AlertDialog.Builder termsOfUseDialogBuilder = new AlertDialog.Builder(getActivity())
+				.setView(view)
+				.setTitle(R.string.dialog_terms_of_use_title);
 
 		termsOfUseDialogBuilder.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				if (getActivity() instanceof PreStageActivity) {
-					if (checkboxTermsOfUseAcceptedPermanently != null
-							&& checkboxTermsOfUseAcceptedPermanently.isChecked()) {
+					if (acceptedPermanentlyCheckbox != null && acceptedPermanentlyCheckbox.isChecked()) {
 						SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
 						SettingsActivity.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
 					}
@@ -98,10 +98,9 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 		});
 
 		if (isOnPreStageActivity) {
-			checkboxTermsOfUseAcceptedPermanently = (CheckBox) view
-					.findViewById(R.id.dialog_terms_of_use_check_box_agree_permanently);
-			checkboxTermsOfUseAcceptedPermanently.setVisibility(CheckBox.VISIBLE);
-			checkboxTermsOfUseAcceptedPermanently.setText(R.string.dialog_terms_of_use_parrot_reminder_do_not_remind_again);
+			acceptedPermanentlyCheckbox = view.findViewById(R.id.dialog_terms_of_use_check_box_agree_permanently);
+			acceptedPermanentlyCheckbox.setVisibility(CheckBox.VISIBLE);
+			acceptedPermanentlyCheckbox.setText(R.string.dialog_terms_of_use_parrot_reminder_do_not_remind_again);
 			termsOfUseDialogBuilder.setCancelable(false);
 			termsOfUseTextView.setText(R.string.dialog_terms_of_use_parrot_reminder_text);
 			termsOfUseUrlStringText = getString(R.string.dialog_terms_of_use_link_text_parrot_reminder);

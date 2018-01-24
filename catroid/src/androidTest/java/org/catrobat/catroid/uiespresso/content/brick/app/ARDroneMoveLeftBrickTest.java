@@ -47,7 +47,7 @@ public class ARDroneMoveLeftBrickTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
@@ -56,7 +56,7 @@ public class ARDroneMoveLeftBrickTest {
 		int initialPower = 20;
 		BrickTestUtils.createProjectAndGetStartScript("ARDroneMoveLeftBrickTest").addBrick(new
 				DroneMoveLeftBrick(initialSeconds, initialPower));
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})

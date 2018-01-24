@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -58,7 +59,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 		String title = currentProject.getName() + ": " + currentScene.getName();
-		getActivity().getActionBar().setTitle(title);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
 	}
 
 	@Override

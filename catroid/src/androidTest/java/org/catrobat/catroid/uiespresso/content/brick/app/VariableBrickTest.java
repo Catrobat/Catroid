@@ -53,7 +53,7 @@ public class VariableBrickTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
@@ -62,7 +62,7 @@ public class VariableBrickTest {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("variableBricksTest");
 		script.addBrick(new SetVariableBrick());
 		script.addBrick(new ChangeVariableBrick());
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

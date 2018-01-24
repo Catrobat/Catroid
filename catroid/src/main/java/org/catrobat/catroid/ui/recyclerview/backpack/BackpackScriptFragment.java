@@ -54,7 +54,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 		finishActionMode();
 		try {
 			for (String item : selectedItems) {
-				List<Script> scripts = BackPackListManager.getInstance().getBackPackedScripts().get(item);
+				List<Script> scripts = BackPackListManager.getInstance().getAllBackPackedScripts().get(item);
 				for (Script script : scripts) {
 					scriptController.unpack(script, ProjectManager.getInstance().getCurrentSprite());
 				}

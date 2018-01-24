@@ -29,7 +29,6 @@ import android.os.Bundle;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.ui.dialogs.TextDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
@@ -44,33 +43,32 @@ public class NewSceneDialog extends TextDialog {
 	private Project dstProject;
 
 	public NewSceneDialog(NewItemInterface<Scene> newItemInterface, Project dstProject) {
-		super(R.string.new_scene_dialog, R.string.scene_name, "", false);
+		super(R.string.new_scene_dialog, R.string.scene_name, null, false);
 		this.newItemInterface = newItemInterface;
 		this.dstProject = dstProject;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		super.previousText = new UniqueNameProvider().getUniqueName(getString(R.string.default_scene_name, 1),
-				getScope(dstProject));
+		super.text = new UniqueNameProvider().getUniqueName(getString(R.string.default_scene_name, 1), getScope(dstProject));
 		return super.onCreateDialog(savedInstanceState);
 	}
 
 	@Override
 	protected boolean handlePositiveButtonClick() {
-		String name = input.getText().toString().trim();
+		String name = inputLayout.getEditText().getText().toString().trim();
 
 		if (name.isEmpty()) {
-			input.setError(getString(R.string.name_consists_of_spaces_only));
+			inputLayout.setError(getString(R.string.name_consists_of_spaces_only));
 			return false;
 		}
 
-		if (!getScope(dstProject).contains(name)) {
+		if (getScope(dstProject).contains(name)) {
+			inputLayout.setError(getString(R.string.name_already_exists));
+			return false;
+		} else {
 			newItemInterface.addItem(new Scene(getActivity(), name, dstProject));
 			return true;
-		} else {
-			input.setError(getString(R.string.name_already_exists));
-			return false;
 		}
 	}
 

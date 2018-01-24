@@ -51,14 +51,13 @@ public class VibrationBrickStageTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
-
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 	@Before
 	public void setUp() throws Exception {
 		vibrationBrickPosition = 1;
 		Script script = BrickTestUtils.createProjectAndGetStartScript("vibrationBrickTest");
 		script.addBrick(new VibrationBrick());
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.Gadgets.class, Cat.SettingsAndPermissions

@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -39,6 +38,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.After;
@@ -49,7 +49,6 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -61,22 +60,19 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class);
-
+			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
 	@Before
 	public void setUp() {
 		createProject();
-		Intent intent = new Intent();
-		intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
-		baseActivityTestRule.launchActivity(intent);
+		baseActivityTestRule.launchActivity();
 
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.show_details)).perform(click());
 	}
 
 	@After
 	public void tearDown() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.hide_details)).perform(click());
 	}
 

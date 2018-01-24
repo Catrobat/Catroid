@@ -62,7 +62,7 @@ public class DeleteItemOfUserListBrickTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
@@ -70,7 +70,7 @@ public class DeleteItemOfUserListBrickTest {
 		deleteItemOfUserListBrick = new DeleteItemOfUserListBrick();
 		BrickTestUtils.createProjectAndGetStartScript("deleteItemOfUserListBrickTest1")
 				.addBrick(deleteItemOfUserListBrick);
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -131,9 +131,11 @@ public class DeleteItemOfUserListBrickTest {
 
 		pressBack();
 
+		onView(withId(R.id.formula_editor_keyboard_ok))
+				.perform(click());
+
 		onView(allOf(withText(secondUserListName), isDisplayed()))
 				.check(doesNotExist());
-		pressBack();
 		userList = deleteItemOfUserListBrick.getUserList();
 		assertNotNull(userList);
 		assertEquals(firstUserListName, userList.getName());

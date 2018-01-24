@@ -64,8 +64,8 @@ import static org.junit.runners.Parameterized.Parameters;
 public class FormulaEditorFunctionListTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule =
-			new BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Parameters(name = "{2}" + "-Test")
 	public static Iterable<Object[]> data() {
@@ -118,7 +118,7 @@ public class FormulaEditorFunctionListTest {
 	public void setUp() throws Exception {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorFunctionListTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Test

@@ -55,13 +55,13 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 public class FormulaEditorRenameVariableTest {
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorRenameVariableTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	private static String variableNameOld = "variableOld";
@@ -82,7 +82,7 @@ public class FormulaEditorRenameVariableTest {
 				.perform(click());
 		onView(withId(R.id.button_add))
 				.perform(click());
-		onView(withId(R.id.dialog_formula_editor_data_name_edit_text))
+		onView(withId(R.id.input_edit_text))
 				.perform(replaceText(variableNameOld), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
@@ -120,9 +120,9 @@ public class FormulaEditorRenameVariableTest {
 				.perform(click());
 		onView(withId(R.id.button_add))
 				.perform(click());
-		onView(withId(R.id.dialog_formula_editor_data_name_edit_text))
+		onView(withId(R.id.input_edit_text))
 				.perform(replaceText(variableNameOld), closeSoftKeyboard());
-		onView(withId(R.id.dialog_formula_editor_data_is_list_checkbox))
+		onView(withId(R.id.make_list))
 				.perform(click());
 		onView(withText(R.string.ok))
 				.perform(click());

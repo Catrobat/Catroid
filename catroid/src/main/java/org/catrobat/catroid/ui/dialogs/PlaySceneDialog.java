@@ -22,16 +22,14 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.RadioButton;
 
 import org.catrobat.catroid.ProjectManager;
@@ -50,12 +48,15 @@ public class PlaySceneDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_play_scene, null);
+		@SuppressLint("InflateParams")
+		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_play_scene, null);
 
-		Dialog playSceneDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+		Dialog dialog = new AlertDialog.Builder(getActivity())
+				.setView(view)
 				.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						handleOkButtonClick();
 					}
 				})
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -65,23 +66,10 @@ public class PlaySceneDialog extends DialogFragment {
 				})
 				.create();
 
-		playSceneDialog.setCanceledOnTouchOutside(true);
+		dialog.setTitle(R.string.play_scene_dialog_title);
+		dialog.setCanceledOnTouchOutside(true);
 
-		playSceneDialog.setOnShowListener(new OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialog) {
-				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-				positiveButton.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View view) {
-						handleOkButtonClick();
-					}
-				});
-			}
-		});
-
-		playFirstScene = (RadioButton) dialogView.findViewById(R.id.play_default_scene_radiobutton);
+		playFirstScene = view.findViewById(R.id.play_default_scene_radiobutton);
 		playFirstScene.setChecked(true);
 
 		String firstSceneText = String.format(getString(R.string.play_scene_dialog_default), ProjectManager
@@ -90,13 +78,12 @@ public class PlaySceneDialog extends DialogFragment {
 				.getInstance().getCurrentScene().getName());
 
 		playFirstScene.setText(firstSceneText);
-		((RadioButton) dialogView.findViewById(R.id.play_current_scene_radiobutton)).setText(currentSceneText);
+		((RadioButton) view.findViewById(R.id.play_current_scene_radiobutton)).setText(currentSceneText);
 
-		return playSceneDialog;
+		return dialog;
 	}
 
 	protected void handleOkButtonClick() {
-
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (playFirstScene.isChecked()) {

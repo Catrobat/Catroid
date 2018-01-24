@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -103,13 +104,14 @@ public class SignInDialog extends DialogFragment implements
 
 		initializeGooglePlus();
 
+		@SuppressLint("InflateParams")
 		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_sign_in, null);
 
-		final Button loginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_login);
-		final Button registerButton = (Button) rootView.findViewById(R.id.dialog_sign_in_register);
-		final Button facebookLoginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_facebook_login_button);
-		Button gplusLoginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_gplus_login_button);
-		TextView termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
+		final Button loginButton = rootView.findViewById(R.id.dialog_sign_in_login);
+		final Button registerButton = rootView.findViewById(R.id.dialog_sign_in_register);
+		final Button facebookLoginButton = rootView.findViewById(R.id.dialog_sign_in_facebook_login_button);
+		Button gplusLoginButton = rootView.findViewById(R.id.dialog_sign_in_gplus_login_button);
+		TextView termsOfUseLinkTextView = rootView.findViewById(R.id.register_terms_link);
 
 		facebookLoginButton.getViewTreeObserver().addOnGlobalLayoutListener(
 				new ViewTreeObserver.OnGlobalLayoutListener() {

@@ -66,7 +66,7 @@ import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.NoNetworkDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NoNetworkDialog;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;

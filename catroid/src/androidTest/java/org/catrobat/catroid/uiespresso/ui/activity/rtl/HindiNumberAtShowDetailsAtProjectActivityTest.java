@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -54,7 +53,7 @@ import java.util.Locale;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static android.support.test.espresso.Espresso.openContextualActionModeOverflowMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -68,7 +67,7 @@ import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewIn
 public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class);
+			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
 	private Locale arLocale = new Locale("ar");
 	private String expectedHindiNumberOfScripts = "٢"; // 2
 	private String expectedHindiNumberOfBricks = "٧"; // 7
@@ -79,17 +78,15 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	public void setUp() {
 		SettingsActivity.setLanguageSharedPreference(getTargetContext(), "ar");
 		createProject();
-		Intent intent = new Intent();
-		intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
-		baseActivityTestRule.launchActivity(intent);
+		baseActivityTestRule.launchActivity();
 
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		openContextualActionModeOverflowMenu();
 		onView(withText(R.string.show_details)).perform(click());
 	}
 
 	@After
 	public void tearDown() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		openContextualActionModeOverflowMenu();
 		onView(withText(R.string.hide_details)).perform(click());
 		SettingsActivity.removeLanguageSharedPreference(getTargetContext());
 	}

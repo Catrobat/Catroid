@@ -44,6 +44,7 @@ import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.hamcrest.Description;
@@ -60,7 +61,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -83,7 +83,7 @@ import static org.hamcrest.Matchers.allOf;
 public class WhenNfcBrickTest {
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	private int nfcBrickPosition;
 	private int setVariableIDPosition;
@@ -92,7 +92,7 @@ public class WhenNfcBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		createProjectWithNfcAndSetVariable();
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.SettingsAndPermissions.class})
@@ -238,7 +238,7 @@ public class WhenNfcBrickTest {
 	}
 
 //	private void contextMenuActionDelete(String tagName) {
-//		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+//		RecyclerViewActions.openOverflowMenu();
 //		onView(withText(R.string.delete))
 //				.perform(click());
 //		onData(allOf(instanceOf(NfcTagData.class), NFCTagDataNameMatchers.isNFCTagDataName(tagName)))
@@ -254,7 +254,7 @@ public class WhenNfcBrickTest {
 //	}
 
 	private void contextMenuActionRename(String tagName, String renameString) {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename))
 				.perform(click());
 		onView(withText(tagName))
@@ -263,7 +263,7 @@ public class WhenNfcBrickTest {
 				.perform(click());
 		onView(withText(R.string.rename_nfctag_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_text), withText(tagName), isDisplayed()))
+		onView(allOf(withText(tagName), isDisplayed()))
 				.perform(replaceText(renameString));
 		closeSoftKeyboard();
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))

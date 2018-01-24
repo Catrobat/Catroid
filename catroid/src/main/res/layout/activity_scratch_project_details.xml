@@ -238,7 +238,6 @@
                 android:text="@string/remixes" />
 
             <ListView
-                style="@style/ListViewShadowed"
                 android:id="@+id/scratch_project_remixes_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

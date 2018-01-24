@@ -29,11 +29,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,9 +79,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	protected ActionMode.Callback callback = new ActionMode.Callback() {
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			adapter.showCheckBoxes = true;
-			adapter.notifyDataSetChanged();
-
 			switch (actionModeType) {
 				case UNPACK:
 					actionModeTitle = getString(R.string.am_unpack);
@@ -88,9 +87,13 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 					actionModeTitle = getString(R.string.am_delete);
 					break;
 				case NONE:
-					actionMode.finish();
 					return false;
 			}
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.context_menu, menu);
+
+			adapter.showCheckBoxes = true;
+			adapter.notifyDataSetChanged();
 			mode.setTitle(actionModeTitle);
 			return true;
 		}
@@ -102,41 +105,53 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
+			switch (item.getItemId()) {
+				case R.id.confirm:
+					handleContextualAction();
+					break;
+				default:
+					return false;
+			}
+			return true;
 		}
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			if (adapter.getSelectedItems().isEmpty()) {
-				finishActionMode();
-			}
-
-			switch (actionModeType) {
-				case UNPACK:
-					unpackItems(adapter.getSelectedItems());
-					break;
-				case DELETE:
-					showDeleteAlert(adapter.getSelectedItems());
-					break;
-				case NONE:
-					break;
-			}
+			resetActionModeParameters();
+			adapter.notifyDataSetChanged();
 		}
 	};
 
-	protected void finishActionMode() {
+	private void handleContextualAction() {
+		if (adapter.getSelectedItems().isEmpty()) {
+			actionMode.finish();
+			return;
+		}
+
+		switch (actionModeType) {
+			case UNPACK:
+				unpackItems(adapter.getSelectedItems());
+				break;
+			case DELETE:
+				showDeleteAlert(adapter.getSelectedItems());
+				break;
+			case NONE:
+				throw new IllegalStateException("ActionModeType not set Correctly");
+		}
+	}
+
+	protected void resetActionModeParameters() {
 		actionModeType = NONE;
 		actionModeTitle = "";
 		adapter.showCheckBoxes = false;
 		adapter.allowMultiSelection = true;
 		adapter.clearSelection();
-		adapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_list_view, container, false);
-		recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+		recyclerView = view.findViewById(R.id.recycler_view);
 		setHasOptionsMenu(true);
 		return view;
 	}
@@ -153,6 +168,9 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		adapter.notifyDataSetChanged();
 
 		recyclerView.setAdapter(adapter);
+		recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
+				DividerItemDecoration.VERTICAL));
+
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
 
@@ -170,10 +188,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	@Override
 	public void onStop() {
 		super.onStop();
-		if (actionModeType != NONE) {
-			adapter.clearSelection();
-			actionMode.finish();
-		}
+		finishActionMode();
 	}
 
 	@Override
@@ -220,9 +235,15 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		}
 	}
 
+	protected void finishActionMode() {
+		if (actionModeType != NONE) {
+			actionMode.finish();
+		}
+	}
+
 	public void showDeleteAlert(final List<T> selectedItems) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(getResources().getQuantityString(getDeleteAlertTitle(), selectedItems.size()))
+		new AlertDialog.Builder(getActivity())
+				.setTitle(getResources().getQuantityString(getDeleteAlertTitle(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override
@@ -237,10 +258,9 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 						dialog.dismiss();
 					}
 				})
-				.setCancelable(false);
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
+				.setCancelable(false)
+				.create()
+				.show();
 	}
 
 	@Override
