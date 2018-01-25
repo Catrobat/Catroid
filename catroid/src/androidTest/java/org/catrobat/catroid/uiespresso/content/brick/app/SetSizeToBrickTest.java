@@ -25,7 +25,6 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -56,7 +55,7 @@ public class SetSizeToBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void setSizeToBrickTest() throws InterpretationException {
+	public void setSizeToBrickTest() {
 		int sizeValue = 20;
 
 		onBrickAtPosition(0).checkShowsText("When program starts");

@@ -23,31 +23,41 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import android.view.View;
-import android.widget.ListView;
-
-import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public final class FormulaEditorFunctionListMatchers {
-	private FormulaEditorFunctionListMatchers() {
+public final class UserDataItemMatchers {
+	private UserDataItemMatchers() {
 		throw new AssertionError();
 	}
 
-	public static Matcher<View> isFunctionListView() {
-		return new TypeSafeMatcher<View>() {
-
+	public static Matcher<UserVariable> withUserVariableName(final String expectedName) {
+		return new TypeSafeMatcher<UserVariable>() {
 			@Override
-			protected boolean matchesSafely(View view) {
-				return view instanceof ListView && ((ListView) view).getAdapter()
-						instanceof CategoryListAdapter;
+			protected boolean matchesSafely(UserVariable userVariable) {
+				return expectedName.equals(userVariable.getName());
 			}
 
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("CategoryListView");
+				description.appendText("withUserVariableName");
+			}
+		};
+	}
+
+	public static Matcher<UserList> withUserListName(final String expectedName) {
+		return new TypeSafeMatcher<UserList>() {
+			@Override
+			protected boolean matchesSafely(UserList userlist) {
+				return expectedName.equals(userlist.getName());
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("withUserListName");
 			}
 		};
 	}

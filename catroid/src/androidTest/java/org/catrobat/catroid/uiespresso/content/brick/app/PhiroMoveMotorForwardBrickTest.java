@@ -49,6 +49,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -101,11 +102,9 @@ public class PhiroMoveMotorForwardBrickTest {
 				.check(matches(isDisplayed()))
 				.perform(click());
 
-		onView(withId(R.id.formula_editor_keyboard_5))
-				.perform(click());
-
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
+		onFormulaEditor()
+				.performEnterNumber(5)
+				.performCloseAndSave();
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_motor_forward_action_speed_edit_text)
 				.checkShowsNumber(5);

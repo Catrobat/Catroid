@@ -42,15 +42,13 @@ import java.util.Arrays;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.longClick;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -84,7 +82,13 @@ public class ChangeVariableTest {
 
 		onBrickAtPosition(1).onFormulaTextField(R.id.brick_change_variable_edit_text)
 				.perform(click());
-		deleteItemWithTextFromFormulaEditorDataList(userVariableName, true);
+
+		onFormulaEditor()
+				.performOpenDataFragment();
+		onDataList()
+				.onVariableWithName(userVariableName).performDelete();
+		onDataList()
+				.performClose();
 
 		onView(allOf(withText(userVariableName), hasSibling(withText("0.0"))))
 				.check(doesNotExist());
@@ -118,34 +122,16 @@ public class ChangeVariableTest {
 				.checkShowsVariableNamesInAdapter(Arrays.asList(userVariableName, userVariableName2));
 	}
 
-	public static void deleteItemWithTextFromFormulaEditorDataList(String text, boolean isInUse) {
-		onView(withId(R.id.formula_editor_keyboard_data))
-				.perform(click());
-		onView(allOf(withText(text), withId(R.id
-				.fragment_formula_editor_datalist_item_name_text_view)))
-				.perform(longClick());
-		onView(withText(R.string.delete))
-				.perform(click());
-		if (isInUse) {
-			onView(withText(R.string.deletion_alert_yes))
-					.perform(click());
-		}
-		pressBack();
-	}
-
 	private void performNewVariableFromFormulaEditor(int brickId, String variableName) {
 		onBrickAtPosition(brickId).onFormulaTextField(R.id.brick_change_variable_edit_text)
 				.perform(click());
-		onView(withId(R.id.formula_editor_keyboard_data))
-				.perform(click());
-		onView(withId(R.id.button_add))
-				.perform(click());
-		onView(withId(R.id.input_edit_text))
-				.perform(typeText(variableName), closeSoftKeyboard());
-		onView(withText(R.string.ok))
-				.perform(click());
-		pressBack();
-		pressBack();
+		onFormulaEditor()
+				.performOpenDataFragment();
+		onDataList()
+				.performAdd(variableName)
+				.performClose();
+		onFormulaEditor()
+				.performCloseAndSave();
 	}
 
 	public void createProject() {

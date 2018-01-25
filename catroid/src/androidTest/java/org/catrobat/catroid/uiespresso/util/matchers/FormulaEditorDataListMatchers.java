@@ -20,38 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uiespresso.util.actions;
 
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
+package org.catrobat.catroid.uiespresso.util.matchers;
+
 import android.view.View;
+import android.widget.ListView;
 
+import org.catrobat.catroid.ui.adapter.DataAdapter;
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-
-public final class CustomActions {
-	// Suppress default constructor for noninstantiability
-	private CustomActions() {
+public final class FormulaEditorDataListMatchers {
+	private FormulaEditorDataListMatchers() {
 		throw new AssertionError();
 	}
 
-	public static ViewAction wait(final int milliSeconds) {
-		return new ViewAction() {
+	public static Matcher<View> isDataListView() {
+		return new TypeSafeMatcher<View>() {
+
 			@Override
-			public String getDescription() {
-				return "Wait for X milliseconds";
+			protected boolean matchesSafely(View view) {
+				return view instanceof ListView
+						&& ((ListView) view).getAdapter() instanceof DataAdapter;
 			}
 
 			@Override
-			public Matcher<View> getConstraints() {
-				return isDisplayed();
-			}
-
-			@Override
-			public void perform(UiController uiController, View view) {
-				uiController.loopMainThreadUntilIdle();
-				uiController.loopMainThreadForAtLeast(milliSeconds);
+			public void describeTo(Description description) {
+				description.appendText("Data list View");
 			}
 		};
 	}

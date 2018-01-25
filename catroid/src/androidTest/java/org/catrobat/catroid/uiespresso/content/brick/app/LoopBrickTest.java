@@ -143,7 +143,7 @@ public class LoopBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
-	public void testSelectLoopBrickAndDelete() throws InterpretationException {
+	public void testSelectLoopBrickAndDelete() {
 		checkSetUpBrickArrangement();
 
 		List<Integer> idList = new ArrayList<Integer>();

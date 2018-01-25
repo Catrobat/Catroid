@@ -29,6 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -39,11 +40,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.longClick;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -51,7 +48,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.hamcrest.Matchers.allOf;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 @RunWith(AndroidJUnit4.class)
 public class ReplaceItemInUserListTest {
@@ -99,17 +97,15 @@ public class ReplaceItemInUserListTest {
 
 		onView(withId(R.id.brick_replace_item_in_userlist_value_edit_text))
 				.perform(click());
-		onView(withText(R.string.formula_editor_data))
-				.perform(click());
-		onView(allOf(withText(secondUserListName), isDisplayed()))
-				.perform(longClick());
-		onView(withText(R.string.delete))
-				.perform(click());
-		onView(withText(R.string.deletion_alert_yes))
-				.perform(click());
 
-		pressBack();
-		pressBack();
+		onFormulaEditor()
+				.performOpenDataFragment();
+		onDataList().onListWithName(secondUserListName)
+				.performDelete();
+		onDataList()
+				.performClose();
+		onFormulaEditor()
+				.performCloseAndSave();
 
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.replace_item_in_userlist_spinner))
 				.perform(click());
@@ -129,19 +125,14 @@ public class ReplaceItemInUserListTest {
 
 		onView(withId(R.id.brick_replace_item_in_userlist_value_edit_text))
 				.perform(click());
-		onView(withText(R.string.formula_editor_data))
-				.perform(click());
-		onView(withId(R.id.button_add))
-				.perform(click());
-		onView(withId(R.id.input_edit_text))
-				.perform(typeText(userListName), closeSoftKeyboard());
-		onView(withId(R.id.make_list))
-				.perform(click());
-		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
-				.perform(click());
 
-		pressBack();
-		pressBack();
+		onFormulaEditor()
+				.performOpenDataFragment();
+		onDataList()
+				.performAdd(userListName, FormulaEditorDataListWrapper.ItemType.LIST)
+				.performClose();
+		onFormulaEditor()
+				.performCloseAndSave();
 
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.replace_item_in_userlist_spinner)
 				.perform(click());

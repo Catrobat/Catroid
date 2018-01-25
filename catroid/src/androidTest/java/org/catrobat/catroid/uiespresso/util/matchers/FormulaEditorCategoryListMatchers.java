@@ -23,32 +23,31 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import org.catrobat.catroid.formulaeditor.UserVariable;
+import android.view.View;
+import android.widget.ListView;
+
+import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-import static org.hamcrest.Matchers.equalTo;
-
-public final class UserVariableMatchers {
-	private UserVariableMatchers() {
+public final class FormulaEditorCategoryListMatchers {
+	private FormulaEditorCategoryListMatchers() {
 		throw new AssertionError();
 	}
 
-	public static Matcher withUserVariableName(String variableName) {
-		return withUserVariableName(equalTo(variableName));
-	}
+	public static Matcher<View> isFunctionListView() {
+		return new TypeSafeMatcher<View>() {
 
-	private static Matcher withUserVariableName(final Matcher variableNameMatcher) {
-		return new TypeSafeMatcher<UserVariable>() {
 			@Override
-			protected boolean matchesSafely(UserVariable userVariable) {
-				return variableNameMatcher.matches(userVariable.getName());
+			protected boolean matchesSafely(View view) {
+				return view instanceof ListView && ((ListView) view).getAdapter()
+						instanceof CategoryListAdapter;
 			}
 
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("withUserVariableName");
+				description.appendText("CategoryListView");
 			}
 		};
 	}

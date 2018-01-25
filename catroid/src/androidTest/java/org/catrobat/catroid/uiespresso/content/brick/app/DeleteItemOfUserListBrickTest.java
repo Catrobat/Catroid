@@ -31,6 +31,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -41,9 +42,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -52,6 +51,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertNotNull;
 
@@ -120,19 +121,15 @@ public class DeleteItemOfUserListBrickTest {
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
 				.perform(click());
 
-		onView(withId(R.id.formula_editor_keyboard_data))
-				.perform(click());
-		onView(allOf(withText(secondUserListName), isDisplayed()))
-				.perform(longClick());
-		onView(withText(R.string.delete))
-				.perform(click());
-		onView(withText(R.string.deletion_alert_yes))
-				.perform(click());
-
-		pressBack();
-
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
+		onFormulaEditor()
+				.performOpenDataFragment();
+		onDataList().onListWithName(secondUserListName)
+				.checkHasName(secondUserListName)
+				.performDelete();
+		onDataList()
+				.performClose();
+		onFormulaEditor()
+				.performCloseAndSave();
 
 		onView(allOf(withText(secondUserListName), isDisplayed()))
 				.check(doesNotExist());
@@ -147,8 +144,12 @@ public class DeleteItemOfUserListBrickTest {
 		String userListName = "test1";
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_delete_item_of_userlist_edit_text))
 				.perform(click());
-		onView(withId(R.id.formula_editor_keyboard_data))
-				.perform(click());
-		BrickTestUtils.createUserListFromDataFragment(userListName, true);
+		onFormulaEditor()
+				.performOpenDataFragment();
+		onDataList()
+				.performAdd(userListName, FormulaEditorDataListWrapper.ItemType.LIST)
+				.performClose();
+		onFormulaEditor()
+				.performCloseAndSave();
 	}
 }

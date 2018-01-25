@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -96,7 +95,7 @@ public class IfThenElseBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testCopyIfThenElseBrickTest() throws InterpretationException {
+	public void testCopyIfThenElseBrickTest() {
 		onBrickAtPosition(1).perform(click());
 
 		onView(withText(R.string.brick_context_dialog_copy_brick))

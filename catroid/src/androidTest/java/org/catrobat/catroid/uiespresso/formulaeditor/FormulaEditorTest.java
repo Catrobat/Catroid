@@ -37,7 +37,6 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
@@ -49,6 +48,8 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorTest {
@@ -70,11 +71,11 @@ public class FormulaEditorTest {
 				.perform(click());
 
 		//typeText not working for formula editor, so use CustomActions.typeInValue
-		onView(withId(R.id.formula_editor_edit_field))
-				.perform(CustomActions.typeInValue("12345,678"));
+		onFormulaEditor()
+				.performEnterNumber(12345.678);
 
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
+		onFormulaEditor()
+				.performCloseAndSave();
 	}
 
 	@After
