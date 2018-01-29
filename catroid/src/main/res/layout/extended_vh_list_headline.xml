@@ -21,14 +21,18 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/data_local_headline"
-    style="@style/headlineLinearLayout" >
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
-        style="@style/headlineTextView"
-        android:text="@string/formula_editor_dialog_for_this_sprite_only" />
+    <TextView
+        android:id="@+id/headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/view_holder_padding"/>
 
-    <View style="@style/headlineView" />
+    <include layout="@layout/extended_vh_list" />
 
 </LinearLayout>

@@ -26,7 +26,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserList implements Serializable {
+public class UserList implements Serializable, UserData {
 	private static final long serialVersionUID = 1L;
 
 	private String name;

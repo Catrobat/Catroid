@@ -21,30 +21,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick.utils;
+package org.catrobat.catroid.uiespresso.formulaeditor.utils;
 
-import android.support.test.InstrumentationRegistry;
+import org.catrobat.catroid.R;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
-public final class BrickTestUtils {
-	private BrickTestUtils() {
-		throw new AssertionError();
+public final class UserListDataItemRVInteractionWrapper extends
+		UserDataItemRVInteractionWrapper<UserListDataItemRVInteractionWrapper> {
+
+	private UserListDataItemRVInteractionWrapper(int position) {
+		super(position);
+		onRVAtPosition(position).onChildView(R.id.spinner)
+				.check(matches(isDisplayed()));
 	}
 
-	public static Script createProjectAndGetStartScript(String projectName) {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		return script;
+	static UserListDataItemRVInteractionWrapper onListAtPosition(int position) {
+		return new UserListDataItemRVInteractionWrapper(position);
 	}
 }

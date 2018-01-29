@@ -37,7 +37,11 @@ import android.widget.RadioGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.UserData;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
 
 import java.util.List;
@@ -46,13 +50,13 @@ public class NewDataDialog extends DialogFragment {
 
 	public static final String TAG = NewDataDialog.class.getSimpleName();
 
-	private NewDataInterface newDataInterface;
+	private NewItemInterface<UserData> newDataInterface;
 
 	protected TextInputLayout inputLayout;
 	protected RadioGroup radioGroup;
 	protected CheckBox makeList;
 
-	public void setNewDataInterface(NewDataInterface newDataInterface) {
+	public void setNewDataInterface(NewItemInterface<UserData> newDataInterface) {
 		this.newDataInterface = newDataInterface;
 	}
 
@@ -120,24 +124,27 @@ public class NewDataDialog extends DialogFragment {
 				return false;
 			}
 
+			UserList item;
 			if (isGlobal) {
-				dataContainer.addProjectUserList(name);
+				item = dataContainer.addProjectUserList(name);
 			} else {
-				dataContainer.addSpriteUserList(name);
+				item = dataContainer.addSpriteUserList(name);
 			}
+			newDataInterface.addItem(item);
 		} else {
 			if (!isVariableNameValid(name, isGlobal)) {
 				inputLayout.setError(getString(R.string.name_already_exists));
 				return false;
 			}
-			if (isGlobal) {
-				dataContainer.addProjectUserVariable(name);
-			} else {
-				dataContainer.addSpriteUserVariable(name);
-			}
-		}
 
-		newDataInterface.onNewData();
+			UserVariable item;
+			if (isGlobal) {
+				item = dataContainer.addProjectUserVariable(name);
+			} else {
+				item = dataContainer.addSpriteUserVariable(name);
+			}
+			newDataInterface.addItem(item);
+		}
 		return true;
 	}
 
@@ -167,10 +174,5 @@ public class NewDataDialog extends DialogFragment {
 			return !currentData.existProjectVariableWithName(name)
 					&& !currentData.spriteVariableExistsByName(currentSprite, name);
 		}
-	}
-
-	public interface NewDataInterface {
-
-		void onNewData();
 	}
 }

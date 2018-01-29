@@ -21,13 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.adapter;
+package org.catrobat.catroid.ui.recyclerview.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,24 +36,11 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 	public RelativeLayout background;
 	public CheckBox checkBox;
 	public TextView name;
-	public ImageView image;
-	protected LinearLayout details;
-	TextView leftTopDetails;
-	TextView leftBottomDetails;
-	TextView rightTopDetails;
-	TextView rightBottomDetails;
 
 	public ViewHolder(View view) {
 		super(view);
-		background = (RelativeLayout) view.findViewById(R.id.list_item_background);
-		checkBox = (CheckBox) view.findViewById(R.id.list_item_checkbox);
-		name = (TextView) view.findViewById(R.id.list_item_text_view);
-		image = (ImageView) view.findViewById(R.id.list_item_image_view);
-
-		details = (LinearLayout) view.findViewById(R.id.list_item_details);
-		leftTopDetails = (TextView) view.findViewById(R.id.details_left_top);
-		leftBottomDetails = (TextView) view.findViewById(R.id.details_left_bottom);
-		rightTopDetails = (TextView) view.findViewById(R.id.details_right_top);
-		rightBottomDetails = (TextView) view.findViewById(R.id.details_right_bottom);
+		background = view.findViewById(R.id.background);
+		checkBox = view.findViewById(R.id.checkbox);
+		name = view.findViewById(R.id.title_view);
 	}
 }

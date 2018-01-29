@@ -23,10 +23,9 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor.utils;
 
-import android.support.test.espresso.DataInteraction;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewMatcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -34,26 +33,23 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.hamcrest.Matchers.allOf;
+public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVInteractionWrapper<T>>
+		extends RecyclerViewInteractionWrapper {
 
-public abstract class UserDataItemDataInteractionWrapper<T extends UserDataItemDataInteractionWrapper<T>>
-		extends DataInteractionWrapper{
-
-	protected UserDataItemDataInteractionWrapper(DataInteraction dataInteraction) {
-		super(dataInteraction);
+	protected UserDataItemRVInteractionWrapper(int position) {
+		super(onView(new RecyclerViewMatcher(recyclerViewId).withPosition(position)), position);
 	}
 
 	public void performSelect() {
-		dataInteraction.onChildView(withId(R.id.fragment_formula_editor_datalist_item_name_text_view))
+		onChildView(R.id.title_view)
 				.perform(click());
 	}
 
 	public void performDelete() {
-		dataInteraction.onChildView(withId(R.id.fragment_formula_editor_datalist_item_name_text_view))
+		onChildView(R.id.title_view)
 				.perform(longClick());
 		onView(withText(R.string.delete))
 				.perform(click());
@@ -62,20 +58,19 @@ public abstract class UserDataItemDataInteractionWrapper<T extends UserDataItemD
 	}
 
 	public void performRename(String newName) {
-		dataInteraction.onChildView(withId(R.id.fragment_formula_editor_datalist_item_name_text_view))
+		onChildView(R.id.title_view)
 				.perform(longClick());
 		onView(withText(R.string.rename))
 				.perform(click());
-		onView(withId(R.id.dialog_formula_rename_variable_name_edit_text))
+		onView(withId(R.id.input_edit_text))
 				.perform(replaceText(newName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
 	}
 
 	public T checkHasName(String name) {
-		dataInteraction.onChildView(
-				allOf(withId(R.id.fragment_formula_editor_datalist_item_name_text_view), withText(name)))
-				.check(matches(isDisplayed()));
+		onChildView(R.id.title_view)
+				.check(matches(withText(name)));
 		return (T) this;
 	}
 }

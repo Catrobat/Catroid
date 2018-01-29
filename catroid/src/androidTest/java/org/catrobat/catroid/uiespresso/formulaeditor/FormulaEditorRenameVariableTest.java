@@ -80,9 +80,8 @@ public class FormulaEditorRenameVariableTest {
 		onDataList()
 				.performAdd(variableNameOld);
 
-		onDataList()
-				.onVariableWithName(variableNameOld)
-				.perform(click());
+		onDataList().onVariableAtPosition(0)
+				.performSelect();
 
 		onFormulaEditor()
 				.checkShows(getUserVariableEditText(variableNameOld));
@@ -90,7 +89,7 @@ public class FormulaEditorRenameVariableTest {
 		onFormulaEditor()
 				.performOpenDataFragment();
 
-		onDataList().onVariableWithName(variableNameOld)
+		onDataList().onVariableAtPosition(0)
 				.performRename(variableNameNew);
 
 		onDataList()
@@ -116,7 +115,7 @@ public class FormulaEditorRenameVariableTest {
 				.performAdd(variableNameOld, FormulaEditorDataListWrapper.ItemType.LIST);
 
 		onDataList()
-				.onListWithName(variableNameOld)
+				.onListAtPosition(0)
 				.performSelect();
 
 		onFormulaEditor()
@@ -125,7 +124,7 @@ public class FormulaEditorRenameVariableTest {
 		onFormulaEditor()
 				.performOpenDataFragment();
 
-		onDataList().onListWithName(variableNameOld)
+		onDataList().onListAtPosition(0)
 				.performRename(variableNameNew);
 
 		onDataList()

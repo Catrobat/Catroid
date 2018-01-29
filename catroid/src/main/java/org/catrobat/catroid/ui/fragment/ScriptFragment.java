@@ -218,13 +218,6 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		BottomBar.showBottomBar(getActivity());
-		initListeners();
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
 
@@ -383,23 +376,22 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	}
 
 	protected void showBackpackModeChooser() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-					case 0:
-						startActionMode(BACKPACK);
-						break;
-					case 1:
-						switchToBackpack();
-				}
-			}
-		});
-		builder.setTitle(R.string.backpack_title);
-		builder.setCancelable(true);
-		builder.show();
+		new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.backpack_title)
+				.setItems(items, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+							case 0:
+								startActionMode(BACKPACK);
+								break;
+							case 1:
+								switchToBackpack();
+						}
+					}
+				})
+				.show();
 	}
 
 	public void handleAddButton() {

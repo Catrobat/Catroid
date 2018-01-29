@@ -38,9 +38,7 @@ import android.support.v7.media.MediaRouter;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -378,19 +376,9 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 	}
 
 	private void setMainMenuButtonContinueText() {
-		Button mainMenuButtonContinue = this.findViewById(R.id.main_menu_button_continue);
-		TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(this, R.style.MainMenuButtonTextSecondLine);
-		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-		String mainMenuContinue = this.getString(R.string.main_menu_continue);
-
-		spannableStringBuilder.append(mainMenuContinue);
-		spannableStringBuilder.append("\n");
-		spannableStringBuilder.append(Utils.getCurrentProjectName(this));
-
-		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
-				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-
-		mainMenuButtonContinue.setText(spannableStringBuilder);
+		Button continueButton = findViewById(R.id.main_menu_button_continue);
+		String buttonText = this.getString(R.string.main_menu_continue) + "\n" + Utils.getCurrentProjectName(this);
+		continueButton.setText(buttonText);
 	}
 
 	@Override

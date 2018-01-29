@@ -21,30 +21,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick.utils;
+package org.catrobat.catroid.formulaeditor;
 
-import android.support.test.InstrumentationRegistry;
+public interface UserData {
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-
-public final class BrickTestUtils {
-	private BrickTestUtils() {
-		throw new AssertionError();
-	}
-
-	public static Script createProjectAndGetStartScript(String projectName) {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		return script;
-	}
+	String getName();
+	void setName(String name);
 }

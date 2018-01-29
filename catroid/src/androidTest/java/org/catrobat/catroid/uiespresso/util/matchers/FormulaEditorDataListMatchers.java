@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ListView;
 
-import org.catrobat.catroid.ui.adapter.DataAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -41,8 +41,8 @@ public final class FormulaEditorDataListMatchers {
 
 			@Override
 			protected boolean matchesSafely(View view) {
-				return view instanceof ListView
-						&& ((ListView) view).getAdapter() instanceof DataAdapter;
+				return view instanceof RecyclerView
+						&& ((RecyclerView) view).getAdapter() instanceof DataListAdapter;
 			}
 
 			@Override

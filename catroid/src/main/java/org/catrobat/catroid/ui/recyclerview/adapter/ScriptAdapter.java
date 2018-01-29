@@ -23,20 +23,20 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+
 import java.util.List;
 
 import static org.catrobat.catroid.R.drawable.ic_program_menu_scripts;
 
-public class ScriptAdapter extends RecyclerViewAdapter<String> {
+public class ScriptAdapter extends ExtendedRVAdapter<String> {
 
 	public ScriptAdapter(List<String> items) {
 		super(items);
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
-		super.onBindViewHolder(holder, position);
-
+	public void onBindViewHolder(ExtendedVH holder, int position) {
 		holder.name.setText(items.get(position));
 		holder.image.setImageResource(ic_program_menu_scripts);
 	}

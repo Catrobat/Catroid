@@ -23,42 +23,35 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
-import java.io.File;
 import java.util.List;
 
-public class LookAdapter extends ExtendedRVAdapter<LookData> {
+public abstract class ExtendedRVAdapter<T> extends RVAdapter<T> {
 
-	public LookAdapter(List<LookData> items) {
+	public boolean showDetails = false;
+
+	ExtendedRVAdapter(List<T> items) {
 		super(items);
 	}
 
 	@Override
-	public void onBindViewHolder(final ExtendedVH holder, int position) {
-		LookData item = items.get(position);
-
-		holder.name.setText(item.getName());
-		holder.image.setImageBitmap(item.getThumbnailBitmap());
-
-		holder.details.setVisibility(View.GONE);
-
-		if (showDetails) {
-			holder.details.setVisibility(View.VISIBLE);
-
-			holder.leftBottomDetails.setText(R.string.look_measure);
-			int[] measure = item.getMeasure();
-			String measureString = measure[0] + " x " + measure[1];
-			holder.rightBottomDetails.setText(measureString);
-
-			holder.leftTopDetails.setText(R.string.size);
-			holder.rightTopDetails.setText(UtilFile.getSizeAsString(new File(item.getAbsolutePath()),
-					holder.itemView.getContext()));
-		}
+	public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.extended_view_holder, parent, false);
+		return new ExtendedVH(view);
 	}
+
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		super.onBindViewHolder(holder, position);
+		onBindViewHolder((ExtendedVH) holder, position);
+	}
+
+	public abstract void onBindViewHolder(ExtendedVH holder, int position);
 }

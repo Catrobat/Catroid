@@ -22,7 +22,9 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dialog_content_area_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,32 +33,29 @@
 
         <RadioGroup
             android:id="@+id/dialog_overwrite_media_radiogroup"
-            style="@style/DefaultDialog.Item"
-            android:paddingTop="12dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/dialog_overwrite_media_radio_replace">
 
             <RadioButton
                 android:id="@+id/dialog_overwrite_media_radio_replace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/overwrite_replace"
-                android:textColor="@color/spritelist_details_text_color"/>
+                android:text="@string/overwrite_replace" />
 
             <RadioButton
                 android:id="@+id/dialog_overwrite_media_radio_rename"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/overwrite_rename"
-                android:textColor="@color/spritelist_details_text_color"/>
+                android:text="@string/overwrite_rename" />
         </RadioGroup>
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_overwrite_media_edit_text"
-            android:labelFor="@+id/dialog_overwrite_media_edit"
-            style="@style/DefaultDialog.TextView"
-            android:text="@string/look_name_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:labelFor="@+id/dialog_overwrite_media_edit"
+            android:text="@string/look_name_label"
             android:visibility="gone"/>
 
         <View

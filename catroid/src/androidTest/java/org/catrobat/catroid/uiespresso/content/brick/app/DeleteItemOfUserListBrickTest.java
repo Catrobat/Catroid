@@ -123,7 +123,7 @@ public class DeleteItemOfUserListBrickTest {
 
 		onFormulaEditor()
 				.performOpenDataFragment();
-		onDataList().onListWithName(secondUserListName)
+		onDataList().onListAtPosition(1)
 				.checkHasName(secondUserListName)
 				.performDelete();
 		onDataList()

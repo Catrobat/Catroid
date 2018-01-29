@@ -31,13 +31,14 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class SoundAdapter extends RecyclerViewAdapter<SoundInfo> {
+public class SoundAdapter extends ExtendedRVAdapter<SoundInfo> {
 
 	private MediaPlayer mediaPlayer = new MediaPlayer();
 
@@ -46,8 +47,7 @@ public class SoundAdapter extends RecyclerViewAdapter<SoundInfo> {
 	}
 
 	@Override
-	public void onBindViewHolder(final ViewHolder holder, int position) {
-		super.onBindViewHolder(holder, position);
+	public void onBindViewHolder(final ExtendedVH holder, int position) {
 		final SoundInfo item = items.get(position);
 
 		holder.name.setText(item.getName());

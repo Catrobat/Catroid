@@ -21,23 +21,42 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:longClickable="true"
-    android:orientation="vertical">
+    android:minHeight="@dimen/user_data_vh_height"
+    android:paddingEnd="@dimen/view_holder_padding"
+    android:paddingStart="@dimen/view_holder_padding">
 
-    <include layout="@layout/fragment_formula_editor_categorylist_headline" />
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/checkbox_margin"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/fragment_formula_editor_list_item"
+    <RelativeLayout
+        android:id="@+id/background"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/button_background_selector"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:paddingStart="10dp"
-        android:paddingEnd="6dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/title_view"
+            android:textSize="@dimen/view_holder_title_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/view_holder_details_spacing"/>
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_toRightOf="@id/title_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
 
 </LinearLayout>

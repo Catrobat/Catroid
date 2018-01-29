@@ -23,42 +23,43 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.ui.adapter.UserListValuesAdapter;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ListVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
-public class LookAdapter extends ExtendedRVAdapter<LookData> {
+public class ListRVAdapter extends RVAdapter<UserList> {
 
-	public LookAdapter(List<LookData> items) {
+	ListRVAdapter(List<UserList> items) {
 		super(items);
 	}
 
 	@Override
-	public void onBindViewHolder(final ExtendedVH holder, int position) {
-		LookData item = items.get(position);
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+		return new ListVH(view);
+	}
 
-		holder.name.setText(item.getName());
-		holder.image.setImageBitmap(item.getThumbnailBitmap());
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		super.onBindViewHolder(holder, position);
 
-		holder.details.setVisibility(View.GONE);
+		UserList item = items.get(position);
+		ListVH listVH = (ListVH) holder;
+		listVH.name.setText(item.getName());
 
-		if (showDetails) {
-			holder.details.setVisibility(View.VISIBLE);
-
-			holder.leftBottomDetails.setText(R.string.look_measure);
-			int[] measure = item.getMeasure();
-			String measureString = measure[0] + " x " + measure[1];
-			holder.rightBottomDetails.setText(measureString);
-
-			holder.leftTopDetails.setText(R.string.size);
-			holder.rightTopDetails.setText(UtilFile.getSizeAsString(new File(item.getAbsolutePath()),
-					holder.itemView.getContext()));
+		List<String> userList = new ArrayList<>();
+		for (Object userListItem : item.getList()) {
+			userList.add(userListItem.toString());
 		}
+
+		listVH.spinner.setAdapter(new UserListValuesAdapter(holder.background.getContext(), userList));
 	}
 }

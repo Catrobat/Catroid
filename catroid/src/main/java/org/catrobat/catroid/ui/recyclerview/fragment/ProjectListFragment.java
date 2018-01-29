@@ -38,13 +38,13 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
-import org.catrobat.catroid.ui.recyclerview.adapter.ViewHolder;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCreatorTask;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -268,8 +268,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void onItemLongClick(final ProjectData item, ViewHolder holder) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
 		CharSequence[] items = new CharSequence[] {
 				getString(R.string.copy),
 				getString(R.string.delete),
@@ -277,42 +275,40 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 				getString(R.string.show_details),
 				getString(R.string.upload_button)
 		};
-
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-					case 0:
-						copyItems(new ArrayList<>(Collections.singletonList(item)));
-						break;
-					case 1:
-						showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
-						break;
-					case 2:
-						adapter.setSelection(item, true);
-						showRenameDialog(adapter.getSelectedItems());
-						break;
-					case 3:
-						ProjectDetailsFragment fragment = new ProjectDetailsFragment();
-						Bundle args = new Bundle();
-						args.putSerializable(ProjectDetailsFragment.SELECTED_PROJECT_KEY, item);
-						fragment.setArguments(args);
-						getFragmentManager().beginTransaction()
-								.replace(R.id.fragment_container, fragment, ProjectDetailsFragment.TAG)
-								.addToBackStack(ProjectDetailsFragment.TAG)
-								.commit();
-						break;
-					case 4:
-						ProjectManager.getInstance().uploadProject(item.projectName, getActivity());
-						break;
-					default:
-						dialog.dismiss();
-				}
-			}
-		});
-
-		builder.setTitle(item.projectName);
-		builder.setCancelable(true);
-		builder.show();
+		new AlertDialog.Builder(getActivity())
+				.setTitle(item.projectName)
+				.setItems(items, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+							case 0:
+								copyItems(new ArrayList<>(Collections.singletonList(item)));
+								break;
+							case 1:
+								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
+								break;
+							case 2:
+								adapter.setSelection(item, true);
+								showRenameDialog(adapter.getSelectedItems());
+								break;
+							case 3:
+								ProjectDetailsFragment fragment = new ProjectDetailsFragment();
+								Bundle args = new Bundle();
+								args.putSerializable(ProjectDetailsFragment.SELECTED_PROJECT_KEY, item);
+								fragment.setArguments(args);
+								getFragmentManager().beginTransaction()
+										.replace(R.id.fragment_container, fragment, ProjectDetailsFragment.TAG)
+										.addToBackStack(ProjectDetailsFragment.TAG)
+										.commit();
+								break;
+							case 4:
+								ProjectManager.getInstance().uploadProject(item.projectName, getActivity());
+								break;
+							default:
+								dialog.dismiss();
+						}
+					}
+				})
+				.show();
 	}
 }

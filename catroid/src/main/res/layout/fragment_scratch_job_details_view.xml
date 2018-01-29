@@ -42,7 +42,6 @@
 
     <TextView
         android:id="@+id/scratch_job_list_item_status"
-        style="@style/ListViewItemDetailsText"
         android:paddingStart="12.5dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -67,7 +66,6 @@
 
         <TextView
             android:id="@+id/scratch_job_list_item_progress_text"
-            style="@style/ListViewItemDetailsText"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

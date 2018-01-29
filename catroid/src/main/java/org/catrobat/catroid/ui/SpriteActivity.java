@@ -42,9 +42,9 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
-import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.NfcTagListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
@@ -177,8 +177,8 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialog.Play
 				if (fragment instanceof ScriptFragment) {
 					((ScriptFragment) fragment).handleAddButton();
 				}
-				if (fragment instanceof FormulaEditorDataFragment) {
-					((FormulaEditorDataFragment) fragment).handleAddButton();
+				if (fragment instanceof DataListFragment) {
+					((DataListFragment) fragment).handleAddButton();
 				}
 				break;
 			case FRAGMENT_LOOKS:

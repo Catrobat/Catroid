@@ -23,42 +23,35 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.recyclerview.viewholder.VariableVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
-import java.io.File;
 import java.util.List;
 
-public class LookAdapter extends ExtendedRVAdapter<LookData> {
+public class VariableRVAdapter extends RVAdapter<UserVariable> {
 
-	public LookAdapter(List<LookData> items) {
+	VariableRVAdapter(List<UserVariable> items) {
 		super(items);
 	}
 
 	@Override
-	public void onBindViewHolder(final ExtendedVH holder, int position) {
-		LookData item = items.get(position);
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+		return new VariableVH(view);
+	}
 
-		holder.name.setText(item.getName());
-		holder.image.setImageBitmap(item.getThumbnailBitmap());
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		super.onBindViewHolder(holder, position);
 
-		holder.details.setVisibility(View.GONE);
-
-		if (showDetails) {
-			holder.details.setVisibility(View.VISIBLE);
-
-			holder.leftBottomDetails.setText(R.string.look_measure);
-			int[] measure = item.getMeasure();
-			String measureString = measure[0] + " x " + measure[1];
-			holder.rightBottomDetails.setText(measureString);
-
-			holder.leftTopDetails.setText(R.string.size);
-			holder.rightTopDetails.setText(UtilFile.getSizeAsString(new File(item.getAbsolutePath()),
-					holder.itemView.getContext()));
-		}
+		UserVariable item = items.get(position);
+		VariableVH variableVH = (VariableVH) holder;
+		variableVH.name.setText(item.getName());
+		variableVH.value.setText(item.getValue().toString());
 	}
 }
