@@ -33,7 +33,7 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.SpeakBrickBase;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.ardrone.DroneInitializer;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
@@ -75,7 +76,6 @@ import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -93,8 +93,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	private int requiredResourceCounter;
 	private Set<Integer> failedResources;
 
-	private static TextToSpeech textToSpeech;
-	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
+	public static TextToSpeech textToSpeech;
+	private static UtteranceProgressListener utteranceProgressListener;
 
 	private DroneInitializer droneInitializer = null;
 	private JumpingSumoInitializer jumpingSumoInitializer = null;
@@ -570,8 +570,10 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 					textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
 						@Override
 						public void onInit(int status) {
-							onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
-							textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
+							utteranceProgressListener = setupUtteranceProgressListener();
+							textToSpeech.setOnUtteranceProgressListener(utteranceProgressListener);
+							textToSpeech.setLanguage(SpeakBrickBase.getLocale());
+							Log.e("current_TTS_Locale", SpeakBrickBase.getLocale().getDisplayName(Locale.ENGLISH));
 							resourceInitialized();
 							if (status == TextToSpeech.ERROR) {
 								resourceFailed(Brick.TEXT_TO_SPEECH);
@@ -617,21 +619,6 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			default:
 				resourceFailed();
 				break;
-		}
-	}
-
-	public static void textToSpeech(String text, File speechFile, OnUtteranceCompletedListener listener,
-			HashMap<String, String> speakParameter) {
-		if (text == null) {
-			text = "";
-		}
-
-		if (onUtteranceCompletedListenerContainer.addOnUtteranceCompletedListener(speechFile, listener,
-				speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID))) {
-			int status = textToSpeech.synthesizeToFile(text, speakParameter, speechFile.getAbsolutePath());
-			if (status == TextToSpeech.ERROR) {
-				Log.e(TAG, "File synthesizing failed");
-			}
 		}
 	}
 
@@ -693,6 +680,25 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 		return brickList;
+	}
+
+	private UtteranceProgressListener setupUtteranceProgressListener() {
+		utteranceProgressListener = new UtteranceProgressListener() {
+			@Override
+			public void onStart(String utteranceId) {
+			}
+
+			@Override
+			public void onDone(String utteranceId) {
+				utteranceProgressListener.onStart(utteranceId);
+			}
+
+			@Override
+			public void onError(String utteranceId) {
+				utteranceProgressListener.onError(utteranceId);
+			}
+		};
+		return utteranceProgressListener;
 	}
 
 	@Override

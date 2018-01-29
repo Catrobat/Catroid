@@ -25,6 +25,7 @@ package org.catrobat.catroid.common;
 import android.os.Environment;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public final class Constants {
 
@@ -271,6 +272,20 @@ public final class Constants {
 			"sw", "hu", "mk", "ms", "nl", "no", "pl", "pt-rBR", "pt", "ru", "ro", "sq", "sl", "sk",
 			"sv", "vi", "tr", "uk", "bg", "ml", "ta", "kn", "te", "th", "gu", "hi", "ja", "ko", "lt", "zh-rCN",
 			"zh-rTW", "ar", "ur", "fa", "ps", "sd", "iw"};
+
+	// TTS
+	public static final Locale[] AVAILABLE_LOCALES_TTS = {Locale.getDefault(),
+			new Locale("bn", "BD"), new Locale("bn", "IN"), new Locale("zh", "HK"), new Locale("zh", "CN"),
+			new Locale("zh", "TW"), new Locale("cs", "CZ"), new Locale("da", "DK"), new Locale("nl", "NL"),
+			new Locale("en", "AU"), new Locale("en", "IN"), new Locale("en", "UK"), new Locale("en", "US"),
+			new Locale("et", "EE"), new Locale("fil", "PH"), new Locale("fi", "FI"), new Locale("fr", "FR"),
+			new Locale("de", "DE"), new Locale("el", "GR"), new Locale("hi", "IN"), new Locale("hu", "HU"),
+			new Locale("id", "ID"), new Locale("it", "IT"), new Locale("ja", "JP"), new Locale("km", "KH"),
+			new Locale("ko", "KR"), new Locale("ne", "NP"), new Locale("nb", "NO"), new Locale("pl", "PL"),
+			new Locale("pt", "BR"), new Locale("ro", "RO"), new Locale("ru", "RU"), new Locale("si", "LK"),
+			new Locale("sk", "SK"), new Locale("es", "ES"), new Locale("es", "US"), new Locale("sv", "SE"),
+			new Locale("th", "TH"), new Locale("tr", "TR"), new Locale("uk", "UA"), new Locale("vi", "VN")
+	};
 
 	// Suppress default constructor for noninstantiability
 	private Constants() {

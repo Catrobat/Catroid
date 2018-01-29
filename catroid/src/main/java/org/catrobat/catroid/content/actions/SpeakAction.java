@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.os.Build;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
@@ -49,7 +49,6 @@ public class SpeakAction extends TemporalAction {
 	private Sprite sprite;
 
 	private File speechFile;
-	private OnUtteranceCompletedListener listener;
 
 	private boolean determineLength = false;
 	private float lengthOfText;
@@ -86,24 +85,32 @@ public class SpeakAction extends TemporalAction {
 		File pathToSpeechFile = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
 		pathToSpeechFile.mkdirs();
 		speechFile = new File(pathToSpeechFile, fileName + Constants.SOUND_STANDARD_EXTENSION);
-		listener = new OnUtteranceCompletedListener() {
-			@Override
-			public void onUtteranceCompleted(String utteranceId) {
-				if (determineLength) {
-					lengthOfText = SoundManager.getInstance().getDurationOfSoundFile(speechFile.getAbsolutePath());
-				} else {
-					SoundManager.getInstance().playSoundFile(speechFile.getAbsolutePath());
-				}
-			}
-		};
+		if (determineLength) {
+			lengthOfText = SoundManager.getInstance().getDurationOfSoundFile(speechFile.getAbsolutePath());
+			Log.e("duration", String.valueOf(lengthOfText));
+		}
 		super.begin();
 	}
 
 	@Override
 	protected void update(float delta) {
-		HashMap<String, String> speakParameter = new HashMap<String, String>();
+		HashMap<String, String> speakParameter = new HashMap<>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, hashText);
-		PreStageActivity.textToSpeech(String.valueOf(interpretedText), speechFile, listener, speakParameter);
+
+		int speakStatus;
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			PreStageActivity.textToSpeech.speak(String.valueOf(interpretedText), TextToSpeech
+					.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+			speakStatus = PreStageActivity.textToSpeech.synthesizeToFile(String.valueOf(interpretedText), null, speechFile,
+					TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+		} else {
+			PreStageActivity.textToSpeech.speak(String.valueOf(interpretedText), TextToSpeech.QUEUE_FLUSH, speakParameter);
+			speakStatus = PreStageActivity.textToSpeech.synthesizeToFile(String.valueOf(interpretedText), speakParameter, hashText);
+		}
+		if (speakStatus == TextToSpeech.ERROR) {
+			Log.e(SpeakAction.class.getSimpleName(), "File synthesizing failed");
+		}
 	}
 
 	public void setSprite(Sprite sprite) {

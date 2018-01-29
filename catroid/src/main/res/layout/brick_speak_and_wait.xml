@@ -27,7 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_speak_and_wait_checkbox"
@@ -44,31 +44,69 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
-        <include layout="@layout/icon_brick_category_sound"/>
+        <include layout="@layout/icon_brick_category_sound" />
 
-        <TextView
-            android:id="@+id/brick_speak_and_wait_label"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_speak" >
-        </TextView >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layoutDirection="locale"
+        android:orientation="vertical">
+            <TableRow
+                android:id="@+id/speak_and_wait_tr1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/brick_speak_and_wait_edit_text"
-            style="@style/BrickEditText"
-            android:layout_width="match_parent"
-            app:layout_inputType="text"
-            app:layout_textField="true"
-            android:gravity="start" >
-        </TextView >
+                 <TextView
+                     android:id="@+id/brick_speak_and_wait_label"
+                     style="@style/BrickText.SingleLine"
+                     android:text="@string/brick_speak">
+                 </TextView>
+
+                <TextView
+                    android:id="@+id/brick_speak_and_wait_edit_text"
+                    style="@style/BrickEditText"
+                    android:layout_width="match_parent"
+                    app:layout_inputType="text"
+                    app:layout_textField="true">
+                </TextView>
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/speak_and_wait_tr2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/brick_speak_language"
+                    style="@style/BrickText.SingleLine"
+                    android:text="@string/brick_speak_in_language">
+                </TextView>
+
+                <Spinner
+                    android:id="@+id/brick_speak_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textDirection="locale"
+                    android:clickable="false"
+                    android:focusable="false">
+                </Spinner>
+
+            </TableRow>
 
         <TextView
             android:id="@+id/brick_speak_and_wait"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_speak_and_wait" >
-        </TextView >
+            android:text="@string/brick_speak_and_wait">
+        </TextView>
+    </LinearLayout>
 
-    </org.catrobat.catroid.ui.BrickLayout >
+
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

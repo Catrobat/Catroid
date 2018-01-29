@@ -26,6 +26,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -36,7 +37,6 @@ import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import java.io.File;
 import java.util.List;
 
 public class SpeakAndWaitBrick extends FormulaBrick {
@@ -44,7 +44,6 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
 
-	File speechFile;
 	private float duration;
 
 	public SpeakAndWaitBrick() {
@@ -82,6 +81,8 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_and_wait_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_and_wait_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
+		Spinner spinner = SpeakBrickBase.setupSpeakSpinner(context, view);
+		SpeakBrickBase.setItemSelectedListener(spinner);
 
 		textField.setOnClickListener(this);
 		return view;
@@ -92,6 +93,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_speak_and_wait, null);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_and_wait_edit_text);
 		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
+		SpeakBrickBase.setupSpeakSpinner(context, prototypeView);
 
 		return prototypeView;
 	}
@@ -105,7 +107,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 		return null;
 	}
 
-	public float getDurationOfSpokenText(Sprite sprite, Formula text) {
+	private float getDurationOfSpokenText(Sprite sprite, Formula text) {
 		SpeakAction action = (SpeakAction) sprite.getActionFactory().createSpeakAction(sprite,
 				getFormulaWithBrickField(BrickField.SPEAK));
 		action.setSprite(sprite);

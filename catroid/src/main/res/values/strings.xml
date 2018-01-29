@@ -981,6 +981,7 @@
     <string name="brick_set_volume_to">Set volume to</string>
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
+    <string name="brick_speak_in_language">in Language</string>
     <string name="brick_speak_default_value">"Hello!"</string>
     <string name="brick_speak_and_wait">and wait</string>
     <!--  -->
