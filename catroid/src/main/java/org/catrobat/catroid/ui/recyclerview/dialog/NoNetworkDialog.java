@@ -66,8 +66,8 @@ public class NoNetworkDialog extends AlertDialog {
 				new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						Intent i = new Intent(Settings.ACTION_SETTINGS);
-						getContext().startActivity(i);
+						Intent intent = new Intent(Settings.ACTION_SETTINGS);
+						getContext().startActivity(intent);
 					}
 				});
 		setButton(BUTTON_NEGATIVE, getContext().getString(R.string.cancel),

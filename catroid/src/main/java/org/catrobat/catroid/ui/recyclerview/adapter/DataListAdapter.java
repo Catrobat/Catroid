@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -178,7 +179,7 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 	}
 
 	@Override
-	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	public ViewHolder onCreateViewHolder(ViewGroup parent, @LayoutRes int viewType) {
 		switch (viewType) {
 			case R.layout.extended_vh_variable_headline:
 			case R.layout.extended_vh_variable:
@@ -192,7 +193,7 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 	}
 
 	@Override
-	public int getItemViewType(int position) {
+	public @LayoutRes int getItemViewType(int position) {
 		@DataType
 		int dataType = getDataType(position);
 		position = getRelativeItemPosition(position, dataType);

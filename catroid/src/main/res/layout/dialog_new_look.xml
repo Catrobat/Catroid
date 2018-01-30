@@ -24,10 +24,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/dialog_content_area_padding"
-    android:paddingEnd="@dimen/dialog_content_area_padding"
-    android:paddingStart="@dimen/dialog_content_area_padding">
+    android:layout_height="match_parent">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -43,16 +40,14 @@
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_paintroid"
                 android:gravity="center"
-                android:text="@string/add_look_draw_new_image"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/add_look_draw_new_image" />
 
             <TextView
                 android:id="@+id/dialog_new_look_media_library"
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_media_library"
                 android:gravity="center"
-                android:text="@string/add_look_media_library"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/add_look_media_library" />
         </TableRow>
 
         <TableRow
@@ -64,16 +59,14 @@
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_gallery"
                 android:gravity="center"
-                android:text="@string/add_look_choose_image"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/add_look_choose_image" />
 
             <TextView
                 android:id="@+id/dialog_new_look_camera"
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_camera"
                 android:gravity="center"
-                android:text="@string/add_look_from_camera"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/add_look_from_camera" />
 
         </TableRow>
     </TableLayout>

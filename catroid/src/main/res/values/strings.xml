@@ -537,7 +537,6 @@
     <string name="new_project_dialog_title">New Program</string>
     <string name="new_project_dialog_hint">My Program</string>
     <string name="new_project_description_dialog_hint">My description</string>
-    <string name="new_project_name">Program name</string>
     <string name="new_project_empty">Create empty program</string>
     <string name="new_project_default">Create example program</string>
     <string name="new_project_default_drone">Create example AR.Drone 2.0 program</string>

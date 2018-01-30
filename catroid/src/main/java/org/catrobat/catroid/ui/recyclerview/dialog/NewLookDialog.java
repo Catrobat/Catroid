@@ -36,10 +36,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
@@ -86,67 +85,73 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_look, (ViewGroup) getView(), false);
+		View view = View.inflate(getActivity(), R.layout.dialog_new_look, null);
 
 		view.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(this);
 		view.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(this);
 		view.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(this);
 		view.findViewById(R.id.dialog_new_look_camera).setOnClickListener(this);
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setView(view).setTitle(R.string.new_look_dialog_title);
-
-		AlertDialog dialog = builder.create();
-		dialog.setCanceledOnTouchOutside(true);
-		return dialog;
+		return new AlertDialog.Builder(getActivity())
+				.setView(view)
+				.setTitle(R.string.new_look_dialog_title)
+				.create();
 	}
 
 	@Override
 	public void onClick(View v) {
+		Intent intent;
 		switch (v.getId()) {
 			case R.id.dialog_new_look_paintroid:
-				Intent paintroidIntent = new Intent("android.intent.action.MAIN");
-				paintroidIntent.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME, Constants
-						.POCKET_PAINT_INTENT_ACTIVITY_NAME));
+				intent = new Intent("android.intent.action.MAIN")
+						.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME,
+								Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
 				Bundle bundle = new Bundle();
 				bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
 				bundle.putString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, getString(R.string.default_look_name));
-				paintroidIntent.putExtras(bundle);
-				paintroidIntent.addCategory("android.intent.category.LAUNCHER");
+				intent.putExtras(bundle);
+				intent.addCategory("android.intent.category.LAUNCHER");
 
-				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), paintroidIntent)) {
-					startActivityForResult(paintroidIntent, POCKET_PAINT);
+				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), intent)) {
+					startActivityForResult(intent, POCKET_PAINT);
 				} else {
-					BroadcastReceiver receiver = createPocketPaintBroadcastReceiver(paintroidIntent, POCKET_PAINT);
+					BroadcastReceiver receiver = createPocketPaintBroadcastReceiver(intent, POCKET_PAINT);
 					PocketPaintExchangeHandler.installPocketPaintAndRegister(receiver, getActivity());
 				}
 				break;
 			case R.id.dialog_new_look_media_library:
 				if (Utils.isNetworkAvailable(getActivity(), true)) {
-					Intent libraryIntent = new Intent(getActivity(), WebViewActivity.class);
-					String url = Constants.LIBRARY_LOOKS_URL;
-
-					libraryIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
-					libraryIntent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
-					startActivityForResult(libraryIntent, LIBRARY);
+					intent = new Intent(getActivity(), WebViewActivity.class)
+							.putExtra(WebViewActivity.INTENT_PARAMETER_URL, getMediaLibraryUrl())
+							.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
+					startActivityForResult(intent, LIBRARY);
 				}
 				break;
 			case R.id.dialog_new_look_gallery:
-				Intent fileChooserIntent = new Intent(Intent.ACTION_GET_CONTENT);
-				fileChooserIntent.setType("image/*");
-
-				startActivityForResult(Intent.createChooser(
-						fileChooserIntent, getString(R.string.select_look_from_gallery)), FILE);
+				intent = new Intent(Intent.ACTION_GET_CONTENT)
+						.setType("image/*");
+				startActivityForResult(Intent.createChooser(intent, getString(R.string.select_look_from_gallery)), FILE);
 				break;
 			case R.id.dialog_new_look_camera:
-				Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				uri = getDefaultLookFromCameraUri(getString(R.string.default_look_name));
-
-				cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-				Intent chooserIntent = Intent.createChooser(cameraIntent, getString(R.string.select_look_from_camera));
-				startActivityForResult(chooserIntent, CAMERA);
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+				Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_camera));
+				startActivityForResult(chooser, CAMERA);
 				break;
+		}
+	}
+
+	private String getMediaLibraryUrl() {
+		if (ProjectManager.getInstance().getCurrentScene().getSpriteList().indexOf(dstSprite) == 0) {
+			if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+				return Constants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
+			} else {
+				return Constants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
+			}
+		} else {
+			return Constants.LIBRARY_LOOKS_URL;
 		}
 	}
 
@@ -155,7 +160,6 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 		return new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-
 				String packageName = intent.getData().getEncodedSchemeSpecificPart();
 				if (!packageName.equals(POCKET_PAINT_PACKAGE_NAME)) {
 					return;
@@ -176,13 +180,11 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		if (resultCode == Activity.RESULT_CANCELED) {
 			return;
 		}
 
 		String srcPath;
-
 		switch (requestCode) {
 			case POCKET_PAINT:
 				srcPath = data.getStringExtra(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
@@ -203,7 +205,6 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 			default:
 				break;
 		}
-
 		dismiss();
 	}
 
@@ -236,7 +237,6 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 		} else {
 			path = buildScenePath(scene.getProject().getName(), scene.getName());
 		}
-
 		return buildPath(path, IMAGE_DIRECTORY);
 	}
 

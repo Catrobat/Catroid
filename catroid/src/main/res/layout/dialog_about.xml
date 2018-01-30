@@ -40,14 +40,12 @@
         <TextView
             android:id="@+id/dialog_about_text_view_url"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorLink="#E68B00" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/dialog_about_text_catrobat_url"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorLink="#E68B00" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/dialog_about_text_view_version_name"

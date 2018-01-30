@@ -37,8 +37,8 @@ import org.catrobat.catroid.scratchconverter.Client.DownloadCallback;
 import org.catrobat.catroid.transfers.MediaDownloadService;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameMediaDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.OverwriteRenameDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.web.ProgressResponseBody;
@@ -82,14 +82,10 @@ public final class DownloadUtil {
 
 		boolean programNameExists = Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(programName);
 		if (programNameExists) {
-			Log.v(TAG, "Program name exists - showDialog overwrite dialog");
-			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog();
-
-			renameDialog.setContext(activity);
-			renameDialog.setProgramName(programName);
-			renameDialog.setURL(url);
-
-			renameDialog.show(activity.getFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
+			OverwriteRenameDialog dialog = new OverwriteRenameDialog();
+			dialog.setProgramName(programName);
+			dialog.setURL(url);
+			dialog.show(activity.getFragmentManager(), OverwriteRenameDialog.TAG);
 		} else {
 			startDownload(activity, url, programName, false);
 		}
