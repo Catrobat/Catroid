@@ -41,9 +41,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.adapter.RecyclerViewAdapter;
-import org.catrobat.catroid.ui.recyclerview.adapter.ViewHolder;
+import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.lang.annotation.Retention;
@@ -53,8 +54,8 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class BackpackRecyclerViewFragment<T> extends Fragment implements
-			RecyclerViewAdapter.SelectionListener,
-			RecyclerViewAdapter.OnItemClickListener<T> {
+			RVAdapter.SelectionListener,
+			RVAdapter.OnItemClickListener<T> {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, UNPACK, DELETE})
@@ -65,7 +66,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	protected View view;
 	protected RecyclerView recyclerView;
-	protected RecyclerViewAdapter<T> adapter;
+	protected ExtendedRVAdapter<T> adapter;
 	protected ActionMode actionMode;
 	protected String actionModeTitle = "";
 	protected String sharedPreferenceDetailsKey = "";
@@ -118,7 +119,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			resetActionModeParameters();
-			adapter.notifyDataSetChanged();
+			adapter.clearSelection();
 		}
 	};
 
@@ -145,7 +146,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		actionModeTitle = "";
 		adapter.showCheckBoxes = false;
 		adapter.allowMultiSelection = true;
-		adapter.clearSelection();
 	}
 
 	@Override
@@ -222,7 +222,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 			default:
 				return super.onOptionsItemSelected(item);
 		}
-
 		return true;
 	}
 
@@ -236,12 +235,13 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	protected void finishActionMode() {
+		adapter.clearSelection();
 		if (actionModeType != NONE) {
 			actionMode.finish();
 		}
 	}
 
-	public void showDeleteAlert(final List<T> selectedItems) {
+	protected void showDeleteAlert(final List<T> selectedItems) {
 		new AlertDialog.Builder(getActivity())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitle(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
@@ -268,24 +268,22 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		if (actionModeType != NONE) {
 			return;
 		}
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		CharSequence[] items = new CharSequence[] {getString(R.string.unpack), getString(R.string.delete)};
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-					case 0:
-						unpackItems(new ArrayList<>(Collections.singletonList(item)));
-						break;
-					case 1:
-						showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
-				}
-			}
-		});
-		builder.setTitle(getItemName(item));
-		builder.setCancelable(true);
-		builder.show();
+		new AlertDialog.Builder(getActivity())
+				.setTitle(getItemName(item))
+				.setItems(items, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+							case 0:
+								unpackItems(new ArrayList<>(Collections.singletonList(item)));
+								break;
+							case 1:
+								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
+						}
+					}
+				})
+				.show();
 	}
 
 	@Override

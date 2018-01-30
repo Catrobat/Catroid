@@ -57,92 +57,78 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/description_title"
-        android:text="@string/description"
-        style="@style/ShowDetailsTitle" />
+        android:text="@string/description" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/description_value"
-        style="@style/ShowDetailsValue"
         android:hint="@string/description_hint" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/author_title"
-        android:text="@string/author"
-        style="@style/ShowDetailsTitle" />
+        android:text="@string/author" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/author_value"
-        style="@style/ShowDetailsValue" />
+        android:id="@+id/author_value" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/size_title"
-        android:text="@string/size"
-        style="@style/ShowDetailsTitle" />
+        android:text="@string/size" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/size_value"
-        style="@style/ShowDetailsValue" />
+        android:id="@+id/size_value" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/last_access_title"
-        android:text="@string/last_used"
-        style="@style/ShowDetailsTitle" />
+        android:text="@string/last_used" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/last_access_value"
-        style="@style/ShowDetailsValue" />
+        android:id="@+id/last_access_value" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/screen_size_title"
-        android:text="@string/screen_size"
-        style="@style/ShowDetailsTitle" />
+        android:text="@string/screen_size" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/screen_size_value"
-        style="@style/ShowDetailsValue" />
+        android:id="@+id/screen_size_value" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/mode_title"
-        android:text="@string/mode"
-        style="@style/ShowDetailsTitle" />
+        android:text="@string/mode" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mode_value"
-        style="@style/ShowDetailsValue" />
+        android:id="@+id/mode_value" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/remix_of_title"
-        android:text="@string/remix_of"
-        style="@style/ShowDetailsTitle" />
+        android:text="@string/remix_of" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/remix_of_value"
-        style="@style/ShowDetailsValue"/>
+        android:id="@+id/remix_of_value" />
 
 </LinearLayout>

@@ -31,24 +31,24 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<ViewHolder> implements
+public abstract class RVAdapter<T> extends RecyclerView.Adapter<ViewHolder> implements
 		TouchHelperAdapterInterface {
 
 	protected List<T> items = new ArrayList<>();
 	public boolean allowMultiSelection = true;
 	public boolean showCheckBoxes = false;
-	public boolean showDetails = false;
 
 	private MultiSelectionManager selectionManager = new MultiSelectionManager();
 	private SelectionListener selectionListener;
 	private OnItemClickListener<T> onItemClickListener;
 
-	RecyclerViewAdapter(List<T> items) {
+	RVAdapter(List<T> items) {
 		this.items = items;
 	}
 
@@ -62,7 +62,7 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<ViewHo
 
 	@Override
 	public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.extended_view_holder, parent, false);
 		return new ViewHolder(view);
 	}
 
@@ -96,7 +96,7 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<ViewHo
 		holder.checkBox.setChecked(selectionManager.isPositionSelected(position));
 	}
 
-	private void onCheckBoxClick(int position) {
+	protected void onCheckBoxClick(int position) {
 		if (!allowMultiSelection) {
 			boolean currentState = selectionManager.isPositionSelected(position);
 			clearSelection();
@@ -113,9 +113,12 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<ViewHo
 		notifyItemRangeInserted(items.indexOf(item), 1);
 	}
 
-	public void remove(T item) {
-		items.remove(item);
-		notifyItemRangeRemoved(items.indexOf(item), 1);
+	public boolean remove(T item) {
+		if (items.remove(item)) {
+			notifyItemRangeRemoved(items.indexOf(item), 1);
+			return true;
+		}
+		return false;
 	}
 
 	public List<T> getItems() {
@@ -144,12 +147,17 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<ViewHo
 		return selectedItems;
 	}
 
-	public void setSelection(T item, boolean selection) {
+	public boolean setSelection(T item, boolean selection) {
+		if (items.indexOf(item) == -1) {
+			return false;
+		}
 		selectionManager.setSelectionTo(selection, items.indexOf(item));
+		return true;
 	}
 
 	public void clearSelection() {
 		selectionManager.clearSelection();
+		notifyDataSetChanged();
 	}
 
 	@Override

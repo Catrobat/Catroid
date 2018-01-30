@@ -172,7 +172,6 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		for (LookData item : adapter.getItems()) {
 			scope.add(item.getName());
 		}
-
 		return !scope.contains(name);
 	}
 

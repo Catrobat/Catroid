@@ -76,7 +76,6 @@ public class ChangeVariableTest {
 				.checkShowsText(R.string.brick_change_variable);
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
 				.performNewVariableInitial(userVariableName);
-		// fails due to CAT-2359
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
 				.performNewVariable(secondUserVariableName);
 
@@ -86,7 +85,7 @@ public class ChangeVariableTest {
 		onFormulaEditor()
 				.performOpenDataFragment();
 		onDataList()
-				.onVariableWithName(userVariableName).performDelete();
+				.onVariableAtPosition(0).performDelete();
 		onDataList()
 				.performClose();
 

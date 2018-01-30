@@ -21,30 +21,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick.utils;
+package org.catrobat.catroid.ui.recyclerview.viewholder;
 
-import android.support.test.InstrumentationRegistry;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.R;
 
-public final class BrickTestUtils {
-	private BrickTestUtils() {
-		throw new AssertionError();
-	}
+public class ExtendedVH extends ViewHolder {
 
-	public static Script createProjectAndGetStartScript(String projectName) {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
+	public ImageView image;
+	public LinearLayout details;
+	public TextView leftTopDetails;
+	public TextView leftBottomDetails;
+	public TextView rightTopDetails;
+	public TextView rightBottomDetails;
 
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		return script;
+	public ExtendedVH(View view) {
+		super(view);
+		image = view.findViewById(R.id.image_view);
+		details = view.findViewById(R.id.list_item_details);
+		leftTopDetails = view.findViewById(R.id.details_left_top);
+		leftBottomDetails = view.findViewById(R.id.details_left_bottom);
+		rightTopDetails = view.findViewById(R.id.details_right_top);
+		rightBottomDetails = view.findViewById(R.id.details_right_bottom);
 	}
 }

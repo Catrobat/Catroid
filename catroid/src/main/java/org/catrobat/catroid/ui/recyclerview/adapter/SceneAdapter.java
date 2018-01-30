@@ -26,19 +26,18 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 
 import java.util.List;
 
-public class SceneAdapter extends RecyclerViewAdapter<Scene> {
+public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 
 	public SceneAdapter(List<Scene> items) {
 		super(items);
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
-		super.onBindViewHolder(holder, position);
-
+	public void onBindViewHolder(ExtendedVH holder, int position) {
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(holder.itemView.getContext());
 		Scene item = items.get(position);
 

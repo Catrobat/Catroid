@@ -288,6 +288,10 @@
         <item quantity="one">%d Script</item>
         <item quantity="other">%d Scripts</item>
     </plurals>
+    <plurals name="am_user_data_items_title">
+        <item quantity="one">%d Data Item</item>
+        <item quantity="other">%d Data Items</item>
+    </plurals>
 
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New Scene</string>
@@ -350,6 +354,7 @@
     <string name="rename_look_dialog">Rename Look</string>
     <string name="rename_sound_dialog">Rename Sound</string>
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
+    <string name="rename_data_dialog">Rename</string>
 
     <!-- New Script Group Dialog -->
     <string name="new_group">New group</string>
@@ -444,6 +449,10 @@
         <item quantity="one">Deleted %d Script!</item>
         <item quantity="other">Deleted %d Scripts!</item>
     </plurals>
+    <plurals name="deleted_Items">
+        <item quantity="one">Deleted %d Item!</item>
+        <item quantity="other">Deleted %d Items!</item>
+    </plurals>
     <!--  -->
 
     <!-- ProjectListActivity and ProjectListFragment -->
@@ -502,6 +511,12 @@
     <string name="tnf_well_known_sms">SMS</string>
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
+
+    <!-- DataListFragment -->
+    <string name="global_vars_headline">Variables for all objects</string>
+    <string name="local_vars_headline">Variables for this object only</string>
+    <string name="global_lists_headline">Lists for all objects</string>
+    <string name="local_lists_headline">Lists for this object only</string>
 
     <!-- Backpack -->
     <string name="backpack_title">Your Backpack</string>
@@ -1591,7 +1606,6 @@
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_device">Device</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
-    <string name="formula_editor_variables">Variables</string>
     <string name="formula_editor_functions_maths">Maths</string>
     <string name="formula_editor_functions_strings">Text</string>
     <string name="formula_editor_functions_lists">Lists</string>
@@ -1628,18 +1642,12 @@
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_variable_dialog_title">New Variable</string>
     <string name="formula_editor_list_dialog_title">New List</string>
-    <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
-    <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
-    <string name="formula_editor_data_dialog_hint">Enter name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     <string name="formula_editor_new_string_name">New Text</string>
     <string name="formula_editor_dialog_change_text">Change Text</string>
-    <string name="formula_editor_rename_variable_dialog_title">Rename</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>
-    <string name="formula_editor_lists">Lists</string>
-    <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string>
     <string name="formula_editor_sensor_face_detected">face_is_visible</string>
     <string name="formula_editor_sensor_face_size">face_size</string>
     <string name="formula_editor_sensor_face_x_position">face_x_position</string>
@@ -1676,11 +1684,6 @@
         smartphone or tablet records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
     <string name="formula_editor_intro_title_data">Data</string>
     <string name="formula_editor_intro_summary_data">Variables and lists that are used in your         program can be found here.\nYou can simply insert these in your formula, or add new ones.</string>
-
-    <plurals name="formula_editor_data_am_title">
-        <item quantity="one">%d Item selected</item>
-        <item quantity="other">%d Items selected</item>
-    </plurals>
     <!--  -->
 
 
@@ -1747,7 +1750,6 @@
     <string name="deletion_alert_title">Warning!</string>
     <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
     <string name="deletion_alert_yes">Yes, delete anyway!</string>
-    <string name="deletion_alert_no">No.</string>
     <!--  -->
 
     <!-- Upload progress dialog -->

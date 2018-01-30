@@ -43,7 +43,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        style="@style/ListViewItemDetailsText"
         android:layout_below="@id/scratch_projects_list_item_title">
 
         <TextView
@@ -52,8 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_alignWithParentIfMissing="true"
             android:layout_marginStart="12.5dp"
-            android:layout_toEndOf="@id/scratch_projects_list_item_image"
-            style="@style/ListViewItemDetailsText" />
+            android:layout_toEndOf="@id/scratch_projects_list_item_image" />
 
     </RelativeLayout>
 </RelativeLayout>

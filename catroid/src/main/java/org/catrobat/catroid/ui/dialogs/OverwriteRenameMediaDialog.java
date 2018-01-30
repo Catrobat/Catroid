@@ -32,7 +32,6 @@ import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -108,7 +107,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_overwrite_media, null);
+		View dialogView = View.inflate(getActivity(), R.layout.dialog_overwrite_media, null);
 
 		replaceButton = (RadioButton) dialogView.findViewById(R.id.dialog_overwrite_media_radio_replace);
 		replaceButton.setOnClickListener(this);

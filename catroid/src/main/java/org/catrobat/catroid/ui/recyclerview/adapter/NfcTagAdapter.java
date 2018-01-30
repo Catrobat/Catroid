@@ -25,19 +25,18 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.NfcTagData;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 
 import java.util.List;
 
-public class NfcTagAdapter extends RecyclerViewAdapter<NfcTagData> {
+public class NfcTagAdapter extends ExtendedRVAdapter<NfcTagData> {
 
 	public NfcTagAdapter(List<NfcTagData> items) {
 		super(items);
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
-		super.onBindViewHolder(holder, position);
-
+	public void onBindViewHolder(ExtendedVH holder, int position) {
 		NfcTagData item = items.get(position);
 
 		holder.name.setText(item.getNfcTagName());

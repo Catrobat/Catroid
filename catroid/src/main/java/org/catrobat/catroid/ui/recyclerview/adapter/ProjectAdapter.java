@@ -30,6 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -38,16 +39,14 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ProjectAdapter extends RecyclerViewAdapter<ProjectData> {
+public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 
 	public ProjectAdapter(List<ProjectData> items) {
 		super(items);
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
-		super.onBindViewHolder(holder, position);
-
+	public void onBindViewHolder(ExtendedVH holder, int position) {
 		Context context = holder.itemView.getContext();
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(context);
 		ProjectData item = items.get(position);

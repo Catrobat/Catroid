@@ -45,12 +45,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.recyclerview.adapter.RecyclerViewAdapter;
-import org.catrobat.catroid.ui.recyclerview.adapter.ViewHolder;
+import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.lang.annotation.Retention;
@@ -58,8 +59,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 public abstract class RecyclerViewFragment<T> extends Fragment implements
-		RecyclerViewAdapter.SelectionListener,
-		RecyclerViewAdapter.OnItemClickListener<T>,
+		RVAdapter.SelectionListener,
+		RVAdapter.OnItemClickListener<T>,
 		NewItemInterface<T>,
 		RenameItemDialog.RenameItemInterface {
 
@@ -75,7 +76,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	protected View parent;
 	protected RecyclerView recyclerView;
 	protected TextView emptyView;
-	protected RecyclerViewAdapter<T> adapter;
+	protected ExtendedRVAdapter<T> adapter;
 	protected ActionMode actionMode;
 	protected String actionModeTitle = "";
 	protected String sharedPreferenceDetailsKey = "";
@@ -155,7 +156,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			resetActionModeParameters();
-			adapter.notifyDataSetChanged();
+			adapter.clearSelection();
 			BottomBar.showBottomBar(getActivity());
 		}
 	};
@@ -189,7 +190,6 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		actionModeTitle = "";
 		adapter.showCheckBoxes = false;
 		adapter.allowMultiSelection = true;
-		adapter.clearSelection();
 	}
 
 	@Override
@@ -210,7 +210,6 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 	public void onAdapterReady() {
 		setShowProgressBar(false);
-
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 				getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
 		adapter.notifyDataSetChanged();
@@ -296,7 +295,6 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 			default:
 				return super.onOptionsItemSelected(item);
 		}
-
 		return true;
 	}
 
@@ -326,32 +324,32 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	}
 
 	protected void finishActionMode() {
+		adapter.clearSelection();
 		if (actionModeType != NONE) {
 			actionMode.finish();
 		}
 	}
 
 	protected void showBackpackModeChooser() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-					case 0:
-						startActionMode(BACKPACK);
-						break;
-					case 1:
-						switchToBackpack();
-				}
-			}
-		});
-		builder.setTitle(R.string.backpack_title);
-		builder.setCancelable(true);
-		builder.show();
+		new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.backpack_title)
+				.setItems(items, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+							case 0:
+								startActionMode(BACKPACK);
+								break;
+							case 1:
+								switchToBackpack();
+						}
+					}
+				})
+				.show();
 	}
 
-	public void showDeleteAlert(final List<T> selectedItems) {
+	protected void showDeleteAlert(final List<T> selectedItems) {
 		new AlertDialog.Builder(getActivity())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitle(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)

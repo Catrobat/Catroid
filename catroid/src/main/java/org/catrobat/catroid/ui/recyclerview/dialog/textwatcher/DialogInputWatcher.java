@@ -25,9 +25,10 @@ package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
 
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 
-public class DialogInputWatcher implements android.text.TextWatcher {
+public class DialogInputWatcher implements TextWatcher {
 
 	private TextInputLayout inputLayout;
 	private Button positiveButton;

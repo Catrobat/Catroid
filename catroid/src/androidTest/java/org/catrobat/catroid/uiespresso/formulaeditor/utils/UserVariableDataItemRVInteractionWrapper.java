@@ -20,57 +20,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
 
-import java.io.Serializable;
+package org.catrobat.catroid.uiespresso.formulaeditor.utils;
 
-public class UserVariable implements Serializable, UserData {
-	private static final long serialVersionUID = 1L;
+import org.catrobat.catroid.R;
 
-	private String name;
-	private transient Object value;
-	private transient boolean visible = true;
-	private transient boolean dummy = false;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-	public UserVariable(String name) {
-		this.name = name;
-		this.value = 0d;
+public final class UserVariableDataItemRVInteractionWrapper extends
+		UserDataItemRVInteractionWrapper<UserVariableDataItemRVInteractionWrapper> {
+
+	private UserVariableDataItemRVInteractionWrapper(
+			int position) {
+		super(position);
+		onRVAtPosition(position).onChildView(R.id.value_view)
+				.check(matches(isDisplayed()));
 	}
 
-	public UserVariable(final String name, final Object value) {
-		this.name = name;
-		this.value = value;
+	static UserVariableDataItemRVInteractionWrapper onVariableAtPosition(int position) {
+		return new UserVariableDataItemRVInteractionWrapper(position);
 	}
 
-	public Object getValue() {
-		return value;
-	}
-
-	public void setValue(Object value) {
-		this.value = value;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean getVisible() {
-		return visible;
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	public boolean isDummy() {
-		return dummy;
-	}
-
-	public void setDummy(boolean dummy) {
-		this.dummy = dummy;
+	public UserVariableDataItemRVInteractionWrapper checkHasValue(String value) {
+		this.onChildView(R.id.value_view)
+				.check(matches(withText(value)));
+		return new UserVariableDataItemRVInteractionWrapper(position);
 	}
 }

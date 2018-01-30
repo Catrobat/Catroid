@@ -31,11 +31,11 @@ import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 
-public final class RecyclerViewInteractionWrapper extends ViewInteractionWrapper {
-	private static int recyclerViewId = R.id.recycler_view;
-	private int position;
+public class RecyclerViewInteractionWrapper extends ViewInteractionWrapper {
+	protected static int recyclerViewId = R.id.recycler_view;
+	protected int position;
 
-	private RecyclerViewInteractionWrapper(ViewInteraction viewInteraction, int position) {
+	protected RecyclerViewInteractionWrapper(ViewInteraction viewInteraction, int position) {
 		super(viewInteraction);
 		this.position = position;
 	}
@@ -50,7 +50,7 @@ public final class RecyclerViewInteractionWrapper extends ViewInteractionWrapper
 	}
 
 	public RecyclerViewInteractionWrapper performCheckItem() {
-		onChildView(R.id.list_item_checkbox)
+		onChildView(R.id.checkbox)
 				.perform(click());
 		return this;
 	}

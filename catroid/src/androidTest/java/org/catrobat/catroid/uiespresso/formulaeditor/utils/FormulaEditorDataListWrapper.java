@@ -105,20 +105,12 @@ public final class FormulaEditorDataListWrapper {
 		return new FormulaEditorDataListWrapper();
 	}
 
-	public UserListDataInteractionWrapper onListAtPosition(int position) {
-		return UserListDataInteractionWrapper.onListAtPosition(position);
+	public UserListDataItemRVInteractionWrapper onListAtPosition(int position) {
+		return UserListDataItemRVInteractionWrapper.onListAtPosition(position);
 	}
 
-	public UserListDataInteractionWrapper onListWithName(String name) {
-		return UserListDataInteractionWrapper.onListWithName(name);
-	}
-
-	public UserVariableDataInteractionWrapper onVariableAtPosition(int position) {
-		return UserVariableDataInteractionWrapper.onVariableAtPosition(position);
-	}
-
-	public UserVariableDataInteractionWrapper onVariableWithName(String name) {
-		return UserVariableDataInteractionWrapper.onVariableWithName(name);
+	public UserVariableDataItemRVInteractionWrapper onVariableAtPosition(int position) {
+		return UserVariableDataItemRVInteractionWrapper.onVariableAtPosition(position);
 	}
 
 	public void performClose() {

@@ -33,6 +33,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,14 +63,19 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.UserData;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewStringDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.utils.FormulaEditorIntroUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener,
+		DataListFragment.FormulaEditorDataInterface,
 		NewItemInterface<String> {
 
 	private static final String TAG = FormulaEditorFragment.class.getSimpleName();
@@ -102,13 +108,16 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static OnFormulaChangedListener onFormulaChangedListener;
 	private boolean hasFormulaBeenChanged = false;
 
-	private String previousTitle = "";
+	private String previousActionBarTitle = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(!ViewConfiguration.get(getActivity()).hasPermanentMenuKey());
-		setUpActionBar();
+
+		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+		previousActionBarTitle = actionBar.getTitle().toString();
+		actionBar.setTitle(R.string.formula_editor_title);
 
 		onFormulaChangedListener = (OnFormulaChangedListener) getFragmentManager()
 				.findFragmentByTag(ScriptFragment.TAG);
@@ -123,15 +132,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
-	}
-
-	private void setUpActionBar() {
-		previousTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString();
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
-	}
-
-	private void resetActionBar() {
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(previousTitle);
 	}
 
 	private void cloneFormulaBrick(FormulaBrick formulaBrick) {
@@ -280,7 +280,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		currentFormula.prepareToRemove();
 
 		getFragmentManager().popBackStack();
-		resetActionBar();
 
 		BottomBar.showBottomBar(getActivity());
 		BottomBar.showPlayButton(getActivity());
@@ -315,7 +314,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		setInputFormula(currentBrickField, SET_FORMULA_ON_CREATE_VIEW);
 
 		setHasOptionsMenu(true);
-		setUpActionBar();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
 
 		handleCustomView();
 
@@ -428,8 +427,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 									R.string.formula_editor_device);
 							return true;
 						case R.id.formula_editor_keyboard_data:
-							showDataFragment(FormulaEditorDataFragment.USER_DATA_TAG,
-									R.string.formula_editor_data);
+							showDataFragment();
 							return true;
 						case R.id.formula_editor_keyboard_ok:
 							endFormulaEditor();
@@ -462,6 +460,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 
 		super.onStart();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(previousActionBarTitle);
 	}
 
 	private void showNewStringDialog() {
@@ -735,20 +739,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
-	public void updateFormulaUserVariable(String oldName, String newName) {
-		if (formulaEditorEditText == null) {
-			return;
-		}
-		formulaEditorEditText.updateVariableReferences(oldName, newName);
-	}
-
-	public void updateFormulaUserList(String oldName, String newName) {
-		if (formulaEditorEditText == null) {
-			return;
-		}
-		formulaEditorEditText.updateListReferences(oldName, newName);
-	}
-
 	private void showCategoryListFragment(String tag, int actionbarResId) {
 		FormulaEditorCategoryListFragment fragment = new FormulaEditorCategoryListFragment();
 
@@ -766,21 +756,33 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				.commit();
 	}
 
-	private void showDataFragment(String tag, int actionbarResId) {
-		FormulaEditorDataFragment fragment = new FormulaEditorDataFragment();
-
-		Bundle bundle = new Bundle();
-		bundle.putString(FormulaEditorDataFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
-				context.getString(actionbarResId));
-		bundle.putString(FormulaEditorDataFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
-
-		fragment.setArguments(bundle);
-
+	private void showDataFragment() {
+		DataListFragment fragment = new DataListFragment();
+		fragment.setFormulaEditorDataInterface(this);
 		getFragmentManager().beginTransaction()
 				.hide(getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG))
-				.add(R.id.fragment_container, fragment, tag)
-				.addToBackStack(tag)
+				.add(R.id.fragment_container, fragment, DataListFragment.TAG)
+				.addToBackStack(DataListFragment.TAG)
 				.commit();
+	}
+
+	@Override
+	public void onDataItemSelected(UserData item) {
+		if (item instanceof UserVariable) {
+			addUserVariableToActiveFormula(item.getName());
+		} else if (item instanceof UserList) {
+			addUserListToActiveFormula(item.getName());
+		}
+	}
+
+	@Override
+	public void onVariableRenamed(String previousName, String newName) {
+		formulaEditorEditText.updateVariableReferences(previousName, newName);
+	}
+
+	@Override
+	public void onListRenamed(String previousName, String newName) {
+		formulaEditorEditText.updateListReferences(previousName, newName);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -831,9 +833,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		BottomBar.hideBottomBar(getActivity());
+	public void onHiddenChanged(boolean hidden) {
+		if (!hidden) {
+			((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
+			BottomBar.hideBottomBar(getActivity());
+			updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+		}
 	}
 
 	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {

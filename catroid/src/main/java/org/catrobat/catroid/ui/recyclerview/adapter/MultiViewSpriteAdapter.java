@@ -30,6 +30,8 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -52,8 +54,8 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		switch (viewType) {
 			case BACKGROUND:
 				View view = LayoutInflater.from(parent.getContext())
-						.inflate(R.layout.list_item_background_sprite, parent, false);
-				return new ViewHolder(view);
+						.inflate(R.layout.extended_vh_background_sprite, parent, false);
+				return new ExtendedVH(view);
 			case OTHER:
 			default:
 				return super.onCreateViewHolder(parent, viewType);
@@ -61,7 +63,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
+	public void onBindViewHolder(ExtendedVH holder, int position) {
 		super.onBindViewHolder(holder, position);
 
 		if (holder.getAdapterPosition() == 0) {
