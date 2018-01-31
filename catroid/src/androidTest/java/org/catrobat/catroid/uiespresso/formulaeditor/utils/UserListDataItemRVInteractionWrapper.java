@@ -28,12 +28,14 @@ import org.catrobat.catroid.R;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+
 public final class UserListDataItemRVInteractionWrapper extends
 		UserDataItemRVInteractionWrapper<UserListDataItemRVInteractionWrapper> {
 
 	private UserListDataItemRVInteractionWrapper(int position) {
 		super(position);
-		onRVAtPosition(position).onChildView(R.id.spinner)
+		onRecyclerView().atPosition(position).onChildView(R.id.spinner)
 				.check(matches(isDisplayed()));
 	}
 

@@ -59,7 +59,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
 @RunWith(AndroidJUnit4.class)
 public class CopyProjectTest {
@@ -83,7 +83,7 @@ public class CopyProjectTest {
 		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.copy)).perform(click());
 
-		onRVAtPosition(0)
+		onRecyclerView().atPosition(0)
 			.performCheckItem();
 
 		onView(withText(R.string.confirm)).perform(click());

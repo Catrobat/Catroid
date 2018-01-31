@@ -30,28 +30,48 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public class RecyclerViewMatcher {
+public class RecyclerViewItemMatcher {
 	private final int recyclerViewId;
 
-	public RecyclerViewMatcher(int recyclerViewId) {
+	public RecyclerViewItemMatcher(int recyclerViewId) {
 		this.recyclerViewId = recyclerViewId;
 	}
 
-	public Matcher<View> withCount(final int count) {
+	public Matcher<View> withPosition(final int position) {
+
 		return new TypeSafeMatcher<View>() {
-			@Override
 			public void describeTo(Description description) {
-				description.appendText("RecyclerViewItemMatcher with count:" + count + " does not match the view");
+				description.appendText("RecyclerViewItemMatcher at position: " + Integer.toString(position)
+						+ "does not match the view");
 			}
 
-			@Override
-			protected boolean matchesSafely(View view) {
+			public boolean matchesSafely(View view) {
 				RecyclerView recyclerView =
 						(RecyclerView) view.getRootView().findViewById(recyclerViewId);
 				return recyclerView != null
 						&& recyclerView.getId() == recyclerViewId
-						&& recyclerView.getAdapter() != null
-						&& recyclerView.getAdapter().getItemCount() == count;
+						&& recyclerView.findViewHolderForAdapterPosition(position) != null
+						&& view == recyclerView.findViewHolderForAdapterPosition(position).itemView;
+			}
+		};
+	}
+
+	public Matcher<View> withIdInsidePosition(final int viewId, final int position) {
+
+		return new TypeSafeMatcher<View>() {
+			public void describeTo(Description description) {
+				description.appendText("RecyclerViewItemMatcher with Id: " + viewId + "inside position: "
+						+ Integer.toString(position) + "does not match the view");
+			}
+
+			public boolean matchesSafely(View view) {
+				RecyclerView recyclerView =
+						(RecyclerView) view.getRootView().findViewById(recyclerViewId);
+				return recyclerView != null
+						&& recyclerView.getId() == recyclerViewId
+						&& recyclerView.findViewHolderForAdapterPosition(position) != null
+						&& view == recyclerView.findViewHolderForAdapterPosition(position).itemView
+								.findViewById(viewId);
 			}
 		};
 	}

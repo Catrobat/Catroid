@@ -29,13 +29,15 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+
 public final class UserVariableDataItemRVInteractionWrapper extends
 		UserDataItemRVInteractionWrapper<UserVariableDataItemRVInteractionWrapper> {
 
 	private UserVariableDataItemRVInteractionWrapper(
 			int position) {
 		super(position);
-		onRVAtPosition(position).onChildView(R.id.value_view)
+		onRecyclerView().atPosition(position).onChildView(R.id.value_view)
 				.check(matches(isDisplayed()));
 	}
 

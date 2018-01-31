@@ -61,7 +61,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
 @RunWith(AndroidJUnit4.class)
 public class HindiNumberAtShowDetailsAtProjectActivityTest {
@@ -97,16 +97,16 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 
-		onRVAtPosition(1).onChildView(R.id.details_left_bottom)
+		onRecyclerView().atPosition(1).onChildView(R.id.details_left_bottom)
 				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_scripts) + " " + expectedHindiNumberOfScripts)));
 
-		onRVAtPosition(1).onChildView(R.id.details_right_bottom)
+		onRecyclerView().atPosition(1).onChildView(R.id.details_right_bottom)
 				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_bricks) + " " + expectedHindiNumberOfBricks)));
 
-		onRVAtPosition(1).onChildView(R.id.details_left_top)
+		onRecyclerView().atPosition(1).onChildView(R.id.details_left_top)
 				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_looks) + " " + expectedHindiNumberOfLooks)));
 
-		onRVAtPosition(1).onChildView(R.id.details_right_top)
+		onRecyclerView().atPosition(1).onChildView(R.id.details_right_top)
 				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_sounds) + " " + expectedHindiNumberOfSounds)));
 	}
 

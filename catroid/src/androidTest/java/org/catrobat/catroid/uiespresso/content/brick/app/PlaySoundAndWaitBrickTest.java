@@ -67,7 +67,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
@@ -194,7 +194,7 @@ public class PlaySoundAndWaitBrickTest {
 		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete))
 				.perform(click());
-		onRVAtPosition(position)
+		onRecyclerView().atPosition(position)
 				.performCheckItem();
 		onView(withText(R.string.confirm))
 				.perform(click());
@@ -216,7 +216,7 @@ public class PlaySoundAndWaitBrickTest {
 		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename))
 				.perform(click());
-		onRVAtPosition(position)
+		onRecyclerView().atPosition(position)
 				.performCheckItem();
 
 		onView(withText(R.string.confirm))
