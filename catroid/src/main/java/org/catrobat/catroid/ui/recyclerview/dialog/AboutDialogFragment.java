@@ -65,8 +65,8 @@ public class AboutDialogFragment extends DialogFragment {
 		aboutVersionNameTextView.setText(versionName);
 
 		return new AlertDialog.Builder(getActivity())
-				.setView(view)
 				.setTitle(R.string.dialog_about_title)
+				.setView(view)
 				.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {

@@ -90,36 +90,33 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 			view.findViewById(R.id.dialog_new_sound_pocketmusic).setVisibility(View.GONE);
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setView(view).setTitle(R.string.new_sound_dialog_title);
-
-		AlertDialog dialog = builder.create();
-		dialog.setCanceledOnTouchOutside(true);
-		return dialog;
+		return new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.new_sound_dialog_title)
+				.setView(view)
+				.create();
 	}
 
 	@Override
 	public void onClick(View v) {
+		Intent intent;
 		switch (v.getId()) {
 			case R.id.dialog_new_sound_recorder:
-				Intent recorderIntent = new Intent(getActivity(), SoundRecorderActivity.class);
-				startActivityForResult(recorderIntent, RECORD);
+				intent = new Intent(getActivity(), SoundRecorderActivity.class);
+				startActivityForResult(intent, RECORD);
 				break;
 			case R.id.dialog_new_sound_media_library:
-				Intent libraryIntent = new Intent(getActivity(), WebViewActivity.class);
-				String url = Constants.LIBRARY_SOUNDS_URL;
-				libraryIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
-				libraryIntent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
-				startActivityForResult(libraryIntent, RECORD);
+				intent = new Intent(getActivity(), WebViewActivity.class)
+						.putExtra(WebViewActivity.INTENT_PARAMETER_URL, Constants.LIBRARY_SOUNDS_URL)
+						.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
+				startActivityForResult(intent, RECORD);
 				break;
 			case R.id.dialog_new_sound_gallery:
-				Intent fileChooserIntent = new Intent(Intent.ACTION_GET_CONTENT);
-				fileChooserIntent.setType("audio/*");
-				startActivityForResult(Intent.createChooser(
-						fileChooserIntent, getString(R.string.sound_select_source)), FILE);
+				intent = new Intent(Intent.ACTION_GET_CONTENT)
+						.setType("audio/*");
+				startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)), FILE);
 				break;
 			case R.id.dialog_new_sound_pocketmusic:
-				Intent intent = new Intent(getActivity(), PocketMusicActivity.class);
+				intent = new Intent(getActivity(), PocketMusicActivity.class);
 				startActivity(intent);
 				break;
 		}
@@ -128,13 +125,11 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		if (resultCode == Activity.RESULT_CANCELED) {
 			return;
 		}
 
 		String srcPath;
-
 		switch (requestCode) {
 			case RECORD:
 			case FILE:
@@ -148,7 +143,6 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 			default:
 				break;
 		}
-
 		dismiss();
 	}
 
@@ -181,7 +175,6 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 		} else {
 			path = buildScenePath(scene.getProject().getName(), scene.getName());
 		}
-
 		return buildPath(path, SOUND_DIRECTORY);
 	}
 }
