@@ -26,7 +26,9 @@
     android:layout_height="wrap_content"
     android:minHeight="@dimen/view_holder_height"
     android:paddingEnd="@dimen/view_holder_padding"
-    android:paddingStart="@dimen/view_holder_padding">
+    android:paddingStart="@dimen/view_holder_padding"
+    android:layout_marginTop="?attr/element_spacing"
+    android:layout_marginBottom="?attr/element_spacing">
 
     <CheckBox
         android:id="@+id/checkbox"

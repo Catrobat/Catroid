@@ -32,6 +32,11 @@
         <attr name="x_large" format="dimension"/>
     </declare-styleable>
 
+    <!-- Element Spacing -->
+    <declare-styleable name="ElementSpacing">
+        <attr name="element_spacing" format="dimension"/>
+    </declare-styleable>
+
     <declare-styleable name="BrickLayout">
         <attr name="customPadding" format="dimension"/>
         <attr name="horizontalSpacing" format="dimension"/>
