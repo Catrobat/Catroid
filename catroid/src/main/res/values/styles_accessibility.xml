@@ -21,11 +21,22 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/listview_background_shape">
-    <stroke android:width="1.5dp" android:color="@color/spritelist_item_thumbnail_border_color" />
-    <padding android:left="1.5dp"
-        android:top="1.5dp"
-        android:right="1.5dp"
-        android:bottom="1.5dp" />
-    <solid android:color="@android:color/transparent" />
-</shape>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="FontSizeRegular">
+        <item name="android:textSize">16sp</item>
+        <item name="small">10sp</item>
+        <item name="medium">16sp</item>
+        <item name="large">18sp</item>
+        <item name="x_large">22sp</item>
+    </style>
+
+    <style name="FontSizeLarge"
+        tools:ignore="UnusedResources">
+        <item name="android:textSize">24sp</item>
+        <item name="small">15sp</item>
+        <item name="medium">24sp</item>
+        <item name="large">27sp</item>
+        <item name="x_large">33sp</item>
+    </style>
+</resources>

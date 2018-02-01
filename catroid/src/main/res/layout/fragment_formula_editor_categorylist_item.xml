@@ -38,6 +38,6 @@
         android:gravity="center_vertical"
         android:paddingStart="10dp"
         android:paddingEnd="6dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textSize="?attr/large"/>
 
 </LinearLayout>

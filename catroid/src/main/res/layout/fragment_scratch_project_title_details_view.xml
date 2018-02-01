@@ -32,7 +32,6 @@
 
     <TextView
         android:id="@+id/scratch_projects_list_item_title"
-        style="@style/ListViewItemTitleText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"

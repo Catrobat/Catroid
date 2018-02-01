@@ -22,14 +22,14 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <lint >
-    <issue id="IconDensities" >
+    <issue id="IconDensities">
         <ignore path="src/main/res/drawable-mdpi" />
         <ignore path="src/main/res/drawable-hdpi" />
         <ignore path="src/main/res/drawable-xhdpi" />
         <ignore path="src/main/res/drawable-xxhdpi" />
     </issue >
 
-    <issue id="InflateParams" >
+    <issue id="InflateParams">
         <ignore path="src/main/java/org/catrobat/catroid/content/bricks/**" />
         <ignore path="src/main/java/org/catrobat/catroid/ui/dialogs/AboutDialogFragment.java" />
         <ignore path="src/main/java/org/catrobat/catroid/ui/dialogs/AcceptTermsOfUseDialogFragment.java" />
@@ -41,22 +41,21 @@
         <ignore path="src/main/java/org/catrobat/catroid/ui/fragment/ScriptFragment.java" />
     </issue >
 
-    <issue id="UnusedResources" >
-        <ignore regexp=".*/values-(?!de).*/strings.xml$"></ignore>
+    <issue id="UnusedResources">
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
         <ignore path="src/main/res/drawable-nodpi/icon.png" />
         <ignore path="**/google-services/**" />
     </issue>
 
-    <issue id="ImpliedQuantity" >
-        <ignore regexp=".*/values-(?!de).*/strings.xml$"></ignore>
-    </issue >
-
-    <issue id="MissingQuantity" >
+    <issue id="ImpliedQuantity">
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
 
-    <issue id="Typos" >
+    <issue id="MissingQuantity">
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
 
+    <issue id="Typos">
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
 </lint >

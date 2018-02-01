@@ -109,6 +109,7 @@
         <item name="android:paddingEnd">@dimen/button_padding</item>
         <item name="android:drawablePadding">@dimen/button_drawable_padding</item>
         <item name="android:background">@drawable/button_background</item>
+        <item name="android:textSize">?attr/x_large</item>
     </style>
     
     <style name="MainMenuButton" parent="Button">
@@ -128,51 +129,35 @@
         <item name="android:background">@drawable/bottom_bar_background_selector</item>
     </style>
 
-    <style name="ListViewItemTitleText" >
-        <item name="android:paddingStart" >12.5dp</item >
-        <item name="android:paddingEnd" >42dp</item >
-        <item name="android:shadowColor" >@color/list_view_item_title_text_shadow_color</item >
-        <item name="android:shadowDx" >0</item >
-        <item name="android:shadowDy" >3</item >
-        <item name="android:shadowRadius" >1.5</item >
-        <item name="android:singleLine" >true</item >
-        <item name="android:textColor" >@color/list_view_item_title_text_color</item >
-        <item name="android:textSize" >22sp</item >
-        <item name="android:layout_width" >fill_parent</item >
-        <item name="android:layout_height" >wrap_content</item >
-        <item name="android:ellipsize" >end</item >
+    <style name="BrickText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">?attr/large</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item >
     </style >
 
-    <style name="BrickText" >
-        <item name="android:layout_width" >wrap_content</item >
-        <item name="android:layout_height" >wrap_content</item >
-        <item name="android:textSize" >@dimen/text_size_large</item >
-        <item name="android:textColor" >@android:color/white</item >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:layout_gravity" >center_vertical</item >
+    <style name="BrickText.SingleLine">
+        <item name="android:maxLines">1</item>
     </style >
 
-    <style name="BrickText.SingleLine" >
-        <item name="android:maxLines" >1</item >
-    </style >
-
-    <style name="BrickText.Multiple" >
-        <item name="android:layout_centerVertical" >true</item >
-        <item name="android:maxLines" >1</item >
+    <style name="BrickText.Multiple">
+        <item name="android:maxLines">1</item >
     </style >
 
     <style name="BrickEditText" parent="android:style/Widget.EditText" >
-        <item name="android:focusable" >false</item >
-        <item name="android:focusableInTouchMode" >false</item >
-        <item name="android:clickable" >false</item >
-        <item name="android:minWidth" >@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item >
-        <item name="android:gravity" >end</item >
-        <item name="android:minEms" >1</item >
-        <item name="android:layout_gravity" >center_vertical</item >
-        <item name="android:layout_width" >wrap_content</item >
-        <item name="android:layout_height" >wrap_content</item >
-        <item name="android:singleLine" >true</item >
-        <item name="android:ellipsize" >end</item >
+        <item name="android:textSize">?attr/large</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode" >false</item>
+        <item name="android:clickable">false</item>
+        <item name="android:minWidth">@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">1</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
     </style >
 
         <style name="FragmentSeekbarChooserTextView" parent="android:style/Widget.EditText" >
@@ -451,7 +436,7 @@
         <item name="android:lines">1</item >
         <item name="android:layout_height">match_parent</item >
         <item name="android:layout_width">0dp</item >
-        <item name="android:textSize">@dimen/text_size_medium</item >
+        <item name="android:textSize">?attr/medium</item >
         <item name="android:ellipsize">end</item >
         <item name="android:layout_marginTop">@dimen/key_margin</item>
         <item name="android:layout_marginStart">@dimen/key_margin</item>
@@ -465,19 +450,18 @@
     </style >
 
     <style name="BrickCategory" >
-        <item name="android:layout_width" >match_parent</item >
-        <item name="android:layout_height" >match_parent</item >
-        <item name="android:orientation" >vertical</item >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
     </style >
 
     <style name="BrickCategoryText" >
-        <item name="android:layout_width" >match_parent</item >
-        <item name="android:layout_height" >@dimen/brick_category_height</item >
-        <item name="android:gravity" >start|center_vertical</item >
-        <item name="android:paddingStart" >21dp</item >
-        <item name="android:paddingEnd" >14dp</item >
-        <item name="android:textColor" >@color/brick_category_fragment_text_color</item >
-        <item name="android:textSize" >@dimen/text_size_brick_category</item >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/brick_category_height</item>
+        <item name="android:gravity">start|center_vertical</item >
+        <item name="android:paddingStart">21dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:textSize">?attr/x_large</item>
     </style >
 
     <style name="BrickCategoryText.Control" >

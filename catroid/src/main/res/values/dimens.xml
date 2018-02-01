@@ -53,7 +53,6 @@
     <dimen name="key_margin" >1dip</dimen >
     <dimen name="text_size_xxlarge" >24sp</dimen >
     <dimen name="brick_category_height" >90dp</dimen >
-    <dimen name="text_size_brick_category" >22sp</dimen >
 
     <!-- UserBrickDataEditorFragment -->
     <dimen name="brick_data_edit_cursor_size">58dp</dimen>
@@ -94,7 +93,6 @@
 
     <dimen name="view_holder_image_margin">12dp</dimen>
     <dimen name="view_holder_details_spacing">20dp</dimen>
-    <dimen name="view_holder_title_text_size">18sp</dimen>
 
     <!-- Buttons -->
     <dimen name="button_height">90dp</dimen>

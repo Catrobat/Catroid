@@ -45,18 +45,18 @@
 
         <TextView
             android:id="@+id/title_view"
-            android:textSize="@dimen/view_holder_title_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/view_holder_details_spacing"/>
+            android:paddingEnd="@dimen/view_holder_details_spacing"
+            android:textSize="?attr/large"/>
 
         <TextView
             android:id="@+id/value_view"
             android:layout_toRightOf="@id/title_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="@dimen/view_holder_title_text_size"/>
+            android:textSize="?attr/large"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 
