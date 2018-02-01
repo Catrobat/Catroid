@@ -29,29 +29,28 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public class RecyclerViewInteractionWrapper extends ViewInteractionWrapper {
-	protected static int recyclerViewId = R.id.recycler_view;
-	protected int position;
+public final class RecyclerViewInteractionWrapper extends ViewInteractionWrapper {
+	private static int recyclerViewId = R.id.recycler_view;
 
-	protected RecyclerViewInteractionWrapper(ViewInteraction viewInteraction, int position) {
+	private RecyclerViewInteractionWrapper(ViewInteraction viewInteraction) {
 		super(viewInteraction);
-		this.position = position;
 	}
 
-	public static RecyclerViewInteractionWrapper onRVAtPosition(int position) {
-		return new RecyclerViewInteractionWrapper(
-				onView(new RecyclerViewMatcher(recyclerViewId).withPosition(position)), position);
+	public static RecyclerViewInteractionWrapper onRecyclerView() {
+		return new RecyclerViewInteractionWrapper(onView(withId(R.id.recycler_view)));
 	}
 
-	public ViewInteraction onChildView(int childViewId) {
-		return onView(new RecyclerViewMatcher(recyclerViewId).withIdInsidePosition(childViewId, position));
+	public RecyclerViewItemInteractionWrapper atPosition(int position) {
+		return new RecyclerViewItemInteractionWrapper(
+				onView(new RecyclerViewItemMatcher(recyclerViewId).withPosition(position)), position);
 	}
 
-	public RecyclerViewInteractionWrapper performCheckItem() {
-		onChildView(R.id.checkbox)
-				.perform(click());
+	public RecyclerViewInteractionWrapper checkCountEquals(int count) {
+		viewInteraction
+				.check(matches(new RecyclerViewMatcher(recyclerViewId).withCount(count)));
 		return this;
 	}
 }

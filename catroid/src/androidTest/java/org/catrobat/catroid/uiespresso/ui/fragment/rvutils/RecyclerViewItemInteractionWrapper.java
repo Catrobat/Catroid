@@ -23,36 +23,30 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment.rvutils;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.support.test.espresso.ViewInteraction;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 
-public class RecyclerViewMatcher {
-	private final int recyclerViewId;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 
-	public RecyclerViewMatcher(int recyclerViewId) {
-		this.recyclerViewId = recyclerViewId;
+public class RecyclerViewItemInteractionWrapper extends ViewInteractionWrapper {
+	protected static int recyclerViewId = R.id.recycler_view;
+	protected int position;
+
+	protected RecyclerViewItemInteractionWrapper(ViewInteraction viewInteraction, int position) {
+		super(viewInteraction);
+		this.position = position;
 	}
 
-	public Matcher<View> withCount(final int count) {
-		return new TypeSafeMatcher<View>() {
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("RecyclerViewItemMatcher with count:" + count + " does not match the view");
-			}
+	public ViewInteraction onChildView(int childViewId) {
+		return onView(new RecyclerViewItemMatcher(recyclerViewId).withIdInsidePosition(childViewId, position));
+	}
 
-			@Override
-			protected boolean matchesSafely(View view) {
-				RecyclerView recyclerView =
-						(RecyclerView) view.getRootView().findViewById(recyclerViewId);
-				return recyclerView != null
-						&& recyclerView.getId() == recyclerViewId
-						&& recyclerView.getAdapter() != null
-						&& recyclerView.getAdapter().getItemCount() == count;
-			}
-		};
+	public RecyclerViewItemInteractionWrapper performCheckItem() {
+		onChildView(R.id.checkbox)
+				.perform(click());
+		return this;
 	}
 }

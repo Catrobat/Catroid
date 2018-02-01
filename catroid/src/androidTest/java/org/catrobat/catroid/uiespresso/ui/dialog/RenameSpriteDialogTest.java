@@ -54,7 +54,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -93,7 +93,7 @@ public class RenameSpriteDialogTest {
 		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename)).perform(click());
 
-		onRVAtPosition(2)
+		onRecyclerView().atPosition(2)
 				.performCheckItem();
 
 		onView(withText(R.string.confirm)).perform(click());

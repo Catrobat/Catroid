@@ -57,7 +57,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRVAtPosition;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -83,7 +83,7 @@ public class DeleteLookTest {
 		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete)).perform(click());
 
-		onRVAtPosition(1)
+		onRecyclerView().atPosition(1)
 				.performCheckItem();
 
 		onView(withText(R.string.confirm)).perform(click());
@@ -111,7 +111,7 @@ public class DeleteLookTest {
 		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete)).perform(click());
 
-		onRVAtPosition(1)
+		onRecyclerView().atPosition(1)
 				.performCheckItem();
 
 		onView(withText(R.string.confirm)).perform(click());

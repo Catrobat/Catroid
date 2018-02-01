@@ -24,8 +24,8 @@
 package org.catrobat.catroid.uiespresso.formulaeditor.utils;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper;
-import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewMatcher;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewItemInteractionWrapper;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewItemMatcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -37,10 +37,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVInteractionWrapper<T>>
-		extends RecyclerViewInteractionWrapper {
+		extends RecyclerViewItemInteractionWrapper {
 
 	protected UserDataItemRVInteractionWrapper(int position) {
-		super(onView(new RecyclerViewMatcher(recyclerViewId).withPosition(position)), position);
+		super(onView(new RecyclerViewItemMatcher(recyclerViewId).withPosition(position)), position);
 	}
 
 	public void performSelect() {
