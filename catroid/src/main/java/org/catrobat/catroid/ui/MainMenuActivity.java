@@ -257,12 +257,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		idlingResource.decrement();
 	}
 
-	// needed because of android:onClick in activity_main_menu.xml
 	public void handleContinueButton(View view) {
-		handleContinueButton();
-	}
-
-	public void handleContinueButton() {
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);

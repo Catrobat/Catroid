@@ -62,7 +62,7 @@
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical"
                 android:textColor="@color/solid_black"
-                android:textSize="@dimen/text_size_xxlarge" />
+                android:textSize="?attr/x_large" />
         </FrameLayout>
 
     </LinearLayout>

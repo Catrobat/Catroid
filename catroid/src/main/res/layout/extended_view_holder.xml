@@ -62,9 +62,9 @@
 
             <TextView
                 android:id="@+id/title_view"
-                android:textSize="@dimen/view_holder_title_text_size"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="?attr/large"/>
 
             <LinearLayout
                 android:id="@+id/list_item_details"

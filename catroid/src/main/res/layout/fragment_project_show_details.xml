@@ -24,7 +24,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/application_background_color"
     android:orientation="vertical">
 
     <LinearLayout
@@ -34,23 +33,18 @@
         android:paddingTop="10dp">
 
         <ImageView
+            android:id="@+id/image"
             android:layout_width="72dp"
             android:layout_height="65dp"
-            android:id="@+id/image"
-            android:layout_marginStart="9dp"
-            android:background="@drawable/spritelist_item_thumbnail_border"
+            android:layout_marginEnd="@dimen/view_holder_image_margin"
+            android:background="@drawable/image_contour"
             android:cropToPadding="true"
-            android:padding="1.5dp"
             android:scaleType="centerCrop" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/name"
-            style="@style/ListViewItemTitleText"
-            android:ellipsize="end"
-            android:paddingEnd="1.5dp"
-            android:paddingTop="20dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <TextView
