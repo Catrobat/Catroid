@@ -174,9 +174,11 @@
         <item name="android:ellipsize" >end</item >
     </style >
 
-    <style name="BrickContainer" >
-        <item name="android:layout_width" >match_parent</item >
-        <item name="android:layout_height" >wrap_content</item >
+    <style name="BrickContainer">
+        <item name="android:layout_width" >match_parent</item>
+        <item name="android:layout_height" >wrap_content</item>
+        <item name="android:layout_marginTop">?attr/element_spacing</item>
+        <item name="android:layout_marginBottom">?attr/element_spacing</item>
     </style >
 
     <style name="BrickContainer.Motion" ></style >
@@ -461,6 +463,8 @@
         <item name="android:gravity">start|center_vertical</item >
         <item name="android:paddingStart">21dp</item>
         <item name="android:paddingEnd">14dp</item>
+        <item name="android:layout_marginTop">?attr/element_spacing</item>
+        <item name="android:layout_marginBottom">?attr/element_spacing</item>
         <item name="android:textSize">?attr/x_large</item>
     </style >
 

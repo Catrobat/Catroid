@@ -38,6 +38,8 @@
         android:gravity="center_vertical"
         android:paddingStart="10dp"
         android:paddingEnd="6dp"
+        android:layout_marginTop="?attr/element_spacing"
+        android:layout_marginBottom="?attr/element_spacing"
         android:textSize="?attr/large"/>
 
 </LinearLayout>
