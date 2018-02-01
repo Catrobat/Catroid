@@ -23,6 +23,8 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Font Sizes -->
     <style name="FontSizeRegular">
         <item name="android:textSize">16sp</item>
         <item name="small">10sp</item>
@@ -31,12 +33,26 @@
         <item name="x_large">22sp</item>
     </style>
 
-    <style name="FontSizeLarge"
-        tools:ignore="UnusedResources">
+    <style name="FontSizeLarge" tools:ignore="UnusedResources">
         <item name="android:textSize">24sp</item>
         <item name="small">15sp</item>
         <item name="medium">24sp</item>
         <item name="large">27sp</item>
         <item name="x_large">33sp</item>
+    </style>
+
+    <!-- High Contrast -->
+    <style name="ContrastRegular">
+        <item name="android:shadowColor">@color/transparent</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+    <style name="ContrastHigh" tools:ignore="UnusedResources">
+        <item name="android:shadowColor">@color/solid_black</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">3</item>
     </style>
 </resources>
