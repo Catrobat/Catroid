@@ -58,7 +58,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_toStartOf="@+id/scratch_job_list_item_progress_text"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+            />
 
         <TextView
             android:id="@+id/scratch_job_list_item_progress_text"
