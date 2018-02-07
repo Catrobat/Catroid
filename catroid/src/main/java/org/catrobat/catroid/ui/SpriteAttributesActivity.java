@@ -26,11 +26,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -43,14 +46,29 @@ import org.catrobat.catroid.drone.ardrone.DroneStageActivity;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
+import org.catrobat.catroid.ui.recyclerview.SimpleRVItem;
+import org.catrobat.catroid.ui.recyclerview.adapter.SimpleRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class SpriteAttributesActivity extends BaseActivity implements
+		SimpleRVAdapter.OnItemClickListener,
 		PlaySceneDialog.PlaySceneInterface,
 		RenameItemDialog.RenameItemInterface {
+
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({SCRIPTS, LOOKS, SOUNDS, NFC_TAGS})
+	@interface ButtonId {}
+	private static final int SCRIPTS = 0;
+	private static final int LOOKS = 1;
+	private static final int SOUNDS = 2;
+	private static final int NFC_TAGS = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,8 +79,15 @@ public class SpriteAttributesActivity extends BaseActivity implements
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		BottomBar.hideAddButton(this);
+		RecyclerView recyclerView = findViewById(R.id.recycler_view);
+		List<SimpleRVItem> items = getItems();
+		SimpleRVAdapter adapter = new SimpleRVAdapter(items);
+		adapter.setOnItemClickListener(this);
+		recyclerView.setAdapter(adapter);
+		recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
+				DividerItemDecoration.VERTICAL));
 
+		BottomBar.hideAddButton(this);
 		updateActionBarTitle();
 	}
 
@@ -70,6 +95,29 @@ public class SpriteAttributesActivity extends BaseActivity implements
 		String currentSceneName = ProjectManager.getInstance().getCurrentScene().getName();
 		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 		getSupportActionBar().setTitle(currentSceneName + ": " + currentSpriteName);
+	}
+
+	private List<SimpleRVItem> getItems() {
+		List<SimpleRVItem> items = new ArrayList<>();
+		items.add(new SimpleRVItem(SCRIPTS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_scripts),
+				getString(R.string.scripts)));
+
+		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+			items.add(new SimpleRVItem(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
+					getString(R.string.backgrounds)));
+		} else {
+			items.add(new SimpleRVItem(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
+					getString(R.string.looks)));
+		}
+		items.add(new SimpleRVItem(SOUNDS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_sounds),
+				getString(R.string.sounds)));
+
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		if (sharedPreferences.getBoolean("setting_nfc_bricks", false) && BuildConfig.FEATURE_NFC_ENABLED) {
+			items.add(new SimpleRVItem(NFC_TAGS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_nfc),
+					getString(R.string.nfctags)));
+		}
+		return items;
 	}
 
 	@Override
@@ -85,23 +133,6 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
-			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.backgrounds);
-		} else {
-			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.looks);
-		}
-
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		if (sharedPreferences.getBoolean("setting_nfc_bricks", false) && BuildConfig.FEATURE_NFC_ENABLED) {
-			findViewById(R.id.program_menu_button_nfctags).setVisibility(View.VISIBLE);
-		} else {
-			findViewById(R.id.program_menu_button_nfctags).setVisibility(View.INVISIBLE);
-		}
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
 			return super.onCreateOptionsMenu(menu);
@@ -112,24 +143,18 @@ public class SpriteAttributesActivity extends BaseActivity implements
 
 	private void showRenameDialog() {
 		String name = ProjectManager.getInstance().getCurrentSprite().getName();
-		RenameItemDialog dialog = new RenameItemDialog(
-				R.string.rename_sprite_dialog,
-				R.string.sprite_name_label, name,
-				this);
+		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_sprite_dialog,
+				R.string.sprite_name_label, name, this);
 		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
 	}
 
 	@Override
 	public boolean isNameUnique(String name) {
-		return !getScope().contains(name);
-	}
-
-	protected Set<String> getScope() {
 		Set<String> scope = new HashSet<>();
 		for (Sprite item : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 			scope.add(item.getName());
 		}
-		return scope;
+		return !scope.contains(name);
 	}
 
 	@Override
@@ -144,35 +169,39 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-
-			Intent intent;
 			if (DroneServiceWrapper.checkARDroneAvailability()) {
-				intent = new Intent(this, DroneStageActivity.class);
+				startActivity(new Intent(this, DroneStageActivity.class));
 			} else {
-				intent = new Intent(this, StageActivity.class);
+				startActivity(new Intent(this, StageActivity.class));
 			}
-			startActivity(intent);
 		}
 	}
 
-	public void handleScriptsButton(View view) {
-		startScriptActivity(SpriteActivity.FRAGMENT_SCRIPTS);
+	@Override
+	public void onItemClick(@ButtonId int id) {
+		switch (id) {
+			case SCRIPTS:
+				startScriptActivity(SpriteActivity.FRAGMENT_SCRIPTS);
+				break;
+			case LOOKS:
+				startScriptActivity(SpriteActivity.FRAGMENT_LOOKS);
+				break;
+			case SOUNDS:
+				startScriptActivity(SpriteActivity.FRAGMENT_SOUNDS);
+				break;
+			case NFC_TAGS:
+				startScriptActivity(SpriteActivity.FRAGMENT_NFC_TAGS);
+				break;
+		}
 	}
 
-	public void handleLooksButton(View view) {
-		startScriptActivity(SpriteActivity.FRAGMENT_LOOKS);
-	}
-
-	public void handleSoundsButton(View view) {
-		startScriptActivity(SpriteActivity.FRAGMENT_SOUNDS);
-	}
-
-	public void handleNfcTagsButton(View view) {
-		startScriptActivity(SpriteActivity.FRAGMENT_NFC_TAGS);
+	private void startScriptActivity(int fragmentPosition) {
+		Intent intent = new Intent(this, SpriteActivity.class);
+		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, fragmentPosition);
+		startActivity(intent);
 	}
 
 	public void handlePlayButton(View view) {
-
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 
@@ -191,11 +220,5 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	public void startPreStageActivity() {
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-	}
-
-	private void startScriptActivity(int fragmentPosition) {
-		Intent intent = new Intent(this, SpriteActivity.class);
-		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, fragmentPosition);
-		startActivity(intent);
 	}
 }

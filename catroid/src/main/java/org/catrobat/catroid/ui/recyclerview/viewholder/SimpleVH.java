@@ -20,33 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui;
 
-import android.view.Menu;
-import android.view.MenuItem;
+package org.catrobat.catroid.ui.recyclerview.viewholder;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.cast.CastManager;
 
-public abstract class BaseCastActivity extends BaseActivity {
+public class SimpleVH extends RecyclerView.ViewHolder {
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
-		}
-		return super.onCreateOptionsMenu(menu);
-	}
+	public ImageView image;
+	public TextView name;
+	public TextView subTitle;
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.cast_button:
-				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-		return true;
+	public SimpleVH(View itemView) {
+		super(itemView);
+		image = itemView.findViewById(R.id.image_view);
+		name = itemView.findViewById(R.id.title_view);
+		subTitle = itemView.findViewById(R.id.subtitle_view);
 	}
 }

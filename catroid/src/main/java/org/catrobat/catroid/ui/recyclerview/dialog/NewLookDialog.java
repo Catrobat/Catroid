@@ -93,17 +93,16 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 		view.findViewById(R.id.dialog_new_look_camera).setOnClickListener(this);
 
 		return new AlertDialog.Builder(getActivity())
-				.setView(view)
 				.setTitle(R.string.new_look_dialog_title)
+				.setView(view)
 				.create();
 	}
 
 	@Override
 	public void onClick(View v) {
-		Intent intent;
 		switch (v.getId()) {
 			case R.id.dialog_new_look_paintroid:
-				intent = new Intent("android.intent.action.MAIN")
+				Intent intent = new Intent("android.intent.action.MAIN")
 						.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME,
 								Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 

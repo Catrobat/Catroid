@@ -52,7 +52,6 @@ import com.squareup.picasso.Picasso;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
@@ -61,6 +60,7 @@ import org.catrobat.catroid.ui.ScratchConverterActivity;
 import org.catrobat.catroid.ui.adapter.ScratchJobAdapter;
 import org.catrobat.catroid.ui.adapter.ScratchJobAdapter.ScratchJobEditListener;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.scratchconverter.BaseInfoViewListener;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -74,9 +74,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class ScratchConverterSlidingUpPanelFragment extends Fragment
-		implements BaseInfoViewListener, JobViewListener, Client.DownloadCallback, ScratchJobEditListener,
-		LoadProjectTask.OnLoadProjectCompleteListener {
+public class ScratchConverterSlidingUpPanelFragment extends Fragment implements BaseInfoViewListener,
+		JobViewListener,
+		Client.DownloadCallback,
+		ScratchJobEditListener,
+		ProjectLoaderTask.ProjectLoaderListener {
 
 	private static final String TAG = ScratchConverterSlidingUpPanelFragment.class.getSimpleName();
 
@@ -529,25 +531,21 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 			return;
 		}
 
-		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), catrobatProgramName, true, false);
-		loadProjectTask.setOnLoadProjectCompleteListener(this);
-		loadProjectTask.execute();
+		ProjectLoaderTask loaderTask = new ProjectLoaderTask(getActivity(), this);
+		loaderTask.execute(catrobatProgramName);
 	}
 
 	@Override
-	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-		getActivity().startActivity(intent);
-	}
-
-	@Override
-	public void onLoadProjectFailure() {
-		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
-		builder.setTitle(R.string.warning);
-		builder.setMessage(R.string.error_cannot_open_not_existing_scratch_program);
-		builder.setNeutralButton(R.string.close, null);
-		Dialog errorDialog = builder.create();
-		errorDialog.show();
+	public void onLoadFinished(boolean success, String message) {
+		if (success) {
+			getActivity().startActivity(new Intent(getActivity(), ProjectActivity.class));
+		} else {
+			new AlertDialog.Builder(getActivity())
+					.setTitle(R.string.warning)
+					.setMessage(R.string.error_cannot_open_not_existing_scratch_program)
+					.setNeutralButton(R.string.close, null)
+					.create()
+					.show();
+		}
 	}
 }

@@ -69,6 +69,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void onResume() {
+		ProjectManager.getInstance().setCurrentProject(null);
 		adapter.setItems(getItemList());
 		BottomBar.showBottomBar(getActivity());
 		super.onResume();

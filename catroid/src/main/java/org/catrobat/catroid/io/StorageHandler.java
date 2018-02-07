@@ -45,6 +45,7 @@ import com.parrot.freeflight.utils.FileUtils;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
+import org.apache.commons.compress.utils.IOUtils;
 import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
@@ -226,6 +227,8 @@ import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
+import org.rauschig.jarchivelib.Archiver;
+import org.rauschig.jarchivelib.ArchiverFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -236,6 +239,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.channels.FileChannel;
 import java.util.HashSet;
 import java.util.List;
@@ -1069,6 +1073,16 @@ public final class StorageHandler {
 		}
 
 		return dstDir;
+	}
+
+	public static void copyAndUnzip(InputStream is, String dst) throws IOException {
+		String zipFilePath = dst + ".zip";
+		FileOutputStream os = new FileOutputStream(zipFilePath);
+		IOUtils.copy(is, os);
+		os.close();
+		Archiver archiver = ArchiverFactory.createArchiver("zip");
+		archiver.extract(new File(zipFilePath), new File(dst));
+		new File(zipFilePath).delete();
 	}
 
 	private static synchronized File getUniqueFile(String originalName, String dstDir) throws IOException {

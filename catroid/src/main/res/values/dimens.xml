@@ -94,11 +94,6 @@
     <dimen name="view_holder_image_margin">12dp</dimen>
     <dimen name="view_holder_details_spacing">20dp</dimen>
 
-    <!-- Buttons -->
-    <dimen name="button_height">90dp</dimen>
-    <dimen name="button_padding">15dp</dimen>
-    <dimen name="button_drawable_padding">24dp</dimen>
-
     <!-- Flow Layout -->
     <dimen name="brick_flow_layout_vertical_spacing">0dp</dimen>
     <dimen name="brick_flow_layout_horizontal_spacing">3dp</dimen>

@@ -25,18 +25,14 @@ package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
 import android.content.res.Configuration;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.IdlingRegistry;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.matcher.PreferenceMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
@@ -51,21 +47,19 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResources;
-import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
 @RunWith(AndroidJUnit4.class)
 public class LanguageSwitchMainMenuTest {
-	private IdlingResource idlingResource;
+
 	private static final Locale ARABICLOCALE = new Locale("ar");
 	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
 	private Configuration conf = getResources().getConfiguration();
@@ -82,7 +76,6 @@ public class LanguageSwitchMainMenuTest {
 	@After
 	public void tearDown() {
 		SettingsActivity.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
-		IdlingRegistry.getInstance().unregister(idlingResource);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -92,20 +85,17 @@ public class LanguageSwitchMainMenuTest {
 				.perform(click());
 		onData(hasToString(startsWith(ARABICLOCALE.getDisplayName(ARABICLOCALE))))
 				.perform(click());
-		MainMenuActivity mainMenuActivity = (MainMenuActivity) UiTestUtils.getCurrentActivity();
-		idlingResource = mainMenuActivity.getIdlingResource();
-		IdlingRegistry.getInstance().register(idlingResource);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABICLOCALE.getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_RTL, conf.getLayoutDirection());
-		String buttonContinueName = getResourcesString(R.string.main_menu_continue);
-		onView(withId(R.id.main_menu_button_continue))
-				.check(matches(withText(containsString(buttonContinueName))));
-		onView(withId(R.id.main_menu_button_new))
-				.check(matches(withText(R.string.main_menu_new)));
-		onView(withId(R.id.main_menu_button_programs))
-				.check(matches(withText(R.string.main_menu_programs)));
+
+		onView(withText(R.string.main_menu_continue))
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.main_menu_new))
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.main_menu_programs))
+				.check(matches(isDisplayed()));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -115,18 +105,14 @@ public class LanguageSwitchMainMenuTest {
 				.perform(click());
 		onData(hasToString(startsWith(DEUTSCHLOCALE.getDisplayName(DEUTSCHLOCALE))))
 				.perform(click());
-		MainMenuActivity mainMenuActivity = (MainMenuActivity) UiTestUtils.getCurrentActivity();
-		idlingResource = mainMenuActivity.getIdlingResource();
-		IdlingRegistry.getInstance().register(idlingResource);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), DEUTSCHLOCALE
 				.getDisplayLanguage());
-		String buttonContinueName = getResourcesString(R.string.main_menu_continue);
-		onView(withId(R.id.main_menu_button_continue))
-				.check(matches(withText(containsString(buttonContinueName))));
-		onView(withId(R.id.main_menu_button_new))
-				.check(matches(withText(R.string.main_menu_new)));
-		onView(withId(R.id.main_menu_button_programs))
-				.check(matches(withText(R.string.main_menu_programs)));
+		onView(withText(R.string.main_menu_continue))
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.main_menu_new))
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.main_menu_programs))
+				.check(matches(isDisplayed()));
 	}
 }

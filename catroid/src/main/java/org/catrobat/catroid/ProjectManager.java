@@ -55,8 +55,6 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
-import org.catrobat.catroid.io.LoadProjectTask;
-import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.CheckFacebookServerTokenValidityTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
@@ -67,6 +65,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
+import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -76,7 +75,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public final class ProjectManager implements
-		OnLoadProjectCompleteListener,
+		ProjectLoaderTask.ProjectLoaderListener,
 		OnCheckTokenCompleteListener,
 		CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener,
 		FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
@@ -91,31 +90,20 @@ public final class ProjectManager implements
 	private Script currentScript;
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
-	private boolean handleNewSceneFromScriptActivity;
 	private boolean showUploadDialog = false;
 	private boolean showLegoSensorInfoDialog = true;
 
 	private ProjectManager() {
-		this.handleNewSceneFromScriptActivity = false;
 	}
 
 	public static ProjectManager getInstance() {
 		return INSTANCE;
 	}
 
-	public boolean getHandleNewSceneFromScriptActivity() {
-		if (handleNewSceneFromScriptActivity) {
-			handleNewSceneFromScriptActivity = false;
-			return true;
-		}
-		return false;
-	}
-
 	public void uploadProject(String projectName, Activity activity) {
 		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, true, false);
-			loadProjectTask.setOnLoadProjectCompleteListener(this);
-			loadProjectTask.execute();
+			ProjectLoaderTask loaderTask = new ProjectLoaderTask(activity, this);
+			loaderTask.execute(projectName);
 		}
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
@@ -514,7 +502,6 @@ public final class ProjectManager implements
 			checkFacebookServerTokenValidityTask.setOnCheckFacebookServerTokenValidityCompleteListener(this);
 			checkFacebookServerTokenValidityTask.execute();
 		} else {
-
 			ProjectManager.getInstance().showUploadProjectDialog(activity, activity.getFragmentManager(), null);
 		}
 	}
@@ -585,11 +572,8 @@ public final class ProjectManager implements
 	}
 
 	@Override
-	public void onLoadProjectSuccess(boolean startProjectActivity) {
-	}
-
-	@Override
-	public void onLoadProjectFailure() {
+	public void onLoadFinished(boolean success, String message) {
+		Log.e(TAG, "Could not load project, error: " + message);
 	}
 
 	public boolean checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack) {

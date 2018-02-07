@@ -22,36 +22,20 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.Activity;
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.AssetManager;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.idling.CountingIdlingResource;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.media.MediaRouter;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -60,127 +44,82 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.io.LoadProjectTask;
-import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
-import org.catrobat.catroid.ui.dialogs.SignInDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialog;
-import org.catrobat.catroid.utils.DownloadUtil;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
+import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
+import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilUi;
-import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
-import org.rauschig.jarchivelib.Archiver;
-import org.rauschig.jarchivelib.ArchiverFactory;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Locale;
-import java.util.concurrent.locks.Lock;
 
-public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectCompleteListener {
+public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderTask.ProjectLoaderListener {
 
-	private static final String TAG = MainMenuActivity.class.getSimpleName();
-
-	private static final String START_PROJECT = BuildConfig.START_PROJECT;
-	private static final Boolean STANDALONE_MODE = BuildConfig.FEATURE_APK_GENERATOR_ENABLED;
-	private static final String ZIP_FILE_NAME = START_PROJECT + ".zip";
-	private static final String STANDALONE_PROJECT_NAME = BuildConfig.PROJECT_NAME;
-
+	public static final String TAG = MainMenuActivity.class.getSimpleName();
 	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
 
-	private static final String TYPE_FILE = "file";
-	private static final String TYPE_HTTP = "http";
-
-	private Lock viewSwitchLock = new ViewSwitchLock();
-	private CallbackManager callbackManager;
-	private SignInDialog signInDialog;
-	private Menu mainMenu;
-
-	CountingIdlingResource idlingResource = new CountingIdlingResource(TAG);
+	private static final int ACCESS_STORAGE = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SettingsActivity.setToChosenLanguage(this);
-		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
-			return;
-		}
-		initializeFacebookSdk();
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		UtilUi.updateScreenWidthAndHeight(this);
 
-		if (STANDALONE_MODE) {
+		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			setContentView(R.layout.activity_main_menu_splashscreen);
-			unzipProgram();
 		} else {
 			setContentView(R.layout.activity_main_menu);
-
 			setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 			getSupportActionBar().setTitle(R.string.app_name);
+		}
 
-			findViewById(R.id.main_menu_button_continue).setEnabled(false);
+		@PermissionChecker.PermissionResult
+		int permissionResult = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+		if (permissionResult == PackageManager.PERMISSION_GRANTED) {
+			onPermissionsGranted();
+		} else {
+			ActivityCompat.requestPermissions(this,
+					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ACCESS_STORAGE);
+		}
+	}
 
-			Uri loadExternalProjectUri = getIntent().getData();
-			getIntent().setData(null);
+	private void onPermissionsGranted() {
+		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+			prepareStandaloneProject();
+			return;
+		}
 
-			if (loadExternalProjectUri != null) {
-				loadProgramFromExternalSource(loadExternalProjectUri);
-			}
+		getFragmentManager().beginTransaction()
+				.replace(R.id.main_menu_buttons_container, new MainMenuFragment(), MainMenuFragment.TAG)
+				.commit();
 
-			if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-				CastManager.getInstance().initializeCast(this);
-			}
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
 		}
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-
-		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
-			return;
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		switch (requestCode) {
+			case ACCESS_STORAGE:
+				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					onPermissionsGranted();
+				}
 		}
-
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-			CastManager.getInstance().initializeCast(this);
-		} else if (CastManager.getInstance().isConnected()) {
-			CastManager.getInstance().getMediaRouter().unselect(MediaRouter.UNSELECT_REASON_STOPPED);
-		}
-
-		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
-		final Activity activity = this;
-		idlingResource.increment();
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				UtilFile.createStandardProjectIfRootDirectoryIsEmpty(activity);
-				activity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						finishOnCreateAfterRunnable();
-					}
-				});
-			}
-		};
-		(new Thread(r)).start();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		if (!Utils.externalStorageAvailable()) {
-			return;
-		}
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject != null) {
@@ -192,32 +131,15 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
-		mainMenu = menu;
-
-		final MenuItem scratchConverterMenuItem = menu.findItem(R.id.menu_scratch_converter);
-		if (scratchConverterMenuItem != null) {
-			final String title = getString(R.string.main_menu_scratch_converter);
-			final String beta = getString(R.string.beta).toUpperCase(Locale.getDefault());
-			final SpannableString spanTitle = new SpannableString(title + " " + beta);
-			final int begin = title.length() + 1;
-			final int end = begin + beta.length();
-			final int betaLabelColor = ContextCompat.getColor(this, R.color.beta_label_color);
-			spanTitle.setSpan(new ForegroundColorSpan(betaLabelColor), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			scratchConverterMenuItem.setTitle(spanTitle);
-		}
-
-		return super.onCreateOptionsMenu(menu);
+		return true;
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuItem logout = mainMenu.findItem(R.id.menu_logout);
-		MenuItem login = mainMenu.findItem(R.id.menu_login);
-		logout.setVisible(Utils.isUserLoggedIn(this));
-		login.setVisible(!Utils.isUserLoggedIn(this));
-
+		menu.findItem(R.id.menu_login).setVisible(!Utils.isUserLoggedIn(this));
+		menu.findItem(R.id.menu_logout).setVisible(Utils.isUserLoggedIn(this));
 		if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
-			mainMenu.removeItem(R.id.menu_scratch_converter);
+			menu.removeItem(R.id.menu_scratch_converter);
 		}
 		return true;
 	}
@@ -225,200 +147,78 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				return true;
+			case R.id.menu_rate_app:
+				launchMarket();
+				break;
+			case R.id.menu_terms_of_use:
+				new TermsOfUseDialogFragment()
+						.show(getFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
+				break;
+			case R.id.menu_privacy_policy:
+				new PrivacyPolicyDialogFragment()
+						.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
+				break;
+			case R.id.menu_about:
+				new AboutDialogFragment()
+						.show(getFragmentManager(), AboutDialogFragment.TAG);
+				break;
+			case R.id.menu_scratch_converter:
+				if (Utils.isNetworkAvailable(this)) {
+					startActivity(new Intent(this, ScratchConverterActivity.class));
+				} else {
+					ToastUtil.showError(this, R.string.error_internet_connection);
+				}
+				break;
+			case R.id.settings:
+				startActivity(new Intent(this, SettingsActivity.class));
+				break;
+			case R.id.menu_login:
+				//TODO: Refactor Sign in dialog: ProjectManager.getInstance().showSignInDialog(this, false);
+				break;
+			case R.id.menu_logout:
+				Utils.logoutUser(this);
+				break;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 
-	private void finishOnCreateAfterRunnable() {
-		if (!STANDALONE_MODE) {
-			findViewById(R.id.progress_circle).setVisibility(View.GONE);
-			findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
-
-			PreStageActivity.shutdownPersistentResources();
-
-			setMainMenuButtonContinueText();
-			findViewById(R.id.main_menu_button_continue).setEnabled(true);
-		}
-
-		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
-		if (projectName != null) {
-			loadProjectInBackground(projectName);
-		}
-		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
-
-		if (ProjectManager.getInstance().getHandleNewSceneFromScriptActivity()) {
-			Intent intent = new Intent(this, ProjectActivity.class);
-			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-			startActivity(intent);
-		}
-		idlingResource.decrement();
-	}
-
-	public void handleContinueButton(View view) {
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), true, true);
-		loadProjectTask.setOnLoadProjectCompleteListener(this);
-		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
-		loadProjectTask.execute();
-	}
-
-	private void loadProjectInBackground(String projectName) {
-		if (!viewSwitchLock.tryLock()) {
+	private void launchMarket() {
+		if (!Utils.isNetworkAvailable(this)) {
+			ToastUtil.showError(this, R.string.error_internet_connection);
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
-		loadProjectTask.setOnLoadProjectCompleteListener(this);
-		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
-		loadProjectTask.execute();
+
+		try {
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+		} catch (ActivityNotFoundException e) {
+			ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
+		}
+	}
+
+	private void prepareStandaloneProject() {
+		try {
+			InputStream inputStream = getAssets().open(BuildConfig.START_PROJECT + ".zip");
+			StorageHandler.copyAndUnzip(inputStream, Utils.buildProjectPath(BuildConfig.PROJECT_NAME));
+			new ProjectLoaderTask(this, this).execute(BuildConfig.PROJECT_NAME);
+		} catch (IOException e) {
+			Log.e("STANDALONE", "Could not unpack Standalone Program: ", e);
+		}
 	}
 
 	@Override
-	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		if (STANDALONE_MODE) {
-			Log.d("STANDALONE", "onLoadProjectSucess -> startStage");
-			startStageProject();
-		} else if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
-			Intent intent = new Intent(this, ProjectActivity.class);
-			startActivity(intent);
+	public void onLoadFinished(boolean success, String message) {
+		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+			startActivityForResult(new Intent(this, PreStageActivity.class), PreStageActivity.REQUEST_RESOURCES_INIT);
 		}
-	}
-
-	public void handleNewButton(View view) {
-		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-		NewProjectDialog dialog = new NewProjectDialog();
-		dialog.show(getFragmentManager(), NewProjectDialog.TAG);
-	}
-
-	public void handleProgramsButton(View view) {
-		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
-		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-		Intent intent = new Intent(this, ProjectListActivity.class);
-		startActivity(intent);
-	}
-
-	public void handleHelpButton(View view) {
-		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
-			return;
-		}
-
-		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-
-		Intent helpUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL));
-		startActivity(helpUrlIntent);
-	}
-
-	public void handleWebButton(View view) {
-		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
-			return;
-		}
-
-		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-
-		if (Utils.isUserLoggedIn(this)) {
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-			String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-
-			String url = Constants.CATROBAT_TOKEN_LOGIN_URL + username + Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN + token;
-			startWebViewActivity(url);
-		} else {
-			startWebViewActivity(Constants.BASE_URL_HTTPS);
-		}
-	}
-
-	private void startWebViewActivity(String url) {
-		Intent intent = new Intent(this, WebViewActivity.class);
-		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
-		startActivity(intent);
-	}
-
-	public void handleUploadButton(View view) {
-		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
-			return;
-		}
-
-		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-		ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
-	}
-
-	private void loadProgramFromExternalSource(Uri loadExternalProjectUri) {
-		String scheme = loadExternalProjectUri.getScheme();
-		if (scheme.startsWith(TYPE_HTTP)) {
-			String url = loadExternalProjectUri.toString();
-			DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(this, url);
-		} else if (scheme.equals(TYPE_FILE)) {
-
-			String path = loadExternalProjectUri.getPath();
-			int a = path.lastIndexOf('/') + 1;
-			int b = path.lastIndexOf('.');
-			String projectName = path.substring(a, b);
-			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
-				Utils.showErrorDialog(this, R.string.error_load_project);
-			}
-		}
-	}
-
-	private void setMainMenuButtonContinueText() {
-		Button continueButton = findViewById(R.id.main_menu_button_continue);
-		String buttonText = this.getString(R.string.main_menu_continue) + "\n" + Utils.getCurrentProjectName(this);
-		continueButton.setText(buttonText);
-	}
-
-	@Override
-	public void onLoadProjectFailure() {
-		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
-	}
-
-	public void initializeFacebookSdk() {
-		FacebookSdk.sdkInitialize(getApplicationContext());
-		callbackManager = CallbackManager.Factory.create();
-
-		LoginManager.getInstance().registerCallback(callbackManager,
-				new FacebookCallback<LoginResult>() {
-					@Override
-					public void onSuccess(LoginResult loginResult) {
-						Log.d(TAG, loginResult.toString());
-						AccessToken accessToken = loginResult.getAccessToken();
-						GetFacebookUserInfoTask getFacebookUserInfoTask = new GetFacebookUserInfoTask(MainMenuActivity.this,
-								accessToken.getToken(), accessToken.getUserId());
-						getFacebookUserInfoTask.setOnGetFacebookUserInfoTaskCompleteListener(signInDialog);
-						getFacebookUserInfoTask.execute();
-					}
-
-					@Override
-					public void onCancel() {
-						Log.d(TAG, "cancel");
-					}
-
-					@Override
-					public void onError(FacebookException exception) {
-						ToastUtil.showError(MainMenuActivity.this, exception.getMessage());
-						Log.d(TAG, exception.getMessage());
-					}
-				});
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (!STANDALONE_MODE) {
-			super.onActivityResult(requestCode, resultCode, data);
-			callbackManager.onActivityResult(requestCode, resultCode, data);
-		} else {
+		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 				SensorHandler.startSensorListener(this);
-
 				Intent intent = new Intent(this, StageActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -428,90 +228,8 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 				finish();
 			}
+		} else {
+			super.onActivityResult(requestCode, resultCode, data);
 		}
-	}
-
-	public void setSignInDialog(SignInDialog signInDialog) {
-		this.signInDialog = signInDialog;
-	}
-
-	private void unzipProgram() {
-		StorageHandler.getInstance();
-		String zipFileString = Constants.DEFAULT_ROOT + "/" + ZIP_FILE_NAME;
-		copyProgramZip();
-		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);
-		Log.d("STANDALONE", "zip file name:" + ZIP_FILE_NAME);
-		Archiver archiver = ArchiverFactory.createArchiver("zip");
-		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT);
-		try {
-			archiver.extract(new File(zipFileString), unpackedDirectory);
-		} catch (IOException e) {
-			Log.d("STANDALONE", "Can't extract program", e);
-		}
-
-		File destination = new File(Constants.DEFAULT_ROOT + "/" + STANDALONE_PROJECT_NAME);
-		if (unpackedDirectory.isDirectory()) {
-			unpackedDirectory.renameTo(destination);
-		}
-
-		loadStageProject(STANDALONE_PROJECT_NAME);
-
-		File zipFile = new File(zipFileString);
-		if (zipFile.exists()) {
-			zipFile.delete();
-		}
-	}
-
-	private void copyProgramZip() {
-		AssetManager assetManager = getResources().getAssets();
-		String[] files = null;
-		try {
-			files = assetManager.list("");
-		} catch (IOException e) {
-			Log.e("STANDALONE", "Failed to get asset file list.", e);
-		}
-		for (String filename : files) {
-			if (filename.contains(ZIP_FILE_NAME)) {
-				InputStream in;
-				OutputStream out;
-				try {
-					in = assetManager.open(filename);
-					File outFile = new File(Constants.DEFAULT_ROOT, filename);
-					out = new FileOutputStream(outFile);
-					copyFile(in, out);
-					out.flush();
-					out.close();
-					in.close();
-				} catch (IOException e) {
-					Log.e("STANDALONE", "Failed to copy asset file: " + filename, e);
-				}
-			}
-		}
-	}
-
-	private void copyFile(InputStream in, OutputStream out) throws IOException {
-		byte[] buffer = new byte[1024];
-		int read;
-		while ((read = in.read(buffer)) != -1) {
-			out.write(buffer, 0, read);
-		}
-	}
-
-	private void loadStageProject(String projectName) {
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false, false);
-		loadProjectTask.setOnLoadProjectCompleteListener(this);
-		Log.e("STANDALONE", "going to execute standalone project");
-		loadProjectTask.execute();
-	}
-
-	private void startStageProject() {
-		Intent intent = new Intent(this, PreStageActivity.class);
-		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-	}
-
-	@VisibleForTesting
-	@NonNull
-	public IdlingResource getIdlingResource() {
-		return idlingResource;
 	}
 }

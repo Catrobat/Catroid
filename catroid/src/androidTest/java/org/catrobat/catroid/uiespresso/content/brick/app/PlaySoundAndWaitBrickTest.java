@@ -108,7 +108,7 @@ public class PlaySoundAndWaitBrickTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testBasicLayout() {
-		onView(withId(R.id.program_menu_button_scripts))
+		onView(withText(R.string.scripts))
 				.perform(click());
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
@@ -119,7 +119,7 @@ public class PlaySoundAndWaitBrickTest {
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	public void testPlaySoundUpdateDelete() {
-		onView(withId(R.id.program_menu_button_scripts))
+		onView(withText(R.string.scripts))
 				.perform(click());
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
@@ -130,7 +130,7 @@ public class PlaySoundAndWaitBrickTest {
 
 		deleteSound(0);
 
-		onView(withId(R.id.program_menu_button_scripts))
+		onView(withText(R.string.scripts))
 				.perform(click());
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
@@ -143,7 +143,7 @@ public class PlaySoundAndWaitBrickTest {
 	@Test
 	@Device
 	public void testPlaySoundBrickUpdateAddNew() {
-		onView(withId(R.id.program_menu_button_scripts))
+		onView(withText(R.string.scripts))
 				.perform(click());
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
@@ -167,7 +167,7 @@ public class PlaySoundAndWaitBrickTest {
 	public void testPlaySoundBrickUpdateRename() {
 		String newName = "newName";
 
-		onView(withId(R.id.program_menu_button_scripts))
+		onView(withText(R.string.scripts))
 				.perform(click());
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
@@ -179,7 +179,7 @@ public class PlaySoundAndWaitBrickTest {
 
 		renameSound(0, soundName, newName);
 
-		onView(withId(R.id.program_menu_button_scripts))
+		onView(withText(R.string.scripts))
 				.perform(click());
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
@@ -189,7 +189,7 @@ public class PlaySoundAndWaitBrickTest {
 	}
 
 	private void deleteSound(int position) {
-		onView(withId(R.id.program_menu_button_sounds))
+		onView(withText(R.string.sounds))
 				.perform(click());
 		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.delete))
@@ -211,7 +211,7 @@ public class PlaySoundAndWaitBrickTest {
 	}
 
 	private void renameSound(int position, String oldName, String newName) {
-		onView(withId(R.id.program_menu_button_sounds))
+		onView(withText(R.string.sounds))
 				.perform(click());
 		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename))
@@ -265,10 +265,10 @@ public class PlaySoundAndWaitBrickTest {
 		playSoundBrickPosition = 2;
 		startScript.addBrick(new PlaySoundBrick());
 
-		soundFile = FileTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene()
-						.getName(),
-				"longsound.mp3", RESOURCE_SOUND, InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.SOUND);
+		soundFile = FileTestUtils
+				.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
+						"longsound.mp3", RESOURCE_SOUND,
+						InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFileName(soundFile.getName());
 		soundInfo.setName(soundName);

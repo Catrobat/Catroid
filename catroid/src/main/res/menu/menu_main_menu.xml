@@ -54,11 +54,11 @@
         android:showAsAction="never"
         android:title="@string/settings" />
     <item
-        android:id="@+id/menu_logout"
-        android:showAsAction="never"
-        android:title="@string/main_menu_logout"/>
-    <item
         android:id="@+id/menu_login"
         android:showAsAction="never"
         android:title="@string/main_menu_login"/>
+    <item
+        android:id="@+id/menu_logout"
+        android:showAsAction="never"
+        android:title="@string/main_menu_logout"/>
 </menu>

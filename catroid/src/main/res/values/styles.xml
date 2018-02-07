@@ -101,26 +101,6 @@
         <item name="android:background" >@null</item >
     </style >
 
-    <style name="Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">start|center_vertical</item>
-        <item name="android:paddingStart">@dimen/button_padding</item>
-        <item name="android:paddingEnd">@dimen/button_padding</item>
-        <item name="android:drawablePadding">@dimen/button_drawable_padding</item>
-        <item name="android:background">@drawable/button_background</item>
-        <item name="android:textSize">?attr/x_large</item>
-    </style>
-    
-    <style name="MainMenuButton" parent="Button">
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_weight">1</item>
-    </style>
-
-    <style name="SpriteAttributesButton" parent="Button">
-        <item name="android:layout_height">@dimen/button_height</item>
-    </style>
-
     <style name="BottomBarButton">
         <item name="android:layout_width">0dip</item>
         <item name="android:layout_height">match_parent</item>
