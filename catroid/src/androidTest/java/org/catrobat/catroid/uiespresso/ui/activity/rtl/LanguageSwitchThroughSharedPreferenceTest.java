@@ -25,14 +25,11 @@ package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
 import android.content.res.Configuration;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.IdlingRegistry;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Rule;
@@ -55,22 +52,16 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class);
 	private Configuration conf = getResources().getConfiguration();
-	private IdlingResource idlingResource;
 
 	@After
 	public void tearDown() {
 		SettingsActivity.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
-		IdlingRegistry.getInstance().unregister(idlingResource);
 	}
 
 	@Test
 	public void testSetLanguageToArabic() throws Exception {
 		SettingsActivity.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "ar");
 		baseActivityTestRule.launchActivity(null);
-
-		MainMenuActivity mainMenuActivity = (MainMenuActivity) UiTestUtils.getCurrentActivity();
-		idlingResource = mainMenuActivity.getIdlingResource();
-		IdlingRegistry.getInstance().register(idlingResource);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABICLOCALE.getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
@@ -81,10 +72,6 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 	public void testSetLanguageToGerman() throws Exception {
 		SettingsActivity.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "de");
 		baseActivityTestRule.launchActivity(null);
-
-		MainMenuActivity mainMenuActivity = (MainMenuActivity) UiTestUtils.getCurrentActivity();
-		idlingResource = mainMenuActivity.getIdlingResource();
-		IdlingRegistry.getInstance().register(idlingResource);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), DEUTSCHLOCALE.getDisplayLanguage());
 		assertFalse(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));

@@ -98,10 +98,6 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		if (getActivity() instanceof MainMenuActivity) {
-			((MainMenuActivity) getActivity()).setSignInDialog(this);
-		}
-
 		initializeGooglePlus();
 
 		@SuppressLint("InflateParams")

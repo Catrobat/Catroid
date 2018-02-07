@@ -26,8 +26,6 @@ package org.catrobat.catroid.uiespresso.ui.dialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -66,7 +64,6 @@ public class OrientationDialogTest {
 	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class, true, false);
 
-	private IdlingResource idlingResource;
 	private String chromeCast = SETTINGS_CAST_GLOBALLY_ENABLED;
 	private boolean initialChromeCastSetting;
 
@@ -84,15 +81,12 @@ public class OrientationDialogTest {
 		sharedPreferencesEditor.commit();
 
 		baseActivityTestRule.launchActivity(null);
-
-		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
-		Espresso.registerIdlingResources(idlingResource);
 	}
 
 	@Test
 	@Category({Level.Smoke.class, Cat.AppUi.class, Cat.Gadgets.class})
 	public void newProject() {
-		onView(withId(R.id.main_menu_button_new))
+		onView(withText(R.string.main_menu_new))
 				.perform(click());
 		onView(withText(R.string.new_project_dialog_title))
 				.check(matches(isDisplayed()));
@@ -111,8 +105,6 @@ public class OrientationDialogTest {
 
 	@After
 	public void tearDown() {
-		Espresso.unregisterIdlingResources(idlingResource);
-
 		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
 				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit();
 

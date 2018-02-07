@@ -20,33 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui;
 
-import android.view.Menu;
-import android.view.MenuItem;
+package org.catrobat.catroid.ui.recyclerview;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.cast.CastManager;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 
-public abstract class BaseCastActivity extends BaseActivity {
+public class SimpleRVItem {
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
-		}
-		return super.onCreateOptionsMenu(menu);
+	public int id;
+	public Drawable drawable;
+	public String name;
+	@Nullable
+	public String subTitle;
+
+	public SimpleRVItem(int id, Drawable drawable, String name) {
+		this.id = id;
+		this.drawable = drawable;
+		this.name = name;
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.cast_button:
-				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-		return true;
+	public SimpleRVItem(int id, Drawable drawable, String name, @Nullable String subTitle) {
+		this.id = id;
+		this.drawable = drawable;
+		this.name = name;
+		this.subTitle = subTitle;
 	}
 }

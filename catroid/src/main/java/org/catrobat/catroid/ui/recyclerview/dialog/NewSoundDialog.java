@@ -98,10 +98,9 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 
 	@Override
 	public void onClick(View v) {
-		Intent intent;
 		switch (v.getId()) {
 			case R.id.dialog_new_sound_recorder:
-				intent = new Intent(getActivity(), SoundRecorderActivity.class);
+				Intent intent = new Intent(getActivity(), SoundRecorderActivity.class);
 				startActivityForResult(intent, RECORD);
 				break;
 			case R.id.dialog_new_sound_media_library:

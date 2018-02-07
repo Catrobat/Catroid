@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
-import android.support.test.espresso.IdlingRegistry;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -32,7 +30,6 @@ import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -51,7 +48,6 @@ import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class TermsOfUseDialogTest {
-	private IdlingResource idlingResource;
 
 	@Rule
 	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
@@ -60,9 +56,6 @@ public class TermsOfUseDialogTest {
 	@Before
 	public void setUp() throws Exception {
 		baseActivityTestRule.launchActivity(null);
-
-		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
-		IdlingRegistry.getInstance().register(idlingResource);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -88,10 +81,5 @@ public class TermsOfUseDialogTest {
 
 		onView(withText(R.string.dialog_terms_of_use_title))
 				.check(doesNotExist());
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		IdlingRegistry.getInstance().unregister(idlingResource);
 	}
 }

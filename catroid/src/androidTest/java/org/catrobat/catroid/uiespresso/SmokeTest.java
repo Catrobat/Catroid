@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.uiespresso;
 
-import android.support.test.espresso.IdlingRegistry;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -32,7 +30,6 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -56,7 +53,6 @@ import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
 public class SmokeTest {
-	private IdlingResource idlingResource;
 
 	@Rule
 	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
@@ -65,15 +61,12 @@ public class SmokeTest {
 	@Before
 	public void setUp() throws Exception {
 		baseActivityTestRule.launchActivity(null);
-
-		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
-		IdlingRegistry.getInstance().register(idlingResource);
 	}
 
 	@Test
 	@Category(Level.Smoke.class)
 	public void newProject() {
-		onView(withId(R.id.main_menu_button_new))
+		onView(withText(R.string.main_menu_new))
 				.perform(click());
 
 		//check if dialog title is displayed
@@ -112,12 +105,7 @@ public class SmokeTest {
 		//cancel by back
 		pressBack();
 
-		//something you shouldnt do in the first place, but heres how to wait:
+		//something you shouldn't do in the first place, but here's how to wait:
 		//onView(isRoot()).perform(CustomActions.wait(5000));
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		IdlingRegistry.getInstance().unregister(idlingResource);
 	}
 }
