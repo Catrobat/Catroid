@@ -52,60 +52,73 @@ public final class CrashReporter {
 				&& isCrashReportEnabled;
 	}
 
+	public static void initialize(Context context) {
+		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+		if (isReportingEnabled()) {
+			Log.d(TAG, "Initializing Crash Reporter");
+			reporter.initialize(context);
+		} else {
+			Log.d(TAG, "Crash reporting is disabled. Skipping initializing");
+		}
+	}
+
+	public static void logException(Throwable exception) {
+		if (isReportingEnabled()) {
+			reporter.logException(exception);
+		}
+	}
+
+	public static void logUnhandledException() {
+		if (isReportingEnabled() && hasStoredException()) {
+			Log.d(TAG, "Reporting stored exception");
+			logException(getStoredException());
+			removeStoredException();
+		}
+	}
+
+	public static void storeUnhandledException(Throwable exception) {
+		if (isReportingEnabled() && !hasStoredException()) {
+			Log.d(TAG, "Storing unhandled exception");
+			storeException(exception);
+		}
+	}
+
+	private static void storeException(Throwable exception) {
+		preferences.edit()
+				.putString(EXCEPTION_FOR_REPORT, serializeException(exception))
+				.commit();
+	}
+
+	private static Throwable getStoredException() {
+		return deserializeException(preferences.getString(EXCEPTION_FOR_REPORT, ""));
+	}
+
+	private static boolean hasStoredException() {
+		return getStoredException() != null;
+	}
+
+	private static void removeStoredException() {
+		preferences.edit()
+				.remove(EXCEPTION_FOR_REPORT)
+				.commit();
+	}
+
+	private static String serializeException(Throwable exception) {
+		return new Gson().toJson(exception);
+	}
+
+	private static Throwable deserializeException(String exception) {
+		return new Gson().fromJson(exception, Throwable.class);
+	}
+
 	@VisibleForTesting
 	public static void setCrashReporterInterface(CrashReporterInterface crashReporterInterface) {
 		reporter = crashReporterInterface;
 	}
 
-	public static boolean initialize(Context context) {
-
-		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-		if (isReportingEnabled()) {
-			reporter.initialize(context);
-			Log.d(TAG, "INITIALIZED!");
-			return true;
-		}
-
-		Log.d(TAG, "INITIALIZATION FAILED! [ Report : " + isReportingEnabled() + "]");
-		return false;
-	}
-
-	public static boolean logException(Throwable exception) {
-
-		if (isReportingEnabled()) {
-			reporter.logException(exception);
-			return true;
-		}
-		return false;
-	}
-
 	@VisibleForTesting
 	public static void setIsCrashReportEnabled(boolean isEnabled) {
 		isCrashReportEnabled = isEnabled;
-	}
-
-	public static void sendUnhandledCaughtException() {
-		String json = preferences.getString(EXCEPTION_FOR_REPORT, "");
-		if (isReportingEnabled() && !json.isEmpty()) {
-			Log.d(TAG, "AFTER_EXCEPTION : sendCaughtException()");
-			Gson gson = new Gson();
-			Throwable exception = gson.fromJson(json, Throwable.class);
-			logException(exception);
-			preferences.edit().remove(EXCEPTION_FOR_REPORT).commit();
-		}
-	}
-
-	public static void storeUnhandledException(Throwable exception) {
-		SharedPreferences.Editor prefsEditor = preferences.edit();
-		if (isReportingEnabled()) {
-			Gson gson = new Gson();
-			String check = preferences.getString(EXCEPTION_FOR_REPORT, "");
-			if (check.isEmpty()) {
-				String json = gson.toJson(exception);
-				prefsEditor.putString(EXCEPTION_FOR_REPORT, json);
-				prefsEditor.commit();
-			}
-		}
 	}
 }

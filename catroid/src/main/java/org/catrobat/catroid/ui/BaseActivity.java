@@ -93,8 +93,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 	}
 
 	private void checkIfCrashRecoveryAndFinishActivity(final Activity context) {
-		if (isRecoveredFromCrash()) {
-			CrashReporter.sendUnhandledCaughtException();
+		if (isRecoveringFromCrash()) {
+			CrashReporter.logUnhandledException();
 			if (!(context instanceof MainMenuActivity)) {
 				context.finish();
 			} else {
@@ -103,7 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 		}
 	}
 
-	private boolean isRecoveredFromCrash() {
+	private boolean isRecoveringFromCrash() {
 		return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(RECOVERED_FROM_CRASH, false);
 	}
 
