@@ -105,7 +105,6 @@
     <!-- Activity -->
     <dimen name="activity_text_view_margin_large" >35dp</dimen >
     <dimen name="activity_bottom_bar_height" >48dip</dimen >
-    <dimen name="activity_bottom_bar_image_view_padding" >5dp</dimen >
 
     <!-- Device -->
     <dimen name="device_text_view_margin_small" >10dp</dimen >

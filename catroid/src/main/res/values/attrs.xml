@@ -37,6 +37,12 @@
         <attr name="element_spacing" format="dimension"/>
     </declare-styleable>
 
+    <!-- Font -->
+    <declare-styleable name="AppFont">
+        <attr name="app_font" format="string"/>
+    </declare-styleable>
+    <!-- /Accessibility -->
+
     <declare-styleable name="BrickLayout">
         <attr name="customPadding" format="dimension"/>
         <attr name="horizontalSpacing" format="dimension"/>
@@ -47,7 +53,7 @@
         </attr>
         <attr name="debugDraw" format="boolean" />
     </declare-styleable>
-    <declare-styleable name="FlowLayout_LayoutParams">
+    <declare-styleable name="BrickLayout_Layout">
         <attr name="layout_textField" format="boolean"/>
         <attr name="layout_inputType" format="string"/>
         <attr name="layout_newLine" format="boolean"/>

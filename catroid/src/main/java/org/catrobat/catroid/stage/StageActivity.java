@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
@@ -103,6 +104,8 @@ public class StageActivity extends AndroidApplication {
 
 	public static Handler messageHandler;
 	private JumpingSumoDeviceController controller;
+
+	@SuppressLint("UseSparseArrays")
 	public static Map<Integer, IntentListener> intentListeners = new HashMap<>();
 	public static Random randomGenerator = new Random();
 

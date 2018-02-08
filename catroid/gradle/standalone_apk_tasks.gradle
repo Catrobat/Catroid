@@ -80,7 +80,13 @@ task standalonePreparation() {
             from project.ext.appZipFile
             into project.ext.assetsPath
         }
+        println 'Copying zip file to assets from:'
+        println project.ext.appZipFile
+
         project.ext.appZipFileInAssets = file("$project.ext.assetsPath/${project.ext.projectId}.zip")
+        println 'to:'
+        println project.ext.appZipFileInAssets
+
         ZipFile app = new ZipFile(project.ext.appZipFileInAssets)
 
         removeUnecessaryPermissions(app)
@@ -88,7 +94,7 @@ task standalonePreparation() {
     }
 }
 
-task standaloneCleanup() {
+task standaloneCleanup(dependsOn: 'assembleStandaloneDebug') {
     doLast {
         if (!project.ext.appZipFile) {
             /*
@@ -100,6 +106,7 @@ task standaloneCleanup() {
 
         restoreFile(file(project.ext.iconPath))
         restoreFile(file(project.ext.manifestPath))
+        println 'Deleting zip file in assets'
         delete project.ext.appZipFileInAssets
     }
 }
@@ -267,11 +274,13 @@ def messUpIntentFilters() {
 /*
  * Ensure that the assembleStandaloneDebug task does the correct preparation
  * and clean-up steps necessary for standalone APK creation.
- */
+*/
+
 tasks.whenTaskAdded { task ->
-    if (task.name == 'prepareStandaloneDebugDependencies') {
+    if (task.name == 'preStandaloneDebugBuild') {
         task.dependsOn 'standalonePreparation'
     } else if (task.name == 'assembleStandaloneDebug') {
         task.finalizedBy 'standaloneCleanup'
     }
 }
+

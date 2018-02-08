@@ -64,4 +64,30 @@
     <style name="SpacingLarge" tools:ignore="UnusedResources">
         <item name="element_spacing">10dp</item>
     </style>
+
+    <!-- Fonts -->
+    <style name="FontRegular">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="app_font">sans-serif</item>
+    </style>
+
+    <style name="FontSerif" tools:ignore="UnusedResources">
+        <item name="android:fontFamily">serif</item>
+        <item name="app_font">serif</item>
+    </style>
+
+    <style name="FontDyslexic" tools:ignore="UnusedResources">
+        <item name="android:fontFamily">@font/opendyslexic</item>
+        <item name="app_font">@font/opendyslexic</item>
+    </style>
+
+    <style name="FontSaudi" tools:ignore="UnusedResources">
+        <item name="android:fontFamily">@font/saudi</item>
+        <item name="app_font">@font/saudi</item>
+    </style>
+
+    <style name="FontStc" tools:ignore="UnusedResources">
+        <item name="android:fontFamily">@font/stc</item>
+        <item name="app_font">@font/stc</item>
+    </style>
 </resources>

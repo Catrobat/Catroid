@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.scratchconverter.protocol.message.base;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.scratchconverter.protocol.Job;
@@ -47,6 +48,7 @@ public abstract class BaseMessage extends Message {
 
 		private int typeID;
 
+		@SuppressLint("UseSparseArrays")
 		private static Map<Integer, Type> map = new HashMap<>();
 		static {
 			for (Type legEnum : Type.values()) {

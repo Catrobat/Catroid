@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.scratchconverter.protocol;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 
 import com.google.android.gms.common.images.WebImage;
@@ -47,6 +48,7 @@ public class Job {
 
 		private int state;
 
+		@SuppressLint("UseSparseArrays")
 		private static Map<Integer, State> map = new HashMap<>();
 		static {
 			for (State legEnum : State.values()) {
@@ -79,6 +81,7 @@ public class Job {
 
 		private int downloadState;
 
+		@SuppressLint("UseSparseArrays")
 		private static Map<Integer, DownloadState> map = new HashMap<>();
 		static {
 			for (DownloadState legEnum : DownloadState.values()) {

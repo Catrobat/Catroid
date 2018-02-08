@@ -28,5 +28,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?attr/actionBarSize"
-    android:background="@drawable/actionbar_background"
+    android:background="@color/application_background_color"
     android:elevation="4dp" />
