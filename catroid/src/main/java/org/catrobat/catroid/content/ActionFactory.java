@@ -188,8 +188,7 @@ public class ActionFactory extends Actions {
 		BroadcastAction action = Actions.action(BroadcastAction.class);
 		BroadcastEvent event = new BroadcastEvent(false);
 		event.setSender(senderSprite);
-		BroadcastEventIdentifier identifier = new BroadcastEventIdentifier(broadcastMessage, ProjectManager
-				.getInstance().getCurrentScene(), type);
+		BroadcastEventIdentifier identifier = new BroadcastEventIdentifier(broadcastMessage, type);
 		event.setIdentifier(identifier);
 		action.setBroadcastEvent(event);
 
@@ -201,7 +200,7 @@ public class ActionFactory extends Actions {
 		BroadcastEvent event = new BroadcastEvent(true);
 		event.setSender(senderSprite);
 		BroadcastEventIdentifier identifier = new BroadcastEventIdentifier(broadcastMessage,
-				ProjectManager.getInstance().getCurrentScene(), BroadcastEventType.DEFAULT);
+				BroadcastEventType.DEFAULT);
 		event.setIdentifier(identifier);
 		action.setBroadcastEvent(event);
 		return action;

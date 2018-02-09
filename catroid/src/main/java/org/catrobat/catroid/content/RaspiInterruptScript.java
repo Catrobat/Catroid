@@ -22,21 +22,19 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 
 public class RaspiInterruptScript extends BroadcastScript {
-
+	// BC-TODO: Test
 	private static final long serialVersionUID = 1L;
-	// BC-TODO alles
 	private String pin;
 	private String eventValue;
 
 	public RaspiInterruptScript(String pin, String eventValue) {
-		super(Constants.RASPI_BROADCAST_INTERRUPT_PREFIX + pin + " " + eventValue);
+		super(pin + " " + eventValue);
 
 		this.pin = pin;
 		this.eventValue = eventValue;
@@ -62,7 +60,7 @@ public class RaspiInterruptScript extends BroadcastScript {
 	}
 
 	private void updateBroadcastMessage() {
-		setBroadcastMessage(Constants.RASPI_BROADCAST_INTERRUPT_PREFIX + pin + " " + eventValue);
+		setBroadcastMessage(pin + " " + eventValue);
 	}
 
 	public String getPin() {

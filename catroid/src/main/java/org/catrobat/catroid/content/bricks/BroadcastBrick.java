@@ -28,18 +28,19 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastEventType;
 import org.catrobat.catroid.content.BroadcastMessage;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import java.util.List;
@@ -48,16 +49,18 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 
 	protected String broadcastMessage;
-	protected transient AdapterView<?> adapterView;
+	protected transient ArrayAdapter<String> messageAdapter;
 
 	protected Object readResolve() {
-		MessageContainer.addMessage(broadcastMessage);
+		Project.addBroadcastMessage(broadcastMessage);
+		//MessageContainer.addMessage(broadcastMessage);
 		return this;
 	}
 
 	public BroadcastBrick(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
-		MessageContainer.addMessage(broadcastMessage);
+		Project.addBroadcastMessage(broadcastMessage);
+		//MessageContainer.addMessage(broadcastMessage);
 	}
 
 	@Override
@@ -88,7 +91,36 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		setCheckboxView(R.id.brick_broadcast_checkbox);
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
 
-		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
+		broadcastSpinner.setAdapter(getMessageAdapter(context));
+		setOnItemSelectedListener(broadcastSpinner, context);
+
+		setSpinnerSelection(broadcastSpinner);
+		return view;
+	}
+
+	protected ArrayAdapter<String> getMessageAdapter(Context context) {
+		//if (messageAdapter == null) {
+		messageAdapter = createMessageAdapter(context);
+		//}
+		return messageAdapter;
+	}
+
+	static ArrayAdapter<String> createMessageAdapter(Context context) {
+		ArrayAdapter<String> messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		messageAdapter.add(context.getString(R.string.new_broadcast_message));
+		boolean addedMessage = false;
+		for (String message : ProjectManager.getInstance().getCurrentProject().getBroadcastMessages()) {
+			messageAdapter.add(message);
+			addedMessage = true;
+		}
+		if (!addedMessage) {
+			messageAdapter.add(context.getString(R.string.brick_broadcast_default_value));
+		}
+		return messageAdapter;
+	}
+
+	protected void setOnItemSelectedListener(final Spinner broadcastSpinner, final Context context) {
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -105,9 +137,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-
-		setSpinnerSelection(broadcastSpinner);
-		return view;
 	}
 
 	@Override
@@ -115,14 +144,14 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		View prototypeView = View.inflate(context, R.layout.brick_broadcast, null);
 		Spinner broadcastSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_spinner);
 
-		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
+		SpinnerAdapter broadcastSpinnerAdapter = getMessageAdapter(context);
 		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
 		setSpinnerSelection(broadcastSpinner);
 		return prototypeView;
 	}
 
 	protected void setSpinnerSelection(Spinner spinner) {
-		int position = MessageContainer.getPositionOfMessageInAdapter(spinner.getContext(), broadcastMessage);
+		int position = getMessageAdapter(spinner.getContext()).getPosition(broadcastMessage);
 		spinner.setSelection(position, true);
 	}
 
@@ -139,14 +168,9 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 					dismiss();
 					return false;
 				}
-
-				if (newMessage.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR)) {
-					inputLayout.setError(getString(R.string.brick_broadcast_invalid_symbol));
-					return false;
-				}
-
 				broadcastMessage = newMessage;
-				MessageContainer.addMessage(broadcastMessage);
+				Project.addBroadcastMessage(broadcastMessage);
+				//MessageContainer.addMessage(broadcastMessage);
 				setSpinnerSelection(spinner);
 				return true;
 			}

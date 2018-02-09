@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common;
+/*package org.catrobat.catroid.common;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
@@ -133,3 +133,4 @@ public final class MessageContainer {
 		}
 	}
 }
+*/

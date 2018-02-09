@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @XStreamAlias("scene")
 // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -288,16 +289,13 @@ public class Scene implements Serializable {
 		return dataContainer;
 	}
 
-	public synchronized void addUsedMessagesToList(List<String> usedMessages) {
+	public synchronized void addUsedMessagesToSet(Set<String> usedMessages) {
 		for (Sprite currentSprite : spriteList) {
-			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
-				Script currentScript = currentSprite.getScript(scriptIndex);
+			for (Script currentScript : currentSprite.getScriptList()) {
 				if (currentScript instanceof BroadcastMessage) {
 					addBroadcastMessage(((BroadcastMessage) currentScript).getBroadcastMessage(), usedMessages);
 				}
-
-				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
-					Brick currentBrick = currentScript.getBrick(brickIndex);
+				for (Brick currentBrick : currentScript.getBrickList()) {
 					if (currentBrick instanceof BroadcastMessage) {
 						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
 					}
@@ -314,7 +312,7 @@ public class Scene implements Serializable {
 		}
 	}
 
-	private void addBroadcastMessage(String broadcastMessageToAdd, List<String> broadcastMessages) {
+	private void addBroadcastMessage(String broadcastMessageToAdd, Set<String> broadcastMessages) {
 		if (broadcastMessageToAdd != null && !broadcastMessageToAdd.isEmpty()
 				&& !broadcastMessages.contains(broadcastMessageToAdd)) {
 			broadcastMessages.add(broadcastMessageToAdd);
@@ -323,10 +321,7 @@ public class Scene implements Serializable {
 
 	public boolean screenshotExists(String screenshotName) {
 		File screenShot = new File(Utils.buildScenePath(project.getName(), getName()), screenshotName);
-		if (screenShot.exists()) {
-			return false;
-		}
-		return true;
+		return !screenShot.exists();
 	}
 
 	public UserVariable getProjectVariableWithName(String name) {

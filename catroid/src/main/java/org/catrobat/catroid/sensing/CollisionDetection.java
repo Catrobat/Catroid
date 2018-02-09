@@ -128,7 +128,6 @@ public final class CollisionDetection {
 		return false;
 	}
 
-	// BC-TODO: Debuggen was formula ist usw
 	public static String getSecondSpriteNameFromCollisionFormulaString(String formula) {
 
 		int indexOfSpriteInFormula = formula.length();

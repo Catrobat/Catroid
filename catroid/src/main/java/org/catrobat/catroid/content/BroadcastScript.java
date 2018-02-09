@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
@@ -47,8 +46,7 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 
 	@Override
 	protected Object readResolve() {
-		MessageContainer.addMessage(getBroadcastMessage(), this);
-		super.readResolve();
+		//MessageContainer.addMessage(getBroadcastMessage(), this);
 		return this;
 	}
 
@@ -58,9 +56,9 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 	}
 
 	public void setBroadcastMessage(String broadcastMessage) {
-		MessageContainer.removeReceiverScript(this.receivedMessage, this);
+		//MessageContainer.removeReceiverScript(this.receivedMessage, this);
 		this.receivedMessage = broadcastMessage;
-		MessageContainer.addMessage(getBroadcastMessage(), this);
+		//MessageContainer.addMessage(getBroadcastMessage(), this);
 	}
 
 	@Override

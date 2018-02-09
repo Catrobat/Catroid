@@ -82,8 +82,6 @@ public class BroadcastReceiverRegressionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		// BC-TODO:
-		//BroadcastHandler.clearActionMaps();
 		createProject();
 	}
 

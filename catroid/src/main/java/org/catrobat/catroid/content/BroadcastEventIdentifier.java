@@ -25,12 +25,10 @@ package org.catrobat.catroid.content;
 
 public class BroadcastEventIdentifier extends EventIdentifier {
 	public final String message;
-	public final Scene scene;
 	public final BroadcastEventType type;
 
-	public BroadcastEventIdentifier(String message, Scene scene, BroadcastEventType type) {
+	public BroadcastEventIdentifier(String message, BroadcastEventType type) {
 		this.message = message;
-		this.scene = scene;
 		this.type = type;
 	}
 
@@ -38,13 +36,13 @@ public class BroadcastEventIdentifier extends EventIdentifier {
 	public boolean equals(Object o) {
 		if (o instanceof BroadcastEventIdentifier) {
 			BroadcastEventIdentifier broadcastEventId = (BroadcastEventIdentifier) o;
-			return message.equals(broadcastEventId.message) && scene.equals(broadcastEventId.scene);
+			return message.equals(broadcastEventId.message);
 		}
 		return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return message.hashCode() + scene.hashCode();
+		return message.hashCode();
 	}
 }

@@ -29,7 +29,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -51,6 +50,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @XStreamAlias("program")
 // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -77,6 +78,8 @@ public class Project implements Serializable {
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
+	private static transient Set<String> broadcastMessages = new TreeSet<>();
+
 	public Project() {
 	}
 
@@ -102,8 +105,6 @@ public class Project implements Serializable {
 		if (isCastProject) {
 			setChromecastFields();
 		}
-
-		MessageContainer.clear();
 
 		sceneList.add(new Scene(context, context.getString(R.string.default_scene_name, 1), this));
 		xmlHeader.scenesEnabled = true;
@@ -446,11 +447,22 @@ public class Project implements Serializable {
 		}
 	}
 
-	public synchronized void updateMessageContainer() {
-		List<String> usedMessages = new ArrayList<>();
-		for (Scene scene : getSceneList()) {
-			scene.addUsedMessagesToList(usedMessages);
+	public static void addBroadcastMessage(String message) {
+		if (message != null) {
+			broadcastMessages.add(message);
 		}
-		MessageContainer.removeUnusedMessages(usedMessages);
+	}
+
+	public synchronized void updateMessageContainer() {
+		broadcastMessages.clear();
+		for (Scene scene : getSceneList()) {
+			scene.addUsedMessagesToSet(broadcastMessages);
+		}
+		// BC-TODO: replace message container
+		// MessageContainer.removeUnusedMessages(usedMessages);
+	}
+
+	public Set<String> getBroadcastMessages() {
+		return broadcastMessages;
 	}
 }

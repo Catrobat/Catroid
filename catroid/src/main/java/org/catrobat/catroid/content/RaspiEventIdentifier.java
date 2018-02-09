@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,29 +23,29 @@
 
 package org.catrobat.catroid.content;
 
-import com.google.common.base.Objects;
+public class RaspiEventIdentifier extends EventIdentifier {
+	private String pin;
+	private String eventValue;
 
-public class CollisionEventIdentifier extends EventIdentifier {
-	public final Sprite sprite1;
-	public final Sprite sprite2;
-
-	public CollisionEventIdentifier(Sprite sprite1, Sprite sprite2) {
-		this.sprite1 = sprite1;
-		this.sprite2 = sprite2;
+	public RaspiEventIdentifier(String pin, String eventValue) {
+		this.pin = pin;
+		this.eventValue = eventValue;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof CollisionEventIdentifier) {
-			CollisionEventIdentifier collisionEventId = (CollisionEventIdentifier) o;
-			return (Objects.equal(sprite1, collisionEventId.sprite1) || Objects.equal(sprite1, collisionEventId.sprite2))
-					&& (Objects.equal(sprite2, collisionEventId.sprite1) || Objects.equal(sprite2, collisionEventId.sprite2));
+		if (this == o) {
+			return true;
 		}
-		return false;
+		if (o == null || !(o instanceof RaspiEventIdentifier)) {
+			return false;
+		}
+		RaspiEventIdentifier otherId = (RaspiEventIdentifier) o;
+		return pin.equals(otherId.pin) && eventValue.equals(otherId.eventValue);
 	}
 
 	@Override
 	public int hashCode() {
-		return (sprite1 == null ? 0 : sprite1.hashCode()) + (sprite2 == null ? 0 : sprite2.hashCode());
+		return pin.hashCode() + eventValue.hashCode();
 	}
 }

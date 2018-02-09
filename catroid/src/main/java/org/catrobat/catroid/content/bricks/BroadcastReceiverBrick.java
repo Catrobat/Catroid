@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -35,9 +36,9 @@ import android.widget.SpinnerAdapter;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsCollision;
@@ -50,6 +51,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 
 	private BroadcastScript receiveScript;
 	private transient String broadcastMessage;
+	private transient ArrayAdapter<String> messageAdapter;
 
 	public BroadcastReceiverBrick(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
@@ -95,7 +97,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		}
 		if (receiveScript == null) {
 			receiveScript = new BroadcastScript(broadcastMessage);
-			MessageContainer.addMessage(broadcastMessage);
+			Project.addBroadcastMessage(broadcastMessage);
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
@@ -103,7 +105,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		setCheckboxView(R.id.brick_broadcast_receive_checkbox);
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
 
-		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
+		broadcastSpinner.setAdapter(getMessageAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -131,10 +133,17 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		View prototypeView = View.inflate(context, R.layout.brick_broadcast_receive, null);
 		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_receive_spinner);
 
-		SpinnerAdapter broadcastReceiverSpinnerAdapter = MessageContainer.getMessageAdapter(context);
+		SpinnerAdapter broadcastReceiverSpinnerAdapter = getMessageAdapter(context);
 		broadcastReceiverSpinner.setAdapter(broadcastReceiverSpinnerAdapter);
 		setSpinnerSelection(broadcastReceiverSpinner);
 		return prototypeView;
+	}
+
+	private ArrayAdapter<String> getMessageAdapter(Context context) {
+		if (messageAdapter == null) {
+			messageAdapter = BroadcastBrick.createMessageAdapter(context);
+		}
+		return messageAdapter;
 	}
 
 	@Override
@@ -143,7 +152,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		int position = MessageContainer.getPositionOfMessageInAdapter(spinner.getContext(), getBroadcastMessage());
+		int position = getMessageAdapter(spinner.getContext()).getPosition(getBroadcastMessage());
 		spinner.setSelection(position, true);
 	}
 
@@ -168,7 +177,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 
 				receiveScript.setBroadcastMessage(newMessage);
 				broadcastMessage = newMessage;
-				MessageContainer.addMessage(broadcastMessage);
+				Project.addBroadcastMessage(broadcastMessage);
 				setSpinnerSelection(spinner);
 				return true;
 			}

@@ -31,7 +31,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
@@ -320,7 +319,8 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 	private void createButtonPressed(Context context, String projectName, String sceneName, Sprite sprite, String
 			broadcastMessage)
 			throws IOException {
-		MessageContainer.addMessage(broadcastMessage);
+		// BC-TODO: check out if necessary
+		// MessageContainer.addMessage(broadcastMessage);
 
 		WhenScript whenPressedScript = new WhenScript();
 		whenPressedScript.setAction(0);

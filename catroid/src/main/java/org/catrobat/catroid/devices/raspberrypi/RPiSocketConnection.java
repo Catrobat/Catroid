@@ -226,7 +226,7 @@ public class RPiSocketConnection {
 					}
 
 					Log.d(TAG, "Interrupt: " + receivedLine);
-
+					// BC-TODO: wtf
 					callEvent(Constants.RASPI_BROADCAST_PREFIX + receivedLine);
 				}
 				receiverSocket.close();

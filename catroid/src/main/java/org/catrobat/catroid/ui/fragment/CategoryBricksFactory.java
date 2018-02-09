@@ -31,7 +31,6 @@ import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
@@ -255,7 +254,9 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new WhenStartedBrick(null));
 		eventBrickList.add(new WhenBrick(null));
 		eventBrickList.add(new WhenTouchDownBrick());
-		final String broadcastMessage = MessageContainer.getFirst(context);
+		// BC-TODO: find better way to do this
+		final String broadcastMessage = context.getString(R.string.brick_broadcast_default_value);// MessageContainer
+		// .getFirst(context);
 		eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
