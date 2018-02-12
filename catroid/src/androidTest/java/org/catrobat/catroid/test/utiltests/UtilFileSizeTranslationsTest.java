@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.utiltests;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -69,9 +70,9 @@ public class UtilFileSizeTranslationsTest {
 	public void testFileSize() {
 		currentNumberformat = NumberFormat.getInstance(Locale.getDefault());
 		String arabicKb = "كيلوبايت";
-		double soundExpectedSize = 1.7;
+		double soundExpectedSize = 63.3;
 		double lookExpectedSize = 2.6;
-		double projectExpectedSize = 5.9;
+		double projectExpectedSize = 67.5;
 
 		assertEquals(currentNumberformat.format(soundExpectedSize) + " " + arabicKb,
 				UtilFile.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));
@@ -87,6 +88,8 @@ public class UtilFileSizeTranslationsTest {
 		String projectName = "fileSizeArabicTest";
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
 
 		projectFolder = new File(Utils.buildProjectPath(projectName));
 
@@ -95,7 +98,7 @@ public class UtilFileSizeTranslationsTest {
 				FileTestUtils.FileTypes.IMAGE);
 
 		soundFile = FileTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(),
-				"longsound.mp3", org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getTargetContext(),
+				"longsound.mp3", org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND);
 	}
 }

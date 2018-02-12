@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.annotation.SuppressLint;
 import android.graphics.PointF;
 
 import org.catrobat.catroid.ProjectManager;
@@ -32,6 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public final class TouchUtil {
+
+	@SuppressLint("UseSparseArrays")
 	private static HashMap<Integer, Integer> currentlyTouchingPointersToTouchIndex = new HashMap<>();
 	private static ArrayList<PointF> touches = new ArrayList<>();
 	private static ArrayList<Boolean> isTouching = new ArrayList<>();

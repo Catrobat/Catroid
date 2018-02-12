@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/brick_data_editor_brick_space"
         android:clickable="true"
+        android:focusable="true"
         android:entries="@array/data_editor_buttons"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true" >

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.common;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -37,6 +38,7 @@ public enum ScratchVisibilityState implements Parcelable {
 
 	private int visibilityState;
 
+	@SuppressLint("UseSparseArrays")
 	private static Map<Integer, ScratchVisibilityState> map = new HashMap<>();
 	static {
 		for (ScratchVisibilityState legEnum : ScratchVisibilityState.values()) {

@@ -29,7 +29,7 @@
     android:layout_height="match_parent"
     android:background="@color/button_background_gradient_end_color"
     android:clickable="true"
-    android:focusable="false"
+    android:focusable="true"
     android:id="@+id/dragView">
 
     <View

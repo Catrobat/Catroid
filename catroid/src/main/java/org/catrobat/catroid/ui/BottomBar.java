@@ -34,10 +34,6 @@ public final class BottomBar {
 		throw new AssertionError();
 	}
 
-	public static boolean isBottomBarVisible(Activity activity) {
-		return activity.findViewById(R.id.bottom_bar).getVisibility() == View.VISIBLE;
-	}
-
 	public static void showBottomBar(Activity activity) {
 		activity.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 	}
@@ -48,30 +44,17 @@ public final class BottomBar {
 
 	public static void showAddButton(Activity activity) {
 		activity.findViewById(R.id.button_add).setVisibility(View.VISIBLE);
-		updateSeparator(activity);
 	}
 
 	public static void hideAddButton(Activity activity) {
 		activity.findViewById(R.id.button_add).setVisibility(View.GONE);
-		updateSeparator(activity);
 	}
 
 	public static void showPlayButton(Activity activity) {
 		activity.findViewById(R.id.button_play).setVisibility(View.VISIBLE);
-		updateSeparator(activity);
 	}
 
 	public static void hidePlayButton(Activity activity) {
 		activity.findViewById(R.id.button_play).setVisibility(View.GONE);
-		updateSeparator(activity);
-	}
-
-	private static void updateSeparator(Activity activity) {
-		if (activity.findViewById(R.id.button_play).getVisibility() == View.VISIBLE
-				|| activity.findViewById(R.id.button_add).getVisibility() == View.VISIBLE) {
-			activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);
-		} else {
-			activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
-		}
 	}
 }

@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.scratchconverter.protocol.message;
 
+import android.annotation.SuppressLint;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +35,8 @@ public abstract class Message {
 		JOB(1);
 
 		private int categoryID;
+
+		@SuppressLint("UseSparseArrays")
 		private static Map<Integer, CategoryType> map = new HashMap<>();
 		static {
 			for (CategoryType legEnum : CategoryType.values()) {

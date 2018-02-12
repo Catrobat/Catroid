@@ -21,26 +21,11 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/bottom_bar"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/activity_bottom_bar_height"
-              android:layout_alignParentBottom="true"
-              android:background="@drawable/bottom_bar_background"
-              android:orientation="horizontal"
-              android:divider="@drawable/bottom_bar_divider"
-              android:showDividers="middle">
 
-    <ImageButton
-        style="@style/BottomBarButton"
-        android:id="@+id/button_add"
-        android:onClick="handleAddButton"
-        android:src="@drawable/ic_plus" />
-
-    <ImageButton
-        style="@style/BottomBarButton"
-        android:id="@+id/button_play"
-        android:onClick="handlePlayButton"
-        android:src="@drawable/ic_play" />
-
-</LinearLayout>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <font android:fontStyle="normal" android:fontWeight="400" android:font="@font/saudi_regular"
+        app:fontStyle="normal" app:fontWeight="400" app:font="@font/saudi_regular"/>
+    <font android:fontStyle="italic" android:fontWeight="400" android:font="@font/saudi_regular"
+        app:fontStyle="italic" app:fontWeight="400" app:font="@font/saudi_regular" />
+</font-family>
