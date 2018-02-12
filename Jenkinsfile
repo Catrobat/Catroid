@@ -12,8 +12,8 @@ pipeline {
 		GRADLE_PROJECT_MODULE_NAME = "catroid"
 
 		// APK build output locations
-		APK_LOCATION_DEBUG = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/catroid-catroid-debug.apk"
-		APK_LOCATION_STANDALONE = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/catroid-standalone-debug.apk"
+		APK_LOCATION_DEBUG = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/catroid/debug/catroid-catroid-debug.apk"
+		APK_LOCATION_STANDALONE = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk"
 
 		// share.catrob.at
 		CATROBAT_SHARE_UPLOAD_BRANCH = "develop"
