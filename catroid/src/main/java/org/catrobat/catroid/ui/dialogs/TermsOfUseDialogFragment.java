@@ -71,7 +71,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 				.setView(view)
 				.setTitle(R.string.dialog_terms_of_use_title);
 
-		termsOfUseDialogBuilder.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+		termsOfUseDialogBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				if (getActivity() instanceof PreStageActivity) {
