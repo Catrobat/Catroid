@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -93,6 +93,8 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scratch_converter);
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setUpActionBar();
 
 		searchProjectsListFragment = (SearchScratchSearchProjectsListFragment) getFragmentManager().findFragmentById(
@@ -146,9 +148,8 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 	}
 
 	private void setUpActionBar() {
-		final ActionBar actionBar = getActionBar();
-		actionBar.setTitle(R.string.title_activity_scratch_converter);
-		actionBar.setHomeButtonEnabled(true);
+		getSupportActionBar().setTitle(R.string.title_activity_scratch_converter);
+		getSupportActionBar().setHomeButtonEnabled(true);
 	}
 
 	private void appendColoredBetaLabelToTitle(final int color) {
@@ -158,7 +159,7 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 		final int begin = title.length() + 1;
 		final int end = begin + beta.length();
 		spanTitle.setSpan(new ForegroundColorSpan(color), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		getActionBar().setTitle(spanTitle);
+		getSupportActionBar().setTitle(spanTitle);
 	}
 
 	public void convertProjects(List<ScratchProgramData> programList) {

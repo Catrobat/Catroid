@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -32,6 +31,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -115,6 +115,8 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scratch_project_details);
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setUpActionBar();
 
 		programData = getIntent().getParcelableExtra(Constants.INTENT_SCRATCH_PROGRAM_DATA);
@@ -193,9 +195,8 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	}
 
 	private void setUpActionBar() {
-		final ActionBar actionBar = getActionBar();
-		actionBar.setTitle(R.string.title_activity_scratch_converter);
-		actionBar.setHomeButtonEnabled(true);
+		getSupportActionBar().setTitle(R.string.title_activity_scratch_converter);
+		getSupportActionBar().setHomeButtonEnabled(true);
 	}
 
 	@Override
