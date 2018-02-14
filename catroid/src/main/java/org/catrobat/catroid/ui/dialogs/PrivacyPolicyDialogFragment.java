@@ -72,12 +72,7 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 				.dialog_privacy_policy_title);
 
 		if (!forceAccept) {
-			builder.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					dialog.cancel();
-				}
-			});
+			builder.setPositiveButton(R.string.ok, null);
 		} else {
 			builder.setPositiveButton(R.string.agree, new DialogInterface.OnClickListener() {
 				@Override

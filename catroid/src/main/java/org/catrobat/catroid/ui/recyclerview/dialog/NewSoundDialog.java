@@ -107,7 +107,7 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 				intent = new Intent(getActivity(), WebViewActivity.class)
 						.putExtra(WebViewActivity.INTENT_PARAMETER_URL, Constants.LIBRARY_SOUNDS_URL)
 						.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
-				startActivityForResult(intent, RECORD);
+				startActivityForResult(intent, LIBRARY);
 				break;
 			case R.id.dialog_new_sound_gallery:
 				intent = new Intent(Intent.ACTION_GET_CONTENT)
