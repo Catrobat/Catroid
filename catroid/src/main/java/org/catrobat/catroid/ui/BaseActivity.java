@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -43,14 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getTheme().applyStyle(R.style.FontSizeRegular, true);
-		getTheme().applyStyle(R.style.ContrastRegular, true);
-		getTheme().applyStyle(R.style.SpacingRegular, true);
-		getTheme().applyStyle(R.style.FontRegular, true);
-		getTheme().applyStyle(R.style.CategoryIconContrastRegular, true);
-		getTheme().applyStyle(R.style.CategoryIconInVisible, true);
-		getTheme().applyStyle(R.style.CategoryIconSizeRegular, true);
-
+		setupThemes(getTheme());
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
 
@@ -120,5 +114,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 			}
 			((ViewGroup) view).removeAllViews();
 		}
+	}
+
+	public void setupThemes(Resources.Theme theme) {
+		theme.applyStyle(R.style.FontSizeRegular, true);
+		theme.applyStyle(R.style.ContrastRegular, true);
+		theme.applyStyle(R.style.SpacingRegular, true);
+		theme.applyStyle(R.style.FontRegular, true);
+		theme.applyStyle(R.style.CategoryIconContrastRegular, true);
+		theme.applyStyle(R.style.CategoryIconInVisible, true);
+		theme.applyStyle(R.style.CategoryIconSizeRegular, true);
 	}
 }

@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,12 +35,17 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
@@ -62,7 +67,7 @@ import static org.catrobat.catroid.common.Constants.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.Constants.LANGUAGE_CODE;
 import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends AppCompatPreferenceActivity {
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
@@ -122,6 +127,8 @@ public class SettingsActivity extends PreferenceActivity {
 		setToChosenLanguage(this);
 
 		addPreferencesFromResource(R.xml.preferences);
+
+		new BaseActivity(){}.setupThemes(this.getTheme());
 
 		setAnonymousCrashReportPreference();
 		setNXTSensors();
@@ -391,14 +398,41 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 	}
 
-	private void updateActionBar() {
-		ActionBar actionBar = getActionBar();
-
-		if (actionBar != null) {
-			actionBar.setTitle(R.string.preference_title);
-			actionBar.setHomeButtonEnabled(true);
-			actionBar.setDisplayHomeAsUpEnabled(true);
+	@SuppressWarnings("deprecation")
+	@Override
+	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+		if (preference instanceof PreferenceScreen) {
+			final Dialog dialog = ((PreferenceScreen) preference).getDialog();
+			ViewGroup root = dialog.findViewById(android.R.id.content);
+			LinearLayout content = (LinearLayout) root.getChildAt(0);
+			root.removeAllViews();
+			int topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+					(int) getResources().getDimension(R.dimen.activity_vertical_margin),
+					getResources().getDisplayMetrics());
+			content.setPadding(0, topMargin, 0, 0);
+			Toolbar bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.toolbar, root, false);
+			root.addView(content);
+			root.addView(bar);
+			setSupportActionBar(bar);
+			getSupportActionBar().setTitle(preference.getTitle());
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			bar.setNavigationOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
 		}
+		return false;
+	}
+
+	private void updateActionBar() {
+		LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent();
+		Toolbar bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.toolbar, root, false);
+		root.addView(bar, 0);
+		setSupportActionBar(bar);
+		getSupportActionBar().setTitle(R.string.preference_title);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	public static void setTermsOfServiceAgreedPermanently(Context context, boolean agreed) {
