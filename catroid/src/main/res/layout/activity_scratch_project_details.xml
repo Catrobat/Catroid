@@ -21,8 +21,13 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <include layout="@layout/toolbar" />
+<RelativeLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -211,9 +216,8 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textStyle="italic"
                 android:layout_below="@+id/scratch_project_tags_text"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"
                 android:text="@string/shared_at_x" />
 
             <TextView
@@ -222,9 +226,9 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textStyle="italic"
-                android:layout_below="@+id/scratch_project_tags_text"
+                android:layout_below="@+id/scratch_project_shared_text"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="30dp"
                 android:text="@string/modified_at_x" />
 
@@ -275,3 +279,4 @@
         android:background="@color/scratch_converter_button_background_color" />
 
 </RelativeLayout>
+</LinearLayout>
