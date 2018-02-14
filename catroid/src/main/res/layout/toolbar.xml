@@ -24,9 +24,11 @@
 
 <android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?attr/actionBarSize"
     android:background="@color/application_background_color"
-    android:elevation="4dp" />
+    android:elevation="4dp"
+    app:titleTextAppearance="@style/ToolbarTitle" />
