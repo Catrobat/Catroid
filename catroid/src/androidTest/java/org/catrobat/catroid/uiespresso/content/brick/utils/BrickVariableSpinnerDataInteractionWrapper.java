@@ -89,6 +89,14 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 				.perform(click());
 	}
 
+	public BrickVariableSpinnerDataInteractionWrapper performSelectList(String selection) {
+		dataInteraction.perform(click());
+		onView(withText(selection))
+				.perform(click());
+
+		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);
+	}
+
 	public BrickSpinnerDataInteractionWrapper checkShowsVariableNamesInAdapter(List<String> variableNames) {
 		dataInteraction.perform(click());
 		for (String variableName : variableNames) {
