@@ -20,81 +20,81 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.recyclerview.dialog.login;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
 
-public class LogInDialog extends DialogFragment implements LoginTask.OnLoginCompleteListener {
+public class LoginDialogFragment extends DialogFragment implements LoginTask.OnLoginCompleteListener {
 
+	public static final String TAG = LoginDialogFragment.class.getSimpleName();
 	public static final String PASSWORD_FORGOTTEN_PATH = "resetting/request";
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_login_register";
 
 	private TextInputLayout usernameInputLayout;
 	private TextInputLayout passwordInputLayout;
-	private CheckBox showPasswordCheckBox;
+
+	private SignInDialog.SignInCompleteListener signInCompleteListener;
+
+	public void setSignInCompleteListener(SignInDialog.SignInCompleteListener signInCompleteListener) {
+		this.signInCompleteListener = signInCompleteListener;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		@SuppressLint("InflateParams")
-		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_login, null);
+		View view = View.inflate(getActivity(), R.layout.dialog_login, null);
 
 		usernameInputLayout = view.findViewById(R.id.dialog_login_username);
 		passwordInputLayout = view.findViewById(R.id.dialog_login_password);
-		showPasswordCheckBox = view.findViewById(R.id.show_password);
 
-		showPasswordCheckBox.setChecked(false);
-
-		showPasswordCheckBox.setOnClickListener(new View.OnClickListener() {
+		CheckBox showPasswordCheckBox = view.findViewById(R.id.show_password);
+		showPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
-			public void onClick(View view) {
-				if (showPasswordCheckBox.isChecked()) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
 					passwordInputLayout.getEditText().setInputType(InputType.TYPE_CLASS_TEXT);
 				} else {
-					passwordInputLayout.getEditText().setInputType(InputType.TYPE_CLASS_TEXT | InputType
-							.TYPE_TEXT_VARIATION_PASSWORD);
+					passwordInputLayout.getEditText()
+							.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 				}
 			}
 		});
 
 		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-				.setView(view)
 				.setTitle(R.string.login)
+				.setView(view)
 				.setPositiveButton(R.string.login, null)
 				.setNeutralButton(R.string.password_forgotten, null)
 				.create();
 
-		alertDialog.setOnShowListener(new OnShowListener() {
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						handleLoginButtonClick();
+						onLoginButtonClick();
 					}
 				});
+
 				alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						handlePasswordForgottenButtonClick();
+						onPasswordForgottenButtonClick();
 					}
 				});
 			}
@@ -107,11 +107,11 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 	public void onLoginComplete() {
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
-		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), bundle);
+		signInCompleteListener.onLoginSuccessful(bundle);
 		dismiss();
 	}
 
-	private void handleLoginButtonClick() {
+	private void onLoginButtonClick() {
 		String username = usernameInputLayout.getEditText().getText().toString().replaceAll("\\s", "");
 		String password = passwordInputLayout.getEditText().getText().toString();
 
@@ -120,7 +120,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 		loginTask.execute();
 	}
 
-	private void handlePasswordForgottenButtonClick() {
+	private void onPasswordForgottenButtonClick() {
 		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTPS : Constants.BASE_URL_HTTPS;
 		String url = baseUrl + PASSWORD_FORGOTTEN_PATH;
 

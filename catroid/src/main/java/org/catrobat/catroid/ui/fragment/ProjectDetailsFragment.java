@@ -40,7 +40,7 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.SetDescriptionDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -48,7 +48,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.util.Date;
 
-public class ProjectDetailsFragment extends Fragment implements SetDescriptionDialog.ChangeDescriptionInterface {
+public class ProjectDetailsFragment extends Fragment implements SetDescriptionDialogFragment.ChangeDescriptionInterface {
 
 	public static final String TAG = ProjectDetailsFragment.class.getSimpleName();
 	public static final String SELECTED_PROJECT_KEY = "selectedProject";
@@ -111,8 +111,8 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 	}
 
 	private void handleDescriptionPressed() {
-		SetDescriptionDialog dialog = new SetDescriptionDialog(projectData.project.getDescription(), this);
-		dialog.show(getFragmentManager(), SetDescriptionDialog.TAG);
+		SetDescriptionDialogFragment dialog = new SetDescriptionDialogFragment(projectData.project.getDescription(), this);
+		dialog.show(getFragmentManager(), SetDescriptionDialogFragment.TAG);
 	}
 
 	@Override

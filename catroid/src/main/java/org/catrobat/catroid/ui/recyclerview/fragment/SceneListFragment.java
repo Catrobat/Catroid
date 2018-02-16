@@ -35,8 +35,8 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -69,8 +69,8 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	public void handleAddButton() {
-		NewSceneDialog dialog = new NewSceneDialog(this, ProjectManager.getInstance().getCurrentProject());
-		dialog.show(getFragmentManager(), NewSceneDialog.TAG);
+		NewSceneDialogFragment dialog = new NewSceneDialogFragment(this, ProjectManager.getInstance().getCurrentProject());
+		dialog.show(getFragmentManager(), NewSceneDialogFragment.TAG);
 	}
 
 	@Override
@@ -156,8 +156,8 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	@Override
 	protected void showRenameDialog(List<Scene> selectedItems) {
 		String name = selectedItems.get(0).getName();
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_scene_dialog, R.string.scene_name, name, this);
-		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
+		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_scene_dialog, R.string.scene_name, name, this);
+		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
 	}
 
 	@Override

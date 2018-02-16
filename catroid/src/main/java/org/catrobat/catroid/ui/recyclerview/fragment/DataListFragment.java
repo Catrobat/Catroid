@@ -23,11 +23,11 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -49,8 +49,8 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewDataDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewDataDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -67,7 +67,7 @@ public class DataListFragment extends Fragment implements
 		RVAdapter.SelectionListener,
 		RVAdapter.OnItemClickListener<UserData>,
 		NewItemInterface<UserData>,
-		RenameItemDialog.RenameItemInterface {
+		RenameDialogFragment.RenameInterface {
 
 	public static final String TAG = DataListFragment.class.getSimpleName();
 
@@ -244,9 +244,9 @@ public class DataListFragment extends Fragment implements
 	}
 
 	public void handleAddButton() {
-		NewDataDialog dialog = new NewDataDialog();
+		NewDataDialogFragment dialog = new NewDataDialogFragment();
 		dialog.setNewDataInterface(this);
-		dialog.show(getFragmentManager(), NewDataDialog.TAG);
+		dialog.show(getFragmentManager(), NewDataDialogFragment.TAG);
 	}
 
 	@Override
@@ -288,8 +288,8 @@ public class DataListFragment extends Fragment implements
 
 	private void showRenameDialog(List<UserData> selectedItems) {
 		String name = selectedItems.get(0).getName();
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_data_dialog, R.string.data_label, name, this);
-		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
+		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_data_dialog, R.string.data_label, name, this);
+		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
 	}
 
 	@Override

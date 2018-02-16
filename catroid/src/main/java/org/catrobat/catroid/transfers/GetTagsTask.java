@@ -23,12 +23,10 @@
 
 package org.catrobat.catroid.transfers;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,54 +37,41 @@ import java.util.Collections;
 import java.util.List;
 
 public class GetTagsTask extends AsyncTask<String, Void, String> {
+
 	private static final String TAG = GetTagsTask.class.getSimpleName();
-
 	private static final String TAGS_JSON_KEY = "constantTags";
+	private TagResponseListener onTagsResponseListener;
 
-	public interface AsyncResponse {
-		void onTagsReceived(List<String> tags);
-	}
-
-	private AsyncResponse onTagsResponseListener;
-	private Context context;
-
-	public GetTagsTask(Context activity) {
-		this.context = activity;
-	}
-
-	public void setOnTagsResponseListener(AsyncResponse listener) {
+	public void setOnTagsResponseListener(TagResponseListener listener) {
 		onTagsResponseListener = listener;
 	}
 
 	@Override
 	protected String doInBackground(String... arg0) {
-		if (!Utils.isNetworkAvailable(context)) {
-			return "No network";
-		}
 		return ServerCalls.getInstance().getTags(UtilDeviceInfo.getUserLanguageCode());
 	}
 
 	@Override
 	protected void onPostExecute(String response) {
-		Log.d(TAG, "Received tags: " + response);
-		if (onTagsResponseListener != null) {
-			try {
-				onTagsResponseListener.onTagsReceived(parseTags(response));
-			} catch (JSONException e) {
-				Log.e(TAG, "Failed to parse tags json", e);
-			}
+		try {
+			onTagsResponseListener.onTagsReceived(parseTags(response));
+		} catch (JSONException e) {
+			Log.e(TAG, "Failed to parse tags json", e);
 		}
 	}
 
 	private List<String> parseTags(String response) throws JSONException {
 		List<String> tags = new ArrayList<>();
-
 		JSONObject json = new JSONObject(response);
 		JSONArray tagsJson = json.getJSONArray(TAGS_JSON_KEY);
 		for (int i = 0; i < tagsJson.length(); i++) {
 			tags.add(tagsJson.getString(i));
 		}
-
 		return Collections.unmodifiableList(tags);
+	}
+
+	public interface TagResponseListener {
+
+		void onTagsReceived(List<String> tags);
 	}
 }

@@ -41,7 +41,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.List;
@@ -168,8 +168,8 @@ public class SceneStartBrick extends BrickBaseType implements NewItemInterface<S
 	}
 
 	private void showNewSceneDialog(Activity activity) {
-		NewSceneDialog dialog = new NewSceneDialog(this, ProjectManager.getInstance().getCurrentProject());
-		dialog.show(activity.getFragmentManager(), NewSceneDialog.TAG);
+		NewSceneDialogFragment dialog = new NewSceneDialogFragment(this, ProjectManager.getInstance().getCurrentProject());
+		dialog.show(activity.getFragmentManager(), NewSceneDialogFragment.TAG);
 	}
 
 	@Override

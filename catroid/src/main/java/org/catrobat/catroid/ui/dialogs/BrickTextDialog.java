@@ -22,21 +22,21 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.ui.recyclerview.dialog.TextDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialogFragment;
 
-public class BrickTextDialog extends TextDialog {
+public class BrickTextDialog extends TextInputDialogFragment {
 
 	public BrickTextDialog(int title, int label, String previousText) {
 		super(title, label, previousText, false);
 	}
 
 	@Override
-	protected boolean handlePositiveButtonClick() {
+	protected boolean onPositiveButtonClick() {
 		return false;
 	}
 
 	@Override
-	protected void handleNegativeButtonClick() {
+	protected void onNegativeButtonClick() {
 		dismiss();
 	}
 }

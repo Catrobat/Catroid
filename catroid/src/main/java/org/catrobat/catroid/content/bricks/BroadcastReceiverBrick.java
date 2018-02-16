@@ -154,7 +154,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 				.dialog_new_broadcast_message_name, context.getString(R.string.new_broadcast_message)) {
 
 			@Override
-			protected boolean handlePositiveButtonClick() {
+			protected boolean onPositiveButtonClick() {
 				String newMessage = inputLayout.getEditText().getText().toString().trim();
 				if (newMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					dismiss();

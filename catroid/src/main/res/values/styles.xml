@@ -21,9 +21,10 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.Catroid" parent="Theme.AppCompat.NoActionBar">
+    <style name="Catroid" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">#A8DFF4</item>
 
         <!-- Action Mode -->
@@ -45,59 +46,15 @@
         <item name="android:fontFamily">?attr/app_font</item>
     </style>
 
-    <style name="DefaultDialog" parent="android:Theme.Dialog">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/dialog_margin</item>
-        <item name="android:paddingBottom">@dimen/dialog_margin</item>
-        <item name="android:layout_marginStart">@dimen/dialog_margin</item>
-        <item name="android:layout_marginEnd">@dimen/dialog_margin</item>
-        <item name="android:windowBackground">@null</item>
-    </style>
-
     <style name="CastGamepad">
         <item name="android:background">@drawable/gamepad_background</item>
     </style>
 
-    <style name="DefaultDialog.Item">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:minHeight">@dimen/dialog_item_height</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/dialog_item_margin</item>
-        <item name="android:layout_marginEnd">@dimen/dialog_item_margin</item>
-    </style>
-
-    <style name="DefaultDialog.Mapping">
+    <style name="DialogMapping">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/dialog_item_margin</item>
         <item name="android:layout_marginEnd">@dimen/dialog_item_margin</item>
-    </style>
-
-    <style name="DefaultDialog.TextView" parent="DefaultDialog.Item">
-        <item name="android:paddingStart">@dimen/dialog_item_header_alignment_padding</item>
-        <item name="android:paddingBottom">@dimen/dialog_item_header_linepadding</item>
-        <item name="android:layout_height">@dimen/dialog_item_header_height</item>
-        <item name="android:textSize">@dimen/dialog_item_text_size</item>
-        <item name="android:textColor">@color/spritelist_details_text_color</item>
-        <item name="android:gravity">bottom</item>
-    </style>
-
-    <style name="DefaultDialog.Line" parent="DefaultDialog.Item">
-        <item name="android:layout_height">@dimen/dialog_item_header_line_height</item>
-        <item name="android:background">@color/dialog_text_line</item>
-    </style>
-
-    <style name="DefaultDialog.EditText" parent="@android:style/Widget.EditText">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:minHeight">@dimen/dialog_item_height</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/dialog_item_edittext_margin</item>
-        <item name="android:layout_marginEnd">@dimen/dialog_item_edittext_margin</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:gravity">bottom</item>
-        <item name="android:inputType">text</item>
-        <item name="android:ems">10</item>
     </style>
 
     <style name="stage_dialog" parent="android:style/Theme.Dialog">

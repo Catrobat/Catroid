@@ -42,8 +42,8 @@ import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -79,9 +79,9 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	@Override
 	public void handleAddButton() {
-		NewLookDialog dialog = new NewLookDialog(
+		NewLookDialogFragment dialog = new NewLookDialogFragment(
 				this, ProjectManager.getInstance().getCurrentScene(), ProjectManager.getInstance().getCurrentSprite());
-		dialog.show(getFragmentManager(), NewLookDialog.TAG);
+		dialog.show(getFragmentManager(), NewLookDialogFragment.TAG);
 	}
 
 	@Override
@@ -162,8 +162,8 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	@Override
 	protected void showRenameDialog(List<LookData> selectedItems) {
 		String name = selectedItems.get(0).getName();
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_look_dialog, R.string.look_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
+		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_look_dialog, R.string.look_name_label, name, this);
+		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
 	}
 
 	@Override

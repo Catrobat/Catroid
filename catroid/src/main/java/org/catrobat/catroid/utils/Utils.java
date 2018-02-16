@@ -23,8 +23,6 @@
 package org.catrobat.catroid.utils;
 
 import android.app.Activity;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -34,10 +32,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,16 +53,12 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScratchProgramData;
-import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -107,38 +101,25 @@ public final class Utils {
 
 	public static boolean checkForExternalStorageAvailableAndDisplayErrorIfNot(final Context context) {
 		if (!externalStorageAvailable()) {
-			Builder builder = new CustomAlertDialogBuilder(context);
-
-			builder.setTitle(R.string.error);
-			builder.setMessage(R.string.error_no_writiable_external_storage_available);
-			builder.setNeutralButton(R.string.close, new OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					((Activity) context).moveTaskToBack(true);
-				}
-			});
-			builder.show();
+			new AlertDialog.Builder(context)
+					.setTitle(R.string.error)
+					.setMessage(R.string.error_no_writiable_external_storage_available)
+					.setNeutralButton(R.string.close, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							((Activity) context).moveTaskToBack(true);
+						}
+					})
+					.show();
 			return false;
 		}
 		return true;
 	}
 
-	public static boolean isNetworkAvailable(Context context, boolean createDialog) {
+	public static boolean isNetworkAvailable(Context context) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		boolean isAvailable = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-		if (!isAvailable && createDialog) {
-			new CustomAlertDialogBuilder(context).setTitle(R.string.no_internet)
-					.setMessage(R.string.error_no_internet).setPositiveButton(R.string.ok, null)
-					.show();
-		}
-
-		return isAvailable;
-	}
-
-	public static boolean isNetworkAvailable(Context context) {
-		return isNetworkAvailable(context, false);
+		return connectivityManager != null && connectivityManager.getActiveNetworkInfo().isConnected();
 	}
 
 	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
@@ -383,32 +364,6 @@ public final class Utils {
 				UtilFile.encodeSpecialCharsForFileSystem(sceneName));
 	}
 
-	public static void showErrorDialog(Context context, int errorMessageId) {
-		Builder builder = new CustomAlertDialogBuilder(context);
-		builder.setTitle(R.string.error);
-		builder.setMessage(errorMessageId);
-		builder.setNeutralButton(R.string.close, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			}
-		});
-		Dialog dialog = builder.create();
-		showDialog(context, dialog);
-	}
-
-	public static void showErrorDialog(Context context, int errorTitleId, int errorMessageId) {
-		Builder builder = new CustomAlertDialogBuilder(context);
-		builder.setTitle(errorTitleId);
-		builder.setMessage(errorMessageId);
-		builder.setNeutralButton(R.string.close, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			}
-		});
-		Dialog dialog = builder.create();
-		showDialog(context, dialog);
-	}
-
 	public static String md5Checksum(File file) {
 
 		if (!file.isFile()) {
@@ -459,19 +414,6 @@ public final class Utils {
 		return (double) Math.round(value * scale) / scale;
 	}
 
-	private static void showDialog(Context context, final Dialog dialog) {
-		if (context instanceof Activity) {
-			((Activity) context).runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					dialog.show();
-				}
-			});
-		} else {
-			dialog.show();
-		}
-	}
-
 	private static String toHex(byte[] messageDigest) {
 		final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
@@ -519,24 +461,6 @@ public final class Utils {
 		Editor edit = sharedPreferences.edit();
 		edit.putString(key, message);
 		edit.commit();
-	}
-
-	public static void loadProjectIfNeeded(Context context) {
-		String projectName;
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			if (projectName == null || !StorageHandler.getInstance().projectExists(projectName)) {
-				projectName = context.getString(R.string.default_project_name);
-			}
-
-			try {
-				ProjectManager.getInstance().loadProject(projectName, context);
-			} catch (ProjectException projectException) {
-				Log.e(TAG, "Project cannot load", projectException);
-				ProjectManager.getInstance().initializeDefaultProject(context);
-			}
-		}
 	}
 
 	public static String getCurrentProjectName(Context context) {
@@ -596,6 +520,8 @@ public final class Utils {
 
 			projectToCheck.updateMessageContainer();
 
+			//TODO: Do something more reasonable or at least remove project.
+
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 			start = projectToCheckXMLString.indexOf("<scenes>");
 			end = projectToCheckXMLString.indexOf("</scenes>");
@@ -632,24 +558,6 @@ public final class Utils {
 
 		File projectDirectory = new File(Utils.buildProjectPath(programName));
 		return projectDirectory.exists();
-	}
-
-	public static boolean checkIfLookExists(String name) {
-		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookList()) {
-			if (lookData.getName().compareTo(name) == 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static boolean checkIfSoundExists(String name) {
-		for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
-			if (soundInfo.getName().compareTo(name) == 0) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {

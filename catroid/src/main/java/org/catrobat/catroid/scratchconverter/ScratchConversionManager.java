@@ -25,7 +25,6 @@ package org.catrobat.catroid.scratchconverter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +32,7 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.google.android.gms.common.images.WebImage;
@@ -42,7 +42,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.ScratchReconvertDialog;
 import org.catrobat.catroid.ui.scratchconverter.BaseInfoViewListener;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
@@ -274,7 +273,7 @@ public class ScratchConversionManager implements ConversionManager {
 				}
 
 				if (Constants.CURRENT_CATROBAT_LANGUAGE_VERSION < supportedCatrobatLanguageVersion) {
-					AlertDialog.Builder builder = new CustomAlertDialogBuilder(currentActivity);
+					AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
 					builder.setTitle(R.string.warning);
 					builder.setMessage(R.string.error_scratch_converter_outdated_app_version);
 					builder.setNeutralButton(R.string.close, null);

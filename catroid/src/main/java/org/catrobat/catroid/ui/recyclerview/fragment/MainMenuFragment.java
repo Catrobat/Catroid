@@ -36,16 +36,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.recyclerview.SimpleRVItem;
+import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.SimpleRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -133,7 +133,7 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 				loaderTask.execute(Utils.getCurrentProjectName(getActivity()));
 				break;
 			case NEW:
-				new NewProjectDialog().show(getFragmentManager(), NewProjectDialog.TAG);
+				new NewProjectDialogFragment().show(getFragmentManager(), NewProjectDialogFragment.TAG);
 				break;
 			case PROGRAMS:
 				setShowProgressBar(true);
@@ -149,7 +149,9 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 				break;
 			case UPLOAD:
 				setShowProgressBar(true);
-				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(getActivity()), getActivity());
+				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
+						.putExtra(ProjectUploadActivity.PROJECT_NAME, Utils.getCurrentProjectName(getActivity()));
+				startActivity(intent);
 				break;
 		}
 	}

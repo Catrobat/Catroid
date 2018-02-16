@@ -29,7 +29,8 @@ import android.content.Context;
 import java.util.Locale;
 
 public final class UtilDeviceInfo {
-	public static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "undef";
+
+	private static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "undef";
 
 	// Suppress default constructor for noninstantiability
 	private UtilDeviceInfo() {

@@ -22,16 +22,9 @@
  */
 package org.catrobat.catroid;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
-import com.facebook.AccessToken;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
@@ -56,16 +49,8 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.transfers.CheckFacebookServerTokenValidityTask;
-import org.catrobat.catroid.transfers.CheckTokenTask;
-import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
-import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
-import org.catrobat.catroid.ui.dialogs.SignInDialog;
-import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
-import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -74,11 +59,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public final class ProjectManager implements
-		ProjectLoaderTask.ProjectLoaderListener,
-		OnCheckTokenCompleteListener,
-		CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener,
-		FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
+public final class ProjectManager {
 
 	private static final ProjectManager INSTANCE = new ProjectManager();
 	private static final String TAG = ProjectManager.class.getSimpleName();
@@ -90,7 +71,6 @@ public final class ProjectManager implements
 	private Script currentScript;
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
-	private boolean showUploadDialog = false;
 	private boolean showLegoSensorInfoDialog = true;
 
 	private ProjectManager() {
@@ -98,23 +78,6 @@ public final class ProjectManager implements
 
 	public static ProjectManager getInstance() {
 		return INSTANCE;
-	}
-
-	public void uploadProject(String projectName, Activity activity) {
-		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
-			ProjectLoaderTask loaderTask = new ProjectLoaderTask(activity, this);
-			loaderTask.execute(projectName);
-		}
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-
-		if (!Utils.isUserLoggedIn(activity)) {
-			showSignInDialog(activity, true);
-		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username, this);
-			checkTokenTask.execute();
-		}
 	}
 
 	public void loadProject(String projectName, Context context) throws LoadingProjectException,
@@ -315,7 +278,6 @@ public final class ProjectManager implements
 			return true;
 		} catch (IOException ioException) {
 			Log.e(TAG, "Cannot initialize default project.", ioException);
-			Utils.showErrorDialog(context, R.string.error_load_project);
 			return false;
 		}
 	}
@@ -406,7 +368,6 @@ public final class ProjectManager implements
 
 	public boolean renameProject(String newProjectName, Context context) {
 		if (StorageHandler.getInstance().projectExists(newProjectName)) {
-			Utils.showErrorDialog(context, R.string.error_project_exists);
 			return false;
 		}
 
@@ -432,10 +393,6 @@ public final class ProjectManager implements
 		if (directoryRenamed) {
 			project.setName(newProjectName);
 			saveProject(context);
-		}
-
-		if (!directoryRenamed) {
-			Utils.showErrorDialog(context, R.string.error_rename_project);
 		}
 
 		return directoryRenamed;
@@ -489,92 +446,19 @@ public final class ProjectManager implements
 		return temporaryDirectoryName;
 	}
 
-	@Override
-	public void onTokenNotValid(Activity activity) {
-		showSignInDialog(activity, true);
-	}
-
-	@Override
-	public void onCheckTokenSuccess(Activity activity) {
-		if (AccessToken.getCurrentAccessToken() != null) {
-			CheckFacebookServerTokenValidityTask checkFacebookServerTokenValidityTask = new
-					CheckFacebookServerTokenValidityTask(activity, AccessToken.getCurrentAccessToken().getUserId());
-			checkFacebookServerTokenValidityTask.setOnCheckFacebookServerTokenValidityCompleteListener(this);
-			checkFacebookServerTokenValidityTask.execute();
-		} else {
-			ProjectManager.getInstance().showUploadProjectDialog(activity, activity.getFragmentManager(), null);
-		}
-	}
-
-	@Override
-	public void onCheckFacebookServerTokenValidityComplete(Boolean requestNewToken, Activity activity) {
-		if (requestNewToken) {
-			triggerFacebookTokenRefreshOnServer(activity);
-		} else {
-			ProjectManager.getInstance().showUploadProjectDialog(activity, activity.getFragmentManager(), null);
-		}
-	}
-
-	private void triggerFacebookTokenRefreshOnServer(Activity activity) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, true);
-		FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(activity,
-				AccessToken.getCurrentAccessToken().getToken(),
-				sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
-				sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
-				sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
-				sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
-		);
-		facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
-		facebookExchangeTokenTask.execute();
-	}
-
-	public void showSignInDialog(Activity activity, Boolean showUploadDialogWhenDone) {
-		if (!Utils.isNetworkAvailable(activity, true)) {
-			return;
-		}
-
-		showUploadDialog = showUploadDialogWhenDone;
-		SignInDialog signInDialog = new SignInDialog();
-		signInDialog.show(activity.getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	public void showUploadProjectDialog(Context context, final FragmentManager fragmentManager, final Bundle bundle) {
-		if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(context)) {
-			PrivacyPolicyDialogFragment privacyPolicyDialog =
-					new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
-						@Override
-						public void onClick() {
-							createAndShowUploadDialog(fragmentManager, bundle);
-						}
-					}, true);
-
-			privacyPolicyDialog.show(fragmentManager, PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
-		} else {
-			createAndShowUploadDialog(fragmentManager, bundle);
-		}
-	}
-
-	private void createAndShowUploadDialog(FragmentManager fragmentManager, Bundle bundle) {
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		if (bundle != null) {
-			uploadProjectDialog.setArguments(bundle);
-		}
-		uploadProjectDialog.show(fragmentManager, UploadProjectDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	public void signInFinished(Context context, FragmentManager fragmentManager, Bundle bundle) {
-		if (showUploadDialog) {
-			showUploadProjectDialog(context, fragmentManager, bundle);
-		} else {
-			showUploadDialog = true;
-		}
-	}
-
-	@Override
-	public void onLoadFinished(boolean success, String message) {
-		Log.e(TAG, "Could not load project, error: " + message);
-	}
+//	private void triggerFacebookTokenRefreshOnServer(Activity activity) {
+//		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+//		sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, true);
+//		FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(activity,
+//				AccessToken.getCurrentAccessToken().getToken(),
+//				sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
+//				sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
+//				sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
+//				sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
+//		);
+//		facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
+//		facebookExchangeTokenTask.execute();
+//	}
 
 	public boolean checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack) {
 		boolean projectCorrect = true;
@@ -623,7 +507,7 @@ public final class ProjectManager implements
 		return spriteCorrect;
 	}
 
-	public boolean checkCurrentScript(Script script, boolean assumeWrong) {
+	private boolean checkCurrentScript(Script script, boolean assumeWrong) {
 		boolean scriptCorrect = true;
 		if (assumeWrong) {
 			scriptCorrect = false;
@@ -733,17 +617,9 @@ public final class ProjectManager implements
 			}
 		}
 
-		for (Brick brick : ifBeginList) {
-			bricksWithInvalidReferences.add(brick);
-		}
-
-		for (Brick brick : ifThenBeginList) {
-			bricksWithInvalidReferences.add(brick);
-		}
-
-		for (Brick brick : loopBeginList) {
-			bricksWithInvalidReferences.add(brick);
-		}
+		bricksWithInvalidReferences.addAll(ifBeginList);
+		bricksWithInvalidReferences.addAll(ifThenBeginList);
+		bricksWithInvalidReferences.addAll(loopBeginList);
 
 		for (Brick brick : bricksWithInvalidReferences) {
 			script.removeBrick(brick);
@@ -756,13 +632,6 @@ public final class ProjectManager implements
 
 	public void setShowLegoSensorInfoDialog(boolean showLegoSensorInfoDialogFlag) {
 		showLegoSensorInfoDialog = showLegoSensorInfoDialogFlag;
-	}
-
-	@Override
-	public void onFacebookExchangeTokenComplete(Activity fragmentActivity) {
-		Log.d(TAG, "Facebook token refreshed on server");
-		ProjectManager.getInstance().showUploadProjectDialog(fragmentActivity,
-				fragmentActivity.getFragmentManager(), null);
 	}
 
 	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {

@@ -26,10 +26,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -122,10 +122,10 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		if (message == null) {
-			new CustomAlertDialogBuilder(context).setTitle(R.string.register_error).setMessage(messageId)
+			new AlertDialog.Builder(context).setTitle(R.string.register_error).setMessage(messageId)
 					.setPositiveButton(R.string.ok, null).show();
 		} else {
-			new CustomAlertDialogBuilder(context).setTitle(R.string.register_error).setMessage(message)
+			new AlertDialog.Builder(context).setTitle(R.string.register_error).setMessage(message)
 					.setPositiveButton(R.string.ok, null).show();
 		}
 	}

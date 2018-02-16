@@ -23,7 +23,6 @@
 package org.catrobat.catroid.stage;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +34,7 @@ import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
@@ -65,8 +65,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.recyclerview.dialog.NoNetworkDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NetworkAlertDialog;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
@@ -284,7 +283,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			if (!Utils.isNetworkAvailable(finalBaseContext)) {
 				List<Brick> networkBrickList = getBricksRequiringResource(Brick.NETWORK_CONNECTION);
 				networkBrickList = Utils.distinctListByClassOfObjects(networkBrickList);
-				NoNetworkDialog networkDialog = new NoNetworkDialog(this, networkBrickList);
+				NetworkAlertDialog networkDialog = new NetworkAlertDialog(this, networkBrickList);
 				networkDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 					@Override
 					public void onCancel(DialogInterface dialogInterface) {
@@ -583,7 +582,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 						resourceFailed();
 					}
 				} else {
-					AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder.setMessage(R.string.prestage_text_to_speech_engine_not_installed).setCancelable(false)
 							.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 								@Override

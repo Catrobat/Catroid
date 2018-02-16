@@ -23,12 +23,12 @@
 
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.RadioGroup;
 
@@ -40,46 +40,45 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
 
-public class OrientationDialog extends DialogFragment {
+public class OrientationDialogFragment extends DialogFragment {
 
-	public static final String TAG = OrientationDialog.class.getSimpleName();
+	public static final String TAG = OrientationDialogFragment.class.getSimpleName();
 
-	public String name;
-	public boolean createEmptyProject;
-
+	private String name;
+	private boolean createEmptyProject;
 	private RadioGroup radioGroup;
+
+	public OrientationDialogFragment(String name, boolean createEmptyProject) {
+		this.name = name;
+		this.createEmptyProject = createEmptyProject;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View root = View.inflate(getActivity(), R.layout.dialog_orientation, null);
+		View view = View.inflate(getActivity(), R.layout.dialog_orientation, null);
 
 		int title = R.string.project_orientation_title;
 		if (SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
 			title = R.string.project_select_screen_title;
-			root.findViewById(R.id.cast).setVisibility(View.VISIBLE);
+			view.findViewById(R.id.cast).setVisibility(View.VISIBLE);
 		}
 
-		radioGroup = root.findViewById(R.id.radio_group);
+		radioGroup = view.findViewById(R.id.radio_group);
 
 		return new AlertDialog.Builder(getActivity())
 				.setTitle(title)
-				.setView(root)
+				.setView(view)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						handlePositiveButtonClick();
-						dismiss();
+						onPositiveButtonClick();
 					}
 				})
-				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				})
+				.setNegativeButton(R.string.cancel, null)
 				.create();
 	}
 
-	private void handlePositiveButtonClick() {
+	private void onPositiveButtonClick() {
 		switch (radioGroup.getCheckedRadioButtonId()) {
 			case R.id.portrait:
 				createProject(false, false);

@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -43,9 +43,8 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 
 public class TermsOfUseDialogFragment extends DialogFragment {
-	private static final String TAG = TermsOfUseDialogFragment.class.getSimpleName();
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_terms_of_use";
+	public static final String TAG = TermsOfUseDialogFragment.class.getSimpleName();
 	public static final String DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT = "dialog_terms_of_use_accept";
 
 	CheckBox acceptedPermanentlyCheckbox = null;

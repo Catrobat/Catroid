@@ -22,33 +22,32 @@
  */
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
-import android.support.annotation.Nullable;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
-public class NewStringDialog extends TextDialog {
+public class SetDescriptionDialogFragment extends TextInputDialogFragment {
 
-	public static final String TAG = NewStringDialog.class.getSimpleName();
+	public static final String TAG = SetDescriptionDialogFragment.class.getSimpleName();
 
-	private NewItemInterface<String> newItemInterface;
+	private ChangeDescriptionInterface descriptionInterface;
 
-	public NewStringDialog(@Nullable String previousString, NewItemInterface<String> newItemInterface) {
-		super(R.string.formula_editor_new_string_name, R.string.string_label, previousString, true);
-		if (previousString != null) {
-			title = R.string.formula_editor_dialog_change_text;
-		}
-		this.newItemInterface = newItemInterface;
+	public SetDescriptionDialogFragment(String text, ChangeDescriptionInterface descriptionInterface) {
+		super(R.string.set_description, R.string.description, text, true);
+		this.descriptionInterface = descriptionInterface;
 	}
 
 	@Override
-	protected boolean handlePositiveButtonClick() {
-		String string = inputLayout.getEditText().getText().toString().trim();
-		newItemInterface.addItem(string);
+	protected boolean onPositiveButtonClick() {
+		String description = inputLayout.getEditText().getText().toString().trim();
+		descriptionInterface.setDescription(description);
 		return true;
 	}
 
 	@Override
-	protected void handleNegativeButtonClick() {
+	protected void onNegativeButtonClick() {
+	}
+
+	public interface ChangeDescriptionInterface {
+
+		void setDescription(String description);
 	}
 }

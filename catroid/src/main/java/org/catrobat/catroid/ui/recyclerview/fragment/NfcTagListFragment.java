@@ -36,7 +36,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.HashSet;
@@ -170,8 +170,8 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	@Override
 	protected void showRenameDialog(List<NfcTagData> selectedItems) {
 		String name = selectedItems.get(0).getNfcTagName();
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_nfctag_dialog, R.string.new_nfc_tag, name, this);
-		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
+		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_nfctag_dialog, R.string.new_nfc_tag, name, this);
+		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
 	}
 
 	@Override

@@ -25,31 +25,37 @@ package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.View;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
-public class NewListDialog extends NewDataDialog {
+import java.util.HashSet;
+import java.util.Set;
 
-	private NewListInterface newListInterface;
+public class NewSceneDialogFragment extends TextInputDialogFragment {
 
-	public NewListDialog(NewListInterface newListInterface) {
-		this.newListInterface = newListInterface;
+	public static final String TAG = NewSceneDialogFragment.class.getSimpleName();
+
+	private NewItemInterface<Scene> newItemInterface;
+	private Project dstProject;
+
+	public NewSceneDialogFragment(NewItemInterface<Scene> newItemInterface, Project dstProject) {
+		super(R.string.new_scene_dialog, R.string.scene_name, null, false);
+		this.newItemInterface = newItemInterface;
+		this.dstProject = dstProject;
 	}
 
 	@Override
-	public Dialog onCreateDialog(Bundle bundle) {
-		Dialog dialog = super.onCreateDialog(bundle);
-		makeList.setVisibility(View.GONE);
-		dialog.setTitle(R.string.formula_editor_list_dialog_title);
-		return dialog;
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		super.text = new UniqueNameProvider().getUniqueName(getString(R.string.default_scene_name, 1), getScope(dstProject));
+		return super.onCreateDialog(savedInstanceState);
 	}
 
 	@Override
-	protected boolean handlePositiveButtonClick() {
+	protected boolean onPositiveButtonClick() {
 		String name = inputLayout.getEditText().getText().toString().trim();
 
 		if (name.isEmpty()) {
@@ -57,27 +63,24 @@ public class NewListDialog extends NewDataDialog {
 			return false;
 		}
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
-		boolean isGlobal = (radioGroup.getCheckedRadioButtonId() == R.id.global);
-		if (!isVariableNameValid(name, isGlobal)) {
+		if (getScope(dstProject).contains(name)) {
 			inputLayout.setError(getString(R.string.name_already_exists));
 			return false;
-		}
-
-		UserList userList;
-
-		if (isGlobal) {
-			userList = dataContainer.addProjectUserList(name);
 		} else {
-			userList = dataContainer.addSpriteUserList(name);
+			newItemInterface.addItem(new Scene(getActivity(), name, dstProject));
+			return true;
 		}
-
-		newListInterface.onNewList(userList);
-		return true;
 	}
 
-	public interface NewListInterface {
+	@Override
+	protected void onNegativeButtonClick() {
+	}
 
-		void onNewList(UserList userList);
+	private Set<String> getScope(Project project) {
+		Set<String> scope = new HashSet<>();
+		for (Scene item : project.getSceneList()) {
+			scope.add(item.getName());
+		}
+		return scope;
 	}
 }

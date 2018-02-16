@@ -22,12 +22,11 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -45,7 +44,7 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_lego_nxt_sensor_config_info, null);
+		View dialogView = View.inflate(getActivity(), R.layout.dialog_lego_nxt_sensor_config_info, null);
 
 		disableShowInfoDialog = (CheckBox) dialogView.findViewById(R.id
 				.lego_nxt_sensor_config_info_disable_show_dialog);

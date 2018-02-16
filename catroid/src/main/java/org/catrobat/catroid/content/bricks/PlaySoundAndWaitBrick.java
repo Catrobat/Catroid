@@ -44,7 +44,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.List;
@@ -181,9 +181,9 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	private void showNewSoundDialog(Activity activity) {
-		NewSoundDialog dialog = new NewSoundDialog(
+		NewSoundDialogFragment dialog = new NewSoundDialogFragment(
 				this, ProjectManager.getInstance().getCurrentScene(), ProjectManager.getInstance().getCurrentSprite());
-		dialog.show(activity.getFragmentManager(), NewSoundDialog.TAG);
+		dialog.show(activity.getFragmentManager(), NewSoundDialogFragment.TAG);
 	}
 
 	@Override

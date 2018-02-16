@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,6 +33,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,7 +68,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewStringDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewStringDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.utils.FormulaEditorIntroUtil;
@@ -469,8 +469,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private void showNewStringDialog() {
-		NewStringDialog dialog = new NewStringDialog(getSelectedFormulaText(), this);
-		dialog.show(getFragmentManager(), NewStringDialog.TAG);
+		NewStringDialogFragment dialog = new NewStringDialogFragment(getSelectedFormulaText(), this);
+		dialog.show(getFragmentManager(), NewStringDialogFragment.TAG);
 	}
 
 	@Override

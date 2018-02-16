@@ -23,12 +23,12 @@
 
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,11 +38,11 @@ import org.catrobat.catroid.content.bricks.Brick;
 
 import java.util.List;
 
-public class NoNetworkDialog extends AlertDialog {
+public class NetworkAlertDialog extends AlertDialog {
 
 	private List<Brick> brickList;
 
-	public NoNetworkDialog(Context context, List<Brick> brickList) {
+	public NetworkAlertDialog(Context context, List<Brick> brickList) {
 		super(context);
 		this.brickList = brickList;
 	}
@@ -66,18 +66,10 @@ public class NoNetworkDialog extends AlertDialog {
 				new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						Intent intent = new Intent(Settings.ACTION_SETTINGS);
-						getContext().startActivity(intent);
+						getContext().startActivity(new Intent(Settings.ACTION_SETTINGS));
 					}
 				});
-		setButton(BUTTON_NEGATIVE, getContext().getString(R.string.cancel),
-				new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						dismiss();
-					}
-				});
-
+		setButton(BUTTON_NEGATIVE, getContext().getString(R.string.cancel), (OnClickListener) null);
 		setView(root);
 		super.onCreate(savedInstanceState);
 	}

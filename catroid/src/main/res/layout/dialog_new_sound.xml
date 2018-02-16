@@ -24,9 +24,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/dialog_content_area_padding"
+    android:paddingTop="@dimen/dialog_content_area_padding_top"
+    android:paddingStart="@dimen/dialog_content_area_padding"
     android:paddingEnd="@dimen/dialog_content_area_padding"
-    android:paddingStart="@dimen/dialog_content_area_padding">
+    android:paddingBottom="@dimen/dialog_content_area_padding_top">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -43,7 +44,7 @@
                 android:drawableTop="@drawable/ic_launcher"
                 android:gravity="center"
                 android:text="@string/add_sound_from_recorder"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="?attr/medium" />
 
             <TextView
                 android:id="@+id/dialog_new_sound_media_library"
@@ -51,7 +52,7 @@
                 android:drawableTop="@drawable/ic_media_library"
                 android:gravity="center"
                 android:text="@string/add_look_media_library"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="?attr/medium" />
         </TableRow>
 
         <TableRow
@@ -64,7 +65,7 @@
                 android:drawableTop="@drawable/ic_gallery"
                 android:gravity="center"
                 android:text="@string/add_sound_choose_file"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="?attr/medium" />
 
             <TextView
                 android:id="@+id/dialog_new_sound_pocketmusic"
@@ -72,7 +73,7 @@
                 android:drawableTop="@drawable/ic_pocketmusic"
                 android:gravity="center"
                 android:text="@string/add_sound_music"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="?attr/medium"/>
 
         </TableRow>
     </TableLayout>

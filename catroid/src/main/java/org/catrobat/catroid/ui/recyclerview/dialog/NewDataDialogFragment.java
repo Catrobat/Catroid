@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -46,9 +46,9 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatche
 
 import java.util.List;
 
-public class NewDataDialog extends DialogFragment {
+public class NewDataDialogFragment extends DialogFragment {
 
-	public static final String TAG = NewDataDialog.class.getSimpleName();
+	public static final String TAG = NewDataDialogFragment.class.getSimpleName();
 
 	private NewItemInterface<UserData> newDataInterface;
 
@@ -62,12 +62,12 @@ public class NewDataDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		View root = View.inflate(getActivity(), R.layout.dialog_new_user_data, null);
+		View view = View.inflate(getActivity(), R.layout.dialog_new_user_data, null);
 
-		inputLayout = root.findViewById(R.id.input);
+		inputLayout = view.findViewById(R.id.input);
 		inputLayout.setHint(getString(R.string.data_label));
-		radioGroup = root.findViewById(R.id.radio_group);
-		makeList = root.findViewById(R.id.make_list);
+		radioGroup = view.findViewById(R.id.radio_group);
+		makeList = view.findViewById(R.id.make_list);
 
 		makeList.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -79,14 +79,9 @@ public class NewDataDialog extends DialogFragment {
 
 		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.formula_editor_variable_dialog_title)
-				.setView(root)
+				.setView(view)
 				.setPositiveButton(R.string.ok, null)
-				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						onCancel(dialog);
-					}
-				})
+				.setNegativeButton(R.string.cancel, null)
 				.create();
 
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -96,19 +91,20 @@ public class NewDataDialog extends DialogFragment {
 				buttonPositive.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						if (handlePositiveButtonClick()) {
+						if (onPositiveButtonClick()) {
 							dismiss();
 						}
 					}
 				});
-				inputLayout.getEditText()
-						.addTextChangedListener(new DialogInputWatcher(inputLayout, buttonPositive, false));
+				buttonPositive.setEnabled(!inputLayout.getEditText().getText().toString().isEmpty());
+				DialogInputWatcher inputWatcher = new DialogInputWatcher(inputLayout, buttonPositive, false);
+				inputLayout.getEditText().addTextChangedListener(inputWatcher);
 			}
 		});
 		return alertDialog;
 	}
 
-	protected boolean handlePositiveButtonClick() {
+	protected boolean onPositiveButtonClick() {
 		String name = inputLayout.getEditText().getText().toString().trim();
 
 		if (name.isEmpty()) {

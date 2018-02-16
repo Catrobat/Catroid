@@ -55,26 +55,26 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 	public void showDialog(FragmentManager manager) {
 		fragmentManager = manager;
 		sprite = new Sprite();
-		NewLookDialog dialog = new NewLookDialog(this, dstScene, sprite);
-		dialog.show(fragmentManager, NewLookDialog.TAG);
+		NewLookDialogFragment dialog = new NewLookDialogFragment(this, dstScene, sprite);
+		dialog.show(fragmentManager, NewLookDialogFragment.TAG);
 	}
 
 	@Override
 	public void addItem(LookData item) {
 		look = item;
 		sprite.getLookList().add(item);
-		NewSpriteDialog dialog = new NewSpriteDialog();
+		NewSpriteDialogFragment dialog = new NewSpriteDialogFragment();
 		dialog.show(fragmentManager, TAG);
 	}
 
-	private class NewSpriteDialog extends TextDialog {
+	private class NewSpriteDialogFragment extends TextInputDialogFragment {
 
-		NewSpriteDialog() {
+		NewSpriteDialogFragment() {
 			super(R.string.new_sprite_dialog_title, R.string.sprite_name_label, null, false);
 		}
 
 		@Override
-		protected boolean handlePositiveButtonClick() {
+		protected boolean onPositiveButtonClick() {
 			String name = inputLayout.getEditText().getText().toString().trim();
 
 			if (name.isEmpty()) {
@@ -93,7 +93,7 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 		}
 
 		@Override
-		protected void handleNegativeButtonClick() {
+		protected void onNegativeButtonClick() {
 			try {
 				StorageHandler.deleteFile(look.getAbsolutePath());
 			} catch (IOException e) {

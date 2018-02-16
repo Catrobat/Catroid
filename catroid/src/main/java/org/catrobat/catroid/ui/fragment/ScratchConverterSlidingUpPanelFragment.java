@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
@@ -35,6 +34,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +59,6 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
 import org.catrobat.catroid.ui.adapter.ScratchJobAdapter;
 import org.catrobat.catroid.ui.adapter.ScratchJobAdapter.ScratchJobEditListener;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.scratchconverter.BaseInfoViewListener;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
@@ -502,7 +501,7 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment implements 
 		catrobatProgramName = catrobatProgramName == null ? job.getTitle() : catrobatProgramName;
 
 		if (job.getDownloadState() == Job.DownloadState.DOWNLOADING) {
-			AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.warning);
 			builder.setMessage(R.string.error_cannot_open_currently_downloading_scratch_program);
 			builder.setNeutralButton(R.string.close, null);
@@ -512,7 +511,7 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment implements 
 		}
 
 		if (job.getDownloadState() == Job.DownloadState.NOT_READY || job.getDownloadState() == Job.DownloadState.CANCELED) {
-			AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.warning);
 			builder.setMessage(R.string.error_cannot_open_not_yet_downloaded_scratch_program);
 			builder.setNeutralButton(R.string.close, null);
@@ -522,7 +521,7 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment implements 
 		}
 
 		if (!StorageHandler.getInstance().projectExists(catrobatProgramName)) {
-			AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.warning);
 			builder.setMessage(R.string.error_cannot_open_not_existing_scratch_program);
 			builder.setNeutralButton(R.string.close, null);

@@ -87,7 +87,7 @@
         android:allowBackup="true"
         android:icon="${appIcon}"
         android:label="${appName}"
-        android:theme="@style/Theme.Catroid"
+        android:theme="@style/Catroid"
         android:supportsRtl="true"
         tools:replace="android:label">
 
@@ -196,12 +196,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.UserBrickSpriteActivity"
-
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ProjectListActivity"
             android:noHistory="false"
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.recyclerview.activity.ProjectUploadActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SettingsActivity"
@@ -227,7 +229,6 @@
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="true"
             android:label="@string/soundrecorder_name"
-
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
@@ -243,6 +244,7 @@
             android:screenOrientation="portrait"
             android:label="@string/add_sound_music"
             android:icon="@drawable/ic_pocketmusic"/>
+
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
         <service android:name=".transfers.MediaDownloadService" />

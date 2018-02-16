@@ -23,21 +23,33 @@
 
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
+import android.app.Dialog;
+import android.os.Bundle;
+import android.view.View;
+
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
-public class RenameItemDialog extends TextDialog {
+public class NewListDialogFragment extends NewDataDialogFragment {
 
-	public static final String TAG = RenameItemDialog.class.getSimpleName();
+	private NewListInterface newListInterface;
 
-	private RenameItemInterface renameItemInterface;
-
-	public RenameItemDialog(int title, int label, String text, RenameItemInterface renameItemInterface) {
-		super(title, label, text, false);
-		this.renameItemInterface = renameItemInterface;
+	public NewListDialogFragment(NewListInterface newListInterface) {
+		this.newListInterface = newListInterface;
 	}
 
 	@Override
-	protected boolean handlePositiveButtonClick() {
+	public Dialog onCreateDialog(Bundle bundle) {
+		Dialog dialog = super.onCreateDialog(bundle);
+		makeList.setVisibility(View.GONE);
+		dialog.setTitle(R.string.formula_editor_list_dialog_title);
+		return dialog;
+	}
+
+	@Override
+	protected boolean onPositiveButtonClick() {
 		String name = inputLayout.getEditText().getText().toString().trim();
 
 		if (name.isEmpty()) {
@@ -45,24 +57,27 @@ public class RenameItemDialog extends TextDialog {
 			return false;
 		}
 
-		if (renameItemInterface.isNameUnique(name) || name.equals(text)) {
-			renameItemInterface.renameItem(name);
-			return true;
-		} else {
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		boolean isGlobal = (radioGroup.getCheckedRadioButtonId() == R.id.global);
+		if (!isVariableNameValid(name, isGlobal)) {
 			inputLayout.setError(getString(R.string.name_already_exists));
 			return false;
 		}
+
+		UserList userList;
+
+		if (isGlobal) {
+			userList = dataContainer.addProjectUserList(name);
+		} else {
+			userList = dataContainer.addSpriteUserList(name);
+		}
+
+		newListInterface.onNewList(userList);
+		return true;
 	}
 
-	@Override
-	protected void handleNegativeButtonClick() {
-		renameItemInterface.renameItem(text);
-	}
+	public interface NewListInterface {
 
-	public interface RenameItemInterface {
-
-		boolean isNameUnique(String name);
-
-		void renameItem(String name);
+		void onNewList(UserList userList);
 	}
 }

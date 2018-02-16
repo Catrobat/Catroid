@@ -24,15 +24,13 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
@@ -56,13 +54,11 @@ import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
 import static org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment.FILE;
 import static org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment.LIBRARY;
 import static org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment.RECORD;
-import static org.catrobat.catroid.utils.Utils.buildBackpackScenePath;
 import static org.catrobat.catroid.utils.Utils.buildPath;
-import static org.catrobat.catroid.utils.Utils.buildScenePath;
 
-public class NewSoundDialog extends DialogFragment implements View.OnClickListener {
+public class NewSoundDialogFragment extends DialogFragment implements View.OnClickListener {
 
-	public static final String TAG = NewSoundDialog.class.getSimpleName();
+	public static final String TAG = NewSoundDialogFragment.class.getSimpleName();
 
 	private NewItemInterface<SoundInfo> newItemInterface;
 	private Scene dstScene;
@@ -70,7 +66,7 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 
-	public NewSoundDialog(NewItemInterface<SoundInfo> newItemInterface, Scene dstScene, Sprite dstSprite) {
+	public NewSoundDialogFragment(NewItemInterface<SoundInfo> newItemInterface, Scene dstScene, Sprite dstSprite) {
 		this.newItemInterface = newItemInterface;
 		this.dstScene = dstScene;
 		this.dstSprite = dstSprite;
@@ -78,7 +74,7 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_sound, (ViewGroup) getView(), false);
+		View view = View.inflate(getActivity(), R.layout.dialog_new_sound, null);
 
 		view.findViewById(R.id.dialog_new_sound_recorder).setOnClickListener(this);
 		view.findViewById(R.id.dialog_new_sound_media_library).setOnClickListener(this);
@@ -151,7 +147,7 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 		}
 		try {
 			String name = StorageHandler.getSanitizedFileName(new File(srcPath));
-			String fileName = StorageHandler.copyFile(srcPath, getPath(dstScene)).getName();
+			String fileName = StorageHandler.copyFile(srcPath, getSoundDirPath(dstScene)).getName();
 			newItemInterface.addItem(
 					new SoundInfo(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), fileName));
 		} catch (IOException e) {
@@ -167,13 +163,7 @@ public class NewSoundDialog extends DialogFragment implements View.OnClickListen
 		return scope;
 	}
 
-	private String getPath(Scene scene) {
-		String path;
-		if (scene.isBackPackScene) {
-			path = buildBackpackScenePath(scene.getName());
-		} else {
-			path = buildScenePath(scene.getProject().getName(), scene.getName());
-		}
-		return buildPath(path, SOUND_DIRECTORY);
+	private String getSoundDirPath(Scene scene) {
+		return buildPath(scene.getPath(), SOUND_DIRECTORY);
 	}
 }

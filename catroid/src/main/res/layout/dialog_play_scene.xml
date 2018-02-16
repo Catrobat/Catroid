@@ -26,21 +26,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="@dimen/dialog_content_area_padding"
-    android:paddingStart="@dimen/dialog_content_area_padding"
-    android:paddingEnd="@dimen/dialog_content_area_padding">
+    android:paddingTop="@dimen/dialog_content_area_padding_top"
+    android:paddingStart="@dimen/dialog_content_area_padding_text_input"
+    android:paddingEnd="@dimen/dialog_content_area_padding_text_input"
+    android:checkedButton="@+id/play_default_scene">
 
     <RadioButton
-        android:id="@+id/play_default_scene_radiobutton"
+        android:id="@+id/play_default_scene"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:text="@string/play_scene_dialog_default" />
 
     <RadioButton
-        android:id="@+id/play_current_scene_radiobutton"
+        android:id="@+id/play_current_scene"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:text="@string/play_scene_dialog_current" />
 </RadioGroup>
