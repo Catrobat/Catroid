@@ -50,8 +50,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 @XStreamAlias("program")
 // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -78,7 +76,7 @@ public class Project implements Serializable {
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
-	private static transient Set<String> broadcastMessages = new TreeSet<>();
+	private transient List<String> broadcastMessages = new ArrayList<>();
 
 	public Project() {
 	}
@@ -447,22 +445,25 @@ public class Project implements Serializable {
 		}
 	}
 
-	public static void addBroadcastMessage(String message) {
-		if (message != null) {
-			broadcastMessages.add(message);
+	public void addBroadcastMessage(String messageToAdd) {
+		if (messageToAdd != null && !messageToAdd.isEmpty()
+				&& !broadcastMessages.contains(messageToAdd)) {
+			broadcastMessages.add(messageToAdd);
 		}
 	}
 
-	public synchronized void updateMessageContainer() {
+	public synchronized void updateMessageContainer(Context context) {
 		broadcastMessages.clear();
+		broadcastMessages.add(context.getString(R.string.new_broadcast_message));
 		for (Scene scene : getSceneList()) {
-			scene.addUsedMessagesToSet(broadcastMessages);
+			scene.addUsedMessagesToList(broadcastMessages);
 		}
-		// BC-TODO: replace message container
-		// MessageContainer.removeUnusedMessages(usedMessages);
+		if (broadcastMessages.size() == 1) {
+			broadcastMessages.add(context.getString(R.string.brick_broadcast_default_value));
+		}
 	}
 
-	public Set<String> getBroadcastMessages() {
+	public List<String> getBroadcastMessages() {
 		return broadcastMessages;
 	}
 }

@@ -594,7 +594,7 @@ public final class Utils {
 			ProjectManager.getInstance().setProject(projectToCheck);
 			ProjectManager.getInstance().saveProject(context);
 
-			projectToCheck.updateMessageContainer();
+			projectToCheck.updateMessageContainer(context);
 
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 			start = projectToCheckXMLString.indexOf("<scenes>");

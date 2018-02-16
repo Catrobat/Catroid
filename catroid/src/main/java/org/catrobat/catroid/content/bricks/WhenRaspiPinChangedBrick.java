@@ -136,21 +136,22 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String selectedMessage = getProtocolStringFromLanguageSpecificSpinnerSelection(valueSpinner.getSelectedItem().toString(), context);
+				String selectedMessage = getEventFromLanguageSpecificSpinnerSelection(valueSpinner.getSelectedItem().toString(), context);
 
 				eventString = selectedMessage;
-				getScriptSafe().setEventValue(eventString);
+				getScriptSafe().setEventValue(selectedMessage);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-		valueSpinner.setSelection(valueAdapter.getPosition(getProtocolStringFromLanguageSpecificSpinnerSelection(eventString, context)), true);
+		valueSpinner.setSelection(valueAdapter.getPosition(getLanguageSpecificSpinnerSelectionFromEvent(eventString,
+				context)), true);
 	}
 
 	private ArrayAdapter<String> getValueSpinnerArrayAdapter(Context context) {
-		ArrayAdapter<String> messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		ArrayAdapter<String> messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(context.getString(R.string.brick_raspi_pressed_text));
 		messageAdapter.add(context.getString(R.string.brick_raspi_released_text));
@@ -158,11 +159,19 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		return messageAdapter;
 	}
 
-	private String getProtocolStringFromLanguageSpecificSpinnerSelection(String spinnerSelection, Context context) {
+	private String getEventFromLanguageSpecificSpinnerSelection(String spinnerSelection, Context context) {
 		if (spinnerSelection.equals(context.getString(R.string.brick_raspi_pressed_text))) {
 			return BrickValues.RASPI_PRESSED_EVENT;
 		} else {
 			return BrickValues.RASPI_RELEASED_EVENT;
+		}
+	}
+
+	private String getLanguageSpecificSpinnerSelectionFromEvent(String eventString, Context context) {
+		if (eventString.equals(BrickValues.RASPI_PRESSED_EVENT)) {
+			return context.getString(R.string.brick_raspi_pressed_text);
+		} else {
+			return context.getString(R.string.brick_raspi_released_text);
 		}
 	}
 

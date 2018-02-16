@@ -285,8 +285,6 @@ public final class ProjectManager implements
 			currentScene.getSpriteList().get(0).setName(context.getString(R.string.background));
 			currentScene.getSpriteList().get(0).look.setZIndex(0);
 		}
-		// BC-TODO not sure
-		// MessageContainer.clearBackup();
 		currentSprite = null;
 		currentScript = null;
 		Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());

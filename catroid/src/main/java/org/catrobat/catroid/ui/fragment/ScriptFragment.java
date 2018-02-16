@@ -218,6 +218,23 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	}
 
 	@Override
+	/* BC-TODO: Check if this is needed
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.findItem(R.id.delete).setVisible(true);
+		menu.findItem(R.id.copy).setVisible(true);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		BottomBar.showBottomBar(getActivity());
+		initListeners();
+		ProjectManager.getInstance().getCurrentProject().updateMessageContainer(getActivity().getApplicationContext());
+	}
+
+	@Override
+	*/
 	public void onResume() {
 		super.onResume();
 
@@ -245,7 +262,6 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 
 		if (projectManager.getCurrentScene() != null) {
 			projectManager.saveProject(getActivity().getApplicationContext());
-			projectManager.getCurrentProject().updateMessageContainer(); // TODO: Find better place
 		}
 	}
 

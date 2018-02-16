@@ -37,9 +37,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastEventType;
 import org.catrobat.catroid.content.BroadcastMessage;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -52,15 +50,12 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	protected transient ArrayAdapter<String> messageAdapter;
 
 	protected Object readResolve() {
-		Project.addBroadcastMessage(broadcastMessage);
-		//MessageContainer.addMessage(broadcastMessage);
 		return this;
 	}
 
 	public BroadcastBrick(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
-		Project.addBroadcastMessage(broadcastMessage);
-		//MessageContainer.addMessage(broadcastMessage);
+		ProjectManager.getInstance().getCurrentProject().addBroadcastMessage(broadcastMessage);
 	}
 
 	@Override
@@ -99,23 +94,8 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	}
 
 	protected ArrayAdapter<String> getMessageAdapter(Context context) {
-		//if (messageAdapter == null) {
-		messageAdapter = createMessageAdapter(context);
-		//}
-		return messageAdapter;
-	}
-
-	static ArrayAdapter<String> createMessageAdapter(Context context) {
-		ArrayAdapter<String> messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		messageAdapter.add(context.getString(R.string.new_broadcast_message));
-		boolean addedMessage = false;
-		for (String message : ProjectManager.getInstance().getCurrentProject().getBroadcastMessages()) {
-			messageAdapter.add(message);
-			addedMessage = true;
-		}
-		if (!addedMessage) {
-			messageAdapter.add(context.getString(R.string.brick_broadcast_default_value));
+		if (messageAdapter == null) {
+			messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, ProjectManager.getInstance().getCurrentProject().getBroadcastMessages());
 		}
 		return messageAdapter;
 	}
@@ -169,8 +149,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 					return false;
 				}
 				broadcastMessage = newMessage;
-				Project.addBroadcastMessage(broadcastMessage);
-				//MessageContainer.addMessage(broadcastMessage);
+				ProjectManager.getInstance().getCurrentProject().addBroadcastMessage(broadcastMessage);
 				setSpinnerSelection(spinner);
 				return true;
 			}
@@ -187,7 +166,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(sprite, broadcastMessage, BroadcastEventType.DEFAULT));
+		sequence.addAction(sprite.getActionFactory().createBroadcastAction(sprite, broadcastMessage));
 		return null;
 	}
 }

@@ -51,7 +51,6 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @XStreamAlias("scene")
 // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -289,7 +288,7 @@ public class Scene implements Serializable {
 		return dataContainer;
 	}
 
-	public synchronized void addUsedMessagesToSet(Set<String> usedMessages) {
+	public synchronized void addUsedMessagesToList(List<String> usedMessages) {
 		for (Sprite currentSprite : spriteList) {
 			for (Script currentScript : currentSprite.getScriptList()) {
 				if (currentScript instanceof BroadcastMessage) {
@@ -312,7 +311,7 @@ public class Scene implements Serializable {
 		}
 	}
 
-	private void addBroadcastMessage(String broadcastMessageToAdd, Set<String> broadcastMessages) {
+	private void addBroadcastMessage(String broadcastMessageToAdd, List<String> broadcastMessages) {
 		if (broadcastMessageToAdd != null && !broadcastMessageToAdd.isEmpty()
 				&& !broadcastMessages.contains(broadcastMessageToAdd)) {
 			broadcastMessages.add(broadcastMessageToAdd);

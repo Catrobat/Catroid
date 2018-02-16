@@ -31,7 +31,6 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 	protected String receivedMessage;
 
 	public BroadcastScript(String broadcastMessage) {
-		super();
 		setBroadcastMessage(broadcastMessage);
 	}
 
@@ -46,7 +45,6 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 
 	@Override
 	protected Object readResolve() {
-		//MessageContainer.addMessage(getBroadcastMessage(), this);
 		return this;
 	}
 
@@ -56,9 +54,7 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 	}
 
 	public void setBroadcastMessage(String broadcastMessage) {
-		//MessageContainer.removeReceiverScript(this.receivedMessage, this);
 		this.receivedMessage = broadcastMessage;
-		//MessageContainer.addMessage(getBroadcastMessage(), this);
 	}
 
 	@Override

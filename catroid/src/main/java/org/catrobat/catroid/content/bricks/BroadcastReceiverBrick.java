@@ -35,10 +35,10 @@ import android.widget.SpinnerAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsCollision;
@@ -97,7 +97,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		}
 		if (receiveScript == null) {
 			receiveScript = new BroadcastScript(broadcastMessage);
-			Project.addBroadcastMessage(broadcastMessage);
+			ProjectManager.getInstance().getCurrentProject().addBroadcastMessage(broadcastMessage);
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
@@ -141,7 +141,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 
 	private ArrayAdapter<String> getMessageAdapter(Context context) {
 		if (messageAdapter == null) {
-			messageAdapter = BroadcastBrick.createMessageAdapter(context);
+			messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, ProjectManager.getInstance().getCurrentProject().getBroadcastMessages());
 		}
 		return messageAdapter;
 	}
@@ -177,7 +177,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 
 				receiveScript.setBroadcastMessage(newMessage);
 				broadcastMessage = newMessage;
-				Project.addBroadcastMessage(broadcastMessage);
+				ProjectManager.getInstance().getCurrentProject().addBroadcastMessage(broadcastMessage);
 				setSpinnerSelection(spinner);
 				return true;
 			}

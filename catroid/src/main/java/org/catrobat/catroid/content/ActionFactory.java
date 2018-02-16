@@ -184,14 +184,23 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static Action createBroadcastAction(Sprite senderSprite, String broadcastMessage, BroadcastEventType type) {
+	public static Action createRaspiInterruptAction(Sprite senderSprite, String pin, String value) {
 		BroadcastAction action = Actions.action(BroadcastAction.class);
 		BroadcastEvent event = new BroadcastEvent(false);
 		event.setSender(senderSprite);
-		BroadcastEventIdentifier identifier = new BroadcastEventIdentifier(broadcastMessage, type);
+		RaspiEventIdentifier identifier = new RaspiEventIdentifier(pin, value);
 		event.setIdentifier(identifier);
 		action.setBroadcastEvent(event);
+		return action;
+	}
 
+	public static Action createBroadcastAction(Sprite senderSprite, String broadcastMessage) {
+		BroadcastAction action = Actions.action(BroadcastAction.class);
+		BroadcastEvent event = new BroadcastEvent(false);
+		event.setSender(senderSprite);
+		BroadcastEventIdentifier identifier = new BroadcastEventIdentifier(broadcastMessage);
+		event.setIdentifier(identifier);
+		action.setBroadcastEvent(event);
 		return action;
 	}
 
@@ -199,8 +208,7 @@ public class ActionFactory extends Actions {
 		BroadcastAction action = Actions.action(BroadcastAction.class);
 		BroadcastEvent event = new BroadcastEvent(true);
 		event.setSender(senderSprite);
-		BroadcastEventIdentifier identifier = new BroadcastEventIdentifier(broadcastMessage,
-				BroadcastEventType.DEFAULT);
+		BroadcastEventIdentifier identifier = new BroadcastEventIdentifier(broadcastMessage);
 		event.setIdentifier(identifier);
 		action.setBroadcastEvent(event);
 		return action;

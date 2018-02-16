@@ -35,7 +35,6 @@ public class RaspiInterruptScript extends BroadcastScript {
 
 	public RaspiInterruptScript(String pin, String eventValue) {
 		super(pin + " " + eventValue);
-
 		this.pin = pin;
 		this.eventValue = eventValue;
 	}

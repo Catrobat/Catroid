@@ -25,11 +25,9 @@ package org.catrobat.catroid.content;
 
 public class BroadcastEventIdentifier extends EventIdentifier {
 	public final String message;
-	public final BroadcastEventType type;
 
-	public BroadcastEventIdentifier(String message, BroadcastEventType type) {
+	public BroadcastEventIdentifier(String message) {
 		this.message = message;
-		this.type = type;
 	}
 
 	@Override
