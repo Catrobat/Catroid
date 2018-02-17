@@ -22,20 +22,19 @@
  */
 package org.catrobat.catroid.utils;
 
-import android.annotation.SuppressLint;
 import android.graphics.PointF;
+import android.util.SparseIntArray;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public final class TouchUtil {
 
-	@SuppressLint("UseSparseArrays")
-	private static HashMap<Integer, Integer> currentlyTouchingPointersToTouchIndex = new HashMap<>();
+	private static SparseIntArray currentlyTouchingPointersToTouchIndex = new SparseIntArray();
+
 	private static ArrayList<PointF> touches = new ArrayList<>();
 	private static ArrayList<Boolean> isTouching = new ArrayList<>();
 
@@ -55,7 +54,7 @@ public final class TouchUtil {
 	}
 
 	public static void touchDown(float x, float y, int pointer) {
-		if (currentlyTouchingPointersToTouchIndex.containsKey(pointer)) {
+		if (currentlyTouchingPointersToTouchIndex.indexOfKey(pointer) >= 0) {
 			return;
 		}
 		currentlyTouchingPointersToTouchIndex.put(pointer, touches.size());
@@ -65,12 +64,12 @@ public final class TouchUtil {
 	}
 
 	public static void touchUp(int pointer) {
-		if (!currentlyTouchingPointersToTouchIndex.containsKey(pointer)) {
+		if (currentlyTouchingPointersToTouchIndex.indexOfKey(pointer) < 0) {
 			return;
 		}
 		int index = currentlyTouchingPointersToTouchIndex.get(pointer);
 		isTouching.set(index, false);
-		currentlyTouchingPointersToTouchIndex.remove(pointer);
+		currentlyTouchingPointersToTouchIndex.delete(pointer);
 	}
 
 	public static boolean isFingerTouching(int index) {
@@ -115,7 +114,8 @@ public final class TouchUtil {
 
 	public static ArrayList<PointF> getCurrentTouchingPoints() {
 		ArrayList<PointF> points = new ArrayList<>();
-		for (int index : currentlyTouchingPointersToTouchIndex.values()) {
+		for (int i = 0; i < currentlyTouchingPointersToTouchIndex.size(); i++) {
+			int index = currentlyTouchingPointersToTouchIndex.valueAt(i);
 			points.add(touches.get(index));
 		}
 		return points;

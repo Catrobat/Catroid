@@ -23,8 +23,8 @@
 
 package org.catrobat.catroid.scratchconverter.protocol;
 
-import android.annotation.SuppressLint;
 import android.net.Uri;
+import android.util.SparseArray;
 
 import com.google.android.gms.common.images.WebImage;
 
@@ -32,9 +32,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.protocol.JsonKeys.JsonJobDataKeys;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Job {
 
@@ -48,11 +45,10 @@ public class Job {
 
 		private int state;
 
-		@SuppressLint("UseSparseArrays")
-		private static Map<Integer, State> map = new HashMap<>();
+		private static SparseArray<State> states = new SparseArray<>();
 		static {
 			for (State legEnum : State.values()) {
-				map.put(legEnum.state, legEnum);
+				states.put(legEnum.state, legEnum);
 			}
 		}
 		State(final int state) {
@@ -60,7 +56,7 @@ public class Job {
 		}
 
 		public static State valueOf(int state) {
-			return map.get(state);
+			return states.get(state);
 		}
 
 		public boolean isInProgress() {
@@ -81,11 +77,10 @@ public class Job {
 
 		private int downloadState;
 
-		@SuppressLint("UseSparseArrays")
-		private static Map<Integer, DownloadState> map = new HashMap<>();
+		private static SparseArray<DownloadState> downloadStates = new SparseArray<>();
 		static {
 			for (DownloadState legEnum : DownloadState.values()) {
-				map.put(legEnum.downloadState, legEnum);
+				downloadStates.put(legEnum.downloadState, legEnum);
 			}
 		}
 		DownloadState(final int downloadState) {
@@ -93,7 +88,7 @@ public class Job {
 		}
 
 		public static DownloadState valueOf(int downloadState) {
-			return map.get(downloadState);
+			return downloadStates.get(downloadState);
 		}
 
 		public int getDownloadStateID() {
