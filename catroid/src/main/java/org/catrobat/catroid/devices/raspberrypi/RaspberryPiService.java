@@ -56,7 +56,7 @@ public final class RaspberryPiService {
 
 	private RaspberryPiService() {
 		initGpioVersionMap();
-		pinInterrupts = new HashSet<Integer>();
+		pinInterrupts = new HashSet<>();
 	}
 
 	public void addPinInterrupt(int pin) {

@@ -188,8 +188,8 @@ public class ActionFactory extends Actions {
 		BroadcastAction action = Actions.action(BroadcastAction.class);
 		BroadcastEvent event = new BroadcastEvent(false);
 		event.setSender(senderSprite);
-		RaspiEventIdentifier identifier = new RaspiEventIdentifier(pin, value);
-		event.setIdentifier(identifier);
+		RaspiEventId id = new RaspiEventId(pin, value);
+		event.setEventId(id);
 		action.setBroadcastEvent(event);
 		return action;
 	}
@@ -198,8 +198,8 @@ public class ActionFactory extends Actions {
 		BroadcastAction action = Actions.action(BroadcastAction.class);
 		BroadcastEvent event = new BroadcastEvent(false);
 		event.setSender(senderSprite);
-		BroadcastEventIdentifier identifier = new BroadcastEventIdentifier(broadcastMessage);
-		event.setIdentifier(identifier);
+		BroadcastEventId id = new BroadcastEventId(broadcastMessage);
+		event.setEventId(id);
 		action.setBroadcastEvent(event);
 		return action;
 	}
@@ -208,8 +208,8 @@ public class ActionFactory extends Actions {
 		BroadcastAction action = Actions.action(BroadcastAction.class);
 		BroadcastEvent event = new BroadcastEvent(true);
 		event.setSender(senderSprite);
-		BroadcastEventIdentifier identifier = new BroadcastEventIdentifier(broadcastMessage);
-		event.setIdentifier(identifier);
+		BroadcastEventId id = new BroadcastEventId(broadcastMessage);
+		event.setEventId(id);
 		action.setBroadcastEvent(event);
 		return action;
 	}

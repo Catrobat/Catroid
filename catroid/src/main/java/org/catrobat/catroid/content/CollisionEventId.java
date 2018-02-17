@@ -25,19 +25,19 @@ package org.catrobat.catroid.content;
 
 import com.google.common.base.Objects;
 
-public class CollisionEventIdentifier extends EventIdentifier {
+public class CollisionEventId extends EventId {
 	public final Sprite sprite1;
 	public final Sprite sprite2;
 
-	public CollisionEventIdentifier(Sprite sprite1, Sprite sprite2) {
+	public CollisionEventId(Sprite sprite1, Sprite sprite2) {
 		this.sprite1 = sprite1;
 		this.sprite2 = sprite2;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof CollisionEventIdentifier) {
-			CollisionEventIdentifier collisionEventId = (CollisionEventIdentifier) o;
+		if (o instanceof CollisionEventId) {
+			CollisionEventId collisionEventId = (CollisionEventId) o;
 			return (Objects.equal(sprite1, collisionEventId.sprite1) || Objects.equal(sprite1, collisionEventId.sprite2))
 					&& (Objects.equal(sprite2, collisionEventId.sprite1) || Objects.equal(sprite2, collisionEventId.sprite2));
 		}

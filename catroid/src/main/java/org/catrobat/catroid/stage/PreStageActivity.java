@@ -51,7 +51,10 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
@@ -312,7 +315,22 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		}
 
 		if ((requiredResources & Brick.SOCKET_RASPI) != 0) {
+			enableRaspberryInterruptPins(ProjectManager.getInstance().getCurrentProject());
 			connectRaspberrySocket();
+		}
+	}
+
+	private void enableRaspberryInterruptPins(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					if (script instanceof RaspiInterruptScript) {
+						RaspiInterruptScript raspiInterruptScript = (RaspiInterruptScript) script;
+						int selectedPin = Integer.parseInt(raspiInterruptScript.getPin());
+						RaspberryPiService.getInstance().addPinInterrupt(selectedPin);
+					}
+				}
+			}
 		}
 	}
 

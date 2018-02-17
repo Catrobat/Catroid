@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -49,8 +48,6 @@ import java.util.List;
 public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick, Cloneable {
 	private static final long serialVersionUID = 1L;
 	public static final String ANYTHING_ESCAPE_CHAR = "\0";
-	private static final String TAG = CollisionReceiverBrick.class.getSimpleName();
-
 
 	private CollisionScript collisionScript;
 	ArrayAdapter<String> messageAdapter;
@@ -65,12 +62,9 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public Brick clone() {
-		try {
-			super.clone();
-		} catch (CloneNotSupportedException e) {
-			Log.e(TAG, e.getMessage());
-		}
-		return new CollisionReceiverBrick(new CollisionScript(getSpriteToCollideWith()));
+		CollisionScript clonedScript = new CollisionScript(getSpriteToCollideWith());
+		clonedScript.setCommentedOut(collisionScript.isCommentedOut());
+		return new CollisionReceiverBrick(clonedScript);
 	}
 
 	@Override
@@ -78,7 +72,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		return PHYSICS;
 	}
 
-	public Sprite getSpriteToCollideWith() {
+	private Sprite getSpriteToCollideWith() {
 		return collisionScript == null ? null : collisionScript.getSpriteToCollideWith();
 	}
 
@@ -185,16 +179,16 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		return ANYTHING_ESCAPE_CHAR + context.getString(R.string.collision_with_anything) + ANYTHING_ESCAPE_CHAR;
 	}
 
-	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
-	}
-
 	public String getBroadcastMessage() {
 		if (collisionScript == null || collisionScript.getSpriteToCollideWith() == null) {
 			return null;
 		}
 		return collisionScript.getSpriteToCollideWith().getName();
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }

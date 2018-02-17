@@ -25,7 +25,7 @@ package org.catrobat.catroid.physics;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.BroadcastEvent;
-import org.catrobat.catroid.content.CollisionEventIdentifier;
+import org.catrobat.catroid.content.CollisionEventId;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.List;
@@ -56,26 +56,23 @@ public class PhysicsCollisionBroadcast {
 	}
 
 	public boolean sendBroadcast() {
-		if (sprite1 != null || sprite2 != null) {
-			fireEvent(sprite1, sprite2);
-			fireEvent(sprite1, null);
-			fireEvent(sprite2, null);
-			return true;
-		}
-		return false;
+		return fireEvent(sprite1, sprite2)
+				|| fireEvent(sprite1, null)
+				|| fireEvent(sprite2, null);
 	}
 
-	public static void fireEvent(Sprite sprite1, Sprite sprite2) {
+	public static boolean fireEvent(Sprite sprite1, Sprite sprite2) {
 		if (sprite1 == null && sprite2 == null) {
-			return;
+			return false;
 		}
 		BroadcastEvent event = new BroadcastEvent(false);
-		CollisionEventIdentifier identifier = new CollisionEventIdentifier(sprite1, sprite2);
-		event.setIdentifier(identifier);
+		CollisionEventId identifier = new CollisionEventId(sprite1, sprite2);
+		event.setEventId(identifier);
 		List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
 		for (Sprite spriteOfList : sprites) {
 			spriteOfList.look.fire(event);
 		}
+		return true;
 	}
 
 	public String toString() {
@@ -84,6 +81,7 @@ public class PhysicsCollisionBroadcast {
 				+ "     sprite2: %s\n"
 				+ "     contactCounter: %s\n";
 
-		return String.format(str, sprite1, sprite2, String.valueOf(contactCounter));
+		return String.format(str, sprite1, sprite2, String.valueOf
+				(contactCounter));
 	}
 }

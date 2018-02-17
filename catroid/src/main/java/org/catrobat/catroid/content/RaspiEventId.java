@@ -23,11 +23,11 @@
 
 package org.catrobat.catroid.content;
 
-public class RaspiEventIdentifier extends EventIdentifier {
+public class RaspiEventId extends EventId {
 	private String pin;
 	private String eventValue;
 
-	public RaspiEventIdentifier(String pin, String eventValue) {
+	public RaspiEventId(String pin, String eventValue) {
 		this.pin = pin;
 		this.eventValue = eventValue;
 	}
@@ -37,10 +37,10 @@ public class RaspiEventIdentifier extends EventIdentifier {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || !(o instanceof RaspiEventIdentifier)) {
+		if (o == null || !(o instanceof RaspiEventId)) {
 			return false;
 		}
-		RaspiEventIdentifier otherId = (RaspiEventIdentifier) o;
+		RaspiEventId otherId = (RaspiEventId) o;
 		return pin.equals(otherId.pin) && eventValue.equals(otherId.eventValue);
 	}
 

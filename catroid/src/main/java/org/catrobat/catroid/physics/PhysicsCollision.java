@@ -28,6 +28,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import org.catrobat.catroid.content.CollisionEventId;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.HashMap;
@@ -47,38 +48,30 @@ public class PhysicsCollision implements ContactListener {
 		this.physicsWorld = physicsWorld;
 	}
 
-	private Map<String, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = new HashMap<>();
+	private Map<CollisionEventId, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = new HashMap<>();
 
-	public static boolean isCollisionBroadcastMessage(String message) {
-		return message != null && message.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
-	}
-
-	private static String generateKey(Sprite sprite1, Sprite sprite2) {
-		return sprite1.getName() + COLLISION_MESSAGE_CONNECTOR + sprite2.getName();
+	private static CollisionEventId generateKey(Sprite sprite1, Sprite sprite2) {
+		return new CollisionEventId(sprite1, sprite2);
 	}
 
 	private void registerContact(Sprite sprite1, Sprite sprite2) {
-		String key1 = generateKey(sprite1, sprite2);
-		String key2 = generateKey(sprite2, sprite1);
-		if (!physicsCollisionBroadcasts.containsKey(key1)) {
+		CollisionEventId identifier = generateKey(sprite1, sprite2);
+		if (!physicsCollisionBroadcasts.containsKey(identifier)) {
 			PhysicsCollisionBroadcast physicsCollisionBroadcast = new PhysicsCollisionBroadcast(sprite1, sprite2);
-			physicsCollisionBroadcasts.put(key1, physicsCollisionBroadcast);
-			physicsCollisionBroadcasts.put(key2, physicsCollisionBroadcast);
+			physicsCollisionBroadcasts.put(identifier, physicsCollisionBroadcast);
 		}
-		physicsCollisionBroadcasts.get(key1).increaseContactCounter();
+		physicsCollisionBroadcasts.get(identifier).increaseContactCounter();
 	}
 
 	private void unregisterContact(Sprite sprite1, Sprite sprite2) {
-		String key1 = generateKey(sprite1, sprite2);
-		String key2 = generateKey(sprite2, sprite1);
-		if (physicsCollisionBroadcasts.containsKey(key1)) {
-			PhysicsCollisionBroadcast physicsCollisionBroadcast = physicsCollisionBroadcasts.get(key1);
+		CollisionEventId identifier = generateKey(sprite1, sprite2);
+		if (physicsCollisionBroadcasts.containsKey(identifier)) {
+			PhysicsCollisionBroadcast physicsCollisionBroadcast = physicsCollisionBroadcasts.get(identifier);
 			physicsCollisionBroadcast.decreaseContactCounter();
 
 			if (physicsCollisionBroadcast.getContactCounter() == 0) {
 				physicsCollisionBroadcast.sendBroadcast();
-				physicsCollisionBroadcasts.remove(key1);
-				physicsCollisionBroadcasts.remove(key2);
+				physicsCollisionBroadcasts.remove(identifier);
 			}
 		}
 	}

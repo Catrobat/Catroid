@@ -292,11 +292,11 @@ public class Scene implements Serializable {
 		for (Sprite currentSprite : spriteList) {
 			for (Script currentScript : currentSprite.getScriptList()) {
 				if (currentScript instanceof BroadcastMessage) {
-					addBroadcastMessage(((BroadcastMessage) currentScript).getBroadcastMessage(), usedMessages);
+					addBroadcastMessage(((BroadcastMessage) currentScript).getReceivedMessage(), usedMessages);
 				}
 				for (Brick currentBrick : currentScript.getBrickList()) {
 					if (currentBrick instanceof BroadcastMessage) {
-						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
+						addBroadcastMessage(((BroadcastMessage) currentBrick).getReceivedMessage(), usedMessages);
 					}
 				}
 			}
@@ -304,7 +304,7 @@ public class Scene implements Serializable {
 				Script userScript = userBrick.getDefinitionBrick().getUserScript();
 				for (Brick currentBrick : userScript.getBrickList()) {
 					if (currentBrick instanceof BroadcastMessage) {
-						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
+						addBroadcastMessage(((BroadcastMessage) currentBrick).getReceivedMessage(), usedMessages);
 					}
 				}
 			}

@@ -68,8 +68,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public String getBroadcastMessage() {
+	public String getReceivedMessage() {
 		return broadcastMessage;
 	}
 

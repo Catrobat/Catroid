@@ -31,13 +31,12 @@ import android.widget.SpinnerAdapter;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.List;
 
-public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessage {
 
+public class BroadcastWaitBrick extends BroadcastBrick {
 	private static final long serialVersionUID = 1L;
 
 	public BroadcastWaitBrick(String broadcastMessage) {

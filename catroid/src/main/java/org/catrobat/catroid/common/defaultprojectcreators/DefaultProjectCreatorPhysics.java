@@ -319,9 +319,6 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 	private void createButtonPressed(Context context, String projectName, String sceneName, Sprite sprite, String
 			broadcastMessage)
 			throws IOException {
-		// BC-TODO: check out if necessary
-		// MessageContainer.addMessage(broadcastMessage);
-
 		WhenScript whenPressedScript = new WhenScript();
 		whenPressedScript.setAction(0);
 

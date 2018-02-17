@@ -375,14 +375,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("Script list is different to origin", originScriptList.size(), copiedScriptList.size());
 		assertTrue("Copied script is no instance of CollisionScript", copiedScriptList.get(0) instanceof CollisionScript);
 
-		CollisionScript copiedCollisionScript = (CollisionScript) copiedScriptList.get(0);
-		/*String expectedMessage = PhysicsCollision.generateBroadcastMessage(spriteOne.getName().concat(solo.getString(
-				R.string.copy_sprite_name_suffix)), SECOND_TEST_SPRITE_NAME);
-
-		assertEquals(String.format("collision broadcast message of copied collision script is wrong before renaming "
-						+ "second sprite (%s != %s)", expectedMessage,
-				copiedCollisionScript.getBroadcastMessage()), expectedMessage,
-				copiedCollisionScript.getBroadcastMessage());*/
 	}
 
 	public void testCopySelectAll() {
@@ -1357,8 +1349,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	private void checkSpecialBricks(Sprite firstSprite, Sprite copiedSprite) {
 
 		assertEquals("Message of BroadcastReceiver Brick is not right!",
-				((BroadcastScript) (firstSprite.getScript(1))).getBroadcastMessage(),
-				((BroadcastScript) (copiedSprite.getScript(1))).getBroadcastMessage());
+				((BroadcastScript) (firstSprite.getScript(1))).getReceivedMessage(),
+				((BroadcastScript) (copiedSprite.getScript(1))).getReceivedMessage());
 
 		ArrayList<Brick> brickListFirstSprite = firstSprite.getScript(0).getBrickList();
 		ArrayList<Brick> brickListCopiedSprite = copiedSprite.getScript(0).getBrickList();

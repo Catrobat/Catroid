@@ -46,18 +46,10 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 	private RaspiInterruptScript script;
 
-	private String pinString = Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER);
-	private String eventString = BrickValues.RASPI_PRESSED_EVENT;
-
 	public WhenRaspiPinChangedBrick(RaspiInterruptScript script) {
 		this.script = script;
-		if (script != null) {
-			pinString = script.getPin();
-			eventString = script.getEventValue();
-
-			if (script.isCommentedOut()) {
-				setCommentedOut(true);
-			}
+		if (script.isCommentedOut()) {
+			setCommentedOut(true);
 		}
 	}
 
@@ -89,7 +81,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 		ArrayAdapter<String> messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		messageAdapter.add(this.pinString);
+		messageAdapter.add(script.getPin());
 		pinSpinner.setAdapter(messageAdapter);
 
 		Spinner valueSpinner = (Spinner) prototypeView.findViewById(R.id.brick_raspi_when_valuespinner);
@@ -115,16 +107,14 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String selectedMessage = pinSpinner.getSelectedItem().toString();
-
-				pinString = selectedMessage;
-				getScriptSafe().setPin(pinString);
+				script.setPin(selectedMessage);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		pinSpinner.setSelection(messageAdapter2.getPosition(pinString), true);
+		pinSpinner.setSelection(messageAdapter2.getPosition(script.getPin()), true);
 	}
 
 	private void setupValueSpinner(final Context context) {
@@ -137,17 +127,14 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String selectedMessage = getEventFromLanguageSpecificSpinnerSelection(valueSpinner.getSelectedItem().toString(), context);
-
-				eventString = selectedMessage;
-				getScriptSafe().setEventValue(selectedMessage);
+				script.setEventValue(selectedMessage);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-		valueSpinner.setSelection(valueAdapter.getPosition(getLanguageSpecificSpinnerSelectionFromEvent(eventString,
-				context)), true);
+		valueSpinner.setSelection(valueAdapter.getPosition(getLanguageSpecificSpinnerSelectionFromEvent(script.getEventValue(), context)), true);
 	}
 
 	private ArrayAdapter<String> getValueSpinnerArrayAdapter(Context context) {
@@ -155,7 +142,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(context.getString(R.string.brick_raspi_pressed_text));
 		messageAdapter.add(context.getString(R.string.brick_raspi_released_text));
-
 		return messageAdapter;
 	}
 
@@ -182,25 +168,12 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 	@Override
 	public RaspiInterruptScript getScriptSafe() {
-		if (script == null) {
-			script = new RaspiInterruptScript(getPinString(), getEventString());
-		}
-
 		return script;
 	}
 
-	public String getPinString() {
-		if (script == null) {
-			return pinString;
-		}
-		return script.getPin();
-	}
-
-	public String getEventString() {
-		if (script == null) {
-			return eventString;
-		}
-		return script.getEventValue();
+	@Override
+	public int getRequiredResources() {
+		return Brick.SOCKET_RASPI;
 	}
 
 	@Override
@@ -211,6 +184,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
+		script.setCommentedOut(commentedOut);
 	}
 }

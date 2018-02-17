@@ -23,17 +23,17 @@
 
 package org.catrobat.catroid.content;
 
-public class BroadcastEventIdentifier extends EventIdentifier {
+public class BroadcastEventId extends EventId {
 	public final String message;
 
-	public BroadcastEventIdentifier(String message) {
+	public BroadcastEventId(String message) {
 		this.message = message;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof BroadcastEventIdentifier) {
-			BroadcastEventIdentifier broadcastEventId = (BroadcastEventIdentifier) o;
+		if (o instanceof BroadcastEventId) {
+			BroadcastEventId broadcastEventId = (BroadcastEventId) o;
 			return message.equals(broadcastEventId.message);
 		}
 		return false;

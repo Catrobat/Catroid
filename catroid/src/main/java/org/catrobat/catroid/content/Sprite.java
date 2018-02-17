@@ -84,7 +84,7 @@ public class Sprite implements Serializable, Cloneable {
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
-	private transient Multimap<EventIdentifier, BroadcastSequenceAction> broadcastSequenceActionMap = HashMultimap.create();
+	private transient Multimap<EventId, BroadcastSequenceAction> broadcastSequenceActionMap = HashMultimap.create();
 
 	@XStreamAsAttribute
 	private String name;
@@ -182,7 +182,7 @@ public class Sprite implements Serializable, Cloneable {
 		penConfiguration = new PenConfiguration();
 	}
 
-	public void removeSprite() {
+	public void remove() {
 		broadcastSequenceActionMap = null;
 	}
 
@@ -250,19 +250,19 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void initializeActionByBroadcastScript(BroadcastScript broadcastScript) {
-		EventIdentifier identifier = new BroadcastEventIdentifier(broadcastScript.getBroadcastMessage());
-		broadcastSequenceActionMap.put(identifier, createBroadcastActionSequence(broadcastScript));
+		EventId eventId = new BroadcastEventId(broadcastScript.getReceivedMessage());
+		broadcastSequenceActionMap.put(eventId, createBroadcastActionSequence(broadcastScript));
 	}
 
 	private void initializeActionByRaspiInterruptScript(RaspiInterruptScript raspiScript) {
-		EventIdentifier identifier = new RaspiEventIdentifier(raspiScript.getPin(), raspiScript.getEventValue());
-		broadcastSequenceActionMap.put(identifier, createBroadcastActionSequence(raspiScript));
+		EventId eventId = new RaspiEventId(raspiScript.getPin(), raspiScript.getEventValue());
+		broadcastSequenceActionMap.put(eventId, createBroadcastActionSequence(raspiScript));
 	}
 
 	private void initializeActionByCollisionScript(CollisionScript collisionScript) {
-		EventIdentifier identifier = new CollisionEventIdentifier(this, collisionScript
+		EventId eventId = new CollisionEventId(this, collisionScript
 				.getSpriteToCollideWith());
-		broadcastSequenceActionMap.put(identifier, createBroadcastActionSequence(collisionScript));
+		broadcastSequenceActionMap.put(eventId, createBroadcastActionSequence(collisionScript));
 	}
 
 	private void initializeActionByWhenConditionScript(WhenConditionScript script) {
@@ -852,7 +852,7 @@ public class Sprite implements Serializable, Cloneable {
 		return isClone;
 	}
 
-	public Multimap<EventIdentifier, BroadcastSequenceAction> getBroadcastSequenceActionMap() {
+	public Multimap<EventId, BroadcastSequenceAction> getBroadcastSequenceActionMap() {
 		return broadcastSequenceActionMap;
 	}
 }

@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.content;
 
-public abstract class EventIdentifier {
+public abstract class EventId {
 	public abstract boolean equals(Object o);
 	public abstract int hashCode();
 }

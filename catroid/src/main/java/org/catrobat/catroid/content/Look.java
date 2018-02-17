@@ -32,6 +32,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -43,6 +44,7 @@ import com.badlogic.gdx.utils.Array;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.BroadcastSequenceAction;
 import org.catrobat.catroid.utils.TouchUtil;
 
@@ -107,7 +109,7 @@ public class Look extends Image {
 			public void handleBroadcastEvent(BroadcastEvent event) {
 				Sprite handlingSprite = Look.this.sprite;
 
-				Collection<BroadcastSequenceAction> sequenceActions = handlingSprite.getBroadcastSequenceActionMap().get(event.getIdentifier());
+				Collection<BroadcastSequenceAction> sequenceActions = handlingSprite.getBroadcastSequenceActionMap().get(event.getEventId());
 				for (BroadcastSequenceAction actionToBeAdded : sequenceActions) {
 					if (event.waitForCompletion()) {
 						event.addInterrupter(handlingSprite);
@@ -152,10 +154,6 @@ public class Look extends Image {
 		this.lookVisible = lookVisible;
 	}
 
-	public static boolean actionsToRestartContains(Action action) {
-		return Look.actionsToRestart.contains(action);
-	}
-
 	static void actionsToRestartAdd(Action action) {
 		Look.actionsToRestart.add(action);
 	}
@@ -163,6 +161,9 @@ public class Look extends Image {
 	@Override
 	public boolean remove() {
 		boolean returnValue = super.remove();
+		for (EventListener listener : this.getListeners()) {
+			this.removeListener(listener);
+		}
 		this.sprite = null;
 		this.lookData = null;
 		return returnValue;
@@ -700,5 +701,17 @@ public class Look extends Image {
 			transformedPolygons[p] = poly;
 		}
 		return transformedPolygons;
+	}
+
+	public void notifyAllWaiters() {
+		for (Action action : getActions()) {
+			if (action instanceof BroadcastSequenceAction) {
+				Array<Action> broadcastSequenceActions = ((BroadcastSequenceAction) action).getActions();
+				Action lastAction = broadcastSequenceActions.get(broadcastSequenceActions.size - 1);
+				if (lastAction instanceof BroadcastNotifyAction) {
+					lastAction.act(0);
+				}
+			}
+		}
 	}
 }

@@ -44,7 +44,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -68,8 +67,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
-import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
-import org.catrobat.catroid.content.actions.BroadcastSequenceAction;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
@@ -273,25 +270,20 @@ public class StageListener implements ApplicationListener {
 		if (!sprite.isClone()) {
 			return false;
 		}
-		Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
-		DataContainer userVariables = currentScene.getDataContainer();
-		userVariables.removeVariableListForSprite(sprite);
-		for (Action action : sprite.look.getActions()) {
-			if (action instanceof BroadcastSequenceAction) {
-				BroadcastSequenceAction bsaction = (BroadcastSequenceAction) action;
-				Action lastAction = bsaction.getActions().get(bsaction.getActions().size - 1);
-				if (lastAction instanceof BroadcastNotifyAction) {
-					lastAction.act(0);
-				}
-			}
+		boolean removedSprite = sprites.remove(sprite);
+		if (removedSprite) {
+			Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
+			DataContainer userVariables = currentScene.getDataContainer();
+			userVariables.removeVariableListForSprite(sprite);
+			sprite.look.notifyAllWaiters();
+			sprite.look.setLookVisible(false);
+			sprite.look.remove();
+			sprite.remove();
 		}
-		sprite.look.setLookVisible(false);
-		sprite.look.remove();
-		sprite.removeSprite();
-		return sprites.remove(sprite);
+		return removedSprite;
 	}
 
-	public void removeAllClonedSpritesFromStage() {
+	private void removeAllClonedSpritesFromStage() {
 		for (int index = 0; index < sprites.size(); index++) {
 			if (removeClonedSpriteFromStage(sprites.get(index))) {
 				index--;

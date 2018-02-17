@@ -171,7 +171,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -721,12 +723,93 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			deleteChildNodeByName(originalDocument.getElementsByTagName("header").item(0), "isPhiroProProject");
 			deleteChildNodeByName(originalDocument, "brickList", "inUserBrick");
 
+			updateRaspiScripts(originalDocument);
+			updateCollisionSpriteReference(originalDocument);
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);
 			modifyVariables(originalDocument);
 			checkReferences(originalDocument.getDocumentElement());
 
 			saveDocument(originalDocument, file);
+		}
+	}
+
+	private void updateRaspiScripts(Document originalDocument) {
+		NodeList scripts = originalDocument.getElementsByTagName("script");
+		List<Node> raspiInterruptScripts = getElementsFilteredByAttribute(scripts, "type", "RaspiInterruptScript");
+		removeUnusedRaspiAttributes(raspiInterruptScripts);
+	}
+
+	private List<Node> getElementsFilteredByAttribute(NodeList unfiltered, String attributeName, String
+			filterAttributeValue) {
+		List<Node> filtered = new ArrayList<>();
+		for (int i = 0; i < unfiltered.getLength(); i++) {
+			Node node = unfiltered.item(i);
+			String attributeValue = getAttributeOfNode(attributeName, node);
+			if (attributeValue != null && attributeValue.equals(filterAttributeValue)) {
+				filtered.add(node);
+			}
+		}
+		return filtered;
+	}
+
+	private void updateCollisionSpriteReference(Document originalDocument) {
+		NodeList scripts = originalDocument.getElementsByTagName("script");
+		List<Node> collisionScripts = getElementsFilteredByAttribute(scripts, "type", "CollisionScript");
+		for (Node script : collisionScripts) {
+			Node receivedMessage = deleteChildNodeByName(script, "receivedMessage");
+			if (receivedMessage != null) {
+				String broadcastString = receivedMessage.getChildNodes().item(0).getNodeValue();
+				String reference = getReferenceString(broadcastString, script);
+				if (reference != null) {
+					Element spriteToCollideWith = originalDocument.createElement("spriteToCollideWith");
+					spriteToCollideWith.setAttribute("reference", reference);
+					script.appendChild(spriteToCollideWith);
+				}
+			}
+		}
+	}
+
+	private String getReferenceString(String broadcastMessage, Node script) {
+		Node sprite = script;
+		Node spriteList;
+		String referencePath = "../../";
+		while (!sprite.getParentNode().getNodeName().equals("objectList")) {
+			sprite = sprite.getParentNode();
+			referencePath += "../";
+		}
+		spriteList = sprite.getParentNode();
+		String spriteToCollideName = getSpriteToCollideWith(sprite, broadcastMessage);
+		NodeList spriteNodes = spriteList.getChildNodes();
+		for (int i = 0; i < spriteNodes.getLength(); i++) {
+			if (getAttributeOfNode("name", spriteNodes.item(i)).equals(spriteToCollideName)) {
+				return referencePath + "object[" + (i + 1) + "]";
+			}
+		}
+		return null;
+	}
+
+	private String getSpriteToCollideWith(Node sprite, String broadcastMessage) {
+		String[] spriteNames = broadcastMessage.split(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
+		String spriteName = sprite.getAttributes().getNamedItem("name").getNodeValue();
+		String otherSprite = spriteNames[0].equals(spriteName) ? spriteNames[1] : spriteNames[0];
+		if (otherSprite.equals(PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER)) {
+			return null;
+		}
+		return otherSprite;
+	}
+
+	private String getAttributeOfNode(String attributeName, Node node) {
+		NamedNodeMap attributes = node.getAttributes();
+		if (attributes != null) {
+			return attributes.getNamedItem(attributeName).getNodeValue();
+		}
+		return null;
+	}
+
+	private void removeUnusedRaspiAttributes(List<Node> nodes) {
+		for (Node node : nodes) {
+			deleteChildNodeByName(node, "receivedMessage");
 		}
 	}
 
@@ -854,11 +937,12 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		return null;
 	}
 
-	private void deleteChildNodeByName(Node parentNode, String childNodeName) {
+	private Node deleteChildNodeByName(Node parentNode, String childNodeName) {
 		Node node = findNodeByName(parentNode, childNodeName);
 		if (node != null) {
-			parentNode.removeChild(node);
+			return parentNode.removeChild(node);
 		}
+		return null;
 	}
 
 	private void deleteChildNodeByName(Document doc, String listNodeName, String childNodeName) {

@@ -22,19 +22,15 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
-import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 
-public class RaspiInterruptScript extends BroadcastScript {
-	// BC-TODO: Test
+public class RaspiInterruptScript extends Script {
 	private static final long serialVersionUID = 1L;
 	private String pin;
 	private String eventValue;
 
 	public RaspiInterruptScript(String pin, String eventValue) {
-		super(pin + " " + eventValue);
 		this.pin = pin;
 		this.eventValue = eventValue;
 	}
@@ -44,22 +40,15 @@ public class RaspiInterruptScript extends BroadcastScript {
 		if (brick == null) {
 			brick = new WhenRaspiPinChangedBrick(this);
 		}
-
 		return brick;
 	}
 
 	public void setPin(String pin) {
 		this.pin = pin;
-		updateBroadcastMessage();
 	}
 
 	public void setEventValue(String eventValue) {
 		this.eventValue = eventValue;
-		updateBroadcastMessage();
-	}
-
-	private void updateBroadcastMessage() {
-		setBroadcastMessage(pin + " " + eventValue);
 	}
 
 	public String getPin() {
@@ -75,11 +64,5 @@ public class RaspiInterruptScript extends BroadcastScript {
 		RaspiInterruptScript clone = new RaspiInterruptScript(pin, eventValue);
 		clone.getBrickList().addAll(cloneBrickList());
 		return clone;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		RaspberryPiService.getInstance().addPinInterrupt(Integer.parseInt(pin));
-		return super.getRequiredResources() | Brick.SOCKET_RASPI;
 	}
 }

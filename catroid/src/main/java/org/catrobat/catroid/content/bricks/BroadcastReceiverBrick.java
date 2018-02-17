@@ -49,28 +49,20 @@ import java.util.List;
 public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick, BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 
-	private BroadcastScript receiveScript;
-	private transient String broadcastMessage;
+	private BroadcastScript broadcastScript;
 	private transient ArrayAdapter<String> messageAdapter;
 
-	public BroadcastReceiverBrick(String broadcastMessage) {
-		this.broadcastMessage = broadcastMessage;
-	}
-
-	public BroadcastReceiverBrick(BroadcastScript receiveScript) {
-		this.receiveScript = receiveScript;
-
-		if (receiveScript != null && receiveScript.isCommentedOut()) {
+	public BroadcastReceiverBrick(BroadcastScript broadcastScript) {
+		this.broadcastScript = broadcastScript;
+		if (broadcastScript != null && broadcastScript.isCommentedOut()) {
 			setCommentedOut(true);
 		}
 	}
 
 	@Override
 	public Brick clone() {
-		BroadcastScript broadcastScript = new BroadcastScript(getBroadcastMessage());
-		if (receiveScript != null) {
-			broadcastScript.setCommentedOut(receiveScript.isCommentedOut());
-		}
+		BroadcastScript broadcastScript = new BroadcastScript(getReceivedMessage());
+		broadcastScript.setCommentedOut(broadcastScript.isCommentedOut());
 		return new BroadcastReceiverBrick(broadcastScript);
 	}
 
@@ -79,12 +71,8 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public String getBroadcastMessage() {
-		if (receiveScript == null) {
-			return broadcastMessage;
-		}
-		return receiveScript.getBroadcastMessage();
+	public String getReceivedMessage() {
+		return broadcastScript.getReceivedMessage();
 	}
 
 	@Override
@@ -94,10 +82,6 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		}
 		if (view == null) {
 			alphaValue = 255;
-		}
-		if (receiveScript == null) {
-			receiveScript = new BroadcastScript(broadcastMessage);
-			ProjectManager.getInstance().getCurrentProject().addBroadcastMessage(broadcastMessage);
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
@@ -114,8 +98,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					showNewMessageDialog(broadcastSpinner);
 				} else {
-					receiveScript.setBroadcastMessage(selectedMessage);
-					broadcastMessage = selectedMessage;
+					broadcastScript.setReceivedMessage(selectedMessage);
 				}
 			}
 
@@ -148,11 +131,11 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public Script getScriptSafe() {
-		return receiveScript;
+		return broadcastScript;
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		int position = getMessageAdapter(spinner.getContext()).getPosition(getBroadcastMessage());
+		int position = getMessageAdapter(spinner.getContext()).getPosition(getReceivedMessage());
 		spinner.setSelection(position, true);
 	}
 
@@ -169,15 +152,12 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 					dismiss();
 					return false;
 				}
-
 				if (newMessage.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR)) {
 					inputLayout.setError(getString(R.string.brick_broadcast_invalid_symbol));
 					return false;
 				}
-
-				receiveScript.setBroadcastMessage(newMessage);
-				broadcastMessage = newMessage;
-				ProjectManager.getInstance().getCurrentProject().addBroadcastMessage(broadcastMessage);
+				broadcastScript.setReceivedMessage(newMessage);
+				ProjectManager.getInstance().getCurrentProject().addBroadcastMessage(newMessage);
 				setSpinnerSelection(spinner);
 				return true;
 			}
@@ -188,7 +168,6 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 				super.onDismiss(dialog);
 			}
 		};
-
 		editDialog.show(((Activity) context).getFragmentManager(), "dialog_broadcast_brick");
 	}
 
