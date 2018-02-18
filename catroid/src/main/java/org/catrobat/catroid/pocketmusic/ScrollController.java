@@ -49,7 +49,7 @@ public class ScrollController {
 		this.beatsPerMinute = beatsPerMinute;
 		this.scrollingView = tactScrollRecyclerView;
 		this.playLine = pocketmusicMainLayout.findViewById(R.id.pocketmusic_play_line);
-		this.playButton = (ImageButton) pocketmusicMainLayout.findViewById(R.id.pocketmusic_play_button);
+		this.playButton = pocketmusicMainLayout.findViewById(R.id.pocketmusic_play_button);
 		init();
 	}
 

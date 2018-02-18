@@ -84,9 +84,9 @@ public class PocketMusicActivity extends BaseActivity {
 		}
 
 		setContentView(R.layout.activity_pocketmusic);
-		ViewGroup content = (ViewGroup) findViewById(android.R.id.content);
+		ViewGroup content = findViewById(android.R.id.content);
 
-		tactScroller = (TactScrollRecyclerView) findViewById(R.id.tact_scroller);
+		tactScroller = findViewById(R.id.tact_scroller);
 		tactScroller.setTrack(project.getTrack("Track 1"), project.getBeatsPerMinute());
 
 		new ScrollController(content, tactScroller, project.getBeatsPerMinute());
