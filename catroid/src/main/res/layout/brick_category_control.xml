@@ -22,10 +22,13 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickCategory" >
+    style="@style/BrickCategory.Control">
+
+    <include layout="@layout/icon_brick_category_control"/>
 
     <TextView
-        style="@style/BrickCategoryText.Control"
+        style="@style/BrickCategoryText"
+        android:drawableEnd="@drawable/main_menu_button_arrow_control"
         android:text="@string/category_control" />
 
 </LinearLayout>

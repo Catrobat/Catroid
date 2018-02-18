@@ -39,6 +39,8 @@
         style="@style/BrickContainer.Control.Small"
         android:background="@drawable/brick_orange_1h_no_plug" >
 
+        <include layout="@layout/icon_brick_category_control"/>
+
         <TextView
             android:id="@+id/brick_loop_endless_label"
             style="@style/BrickText.SingleLine"

@@ -46,6 +46,8 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
+        <include layout="@layout/icon_brick_category_sound"/>
+
         <TextView
             android:id="@+id/brick_play_sound_and_wait_label"
             style="@style/BrickText.SingleLine"

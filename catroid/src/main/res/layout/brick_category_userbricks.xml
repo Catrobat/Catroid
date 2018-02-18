@@ -23,10 +23,13 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickCategory" >
+    style="@style/BrickCategory.UserBricks">
+
+    <include layout="@layout/icon_brick_category_control"/>
 
     <TextView
-        style="@style/BrickCategoryText.UserBricks"
+        style="@style/BrickCategoryText"
+        android:drawableEnd="@drawable/main_menu_button_arrow_user_bricks"
         android:text="@string/category_user_bricks" >
     </TextView>
 

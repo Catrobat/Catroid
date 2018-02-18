@@ -22,10 +22,13 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickCategory" >
+    style="@style/BrickCategory.Pen">
+
+    <include layout="@layout/icon_brick_category_pen"/>
 
     <TextView
-        style="@style/BrickCategoryText.Pen"
+        style="@style/BrickCategoryText"
+        android:drawableEnd="@drawable/main_menu_button_arrow_looks"
         android:text="@string/category_pen" >
     </TextView>
 
