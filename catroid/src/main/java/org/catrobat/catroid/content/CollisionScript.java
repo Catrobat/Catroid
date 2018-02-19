@@ -46,7 +46,6 @@ public class CollisionScript extends Script {
 	public Script clone() throws CloneNotSupportedException {
 		CollisionScript clone = new CollisionScript(spriteToCollideWith);
 		clone.getBrickList().addAll(cloneBrickList());
-		// BC-TODO: check if commented out works
 		return clone;
 	}
 
