@@ -208,6 +208,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initListeners();
+		ProjectManager.getInstance().getCurrentProject().updateMessageContainer(getActivity().getApplicationContext());
 	}
 
 	@Override
@@ -230,7 +231,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		super.onStart();
 		BottomBar.showBottomBar(getActivity());
 		initListeners();
-		ProjectManager.getInstance().getCurrentProject().updateMessageContainer(getActivity().getApplicationContext());
+
 	}
 
 	@Override
