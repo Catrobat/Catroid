@@ -44,6 +44,8 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
+        <include layout="@layout/icon_brick_category_control"/>
+
         <TextView
             android:id="@+id/brick_delete_clone_label"
             style="@style/BrickText.SingleLine"

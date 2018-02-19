@@ -22,10 +22,13 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickCategory" >
+    style="@style/BrickCategory.Sounds">
+
+    <include layout="@layout/icon_brick_category_sound"/>
 
     <TextView
-        style="@style/BrickCategoryText.Sounds"
+        style="@style/BrickCategoryText"
+        android:drawableEnd="@drawable/main_menu_button_arrow_sounds"
         android:text="@string/category_sound" >
     </TextView>
 

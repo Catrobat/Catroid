@@ -22,10 +22,13 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickCategory" >
+    style="@style/BrickCategory.Cast">
+
+    <include layout="@layout/icon_brick_category_chromecast"/>
 
     <TextView
-        style="@style/BrickCategoryText.Cast"
+        style="@style/BrickCategoryText"
+        android:drawableEnd="@drawable/main_menu_button_arrow_chromecast"
         android:text="@string/category_cast" >
     </TextView>
 

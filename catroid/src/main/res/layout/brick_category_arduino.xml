@@ -22,11 +22,14 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickCategory" >
+    style="@style/BrickCategory.Bluetooth">
+
+    <include layout="@layout/icon_brick_category_arduino"/>
 
     <TextView
-        style="@style/BrickCategoryText.Arduino"
-        android:text="@string/category_arduino" >
+        style="@style/BrickCategoryText"
+        android:drawableEnd="@drawable/main_menu_button_arrow_bluetooth"
+        android:text="@string/category_arduino">
     </TextView>
 
 </LinearLayout>

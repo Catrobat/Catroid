@@ -178,6 +178,14 @@
         <item name="android:layout_marginBottom">?attr/element_spacing</item>
     </style>
 
+    <style name="CategoryIconStyle">
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:visibility">?attr/category_icon_visiblity</item>
+        <item name="android:layout_width">?attr/category_icon_size</item>
+        <item name="android:layout_height">?attr/category_icon_size</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
     <style name="BrickContainer.Motion"></style>
 
     <style name="BrickContainer.Motion.Small">
@@ -264,11 +272,6 @@
     </style>
 
     <style name="BrickContainer.UserBrick"></style>
-
-    <style name="BrickCategoryText.Data">
-        <item name="android:background">@drawable/brick_selection_background_data</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_variables</item>
-    </style>
 
     <style name="BrickContainer.UserBrick.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -450,91 +453,69 @@
 
     <style name="BrickCategory">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">@dimen/brick_category_height</item>
+        <item name="android:paddingStart">21dp</item>
+        <item name="android:gravity">start|center_vertical</item>
     </style>
 
     <style name="BrickCategoryText">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/brick_category_height</item>
-        <item name="android:gravity">start|center_vertical</item>
-        <item name="android:paddingStart">21dp</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:paddingEnd">14dp</item>
+        <item name="android:gravity">start|center_vertical</item>
         <item name="android:layout_marginTop">?attr/element_spacing</item>
         <item name="android:layout_marginBottom">?attr/element_spacing</item>
         <item name="android:textSize">?attr/x_large</item>
     </style>
 
-    <style name="BrickCategoryText.Control">
+    <style name="BrickCategory.Control">
         <item name="android:background">@drawable/brick_selection_background_control</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_control</item>
     </style>
 
-    <style name="BrickCategoryText.Event">
+    <style name="BrickCategory.Data">
+        <item name="android:background">@drawable/brick_selection_background_data</item>
+    </style>
+
+    <style name="BrickCategory.Event">
         <item name="android:background">@drawable/brick_selection_background_event</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_event</item>
     </style>
 
-    <style name="BrickCategoryText.Motion">
+    <style name="BrickCategory.Motion">
         <item name="android:background">@drawable/brick_selection_background_motion</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_motion</item>
     </style>
 
-    <style name="BrickCategoryText.Sounds">
+    <style name="BrickCategory.Sounds">
         <item name="android:background">@drawable/brick_selection_background_sounds</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_sounds</item>
     </style>
 
-    <style name="BrickCategoryText.Looks">
+    <style name="BrickCategory.Looks">
         <item name="android:background">@drawable/brick_selection_background_looks</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_looks</item>
     </style>
 
-    <style name="BrickCategoryText.Pen">
+    <style name="BrickCategory.Pen">
         <item name="android:background">@drawable/brick_selection_background_pen</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_looks</item>
     </style>
 
-    <style name="BrickCategoryText.UserBricks">
+    <style name="BrickCategory.UserBricks">
 		<item name="android:background">@drawable/brick_selection_background_user_bricks</item>
- 		<item name="android:drawableEnd">@drawable/main_menu_button_arrow_user_bricks</item>
  	</style>
 
-    <style name="BrickCategoryText.Drone">
+    <style name="BrickCategory.Drone">
         <item name="android:background">@drawable/brick_selection_background_drone</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_drone</item>
     </style>
 
-    <style name="BrickCategoryText.JumpingSumo">
-        <item name="android:background">@drawable/brick_selection_background_drone</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_drone</item>
-    </style>
-
-    <style name="BrickCategoryText.Lego">
+    <style name="BrickCategory.Lego">
         <item name="android:background">@drawable/brick_selection_background_lego</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_lego</item>
     </style>
 
-    <style name="BrickCategoryText.Phiro">
+    <style name="BrickCategory.Bluetooth">
         <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_bluetooth</item>
     </style>
 
-    <style name="BrickCategoryText.Arduino">
-        <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_bluetooth</item>
-    </style>
-
-    <style name="BrickCategoryText.Cast">
+    <style name="BrickCategory.Cast">
         <item name="android:background">@drawable/brick_selection_background_chromecast</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_chromecast</item>
     </style>
 
-    <style name="BrickCategoryText.Raspi">
-        <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
-        <item name="android:drawableEnd">@drawable/main_menu_button_arrow_bluetooth</item>
-    </style>
-    
     <style name="userBrickDataTextBackground">
  		<item name="android:background">@drawable/brick_data_round_rect</item>
  	</style>

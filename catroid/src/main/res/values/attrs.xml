@@ -41,6 +41,34 @@
     <declare-styleable name="AppFont">
         <attr name="app_font" format="string"/>
     </declare-styleable>
+
+    <!-- Category icons -->
+    <declare-styleable name="CategoryIcons">
+        <attr name="icon_ardrone" format="reference"/>
+        <attr name="icon_data" format="reference"/>
+        <attr name="icon_motion" format="reference"/>
+        <attr name="icon_sound" format="reference"/>
+        <attr name="icon_arduino" format="reference"/>
+        <attr name="icon_event" format="reference"/>
+        <attr name="icon_pen" format="reference"/>
+        <attr name="icon_chromecast" format="reference"/>
+        <attr name="icon_legonxt" format="reference"/>
+        <attr name="icon_phiro" format="reference"/>
+        <attr name="icon_control" format="reference"/>
+        <attr name="icon_look" format="reference"/>
+        <attr name="icon_raspberrypi" format="reference"/>
+    </declare-styleable>
+
+    <!-- Category icons visibility -->
+    <declare-styleable name="CategoryIconsVisibility">
+        <attr name="category_icon_visiblity" format="integer"/>
+    </declare-styleable>
+
+    <!-- Category icons size -->
+    <declare-styleable name="CategoryIconSize">
+        <attr name="category_icon_size" format="dimension"/>
+    </declare-styleable>
+
     <!-- /Accessibility -->
 
     <declare-styleable name="BrickLayout">
@@ -60,5 +88,6 @@
         <attr name="layout_customPadding" format="dimension"/>
         <attr name="layout_horizontalSpacing" format="dimension"/>
         <attr name="layout_verticalSpacing" format="dimension"/>
+        <attr name="layout_category_icon" format="reference"/>
     </declare-styleable>
 </resources>

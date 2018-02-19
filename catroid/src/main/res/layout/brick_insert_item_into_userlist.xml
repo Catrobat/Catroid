@@ -45,6 +45,8 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
+        <include layout="@layout/icon_brick_category_data"/>
+
         <TextView
             android:id="@+id/brick_insert_item_into_userlist_label"
             style="@style/BrickText.SingleLine"
