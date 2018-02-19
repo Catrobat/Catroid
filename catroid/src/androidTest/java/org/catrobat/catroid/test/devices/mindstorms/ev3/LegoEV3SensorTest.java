@@ -34,6 +34,7 @@ import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3ColorSensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3InfraredSensor;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3LightSensorNXT;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorMode;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3TouchSensor;
@@ -46,10 +47,9 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 	private static final byte PORT_NR_1 = 1;
 	private static final byte PORT_NR_2 = 2;
 	private static final byte PORT_NR_3 = 3;
-
+	ConnectionDataLogger logger;
 	private LegoEV3 ev3;
 	private MindstormsEV3TestModel ev3TestModel;
-	ConnectionDataLogger logger;
 	private MindstormsConnection mindstormsConnection;
 
 	@Override
@@ -212,5 +212,37 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);
 		sensorValue = sensor.getValue();
 		assertEquals("Received wrong color value from hitec color sensor", expectedSensorValue, sensorValue);
+	}
+
+	public void testEV3LightSensorNXT() {
+		ev3TestModel.setSensorType(PORT_NR_1, EV3Sensor.Sensor.NXT_LIGHT);
+		EV3Sensor sensor = new EV3LightSensorNXT(PORT_NR_1, mindstormsConnection, EV3SensorMode.MODE1);
+		sensor.getValue(); // will initialize the sensor
+		assertTrue("Light Sensor was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_1));
+
+		ev3TestModel.generateSensorValue(PORT_NR_1);
+		float sensorValue = sensor.getValue();
+		assertFalse("Light Sensor Value was not in range 0-100", (sensorValue < 0 || sensorValue > 100));
+
+		final float expectedSensorValue = 13;
+		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);
+		sensorValue = sensor.getValue();
+		assertEquals("Received wrong value from light sensor", expectedSensorValue, sensorValue);
+	}
+
+	public void testEV3LightActiveSensorNXT() {
+		ev3TestModel.setSensorType(PORT_NR_1, EV3Sensor.Sensor.NXT_LIGHT_ACTIVE);
+		EV3Sensor sensor = new EV3LightSensorNXT(PORT_NR_1, mindstormsConnection, EV3SensorMode.MODE0);
+		sensor.getValue(); // will initialize the sensor
+		assertTrue("Light Active Sensor was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_1));
+
+		ev3TestModel.generateSensorValue(PORT_NR_1);
+		float sensorValue = sensor.getValue();
+		assertFalse("Light Active Sensor Value was not in range 0-100", (sensorValue < 0 || sensorValue > 100));
+
+		final float expectedSensorValue = 13;
+		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);
+		sensorValue = sensor.getValue();
+		assertEquals("Received wrong value from light active sensor", expectedSensorValue, sensorValue);
 	}
 }
