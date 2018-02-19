@@ -229,8 +229,6 @@ public final class ProjectManager implements
 
 	private void restorePreviousProject(Project previousProject) {
 		project = previousProject;
-		MessageContainer.clear();
-
 		if (previousProject != null) {
 			sceneToPlay = project.getDefaultScene();
 		}
