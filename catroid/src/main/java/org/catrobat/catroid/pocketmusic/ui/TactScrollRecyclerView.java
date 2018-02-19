@@ -110,8 +110,14 @@ public class TactScrollRecyclerView extends RecyclerView {
 
 	@Override
 	protected void onMeasure(int widthSpec, int heightSpec) {
-		tactViewParams.width = MeasureSpec.getSize(widthSpec) / TACTS_PER_SCREEN;
-		tactViewParams.height = MeasureSpec.getSize(heightSpec);
+		if (MeasureSpec.getMode(widthSpec) != MeasureSpec.UNSPECIFIED) {
+			tactViewParams.width = MeasureSpec.getSize(widthSpec) / TACTS_PER_SCREEN;
+			tactViewParams.height = MeasureSpec.getSize(heightSpec);
+			for (int i = 0; i < getChildCount(); i++) {
+				getChildAt(i).getLayoutParams().width = tactViewParams.width;
+				getChildAt(i).getLayoutParams().height = tactViewParams.height;
+			}
+		}
 		super.onMeasure(widthSpec, heightSpec);
 	}
 
