@@ -23,9 +23,9 @@
 
 package org.catrobat.catroid.scratchconverter.protocol.message.job;
 
-import android.annotation.SuppressLint;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.SparseArray;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.protocol.JsonKeys;
@@ -40,10 +40,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
 
 public abstract class JobMessage extends Message {
@@ -63,11 +61,10 @@ public abstract class JobMessage extends Message {
 
 		private int typeID;
 
-		@SuppressLint("UseSparseArrays")
-		private static Map<Integer, Type> map = new HashMap<>();
+		private static SparseArray<Type> types = new SparseArray<>();
 		static {
 			for (Type legEnum : Type.values()) {
-				map.put(legEnum.typeID, legEnum);
+				types.put(legEnum.typeID, legEnum);
 			}
 		}
 		Type(final int typeID) {
@@ -75,7 +72,7 @@ public abstract class JobMessage extends Message {
 		}
 
 		public static Type valueOf(int typeID) {
-			return map.get(typeID);
+			return types.get(typeID);
 		}
 
 		public int getTypeID() {

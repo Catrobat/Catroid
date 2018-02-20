@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.stage;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
@@ -38,6 +37,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.speech.RecognizerIntent;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.SurfaceView;
@@ -76,9 +76,7 @@ import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -105,8 +103,7 @@ public class StageActivity extends AndroidApplication {
 	public static Handler messageHandler;
 	private JumpingSumoDeviceController controller;
 
-	@SuppressLint("UseSparseArrays")
-	public static Map<Integer, IntentListener> intentListeners = new HashMap<>();
+	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
 	public static Random randomGenerator = new Random();
 
 	AndroidApplicationConfiguration configuration = null;
@@ -527,7 +524,7 @@ public class StageActivity extends AndroidApplication {
 		int newIdentId;
 		do {
 			newIdentId = StageActivity.randomGenerator.nextInt(Integer.MAX_VALUE);
-		} while (intentListeners.containsKey(newIdentId));
+		} while (intentListeners.indexOfKey(newIdentId) >= 0);
 
 		intentListeners.put(newIdentId, asker);
 		ArrayList<Object> params = new ArrayList<>();
@@ -537,7 +534,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	private void startQueuedIntent(int intentKey) {
-		if (!intentListeners.containsKey(intentKey)) {
+		if (intentListeners.indexOfKey(intentKey) < 0) {
 			return;
 		}
 		Intent i = intentListeners.get(intentKey).getTargetIntent();
@@ -548,7 +545,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//Register your intent with "queueIntent"
-		if (!intentListeners.containsKey(requestCode)) {
+		if (intentListeners.indexOfKey(requestCode) < 0) {
 			Log.e(TAG, "Unknown intent result recieved!");
 		} else {
 			IntentListener asker = intentListeners.get(requestCode);
