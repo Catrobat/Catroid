@@ -25,20 +25,25 @@ package org.catrobat.catroid.uiespresso.util;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.hamcrest.Matcher;
 
 import java.util.Collection;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.runner.lifecycle.Stage.RESUMED;
 
+import static org.catrobat.catroid.uiespresso.util.matchers.SuperToastMatchers.isToast;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 public final class UiTestUtils {
@@ -93,5 +98,10 @@ public final class UiTestUtils {
 			}
 		}
 		return true;
+	}
+
+	public static ViewInteraction onToast(Matcher<View> viewMatcher) {
+		final ViewInteraction viewInteraction = onView(viewMatcher).inRoot(isToast());
+		return viewInteraction;
 	}
 }

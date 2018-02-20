@@ -42,6 +42,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+
 public final class FormulaEditorWrapper{
 	public static final Matcher<View> FORMULA_EDITOR_KEYBOARD_MATCHER = withId(R.id.formula_editor_keyboardview);
 	public static final Matcher<View> FORMULA_EDITOR_TEXT_FIELD_MATCHER = withId(R.id.formula_editor_edit_field);
@@ -109,6 +111,12 @@ public final class FormulaEditorWrapper{
 		return new FormulaEditorWrapper();
 	}
 
+	public FormulaEditorWrapper checkValue(String expected) {
+		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
+				.check(matches(withText(equalToIgnoringWhiteSpace(expected))));
+		return new FormulaEditorWrapper();
+	}
+
 	public FormulaEditorCategoryListWrapper performOpenCategory(Matcher<View> category) {
 		onView(category)
 				.perform(click());
@@ -127,6 +135,30 @@ public final class FormulaEditorWrapper{
 
 	public void performClickOn(Matcher<View> matcher) {
 		onView(matcher)
+				.perform(click());
+	}
+
+	public void performBackspace() {
+		onView(Control.BACKSPACE)
+				.perform(click());
+	}
+
+	public void performCompute() {
+		onView(Control.COMPUTE)
+				.perform(click());
+	}
+
+	public void performOpenFunctions() {
+		performOpenCategory(Category.FUNCTIONS);
+	}
+
+	public void performUndo() {
+		onView(ActionMenu.UNDO)
+				.perform(click());
+	}
+
+	public void performRedo() {
+		onView(ActionMenu.REDO)
 				.perform(click());
 	}
 
@@ -192,5 +224,10 @@ public final class FormulaEditorWrapper{
 		public static final Matcher<View> FUNCTIONS = withId(R.id.formula_editor_keyboard_function);
 		public static final Matcher<View> LOGIC = withId(R.id.formula_editor_keyboard_logic);
 		public static final Matcher<View> DEVICE = withId(R.id.formula_editor_keyboard_sensors);
+	}
+
+	public static final class ActionMenu {
+		public static final Matcher<View> UNDO = withId(R.id.menu_undo);
+		public static final Matcher<View> REDO = withId(R.id.menu_redo);
 	}
 }
