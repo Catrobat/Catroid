@@ -100,11 +100,7 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		CollisionScript brickReceiverScript = (CollisionScript) Reflection.getPrivateField(brick, "collisionScript");
 		CollisionScript clonedBrickReceiverScript = (CollisionScript) Reflection.getPrivateField(clonedBrick, "collisionScript");
 
-		String scriptReceiveMessage = brickReceiverScript.getBroadcastMessage();
-		String clonedReceiveMessage = clonedBrickReceiverScript.getBroadcastMessage();
-
 		assertFalse("CollisionScripts have same address", brickReceiverScript == clonedBrickReceiverScript);
-		assertEquals("ReceiveMessages are not equal after clone()", scriptReceiveMessage, clonedReceiveMessage);
 	}
 
 	public void testCloneSetPhysicsObjectTypeBrick() {
