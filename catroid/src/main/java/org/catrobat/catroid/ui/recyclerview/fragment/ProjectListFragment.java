@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -37,13 +37,14 @@ import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
+import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCreatorTask;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
@@ -104,8 +105,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void handleAddButton() {
-		NewProjectDialog dialog = new NewProjectDialog();
-		dialog.show(getFragmentManager(), NewProjectDialog.TAG);
+		NewProjectDialogFragment dialog = new NewProjectDialogFragment();
+		dialog.show(getFragmentManager(), NewProjectDialogFragment.TAG);
 	}
 
 	@Override
@@ -178,8 +179,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	protected void showRenameDialog(List<ProjectData> selectedItems) {
 		String name = selectedItems.get(0).projectName;
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_project, R.string.project_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
+		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_project, R.string.project_name_label, name, this);
+		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
 	}
 
 	private Set<String> getScope() {
@@ -206,7 +207,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 				projectManager.loadProject(name, getActivity());
 			} catch (ProjectException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
-				Utils.showErrorDialog(getActivity(), R.string.error_rename_incompatible_project);
+				ToastUtil.showError(getActivity(), R.string.error_rename_incompatible_project);
 			}
 		}
 
@@ -303,7 +304,9 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 										.commit();
 								break;
 							case 4:
-								ProjectManager.getInstance().uploadProject(item.projectName, getActivity());
+								Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
+										.putExtra(ProjectUploadActivity.PROJECT_NAME, item.projectName);
+								startActivity(intent);
 								break;
 							default:
 								dialog.dismiss();

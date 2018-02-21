@@ -23,41 +23,35 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:orientation="vertical"
-    android:paddingBottom="0dp"
-    android:theme="@android:style/Theme.Light">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/dialog_content_area_padding_top"
+    android:paddingStart="@dimen/dialog_content_area_padding_text_input"
+    android:paddingEnd="@dimen/dialog_content_area_padding_text_input">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/dialog_scratch_reconvert_radio_group"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/dialog_item_margin">
+        android:layout_gravity="bottom"
+        android:paddingBottom="0dp"
+        android:paddingTop="18dp">
 
-        <RadioGroup
-            android:id="@+id/dialog_scratch_reconvert_radio_group"
-            style="@style/DefaultDialog.Item"
+        <RadioButton
+            android:id="@+id/dialog_scratch_reconvert_radio_download"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="0dp"
-            android:paddingTop="18dp">
+            android:checked="true"
+            android:text="@string/reconvert_dialog_download"
+            android:textColor="@color/spritelist_details_text_color" />
 
-            <RadioButton
-                android:id="@+id/dialog_scratch_reconvert_radio_download"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/reconvert_dialog_download"
-                android:textColor="@color/spritelist_details_text_color" />
+        <RadioButton
+            android:id="@+id/dialog_scratch_reconvert_radio_reconvert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/reconvert_dialog_reconvert"
+            android:textColor="@color/spritelist_details_text_color" />
+    </RadioGroup>
 
-            <RadioButton
-                android:id="@+id/dialog_scratch_reconvert_radio_reconvert"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="@string/reconvert_dialog_reconvert"
-                android:textColor="@color/spritelist_details_text_color" />
-        </RadioGroup>
-
-    </RelativeLayout>
 </ScrollView>

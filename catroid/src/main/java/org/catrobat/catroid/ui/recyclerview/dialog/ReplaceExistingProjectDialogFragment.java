@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
@@ -41,9 +41,9 @@ import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-public class OverwriteRenameDialog extends DialogFragment {
+public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 
-	public static final String TAG = OverwriteRenameDialog.class.getSimpleName();
+	public static final String TAG = ReplaceExistingProjectDialogFragment.class.getSimpleName();
 
 	private RadioGroup radioGroup;
 	private TextInputLayout inputLayout;
@@ -59,10 +59,12 @@ public class OverwriteRenameDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View root = View.inflate(getActivity(), R.layout.dialog_overwrite_project, null);
+		View view = View.inflate(getActivity(), R.layout.dialog_overwrite_project, null);
 
-		inputLayout = root.findViewById(R.id.input);
-		radioGroup = root.findViewById(R.id.radio_group);
+		inputLayout = view.findViewById(R.id.input);
+		inputLayout.getEditText().setText(programName);
+
+		radioGroup = view.findViewById(R.id.radio_group);
 		radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -76,11 +78,10 @@ public class OverwriteRenameDialog extends DialogFragment {
 				}
 			}
 		});
-		inputLayout.getEditText().setText(programName);
 
 		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.overwrite_text)
-				.setView(root)
+				.setView(view)
 				.setPositiveButton(R.string.ok, null)
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
@@ -103,18 +104,12 @@ public class OverwriteRenameDialog extends DialogFragment {
 						}
 					}
 				});
-				inputLayout.getEditText()
-						.addTextChangedListener(new DialogInputWatcher(inputLayout, buttonPositive, false));
+				buttonPositive.setEnabled(!inputLayout.getEditText().getText().toString().isEmpty());
+				DialogInputWatcher inputWatcher = new DialogInputWatcher(inputLayout, buttonPositive, false);
+				inputLayout.getEditText().addTextChangedListener(inputWatcher);
 			}
 		});
 		return alertDialog;
-	}
-
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		super.onCancel(dialog);
-		ToastUtil.showError(getActivity(), R.string.notification_download_project_cancel);
-		DownloadUtil.getInstance().downloadCanceled(url);
 	}
 
 	private boolean handlePositiveButtonClick() {

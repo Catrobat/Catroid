@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.stage;
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +35,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.speech.RecognizerIntent;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
@@ -68,7 +68,6 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.MarketingActivity;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -479,7 +478,7 @@ public class StageActivity extends AndroidApplication {
 		stageListener.finish();
 		manageLoadAndFinish();
 
-		final AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(R.string.error_flash_camera).setCancelable(false)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override

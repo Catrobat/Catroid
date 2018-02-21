@@ -21,28 +21,66 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/dialog_content_area_padding_top"
-    android:paddingStart="@dimen/dialog_content_area_padding_text_input"
-    android:paddingEnd="@dimen/dialog_content_area_padding_text_input">
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <include layout="@layout/progress_bar" />
 
     <LinearLayout
+        android:id="@+id/upload_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dialog_content_area_padding_top"
+        android:paddingStart="@dimen/dialog_content_area_padding"
+        android:paddingEnd="@dimen/dialog_content_area_padding"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/dialog_login_username"
+        <ImageView
+            android:id="@+id/project_image_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="@dimen/details_spacing"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/username"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/text_input_offset"
+                android:paddingEnd="@dimen/details_spacing"
+                android:text="@string/size_of_project" />
+
+            <TextView
+                android:id="@+id/project_size_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/details_spacing"/>
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_project_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:errorEnabled="true"
-            app:hintEnabled="true">
+            app:hintEnabled="true"
+            android:hint="@string/project_name_label">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/project_upload_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:selectAllOnFocus="true" />
@@ -50,27 +88,21 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/dialog_login_password"
+            android:id="@+id/input_project_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password"
-            app:errorEnabled="true"
-            app:hintEnabled="true">
+            app:hintEnabled="true"
+            android:hint="@string/upload_description">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/project_description_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:minLines="1"
                 android:selectAllOnFocus="true" />
 
         </android.support.design.widget.TextInputLayout>
-
-        <CheckBox
-            android:id="@+id/show_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/show_password"
-            android:gravity="center"/>
+    </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

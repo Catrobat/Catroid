@@ -22,30 +22,30 @@
  */
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
 
-public abstract class TextDialog extends DialogFragment {
+public abstract class TextInputDialogFragment extends DialogFragment {
 
 	protected TextInputLayout inputLayout;
 	protected int title;
-	protected int label;
+	protected int hint;
 	protected String text;
 	protected boolean allowEmptyInput;
 
-	public TextDialog(int title, int label, @Nullable String text, boolean allowEmptyInput) {
+	public TextInputDialogFragment(int title, int hint, @Nullable String text, boolean allowEmptyInput) {
 		this.title = title;
-		this.label = label;
+		this.hint = hint;
 		this.text = text;
 		this.allowEmptyInput = allowEmptyInput;
 	}
@@ -54,8 +54,8 @@ public abstract class TextDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle bundle) {
 		inputLayout = (TextInputLayout) View.inflate(getActivity(), R.layout.dialog_text_input, null);
 
+		inputLayout.setHint(getString(hint));
 		inputLayout.getEditText().setText(text);
-		inputLayout.setHint(getString(label));
 
 		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
 				.setTitle(title)
@@ -76,13 +76,16 @@ public abstract class TextDialog extends DialogFragment {
 				buttonPositive.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						if (handlePositiveButtonClick()) {
+						if (onPositiveButtonClick()) {
 							dismiss();
 						}
 					}
 				});
-				inputLayout.getEditText()
-						.addTextChangedListener(new DialogInputWatcher(inputLayout, buttonPositive, allowEmptyInput));
+				if (!allowEmptyInput) {
+					buttonPositive.setEnabled(!inputLayout.getEditText().getText().toString().isEmpty());
+				}
+				DialogInputWatcher inputWatcher = new DialogInputWatcher(inputLayout, buttonPositive, allowEmptyInput);
+				inputLayout.getEditText().addTextChangedListener(inputWatcher);
 			}
 		});
 
@@ -91,11 +94,11 @@ public abstract class TextDialog extends DialogFragment {
 
 	@Override
 	public void onCancel(DialogInterface dialog) {
-		handleNegativeButtonClick();
+		onNegativeButtonClick();
 		dismiss();
 	}
 
-	protected abstract boolean handlePositiveButtonClick();
+	protected abstract boolean onPositiveButtonClick();
 
-	protected abstract void handleNegativeButtonClick();
+	protected abstract void onNegativeButtonClick();
 }

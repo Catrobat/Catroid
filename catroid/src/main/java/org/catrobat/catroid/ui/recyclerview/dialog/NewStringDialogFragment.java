@@ -20,35 +20,35 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.recyclerview.dialog;
+
+import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.dialog.TextDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
-public class SetDescriptionDialog extends TextDialog {
+public class NewStringDialogFragment extends TextInputDialogFragment {
 
-	public static final String TAG = SetDescriptionDialog.class.getSimpleName();
+	public static final String TAG = NewStringDialogFragment.class.getSimpleName();
 
-	private ChangeDescriptionInterface descriptionInterface;
+	private NewItemInterface<String> newItemInterface;
 
-	public SetDescriptionDialog(String text, ChangeDescriptionInterface descriptionInterface) {
-		super(R.string.set_description, R.string.description, text, true);
-		this.descriptionInterface = descriptionInterface;
+	public NewStringDialogFragment(@Nullable String previousString, NewItemInterface<String> newItemInterface) {
+		super(R.string.formula_editor_new_string_name, R.string.string_label, previousString, true);
+		if (previousString != null) {
+			title = R.string.formula_editor_dialog_change_text;
+		}
+		this.newItemInterface = newItemInterface;
 	}
 
 	@Override
-	protected boolean handlePositiveButtonClick() {
-		String description = inputLayout.getEditText().getText().toString().trim();
-		descriptionInterface.setDescription(description);
+	protected boolean onPositiveButtonClick() {
+		String string = inputLayout.getEditText().getText().toString().trim();
+		newItemInterface.addItem(string);
 		return true;
 	}
 
 	@Override
-	protected void handleNegativeButtonClick() {
-	}
-
-	public interface ChangeDescriptionInterface {
-
-		void setDescription(String description);
+	protected void onNegativeButtonClick() {
 	}
 }

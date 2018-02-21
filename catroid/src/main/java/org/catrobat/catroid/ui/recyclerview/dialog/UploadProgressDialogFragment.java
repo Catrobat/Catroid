@@ -21,10 +21,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -34,10 +33,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -54,14 +52,12 @@ import org.catrobat.catroid.web.ServerCalls;
 
 import java.util.List;
 
-public class UploadProgressDialog extends DialogFragment {
-	public static final String DIALOG_PROGRESS_FRAGMENT_TAG = "dialog_upload_progress_tags";
+public class UploadProgressDialogFragment extends DialogFragment {
+
+	public static final String TAG = UploadProgressDialogFragment.class.getSimpleName();
 	public static final String NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects";
-	private static final String TAG = UploadProgressDialog.class.getSimpleName();
 
 	private String openAuthProvider = Constants.NO_OAUTH_PROVIDER;
-	private String currentProjectName;
-	private String currentProjectDescription;
 	private ProgressBar progressBar;
 	private ImageView successImage;
 	private int progressPercent;
@@ -74,15 +70,18 @@ public class UploadProgressDialog extends DialogFragment {
 		if (bundle != null) {
 			openAuthProvider = bundle.getString(Constants.CURRENT_OAUTH_PROVIDER);
 		}
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_upload_project_progress, null);
 
-		progressBar = (ProgressBar) dialogView.findViewById(R.id.dialog_upload_progress_progressbar);
-		successImage = (ImageView) dialogView.findViewById(R.id.dialog_upload_progress_success_image);
-		progressBarDialog = new AlertDialog.Builder(getActivity()).setView(dialogView).create();
-		progressBarDialog.setTitle(getString(R.string.upload_project_dialog_title));
-		progressBarDialog.setCancelable(false);
+		View view = View.inflate(getActivity(), R.layout.dialog_upload_project_progress, null);
+		progressBar = view.findViewById(R.id.dialog_upload_progress_progressbar);
+		successImage = view.findViewById(R.id.dialog_upload_progress_success_image);
+
+		progressBarDialog = new AlertDialog.Builder(getActivity())
+				.setTitle(getString(R.string.upload_project_dialog_title))
+				.setView(view)
+				.setCancelable(false)
+				.create();
+
 		progressBarDialog.setCanceledOnTouchOutside(false);
-
 		progressBarDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
 				(DialogInterface.OnClickListener) null);
 		progressBarDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.progress_upload_dialog_show_program),
@@ -101,13 +100,8 @@ public class UploadProgressDialog extends DialogFragment {
 		dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(getString(R.string.done));
 		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 
-		Button doneButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-		Button showProgramButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-
-		doneButton.setWidth(50);
-		showProgramButton.setWidth(50);
-
-		uploadProject(currentProjectName, currentProjectDescription);
+		uploadProject(getArguments().getString(Constants.PROJECT_UPLOAD_NAME),
+				getArguments().getString(Constants.PROJECT_UPLOAD_DESCRIPTION));
 		//QUICKFIX: upload response currently not working
 		new Thread(new Runnable() {
 
@@ -151,14 +145,6 @@ public class UploadProgressDialog extends DialogFragment {
 		});
 	}
 
-	public void setProjectName(String projectName) {
-		this.currentProjectName = projectName;
-	}
-
-	public void setProjectDescription(String projectDescription) {
-		this.currentProjectDescription = projectDescription;
-	}
-
 	@SuppressLint("ParcelCreator")
 	private class UploadReceiver extends ResultReceiver {
 
@@ -198,30 +184,32 @@ public class UploadProgressDialog extends DialogFragment {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
+		Intent intent = new Intent(getActivity(), ProjectUploadService.class);
 		String[] sceneNames = getSceneNamesAsArray(projectManager.getCurrentProject().getSceneList());
 
 		// TODO check this extras - e.g. project description isn't used by web
-		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
-		uploadIntent.putExtra("uploadName", uploadName);
-		uploadIntent.putExtra("projectDescription", projectDescription);
-		uploadIntent.putExtra("projectPath", projectPath);
-		uploadIntent.putExtra("username", username);
-		uploadIntent.putExtra("token", token);
-		uploadIntent.putExtra("provider", openAuthProvider);
-		uploadIntent.putExtra("sceneNames", sceneNames);
+		intent.putExtra("receiver", new UploadReceiver(new Handler()));
+		intent.putExtra("uploadName", uploadName);
+		intent.putExtra("projectDescription", projectDescription);
+		intent.putExtra("projectPath", projectPath);
+		intent.putExtra("username", username);
+		intent.putExtra("token", token);
+		intent.putExtra("provider", openAuthProvider);
+		intent.putExtra("sceneNames", sceneNames);
 
-		int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getActivity(),
-				uploadName);
-		uploadIntent.putExtra("notificationId", notificationId);
-		getActivity().startService(uploadIntent);
+		int notificationId = StatusBarNotificationManager.getInstance()
+				.createUploadNotification(getActivity(), uploadName);
+
+		intent.putExtra("notificationId", notificationId);
+		getActivity().startService(intent);
+
 		int numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0);
-		numberOfUploadedProjects = numberOfUploadedProjects + 1;
+		numberOfUploadedProjects++;
 
 		if (numberOfUploadedProjects == 2) {
-			RatingDialog dialog = new RatingDialog();
-			dialog.show(getFragmentManager(), RatingDialog.TAG);
+			new RatePocketCodeDialogFragment().show(getFragmentManager(), RatePocketCodeDialogFragment.TAG);
 		}
+
 		sharedPreferences.edit().putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects).commit();
 	}
 

@@ -23,12 +23,12 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.media.MediaRouter;
 import android.view.View;
 import android.widget.AdapterView;

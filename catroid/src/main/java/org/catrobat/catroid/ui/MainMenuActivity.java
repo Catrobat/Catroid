@@ -37,6 +37,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.FacebookSdk;
+
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -47,10 +49,11 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
@@ -59,7 +62,9 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderTask.ProjectLoaderListener {
+public class MainMenuActivity extends BaseCastActivity implements
+		ProjectLoaderTask.ProjectLoaderListener,
+		SignInDialog.SignInCompleteListener {
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
@@ -77,6 +82,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			setContentView(R.layout.activity_main_menu_splashscreen);
 		} else {
+			FacebookSdk.sdkInitialize(getApplicationContext());
 			setContentView(R.layout.activity_main_menu);
 			setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 			getSupportActionBar().setTitle(R.string.app_name);
@@ -151,16 +157,13 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 				launchMarket();
 				break;
 			case R.id.menu_terms_of_use:
-				new TermsOfUseDialogFragment()
-						.show(getFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
+				new TermsOfUseDialogFragment().show(getFragmentManager(), TermsOfUseDialogFragment.TAG);
 				break;
 			case R.id.menu_privacy_policy:
-				new PrivacyPolicyDialogFragment()
-						.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
+				new PrivacyPolicyDialogFragment().show(getFragmentManager(), PrivacyPolicyDialogFragment.TAG);
 				break;
 			case R.id.menu_about:
-				new AboutDialogFragment()
-						.show(getFragmentManager(), AboutDialogFragment.TAG);
+				new AboutDialogFragment().show(getFragmentManager(), AboutDialogFragment.TAG);
 				break;
 			case R.id.menu_scratch_converter:
 				if (Utils.isNetworkAvailable(this)) {
@@ -173,7 +176,9 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 				startActivity(new Intent(this, SettingsActivity.class));
 				break;
 			case R.id.menu_login:
-				//TODO: Refactor Sign in dialog: ProjectManager.getInstance().showSignInDialog(this, false);
+				SignInDialog dialog = new SignInDialog();
+				dialog.setSignInCompleteListener(this);
+				dialog.show(getFragmentManager(), SignInDialog.TAG);
 				break;
 			case R.id.menu_logout:
 				Utils.logoutUser(this);
@@ -185,15 +190,14 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 	}
 
 	private void launchMarket() {
-		if (!Utils.isNetworkAvailable(this)) {
+		if (Utils.isNetworkAvailable(this)) {
+			try {
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+			} catch (ActivityNotFoundException e) {
+				ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
+			}
+		} else {
 			ToastUtil.showError(this, R.string.error_internet_connection);
-			return;
-		}
-
-		try {
-			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-		} catch (ActivityNotFoundException e) {
-			ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
 		}
 	}
 
@@ -212,6 +216,11 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			startActivityForResult(new Intent(this, PreStageActivity.class), PreStageActivity.REQUEST_RESOURCES_INIT);
 		}
+	}
+
+	@Override
+	public void onLoginSuccessful(Bundle bundle) {
+		//maybe do something? or nah?
 	}
 
 	@Override

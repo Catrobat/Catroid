@@ -43,7 +43,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.List;
@@ -185,9 +185,9 @@ public class SetLookBrick extends BrickBaseType implements NewItemInterface<Look
 	}
 
 	private void showNewLookDialog(Activity activity) {
-		NewLookDialog dialog = new NewLookDialog(
+		NewLookDialogFragment dialog = new NewLookDialogFragment(
 				this, ProjectManager.getInstance().getCurrentScene(), ProjectManager.getInstance().getCurrentSprite());
-		dialog.show(activity.getFragmentManager(), NewLookDialog.TAG);
+		dialog.show(activity.getFragmentManager(), NewLookDialogFragment.TAG);
 	}
 
 	@Override

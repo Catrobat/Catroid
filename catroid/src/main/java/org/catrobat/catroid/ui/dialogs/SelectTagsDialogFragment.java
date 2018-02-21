@@ -23,84 +23,72 @@
 
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.support.v7.app.AlertDialog;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.GetTagsTask;
+import org.catrobat.catroid.ui.recyclerview.dialog.UploadProgressDialogFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UploadProjectTagsDialog extends DialogFragment implements GetTagsTask.AsyncResponse {
+public class SelectTagsDialogFragment extends DialogFragment {
 
-	public static final String DIALOG_TAGGING_FRAGMENT_TAG = "dialog_upload_project_tags";
+	public static final String TAG = SelectTagsDialogFragment.class.getSimpleName();
 
 	public static final int MAX_NUMBER_OF_TAGS_CHECKED = 3;
-	public List<String> tags;
+	public List<String> tags = new ArrayList<>();
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
 
 	@Override
 	public Dialog onCreateDialog(final Bundle bundle) {
-
 		final List<String> checkedTags = new ArrayList<>();
-		final String[] tagChoices = tags.toArray(new String[tags.size()]);
-		Dialog tagDialog = new AlertDialog.Builder(getActivity())
+		final String[] choiceItems = tags.toArray(new String[tags.size()]);
+
+		return new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.upload_tag_dialog_title)
-				.setMultiChoiceItems(tagChoices, null, new DialogInterface.OnMultiChoiceClickListener() {
+				.setMultiChoiceItems(choiceItems, null, new DialogInterface.OnMultiChoiceClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
 						if (isChecked) {
 							if (checkedTags.size() >= MAX_NUMBER_OF_TAGS_CHECKED) {
 								((AlertDialog) dialog).getListView().setItemChecked(indexSelected, false);
 							} else {
-								checkedTags.add(tagChoices[indexSelected]);
+								checkedTags.add(choiceItems[indexSelected]);
 							}
 						} else {
-							checkedTags.remove(tagChoices[indexSelected]);
+							checkedTags.remove(choiceItems[indexSelected]);
 						}
 					}
-				}).setPositiveButton(getText(R.string.next), new DialogInterface.OnClickListener() {
+				})
+				.setPositiveButton(getText(R.string.next), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						ProjectManager.getInstance().getCurrentProject().setTags(checkedTags);
-						handleOKButton();
+						onPositiveButtonClick();
 					}
-				}).setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
+				})
+				.setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						handleCancelButtonClick();
+						Utils.invalidateLoginTokenIfUserRestricted(getActivity());
 					}
-				}).create();
-
-		tagDialog.setCanceledOnTouchOutside(false);
-		tagDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		tagDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-		return tagDialog;
+				})
+				.setCancelable(false)
+				.create();
 	}
 
-	private void handleOKButton() {
-		UploadProgressDialog progressDialog = new UploadProgressDialog();
-		progressDialog.setProjectName(getArguments().getString(Constants.PROJECT_UPLOAD_NAME));
-		progressDialog.setProjectDescription(getArguments().getString(Constants.PROJECT_UPLOAD_DESCRIPTION));
-		progressDialog.show(getFragmentManager(), UploadProgressDialog.DIALOG_PROGRESS_FRAGMENT_TAG);
-	}
-
-	@Override
-	public void onTagsReceived(List<String> tags) {
-		this.tags = tags;
-	}
-
-	private void handleCancelButtonClick() {
-		Utils.invalidateLoginTokenIfUserRestricted(getActivity());
-		dismiss();
+	private void onPositiveButtonClick() {
+		UploadProgressDialogFragment dialog = new UploadProgressDialogFragment();
+		dialog.setArguments(getArguments());
+		dialog.show(getFragmentManager(), UploadProgressDialogFragment.TAG);
 	}
 }

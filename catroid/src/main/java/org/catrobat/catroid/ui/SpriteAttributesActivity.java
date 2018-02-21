@@ -45,10 +45,10 @@ import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.ardrone.DroneStageActivity;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.recyclerview.SimpleRVItem;
 import org.catrobat.catroid.ui.recyclerview.adapter.SimpleRVAdapter;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -59,8 +59,8 @@ import java.util.Set;
 
 public class SpriteAttributesActivity extends BaseActivity implements
 		SimpleRVAdapter.OnItemClickListener,
-		PlaySceneDialog.PlaySceneInterface,
-		RenameItemDialog.RenameItemInterface {
+		PlaySceneDialogFragment.PlaySceneInterface,
+		RenameDialogFragment.RenameInterface {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({SCRIPTS, LOOKS, SOUNDS, NFC_TAGS})
@@ -143,9 +143,9 @@ public class SpriteAttributesActivity extends BaseActivity implements
 
 	private void showRenameDialog() {
 		String name = ProjectManager.getInstance().getCurrentSprite().getName();
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_sprite_dialog,
+		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_sprite_dialog,
 				R.string.sprite_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
+		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
 	}
 
 	@Override
@@ -212,8 +212,8 @@ public class SpriteAttributesActivity extends BaseActivity implements
 			return;
 		}
 
-		PlaySceneDialog playSceneDialog = new PlaySceneDialog(this);
-		playSceneDialog.show(getFragmentManager(), PlaySceneDialog.TAG);
+		PlaySceneDialogFragment playSceneDialog = new PlaySceneDialogFragment(this);
+		playSceneDialog.show(getFragmentManager(), PlaySceneDialogFragment.TAG);
 	}
 
 	@Override

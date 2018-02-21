@@ -41,16 +41,16 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.NfcTagListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 
-public class SpriteActivity extends BaseActivity implements PlaySceneDialog.PlaySceneInterface {
+public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragment.PlaySceneInterface {
 
 	public static final String TAG = SpriteActivity.class.getSimpleName();
 
@@ -216,8 +216,8 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialog.Play
 			return;
 		}
 
-		PlaySceneDialog playSceneDialog = new PlaySceneDialog(this);
-		playSceneDialog.show(getFragmentManager(), PlaySceneDialog.TAG);
+		PlaySceneDialogFragment playSceneDialog = new PlaySceneDialogFragment(this);
+		playSceneDialog.show(getFragmentManager(), PlaySceneDialogFragment.TAG);
 	}
 
 	@Override

@@ -20,82 +20,72 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.recyclerview.dialog;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 
-public class PlaySceneDialog extends DialogFragment {
+public class PlaySceneDialogFragment extends DialogFragment {
 
-	public static final String TAG = PlaySceneDialog.class.getSimpleName();
+	public static final String TAG = PlaySceneDialogFragment.class.getSimpleName();
 
 	private PlaySceneInterface playSceneInterface;
-	private RadioButton playFirstScene;
+	private RadioGroup radioGroup;
 
-	public PlaySceneDialog(PlaySceneInterface playSceneInterface) {
+	public PlaySceneDialogFragment(PlaySceneInterface playSceneInterface) {
 		this.playSceneInterface = playSceneInterface;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		@SuppressLint("InflateParams")
-		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_play_scene, null);
+		radioGroup = (RadioGroup) View.inflate(getActivity(), R.layout.dialog_play_scene, null);
 
-		Dialog dialog = new AlertDialog.Builder(getActivity())
-				.setView(view)
+		String defaultScene = String.format(getString(R.string.play_scene_dialog_default), ProjectManager
+				.getInstance().getCurrentProject().getDefaultScene().getName());
+		String currentScene = String.format(getString(R.string.play_scene_dialog_current), ProjectManager
+				.getInstance().getCurrentScene().getName());
+
+		((RadioButton) radioGroup.findViewById(R.id.play_default_scene)).setText(defaultScene);
+		((RadioButton) radioGroup.findViewById(R.id.play_current_scene)).setText(currentScene);
+
+		return new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.play_scene_dialog_title)
+				.setView(radioGroup)
 				.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						handleOkButtonClick();
 					}
 				})
-				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				})
+				.setNegativeButton(R.string.cancel, null)
 				.create();
-
-		dialog.setTitle(R.string.play_scene_dialog_title);
-		dialog.setCanceledOnTouchOutside(true);
-
-		playFirstScene = view.findViewById(R.id.play_default_scene_radiobutton);
-		playFirstScene.setChecked(true);
-
-		String firstSceneText = String.format(getString(R.string.play_scene_dialog_default), ProjectManager
-				.getInstance().getCurrentProject().getDefaultScene().getName());
-		String currentSceneText = String.format(getString(R.string.play_scene_dialog_current), ProjectManager
-				.getInstance().getCurrentScene().getName());
-
-		playFirstScene.setText(firstSceneText);
-		((RadioButton) view.findViewById(R.id.play_current_scene_radiobutton)).setText(currentSceneText);
-
-		return dialog;
 	}
 
 	protected void handleOkButtonClick() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		if (playFirstScene.isChecked()) {
-			projectManager.setSceneToPlay(projectManager.getCurrentProject().getDefaultScene());
-		} else {
-			projectManager.setSceneToPlay(projectManager.getCurrentScene());
+		switch (radioGroup.getCheckedRadioButtonId()) {
+			case R.id.play_default_scene:
+				projectManager.setSceneToPlay(projectManager.getCurrentProject().getDefaultScene());
+				break;
+			case R.id.play_current_scene:
+				projectManager.setSceneToPlay(projectManager.getCurrentScene());
+				break;
+			default:
+				throw new IllegalStateException(TAG + ": Cannot find RadioButton.");
 		}
 
 		projectManager.setStartScene(ProjectManager.getInstance().getSceneToPlay());
 		playSceneInterface.startPreStageActivity();
-
-		dismiss();
 	}
 
 	public interface PlaySceneInterface {

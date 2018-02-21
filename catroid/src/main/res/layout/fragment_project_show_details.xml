@@ -36,7 +36,7 @@
             android:id="@+id/image"
             android:layout_width="72dp"
             android:layout_height="65dp"
-            android:layout_marginEnd="@dimen/view_holder_image_margin"
+            android:layout_marginEnd="@dimen/img_margin"
             android:background="@drawable/image_contour"
             android:cropToPadding="true"
             android:scaleType="centerCrop" />

@@ -24,7 +24,11 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/dialog_content_area_padding_top"
+    android:paddingStart="@dimen/dialog_content_area_padding"
+    android:paddingEnd="@dimen/dialog_content_area_padding"
+    android:paddingBottom="@dimen/dialog_content_area_padding_top">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -40,14 +44,16 @@
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_paintroid"
                 android:gravity="center"
-                android:text="@string/add_look_draw_new_image" />
+                android:text="@string/add_look_draw_new_image"
+                android:textSize="?attr/medium" />
 
             <TextView
                 android:id="@+id/dialog_new_look_media_library"
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_media_library"
                 android:gravity="center"
-                android:text="@string/add_look_media_library" />
+                android:text="@string/add_look_media_library"
+                android:textSize="?attr/medium" />
         </TableRow>
 
         <TableRow
@@ -59,14 +65,16 @@
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_gallery"
                 android:gravity="center"
-                android:text="@string/add_look_choose_image" />
+                android:text="@string/add_look_choose_image"
+                android:textSize="?attr/medium" />
 
             <TextView
                 android:id="@+id/dialog_new_look_camera"
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_camera"
                 android:gravity="center"
-                android:text="@string/add_look_from_camera" />
+                android:text="@string/add_look_from_camera"
+                android:textSize="?attr/medium" />
 
         </TableRow>
     </TableLayout>

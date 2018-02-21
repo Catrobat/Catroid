@@ -37,8 +37,8 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameItemDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -70,9 +70,9 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 	@Override
 	public void handleAddButton() {
-		NewSoundDialog dialog = new NewSoundDialog(this,
+		NewSoundDialogFragment dialog = new NewSoundDialogFragment(this,
 				ProjectManager.getInstance().getCurrentScene(), ProjectManager.getInstance().getCurrentSprite());
-		dialog.show(getFragmentManager(), NewSoundDialog.TAG);
+		dialog.show(getFragmentManager(), NewSoundDialogFragment.TAG);
 	}
 
 	@Override
@@ -150,8 +150,8 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 	@Override
 	protected void showRenameDialog(List<SoundInfo> selectedItems) {
 		String name = selectedItems.get(0).getName();
-		RenameItemDialog dialog = new RenameItemDialog(R.string.rename_sound_dialog, R.string.sound_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameItemDialog.TAG);
+		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_sound_dialog, R.string.sound_name_label, name, this);
+		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
 	}
 
 	@Override

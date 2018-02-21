@@ -37,11 +37,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewVariableDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewVariableDialogFragment;
 
 import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_DATA_EMPTY;
 
-public abstract class UserVariableBrick extends FormulaBrick implements NewVariableDialog.NewVariableInterface {
+public abstract class UserVariableBrick extends FormulaBrick implements NewVariableDialogFragment.NewVariableInterface {
 
 	protected UserVariable userVariable;
 
@@ -172,7 +172,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 	}
 
 	private void showNewVariableDialog() {
-		NewVariableDialog dialog = new NewVariableDialog(this);
-		dialog.show(((Activity) view.getContext()).getFragmentManager(), NewVariableDialog.TAG);
+		NewVariableDialogFragment dialog = new NewVariableDialogFragment(this);
+		dialog.show(((Activity) view.getContext()).getFragmentManager(), NewVariableDialogFragment.TAG);
 	}
 }

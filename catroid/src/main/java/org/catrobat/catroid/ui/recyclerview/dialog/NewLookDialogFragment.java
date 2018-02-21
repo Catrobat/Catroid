@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
@@ -35,6 +34,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 
@@ -49,6 +49,7 @@ import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -62,13 +63,11 @@ import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.CAM
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.FILE;
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.LIBRARY;
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.POCKET_PAINT;
-import static org.catrobat.catroid.utils.Utils.buildBackpackScenePath;
 import static org.catrobat.catroid.utils.Utils.buildPath;
-import static org.catrobat.catroid.utils.Utils.buildScenePath;
 
-public class NewLookDialog extends DialogFragment implements View.OnClickListener {
+public class NewLookDialogFragment extends DialogFragment implements View.OnClickListener {
 
-	public static final String TAG = NewLookDialog.class.getSimpleName();
+	public static final String TAG = NewLookDialogFragment.class.getSimpleName();
 
 	private NewItemInterface<LookData> newItemInterface;
 	private Scene dstScene;
@@ -77,7 +76,7 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	private Uri uri;
 
-	public NewLookDialog(NewItemInterface<LookData> newItemInterface, Scene dstScene, Sprite dstSprite) {
+	public NewLookDialogFragment(NewItemInterface<LookData> newItemInterface, Scene dstScene, Sprite dstSprite) {
 		this.newItemInterface = newItemInterface;
 		this.dstScene = dstScene;
 		this.dstSprite = dstSprite;
@@ -120,7 +119,9 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 				}
 				break;
 			case R.id.dialog_new_look_media_library:
-				if (Utils.isNetworkAvailable(getActivity(), true)) {
+				if (!Utils.isNetworkAvailable(getActivity())) {
+					ToastUtil.showError(getActivity(), R.string.error_internet_connection);
+				} else {
 					intent = new Intent(getActivity(), WebViewActivity.class)
 							.putExtra(WebViewActivity.INTENT_PARAMETER_URL, getMediaLibraryUrl())
 							.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
@@ -213,7 +214,7 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 		}
 		try {
 			String name = StorageHandler.getSanitizedFileName(new File(srcPath));
-			String fileName = StorageHandler.copyFile(srcPath, getPath(dstScene)).getName();
+			String fileName = StorageHandler.copyFile(srcPath, getImgDirPath(dstScene)).getName();
 			newItemInterface.addItem(
 					new LookData(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), fileName));
 		} catch (IOException e) {
@@ -229,14 +230,8 @@ public class NewLookDialog extends DialogFragment implements View.OnClickListene
 		return scope;
 	}
 
-	private String getPath(Scene scene) {
-		String path;
-		if (scene.isBackPackScene) {
-			path = buildBackpackScenePath(scene.getName());
-		} else {
-			path = buildScenePath(scene.getProject().getName(), scene.getName());
-		}
-		return buildPath(path, IMAGE_DIRECTORY);
+	private String getImgDirPath(Scene scene) {
+		return buildPath(scene.getPath(), IMAGE_DIRECTORY);
 	}
 
 	private Uri getDefaultLookFromCameraUri(String defLookName) {

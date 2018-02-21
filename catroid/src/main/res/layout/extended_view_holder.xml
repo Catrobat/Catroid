@@ -50,7 +50,7 @@
             android:layout_width="72dp"
             android:layout_height="65dp"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/view_holder_image_margin"
+            android:layout_marginEnd="@dimen/img_margin"
             android:background="@drawable/image_contour"
             android:cropToPadding="true"
             android:scaleType="centerCrop" />
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingEnd="@dimen/view_holder_details_spacing">
+                    android:paddingEnd="@dimen/details_spacing">
 
                     <TextView
                         android:id="@+id/details_left_top"

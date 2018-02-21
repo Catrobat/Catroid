@@ -46,12 +46,13 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.LegoEV3SensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
-import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
+import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
+import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
 
-public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog.PlaySceneInterface {
+public class ProjectActivity extends BaseCastActivity implements PlaySceneDialogFragment.PlaySceneInterface {
 
 	public static final String EXTRA_FRAGMENT_POSITION = "FRAGMENT_POSITION";
 	public static final int FRAGMENT_SCENES = 0;
@@ -113,8 +114,9 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.upload:
-				ProjectManager projectManager = ProjectManager.getInstance();
-				projectManager.uploadProject(projectManager.getCurrentProject().getName(), this);
+				Intent intent = new Intent(this, ProjectUploadActivity.class)
+						.putExtra(ProjectUploadActivity.PROJECT_NAME, ProjectManager.getInstance().getCurrentProject().getName());
+				startActivity(intent);
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -143,8 +145,8 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 			Intent intent = new Intent(this, PreStageActivity.class);
 			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 		} else {
-			PlaySceneDialog playSceneDialog = new PlaySceneDialog(this);
-			playSceneDialog.show(getFragmentManager(), PlaySceneDialog.TAG);
+			PlaySceneDialogFragment playSceneDialog = new PlaySceneDialogFragment(this);
+			playSceneDialog.show(getFragmentManager(), PlaySceneDialogFragment.TAG);
 		}
 	}
 

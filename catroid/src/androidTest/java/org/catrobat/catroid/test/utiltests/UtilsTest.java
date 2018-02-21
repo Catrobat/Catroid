@@ -205,16 +205,6 @@ public class UtilsTest extends AndroidTestCase {
 		SystemClock.sleep(1000);
 	}
 
-	public void testLoadProjectIfNeeded() {
-		Utils.saveToPreferences(getContext(), Constants.PREF_PROJECTNAME_KEY, "projectNameWhichDoesNotExist");
-		try {
-			Utils.loadProjectIfNeeded(getContext());
-		} catch (Exception e) {
-			fail("Tried to load project which should not be loadable.");
-		}
-		TestUtils.removeFromPreferences(getContext(), Constants.PREF_PROJECTNAME_KEY);
-	}
-
 	public void testExtractRemixUrlsOfProgramHeaderUrlFieldContainingSingleAbsoluteUrl() {
 		final String expectedFirstProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
 		final String remixUrlsString = expectedFirstProgramRemixUrl;

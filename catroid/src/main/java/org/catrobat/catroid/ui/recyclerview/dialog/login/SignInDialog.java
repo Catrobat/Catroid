@@ -20,11 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.recyclerview.dialog.login;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
@@ -33,13 +31,11 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -52,7 +48,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.CheckEmailAvailableTask;
@@ -63,6 +58,8 @@ import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.transfers.GoogleExchangeCodeTask;
 import org.catrobat.catroid.transfers.GoogleLogInTask;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment.PrivacyPolicyListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
@@ -81,14 +78,15 @@ public class SignInDialog extends DialogFragment implements
 		CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
 		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
 		GetFacebookUserInfoTask.OnGetFacebookUserInfoTaskCompleteListener {
-	private static final String TAG = SignInDialog.class.getSimpleName();
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_sign_in";
+	public static final String TAG = SignInDialog.class.getSimpleName();
+	private static final String SHARED_PREFERENCES_PRIVACY_POLICY_KEY = "USER_ACCEPTED_PRIVACY_POLICY";
+
 	private static final int GPLUS_REQUEST_CODE_SIGN_IN = 0;
 	private static final Integer RESULT_CODE_AUTH_CODE = 1;
 	private static final String FACEBOOK_PROFILE_PERMISSION = "public_profile";
 	private static final String FACEBOOK_EMAIL_PERMISSION = "email";
-	private static final java.lang.String GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID = "427226922034-r016ige5kb30q9vflqbt1h0i3arng8u1.apps.googleusercontent.com";
+	private static final String GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID = "427226922034-r016ige5kb30q9vflqbt1h0i3arng8u1.apps.googleusercontent.com";
 
 	private ProgressDialog connectionProgressDialog;
 	private GoogleApiClient googleApiClient;
@@ -96,52 +94,45 @@ public class SignInDialog extends DialogFragment implements
 	private boolean isResolving = false;
 	private boolean triggerGPlusLogin = false;
 
+	private SignInCompleteListener signInCompleteListener;
+
+	public void setSignInCompleteListener(SignInCompleteListener signInCompleteListener) {
+		this.signInCompleteListener = signInCompleteListener;
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
 		initializeGooglePlus();
 
-		@SuppressLint("InflateParams")
-		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_sign_in, null);
+		View view = View.inflate(getActivity(), R.layout.dialog_sign_in, null);
 
-		final Button loginButton = rootView.findViewById(R.id.dialog_sign_in_login);
-		final Button registerButton = rootView.findViewById(R.id.dialog_sign_in_register);
-		final Button facebookLoginButton = rootView.findViewById(R.id.dialog_sign_in_facebook_login_button);
-		Button gplusLoginButton = rootView.findViewById(R.id.dialog_sign_in_gplus_login_button);
-		TextView termsOfUseLinkTextView = rootView.findViewById(R.id.register_terms_link);
+		Button loginButton = view.findViewById(R.id.dialog_sign_in_login);
+		Button registerButton = view.findViewById(R.id.dialog_sign_in_register);
+		Button facebookLoginButton = view.findViewById(R.id.dialog_sign_in_facebook_login_button);
+		Button gplusLoginButton = view.findViewById(R.id.dialog_sign_in_gplus_login_button);
 
-		facebookLoginButton.getViewTreeObserver().addOnGlobalLayoutListener(
-				new ViewTreeObserver.OnGlobalLayoutListener() {
-					@Override
-					public void onGlobalLayout() {
-						int width = facebookLoginButton.getWidth();
-						if (width > 0) {
-							loginButton.getLayoutParams().width = width;
-							registerButton.getLayoutParams().width = width;
-							facebookLoginButton.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-						}
-					}
-				});
+		TextView termsOfUseLinkTextView = view.findViewById(R.id.register_terms_link);
 
 		String termsOfUseUrl = getString(R.string.about_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
 				getString(R.string.register_code_terms_of_use_text));
 		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
 
-		final AlertDialog signInDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
-				.setTitle(R.string.sign_in_dialog_title).create();
-		signInDialog.setCanceledOnTouchOutside(true);
-		signInDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.sign_in_dialog_title)
+				.setView(view)
+				.create();
 
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View view) {
+			public void onClick(View v) {
 				handleLoginButtonClick();
 			}
 		});
 
 		registerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View view) {
+			public void onClick(View v) {
 				handleRegisterButtonClick();
 			}
 		});
@@ -151,40 +142,30 @@ public class SignInDialog extends DialogFragment implements
 		facebookLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (Utils.isNetworkAvailable(getActivity())) {
-					if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(getActivity())) {
-						PrivacyPolicyDialogFragment privacyPolicyDialog =
-								new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
-									@Override
-									public void onClick() {
-										Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
-										LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
-									}
-								}, true);
-
-						privacyPolicyDialog.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
-					} else {
-						Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
-						LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
-					}
-				} else {
-					Utils.isNetworkAvailable(getActivity(), true);
-				}
+				handleFacebookLoginButtonClick();
 			}
 		});
 
 		gplusLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View view) {
-				if (Utils.isNetworkAvailable(getActivity())) {
-					handleGooglePlusLoginButtonClick(view);
-				} else {
-					Utils.isNetworkAvailable(getActivity(), true);
-				}
+			public void onClick(View v) {
+				handleGooglePlusLoginButtonClick();
 			}
 		});
 
-		return signInDialog;
+		return alertDialog;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		googleApiClient.connect();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		googleApiClient.disconnect();
 	}
 
 	private void initializeGooglePlus() {
@@ -204,33 +185,34 @@ public class SignInDialog extends DialogFragment implements
 		connectionProgressDialog.setMessage("Trying to sign in to Google+");
 	}
 
-	private void handleGooglePlusLoginButtonClick(View view) {
-		if (view.getId() == R.id.dialog_sign_in_gplus_login_button) {
-			if (!googleApiClient.isConnected()) {
-				shouldResolveErrors = true;
-				googleApiClient.connect();
-				triggerGPlusLogin = true;
-			} else {
-				if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(getActivity())) {
-					PrivacyPolicyDialogFragment privacyPolicyDialog =
-							new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
-								@Override
-								public void onClick() {
-									startGooglePlusLoginIntent();
-								}
-							}, true);
-
-					privacyPolicyDialog.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
-				} else {
-					startGooglePlusLoginIntent();
-				}
-			}
-		}
+	public boolean userHasAcceptedPrivacyPolicy() {
+		return PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(
+				SHARED_PREFERENCES_PRIVACY_POLICY_KEY, false);
 	}
 
-	private void startGooglePlusLoginIntent() {
-		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-		startActivityForResult(signInIntent, MainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
+	private void handleGooglePlusLoginButtonClick() {
+		if (Utils.isNetworkAvailable(getActivity())) {
+			ToastUtil.showError(getActivity(), R.string.error_internet_connection);
+			return;
+		}
+		if (!googleApiClient.isConnected()) {
+			shouldResolveErrors = true;
+			googleApiClient.connect();
+			triggerGPlusLogin = true;
+		} else if (!userHasAcceptedPrivacyPolicy()) {
+			PrivacyPolicyListener privacyPolicyListener = new PrivacyPolicyListener() {
+				@Override
+				public void onPrivacyPolicyAccepted() {
+					Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+					startActivityForResult(signInIntent, MainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
+				}
+			};
+			new PrivacyPolicyDialogFragment(privacyPolicyListener, true)
+					.show(getFragmentManager(), PrivacyPolicyDialogFragment.TAG);
+		} else {
+			Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+			startActivityForResult(signInIntent, MainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
+		}
 	}
 
 	public void onGoogleLogInComplete(GoogleSignInAccount account) {
@@ -254,68 +236,81 @@ public class SignInDialog extends DialogFragment implements
 		checkOAuthTokenTask.execute();
 	}
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		googleApiClient.connect();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		googleApiClient.disconnect();
-	}
-
 	private void handleLoginButtonClick() {
-		if (!Utils.isNetworkAvailable(getActivity(), true)) {
+		if (!Utils.isNetworkAvailable(getActivity())) {
+			ToastUtil.showError(getActivity(), R.string.error_internet_connection);
 			return;
 		}
 
-		if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(getActivity())) {
-			PrivacyPolicyDialogFragment privacyPolicyDialog =
-					new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
-						@Override
-						public void onClick() {
-							switchToLoginForm();
-						}
-					}, true);
-
-			privacyPolicyDialog.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
+		if (!userHasAcceptedPrivacyPolicy()) {
+			PrivacyPolicyListener privacyPolicyListener = new PrivacyPolicyListener() {
+				@Override
+				public void onPrivacyPolicyAccepted() {
+					switchToLoginForm();
+				}
+			};
+			new PrivacyPolicyDialogFragment(privacyPolicyListener, true)
+					.show(getFragmentManager(), PrivacyPolicyDialogFragment.TAG);
 		} else {
 			switchToLoginForm();
 		}
 	}
 
 	private void handleRegisterButtonClick() {
-		if (!Utils.isNetworkAvailable(getActivity(), true)) {
+		if (!Utils.isNetworkAvailable(getActivity())) {
+			ToastUtil.showError(getActivity(), R.string.error_internet_connection);
 			return;
 		}
 
-		if (!PrivacyPolicyDialogFragment.userHasAcceptedPrivacyPolicy(getActivity())) {
-			PrivacyPolicyDialogFragment privacyPolicyDialog =
-					new PrivacyPolicyDialogFragment(new PrivacyPolicyDialogFragment.DialogAction() {
-						@Override
-						public void onClick() {
-							switchToRegisterForm();
-						}
-					}, false);
-
-			privacyPolicyDialog.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
+		if (!userHasAcceptedPrivacyPolicy()) {
+			PrivacyPolicyListener privacyPolicyListener = new PrivacyPolicyListener() {
+				@Override
+				public void onPrivacyPolicyAccepted() {
+					switchToRegisterForm();
+				}
+			};
+			new PrivacyPolicyDialogFragment(privacyPolicyListener, false)
+					.show(getFragmentManager(), PrivacyPolicyDialogFragment.TAG);
 		} else {
 			switchToRegisterForm();
 		}
 	}
 
 	private void switchToLoginForm() {
-		LogInDialog logInDialog = new LogInDialog();
-		logInDialog.show(getActivity().getFragmentManager(), LogInDialog.DIALOG_FRAGMENT_TAG);
+		LoginDialogFragment logInDialog = new LoginDialogFragment();
+		logInDialog.setSignInCompleteListener(signInCompleteListener);
+		logInDialog.show(getActivity().getFragmentManager(), LoginDialogFragment.TAG);
 		dismiss();
 	}
 
 	private void switchToRegisterForm() {
-		RegistrationDialog registrationDialog = new RegistrationDialog();
-		registrationDialog.show(getActivity().getFragmentManager(), RegistrationDialog.DIALOG_FRAGMENT_TAG);
+		RegistrationDialogFragment registrationDialog = new RegistrationDialogFragment();
+		registrationDialog.setSignInCompleteListener(signInCompleteListener);
+		registrationDialog.show(getActivity().getFragmentManager(), RegistrationDialogFragment.TAG);
 		dismiss();
+	}
+
+	private void handleFacebookLoginButtonClick() {
+		if (!Utils.isNetworkAvailable(getActivity())) {
+			ToastUtil.showError(getActivity(), R.string.error_internet_connection);
+			return;
+		}
+
+		if (!userHasAcceptedPrivacyPolicy()) {
+			PrivacyPolicyListener privacyPolicyListener = new PrivacyPolicyListener() {
+				@Override
+				public void onPrivacyPolicyAccepted() {
+					Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION,
+							FACEBOOK_EMAIL_PERMISSION);
+					LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
+				}
+			};
+			new PrivacyPolicyDialogFragment(privacyPolicyListener, true)
+					.show(getFragmentManager(), PrivacyPolicyDialogFragment.TAG);
+		} else {
+			Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
+			LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
+		}
 	}
 
 	@Override
@@ -329,7 +324,7 @@ public class SignInDialog extends DialogFragment implements
 			isResolving = false;
 			googleApiClient.connect();
 		} else if (requestCode == RESULT_CODE_AUTH_CODE) {
-			Log.d(DIALOG_FRAGMENT_TAG, "offline access approved?");
+			Log.d(TAG, "offline access approved?");
 		} else if (requestCode == MainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN) {
 			GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 			triggerGPlusLogin(result);
@@ -341,8 +336,7 @@ public class SignInDialog extends DialogFragment implements
 			GoogleSignInAccount account = result.getSignInAccount();
 			onGoogleLogInComplete(account);
 		} else {
-			ToastUtil.showError(getActivity(), "There was a problem during Google+ Signin. Status: "
-					+ result.getStatus());
+			ToastUtil.showError(getActivity(), "ERROR Google+ Signin. Status: " + result.getStatus());
 		}
 	}
 
@@ -360,7 +354,6 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public void onConnectionSuspended(int i) {
-		Log.d(DIALOG_FRAGMENT_TAG, "onConnectionSuspended:" + i);
 		googleApiClient.connect();
 	}
 
@@ -368,7 +361,6 @@ public class SignInDialog extends DialogFragment implements
 	public void onConnectionFailed(ConnectionResult connectionResult) {
 		// Could not connect to Google Play Services.  The user needs to select an account,
 		// grant permissions or resolve an error in order to sign in.
-		Log.d(DIALOG_FRAGMENT_TAG, "onConnectionFailed:" + connectionResult);
 
 		if (shouldResolveErrors && !isResolving) {
 			if (connectionResult.hasResolution()) {
@@ -376,13 +368,16 @@ public class SignInDialog extends DialogFragment implements
 					connectionResult.startResolutionForResult(getActivity(), GPLUS_REQUEST_CODE_SIGN_IN);
 					isResolving = true;
 				} catch (IntentSender.SendIntentException e) {
-					Log.e(DIALOG_FRAGMENT_TAG, "Could not resolve ConnectionResult.", e);
+					Log.e(TAG, "Could not resolve ConnectionResult.", e);
 					isResolving = false;
 					googleApiClient.connect();
 				}
 			} else {
-				new AlertDialog.Builder(getActivity()).setTitle(R.string.error)
-						.setMessage(R.string.sign_in_error).setPositiveButton(R.string.ok, null).show();
+				new AlertDialog.Builder(getActivity())
+						.setTitle(R.string.error)
+						.setMessage(R.string.sign_in_error)
+						.setPositiveButton(R.string.ok, null)
+						.show();
 			}
 		}
 	}
@@ -482,11 +477,12 @@ public class SignInDialog extends DialogFragment implements
 	}
 
 	private void showOauthUserNameDialog(String provider) {
-		OAuthUsernameDialog oAuthUsernameDialog = new OAuthUsernameDialog();
+		OAuthUsernameDialogFragment dialog = new OAuthUsernameDialogFragment();
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, provider);
-		oAuthUsernameDialog.setArguments(bundle);
-		oAuthUsernameDialog.show(getActivity().getFragmentManager(), OAuthUsernameDialog.DIALOG_FRAGMENT_TAG);
+		dialog.setArguments(bundle);
+		dialog.setSignInCompleteListener(signInCompleteListener);
+		dialog.show(getActivity().getFragmentManager(), OAuthUsernameDialogFragment.TAG);
 		dismiss();
 	}
 
@@ -506,19 +502,18 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public void onFacebookLogInComplete() {
-		dismiss();
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.FACEBOOK);
-		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), bundle);
+		signInCompleteListener.onLoginSuccessful(bundle);
+		dismiss();
 	}
 
 	@Override
 	public void onGoogleServerLogInComplete() {
-		dismiss();
-
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
-		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), bundle);
+		signInCompleteListener.onLoginSuccessful(bundle);
+		dismiss();
 	}
 
 	@Override
@@ -535,7 +530,6 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public void onGetFacebookUserInfoTaskComplete(String id, String name, String locale, String email) {
-		Log.d(TAG, "FB User Info complete");
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		sharedPreferences.edit().putString(Constants.FACEBOOK_ID, id).commit();
 		sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, name).commit();
@@ -545,8 +539,8 @@ public class SignInDialog extends DialogFragment implements
 		if (email != null) {
 			sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, email).commit();
 		} else {
-			sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, UtilDeviceInfo.getUserEmail(getActivity()))
-					.commit();
+			sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL,
+					UtilDeviceInfo.getUserEmail(getActivity())).commit();
 		}
 
 		CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(getActivity(), id, Constants.FACEBOOK);
@@ -557,6 +551,11 @@ public class SignInDialog extends DialogFragment implements
 	@Override
 	public void forceSignIn() {
 		SignInDialog signInDialog = new SignInDialog();
-		signInDialog.show(getActivity().getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
+		signInDialog.show(getActivity().getFragmentManager(), SignInDialog.TAG);
+	}
+
+	public interface SignInCompleteListener {
+
+		void onLoginSuccessful(Bundle bundle);
 	}
 }

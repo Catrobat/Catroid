@@ -23,11 +23,11 @@
 
 package org.catrobat.catroid.drone.ardrone;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.parrot.freeflight.drone.NavData;

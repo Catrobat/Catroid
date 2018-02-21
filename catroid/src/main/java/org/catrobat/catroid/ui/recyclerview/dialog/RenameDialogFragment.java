@@ -20,35 +20,49 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
+package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import org.catrobat.catroid.R;
 
-public class CustomAlertDialogBuilder extends AlertDialog.Builder {
+public class RenameDialogFragment extends TextInputDialogFragment {
 
-	private TextView textView;
+	public static final String TAG = RenameDialogFragment.class.getSimpleName();
 
-	public CustomAlertDialogBuilder(Context context) {
-		super(context);
-		View dialogView = View.inflate(context, R.layout.dialog_custom_alert_dialog, null);
-		textView = (TextView) dialogView.findViewById(R.id.dialog_text_text_view);
-		setView(dialogView);
+	private RenameInterface renameInterface;
+
+	public RenameDialogFragment(int title, int hint, String text, RenameInterface renameInterface) {
+		super(title, hint, text, false);
+		this.renameInterface = renameInterface;
 	}
 
 	@Override
-	public CustomAlertDialogBuilder setMessage(int messageId) {
-		textView.setText(messageId);
-		return this;
+	protected boolean onPositiveButtonClick() {
+		String name = inputLayout.getEditText().getText().toString().trim();
+
+		if (name.isEmpty()) {
+			inputLayout.setError(getString(R.string.name_consists_of_spaces_only));
+			return false;
+		}
+
+		if (renameInterface.isNameUnique(name) || name.equals(text)) {
+			renameInterface.renameItem(name);
+			return true;
+		} else {
+			inputLayout.setError(getString(R.string.name_already_exists));
+			return false;
+		}
 	}
 
 	@Override
-	public CustomAlertDialogBuilder setMessage(CharSequence message) {
-		textView.setText(message);
-		return this;
+	protected void onNegativeButtonClick() {
+		renameInterface.renameItem(text);
+	}
+
+	public interface RenameInterface {
+
+		boolean isNameUnique(String name);
+
+		void renameItem(String name);
 	}
 }

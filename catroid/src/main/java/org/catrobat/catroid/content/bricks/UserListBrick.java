@@ -37,11 +37,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewListDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewListDialogFragment;
 
 import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_DATA_EMPTY;
 
-public abstract class UserListBrick extends FormulaBrick implements NewListDialog.NewListInterface {
+public abstract class UserListBrick extends FormulaBrick implements NewListDialogFragment.NewListInterface {
 
 	protected UserList userList;
 
@@ -182,7 +182,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewListDialo
 	}
 
 	private void showNewListDialog() {
-		NewListDialog dialog = new NewListDialog(this);
-		dialog.show(((Activity) view.getContext()).getFragmentManager(), NewListDialog.TAG);
+		NewListDialogFragment dialog = new NewListDialogFragment(this);
+		dialog.show(((Activity) view.getContext()).getFragmentManager(), NewListDialogFragment.TAG);
 	}
 }

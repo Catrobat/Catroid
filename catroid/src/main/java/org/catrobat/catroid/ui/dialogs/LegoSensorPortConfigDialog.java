@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -181,7 +181,7 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 		if (selected.equals(getString(R.string.nxt_no_sensor))) { // nxt_no_sensor equals ev3_no_sensor
 			overwrite(dialogueContext, selectedPort, legoType);
 		} else if (!selected.equals(title)) {
-			AlertDialog.Builder builder = new CustomAlertDialogBuilder(dialogueContext);
+			AlertDialog.Builder builder = new AlertDialog.Builder(dialogueContext);
 			builder.setTitle(R.string.lego_nxt_overwrite_sensor_port_dialog_title)
 					.setMessage(R.string.lego_nxt_overwrite_sensor_port_dialog_message)
 					.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

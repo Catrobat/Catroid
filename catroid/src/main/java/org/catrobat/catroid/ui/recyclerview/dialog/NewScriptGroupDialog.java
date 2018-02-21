@@ -28,7 +28,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 
 import java.util.List;
 
-public class NewScriptGroupDialog extends TextDialog {
+public class NewScriptGroupDialog extends TextInputDialogFragment {
 
 	public static final String TAG = NewScriptGroupDialog.class.getSimpleName();
 
@@ -40,7 +40,7 @@ public class NewScriptGroupDialog extends TextDialog {
 	}
 
 	@Override
-	protected boolean handlePositiveButtonClick() {
+	protected boolean onPositiveButtonClick() {
 		String name = inputLayout.getEditText().getText().toString().trim();
 
 		if (name.isEmpty()) {
@@ -58,7 +58,7 @@ public class NewScriptGroupDialog extends TextDialog {
 	}
 
 	@Override
-	protected void handleNegativeButtonClick() {
+	protected void onNegativeButtonClick() {
 		backpackInterface.cancelPacking();
 	}
 

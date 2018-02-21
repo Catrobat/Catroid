@@ -20,28 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.recyclerview.dialog.login;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.facebook.AccessToken;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.CheckUserNameAvailableTask;
@@ -49,57 +44,67 @@ import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.transfers.FacebookLogInTask;
 import org.catrobat.catroid.transfers.GoogleExchangeCodeTask;
 import org.catrobat.catroid.transfers.GoogleLogInTask;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
 
-public class OAuthUsernameDialog extends DialogFragment implements CheckUserNameAvailableTask.OnCheckUserNameAvailableCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener, FacebookLogInTask.OnFacebookLogInCompleteListener, GoogleExchangeCodeTask.OnFacebookExchangeCodeCompleteListener, GoogleLogInTask.OnGoogleServerLogInCompleteListener {
+public class OAuthUsernameDialogFragment extends DialogFragment implements
+		CheckUserNameAvailableTask.OnCheckUserNameAvailableCompleteListener,
+		FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener,
+		FacebookLogInTask.OnFacebookLogInCompleteListener,
+		GoogleExchangeCodeTask.OnFacebookExchangeCodeCompleteListener,
+		GoogleLogInTask.OnGoogleServerLogInCompleteListener {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_oauth_username";
+	public static final String TAG = OAuthUsernameDialogFragment.class.getSimpleName();
 
-	private EditText usernameEditText;
+	private TextInputLayout inputLayout;
 	private String openAuthProvider;
+
+	private SignInDialog.SignInCompleteListener signInCompleteListener;
+
+	public void setSignInCompleteListener(SignInDialog.SignInCompleteListener signInCompleteListener) {
+		this.signInCompleteListener = signInCompleteListener;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_sign_in_oauth_username, null);
+		View view = View.inflate(getActivity(), R.layout.dialog_sign_in_oauth_username, null);
 
-		usernameEditText = (EditText) rootView.findViewById(R.id.dialog_signin_oauth_username);
-		usernameEditText.setText("");
+		inputLayout = view.findViewById(R.id.dialog_signin_oauth_username);
 
 		Bundle bundle = getArguments();
 		if (bundle != null) {
 			openAuthProvider = bundle.getString(Constants.CURRENT_OAUTH_PROVIDER);
 		}
 
-		final AlertDialog chooseUsernameDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
-				.setTitle(R.string.sign_in_dialog_title).setPositiveButton(R.string.ok, null).create();
-		chooseUsernameDialog.setCanceledOnTouchOutside(true);
-		chooseUsernameDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.sign_in_dialog_title)
+				.setView(view)
+				.setPositiveButton(R.string.ok, null)
+				.create();
 
-		chooseUsernameDialog.setOnShowListener(new OnShowListener() {
+		alertDialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
-						Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(usernameEditText, InputMethodManager.SHOW_IMPLICIT);
-
-				Button confirmUsernameButton = chooseUsernameDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-				confirmUsernameButton.setOnClickListener(new View.OnClickListener() {
+				Button buttonPositive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				buttonPositive.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						handleConfirmUsernameButtonClick();
+						onPositiveButtonClick();
 					}
 				});
+				buttonPositive.setEnabled(!inputLayout.getEditText().getText().toString().isEmpty());
+				DialogInputWatcher inputWatcher = new DialogInputWatcher(inputLayout, buttonPositive, false);
+				inputLayout.getEditText().addTextChangedListener(inputWatcher);
 			}
 		});
 
-		return chooseUsernameDialog;
+		return alertDialog;
 	}
 
-	private void handleConfirmUsernameButtonClick() {
-		String username = usernameEditText.getText().toString().trim();
+	private void onPositiveButtonClick() {
+		String username = inputLayout.getEditText().getText().toString().trim();
 
 		if (username.isEmpty()) {
-			new AlertDialog.Builder(getActivity()).setTitle(R.string.error)
-					.setMessage(R.string.signin_choose_username_empty).setPositiveButton(R.string.ok, null).show();
+			inputLayout.setError(getString(R.string.signin_choose_username_empty));
 		} else {
 			CheckUserNameAvailableTask checkUserNameAvailableTask = new CheckUserNameAvailableTask(getActivity(), username);
 			checkUserNameAvailableTask.setOnCheckUserNameAvailableCompleteListener(this);
@@ -110,8 +115,11 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 	@Override
 	public void onCheckUserNameAvailableComplete(Boolean userNameAvailable, String username) {
 		if (userNameAvailable) {
-			new CustomAlertDialogBuilder(getActivity()).setTitle(R.string.error).setMessage(R.string.oauth_username_taken)
-					.setPositiveButton(R.string.ok, null).show();
+			new AlertDialog.Builder(getActivity())
+					.setTitle(R.string.error)
+					.setMessage(R.string.oauth_username_taken)
+					.setPositiveButton(R.string.ok, null)
+					.show();
 		} else {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 			if (openAuthProvider.equals(Constants.FACEBOOK)) {
@@ -156,8 +164,8 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 
 	@Override
 	public void onFacebookLogInComplete() {
+		signInCompleteListener.onLoginSuccessful(null);
 		dismiss();
-		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), null);
 	}
 
 	@Override
@@ -175,7 +183,7 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 
 	@Override
 	public void onGoogleServerLogInComplete() {
+		signInCompleteListener.onLoginSuccessful(null);
 		dismiss();
-		ProjectManager.getInstance().signInFinished(getActivity(), getFragmentManager(), null);
 	}
 }

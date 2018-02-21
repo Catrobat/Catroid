@@ -25,37 +25,31 @@ package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
-import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
-import java.util.HashSet;
-import java.util.Set;
+public class NewVariableDialogFragment extends NewDataDialogFragment {
 
-public class NewSceneDialog extends TextDialog {
+	private NewVariableInterface newVariableInterface;
 
-	public static final String TAG = NewSceneDialog.class.getSimpleName();
-
-	private NewItemInterface<Scene> newItemInterface;
-	private Project dstProject;
-
-	public NewSceneDialog(NewItemInterface<Scene> newItemInterface, Project dstProject) {
-		super(R.string.new_scene_dialog, R.string.scene_name, null, false);
-		this.newItemInterface = newItemInterface;
-		this.dstProject = dstProject;
+	public NewVariableDialogFragment(NewVariableInterface newVariableInterface) {
+		this.newVariableInterface = newVariableInterface;
 	}
 
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		super.text = new UniqueNameProvider().getUniqueName(getString(R.string.default_scene_name, 1), getScope(dstProject));
-		return super.onCreateDialog(savedInstanceState);
+	public Dialog onCreateDialog(Bundle bundle) {
+		Dialog dialog = super.onCreateDialog(bundle);
+		makeList.setVisibility(View.GONE);
+		dialog.setTitle(R.string.formula_editor_variable_dialog_title);
+		return dialog;
 	}
 
 	@Override
-	protected boolean handlePositiveButtonClick() {
+	protected boolean onPositiveButtonClick() {
 		String name = inputLayout.getEditText().getText().toString().trim();
 
 		if (name.isEmpty()) {
@@ -63,24 +57,28 @@ public class NewSceneDialog extends TextDialog {
 			return false;
 		}
 
-		if (getScope(dstProject).contains(name)) {
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		boolean isGlobal = (radioGroup.getCheckedRadioButtonId() == R.id.global);
+
+		if (!isVariableNameValid(name, isGlobal)) {
 			inputLayout.setError(getString(R.string.name_already_exists));
 			return false;
+		}
+
+		UserVariable userVariable;
+
+		if (isGlobal) {
+			userVariable = dataContainer.addProjectUserVariable(name);
 		} else {
-			newItemInterface.addItem(new Scene(getActivity(), name, dstProject));
-			return true;
+			userVariable = dataContainer.addSpriteUserVariable(name);
 		}
+
+		newVariableInterface.onNewVariable(userVariable);
+		return true;
 	}
 
-	@Override
-	protected void handleNegativeButtonClick() {
-	}
+	public interface NewVariableInterface {
 
-	private Set<String> getScope(Project project) {
-		Set<String> scope = new HashSet<>();
-		for (Scene item : project.getSceneList()) {
-			scope.add(item.getName());
-		}
-		return scope;
+		void onNewVariable(UserVariable userVariable);
 	}
 }
