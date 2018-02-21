@@ -257,8 +257,8 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new WhenStartedBrick(null));
 		eventBrickList.add(new WhenBrick(null));
 		eventBrickList.add(new WhenTouchDownBrick());
-
-		final String broadcastMessage = ProjectManager.getInstance().getCurrentProject().getBroadcastMessages().get(1);
+		// BC-TODO: Maybe handle more gracefully
+		final String broadcastMessage = context.getString(R.string.brick_broadcast_default_value);
 		BroadcastScript broadcastScript = new BroadcastScript(broadcastMessage);
 		eventBrickList.add(new BroadcastReceiverBrick(broadcastScript));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));

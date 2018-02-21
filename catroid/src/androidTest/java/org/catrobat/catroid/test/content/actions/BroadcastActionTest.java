@@ -27,7 +27,6 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -37,28 +36,58 @@ import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.LegacyFileUtils;
+import org.mockito.Mockito;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
 
 public class BroadcastActionTest extends AndroidTestCase {
 
+	Project project;
+	Sprite sprite;
+	List<Sprite> spritesOnStage;
+	final String MESSAGE_1 = "message1";
+	final String MESSAGE_2 = "message2";
+
+	@Override
+	public void setUp() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		sprite = new SingleSprite("testSprite");
+		project = createProjectWithSprite(sprite);
+		spritesOnStage = new ArrayList<>();
+		spritesOnStage.add(sprite);
+		initializeStageListener();
+	}
+
+	private void initializeStageListener() {
+		StageListener stageListener = Mockito.mock(StageListener.class);
+		when(stageListener.getSpritesFromStage()).thenReturn(spritesOnStage);
+		StageActivity.stageListener = stageListener;
+	}
+
+	private Project createProjectWithSprite(Sprite sprite) {
+		Project project = new Project(getContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
+		ProjectManager.getInstance().setProject(project);
+		project.getDefaultScene().addSprite(sprite);
+		return project;
+	}
+
 	public void testBroadcast() {
-		Sprite sprite = new SingleSprite("testSprite");
 		Script script = new StartScript();
-		String message = "simpleTest";
-		BroadcastBrick broadcastBrick = new BroadcastBrick(message);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(MESSAGE_1);
 		script.addBrick(broadcastBrick);
 		sprite.addScript(script);
 
-		BroadcastScript broadcastScript = new BroadcastScript(message);
+		BroadcastScript broadcastScript = new BroadcastScript(MESSAGE_1);
 		int testPosition = 100;
 		SetXBrick testBrick = new SetXBrick(testPosition);
 		broadcastScript.addBrick(testBrick);
 		sprite.addScript(broadcastScript);
-
-		Project project = new Project(getContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
-		Scene scene = project.getDefaultScene();
-		scene.addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
 
 		sprite.initializeActionsIncludingStartActions(true);
 
@@ -72,7 +101,6 @@ public class BroadcastActionTest extends AndroidTestCase {
 	}
 
 	public void testBroadcastWait() {
-		Sprite sprite = new SingleSprite("spriteOne");
 		Script scriptWait = new StartScript();
 		String message = "waitTest";
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(message);
@@ -90,11 +118,6 @@ public class BroadcastActionTest extends AndroidTestCase {
 		broadcastScript.addBrick(setXBrick2);
 		sprite.addScript(broadcastScript);
 
-		Project project = new Project(getContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
-		Scene scene = project.getDefaultScene();
-		scene.addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
-
 		sprite.initializeActionsIncludingStartActions(true);
 
 		while (!allActionsOfAllSpritesAreFinished()) {
@@ -107,31 +130,25 @@ public class BroadcastActionTest extends AndroidTestCase {
 	}
 
 	public void testWhenScriptRestartingItself() {
-		Sprite sprite = new SingleSprite("testSprite");
 		Script script = new StartScript();
 
-		String message = "simpleTest";
-		BroadcastBrick broadcastBrick = new BroadcastBrick(message);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(MESSAGE_1);
 		script.addBrick(broadcastBrick);
 		sprite.addScript(script);
 
-		BroadcastScript broadcastScript = new BroadcastScript(message);
+		BroadcastScript broadcastScript = new BroadcastScript(MESSAGE_1);
 
 		final int xMovement = 1;
 		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(xMovement);
 		broadcastScript.addBrick(changeXByNBrick);
 
-		BroadcastBrick broadcastBrickLoop = new BroadcastBrick(message);
+		BroadcastBrick broadcastBrickLoop = new BroadcastBrick(MESSAGE_1);
 		broadcastScript.addBrick(broadcastBrickLoop);
 
 		WaitBrick wb = new WaitBrick(5);
 		broadcastScript.addBrick(wb);
 
 		sprite.addScript(broadcastScript);
-
-		Project project = new Project(getContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
 
 		sprite.initializeActionsIncludingStartActions(true);
 
@@ -147,33 +164,26 @@ public class BroadcastActionTest extends AndroidTestCase {
 	}
 
 	public void testRestartingOfWhenScriptWithBroadcastWaitBrick() {
-		String messageOne = "messageOne";
-		String messageTwo = "messageTwo";
 		final int xMovement = 1;
 
-		Sprite sprite = new SingleSprite("cat");
 		Script startScript = new StartScript();
-		BroadcastBrick startBroadcastBrick = new BroadcastBrick(messageOne);
+		BroadcastBrick startBroadcastBrick = new BroadcastBrick(MESSAGE_1);
 		startScript.addBrick(startBroadcastBrick);
 		sprite.addScript(startScript);
 
-		BroadcastScript broadcastScriptMessageOne = new BroadcastScript(messageOne);
+		BroadcastScript broadcastScriptMessageOne = new BroadcastScript(MESSAGE_1);
 		ChangeXByNBrick changeXByNBrickOne = new ChangeXByNBrick(xMovement);
-		BroadcastWaitBrick broadcastWaitBrickOne = new BroadcastWaitBrick(messageTwo);
+		BroadcastWaitBrick broadcastWaitBrickOne = new BroadcastWaitBrick(MESSAGE_2);
 		broadcastScriptMessageOne.addBrick(changeXByNBrickOne);
 		broadcastScriptMessageOne.addBrick(broadcastWaitBrickOne);
 		sprite.addScript(broadcastScriptMessageOne);
 
-		BroadcastScript broadcastScriptMessageTwo = new BroadcastScript(messageTwo);
+		BroadcastScript broadcastScriptMessageTwo = new BroadcastScript(MESSAGE_2);
 		ChangeXByNBrick changeXByNBrickTwo = new ChangeXByNBrick(xMovement);
-		BroadcastWaitBrick broadcastWaitBrickTwo = new BroadcastWaitBrick(messageOne);
+		BroadcastWaitBrick broadcastWaitBrickTwo = new BroadcastWaitBrick(MESSAGE_1);
 		broadcastScriptMessageTwo.addBrick(changeXByNBrickTwo);
 		broadcastScriptMessageTwo.addBrick(broadcastWaitBrickTwo);
 		sprite.addScript(broadcastScriptMessageTwo);
-
-		Project project = new Project(getContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
 
 		sprite.initializeActionsIncludingStartActions(true);
 

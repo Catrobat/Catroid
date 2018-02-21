@@ -175,6 +175,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.stage.StageActivity;
 
 public class ActionFactory extends Actions {
 
@@ -184,33 +185,30 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static Action createRaspiInterruptAction(Sprite senderSprite, String pin, String value) {
-		BroadcastAction action = Actions.action(BroadcastAction.class);
-		BroadcastEvent event = new BroadcastEvent(false);
-		event.setSender(senderSprite);
+	public Action createRaspiInterruptAction(Sprite senderSprite, String pin, String value) {
 		RaspiEventId id = new RaspiEventId(pin, value);
-		event.setEventId(id);
-		action.setBroadcastEvent(event);
-		return action;
+		return createGenericBroadcastAction(id, senderSprite, false);
 	}
 
-	public static Action createBroadcastAction(Sprite senderSprite, String broadcastMessage) {
-		BroadcastAction action = Actions.action(BroadcastAction.class);
-		BroadcastEvent event = new BroadcastEvent(false);
-		event.setSender(senderSprite);
+	public Action createBroadcastAction(Sprite senderSprite, String broadcastMessage) {
 		BroadcastEventId id = new BroadcastEventId(broadcastMessage);
-		event.setEventId(id);
-		action.setBroadcastEvent(event);
-		return action;
+		return createGenericBroadcastAction(id, senderSprite, false);
 	}
 
 	public Action createBroadcastActionFromWaiter(Sprite senderSprite, String broadcastMessage) {
-		BroadcastAction action = Actions.action(BroadcastAction.class);
-		BroadcastEvent event = new BroadcastEvent(true);
-		event.setSender(senderSprite);
 		BroadcastEventId id = new BroadcastEventId(broadcastMessage);
-		event.setEventId(id);
+		return createGenericBroadcastAction(id, senderSprite, true);
+	}
+
+	private Action createGenericBroadcastAction(EventId eventId, Sprite senderSprite, boolean
+			waitForCompletion) {
+		BroadcastEvent event = new BroadcastEvent(waitForCompletion);
+		event.setSender(senderSprite);
+		event.setEventId(eventId);
+
+		BroadcastAction action = Actions.action(BroadcastAction.class);
 		action.setBroadcastEvent(event);
+		action.setReceivingSprites(StageActivity.stageListener.getSpritesFromStage());
 		return action;
 	}
 

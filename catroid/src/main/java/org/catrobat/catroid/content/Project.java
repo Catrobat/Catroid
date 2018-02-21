@@ -452,7 +452,7 @@ public class Project implements Serializable {
 		}
 	}
 
-	public synchronized void updateMessageContainer(Context context) {
+	public void updateMessageContainer(Context context) {
 		broadcastMessages.clear();
 		broadcastMessages.add(context.getString(R.string.new_broadcast_message));
 		for (Scene scene : getSceneList()) {
