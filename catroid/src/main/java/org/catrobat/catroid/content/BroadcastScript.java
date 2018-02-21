@@ -22,18 +22,16 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
 public class BroadcastScript extends Script implements BroadcastMessage {
 
 	private static final long serialVersionUID = 1L;
-	protected String receivedMessage;
+	private String receivedMessage;
 
-	public BroadcastScript(String broadcastMessage) {
-		super();
-		setBroadcastMessage(broadcastMessage);
+	public BroadcastScript(String receivedMessage) {
+		this.receivedMessage = receivedMessage;
 	}
 
 	@Override
@@ -41,26 +39,20 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 		if (brick == null) {
 			brick = new BroadcastReceiverBrick(this);
 		}
-
 		return brick;
 	}
 
 	@Override
 	protected Object readResolve() {
-		MessageContainer.addMessage(receivedMessage, this);
-		super.readResolve();
 		return this;
 	}
 
-	@Override
-	public String getBroadcastMessage() {
+	public String getReceivedMessage() {
 		return receivedMessage;
 	}
 
-	public void setBroadcastMessage(String broadcastMessage) {
-		MessageContainer.removeReceiverScript(this.receivedMessage, this);
-		this.receivedMessage = broadcastMessage;
-		MessageContainer.addMessage(this.receivedMessage, this);
+	public void setReceivedMessage(String receivedMessage) {
+		this.receivedMessage = receivedMessage;
 	}
 
 	@Override

@@ -25,29 +25,17 @@ package org.catrobat.catroid.content;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 
-import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
-
 public class BroadcastListener implements EventListener {
 
 	@Override
 	public boolean handle(Event event) {
 		if (event instanceof BroadcastEvent) {
-			BroadcastEvent broadcastEvent = (BroadcastEvent) event;
-			if (broadcastEvent.getType().equals(BroadcastType.broadcast)) {
-				handleBroadcastEvent(broadcastEvent, broadcastEvent.getBroadcastMessage());
-				return true;
-			}
-			if (broadcastEvent.getType().equals(BroadcastType.broadcastWait)) {
-				handleBroadcastFromWaiterEvent(broadcastEvent, broadcastEvent.getBroadcastMessage());
-				return true;
-			}
+			handleBroadcastEvent((BroadcastEvent) event);
+			return true;
 		}
 		return false;
 	}
 
-	public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
-	}
-
-	public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+	public void handleBroadcastEvent(BroadcastEvent event) {
 	}
 }

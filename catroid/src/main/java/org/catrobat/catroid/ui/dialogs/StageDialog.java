@@ -34,6 +34,7 @@ import android.widget.ImageButton;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -177,10 +178,10 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void clearBroadcastMaps() {
-		for (Sprite sprite : stageListener.getSpritesFromStage()) {
-			sprite.getBroadcastSequenceMap().clear();
-			sprite.getBroadcastWaitSequenceMap().clear();
-			sprite.getBroadcastWaitSequenceMap().clearCurrentBroadcastEvent();
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.getBroadcastSequenceActionMap().clear();
+			}
 		}
 	}
 

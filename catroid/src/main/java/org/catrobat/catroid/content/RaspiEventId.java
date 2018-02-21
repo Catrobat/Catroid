@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,53 +23,29 @@
 
 package org.catrobat.catroid.content;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
+public class RaspiEventId extends EventId {
+	private String pin;
+	private String eventValue;
 
-import java.util.ArrayList;
-import java.util.List;
+	public RaspiEventId(String pin, String eventValue) {
+		this.pin = pin;
+		this.eventValue = eventValue;
+	}
 
-public class BroadcastEvent extends Event {
-	private EventId eventId;
-	private Sprite sender;
-	private boolean waitForCompletion;
-	private List<Sprite> interrupters;
-
-	public BroadcastEvent(boolean waitForCompletion) {
-		this.waitForCompletion = waitForCompletion;
-		if (waitForCompletion) {
-			interrupters = new ArrayList<>();
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
 		}
+		if (o == null || !(o instanceof RaspiEventId)) {
+			return false;
+		}
+		RaspiEventId otherId = (RaspiEventId) o;
+		return pin.equals(otherId.pin) && eventValue.equals(otherId.eventValue);
 	}
 
-	public void setEventId(EventId eventId) {
-		this.eventId = eventId;
-	}
-
-	public boolean removeInterrupter(Sprite sprite) {
-		return interrupters.remove(sprite);
-	}
-
-	public void addInterrupter(Sprite sprite) {
-		interrupters.add(sprite);
-	}
-
-	public EventId getEventId() {
-		return eventId;
-	}
-
-	public boolean waitForCompletion() {
-		return waitForCompletion;
-	}
-
-	public Sprite getSender() {
-		return sender;
-	}
-
-	public void setSender(Sprite sender) {
-		this.sender = sender;
-	}
-
-	public List<Sprite> getInterrupters() {
-		return interrupters;
+	@Override
+	public int hashCode() {
+		return pin.hashCode() + eventValue.hashCode();
 	}
 }

@@ -513,6 +513,10 @@ public class StageActivity extends AndroidApplication {
 		return ++numberOfSpritesCloned;
 	}
 
+	public static void resetNumberOfClonedSprites() {
+		numberOfSpritesCloned = 0;
+	}
+
 	public static void addNfcTagMessageToDeque(NdefMessage message) {
 		ndefMessageBlockingDeque.addLast(message);
 	}

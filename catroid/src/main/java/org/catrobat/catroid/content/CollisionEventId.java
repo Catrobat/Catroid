@@ -23,53 +23,29 @@
 
 package org.catrobat.catroid.content;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
+import com.google.common.base.Objects;
 
-import java.util.ArrayList;
-import java.util.List;
+public class CollisionEventId extends EventId {
+	public final Sprite sprite1;
+	public final Sprite sprite2;
 
-public class BroadcastEvent extends Event {
-	private EventId eventId;
-	private Sprite sender;
-	private boolean waitForCompletion;
-	private List<Sprite> interrupters;
+	public CollisionEventId(Sprite sprite1, Sprite sprite2) {
+		this.sprite1 = sprite1;
+		this.sprite2 = sprite2;
+	}
 
-	public BroadcastEvent(boolean waitForCompletion) {
-		this.waitForCompletion = waitForCompletion;
-		if (waitForCompletion) {
-			interrupters = new ArrayList<>();
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof CollisionEventId) {
+			CollisionEventId collisionEventId = (CollisionEventId) o;
+			return (Objects.equal(sprite1, collisionEventId.sprite1) || Objects.equal(sprite1, collisionEventId.sprite2))
+					&& (Objects.equal(sprite2, collisionEventId.sprite1) || Objects.equal(sprite2, collisionEventId.sprite2));
 		}
+		return false;
 	}
 
-	public void setEventId(EventId eventId) {
-		this.eventId = eventId;
-	}
-
-	public boolean removeInterrupter(Sprite sprite) {
-		return interrupters.remove(sprite);
-	}
-
-	public void addInterrupter(Sprite sprite) {
-		interrupters.add(sprite);
-	}
-
-	public EventId getEventId() {
-		return eventId;
-	}
-
-	public boolean waitForCompletion() {
-		return waitForCompletion;
-	}
-
-	public Sprite getSender() {
-		return sender;
-	}
-
-	public void setSender(Sprite sender) {
-		this.sender = sender;
-	}
-
-	public List<Sprite> getInterrupters() {
-		return interrupters;
+	@Override
+	public int hashCode() {
+		return (sprite1 == null ? 0 : sprite1.hashCode()) + (sprite2 == null ? 0 : sprite2.hashCode());
 	}
 }

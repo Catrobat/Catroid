@@ -33,7 +33,6 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
@@ -42,6 +41,7 @@ import org.catrobat.catroid.content.actions.AskSpeechAction;
 import org.catrobat.catroid.content.actions.BackgroundNotifyAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
+import org.catrobat.catroid.content.actions.BroadcastSequenceAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
@@ -175,6 +175,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.stage.StageActivity;
 
 public class ActionFactory extends Actions {
 
@@ -184,19 +185,37 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static Action createBroadcastAction(Sprite sprite, String broadcastMessage) {
+	public Action createRaspiInterruptAction(Sprite senderSprite, String pin, String value) {
+		RaspiEventId id = new RaspiEventId(pin, value);
+		return createGenericBroadcastAction(id, senderSprite, false);
+	}
+
+	public Action createBroadcastAction(Sprite senderSprite, String broadcastMessage) {
+		BroadcastEventId id = new BroadcastEventId(broadcastMessage);
+		return createGenericBroadcastAction(id, senderSprite, false);
+	}
+
+	public Action createBroadcastActionFromWaiter(Sprite senderSprite, String broadcastMessage) {
+		BroadcastEventId id = new BroadcastEventId(broadcastMessage);
+		return createGenericBroadcastAction(id, senderSprite, true);
+	}
+
+	private Action createGenericBroadcastAction(EventId eventId, Sprite senderSprite, boolean
+			waitForCompletion) {
+		BroadcastEvent event = new BroadcastEvent(waitForCompletion);
+		event.setSender(senderSprite);
+		event.setEventId(eventId);
+
 		BroadcastAction action = Actions.action(BroadcastAction.class);
-		BroadcastEvent event = new BroadcastEvent();
-		event.setSenderSprite(sprite);
-		event.setBroadcastMessage(broadcastMessage);
-		event.setType(BroadcastType.broadcast);
 		action.setBroadcastEvent(event);
+		action.setReceivingSprites(StageActivity.stageListener.getSpritesFromStage());
 		return action;
 	}
 
-	public static Action createBroadcastNotifyAction(BroadcastEvent event) {
+	public static Action createBroadcastNotifyAction(Sprite sprite, BroadcastEvent event) {
 		BroadcastNotifyAction action = Actions.action(BroadcastNotifyAction.class);
 		action.setEvent(event);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -211,17 +230,6 @@ public class ActionFactory extends Actions {
 		WaitForBubbleBrickAction action = Actions.action(WaitForBubbleBrickAction.class);
 		action.setSprite(sprite);
 		action.setDelay(delay);
-		return action;
-	}
-
-	public Action createBroadcastActionFromWaiter(Sprite sprite, String broadcastMessage) {
-		BroadcastAction action = Actions.action(BroadcastAction.class);
-		BroadcastEvent event = new BroadcastEvent();
-		event.setSenderSprite(sprite);
-		event.setBroadcastMessage(broadcastMessage);
-		event.setRun(false);
-		event.setType(BroadcastType.broadcastWait);
-		action.setBroadcastEvent(event);
 		return action;
 	}
 
@@ -828,6 +836,10 @@ public class ActionFactory extends Actions {
 
 	public Action createSequence() {
 		return Actions.sequence();
+	}
+
+	public static Action createBroadcastSequence(Script script) {
+		return new BroadcastSequenceAction(script);
 	}
 
 	public Action createSetBounceFactorAction(Sprite sprite, Formula bounceFactor) {

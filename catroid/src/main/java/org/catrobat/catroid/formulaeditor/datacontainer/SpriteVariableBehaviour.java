@@ -109,7 +109,7 @@ class SpriteVariableBehaviour extends SpriteDataBehaviour<Sprite, UserVariable> 
 					|| spriteToKeep != null
 					&& !(sprite == spriteToKeep)
 					&& getDataMap().get(sprite).size() == 0
-					&& sprite.getName().equals(spriteToKeep.getName())) {
+					&& !sprite.getName().equals(spriteToKeep.getName())) { // BC-TODO: not
 				iterator.remove();
 			}
 		}

@@ -24,8 +24,6 @@ package org.catrobat.catroid.devices.raspberrypi;
 
 import android.util.Log;
 
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.BroadcastAction;
@@ -54,6 +52,7 @@ public class RPiSocketConnection {
 	private ArrayList<Integer> availableGPIOs;
 	private int interruptReceiverPort;
 	private Thread receiverThread;
+	private Sprite dummySenderSprite;
 
 	public RPiSocketConnection() {
 	}
@@ -133,11 +132,13 @@ public class RPiSocketConnection {
 	}
 
 	private void callEvent(String broadcastMessage) {
-		Sprite dummySenderSprite = new SpriteFactory().newInstance(SingleSprite.class.getSimpleName());
-		dummySenderSprite.setName("raspi_interrupt_dummy");
-		BroadcastAction action = (BroadcastAction) ActionFactory.createBroadcastAction(dummySenderSprite,
-				broadcastMessage);
-		action.act(0);
+		String[] messageSegments = broadcastMessage.split(" ");
+		if (messageSegments.length == 3) {
+			BroadcastAction action = (BroadcastAction) dummySenderSprite.getActionFactory().createRaspiInterruptAction
+					(dummySenderSprite,
+					messageSegments[1], messageSegments[2]);
+			action.act(0);
+		}
 	}
 
 	public void setPin(int pin, boolean value) throws NoConnectionException, IOException, NoGpioException {
@@ -218,15 +219,15 @@ public class RPiSocketConnection {
 			try {
 				receiverSocket = new Socket(host, interruptReceiverPort);
 				BufferedReader receiverReader = new BufferedReader(new InputStreamReader(receiverSocket.getInputStream()));
+				dummySenderSprite = new SpriteFactory().newInstance(SingleSprite.class.getSimpleName());
+				dummySenderSprite.setName("raspi_interrupt_dummy");
 				while (!Thread.interrupted()) {
 					String receivedLine = receiverReader.readLine();
 					if (receivedLine == null) {
 						break;
 					}
-
 					Log.d(TAG, "Interrupt: " + receivedLine);
-
-					callEvent(Constants.RASPI_BROADCAST_PREFIX + receivedLine);
+					callEvent(receivedLine);
 				}
 				receiverSocket.close();
 				Log.d(TAG, "RPiSocketReceiver closed");

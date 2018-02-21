@@ -31,9 +31,6 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 
-import java.util.HashMap;
-import java.util.List;
-
 public class ForeverActionTest extends InstrumentationTestCase {
 
 	private static final int REPEAT_TIMES = 4;
@@ -54,7 +51,7 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.initializeActionsIncludingStartActions(true);
 
 		/*
 		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code

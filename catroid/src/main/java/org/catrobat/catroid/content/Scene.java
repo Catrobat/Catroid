@@ -290,16 +290,13 @@ public class Scene implements Serializable {
 
 	public synchronized void addUsedMessagesToList(List<String> usedMessages) {
 		for (Sprite currentSprite : spriteList) {
-			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
-				Script currentScript = currentSprite.getScript(scriptIndex);
+			for (Script currentScript : currentSprite.getScriptList()) {
 				if (currentScript instanceof BroadcastMessage) {
-					addBroadcastMessage(((BroadcastMessage) currentScript).getBroadcastMessage(), usedMessages);
+					addBroadcastMessage(((BroadcastMessage) currentScript).getReceivedMessage(), usedMessages);
 				}
-
-				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
-					Brick currentBrick = currentScript.getBrick(brickIndex);
+				for (Brick currentBrick : currentScript.getBrickList()) {
 					if (currentBrick instanceof BroadcastMessage) {
-						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
+						addBroadcastMessage(((BroadcastMessage) currentBrick).getReceivedMessage(), usedMessages);
 					}
 				}
 			}
@@ -307,7 +304,7 @@ public class Scene implements Serializable {
 				Script userScript = userBrick.getDefinitionBrick().getUserScript();
 				for (Brick currentBrick : userScript.getBrickList()) {
 					if (currentBrick instanceof BroadcastMessage) {
-						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
+						addBroadcastMessage(((BroadcastMessage) currentBrick).getReceivedMessage(), usedMessages);
 					}
 				}
 			}
@@ -323,10 +320,7 @@ public class Scene implements Serializable {
 
 	public boolean screenshotExists(String screenshotName) {
 		File screenShot = new File(Utils.buildScenePath(project.getName(), getName()), screenshotName);
-		if (screenShot.exists()) {
-			return false;
-		}
-		return true;
+		return !screenShot.exists();
 	}
 
 	public UserVariable getProjectVariableWithName(String name) {

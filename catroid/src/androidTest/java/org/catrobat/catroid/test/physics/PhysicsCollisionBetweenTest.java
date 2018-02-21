@@ -28,6 +28,7 @@ import android.util.Log;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 
+import org.catrobat.catroid.content.CollisionEventId;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
@@ -36,8 +37,6 @@ import org.catrobat.catroid.physics.PhysicsCollisionBroadcast;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.test.utils.Reflection;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
@@ -58,10 +57,11 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
 					(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
 							physicsCollisionTestListener, "physicsCollisionBroadcasts");
-			assertTrue("Map must contain one element", physicsCollisionBroadcasts.size() == 2);
+			assertTrue("Map must contain one element", physicsCollisionBroadcasts.size() == 1);
 			Object[] parameters = {sprite, sprite2};
 			Reflection.ParameterList paramList = new Reflection.ParameterList(parameters);
-			String key = (String) Reflection.invokeMethod(PhysicsCollision.class, physicsCollisionTestListener,
+			CollisionEventId key = (CollisionEventId) Reflection.invokeMethod(PhysicsCollision.class,
+					physicsCollisionTestListener,
 					"generateKey", paramList);
 			PhysicsCollisionBroadcast collisionBroadcast = physicsCollisionBroadcasts.get(key);
 			assertEquals("collision broadcast counter must be equal to beginCounter - endCounter", collisionBroadcast
@@ -100,8 +100,8 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 		assertTrue("getLookData of sprite is null", sprite.look.getLookData() != null);
 		assertTrue("getLookData of sprite2 is null", sprite2.look.getLookData() != null);
 
-		CollisionScript secondSpriteCollisionScript = new CollisionScript("");
-		secondSpriteCollisionScript.setAndReturnBroadcastMessage(sprite2.getName(), sprite.getName());
+		CollisionScript secondSpriteCollisionScript = new CollisionScript(null);
+		secondSpriteCollisionScript.setSpriteToCollideWith(sprite);
 		secondSpriteCollisionScript.getScriptBrick();
 		int testXValue = 444;
 		int testYValue = 555;
@@ -109,7 +109,7 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 		secondSpriteCollisionScript.addBrick(testBrick);
 		sprite2.addScript(secondSpriteCollisionScript);
 
-		sprite2.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite2.initializeActionsIncludingStartActions(true);
 
 		simulateFullCollision();
 

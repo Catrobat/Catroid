@@ -32,6 +32,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -43,13 +44,13 @@ import com.badlogic.gdx.utils.Array;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
+import org.catrobat.catroid.content.actions.BroadcastSequenceAction;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
@@ -105,13 +106,42 @@ public class Look extends Image {
 
 		this.addListener(new BroadcastListener() {
 			@Override
-			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastEvent(event.getSenderSprite(), broadcastMessage);
+			public void handleBroadcastEvent(BroadcastEvent event) {
+				Sprite handlingSprite = Look.this.sprite;
+
+				Collection<BroadcastSequenceAction> sequenceActions = handlingSprite.getBroadcastSequenceActionMap().get(event.getEventId());
+				for (BroadcastSequenceAction actionToBeAdded : sequenceActions) {
+					if (event.waitForCompletion()) {
+						event.addInterrupter(handlingSprite);
+						actionToBeAdded = shallowCopyOfBroadcastSequenceAction(actionToBeAdded);
+						actionToBeAdded.addAction(ActionFactory.createBroadcastNotifyAction(handlingSprite, event));
+					}
+					stopActionWithScript(actionToBeAdded.getScript());
+					startAction(actionToBeAdded);
+				}
 			}
 
-			@Override
-			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
+			BroadcastSequenceAction shallowCopyOfBroadcastSequenceAction(BroadcastSequenceAction actionToBeCopied) {
+				BroadcastSequenceAction copy = (BroadcastSequenceAction) ActionFactory.createBroadcastSequence(actionToBeCopied.getScript());
+				for (Action childAction : actionToBeCopied.getActions()) {
+					copy.addAction(childAction);
+				}
+				return copy;
+			}
+
+			private void stopActionWithScript(Script script) {
+				for (Action action : Look.this.getActions()) {
+					if (action instanceof BroadcastSequenceAction
+							&& ((BroadcastSequenceAction) action).getScript() == script) {
+						Look.this.getActions().removeValue(action, true);
+						return;
+					}
+				}
+			}
+
+			private void startAction(BroadcastSequenceAction actionToBeAdded) {
+				actionToBeAdded.restart();
+				Look.this.addAction(actionToBeAdded);
 			}
 		});
 	}
@@ -124,12 +154,19 @@ public class Look extends Image {
 		this.lookVisible = lookVisible;
 	}
 
-	public static boolean actionsToRestartContains(Action action) {
-		return Look.actionsToRestart.contains(action);
+	static void actionsToRestartAdd(Action action) {
+		Look.actionsToRestart.add(action);
 	}
 
-	public static void actionsToRestartAdd(Action action) {
-		Look.actionsToRestart.add(action);
+	@Override
+	public boolean remove() {
+		boolean returnValue = super.remove();
+		for (EventListener listener : this.getListeners()) {
+			this.removeListener(listener);
+		}
+		this.sprite = null;
+		this.lookData = null;
+		return returnValue;
 	}
 
 	public void copyTo(final Look destination) {
@@ -162,6 +199,9 @@ public class Look extends Image {
 				sprite.createWhenScriptActionSequence("Tapped");
 			} else {
 				whenParallelAction.restart();
+				if (!getActions().contains(whenParallelAction, true)) {
+					addAction(whenParallelAction);
+				}
 			}
 			return true;
 		}
@@ -199,7 +239,6 @@ public class Look extends Image {
 	public void act(float delta) {
 		Array<Action> actions = getActions();
 		allActionsAreFinished = false;
-		int finishedCount = 0;
 
 		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext(); ) {
 			Action actionToRestart = iterator.next();
@@ -207,14 +246,14 @@ public class Look extends Image {
 			iterator.remove();
 		}
 
-		int n = actions.size;
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < actions.size; i++) {
 			Action action = actions.get(i);
 			if (action.act(delta)) {
-				finishedCount++;
+				actions.removeIndex(i);
+				i--;
 			}
 		}
-		if (finishedCount == actions.size) {
+		if (0 == actions.size) {
 			allActionsAreFinished = true;
 		}
 	}
@@ -559,12 +598,8 @@ public class Look extends Image {
 		return breakDownCatroidAngle(catroidAngle);
 	}
 
-	protected void doHandleBroadcastEvent(Sprite senderSprite, String broadcastMessage) {
-		BroadcastHandler.doHandleBroadcastEvent(this, senderSprite, broadcastMessage);
-	}
-
-	protected void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
+	public void initializeActionsIncludingStartActions(boolean includeStartActions) {
+		sprite.initializeActionsIncludingStartActions(includeStartActions);
 	}
 
 	private class BrightnessContrastHueShader extends ShaderProgram {
@@ -644,13 +679,6 @@ public class Look extends Image {
 		}
 	}
 
-	public Map<String, List<String>> createScriptActions() {
-		this.setWhenParallelAction(null);
-		Map<String, List<String>> scriptActions = new HashMap<>();
-		sprite.createStartScriptActionSequenceAndPutToMap(scriptActions, false);
-		return scriptActions;
-	}
-
 	public Polygon[] getCurrentCollisionPolygon() {
 		Polygon[] originalPolygons;
 		if (getLookData() == null) {
@@ -673,5 +701,17 @@ public class Look extends Image {
 			transformedPolygons[p] = poly;
 		}
 		return transformedPolygons;
+	}
+
+	public void notifyAllWaiters() {
+		for (Action action : getActions()) {
+			if (action instanceof BroadcastSequenceAction) {
+				Array<Action> broadcastSequenceActions = ((BroadcastSequenceAction) action).getActions();
+				Action lastAction = broadcastSequenceActions.get(broadcastSequenceActions.size - 1);
+				if (lastAction instanceof BroadcastNotifyAction) {
+					lastAction.act(0);
+				}
+			}
+		}
 	}
 }

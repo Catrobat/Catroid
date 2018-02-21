@@ -25,17 +25,16 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.BroadcastEvent;
+import org.catrobat.catroid.content.Sprite;
 
 public class BroadcastNotifyAction extends Action {
 
 	private BroadcastEvent event;
+	private Sprite sprite;
 
 	@Override
 	public boolean act(float delta) {
-		event.raiseNumberOfFinishedReceivers();
-		if (event.allReceiversHaveFinished()) {
-			event.resetEventAndResumeScript();
-		}
+		event.removeInterrupter(sprite);
 		return true;
 	}
 
@@ -45,5 +44,9 @@ public class BroadcastNotifyAction extends Action {
 
 	public BroadcastEvent getEvent() {
 		return event;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 }
