@@ -551,7 +551,7 @@ public class FormulaElement implements Serializable {
 			}
 
 			for (Object userListElement : userList.getList()) {
-				if (interpretOperatorEqual(userListElement, right) == 1d) {
+				if (interpretOperatorCompare(userListElement, right) == 0d) {
 					return 1d;
 				}
 			}
@@ -777,25 +777,17 @@ public class FormulaElement implements Serializable {
 					right = interpretOperator(rightObject);
 					return java.lang.Math.pow(left, right);
 				case EQUAL:
-					return interpretOperatorEqual(leftObject, rightObject);
+					return interpretOperatorCompare(leftObject, rightObject) == 0 ? 1d : 0d;
 				case NOT_EQUAL:
-					return interpretOperatorEqual(leftObject, rightObject) == 1d ? 0d : 1d;
+					return interpretOperatorCompare(leftObject, rightObject) != 0 ? 1d : 0d;
 				case GREATER_THAN:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
-					return left.compareTo(right) > 0 ? 1d : 0d;
+					return interpretOperatorCompare(leftObject, rightObject) > 0 ? 1d : 0d;
 				case GREATER_OR_EQUAL:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
-					return left.compareTo(right) >= 0 ? 1d : 0d;
+					return interpretOperatorCompare(leftObject, rightObject) >= 0 ? 1d : 0d;
 				case SMALLER_THAN:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
-					return left.compareTo(right) < 0 ? 1d : 0d;
+					return interpretOperatorCompare(leftObject, rightObject) < 0 ? 1d : 0d;
 				case SMALLER_OR_EQUAL:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
-					return left.compareTo(right) <= 0 ? 1d : 0d;
+					return interpretOperatorCompare(leftObject, rightObject) <= 0 ? 1d : 0d;
 				case LOGICAL_AND:
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
@@ -894,32 +886,16 @@ public class FormulaElement implements Serializable {
 		return returnValue;
 	}
 
-	private Double interpretOperatorEqual(Object left, Object right) {
+	private int interpretOperatorCompare(Object left, Object right) {
 		try {
-			Double tempLeft = Double.valueOf(String.valueOf(left));
-			Double tempRight = Double.valueOf(String.valueOf(right));
-			int compareResult = getCompareResult(tempLeft, tempRight);
-			if (compareResult == 0) {
-				return 1d;
-			}
-			return 0d;
-		} catch (NumberFormatException numberFormatException) {
-			int compareResult = String.valueOf(left).compareTo(String.valueOf(right));
-			if (compareResult == 0) {
-				return 1d;
-			}
-			return 0d;
-		}
-	}
+			if(Math.abs(Double.valueOf(String.valueOf(left))) == 0 &&
+					Math.abs(Double.valueOf(String.valueOf(right)))	== 0)
+				return 0;
 
-	private int getCompareResult(Double left, Double right) {
-		int compareResult;
-		if (left == 0 || right == 0) {
-			compareResult = ((Double) Math.abs(left)).compareTo(Math.abs(right));
-		} else {
-			compareResult = left.compareTo(right);
+			return (Double.valueOf(String.valueOf(left))).compareTo(Double.valueOf(String.valueOf(right)));
+		} catch (NumberFormatException numberFormatException) {
+			return String.valueOf(left).toLowerCase().compareTo(String.valueOf(right).toLowerCase());
 		}
-		return compareResult;
 	}
 
 	private Double interpretOperator(Object object) {

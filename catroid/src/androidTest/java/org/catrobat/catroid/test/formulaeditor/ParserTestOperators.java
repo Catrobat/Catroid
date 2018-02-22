@@ -88,56 +88,168 @@ public class ParserTestOperators extends AndroidTestCase {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.GREATER_THAN,
 				InternTokenType.NUMBER, "1", TRUE, testSprite);
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_THAN,
+				InternTokenType.NUMBER, "2", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_THAN,
 				InternTokenType.NUMBER, "1", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "-2", Operators.GREATER_THAN,
+				InternTokenType.NUMBER, "0", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "-0", Operators.GREATER_THAN,
+				InternTokenType.NUMBER, "0", FALSE, testSprite);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "2", Operators.GREATER_THAN,
-				InternTokenType.STRING, "1", TRUE, testSprite);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.GREATER_THAN,
-				InternTokenType.STRING, "1", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc", Operators.GREATER_THAN,
+				InternTokenType.STRING, "abc", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc0", Operators.GREATER_THAN,
+				InternTokenType.STRING, "abc", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc", Operators.GREATER_THAN,
+				InternTokenType.STRING, "abc0", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "A", Operators.GREATER_THAN,
+				InternTokenType.STRING, "a", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "a", Operators.GREATER_THAN,
+				InternTokenType.STRING, "A", FALSE, testSprite);
+
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.GREATER_THAN, InternTokenType.NUMBER, "1", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_THAN,
+				InternTokenType.STRING, String.valueOf(Double.NaN), FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.GREATER_THAN, InternTokenType.STRING, "nan", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "NAN", Operators
+				.GREATER_THAN, InternTokenType.STRING, String.valueOf(Double.NaN), FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "NaN0", Operators
+				.GREATER_THAN, InternTokenType.STRING, String.valueOf(Double.NaN), TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.GREATER_THAN, InternTokenType.STRING, "abc", TRUE, testSprite);
+
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "a", Operators.GREATER_THAN,
+				InternTokenType.NUMBER, "1", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_THAN,
+				InternTokenType.STRING, "a", FALSE, testSprite);
 	}
 
 	public void testGreaterOrEqualThan() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.GREATER_OR_EQUAL,
 				InternTokenType.NUMBER, "1", TRUE, testSprite);
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_OR_EQUAL,
+				InternTokenType.NUMBER, "2", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_OR_EQUAL,
 				InternTokenType.NUMBER, "1", TRUE, testSprite);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.GREATER_OR_EQUAL,
-				InternTokenType.NUMBER, "1", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "-2", Operators.GREATER_OR_EQUAL,
+				InternTokenType.NUMBER, "0", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "-0", Operators.GREATER_OR_EQUAL,
+				InternTokenType.NUMBER, "0", TRUE, testSprite);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "2", Operators.GREATER_OR_EQUAL,
-				InternTokenType.STRING, "1", TRUE, testSprite);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.GREATER_OR_EQUAL,
-				InternTokenType.STRING, "1", TRUE, testSprite);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.GREATER_OR_EQUAL,
-				InternTokenType.STRING, "1", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc", Operators.GREATER_OR_EQUAL,
+				InternTokenType.STRING, "abc", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc0", Operators.GREATER_OR_EQUAL,
+				InternTokenType.STRING, "abc", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc", Operators.GREATER_OR_EQUAL,
+				InternTokenType.STRING, "abc0", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "A", Operators.GREATER_OR_EQUAL,
+				InternTokenType.STRING, "a", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "a", Operators.GREATER_OR_EQUAL,
+				InternTokenType.STRING, "A", TRUE, testSprite);
+
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.GREATER_OR_EQUAL, InternTokenType.NUMBER, "1", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_OR_EQUAL,
+				InternTokenType.STRING, String.valueOf(Double.NaN), FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.GREATER_OR_EQUAL, InternTokenType.STRING, "nan", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "NAN", Operators
+				.GREATER_OR_EQUAL, InternTokenType.STRING, String.valueOf(Double.NaN), TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "NaN0", Operators
+				.GREATER_OR_EQUAL, InternTokenType.STRING, String.valueOf(Double.NaN), TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.GREATER_OR_EQUAL, InternTokenType.STRING, "abc", TRUE, testSprite);
+
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "a", Operators.GREATER_OR_EQUAL,
+				InternTokenType.NUMBER, "1", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_OR_EQUAL,
+				InternTokenType.STRING, "a", FALSE, testSprite);
 	}
 
 	public void testSmallerThan() {
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.SMALLER_THAN,
+				InternTokenType.NUMBER, "1", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_THAN,
+				InternTokenType.NUMBER, "2", TRUE, testSprite);
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_THAN,
 				InternTokenType.NUMBER, "1", FALSE, testSprite);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.SMALLER_THAN,
-				InternTokenType.NUMBER, "1", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "-2", Operators.SMALLER_THAN,
+				InternTokenType.NUMBER, "0", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "-0", Operators.SMALLER_THAN,
+				InternTokenType.NUMBER, "0", FALSE, testSprite);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.SMALLER_THAN,
-				InternTokenType.STRING, "1", FALSE, testSprite);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.SMALLER_THAN,
-				InternTokenType.STRING, "1", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc", Operators.SMALLER_THAN,
+				InternTokenType.STRING, "abc", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc0", Operators.SMALLER_THAN,
+				InternTokenType.STRING, "abc", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc", Operators.SMALLER_THAN,
+				InternTokenType.STRING, "abc0", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "A", Operators.SMALLER_THAN,
+				InternTokenType.STRING, "a", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "a", Operators.SMALLER_THAN,
+				InternTokenType.STRING, "A", FALSE, testSprite);
+
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.SMALLER_THAN, InternTokenType.NUMBER, "1", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_THAN,
+				InternTokenType.STRING, String.valueOf(Double.NaN), TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.SMALLER_THAN, InternTokenType.STRING, "nan", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "NAN", Operators
+				.SMALLER_THAN, InternTokenType.STRING, String.valueOf(Double.NaN), FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "NaN0", Operators
+				.SMALLER_THAN, InternTokenType.STRING, String.valueOf(Double.NaN), FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.SMALLER_THAN, InternTokenType.STRING, "abc", FALSE, testSprite);
+
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "a", Operators.SMALLER_THAN,
+				InternTokenType.NUMBER, "1", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_THAN,
+				InternTokenType.STRING, "a", TRUE, testSprite);
 	}
 
 	public void testSmallerOrEqualThan() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.SMALLER_OR_EQUAL,
 				InternTokenType.NUMBER, "1", FALSE, testSprite);
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.NUMBER, "2", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_OR_EQUAL,
 				InternTokenType.NUMBER, "1", TRUE, testSprite);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.SMALLER_OR_EQUAL,
-				InternTokenType.NUMBER, "1", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "-2", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.NUMBER, "0", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "-0", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.NUMBER, "0", TRUE, testSprite);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "2", Operators.SMALLER_OR_EQUAL,
-				InternTokenType.STRING, "1", FALSE, testSprite);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.SMALLER_OR_EQUAL,
-				InternTokenType.STRING, "1", TRUE, testSprite);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.SMALLER_OR_EQUAL,
-				InternTokenType.STRING, "1", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.STRING, "abc", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc0", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.STRING, "abc", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "abc", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.STRING, "abc0", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "A", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.STRING, "a", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "a", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.STRING, "A", TRUE, testSprite);
+
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.SMALLER_OR_EQUAL, InternTokenType.NUMBER, "1", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.STRING, String.valueOf(Double.NaN), TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.SMALLER_OR_EQUAL, InternTokenType.STRING, "nan", TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "NAN", Operators
+				.SMALLER_OR_EQUAL, InternTokenType.STRING, String.valueOf(Double.NaN), TRUE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "NaN0", Operators
+				.SMALLER_OR_EQUAL, InternTokenType.STRING, String.valueOf(Double.NaN), FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, String.valueOf(Double.NaN), Operators
+				.SMALLER_OR_EQUAL, InternTokenType.STRING, "abc", FALSE, testSprite);
+
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "a", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.NUMBER, "1", FALSE, testSprite);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_OR_EQUAL,
+				InternTokenType.STRING, "a", TRUE, testSprite);
 	}
 
 	public void testEqual() {
