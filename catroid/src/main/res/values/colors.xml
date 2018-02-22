@@ -23,12 +23,16 @@
   -->
 <resources>
 
+    <!-- Toolbar and Bottombar Colors -->
+    <color name="toolbar_gradient_start">#00475E</color>
+    <color name="toolbar_gradient_end">#003F54</color>
+    <color name="toolbar_border">#4D7F8F</color>
+
     <!-- Material Design Colors -->
     <color name="solid_black">#000</color>
     <color name="solid_white">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="light_grey">#CCCCCC</color>
-    <color name="actionbar_title_color">#6F8E9B</color>
     <color name="application_background_color">#04222C</color>
     <color name="transparent">#00000000</color>
     <color name="formula_editor_keyboard_text_color">#A8DFF4</color>

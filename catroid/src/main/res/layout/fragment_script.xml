@@ -49,7 +49,6 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/fragment_script_text_description"
-            android:textColor="@color/actionbar_title_color"
             android:textSize="30sp" />
     </RelativeLayout>
 

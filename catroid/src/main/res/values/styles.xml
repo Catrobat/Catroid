@@ -32,7 +32,7 @@
         <item name="actionModeStyle">@style/ActionMode</item>
     </style>
 
-    <style name="ToolbarTitle" parent="Widget.AppCompat.ActionBar.TabText">
+    <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">?attr/medium</item>
         <item name="android:fontFamily">?attr/app_font</item>
     </style>
