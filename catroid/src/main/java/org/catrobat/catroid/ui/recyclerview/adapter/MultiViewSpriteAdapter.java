@@ -23,12 +23,17 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.IntDef;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.GroupItemSprite;
+import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
@@ -36,14 +41,19 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
+import java.util.Locale;
 
 public class MultiViewSpriteAdapter extends SpriteAdapter {
 
+	public static final String TAG = MultiViewSpriteAdapter.class.getSimpleName();
+
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({BACKGROUND, OTHER})
+	@IntDef({BACKGROUND, SPRITE_SINGLE, SPRITE_GROUP, SPRITE_GROUP_ITEM})
 	@interface ViewType {}
 	private static final int BACKGROUND = 0;
-	private static final int OTHER = 1;
+	private static final int SPRITE_SINGLE = 1;
+	private static final int SPRITE_GROUP = 2;
+	private static final int SPRITE_GROUP_ITEM = 3;
 
 	public MultiViewSpriteAdapter(List<Sprite> items) {
 		super(items);
@@ -51,24 +61,68 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, @ViewType int viewType) {
+
+		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 		switch (viewType) {
 			case BACKGROUND:
-				View view = LayoutInflater.from(parent.getContext())
-						.inflate(R.layout.extended_vh_background_sprite, parent, false);
+				View view = inflater.inflate(R.layout.extended_vh_background_sprite, parent, false);
 				return new ExtendedVH(view);
-			case OTHER:
+			case SPRITE_SINGLE:
+				view = inflater.inflate(R.layout.extended_view_holder, parent, false);
+				return new ExtendedVH(view);
+			case SPRITE_GROUP:
+				view = inflater.inflate(R.layout.extended_vh_sprite_group, parent, false);
+				return new ExtendedVH(view);
+			case SPRITE_GROUP_ITEM:
+				view = inflater.inflate(R.layout.extended_vh_sprite_group_item, parent, false);
+				return new ExtendedVH(view);
 			default:
-				return super.onCreateViewHolder(parent, viewType);
+				throw new IllegalArgumentException(TAG + ": viewType was not defined correctly.");
 		}
 	}
 
 	@Override
 	public void onBindViewHolder(ExtendedVH holder, int position) {
-		super.onBindViewHolder(holder, position);
+		Context context = holder.itemView.getContext();
 
-		if (holder.getAdapterPosition() == 0) {
-			holder.background.setOnLongClickListener(null);
+		Sprite item = items.get(position);
+		holder.name.setText(item.getName());
+
+		if (holder.getItemViewType() == SPRITE_GROUP) {
 			holder.checkBox.setVisibility(View.GONE);
+			return;
+		}
+
+		if (holder.getItemViewType() == BACKGROUND) {
+			holder.itemView.setOnLongClickListener(null);
+			holder.checkBox.setVisibility(View.GONE);
+		}
+
+		if (holder.getItemViewType() == SPRITE_GROUP_ITEM) {
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
+					.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+			holder.itemView.setLayoutParams(params);
+			if (((GroupItemSprite) item).collapsed) {
+				params.height = 0;
+				holder.itemView.setLayoutParams(params);
+			}
+		}
+
+		Bitmap lookData = null;
+		if (!item.getLookList().isEmpty()) {
+			lookData = item.getLookList().get(0).getThumbnailBitmap();
+		}
+		holder.image.setImageBitmap(lookData);
+
+		if (showDetails) {
+			holder.details.setText(String.format(Locale.getDefault(),
+					context.getString(R.string.sprite_details),
+					item.getNumberOfScripts() + item.getNumberOfBricks(),
+					item.getLookList().size(),
+					item.getSoundList().size()));
+			holder.details.setVisibility(View.VISIBLE);
+		} else {
+			holder.details.setVisibility(View.GONE);
 		}
 	}
 
@@ -77,11 +131,49 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		if (position == 0) {
 			return BACKGROUND;
 		}
-		return OTHER;
+		if (items.get(position) instanceof GroupSprite) {
+			return SPRITE_GROUP;
+		}
+		if (items.get(position) instanceof GroupItemSprite) {
+			return SPRITE_GROUP_ITEM;
+		}
+		return SPRITE_SINGLE;
 	}
 
 	@Override
 	public boolean onItemMove(int fromPosition, int toPosition) {
-		return fromPosition == 0 || toPosition == 0 || super.onItemMove(fromPosition, toPosition);
+		if (fromPosition == 0 || toPosition == 0) {
+			return true;
+		}
+
+		Sprite fromItem = items.get(fromPosition);
+		Sprite toItem = items.get(toPosition);
+
+		if (fromItem instanceof GroupSprite) {
+			return true;
+		}
+
+		if (toItem instanceof GroupSprite) {
+			if (fromPosition > toPosition) {
+				fromItem.setConvertToSingleSprite(true);
+			} else {
+				fromItem.setConvertToGroupItemSprite(true);
+			}
+			return super.onItemMove(fromPosition, toPosition);
+		}
+
+		if (!(fromItem instanceof GroupItemSprite) && toItem instanceof GroupItemSprite) {
+			fromItem.setConvertToGroupItemSprite(true);
+			return super.onItemMove(fromPosition, toPosition);
+		}
+
+		if (fromItem instanceof GroupItemSprite && !(toItem instanceof GroupItemSprite)) {
+			fromItem.setConvertToSingleSprite(true);
+			return super.onItemMove(fromPosition, toPosition);
+		}
+
+		fromItem.setConvertToGroupItemSprite(false);
+		fromItem.setConvertToSingleSprite(false);
+		return super.onItemMove(fromPosition, toPosition);
 	}
 }

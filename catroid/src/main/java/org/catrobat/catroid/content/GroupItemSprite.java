@@ -23,13 +23,16 @@
 package org.catrobat.catroid.content;
 
 public class GroupItemSprite extends Sprite {
+
 	private static final long serialVersionUID = 1L;
 
-	public GroupItemSprite(String name) {
-		super(name);
-	}
+	public transient boolean collapsed = false;
 
 	public GroupItemSprite() {
 		super();
+	}
+
+	public GroupItemSprite(String name) {
+		super(name);
 	}
 }

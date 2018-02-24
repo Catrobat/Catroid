@@ -77,14 +77,14 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<ViewHolder> impl
 			}
 		});
 
-		holder.background.setOnClickListener(new View.OnClickListener() {
+		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onItemClickListener.onItemClick(item);
 			}
 		});
 
-		holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+		holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
 				onItemClickListener.onItemLongClick(item, holder);

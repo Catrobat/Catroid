@@ -24,38 +24,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/view_holder_height"
-    android:paddingEnd="@dimen/view_holder_padding"
-    android:paddingStart="@dimen/view_holder_padding"
-    android:gravity="center_vertical"
-    android:layout_marginTop="?attr/element_spacing"
-    android:layout_marginBottom="?attr/element_spacing"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="Overdraw"
-    android:background="?selectableItemBackground">
+    android:paddingStart="@dimen/view_holder_padding">
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/img_margin" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="?attr/x_large" />
-
-        <TextView
-            android:id="@+id/subtitle_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
-    </LinearLayout>
+    <include layout="@layout/extended_view_holder" />
 </LinearLayout>

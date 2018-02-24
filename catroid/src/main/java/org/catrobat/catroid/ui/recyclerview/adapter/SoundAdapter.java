@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.text.format.DateUtils;
@@ -37,6 +38,7 @@ import org.catrobat.catroid.utils.UtilFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class SoundAdapter extends ExtendedRVAdapter<SoundInfo> {
 
@@ -72,19 +74,17 @@ public class SoundAdapter extends ExtendedRVAdapter<SoundInfo> {
 			}
 		});
 
-		holder.details.setVisibility(View.VISIBLE);
-		holder.leftTopDetails.setText(holder.itemView.getContext().getString(R.string.length));
-		holder.rightTopDetails.setText(getSoundDuration(item));
+		Context context = holder.itemView.getContext();
 
 		if (showDetails) {
-			holder.leftBottomDetails.setVisibility(View.VISIBLE);
-			holder.rightBottomDetails.setVisibility(View.VISIBLE);
-			holder.leftBottomDetails.setText(holder.itemView.getContext().getString(R.string.size));
-			holder.rightBottomDetails.setText(UtilFile.getSizeAsString(new File(item.getAbsolutePath()),
-					holder.itemView.getContext()));
+			holder.details.setText(String.format(Locale.getDefault(),
+					context.getString(R.string.sound_details),
+					getSoundDuration(item),
+					UtilFile.getSizeAsString(new File(item.getAbsolutePath()), context)));
 		} else {
-			holder.leftBottomDetails.setVisibility(View.GONE);
-			holder.rightBottomDetails.setVisibility(View.GONE);
+			holder.details.setText(String.format(Locale.getDefault(),
+					context.getString(R.string.sound_duration),
+					getSoundDuration(item)));
 		}
 	}
 

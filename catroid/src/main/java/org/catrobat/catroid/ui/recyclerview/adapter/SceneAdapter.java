@@ -23,12 +23,17 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.view.View;
+
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 
@@ -45,6 +50,17 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 		holder.name.setText(item.getName());
 
 		loader.loadAndShowScreenshot(projectName, item.getName(), false, holder.image);
+
+		if (showDetails) {
+			holder.details.setText(String.format(Locale.getDefault(),
+					holder.itemView.getContext().getString(R.string.scene_details),
+					item.getSpriteList().size(),
+					getLookCount(item),
+					getSoundCount(item)));
+			holder.details.setVisibility(View.VISIBLE);
+		} else {
+			holder.details.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -52,5 +68,21 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 		boolean moved = super.onItemMove(fromPosition, toPosition);
 		ProjectManager.getInstance().setCurrentScene(items.get(0));
 		return moved;
+	}
+
+	private int getLookCount(Scene scene) {
+		int lookCount = 0;
+		for (Sprite sprite : scene.getSpriteList()) {
+			lookCount += sprite.getLookList().size();
+		}
+		return lookCount;
+	}
+
+	private int getSoundCount(Scene scene) {
+		int soundCount = 0;
+		for (Sprite sprite : scene.getSpriteList()) {
+			soundCount += sprite.getSoundList().size();
+		}
+		return soundCount;
 	}
 }

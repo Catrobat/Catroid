@@ -31,24 +31,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupSprite extends Sprite {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient boolean isExpanded = false;
-
-	public GroupSprite(String name) {
-		super(name);
-	}
+	public transient boolean collapsed = false;
 
 	public GroupSprite() {
 		super();
 	}
 
-	public boolean shouldBeExpanded() {
-		return isExpanded;
+	public GroupSprite(String name) {
+		super(name);
 	}
 
-	public void setExpanded(boolean expanded) {
-		isExpanded = expanded;
+	public List<GroupItemSprite> getGroupItems() {
+		List<Sprite> allSprites = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
+		List<GroupItemSprite> groupItems = new ArrayList<>();
+
+		int position = allSprites.indexOf(this);
+
+		for (Sprite sprite : allSprites.subList(position + 1, allSprites.size())) {
+			if (sprite instanceof GroupItemSprite) {
+				groupItems.add((GroupItemSprite) sprite);
+			} else {
+				break;
+			}
+		}
+		return groupItems;
+	}
+
+	public void setCollapsed(boolean collapsed) {
+		this.collapsed = collapsed;
+		for (GroupItemSprite item : getGroupItems()) {
+			item.collapsed = collapsed;
+		}
 	}
 
 	public static List<Sprite> getSpritesFromGroupWithGroupName(String groupName) {

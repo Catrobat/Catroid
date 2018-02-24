@@ -23,26 +23,39 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.SpriteAttributesActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
+import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewGroupDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogWrapper;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,6 +65,42 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	public static final String TAG = SpriteListFragment.class.getSimpleName();
 
 	private SpriteController spriteController = new SpriteController();
+
+	class MultiViewTouchHelperCallback extends TouchHelperCallback {
+
+		MultiViewTouchHelperCallback(TouchHelperAdapterInterface adapterInterface) {
+			super(adapterInterface);
+		}
+
+		@Override
+		public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+			super.onSelectedChanged(viewHolder, actionState);
+
+			switch (actionState) {
+				case ItemTouchHelper.ACTION_STATE_IDLE:
+					List<Sprite> items = adapter.getItems();
+
+					for (Sprite sprite : items) {
+						if (sprite instanceof GroupSprite) {
+							continue;
+						}
+						if (sprite.toBeConverted()) {
+							Sprite convertedSprite = sprite.clone();
+							items.set(items.indexOf(sprite), convertedSprite);
+						}
+					}
+
+					for (Sprite item : items) {
+						if (item instanceof GroupSprite) {
+							((GroupSprite) item).setCollapsed(((GroupSprite) item).collapsed);
+						}
+					}
+
+					adapter.notifyDataSetChanged();
+					break;
+			}
+		}
+	}
 
 	@Override
 	public void onResume() {
@@ -63,10 +112,37 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
+	public void onAdapterReady() {
+		super.onAdapterReady();
+		ItemTouchHelper.Callback callback = new MultiViewTouchHelperCallback(adapter);
+		touchHelper = new ItemTouchHelper(callback);
+		touchHelper.attachToRecyclerView(recyclerView);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		menu.findItem(R.id.new_group).setVisible(true);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.new_group:
+				Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+				NewGroupDialogFragment dialog = new NewGroupDialogFragment(this, currentScene);
+				dialog.show(getFragmentManager(), NewGroupDialogFragment.TAG);
+				break;
+			default:
+				super.onOptionsItemSelected(item);
+		}
+		return true;
+	}
+
+	@Override
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
 		sharedPreferenceDetailsKey = "showDetailsSpriteList";
-		hasDetails = true;
 		List<Sprite> items = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 		adapter = new MultiViewSpriteAdapter(items);
 		onAdapterReady();
@@ -138,6 +214,14 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	protected void deleteItems(List<Sprite> selectedItems) {
 		finishActionMode();
 		for (Sprite item : selectedItems) {
+			if (item instanceof GroupSprite) {
+				for (Sprite sprite : ((GroupSprite) item).getGroupItems()) {
+					sprite.setConvertToSingleSprite(true);
+					Sprite convertedSprite = sprite.clone();
+					adapter.getItems().set(adapter.getItems().indexOf(sprite), convertedSprite);
+				}
+				adapter.notifyDataSetChanged();
+			}
 			spriteController.delete(item, ProjectManager.getInstance().getCurrentScene());
 			adapter.remove(item);
 		}
@@ -180,10 +264,44 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	public void onItemClick(Sprite item) {
-		if (actionModeType == NONE) {
+		if (item instanceof GroupSprite) {
+			((GroupSprite) item).setCollapsed(!((GroupSprite) item).collapsed);
+			adapter.notifyDataSetChanged();
+		} else if (actionModeType == NONE) {
 			ProjectManager.getInstance().setCurrentSprite(item);
 			Intent intent = new Intent(getActivity(), SpriteAttributesActivity.class);
 			startActivity(intent);
+		}
+	}
+
+	@Override
+	public void onItemLongClick(final Sprite item, ViewHolder holder) {
+		if (item instanceof GroupSprite) {
+			CharSequence[] items = new CharSequence[] {
+					getString(R.string.delete),
+					getString(R.string.rename),
+			};
+			new AlertDialog.Builder(getActivity())
+					.setTitle(item.getName())
+					.setItems(items, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							switch (which) {
+								case 0:
+									showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
+									break;
+								case 1:
+									adapter.setSelection(item, true);
+									showRenameDialog(adapter.getSelectedItems());
+									break;
+								default:
+									dialog.dismiss();
+							}
+						}
+					})
+					.show();
+		} else {
+			super.onItemLongClick(item, holder);
 		}
 	}
 }

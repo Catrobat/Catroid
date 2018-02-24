@@ -69,10 +69,6 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
 	private Locale arLocale = new Locale("ar");
-	private String expectedHindiNumberOfScripts = "٢"; // 2
-	private String expectedHindiNumberOfBricks = "٧"; // 7
-	private String expectedHindiNumberOfLooks = "٢"; // 2
-	private String expectedHindiNumberOfSounds = "٠"; // 0
 
 	@Before
 	public void setUp() {
@@ -97,17 +93,11 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 
-		onRecyclerView().atPosition(1).onChildView(R.id.details_left_bottom)
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_scripts) + " " + expectedHindiNumberOfScripts)));
-
-		onRecyclerView().atPosition(1).onChildView(R.id.details_right_bottom)
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_bricks) + " " + expectedHindiNumberOfBricks)));
-
-		onRecyclerView().atPosition(1).onChildView(R.id.details_left_top)
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_looks) + " " + expectedHindiNumberOfLooks)));
-
-		onRecyclerView().atPosition(1).onChildView(R.id.details_right_top)
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_sounds) + " " + expectedHindiNumberOfSounds)));
+		onRecyclerView().atPosition(1).onChildView(R.id.details)
+				.check(matches(withText(String.format(Locale.getDefault(),
+						UiTestUtils.getResourcesString(R.string.sprite_details),
+						7, 2, 0
+				))));
 	}
 
 	private void createProject() {

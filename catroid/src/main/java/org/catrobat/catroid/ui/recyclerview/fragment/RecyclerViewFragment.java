@@ -80,7 +80,6 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	protected ActionMode actionMode;
 	protected String actionModeTitle = "";
 	protected String sharedPreferenceDetailsKey = "";
-	public boolean hasDetails = false;
 
 	protected UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	protected ItemTouchHelper touchHelper;
@@ -261,14 +260,12 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
-		if (hasDetails) {
-			adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
-					getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
+		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
+				getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
 
-			menu.findItem(R.id.show_details).setTitle(adapter.showDetails
-					? R.string.hide_details
-					: R.string.show_details);
-		}
+		menu.findItem(R.id.show_details).setTitle(adapter.showDetails
+				? R.string.hide_details
+				: R.string.show_details);
 	}
 
 	@Override

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.content.Context;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -32,6 +33,7 @@ import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 public class LookAdapter extends ExtendedRVAdapter<LookData> {
 
@@ -46,19 +48,18 @@ public class LookAdapter extends ExtendedRVAdapter<LookData> {
 		holder.name.setText(item.getName());
 		holder.image.setImageBitmap(item.getThumbnailBitmap());
 
-		holder.details.setVisibility(View.GONE);
-
 		if (showDetails) {
-			holder.details.setVisibility(View.VISIBLE);
-
-			holder.leftBottomDetails.setText(R.string.look_measure);
 			int[] measure = item.getMeasure();
 			String measureString = measure[0] + " x " + measure[1];
-			holder.rightBottomDetails.setText(measureString);
 
-			holder.leftTopDetails.setText(R.string.size);
-			holder.rightTopDetails.setText(UtilFile.getSizeAsString(new File(item.getAbsolutePath()),
-					holder.itemView.getContext()));
+			Context context = holder.itemView.getContext();
+			holder.details.setText(String.format(Locale.getDefault(),
+					context.getString(R.string.look_details),
+					measureString,
+					UtilFile.getSizeAsString(new File(item.getAbsolutePath()), context)));
+			holder.details.setVisibility(View.VISIBLE);
+		} else {
+			holder.details.setVisibility(View.GONE);
 		}
 	}
 }
