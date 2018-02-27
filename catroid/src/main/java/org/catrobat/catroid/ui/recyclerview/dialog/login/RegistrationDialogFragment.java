@@ -107,6 +107,11 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 	}
 
 	@Override
+	public void onCancel(DialogInterface dialog) {
+		signInCompleteListener.onLoginCancel();
+	}
+
+	@Override
 	public void onRegistrationComplete() {
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);

@@ -125,8 +125,6 @@ public final class DownloadUtil {
 			renameMediaDialog.setMediaType(mediaType);
 			renameMediaDialog.setURL(url);
 			renameMediaDialog.setFilePath(filePath);
-			renameMediaDialog.setCallingActivity(callingActivity);
-			renameMediaDialog.setWebViewActivity(webViewActivity);
 
 			renameMediaDialog.show(activity.getFragmentManager(), ReplaceExistingMediaDialogFragment.TAG);
 		} else {

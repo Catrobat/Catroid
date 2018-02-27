@@ -113,6 +113,11 @@ public class OAuthUsernameDialogFragment extends DialogFragment implements
 	}
 
 	@Override
+	public void onCancel(DialogInterface dialog) {
+		signInCompleteListener.onLoginCancel();
+	}
+
+	@Override
 	public void onCheckUserNameAvailableComplete(Boolean userNameAvailable, String username) {
 		if (userNameAvailable) {
 			new AlertDialog.Builder(getActivity())
