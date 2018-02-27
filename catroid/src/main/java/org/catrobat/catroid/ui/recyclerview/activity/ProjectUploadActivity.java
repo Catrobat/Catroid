@@ -220,6 +220,11 @@ public class ProjectUploadActivity extends BaseActivity implements
 		setShowProgressBar(false);
 	}
 
+	@Override
+	public void onLoginCancel() {
+		finish();
+	}
+
 	public void setShowProgressBar(boolean show) {
 		findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
 		findViewById(R.id.upload_layout).setVisibility(show ? View.GONE : View.VISIBLE);

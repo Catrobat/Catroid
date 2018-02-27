@@ -43,7 +43,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
@@ -63,9 +62,6 @@ public class ReplaceExistingMediaDialogFragment extends DialogFragment {
 	protected String url;
 	protected String mediaType;
 	protected String filePath;
-	protected String callingActivity;
-
-	protected WebViewActivity webViewActivity;
 
 	public void setMediaName(String mediaName) {
 		this.mediaName = mediaName;
@@ -81,14 +77,6 @@ public class ReplaceExistingMediaDialogFragment extends DialogFragment {
 
 	public void setFilePath(String path) {
 		this.filePath = path;
-	}
-
-	public void setCallingActivity(String activity) {
-		this.callingActivity = activity;
-	}
-
-	public void setWebViewActivity(WebViewActivity activity) {
-		this.webViewActivity = activity;
 	}
 
 	@Override

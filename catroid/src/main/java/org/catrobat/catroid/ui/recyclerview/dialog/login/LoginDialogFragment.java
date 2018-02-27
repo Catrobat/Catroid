@@ -111,6 +111,11 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 		dismiss();
 	}
 
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		signInCompleteListener.onLoginCancel();
+	}
+
 	private void onLoginButtonClick() {
 		String username = usernameInputLayout.getEditText().getText().toString().replaceAll("\\s", "");
 		String password = passwordInputLayout.getEditText().getText().toString();

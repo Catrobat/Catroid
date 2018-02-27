@@ -224,6 +224,10 @@ public class MainMenuActivity extends BaseCastActivity implements
 	}
 
 	@Override
+	public void onLoginCancel() {
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {

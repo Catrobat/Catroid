@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -166,6 +167,11 @@ public class SignInDialog extends DialogFragment implements
 	public void onStop() {
 		super.onStop();
 		googleApiClient.disconnect();
+	}
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		signInCompleteListener.onLoginCancel();
 	}
 
 	private void initializeGooglePlus() {
@@ -557,5 +563,6 @@ public class SignInDialog extends DialogFragment implements
 	public interface SignInCompleteListener {
 
 		void onLoginSuccessful(Bundle bundle);
+		void onLoginCancel();
 	}
 }
