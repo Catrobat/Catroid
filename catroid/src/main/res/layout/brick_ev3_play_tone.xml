@@ -68,7 +68,6 @@
             android:layout_height="wrap_content"
             app:layout_inputType="number"
             app:layout_textField="true"
-            android:clickable="false"
             android:maxEms="5" >
         </TextView >
 
@@ -91,7 +90,6 @@
             android:layout_height="wrap_content"
             app:layout_inputType="number"
             app:layout_textField="true"
-            android:clickable="false"
             android:maxEms="5" >
         </TextView >
 
@@ -115,7 +113,6 @@
             android:layout_height="wrap_content"
             app:layout_inputType="number"
             app:layout_textField="true"
-            android:clickable="false"
             android:maxEms="5" >
         </TextView >
 

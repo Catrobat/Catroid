@@ -23,7 +23,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/my_projects_list_item_height"
     android:orientation="horizontal"
     android:minHeight="@dimen/my_projects_list_item_height">
@@ -39,7 +39,7 @@
 
     <RelativeLayout
         android:id="@+id/scratch_projects_list_item_background"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/button_background_selector">
 

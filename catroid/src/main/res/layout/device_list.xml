@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/title_paired_devices"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/device_text_view_margin_small"
         android:paddingStart="@dimen/device_text_view_padding"
@@ -37,20 +37,20 @@
         android:visibility="gone" />
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/bluetooth_device_list_divider_color" />
 
     <ListView
         android:id="@+id/paired_devices"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:stackFromBottom="true" />
 
     <TextView
         android:id="@+id/title_new_devices"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/device_text_view_padding"
         android:layout_marginTop="@dimen/device_text_view_margin_small"
@@ -60,7 +60,7 @@
 
     <LinearLayout
         android:id="@+id/device_list_progress_bar"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:visibility="gone" >
@@ -68,7 +68,7 @@
         <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent" />
+            android:layout_height="match_parent" />
 
         <TextView
         android:id="@+id/device_list_loading_text"
@@ -80,13 +80,13 @@
 
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/bluetooth_device_list_divider_color" />
 
     <ListView
         android:id="@+id/new_devices"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:stackFromBottom="true" />

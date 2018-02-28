@@ -168,7 +168,7 @@ public class ArabicSentenceStructureInBricksNameTest {
 
 		onView(withId(R.id.brick_ev3_motor_move_spinner))
 				.check(matches(isDisplayed()))
-				.check(isLeftOf(withId(R.id.brick_ev3_motor_move_label)));
+				.check(isBelow(withId(R.id.brick_ev3_motor_move_label)));
 
 		onView(withId(R.id.ev3_motor_move_speed_edit_text))
 				.check(matches(isDisplayed()))
@@ -185,7 +185,7 @@ public class ArabicSentenceStructureInBricksNameTest {
 
 		onView(withId(R.id.lego_motor_action_spinner))
 				.check(matches(isDisplayed()))
-				.check(isLeftOf(withId(R.id.lego_motor_action_label)));
+				.check(isBelow(withId(R.id.lego_motor_action_label)));
 
 		onView(withId(R.id.motor_action_speed_edit_text))
 				.check(matches(isDisplayed()))

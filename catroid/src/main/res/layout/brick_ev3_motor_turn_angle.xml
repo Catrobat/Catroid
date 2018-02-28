@@ -48,15 +48,6 @@
 
         <include layout="@layout/icon_brick_category_legonxt"/>
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/brick_ev3_motor_turn_first_line"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
                 <TextView
                     android:id="@+id/brick_ev3_motor_turn_label"
                     style="@style/BrickText.Multiple"
@@ -67,21 +58,15 @@
                     android:id="@+id/lego_ev3_motor_turn_angle_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:textDirection="locale"
                     android:clickable="false"
                     android:focusable="false" >
                 </Spinner >
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_below="@+id/brick_ev3_motor_turn_first_line"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/brick_ev3_motor_turn_angle"
                     style="@style/BrickText.Multiple"
+                    app:layout_newLine="true"
                     android:text="@string/ev3_motor_move_by" >
                 </TextView >
 
@@ -92,7 +77,6 @@
                     android:layout_height="wrap_content"
                     app:layout_inputType="number"
                     app:layout_textField="true"
-                    android:clickable="false"
                     android:maxEms="5" >
                 </TextView >
 
@@ -101,8 +85,7 @@
                     style="@style/BrickText"
                     android:text="@string/degree_symbol" >
                 </TextView >
-            </LinearLayout>
-        </RelativeLayout>
+
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

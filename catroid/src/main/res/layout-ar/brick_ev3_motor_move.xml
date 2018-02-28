@@ -48,15 +48,6 @@
 
         <include layout="@layout/icon_brick_category_legonxt"/>
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/brick_ev3_motor_move_first_line"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
                 <TextView
                     android:id="@+id/brick_ev3_motor_move_label"
                     style="@style/BrickText.SingleLine"
@@ -68,18 +59,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textDirection="locale"
-                    android:gravity="center"
                     android:clickable="false"
                     android:focusable="false" >
                 </Spinner>
-            </LinearLayout>
-
-            <LinearLayout
-              android:id="@+id/brick_ev3_motor_move_second_line"
-              android:layout_below="@+id/brick_ev3_motor_move_first_line"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/lego_motor_action_to_text"
@@ -101,7 +83,6 @@
                     android:layout_height="wrap_content"
                     app:layout_inputType="number"
                     app:layout_textField="true"
-                    android:clickable="false"
                     android:maxEms="5" >
                 </TextView >
 
@@ -110,8 +91,7 @@
                     style="@style/BrickText"
                     android:text="@string/percent_symbol" >
                 </TextView >
-            </LinearLayout>
-        </RelativeLayout>
+
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

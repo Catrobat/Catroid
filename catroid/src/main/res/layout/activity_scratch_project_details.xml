@@ -58,7 +58,7 @@
 
     <View
         android:id="@+id/separation_line_top"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/spritelist_separation_line_color"
         android:layout_below="@+id/scratch_project_owner" />
@@ -96,7 +96,7 @@
 
             <uk.co.deanwild.flowtextview.FlowTextView
                 android:id="@+id/scratch_project_instructions_flow_text"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
@@ -259,14 +259,14 @@
 
     <View
         android:id="@+id/separation_line_bottom"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/spritelist_separation_line_color"
         android:layout_above="@+id/scratch_project_convert_button" />
 
     <Button
         android:id="@+id/scratch_project_convert_button"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/convert"
         android:textAlignment="center"

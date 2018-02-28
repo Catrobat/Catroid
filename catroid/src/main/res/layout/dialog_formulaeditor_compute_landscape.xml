@@ -22,7 +22,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="500dp"
     android:gravity="center"
     android:orientation="vertical"
@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/formula_editor_compute_dialog_textview_landscape_mode"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/white"
         android:textColor="@color/solid_black"
