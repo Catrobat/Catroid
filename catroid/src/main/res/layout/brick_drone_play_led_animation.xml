@@ -57,6 +57,7 @@
             android:id="@+id/brick_drone_play_led_animation_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textDirection="locale"
             android:clickable="false"
             android:focusable="false" />
 

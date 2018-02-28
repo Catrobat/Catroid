@@ -65,8 +65,7 @@
             android:id="@+id/nxt_tone_duration_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true"
-            android:clickable="false"/>
+            app:layout_textField="true" />
 
         <TextView
             android:id="@+id/brick_nxt_play_tone_seconds"
@@ -85,8 +84,7 @@
             android:id="@+id/nxt_tone_freq_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true"
-            android:clickable="false" />
+            app:layout_textField="true" />
 
         <TextView
             android:id="@+id/brick_nxt_play_tone_hundred_hz"

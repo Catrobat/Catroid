@@ -73,8 +73,7 @@
             android:id="@+id/brick_jumping_sumo_sound_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true"
-            android:clickable="false" >
+            app:layout_textField="true">
         </TextView >
 
         <TextView

@@ -28,7 +28,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:id="@+id/add_brick_fragment_list"
               android:layout_width="match_parent"
-              android:layout_height="fill_parent"
+              android:layout_height="match_parent"
               android:background="@color/application_background_color"
               android:orientation="vertical"
               tools:ignore="Overdraw" >
@@ -36,7 +36,7 @@
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:cacheColorHint="#00000000"
         android:divider="@android:color/transparent" />
 

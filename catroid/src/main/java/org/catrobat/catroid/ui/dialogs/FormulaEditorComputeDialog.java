@@ -144,7 +144,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 				ViewGroup.LayoutParams params = computeTextView.getLayoutParams();
 				int height = computeTextView.getLineCount() * computeTextView.getLineHeight();
 				int heightMargin = (int) (height * 0.5);
-				params.width = ViewGroup.LayoutParams.FILL_PARENT;
+				params.width = ViewGroup.LayoutParams.MATCH_PARENT;
 				params.height = height + heightMargin;
 				computeTextView.setLayoutParams(params);
 			}
