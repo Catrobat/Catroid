@@ -54,7 +54,7 @@ public class CrashReporterTest {
 	private Exception exception;
 
 	@Mock
-	CrashReporterInterface reporter;
+	private CrashReporterInterface reporter;
 
 	@Before
 	public void setUp() {
@@ -146,7 +146,7 @@ public class CrashReporterTest {
 
 		assertFalse(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
 
-		CrashReporter.sendUnhandledCaughtException();
+		CrashReporter.logUnhandledException();
 
 		assertTrue(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
 	}
@@ -157,27 +157,27 @@ public class CrashReporterTest {
 
 		assertFalse(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
 
-		CrashReporter.sendUnhandledCaughtException();
+		CrashReporter.logUnhandledException();
 
 		assertTrue(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
 	}
 
 	@Test
-	public void testUnhandledCaughtExceptionSentOnCrashReportEnabled() {
+	public void testUnhandledExceptionSentOnCrashReportEnabled() {
 		CrashReporter.storeUnhandledException(exception);
 
-		CrashReporter.sendUnhandledCaughtException();
+		CrashReporter.logUnhandledException();
 
 		verify(reporter, times(1)).logException(any(Throwable.class));
 	}
 
 	@Test
-	public void testUnhandledCaughtExceptionSentOnCrashReportDisabled() {
+	public void testUnhandledExceptionSentOnCrashReportDisabled() {
 		CrashReporter.storeUnhandledException(exception);
 		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false);
 		editor.commit();
 
-		CrashReporter.sendUnhandledCaughtException();
+		CrashReporter.logUnhandledException();
 
 		verify(reporter, times(0)).logException(any(Exception.class));
 	}
