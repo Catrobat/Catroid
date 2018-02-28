@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.fragment;
 import android.app.DialogFragment;
 import android.app.ListFragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -42,8 +41,8 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
-import org.catrobat.catroid.ui.dialogs.FormulaEditorChooseSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.SelectSpriteDialogFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
@@ -53,7 +52,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class FormulaEditorCategoryListFragment extends ListFragment implements
-		CategoryListAdapter.OnListItemClickListener {
+		CategoryListAdapter.OnListItemClickListener,
+		SelectSpriteDialogFragment.SelectSpriteListener {
 
 	public static final String TAG = FormulaEditorCategoryListFragment.class.getSimpleName();
 	public static final String OBJECT_TAG = "objectFragment";
@@ -225,22 +225,22 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements
 		if (isNXTItem(position)) {
 			DialogFragment dialog = new LegoSensorPortConfigDialog(itemsIds[position], LegoSensorPortConfigDialog.Lego.NXT);
 			dialog.setTargetFragment(this, getTargetRequestCode());
-			dialog.show(this.getActivity().getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(getActivity().getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
+			getActivity().onBackPressed();
 		} else if (isEV3Item(position)) {
 			DialogFragment dialog = new LegoSensorPortConfigDialog(itemsIds[position], LegoSensorPortConfigDialog.Lego.EV3);
 			dialog.setTargetFragment(this, getTargetRequestCode());
-			dialog.show(this.getActivity().getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
-		} else {
-			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
-					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-			if (formulaEditor != null) {
-				if (itemsIds[position] == R.string.formula_editor_function_collision) {
-					showChooseSpriteDialog(formulaEditor);
-				} else {
-					formulaEditor.addResourceToActiveFormula(itemsIds[position]);
-				}
-			}
+			dialog.show(getActivity().getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
 			getActivity().onBackPressed();
+		} else {
+			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
+					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+			if (itemsIds[position] == R.string.formula_editor_function_collision) {
+				showSelectSpriteDialog();
+			} else {
+				formulaEditor.addResourceToActiveFormula(itemsIds[position]);
+				getActivity().onBackPressed();
+			}
 		}
 	}
 
@@ -264,29 +264,29 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements
 		return false;
 	}
 
-	private void showChooseSpriteDialog(FormulaEditorFragment fragment) {
-		final FormulaEditorFragment formulaEditor = fragment;
-		final FormulaEditorChooseSpriteDialog dialog = FormulaEditorChooseSpriteDialog.newInstance();
-		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialogInterface) {
-				if (dialog.getSuccessStatus()) {
-					Sprite firstSprite = ProjectManager.getInstance().getCurrentSprite();
-					Sprite secondSprite = null;
-					for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
-						if (sprite.getName().compareTo(dialog.getSprite()) == 0) {
-							secondSprite = sprite;
-							firstSprite.createCollisionPolygons();
-							secondSprite.createCollisionPolygons();
-						}
-					}
-					if (secondSprite != null) {
-						formulaEditor.addCollideFormulaToActiveFormula(secondSprite.getName());
-					}
-				}
+	private void showSelectSpriteDialog() {
+		List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		List<Sprite> selectableSprites = new ArrayList<>();
+
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+			if (sprites.indexOf(sprite) != 0 && sprite != ProjectManager.getInstance().getCurrentSprite()) {
+				selectableSprites.add(sprite);
 			}
-		});
-		dialog.showDialog(this);
+		}
+
+		SelectSpriteDialogFragment dialog = new SelectSpriteDialogFragment(this, selectableSprites);
+		dialog.show(getFragmentManager(), SelectSpriteDialogFragment.TAG);
+	}
+
+	@Override
+	public void onSpriteSelected(Sprite sprite) {
+		ProjectManager.getInstance().getCurrentSprite().createCollisionPolygons();
+		sprite.createCollisionPolygons();
+
+		((FormulaEditorFragment) getFragmentManager()
+				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))
+				.addCollideFormulaToActiveFormula(sprite.getName());
+		getActivity().onBackPressed();
 	}
 
 	@Override
@@ -320,9 +320,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
 		setHasOptionsMenu(true);
-
-		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
 	}
 
 	@Override

@@ -27,8 +27,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/dialog_content_area_padding_top"
-    android:paddingStart="@dimen/dialog_content_area_padding_text_input"
-    android:paddingEnd="@dimen/dialog_content_area_padding_text_input">
+    android:paddingStart="@dimen/dialog_content_area_padding_input"
+    android:paddingEnd="@dimen/dialog_content_area_padding_input">
 
     <android.support.design.widget.TextInputLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

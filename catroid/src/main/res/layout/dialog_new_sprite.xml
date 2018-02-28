@@ -27,15 +27,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/dialog_content_area_padding_top"
-    android:paddingStart="@dimen/dialog_content_area_padding_text_input"
-    android:paddingEnd="@dimen/dialog_content_area_padding_text_input"
+    android:paddingStart="@dimen/dialog_content_area_padding_input"
+    android:paddingEnd="@dimen/dialog_content_area_padding_input"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="72dp"
         android:layout_height="65dp"
-        android:layout_marginStart="@dimen/text_input_offset"
+        android:layout_marginStart="@dimen/dialog_input_offset"
         android:layout_marginBottom="@dimen/img_margin"
         android:background="@drawable/image_contour"
         android:cropToPadding="true"
