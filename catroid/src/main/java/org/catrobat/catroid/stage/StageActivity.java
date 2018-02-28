@@ -196,7 +196,7 @@ public class StageActivity extends AndroidApplication {
 	private void showDialog(String question, final AskAction askAction) {
 		pause();
 
-		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog));
+		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog));
 		final EditText edittext = new EditText(getContext());
 		alertBuilder.setView(edittext);
 		alertBuilder.setMessage(getContext().getString(R.string.brick_ask_dialog_hint));
