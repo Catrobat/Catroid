@@ -54,6 +54,11 @@ class ObservedOutputStream extends OutputStream {
 	}
 
 	@Override
+	public void flush() throws IOException {
+		outputStream.flush();
+	}
+
+	@Override
 	public void close() throws IOException {
 		super.close();
 		outputStream.close();
