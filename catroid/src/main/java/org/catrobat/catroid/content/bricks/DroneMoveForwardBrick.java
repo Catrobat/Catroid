@@ -61,11 +61,12 @@ public class DroneMoveForwardBrick extends FormulaBrick {
 
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_drone_move_forward_edit_text_second:
-				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-				break;
 			case R.id.brick_drone_move_forward_edit_text_power:
 				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_POWER_IN_PERCENT);
+				break;
+			case R.id.brick_drone_move_forward_edit_text_second:
+			default:
+				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 				break;
 		}
 	}
