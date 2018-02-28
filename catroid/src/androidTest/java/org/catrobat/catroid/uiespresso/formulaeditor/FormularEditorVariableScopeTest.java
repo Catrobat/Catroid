@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
-import android.content.Intent;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -53,34 +51,46 @@ public class FormularEditorVariableScopeTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<SpriteActivity>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorAddVariableTestFormulaEditorVariableScopeTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
-		Intent intent = new Intent();
-		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-		baseActivityTestRule.launchActivity(intent);
 
-		onView(withId(R.id.brick_change_size_by_edit_text)).perform(click());
-		onFormulaEditor().performOpenDataFragment();
+		baseActivityTestRule.launchActivity();
+
+		onView(withId(R.id.brick_change_size_by_edit_text))
+				.perform(click());
+
+		onFormulaEditor()
+				.performOpenDataFragment();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void variableScopeTest() {
-		onDataList().performAdd("GlobalVar", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.GLOBAL);
-		onDataList().performAdd("LocalVar", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.LOCAL);
-		onDataList().performAdd("LocalVar2", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.LOCAL);
+		onDataList()
+				.performAdd("GlobalVar", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.GLOBAL)
+				.performAdd("LocalVar", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.LOCAL)
+				.performAdd("LocalVar2", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.LOCAL);
 
-		onDataList().performAdd("GlobalList", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.GLOBAL);
-		onDataList().performAdd("GlobalList2", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.GLOBAL);
-		onDataList().performAdd("LocalList", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.LOCAL);
+		onDataList()
+				.performAdd("GlobalList", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.GLOBAL)
+				.performAdd("GlobalList2", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.GLOBAL)
+				.performAdd("LocalList", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.LOCAL);
 
-		onRecyclerView().atPosition(0).onChildView(R.id.headline).check(matches(withText(R.string.global_vars_headline)));
-		onRecyclerView().atPosition(1).onChildView(R.id.headline).check(matches(withText(R.string.local_vars_headline)));
-		onRecyclerView().atPosition(3).onChildView(R.id.headline).check(matches(withText(R.string.global_lists_headline)));
-		onRecyclerView().atPosition(5).onChildView(R.id.headline).check(matches(withText(R.string.local_lists_headline)));
+		onRecyclerView().atPosition(0).onChildView(R.id.headline)
+				.check(matches(withText(R.string.global_vars_headline)));
+
+		onRecyclerView().atPosition(1).onChildView(R.id.headline)
+				.check(matches(withText(R.string.local_vars_headline)));
+
+		onRecyclerView().atPosition(3).onChildView(R.id.headline)
+				.check(matches(withText(R.string.global_lists_headline)));
+
+		onRecyclerView().atPosition(5).onChildView(R.id.headline)
+				.check(matches(withText(R.string.local_lists_headline)));
 	}
 }

@@ -47,8 +47,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static junit.framework.Assert.assertTrue;
-
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.assertCurrentActivityIsInstanceOf;
 import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
@@ -88,7 +87,7 @@ public class SmokeTest {
 				.perform(click());
 
 		//check if user ends up in right activity either by checking activity itself:
-		assertTrue(UiTestUtils.getCurrentActivity() instanceof ProjectActivity);
+		assertCurrentActivityIsInstanceOf(ProjectActivity.class);
 
 		//open scene
 		String sceneName = UiTestUtils.getResources().getString(R.string.default_scene_name, 1);

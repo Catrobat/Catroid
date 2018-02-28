@@ -97,7 +97,7 @@ public class FaceDetectionResourceStartedTest {
 				new FormulaElement(FormulaElement.ElementType.NUMBER, "42", null));
 		createProject();
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -118,7 +118,7 @@ public class FaceDetectionResourceStartedTest {
 				new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.FACE_SIZE.name(), null));
 		createProject();
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);

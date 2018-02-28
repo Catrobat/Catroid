@@ -24,7 +24,6 @@ package org.catrobat.catroid.uiespresso.util;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 
@@ -37,7 +36,10 @@ import org.catrobat.catroid.content.StartScript;
 import java.util.Collection;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.runner.lifecycle.Stage.RESUMED;
+
+import static org.hamcrest.CoreMatchers.instanceOf;
 
 public final class UiTestUtils {
 	// Suppress default constructor for noninstantiability
@@ -53,8 +55,7 @@ public final class UiTestUtils {
 		return InstrumentationRegistry.getTargetContext().getResources().getString(stringId);
 	}
 
-	@Nullable
-	public static Activity getCurrentActivity() {
+	public static void assertCurrentActivityIsInstanceOf(Class activityClass) {
 		final Activity[] currentActivity = {null};
 		getInstrumentation().runOnMainSync(new Runnable() {
 			public void run() {
@@ -64,7 +65,7 @@ public final class UiTestUtils {
 				}
 			}
 		});
-		return currentActivity[0];
+		assertThat(currentActivity[0], instanceOf(activityClass));
 	}
 
 	public static Project createEmptyProject(String projectName) {

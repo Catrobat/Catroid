@@ -30,14 +30,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,7 +45,8 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
@@ -70,7 +70,9 @@ public class ThinkForBubbleBrickStageTest {
 	@Flaky
 	@Test
 	public void thinkForBubbleBrickStageTest() {
-		onView(isRoot()).perform(CustomActions.wait(1000));
+		assertNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
+		onView(isFocusable())
+				.perform(click());
 		assertNotNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
 		lastBrickInScript.waitUntilEvaluated(3000);
 		assertNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
@@ -81,7 +83,7 @@ public class ThinkForBubbleBrickStageTest {
 		float duration = 2f;
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		sprite = new Sprite("testSprite");
-		Script script = new StartScript();
+		Script script = new WhenTouchDownScript();
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);

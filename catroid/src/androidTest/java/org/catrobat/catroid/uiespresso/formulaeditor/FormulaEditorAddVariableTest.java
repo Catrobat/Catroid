@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
-import android.content.Intent;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -52,35 +51,41 @@ public class FormulaEditorAddVariableTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<SpriteActivity>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorAddVariableTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
-		Intent intent = new Intent();
-		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-		baseActivityTestRule.launchActivity(intent);
 
-		onView(withId(R.id.brick_change_size_by_edit_text)).perform(click());
-		onFormulaEditor().performOpenDataFragment();
+		baseActivityTestRule.launchActivity();
+
+		onView(withId(R.id.brick_change_size_by_edit_text))
+				.perform(click());
+		onFormulaEditor()
+				.performOpenDataFragment();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void addVariableTest() {
 		final String varName = "variable";
-		onDataList().performAdd(varName);
+		onDataList()
+				.performAdd(varName);
 
-		onDataList().onVariableAtPosition(0).checkHasName(varName);
+		onDataList().onVariableAtPosition(0)
+				.checkHasName(varName);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void addListTest() {
 		final String listName = "list";
-		onDataList().performAdd(listName, FormulaEditorDataListWrapper.ItemType.LIST);
+		onDataList()
+				.performAdd(listName, FormulaEditorDataListWrapper.ItemType.LIST);
 
-		onDataList().onListAtPosition(0).checkHasName(listName);
+		onDataList()
+				.onListAtPosition(0).checkHasName(listName);
 	}
 }

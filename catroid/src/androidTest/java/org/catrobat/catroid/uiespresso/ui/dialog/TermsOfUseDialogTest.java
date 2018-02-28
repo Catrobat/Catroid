@@ -64,10 +64,7 @@ public class TermsOfUseDialogTest {
 		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.main_menu_terms_of_use)).perform(click());
 
-		int alertTitleId = baseActivityTestRule.getActivity().getResources()
-				.getIdentifier("alertTitle", "id", "android");
-
-		onView(allOf(withId(alertTitleId), isDisplayed()))
+		onView(withId(R.id.alertTitle))
 				.check(matches(withText(R.string.dialog_terms_of_use_title)));
 
 		onView(withText(R.string.dialog_terms_of_use_info))
