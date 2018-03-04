@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
-import android.content.Intent;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -39,52 +37,60 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openContextualActionModeOverflowMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions.openOverflowMenu;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
 public class FormulaEditorDeleteVariableTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<SpriteActivity>(SpriteActivity.class, true, false);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorDeleteVariableTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
-		Intent intent = new Intent();
-		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-		baseActivityTestRule.launchActivity(intent);
 
-		onView(withId(R.id.brick_change_size_by_edit_text)).perform(click());
-		onFormulaEditor().performOpenDataFragment();
+		baseActivityTestRule.launchActivity();
+
+		onBrickAtPosition(1).onFormulaTextField(R.id.brick_change_size_by_edit_text)
+				.perform(click());
+
+		onFormulaEditor()
+				.performOpenDataFragment();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteVariableTest() {
 		final String itemName = "item";
-		onDataList().performAdd(itemName);
-		onDataList().onVariableAtPosition(0).performDelete();
+		onDataList()
+				.performAdd(itemName);
 
-		onRecyclerView().checkCountEquals(0);
+		onDataList().onVariableAtPosition(0)
+				.performDelete();
+
+		onRecyclerView()
+				.checkCountEquals(0);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteVariableFromMenuTest() throws InterruptedException {
 		final String itemName = "item";
-		onDataList().performAdd(itemName);
-		openContextualActionModeOverflowMenu();
-		onView(withId(R.id.title))
-				.inRoot(isPlatformPopup())
+		onDataList()
+				.performAdd(itemName);
+		openOverflowMenu();
+		onView(withId(R.id.title)).inRoot(isPlatformPopup())
 				.perform(click());
 		onDataList().onVariableAtPosition(0)
 				.performCheckItem();
