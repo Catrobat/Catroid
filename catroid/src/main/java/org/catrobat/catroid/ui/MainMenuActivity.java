@@ -55,6 +55,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -74,7 +75,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SettingsActivity.setToChosenLanguage(this);
+		SettingsFragment.setToChosenLanguage(this);
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		UtilUi.updateScreenWidthAndHeight(this);
@@ -108,7 +109,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.replace(R.id.main_menu_buttons_container, new MainMenuFragment(), MainMenuFragment.TAG)
 				.commit();
 
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
 	}

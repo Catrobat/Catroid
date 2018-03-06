@@ -51,6 +51,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public class ProjectActivity extends BaseCastActivity implements PlaySceneDialogFragment.PlaySceneInterface {
 
@@ -61,7 +62,7 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SettingsActivity.setToChosenLanguage(this);
+		SettingsFragment.setToChosenLanguage(this);
 
 		setContentView(R.layout.activity_recycler);
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
@@ -176,7 +177,7 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 		}
 
 		if (requestCode != RESULT_OK
-				&& SettingsActivity.isCastSharedPreferenceEnabled(this)
+				&& SettingsFragment.isCastSharedPreferenceEnabled(this)
 				&& ProjectManager.getInstance().getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
 
@@ -185,7 +186,7 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 	}
 
 	private boolean needToShowLegoEV3InfoDialog() {
-		boolean isLegoEV3InfoDialogDisabled = SettingsActivity
+		boolean isLegoEV3InfoDialogDisabled = SettingsFragment
 				.getShowLegoEV3MindstormsSensorInfoDialog(getApplicationContext());
 
 		boolean legoEV3ResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()
@@ -197,7 +198,7 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 	}
 
 	private boolean needToShowLegoNXTInfoDialog() {
-		boolean isLegoNXTInfoDialogDisabled = SettingsActivity
+		boolean isLegoNXTInfoDialogDisabled = SettingsFragment
 				.getShowLegoNXTMindstormsSensorInfoDialog(getApplicationContext());
 
 		boolean legoNXTResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()

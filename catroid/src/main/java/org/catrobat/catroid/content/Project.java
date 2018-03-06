@@ -42,7 +42,7 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
@@ -351,7 +351,7 @@ public class Project implements Serializable {
 			return;
 		}
 
-		NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(context);
+		NXTSensor.Sensor[] sensorMapping = SettingsFragment.getLegoMindstormsNXTSensorMapping(context);
 		for (Setting setting : settings) {
 			if (setting instanceof LegoNXTSetting) {
 				((LegoNXTSetting) setting).updateMapping(sensorMapping);
@@ -378,7 +378,7 @@ public class Project implements Serializable {
 			return;
 		}
 
-		EV3Sensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsEV3SensorMapping(context);
+		EV3Sensor.Sensor[] sensorMapping = SettingsFragment.getLegoMindstormsEV3SensorMapping(context);
 		for (Setting setting : settings) {
 			if (setting instanceof LegoEV3Setting) {
 				((LegoEV3Setting) setting).updateMapping(sensorMapping);
@@ -397,8 +397,8 @@ public class Project implements Serializable {
 
 		for (Setting setting : settings) {
 			if (setting instanceof LegoNXTSetting) {
-				SettingsActivity.enableLegoMindstormsNXTBricks(context);
-				SettingsActivity.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
+				SettingsFragment.enableLegoMindstormsNXTBricks(context);
+				SettingsFragment.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
 				return;
 			}
 		}
@@ -411,8 +411,8 @@ public class Project implements Serializable {
 
 		for (Setting setting : settings) {
 			if (setting instanceof LegoEV3Setting) {
-				SettingsActivity.enableLegoMindstormsEV3Bricks(context);
-				SettingsActivity.setLegoMindstormsEV3SensorMapping(context, ((LegoEV3Setting) setting).getSensorMapping());
+				SettingsFragment.enableLegoMindstormsEV3Bricks(context);
+				SettingsFragment.setLegoMindstormsEV3SensorMapping(context, ((LegoEV3Setting) setting).getSensorMapping());
 				return;
 			}
 		}

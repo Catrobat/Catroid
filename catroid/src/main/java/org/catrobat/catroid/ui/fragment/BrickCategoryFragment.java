@@ -36,10 +36,10 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -154,11 +154,11 @@ public class BrickCategoryFragment extends ListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_pen, null));
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 
-		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
 
-		if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null));
 		}
 
@@ -166,26 +166,26 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isDroneSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_drone, null));
 		}
 
-		if (SettingsActivity.isJSSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isJSSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_drone_js, null));
 		}
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_phiro, null));
 		}
 
-		if (SettingsActivity.isArduinoSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isArduinoSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_arduino, null));
 		}
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			categories.add(inflater.inflate(R.layout.brick_category_chromecast, null));
 		}
-		if (SettingsActivity.isRaspiSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isRaspiSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_raspi, null));
 		}
 

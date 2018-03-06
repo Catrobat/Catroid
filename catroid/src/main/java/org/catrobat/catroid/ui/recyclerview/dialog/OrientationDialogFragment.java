@@ -35,7 +35,7 @@ import android.widget.RadioGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class OrientationDialogFragment extends DialogFragment {
 		View view = View.inflate(getActivity(), R.layout.dialog_orientation, null);
 
 		int title = R.string.project_orientation_title;
-		if (SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isCastSharedPreferenceEnabled(getActivity())) {
 			title = R.string.project_select_screen_title;
 			view.findViewById(R.id.cast).setVisibility(View.VISIBLE);
 		}

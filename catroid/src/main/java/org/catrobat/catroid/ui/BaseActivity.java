@@ -33,6 +33,7 @@ import android.widget.AdapterView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.CrashReporter;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -54,7 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
 
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
 	}
@@ -73,7 +74,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 	protected void onResume() {
 		super.onResume();
 
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
 

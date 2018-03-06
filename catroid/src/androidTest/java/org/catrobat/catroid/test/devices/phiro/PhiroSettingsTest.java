@@ -41,7 +41,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.LegacyFileUtils;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -55,12 +55,12 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 		super.setUp();
 
 		context = this.getInstrumentation().getTargetContext();
-		SettingsActivity.setPhiroSharedPreferenceEnabled(context, false);
+		SettingsFragment.setPhiroSharedPreferenceEnabled(context, false);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		SettingsActivity.setPhiroSharedPreferenceEnabled(context, false);
+		SettingsFragment.setPhiroSharedPreferenceEnabled(context, false);
 		super.tearDown();
 	}
 
@@ -70,12 +70,12 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 		createProjectPhiro();
 
 		assertFalse("By default phiro should be disabled",
-				SettingsActivity.isPhiroSharedPreferenceEnabled(context));
+				SettingsFragment.isPhiroSharedPreferenceEnabled(context));
 
 		ProjectManager.getInstance().loadProject(LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME, context);
 
 		assertTrue("After loading a project which needs phiro it should be enabled",
-				SettingsActivity.isPhiroSharedPreferenceEnabled(context));
+				SettingsFragment.isPhiroSharedPreferenceEnabled(context));
 
 		StorageHandler.deleteDir(Utils.buildProjectPath(LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME));
 	}

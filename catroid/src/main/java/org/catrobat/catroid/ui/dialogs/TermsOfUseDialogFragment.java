@@ -40,7 +40,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.drone.ardrone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public class TermsOfUseDialogFragment extends DialogFragment {
 
@@ -75,8 +75,8 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 			public void onClick(DialogInterface dialog, int id) {
 				if (getActivity() instanceof PreStageActivity) {
 					if (acceptedPermanentlyCheckbox != null && acceptedPermanentlyCheckbox.isChecked()) {
-						SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
-						SettingsActivity.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
+						SettingsFragment.setTermsOfServiceAgreedPermanently(getActivity(), true);
+						SettingsFragment.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
 					}
 					DroneInitializer droneInitializer = ((PreStageActivity) getActivity()).getDroneInitialiser();
 					if (droneInitializer != null && droneInitializer.checkRequirements()) {

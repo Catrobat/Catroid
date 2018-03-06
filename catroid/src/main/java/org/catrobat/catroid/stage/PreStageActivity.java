@@ -64,8 +64,8 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.BaseActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.NetworkAlertDialog;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
@@ -262,7 +262,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 				resourceInitialized();
 			} else {
 
-				if (!SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+				if (!SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 					ToastUtil.showError(this, getString(R.string.cast_enable_cast_feature));
 				} else if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 					ToastUtil.showError(this, getString(R.string.cast_error_not_connected_msg));
@@ -325,8 +325,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	}
 
 	private void connectRaspberrySocket() {
-		String host = SettingsActivity.getRaspiHost(this.getBaseContext());
-		int port = SettingsActivity.getRaspiPort(this.getBaseContext());
+		String host = SettingsFragment.getRaspiHost(this.getBaseContext());
+		int port = SettingsFragment.getRaspiPort(this.getBaseContext());
 
 		if (RaspberryPiService.getInstance().connect(host, port)) {
 			resourceInitialized();

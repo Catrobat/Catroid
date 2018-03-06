@@ -60,25 +60,25 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.LANGUAGE_CODE;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CAST_GLOBALLY_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_CRASH_REPORTS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_ARDUINO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_HINTS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_NFC_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.PARROT_JUMPING_SUMO_SCREEN_KEY;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CRASH_REPORTS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_ARDUINO_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_NFC_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
 
 @RunWith(AndroidJUnit4.class)
-public class SettingsActivityTest {
+public class SettingsFragmentTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<SettingsActivity> baseActivityTestRule = new
@@ -88,7 +88,7 @@ public class SettingsActivityTest {
 			SETTINGS_SHOW_PHIRO_BRICKS, SETTINGS_SHOW_NFC_BRICKS, SETTINGS_SHOW_HINTS, SETTINGS_CRASH_REPORTS,
 			SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED,
-			SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS,
+			SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, PARROT_JUMPING_SUMO_SCREEN_KEY,
 			SETTINGS_SHOW_RASPI_BRICKS,
 			SETTINGS_CAST_GLOBALLY_ENABLED));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
@@ -172,7 +172,7 @@ public class SettingsActivityTest {
 	public void parrotJumpingSumoSettingsTest() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_jumpingsumo_bricks)).perform(click());
 
-		checkPreference(R.string.preference_title_enable_jumpingsumo_bricks, SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS);
+		checkPreference(R.string.preference_title_enable_jumpingsumo_bricks, PARROT_JUMPING_SUMO_SCREEN_KEY);
 	}
 
 	@Test

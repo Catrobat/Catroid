@@ -32,7 +32,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public final class CrashReporter {
 
@@ -48,7 +48,7 @@ public final class CrashReporter {
 	}
 
 	private static boolean isReportingEnabled() {
-		return preferences != null && preferences.getBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, true)
+		return preferences != null && preferences.getBoolean(SettingsFragment.SETTINGS_CRASH_REPORTS, true)
 				&& isCrashReportEnabled;
 	}
 

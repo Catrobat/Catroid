@@ -40,7 +40,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public class TermsOfUseJSDialogFragment extends DialogFragment {
 	private static final String TAG = TermsOfUseJSDialogFragment.class.getSimpleName();
@@ -81,7 +81,7 @@ public class TermsOfUseJSDialogFragment extends DialogFragment {
 				if (getActivity() instanceof PreStageActivity) {
 					if (checkboxTermsOfUseAcceptedPermanently != null
 							&& checkboxTermsOfUseAcceptedPermanently.isChecked()) {
-						SettingsActivity.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
+						SettingsFragment.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
 					}
 					JumpingSumoInitializer jsDiscoverer = ((PreStageActivity) getActivity()).getJumpingSumoInitialiser();
 					if (jsDiscoverer != null && jsDiscoverer.checkRequirements()) {

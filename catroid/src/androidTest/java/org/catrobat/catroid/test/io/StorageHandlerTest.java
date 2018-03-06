@@ -60,7 +60,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.BufferedReader;
@@ -296,7 +296,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 
 		String projectName = project.getName();
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext(), sensorMapping);
+		SettingsFragment.setLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext(), sensorMapping);
 
 		ProjectManager.getInstance().saveProject(getInstrumentation().getTargetContext());
 		Setting setting = project.getSettings().get(0);
@@ -316,12 +316,12 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		NXTSensor.Sensor[] changedSensorMapping = sensorMapping.clone();
 		changedSensorMapping[0] = NXTSensor.Sensor.LIGHT_ACTIVE;
 
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext(), changedSensorMapping);
+		SettingsFragment.setLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext(), changedSensorMapping);
 
 		ProjectManager.getInstance().setProject(null);
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext());
 
-		actualSensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext());
+		actualSensorMapping = SettingsFragment.getLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext());
 
 		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
 

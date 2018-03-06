@@ -49,6 +49,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.NfcTagListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragment.PlaySceneInterface {
 
@@ -66,7 +67,7 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SettingsActivity.setToChosenLanguage(this);
+		SettingsFragment.setToChosenLanguage(this);
 
 		setContentView(R.layout.activity_recycler);
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
