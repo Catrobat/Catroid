@@ -37,6 +37,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
@@ -46,6 +47,7 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 public class ProjectDetailsFragment extends Fragment implements SetDescriptionDialogFragment.ChangeDescriptionInterface {
@@ -58,46 +60,44 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View showDetailsFragment = inflater.inflate(R.layout.fragment_project_show_details, container, false);
+		View view = inflater.inflate(R.layout.fragment_project_show_details, container, false);
 		setHasOptionsMenu(true);
 
 		try {
 			projectData = (ProjectData) getArguments().getSerializable(SELECTED_PROJECT_KEY);
 			projectData.project = StorageHandler.getInstance().loadProject(projectData.projectName, getActivity());
-
-			if (projectData.project == null) {
-				throw new Exception("Can't load Project!");
-			}
-		} catch (Exception e) {
+		} catch (IOException e) {
+			ToastUtil.showError(getActivity(), R.string.error_load_project);
 			Log.e(TAG, Log.getStackTraceString(e));
+			getActivity().onBackPressed();
+		} catch (LoadingProjectException e) {
+			ToastUtil.showError(getActivity(), R.string.error_load_project);
+			Log.e(TAG, Log.getStackTraceString(e));
+			getActivity().onBackPressed();
 		}
 
 		String sceneName = StorageHandler.getInstance().getFirstSceneName(projectData.projectName);
 		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(getActivity());
-		XmlHeader header = projectData.project.getXmlHeader();
 
-		ImageView projectImage = (ImageView) showDetailsFragment.findViewById(R.id.image);
-		TextView name = (TextView) showDetailsFragment.findViewById(R.id.name);
-		TextView author = (TextView) showDetailsFragment.findViewById(R.id.author_value);
-		TextView size = (TextView) showDetailsFragment.findViewById(R.id.size_value);
-		TextView lastAccess = (TextView) showDetailsFragment.findViewById(R.id.last_access_value);
-		TextView screenSize = (TextView) showDetailsFragment.findViewById(R.id.screen_size_value);
-		TextView mode = (TextView) showDetailsFragment.findViewById(R.id.mode_value);
-		TextView remixOf = (TextView) showDetailsFragment.findViewById(R.id.remix_of_value);
-		description = (TextView) showDetailsFragment.findViewById(R.id.description_value);
+		XmlHeader header = projectData.project.getXmlHeader();
+		ImageView image = view.findViewById(R.id.image);
+		screenshotLoader.loadAndShowScreenshot(projectData.projectName, sceneName, false, image);
+
+		String size = UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectData.projectName)),
+				getActivity());
 
 		int modeText = header.islandscapeMode() ? R.string.landscape : R.string.portrait;
 		String screen = header.getVirtualScreenWidth() + "x" + header.getVirtualScreenHeight();
 
-		screenshotLoader.loadAndShowScreenshot(projectData.projectName, sceneName, false, projectImage);
-		name.setText(projectData.projectName);
-		author.setText(getUserHandle());
-		size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectData.projectName)), getActivity()
-				.getBaseContext()));
-		lastAccess.setText(getLastAccess());
-		screenSize.setText(screen);
-		mode.setText(modeText);
-		remixOf.setText(getRemixOf());
+		((TextView) view.findViewById(R.id.name)).setText(projectData.projectName);
+		((TextView) view.findViewById(R.id.author_value)).setText(getUserHandle());
+		((TextView) view.findViewById(R.id.size_value)).setText(size);
+		((TextView) view.findViewById(R.id.last_access_value)).setText(getLastAccess());
+		((TextView) view.findViewById(R.id.screen_size_value)).setText(screen);
+		((TextView) view.findViewById(R.id.mode_value)).setText(modeText);
+		((TextView) view.findViewById(R.id.remix_of_value)).setText(getRemixOf());
+
+		description = view.findViewById(R.id.description_value);
 		description.setText(header.getDescription());
 		description.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -107,7 +107,7 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 		});
 
 		BottomBar.hideBottomBar(getActivity());
-		return showDetailsFragment;
+		return view;
 	}
 
 	private void handleDescriptionPressed() {
