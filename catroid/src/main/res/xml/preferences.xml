@@ -32,6 +32,12 @@
         android:title="@string/preference_title_language" />
 
     <PreferenceScreen
+            android:key="setting_accessibility_screen"
+            android:summary="@string/preference_description_accessibility"
+            android:title="@string/preference_title_accessibility">
+    </PreferenceScreen>
+
+    <PreferenceScreen
         android:key="setting_nxt_screen"
         android:summary="@string/preference_description_mindstorms_nxt_bricks"
         android:title="@string/preference_title_enable_mindstorms_nxt_bricks">

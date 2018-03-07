@@ -80,6 +80,7 @@ public class SettingsFragment extends PreferenceFragment {
 			"setting_parrot_jumping_sumo_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
 
+	public static final String ACCESSIBILITY_SCREEN_KEY = "setting_accessibility_screen";
 	public static final String NXT_SCREEN_KEY = "setting_nxt_screen";
 	public static final String EV3_SCREEN_KEY = "setting_ev3_screen";
 	public static final String DRONE_SCREEN_KEY = "settings_drone_screen";
@@ -182,6 +183,12 @@ public class SettingsFragment extends PreferenceFragment {
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
 		String key = preference.getKey();
 		switch (key) {
+			case ACCESSIBILITY_SCREEN_KEY:
+				getFragmentManager().beginTransaction()
+						.replace(R.id.content_frame, new AccessibilitySettingsFragment(), AccessibilitySettingsFragment.TAG)
+						.addToBackStack(AccessibilitySettingsFragment.TAG)
+						.commit();
+				break;
 			case NXT_SCREEN_KEY:
 				getFragmentManager().beginTransaction()
 						.replace(R.id.content_frame, new NXTSensorsSettingsFragment(), NXTSensorsSettingsFragment.TAG)

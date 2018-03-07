@@ -25,14 +25,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Font Sizes -->
-    <style name="FontSizeRegular">
-        <item name="android:textSize">16sp</item>
-        <item name="small">10sp</item>
-        <item name="medium">16sp</item>
-        <item name="large">18sp</item>
-        <item name="x_large">22sp</item>
-    </style>
-
     <style name="FontSizeLarge" tools:ignore="UnusedResources">
         <item name="android:textSize">24sp</item>
         <item name="small">15sp</item>
@@ -42,13 +34,6 @@
     </style>
 
     <!-- High Contrast -->
-    <style name="ContrastRegular">
-        <item name="android:shadowColor">@color/transparent</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">0</item>
-        <item name="android:shadowRadius">0</item>
-    </style>
-
     <style name="ContrastHigh" tools:ignore="UnusedResources">
         <item name="android:shadowColor">@color/solid_black</item>
         <item name="android:shadowDx">0</item>
@@ -57,20 +42,11 @@
     </style>
     
     <!-- Element Spacing -->
-    <style name="SpacingRegular">
-        <item name="element_spacing">0dp</item>
-    </style>
-
     <style name="SpacingLarge" tools:ignore="UnusedResources">
         <item name="element_spacing">10dp</item>
     </style>
 
     <!-- Fonts -->
-    <style name="FontRegular">
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="app_font">sans-serif</item>
-    </style>
-
     <style name="FontSerif" tools:ignore="UnusedResources">
         <item name="android:fontFamily">serif</item>
         <item name="app_font">serif</item>
@@ -92,40 +68,16 @@
     </style>
 
     <!-- Category Icon Visibility -->
-    <style name="CategoryIconInVisible">
-        <item name="category_icon_visiblity">2</item>
-    </style>
-
     <style name="CategoryIconVisible" tools:ignore="UnusedResources">
         <item name="category_icon_visiblity">0</item>
     </style>
 
     <!-- Category Icon Visibility -->
-    <style name="CategoryIconSizeRegular">
-        <item name="category_icon_size">40dp</item>
-    </style>
-
     <style name="CategoryIconSizeLarge" tools:ignore="UnusedResources">
         <item name="category_icon_size">80dp</item>
     </style>
 
     <!-- Icon Contrast -->
-    <style name="CategoryIconContrastRegular">
-        <item name="icon_ardrone">@drawable/ardrone_pos</item>
-        <item name="icon_data">@drawable/data_pos</item>
-        <item name="icon_motion">@drawable/motion_pos</item>
-        <item name="icon_sound">@drawable/sound_pos</item>
-        <item name="icon_arduino">@drawable/arduino_pos</item>
-        <item name="icon_event">@drawable/event_pos</item>
-        <item name="icon_pen">@drawable/pen_pos</item>
-        <item name="icon_chromecast">@drawable/chromecast_pos</item>
-        <item name="icon_legonxt">@drawable/legonxt_pos</item>
-        <item name="icon_phiro">@drawable/phiro_pos</item>
-        <item name="icon_control">@drawable/control_pos</item>
-        <item name="icon_look">@drawable/look_pos</item>
-        <item name="icon_raspberrypi">@drawable/raspberrypi_pos</item>
-    </style>
-
     <style name="CategoryIconContrastHigh" tools:ignore="UnusedResources">
         <item name="icon_ardrone">@drawable/ardrone_neg</item>
         <item name="icon_data">@drawable/data_neg</item>
@@ -141,5 +93,4 @@
         <item name="icon_look">@drawable/look_neg</item>
         <item name="icon_raspberrypi">@drawable/raspberrypi_neg</item>
     </style>
-
 </resources>

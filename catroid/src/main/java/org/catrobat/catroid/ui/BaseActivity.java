@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ import android.widget.AdapterView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.CrashReporter;
 
@@ -43,20 +45,49 @@ public abstract class BaseActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		getTheme().applyStyle(R.style.FontSizeRegular, true);
-		getTheme().applyStyle(R.style.ContrastRegular, true);
-		getTheme().applyStyle(R.style.SpacingRegular, true);
-		getTheme().applyStyle(R.style.FontRegular, true);
-		getTheme().applyStyle(R.style.CategoryIconContrastRegular, true);
-		getTheme().applyStyle(R.style.CategoryIconInVisible, true);
-		getTheme().applyStyle(R.style.CategoryIconSizeRegular, true);
+		applyAccessibilityStyles();
 
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
 
 		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
+		}
+	}
+
+	private void applyAccessibilityStyles() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		if (sharedPreferences.getBoolean("settings_accessibility_large_text", false)) {
+			getTheme().applyStyle(R.style.FontSizeLarge, true);
+		}
+		if (sharedPreferences.getBoolean("settings_accessibility_high_contrast", false)) {
+			getTheme().applyStyle(R.style.ContrastHigh, true);
+		}
+		if (sharedPreferences.getBoolean("settings_accessibility_element_spacing", false)) {
+			getTheme().applyStyle(R.style.SpacingLarge, true);
+		}
+		if (sharedPreferences.getBoolean("settings_accessibility_category_icons_high_contrast", false)) {
+			getTheme().applyStyle(R.style.CategoryIconContrastHigh, true);
+		}
+		if (sharedPreferences.getBoolean("settings_accessibility_category_icons", false)) {
+			getTheme().applyStyle(R.style.CategoryIconVisible, true);
+		}
+		if (sharedPreferences.getBoolean("settings_accessibility_category_icons_big", false)) {
+			getTheme().applyStyle(R.style.CategoryIconSizeLarge, true);
+		}
+
+		@AccessibilitySettingsFragment.FontStyle
+		String fontStyle = sharedPreferences.getString("settings_accessibility_font_style",
+				AccessibilitySettingsFragment.REGULAR);
+		switch (fontStyle) {
+			case AccessibilitySettingsFragment.SERIF:
+				getTheme().applyStyle(R.style.FontSerif, true);
+				break;
+			case AccessibilitySettingsFragment.DYSLEXIC:
+				getTheme().applyStyle(R.style.FontDyslexic, true);
+				break;
+			default:
+				break;
 		}
 	}
 
