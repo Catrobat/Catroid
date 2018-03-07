@@ -61,7 +61,6 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_sounds);
 		sharedPreferenceDetailsKey = "showDetailsSoundList";
-		hasDetails = true;
 		List<SoundInfo> items = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		adapter = new SoundAdapter(items);
 		emptyView.setText(R.string.fragment_sound_text_description);

@@ -635,10 +635,6 @@ public class Sprite implements Serializable, Cloneable {
 		return lookList;
 	}
 
-	public void setLookDataList(List<LookData> list) {
-		lookList = list;
-	}
-
 	public List<SoundInfo> getSoundList() {
 		return soundList;
 	}
@@ -661,10 +657,6 @@ public class Sprite implements Serializable, Cloneable {
 
 	public List<NfcTagData> getNfcTagList() {
 		return nfcTagList;
-	}
-
-	public int getNextNewUserBrickId() {
-		return userBricks.size();
 	}
 
 	@Override
@@ -844,6 +836,10 @@ public class Sprite implements Serializable, Cloneable {
 		public Color penColor = BrickValues.PEN_COLOR;
 		public PointF previousPoint = null;
 		public boolean stamp = false;
+	}
+
+	public boolean toBeConverted() {
+		return convertToSingleSprite || convertToGroupItemSprite;
 	}
 
 	public void setConvertToSingleSprite(boolean convertToSingleSprite) {

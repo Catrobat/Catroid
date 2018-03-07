@@ -55,25 +55,12 @@ public class SpriteAdapter extends ExtendedRVAdapter<Sprite> {
 		holder.image.setImageBitmap(lookData);
 
 		if (showDetails) {
+			holder.details.setText(String.format(Locale.getDefault(),
+					context.getString(R.string.sprite_details),
+					item.getNumberOfScripts() + item.getNumberOfBricks(),
+					item.getLookList().size(),
+					item.getSoundList().size()));
 			holder.details.setVisibility(View.VISIBLE);
-
-			holder.leftBottomDetails.setText(context
-					.getString(R.string.number_of_scripts)
-					.concat(" ")
-					.concat(String.format(Locale.getDefault(), "%d", item.getNumberOfScripts())));
-			holder.rightBottomDetails.setText(context
-					.getString(R.string.number_of_bricks)
-					.concat(" ")
-					.concat(String.format(Locale.getDefault(), "%d",
-							item.getNumberOfScripts() + item.getNumberOfBricks())));
-			holder.leftTopDetails.setText(context
-					.getString(R.string.number_of_looks)
-					.concat(" ")
-					.concat(String.format(Locale.getDefault(), "%d", item.getLookList().size())));
-			holder.rightTopDetails.setText(context
-					.getString(R.string.number_of_sounds)
-					.concat(" ")
-					.concat(String.format(Locale.getDefault(), "%d", item.getSoundList().size())));
 		} else {
 			holder.details.setVisibility(View.GONE);
 		}

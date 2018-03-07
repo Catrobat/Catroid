@@ -48,6 +48,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import java.util.Locale;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -79,17 +81,11 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void numberOfBricksDetailsRegressionTest() throws Exception {
-		onRecyclerView().atPosition(1).onChildView(R.id.details_left_bottom)
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_scripts).concat(" 2"))));
-
-		onRecyclerView().atPosition(1).onChildView(R.id.details_right_bottom)
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_bricks).concat(" 7"))));
-
-		onRecyclerView().atPosition(1).onChildView(R.id.details_left_top)
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_looks).concat(" 2"))));
-
-		onRecyclerView().atPosition(1).onChildView(R.id.details_right_top)
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_sounds).concat(" 0"))));
+		onRecyclerView().atPosition(1).onChildView(R.id.details)
+				.check(matches(withText(String.format(Locale.getDefault(),
+						UiTestUtils.getResourcesString(R.string.sprite_details),
+						7, 2, 0
+				))));
 	}
 
 	private void createProject() {

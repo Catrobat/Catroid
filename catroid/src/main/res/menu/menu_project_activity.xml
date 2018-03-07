@@ -48,6 +48,10 @@
         android:showAsAction="never"
         android:title="@string/rename" />
     <item
+        android:id="@+id/new_group"
+        android:showAsAction="never"
+        android:title="@string/new_group" />
+    <item
         android:id="@+id/show_details"
         android:showAsAction="never"
         android:title="@string/show_details" />

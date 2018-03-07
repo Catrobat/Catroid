@@ -28,7 +28,10 @@
     android:paddingEnd="@dimen/view_holder_padding"
     android:paddingStart="@dimen/view_holder_padding"
     android:layout_marginTop="?attr/element_spacing"
-    android:layout_marginBottom="?attr/element_spacing">
+    android:layout_marginBottom="?attr/element_spacing"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="Overdraw"
+    android:background="?selectableItemBackground">
 
     <CheckBox
         android:id="@+id/checkbox"
@@ -39,7 +42,6 @@
         android:visibility="gone" />
 
     <RelativeLayout
-        android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -68,45 +70,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="?attr/large"/>
 
-            <LinearLayout
-                android:id="@+id/list_item_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
+            <TextView
+                android:id="@+id/details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingEnd="@dimen/details_spacing">
-
-                    <TextView
-                        android:id="@+id/details_left_top"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/details_left_bottom"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/details_right_top"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/details_right_bottom"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

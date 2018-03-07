@@ -60,6 +60,6 @@ public class ListRVAdapter extends RVAdapter<UserList> {
 			userList.add(userListItem.toString());
 		}
 
-		listVH.spinner.setAdapter(new UserListValuesAdapter(holder.background.getContext(), userList));
+		listVH.spinner.setAdapter(new UserListValuesAdapter(holder.itemView.getContext(), userList));
 	}
 }

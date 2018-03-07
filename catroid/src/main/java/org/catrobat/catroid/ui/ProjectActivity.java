@@ -103,20 +103,12 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		RecyclerViewFragment currentFragment = ((RecyclerViewFragment) getFragmentManager()
-				.findFragmentById(R.id.fragment_container));
-
-		menu.findItem(R.id.show_details).setVisible(currentFragment.hasDetails);
-		return true;
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.upload:
 				Intent intent = new Intent(this, ProjectUploadActivity.class)
-						.putExtra(ProjectUploadActivity.PROJECT_NAME, ProjectManager.getInstance().getCurrentProject().getName());
+						.putExtra(ProjectUploadActivity.PROJECT_NAME,
+								ProjectManager.getInstance().getCurrentProject().getName());
 				startActivity(intent);
 				break;
 			default:

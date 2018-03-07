@@ -28,7 +28,10 @@
     android:paddingEnd="@dimen/view_holder_padding"
     android:paddingStart="@dimen/view_holder_padding"
     android:layout_marginTop="?attr/element_spacing"
-    android:layout_marginBottom="?attr/element_spacing">
+    android:layout_marginBottom="?attr/element_spacing"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="Overdraw"
+    android:background="?selectableItemBackground">
 
     <CheckBox
         android:id="@+id/checkbox"
@@ -39,7 +42,6 @@
         android:visibility="gone" />
 
     <RelativeLayout
-        android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"

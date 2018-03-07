@@ -70,7 +70,6 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_looks);
 		sharedPreferenceDetailsKey = "showDetailsLookList";
-		hasDetails = true;
 		List<LookData> items = ProjectManager.getInstance().getCurrentSprite().getLookList();
 		adapter = new LookAdapter(items);
 		emptyView.setText(R.string.fragment_look_text_description);

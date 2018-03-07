@@ -332,17 +332,20 @@
     <string name="project_name_label">Program Name</string>
     <string name="scene_name">Scene Name</string>
     <string name="sprite_name_label">Object Name</string>
+    <string name="sprite_group_name_label">Group Name</string>
     <string name="script_group_label">Script Group Name</string>
     <string name="look_name_label">Look Name</string>
     <string name="sound_name_label">Sound Name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Name</string>
 
-    <!-- Details Labels -->
-    <string name="number_of_scripts">Scripts:</string>
-    <string name="number_of_bricks">Bricks:</string>
-    <string name="number_of_looks">Looks:</string>
-    <string name="number_of_sounds">Sounds:</string>
+    <!-- Details -->
+    <string name="project_details">Last access: %s, Size: %s</string>
+    <string name="scene_details">Objects: %d, Looks: %d, Sounds: %d</string>
+    <string name="sprite_details">Bricks: %d, Looks: %d, Sounds: %d</string>
+    <string name="look_details">Measure: %s, Size: %s</string>
+    <string name="sound_duration">Duration: %s</string>
+    <string name="sound_details">Duration: %s, Size: %s</string>
     <!--  -->
 
     <!-- Rename Dialog Titles -->
@@ -485,13 +488,11 @@
     <string name="default_look_name">Look</string>
     <string name="select_look_from_gallery">Select image</string>
     <string name="select_look_from_camera">Select photo</string>
-    <string name="look_measure">Measure:</string>
     <!--  -->
 
     <!-- SoundListFragment -->
     <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
     <string name="sound_select_source">Select a sound</string>
-    <string name="length">Length:</string>
     <!--  -->
 
     <!-- NfcTagListFragment -->

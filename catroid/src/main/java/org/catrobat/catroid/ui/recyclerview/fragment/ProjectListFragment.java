@@ -79,7 +79,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = "showDetailsProjectList";
-		hasDetails = true;
 		adapter = new ProjectAdapter(getItemList());
 		onAdapterReady();
 	}

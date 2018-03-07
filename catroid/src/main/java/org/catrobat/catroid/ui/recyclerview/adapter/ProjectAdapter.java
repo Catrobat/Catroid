@@ -38,6 +38,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 
@@ -56,17 +57,14 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 		loader.loadAndShowScreenshot(item.projectName, sceneName, false, holder.image);
 
 		if (showDetails) {
-			holder.details.setVisibility(View.VISIBLE);
-
 			Date lastModified = new Date(item.lastUsed);
 			String lastAccess = DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastModified);
 
-			holder.leftTopDetails.setText(context.getString(R.string.last_used));
-			holder.rightTopDetails.setText(lastAccess);
-
-			holder.leftBottomDetails.setText(context.getString(R.string.size));
-			String size = UtilFile.getSizeAsString(new File(Utils.buildProjectPath(item.projectName)), context);
-			holder.rightBottomDetails.setText(size);
+			holder.details.setText(String.format(Locale.getDefault(),
+					context.getString(R.string.project_details),
+					lastAccess,
+					UtilFile.getSizeAsString(new File(Utils.buildProjectPath(item.projectName)), context)));
+			holder.details.setVisibility(View.VISIBLE);
 		} else {
 			holder.details.setVisibility(View.GONE);
 		}

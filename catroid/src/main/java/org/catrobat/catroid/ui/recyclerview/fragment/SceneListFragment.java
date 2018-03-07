@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -60,8 +61,15 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	}
 
 	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		menu.findItem(R.id.new_group).setVisible(false);
+	}
+
+	@Override
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scenes);
+		sharedPreferenceDetailsKey = "showDetailsSceneList";
 		List<Scene> items = ProjectManager.getInstance().getCurrentProject().getSceneList();
 		adapter = new SceneAdapter(items);
 		onAdapterReady();

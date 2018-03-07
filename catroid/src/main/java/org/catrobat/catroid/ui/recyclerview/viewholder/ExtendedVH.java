@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.recyclerview.viewholder;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -33,19 +32,11 @@ import org.catrobat.catroid.R;
 public class ExtendedVH extends ViewHolder {
 
 	public ImageView image;
-	public LinearLayout details;
-	public TextView leftTopDetails;
-	public TextView leftBottomDetails;
-	public TextView rightTopDetails;
-	public TextView rightBottomDetails;
+	public TextView details;
 
 	public ExtendedVH(View view) {
 		super(view);
 		image = view.findViewById(R.id.image_view);
-		details = view.findViewById(R.id.list_item_details);
-		leftTopDetails = view.findViewById(R.id.details_left_top);
-		leftBottomDetails = view.findViewById(R.id.details_left_bottom);
-		rightTopDetails = view.findViewById(R.id.details_right_top);
-		rightBottomDetails = view.findViewById(R.id.details_right_bottom);
+		details = view.findViewById(R.id.details);
 	}
 }
