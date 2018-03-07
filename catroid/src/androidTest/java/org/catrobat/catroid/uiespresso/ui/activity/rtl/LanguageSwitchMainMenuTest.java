@@ -31,6 +31,7 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
@@ -75,7 +76,7 @@ public class LanguageSwitchMainMenuTest {
 
 	@After
 	public void tearDown() {
-		SettingsActivity.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
+		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

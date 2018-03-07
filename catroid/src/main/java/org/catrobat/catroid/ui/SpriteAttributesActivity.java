@@ -49,6 +49,7 @@ import org.catrobat.catroid.ui.recyclerview.SimpleRVItem;
 import org.catrobat.catroid.ui.recyclerview.adapter.SimpleRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -73,7 +74,7 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SettingsActivity.setToChosenLanguage(this);
+		SettingsFragment.setToChosenLanguage(this);
 
 		setContentView(R.layout.activity_sprite_attributes);
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));

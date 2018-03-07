@@ -33,7 +33,7 @@ import android.util.Log;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public class LegoSensorPortConfigDialog extends DialogFragment {
 
@@ -62,7 +62,7 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 		String[] sensorMappings;
 		Dialog dialog;
 		if (legoType == Lego.NXT) {
-			final NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(this.getActivity());
+			final NXTSensor.Sensor[] sensorMapping = SettingsFragment.getLegoMindstormsNXTSensorMapping(this.getActivity());
 			sensorMappingStrings = getResources().getStringArray(R.array.nxt_sensor_chooser);
 			portStrings = getResources().getStringArray(R.array.port_chooser);
 
@@ -83,7 +83,7 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 
 			dialog.setCanceledOnTouchOutside(true);
 		} else {
-			final EV3Sensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsEV3SensorMapping(this.getActivity());
+			final EV3Sensor.Sensor[] sensorMapping = SettingsFragment.getLegoMindstormsEV3SensorMapping(this.getActivity());
 			sensorMappingStrings = getResources().getStringArray(R.array.ev3_sensor_chooser);
 			portStrings = getResources().getStringArray(R.array.port_chooser);
 
@@ -193,13 +193,13 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							String sensor = legoType == Lego.NXT ? SettingsActivity.NXT_SENSORS[selectedPort]
-									: SettingsActivity.EV3_SENSORS[selectedPort];
+							String sensor = legoType == Lego.NXT ? SettingsFragment.NXT_SENSORS[selectedPort]
+									: SettingsFragment.EV3_SENSORS[selectedPort];
 							if (dialogueContext != null) {
 								if (legoType == Lego.NXT) {
-									SettingsActivity.setLegoMindstormsNXTSensorMapping(dialogueContext, nxtSensor, sensor);
+									SettingsFragment.setLegoMindstormsNXTSensorMapping(dialogueContext, nxtSensor, sensor);
 								} else {
-									SettingsActivity.setLegoMindstormsEV3SensorMapping(dialogueContext, ev3Sensor, sensor);
+									SettingsFragment.setLegoMindstormsEV3SensorMapping(dialogueContext, ev3Sensor, sensor);
 								}
 							} else {
 								Log.e(TAG, "Context == null :(");
@@ -211,13 +211,13 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 	}
 
 	private void overwrite(Context context, int selectedPort, Lego legoType) {
-		String sensor = legoType == Lego.NXT ? SettingsActivity.NXT_SENSORS[selectedPort]
-				: SettingsActivity.EV3_SENSORS[selectedPort];
+		String sensor = legoType == Lego.NXT ? SettingsFragment.NXT_SENSORS[selectedPort]
+				: SettingsFragment.EV3_SENSORS[selectedPort];
 		if (getActivity() != null) {
 			if (legoType == Lego.NXT) {
-				SettingsActivity.setLegoMindstormsNXTSensorMapping(context, nxtSensor, sensor);
+				SettingsFragment.setLegoMindstormsNXTSensorMapping(context, nxtSensor, sensor);
 			} else {
-				SettingsActivity.setLegoMindstormsEV3SensorMapping(context, ev3Sensor, sensor);
+				SettingsFragment.setLegoMindstormsEV3SensorMapping(context, ev3Sensor, sensor);
 			}
 		} else {
 			Log.e(TAG, "Context == null :(");

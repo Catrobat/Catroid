@@ -49,8 +49,8 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -177,15 +177,15 @@ public final class ProjectManager {
 		int resources = project.getRequiredResources();
 
 		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
-			SettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
+			SettingsFragment.setPhiroSharedPreferenceEnabled(context, true);
 		}
 
 		if ((resources & Brick.JUMPING_SUMO) > 0) {
-			SettingsActivity.setJumpingSumoSharedPreferenceEnabled(context, true);
+			SettingsFragment.setJumpingSumoSharedPreferenceEnabled(context, true);
 		}
 
 		if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
-			SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
+			SettingsFragment.setArduinoSharedPreferenceEnabled(context, true);
 		}
 
 		sceneToPlay = project.getDefaultScene();

@@ -29,7 +29,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Rule;
@@ -55,12 +55,12 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 
 	@After
 	public void tearDown() {
-		SettingsActivity.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
+		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
 	public void testSetLanguageToArabic() throws Exception {
-		SettingsActivity.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "ar");
+		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "ar");
 		baseActivityTestRule.launchActivity(null);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABICLOCALE.getDisplayLanguage());
@@ -70,7 +70,7 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 
 	@Test
 	public void testSetLanguageToGerman() throws Exception {
-		SettingsActivity.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "de");
+		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "de");
 		baseActivityTestRule.launchActivity(null);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), DEUTSCHLOCALE.getDisplayLanguage());

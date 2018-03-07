@@ -33,7 +33,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public class LegoEV3SensorConfigInfoDialog extends DialogFragment {
 
@@ -49,7 +49,7 @@ public class LegoEV3SensorConfigInfoDialog extends DialogFragment {
 		disableShowInfoDialog = (CheckBox) dialogView.findViewById(R.id
 				.lego_ev3_sensor_config_info_disable_show_dialog);
 
-		EV3Sensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsEV3SensorMapping(this.getActivity());
+		EV3Sensor.Sensor[] sensorMapping = SettingsFragment.getLegoMindstormsEV3SensorMapping(this.getActivity());
 		String[] sensorMappingStrings = getResources().getStringArray(R.array.ev3_sensor_chooser);
 
 		TextView mapping1 = (TextView) dialogView.findViewById(R.id.lego_ev3_sensor_config_info_port_1_mapping);
@@ -68,7 +68,7 @@ public class LegoEV3SensorConfigInfoDialog extends DialogFragment {
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						if (disableShowInfoDialog.isChecked()) {
-							SettingsActivity.disableLegoEV3MindstormsSensorInfoDialog(LegoEV3SensorConfigInfoDialog.this.getActivity());
+							SettingsFragment.disableLegoEV3MindstormsSensorInfoDialog(LegoEV3SensorConfigInfoDialog.this.getActivity());
 						}
 					}
 				}).create();

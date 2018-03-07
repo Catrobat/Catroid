@@ -28,7 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -56,14 +56,14 @@ public class UtilFileSizeTranslationsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		SettingsActivity.updateLocale(getTargetContext(), new Locale("ar"));
+		SettingsFragment.updateLocale(getTargetContext(), new Locale("ar"));
 
 		createProjectWithFiles();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		SettingsActivity.updateLocale(getTargetContext(), defaultLocale);
+		SettingsFragment.updateLocale(getTargetContext(), defaultLocale);
 	}
 
 	@Test

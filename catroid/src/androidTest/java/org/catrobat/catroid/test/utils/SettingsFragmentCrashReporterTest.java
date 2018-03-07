@@ -26,7 +26,7 @@ package org.catrobat.catroid.test.utils;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.CrashReporterInterface;
 import org.junit.After;
@@ -40,7 +40,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SettingsActivityCrashReporterTest {
+public class SettingsFragmentCrashReporterTest {
 
 	@Mock
 	CrashReporterInterface reporter;
@@ -54,11 +54,11 @@ public class SettingsActivityCrashReporterTest {
 	@Test
 	public void testAutoCrashReportEnabling() {
 		Context context = InstrumentationRegistry.getTargetContext();
-		SettingsActivity.setAutoCrashReportingEnabled(context, false);
+		SettingsFragment.setAutoCrashReportingEnabled(context, false);
 
 		verify(reporter, times(0)).initialize(context);
 
-		SettingsActivity.setAutoCrashReportingEnabled(context, true);
+		SettingsFragment.setAutoCrashReportingEnabled(context, true);
 
 		verify(reporter, times(1)).initialize(context);
 	}

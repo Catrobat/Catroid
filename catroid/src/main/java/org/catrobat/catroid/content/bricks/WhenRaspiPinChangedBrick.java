@@ -36,7 +36,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +101,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	private void setupPinSpinner(Context context) {
 		final Spinner pinSpinner = (Spinner) view.findViewById(R.id.brick_raspi_when_pinspinner);
 
-		String revision = SettingsActivity.getRaspiRevision(context);
+		String revision = SettingsFragment.getRaspiRevision(context);
 		ArrayList<Integer> availableGPIOs = RaspberryPiService.getInstance().getGpioList(revision);
 		ArrayAdapter<String> messageAdapter2 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		messageAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

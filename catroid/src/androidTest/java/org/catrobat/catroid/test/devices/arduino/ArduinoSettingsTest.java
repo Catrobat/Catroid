@@ -38,7 +38,7 @@ import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.LegacyFileUtils;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -52,12 +52,12 @@ public class ArduinoSettingsTest extends InstrumentationTestCase {
 		super.setUp();
 
 		context = this.getInstrumentation().getTargetContext();
-		SettingsActivity.setArduinoSharedPreferenceEnabled(context, false);
+		SettingsFragment.setArduinoSharedPreferenceEnabled(context, false);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		SettingsActivity.setArduinoSharedPreferenceEnabled(context, false);
+		SettingsFragment.setArduinoSharedPreferenceEnabled(context, false);
 		super.tearDown();
 	}
 
@@ -67,12 +67,12 @@ public class ArduinoSettingsTest extends InstrumentationTestCase {
 		createProjectArduino();
 
 		assertFalse("By default Arduino should be disabled",
-				SettingsActivity.isArduinoSharedPreferenceEnabled(context));
+				SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
 		ProjectManager.getInstance().loadProject(LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME, context);
 
 		assertTrue("After loading a project which needs Arduino it should be enabled",
-				SettingsActivity.isArduinoSharedPreferenceEnabled(context));
+				SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
 		StorageHandler.deleteDir(Utils.buildProjectPath(LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME));
 	}

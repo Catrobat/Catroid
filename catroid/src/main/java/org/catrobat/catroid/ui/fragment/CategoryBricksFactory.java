@@ -188,8 +188,8 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.UserBrickSpriteActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -264,7 +264,7 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new WhenBackgroundChangesBrick());
 		eventBrickList.add(new WhenClonedBrick());
 
-		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			eventBrickList.add(new WhenNfcBrick());
 		}
 		return eventBrickList;
@@ -287,7 +287,7 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new SceneTransitionBrick(null));
 		controlBrickList.add(new SceneStartBrick(null));
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
 
@@ -296,7 +296,7 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new CloneBrick());
 		controlBrickList.add(new DeleteThisCloneBrick());
 		controlBrickList.add(new WhenClonedBrick());
-		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
 		}
 
@@ -361,7 +361,7 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
 		motionBrickList.add(new SetFrictionBrick(BrickValues.PHYSIC_FRICTION * 100));
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 			motionBrickList.add(new PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
 					BrickValues.PHIRO_SPEED));
 			motionBrickList.add(new PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
@@ -390,7 +390,7 @@ public class CategoryBricksFactory {
 		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 		soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 			soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 					BrickValues.PHIRO_DURATION));
 		}
@@ -438,7 +438,7 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new FlashBrick());
 		}
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		}
 

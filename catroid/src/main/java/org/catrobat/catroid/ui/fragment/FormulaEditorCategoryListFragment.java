@@ -41,10 +41,10 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorChooseSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -404,43 +404,43 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements
 			header.put(itemsIds.length, getString(R.string.formula_editor_device_date_and_time));
 			itemsIds = concatAll(itemsIds, DATE_AND_TIME_SENSOR_ITEMS);
 
-			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
+			if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_lego_nxt));
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(NXT_SENSOR_ITEMS.length));
 			}
 
-			if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(context)) {
+			if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_lego_ev3));
 				itemsIds = concatAll(itemsIds, EV3_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(EV3_SENSOR_ITEMS.length));
 			}
 
-			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+			if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_phiro));
 				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
 			}
 
-			if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
+			if (SettingsFragment.isArduinoSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_arduino));
 				itemsIds = concatAll(itemsIds, ARDUINO_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(ARDUINO_SENSOR_ITEMS.length));
 			}
 
-			if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
+			if (SettingsFragment.isDroneSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_drone));
 				itemsIds = concatAll(itemsIds, SENSOR_ITEMS_DRONE);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(SENSOR_ITEMS_DRONE.length));
 			}
 
-			if (SettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
+			if (SettingsFragment.isRaspiSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_raspberry));
 				itemsIds = concatAll(itemsIds, RASPBERRY_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, RASPBERRY_SENSOR_PARAMETERS);
 			}
 
-			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+			if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_nfc));
 				itemsIds = concatAll(itemsIds, NFC_TAG_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_ITEMS.length));

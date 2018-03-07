@@ -30,7 +30,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ui.BaseExceptionHandler;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.junit.After;
 import org.junit.Before;
@@ -56,7 +56,7 @@ public class BaseExceptionHandlerTest {
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		editor = sharedPreferences.edit();
 		editor.clear();
-		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, true);
+		editor.putBoolean(SettingsFragment.SETTINGS_CRASH_REPORTS, true);
 		editor.commit();
 		CrashReporter.setIsCrashReportEnabled(true);
 		CrashReporter.initialize(context);

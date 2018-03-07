@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -76,7 +76,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 
 	@Before
 	public void setUp() {
-		SettingsActivity.setLanguageSharedPreference(getTargetContext(), "ar");
+		SettingsFragment.setLanguageSharedPreference(getTargetContext(), "ar");
 		createProject();
 		baseActivityTestRule.launchActivity();
 
@@ -88,7 +88,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	public void tearDown() {
 		openContextualActionModeOverflowMenu();
 		onView(withText(R.string.hide_details)).perform(click());
-		SettingsActivity.removeLanguageSharedPreference(getTargetContext());
+		SettingsFragment.removeLanguageSharedPreference(getTargetContext());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
