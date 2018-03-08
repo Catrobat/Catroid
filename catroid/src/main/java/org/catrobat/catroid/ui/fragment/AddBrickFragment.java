@@ -27,6 +27,7 @@ import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
+import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
@@ -56,9 +58,13 @@ public class AddBrickFragment extends ListFragment {
 	private ScriptFragment scriptFragment;
 	private CharSequence previousActionBarTitle;
 	private PrototypeBrickAdapter adapter;
-	private CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
 
 	private static int listIndexToFocus = -1;
+
+	private boolean onlyBeginnerBricks() {
+		return PreferenceManager.getDefaultSharedPreferences(getActivity())
+				.getBoolean(AccessibilitySettingsFragment.BEGINNERBRICKS, false);
+	}
 
 	public static AddBrickFragment newInstance(String selectedCategory, ScriptFragment scriptFragment) {
 		AddBrickFragment fragment = new AddBrickFragment();
@@ -84,6 +90,13 @@ public class AddBrickFragment extends ListFragment {
 		Context context = getActivity();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		String selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
+
+		CategoryBricksFactory categoryBricksFactory;
+		if (onlyBeginnerBricks()) {
+			categoryBricksFactory = new CategoryBeginnerBricksFactory();
+		} else {
+			categoryBricksFactory = new CategoryBricksFactory();
+		}
 
 		List<Brick> brickList = categoryBricksFactory.getBricks(selectedCategory, sprite, context);
 		adapter = new PrototypeBrickAdapter(context, scriptFragment, this, brickList);

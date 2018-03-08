@@ -112,6 +112,8 @@
     <string name="preference_title_accessibility_large_text">Large text</string>
     <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
     <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
+    <string name="preference_title_accessibility_beginner_bricks">Beginner bricks</string>
+    <string name="preference_description_accessibility_beginner_bricks">Show only basic bricks.</string>
     <string name="preference_title_accessibility_font_style">Choose a fontface</string>
     <string name="accessibility_font_regular">Regular</string>
     <string name="accessibility_font_serif">Serif</string>

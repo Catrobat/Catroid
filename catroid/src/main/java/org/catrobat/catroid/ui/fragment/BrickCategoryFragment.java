@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,6 +40,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
+import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
@@ -63,6 +65,11 @@ public class BrickCategoryFragment extends ListFragment {
 
 	public void setBrickAdapter(BrickAdapter brickAdapter) {
 		this.brickAdapter = brickAdapter;
+	}
+
+	private boolean onlyBeginnerBricks() {
+		return PreferenceManager.getDefaultSharedPreferences(getActivity())
+				.getBoolean(AccessibilitySettingsFragment.BEGINNERBRICKS, false);
 	}
 
 	@Override
@@ -151,7 +158,9 @@ public class BrickCategoryFragment extends ListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
-		categories.add(inflater.inflate(R.layout.brick_category_pen, null));
+		if (!onlyBeginnerBricks()) {
+			categories.add(inflater.inflate(R.layout.brick_category_pen, null));
+		}
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 
 		if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
@@ -162,7 +171,8 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null));
 		}
 
-		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null) {
+		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null
+				&& !onlyBeginnerBricks()) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}
 
