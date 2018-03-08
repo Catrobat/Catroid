@@ -30,6 +30,42 @@
         <!-- Action Mode -->
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/ActionMode</item>
+
+        <!-- Accessibility REGULAR styles-->
+             <!-- Font Sizes -->
+        <item name="android:textSize">16sp</item>
+        <item name="small">10sp</item>
+        <item name="medium">16sp</item>
+        <item name="large">18sp</item>
+        <item name="x_large">22sp</item>
+            <!-- High Contrast -->
+        <item name="android:shadowColor">@color/transparent</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+            <!-- Element Spacing -->
+        <item name="element_spacing">0dp</item>
+            <!-- Fonts -->
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="app_font">sans-serif</item>
+            <!-- Category Icon Visibility -->
+        <item name="category_icon_visiblity">2</item>
+            <!-- Category Icon Visibility -->
+        <item name="category_icon_size">40dp</item>
+            <!-- Icon Contrast -->
+        <item name="icon_ardrone">@drawable/ardrone_pos</item>
+        <item name="icon_data">@drawable/data_pos</item>
+        <item name="icon_motion">@drawable/motion_pos</item>
+        <item name="icon_sound">@drawable/sound_pos</item>
+        <item name="icon_arduino">@drawable/arduino_pos</item>
+        <item name="icon_event">@drawable/event_pos</item>
+        <item name="icon_pen">@drawable/pen_pos</item>
+        <item name="icon_chromecast">@drawable/chromecast_pos</item>
+        <item name="icon_legonxt">@drawable/legonxt_pos</item>
+        <item name="icon_phiro">@drawable/phiro_pos</item>
+        <item name="icon_control">@drawable/control_pos</item>
+        <item name="icon_look">@drawable/look_pos</item>
+        <item name="icon_raspberrypi">@drawable/raspberrypi_pos</item>
     </style>
 
     <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
