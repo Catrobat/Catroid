@@ -49,6 +49,7 @@ public class AccessibilitySettingsFragment extends PreferenceFragment implements
 	public static final String SERIF = "serif";
 	public static final String DYSLEXIC = "dyslexic";
 	private boolean preferenceChanged = false;
+	public static final String BEGINNERBRICKS = "settings_accessibility_beginner_bricks";
 
 	@Override
 	public void onResume() {

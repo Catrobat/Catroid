@@ -246,7 +246,7 @@ public class CategoryBricksFactory {
 		return toReturn;
 	}
 
-	private List<Brick> setupEventCategoryList(Context context) {
+	protected List<Brick> setupEventCategoryList(Context context) {
 		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
 		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
@@ -270,7 +270,7 @@ public class CategoryBricksFactory {
 		return eventBrickList;
 	}
 
-	private List<Brick> setupControlCategoryList(Context context) {
+	protected List<Brick> setupControlCategoryList(Context context) {
 		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
 		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
@@ -323,7 +323,7 @@ public class CategoryBricksFactory {
 		return chromecastBrickList;
 	}
 
-	private List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
+	protected List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
 		List<Brick> motionBrickList = new ArrayList<>();
 		motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
 		motionBrickList.add(new SetXBrick(BrickValues.X_POSITION));
@@ -372,7 +372,7 @@ public class CategoryBricksFactory {
 		return motionBrickList;
 	}
 
-	private List<Brick> setupSoundCategoryList(Context context) {
+	protected List<Brick> setupSoundCategoryList(Context context) {
 		List<Brick> soundBrickList = new ArrayList<>();
 		soundBrickList.add(new PlaySoundBrick());
 		soundBrickList.add(new PlaySoundAndWaitBrick());
@@ -399,7 +399,7 @@ public class CategoryBricksFactory {
 		return soundBrickList;
 	}
 
-	private List<Brick> setupLooksCategoryList(Context context, boolean isBackgroundSprite) {
+	protected List<Brick> setupLooksCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> looksBrickList = new ArrayList<>();
 
 		if (!isBackgroundSprite) {
@@ -460,7 +460,7 @@ public class CategoryBricksFactory {
 		return penBrickList;
 	}
 
-	private List<Brick> setupDataCategoryList(Context context) {
+	protected List<Brick> setupDataCategoryList(Context context) {
 		List<Brick> dataBrickList = new ArrayList<>();
 		dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
 		dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
@@ -579,7 +579,7 @@ public class CategoryBricksFactory {
 		return raspiBrickList;
 	}
 
-	private boolean isBackground(Sprite sprite) {
+	protected boolean isBackground(Sprite sprite) {
 		if (ProjectManager.getInstance().getCurrentScene().getSpriteList().indexOf(sprite) == 0) {
 			return true;
 		}
