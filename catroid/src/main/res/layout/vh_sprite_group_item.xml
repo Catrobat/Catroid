@@ -24,14 +24,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/user_data_vh_height"
+    android:minHeight="@dimen/view_holder_height"
+    android:paddingStart="@dimen/sprite_group_item_vh_padding"
     android:paddingEnd="@dimen/view_holder_padding"
-    android:paddingStart="@dimen/view_holder_padding"
     android:layout_marginTop="?attr/element_spacing"
     android:layout_marginBottom="?attr/element_spacing"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="Overdraw"
-    android:background="?selectableItemBackground">
+    android:background="@drawable/button_background_selector">
 
     <CheckBox
         android:id="@+id/checkbox"
@@ -41,26 +41,38 @@
         android:layout_marginEnd="@dimen/checkbox_margin"
         android:visibility="gone" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/title_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/details_spacing"
-            android:textSize="?attr/large"/>
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="72dp"
+            android:layout_height="65dp"
+            android:layout_marginEnd="@dimen/img_margin"
+            android:background="@drawable/image_contour"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_toRightOf="@id/title_view"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/title_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/large"/>
 
+            <TextView
+                android:id="@+id/details_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

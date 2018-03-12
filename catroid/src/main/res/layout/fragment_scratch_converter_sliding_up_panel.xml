@@ -27,7 +27,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/button_background_gradient_end_color"
+    android:background="@color/button_background"
     android:clickable="true"
     android:focusable="true"
     android:id="@+id/dragView">
@@ -133,7 +133,7 @@
         android:id="@+id/scratch_conversion_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/application_background_color">
+        android:background="@color/app_background">
 
         <RelativeLayout
             android:layout_width="match_parent"

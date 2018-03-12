@@ -22,13 +22,15 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true"
-          android:drawable="@drawable/bottom_bar_background_pressed" /> <!-- pressed -->
-    <item android:state_focused="true"
-          android:drawable="@drawable/bottom_bar_background" /> <!-- focused -->
-    <item android:state_hovered="true"
-          android:drawable="@drawable/bottom_bar_background" /> <!-- hovered -->
-    <item android:drawable="@drawable/bottom_bar_background" /> <!-- default -->
+    <item
+        android:state_pressed="true"
+        android:drawable="@drawable/bottom_bar_background_pressed" />
+    <item
+        android:state_focused="true"
+        android:drawable="@drawable/button_background" />
+    <item
+        android:state_hovered="true"
+        android:drawable="@drawable/bottom_bar_background" />
+
+    <item android:drawable="@drawable/bottom_bar_background" />
 </selector>
-
-

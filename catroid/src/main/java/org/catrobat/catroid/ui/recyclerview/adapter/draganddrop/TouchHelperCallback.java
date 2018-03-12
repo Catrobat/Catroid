@@ -23,10 +23,8 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter.draganddrop;
 
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.TypedValue;
 
 import org.catrobat.catroid.R;
 
@@ -55,8 +53,7 @@ public class TouchHelperCallback extends ItemTouchHelper.Callback {
 	public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
 		switch (actionState) {
 			case ItemTouchHelper.ACTION_STATE_DRAG:
-				viewHolder.itemView.setBackground(new ColorDrawable(viewHolder.itemView.getContext()
-						.getResources().getColor(R.color.highlight)));
+				viewHolder.itemView.setBackgroundResource(R.drawable.button_background_pressed);
 				break;
 		}
 	}
@@ -64,10 +61,7 @@ public class TouchHelperCallback extends ItemTouchHelper.Callback {
 	@Override
 	public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
 		super.clearView(recyclerView, viewHolder);
-		TypedValue outValue = new TypedValue();
-		recyclerView.getContext().getTheme()
-				.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-		viewHolder.itemView.setBackgroundResource(outValue.resourceId);
+		viewHolder.itemView.setBackgroundResource(R.drawable.button_background_selector);
 	}
 
 	@Override

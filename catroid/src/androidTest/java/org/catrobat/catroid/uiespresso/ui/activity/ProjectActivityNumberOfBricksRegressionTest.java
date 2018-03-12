@@ -81,7 +81,7 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void numberOfBricksDetailsRegressionTest() throws Exception {
-		onRecyclerView().atPosition(1).onChildView(R.id.details)
+		onRecyclerView().atPosition(1).onChildView(R.id.details_view)
 				.check(matches(withText(String.format(Locale.getDefault(),
 						UiTestUtils.getResourcesString(R.string.sprite_details),
 						7, 2, 0

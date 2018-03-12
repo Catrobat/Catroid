@@ -33,13 +33,13 @@ import org.catrobat.catroid.R;
 public class SimpleVH extends RecyclerView.ViewHolder {
 
 	public ImageView image;
-	public TextView name;
+	public TextView title;
 	public TextView subTitle;
 
 	public SimpleVH(View itemView) {
 		super(itemView);
 		image = itemView.findViewById(R.id.image_view);
-		name = itemView.findViewById(R.id.title_view);
+		title = itemView.findViewById(R.id.title_view);
 		subTitle = itemView.findViewById(R.id.subtitle_view);
 	}
 }

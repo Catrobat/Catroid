@@ -23,9 +23,9 @@
   -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/headline"
@@ -33,6 +33,6 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/view_holder_padding"/>
 
-    <include layout="@layout/extended_vh_variable" />
+    <include layout="@layout/vh_variable" />
 
 </LinearLayout>

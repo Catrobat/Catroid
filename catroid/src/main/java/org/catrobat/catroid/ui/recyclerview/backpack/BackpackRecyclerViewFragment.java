@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ActionMode;
@@ -168,8 +167,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		adapter.notifyDataSetChanged();
 
 		recyclerView.setAdapter(adapter);
-		recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
-				DividerItemDecoration.VERTICAL));
 
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);

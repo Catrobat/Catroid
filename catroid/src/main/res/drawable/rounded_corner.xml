@@ -27,7 +27,7 @@
         android:width="2dp"
         android:color="@color/solid_black" />
 
-    <solid android:color="@color/button_background_bottom_border_color" />
+    <solid android:color="@color/button_border_bottom" />
 
     <padding
         android:left="1dp"

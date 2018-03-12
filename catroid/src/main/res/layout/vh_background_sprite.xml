@@ -24,11 +24,11 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <include layout="@layout/extended_view_holder" />
+    <include layout="@layout/vh_with_checkbox" />
 
     <TextView
         android:layout_width="match_parent"

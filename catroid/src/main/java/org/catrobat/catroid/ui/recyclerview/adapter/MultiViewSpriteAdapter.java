@@ -66,16 +66,16 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 		switch (viewType) {
 			case BACKGROUND:
-				View view = inflater.inflate(R.layout.extended_vh_background_sprite, parent, false);
+				View view = inflater.inflate(R.layout.vh_background_sprite, parent, false);
 				return new ExtendedVH(view);
 			case SPRITE_SINGLE:
-				view = inflater.inflate(R.layout.extended_view_holder, parent, false);
+				view = inflater.inflate(R.layout.vh_with_checkbox, parent, false);
 				return new ExtendedVH(view);
 			case SPRITE_GROUP:
-				view = inflater.inflate(R.layout.extended_vh_sprite_group, parent, false);
+				view = inflater.inflate(R.layout.vh_sprite_group, parent, false);
 				return new ExtendedVH(view);
 			case SPRITE_GROUP_ITEM:
-				view = inflater.inflate(R.layout.extended_vh_sprite_group_item, parent, false);
+				view = inflater.inflate(R.layout.vh_sprite_group_item, parent, false);
 				return new ExtendedVH(view);
 			default:
 				throw new IllegalArgumentException(TAG + ": viewType was not defined correctly.");

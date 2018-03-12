@@ -37,6 +37,6 @@ public class ExtendedVH extends ViewHolder {
 	public ExtendedVH(View view) {
 		super(view);
 		image = view.findViewById(R.id.image_view);
-		details = view.findViewById(R.id.details);
+		details = view.findViewById(R.id.details_view);
 	}
 }
