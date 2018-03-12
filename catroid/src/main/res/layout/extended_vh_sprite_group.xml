@@ -41,6 +41,14 @@
         android:layout_marginEnd="@dimen/checkbox_margin"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_play_down"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/img_margin"/>
+
     <TextView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
