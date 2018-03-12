@@ -154,7 +154,7 @@
     <!--  -->
 
     <!-- Scratch Converter activity -->
-    <string name="beta">beta</string>
+    <string name="beta">BETA</string>
     <string name="title_activity_scratch_converter">Convert Scratch program</string>
     <string name="error_scratch_program_not_accessible_any_more">Whoops! Data of this program is not accessible anymore!</string>
     <string name="error_scratch_project_data_not_available">Whoops! Some data could not be loaded from this Scratch

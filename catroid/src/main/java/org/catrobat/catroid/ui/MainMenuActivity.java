@@ -33,6 +33,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -138,6 +141,16 @@ public class MainMenuActivity extends BaseCastActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+
+		String scratchConverter = getString(R.string.main_menu_scratch_converter);
+		SpannableString scratchConverterBeta = new SpannableString(scratchConverter + " "
+					+ getString(R.string.beta));
+		scratchConverterBeta.setSpan(
+				new ForegroundColorSpan(
+						getResources().getColor(R.color.beta_label_color)),
+						scratchConverter.length(), scratchConverterBeta.length(),
+						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		menu.findItem(R.id.menu_scratch_converter).setTitle(scratchConverterBeta);
 		return true;
 	}
 
