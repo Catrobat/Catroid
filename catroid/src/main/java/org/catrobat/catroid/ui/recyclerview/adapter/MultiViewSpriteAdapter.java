@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,6 +90,10 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		holder.name.setText(item.getName());
 
 		if (holder.getItemViewType() == SPRITE_GROUP) {
+			Drawable drawable = ((GroupSprite) item).collapsed
+					? context.getResources().getDrawable(R.drawable.ic_play_down)
+					: context.getResources().getDrawable(R.drawable.ic_play);
+			holder.image.setImageDrawable(drawable);
 			holder.checkBox.setVisibility(View.GONE);
 			return;
 		}
