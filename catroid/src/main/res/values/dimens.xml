@@ -84,6 +84,7 @@
     <dimen name="sprite_group_vh_height">50dp</dimen>
     <dimen name="user_data_vh_height">50dp</dimen>
     <dimen name="view_holder_padding">16dp</dimen>
+    <dimen name="sprite_group_item_vh_padding">40dp</dimen>
     <dimen name="checkbox_margin">16dp</dimen>
 
     <!-- Flow Layout -->

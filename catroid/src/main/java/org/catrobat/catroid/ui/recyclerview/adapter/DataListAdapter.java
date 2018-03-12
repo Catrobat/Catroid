@@ -181,11 +181,11 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, @LayoutRes int viewType) {
 		switch (viewType) {
-			case R.layout.extended_vh_variable_headline:
-			case R.layout.extended_vh_variable:
+			case R.layout.vh_variable_with_headline:
+			case R.layout.vh_variable:
 				return globalVarAdapter.onCreateViewHolder(parent, viewType);
-			case R.layout.extended_vh_list_headline:
-			case R.layout.extended_vh_list:
+			case R.layout.vh_list_with_headline:
+			case R.layout.vh_list:
 				return globalListAdapter.onCreateViewHolder(parent, viewType);
 			default:
 				throw new IllegalArgumentException("ViewType was not defined correctly.");
@@ -200,10 +200,10 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 		switch (dataType) {
 			case VAR_GLOBAL:
 			case VAR_LOCAL:
-				return position == 0 ? R.layout.extended_vh_variable_headline : R.layout.extended_vh_variable;
+				return position == 0 ? R.layout.vh_variable_with_headline : R.layout.vh_variable;
 			case LIST_GLOBAL:
 			case LIST_LOCAL:
-				return position == 0 ? R.layout.extended_vh_list_headline : R.layout.extended_vh_list;
+				return position == 0 ? R.layout.vh_list_with_headline : R.layout.vh_list;
 		}
 		throw new ArrayIndexOutOfBoundsException("position is not within any of the adapters");
 	}
@@ -215,16 +215,16 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 		position = getRelativeItemPosition(position, dataType);
 
 		switch (holder.getItemViewType()) {
-			case R.layout.extended_vh_variable_headline:
-			case R.layout.extended_vh_variable:
+			case R.layout.vh_variable_with_headline:
+			case R.layout.vh_variable:
 				if (dataType == VAR_GLOBAL) {
 					globalVarAdapter.onBindViewHolder(holder, position);
 				} else {
 					localVarAdapter.onBindViewHolder(holder, position);
 				}
 				break;
-			case R.layout.extended_vh_list_headline:
-			case R.layout.extended_vh_list:
+			case R.layout.vh_list_with_headline:
+			case R.layout.vh_list:
 				if (dataType == LIST_GLOBAL) {
 					globalListAdapter.onBindViewHolder(holder, position);
 				} else {

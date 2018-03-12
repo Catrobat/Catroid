@@ -25,6 +25,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Catroid" parent="Theme.AppCompat.NoActionBar">
+
+        <!-- Colors -->
+        <item name="android:windowBackground">@color/app_background</item>
         <item name="colorAccent">@color/accent</item>
 
         <!-- Action Mode -->
@@ -74,6 +77,7 @@
     </style>
 
     <style name="ActionMode" parent="Widget.AppCompat.ActionMode">
+        <item name="background">@drawable/toolbar_background</item>
         <item name="titleTextStyle">@style/ActionModeTitle</item>
     </style>
 

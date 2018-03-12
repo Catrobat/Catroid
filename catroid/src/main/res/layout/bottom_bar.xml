@@ -26,7 +26,6 @@
               android:layout_width="match_parent"
               android:layout_height="@dimen/activity_bottom_bar_height"
               android:layout_alignParentBottom="true"
-              android:background="@drawable/bottom_bar_background"
               android:orientation="horizontal"
               android:divider="@drawable/bottom_bar_divider"
               android:showDividers="middle">

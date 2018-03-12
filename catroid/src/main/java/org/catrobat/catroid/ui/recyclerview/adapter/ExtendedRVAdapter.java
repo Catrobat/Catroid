@@ -43,7 +43,7 @@ public abstract class ExtendedRVAdapter<T> extends RVAdapter<T> {
 
 	@Override
 	public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.extended_view_holder, parent, false);
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_with_checkbox, parent, false);
 		return new ExtendedVH(view);
 	}
 

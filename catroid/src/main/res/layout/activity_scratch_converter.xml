@@ -36,7 +36,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    sothree:umanoFadeColor="@color/application_background_color"
+    sothree:umanoFadeColor="@color/app_background"
     sothree:umanoPanelHeight="@dimen/scratch_project_search_list_view_margin_bottom"
     sothree:umanoShadowHeight="4dp"
     sothree:umanoParallaxOffset="100dp"

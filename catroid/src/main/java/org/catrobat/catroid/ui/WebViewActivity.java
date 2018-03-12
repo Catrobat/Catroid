@@ -87,7 +87,7 @@ public class WebViewActivity extends BaseActivity {
 		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
 
 		webView = (WebView) findViewById(R.id.webView);
-		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.application_background_color, null));
+		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);

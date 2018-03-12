@@ -27,20 +27,15 @@
         <shape android:shape="rectangle" >
             <stroke
                 android:width="1.3dp"
-                android:color="@color/toolbar_border" >
+                android:color="@color/button_border_top" >
             </stroke>
         </shape>
     </item>
     <item android:top="1.3dp">
         <shape android:shape="rectangle" >
-            <gradient
-                android:angle="270.0"
-                android:centerColor="@color/toolbar_gradient_start"
-                android:centerY="0.67"
-                android:endColor="@color/toolbar_gradient_end"
-                android:startColor="@color/toolbar_gradient_start"
-                android:type="linear" />
+            <solid
+                android:color="@color/button_background" />
         </shape>
     </item>
-	
+
 </layer-list>

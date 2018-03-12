@@ -32,13 +32,8 @@
     </item>
     <item android:bottom="1.3dp">
         <shape android:shape="rectangle" >
-            <gradient
-                android:angle="270.0"
-                android:centerColor="@color/toolbar_gradient_start"
-                android:centerY="0.67"
-                android:endColor="@color/toolbar_gradient_end"
-                android:startColor="@color/toolbar_gradient_end"
-                android:type="linear" />
+            <solid
+                android:color="@color/toolbar_background" />
         </shape>
     </item>
 </layer-list>

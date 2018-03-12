@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -199,8 +198,6 @@ public class DataListFragment extends Fragment implements
 	}
 
 	private void onAdapterReady() {
-		recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
-				DividerItemDecoration.VERTICAL));
 		recyclerView.setAdapter(adapter);
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);

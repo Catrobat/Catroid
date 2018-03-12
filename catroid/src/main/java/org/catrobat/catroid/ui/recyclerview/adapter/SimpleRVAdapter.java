@@ -49,7 +49,7 @@ public class SimpleRVAdapter extends RecyclerView.Adapter<SimpleVH> {
 
 	@Override
 	public SimpleVH onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_view_holder, parent, false);
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_simple, parent, false);
 		return new SimpleVH(view);
 	}
 
@@ -57,7 +57,7 @@ public class SimpleRVAdapter extends RecyclerView.Adapter<SimpleVH> {
 	public void onBindViewHolder(final SimpleVH holder, int position) {
 		final SimpleRVItem item = items.get(position);
 		holder.image.setImageDrawable(item.drawable);
-		holder.name.setText(item.name);
+		holder.title.setText(item.name);
 
 		if (item.subTitle != null) {
 			holder.subTitle.setText(item.subTitle);

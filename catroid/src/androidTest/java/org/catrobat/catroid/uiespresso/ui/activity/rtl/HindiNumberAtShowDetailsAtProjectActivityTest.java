@@ -93,7 +93,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 
-		onRecyclerView().atPosition(1).onChildView(R.id.details)
+		onRecyclerView().atPosition(1).onChildView(R.id.details_view)
 				.check(matches(withText(String.format(Locale.getDefault(),
 						UiTestUtils.getResourcesString(R.string.sprite_details),
 						7, 2, 0

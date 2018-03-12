@@ -54,7 +54,7 @@
         android:layout_marginTop="@dimen/activity_text_view_margin_large"
         android:layout_below="@+id/description"
         android:layout_centerHorizontal="true"
-        android:background="@color/application_background_color"/>
+        android:background="@color/app_background"/>
 
     <TextView
         android:layout_width="wrap_content"

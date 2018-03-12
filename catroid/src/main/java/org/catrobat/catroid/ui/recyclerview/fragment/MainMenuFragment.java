@@ -30,7 +30,6 @@ import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,7 +90,7 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 		adapter = new SimpleRVAdapter(items) {
 			@Override
 			public SimpleVH onCreateViewHolder(ViewGroup parent, int viewType) {
-				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_view_holder, parent, false);
+				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_simple, parent, false);
 				int itemHeight = parent.getHeight() / items.size();
 				view.setMinimumHeight(itemHeight);
 				return new SimpleVH(view);
@@ -99,8 +98,6 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 		};
 		adapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(adapter);
-		recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
-				DividerItemDecoration.VERTICAL));
 		setShowProgressBar(false);
 	}
 

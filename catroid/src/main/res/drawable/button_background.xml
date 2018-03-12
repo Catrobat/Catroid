@@ -27,7 +27,7 @@
         <shape android:shape="rectangle" >
             <stroke
                 android:width="1.3dp"
-                android:color="@color/button_background_top_border_color" >
+                android:color="@color/button_border_top" >
             </stroke>
         </shape>
     </item>
@@ -35,19 +35,14 @@
          <shape android:shape="rectangle" >
             <stroke
                 android:width="3.9dp"
-                android:color="@color/button_background_bottom_border_color" >
+                android:color="@color/button_border_bottom" >
             </stroke>
         </shape>
     </item>
     <item android:top="1.3dp" android:bottom="3.9dp">
         <shape android:shape="rectangle" >
-            <gradient
-                android:angle="270.0"
-                android:centerColor="@color/button_background_gradient_start_color"
-                android:centerY="0.67"
-                android:endColor="@color/button_background_gradient_end_color"
-                android:startColor="@color/button_background_gradient_start_color"
-                android:type="linear" />
+            <solid
+                android:color="@color/button_background" />
         </shape>
     </item>
 	
