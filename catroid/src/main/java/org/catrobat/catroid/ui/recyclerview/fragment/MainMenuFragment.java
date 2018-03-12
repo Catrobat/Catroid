@@ -46,6 +46,7 @@ import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.SimpleRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.viewholder.SimpleVH;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -78,6 +79,7 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 		parent = inflater.inflate(R.layout.fragment_list_view, container, false);
 		recyclerView = parent.findViewById(R.id.recycler_view);
+
 		setShowProgressBar(true);
 		return parent;
 	}
@@ -86,7 +88,15 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		List<SimpleRVItem> items = getItems();
-		adapter = new SimpleRVAdapter(items);
+		adapter = new SimpleRVAdapter(items) {
+			@Override
+			public SimpleVH onCreateViewHolder(ViewGroup parent, int viewType) {
+				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_view_holder, parent, false);
+				int itemHeight = parent.getHeight() / items.size();
+				view.setMinimumHeight(itemHeight);
+				return new SimpleVH(view);
+			}
+		};
 		adapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(adapter);
 		recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),

@@ -91,8 +91,8 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 
 		if (holder.getItemViewType() == SPRITE_GROUP) {
 			Drawable drawable = ((GroupSprite) item).collapsed
-					? context.getResources().getDrawable(R.drawable.ic_play_down)
-					: context.getResources().getDrawable(R.drawable.ic_play);
+					? context.getResources().getDrawable(R.drawable.ic_play)
+					: context.getResources().getDrawable(R.drawable.ic_play_down);
 			holder.image.setImageDrawable(drawable);
 			holder.checkBox.setVisibility(View.GONE);
 			return;
