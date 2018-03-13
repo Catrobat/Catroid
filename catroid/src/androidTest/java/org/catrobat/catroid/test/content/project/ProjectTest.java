@@ -83,10 +83,10 @@ public class ProjectTest extends AndroidTestCase {
 		project.removeScene(sceneTwo);
 
 		assertFalse("sceneOne was not removed from data structure", project.getSceneList().contains(sceneOne));
-		assertFalse("sceneOne was not removed from name list", project.getSceneOrder().contains(sceneOne.getName()));
+		assertFalse("sceneOne was not removed from name list", project.getSceneNames().contains(sceneOne.getName()));
 
 		assertFalse("scene Two was not removed from data structure", project.getSceneList().contains(sceneTwo));
-		assertFalse("sceneTwo was not removed from name list", project.getSceneOrder().contains(sceneTwo.getName()));
+		assertFalse("sceneTwo was not removed from name list", project.getSceneNames().contains(sceneTwo.getName()));
 	}
 
 	public void testSetDeviceData() {

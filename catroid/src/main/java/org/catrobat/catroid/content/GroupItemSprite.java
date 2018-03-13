@@ -26,7 +26,7 @@ public class GroupItemSprite extends Sprite {
 
 	private static final long serialVersionUID = 1L;
 
-	public transient boolean collapsed = false;
+	public transient boolean collapsed = true;
 
 	public GroupItemSprite() {
 		super();

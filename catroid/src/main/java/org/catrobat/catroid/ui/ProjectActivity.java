@@ -122,7 +122,14 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 		if (getFragmentManager().getBackStackEntryCount() > 0) {
 			getFragmentManager().popBackStack();
 		} else {
-			super.onBackPressed();
+			if ((ProjectManager.getInstance().getCurrentProject().getSceneList().size() > 1)
+					&& (getFragmentManager().findFragmentById(R.id.fragment_container) instanceof SpriteListFragment)) {
+				getFragmentManager().beginTransaction()
+						.replace(R.id.fragment_container, new SceneListFragment(), SceneListFragment.TAG)
+						.commit();
+			} else {
+				super.onBackPressed();
+			}
 		}
 	}
 

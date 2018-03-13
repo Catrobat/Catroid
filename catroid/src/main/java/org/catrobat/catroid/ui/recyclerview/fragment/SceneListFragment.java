@@ -56,14 +56,26 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	public void onResume() {
 		super.onResume();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+
+		if (currentProject.getSceneList().size() < 2) {
+			switchToSpriteListFragment();
+		}
+
 		ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(currentProject.getName());
+	}
+
+	private void switchToSpriteListFragment() {
+		getFragmentManager().beginTransaction()
+				.replace(R.id.fragment_container, new SpriteListFragment(), SpriteListFragment.TAG)
+				.commit();
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		menu.findItem(R.id.new_group).setVisible(false);
+		menu.findItem(R.id.new_scene).setVisible(false);
 	}
 
 	@Override
@@ -153,6 +165,10 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 		if (adapter.getItems().isEmpty()) {
 			createDefaultScene();
+		}
+
+		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() < 2) {
+			switchToSpriteListFragment();
 		}
 	}
 

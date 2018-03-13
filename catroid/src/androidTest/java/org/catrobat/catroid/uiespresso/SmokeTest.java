@@ -28,7 +28,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -88,11 +87,6 @@ public class SmokeTest {
 
 		//check if user ends up in right activity either by checking activity itself:
 		assertCurrentActivityIsInstanceOf(ProjectActivity.class);
-
-		//open scene
-		String sceneName = UiTestUtils.getResources().getString(R.string.default_scene_name, 1);
-		onView(withText(sceneName))
-				.perform(click());
 
 		//add sprite
 		onView(withId(R.id.button_add))
