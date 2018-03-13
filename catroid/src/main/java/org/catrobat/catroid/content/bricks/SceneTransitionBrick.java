@@ -44,15 +44,14 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SceneTransitionBrick extends BrickBaseType implements NewItemInterface<Scene> {
+public class SceneTransitionBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
 	private String sceneForTransition;
-	private transient String sceneContainingBrick = null;
-	private transient String oldSelectedScene;
+	private transient String previouslySelectedScene;
 
 	public SceneTransitionBrick(String scene) {
 		this.sceneForTransition = scene;
@@ -65,33 +64,24 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+
 		view = View.inflate(context, R.layout.brick_scene_transition, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_scene_transition_checkbox);
 
-		final Spinner sceneSpinner = (Spinner) view.findViewById(R.id.brick_scene_transition_spinner);
+		Spinner spinner = view.findViewById(R.id.brick_scene_transition_spinner);
+		ArrayAdapter<String> spinnerAdapter = createSpinnerAdapter(context);
+		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(spinnerAdapter);
 
-		final ArrayAdapter<String> spinnerAdapter = createSceneAdapter(context);
-
-		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
-
-		sceneSpinner.setAdapter(spinnerAdapterWrapper);
-
-		sceneSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
+		spinner.setAdapter(spinnerAdapterWrapper);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0) {
 					sceneForTransition = null;
 				} else {
 					sceneForTransition = (String) parent.getItemAtPosition(position);
-					oldSelectedScene = sceneForTransition;
+					previouslySelectedScene = sceneForTransition;
 				}
 			}
 
@@ -100,54 +90,38 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 			}
 		});
 
-		setSpinnerSelection(sceneSpinner);
-		return view;
-	}
-
-	public void setSpinnerSelection() {
-		try {
-			final Spinner sceneSpinner = (Spinner) view.findViewById(R.id.brick_scene_transition_spinner);
-			setSpinnerSelection(sceneSpinner);
-		} catch (Exception e) {
-			//Since this can happen quite often, we do not want to print an error to prevent Log spamming
-			return;
-		}
-	}
-
-	private void setSpinnerSelection(Spinner spinner) {
-		List<String> sceneList = new ArrayList<>();
-		sceneList.addAll(ProjectManager.getInstance().getCurrentProject().getSceneOrder());
-		sceneList.remove(ProjectManager.getInstance().getCurrentScene().getName());
-
-		if (sceneList.contains(sceneForTransition)) {
-			oldSelectedScene = sceneForTransition;
-			int pos = sceneList.indexOf(sceneForTransition) + 1;
-			if (pos >= spinner.getCount()) {
-				pos--;
-			}
-			spinner.setSelection(pos, true);
-		} else {
-			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 1) {
-				if (sceneList.indexOf(oldSelectedScene) >= 0) {
-					spinner.setSelection(sceneList.indexOf(oldSelectedScene) + 1, true);
-				} else {
-					spinner.setSelection(1, true);
-				}
+		int spinnerPosition = spinnerAdapter.getPosition(sceneForTransition);
+		if (spinnerPosition == -1) {
+			if (spinnerAdapter.getCount() > 1) {
+				spinner.setSelection(1, true);
 			} else {
 				spinner.setSelection(0, true);
 			}
+		} else {
+			spinner.setSelection(spinnerPosition, true);
 		}
+		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_scene_transition, null);
-		Spinner sceneSpinner = (Spinner) prototypeView.findViewById(R.id.brick_scene_transition_spinner);
+		View view = View.inflate(context, R.layout.brick_scene_transition, null);
+		Spinner spinner = view.findViewById(R.id.brick_scene_transition_spinner);
 
-		SpinnerAdapter sceneSpinnerAdapter = createSceneAdapter(context);
-		sceneSpinner.setAdapter(sceneSpinnerAdapter);
-		setSpinnerSelection(sceneSpinner);
-		return prototypeView;
+		ArrayAdapter<String> spinnerAdapter = createSpinnerAdapter(context);
+		spinner.setAdapter(spinnerAdapter);
+
+		int spinnerPosition = spinnerAdapter.getPosition(sceneForTransition);
+		if (spinnerPosition == -1) {
+			if (spinnerAdapter.getCount() > 1) {
+				spinner.setSelection(1, true);
+			} else {
+				spinner.setSelection(0, true);
+			}
+		} else {
+			spinner.setSelection(spinnerPosition, true);
+		}
+		return view;
 	}
 
 	@Override
@@ -156,62 +130,33 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 		return null;
 	}
 
-	private ArrayAdapter<String> createSceneAdapter(Context context) {
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		String dummyScene = context.getString(R.string.new_broadcast_message);
-		arrayAdapter.add(dummyScene);
+	private ArrayAdapter<String> createSpinnerAdapter(Context context) {
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		boolean currentScene = false;
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			if (sceneContainingBrick == null) {
-				currentScene = scene.getName().equals(ProjectManager.getInstance().getCurrentScene().getName());
-			} else {
-				currentScene = sceneContainingBrick.equals(scene.getName());
-				ProjectManager.getInstance().setCurrentScene(ProjectManager.getInstance().getCurrentProject()
-						.getSceneByName(sceneContainingBrick));
-				sceneContainingBrick = null;
-			}
-			if (currentScene) {
-				continue;
-			}
-			arrayAdapter.add(scene.getName());
-		}
+		adapter.add(context.getString(R.string.new_broadcast_message));
+		List<String> sceneNames = ProjectManager.getInstance().getCurrentProject().getSceneNames();
+		sceneNames.remove(ProjectManager.getInstance().getCurrentScene().getName());
 
-		return arrayAdapter;
+		adapter.addAll(sceneNames);
+		return adapter;
 	}
 
 	public String getSceneForTransition() {
 		return sceneForTransition;
 	}
 
-	public void setSceneForTransition(String sceneForTransition) {
-		this.sceneForTransition = sceneForTransition;
+	public void setSceneForTransition(String sceneToTransitionTo) {
+		this.sceneForTransition = sceneToTransitionTo;
 	}
 
-	private void showNewSceneDialog(Activity activity) {
-		NewSceneDialogFragment dialog = new NewSceneDialogFragment(this, ProjectManager.getInstance().getCurrentProject());
-		dialog.show(activity.getFragmentManager(), NewSceneDialogFragment.TAG);
-	}
+	private class SpinnerAdapterWrapper implements SpinnerAdapter, NewItemInterface<Scene> {
 
-	@Override
-	public void addItem(Scene item) {
-		sceneContainingBrick = ProjectManager.getInstance().getCurrentScene().getName();
-		oldSelectedScene = sceneForTransition;
-		sceneForTransition = item.getName();
-	}
-
-	private class SpinnerAdapterWrapper implements SpinnerAdapter {
-
-		protected Context context;
 		protected ArrayAdapter<String> spinnerAdapter;
-
 		private boolean isTouchInDropDownView;
 
-		SpinnerAdapterWrapper(Context context, ArrayAdapter<String> spinnerAdapter) {
-			this.context = context;
+		SpinnerAdapterWrapper(ArrayAdapter<String> spinnerAdapter) {
 			this.spinnerAdapter = spinnerAdapter;
-
 			this.isTouchInDropDownView = false;
 		}
 
@@ -238,8 +183,8 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 		@Override
 		public long getItemId(int paramInt) {
 			String currentScene = spinnerAdapter.getItem(paramInt);
-			if (!currentScene.equals(context.getString(R.string.new_broadcast_message))) {
-				oldSelectedScene = currentScene;
+			if (!currentScene.equals(spinnerAdapter.getContext().getString(R.string.new_broadcast_message))) {
+				previouslySelectedScene = currentScene;
 			}
 			return spinnerAdapter.getItemId(paramInt);
 		}
@@ -254,7 +199,8 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 			if (isTouchInDropDownView) {
 				isTouchInDropDownView = false;
 				if (paramInt == 0) {
-					showNewSceneDialog((Activity) context);
+					sceneForTransition = previouslySelectedScene;
+					showNewSceneDialog((Activity) paramViewGroup.getContext());
 				}
 			}
 			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
@@ -271,11 +217,6 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 		}
 
 		@Override
-		public boolean isEmpty() {
-			return spinnerAdapter.isEmpty();
-		}
-
-		@Override
 		public View getDropDownView(int paramInt, View paramView, ViewGroup paramViewGroup) {
 			View dropDownView = spinnerAdapter.getDropDownView(paramInt, paramView, paramViewGroup);
 
@@ -288,6 +229,24 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 			});
 
 			return dropDownView;
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return spinnerAdapter.isEmpty();
+		}
+
+		private void showNewSceneDialog(Activity activity) {
+			NewSceneDialogFragment dialog = new NewSceneDialogFragment(this,
+					ProjectManager.getInstance().getCurrentProject());
+			dialog.show(activity.getFragmentManager(), NewSceneDialogFragment.TAG);
+		}
+
+		@Override
+		public void addItem(Scene item) {
+			previouslySelectedScene = sceneForTransition;
+			sceneForTransition = item.getName();
+			spinnerAdapter.notifyDataSetChanged();
 		}
 	}
 }

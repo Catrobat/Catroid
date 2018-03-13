@@ -164,12 +164,12 @@ public class Project implements Serializable {
 		return sceneList;
 	}
 
-	public List<String> getSceneOrder() {
-		List<String> sceneOrder = new ArrayList<>();
+	public List<String> getSceneNames() {
+		List<String> names = new ArrayList<>();
 		for (Scene scene : sceneList) {
-			sceneOrder.add(scene.getName());
+			names.add(scene.getName());
 		}
-		return sceneOrder;
+		return names;
 	}
 
 	public void addScene(Scene scene) {

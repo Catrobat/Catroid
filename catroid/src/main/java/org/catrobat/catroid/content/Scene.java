@@ -246,7 +246,8 @@ public class Scene implements Serializable {
 					if (brick instanceof SceneStartBrick && ((SceneStartBrick) brick).getSceneToStart().equals(oldName)) {
 						((SceneStartBrick) brick).setSceneToStart(name);
 					}
-					if (brick instanceof SceneTransitionBrick && ((SceneTransitionBrick) brick).getSceneForTransition().equals(oldName)) {
+					if (brick instanceof SceneTransitionBrick && ((SceneTransitionBrick) brick)
+							.getSceneForTransition().equals(oldName)) {
 						((SceneTransitionBrick) brick).setSceneForTransition(name);
 					}
 				}

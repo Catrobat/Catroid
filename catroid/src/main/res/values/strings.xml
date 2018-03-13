@@ -384,7 +384,10 @@
     <string name="rename_data_dialog">Rename</string>
 
     <!-- New Script Group Dialog -->
-    <string name="new_group">New group</string>
+    <string name="new_group">New Group</string>
+
+    <!-- New Scene Menu Object -->
+    <string name="new_scene">New Scene</string>
 
     <!-- Action Toasts -->
     <plurals name="packed_scenes">

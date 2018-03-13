@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SpriteAttributesActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
@@ -47,8 +48,10 @@ import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallb
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewGroupDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogWrapper;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -65,6 +68,16 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	public static final String TAG = SpriteListFragment.class.getSimpleName();
 
 	private SpriteController spriteController = new SpriteController();
+	private NewItemInterface<Scene> newSceneInterface = new NewItemInterface<Scene>() {
+		@Override
+		public void addItem(Scene item) {
+			ProjectManager.getInstance().getCurrentProject().addScene(item);
+			Intent intent = new Intent(getActivity(), ProjectActivity.class);
+			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
+			startActivity(intent);
+			getActivity().finish();
+		}
+	};
 
 	class MultiViewTouchHelperCallback extends TouchHelperCallback {
 
@@ -106,8 +119,15 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	public void onResume() {
 		super.onResume();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
-		String title = currentProject.getName() + ": " + currentScene.getName();
+		String title;
+
+		if (currentProject.getSceneList().size() < 2) {
+			title = currentProject.getName();
+		} else {
+			Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+			title = currentProject.getName() + ": " + currentScene.getName();
+		}
+
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
 	}
 
@@ -130,8 +150,13 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		switch (item.getItemId()) {
 			case R.id.new_group:
 				Scene currentScene = ProjectManager.getInstance().getCurrentScene();
-				NewGroupDialogFragment dialog = new NewGroupDialogFragment(this, currentScene);
-				dialog.show(getFragmentManager(), NewGroupDialogFragment.TAG);
+				new NewGroupDialogFragment(this, currentScene)
+						.show(getFragmentManager(), NewGroupDialogFragment.TAG);
+				break;
+			case R.id.new_scene:
+				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				new NewSceneDialogFragment(newSceneInterface, currentProject)
+						.show(getFragmentManager(), NewSceneDialogFragment.TAG);
 				break;
 			default:
 				super.onOptionsItemSelected(item);
