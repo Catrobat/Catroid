@@ -327,6 +327,9 @@ public final class StorageHandler {
 		xstream.omitField(FlashBrick.class, "spinnerValues");
 		xstream.omitField(StopScriptBrick.class, "spinnerValue");
 
+		xstream.omitField(ShowTextBrick.class, "userVariableName");
+		xstream.omitField(HideTextBrick.class, "userVariableName");
+
 		setProgramXstreamAliases();
 	}
 
