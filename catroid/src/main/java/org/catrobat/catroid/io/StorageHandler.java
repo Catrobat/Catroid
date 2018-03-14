@@ -31,6 +31,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -963,6 +964,12 @@ public final class StorageHandler {
 			}
 
 			arguments = identifier.split(":");
+
+			// External Storage
+			if (uri.getAuthority().equalsIgnoreCase("com.android.externalstorage.documents")) {
+				return Environment.getExternalStorageDirectory() + "/" + arguments[1];
+			}
+
 			selection = "_id=?";
 
 			// Media Documents
