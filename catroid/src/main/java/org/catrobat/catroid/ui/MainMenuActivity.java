@@ -29,6 +29,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
@@ -39,6 +40,8 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 
@@ -65,6 +68,8 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoaderTask.ProjectLoaderListener,
@@ -74,6 +79,13 @@ public class MainMenuActivity extends BaseCastActivity implements
 	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
 
 	private static final int ACCESS_STORAGE = 0;
+
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({FRAGMENT, PROGRESS_BAR, ERROR})
+	@interface Content {}
+	protected static final int FRAGMENT = 0;
+	protected static final int PROGRESS_BAR = 1;
+	protected static final int ERROR = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +100,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 		} else {
 			FacebookSdk.sdkInitialize(getApplicationContext());
 			setContentView(R.layout.activity_main_menu);
+			showContentView(PROGRESS_BAR);
 			setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 			getSupportActionBar().setTitle(R.string.app_name);
 		}
@@ -102,6 +115,30 @@ public class MainMenuActivity extends BaseCastActivity implements
 		}
 	}
 
+	private void showContentView(@Content int content) {
+		View fragment = findViewById(R.id.main_menu_buttons_container);
+		View errorView = findViewById(R.id.runtime_permission_error_view);
+		View progressBar = findViewById(R.id.progress_bar);
+
+		switch (content) {
+			case FRAGMENT:
+				fragment.setVisibility(View.VISIBLE);
+				errorView.setVisibility(View.GONE);
+				progressBar.setVisibility(View.GONE);
+				break;
+			case ERROR:
+				fragment.setVisibility(View.GONE);
+				errorView.setVisibility(View.VISIBLE);
+				progressBar.setVisibility(View.GONE);
+				break;
+			case PROGRESS_BAR:
+				fragment.setVisibility(View.GONE);
+				errorView.setVisibility(View.GONE);
+				progressBar.setVisibility(View.VISIBLE);
+				break;
+		}
+	}
+
 	private void onPermissionsGranted() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			prepareStandaloneProject();
@@ -111,9 +148,19 @@ public class MainMenuActivity extends BaseCastActivity implements
 		getFragmentManager().beginTransaction()
 				.replace(R.id.main_menu_buttons_container, new MainMenuFragment(), MainMenuFragment.TAG)
 				.commit();
+		showContentView(FRAGMENT);
 
 		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
+		}
+	}
+
+	private void onPermissionDenied(int requestCode) {
+		switch (requestCode) {
+			case ACCESS_STORAGE:
+				((TextView) findViewById(R.id.runtime_permission_error_view)).setText(R.string.error_no_write_access);
+				showContentView(ERROR);
+				break;
 		}
 	}
 
@@ -123,7 +170,10 @@ public class MainMenuActivity extends BaseCastActivity implements
 			case ACCESS_STORAGE:
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					onPermissionsGranted();
+				} else {
+					onPermissionDenied(requestCode);
 				}
+				break;
 		}
 	}
 
@@ -234,7 +284,6 @@ public class MainMenuActivity extends BaseCastActivity implements
 
 	@Override
 	public void onLoginSuccessful(Bundle bundle) {
-		//maybe do something? or nah?
 	}
 
 	@Override

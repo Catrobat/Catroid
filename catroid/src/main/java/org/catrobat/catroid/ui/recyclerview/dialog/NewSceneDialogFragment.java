@@ -30,7 +30,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
-import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -50,7 +49,7 @@ public class NewSceneDialogFragment extends TextInputDialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		super.text = new UniqueNameProvider().getUniqueName(getString(R.string.default_scene_name, 1), getScope(dstProject));
+		super.text = getDefaultSceneName(getScope(dstProject));
 		return super.onCreateDialog(savedInstanceState);
 	}
 
@@ -74,6 +73,16 @@ public class NewSceneDialogFragment extends TextInputDialogFragment {
 
 	@Override
 	protected void onNegativeButtonClick() {
+	}
+
+	private String getDefaultSceneName(Set<String> scope) {
+		for (int i = 1; i < Integer.MAX_VALUE; i++) {
+			String name = getString(R.string.default_scene_name, i);
+			if (!scope.contains(name)) {
+				return name;
+			}
+		}
+		return "";
 	}
 
 	private Set<String> getScope(Project project) {

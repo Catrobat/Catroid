@@ -50,16 +50,21 @@ public abstract class TextInputDialogFragment extends DialogFragment {
 		this.allowEmptyInput = allowEmptyInput;
 	}
 
+	protected View inflateView() {
+		return View.inflate(getActivity(), R.layout.dialog_text_input, null);
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		inputLayout = (TextInputLayout) View.inflate(getActivity(), R.layout.dialog_text_input, null);
+		View view = inflateView();
 
+		inputLayout = view.findViewById(R.id.input);
 		inputLayout.setHint(getString(hint));
 		inputLayout.getEditText().setText(text);
 
 		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
 				.setTitle(title)
-				.setView(inputLayout)
+				.setView(view)
 				.setPositiveButton(R.string.ok, null)
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override

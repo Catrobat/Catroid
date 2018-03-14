@@ -23,8 +23,12 @@
 
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
+import android.app.Dialog;
 import android.app.FragmentManager;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
@@ -32,6 +36,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -69,8 +74,24 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 
 	private class NewSpriteDialogFragment extends TextInputDialogFragment {
 
+		ImageView spritePreview;
+
 		NewSpriteDialogFragment() {
 			super(R.string.new_sprite_dialog_title, R.string.sprite_name_label, null, false);
+		}
+
+		@Override
+		protected View inflateView() {
+			View view = View.inflate(getActivity(), R.layout.dialog_new_sprite, null);
+			spritePreview = view.findViewById(R.id.image_view);
+			spritePreview.setImageBitmap(look.getThumbnailBitmap());
+			return view;
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle bundle) {
+			super.text = new UniqueNameProvider().getUniqueName(look.getName(), getScope(dstScene));
+			return super.onCreateDialog(bundle);
 		}
 
 		@Override

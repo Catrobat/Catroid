@@ -33,14 +33,13 @@
         android:layout_height="match_parent"
         android:scaleType="fitCenter" />
 
-
-     <LinearLayout
-         android:id="@+id/progress_circle"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:gravity="center"
-         android:orientation="vertical"
-         android:visibility="gone" >
+    <LinearLayout
+        android:id="@+id/progress_circle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <ProgressBar
             android:id="@+id/progress_bar_header"
