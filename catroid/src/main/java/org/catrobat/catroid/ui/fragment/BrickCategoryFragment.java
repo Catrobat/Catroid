@@ -40,13 +40,14 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
-import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
+
+import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;
 
 public class BrickCategoryFragment extends ListFragment {
 
@@ -69,7 +70,7 @@ public class BrickCategoryFragment extends ListFragment {
 
 	private boolean onlyBeginnerBricks() {
 		return PreferenceManager.getDefaultSharedPreferences(getActivity())
-				.getBoolean(AccessibilitySettingsFragment.BEGINNERBRICKS, false);
+				.getBoolean(BEGINNER_BRICKS, false);
 	}
 
 	@Override

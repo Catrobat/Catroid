@@ -101,7 +101,12 @@
     <string name="preference_description_language">Set the app\'s language</string>
 
     <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Configure the app\'s UI</string>
+    <string name="preference_description_accessibility">Change the app\'s appearance</string>
+    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
+    <string name="preference_title_accessibility_profile">Predefined profiles</string>
+
+    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
+
     <string name="preference_title_accessibility_text_appearance">Text Appearance</string>
     <string name="preference_title_accessibility_handling">Handling</string>
     <string name="preference_title_accessibility_category_icons_big">Large Icons</string>
@@ -117,6 +122,8 @@
     <string name="preference_title_accessibility_large_text">Large Text</string>
     <string name="preference_title_accessibility_element_spacing">Large Element Spacing</string>
     <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
     <string name="preference_title_accessibility_beginner_bricks">Beginner Bricks</string>
     <string name="preference_description_accessibility_beginner_bricks">Show basic bricks only.</string>
     <string name="preference_title_accessibility_font_style">Choose a Fontface</string>
@@ -124,6 +131,21 @@
     <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslexic</string>
     <string name="accessibility_settings_applied">Changes applied</string>
+
+    <string name="preference_access_title_profile_default">Default</string>
+    <string name="preference_access_summary_profile_default">Default settings</string>
+    <string name="preference_access_title_profile_custom">My custom profile</string>
+    <string name="preference_access_summary_profile_custom">My personal settings</string>
+    <string name="preference_access_title_profile_argus">Argus</string>
+    <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
+    <string name="preference_access_title_profile_odin">Odin</string>
+    <string name="preference_access_summary_profile_odin">Large text, large icons, large element
+       spacing, high contrast</string>
+    <string name="preference_access_title_profile_fenrir">Fenrir</string>
+    <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
+       delay</string>
+    <string name="preference_access_title_profile_tiro">Tiro</string>
+    <string name="preference_access_summary_profile_tiro">Beginner bricks</string>
 
     <!-- Lego/Drone/Raspi/Chromecast -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 Bricks</string>
