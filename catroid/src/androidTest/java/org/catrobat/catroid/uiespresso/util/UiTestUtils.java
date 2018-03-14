@@ -55,6 +55,10 @@ public final class UiTestUtils {
 		return InstrumentationRegistry.getTargetContext().getResources().getString(stringId);
 	}
 
+	public static String getQuantitiyString(int stringId, int quantity) {
+		return InstrumentationRegistry.getTargetContext().getResources().getQuantityString(stringId, quantity);
+	}
+
 	public static void assertCurrentActivityIsInstanceOf(Class activityClass) {
 		final Activity[] currentActivity = {null};
 		getInstrumentation().runOnMainSync(new Runnable() {

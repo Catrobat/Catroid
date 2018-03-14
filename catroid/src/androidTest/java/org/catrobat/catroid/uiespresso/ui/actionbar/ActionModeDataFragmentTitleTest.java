@@ -21,15 +21,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.formulaeditor;
+package org.catrobat.catroid.uiespresso.ui.actionbar;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -37,68 +40,59 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openContextualActionModeOverflowMenu;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions.openOverflowMenu;
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
-public class FormulaEditorDeleteVariableTest {
-
+public class ActionModeDataFragmentTitleTest {
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SCRIPTS);
+			BaseActivityInstrumentationRule<SpriteActivity>(SpriteActivity.class,
+			SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorDeleteVariableTest");
-		script.addBrick(new ChangeSizeByNBrick(0));
-
+		createProject();
 		baseActivityTestRule.launchActivity();
 
-		onBrickAtPosition(1).onFormulaTextField(R.id.brick_change_size_by_edit_text)
-				.perform(click());
-
-		onFormulaEditor()
-				.performOpenDataFragment();
+		onView(withId(R.id.brick_change_size_by_edit_text)).perform(click());
+		onFormulaEditor().performOpenDataFragment();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void deleteVariableTest() {
-		final String itemName = "item";
-		onDataList()
-				.performAdd(itemName);
-
-		onDataList().onVariableAtPosition(0)
-				.performDelete();
-
-		onRecyclerView()
-				.checkCountEquals(0);
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void deleteVariableFromMenuTest() throws InterruptedException {
-		final String itemName = "item";
-		onDataList()
-				.performAdd(itemName);
-		openOverflowMenu();
-		onView(withId(R.id.title)).inRoot(isPlatformPopup())
+	public void actionModeDataFragmentTitleTest() {
+		openContextualActionModeOverflowMenu();
+		onView(withText(R.string.delete))
 				.perform(click());
+
 		onDataList().onVariableAtPosition(0)
 				.performCheckItem();
-		onActionMode()
-				.performConfirm();
-		onView(withId(android.R.id.button1))
-				.perform(click());
+		onDataList().onVariableAtPosition(1)
+				.performCheckItem();
+		onDataList().onListAtPosition(2)
+				.performCheckItem();
+		onDataList().onListAtPosition(2)
+				.performCheckItem();
 
-		onRecyclerView().checkCountEquals(0);
+		String title = UiTestUtils.getResourcesString(R.string.delete);
+		onActionMode()
+				.checkTitleMatches(title + " " + String.format(UiTestUtils.getQuantitiyString(R.plurals.am_user_data_items_title, 2), 2));
+	}
+
+	private void createProject() {
+		Script script = BrickTestUtils.createProjectAndGetStartScript("ActionModeDataFragmentTitleTest");
+		script.addBrick(new ChangeSizeByNBrick(0));
+
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		dataContainer.addProjectUserVariable("var1");
+		dataContainer.addProjectUserVariable("var2");
+		dataContainer.addProjectUserList("list1");
+		dataContainer.addProjectUserList("list2");
 	}
 }
