@@ -88,6 +88,7 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 		super.onActivityCreated(savedInstanceState);
 		List<SimpleRVItem> items = getItems();
 		adapter = new SimpleRVAdapter(items) {
+
 			@Override
 			public SimpleVH onCreateViewHolder(ViewGroup parent, int viewType) {
 				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_simple, parent, false);
