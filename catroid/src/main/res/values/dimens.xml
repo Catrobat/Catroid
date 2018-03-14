@@ -71,13 +71,13 @@
 
     <!-- Spacings -->
     <dimen name="img_margin">12dp</dimen>
-    <dimen name="text_input_offset">4dp</dimen>
+    <dimen name="dialog_input_offset">4dp</dimen>
     <dimen name="details_spacing">20dp</dimen>
 
     <!-- Material Design Dialogs -->
     <dimen name="dialog_content_area_padding_top">18dp</dimen>
     <dimen name="dialog_content_area_padding">24dp</dimen>
-    <dimen name="dialog_content_area_padding_text_input">20dp</dimen>
+    <dimen name="dialog_content_area_padding_input">20dp</dimen>
 
     <!-- RecyclerView ViewHolder -->
     <dimen name="view_holder_height">90dp</dimen>

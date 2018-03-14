@@ -27,8 +27,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="@dimen/dialog_content_area_padding_top"
-    android:paddingStart="@dimen/dialog_content_area_padding_text_input"
-    android:paddingEnd="@dimen/dialog_content_area_padding_text_input"
+    android:paddingStart="@dimen/dialog_content_area_padding_input"
+    android:paddingEnd="@dimen/dialog_content_area_padding_input"
     android:checkedButton="@+id/play_default_scene">
 
     <RadioButton
